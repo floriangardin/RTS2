@@ -11,11 +11,11 @@ public abstract class Objet {
 	
 	protected Vector<Objet> target = new Vector<Objet>();
 	protected Plateau p;
-	protected Objet main_target;// 0: nature, 1: first player ....
+	protected Objet main_target; // 0: nature, 1: first player ....
 	protected int camps ; 
 	protected boolean alive;
 	protected float h;
-	protected float w;
+	protected float radius;
 	protected Shape box ;
 	protected Color color;
 	// position time t
@@ -27,22 +27,26 @@ public abstract class Objet {
 	protected float x_pre;
 	protected float y_pre;
 	// attack speed, define the potential number of attack per second ;
-	protected float vitesse_attaque;
+	protected float attack_speed;
+	protected float power;
+	protected float lifepoints;
 	// attack state ;
-	protected float attaque_state;
+	protected float attack_state;
 	// Speed time t
 	protected float vx;
 	protected float vy;
 	// Speed time t-1;
 	protected float vx_pre;
 	protected float vy_pre;
-	
+	protected Circle sight_range;
+	protected float range;
 	protected float ax;
 	protected float ay ;
 	//norm of a_max ;
 	protected float acc ;
 	// create a physic model of movement
-	
+	public abstract Circle getSightRange();
+	public abstract void removeLifePoints(float to_remove);
 	public abstract void action(Vector<Objet> target);
 	public abstract void draw(Graphics g);
 	public abstract void move(float dx, float dy);

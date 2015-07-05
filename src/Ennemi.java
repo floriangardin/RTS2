@@ -5,8 +5,8 @@ public class Ennemi extends Personnage {
 	
 	public Ennemi(Plateau p, float x_origin, float y_origin,int camps,int framerate) {
 		
-		super(p,x_origin,y_origin,20f,10f,3f,camps,framerate);
-		this.w = 20f;
+		super(p,x_origin,y_origin,20f,10f,3f,10f,50f,100f,300f,camps,framerate);
+		this.radius = 20f;
 		this.color = Color.red;
 		// TODO Auto-generated constructor stub
 	}
@@ -34,7 +34,7 @@ public class Ennemi extends Personnage {
 		int sx = Math.random()>0.5 ? -1:1;
 		int sy = Math.random()>0.5 ? -1:1;
 		
-		super.tirer(sx*dx,sy*dy);
+		super.attack(sx*dx,sy*dy);
 		
 		
 		

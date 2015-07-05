@@ -129,11 +129,42 @@ public class Plateau{
 		return this.selection.contains(o);
 	}
 
-
+	public Vector<Objet> getEnnemiesInSight(Objet caller){
+		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+		for(Objet o : this.elements){
+			if(o.getCamps()!=0 && o.getCamps()!=caller.getCamps() && o.getBox().intersects(caller.getSightRange())){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
+	
+	public Vector<Objet> getRessourcesInSight(Objet caller){
+		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+		for(Objet o : this.elements){
+			if(o.getCamps()==0 && o.getBox().intersects(caller.getSightRange())){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
+	
+	
+	public Vector<Objet> getAllInSight(Objet caller){
+		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+		for(Objet o : this.elements){
+			if(o.getBox().intersects(caller.getSightRange())){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
+	
+	
 	public void action(float x, float y,boolean new_objective){
 		// Method is called whenever there is a right click
 		// Get every object in the selection point :
-		
+		// Return every units in the sight range
 		Point point= new Point(x,y);
 		Vector<Objet> target = new Vector<Objet>() ;
 		
@@ -152,6 +183,7 @@ public class Plateau{
 			}
 
 		}
+		
 		
 		
 

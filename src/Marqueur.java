@@ -1,6 +1,7 @@
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Shape;
 
@@ -74,6 +75,16 @@ public class Marqueur extends Objet {
 	public Shape getBox() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void removeLifePoints(float to_remove) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Circle getSightRange() {
+		return this.sight_range;
+		
 	}
 
 }
