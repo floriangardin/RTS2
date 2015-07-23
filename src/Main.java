@@ -17,7 +17,6 @@ public class Main {
 			Main main = new Main();
 			Game game = new Game();
 			game.setParams(main.framerate,(float) resolutionX,(float) resolutionY);
-			
 			AppGameContainer app = new AppGameContainer( game );
 			app.setDisplayMode(resolutionX, resolutionY, true);
 			//app.setFullscreen(true);

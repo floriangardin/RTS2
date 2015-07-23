@@ -241,7 +241,6 @@ public class Personnage extends Objet{
 			this.main_target = target.get(0) ;
 		}
 
-
 		// if main target on our side or nature go toward them
 		if(this.main_target!=null){
 
