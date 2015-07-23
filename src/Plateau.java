@@ -27,15 +27,7 @@ public class Plateau{
 		this.maxX= maxX;
 		this.maxY = maxY;
 	}
-	private Objet get(int i){
-		if (i<elements.size()){
-			return elements.get(i);
-		}
-		else{
-			return null;
-		}
-	}
-
+	
 	public void add(Objet o){
 		to_add.addElement(o);
 	}
@@ -55,17 +47,13 @@ public class Plateau{
 	public void clear_selection(){
 		this.selection.clear();
 	}
+	
 	public void clean(){
-
 		for(Objet o : elements){
 			if(!o.isAlive()||o.getX()>this.maxX || o.getX()<0 || o.getY()> this.maxY || o.getY()<0 ){
 				this.remove(o);
 			}
-
 		}
-
-
-
 		for(Objet o: to_remove_selection){
 			selection.remove(o);
 		}
@@ -116,16 +104,13 @@ public class Plateau{
 	}
 	private void selection(Rectangle select) {
 		for(Objet o: this.elements){
-
 			if(o.getBox().intersects(select)){
 				this.add_selection(o);
 			}
 		}
-
 	}
-
+	
 	public boolean isSelected(Objet o){
-
 		return this.selection.contains(o);
 	}
 
@@ -149,7 +134,6 @@ public class Plateau{
 		return ennemies_in_sight;
 	}
 	
-	
 	public Vector<Objet> getAllInSight(Objet caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Objet o : this.elements){
@@ -160,17 +144,14 @@ public class Plateau{
 		return ennemies_in_sight;
 	}
 	
-	
 	public void action(float x, float y,boolean new_objective){
 		// Method is called whenever there is a right click
 		// Get every object in the selection point :
 		// Return every units in the sight range
 		Point point= new Point(x,y);
 		Vector<Objet> target = new Vector<Objet>() ;
-		
 		// If new objective update the target list
 		if(new_objective){
-
 			for(Objet o:this.elements){
 				if(o.getBox().contains(point)){
 					target.add(o);
@@ -181,12 +162,7 @@ public class Plateau{
 				// We add the target as a void element belonging to nature 
 				target.addElement(new Marqueur(this,x,y,10f,0f,0f,0,100));
 			}
-
 		}
-		
-		
-		
-
 		// Apply actions for all the  objects, different behaviour considering selection or not
 		for(Objet o: this.elements){
 			if(this.selection.contains(o)){

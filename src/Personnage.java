@@ -23,10 +23,8 @@ public class Personnage extends Objet{
 		//Shape stats 
 		this.x = x_origin;
 		this.y = y_origin;
-		x_pre = x_origin;
-		y_pre = y_origin ;
 		this.radius = w;
-		
+
 		// General stats
 		this.power = power;
 		this.lifepoints = lifepoints;
@@ -34,11 +32,8 @@ public class Personnage extends Objet{
 		this.sight_range = new Circle(x_origin,y_origin,sight_range);
 		this.attack_speed = vitesse_attaque/framerate;
 		this.acc = acc;
-		
-
-		
 		this.attack_state = 0.99f;
-		
+
 		// The center of the circle is redefinited to match with x,y ...
 		this.box = new Circle(this.x, this.y, this.radius);
 		switch(camps){
@@ -88,8 +83,8 @@ public class Personnage extends Objet{
 		}
 
 		// Update acceleration
-		ax =acc * f/framerate;
-		ay = acc * g/framerate;
+		float ax =acc * f/framerate;
+		float ay = acc * g/framerate;
 		// update speed
 
 		vx = 0.99f*vx + ax;
@@ -123,6 +118,7 @@ public class Personnage extends Objet{
 
 	public void attack(float vxo, float vyo){
 		// If not in range move toward ennemy
+
 		if(Utils.distance_2(this,this.main_target)<this.range*this.range){
 			if(this.attack_state>1f){
 				// calculate angle : 
@@ -140,10 +136,9 @@ public class Personnage extends Objet{
 		else{
 			this.move(this.main_target.getX(),this.main_target.getY());
 		}
-		
+
 		// We have killed our ennemy !
 		if(!this.main_target.isAlive()){
-			
 			this.main_target = null;
 			// Now require a new target if possible
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
@@ -188,13 +183,21 @@ public class Personnage extends Objet{
 
 		}
 		else{
+			// get the mediatrice of both object
+			float y_med = this.x-o.getX();
+			float x_med = o.getY()-this.y;
+			y_med = y_med/(x_med*x_med+y_med*y_med);
+			x_med = x_med/(x_med*x_med+y_med*y_med);
+			
+			
 			if((this.vx*this.vx+this.vy*this.vy)<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
-				this.setXY( x+o.getVx(),y+o.getVy());
+				this.setXY(x-vx, y-vy);
+				this.setXY( x+0.5f*x_med,y+0.5f*y_med);
 			}
 			else{
 				this.setXY(x-vx, y-vy);
+				this.setXY( x+0.5f*x_med,y+0.5f*y_med);
 			}
-
 			//this.move(this.vx+this.x,this.vy+this.y );
 			//}
 		}
@@ -216,7 +219,6 @@ public class Personnage extends Objet{
 
 		return this.vx;
 	}
-
 
 	@Override
 	public float getVy() {
@@ -247,7 +249,7 @@ public class Personnage extends Objet{
 			if(this.main_target.getCamps()==0 || this.main_target.getCamps()==this.getCamps()){
 				this.move(this.main_target.getX(),this.main_target.getY());
 			}
-			if(this.main_target.getCamps()!=0 && this.main_target.getCamps()!=this.getCamps()){
+			else if(this.main_target.getCamps()!=0 && this.main_target.getCamps()!=this.getCamps()){
 				this.attack(this.main_target.getX(),this.main_target.getY());
 			}
 
@@ -272,8 +274,8 @@ public class Personnage extends Objet{
 
 	@Override
 	public Circle getSightRange() {
-		
+
 		return this.sight_range;
-		
+
 	}
 }

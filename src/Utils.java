@@ -15,9 +15,6 @@ public class Utils {
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
 		
 	}
-	
-	
-	
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
 		float ref_dist = 100000f;
 		Objet closest = null;
