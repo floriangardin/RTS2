@@ -39,6 +39,8 @@ public abstract class Objet {
 	public abstract Circle getSightRange();
 	public abstract void removeLifePoints(float to_remove);
 	public abstract void action(Vector<Objet> target);
+	public abstract void action(Vector<Objet> target,Objet leader);
+	public abstract void constructLeaderGroup(Vector<Objet> leader_group);
 	public abstract void draw(Graphics g);
 	public abstract void move(float dx, float dy);
 	public abstract float getX();

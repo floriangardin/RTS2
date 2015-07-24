@@ -259,7 +259,9 @@ public class Personnage extends Objet{
 
 		// if main target on our side or nature go toward them
 		if(this.main_target!=null){
-
+			if(leader==this){
+				
+			}
 			if(this.main_target.getCamps()==0 || this.main_target.getCamps()==this.getCamps()){
 				this.move(this.main_target.getX(),this.main_target.getY());
 			}
@@ -311,17 +313,11 @@ public class Personnage extends Objet{
 		}
 
 	}
-	public void removeLifePoints(float to_remove){
-		this.lifepoints -= to_remove;
-		if(this.lifepoints<0f){
-			this.alive = false;
-		}
+	
+	@Override
+	public void constructLeaderGroup(Vector<Objet> leader_group) {
+		this.leader_group = leader_group;		
 	}
-	public void stop(){
-		this.vx = 0;
-		this.vy = 0;
-	}
-
 
 	@Override
 	public Circle getSightRange() {
@@ -329,4 +325,7 @@ public class Personnage extends Objet{
 		return this.sight_range;
 
 	}
+
+
+	
 }

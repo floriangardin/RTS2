@@ -165,6 +165,7 @@ public class Plateau{
 		}
 		// Apply actions for all the  objects, different behaviour considering selection or not
 		Objet leader = null;
+		Vector<Objet> leader_group = new Vector<Objet>();
 		for(Objet o: this.elements){
 			if(this.selection.contains(o)){
 				// Choose a leader
@@ -172,12 +173,14 @@ public class Plateau{
 					leader = o;
 					
 				}
+				leader_group.add(o);
 				o.action(target,leader);
 			}
 			else{
 				o.action(new Vector<Objet>());
 			}
 		}
+		
 
 	}
 }
