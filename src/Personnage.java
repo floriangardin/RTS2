@@ -186,11 +186,13 @@ public class Personnage extends Objet{
 			// get the mediatrice of both object
 			float y_med = this.x-o.getX();
 			float x_med = o.getY()-this.y;
-			y_med = y_med/(x_med*x_med+y_med*y_med);
-			x_med = x_med/(x_med*x_med+y_med*y_med);
+			float norm = (x_med*x_med+y_med*y_med);
+			y_med = y_med/norm;
+			x_med = x_med/norm;
 			if(x_med*vx+y_med*vy<0){
 				x_med=-x_med;
 				y_med=-y_med;
+				
 			}
 			
 			if((this.vx*this.vx+this.vy*this.vy)<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
