@@ -164,9 +164,14 @@ public class Plateau{
 			}
 		}
 		// Apply actions for all the  objects, different behaviour considering selection or not
+		Objet leader = null;
 		for(Objet o: this.elements){
 			if(this.selection.contains(o)){
-				o.action(target);
+				// Choose a leader
+				if(leader==null){
+					leader = o;
+				}
+				o.action(target,leader);
 			}
 			else{
 				o.action(new Vector<Objet>());

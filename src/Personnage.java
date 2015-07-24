@@ -24,7 +24,8 @@ public class Personnage extends Objet{
 		this.x = x_origin;
 		this.y = y_origin;
 		this.radius = w;
-
+		// Leader stats
+		this.leader_group = new Vector<Objet>();
 		// General stats
 		this.power = power;
 		this.lifepoints = lifepoints;
@@ -186,7 +187,7 @@ public class Personnage extends Objet{
 			// set the tolerance for collision:
 			//   - 0: collision is totally authorized
 			//   - 1: no collision but clipping
-			float toleranceCollision = 0.08f;
+			float toleranceCollision = 0.1f;
 			// get the mediatrice of both object
 			float y_med = this.x-o.getX();
 			float x_med = o.getY()-this.y;
@@ -256,6 +257,43 @@ public class Personnage extends Objet{
 			this.main_target = target.get(0) ;
 		}
 
+		// if main target on our side or nature go toward them
+		if(this.main_target!=null){
+
+			if(this.main_target.getCamps()==0 || this.main_target.getCamps()==this.getCamps()){
+				this.move(this.main_target.getX(),this.main_target.getY());
+			}
+			else if(this.main_target.getCamps()!=0 && this.main_target.getCamps()!=this.getCamps()){
+				this.attack(this.main_target.getX(),this.main_target.getY());
+			}
+
+		}
+		// update the attack state;
+		if(this.attack_state<1f){
+			this.attack_state+=this.attack_speed;
+		}
+
+	}
+	public void removeLifePoints(float to_remove){
+		this.lifepoints -= to_remove;
+		if(this.lifepoints<0f){
+			this.alive = false;
+		}
+	}
+	public void stop(){
+		this.vx = 0;
+		this.vy = 0;
+	}
+	
+	public void action(Vector<Objet> target, Objet leader) {
+		// Choose main target : 
+		// TODO : choose a proper target strategy
+		// If we action from user or IA change the target according to a strategy  :
+		if(target.size()>0){
+			this.main_target = target.get(0) ;
+		}
+		// Assign the leader 
+		this.leader = leader ;
 		// if main target on our side or nature go toward them
 		if(this.main_target!=null){
 

@@ -16,6 +16,9 @@ public abstract class Objet {
 	protected float radius;
 	protected Shape box ;
 	protected Color color;
+	// Leader 
+	protected Objet leader;
+	protected Vector<Objet> leader_group;
 	// position time t
 	protected float x;
 	protected float y;
