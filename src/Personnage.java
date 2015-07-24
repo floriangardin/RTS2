@@ -183,6 +183,10 @@ public class Personnage extends Objet{
 
 		}
 		else{
+			// set the tolerance for collision:
+			//   - 0: collision is totally authorized
+			//   - 1: no collision but clipping
+			float toleranceCollision = 0.08f;
 			// get the mediatrice of both object
 			float y_med = this.x-o.getX();
 			float x_med = o.getY()-this.y;
@@ -205,7 +209,7 @@ public class Personnage extends Objet{
 			}
 			else{
 				
-				this.setXY(x+0.2f*(x-o.getX()),y+0.2f*(y-o.getY()));
+				this.setXY(x+toleranceCollision*(x-o.getX()),y+toleranceCollision*(y-o.getY()));
 			}
 			//this.move(this.vx+this.x,this.vy+this.y );
 			//}
