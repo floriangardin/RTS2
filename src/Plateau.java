@@ -170,6 +170,7 @@ public class Plateau{
 				// Choose a leader
 				if(leader==null){
 					leader = o;
+					
 				}
 				o.action(target,leader);
 			}
