@@ -188,15 +188,22 @@ public class Personnage extends Objet{
 			float x_med = o.getY()-this.y;
 			y_med = y_med/(x_med*x_med+y_med*y_med);
 			x_med = x_med/(x_med*x_med+y_med*y_med);
-			
+			if(x_med*vx+y_med*vy<0){
+				x_med=-x_med;
+				y_med=-y_med;
+			}
 			
 			if((this.vx*this.vx+this.vy*this.vy)<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
-				this.setXY(x-vx, y-vy);
-				this.setXY( x+0.5f*x_med,y+0.5f*y_med);
+				if(x_med*o.getVx()+y_med*o.getVy()<0){
+					x_med=-x_med;
+					y_med=-y_med;
+				}
+				//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
+				this.setXY(x-5.5f*x_med,y-5.5f*y_med);
 			}
 			else{
-				this.setXY(x-vx, y-vy);
-				this.setXY( x+0.5f*x_med,y+0.5f*y_med);
+				
+				this.setXY(x+0.2f*(x-o.getX()),y+0.2f*(y-o.getY()));
 			}
 			//this.move(this.vx+this.x,this.vy+this.y );
 			//}
