@@ -9,9 +9,9 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Objet {
 	
-	protected float x;
-	protected float y;
-	protected Shape collisionBox;
+	private float x;
+	private float y;
+	protected Circle collisionBox;
 	protected Color color;
 	protected Plateau p;
 	protected float lifePoints;
@@ -22,6 +22,18 @@ public abstract class Objet {
 	protected void draw(){}
 	protected void collision(Objet o){}
 
+	protected float getX(){
+		return x;
+	}
+	protected float getY(){
+		return y;
+	}
+	protected void setXY(float x, float y){
+		this.x = x;
+		this.y = y;
+		this.collisionBox.setX(x);
+		this.collisionBox.setY(y);
+	}
 	
 	
 }
