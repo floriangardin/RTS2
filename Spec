@@ -59,11 +59,12 @@ abstract class Weapon extends ActionObjet:
 
 abstract class Bullet extends ActionObjet:
 @float damage
-@Circle aeraEffect
-#Vector<Character> getCharacterInAreaEffect()
+@Circle areaEffect
+#Vector<Character> getCharactersInAreaEffect()
 
 abstract class RidableObjet extends ActionObjet:
 @float velocity
+@Objet owner
 
 abstract class Armor extend Objet:
 @float weight

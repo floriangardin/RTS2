@@ -1,13 +1,25 @@
 package model;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Rectangle;
 
 public class Rock extends NaturalObjet {
 
-	public Rock(float x, float y, Shape collisionBox, Color color, Plateau p, float lifePoints) {
-		super(x, y, collisionBox, color, p, lifePoints);
-		// TODO Auto-generated constructor stub
+	public Rock(float x, float y, Plateau p) {
+		this.x = x;
+		this.y = y;
+		float size = 1.0f;
+		this.collisionBox = new Rectangle(x-size/2,y-size/2,size,size);
+		this.color = Color.black;
+		this.p = p;
+		this.lifePoints = 1.0f;
 	}
-
+	
+	public void collision(Objet o){
+		//TODO: collision
+	}
+	
+	public void draw(Objet o){
+		//TODO: draw according to orientation of owner
+	}
 }
