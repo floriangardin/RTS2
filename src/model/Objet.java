@@ -34,7 +34,7 @@ public abstract class Objet {
 		this.collisionBox.setCenterY(y);
 		this.collisionBox.setCenterX(x);
 	}
-	
+
 	
 }
 
