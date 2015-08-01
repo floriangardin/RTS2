@@ -93,8 +93,8 @@ Objet
 		Bullet
 			= Arrow
 			= Bolt
-		RidableObjet
-			= Horse
+	RidableObjet
+		= Horse
 	NaturalObjet
 		= Rock
 		= Water
@@ -102,6 +102,8 @@ Objet
 		= LightArmor
 		= MediumArmor
 		= HeavyArmor
+	=Checkpoint
+	
 
 Plateau
 
