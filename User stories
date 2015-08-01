@@ -1,0 +1,46 @@
+As a user I want a group of units to stop all together when it reaches his target
+
+As a user I want that a group of unit find his way to the target without help whenever possible
+
+As a user I want to see nature object which are obstacles and neutral elements
+
+As a user I want the motion of characters and other object to be realistic
+
+As a user I want to see weapon on soldier arms
+
+As a user I want to see an armor on soldier
+
+As a user I want my soldier to be able to ride a horse
+
+As a user I want to have a generic soldier on who I can assign a weapon
+
+As a user I only want to see the part of the map on my sightbox
+
+As a user I want to be able to move the camera around the map by moving the mouse or keys
+
+As a user I want to use key shortcut to attack and select groups
+
+As a user I want to modify the behavior of one unit given a specific weapon
+
+As a user I want to see the remaining lifepoints of an unit when it is injured
+
+As a user I want to see a bottom bar which gather informations
+
+As a user I want to see a minimap on the bottom bar
+
+As a user I want to see my current selection
+
+As a user I want to see the stamina of an unit in the bottom bar
+
+As a user I want to see a top bar
+
+As a user I want to see my current population in the top bar
+
+As a user I want to have access to a menu to start a game
+
+As a user I want to hear music when I play
+
+As a user I want a random map to be generated when I play
+
+
+
