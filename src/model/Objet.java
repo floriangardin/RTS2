@@ -21,5 +21,16 @@ public abstract class Objet {
 	}
 	protected void draw(){}
 	protected void collision(Objet o){}
+	public Objet(float x, float y, Shape collisionBox, Color color, Plateau p, float lifePoints) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.collisionBox = collisionBox;
+		this.color = color;
+		this.p = p;
+		this.lifePoints = lifePoints;
+	}
+	
 	
 }
+
