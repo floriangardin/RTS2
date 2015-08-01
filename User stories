@@ -13,59 +13,60 @@ Display weapons
 Handle mouse and keyboard to enhance gameplay
 Handle Network for two players
  
+ 
+time possibilites = [1,2,4,8,16,24,32]
+
+
 # DISPLAY
-As a user I only want to see the part of the map on my sightbox
-As a user I want to see the remaining lifepoints of an unit when it is injured
-As a user I want to see a bottom bar which gather informations
-As a user I want to see a minimap on the bottom bar
-As a user I want to see my current selection on the bottom bar
-As a user I want to see the stamina of an unit in the bottom bar
-As a user I want to see a top bar
-As a user I want to see my current population in the top bar
-As I user I want to be alerted when I am being attacked
-As I user I want to see what unit is selected
+8 - As a user I only want to see the part of the map on my sightbox
+1 - As a user I want to see the remaining lifepoints of an unit when it is injured
+2 - As a user I want to see a bottom bar which gather informations
+4 - As a user I want to see a minimap on the bottom bar
+4 - As a user I want to see my current selection on the bottom bar
+1 - As a user I want to see a top bar
+1 - As a user I want to see my current population in the top bar
+2 - As I user I want to be alerted when I am being attacked
+1 - As I user I want to see what unit is selected
 
 # CONTROL
-As a user I want to be able to move the camera around the map by moving the mouse or keys
-As a user I want to use key shortcut to attack and select groups
+4 - As a user I want to be able to move the camera around the map by moving the mouse or keys
+4 - As a user I want to use key shortcut to attack and select groups
 
 # UNITS BEHAVIOUR
-As a user I want a group of units to stop all together when it reaches his target
-As a user I want that a group of unit find his way to the target without help whenever possible
-As a user I want the motion of characters and other object to be realistic
-As a user I want to modify the behavior of one unit given a specific weapon
+8 - As a user I want a group of units to stop all together when it reaches his target
+32 - As a user I want that a group of unit find his way to the target without help whenever possible
+4 - As a user I want the motion of characters and other object to be realistic
+4 - As a user I want to modify the behavior of one unit given a specific weapon
 
 # SOUNDS
-As a user I want to hear music when I play
-As a user I want a to hear characteristic sounds about what is going on the screen
+1 - As a user I want to hear music when I play
+8 - As a user I want a to hear characteristic sounds about what is going on the screen
 
 # GRAPHISM 
-As a user I want to see a beautiful drawing of all the objects
-As a user I want to see weapon on soldier arms
-As a user I want to see an armor on soldier
-As a user I want to see my soldier riding a horse
+2 - As a user I want to see a beautiful drawing of all the objects
+8 - As a user I want to see weapon on soldier arms
+1 - As a user I want to see an armor on soldier
+4 - As a user I want to see my soldier riding a horse
 
 # UNIT MODEL 
-As a user I want to have weapon on soldier arms
-As a user I want to have an armor on soldier
-As a user I want my soldier to be able to ride a horse
-As a user I want to have a generic soldier on who I can assign a weapon
+2 - As a user I want to have weapon on soldier arms
+2 - As a user I want to have an armor on soldier
+2 - As a user I want my soldier to be able to ride a horse
 
 # ENVIRONMENT MODEL
-As a user I want to have nature object which are obstacles and neutral elements
+8 - As a user I want to have nature object which are obstacles and neutral elements
 
 
 #NETWORK
-
-As a user I want to etablish communication with another who play the same game
-As a user I want to able to host a game
-As a user I want to process the Plateau when I am the host
-As a user I want to send the state of my current Plateau
-As a user I want to receive the state of the ennemy Plateau
+8 - As a user I want to etablish communication with another who play the same game
+4 - As a user I want to able to host a game
+4 - As a user I want to process the Plateau when I am the host
+2 - As a user I want to send the state of my current Plateau
+2 - As a user I want to receive the state of the ennemy Plateau
 
 #USELESS
-As a user I want to have access to a menu to start a game
-As a user I want a random map to be generated when I play
+4 - As a user I want to have access to a menu to start a game
+4 - As a user I want a random map to be generated when I play
 
 
 
