@@ -12,8 +12,8 @@ public class Character extends ActionObjet{
 	protected RidableObjet horse;
 	
 	public Character(float x, float y){
-		this.x = x;
-		this.y = y;
+		this.collisionBox = new Circle(x,y,10f);
+		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
 		
@@ -27,11 +27,6 @@ public class Character extends ActionObjet{
 	private void chooseTarget(){
 		
 	}
-	public void setXY(float x,float y){
-		this.x= x ;
-		this.y = y ;
-		this.sightBox.setCenterX(x);
-		this.sightBox.setCenterX(y);
-	}
+
 	
 }
