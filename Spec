@@ -1,0 +1,104 @@
+SPECIFICATIONS
+
+RTS v3.0 alpha
+
+GAMEPLAY
+
+abstract class Objet:
+@float x
+@float y
+@Shape collisionBox
+@Color color
+@Plateau p
+@float lifePoints
+#private void destroy()
+	//set lifepoints to -10
+#private void draw()
+	//par default dessine la collisionBox avec la couleur color	
+#private void collision(Objet o)
+	//gère le comportement d'un objet en collision avec o
+
+abstract class ActionObjet:
+@float vx
+@float vy
+@int team 			[0=nature] / nature/playable objects
+@Objet target
+#void action()
+	//method in objet that must be specified for each kind of objet
+	//only callable by the plateau
+	pour le personnage: déplacement + définir target pour son arme
+	pour l'arme: attaque + définir position selon owner
+#void move(float x, float y)
+	//make the character move toward the objective coordinates
+	=> none
+
+abstract class Character extends ActionObjet:
+@Circle sightBox
+@CarriableWeapon weapon
+@Armor armor
+@RidableObjet horse
+#private Vector<ActionObjet> getEnnemies()
+	//returns visible ennemies
+#private Vector<ActionObjet> getAllies()
+	//returns visible allies
+#private Vector<Objet> getObjets()
+	//returns all visible objets
+#void chooseTarget()
+	//choose most proper target beyond visible ones
+	//only called if present target is dead or inavailable
+	=> calls getEnnemies()
+
+abstract class Weapon extends ActionObjet:
+@float frequency
+@float weight
+@ActionObjet owner
+	abstract class ContactWeapon extends Weapon:
+	@float damage
+	abstract class RangeWeapon extends Weapon:
+	@float range
+
+abstract class Bullet extends ActionObjet:
+@float damage
+@Circle aeraEffect
+#Vector<Character> getCharacterInAreaEffect()
+
+abstract class RidableObjet extends ActionObjet:
+@float velocity
+
+abstract class Armor extend Objet:
+@float weight
+@float damageReductor (soustraction avec minimum)
+
+
+class Plateau
+@float maxX
+@float maxY
+@Vector<ActionObjet> actionsObjets
+
+
+Objet
+	ActionObjet
+		= Character
+		Weapon
+			ContactWeapon
+				= Sword
+				= Bible
+			RangeWeapon
+				= Bow
+				= Ballista
+		Bullet
+			= Arrow
+			= Bolt
+		RidableObjet
+			= Horse
+	NaturalObjet
+		= Rock
+		= Water
+	Armor
+		= LightArmor
+		= MediumArmor
+		= HeavyArmor
+
+Plateau
+
+

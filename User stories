@@ -34,7 +34,7 @@ time possibilites = [1,2,4,8,16,24,32]
 
 # UNITS BEHAVIOUR
 8 - As a user I want a group of units to stop all together when it reaches his target
-32 - As a user I want that a group of unit find his way to the target without help whenever possible
+4 - As a user I want my units to move toward their target, slipping along obstacles if needed
 4 - As a user I want the motion of characters and other object to be realistic
 4 - As a user I want to modify the behavior of one unit given a specific weapon
 
@@ -67,7 +67,7 @@ time possibilites = [1,2,4,8,16,24,32]
 #USELESS
 4 - As a user I want to have access to a menu to start a game
 4 - As a user I want a random map to be generated when I play
-
+8 - As a user I want to select my units at the beginning of the game
 
 
 
