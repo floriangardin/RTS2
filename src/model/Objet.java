@@ -11,7 +11,7 @@ public abstract class Objet {
 	
 	private float x;
 	private float y;
-	protected Circle collisionBox;
+	protected Shape collisionBox;
 	protected Color color;
 	protected Plateau p;
 	protected float lifePoints;
@@ -31,8 +31,8 @@ public abstract class Objet {
 	protected void setXY(float x, float y){
 		this.x = x;
 		this.y = y;
-		this.collisionBox.setX(x);
-		this.collisionBox.setY(y);
+		this.collisionBox.setCenterY(y);
+		this.collisionBox.setCenterX(x);
 	}
 	
 	

@@ -7,9 +7,9 @@ import org.newdawn.slick.geom.Shape;
 
 public class Horse extends RidableObjet{
 
-	public Horse(float x, float y, Plateau p, Objet owner){
-		this.x = x;
-		this.y = y;
+	protected Rectangle collisionBox;
+	
+	public Horse(float x, float y, Plateau p, Character owner){
 		this.p = p;
 		float collisionWidth = 5f;
 		float collisionLength = 10f;
@@ -17,7 +17,7 @@ public class Horse extends RidableObjet{
 		this.color = Color.orange;
 		this.lifePoints = 1.0f;
 		this.velocity = 5f;
-		this.owner = owner;
+		this.setOwner(owner);
 	}
 	
 	public void collision(Objet o){

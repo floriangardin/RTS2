@@ -51,7 +51,7 @@ abstract class Character extends ActionObjet:
 abstract class Weapon extends ActionObjet:
 @float frequency
 @float weight
-@ActionObjet owner
+@Character owner
 	abstract class ContactWeapon extends Weapon:
 	@float damage
 	abstract class RangeWeapon extends Weapon:
@@ -64,12 +64,12 @@ abstract class Bullet extends ActionObjet:
 
 abstract class RidableObjet extends ActionObjet:
 @float velocity
-@Objet owner
+@Character owner
 
 abstract class Armor extend Objet:
 @float weight
 @float damageReductor (soustraction avec minimum)
-
+@Character owner
 
 class Plateau
 @float maxX

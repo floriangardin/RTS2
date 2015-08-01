@@ -6,13 +6,12 @@ import org.newdawn.slick.geom.Rectangle;
 public class Water extends NaturalObjet {
 
 	public Water(float x, float y, Plateau p) {
-		this.x = x;
-		this.y = y;
 		float size = 1.0f;
 		this.collisionBox = new Rectangle(x-size/2,y-size/2,size,size);
 		this.color = Color.blue;
 		this.p = p;
 		this.lifePoints = 1.0f;
+		this.setXY(x, y);
 	}
 	
 	public void collision(Objet o){
