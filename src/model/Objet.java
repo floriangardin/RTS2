@@ -21,8 +21,6 @@ public abstract class Objet {
 	}
 	protected void draw(){}
 	protected void collision(Objet o){}
-<<<<<<< HEAD
-=======
 
 	protected float getX(){
 		return x;
@@ -36,8 +34,7 @@ public abstract class Objet {
 		this.collisionBox.setX(x);
 		this.collisionBox.setY(y);
 	}
-	
->>>>>>> 83f2b1e2df05ea8dae5fbbf294dc53e7abf8e169
+
 	
 }
 
