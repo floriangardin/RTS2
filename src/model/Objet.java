@@ -21,8 +21,6 @@ public abstract class Objet {
 	}
 	protected void draw(){}
 	protected void collision(Objet o){}
-
-	
 	
 }
 

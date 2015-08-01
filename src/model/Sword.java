@@ -9,7 +9,5 @@ public class Sword extends ContactWeapon {
 		this.lifePoints = 1f;
 		this.owner = owner;
 		
-		
-		
 	}
 }
