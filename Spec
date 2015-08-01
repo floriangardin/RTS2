@@ -74,7 +74,11 @@ class Plateau
 @float maxX
 @float maxY
 @Vector<ActionObjet> actionsObjets
-
+@Vector<NaturalObjet> naturalObjets
+@Vector<Objet> to_add;
+@Vector<Objet> to_remove;
+@Vector<Objet> to_add_selection;
+@Vector<Objet> to_remove_selection ;
 
 Objet
 	ActionObjet
