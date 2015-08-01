@@ -34,7 +34,7 @@ abstract class ActionObjet:
 
 abstract class Character extends ActionObjet:
 @Circle sightBox
-@CarriableWeapon weapon
+@Weapon weapon
 @Armor armor
 @RidableObjet horse
 #private Vector<ActionObjet> getEnnemies()
