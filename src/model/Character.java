@@ -180,6 +180,10 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
+		if(!this.isAlive()){
+			target=null;
+			return;
+		}
 		if(target==null){
 			return;
 		}
@@ -277,6 +281,7 @@ public class Character extends ActionObjet{
 	public Graphics draw(Graphics g){
 		g.setColor(this.color);
 		g.fill(collisionBox);
+		if(this.weapon!=null);
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
