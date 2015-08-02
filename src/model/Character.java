@@ -85,7 +85,7 @@ public class Character extends ActionObjet{
 		accy = this.target.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
-		if(maxVNorm!=0f && accNorm<20f){
+		if(maxVNorm!=0f && accNorm<15f){
 			maxVNorm -= maxVNorm/10f;
 		} else {		
 			maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
