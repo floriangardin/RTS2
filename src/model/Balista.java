@@ -10,7 +10,7 @@ public class Balista extends RangeWeapon{
 		p.addEquipmentObjets(this);
 		this.range = 200f;
 		this.weight = 0.9f;
-		this.state = 0f;
+		this.state = 30f;
 		this.chargeTime = 50f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),range);
 		this.setOwner(owner);

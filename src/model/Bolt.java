@@ -11,11 +11,11 @@ public class Bolt extends Bullet {
 		this.p = p;
 		p.addBulletObjets(this);
 		this.p = p;
-		this.damage = 10f;
+		this.damage = 20f;
 		this.lifePoints = 1f;
 		this.owner = owner;
 		this.target = new Checkpoint(owner.target.getX(),owner.target.getY());
-		this.areaEffect = 100f;
+		this.areaEffect = 50f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),10f);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = this.owner.target.getX()-this.owner.getX();
@@ -23,7 +23,7 @@ public class Bolt extends Bullet {
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
-		float Vmax = 50f;
+		float Vmax = 100f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 	}
@@ -59,7 +59,7 @@ public class Bolt extends Bullet {
 
 	public Graphics draw(Graphics g){
 		g.setColor(Color.black);
-		g.fill(new Circle(this.collisionBox.getCenterX(),this.collisionBox.getCenterY(),this.collisionBox.getBoundingCircleRadius()+10f));
+		g.fill(new Circle(this.collisionBox.getCenterX(),this.collisionBox.getCenterY(),this.collisionBox.getBoundingCircleRadius()));
 		return g;
 	}
 }
