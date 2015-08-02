@@ -45,7 +45,8 @@ public class Character extends ActionObjet{
 		}
 		this.vx = 0f;
 		this.vy = 0f;
-
+		this.leader.someoneStopped();
+		this.leader = null;
 	}
 	public boolean isLeader(){
 		return this.leader==this;
@@ -53,9 +54,23 @@ public class Character extends ActionObjet{
 	public void action(){
 		move();
 	}
-
-	public boolean shouldIstop(){
-		return true;
+	
+	public void someoneStopped(){
+		if(this.isLeader()){
+			// Tell to others in group to stop
+			for(Character c: this.group){
+				if(this!=this.leader)
+				c.stop();
+			}
+		this.group = null ;
+		}
+	}
+	// Weapon
+	public void dropWeapon(){
+		
+	}
+	public void collectWeapon(){
+		
 	}
 	public void move(){
 		// Add group behavior
@@ -92,6 +107,7 @@ public class Character extends ActionObjet{
 			//the point needs to be stopped
 			newvx = 0f;
 			newvy = 0f;
+			this.stop();
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		float newX,newY;
@@ -130,10 +146,8 @@ public class Character extends ActionObjet{
 		g.fill(collisionBox);
 		return g;
 	}
-
 	// Collision with other ActionObjets
 	public void collision(ActionObjet o) {
-
 		// If collision test who have the highest velocity
 		// The highest velocity continues 
 		// The lowest velocity move away ( he is pushed at the pace of the other ) 
@@ -172,7 +186,7 @@ public class Character extends ActionObjet{
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
 	}
-
+	
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
