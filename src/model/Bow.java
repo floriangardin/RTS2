@@ -6,7 +6,7 @@ public class Bow extends RangeWeapon{
 	
 	public Bow(Plateau p,Character owner){
 		this.p = p;
-		p.addWeaponObjets(this);
+		p.addEquipmentObjets(this);
 		this.state = 0f;
 		this.range = 100;
 		this.setOwner(owner);

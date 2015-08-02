@@ -6,7 +6,7 @@ public class Bible extends ContactWeapon{
 
 	public Bible(Plateau p, Character owner){
 		this.p = p;
-		p.addWeaponObjets(this);
+		p.addEquipmentObjets(this);
 		this.state = 0f;
 		this.damage = -10f;
 		this.chargeTime = 10f;

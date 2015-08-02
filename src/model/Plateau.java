@@ -17,9 +17,9 @@ public class Plateau {
 	protected Vector<Character> toAddCharacters;
 	protected Vector<Character> toRemoveCharacters;
 
-	protected Vector<Weapon> weapons;
-	protected Vector<Weapon> toAddWeapons;
-	protected Vector<Weapon> toRemoveWeapons;
+	protected Vector<ActionObjet> equipments;
+	protected Vector<ActionObjet> toAddEquipments;
+	protected Vector<ActionObjet> toRemoveEquipments;
 
 	protected Vector<Bullet> bullets;
 	protected Vector<Bullet> toAddBullets;
@@ -48,9 +48,9 @@ public class Plateau {
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
 		//WEAPONS
-		this.weapons = new Vector<Weapon>();
-		this.toAddWeapons = new Vector<Weapon>();
-		this.toRemoveWeapons = new Vector<Weapon>();
+		this.equipments = new Vector<ActionObjet>();
+		this.toAddEquipments = new Vector<ActionObjet>();
+		this.toRemoveEquipments = new Vector<ActionObjet>();
 		//WEAPONS
 		this.bullets = new Vector<Bullet>();
 		this.toAddBullets = new Vector<Bullet>();
@@ -78,11 +78,11 @@ public class Plateau {
 	private void removeCharacter(Character o){
 		toRemoveCharacters.addElement(o);
 	}
-	public void addWeaponObjets(Weapon o){
-		toAddWeapons.addElement(o);
+	public void addEquipmentObjets(ActionObjet o){
+		toAddEquipments.addElement(o);
 	}
-	private void removeWeapon(Weapon o){
-		toRemoveWeapons.addElement(o);
+	private void removeEquipment(ActionObjet o){
+		toRemoveEquipments.addElement(o);
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -115,9 +115,9 @@ public class Plateau {
 				this.removeCharacter(o);
 			}
 		}
-		for(Weapon o : weapons){
+		for(ActionObjet o : equipments){
 			if(!o.isAlive()){
-				this.removeWeapon(o);
+				this.removeEquipment(o);
 			}
 		}
 		for(Bullet o : bullets){
@@ -151,11 +151,11 @@ public class Plateau {
 		for(Character o: toAddCharacters){
 			characters.addElement(o);
 		}
-		for(Weapon o: toRemoveWeapons){
-			weapons.remove(o);
+		for(ActionObjet o: toRemoveEquipments){
+			equipments.remove(o);
 		}
-		for(Weapon o: toAddWeapons){
-			weapons.addElement(o);
+		for(ActionObjet o: toAddEquipments){
+			equipments.addElement(o);
 		}
 		for(Bullet o: toRemoveBullets){
 			bullets.remove(o);
@@ -177,11 +177,11 @@ public class Plateau {
 		}
 
 		toRemoveCharacters.clear();
-		toRemoveWeapons.clear();
+		toRemoveEquipments.clear();
 		toRemoveBullets.clear();
 		toRemoveNaturalObjets.clear();
 		toAddCharacters.clear();
-		toAddWeapons.clear();
+		toAddEquipments.clear();
 		toAddBullets.clear();
 		toAddNaturalObjets.clear();
 	}
@@ -214,7 +214,7 @@ public class Plateau {
 				}
 			}
 			// Between characters and weapons
-			for(Weapon i:weapons){
+			for(ActionObjet i:equipments){
 				if(i.collisionBox.intersects(o.collisionBox)){
 					i.collision(o);
 				}
@@ -332,7 +332,7 @@ public class Plateau {
 			//TODO : Leader handling leader stuff
 			o.action();
 		}
-		for(Weapon o: this.weapons){
+		for(ActionObjet o: this.equipments){
 			//TODO : Leader handling leader stuff
 			o.action();
 		}
