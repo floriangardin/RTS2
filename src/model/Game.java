@@ -27,7 +27,7 @@ public class Game extends BasicGame
 	private Plateau plateau ;
 	private Archer heros  ;
 	private Ennemi ennemi ;
-
+	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
