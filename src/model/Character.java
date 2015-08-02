@@ -5,20 +5,28 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Point;
 
 public class Character extends ActionObjet{
 
+	// General attributes
+	protected Circle sightBox;
+	
+	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
-	protected Circle sightBox;
-	protected Weapon weapon;
+	protected boolean someoneStopped;
+	
+	// Equipment attributes
 	protected Armor armor;
 	protected RidableObjet horse;
-	protected float maxVelocity;
-	protected boolean someoneStopped;
-	private float maxVNorm=0f;
-
+	protected Weapon weapon;
+	
+	// About velocity
+	protected float maxVelocity; 	//current maximum
+	protected float weight = 0;			//weapon and armor coefficient
+	protected float horseVelocity = 0; 	//horse coefficient
+	
+	
 	public Character(Plateau p,int team,float x, float y){
 		this.someoneStopped= false;
 		this.team = team;
@@ -57,7 +65,9 @@ public class Character extends ActionObjet{
 	
 	
 	
-
+	public float getWeight(){
+		return this.weight;
+	}
 	
 	
 	public void stop(){
@@ -72,45 +82,87 @@ public class Character extends ActionObjet{
 	}
 
 	
-	// WEAPONS
+	//// WEAPONS
+	
+	
+	//Drop functions
 	public void dropWeapon(){
 		this.weapon.setOwner(null);
-		this.weapon = null;
-		
+		this.setWeapon(null);
 	}
-	
-
+	public void dropArmor(){
+		this.armor.setOwner(null);
+		this.setArmor(null);
+	}
+	public void dropHorse(){
+		this.horse.setOwner(null);
+		this.setHorse(null);
+	}
+	//Collect functions
 	public void collectWeapon(Weapon weapon){
-		this.weapon = weapon;
+		this.dropWeapon();
+		this.setWeapon(weapon);
 		weapon.setOwner(this);
 	}
+	public void collectArmor(Armor armor){
+		this.dropArmor();
+		this.setArmor(armor);
+		armor.setOwner(this);
+	}
+	public void collectHorse(RidableObjet horse){
+		this.dropHorse();
+		this.setHorse(horse);
+		horse.setOwner(this);
+	}
+	//Get functions
 	public Weapon getWeapon() {
 		return weapon;
 	}
-
-	public void setWeapon(Weapon weapon) {
-		this.weapon = weapon;
-	}
-
 	public Armor getArmor() {
 		return armor;
 	}
-
-	public void setArmor(Armor armor) {
-		this.armor = armor;
-	}
-
 	public RidableObjet getHorse() {
 		return horse;
 	}
-
-	public void setHorse(RidableObjet horse) {
-		this.horse = horse;
+	//Set functions
+	public void setWeapon(Weapon weapon) {
+		if(weapon!=null)
+			this.weight += weapon.weight;
+		else if (this.weapon!=null)
+			this.weight -= this.weapon.weight;
+		this.weapon = weapon;
+		this.updateVelocity();
 	}
-
+	public void setArmor(Armor armor) {
+		if(armor!=null)
+			this.weight += armor.weight;
+		else if (this.armor!=null)
+			this.weight -= this.armor.weight;
+		this.armor = armor;
+		this.updateVelocity();
+	}
+	public void setHorse(RidableObjet horse) {
+		if(horse!=null)
+			this.horseVelocity = horse.velocity;
+		else if (this.horse!=null)
+			this.horseVelocity = 0f;
+		this.horse = horse;
+		this.updateVelocity();
+	}
+	//Update functions
+	public void updateVelocity(){
+		float v = 1f;
+		if(this.horse!=null)
+			v = v * this.horseVelocity;
+		v = v/(1f+weight);
+		this.maxVelocity = v;
+	}
 	
-	// ACTION METHODS
 	
+	//// ACTION METHODS
+	
+	// Main method called on every time loop
+	// define the behavior of the character according to the attributes
 	public void action(){
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			for(Character c : this.group){
@@ -127,9 +179,9 @@ public class Character extends ActionObjet{
 		}
 		move();
 	}
+	// Movement method
+	// the character move toward its target
 	public void move(){
-		// Add group behavior
-
 		if(this.target==null){
 			return;
 		}
@@ -138,7 +190,7 @@ public class Character extends ActionObjet{
 		accy = this.target.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
-		maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
+		float maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
@@ -191,8 +243,8 @@ public class Character extends ActionObjet{
 	}
 
 	
-
 	//// GRAPHISMS
+	
 	
 	public Graphics draw(Graphics g){
 		g.setColor(this.color);
@@ -206,6 +258,7 @@ public class Character extends ActionObjet{
 	
 	
 	//// AUXILIARY FUNCTIONS
+	
 	
 	// Collision with other ActionObjets
 	public void collision(ActionObjet o) {
