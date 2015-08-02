@@ -1,5 +1,6 @@
 package model;
 
+
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -10,22 +11,18 @@ public class Character extends ActionObjet{
 
 	// General attributes
 	protected Circle sightBox;
-
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
 	protected boolean someoneStopped;
-
 	// Equipment attributes
 	protected Armor armor;
 	protected RidableObjet horse;
 	protected Weapon weapon;
-
 	// About velocity
 	protected float maxVelocity; 	//current maximum
 	protected float weight = 0;			//weapon and armor coefficient
 	protected float horseVelocity = 0; 	//horse coefficient
-
 
 	public Character(Plateau p,int team,float x, float y){
 		this.someoneStopped= false;
@@ -44,7 +41,7 @@ public class Character extends ActionObjet{
 		this.p = p;
 		p.addCharacterObjets(this);;
 		this.collisionBox = new Circle(x,y,10f);
-		this.sightBox = new Circle(x,y,100f);
+		this.sightBox = new Circle(x,y,200f);
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
@@ -68,10 +65,14 @@ public class Character extends ActionObjet{
 		return vx*vx+vy*vy>0.01f;
 	}
 
-
-
-
-
+	protected void setXY(float x, float y){
+		this.x = x;
+		this.y = y ;
+		this.collisionBox.setCenterX(this.x);
+		this.collisionBox.setCenterY(this.y);
+		this.sightBox.setCenterX(this.getX());
+		this.sightBox.setCenterY(this.getY());
+	}
 
 	public float getWeight(){
 		return this.weight;
@@ -176,12 +177,20 @@ public class Character extends ActionObjet{
 
 	//// ACTION METHODS
 
-
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
 		if(target==null){
 			return;
+		}
+		if(!this.target.isAlive()){
+			this.target = null;
+			// Now require a new target if possible
+			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
+			if(potential_targets.size()>0){
+				//Take the nearest target :
+				this.target = Utils.nearestObject(potential_targets, this);
+			}
 		}
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			for(Character c : this.group){

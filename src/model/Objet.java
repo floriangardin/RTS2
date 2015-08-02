@@ -10,8 +10,8 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Objet {
 	
-	private float x;
-	private float y;
+	protected float x;
+	protected float y;
 	protected Shape collisionBox;
 	protected Color color;
 	protected Plateau p;

@@ -9,14 +9,12 @@ public class Bow extends RangeWeapon{
 		this.weight = 0.1f;
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
-		this.chargeTime = 1f;
+		this.chargeTime = 5f;
 		this.state = 0f;
 		this.range = 100f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),this.range);
 		this.setOwner(owner);
-
 	}
-	
 	public void action(){
 		// Test if owner 
 		if(this.owner==null){
