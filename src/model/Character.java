@@ -80,8 +80,6 @@ public class Character extends ActionObjet{
 			newvy = 0f;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
-		if(vNorm>0.1f)
-			System.out.println(vNorm+" "+maxVNorm + " "+ newvx+ " "+ newvy);
 		float newX,newY;
 		newX = this.getX()+newvx;
 		newY = this.getY()+newvy;
