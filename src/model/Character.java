@@ -9,7 +9,8 @@ import org.newdawn.slick.geom.Point;
 
 public class Character extends ActionObjet{
 
-
+	protected Character leader;
+	protected Vector<Character> group;
 	protected Circle sightBox;
 	protected Weapon weapon;
 	protected Armor armor;
@@ -37,15 +38,28 @@ public class Character extends ActionObjet{
 	private Vector<Objet> getObjets(){
 		return null;
 	}
-	private void chooseTarget(){
+
+	public void stop(){
+		if(this.target instanceof Checkpoint){
+			this.target = null;
+		}
+		this.vx = 0f;
+		this.vy = 0f;
 
 	}
-
+	public boolean isLeader(){
+		return this.leader==this;
+	}
 	public void action(){
 		move();
 	}
 
+	public boolean shouldIstop(){
+		return true;
+	}
 	public void move(){
+		// Add group behavior
+		
 		if(this.target==null){
 			return;
 		}
