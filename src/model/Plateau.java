@@ -141,9 +141,11 @@ public class Plateau {
 				}
 			}
 			// between actionObjets and 
-			for(NaturalObjet i:naturalObjets){
+			for(NaturalObjet i: naturalObjets){
 				if(i.collisionBox.intersects(o.collisionBox)){
-					o.collision(i);
+					if( o instanceof Character){
+						((Character)o).collision(i);
+					}					
 				}
 			}	
 		}
@@ -170,9 +172,6 @@ public class Plateau {
 		}
 	}
 
-	public boolean isSelected(Objet o){
-		return this.selection.contains(o);
-	}
 
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
@@ -232,8 +231,6 @@ public class Plateau {
 		}
 
 	}
-
-
 }
 
 
