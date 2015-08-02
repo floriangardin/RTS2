@@ -1,3 +1,5 @@
+package model;
+
 import java.util.Vector;
 
 // Class for static methods
