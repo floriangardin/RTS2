@@ -135,8 +135,14 @@ public class Plateau {
 				this.removeNaturalObjets(o);
 			}
 		}
+
 		// Update selection
 		for(int i=0;i<nTeams;i++){
+			for(Character c: selection.get(i)){
+				if(!c.isAlive()){
+					this.removeSelection(c, i);
+				}
+			}
 			for(Character o: toRemoveSelection.get(i)){
 				selection.get(i).remove(o);
 			}

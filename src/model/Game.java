@@ -62,7 +62,6 @@ public class Game extends BasicGame
 
 		}
 	}
-
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException 
@@ -134,7 +133,6 @@ public class Game extends BasicGame
 	{
 		super("Ultra Mythe RTS 3.0");
 	}
-
 	public void setParams(Constants constants,float resX,float resY){
 		this.constants = constants;
 		this.framerate = constants.FRAMERATE ;
