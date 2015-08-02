@@ -85,11 +85,7 @@ public class Character extends ActionObjet{
 		accy = this.target.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
-		if(maxVNorm!=0f && accNorm<15f){
-			maxVNorm -= maxVNorm/10f;
-		} else {		
-			maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
-		}
+		maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
@@ -108,7 +104,7 @@ public class Character extends ActionObjet{
 			//if the velocity is too large it is reduced to the maxVelocity value
 			newvx = newvx*maxVNorm/vNorm;
 			newvy = newvy*maxVNorm/vNorm;
-		} else if(accNorm<5.0f && vNorm<2.0f ){
+		} else if(accNorm<5.0f && vNorm<2.0f || this.collisionBox.intersects(target.collisionBox)){
 			//if the velocity is small and the acceleration against it
 			//the point needs to be stopped
 			this.stop();
