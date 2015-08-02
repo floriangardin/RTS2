@@ -111,8 +111,9 @@ public class Game extends BasicGame
 	public void init(GameContainer gc) throws SlickException 
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2);
-		Character c = new Character(plateau,0,100,100);
-		Character d = new Character(plateau, 0, 100, 150);
+		for(int i=0;i<10;i++)
+		new Character(plateau,0,100+20*i,100);
+		
 		Rock r = new Rock(200,200,plateau);
 		Water w = new Water(200,250,plateau);
 		//new Ennemi(plateau,100f,100f,framerate);
