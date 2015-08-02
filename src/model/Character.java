@@ -41,7 +41,7 @@ public class Character extends ActionObjet{
 		this.p = p;
 		p.addCharacterObjets(this);;
 		this.collisionBox = new Circle(x,y,10f);
-		this.sightBox = new Circle(x,y,200f);
+		this.sightBox = new Circle(x,y,500f);
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
@@ -185,7 +185,14 @@ public class Character extends ActionObjet{
 			return;
 		}
 		if(target==null){
-			return;
+			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
+			if(potential_targets.size()>0){
+				//Take the nearest target :
+				this.target = Utils.nearestObject(potential_targets, this);
+			}
+			if(target==null){
+				return;
+			}
 		}
 		if(!this.target.isAlive()){
 			this.target = null;
