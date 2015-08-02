@@ -57,10 +57,10 @@ public class Character extends ActionObjet{
 			accx = -accx;
 			accy = -accy;
 		}
-		accx = accx*this.p.constantes.acc/accNorm;
-		accy = accy*this.p.constantes.acc/accNorm;
-		newvx = vx + accx*this.p.constantes.tr;
-		newvy = vy + accy*this.p.constantes.tr;
+		accx = accx*this.p.constants.ACC/accNorm;
+		accy = accy*this.p.constants.ACC/accNorm;
+		newvx = vx + accx*this.p.constants.FRAMERATE;
+		newvy = vy + accy*this.p.constants.FRAMERATE;
 		float vNorm = newvx*newvx+newvy*newvy;
 		if(vNorm>maxVelocity*maxVelocity){
 			//if the velocity is too large it is reduced to the maxVelocity value
@@ -73,8 +73,8 @@ public class Character extends ActionObjet{
 			newvy = 0f;
 		}
 		float newX,newY;
-		newX = this.getX()+newvx*this.p.constantes.tr;
-		newY = this.getY()+newvy*this.p.constantes.tr;
+		newX = this.getX()+newvx*this.p.constants.FRAMERATE;
+		newY = this.getY()+newvy*this.p.constants.FRAMERATE;
 		//if the new coordinates are beyond the map's limits, it must be reassigned
 		if(newX<this.collisionBox.getBoundingCircleRadius()){
 			newX = this.collisionBox.getBoundingCircleRadius();
@@ -111,46 +111,46 @@ public class Character extends ActionObjet{
 
 	public void collision(ActionObjet o) {
 
-		// If collision test who have the highest velocity
-		// The highest velocity continues 
-		// The lowest velocity move away ( he is pushed at the pace of the other ) 
-		if(o instanceof Arrow){
-
-		}
-		else{
-			// set the tolerance for collision:
-			//   - 0: collision is totally authorized
-			//   - 1: no collision but clipping
-			float toleranceCollision = 0.1f;
-			// get the mediatrice of both object
-			float y_med = this.x-o.getX();
-			float x_med = o.getY()-this.y;
-			float norm = (x_med*x_med+y_med*y_med);
-			y_med = y_med/norm;
-			x_med = x_med/norm;
-			if(x_med*vx+y_med*vy<0){
-				x_med=-x_med;
-				y_med=-y_med;
-				
-			}
-			
-			if((this.vx*this.vx+this.vy*this.vy)<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
-				if(x_med*o.getVx()+y_med*o.getVy()<0){
-					x_med=-x_med;
-					y_med=-y_med;
-				}
-				//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
-				this.setXY(x-5.5f*x_med,y-5.5f*y_med);
-			}
-			else{
-				
-				this.setXY(x+toleranceCollision*(x-o.getX()),y+toleranceCollision*(y-o.getY()));
-			}
-			//this.move(this.vx+this.x,this.vy+this.y );
-			//}
+//		// If collision test who have the highest velocity
+//		// The highest velocity continues 
+//		// The lowest velocity move away ( he is pushed at the pace of the other ) 
+//		if(o instanceof Arrow){
+//
+//		}
+//		else{
+//			// set the tolerance for collision:
+//			//   - 0: collision is totally authorized
+//			//   - 1: no collision but clipping
+//			float toleranceCollision = 0.1f;
+//			// get the mediatrice of both object
+//			float y_med = this.x-o.getX();
+//			float x_med = o.getY()-this.y;
+//			float norm = (x_med*x_med+y_med*y_med);
+//			y_med = y_med/norm;
+//			x_med = x_med/norm;
+//			if(x_med*vx+y_med*vy<0){
+//				x_med=-x_med;
+//				y_med=-y_med;
+//				
+//			}
+//			
+//			if((this.vx*this.vx+this.vy*this.vy)<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
+//				if(x_med*o.getVx()+y_med*o.getVy()<0){
+//					x_med=-x_med;
+//					y_med=-y_med;
+//				}
+//				//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
+//				this.setXY(x-5.5f*x_med,y-5.5f*y_med);
+//			}
+//			else{
+//				
+//				this.setXY(x+toleranceCollision*(x-o.getX()),y+toleranceCollision*(y-o.getY()));
+//			}
+//			//this.move(this.vx+this.x,this.vy+this.y );
+//			//}
 		}
 
 
 
 	}
-}
+
