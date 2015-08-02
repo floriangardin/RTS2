@@ -19,7 +19,7 @@ public class Character extends ActionObjet{
 	public Character(Plateau p,int team,float x, float y){
 		this.team = team;
 		// the maximum number of float by second
-		this.maxVelocity = 500f;
+		this.maxVelocity = 250f;
 		this.color = Color.blue;
 		this.p = p;
 		p.addActionsObjets(this);
@@ -68,9 +68,7 @@ public class Character extends ActionObjet{
 			newvy = vy + accy;
 		}
 		float maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
-		float vNorm = newvx*newvx+newvy*newvy;
-		if(vNorm>0.1f)
-			System.out.println(vNorm+" "+maxVNorm);
+		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		if(vNorm>maxVNorm*maxVNorm){
 			//if the velocity is too large it is reduced to the maxVelocity value
 			newvx = newvx*maxVNorm/vNorm;
@@ -81,6 +79,9 @@ public class Character extends ActionObjet{
 			newvx = 0f;
 			newvy = 0f;
 		}
+		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		if(vNorm>0.1f)
+			System.out.println(vNorm+" "+maxVNorm + " "+ newvx+ " "+ newvy);
 		float newX,newY;
 		newX = this.getX()+newvx;
 		newY = this.getY()+newvy;
@@ -206,11 +207,11 @@ public class Character extends ActionObjet{
 		switch(sector){
 		case 1: newX = o.collisionBox.getMaxX()+this.collisionBox.getBoundingCircleRadius();
 		break;
-		case 2:	newY = o.collisionBox.getMinY()-this.collisionBox.getBoundingCircleRadius();
+		case 2:	newY = o.collisionBox.getMaxY()+this.collisionBox.getBoundingCircleRadius();
 		break;
 		case 3: newX = o.collisionBox.getMinX()-this.collisionBox.getBoundingCircleRadius();
 		break;
-		case 4: newY = o.collisionBox.getMaxY()+this.collisionBox.getBoundingCircleRadius();
+		case 4: newY = o.collisionBox.getMinY()-this.collisionBox.getBoundingCircleRadius();
 		break;
 		default:
 		}
