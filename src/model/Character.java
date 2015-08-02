@@ -17,6 +17,7 @@ public class Character extends ActionObjet{
 	protected RidableObjet horse;
 	protected float maxVelocity;
 	protected boolean someoneStopped;
+	private float maxVNorm=0f;
 
 	public Character(Plateau p,int team,float x, float y){
 		this.someoneStopped= false;
@@ -84,6 +85,11 @@ public class Character extends ActionObjet{
 		accy = this.target.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
+		if(maxVNorm!=0f && accNorm<20f){
+			maxVNorm -= maxVNorm/10f;
+		} else {		
+			maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
+		}
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
@@ -97,7 +103,6 @@ public class Character extends ActionObjet{
 			newvx = vx + accx;
 			newvy = vy + accy;
 		}
-		float maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		if(vNorm>maxVNorm*maxVNorm){
 			//if the velocity is too large it is reduced to the maxVelocity value
