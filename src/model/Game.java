@@ -38,7 +38,7 @@ public class Game extends BasicGame
 		for(Character o : plateau.characters){
 			o.draw(g);
 		}
-		for(Weapon o : plateau.weapons){
+		for(ActionObjet o : plateau.equipments){
 			o.draw(g);
 		}
 		for(Bullet o : plateau.bullets){
@@ -115,7 +115,7 @@ public class Game extends BasicGame
 			new Character(plateau,0,100+20*i,100);
 		new Character(plateau,1,450,450);
 		plateau.characters.get(0).collectArmor(new LightArmor(0f, 0f, plateau, null));
-		plateau.characters.get(0).collectWeapon(new Sword(plateau,null));
+		plateau.characters.get(0).collectWeapon(new Sword(plateau,null)); 
 		
 		Rock r = new Rock(200,200,plateau);
 		Water w = new Water(200,250,plateau);
