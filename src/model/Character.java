@@ -112,6 +112,7 @@ public class Character extends ActionObjet{
 		return g;
 	}
 
+	// Collision with other ActionObjets
 	public void collision(ActionObjet o) {
 
 		// If collision test who have the highest velocity
@@ -152,7 +153,61 @@ public class Character extends ActionObjet{
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
 	}
-
+	
+	// Collision with NaturalObjets
+	public void collision(NaturalObjet o) {
+		/*On considère pour l'instant que nos natural objets sont carrés
+		 * il faut dans un premier temps déterminer de quel côté éjecter l'objet
+		 * pour cela on délimite 4 secteurs:
+		 * 		1: à droite
+		 * 		2: en haut
+		 * 		3: à gauche
+		 * 		4: en bas
+		 *	puis on éjecte le point au bord du côté correspondant via projection
+		 */
+		float oX, oY;
+		oX = o.collisionBox.getCenterX();
+		oY = o.collisionBox.getCenterY();
+		float x, y;
+		x = this.getX();
+		y = this.getY();
+		// Choosing the sector to eject the point
+		int sector = 0;
+		if(x-oX>0f){
+			if(y-oY>Math.abs(x-oX)){
+				sector = 2;
+			} else if(y-oY<-Math.abs(x-oX)){
+				sector = 4;
+			} else {
+				sector = 1;
+			}
+		} else {
+			if(y-oY>Math.abs(x-oX)){
+				sector = 2;
+			} else if(y-oY<-Math.abs(x-oX)){
+				sector = 4;
+			} else {
+				sector = 3;
+			}
+		}
+		// Ejecting the point
+		float newX=this.getX(),newY=this.getY();
+		switch(sector){
+		case 1: newX = o.collisionBox.getMaxX()+this.collisionBox.getBoundingCircleRadius();
+				break;
+		case 2:	newY = o.collisionBox.getMinY()-this.collisionBox.getBoundingCircleRadius();
+				break;
+		case 3: newX = o.collisionBox.getMinX()-this.collisionBox.getBoundingCircleRadius();
+				break;
+		case 4: newY = o.collisionBox.getMaxY()+this.collisionBox.getBoundingCircleRadius();
+				break;
+		default:
+		}
+		
+		this.setXY(newX, newY);
+		
+		
+	}
 
 
 }
