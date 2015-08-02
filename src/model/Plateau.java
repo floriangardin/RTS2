@@ -23,9 +23,11 @@ public class Plateau {
 	protected Vector<Vector<Character>> selection;
 	protected Vector<Vector<Character>> toAddSelection;
 	protected Vector<Vector<Character>> toRemoveSelection ;
+	protected Constants constants;
 	//TODO : make actionsObjets and everything else private 
 	
-	public Plateau(float maxX,float maxY,int nTeams){
+	public Plateau(Constants constants,float maxX,float maxY,int nTeams){
+		this.constants = constants;
 		this.nTeams = nTeams;
 		this.actionsObjets = new Vector<ActionObjet>();
 		this.toAddActionsObjets = new Vector<ActionObjet>();
@@ -41,7 +43,6 @@ public class Plateau {
 			this.toAddSelection.addElement(new Vector<Character>());
 			this.toRemoveSelection.addElement(new Vector<Character>());
 		}
-		
 		
 		this.maxX= maxX;
 		this.maxY = maxY;
@@ -62,7 +63,7 @@ public class Plateau {
 		toRemoveNaturalObjets.addElement(o);
 	}
 
-	public void add_selection(Character o,int team){
+	public void addSelection(Character o,int team){
 		toAddSelection.get(team).addElement(o);
 	}
 
@@ -70,16 +71,24 @@ public class Plateau {
 		toRemoveSelection.get(team).addElement(o);
 	}
 
-	public void clear_selection(int team){
+	public void clearSelection(int team){
 		this.selection.get(team).clear();
 	}
 
 	public void clean(){
+		// Clean the buffers and handle die
+		// Remove and add considering alive 
 		for(ActionObjet o : actionsObjets){
 			if(!o.isAlive()){
 				this.removeActionsObjets(o);
 			}
 		}
+		for(NaturalObjet o : naturalObjets){
+			if(!o.isAlive()){
+				this.removeNaturalObjets(o);
+			}
+		}
+		// Update selection
 		for(int i=0;i<nTeams;i++){
 			for(Character o: toRemoveSelection.get(i)){
 				selection.get(i).remove(o);
@@ -88,15 +97,19 @@ public class Plateau {
 				selection.get(i).addElement(o);
 			}
 		}
-
+		// Remove objets from lists
 		for(ActionObjet o: toRemoveActionsObjets){
 			actionsObjets.remove(o);
 		}
 		for(ActionObjet o: toAddActionsObjets){
 			actionsObjets.addElement(o);
 		}
-
-
+		for(NaturalObjet o: toRemoveNaturalObjets){
+			naturalObjets.remove(o);
+		}
+		for(NaturalObjet o: toAddNaturalObjets){
+			naturalObjets.addElement(o);
+		}
 
 		// Clear the vector :
 		for(int i = 0;i<nTeams;i++){
@@ -118,29 +131,41 @@ public class Plateau {
 
 
 	public void collision(){
-		for(Objet o : actionsObjets){
-			for(Objet i:actionsObjets){
+		
+		for(ActionObjet o : actionsObjets){
+			// Handle collision between actionObjets and action objets
+			for(ActionObjet i:actionsObjets){
 				if(i.collisionBox.intersects(o.collisionBox) && i!=o){
 					i.collision(o);
 					o.collision(i);
 				}
 			}
+			// between actionObjets and 
+			for(NaturalObjet i:naturalObjets){
+				if(i.collisionBox.intersects(o.collisionBox)){
+					o.collision(i);
+				}
+			}	
 		}
 	}
-
-	public void update(Rectangle select){
+	
+	public void updateSelection(Rectangle select,int team){
 		if(select!=null){
-			this.selection(select);
+			this.clearSelection(team);
+			this.selection(select,team);
 		}
+	}
+	public void update(){
+		// Handle collision and cleaning of buffers
 		this.collision();
 		this.clean();
 	}
 	//TODO gné
-	private void selection(Rectangle select) {
-		for(Objet o: this.actionsObjets){
-			if(o.collisionBox.intersects(select)){
-				//TODO 
-
+	private void selection(Rectangle select, int team) {
+		for(ActionObjet o: this.actionsObjets){
+			if(o instanceof Character && o.collisionBox.intersects(select) && o.team==team ){
+				//add character to team selection
+				this.addSelection((Character)o, team);
 			}
 		}
 	}
@@ -180,6 +205,7 @@ public class Plateau {
 	}
 
 	public void action(float x, float y,boolean new_objective){
+		// Action should be called for all the players
 		// Method is called whenever there is a right click
 		// Get every object in the selection point :
 		// Return every units in the sight range

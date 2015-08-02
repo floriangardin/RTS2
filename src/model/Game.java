@@ -9,6 +9,7 @@ import org.newdawn.slick.tiled.*;
 public class Game extends BasicGame 
 {	
 	int team = 0;
+	Constants constants ;
 	// Selection
 	Rectangle selection;
 	boolean new_selection;
@@ -35,8 +36,6 @@ public class Game extends BasicGame
 
 		// Draw the plateau
 		for(ActionObjet o : actionObjets){
-			
-			System.out.println(o);
 			o.draw(g);
 			if (this.plateau.isSelected(o)){
 				g.setColor(Color.green);
@@ -64,7 +63,7 @@ public class Game extends BasicGame
 		// Update the selection rectangle :
 		// Test if new selection :
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-			this.plateau.clear_selection(team);
+			this.plateau.clearSelection(team);
 		}
 
 		// Update the rectangle
@@ -78,19 +77,24 @@ public class Game extends BasicGame
 			selection.setBounds( (float)Math.min(recX,i.getAbsoluteMouseX()), (float)Math.min(recY, i.getAbsoluteMouseY()),
 					(float)Math.abs(i.getAbsoluteMouseX()-recX)+0.1f, (float)Math.abs(i.getAbsoluteMouseY()-recY)+0.1f);
 		}
-		else{
-			selection = null;
-
+		else if(!i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && this.selection!=null){
+			plateau.updateSelection(selection, this.team);
+			this.selection = null;
 		}
+		else{
+			// We update selection when left click is released
+			selection = null;
+		}
+		// Action for player k 
 		this.plateau.action(i.getMouseX(),i.getMouseY(),i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON));
-		// Perform the Selection, the collision, the creation and destruction of elements.
-		plateau.update(selection);
+		// Perform the collision, the creation and destruction of elements.
+		plateau.update();
 	}
 	// Init our Game objects
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		plateau = new Plateau(this.resX,this.resY,2);
+		plateau = new Plateau(this.constants,this.resX,this.resY,2);
 		Character c = new Character(plateau,0,100,100);
 		plateau.addActionsObjets(c);
 		this.actionObjets = plateau.actionsObjets;
@@ -102,8 +106,9 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 	}
 
-	public void setParams(int framerate,float resX,float resY){
-		this.framerate = framerate ;
+	public void setParams(Constants constants,float resX,float resY){
+		this.constants = constants;
+		this.framerate = constants.FRAMERATE ;
 		this.resX = resX;
 		this.resY = resY ;
 	}
