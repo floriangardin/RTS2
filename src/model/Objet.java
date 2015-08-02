@@ -16,7 +16,14 @@ public abstract class Objet {
 	protected Color color;
 	protected Plateau p;
 	protected float lifePoints;
+	protected String name;
 	
+	public void setName(String s){
+		this.name = s;
+	}
+	public String getName(){
+		return this.name;
+	}
 	protected void destroy(){
 		this.lifePoints = -10;
 	}

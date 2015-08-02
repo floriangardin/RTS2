@@ -180,6 +180,10 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
+		if(!this.isAlive()){
+			target=null;
+			return;
+		}
 		if(target==null){
 			return;
 		}
@@ -284,8 +288,31 @@ public class Character extends ActionObjet{
 
 
 	public Graphics draw(Graphics g){
+		float r = collisionBox.getBoundingCircleRadius();
+		if(this.armor!=null){
+			g.setColor(Color.black);
+			Color c1 = new Color(140,140,140);
+			Color c2 = new Color(70,70,70);
+			Color c3 = new Color(40,40,40);
+			if(this.armor instanceof HeavyArmor){
+				g.setColor(c3);
+				g.fill(new Circle(this.getX(),this.getY(),r+1f));
+			}
+			if(this.armor instanceof MediumArmor){
+				g.setColor(c2);
+				g.fill(new Circle(this.getX(),this.getY(),r+1f));
+			}
+			if(this.armor instanceof LightArmor){
+				g.setColor(c1);
+				g.fill(new Circle(this.getX(),this.getY(),r+1f));
+			}
+		}
 		g.setColor(this.color);
-		g.fill(collisionBox);
+		g.fill(new Circle(this.getX(),this.getY(),r-3f));
+		if(this.weapon!=null){
+			g.setColor(Color.white);
+			g.drawString((String)weapon.name.subSequence(0, 2), this.getX()-r, this.getY()-r);
+		}
 		return g;
 	}
 	public void drawIsSelected(Graphics g){

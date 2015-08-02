@@ -6,6 +6,7 @@ public class Balista extends RangeWeapon{
 
 	public Balista(Plateau p ,Character owner){
 		this.p = p;
+		this.name = "Balista";
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
 		this.range = 200f;

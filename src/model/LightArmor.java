@@ -15,6 +15,7 @@ public class LightArmor extends Armor {
 		this.setXY(x,y);
 		this.setOwner(owner);
 		this.lifePoints = 1.0f;
+		this.name = "Light Armor";
 	}
 	
 	public void draw(Objet o){

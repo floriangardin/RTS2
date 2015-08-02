@@ -121,6 +121,8 @@ public class Game extends BasicGame
 			
 		}
 		plateau.toAddCharacters.get(0).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(0)));
+		plateau.toAddCharacters.get(1).collectArmor(new MediumArmor(0f, 0f, plateau, plateau.toAddCharacters.get(1)));
+		plateau.toAddCharacters.get(2).collectArmor(new HeavyArmor(0f, 0f, plateau, plateau.toAddCharacters.get(2)));
 		plateau.toAddCharacters.get(0).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(0))); 
 		plateau.toAddCharacters.get(1).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(1)));
 		plateau.toAddCharacters.get(2).collectWeapon(new Balista(plateau,plateau.toAddCharacters.get(2))); 
