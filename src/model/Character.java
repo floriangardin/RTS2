@@ -169,7 +169,8 @@ public class Character extends ActionObjet{
 		if(this.horse!=null)
 			v = v * this.horseVelocity;
 		v = v/(1f+weight);
-		this.maxVelocity = v;
+		
+		this.maxVelocity *= v;
 	}
 
 
@@ -179,6 +180,9 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
+		if(target==null){
+			return;
+		}
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			for(Character c : this.group){
 				c.stop();
@@ -197,7 +201,7 @@ public class Character extends ActionObjet{
 			move();
 		} else{
 			// If the character has a weapon it goes toward the target till it is at range
-			if(!this.target.collisionBox.intersects(this.weapon.collisionBox)){
+			if(this.target!=null && !this.target.collisionBox.intersects(this.weapon.collisionBox)){
 				move();
 			}
 		}

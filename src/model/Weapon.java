@@ -5,9 +5,10 @@ public abstract class Weapon extends ActionObjet {
 	protected float chargeTime;
 	protected float weight;
 	protected Character owner;
-	
+
 	public void setOwner(Character owner){
 		this.owner = owner;
-		this.setXY(owner.getX(),owner.getY());
+		if(owner!=null)
+			this.setXY(owner.getX(),owner.getY());
 	}
 }
