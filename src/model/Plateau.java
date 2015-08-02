@@ -284,31 +284,35 @@ public class Plateau {
 
 
 	public void updateTarget(float x, float y, int team){
-		System.out.println("updateTarget");
-		//TODO fill method behavior
+		//called when right click on the mouse
 		Point point= new Point(x,y);
-		Objet target =new Checkpoint(x,y);
-		boolean newTarget = false;
-		for(Character o:this.selection.get(team)){
-			for(Character i:this.characters){
-				if(o.collisionBox.contains(point)){
-					o.target = i;
-					newTarget = true;
+		Objet target = null;
+		//looking for the object on the target
+		for(Character i:this.characters){
+			// looking amongst other characters
+			if(i.collisionBox.contains(point)){
+				target = i;
+				break;
+			}
+		}
+		if(target==null){
+			for(NaturalObjet i: naturalObjets){
+				// looking amongst natural object
+				if(i.collisionBox.contains(point)){
+					target = i;
 					break;
 				}
 			}
-			if(!newTarget){
-				for(NaturalObjet i: naturalObjets){
-					if(o.collisionBox.contains(point)){
-						o.target = i;
-						newTarget = true;
-						break;
-					}
-				}
-			}
-			if(!newTarget){
-				o.target = target;
-			}
+		}
+		//TODO : look amongst horses and weapons too
+		if(target==null){
+			target = new Checkpoint(x,y);
+		}
+		Character leader = null;
+		for(Character o:this.selection.get(team)){
+			if(leader==null)
+				leader=o;
+			//first we remove the character o from its elder group
 		}
 
 	}
