@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Circle;
 public abstract class Bullet extends ActionObjet {
 	protected float damage;
 	Circle areaEffect;
-	
+	Character owner;
 	private Vector<Character> getCharactersInAreaEffect(){
 		return null;
 	}

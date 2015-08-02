@@ -19,7 +19,8 @@ public abstract class Objet {
 	protected void destroy(){
 		this.lifePoints = -10;
 	}
-	protected void draw(){}
+	public Graphics draw(Graphics g){
+		return g;}
 	protected void collision(Objet o){}
 
 	protected float getX(){
@@ -31,10 +32,13 @@ public abstract class Objet {
 	protected void setXY(float x, float y){
 		this.x = x;
 		this.y = y;
-		this.collisionBox.setCenterY(y);
 		this.collisionBox.setCenterX(x);
+		this.collisionBox.setCenterY(y);
+	}
+	
+	protected boolean isAlive(){
+		return this.lifePoints>0f;
 	}
 
-	
 }
 

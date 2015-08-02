@@ -23,7 +23,7 @@ abstract class ActionObjet:
 @float vy
 @int team 			[0=nature] / nature/playable objects
 @Objet target
-#void action()
+#void action(Vector<Objet> target)
 	//method in objet that must be specified for each kind of objet
 	//only callable by the plateau
 	pour le personnage: déplacement + définir target pour son arme
@@ -80,6 +80,7 @@ class Plateau
 @Vector<Objet> to_remove;
 @Vector<Objet> to_add_selection;
 @Vector<Objet> to_remove_selection ;
+
 
 Objet
 	ActionObjet
