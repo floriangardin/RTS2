@@ -203,7 +203,10 @@ public class Plateau {
 		}
 		return ennemies_in_sight;
 	}
-
+	
+	public void updateTarget(){
+		//TODO fill method behavior
+	}
 	public void action(float x, float y,boolean new_objective){
 		// Action should be called for all the players
 		// Method is called whenever there is a right click
@@ -226,7 +229,7 @@ public class Plateau {
 		Vector<Objet> leader_group = new Vector<Objet>();
 		for(ActionObjet o: this.actionsObjets){
 			//TODO : Leader handling leader stuff
-			o.action(target);
+			o.action();
 		}
 
 	}
