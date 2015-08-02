@@ -2,10 +2,7 @@ package model;
 
 public class ContactWeapon extends Weapon {
 	protected float damage;
-	
-	
-	
-	
+
 	public void action(){
 		// Test if owner 
 		if(this.owner==null){
@@ -14,19 +11,21 @@ public class ContactWeapon extends Weapon {
 		// update x and y
 		this.setXY(this.owner.getX(), this.owner.getY());
 		// Test if target
-		if(!(this.owner.target instanceof Character)){
-			return;
-		}
-		Character target =(Character) this.owner.target;
-		this.state += 0.1f;
-		if(this.state>this.chargeTime){
-			// Attack if armor<damage and collision
-			if(target.getArmor().damageReductor<=this.damage && target.collisionBox.intersects(this.collisionBox)){
-				target.lifePoints+=target.getArmor().damageReductor-this.damage;
+		if(this.state<this.chargeTime+1f)
+			this.state += 0.1f;
+	}
+
+	public void collision(Character c){
+		if(c.team!=this.owner.team && this.state>this.chargeTime){
+			//Attack !
+			if(c.getArmor()!=null && c.getArmor().damageReductor<this.damage){
+				c.lifePoints+=c.getArmor().damageReductor-this.damage;
 			}
-			// Reset state of weapon 
+			else{
+				c.lifePoints-=this.damage;
+			}
+			// Reset the state
 			this.state = 0f;
-			
 		}
 	}
 }
