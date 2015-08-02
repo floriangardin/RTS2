@@ -284,31 +284,56 @@ public class Plateau {
 
 
 	public void updateTarget(float x, float y, int team){
-		System.out.println("updateTarget");
-		//TODO fill method behavior
+		//called when right click on the mouse
 		Point point= new Point(x,y);
-		Objet target =new Checkpoint(x,y);
-		boolean newTarget = false;
-		for(Character o:this.selection.get(team)){
-			for(Character i:this.characters){
-				if(o.collisionBox.contains(point)){
-					o.target = i;
-					newTarget = true;
+		Objet target = null;
+		//looking for the object on the target
+		for(Character i:this.characters){
+			// looking amongst other characters
+			if(i.collisionBox.contains(point)){
+				target = i;
+				break;
+			}
+		}
+		if(target==null){
+			for(NaturalObjet i: naturalObjets){
+				// looking amongst natural object
+				if(i.collisionBox.contains(point)){
+					target = i;
 					break;
 				}
 			}
-			if(!newTarget){
-				for(NaturalObjet i: naturalObjets){
-					if(o.collisionBox.contains(point)){
-						o.target = i;
-						newTarget = true;
-						break;
-					}
+		}
+		//TODO : look amongst horses and weapons too
+		if(target==null){
+			target = new Checkpoint(x,y);
+		}
+		Character leader = null;
+		for(Character o:this.selection.get(team)){
+			if(leader==null){
+				leader=o;
+				o.group = new Vector<Character>();
+				o.group.add(o);
+			}
+			//first we deal with the o's elder group
+			//if o was the leader and there were other members in the group
+			if(o.isLeader() && o.group.size()>1){
+				//we set the group of the new leader
+				o.group.get(1).group = o.group;
+				//we set the new leader amongst the member of the group
+				for(Character o1: o.group){
+					o1.leader = o.group.get(1);
 				}
+				//we remove o from the group
+				o.group.get(1).group.remove(0);
 			}
-			if(!newTarget){
-				o.target = target;
-			}
+			//we set to o its new leader and to its leader's group the new member
+			o.leader = leader;
+			if(!o.isLeader())
+				o.group=null;
+			o.leader.group.add(o);
+			//eventually we assign the target
+			o.target = target;
 		}
 
 	}
