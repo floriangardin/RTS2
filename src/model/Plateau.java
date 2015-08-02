@@ -209,14 +209,16 @@ public class Plateau {
 		//TODO fill method behavior
 		Point point= new Point(x,y);
 		Objet target =new Checkpoint(x,y);
+		boolean newTarget = false;
 		for(ActionObjet o:this.selection.get(team)){
 			for(ActionObjet i:this.actionsObjets){
 				if(o.collisionBox.contains(point)){
 					o.target = i;
+					newTarget = true;
 					break;
 				}
 			}
-			if(o.target==null){
+			if(!newTarget){
 				o.target = target;
 			}
 		}

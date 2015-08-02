@@ -34,13 +34,14 @@ public class Game extends BasicGame
 		g.setColor(Color.white);
 		g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
-		// Draw the plateau
+		// Draw the Action Objets
 		for(ActionObjet o : actionObjets){
 			o.draw(g);
-			if (this.plateau.isSelected(o)){
-				g.setColor(Color.green);
-				g.draw(new Circle(o.getX(),o.getY(),o.collisionBox.getBoundingCircleRadius()));
-			}
+		}
+		// Draw the natural Objets
+		
+		for(NaturalObjet o : this.plateau.naturalObjets){
+			o.draw(g);
 		}
 
 		// Draw the selection :
@@ -105,7 +106,11 @@ public class Game extends BasicGame
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2);
 		Character c = new Character(plateau,0,100,100);
+		Character d = new Character(plateau, 0, 100, 150);
+		Rock r = new Rock(200,200,plateau);
+		Water w = new Water(200,250,plateau);
 		plateau.addActionsObjets(c);
+		plateau.addActionsObjets(d);
 		this.actionObjets = plateau.actionsObjets;
 		//new Ennemi(plateau,100f,100f,framerate);
 		selection = null;
