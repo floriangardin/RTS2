@@ -18,9 +18,11 @@ public class Character extends ActionObjet{
 
 	public Character(Plateau p,int team,float x, float y){
 		this.team = team;
-		this.maxVelocity = 1.0f;
+		// the maximum number of float by second
+		this.maxVelocity = 25f;
 		this.color = Color.blue;
 		this.p = p;
+		p.addActionsObjets(this);
 		this.collisionBox = new Circle(x,y,10f);
 		this.sightBox = new Circle(x,y,100f);
 		this.setXY(x, y);
@@ -51,24 +53,28 @@ public class Character extends ActionObjet{
 		accx = this.target.getX()-this.getX();
 		accy = this.target.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
-		float accNorm = accx*accx+accy+accy;
+		float accNorm = accx*accx+accy*accy;
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
-		if(accNorm<10.0f){
+		if(accNorm<1.0f){
 			//if so deleting the acceleration (for now)
 			//TODO: handle stopping
-			accx = -accx;
-			accy = -accy;
+			newvx = 0f;
+			newvy = 0f;
+		} else {
+			accx = accx*this.p.constants.ACC/(accNorm*this.p.constants.FRAMERATE);
+			accy = accy*this.p.constants.ACC/(accNorm*this.p.constants.FRAMERATE);
+			newvx = vx + accx;
+			newvy = vy + accy;
 		}
-		accx = accx*this.p.constants.ACC/accNorm;
-		accy = accy*this.p.constants.ACC/accNorm;
-		newvx = vx + accx*this.p.constants.FRAMERATE;
-		newvy = vy + accy*this.p.constants.FRAMERATE;
+		float maxVNorm = this.maxVelocity/(float)this.p.constants.FRAMERATE;
 		float vNorm = newvx*newvx+newvy*newvy;
-		if(vNorm>maxVelocity*maxVelocity){
+		if(vNorm>0.1f)
+			System.out.println(vNorm+" "+maxVNorm);
+		if(vNorm>maxVNorm*maxVNorm){
 			//if the velocity is too large it is reduced to the maxVelocity value
-			newvx = newvx*maxVelocity/vNorm;
-			newvy = newvy*maxVelocity/vNorm;
+			newvx = newvx*maxVNorm/vNorm;
+			newvy = newvy*maxVNorm/vNorm;
 		} else if(vNorm<1.0f && newvx*accx+newvy*accy<0f){
 			//if the velocity is small and the acceleration against it
 			//the point needs to be stopped
@@ -76,8 +82,8 @@ public class Character extends ActionObjet{
 			newvy = 0f;
 		}
 		float newX,newY;
-		newX = this.getX()+newvx*this.p.constants.FRAMERATE;
-		newY = this.getY()+newvy*this.p.constants.FRAMERATE;
+		newX = this.getX()+newvx;
+		newY = this.getY()+newvy;
 		//if the new coordinates are beyond the map's limits, it must be reassigned
 		if(newX<this.collisionBox.getBoundingCircleRadius()){
 			newX = this.collisionBox.getBoundingCircleRadius();
@@ -158,7 +164,7 @@ public class Character extends ActionObjet{
 		g.setColor(Color.green);
 		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
 	}
-	
+
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {
 		/*On considère pour l'instant que nos natural objets sont carrés
@@ -199,18 +205,18 @@ public class Character extends ActionObjet{
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
 		case 1: newX = o.collisionBox.getMaxX()+this.collisionBox.getBoundingCircleRadius();
-				break;
+		break;
 		case 2:	newY = o.collisionBox.getMinY()-this.collisionBox.getBoundingCircleRadius();
-				break;
+		break;
 		case 3: newX = o.collisionBox.getMinX()-this.collisionBox.getBoundingCircleRadius();
-				break;
+		break;
 		case 4: newY = o.collisionBox.getMaxY()+this.collisionBox.getBoundingCircleRadius();
-				break;
+		break;
 		default:
 		}
-		
+
 		this.setXY(newX, newY);
-		
+
 	}
 
 
