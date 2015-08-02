@@ -31,6 +31,10 @@ abstract class ActionObjet:
 #void move(float x, float y)
 	//make the character move toward the objective coordinates
 	=> none
+# void collision(ActionObjet o)
+// Collision here is now only active ( I tell you to do this ...)
+# void collision(NaturalObjet o)
+// Collision here is passive 
 
 abstract class Character extends ActionObjet:
 @Circle sightBox

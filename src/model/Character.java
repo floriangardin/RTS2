@@ -105,7 +105,7 @@ public class Character extends ActionObjet{
 	
 	public Graphics draw(Graphics g){
 		g.setColor(this.color);
-		g.draw(collisionBox);
+		g.fill(collisionBox);
 		return g;
 	}
 
