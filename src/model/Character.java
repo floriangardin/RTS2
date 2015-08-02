@@ -44,6 +44,9 @@ public class Character extends ActionObjet{
 	}
 
 	public void move(){
+		if(this.target==null){
+			return;
+		}
 		float accx,accy;
 		accx = this.target.getX()-this.getX();
 		accy = this.target.getY()-this.getY();
