@@ -29,12 +29,17 @@ public class Arrow extends Bullet{
 	public void collision(Character c){
 		if(c.team!=this.owner.team){
 			// Attack if armor<damage and collision
-			if(c.getArmor().damageReductor<=this.damage){
-				target.lifePoints+=c.getArmor().damageReductor-this.damage;
+			if(c.getArmor()!=null){
+				if(c.getArmor().damageReductor<=this.damage){
+					c.lifePoints+=c.getArmor().damageReductor-this.damage;
+				}
 			}
-		this.lifePoints=-1f;
+			else{
+				c.lifePoints-=this.damage;
+			}
+			this.lifePoints=-1f;
 		}
-		
+
 	}
 
 
