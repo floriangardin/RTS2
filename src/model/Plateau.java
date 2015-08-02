@@ -310,9 +310,30 @@ public class Plateau {
 		}
 		Character leader = null;
 		for(Character o:this.selection.get(team)){
-			if(leader==null)
+			if(leader==null){
 				leader=o;
-			//first we remove the character o from its elder group
+				o.group = new Vector<Character>();
+				o.group.add(o);
+			}
+			//first we deal with the o's elder group
+			//if o was the leader and there were other members in the group
+			if(o.isLeader() && o.group.size()>1){
+				//we set the group of the new leader
+				o.group.get(1).group = o.group;
+				//we set the new leader amongst the member of the group
+				for(Character o1: o.group){
+					o1.leader = o.group.get(1);
+				}
+				//we remove o from the group
+				o.group.get(1).group.remove(0);
+			}
+			//we set to o its new leader and to its leader's group the new member
+			o.leader = leader;
+			if(!o.isLeader())
+				o.group=null;
+			o.leader.group.add(o);
+			//eventually we assign the target
+			o.target = target;
 		}
 
 	}
