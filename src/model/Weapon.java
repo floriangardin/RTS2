@@ -1,9 +1,10 @@
 package model;
 
 public abstract class Weapon extends ActionObjet {
-	protected float frequency;
+	protected float state;
+	protected float chargeTime;
 	protected float weight;
-	private Character owner;
+	protected Character owner;
 	
 	public void setOwner(Character owner){
 		this.owner = owner;

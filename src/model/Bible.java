@@ -5,8 +5,9 @@ import org.newdawn.slick.geom.Circle;
 public class Bible extends ContactWeapon{
 
 	public Bible(Character owner){
+		this.state = 0f;
 		this.damage = -10f;
-		this.frequency = 10f;
+		this.chargeTime = 10f;
 		this.lifePoints = 1f;
 		this.setOwner(owner);
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius());
