@@ -44,6 +44,9 @@ public class Bow extends RangeWeapon{
 
 			if(target.collisionBox.intersects(circle)){
 				new Arrow(this.p,this.owner);
+				if(target.target==null){
+					target.target=this.owner;
+				}
 				this.state = 0f;
 			}
 		}

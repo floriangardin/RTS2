@@ -12,7 +12,12 @@ public abstract class ActionObjet extends Objet{
 	protected Objet target;
 
 
-
+	protected void destroy(){
+		this.lifePoints = -10;
+		this.target = null;
+		this.x = -10f;
+		this.y = -10f;
+	}
 	public void action(){
 
 

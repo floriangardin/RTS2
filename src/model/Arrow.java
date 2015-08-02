@@ -47,5 +47,6 @@ public class Arrow extends Bullet{
 	}
 	public void action(){
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
+		
 	}
 }

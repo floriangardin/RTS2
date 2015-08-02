@@ -26,6 +26,9 @@ public abstract class Objet {
 	}
 	protected void destroy(){
 		this.lifePoints = -10;
+		
+		this.x = -10f;
+		this.y = -10f;
 	}
 	public Graphics draw(Graphics g){
 		return g;}

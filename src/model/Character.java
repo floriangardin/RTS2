@@ -217,6 +217,9 @@ public class Character extends ActionObjet{
 			if(this.target!=null && !this.target.collisionBox.intersects(this.weapon.collisionBox)){
 				move();
 			}
+			else{
+				this.stop();
+			}
 		}
 
 	}

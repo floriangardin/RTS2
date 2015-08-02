@@ -153,6 +153,7 @@ public class Plateau {
 		// Remove objets from lists
 		for(Character o: toRemoveCharacters){
 			characters.remove(o);
+			o.destroy();
 		}
 		for(Character o: toAddCharacters){
 			characters.addElement(o);
@@ -337,6 +338,7 @@ public class Plateau {
 	public void action(){
 		for(Character o: this.characters){
 			//TODO : Leader handling leader stuff
+			
 			o.action();
 		}
 		for(ActionObjet o: this.equipments){

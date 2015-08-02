@@ -110,24 +110,20 @@ public class Game extends BasicGame
 	public void init(GameContainer gc) throws SlickException 
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2);
-		for(int i=0;i<10;i++){
-			new Character(plateau,0,100+20*i,100);
-			
-		}
+
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
-				new Character(plateau,1,450+10*j,100+10*j);
+				new Character(plateau,0,100+10*i,100+10*j);
+				new Character(plateau,1,450+10*i,100+10*j);
 			}
 			
 		}
-		plateau.toAddCharacters.get(0).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(0)));
-		plateau.toAddCharacters.get(1).collectArmor(new MediumArmor(0f, 0f, plateau, plateau.toAddCharacters.get(1)));
-		plateau.toAddCharacters.get(2).collectArmor(new HeavyArmor(0f, 0f, plateau, plateau.toAddCharacters.get(2)));
-		plateau.toAddCharacters.get(0).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(0))); 
-		plateau.toAddCharacters.get(1).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(1)));
-		plateau.toAddCharacters.get(2).collectWeapon(new Balista(plateau,plateau.toAddCharacters.get(2))); 
-		Rock r = new Rock(200,200,plateau);
-		Water w = new Water(200,250,plateau);
+		for(int i=0;i<200;i++){
+			plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
+			plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
+		}
+		//Rock r = new Rock(200,200,plateau);
+		//Water w = new Water(200,250,plateau);
 		//new Ennemi(plateau,100f,100f,framerate);
 		selection = null;
 	}
