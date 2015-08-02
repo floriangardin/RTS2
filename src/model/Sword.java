@@ -5,7 +5,9 @@ import org.newdawn.slick.geom.Circle;
 public class Sword extends ContactWeapon {
 	
 	
-	public Sword(Character owner){
+	public Sword(Plateau p ,Character owner){
+		this.p = p;
+		p.addWeaponObjets(this);
 		this.state = 0f;
 		this.damage = 10f;
 		this.chargeTime = 10f;

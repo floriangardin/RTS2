@@ -4,8 +4,9 @@ import org.newdawn.slick.geom.Circle;
 
 public class Balista extends RangeWeapon{
 
-	public Balista(Character owner){
-		
+	public Balista(Plateau p ,Character owner){
+		this.p = p;
+		p.addWeaponObjets(this);
 		this.range = 100;
 		this.chargeTime = 10f;
 		this.setOwner(owner);

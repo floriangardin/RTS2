@@ -9,6 +9,7 @@ public class Arrow extends Bullet{
 
 	public Arrow(Plateau p,Character owner){
 		this.p = p;
+		p.addBulletObjets(this);
 		this.damage = 10f;
 		this.lifePoints = 1f;
 		this.owner = owner;

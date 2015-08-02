@@ -7,6 +7,8 @@ public class Bolt extends Bullet {
 	
 	public Bolt(Plateau p,Character owner){
 		this.p = p;
+		p.addBulletObjets(this);
+		this.p = p;
 		this.damage = 10f;
 		this.lifePoints = 1f;
 		this.owner = owner;

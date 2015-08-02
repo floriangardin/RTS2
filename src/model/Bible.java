@@ -4,7 +4,9 @@ import org.newdawn.slick.geom.Circle;
 
 public class Bible extends ContactWeapon{
 
-	public Bible(Character owner){
+	public Bible(Plateau p, Character owner){
+		this.p = p;
+		p.addWeaponObjets(this);
 		this.state = 0f;
 		this.damage = -10f;
 		this.chargeTime = 10f;

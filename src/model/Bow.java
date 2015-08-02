@@ -4,7 +4,9 @@ import org.newdawn.slick.geom.Circle;
 
 public class Bow extends RangeWeapon{
 	
-	public Bow(Character owner){
+	public Bow(Plateau p,Character owner){
+		this.p = p;
+		p.addWeaponObjets(this);
 		this.state = 0f;
 		this.range = 100;
 		this.setOwner(owner);
