@@ -153,11 +153,11 @@ public class Character extends ActionObjet{
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
 	}
-<<<<<<< HEAD
+
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
-=======
+	}
 	
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {
@@ -211,8 +211,6 @@ public class Character extends ActionObjet{
 		
 		this.setXY(newX, newY);
 		
-		
->>>>>>> 8379ad4bbd7a59255f981ffeaf233154b9da871a
 	}
 
 
