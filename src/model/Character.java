@@ -10,23 +10,23 @@ public class Character extends ActionObjet{
 
 	// General attributes
 	protected Circle sightBox;
-	
+
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
 	protected boolean someoneStopped;
-	
+
 	// Equipment attributes
 	protected Armor armor;
 	protected RidableObjet horse;
 	protected Weapon weapon;
-	
+
 	// About velocity
 	protected float maxVelocity; 	//current maximum
 	protected float weight = 0;			//weapon and armor coefficient
 	protected float horseVelocity = 0; 	//horse coefficient
-	
-	
+
+
 	public Character(Plateau p,int team,float x, float y){
 		this.someoneStopped= false;
 		this.team = team;
@@ -43,7 +43,7 @@ public class Character extends ActionObjet{
 		this.lifePoints= 10;
 
 	}
-	
+
 	// Getters
 	private Vector<ActionObjet> getEnnemies(){
 		//TODO:
@@ -59,17 +59,17 @@ public class Character extends ActionObjet{
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	public float getWeight(){
 		return this.weight;
 	}
-	
-	
+
+
 	public void stop(){
 		if(this.target instanceof Checkpoint){
 			this.target = null;
@@ -81,22 +81,28 @@ public class Character extends ActionObjet{
 		}
 	}
 
-	
+
 	//// WEAPONS
-	
-	
+
+
 	//Drop functions
 	public void dropWeapon(){
-		this.weapon.setOwner(null);
-		this.setWeapon(null);
+		if(this.weapon != null){
+			this.weapon.setOwner(null);
+			this.setWeapon(null);
+		}
 	}
 	public void dropArmor(){
-		this.armor.setOwner(null);
-		this.setArmor(null);
+		if(this.armor!=null){
+			this.armor.setOwner(null);
+			this.setArmor(null);
+		}
 	}
 	public void dropHorse(){
-		this.horse.setOwner(null);
-		this.setHorse(null);
+		if(this.horse!=null){
+			this.horse.setOwner(null);
+			this.setHorse(null);
+		}
 	}
 	//Collect functions
 	public void collectWeapon(Weapon weapon){
@@ -157,10 +163,11 @@ public class Character extends ActionObjet{
 		v = v/(1f+weight);
 		this.maxVelocity = v;
 	}
-	
-	
+
+
 	//// ACTION METHODS
-	
+
+
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
@@ -177,7 +184,16 @@ public class Character extends ActionObjet{
 			this.target = new Checkpoint(target.getX(),target.getY());
 			this.stop();
 		}
-		move();
+		if(this.weapon==null){
+			// If the character has no weapon it always goes toward the target
+			move();
+		} else{
+			// If the character has a weapon it goes toward the target till it is at range
+			if(!this.target.collisionBox.intersects(this.weapon.collisionBox)){
+				move();
+			}
+		}
+
 	}
 	// Movement method
 	// the character move toward its target
@@ -242,10 +258,10 @@ public class Character extends ActionObjet{
 		this.setXY(newX, newY);
 	}
 
-	
+
 	//// GRAPHISMS
-	
-	
+
+
 	public Graphics draw(Graphics g){
 		g.setColor(this.color);
 		g.fill(collisionBox);
@@ -255,11 +271,11 @@ public class Character extends ActionObjet{
 		g.setColor(Color.green);
 		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
 	}	
-	
-	
+
+
 	//// AUXILIARY FUNCTIONS
-	
-	
+
+
 	// Collision with other ActionObjets
 	public void collision(ActionObjet o) {
 		// If collision test who have the highest velocity

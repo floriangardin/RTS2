@@ -112,7 +112,10 @@ public class Game extends BasicGame
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2);
 		for(int i=0;i<10;i++)
-		new Character(plateau,0,100+20*i,100);
+			new Character(plateau,0,100+20*i,100);
+		new Character(plateau,1,450,450);
+		plateau.characters.get(0).collectArmor(new LightArmor(0f, 0f, plateau, null));
+		plateau.characters.get(0).collectWeapon(new Sword(plateau,null));
 		
 		Rock r = new Rock(200,200,plateau);
 		Water w = new Water(200,250,plateau);
