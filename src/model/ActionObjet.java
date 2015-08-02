@@ -9,7 +9,7 @@ public abstract class ActionObjet extends Objet{
 	protected Objet target;
 
 
-public void action(Objet target){
+public void action(){
 	
 	
 }
