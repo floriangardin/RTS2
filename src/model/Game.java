@@ -105,7 +105,9 @@ public class Game extends BasicGame
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2);
 		Character c = new Character(plateau,0,100,100);
+		Character d = new Character(plateau, 0, 100, 150);
 		plateau.addActionsObjets(c);
+		plateau.addActionsObjets(d);
 		this.actionObjets = plateau.actionsObjets;
 		//new Ennemi(plateau,100f,100f,framerate);
 		selection = null;
