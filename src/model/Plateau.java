@@ -288,8 +288,6 @@ public class Plateau {
 		for(Character o:this.selection.get(team)){
 			if(leader==null){
 				leader=o;
-				o.group = new Vector<Character>();
-				o.group.add(o);
 			}
 			//first we deal with the o's elder group
 			//if o was the leader and there were other members in the group
@@ -302,6 +300,10 @@ public class Plateau {
 				}
 				//we remove o from the group
 				o.group.get(1).group.remove(0);
+			}
+			if(leader==o){
+				o.group = new Vector<Character>();
+				o.group.add(o);
 			}
 			//we set to o its new leader and to its leader's group the new member
 			o.leader = leader;
