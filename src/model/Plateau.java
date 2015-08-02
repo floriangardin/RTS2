@@ -249,7 +249,7 @@ public class Plateau {
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o.team!=0 && o.team!=caller.team && o.collisionBox.intersects(caller.sightBox)){
+			if(o.team!=caller.team && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
