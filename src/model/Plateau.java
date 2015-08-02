@@ -12,11 +12,22 @@ public class Plateau {
 	protected float maxX ;
 	protected float maxY ;
 
+	// ADD ALL OBJETS 
+	protected Vector<Character> characters;
+	protected Vector<Character> toAddCharacters;
+	protected Vector<Character> toRemoveCharacters;
 
-	protected Vector<ActionObjet> actionsObjets;
+	protected Vector<Weapon> weapons;
+	protected Vector<Weapon> toAddWeapons;
+	protected Vector<Weapon> toRemoveWeapons;
+
+	protected Vector<Bullet> bullets;
+	protected Vector<Bullet> toAddBullets;
+	protected Vector<Bullet> toRemoveBullets;
+
+
+
 	protected Vector<NaturalObjet> naturalObjets ;
-	protected Vector<ActionObjet> toAddActionsObjets;
-	protected Vector<ActionObjet> toRemoveActionsObjets;
 	protected Vector<NaturalObjet> toAddNaturalObjets;
 	protected Vector<NaturalObjet> toRemoveNaturalObjets;
 	// Vector of vector of vector of vector * 10^12
@@ -27,34 +38,61 @@ public class Plateau {
 	//TODO : make actionsObjets and everything else private 
 
 	public Plateau(Constants constants,float maxX,float maxY,int nTeams){
+		//GENERAL
 		this.constants = constants;
 		this.nTeams = nTeams;
-		this.actionsObjets = new Vector<ActionObjet>();
-		this.toAddActionsObjets = new Vector<ActionObjet>();
-		this.toRemoveActionsObjets= new Vector<ActionObjet>();
+		this.maxX= maxX;
+		this.maxY = maxY;
+		//CHARACTERS
+		this.characters = new Vector<Character>();
+		this.toAddCharacters = new Vector<Character>();
+		this.toRemoveCharacters = new Vector<Character>();
+		//WEAPONS
+		this.weapons = new Vector<Weapon>();
+		this.toAddWeapons = new Vector<Weapon>();
+		this.toRemoveWeapons = new Vector<Weapon>();
+		//WEAPONS
+		this.bullets = new Vector<Bullet>();
+		this.toAddBullets = new Vector<Bullet>();
+		this.toRemoveBullets= new Vector<Bullet>();
+		//NATURALOBJETS
+		this.naturalObjets = new Vector<NaturalObjet>();
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets= new Vector<NaturalObjet>();
+		//SELECTION
 		this.selection = new Vector<Vector<Character>>();
 		this.toAddSelection = new Vector<Vector<Character>>();
 		this.toRemoveSelection = new Vector<Vector<Character>>();
-		this.naturalObjets = new Vector<NaturalObjet>();
 		for(int i =0; i<nTeams;i++){
 			this.selection.addElement(new Vector<Character>());
 			this.toAddSelection.addElement(new Vector<Character>());
 			this.toRemoveSelection.addElement(new Vector<Character>());
 		}
 
-		this.maxX= maxX;
-		this.maxY = maxY;
 	}
 
-	public void addActionsObjets(ActionObjet o){
-		toAddActionsObjets.addElement(o);
+	public void addCharacterObjets(Character o){
+		toAddCharacters.addElement(o);
 	}
 
-	private void removeActionsObjets(ActionObjet o){
-		toRemoveActionsObjets.addElement(o);
+	private void removeCharacter(Character o){
+		toRemoveCharacters.addElement(o);
 	}
+	public void addWeaponObjets(Weapon o){
+		toAddWeapons.addElement(o);
+	}
+
+	private void removeWeapon(Weapon o){
+		toRemoveWeapons.addElement(o);
+	}
+	public void addBulletObjets(Bullet o){
+		toAddBullets.addElement(o);
+	}
+
+	private void removeBullet(Bullet o){
+		toRemoveBullets.addElement(o);
+	}
+
 	public void addNaturalObjets(NaturalObjet o){
 		toAddNaturalObjets.addElement(o);
 	}
@@ -78,9 +116,24 @@ public class Plateau {
 	public void clean(){
 		// Clean the buffers and handle die
 		// Remove and add considering alive 
-		for(ActionObjet o : actionsObjets){
+		for(Character o : characters){
 			if(!o.isAlive()){
-				this.removeActionsObjets(o);
+				this.removeCharacter(o);
+			}
+		}
+		for(Weapon o : weapons){
+			if(!o.isAlive()){
+				this.removeWeapon(o);
+			}
+		}
+		for(Bullet o : bullets){
+			if(!o.isAlive()){
+				this.removeBullet(o);
+			}
+		}
+		for(Character o : characters){
+			if(!o.isAlive()){
+				this.removeCharacter(o);
 			}
 		}
 		for(NaturalObjet o : naturalObjets){
@@ -98,11 +151,23 @@ public class Plateau {
 			}
 		}
 		// Remove objets from lists
-		for(ActionObjet o: toRemoveActionsObjets){
-			actionsObjets.remove(o);
+		for(Character o: toRemoveCharacters){
+			characters.remove(o);
 		}
-		for(ActionObjet o: toAddActionsObjets){
-			actionsObjets.addElement(o);
+		for(Character o: toAddCharacters){
+			characters.addElement(o);
+		}
+		for(Weapon o: toRemoveWeapons){
+			weapons.remove(o);
+		}
+		for(Weapon o: toAddWeapons){
+			weapons.addElement(o);
+		}
+		for(Bullet o: toRemoveBullets){
+			bullets.remove(o);
+		}
+		for(Bullet o: toAddBullets){
+			bullets.addElement(o);
 		}
 		for(NaturalObjet o: toRemoveNaturalObjets){
 			naturalObjets.remove(o);
@@ -116,9 +181,15 @@ public class Plateau {
 			toAddSelection.get(i).clear();
 			toRemoveSelection.get(i).clear();
 		}
-		toRemoveActionsObjets.clear();
-		toAddActionsObjets.clear();
 
+		toRemoveCharacters.clear();
+		toRemoveWeapons.clear();
+		toRemoveBullets.clear();
+		toRemoveNaturalObjets.clear();
+		toAddCharacters.clear();
+		toAddWeapons.clear();
+		toAddBullets.clear();
+		toAddNaturalObjets.clear();
 	}
 
 	public float getMaxX(){
@@ -132,22 +203,39 @@ public class Plateau {
 
 	public void collision(){
 
-		for(ActionObjet o : actionsObjets){
+		for(Character o : characters){
 			// Handle collision between actionObjets and action objets
-			for(ActionObjet i:actionsObjets){
+			for(Character i:characters){
 				if(i.collisionBox.intersects(o.collisionBox) && i!=o){
+
 					i.collision(o);
 					o.collision(i);
 				}
 			}
-			// between actionObjets and 
+			// between Characters and Natural objets
 			for(NaturalObjet i: naturalObjets){
 				if(i.collisionBox.intersects(o.collisionBox)){
-					if( o instanceof Character){
-						((Character)o).collision(i);
-					}					
+					o.collision(i);
 				}
-			}	
+			}
+			// Between Characters and bullets
+			for(Bullet i: bullets){
+				if(i.collisionBox.intersects(o.collisionBox)){
+					i.collision(o);
+				}
+			}
+			// Between characters and weapons
+			for(Weapon i:weapons){
+				if(i.collisionBox.intersects(o.collisionBox)){
+					i.collision(o);
+				}
+			}
+		}
+		// Between bullets and natural objets
+		for(Bullet b : bullets){
+			for(NaturalObjet n: naturalObjets){
+				b.collision(n);
+			}
 		}
 	}
 
@@ -164,10 +252,10 @@ public class Plateau {
 	}
 	//TODO gné
 	private void selection(Rectangle select, int team) {
-		for(ActionObjet o: this.actionsObjets){
-			if(o instanceof Character && o.collisionBox.intersects(select) && o.team==team ){
+		for(Character o: characters){
+			if(o.collisionBox.intersects(select) && o.team==team ){
 				//add character to team selection
-				this.addSelection((Character)o, team);
+				this.addSelection(o, team);
 			}
 		}
 	}
@@ -175,7 +263,7 @@ public class Plateau {
 
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
-		for(ActionObjet o : this.actionsObjets){
+		for(Character o : characters){
 			if(o.team!=0 && o.team!=caller.team && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
@@ -184,24 +272,16 @@ public class Plateau {
 	}
 
 	public Vector<Objet> getRessourcesInSight(Character caller){
-		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
-		for(ActionObjet o : this.actionsObjets){
-			if(o.team==0 && o.collisionBox.intersects(caller.sightBox)){
-				ennemies_in_sight.add(o);
+		Vector<Objet> ressources_in_sight = new Vector<Objet>();
+		for(NaturalObjet o : naturalObjets){
+			if(o.collisionBox.intersects(caller.sightBox)){
+				ressources_in_sight.add(o);
 			}
 		}
-		return ennemies_in_sight;
+		return ressources_in_sight;
 	}
 
-	public Vector<Objet> getAllInSight(Character caller){
-		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
-		for(Objet o : this.actionsObjets){
-			if(o.collisionBox.intersects(caller.sightBox)){
-				ennemies_in_sight.add(o);
-			}
-		}
-		return ennemies_in_sight;
-	}
+
 
 	public void updateTarget(float x, float y, int team){
 		System.out.println("updateTarget");
@@ -209,12 +289,21 @@ public class Plateau {
 		Point point= new Point(x,y);
 		Objet target =new Checkpoint(x,y);
 		boolean newTarget = false;
-		for(ActionObjet o:this.selection.get(team)){
-			for(ActionObjet i:this.actionsObjets){
+		for(Character o:this.selection.get(team)){
+			for(Character i:this.characters){
 				if(o.collisionBox.contains(point)){
 					o.target = i;
 					newTarget = true;
 					break;
+				}
+			}
+			if(!newTarget){
+				for(NaturalObjet i: naturalObjets){
+					if(o.collisionBox.contains(point)){
+						o.target = i;
+						newTarget = true;
+						break;
+					}
 				}
 			}
 			if(!newTarget){
@@ -225,7 +314,15 @@ public class Plateau {
 	}
 	public void action(){
 
-		for(ActionObjet o: this.actionsObjets){
+		for(Character o: this.characters){
+			//TODO : Leader handling leader stuff
+			o.action();
+		}
+		for(Weapon o: this.weapons){
+			//TODO : Leader handling leader stuff
+			o.action();
+		}
+		for(Bullet o: bullets){
 			//TODO : Leader handling leader stuff
 			o.action();
 		}

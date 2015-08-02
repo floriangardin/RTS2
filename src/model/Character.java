@@ -22,7 +22,7 @@ public class Character extends ActionObjet{
 		this.maxVelocity = 500f;
 		this.color = Color.blue;
 		this.p = p;
-		p.addActionsObjets(this);
+		p.addCharacterObjets(this);;
 		this.collisionBox = new Circle(x,y,10f);
 		this.sightBox = new Circle(x,y,100f);
 		this.setXY(x, y);

@@ -35,7 +35,13 @@ public class Game extends BasicGame
 		g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 		// Draw the Action Objets
-		for(ActionObjet o : actionObjets){
+		for(Character o : plateau.characters){
+			o.draw(g);
+		}
+		for(Weapon o : plateau.weapons){
+			o.draw(g);
+		}
+		for(Bullet o : plateau.bullets){
 			o.draw(g);
 		}
 		// Draw the natural Objets
@@ -109,9 +115,6 @@ public class Game extends BasicGame
 		Character d = new Character(plateau, 0, 100, 150);
 		Rock r = new Rock(200,200,plateau);
 		Water w = new Water(200,250,plateau);
-		plateau.addActionsObjets(c);
-		plateau.addActionsObjets(d);
-		this.actionObjets = plateau.actionsObjets;
 		//new Ennemi(plateau,100f,100f,framerate);
 		selection = null;
 	}
