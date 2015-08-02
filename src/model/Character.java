@@ -59,6 +59,7 @@ public class Character extends ActionObjet{
 		if(this.isLeader()){
 			// Tell to others in group to stop
 			for(Character c: this.group){
+				if(this!=this.leader)
 				c.stop();
 			}
 		this.group = null ;
