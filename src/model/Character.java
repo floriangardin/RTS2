@@ -35,13 +35,31 @@ public class Character extends ActionObjet{
 		this.lifePoints= 10;
 
 	}
+	
+	// Getters
 	private Vector<ActionObjet> getEnnemies(){
+		//TODO:
 		return null;
 	}
 	private Vector<Objet> getObjets(){
+		//TODO:
 		return null;
 	}
+	public boolean isLeader(){
+		return this.leader==this;
+	}
+	public boolean isMobile(){
+		return vx*vx+vy*vy>0.01f;
+	}
+	
+	
+	
+	
+	
+	
 
+	
+	
 	public void stop(){
 		if(this.target instanceof Checkpoint){
 			this.target = null;
@@ -52,9 +70,47 @@ public class Character extends ActionObjet{
 			this.leader.someoneStopped=true;
 		}
 	}
-	public boolean isLeader(){
-		return this.leader==this;
+
+	
+	// WEAPONS
+	public void dropWeapon(){
+		this.weapon.setOwner(null);
+		this.weapon = null;
+		
 	}
+	
+
+	public void collectWeapon(Weapon weapon){
+		this.weapon = weapon;
+		weapon.setOwner(this);
+	}
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+	}
+
+	public Armor getArmor() {
+		return armor;
+	}
+
+	public void setArmor(Armor armor) {
+		this.armor = armor;
+	}
+
+	public RidableObjet getHorse() {
+		return horse;
+	}
+
+	public void setHorse(RidableObjet horse) {
+		this.horse = horse;
+	}
+
+	
+	// ACTION METHODS
+	
 	public void action(){
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			for(Character c : this.group){
@@ -64,15 +120,12 @@ public class Character extends ActionObjet{
 			someoneStopped = false;
 			this.group = null;
 		}
+		if(target instanceof Weapon && Utils.distance(this,target)<2f*this.collisionBox.getBoundingCircleRadius()){
+			this.collectWeapon((Weapon)target);
+			this.target = new Checkpoint(target.getX(),target.getY());
+			this.stop();
+		}
 		move();
-	}
-
-	// Weapon
-	public void dropWeapon(){
-
-	}
-	public void collectWeapon(){
-
 	}
 	public void move(){
 		// Add group behavior
@@ -137,15 +190,23 @@ public class Character extends ActionObjet{
 		this.setXY(newX, newY);
 	}
 
-	public boolean isMobile(){
-		return vx*vx+vy*vy>0.01f;
-	}
+	
 
+	//// GRAPHISMS
+	
 	public Graphics draw(Graphics g){
 		g.setColor(this.color);
 		g.fill(collisionBox);
 		return g;
 	}
+	public void drawIsSelected(Graphics g){
+		g.setColor(Color.green);
+		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
+	}	
+	
+	
+	//// AUXILIARY FUNCTIONS
+	
 	// Collision with other ActionObjets
 	public void collision(ActionObjet o) {
 		// If collision test who have the highest velocity
@@ -185,11 +246,6 @@ public class Character extends ActionObjet{
 			}
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
-	}
-
-	public void drawIsSelected(Graphics g){
-		g.setColor(Color.green);
-		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
 	}
 
 	// Collision with NaturalObjets
