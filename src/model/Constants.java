@@ -7,8 +7,8 @@ public class Constants {
 	public final int FRAMERATE;
 	
 	public Constants(int framerate){
-		this.ACC = 1f;
-		this.FROT = 1f;
+		this.ACC = 0.01f;
+		this.FROT = 4f;
 		this.FRAMERATE = framerate;
 	}
 	
