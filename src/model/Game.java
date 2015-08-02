@@ -45,7 +45,7 @@ public class Game extends BasicGame
 			o.draw(g);
 		}
 		// Draw the natural Objets
-		
+
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			o.draw(g);
 		}
@@ -59,7 +59,7 @@ public class Game extends BasicGame
 		// Draw the selection of your team 
 		for(Character o: plateau.selection.get(team)){
 			o.drawIsSelected(g);
-			
+
 		}
 	}
 
@@ -111,12 +111,20 @@ public class Game extends BasicGame
 	public void init(GameContainer gc) throws SlickException 
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2);
-		for(int i=0;i<10;i++)
+		for(int i=0;i<10;i++){
 			new Character(plateau,0,100+20*i,100);
-		new Character(plateau,1,450,450);
+			
+		}
+		for(int i=0;i<10;i++){
+			for(int j=0;j<10;j++){
+				new Character(plateau,1,450+10*j,100+10*j);
+			}
+			
+		}
 		plateau.toAddCharacters.get(0).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(0)));
 		plateau.toAddCharacters.get(0).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(0))); 
-		
+		plateau.toAddCharacters.get(1).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(1)));
+		plateau.toAddCharacters.get(2).collectWeapon(new Balista(plateau,plateau.toAddCharacters.get(2))); 
 		Rock r = new Rock(200,200,plateau);
 		Water w = new Water(200,250,plateau);
 		//new Ennemi(plateau,100f,100f,framerate);

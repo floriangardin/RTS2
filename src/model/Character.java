@@ -48,7 +48,7 @@ public class Character extends ActionObjet{
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
-		this.lifePoints= 10;
+		this.lifePoints= 20f;
 
 	}
 
@@ -289,14 +289,11 @@ public class Character extends ActionObjet{
 
 
 	// Collision with other ActionObjets
-	public void collision(ActionObjet o) {
+	public void collision(Character o) {
 		// If collision test who have the highest velocity
 		// The highest velocity continues 
 		// The lowest velocity move away ( he is pushed at the pace of the other ) 
-		if(o instanceof Bullet){
 
-		}
-		else{
 			// set the tolerance for collision:
 			//   - 0: collision is totally authorized
 			//   - 1: no collision but clipping
@@ -327,7 +324,7 @@ public class Character extends ActionObjet{
 			}
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
-	}
+	
 
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {

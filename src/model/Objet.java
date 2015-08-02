@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -22,7 +23,7 @@ public abstract class Objet {
 	public Graphics draw(Graphics g){
 		return g;}
 	protected void collision(Objet o){}
-
+	public void collision(Character c){}
 	protected float getX(){
 		return x;
 	}

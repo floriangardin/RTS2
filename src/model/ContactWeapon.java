@@ -4,6 +4,7 @@ public class ContactWeapon extends Weapon {
 	protected float damage;
 
 	public void action(){
+		
 		// Test if owner 
 		if(this.owner==null){
 			return;
@@ -16,6 +17,7 @@ public class ContactWeapon extends Weapon {
 	}
 
 	public void collision(Character c){
+		
 		if(c.team!=this.owner.team && this.state>this.chargeTime){
 			//Attack !
 			if(c.getArmor()!=null && c.getArmor().damageReductor<this.damage){

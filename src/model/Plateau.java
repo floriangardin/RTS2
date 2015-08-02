@@ -196,7 +196,6 @@ public class Plateau {
 			// Handle collision between actionObjets and action objects
 			for(Character i:characters){
 				if(i.collisionBox.intersects(o.collisionBox) && i!=o){
-
 					i.collision(o);
 					o.collision(i);
 				}
@@ -215,7 +214,9 @@ public class Plateau {
 			}
 			// Between characters and weapons
 			for(ActionObjet i:equipments){
+				
 				if(i.collisionBox.intersects(o.collisionBox)){
+					
 					i.collision(o);
 				}
 			}

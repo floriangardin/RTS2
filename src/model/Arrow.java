@@ -1,8 +1,7 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 public class Arrow extends Bullet{
@@ -13,14 +12,14 @@ public class Arrow extends Bullet{
 		this.damage = 10f;
 		this.lifePoints = 1f;
 		this.owner = owner;
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius());
+		this.collisionBox = new Circle(owner.getX(),owner.getY(),2f);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = this.owner.target.getX()-this.owner.getX();
 		this.vy = this.owner.target.getY()-this.owner.getY();
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
-		float Vmax = 10f;
+		float Vmax = 300f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 
@@ -41,6 +40,12 @@ public class Arrow extends Bullet{
 		}
 
 	}
-
-
+	public Graphics draw(Graphics g){
+		g.setColor(Color.black);
+		g.fill(this.collisionBox);
+		return g;
+	}
+	public void action(){
+		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
+	}
 }
