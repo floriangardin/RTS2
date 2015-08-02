@@ -69,14 +69,14 @@ public class Character extends ActionObjet{
 
 	// Weapon
 	public void dropWeapon(){
-		
+
 	}
 	public void collectWeapon(){
-		
+
 	}
 	public void move(){
 		// Add group behavior
-		
+
 		if(this.target==null){
 			return;
 		}
@@ -187,7 +187,7 @@ public class Character extends ActionObjet{
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
 	}
-	
+
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
@@ -242,8 +242,45 @@ public class Character extends ActionObjet{
 		break;
 		default:
 		}
+		float x0,y0,x1,y1,x2,y2;
+		x1 = this.getX();
+		y1 = this.getY();
+		x0 = x1 - this.vx;
+		y0 = y1 - this.vy;
+		x2 = newX;
+		y2 = newY;
+		float finalX=newX, finalY=newY;
+		switch(Math.floorMod(sector, 2)){
+		case 0: 
+			float ya,yb;
+			ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
+			yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
+			if ( Math.abs(ya-y2)<Math.abs(yb-y2)){
+				finalY = ya;
+				finalX = x2;
+			} else {
+				finalY = yb;
+				finalX = x2;
+			}
+			break;
+		case 1:
+			float xa,xb;
+			xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
+			xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
+			if ( Math.abs(xa-x2)<Math.abs(xb-x2)){
+				finalX = xa;
+				finalY = y2;
+			} else {
+				finalX = xb;
+				finalY = y2;
+			}
+			break;
+		default:
+		}
 
-		this.setXY(newX, newY);
+		this.vx = finalX-x0;
+		this.vy = finalY-y0;
+		this.setXY(finalX, finalY);
 
 	}
 
