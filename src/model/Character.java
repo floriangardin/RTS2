@@ -50,7 +50,6 @@ public class Character extends ActionObjet{
 		if(this.leader!=null){
 			this.leader.someoneStopped=true;
 		}
-		System.out.println("someone has stopped 2");
 	}
 	public boolean isLeader(){
 		return this.leader==this;
@@ -108,7 +107,6 @@ public class Character extends ActionObjet{
 			//if the velocity is small and the acceleration against it
 			//the point needs to be stopped
 			this.stop();
-			System.out.println("someone has stopped 1");
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		float newX,newY;
@@ -262,6 +260,8 @@ public class Character extends ActionObjet{
 				finalY = yb;
 				finalX = x2;
 			}
+			this.vx = finalX-x0;
+			this.vy = 0f;
 			break;
 		case 1:
 			float xa,xb;
@@ -274,12 +274,12 @@ public class Character extends ActionObjet{
 				finalX = xb;
 				finalY = y2;
 			}
+			this.vy = finalY-y0;
+			this.vx = 0f;
 			break;
 		default:
 		}
 
-		this.vx = finalX-x0;
-		this.vy = finalY-y0;
 		this.setXY(finalX, finalY);
 
 	}
