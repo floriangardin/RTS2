@@ -32,7 +32,15 @@ public class Character extends ActionObjet{
 		this.team = team;
 		// the maximum number of float by second
 		this.maxVelocity = 250f;
-		this.color = Color.blue;
+		switch(team){
+		case 0:
+			this.color = Color.blue;
+			break;
+		case 1:
+			this.color = Color.red;
+			break;
+		default:
+		}
 		this.p = p;
 		p.addCharacterObjets(this);;
 		this.collisionBox = new Circle(x,y,10f);
