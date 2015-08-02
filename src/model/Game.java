@@ -49,6 +49,11 @@ public class Game extends BasicGame
 			g.draw(this.selection);
 
 		}
+		// Draw the selection of your team 
+		for(Character o: plateau.selection.get(team)){
+			o.drawIsSelected(g);
+			
+		}
 	}
 
 	// Do our logic 
@@ -85,10 +90,14 @@ public class Game extends BasicGame
 			// We update selection when left click is released
 			selection = null;
 		}
-		// Action for player k 
-		this.plateau.action(i.getMouseX(),i.getMouseY(),i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON));
+		// Action for player k
+		if(i.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
+			this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),this.team);
+		}
 		// Perform the collision, the creation and destruction of elements.
 		plateau.update();
+		// Perform the actions;
+		plateau.action();
 	}
 	// Init our Game objects
 	@Override

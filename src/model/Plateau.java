@@ -12,7 +12,7 @@ public class Plateau {
 	protected float maxX ;
 	protected float maxY ;
 
-	
+
 	protected Vector<ActionObjet> actionsObjets;
 	protected Vector<NaturalObjet> naturalObjets ;
 	protected Vector<ActionObjet> toAddActionsObjets;
@@ -25,7 +25,7 @@ public class Plateau {
 	protected Vector<Vector<Character>> toRemoveSelection ;
 	protected Constants constants;
 	//TODO : make actionsObjets and everything else private 
-	
+
 	public Plateau(Constants constants,float maxX,float maxY,int nTeams){
 		this.constants = constants;
 		this.nTeams = nTeams;
@@ -43,7 +43,7 @@ public class Plateau {
 			this.toAddSelection.addElement(new Vector<Character>());
 			this.toRemoveSelection.addElement(new Vector<Character>());
 		}
-		
+
 		this.maxX= maxX;
 		this.maxY = maxY;
 	}
@@ -131,7 +131,7 @@ public class Plateau {
 
 
 	public void collision(){
-		
+
 		for(ActionObjet o : actionsObjets){
 			// Handle collision between actionObjets and action objets
 			for(ActionObjet i:actionsObjets){
@@ -148,7 +148,7 @@ public class Plateau {
 			}	
 		}
 	}
-	
+
 	public void updateSelection(Rectangle select,int team){
 		if(select!=null){
 			this.clearSelection(team);
@@ -203,32 +203,29 @@ public class Plateau {
 		}
 		return ennemies_in_sight;
 	}
-	
-	public void updateTarget(float x, float y){
+
+	public void updateTarget(float x, float y, int team){
+		System.out.println("updateTarget");
 		//TODO fill method behavior
-		
-	}
-	public void action(float x, float y,boolean new_objective){
-		// Action should be called for all the players
-		// Method is called whenever there is a right click
-		// Get every object in the selection point :
-		// Return every units in the sight range
 		Point point= new Point(x,y);
 		Objet target =new Checkpoint(x,y);
-		// If new objective update the target list
-		if(new_objective){
-			for(Objet o:this.actionsObjets){
+		for(ActionObjet o:this.selection.get(team)){
+			for(ActionObjet i:this.actionsObjets){
 				if(o.collisionBox.contains(point)){
-					target = o;
+					o.target = i;
 					break;
 				}
 			}
-
+			if(o.target==null){
+				o.target = target;
+			}
 		}
-		// Apply actions for all the  objects, different behaviour considering selection or not
+
+	}
+	public void action(){
+
 		for(ActionObjet o: this.actionsObjets){
 			//TODO : Leader handling leader stuff
-			System.out.println(o);
 			o.action();
 		}
 

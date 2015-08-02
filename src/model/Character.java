@@ -152,7 +152,10 @@ public class Character extends ActionObjet{
 			//this.move(this.vx+this.x,this.vy+this.y );
 		}
 	}
-
+	public void drawIsSelected(Graphics g){
+		g.setColor(Color.green);
+		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
+	}
 
 
 }
