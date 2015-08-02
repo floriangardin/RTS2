@@ -16,8 +16,10 @@ public class Character extends ActionObjet{
 	protected Armor armor;
 	protected RidableObjet horse;
 	protected float maxVelocity;
+	protected boolean someoneStopped;
 
 	public Character(Plateau p,int team,float x, float y){
+		this.someoneStopped= false;
 		this.team = team;
 		// the maximum number of float by second
 		this.maxVelocity = 250f;
@@ -45,26 +47,26 @@ public class Character extends ActionObjet{
 		}
 		this.vx = 0f;
 		this.vy = 0f;
-		this.leader.someoneStopped();
+		if(this.leader!=null){
+			this.leader.someoneStopped=true;
+		}
 		this.leader = null;
+		this.group = null;
 	}
 	public boolean isLeader(){
 		return this.leader==this;
 	}
 	public void action(){
-		move();
-	}
-	
-	public void someoneStopped(){
-		if(this.isLeader()){
-			// Tell to others in group to stop
-			for(Character c: this.group){
-				if(this!=this.leader)
+		if(someoneStopped && this.leader==this && this.group!=null){
+			for(Character c : this.group){
 				c.stop();
 			}
-		this.group = null ;
+			someoneStopped = false;
+			this.group = null;
 		}
+		move();
 	}
+
 	// Weapon
 	public void dropWeapon(){
 		
