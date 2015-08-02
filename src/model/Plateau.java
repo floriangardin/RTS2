@@ -71,41 +71,35 @@ public class Plateau {
 
 	}
 
+	// functions that handle buffers
 	public void addCharacterObjets(Character o){
 		toAddCharacters.addElement(o);
 	}
-
 	private void removeCharacter(Character o){
 		toRemoveCharacters.addElement(o);
 	}
 	public void addWeaponObjets(Weapon o){
 		toAddWeapons.addElement(o);
 	}
-
 	private void removeWeapon(Weapon o){
 		toRemoveWeapons.addElement(o);
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
 	}
-
 	private void removeBullet(Bullet o){
 		toRemoveBullets.addElement(o);
 	}
-
 	public void addNaturalObjets(NaturalObjet o){
 		toAddNaturalObjets.addElement(o);
 	}
-
 	private void removeNaturalObjets(NaturalObjet o){
 		toRemoveNaturalObjets.addElement(o);
 	}
-
 	public void addSelection(Character o,int team){
 		toAddSelection.get(team).addElement(o);
 	}
-
-	public void remove_selection(Character o, int team){
+	public void removeSelection(Character o, int team){
 		toRemoveSelection.get(team).addElement(o);
 	}
 
@@ -192,19 +186,14 @@ public class Plateau {
 		toAddNaturalObjets.clear();
 	}
 
-	public float getMaxX(){
-		return maxX;
-	}
+	//getters and setters
+	public float getMaxX(){return maxX;}
+	public float getMaxY(){return maxY;}
 
-	public float getMaxY(){
-		return maxY;
-	}
-
-
+	//general method calling collision method of the regarded objects
 	public void collision(){
-
 		for(Character o : characters){
-			// Handle collision between actionObjets and action objets
+			// Handle collision between actionObjets and action objects
 			for(Character i:characters){
 				if(i.collisionBox.intersects(o.collisionBox) && i!=o){
 
@@ -212,7 +201,7 @@ public class Plateau {
 					o.collision(i);
 				}
 			}
-			// between Characters and Natural objets
+			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
 				if(i.collisionBox.intersects(o.collisionBox)){
 					o.collision(i);
@@ -245,22 +234,10 @@ public class Plateau {
 			this.selection(select,team);
 		}
 	}
-	public void update(){
-		// Handle collision and cleaning of buffers
-		this.collision();
-		this.clean();
-	}
-	//TODO gné
-	private void selection(Rectangle select, int team) {
-		for(Character o: characters){
-			if(o.collisionBox.intersects(select) && o.team==team ){
-				//add character to team selection
-				this.addSelection(o, team);
-			}
-		}
-	}
 
-
+	
+	
+	//calling method to the environment
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
@@ -270,7 +247,6 @@ public class Plateau {
 		}
 		return ennemies_in_sight;
 	}
-
 	public Vector<Objet> getRessourcesInSight(Character caller){
 		Vector<Objet> ressources_in_sight = new Vector<Objet>();
 		for(NaturalObjet o : naturalObjets){
@@ -282,7 +258,7 @@ public class Plateau {
 	}
 
 
-
+	//handling the input
 	public void updateTarget(float x, float y, int team){
 		//called when right click on the mouse
 		Point point= new Point(x,y);
@@ -337,8 +313,19 @@ public class Plateau {
 		}
 
 	}
-	public void action(){
+	private void selection(Rectangle select, int team) {
+		//handling the selection
+		for(Character o: characters){
+			if(o.collisionBox.intersects(select) && o.team==team ){
+				//add character to team selection
+				this.addSelection(o, team);
+			}
+		}
+	}
 
+	
+	//general methods 
+	public void action(){
 		for(Character o: this.characters){
 			//TODO : Leader handling leader stuff
 			o.action();
@@ -351,7 +338,11 @@ public class Plateau {
 			//TODO : Leader handling leader stuff
 			o.action();
 		}
-
+	}
+	public void update(){
+		// Handle collision and cleaning of buffers
+		this.collision();
+		this.clean();
 	}
 }
 
