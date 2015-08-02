@@ -23,15 +23,10 @@ public class ContactWeapon extends Weapon {
 			//Attack !
 			if(c.getArmor()!=null && c.getArmor().damageReductor<this.damage){
 				c.lifePoints+=c.getArmor().damageReductor-this.damage;
-				if(c.target==null){
-					c.target=this.owner;
-				}
+
 			}
 			else{
 				c.lifePoints-=this.damage;
-				if(c.target==null){
-					c.target=this.owner;
-				}
 			}
 			// Reset the state
 			this.state = 0f;

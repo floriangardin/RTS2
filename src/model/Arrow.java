@@ -24,7 +24,6 @@ public class Arrow extends Bullet{
 		this.vy = Vmax*this.vy/norm;
 
 	}
-
 	public void collision(Character c){
 		if(c.team!=this.owner.team){
 			// Attack if armor<damage and collision
@@ -47,6 +46,8 @@ public class Arrow extends Bullet{
 	}
 	public void action(){
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
-		
+		if(this.x>this.p.maxX || this.x<0 || this.y>this.p.maxY||this.y<0){
+			this.lifePoints=-1f;
+		}
 	}
 }
