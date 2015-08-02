@@ -50,16 +50,16 @@ public class Character extends ActionObjet{
 		if(this.leader!=null){
 			this.leader.someoneStopped=true;
 		}
-		this.leader = null;
-		this.group = null;
+		System.out.println("someone has stopped 2");
 	}
 	public boolean isLeader(){
 		return this.leader==this;
 	}
 	public void action(){
-		if(someoneStopped && this.leader==this && this.group!=null){
+		if(someoneStopped && this.isLeader() && this.group!=null){
 			for(Character c : this.group){
 				c.stop();
+				c.leader = null;
 			}
 			someoneStopped = false;
 			this.group = null;
@@ -104,12 +104,11 @@ public class Character extends ActionObjet{
 			//if the velocity is too large it is reduced to the maxVelocity value
 			newvx = newvx*maxVNorm/vNorm;
 			newvy = newvy*maxVNorm/vNorm;
-		} else if(vNorm<1.0f && newvx*accx+newvy*accy<0f){
+		} else if(accNorm<5.0f && vNorm<2.0f ){
 			//if the velocity is small and the acceleration against it
 			//the point needs to be stopped
-			newvx = 0f;
-			newvy = 0f;
 			this.stop();
+			System.out.println("someone has stopped 1");
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		float newX,newY;
