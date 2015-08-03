@@ -9,7 +9,7 @@ import org.newdawn.slick.SlickException;
 
 
 public class Main {
-	int framerate = 200;
+	int framerate = 60;
 	Constants constants;
 	public static void main(String[] args) {
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
@@ -24,6 +24,8 @@ public class Main {
 			app.setDisplayMode(resolutionX, resolutionY, false);
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
+			app.setMaximumLogicUpdateInterval(main.framerate+5);
+			app.setMinimumLogicUpdateInterval(main.framerate-5);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

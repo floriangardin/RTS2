@@ -242,6 +242,7 @@ public class Character extends ActionObjet{
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
 		float maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
+		float ACC = this.p.constants.ACC/((float)this.p.constants.FRAMERATE);
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
@@ -250,8 +251,8 @@ public class Character extends ActionObjet{
 			newvx = 0f;
 			newvy = 0f;
 		} else {
-			accx = accx*this.p.constants.ACC/(accNorm*this.p.constants.FRAMERATE);
-			accy = accy*this.p.constants.ACC/(accNorm*this.p.constants.FRAMERATE);
+			accx = accx*ACC/(accNorm);
+			accy = accy*ACC/(accNorm);
 			newvx = vx + accx;
 			newvy = vy + accy;
 		}

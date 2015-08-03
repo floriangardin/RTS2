@@ -19,7 +19,7 @@ public class Arrow extends Bullet{
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
-		float Vmax = 300f;
+		float Vmax = 100f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 

@@ -1,6 +1,7 @@
 package model;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Vector;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
@@ -9,7 +10,7 @@ import org.newdawn.slick.tiled.*;
 public class Game extends BasicGame 
 {	
 	int team = 0;
-	Constants constants ;
+	Constants constants;
 	// Selection
 	Rectangle selection;
 	boolean new_selection;
@@ -49,6 +50,19 @@ public class Game extends BasicGame
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			o.draw(g);
 		}
+		
+		int gentils=0,mechants=0;
+		for(Character c: plateau.characters){
+			if(c.team==0)
+				gentils+=1;
+			else
+				mechants+=1;
+		}
+		g.setColor(Color.blue);
+		g.drawString(String.valueOf(gentils), 10, 30);
+
+		g.setColor(Color.red);
+		g.drawString(String.valueOf(mechants), 10, 70);
 
 		// Draw the selection :
 		if(this.selection !=null){
@@ -56,6 +70,8 @@ public class Game extends BasicGame
 			g.draw(this.selection);
 
 		}
+		g.setColor(Color.black);
+		g.fill(new Rectangle(0,0,90,30));
 		// Draw the selection of your team 
 		for(Character o: plateau.selection.get(team)){
 			o.drawIsSelected(g);
@@ -114,11 +130,11 @@ public class Game extends BasicGame
 		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
-				new Character(plateau,1,450+10*i,100+10*j);
+				new Character(plateau,1,750+10*i,100+10*j);
 			}
 			
 		}
-		for(int i=0;i<200;i++){
+		for(int i=0;i<plateau.toAddCharacters.size();i++){
 			plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
 			plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
 		}
