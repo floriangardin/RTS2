@@ -29,7 +29,9 @@ public class Balista extends RangeWeapon{
 			return;
 		}
 		Character target =(Character) this.owner.target;
-
+		if(this.owner.team==target.team){
+			return;
+		}
 		if(this.state<this.chargeTime+2f){
 			this.state += 0.1f;
 		}

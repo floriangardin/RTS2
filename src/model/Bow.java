@@ -9,7 +9,7 @@ public class Bow extends RangeWeapon{
 		this.weight = 0.1f;
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
-		this.chargeTime = 5f;
+		this.chargeTime = 10f;
 		this.name = "Bow";
 		this.state = 0f;
 		this.range = 100f;
@@ -28,6 +28,9 @@ public class Bow extends RangeWeapon{
 			return;
 		}
 		Character target =(Character) this.owner.target;
+		if(this.owner.team==target.team){
+			return;
+		}
 
 		if(this.state<this.chargeTime+2f){
 			this.state += 0.1f;

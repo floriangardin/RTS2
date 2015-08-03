@@ -40,7 +40,7 @@ public class Arrow extends Bullet{
 
 	}
 	public Graphics draw(Graphics g){
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.fill(this.collisionBox);
 		return g;
 	}

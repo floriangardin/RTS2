@@ -6,10 +6,16 @@ import java.util.Vector;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.tiled.*;
+import org.newdawn.slick.Input;
 
 public class Game extends BasicGame 
 {	
 	int team = 0;
+	int step = 0;
+	boolean displayUnit= true;
+	public void changeDisplayUnit(){
+		displayUnit = !displayUnit;
+	}
 	Constants constants;
 	// Selection
 	Rectangle selection;
@@ -32,12 +38,13 @@ public class Game extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
 		// g représente le pinceau
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 		g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
-			o.draw(g);
+			if(this.displayUnit)
+				o.draw(g);
 		}
 		for(ActionObjet o : plateau.equipments){
 			o.draw(g);
@@ -50,7 +57,7 @@ public class Game extends BasicGame
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			o.draw(g);
 		}
-		
+
 		int gentils=0,mechants=0;
 		for(Character c: plateau.characters){
 			if(c.team==0)
@@ -82,15 +89,18 @@ public class Game extends BasicGame
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException 
 	{	
-
 		// Get the input from the usr
-
 		Input i = gc.getInput();
 
 		// Update the selection rectangle :
 		// Test if new selection :
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
+		}
+		
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_0)){
+			
+			this.changeDisplayUnit();
 		}
 
 		// Update the rectangle
@@ -117,22 +127,24 @@ public class Game extends BasicGame
 			this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),this.team);
 		}
 		// Perform the collision, the creation and destruction of elements.
+
 		plateau.update();
 		// Perform the actions;
 		plateau.action();
+		
 	}
 	// Init our Game objects
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		plateau = new Plateau(this.constants,this.resX,this.resY,2);
+		plateau = new Plateau(this.constants,this.resX,this.resY,2,this);
 
-		for(int i=0;i<10;i++){
-			for(int j=0;j<10;j++){
+		for(int i=0;i<5;i++){
+			for(int j=0;j<2;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
 				new Character(plateau,1,750+10*i,100+10*j);
 			}
-			
+
 		}
 		for(int i=0;i<plateau.toAddCharacters.size();i++){
 			plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
@@ -140,7 +152,6 @@ public class Game extends BasicGame
 		}
 		//Rock r = new Rock(200,200,plateau);
 		//Water w = new Water(200,250,plateau);
-		//new Ennemi(plateau,100f,100f,framerate);
 		selection = null;
 	}
 	public Game ()

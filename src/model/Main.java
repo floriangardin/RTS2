@@ -24,9 +24,11 @@ public class Main {
 			app.setDisplayMode(resolutionX, resolutionY, false);
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
-			app.setMaximumLogicUpdateInterval(main.framerate+5);
-			app.setMinimumLogicUpdateInterval(main.framerate-5);
+			app.setVSync(true);
 			app.start();
+			while(true){
+				System.out.println(app.getFPS());
+			}
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

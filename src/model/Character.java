@@ -5,12 +5,16 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Line;
 
 public class Character extends ActionObjet{
 
 	// General attributes
 	protected Circle sightBox;
+	protected float maxLifePoints;
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
@@ -24,11 +28,17 @@ public class Character extends ActionObjet{
 	protected float weight = 0;			//weapon and armor coefficient
 	protected float horseVelocity = 0; 	//horse coefficient
 
+	protected Image image;
+
 	public Character(Plateau p,int team,float x, float y){
-		this.someoneStopped= false;
+		try{
+			this.image = new Image("pics/Nains.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		this.team = team;
 		// the maximum number of float by second
-		this.maxVelocity = 250f;
+		this.maxVelocity = 80f;
 		switch(team){
 		case 0:
 			this.color = Color.blue;
@@ -45,7 +55,8 @@ public class Character extends ActionObjet{
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
-		this.lifePoints= 20f;
+		this.maxLifePoints = 20f;
+		this.lifePoints= this.maxLifePoints;
 
 	}
 
@@ -80,13 +91,24 @@ public class Character extends ActionObjet{
 
 
 	public void stop(){
+		System.out.println("a character has stopped: " + this);
 		if(this.target instanceof Checkpoint){
 			this.target = null;
 		}
 		this.vx = 0f;
 		this.vy = 0f;
-		if(this.leader!=null){
-			this.leader.someoneStopped=true;
+		if(!this.isLeader() && this.leader!=null && this.leader.isMobile()){
+			this.leader.stop();
+		}
+		if(this.isLeader()){
+			for(Character c : this.group){
+				if(!c.isLeader() && c.isMobile()){
+					System.out.print("arrêt forcé: ");
+					c.stop();
+				}
+				c.leader = null;
+			}
+			this.group = null;
 		}
 	}
 
@@ -170,7 +192,7 @@ public class Character extends ActionObjet{
 		if(this.horse!=null)
 			v = v * this.horseVelocity;
 		v = v/(1f+weight);
-		
+
 		this.maxVelocity *= v;
 	}
 
@@ -202,14 +224,8 @@ public class Character extends ActionObjet{
 				//Take the nearest target :
 				this.target = Utils.nearestObject(potential_targets, this);
 			}
-		}
-		if(someoneStopped && this.isLeader() && this.group!=null){
-			for(Character c : this.group){
-				c.stop();
-				c.leader = null;
-			}
-			someoneStopped = false;
-			this.group = null;
+		}if(someoneStopped && this.isLeader() && this.group!=null){
+			this.stop();
 		}
 		if(target instanceof Weapon && Utils.distance(this,target)<2f*this.collisionBox.getBoundingCircleRadius()){
 			this.collectWeapon((Weapon)target);
@@ -226,6 +242,7 @@ public class Character extends ActionObjet{
 			}
 			else{
 				this.stop();
+				return;
 			}
 		}
 
@@ -250,6 +267,8 @@ public class Character extends ActionObjet{
 			//TODO: handle stopping
 			newvx = 0f;
 			newvy = 0f;
+			this.stop();
+			return;
 		} else {
 			accx = accx*ACC/(accNorm);
 			accy = accy*ACC/(accNorm);
@@ -265,6 +284,7 @@ public class Character extends ActionObjet{
 			//if the velocity is small and the acceleration against it
 			//the point needs to be stopped
 			this.stop();
+			return;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		float newX,newY;
@@ -300,30 +320,38 @@ public class Character extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		if(this.armor!=null){
-			g.setColor(Color.black);
-			Color c1 = new Color(140,140,140);
-			Color c2 = new Color(70,70,70);
-			Color c3 = new Color(40,40,40);
-			if(this.armor instanceof HeavyArmor){
-				g.setColor(c3);
-				g.fill(new Circle(this.getX(),this.getY(),r+1f));
-			}
-			if(this.armor instanceof MediumArmor){
-				g.setColor(c2);
-				g.fill(new Circle(this.getX(),this.getY(),r+1f));
-			}
-			if(this.armor instanceof LightArmor){
-				g.setColor(c1);
-				g.fill(new Circle(this.getX(),this.getY(),r+1f));
-			}
+		g.drawImage(this.image,this.getX()-r,this.getY()-r,this.getX()+r,this.getY()+r,0f,0f,32f,32f);
+		if(this.lifePoints<this.maxLifePoints){
+			g.setColor(Color.red);
+			g.draw(new Line(this.getX()-r,this.getY()-r,this.getX()+r,this.getY()-r));
+			float x = this.lifePoints*2f*r/this.maxLifePoints;
+			g.setColor(Color.green);
+			g.draw(new Line(this.getX()-r,this.getY()-r,this.getX()-r+x,this.getY()-r));
 		}
-		g.setColor(this.color);
-		g.fill(new Circle(this.getX(),this.getY(),r-3f));
-		if(this.weapon!=null){
-			g.setColor(Color.white);
-			g.drawString((String)weapon.name.subSequence(0, 2), this.getX()-r, this.getY()-r);
-		}
+		//		if(this.armor!=null){
+		//			g.setColor(Color.black);
+		//			Color c1 = new Color(140,140,140);
+		//			Color c2 = new Color(70,70,70);
+		//			Color c3 = new Color(40,40,40);
+		//			if(this.armor instanceof HeavyArmor){
+		//				g.setColor(c3);
+		//				g.fill(new Circle(this.getX(),this.getY(),r+1f));
+		//			}
+		//			if(this.armor instanceof MediumArmor){
+		//				g.setColor(c2);
+		//				g.fill(new Circle(this.getX(),this.getY(),r+1f));
+		//			}
+		//			if(this.armor instanceof LightArmor){
+		//				g.setColor(c1);
+		//				g.fill(new Circle(this.getX(),this.getY(),r+1f));
+		//			}
+		//		}
+		//		g.setColor(this.color);
+		//		g.fill(new Circle(this.getX(),this.getY(),r-3f));
+		//		if(this.weapon!=null){
+		//			g.setColor(Color.white);
+		//			g.drawString((String)weapon.name.subSequence(0, 2), this.getX()-r, this.getY()-r);
+		//		}
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
@@ -341,37 +369,37 @@ public class Character extends ActionObjet{
 		// The highest velocity continues 
 		// The lowest velocity move away ( he is pushed at the pace of the other ) 
 
-			// set the tolerance for collision:
-			//   - 0: collision is totally authorized
-			//   - 1: no collision but clipping
-			float toleranceCollision = 0.1f;
-			// get the mediatrice of both object
-			float y_med = this.getX()-o.getX();
-			float x_med = o.getY()-this.getY();
-			float norm = (x_med*x_med+y_med*y_med);
-			y_med = y_med/norm;
-			x_med = x_med/norm;
-			if(x_med*vx+y_med*vy<0){
+		// set the tolerance for collision:
+		//   - 0: collision is totally authorized
+		//   - 1: no collision but clipping
+		float toleranceCollision = 0.1f;
+		// get the mediatrice of both object
+		float y_med = this.getX()-o.getX();
+		float x_med = o.getY()-this.getY();
+		float norm = (x_med*x_med+y_med*y_med);
+		y_med = y_med/norm;
+		x_med = x_med/norm;
+		if(x_med*vx+y_med*vy<0){
+			x_med=-x_med;
+			y_med=-y_med;
+
+		}
+
+		if((this.vx*this.vx+this.vy*this.vy)<o.vx*o.vx+o.vy*o.vy){
+			if(x_med*o.vx+y_med*o.vy<0){
 				x_med=-x_med;
 				y_med=-y_med;
-
 			}
-
-			if((this.vx*this.vx+this.vy*this.vy)<o.vx*o.vx+o.vy*o.vy){
-				if(x_med*o.vx+y_med*o.vy<0){
-					x_med=-x_med;
-					y_med=-y_med;
-				}
-				//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
-				this.setXY(this.getX()-5.5f*x_med,this.getY()-5.5f*y_med);
-			}
-			else{
-
-				this.setXY(this.getX()+toleranceCollision*(this.getX()-o.getX()),this.getY()+toleranceCollision*(this.getY()-o.getY()));
-			}
-			//this.move(this.vx+this.x,this.vy+this.y );
+			//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
+			this.setXY(this.getX()-5.5f*x_med,this.getY()-5.5f*y_med);
 		}
-	
+		else{
+
+			this.setXY(this.getX()+toleranceCollision*(this.getX()-o.getX()),this.getY()+toleranceCollision*(this.getY()-o.getY()));
+		}
+		//this.move(this.vx+this.x,this.vy+this.y );
+	}
+
 
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {

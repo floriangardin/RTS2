@@ -8,6 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Plateau {
 
+	public Game g;
+
 	protected int nTeams;
 	protected float maxX ;
 	protected float maxY ;
@@ -37,7 +39,8 @@ public class Plateau {
 	protected Constants constants;
 	//TODO : make actionsObjets and everything else private 
 
-	public Plateau(Constants constants,float maxX,float maxY,int nTeams){
+	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){
+		this.g = g;
 		//GENERAL
 		this.constants = constants;
 		this.nTeams = nTeams;
@@ -206,6 +209,7 @@ public class Plateau {
 					i.collision(o);
 					o.collision(i);
 				}
+
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
@@ -221,9 +225,9 @@ public class Plateau {
 			}
 			// Between characters and weapons
 			for(ActionObjet i:equipments){
-				
+
 				if(i.collisionBox.intersects(o.collisionBox)){
-					
+
 					i.collision(o);
 				}
 			}
@@ -243,8 +247,8 @@ public class Plateau {
 		}
 	}
 
-	
-	
+
+
 	//calling method to the environment
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
@@ -297,7 +301,7 @@ public class Plateau {
 			if(leader==null){
 				leader=o;
 			}
-			//first we deal with the o's elder group
+			//first we deal with o's elder group
 			//if o was the leader and there were other members in the group
 			if(o.isLeader() && o.group.size()>1){
 				//we set the group of the new leader
@@ -307,11 +311,13 @@ public class Plateau {
 					o1.leader = o.group.get(1);
 				}
 				//we remove o from the group
-				o.group.get(1).group.remove(0);
+
+			}
+			if(o.leader!=null){
+				o.leader.group.remove(o);
 			}
 			if(leader==o){
 				o.group = new Vector<Character>();
-				o.group.add(o);
 			}
 			//we set to o its new leader and to its leader's group the new member
 			o.leader = leader;
@@ -321,6 +327,13 @@ public class Plateau {
 			//eventually we assign the target
 			o.target = target;
 		}
+		System.out.println("nouveau groupe créé: ");
+		System.out.println("leader: " + leader);
+		System.out.print("membres: ");
+		for(Character o:this.selection.get(team)){
+			System.out.print(o+ " ");
+		}
+		System.out.println();
 
 	}
 	private void selection(Rectangle select, int team) {
@@ -333,12 +346,12 @@ public class Plateau {
 		}
 	}
 
-	
+
 	//general methods 
 	public void action(){
 		for(Character o: this.characters){
 			//TODO : Leader handling leader stuff
-			
+
 			o.action();
 		}
 		for(ActionObjet o: this.equipments){

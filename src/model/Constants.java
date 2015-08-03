@@ -6,7 +6,7 @@ public class Constants {
 	public final float FROT;
 	public final int FRAMERATE;
 	public Constants(int framerate){
-		this.ACC = 25f;
+		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = framerate;
 	}
