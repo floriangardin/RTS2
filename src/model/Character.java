@@ -17,6 +17,7 @@ public class Character extends ActionObjet{
 	// General attributes
 	protected Circle sightBox;
 	protected float maxLifePoints;
+	protected Vector<Objet> secondaryTargets;
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
@@ -128,7 +129,13 @@ public class Character extends ActionObjet{
 
 	public void stop(){
 		if(this.target instanceof Checkpoint){
-			this.target = null;
+			if(this.secondaryTargets.size()==0){
+				this.target = null;
+			}else{
+				this.target = this.secondaryTargets.firstElement();
+				this.secondaryTargets.remove(0);
+			}
+				
 		}
 		this.vx = 0f;
 		this.vy = 0f;
