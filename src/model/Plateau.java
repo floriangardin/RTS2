@@ -273,25 +273,7 @@ public class Plateau {
 	//handling the input
 	public void updateTarget(float x, float y, int team){
 		//called when right click on the mouse
-		Point point= new Point(x,y);
-		Objet target = null;
-		//looking for the object on the target
-		for(Character i:this.characters){
-			// looking amongst other characters
-			if(i.collisionBox.contains(point)){
-				target = i;
-				break;
-			}
-		}
-		if(target==null){
-			for(NaturalObjet i: naturalObjets){
-				// looking amongst natural object
-				if(i.collisionBox.contains(point)){
-					target = i;
-					break;
-				}
-			}
-		}
+		Objet target = this.findTarget(x, y);
 		//TODO : look amongst horses and weapons too
 		if(target==null){
 			target = new Checkpoint(x,y);
@@ -329,6 +311,71 @@ public class Plateau {
 		}
 
 	}
+	
+	public void updateSecondaryTarget(float x, float y, int team){
+		//called when right click on the mouse
+		Objet target = this.findTarget(x, y);
+		//TODO : look amongst horses and weapons too
+		if(target==null){
+			target = new Checkpoint(x,y);
+		}
+		Character leader = null;
+		for(Character o:this.selection.get(team)){
+			if(leader==null){
+				leader=o;
+			}
+			//first we deal with o's elder group
+			//if o was the leader and there were other members in the group
+			if(o.isLeader() && o.group.size()>1){
+				//we set the group of the new leader
+				o.group.get(1).group = o.group;
+				//we set the new leader amongst the member of the group
+				for(Character o1: o.group){
+					o1.leader = o.group.get(1);
+				}
+				//we remove o from the group
+
+			}
+			if(o.leader!=null){
+				o.leader.group.remove(o);
+			}
+			if(leader==o){
+				o.group = new Vector<Character>();
+			}
+			//we set to o its new leader and to its leader's group the new member
+			o.leader = leader;
+			if(!o.isLeader())
+				o.group=null;
+			o.leader.group.add(o);
+			//eventually we assign the target
+			o.secondaryTargets.add(target);
+		}
+
+	}
+	
+	public Objet findTarget(float x, float y){
+		Point point= new Point(x,y);
+		Objet target = null;
+		//looking for the object on the target
+		for(Character i:this.characters){
+			// looking amongst other characters
+			if(i.collisionBox.contains(point)){
+				target = i;
+				break;
+			}
+		}
+		if(target==null){
+			for(NaturalObjet i: naturalObjets){
+				// looking amongst natural object
+				if(i.collisionBox.contains(point)){
+					target = i;
+					break;
+				}
+			}
+		}	
+		return target;
+	}
+	
 	private void selection(Rectangle select, int team) {
 		//handling the selection
 		for(Character o: characters){

@@ -17,12 +17,12 @@ public class Game extends BasicGame
 	public void changeDisplayUnit(){
 		displayUnit = !displayUnit;
 	}
-	
+
 	// Bottom bar :
 	BottomBar bottomBars;
 	// Top bars:
 	TopBar topBars;
-	
+
 	Image background ;
 	Constants constants;
 	// Selection
@@ -43,10 +43,10 @@ public class Game extends BasicGame
 	protected Vector<Player> players = new Vector<Player>();
 	// Then we declare the plateau
 	private Plateau plateau ;
-	
+
 	// Current player
 	protected int currentPlayer = 0;
-	
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
@@ -60,8 +60,8 @@ public class Game extends BasicGame
 				g.drawImage(this.background, i*512, j*512);
 			}
 		}
-		
-		
+
+
 		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 
@@ -119,10 +119,10 @@ public class Game extends BasicGame
 
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0,0,90,30));
-		
+
 		// Draw bottom bar
 		this.bottomBars.draw(g);
-		
+
 
 	}
 	// Do our logic 
@@ -187,7 +187,11 @@ public class Game extends BasicGame
 		}
 		// Action for player k
 		if(i.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
-			this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),currentPlayer);
+			if(i.isKeyDown(org.newdawn.slick.Input.KEY_LSHIFT) || i.isKeyDown(org.newdawn.slick.Input.KEY_RSHIFT)){
+				this.plateau.updateSecondaryTarget(i.getMouseX(),i.getMouseY(),currentPlayer);
+			} else {				
+				this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),currentPlayer);
+			}
 		}
 		// Perform the collision, the creation and destruction of elements.
 
@@ -195,6 +199,11 @@ public class Game extends BasicGame
 		// Perform the actions;
 		plateau.action();
 
+		for(int pl =0; pl <this.players.size(); pl++){
+			this.players.get(currentPlayer).selection.clear();
+			for(Character c: this.plateau.selection.get(currentPlayer))
+				this.players.get(currentPlayer).selection.addElement(c);
+		}
 	}
 	// Init our Game objects
 	@Override
@@ -211,11 +220,11 @@ public class Game extends BasicGame
 		}
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
-		
+
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
-		
-		
+
+
 		for(int i=0;i<plateau.toAddCharacters.size();i++){
 			int random = (int)(Math.random()*3.0);
 			switch(random){
@@ -248,7 +257,7 @@ public class Game extends BasicGame
 			new Tree(200+(int)(Math.random()*800f),200+(int)(Math.random()*500f),plateau,(int)(Math.random()*4f)+1);
 			new Water(200f+i*32f,200f,plateau);
 		}
-		
+
 		//Water w = new Water(200,250,plateau);
 		selection = null;
 	}
