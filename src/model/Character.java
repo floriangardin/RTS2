@@ -17,7 +17,7 @@ public class Character extends ActionObjet{
 	// General attributes
 	protected Circle sightBox;
 	protected float maxLifePoints;
-	protected Vector<Objet> secondaryTargets;
+	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
@@ -134,6 +134,7 @@ public class Character extends ActionObjet{
 			}else{
 				this.target = this.secondaryTargets.firstElement();
 				this.secondaryTargets.remove(0);
+				return;
 			}
 				
 		}
