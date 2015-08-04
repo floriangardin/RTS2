@@ -34,8 +34,13 @@ public class Game extends BasicGame
 	// We keep the reference of the plateau in the game :
 	// Only the game knows the reference for raw vector of objects !
 	private Vector<ActionObjet> actionObjets = new Vector<ActionObjet>();
+	protected Vector<Player> players = new Vector<Player>();
 	// Then we declare the plateau
 	private Plateau plateau ;
+	
+	// Current player
+	protected int currentPlayer = 0;
+	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
@@ -193,6 +198,8 @@ public class Game extends BasicGame
 			}
 
 		}
+		this.players.add(new Player(0));
+		this.players.add(new Player(1));
 		for(int i=0;i<plateau.toAddCharacters.size();i++){
 			int random = (int)(Math.random()*3.0);
 			switch(random){
