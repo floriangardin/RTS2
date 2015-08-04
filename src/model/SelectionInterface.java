@@ -21,13 +21,14 @@ public class SelectionInterface extends Bar {
 		// Draw the selection of current player
 		int compteurX = 0;
 		int compteurY = 0;
-		float startX = this.x;
-		float startY = this.y;
+		float startX = this.x+20f;
+		float startY = this.y+20f;
 		g.setColor(Color.red);
 		for(Character c : this.parent.player.selection){
-			g.drawString("C",startX+10f*compteurX,startY+10f*compteurY);
+			g.drawImage(c.image.getSubImage(0, 0, c.image.getWidth()/3,c.image.getHeight()/3),startX+30f*compteurX,startY+30f*compteurY);
 			compteurX++;
 			if(compteurX>2){
+				compteurX=0;
 				compteurY++;
 			}
 		}
