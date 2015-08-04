@@ -11,6 +11,7 @@ public class SelectionInterface extends Bar {
 	}
 	
 	public Graphics draw(Graphics g){
+		// Draw the selection of current player
 		return g;
 	}
 }

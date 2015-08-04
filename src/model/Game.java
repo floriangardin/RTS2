@@ -200,7 +200,7 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		plateau = new Plateau(this.constants,this.resX,this.resY,2,this);
+		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
 		this.background =  new Image("pics/dirt.png");
 		for(int i=0;i<2;i++){
 			for(int j=0;j<2;j++){
