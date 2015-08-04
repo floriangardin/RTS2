@@ -2,10 +2,14 @@ package model;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
 public class Arrow extends Bullet{
 
+	protected float angle= 0f;
+	
 	public Arrow(Plateau p,Character owner){
 		this.p = p;
 		p.addBulletObjets(this);
@@ -22,7 +26,17 @@ public class Arrow extends Bullet{
 		float Vmax = 100f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
-
+		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
+		if(vx<0)
+			this.angle*=-1f;
+		if(this.angle<0)
+			this.angle+=360;
+		try {
+			this.image = new Image("pics/Arrow.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		this.image.rotate(this.angle);
 	}
 	public void collision(Character c){
 		if(c.team!=this.owner.team){
@@ -40,8 +54,9 @@ public class Arrow extends Bullet{
 
 	}
 	public Graphics draw(Graphics g){
-		g.setColor(Color.white);
-		g.fill(this.collisionBox);
+		g.drawImage(this.image,this.getX()-5f,this.getY()-5f);
+		//g.setColor(Color.white);
+		//g.fill(this.collisionBox);
 		return g;
 	}
 	public void action(){

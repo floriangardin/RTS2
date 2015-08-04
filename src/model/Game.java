@@ -107,7 +107,6 @@ public class Game extends BasicGame
 	{	
 		// Get the input from the usr
 		Input i = gc.getInput();
-
 		// Update the selection rectangle :
 		// Test if new selection :
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
@@ -204,7 +203,7 @@ public class Game extends BasicGame
 				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
 				break;
 			case 1:
-				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
+				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
 			}
 			random = (int)(Math.random()*2.0);
 			switch(random){
