@@ -10,7 +10,6 @@ public class SelectionInterface extends Bar {
 		this.parent = parent;
 	}
 	
-	
 	public Graphics draw(Graphics g){
 		return g;
 	}

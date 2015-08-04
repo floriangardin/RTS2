@@ -17,6 +17,12 @@ public class Game extends BasicGame
 	public void changeDisplayUnit(){
 		displayUnit = !displayUnit;
 	}
+	
+	// Bottom bar :
+	BottomBar bottomBars;
+	// Top bars:
+	TopBar topBars;
+	
 	Image background ;
 	Constants constants;
 	// Selection
@@ -113,6 +119,10 @@ public class Game extends BasicGame
 
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0,0,90,30));
+		
+		// Draw bottom bar
+		this.bottomBars.draw(g);
+		
 
 	}
 	// Do our logic 
@@ -201,6 +211,11 @@ public class Game extends BasicGame
 		}
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
+		
+		// Instantiate BottomBars for current player:
+		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
+		
+		
 		for(int i=0;i<plateau.toAddCharacters.size();i++){
 			int random = (int)(Math.random()*3.0);
 			switch(random){

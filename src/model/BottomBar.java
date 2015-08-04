@@ -29,7 +29,8 @@ public class BottomBar extends Bar {
 		description.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
 		g.setColor(Color.white);
-		g.fillRect(this.sizeX/3f,this.y,this.sizeX/3f+10f,this.sizeY);
+		g.fillRect(this.sizeX/3f-5f,this.y,10f,this.sizeY);
+		g.fillRect(2f*this.sizeX/3f-5f,this.y,10f,this.sizeY);
 		
 		return g;
 	}
