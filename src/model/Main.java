@@ -5,9 +5,6 @@ import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
-
-
-
 public class Main {
 	int framerate = 60;
 	Constants constants;
