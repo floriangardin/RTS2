@@ -5,8 +5,8 @@ import org.newdawn.slick.geom.Point;
 
 public class MediumArmor extends Armor {
 	public MediumArmor(float x, float y, Plateau p, Character owner) {
-		this.weight = 0.8f;
-		this.damageReductor = 0.5f;
+		this.weight = 0.3f;
+		this.damageReductor = 1.5f;
 		this.color = Color.gray;
 		this.p = p;
 		this.collisionBox = new Point(x,y);

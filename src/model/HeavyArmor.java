@@ -5,8 +5,8 @@ import org.newdawn.slick.geom.Point;
 
 public class HeavyArmor extends Armor {
 	public HeavyArmor(float x, float y, Plateau p, Character owner) {
-		this.weight = 0.8f;
-		this.damageReductor = 0.5f;
+		this.weight = 0.4f;
+		this.damageReductor = 2.5f;
 		this.color = Color.gray;
 		this.p = p;
 		this.collisionBox = new Point(x,y);

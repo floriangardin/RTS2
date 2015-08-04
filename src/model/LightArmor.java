@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Shape;
 public class LightArmor extends Armor {
 
 	public LightArmor(float x, float y, Plateau p, Character owner) {
-		this.weight = 0.1f;
+		this.weight = 0.2f;
 		this.damageReductor = 0.5f;
 		this.color = Color.gray;
 		this.p = p;

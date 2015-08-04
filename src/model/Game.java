@@ -37,9 +37,25 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		Utils.triY(this.plateau.characters);
+
+
 		// g représente le pinceau
 		g.setColor(Color.black);
 		g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
+
+
+		// Draw the selection :
+		if(this.selection !=null){
+			g.setColor(Color.green);
+			g.draw(this.selection);
+
+		}
+		// Draw the selection of your team 
+		for(Character o: plateau.selection.get(team)){
+			o.drawIsSelected(g);
+
+		}
 
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
@@ -71,19 +87,10 @@ public class Game extends BasicGame
 		g.setColor(Color.red);
 		g.drawString(String.valueOf(mechants), 10, 70);
 
-		// Draw the selection :
-		if(this.selection !=null){
-			g.setColor(Color.green);
-			g.draw(this.selection);
 
-		}
 		g.setColor(Color.black);
 		g.fill(new Rectangle(0,0,90,30));
-		// Draw the selection of your team 
-		for(Character o: plateau.selection.get(team)){
-			o.drawIsSelected(g);
 
-		}
 	}
 	// Do our logic 
 	@Override
@@ -97,10 +104,33 @@ public class Game extends BasicGame
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
 		}
-		
+
+		//TODO: Debug mode
 		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_0)){
-			
 			this.changeDisplayUnit();
+		}
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_9)){
+			for(Character c: this.plateau.characters)
+				c.collisionBox = new Circle(c.getX(),c.getY(),c.collisionBox.getBoundingCircleRadius()+1f);
+		}
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_8)){
+			for(Character c: this.plateau.characters)
+				c.collisionBox = new Circle(0f,0f,c.collisionBox.getBoundingCircleRadius()-1f);
+		}
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_1)){
+			long time;
+			time = -System.currentTimeMillis();
+			Utils.triY(this.plateau.characters);
+			time += System.currentTimeMillis();
+			System.out.println("tri fusion: " + time + " ms. "+this.plateau.characters.size());
+
+		}
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_2)){
+			long time;
+			time = -System.currentTimeMillis();
+			Utils.triY1(this.plateau.characters);
+			time += System.currentTimeMillis();
+			System.out.println("tri simple: " + time + " ms. "+this.plateau.characters.size());
 		}
 
 		// Update the rectangle
@@ -131,7 +161,7 @@ public class Game extends BasicGame
 		plateau.update();
 		// Perform the actions;
 		plateau.action();
-		
+
 	}
 	// Init our Game objects
 	@Override
@@ -139,16 +169,40 @@ public class Game extends BasicGame
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2,this);
 
-		for(int i=0;i<5;i++){
-			for(int j=0;j<2;j++){
+		for(int i=0;i<2;i++){
+			for(int j=0;j<20;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
 				new Character(plateau,1,750+10*i,100+10*j);
 			}
 
 		}
 		for(int i=0;i<plateau.toAddCharacters.size();i++){
-			plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
-			plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
+			int random = (int)(Math.random()*3.0);
+			switch(random){
+			case 0:
+				plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
+				break;
+			case 1:
+				plateau.toAddCharacters.get(i).collectArmor(new MediumArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
+				break;
+			case 2:
+				plateau.toAddCharacters.get(i).collectArmor(new HeavyArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
+				break;
+			}
+			random = (int)(Math.random()*2.0);
+			switch(random){
+			case 0:
+				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
+				break;
+			case 1:
+				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
+			}
+			random = (int)(Math.random()*2.0);
+			switch(random){
+			case 0:
+				plateau.toAddCharacters.get(i).collectHorse(new Horse(plateau,plateau.toAddCharacters.get(i)));
+			case 1:
+			}
 		}
 		//Rock r = new Rock(200,200,plateau);
 		//Water w = new Water(200,250,plateau);

@@ -327,13 +327,6 @@ public class Plateau {
 			//eventually we assign the target
 			o.target = target;
 		}
-		System.out.println("nouveau groupe créé: ");
-		System.out.println("leader: " + leader);
-		System.out.print("membres: ");
-		for(Character o:this.selection.get(team)){
-			System.out.print(o+ " ");
-		}
-		System.out.println();
 
 	}
 	private void selection(Rectangle select, int team) {

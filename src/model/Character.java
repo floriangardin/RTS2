@@ -6,8 +6,10 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Ellipse;
 import org.newdawn.slick.geom.Line;
 
 public class Character extends ActionObjet{
@@ -29,10 +31,21 @@ public class Character extends ActionObjet{
 	protected float horseVelocity = 0; 	//horse coefficient
 
 	protected Image image;
+	protected float animationValue=0f;
+	protected int orientation=2;
+	// value = [2,4,6,8] according to the numeric pad
 
 	public Character(Plateau p,int team,float x, float y){
 		try{
-			this.image = new Image("pics/Nains.png");
+			Image imagea = new Image("pics/Corps.png");
+			Image imageb = new Image("pics/Armure.png");
+			if(team==0)
+				imageb = new Image("pics/Blue.png");
+			if(team==1)
+				imageb = new Image("pics/Red.png");
+			this.image = Utils.mergeImages(imagea, imageb);
+			Image imaged = new Image("pics/HorseBlue.png");
+			this.image = Utils.mergeHorse(imaged, this.image);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +63,7 @@ public class Character extends ActionObjet{
 		}
 		this.p = p;
 		p.addCharacterObjets(this);;
-		this.collisionBox = new Circle(x,y,10f);
+		this.collisionBox = new Circle(x,y,15f);
 		this.sightBox = new Circle(x,y,500f);
 		this.setXY(x, y);
 		this.armor = null;
@@ -84,6 +97,29 @@ public class Character extends ActionObjet{
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY());
 	}
+	protected void setVXVY(float vx, float vy){
+		this.vx = vx;
+		this.vy = vy;
+		int sector = 0;
+		if(vx>0f){
+			if(vy>vx){
+				sector = 2;
+			} else if(vy<-vx){
+				sector = 8;
+			} else {
+				sector = 6;
+			}
+		} else {
+			if(vy>-vx){
+				sector = 2;
+			} else if(vy<vx){
+				sector = 8;
+			} else {
+				sector = 4;
+			}
+		}
+		this.orientation = sector;
+	}
 
 	public float getWeight(){
 		return this.weight;
@@ -91,7 +127,6 @@ public class Character extends ActionObjet{
 
 
 	public void stop(){
-		System.out.println("a character has stopped: " + this);
 		if(this.target instanceof Checkpoint){
 			this.target = null;
 		}
@@ -103,13 +138,13 @@ public class Character extends ActionObjet{
 		if(this.isLeader()){
 			for(Character c : this.group){
 				if(!c.isLeader() && c.isMobile()){
-					System.out.print("arrêt forcé: ");
 					c.stop();
 				}
 				c.leader = null;
 			}
 			this.group = null;
 		}
+		this.animationValue=0f;
 	}
 
 
@@ -169,6 +204,7 @@ public class Character extends ActionObjet{
 			this.weight -= this.weapon.weight;
 		this.weapon = weapon;
 		this.updateVelocity();
+		this.updateImage();
 	}
 	public void setArmor(Armor armor) {
 		if(armor!=null)
@@ -177,6 +213,7 @@ public class Character extends ActionObjet{
 			this.weight -= this.armor.weight;
 		this.armor = armor;
 		this.updateVelocity();
+		this.updateImage();
 	}
 	public void setHorse(RidableObjet horse) {
 		if(horse!=null)
@@ -185,17 +222,60 @@ public class Character extends ActionObjet{
 			this.horseVelocity = 0f;
 		this.horse = horse;
 		this.updateVelocity();
+		this.updateImage();
 	}
 	//Update functions
 	public void updateVelocity(){
 		float v = 1f;
 		if(this.horse!=null)
-			v = v * this.horseVelocity;
+			v = v * this.horse.velocity;
 		v = v/(1f+weight);
 
 		this.maxVelocity *= v;
 	}
+	public void updateImage(){
+		try{
+			//Handling the team
+			Image imagea = new Image("pics/Corps.png");
+			Image imageb = new Image("pics/Armure.png");
+			Image imagec = new Image("pics/HorseBlue.png");
+			if(team==0){
+				imageb = new Image("pics/Blue.png");
+				imagec = new Image("pics/HorseBlue.png");
+			}
+			if(team==1){
+				imageb = new Image("pics/Red.png");
+				imagec = new Image("pics/HorseRed.png");
+			}
+			this.image = Utils.mergeImages(imagea, imageb);
+			//Handling the armor
+			if(this.armor!=null){
+				if(this.armor instanceof LightArmor)
+					imageb = new Image("pics/LightArmor.png");
+				else if(this.armor instanceof MediumArmor)
+					imageb = new Image("pics/MediumArmor.png");
+				else if(this.armor instanceof HeavyArmor)
+					imageb = new Image("pics/HeavyArmor.png");
+				this.image = Utils.mergeImages(this.image, imageb);
+			}
+			//Handling the weapon
+			if(this.weapon!=null){
+				if(this.weapon instanceof Sword)
+					imageb = new Image("pics/Sword.png");
+				if(this.weapon instanceof Bow)
+					imageb = new Image("pics/Bow.png");
+				this.image = Utils.mergeImages(this.image, imageb);
 
+			}
+
+			//Handling the horse
+			if(this.horse!=null){
+				this.image = Utils.mergeHorse(imagec, this.image);
+			}
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
 
 	//// ACTION METHODS
 
@@ -309,9 +389,13 @@ public class Character extends ActionObjet{
 		}
 
 		//eventually we reassign the position and velocity variables
-		this.vx = newvx;
-		this.vy = newvy;
+		this.setVXVY(newvx, newvy);
+
 		this.setXY(newX, newY);
+		this.animationValue+=4f/(float)this.p.constants.FRAMERATE;
+		if(this.animationValue>=4f){
+			this.animationValue = 0f;
+		}
 	}
 
 
@@ -320,7 +404,24 @@ public class Character extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image,this.getX()-r,this.getY()-r,this.getX()+r,this.getY()+r,0f,0f,32f,32f);
+		float animation = 1f,direction = 0f;
+		if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
+			animation = 1f;
+		else if(this.animationValue>=1f && this.animationValue<2f)
+			animation = 0f;
+		else
+			animation = 2f;
+		direction = (float)(orientation/2-1);
+		int imageWidth = this.image.getWidth()/3;
+		int imageHeight = this.image.getHeight()/4;
+		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
+		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
+		float x1 = this.getX() - drawWidth;
+		float y1 = this.getY() - drawHeight;
+		float x2 = this.getX() + drawWidth;
+		float y2 = this.getY() + drawHeight;
+		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		// Drawing the health bar
 		if(this.lifePoints<this.maxLifePoints){
 			g.setColor(Color.red);
 			g.draw(new Line(this.getX()-r,this.getY()-r,this.getX()+r,this.getY()-r));
@@ -328,46 +429,27 @@ public class Character extends ActionObjet{
 			g.setColor(Color.green);
 			g.draw(new Line(this.getX()-r,this.getY()-r,this.getX()-r+x,this.getY()-r));
 		}
-		//		if(this.armor!=null){
-		//			g.setColor(Color.black);
-		//			Color c1 = new Color(140,140,140);
-		//			Color c2 = new Color(70,70,70);
-		//			Color c3 = new Color(40,40,40);
-		//			if(this.armor instanceof HeavyArmor){
-		//				g.setColor(c3);
-		//				g.fill(new Circle(this.getX(),this.getY(),r+1f));
-		//			}
-		//			if(this.armor instanceof MediumArmor){
-		//				g.setColor(c2);
-		//				g.fill(new Circle(this.getX(),this.getY(),r+1f));
-		//			}
-		//			if(this.armor instanceof LightArmor){
-		//				g.setColor(c1);
-		//				g.fill(new Circle(this.getX(),this.getY(),r+1f));
-		//			}
-		//		}
-		//		g.setColor(this.color);
-		//		g.fill(new Circle(this.getX(),this.getY(),r-3f));
-		//		if(this.weapon!=null){
-		//			g.setColor(Color.white);
-		//			g.drawString((String)weapon.name.subSequence(0, 2), this.getX()-r, this.getY()-r);
-		//		}
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
+		float r = this.collisionBox.getBoundingCircleRadius();
 		g.setColor(Color.green);
-		g.draw(new Circle(this.getX(),this.getY(),((Circle)this.collisionBox).radius+10f));
+		if(this.horse!=null){
+			g.draw(new Ellipse(this.getX(),this.getY()+4f*r/3f,r+4f,r-5f));
+		} else {
+			g.draw(new Ellipse(this.getX(),this.getY()+5f*r/6f,r,r-5f));
+		}
 	}	
 
 
 	//// AUXILIARY FUNCTIONS
 
 
-	// Collision with other ActionObjets
+	// Collision with other Characters
 	public void collision(Character o) {
 		// If collision test who have the highest velocity
 		// The highest velocity continues 
-		// The lowest velocity move away ( he is pushed at the pace of the other ) 
+		// The lowest velocity move away ( he is pushed instead of the other ) 
 
 		// set the tolerance for collision:
 		//   - 0: collision is totally authorized
@@ -377,6 +459,7 @@ public class Character extends ActionObjet{
 		float y_med = this.getX()-o.getX();
 		float x_med = o.getY()-this.getY();
 		float norm = (x_med*x_med+y_med*y_med);
+		float r = this.collisionBox.getBoundingCircleRadius();
 		y_med = y_med/norm;
 		x_med = x_med/norm;
 		if(x_med*vx+y_med*vy<0){
@@ -391,7 +474,7 @@ public class Character extends ActionObjet{
 				y_med=-y_med;
 			}
 			//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
-			this.setXY(this.getX()-5.5f*x_med,this.getY()-5.5f*y_med);
+			this.setXY(this.getX()-0.5f*r*x_med,this.getY()-0.5f*r*y_med);
 		}
 		else{
 
@@ -470,8 +553,7 @@ public class Character extends ActionObjet{
 				finalY = yb;
 				finalX = x2;
 			}
-			this.vx = finalX-x0;
-			this.vy = 0f;
+			this.setVXVY(finalX-x0, 0f);
 			break;
 		case 1:
 			float xa,xb;
@@ -484,8 +566,7 @@ public class Character extends ActionObjet{
 				finalX = xb;
 				finalY = y2;
 			}
-			this.vy = finalY-y0;
-			this.vx = 0f;
+			this.setVXVY(0f, finalY-y0);
 			break;
 		default:
 		}
