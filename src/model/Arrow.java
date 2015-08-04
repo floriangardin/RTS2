@@ -10,8 +10,9 @@ public class Arrow extends Bullet{
 
 	protected float angle= 0f;
 	
-	public Arrow(Plateau p,Character owner){
+	public Arrow(Plateau p,Character owner,float damage){
 		this.p = p;
+		this.damage = damage;
 		p.addBulletObjets(this);
 		this.damage = 3f;
 		this.lifePoints = 1f;
