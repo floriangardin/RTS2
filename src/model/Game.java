@@ -66,7 +66,7 @@ public class Game extends BasicGame
 
 		}
 		// Draw the selection of your team 
-		for(Character o: plateau.selection.get(team)){
+		for(Character o: plateau.selection.get(currentPlayer)){
 			o.drawIsSelected(g);
 
 		}
@@ -127,32 +127,33 @@ public class Game extends BasicGame
 			this.plateau.clearSelection(team);
 		}
 
-		//TODO: Debug mode
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_0)){
-			this.changeDisplayUnit();
+		//TODO: Handling the groups
+		int touche;
+		for(int to=0; to<10; to++){
+			touche = to + 1;
+			if(touche==1)
+				touche = 11;
+			if(i.isKeyPressed(touche)){
+				if(i.isKeyDown(org.newdawn.slick.Input.KEY_LCONTROL) || i.isKeyDown(org.newdawn.slick.Input.KEY_RCONTROL)){
+					// Creating a new group made of the selection
+					this.players.get(currentPlayer).groups.get(to).clear();
+					for(Character c: this.plateau.selection.get(currentPlayer))
+						this.players.get(currentPlayer).groups.get(to).add(c);
+				} else if(i.isKeyDown(org.newdawn.slick.Input.KEY_LSHIFT) || i.isKeyDown(org.newdawn.slick.Input.KEY_RSHIFT)){
+					// Adding the current selection to the group
+					for(Character c: this.plateau.selection.get(currentPlayer))
+						this.players.get(currentPlayer).groups.get(to).add(c);
+				} else {
+					this.plateau.selection.get(currentPlayer).clear();
+					for(Character c: this.players.get(currentPlayer).groups.get(to))
+						this.plateau.selection.get(currentPlayer).add(c);
+				}
+			}
 		}
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_9)){
-			for(Character c: this.plateau.characters)
-				c.collisionBox = new Circle(c.getX(),c.getY(),c.collisionBox.getBoundingCircleRadius()+1f);
-		}
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_8)){
-			for(Character c: this.plateau.characters)
-				c.collisionBox = new Circle(0f,0f,c.collisionBox.getBoundingCircleRadius()-1f);
-		}
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_1)){
-			long time;
-			time = -System.currentTimeMillis();
-			//Utils.triY(this.plateau.characters);
-			time += System.currentTimeMillis();
-			System.out.println("tri fusion: " + time + " ms. "+this.plateau.characters.size());
-
-		}
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_2)){
-			long time;
-			time = -System.currentTimeMillis();
-			Utils.triY1(this.plateau.characters);
-			time += System.currentTimeMillis();
-			System.out.println("tri simple: " + time + " ms. "+this.plateau.characters.size());
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_A)){
+			currentPlayer+=1;
+			if(currentPlayer==2)
+				currentPlayer = 0;
 		}
 
 		// Update the rectangle
@@ -167,7 +168,7 @@ public class Game extends BasicGame
 					(float)Math.abs(i.getAbsoluteMouseX()-recX)+0.1f, (float)Math.abs(i.getAbsoluteMouseY()-recY)+0.1f);
 		}
 		else if(!i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && this.selection!=null){
-			plateau.updateSelection(selection, this.team);
+			plateau.updateSelection(selection, this.currentPlayer);
 			this.selection = null;
 		}
 		else{
@@ -176,7 +177,7 @@ public class Game extends BasicGame
 		}
 		// Action for player k
 		if(i.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
-			this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),this.team);
+			this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),currentPlayer);
 		}
 		// Perform the collision, the creation and destruction of elements.
 

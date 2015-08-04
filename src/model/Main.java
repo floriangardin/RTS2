@@ -32,7 +32,6 @@ public class Main {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
