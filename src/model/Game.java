@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.tiled.*;
@@ -16,6 +17,7 @@ public class Game extends BasicGame
 	public void changeDisplayUnit(){
 		displayUnit = !displayUnit;
 	}
+	Image background ;
 	Constants constants;
 	// Selection
 	Rectangle selection;
@@ -41,8 +43,15 @@ public class Game extends BasicGame
 
 
 		// g représente le pinceau
-		g.setColor(Color.black);
-		g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
+		//g.setColor(Color.black);
+		for(int i=0;i<3;i++){
+			for(int j=0;j<2;j++){
+				g.drawImage(this.background, i*512, j*512);
+			}
+		}
+		
+		
+		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 
 		// Draw the selection :
@@ -176,7 +185,7 @@ public class Game extends BasicGame
 	public void init(GameContainer gc) throws SlickException 
 	{	
 		plateau = new Plateau(this.constants,this.resX,this.resY,2,this);
-
+		this.background =  new Image("pics/dirt.png");
 		for(int i=0;i<2;i++){
 			for(int j=0;j<2;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
@@ -200,7 +209,7 @@ public class Game extends BasicGame
 			random = (int)(Math.random()*2.0);
 			switch(random){
 			case 0:
-				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
+				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
 				break;
 			case 1:
 				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
@@ -214,7 +223,9 @@ public class Game extends BasicGame
 		}
 		for(int i=0; i<6; i++){
 			new Tree(200+(int)(Math.random()*800f),200+(int)(Math.random()*500f),plateau,(int)(Math.random()*4f)+1);
+			new Water(200f+i*32f,200f,plateau);
 		}
+		
 		//Water w = new Water(200,250,plateau);
 		selection = null;
 	}
