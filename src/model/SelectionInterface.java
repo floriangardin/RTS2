@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -19,17 +21,35 @@ public class SelectionInterface extends Bar {
 	public Graphics draw(Graphics g){
 		
 		// Draw the selection of current player
-		int compteurX = 0;
-		int compteurY = 0;
-		float startX = this.x;
-		float startY = this.y;
+		float startX = this.x+10f;
+		float startY = this.y+20f;
 		g.setColor(Color.red);
-		for(Character c : this.parent.player.selection){
-			g.drawString("C",startX+10f*compteurX,startY+10f*compteurY);
-			compteurX++;
-			if(compteurX>2){
-				compteurY++;
+		// Draw 4 separations
+		g.setColor(Color.white);
+		for(int i=0;i<5;i++){
+			g.fillRect(this.x+this.sizeX*i/5f, this.y, 1f, this.sizeY);
+			if(this.parent.player.groupSelection==i){
+				System.out.println(i);
+				g.setColor(Color.pink);
+				g.fillRect(this.x+this.sizeX*i/5f, this.y,this.sizeX/5f, this.sizeY);
+				g.setColor(Color.white);
 			}
+		}
+		int compteur = 0;
+		for(Vector<Character> group : this.parent.player.groups){
+			// Draw each character with 1 of fifth the screen
+			if(group.size()>0){
+				Character c = group.get(0);
+				g.drawImage(c.image.getSubImage(0, 0, c.image.getWidth()/3,c.image.getHeight()/4),startX+this.sizeX*compteur/5f,this.y);
+				
+			}
+			compteur++;
+			if(compteur>=5){
+				break;
+			}
+			
+			
+
 		}
 		return g;
 	}

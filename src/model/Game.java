@@ -140,10 +140,9 @@ public class Game extends BasicGame
 		//TODO: Handling the groups
 		int touche;
 		for(int to=0; to<10; to++){
-			touche = to + 1;
-			if(touche==1)
-				touche = 11;
+			touche = to + 2;
 			if(i.isKeyPressed(touche)){
+				this.players.get(this.currentPlayer).groupSelection = touche-2;
 				if(i.isKeyDown(org.newdawn.slick.Input.KEY_LCONTROL) || i.isKeyDown(org.newdawn.slick.Input.KEY_RCONTROL)){
 					// Creating a new group made of the selection
 					this.players.get(currentPlayer).groups.get(to).clear();
