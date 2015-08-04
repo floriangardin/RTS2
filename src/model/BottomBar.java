@@ -22,7 +22,6 @@ public class BottomBar extends Bar {
 	
 	public Graphics draw(Graphics g){
 		// Draw Background : 
-
 		g.setColor(Color.black);
 		g.fillRect(x, y,sizeX, sizeY);
 		g.setColor(Color.white);
