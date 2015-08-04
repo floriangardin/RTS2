@@ -113,10 +113,10 @@ public class Utils {
 	}
 
 	
-	public static void triY(Vector<Character> liste){
+	public static void triY(Vector<Objet> liste){
 		if(liste.size()<=1)
 			return;
-		Vector<Character> liste1 = new Vector<Character>(), liste2= new Vector<Character>();
+		Vector<Objet> liste1 = new Vector<Objet>(), liste2= new Vector<Objet>();
 		for(int i=0;i<liste.size();i++){
 			if(i<liste.size()/2)
 				liste1.add(liste.get(i));

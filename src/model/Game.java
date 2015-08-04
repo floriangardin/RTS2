@@ -37,7 +37,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		Utils.triY(this.plateau.characters);
+		Utils.triY1(this.plateau.characters);
 
 
 		// g représente le pinceau
@@ -57,22 +57,31 @@ public class Game extends BasicGame
 
 		}
 
+		//Creation of the drawing Vector
+		Vector<Objet> toDraw = new Vector<Objet>();
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
+			//o.draw(g);
 			if(this.displayUnit)
-				o.draw(g);
+				toDraw.add(o);
 		}
 		for(ActionObjet o : plateau.equipments){
-			o.draw(g);
+			//o.draw(g);
+			toDraw.add(o);
 		}
 		for(Bullet o : plateau.bullets){
-			o.draw(g);
+			//o.draw(g);
+			toDraw.add(o);
 		}
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
-			o.draw(g);
+			//o.draw(g);
+			toDraw.add(o);
 		}
+		Utils.triY(toDraw);
+		for(Objet o: toDraw)
+			o.draw(g);
 
 		int gentils=0,mechants=0;
 		for(Character c: plateau.characters){
@@ -120,7 +129,7 @@ public class Game extends BasicGame
 		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_1)){
 			long time;
 			time = -System.currentTimeMillis();
-			Utils.triY(this.plateau.characters);
+			//Utils.triY(this.plateau.characters);
 			time += System.currentTimeMillis();
 			System.out.println("tri fusion: " + time + " ms. "+this.plateau.characters.size());
 
@@ -170,7 +179,7 @@ public class Game extends BasicGame
 		plateau = new Plateau(this.constants,this.resX,this.resY,2,this);
 
 		for(int i=0;i<2;i++){
-			for(int j=0;j<20;j++){
+			for(int j=0;j<2;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
 				new Character(plateau,1,750+10*i,100+10*j);
 			}
@@ -204,7 +213,9 @@ public class Game extends BasicGame
 			case 1:
 			}
 		}
-		//Rock r = new Rock(200,200,plateau);
+		for(int i=0; i<6; i++){
+			new Tree(200+(int)(Math.random()*800f),200+(int)(Math.random()*500f),plateau,(int)(Math.random()*4f)+1);
+		}
 		//Water w = new Water(200,250,plateau);
 		selection = null;
 	}

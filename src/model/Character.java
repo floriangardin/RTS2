@@ -30,7 +30,7 @@ public class Character extends ActionObjet{
 	protected float weight = 0;			//weapon and armor coefficient
 	protected float horseVelocity = 0; 	//horse coefficient
 
-	protected Image image;
+	// About drawing
 	protected float animationValue=0f;
 	protected int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
