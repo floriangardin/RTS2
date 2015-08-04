@@ -225,7 +225,7 @@ public class Game extends BasicGame
 
 
 		for(int i=0;i<plateau.toAddCharacters.size();i++){
-			int random = (int)(Math.random()*3.0);
+			int random = (int)(Math.random()*4.0);
 			switch(random){
 			case 0:
 				plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
@@ -236,14 +236,16 @@ public class Game extends BasicGame
 			case 2:
 				plateau.toAddCharacters.get(i).collectArmor(new HeavyArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
 				break;
+			case 3:
 			}
-			random = (int)(Math.random()*2.0);
+			random = (int)(Math.random()*3.0);
 			switch(random){
 			case 0:
-				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
+				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
 				break;
 			case 1:
 				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
+			case 2:
 			}
 			random = (int)(Math.random()*2.0);
 			switch(random){

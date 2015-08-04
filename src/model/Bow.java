@@ -13,6 +13,7 @@ public class Bow extends RangeWeapon{
 		this.name = "Bow";
 		this.state = 0f;
 		this.range = 100f;
+		this.damage = 3f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),this.range);
 		this.setOwner(owner);
 	}
@@ -46,7 +47,7 @@ public class Bow extends RangeWeapon{
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
 
 			if(target.collisionBox.intersects(circle)){
-				new Arrow(this.p,this.owner);
+				new Arrow(this.p,this.owner,this.damage);
 				this.state = 0f;
 			}
 		}

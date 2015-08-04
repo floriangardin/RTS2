@@ -5,6 +5,7 @@ public abstract class Weapon extends ActionObjet {
 	protected float chargeTime;
 	protected float weight;
 	protected Character owner;
+	protected float damage;
 
 	public void setOwner(Character owner){
 		this.owner = owner;
