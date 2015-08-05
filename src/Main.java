@@ -11,15 +11,15 @@ public class Main {
 	int framerate = 200;
 	public static void main(String[] args) {
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 1280;		
-		int resolutionY = 720;
+		int resolutionX = 800;		
+		int resolutionY = 600;
 		try {
 			Main main = new Main();
 			Game game = new Game();
 			game.setParams(main.framerate,(float) resolutionX,(float) resolutionY);
 			
 			AppGameContainer app = new AppGameContainer( game );
-			app.setDisplayMode(resolutionX, resolutionY, true);
+			app.setDisplayMode(resolutionX, resolutionY, false);
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
 			app.start();
