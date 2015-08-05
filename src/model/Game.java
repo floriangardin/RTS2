@@ -228,6 +228,7 @@ public class Game extends BasicGame
 		Character[] team = new Character[5];
 		for(int i=0;i<5;i++){		
 			team[i]=new Character(this.plateau,0,500f+10f*i,500f);
+			this.players.get(0).groups.get(i).add(team[i]);
 		}
 		// Give equipement to team 
 		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
@@ -243,6 +244,7 @@ public class Game extends BasicGame
 		
 		team[3].collectWeapon(new Bible(plateau,team[3]));
 		team[4].collectWeapon(new Balista(plateau,team[4]));
+		
 		
 		for(int i = 0;i<9; i++){
 			new Water(395f+32*i,570f,plateau);
