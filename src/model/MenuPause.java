@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 
 public class MenuPause extends Menu {
 	
@@ -27,10 +28,14 @@ public class MenuPause extends Menu {
 			this.game.quitMenu();
 			break;
 		case 1: 
-			System.out.println("Vous essayer de recommencer, \nmais je sais pas encore comment on va faire ça.\ndésolé");
+			try {
+				this.game.init(this.game.app);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 			break;
 		case 2:
-			System.out.println("Vous essayer de quitter, \nmais je sais pas encore comment on va faire ça.\ndésolé");
+			this.game.app.exit();
 			break;
 		default:		
 		}
