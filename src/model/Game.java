@@ -212,8 +212,8 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		mainMusic = new Music("music/test.ogg");
-		mainMusic.setVolume(0.5f);
+		mainMusic = new Music("music/background.ogg");
+		mainMusic.setVolume(0.3f);
 		mainMusic.loop();
 		
 		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);

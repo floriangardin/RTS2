@@ -1,5 +1,7 @@
 package model;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 public class Sword extends ContactWeapon {
@@ -16,6 +18,12 @@ public class Sword extends ContactWeapon {
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+10f);
 		this.setOwner(owner);
 		this.name = "Sword";
+		try {
+			this.sound = new Sound("music/sword.ogg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}

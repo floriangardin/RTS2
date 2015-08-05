@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 public class Arrow extends Bullet{
@@ -38,6 +39,13 @@ public class Arrow extends Bullet{
 			e.printStackTrace();
 		}
 		this.image.rotate(this.angle);
+		try {
+			this.sound = new Sound("music/arrow.ogg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.sound.play();
 	}
 	public void collision(Character c){
 		if(c.team!=this.owner.team){

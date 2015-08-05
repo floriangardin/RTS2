@@ -1,5 +1,7 @@
 package model;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 public class Bow extends RangeWeapon{
@@ -16,6 +18,7 @@ public class Bow extends RangeWeapon{
 		this.damage = 3f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),this.range);
 		this.setOwner(owner);
+
 	}
 	public void action(){
 		if(this.state<this.chargeTime+2f){
@@ -47,6 +50,7 @@ public class Bow extends RangeWeapon{
 			// Launch a bullet
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
 			if(target.collisionBox.intersects(circle)){
+				
 				new Arrow(this.p,this.owner,this.damage);
 				this.state = 0f;
 			}

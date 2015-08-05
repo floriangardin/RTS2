@@ -4,8 +4,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
-
+import org.newdawn.slick.Sound;
 public class Bolt extends Bullet {
 
 	protected float altitude;
@@ -51,6 +52,13 @@ public class Bolt extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
+		try {
+			this.sound = new Sound("music/fireball.ogg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.sound.play();
 	}
 	public void action(){
 		if(explosion){

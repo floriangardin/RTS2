@@ -3,13 +3,15 @@ package model;
 
 import java.util.Vector;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Plateau {
 
 	public Game g;
-
+	protected Sound deathSound;
 	protected int nTeams;
 	protected float maxX ;
 	protected float maxY ;
@@ -71,7 +73,12 @@ public class Plateau {
 			this.toAddSelection.addElement(new Vector<Character>());
 			this.toRemoveSelection.addElement(new Vector<Character>());
 		}
-
+		try {
+			this.deathSound = new Sound("music/death.ogg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// functions that handle buffers
@@ -116,6 +123,8 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
+				
+				this.deathSound.play();
 			}
 		}
 		for(ActionObjet o : equipments){

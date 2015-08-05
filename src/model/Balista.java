@@ -1,5 +1,7 @@
 package model;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 
 public class Balista extends RangeWeapon{
@@ -16,8 +18,10 @@ public class Balista extends RangeWeapon{
 		this.damage = 8f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),range);
 		this.setOwner(owner);
+
 	}
-	
+
+
 	public void action(){
 		// Test if owner 
 		if(this.state<this.chargeTime+2f){
@@ -52,5 +56,5 @@ public class Balista extends RangeWeapon{
 			}
 		}
 	}
-	
+
 }

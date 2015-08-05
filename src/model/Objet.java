@@ -5,12 +5,14 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Objet {
 	
+	protected Sound sound;
 	protected float x;
 	protected float y;
 	protected Shape collisionBox;
