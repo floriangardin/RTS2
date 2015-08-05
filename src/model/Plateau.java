@@ -124,7 +124,7 @@ public class Plateau {
 			if(!o.isAlive()){
 				this.removeCharacter(o);
 				
-				this.deathSound.play();
+				this.deathSound.play(0.8f+1f*((float)Math.random()),0.2f);
 			}
 		}
 		for(ActionObjet o : equipments){
