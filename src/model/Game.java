@@ -290,6 +290,8 @@ public class Game extends BasicGame
 		}
 		// Instantiate ennemy generator :
 		new EnnemyGenerator(plateau,this,520f,100f);
+		// Instantiate ennemy generator :
+		new EnnemyGenerator(plateau,this,520f,100f);
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
