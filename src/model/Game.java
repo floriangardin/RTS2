@@ -52,6 +52,22 @@ public class Game extends BasicGame
 	// Current player
 	protected int currentPlayer = 0;
 
+	// Menus
+	protected Menu menuPause;
+	protected Menu menuMain;
+	protected Menu menuCurrent = null;
+	public boolean isInMenu = false;
+	public void quitMenu(){
+		this.isInMenu = false;
+		this.menuCurrent = null;
+	}
+	public void setMenu(Menu m){
+		this.menuCurrent = m;
+		this.isInMenu = true;
+		m.printDebug();
+	}
+
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
@@ -59,6 +75,10 @@ public class Game extends BasicGame
 
 		// g représente le pinceau
 		//g.setColor(Color.black);
+		if(isInMenu){
+			this.menuCurrent.draw(g);
+			return;
+		}
 		for(int i=0;i<3;i++){
 			for(int j=0;j<2;j++){
 				g.drawImage(this.background, i*512, j*512);
@@ -139,6 +159,22 @@ public class Game extends BasicGame
 		Input i = gc.getInput();
 		// Update the selection rectangle :
 		// Test if new selection :
+		
+		if(isInMenu){
+			if(menuCurrent==menuPause && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
+				this.quitMenu();
+				return;
+			}
+			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+				menuCurrent.callItems(i);			
+			return;
+		}
+		
+		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
+			this.setMenu(menuPause);
+			return;
+		}
+		
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
 		}
@@ -253,8 +289,12 @@ public class Game extends BasicGame
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);
 		}
+<<<<<<< HEAD
+
+=======
 		// Instantiate ennemy generator :
 		new EnnemyGenerator(plateau,this,520f,100f);
+>>>>>>> 1c44586626d38a5b90d63f09027fa7e5e49ded7f
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
@@ -268,5 +308,6 @@ public class Game extends BasicGame
 		this.framerate = constants.FRAMERATE ;
 		this.resX = resX;
 		this.resY = resY ;
+		this.menuPause = new MenuPause(this);
 	}
 }

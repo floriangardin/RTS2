@@ -22,6 +22,7 @@ public class Main {
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);
+			app.setClearEachFrame(false);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

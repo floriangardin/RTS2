@@ -13,7 +13,7 @@ public class Menu_Item {
 	
 	public String name;
 
-	public Menu_Item(float sizeX, float sizeY, float x, float y, String name) {
+	public Menu_Item(float x, float y, float sizeX, float sizeY, String name) {
 		super();
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -33,6 +33,10 @@ public class Menu_Item {
 		g.fillRect(x, y, sizeX, sizeY);
 		g.setColor(Color.white);
 		g.drawString(name, x+sizeX/3f, y+sizeY/3f);
+	}
+	
+	public void printDebug(){
+		System.out.println(this.name+" "+this.x+" "+this.y+" " +this.sizeX+" " +this.sizeY);
 	}
 	
 
