@@ -24,14 +24,15 @@ public class BottomBar extends Bar {
 		// Draw Background : 
 		g.setColor(Color.black);
 		g.fillRect(x, y,sizeX, sizeY);
+		g.setColor(Color.white);
+		g.fillRect(x,y,sizeX,1f);
 		// Draw subcomponents :
 		selection.draw(g);
 		description.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
 		g.setColor(Color.white);
-		g.fillRect(this.sizeX/3f-2f,this.y,4f,this.sizeY);
-		g.fillRect(2f*this.sizeX/3f-2f,this.y,4f,this.sizeY);
-		
+		g.fillRect(this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
+		g.fillRect(2f*this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
 		return g;
 	}
 	

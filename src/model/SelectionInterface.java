@@ -29,7 +29,6 @@ public class SelectionInterface extends Bar {
 		for(int i=0;i<5;i++){
 			g.fillRect(this.x+this.sizeX*i/5f, this.y, 1f, this.sizeY);
 			if(this.parent.player.groupSelection==i){
-				System.out.println(i);
 				g.setColor(Color.pink);
 				g.fillRect(this.x+this.sizeX*i/5f, this.y,this.sizeX/5f, this.sizeY);
 				g.setColor(Color.white);
