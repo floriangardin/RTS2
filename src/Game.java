@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
-
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.tiled.*;
@@ -96,9 +95,6 @@ public class Game extends BasicGame
 		
 		this.plateau.action(i.getMouseX(),i.getMouseY(),i.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON));
 
-
-
-
 		//		if (i.isKeyDown(Input.KEY_LEFT)){
 		//
 		//			this.heros.move(-1f,0f);
@@ -154,7 +150,7 @@ public class Game extends BasicGame
 
 	public Game ()
 	{
-		super("Ultra Mythe RTS 2.0");
+		super("Ultra Mythe RTS 3.0");
 	}
 
 	public void setParams(int framerate,float resX,float resY){

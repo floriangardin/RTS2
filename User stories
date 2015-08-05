@@ -1,0 +1,79 @@
+Version alpha 3.1
+
+PRODUCT DESCRIPTION : 
+
+Playable version.
+
+Handle deplacement, fight, collision, death of units.
+Display interface to see what is going on the game. 
+Handle nature obstacle
+Display nature obstacle
+Handle weapons and armors. 
+Display weapons
+Handle mouse and keyboard to enhance gameplay
+Handle Network for two players
+ 
+ 
+time possibilites = [1,2,4,8,16,24,32]
+
+
+# DISPLAY
+8 - As a user I only want to see the part of the map on my sightbox
+1 - As a user I want to see the remaining lifepoints of an unit when it is injured
+2 - As a user I want to see a bottom bar which gather informations
+4 - As a user I want to see a minimap on the bottom bar
+4 - As a user I want to see my current selection on the bottom bar
+1 - As a user I want to see a top bar
+1 - As a user I want to see my current population in the top bar
+2 - As I user I want to be alerted when I am being attacked
+1 - As I user I want to see what unit is selected
+
+# CONTROL
+4 - As a user I want to be able to move the camera around the map by moving the mouse or keys
+4 - As a user I want to use key shortcut to attack and select groups
+
+# UNITS BEHAVIOUR
+8 - As a user I want a group of units to stop all together when it reaches his target
+4 - As a user I want my units to move toward their target, slipping along obstacles if needed
+4 - As a user I want the motion of characters and other object to be realistic
+4 - As a user I want to modify the behavior of one unit given a specific weapon
+
+# SOUNDS
+1 - As a user I want to hear music when I play
+8 - As a user I want a to hear characteristic sounds about what is going on the screen
+
+# GRAPHISM 
+2 - As a user I want to see a beautiful drawing of all the objects
+8 - As a user I want to see weapon on soldier arms
+1 - As a user I want to see an armor on soldier
+4 - As a user I want to see my soldier riding a horse
+
+# UNIT MODEL 
+2 - As a user I want to have weapon on soldier arms
+2 - As a user I want to have an armor on soldier
+2 - As a user I want my soldier to be able to ride a horse
+
+# ENVIRONMENT MODEL
+8 - As a user I want to have nature object which are obstacles and neutral elements
+
+
+#NETWORK
+8 - As a user I want to etablish communication with another who play the same game
+4 - As a user I want to able to host a game
+4 - As a user I want to process the Plateau when I am the host
+2 - As a user I want to send the state of my current Plateau
+2 - As a user I want to receive the state of the ennemy Plateau
+
+#USELESS
+4 - As a user I want to have access to a menu to start a game
+4 - As a user I want a random map to be generated when I play
+8 - As a user I want to select my units at the beginning of the game
+
+
+
+
+
+
+
+
+

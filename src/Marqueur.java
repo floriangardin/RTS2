@@ -86,5 +86,10 @@ public class Marqueur extends Objet {
 		return this.sight_range;
 		
 	}
+	@Override
+	public void action(Vector<Objet> target, Objet leader) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

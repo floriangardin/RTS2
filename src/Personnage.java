@@ -1,5 +1,7 @@
 import java.util.Vector;
 
+import model.Utils;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
@@ -23,10 +25,9 @@ public class Personnage extends Objet{
 		//Shape stats 
 		this.x = x_origin;
 		this.y = y_origin;
-		x_pre = x_origin;
-		y_pre = y_origin ;
 		this.radius = w;
-		
+		// Leader stats
+		this.leader_group = new Vector<Objet>();
 		// General stats
 		this.power = power;
 		this.lifepoints = lifepoints;
@@ -34,11 +35,8 @@ public class Personnage extends Objet{
 		this.sight_range = new Circle(x_origin,y_origin,sight_range);
 		this.attack_speed = vitesse_attaque/framerate;
 		this.acc = acc;
-		
-
-		
 		this.attack_state = 0.99f;
-		
+
 		// The center of the circle is redefinited to match with x,y ...
 		this.box = new Circle(this.x, this.y, this.radius);
 		switch(camps){
@@ -88,8 +86,8 @@ public class Personnage extends Objet{
 		}
 
 		// Update acceleration
-		ax =acc * f/framerate;
-		ay = acc * g/framerate;
+		float ax =acc * f/framerate;
+		float ay = acc * g/framerate;
 		// update speed
 
 		vx = 0.99f*vx + ax;
@@ -123,6 +121,7 @@ public class Personnage extends Objet{
 
 	public void attack(float vxo, float vyo){
 		// If not in range move toward ennemy
+
 		if(Utils.distance_2(this,this.main_target)<this.range*this.range){
 			if(this.attack_state>1f){
 				// calculate angle : 
@@ -140,10 +139,9 @@ public class Personnage extends Objet{
 		else{
 			this.move(this.main_target.getX(),this.main_target.getY());
 		}
-		
+
 		// We have killed our ennemy !
 		if(!this.main_target.isAlive()){
-			
 			this.main_target = null;
 			// Now require a new target if possible
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
@@ -188,13 +186,34 @@ public class Personnage extends Objet{
 
 		}
 		else{
+			// set the tolerance for collision:
+			//   - 0: collision is totally authorized
+			//   - 1: no collision but clipping
+			float toleranceCollision = 0.1f;
+			// get the mediatrice of both object
+			float y_med = this.x-o.getX();
+			float x_med = o.getY()-this.y;
+			float norm = (x_med*x_med+y_med*y_med);
+			y_med = y_med/norm;
+			x_med = x_med/norm;
+			if(x_med*vx+y_med*vy<0){
+				x_med=-x_med;
+				y_med=-y_med;
+				
+			}
+			
 			if((this.vx*this.vx+this.vy*this.vy)<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
-				this.setXY( x+o.getVx(),y+o.getVy());
+				if(x_med*o.getVx()+y_med*o.getVy()<0){
+					x_med=-x_med;
+					y_med=-y_med;
+				}
+				//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
+				this.setXY(x-5.5f*x_med,y-5.5f*y_med);
 			}
 			else{
-				this.setXY(x-vx, y-vy);
+				
+				this.setXY(x+toleranceCollision*(x-o.getX()),y+toleranceCollision*(y-o.getY()));
 			}
-
 			//this.move(this.vx+this.x,this.vy+this.y );
 			//}
 		}
@@ -216,7 +235,6 @@ public class Personnage extends Objet{
 
 		return this.vx;
 	}
-
 
 	@Override
 	public float getVy() {
@@ -241,14 +259,15 @@ public class Personnage extends Objet{
 			this.main_target = target.get(0) ;
 		}
 
-
 		// if main target on our side or nature go toward them
 		if(this.main_target!=null){
-
+			if(leader==this){
+				
+			}
 			if(this.main_target.getCamps()==0 || this.main_target.getCamps()==this.getCamps()){
 				this.move(this.main_target.getX(),this.main_target.getY());
 			}
-			if(this.main_target.getCamps()!=0 && this.main_target.getCamps()!=this.getCamps()){
+			else if(this.main_target.getCamps()!=0 && this.main_target.getCamps()!=this.getCamps()){
 				this.attack(this.main_target.getX(),this.main_target.getY());
 			}
 
@@ -269,12 +288,46 @@ public class Personnage extends Objet{
 		this.vx = 0;
 		this.vy = 0;
 	}
+	
+	public void action(Vector<Objet> target, Objet leader) {
+		// Choose main target : 
+		// TODO : choose a proper target strategy
+		// If we action from user or IA change the target according to a strategy  :
+		if(target.size()>0){
+			this.main_target = target.get(0) ;
+		}
+		// Assign the leader 
+		this.leader = leader ;
+		// if main target on our side or nature go toward them
+		if(this.main_target!=null){
 
+			if(this.main_target.getCamps()==0 || this.main_target.getCamps()==this.getCamps()){
+				this.move(this.main_target.getX(),this.main_target.getY());
+			}
+			else if(this.main_target.getCamps()!=0 && this.main_target.getCamps()!=this.getCamps()){
+				this.attack(this.main_target.getX(),this.main_target.getY());
+			}
+
+		}
+		// update the attack state;
+		if(this.attack_state<1f){
+			this.attack_state+=this.attack_speed;
+		}
+
+	}
+	
+	@Override
+	public void constructLeaderGroup(Vector<Objet> leader_group) {
+		this.leader_group = leader_group;		
+	}
 
 	@Override
 	public Circle getSightRange() {
-		
+
 		return this.sight_range;
-		
+
 	}
+
+
+	
 }

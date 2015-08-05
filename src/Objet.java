@@ -6,7 +6,6 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-
 public abstract class Objet {
 	
 	protected Vector<Objet> target = new Vector<Objet>();
@@ -14,18 +13,15 @@ public abstract class Objet {
 	protected Objet main_target; // 0: nature, 1: first player ....
 	protected int camps ; 
 	protected boolean alive;
-	protected float h;
 	protected float radius;
 	protected Shape box ;
 	protected Color color;
+	// Leader 
+	protected Objet leader;
+	protected Vector<Objet> leader_group;
 	// position time t
 	protected float x;
-
-
 	protected float y;
-	// position time t-1
-	protected float x_pre;
-	protected float y_pre;
 	// attack speed, define the potential number of attack per second ;
 	protected float attack_speed;
 	protected float power;
@@ -35,19 +31,16 @@ public abstract class Objet {
 	// Speed time t
 	protected float vx;
 	protected float vy;
-	// Speed time t-1;
-	protected float vx_pre;
-	protected float vy_pre;
 	protected Circle sight_range;
 	protected float range;
-	protected float ax;
-	protected float ay ;
 	//norm of a_max ;
 	protected float acc ;
 	// create a physic model of movement
 	public abstract Circle getSightRange();
 	public abstract void removeLifePoints(float to_remove);
 	public abstract void action(Vector<Objet> target);
+	public abstract void action(Vector<Objet> target,Objet leader);
+	public abstract void constructLeaderGroup(Vector<Objet> leader_group);
 	public abstract void draw(Graphics g);
 	public abstract void move(float dx, float dy);
 	public abstract float getX();
