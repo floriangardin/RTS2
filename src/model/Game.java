@@ -289,12 +289,8 @@ public class Game extends BasicGame
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);
 		}
-<<<<<<< HEAD
-
-=======
 		// Instantiate ennemy generator :
 		new EnnemyGenerator(plateau,this,520f,100f);
->>>>>>> 1c44586626d38a5b90d63f09027fa7e5e49ded7f
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
