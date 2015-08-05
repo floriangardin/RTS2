@@ -10,7 +10,7 @@ public class Bible extends ContactWeapon{
 		this.name = "Bible";
 		this.state = 0f;
 		this.damage = -0.1f;
-		this.chargeTime = 0.6f;
+		this.chargeTime = 0.2f;
 		this.lifePoints = 1f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+10f);
 		this.setOwner(owner);

@@ -17,7 +17,8 @@ public class Game extends BasicGame
 	public void changeDisplayUnit(){
 		displayUnit = !displayUnit;
 	}
-
+	//Music 
+	Music mainMusic ;
 	// Bottom bar :
 	BottomBar bottomBars;
 	// Top bars:
@@ -51,8 +52,7 @@ public class Game extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
 		//Utils.triY1(this.plateau.characters);
-
-
+		 
 		// g représente le pinceau
 		//g.setColor(Color.black);
 		for(int i=0;i<3;i++){
@@ -130,6 +130,7 @@ public class Game extends BasicGame
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException 
 	{	
+		
 		// Get the input from the usr
 		Input i = gc.getInput();
 		// Update the selection rectangle :
@@ -211,6 +212,10 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
+		mainMusic = new Music("music/test.ogg");
+		mainMusic.setVolume(0.5f);
+		mainMusic.loop();
+		
 		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
 		this.background =  new Image("pics/dirt.png");
 		for(int i=0;i<2;i++){

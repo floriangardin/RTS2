@@ -40,7 +40,7 @@ public class Bolt extends Bullet {
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
-		float Vmax = 170f;
+		float Vmax = 120f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
