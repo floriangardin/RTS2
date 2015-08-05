@@ -72,7 +72,7 @@ public class Bolt extends Bullet {
 		Circle area = new Circle(this.getX(),this.getY(),this.areaEffect);
 
 		for(Character c : this.p.characters){
-			if(c.collisionBox.intersects(area)){
+			if(c.collisionBox.intersects(area) && c.team!=this.owner.team){
 				this.boom(c);
 
 			}

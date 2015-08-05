@@ -26,15 +26,13 @@ public class EnnemyGenerator extends ActionObjet {
 		state+=0.1f;
 		if(state>=this.spawnTime){
 			this.generate();
-			this.state=0;
+			this.state=0f;
 			n_generated++;
 		}
 
 	}
 	public void generate(){
-
 		// Create character
-
 		Character c = new Character(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()-0.5f)*40f);
 		// Add a random weapon to character
 		if(n_generated<10){
