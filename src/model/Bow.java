@@ -11,13 +11,16 @@ public class Bow extends RangeWeapon{
 		p.addEquipmentObjets(this);
 		this.chargeTime = 10f;
 		this.name = "Bow";
-		this.state = 0f;
+		this.state = this.chargeTime;
 		this.range = 100f;
 		this.damage = 3f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),this.range);
 		this.setOwner(owner);
 	}
 	public void action(){
+		if(this.state<this.chargeTime+2f){
+			this.state += 0.1f;
+		}
 		// Test if owner 
 		if(this.owner==null){
 			return;
@@ -33,9 +36,7 @@ public class Bow extends RangeWeapon{
 			return;
 		}
 
-		if(this.state<this.chargeTime+2f){
-			this.state += 0.1f;
-		}
+		
 		if(target.lifePoints<=0f){
 			this.owner.target=null;
 			this.state=0f;
@@ -45,7 +46,6 @@ public class Bow extends RangeWeapon{
 		if(this.state>this.chargeTime){
 			// Launch a bullet
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
-
 			if(target.collisionBox.intersects(circle)){
 				new Arrow(this.p,this.owner,this.damage);
 				this.state = 0f;
