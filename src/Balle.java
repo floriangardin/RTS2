@@ -20,14 +20,14 @@ public class Balle extends Objet{
 		this.y = y_origin;
 		x_pre = x_origin;
 		y_pre = y_origin ;
-		this.w = 3f;
+		this.radius = 3f;
 		this.vitesse = 0.2f;
 		vx =vitesse * vxo;
 		vy =vitesse * vyo ;
 		vx_pre = vxo;
 		vy_pre = vyo;
 
-		this.box = new Circle(this.x, this.y,this.w);
+		this.box = new Circle(this.x, this.y,this.radius);
 		this.color = Color.black;
 	}
 
@@ -49,7 +49,7 @@ public class Balle extends Objet{
 		x = x + vx;
 		y = y + vy;
 
-		box.setLocation(x-this.w, y-this.w);
+		box.setLocation(x-this.radius, y-this.radius);
 	}
 
 	@Override
@@ -115,6 +115,22 @@ public class Balle extends Objet{
 	@Override
 	public void action(Vector<Objet> target) {
 		this.move(0,0);
+		
+	}
+
+
+
+	@Override
+	public Circle getSightRange() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public void removeLifePoints(float to_remove) {
+		// TODO Auto-generated method stub
 		
 	}
 }
