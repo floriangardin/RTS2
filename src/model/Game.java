@@ -137,6 +137,7 @@ public class Game extends BasicGame
 		// Test if new selection :
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
+			System.out.println("vaneau: " + i.getAbsoluteMouseX() + " " + i.getAbsoluteMouseY());
 		}
 
 		//TODO: Handling the groups
