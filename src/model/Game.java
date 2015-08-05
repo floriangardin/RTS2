@@ -17,6 +17,8 @@ public class Game extends BasicGame
 	public void changeDisplayUnit(){
 		displayUnit = !displayUnit;
 	}
+	// Ennemy generator 
+	EnnemyGenerator gen ;
 	//Music 
 	Music mainMusic ;
 	//Sounds ;
@@ -259,9 +261,27 @@ public class Game extends BasicGame
 		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
 		this.background =  new Image("pics/dirt.png");
 		//Instantiate allies
+		Character[] team = new Character[5];
 		for(int i=0;i<5;i++){		
-			new Character(this.plateau,0,500f+10f*i,500f);
+			team[i]=new Character(this.plateau,0,500f+10f*i,500f);
+			this.players.get(0).groups.get(i).add(team[i]);
 		}
+		// Give equipement to team 
+		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
+		team[0].collectWeapon(new Sword(plateau,team[0]));
+		team[0].collectArmor(new HeavyArmor(team[0].getX(),team[0].getY(),plateau,team[0]));
+		
+		team[1].collectWeapon(new Bow(plateau,team[1]));
+		team[1].collectArmor(new LightArmor(team[1].getX(),team[1].getY(),plateau,team[1]));
+		
+		team[2].collectWeapon(new Sword(plateau,team[2]));
+		team[2].collectArmor(new MediumArmor(team[2].getX(),team[2].getY(),plateau,team[1]));
+		team[2].collectHorse(new Horse(plateau, team[2]));
+		
+		team[3].collectWeapon(new Bible(plateau,team[3]));
+		team[4].collectWeapon(new Balista(plateau,team[4]));
+		
+		
 		for(int i = 0;i<9; i++){
 			new Water(395f+32*i,570f,plateau);
 		}
@@ -269,7 +289,12 @@ public class Game extends BasicGame
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);
 		}
+<<<<<<< HEAD
 
+=======
+		// Instantiate ennemy generator :
+		new EnnemyGenerator(plateau,this,520f,100f);
+>>>>>>> 1c44586626d38a5b90d63f09027fa7e5e49ded7f
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
