@@ -39,12 +39,7 @@ public class Arrow extends Bullet{
 			e.printStackTrace();
 		}
 		this.image.rotate(this.angle);
-		try {
-			this.sound = new Sound("music/arrow.ogg");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.sound = p.sounds.arrow;
 		this.sound.play();
 	}
 	public void collision(Character c){

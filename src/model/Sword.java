@@ -13,18 +13,12 @@ public class Sword extends ContactWeapon {
 		p.addEquipmentObjets(this);
 		this.state = 0f;
 		this.damage = 5f;
-		this.chargeTime = 10f;
+		this.chargeTime = 5f;
 		this.lifePoints = 1f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+10f);
 		this.setOwner(owner);
 		this.name = "Sword";
-		try {
-			this.sound = new Sound("music/sword.ogg");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		this.sound = p.sounds.sword;
 		
 	}
 	

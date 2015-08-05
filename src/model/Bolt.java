@@ -52,12 +52,7 @@ public class Bolt extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-		try {
-			this.sound = new Sound("music/fireball.ogg");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.sound = p.sounds.fireball;
 		this.sound.play();
 	}
 	public void action(){

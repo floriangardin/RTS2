@@ -19,6 +19,8 @@ public class Game extends BasicGame
 	}
 	//Music 
 	Music mainMusic ;
+	//Sounds ;
+	Sounds sounds;
 	// Bottom bar :
 	BottomBar bottomBars;
 	// Top bars:
@@ -52,7 +54,7 @@ public class Game extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
 		//Utils.triY1(this.plateau.characters);
-		 
+
 		// g représente le pinceau
 		//g.setColor(Color.black);
 		for(int i=0;i<3;i++){
@@ -130,7 +132,7 @@ public class Game extends BasicGame
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException 
 	{	
-		
+
 		// Get the input from the usr
 		Input i = gc.getInput();
 		// Update the selection rectangle :
@@ -215,65 +217,25 @@ public class Game extends BasicGame
 		//mainMusic = new Music("music/background.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
-		
-		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
-		this.background =  new Image("pics/dirt.png");
-		for(int i=0;i<2;i++){
-			for(int j=0;j<4;j++){
-				new Character(plateau,0,100+10*i,100+10*j);
-				new Character(plateau,1,750+10*i,100+10*j);
-			}
-
-		}
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
-
+		this.sounds = new Sounds();
+		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.background =  new Image("pics/dirt.png");
+		//Instantiate allies
+		for(int i=0;i<5;i++){		
+			new Character(this.plateau,0,500f+10f*i,500f);
+		}
+		for(int i = 0;i<9; i++){
+			new Water(395f+32*i,570f,plateau);
+		}
+		for(int i = 0;i<3; i++){
+			new Tree(368f,490f+32*i,plateau,4);
+			new Tree(682f,490f+32*i,plateau,4);
+		}
+		
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
-
-
-		for(int i=0;i<plateau.toAddCharacters.size();i++){
-			int random = (int)(Math.random()*4.0);
-			switch(random){
-			case 0:
-				plateau.toAddCharacters.get(i).collectArmor(new LightArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
-				break;
-			case 1:
-				plateau.toAddCharacters.get(i).collectArmor(new MediumArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
-				break;
-			case 2:
-				plateau.toAddCharacters.get(i).collectArmor(new HeavyArmor(0f, 0f, plateau, plateau.toAddCharacters.get(i)));
-				break;
-			case 3:
-			}
-			random = (int)(Math.random()*4.0);
-			switch(random){
-			case 0:
-				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
-				break;
-			case 1:
-				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
-				break;
-			case 2:
-				plateau.toAddCharacters.get(i).collectWeapon(new Bible(plateau,plateau.toAddCharacters.get(i)));
-				break;
-			case 3:
-				plateau.toAddCharacters.get(i).collectWeapon(new Balista(plateau,plateau.toAddCharacters.get(i)));
-				break;
-			}
-			random = (int)(Math.random()*2.0);
-			switch(random){
-			case 0:
-				plateau.toAddCharacters.get(i).collectHorse(new Horse(plateau,plateau.toAddCharacters.get(i)));
-			case 1:
-			}
-		}
-		for(int i=0; i<30; i++){
-			//new Tree(200+(int)(Math.random()*800f),200+(int)(Math.random()*500f),plateau,(int)(Math.random()*4f)+1);
-			//new Water(200f+i*32f,200f,plateau);
-		}
-
-		//Water w = new Water(200,250,plateau);
 		selection = null;
 	}
 	public Game ()
