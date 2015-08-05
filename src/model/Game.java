@@ -7,7 +7,6 @@ import java.util.Vector;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.tiled.*;
-import org.newdawn.slick.Input;
 
 public class Game extends BasicGame 
 {	
@@ -53,6 +52,7 @@ public class Game extends BasicGame
 	protected int currentPlayer = 0;
 
 	// Menus
+	AppGameContainer app;
 	protected Menu menuPause;
 	protected Menu menuMain;
 	protected Menu menuCurrent = null;
@@ -64,7 +64,6 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
-		m.printDebug();
 	}
 
 
