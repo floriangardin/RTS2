@@ -47,10 +47,17 @@ public class DescriptionInterface extends Bar {
 				int b = (int)(aux*100f)-a*100;
 				s = "Att.Rate: " + a+"."+b;
 				g.drawString(s, x+2f*sizeX/3f, y+10f);
-				s = "Damage: " + (int)c0.weapon.damage;
+				float aux1 = Math.abs(c0.weapon.damage);
+				a = (int)(aux1*100f)/100;
+				b = (int)(aux1*100f)-a*100;
+				if(c0.weapon.damage<0)
+					s = "Healing: ";
+				else
+					s = "Damage: "; 
+				s+= a +"." +b;
 				g.drawString(s, x+2f*sizeX/3f, y+45f);
-				a = (int)(c0.weapon.damage*100f*aux)/100;
-				b = (int)(c0.weapon.damage*100f*aux)-a*100;
+				a = (int)(aux1*100f*aux)/100;
+				b = (int)(aux1*100f*aux)-a*100;
 				s = "DPS: " + a+"."+b;
 				g.drawString(s, x+2f*sizeX/3f, y+80f);
 			}else{

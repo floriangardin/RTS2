@@ -3,7 +3,6 @@ package model;
 public class ContactWeapon extends Weapon {
 
 	public void action(){
-		
 		// Test if owner 
 		if(this.owner==null){
 			return;

@@ -15,8 +15,8 @@ public class Bible extends ContactWeapon{
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+10f);
 		this.setOwner(owner);
 	}
-	
-	
+
+
 	public void action(){
 		// Test if owner 
 		if(this.owner==null){
@@ -28,16 +28,23 @@ public class Bible extends ContactWeapon{
 		if(!(this.owner.target instanceof Character)){
 			return;
 		}
+		this.target = this.owner.target;
 		this.state += 0.1f;
-		Character target =(Character) this.owner.target;
-		if(target.team==this.owner.team && this.state>this.chargeTime){
-			// Attack if armor<damage and collision
-			if(target!=this.owner && target.lifePoints<target.maxLifePoints && target.collisionBox.intersects(this.collisionBox)){
-				target.lifePoints=(float)Math.min(target.maxLifePoints, target.lifePoints-this.damage);
+	}
+
+	public void collision(Character c){
+		if(c!=this.owner && c.team==this.owner.team && c==this.target && this.state>this.chargeTime && !this.owner.isMobile()){
+			//Heal !
+			if(c.lifePoints>=c.maxLifePoints){
+				if(this.owner.target==c){
+					this.owner.target=null;
+				}
+				return;
 			}
-			// Reset state of weapon 
+			c.lifePoints= (float)Math.min(c.maxLifePoints, c.lifePoints-this.damage);
+
+			// Reset the state
 			this.state = 0f;
-			
 		}
 	}
 }

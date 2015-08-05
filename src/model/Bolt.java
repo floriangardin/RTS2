@@ -14,11 +14,11 @@ public class Bolt extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Bolt(Plateau p,Character owner){
+	public Bolt(Plateau p,Character owner,float damage){
 		this.p = p;
 		p.addBulletObjets(this);
 		this.p = p;
-		this.damage = 20f;
+		this.damage = damage;
 		try {
 			this.image = (new Image("pics/Fireball.png")).getSubImage(0, 150, 75, 75);
 			this.image1 = (new Image("pics/Fireball.png")).getSubImage(75, 150, 75, 75);
@@ -27,7 +27,7 @@ public class Bolt extends Bullet {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		this.altitude = 80f;
+		this.altitude = 0f;
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
@@ -62,7 +62,6 @@ public class Bolt extends Bullet {
 		if(this.animation>=9)
 			this.animation = 0;
 		if(this.collisionBox.contains(this.target.collisionBox)){
-			System.out.println("explosion");
 			this.explode();
 		}
 	}

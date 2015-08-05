@@ -101,7 +101,7 @@ public class Utils {
 					for(int i=0; i<32; i+=1){
 						for(int j=0; j<32; j+=1){
 							ca = charac.getColor(i+32, j+32*ligne);
-							if(ca.a>0 && (colonne*32+i+decalage)>=0 && (colonne*32+i+decalage)<96)
+							if(ca.a>0 && i+decalage>0 && i+decalage<31)
 								bimage.setRGBA(colonne*32+i+decalage, ligne*48+j, (int)(ca.r*255), (int)(ca.g*255), (int)(ca.b*255), (int)(ca.a*255));
 						}
 					}

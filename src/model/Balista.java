@@ -13,6 +13,7 @@ public class Balista extends RangeWeapon{
 		this.weight = 0.9f;
 		this.state = 30f;
 		this.chargeTime = 50f;
+		this.damage = 10f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),range);
 		this.setOwner(owner);
 	}
@@ -46,7 +47,7 @@ public class Balista extends RangeWeapon{
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
 
 			if(target.collisionBox.intersects(circle)){
-				new Bolt(this.p,this.owner);
+				new Bolt(this.p,this.owner,this.damage);
 				this.state = 0f;
 			}
 		}

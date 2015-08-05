@@ -279,7 +279,6 @@ public class Character extends ActionObjet{
 				if(this.weapon instanceof Balista)
 					imageb = new Image("pics/Magicwand.png");
 				this.image = Utils.mergeImages(this.image, imageb);
-
 			}
 
 			//Handling the horse
@@ -301,7 +300,13 @@ public class Character extends ActionObjet{
 			return;
 		}
 		if(target==null){
-			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
+			Vector<Objet> potential_targets;
+			if(this.weapon!=null && this.weapon.damage>0) 
+				potential_targets = p.getEnnemiesInSight(this);
+			else if (this.weapon!=null && this.weapon.damage<0) 
+				potential_targets = p.getWoundedAlliesInSight(this);
+			else
+				potential_targets = new Vector<Objet>();
 			if(potential_targets.size()>0){
 				//Take the nearest target :
 				this.target = Utils.nearestObject(potential_targets, this);
@@ -431,9 +436,9 @@ public class Character extends ActionObjet{
 		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
 		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
 		float x1 = this.getX() - drawWidth;
-		float y1 = this.getY() - drawHeight;
+		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
-		float y2 = this.getY() + drawHeight;
+		float y2 = this.getY() + drawWidth;
 		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		// Drawing the health bar
 		if(this.lifePoints<this.maxLifePoints){
@@ -449,9 +454,9 @@ public class Character extends ActionObjet{
 		float r = this.collisionBox.getBoundingCircleRadius();
 		g.setColor(Color.green);
 		if(this.horse!=null){
-			g.draw(new Ellipse(this.getX(),this.getY()+4f*r/3f,r+4f,r-5f));
+			g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r+3f,r-3f));
 		} else {
-			g.draw(new Ellipse(this.getX(),this.getY()+5f*r/6f,r,r-5f));
+			g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
 	}	
 

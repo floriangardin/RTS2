@@ -65,18 +65,12 @@ public class Game extends BasicGame
 		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 
-		// Draw the selection :
-		if(this.selection !=null){
-			g.setColor(Color.green);
-			g.draw(this.selection);
 
-		}
 		// Draw the selection of your team 
 		for(Character o: plateau.selection.get(currentPlayer)){
 			o.drawIsSelected(g);
 
 		}
-
 		//Creation of the drawing Vector
 		Vector<Objet> toDraw = new Vector<Objet>();
 		// Draw the Action Objets
@@ -103,8 +97,13 @@ public class Game extends BasicGame
 			o.draw(g);
 			//toDraw.add(o);
 		}
-		
-		
+		// Draw the selection :
+		if(this.selection !=null){
+			g.setColor(Color.green);
+			g.draw(this.selection);
+
+		}
+
 		int gentils=0,mechants=0;
 		for(Character c: plateau.characters){
 			if(c.team==0)
@@ -137,7 +136,6 @@ public class Game extends BasicGame
 		// Test if new selection :
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
-			System.out.println("vaneau: " + i.getAbsoluteMouseX() + " " + i.getAbsoluteMouseY());
 		}
 
 		//TODO: Handling the groups
@@ -216,7 +214,7 @@ public class Game extends BasicGame
 		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
 		this.background =  new Image("pics/dirt.png");
 		for(int i=0;i<2;i++){
-			for(int j=0;j<20;j++){
+			for(int j=0;j<4;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
 				new Character(plateau,1,750+10*i,100+10*j);
 			}

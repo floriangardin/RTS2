@@ -259,6 +259,24 @@ public class Plateau {
 		}
 		return ennemies_in_sight;
 	}
+	public Vector<Objet> getAlliesInSight(Character caller){
+		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+		for(Character o : characters){
+			if(o!=caller && o.team==caller.team && o.collisionBox.intersects(caller.sightBox)){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
+	public Vector<Objet> getWoundedAlliesInSight(Character caller){
+		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+		for(Character o : characters){
+			if(o!=caller && o.team==caller.team && o.lifePoints<o.maxLifePoints && o.collisionBox.intersects(caller.sightBox)){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
 	public Vector<Objet> getRessourcesInSight(Character caller){
 		Vector<Objet> ressources_in_sight = new Vector<Objet>();
 		for(NaturalObjet o : naturalObjets){
