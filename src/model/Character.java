@@ -28,6 +28,7 @@ public class Character extends ActionObjet{
 	protected Weapon weapon;
 	// About velocity
 	protected float maxVelocity; 	//current maximum
+	protected float basicVelocity;
 	protected float weight = 0;			//weapon and armor coefficient
 	protected float horseVelocity = 0; 	//horse coefficient
 
@@ -52,7 +53,8 @@ public class Character extends ActionObjet{
 		}
 		this.team = team;
 		// the maximum number of float by second
-		this.maxVelocity = 80f;
+		this.basicVelocity = 70f;
+		this.maxVelocity = this.basicVelocity;
 		switch(team){
 		case 0:
 			this.color = Color.blue;
@@ -136,7 +138,7 @@ public class Character extends ActionObjet{
 				this.secondaryTargets.remove(0);
 				return;
 			}
-				
+
 		}
 		this.vx = 0f;
 		this.vy = 0f;
@@ -208,7 +210,7 @@ public class Character extends ActionObjet{
 	public void setWeapon(Weapon weapon) {
 		if(weapon!=null)
 			this.weight += weapon.weight;
-		else if (this.weapon!=null)
+		else
 			this.weight -= this.weapon.weight;
 		this.weapon = weapon;
 		this.updateVelocity();
@@ -217,7 +219,7 @@ public class Character extends ActionObjet{
 	public void setArmor(Armor armor) {
 		if(armor!=null)
 			this.weight += armor.weight;
-		else if (this.armor!=null)
+		else 
 			this.weight -= this.armor.weight;
 		this.armor = armor;
 		this.updateVelocity();
@@ -237,9 +239,9 @@ public class Character extends ActionObjet{
 		float v = 1f;
 		if(this.horse!=null)
 			v = v * this.horse.velocity;
-		v = v/(1f+weight);
+		v = v/(1f+this.weight);
 
-		this.maxVelocity *= v;
+		this.maxVelocity = this.basicVelocity*v;
 	}
 	public void updateImage(){
 		try{
@@ -272,6 +274,10 @@ public class Character extends ActionObjet{
 					imageb = new Image("pics/Sword.png");
 				if(this.weapon instanceof Bow)
 					imageb = new Image("pics/Bow.png");
+				if(this.weapon instanceof Bible)
+					imageb = new Image("pics/Bible.png");
+				if(this.weapon instanceof Balista)
+					imageb = new Image("pics/Magicwand.png");
 				this.image = Utils.mergeImages(this.image, imageb);
 
 			}
@@ -509,6 +515,25 @@ public class Character extends ActionObjet{
 		float x, y;
 		x = this.getX();
 		y = this.getY();
+		// If the point is in the corner the treatment is special
+//		if(Utils.distance(o, this)-this.collisionBox.getBoundingCircleRadius()>0.99f*o.collisionBox.getBoundingCircleRadius()){
+//			float r, r0;
+//			r = this.collisionBox.getBoundingCircleRadius();
+//			r0 = o.collisionBox.getBoundingCircleRadius();
+//			if(oX>x){
+//				if(oY<y){
+//					this.setXY(oX-r0-r, y+r+r0);
+//				} else {
+//					this.setXY(oX-r0-r, y-r-r0);
+//				}
+//			} else {
+//				if(oY<y){
+//					this.setXY(oX+r0+r, y+r+r0);
+//				} else {
+//					this.setXY(oX+r0+r, y-r-r0);
+//				}
+//			}
+//		}
 		// Choosing the sector to eject the point
 		int sector = 0;
 		if(x-oX>0f){
@@ -561,6 +586,10 @@ public class Character extends ActionObjet{
 				finalY = yb;
 				finalX = x2;
 			}
+			if(Float.isNaN(finalX))
+				finalX = this.getX();
+			if(Float.isNaN(finalY))
+				finalY = this.getY();
 			this.setVXVY(finalX-x0, 0f);
 			break;
 		case 1:
@@ -574,11 +603,14 @@ public class Character extends ActionObjet{
 				finalX = xb;
 				finalY = y2;
 			}
+			if(Float.isNaN(finalX))
+				finalX = this.getX();
+			if(Float.isNaN(finalY))
+				finalY = this.getY();
 			this.setVXVY(0f, finalY-y0);
 			break;
 		default:
 		}
-
 		this.setXY(finalX, finalY);
 
 	}

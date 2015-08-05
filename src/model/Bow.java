@@ -6,7 +6,7 @@ public class Bow extends RangeWeapon{
 	
 	public Bow(Plateau p,Character owner){
 		this.p = p;
-		this.weight = 0.1f;
+		this.weight = 0.2f;
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
 		this.chargeTime = 10f;

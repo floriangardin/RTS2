@@ -19,6 +19,9 @@ public class Balista extends RangeWeapon{
 	
 	public void action(){
 		// Test if owner 
+		if(this.state<this.chargeTime+2f){
+			this.state += 0.1f;
+		}
 		if(this.owner==null){
 			return;
 		}
@@ -31,9 +34,6 @@ public class Balista extends RangeWeapon{
 		Character target =(Character) this.owner.target;
 		if(this.owner.team==target.team){
 			return;
-		}
-		if(this.state<this.chargeTime+2f){
-			this.state += 0.1f;
 		}
 		if(target.lifePoints<=0f){
 			this.owner.target=null;

@@ -28,7 +28,6 @@ public class Arrow extends Bullet{
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
-		System.out.println(this.angle);
 		if(this.vx<0)
 			this.angle+=180;
 		if(this.angle<0)

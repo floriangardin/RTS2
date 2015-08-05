@@ -9,13 +9,11 @@ public class Bible extends ContactWeapon{
 		p.addEquipmentObjets(this);
 		this.name = "Bible";
 		this.state = 0f;
-		this.damage = -10f;
-		this.chargeTime = 10f;
+		this.damage = -0.1f;
+		this.chargeTime = 0.6f;
 		this.lifePoints = 1f;
+		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+10f);
 		this.setOwner(owner);
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius());
-		this.setXY(owner.getX(),owner.getY());
-		this.setXY(owner.getX(),owner.getY());
 	}
 	
 	
@@ -30,12 +28,12 @@ public class Bible extends ContactWeapon{
 		if(!(this.owner.target instanceof Character)){
 			return;
 		}
-		Character target =(Character) this.owner.target;
 		this.state += 0.1f;
-		if(this.state>this.chargeTime){
+		Character target =(Character) this.owner.target;
+		if(target.team==this.owner.team && this.state>this.chargeTime){
 			// Attack if armor<damage and collision
-			if(target.getArmor().damageReductor<=this.damage && target.collisionBox.intersects(this.collisionBox)){
-				target.lifePoints+=target.getArmor().damageReductor-this.damage;
+			if(target!=this.owner && target.lifePoints<target.maxLifePoints && target.collisionBox.intersects(this.collisionBox)){
+				target.lifePoints=(float)Math.min(target.maxLifePoints, target.lifePoints-this.damage);
 			}
 			// Reset state of weapon 
 			this.state = 0f;

@@ -50,7 +50,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		Utils.triY1(this.plateau.characters);
+		//Utils.triY1(this.plateau.characters);
 
 
 		// g représente le pinceau
@@ -89,10 +89,6 @@ public class Game extends BasicGame
 			//o.draw(g);
 			toDraw.add(o);
 		}
-		for(Bullet o : plateau.bullets){
-			//o.draw(g);
-			toDraw.add(o);
-		}
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
@@ -103,6 +99,12 @@ public class Game extends BasicGame
 		for(Objet o: toDraw)
 			o.draw(g);
 
+		for(Bullet o : plateau.bullets){
+			o.draw(g);
+			//toDraw.add(o);
+		}
+		
+		
 		int gentils=0,mechants=0;
 		for(Character c: plateau.characters){
 			if(c.team==0)
@@ -164,6 +166,8 @@ public class Game extends BasicGame
 			if(currentPlayer==2)
 				currentPlayer = 0;
 		}
+		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_Z))
+			Utils.printCurrentState(plateau);
 
 		// Update the rectangle
 		if(i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
@@ -211,7 +215,7 @@ public class Game extends BasicGame
 		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
 		this.background =  new Image("pics/dirt.png");
 		for(int i=0;i<2;i++){
-			for(int j=0;j<2;j++){
+			for(int j=0;j<20;j++){
 				new Character(plateau,0,100+10*i,100+10*j);
 				new Character(plateau,1,750+10*i,100+10*j);
 			}
@@ -238,14 +242,20 @@ public class Game extends BasicGame
 				break;
 			case 3:
 			}
-			random = (int)(Math.random()*3.0);
+			random = (int)(Math.random()*4.0);
 			switch(random){
 			case 0:
 				plateau.toAddCharacters.get(i).collectWeapon(new Sword(plateau,plateau.toAddCharacters.get(i)));
 				break;
 			case 1:
 				plateau.toAddCharacters.get(i).collectWeapon(new Bow(plateau,plateau.toAddCharacters.get(i)));
+				break;
 			case 2:
+				plateau.toAddCharacters.get(i).collectWeapon(new Bible(plateau,plateau.toAddCharacters.get(i)));
+				break;
+			case 3:
+				plateau.toAddCharacters.get(i).collectWeapon(new Balista(plateau,plateau.toAddCharacters.get(i)));
+				break;
 			}
 			random = (int)(Math.random()*2.0);
 			switch(random){
@@ -254,9 +264,9 @@ public class Game extends BasicGame
 			case 1:
 			}
 		}
-		for(int i=0; i<6; i++){
-			new Tree(200+(int)(Math.random()*800f),200+(int)(Math.random()*500f),plateau,(int)(Math.random()*4f)+1);
-			new Water(200f+i*32f,200f,plateau);
+		for(int i=0; i<30; i++){
+			//new Tree(200+(int)(Math.random()*800f),200+(int)(Math.random()*500f),plateau,(int)(Math.random()*4f)+1);
+			//new Water(200f+i*32f,200f,plateau);
 		}
 
 		//Water w = new Water(200,250,plateau);

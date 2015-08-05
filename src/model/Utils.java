@@ -177,4 +177,28 @@ public class Utils {
 			liste1.remove(index);
 		}
 	}
+	
+	public static void printCurrentState(Plateau p){
+		System.out.println("DEBUG MODE");
+		System.out.println();
+		System.out.println("========================================");
+		System.out.println();
+		System.out.println("** Characters");
+		if(p.characters==null)
+			System.out.println("-> bug: characters est null");
+		else{
+			for(Character c:p.characters)
+				System.out.println(c+" " + c.x+ " " +c.y);
+		}
+		System.out.println();
+		System.out.println("========================================");
+		System.out.println();
+		System.out.println("** Natural Objets");
+		if(p.naturalObjets==null)
+			System.out.println("-> bug: characters est null");
+		else{
+			for(NaturalObjet c:p.naturalObjets)
+				System.out.println(c+" " + c.x+ " " +c.y);
+		}
+	}
 }
