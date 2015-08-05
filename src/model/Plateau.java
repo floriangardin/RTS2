@@ -9,7 +9,8 @@ import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Plateau {
-
+	
+	Sounds sounds;
 	public Game g;
 	protected Sound deathSound;
 	protected int nTeams;
@@ -42,6 +43,7 @@ public class Plateau {
 	//TODO : make actionsObjets and everything else private 
 
 	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){
+		this.sounds = g.sounds;
 		this.g = g;
 		//GENERAL
 		this.constants = constants;
@@ -124,7 +126,7 @@ public class Plateau {
 			if(!o.isAlive()){
 				this.removeCharacter(o);
 				
-				this.deathSound.play();
+				this.deathSound.play(0.8f+1f*((float)Math.random()),0.2f);
 			}
 		}
 		for(ActionObjet o : equipments){

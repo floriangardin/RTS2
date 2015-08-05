@@ -46,8 +46,7 @@ public class Character extends ActionObjet{
 			if(team==1)
 				imageb = new Image("pics/Red.png");
 			this.image = Utils.mergeImages(imagea, imageb);
-			Image imaged = new Image("pics/HorseBlue.png");
-			this.image = Utils.mergeHorse(imaged, this.image);
+
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

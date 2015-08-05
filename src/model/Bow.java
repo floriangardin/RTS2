@@ -11,7 +11,7 @@ public class Bow extends RangeWeapon{
 		this.weight = 0.2f;
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
-		this.chargeTime = 10f;
+		this.chargeTime = 5f;
 		this.name = "Bow";
 		this.state = this.chargeTime;
 		this.range = 100f;
