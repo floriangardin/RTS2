@@ -33,15 +33,15 @@ public class Balista extends RangeWeapon{
 		// update x and y
 		this.setXY(this.owner.getX(), this.owner.getY());
 		// Test if target
-		if(!(this.owner.target instanceof Character)){
+		if(!(this.owner.getTarget() instanceof Character)){
 			return;
 		}
-		Character target =(Character) this.owner.target;
+		Character target =(Character) this.owner.getTarget();
 		if(this.owner.team==target.team){
 			return;
 		}
 		if(target.lifePoints<=0f){
-			this.owner.target=null;
+			this.owner.setTarget(null);
 			this.state=0f;
 			return;
 		}

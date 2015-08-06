@@ -20,8 +20,8 @@ public class Arrow extends Bullet{
 		this.owner = owner;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),2f);
 		this.setXY(owner.getX(),owner.getY());
-		this.vx = this.owner.target.getX()-this.owner.getX();
-		this.vy = this.owner.target.getY()-this.owner.getY();
+		this.vx = this.owner.getTarget().getX()-this.owner.getX();
+		this.vy = this.owner.getTarget().getY()-this.owner.getY();
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;

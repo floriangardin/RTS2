@@ -338,7 +338,7 @@ public class Plateau {
 				o.group=null;
 			o.leader.group.add(o);
 			//eventually we assign the target
-			o.target = target;
+			o.setTarget(target);
 			o.secondaryTargets.clear();
 		}
 

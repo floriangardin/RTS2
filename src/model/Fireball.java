@@ -32,12 +32,12 @@ public class Fireball extends Bullet {
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
-		this.target = new Checkpoint(owner.target.getX(),owner.target.getY());
+		this.setTarget(new Checkpoint(owner.getTarget().getX(),owner.getTarget().getY()));
 		this.areaEffect = 40f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),10f);
 		this.setXY(owner.getX(),owner.getY()-altitude);
-		this.vx = this.owner.target.getX()-this.owner.getX();
-		this.vy = this.owner.target.getY()-this.owner.getY()+altitude;
+		this.vx = this.owner.getTarget().getX()-this.owner.getX();
+		this.vy = this.owner.getTarget().getY()-this.owner.getY()+altitude;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
@@ -65,7 +65,7 @@ public class Fireball extends Bullet {
 		this.animation+=1;
 		if(this.animation>=9)
 			this.animation = 0;
-		if(this.collisionBox.contains(this.target.collisionBox)){
+		if(this.collisionBox.contains(this.getTarget().collisionBox)){
 			this.explode();
 		}
 	}

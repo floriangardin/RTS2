@@ -129,11 +129,11 @@ public class Character extends ActionObjet{
 
 
 	public void stop(){
-		if(this.target instanceof Checkpoint){
+		if(this.getTarget() instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
-				this.target = null;
+				this.setTarget(null);
 			}else{
-				this.target = this.secondaryTargets.firstElement();
+				this.setTarget(this.secondaryTargets.firstElement());
 				this.secondaryTargets.remove(0);
 				return;
 			}
@@ -295,10 +295,10 @@ public class Character extends ActionObjet{
 	// define the behavior of the character according to the attributes
 	public void action(){
 		if(!this.isAlive()){
-			target=null;
+			this.setTarget(null);
 			return;
 		}
-		if(target==null){
+		if(this.getTarget()==null){
 			Vector<Objet> potential_targets;
 			if(this.weapon!=null && this.weapon.damage>0) 
 				potential_targets = p.getEnnemiesInSight(this);
@@ -308,38 +308,43 @@ public class Character extends ActionObjet{
 				potential_targets = new Vector<Objet>();
 			if(potential_targets.size()>0){
 				//Take the nearest target :
-				this.target = Utils.nearestObject(potential_targets, this);
+				this.setTarget(Utils.nearestObject(potential_targets, this));
 			}
-			if(target==null){
+			if(this.getTarget()==null){
+				if(this.checkpointTarget!=null){
+					this.setTarget(this.checkpointTarget);
+					move();
+					this.setTarget(null);
+				}
 				return;
 			}
 		}
-		if(!this.target.isAlive() ){
-			this.target = null;
+		if(!this.getTarget().isAlive() ){
+			this.setTarget(null);
 			// Now require a new target if possible
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
 			if(potential_targets.size()>0){
 				//Take the nearest target :
-				this.target = Utils.nearestObject(potential_targets, this);
+				this.setTarget(Utils.nearestObject(potential_targets, this));
 			}
 		}
-		else if(this.target instanceof Character){
-			Character c =(Character) this.target;
-			if(c.team!=this.team && !this.sightBox.intersects(this.target.collisionBox)){
-				this.target=null;
+		else if(this.getTarget() instanceof Character){
+			Character c =(Character) this.getTarget();
+			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
+				this.setTarget(null);
 			}
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
 			if(potential_targets.size()>0){
 				//Take the nearest target :
-				this.target = Utils.nearestObject(potential_targets, this);
+				this.setTarget(Utils.nearestObject(potential_targets, this));
 			}
 		}
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			this.stop();
 		}
-		if(target instanceof Weapon && Utils.distance(this,target)<2f*this.collisionBox.getBoundingCircleRadius()){
-			this.collectWeapon((Weapon)target);
-			this.target = new Checkpoint(target.getX(),target.getY());
+		if(this.getTarget() instanceof Weapon && Utils.distance(this,this.getTarget())<2f*this.collisionBox.getBoundingCircleRadius()){
+			this.collectWeapon((Weapon)this.getTarget());
+			this.setTarget(new Checkpoint(this.getTarget().getX(),this.getTarget().getY()));
 			this.stop();
 		}
 		if(this.weapon==null){
@@ -347,7 +352,7 @@ public class Character extends ActionObjet{
 			move();
 		} else{
 			// If the character has a weapon it goes toward the target till it is at range
-			if(this.target!=null && !this.target.collisionBox.intersects(this.weapon.collisionBox)){
+			if(this.getTarget()!=null && !this.getTarget().collisionBox.intersects(this.weapon.collisionBox)){
 				move();
 			}
 			else{
@@ -360,12 +365,12 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
-		if(this.target==null){
+		if(this.getTarget()==null){
 			return;
 		}
 		float accx,accy;
-		accx = this.target.getX()-this.getX();
-		accy = this.target.getY()-this.getY();
+		accx = this.getTarget().getX()-this.getX();
+		accy = this.getTarget().getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
 		float maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
@@ -390,7 +395,7 @@ public class Character extends ActionObjet{
 			//if the velocity is too large it is reduced to the maxVelocity value
 			newvx = newvx*maxVNorm/vNorm;
 			newvy = newvy*maxVNorm/vNorm;
-		} else if(accNorm<5.0f && vNorm<2.0f || this.collisionBox.intersects(target.collisionBox)){
+		} else if(accNorm<5.0f && vNorm<2.0f || this.collisionBox.intersects(this.getTarget().collisionBox)){
 			//if the velocity is small and the acceleration against it
 			//the point needs to be stopped
 			this.stop();
@@ -532,24 +537,24 @@ public class Character extends ActionObjet{
 		x = this.getX();
 		y = this.getY();
 		// If the point is in the corner the treatment is special
-//		if(Utils.distance(o, this)-this.collisionBox.getBoundingCircleRadius()>0.99f*o.collisionBox.getBoundingCircleRadius()){
-//			float r, r0;
-//			r = this.collisionBox.getBoundingCircleRadius();
-//			r0 = o.collisionBox.getBoundingCircleRadius();
-//			if(oX>x){
-//				if(oY<y){
-//					this.setXY(oX-r0-r, y+r+r0);
-//				} else {
-//					this.setXY(oX-r0-r, y-r-r0);
-//				}
-//			} else {
-//				if(oY<y){
-//					this.setXY(oX+r0+r, y+r+r0);
-//				} else {
-//					this.setXY(oX+r0+r, y-r-r0);
-//				}
-//			}
-//		}
+		//		if(Utils.distance(o, this)-this.collisionBox.getBoundingCircleRadius()>0.99f*o.collisionBox.getBoundingCircleRadius()){
+		//			float r, r0;
+		//			r = this.collisionBox.getBoundingCircleRadius();
+		//			r0 = o.collisionBox.getBoundingCircleRadius();
+		//			if(oX>x){
+		//				if(oY<y){
+		//					this.setXY(oX-r0-r, y+r+r0);
+		//				} else {
+		//					this.setXY(oX-r0-r, y-r-r0);
+		//				}
+		//			} else {
+		//				if(oY<y){
+		//					this.setXY(oX+r0+r, y+r+r0);
+		//				} else {
+		//					this.setXY(oX+r0+r, y-r-r0);
+		//				}
+		//			}
+		//		}
 		// Choosing the sector to eject the point
 		int sector = 0;
 		if(x-oX>0f){

@@ -21,7 +21,7 @@ public class MenuFireball extends Fireball {
 		this.altitude = 0f;
 		this.animation = 0;
 		this.lifePoints = 30f;
-		this.target = new Checkpoint(x2,y2);
+		this.setTarget(new Checkpoint(x2,y2));
 		this.areaEffect = 40f;
 		this.collisionBox = new Circle(x1,y1,50f);
 		this.setXY(x1,y1);

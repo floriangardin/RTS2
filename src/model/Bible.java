@@ -25,19 +25,19 @@ public class Bible extends ContactWeapon{
 		// update x and y
 		this.setXY(this.owner.getX(), this.owner.getY());
 		// Test if target
-		if(!(this.owner.target instanceof Character)){
+		if(!(this.owner.getTarget() instanceof Character)){
 			return;
 		}
-		this.target = this.owner.target;
+		this.setTarget(this.owner.getTarget());
 		this.state += 0.1f;
 	}
 
 	public void collision(Character c){
-		if(c!=this.owner && c.team==this.owner.team && c==this.target && this.state>this.chargeTime && !this.owner.isMobile()){
+		if(c!=this.owner && c.team==this.owner.team && c==this.getTarget() && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Heal !
 			if(c.lifePoints>=c.maxLifePoints){
-				if(this.owner.target==c){
-					this.owner.target=null;
+				if(this.owner.getTarget()==c){
+					this.owner.setTarget(null);
 				}
 				return;
 			}
