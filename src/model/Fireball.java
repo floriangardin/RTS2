@@ -31,6 +31,7 @@ public class Fireball extends Bullet {
 		this.image = (this.p.images.fireball).getSubImage(0, 150, 75, 75);
 		this.image1 = (this.p.images.fireball).getSubImage(75, 150, 75, 75);
 		this.image2 = (this.p.images.fireball).getSubImage(150, 150, 75, 75);
+		this.boom = this.p.images.explosion;
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;

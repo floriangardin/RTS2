@@ -1,5 +1,6 @@
 package model;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Point;
 
 public class EnnemyGenerator extends ActionObjet {
@@ -20,6 +21,7 @@ public class EnnemyGenerator extends ActionObjet {
 		this.state = spawnTime;
 		this.lifePoints = 1f;
 		this.collisionBox= new Point(x,y);
+		this.image = this.p.images.tent;
 	}
 
 	public void action(){
@@ -66,5 +68,9 @@ public class EnnemyGenerator extends ActionObjet {
 
 
 
+	}
+	public Graphics draw(Graphics g){
+		g.drawImage(this.image,this.getX()-40f,this.getY()-80f,this.getX()+40f,this.getY(),0f,0f,this.image.getWidth(),this.image.getHeight());
+		return g;
 	}
 }
