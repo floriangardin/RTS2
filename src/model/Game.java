@@ -142,9 +142,10 @@ public class Game extends BasicGame
 		g.setColor(Color.red);
 		g.drawString(String.valueOf(mechants), 10, 70);
 
-
-		g.setColor(Color.black);
-		g.fill(new Rectangle(0,0,90,30));
+		if(this.app.isShowingFPS()){
+			g.setColor(Color.black);
+			g.fill(new Rectangle(0,0,90,30));
+		}
 
 		// Draw bottom bar
 		if(this.bottomBars!=null)

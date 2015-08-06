@@ -24,6 +24,7 @@ public class Main {
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);
 			app.setClearEachFrame(true);
+			app.setShowFPS(false);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
