@@ -175,6 +175,7 @@ public class Game extends BasicGame
 		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
 			if(!this.musicMenu.playing()){
 				this.musicMenu.play();
+				this.musicMenu.setVolume(1.5f);
 			}
 			this.setMenu(menuPause);
 			return;
@@ -183,6 +184,7 @@ public class Game extends BasicGame
 			this.musicMenu.fade(300,0f,true);
 			if(!this.musicStartGame.playing()){
 				this.musicStartGame.play();
+				
 			}
 		}
 		
@@ -312,6 +314,9 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
+		Image cursor = new Image("pics/cursor.png");
+		
+		gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 		mainMusic = new Music("music/background.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
