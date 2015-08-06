@@ -66,7 +66,7 @@ public class Character extends ActionObjet{
 		this.p = p;
 		p.addCharacterObjets(this);;
 		this.collisionBox = new Circle(x,y,15f);
-		this.sightBox = new Circle(x,y,200f);
+		this.sightBox = new Circle(x,y,100f);
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;

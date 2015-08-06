@@ -7,17 +7,20 @@ import org.newdawn.slick.SlickException;
 
 public class Main {
 	int framerate = 60;
+	
 	Constants constants;
 	public static void main(String[] args) {
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 1280;		
-		int resolutionY = 720;
+		int resolutionX = 1366;		
+		int resolutionY = 768;
 		
 		try {
 			Main main = new Main();
 			Game game = new Game();
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
-			AppGameContainer app = new AppGameContainer( game );			
+			AppGameContainer app = new AppGameContainer( game );
+			
+		
 			game.app = app;
 			app.setDisplayMode(resolutionX, resolutionY, false);
 			//app.setFullscreen(true);
