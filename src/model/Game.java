@@ -180,6 +180,7 @@ public class Game extends BasicGame
 			this.setMenu(menuPause);
 			return;
 		}
+		
 		if(this.musicMenu.playing() && !isInMenu){
 			this.musicMenu.fade(300,0f,true);
 			if(!this.musicStartGame.playing()){
