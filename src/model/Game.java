@@ -20,6 +20,7 @@ public class Game extends BasicGame
 	EnnemyGenerator gen ;
 	//Music 
 	Music mainMusic ;
+	Music musicMenu;
 	//Sounds ;
 	Sounds sounds;
 	// Bottom bar :
@@ -74,7 +75,7 @@ public class Game extends BasicGame
 	{
 		//Utils.triY1(this.plateau.characters);
 
-		// g représente le pinceau
+		// g reprï¿½sente le pinceau
 		//g.setColor(Color.black);
 		if(isInMenu){
 			this.menuCurrent.draw(g);
@@ -162,15 +163,23 @@ public class Game extends BasicGame
 		// Update the selection rectangle :
 		// Test if new selection :
 		if(isInMenu){
+			if(!this.musicMenu.playing()){
+				this.musicMenu.play();
+			}
 			this.menuCurrent.update(i);
 			return;
 		}
 
 		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
+			if(!this.musicMenu.playing()){
+				this.musicMenu.play();
+			}
 			this.setMenu(menuPause);
 			return;
 		}
-
+		if(this.musicMenu.playing() && !isInMenu){
+			this.musicMenu.fade(300,0f,true);
+		}
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
 		}
@@ -294,9 +303,10 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		//mainMusic = new Music("music/background.ogg");
+		mainMusic = new Music("music/background.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
+		this.musicMenu = new Music("music/intro_verdi.ogg");
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 		this.sounds = new Sounds();
