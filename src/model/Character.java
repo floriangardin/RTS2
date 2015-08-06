@@ -294,17 +294,15 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
-		if(this.getTarget()!=null)
-			System.out.println("target " + this + " " + this.getTarget() + " " + this.checkpointTarget);
 		if(!this.isAlive()){
 			this.setTarget(null);
 			return;
 		}
 		if(this.getTarget()==null){
 			Vector<Objet> potential_targets;
-			if(this.weapon!=null && this.weapon.damage>0) 
+			if(this.weapon!=null && this.weapon.damage>0f) 
 				potential_targets = p.getEnnemiesInSight(this);
-			else if (this.weapon!=null && this.weapon.damage<0) 
+			else if (this.weapon!=null && this.weapon.damage<0f) 
 				potential_targets = p.getWoundedAlliesInSight(this);
 			else
 				potential_targets = new Vector<Objet>();
@@ -324,7 +322,13 @@ public class Character extends ActionObjet{
 		if(!this.getTarget().isAlive() ){
 			this.setTarget(null);
 			// Now require a new target if possible
-			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
+			Vector<Objet> potential_targets;
+			if(this.weapon!=null && this.weapon.damage>0f) 
+				potential_targets = p.getEnnemiesInSight(this);
+			else if (this.weapon!=null && this.weapon.damage<0f) 
+				potential_targets = p.getWoundedAlliesInSight(this);
+			else
+				potential_targets = new Vector<Objet>();
 			if(potential_targets.size()>0){
 				//Take the nearest target :
 				this.setTarget(Utils.nearestObject(potential_targets, this));
