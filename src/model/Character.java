@@ -294,6 +294,8 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
+		if(this.getTarget()!=null)
+			System.out.println("target " + this + " " + this.getTarget() + " " + this.checkpointTarget);
 		if(!this.isAlive()){
 			this.setTarget(null);
 			return;
@@ -332,6 +334,7 @@ public class Character extends ActionObjet{
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
 				this.setTarget(null);
+				return;
 			}
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
 			if(potential_targets.size()>0){
@@ -359,6 +362,7 @@ public class Character extends ActionObjet{
 			}
 			else{
 				this.stop();
+				System.out.println("ee");
 				return;
 			}
 		}
