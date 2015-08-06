@@ -298,10 +298,6 @@ public class Character extends ActionObjet{
 			this.setTarget(null);
 			return;
 		}
-		if(someoneStopped && this.isLeader() && this.group!=null){
-			this.stop();
-			return;
-		}
 		if(this.getTarget()==null){
 			Vector<Objet> potential_targets;
 			if(this.weapon!=null && this.weapon.damage>0) 
@@ -346,6 +342,10 @@ public class Character extends ActionObjet{
 		if(this.getTarget() instanceof Weapon && Utils.distance(this,this.getTarget())<2f*this.collisionBox.getBoundingCircleRadius()){
 			this.collectWeapon((Weapon)this.getTarget());
 			this.setTarget(new Checkpoint(this.getTarget().getX(),this.getTarget().getY()));
+			this.stop();
+			return;
+		}
+		if(someoneStopped && this.isLeader() && this.group!=null){
 			this.stop();
 			return;
 		}
