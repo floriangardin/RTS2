@@ -51,7 +51,7 @@ public class Menu_Item {
 			this.animation+=1f;
 			if(this.animation>60f)
 				this.animation = 0f;
-			float c = Math.min((100f*animation/60f)/255f, (100f-100f*animation/60f)/255f);
+			float c = Math.min((150f*animation/60f)/255f, (150f-150f*animation/60f)/255f);
 			this.color = new Color(c,c,c);
 		} else {
 			this.color = Color.black;
