@@ -93,6 +93,8 @@ public class MenuIntro extends Menu {
 		if(i.isKeyPressed(Input.KEY_R)){
 			this.game.app.setShowFPS(true);
 		}
+		for(Menu_Item item: this.items)
+			item.update(i);
 		this.timer += 0.1f;
 		for(Bullet b : this.bullets)
 			b.action();

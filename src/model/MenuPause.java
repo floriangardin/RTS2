@@ -48,5 +48,7 @@ public class MenuPause extends Menu {
 		}
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 			callItems(i);
+		for(Menu_Item item: this.items)
+			item.update(i);
 	}
 }
