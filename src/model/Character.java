@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Character extends ActionObjet{
-
+	
 	// General attributes
 	protected Circle sightBox;
 	protected float maxLifePoints;
@@ -48,6 +48,7 @@ public class Character extends ActionObjet{
 		//
 
 		this.p = p;
+		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
 		if(team==0)
@@ -479,15 +480,13 @@ public class Character extends ActionObjet{
 		float r = this.collisionBox.getBoundingCircleRadius();
 		g.setColor(Color.green);
 		if(this.horse!=null){
-			g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r+3f,r-3f));
+			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+		
 		} else {
-			g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
+			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
 	}	
-
-
-	//// AUXILIARY FUNCTIONS
-
 
 	// Collision with other Characters
 	public void collision(Character o) {

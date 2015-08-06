@@ -10,10 +10,7 @@ public class Bible extends ContactWeapon{
 		this.damage = -0.8f;
 		this.chargeTime = 0.2f;
 		this.name = "Bible";
-		float extraRange = 20f;
-		
-		//
-		
+		float extraRange = 30f;
 		this.p = p;
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);

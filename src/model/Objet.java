@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Objet {
-	
+	Image selection_circle;
 	protected Sound sound;
 	protected float x;
 	protected float y;
