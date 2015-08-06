@@ -38,4 +38,8 @@ public abstract class Menu {
 			this.items.get(i).printDebug();
 		;
 	}
+	
+	public void update(Input i){
+		
+	}
 }

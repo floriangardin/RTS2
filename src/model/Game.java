@@ -54,16 +54,18 @@ public class Game extends BasicGame
 	// Menus
 	AppGameContainer app;
 	protected Menu menuPause;
-	protected Menu menuMain;
+	protected Menu menuIntro;
 	protected Menu menuCurrent = null;
 	public boolean isInMenu = false;
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
+		app.setClearEachFrame(true);
 	}
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
+		app.setClearEachFrame(false);
 	}
 
 
@@ -145,7 +147,8 @@ public class Game extends BasicGame
 		g.fill(new Rectangle(0,0,90,30));
 
 		// Draw bottom bar
-		this.bottomBars.draw(g);
+		if(this.bottomBars!=null)
+			this.bottomBars.draw(g);
 
 
 	}
@@ -158,22 +161,16 @@ public class Game extends BasicGame
 		Input i = gc.getInput();
 		// Update the selection rectangle :
 		// Test if new selection :
-		
 		if(isInMenu){
-			if(menuCurrent==menuPause && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
-				this.quitMenu();
-				return;
-			}
-			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
-				menuCurrent.callItems(i);			
+			this.menuCurrent.update(i);
 			return;
 		}
-		
+
 		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
 			this.setMenu(menuPause);
 			return;
 		}
-		
+
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
 		}
@@ -247,18 +244,14 @@ public class Game extends BasicGame
 				this.players.get(currentPlayer).selection.addElement(c);
 		}
 	}
-	// Init our Game objects
-	@Override
-	public void init(GameContainer gc) throws SlickException 
-	{	
-		//mainMusic = new Music("music/background.ogg");
-		//mainMusic.setVolume(0.1f);
-		//mainMusic.loop();
+
+	public void newGame(){
+		//Clean all variables
+		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
-		this.sounds = new Sounds();
-		plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
-		this.background =  new Image("pics/dirt.png");
+
 		//Instantiate allies
 		Character[] team = new Character[5];
 		for(int i=0;i<5;i++){		
@@ -269,18 +262,18 @@ public class Game extends BasicGame
 		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
 		team[0].collectWeapon(new Sword(plateau,team[0]));
 		team[0].collectArmor(new HeavyArmor(team[0].getX(),team[0].getY(),plateau,team[0]));
-		
+
 		team[1].collectWeapon(new Bow(plateau,team[1]));
 		team[1].collectArmor(new LightArmor(team[1].getX(),team[1].getY(),plateau,team[1]));
-		
+
 		team[2].collectWeapon(new Sword(plateau,team[2]));
 		team[2].collectArmor(new MediumArmor(team[2].getX(),team[2].getY(),plateau,team[1]));
 		team[2].collectHorse(new Horse(plateau, team[2]));
-		
+
 		team[3].collectWeapon(new Bible(plateau,team[3]));
 		team[4].collectWeapon(new Balista(plateau,team[4]));
-		
-		
+
+
 		for(int i = 0;i<9; i++){
 			new Water(395f+32*i,570f,plateau);
 		}
@@ -292,9 +285,28 @@ public class Game extends BasicGame
 		new EnnemyGenerator(plateau,this,520f,100f);
 		// Instantiate ennemy generator :
 		new EnnemyGenerator(plateau,this,520f,100f);
+
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
+	}
+	// Init our Game objects
+	@Override
+	public void init(GameContainer gc) throws SlickException 
+	{	
+		//mainMusic = new Music("music/background.ogg");
+		//mainMusic.setVolume(0.1f);
+		//mainMusic.loop();
+		this.players.add(new Player(0));
+		this.players.add(new Player(1));
+		this.sounds = new Sounds();
+		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.background =  new Image("pics/dirt.png");
+		this.menuIntro = new MenuIntro(this);
+		this.menuPause = new MenuPause(this);
+		this.setMenu(menuIntro);
+
+
 	}
 	public Game ()
 	{
@@ -305,6 +317,6 @@ public class Game extends BasicGame
 		this.framerate = constants.FRAMERATE ;
 		this.resX = resX;
 		this.resY = resY ;
-		this.menuPause = new MenuPause(this);
+		//
 	}
 }

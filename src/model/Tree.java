@@ -23,6 +23,19 @@ public class Tree extends NaturalObjet {
 			e.printStackTrace();
 		}
 	}
+	public Tree(float x, float y, int type) {
+		float size = 25.0f;
+		this.collisionBox = new Rectangle(x-size/2,y-size/2,size,size);
+		this.color = Color.gray;
+		this.lifePoints = 1.0f;
+		this.setXY(x, y);
+		String s = "Tree0"+String.valueOf(type);
+		try {
+			this.image = new Image("pics/"+s+".png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void collision(Objet o){
 		//TODO: collision

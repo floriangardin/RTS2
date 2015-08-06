@@ -17,13 +17,13 @@ public class Main {
 			Main main = new Main();
 			Game game = new Game();
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
-			AppGameContainer app = new AppGameContainer( game );
+			AppGameContainer app = new AppGameContainer( game );			
 			game.app = app;
 			app.setDisplayMode(resolutionX, resolutionY, false);
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);
-			app.setClearEachFrame(false);
+			app.setClearEachFrame(true);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
