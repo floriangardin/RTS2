@@ -75,7 +75,7 @@ public class EnemyGenerator extends ActionObjet {
 
 	}
 	public Graphics draw(Graphics g){
-		g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY(),0f,0f,this.image.getWidth(),this.image.getHeight());
+		g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
 		return g;
 	}
 }
