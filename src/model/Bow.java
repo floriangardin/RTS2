@@ -7,15 +7,20 @@ import org.newdawn.slick.geom.Circle;
 public class Bow extends RangeWeapon{
 	
 	public Bow(Plateau p,Character owner){
-		this.p = p;
+		// Parameters
+
 		this.weight = 0.2f;
-		this.lifePoints = 1f;
-		p.addEquipmentObjets(this);
-		this.chargeTime = 5f;
-		this.name = "Bow";
-		this.state = this.chargeTime;
 		this.range = 100f;
 		this.damage = 3f;
+		this.chargeTime = 5f;
+		
+		//
+		
+		this.p = p;
+		this.lifePoints = 1f;
+		p.addEquipmentObjets(this);
+		this.name = "Bow";
+		this.state = this.chargeTime;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),this.range);
 		this.setOwner(owner);
 

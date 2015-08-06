@@ -22,7 +22,7 @@ public class Main {
 			
 		
 			game.app = app;
-			app.setDisplayMode(resolutionX, resolutionY, false);
+			app.setDisplayMode(resolutionX, resolutionY, true);
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);

@@ -54,6 +54,7 @@ public class MenuIntro extends Menu {
 		switch(i){
 		case 0:
 			this.toGame = true;
+			this.game.musicMenu.fade(300,0f,true);
 			break;
 		case 1: 
 			this.game.app.exit();

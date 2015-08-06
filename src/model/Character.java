@@ -38,6 +38,14 @@ public class Character extends ActionObjet{
 	// value = [2,4,6,8] according to the numeric pad
 
 	public Character(Plateau p,int team,float x, float y){
+		// Parameters
+		this.basicVelocity = 70f;
+		float size = 15f;
+		float sight = 100f;
+		this.maxLifePoints = 100f;
+		 
+		//
+		
 		try{
 			Image imagea = new Image("pics/Corps.png");
 			Image imageb = new Image("pics/Armure.png");
@@ -52,7 +60,6 @@ public class Character extends ActionObjet{
 		}
 		this.team = team;
 		// the maximum number of float by second
-		this.basicVelocity = 70f;
 		this.maxVelocity = this.basicVelocity;
 		switch(team){
 		case 0:
@@ -65,14 +72,12 @@ public class Character extends ActionObjet{
 		}
 		this.p = p;
 		p.addCharacterObjets(this);;
-		this.collisionBox = new Circle(x,y,15f);
-		this.sightBox = new Circle(x,y,100f);
+		this.collisionBox = new Circle(x,y,size);
+		this.sightBox = new Circle(x,y,sight);
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
-		this.maxLifePoints = 100f;
 		this.lifePoints= this.maxLifePoints;
-
 	}
 
 	// Getters

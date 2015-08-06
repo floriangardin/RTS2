@@ -16,6 +16,14 @@ public class Fireball extends Bullet {
 	protected boolean explosion= false;
 
 	public Fireball(Plateau p,Character owner,float damage){
+		// Parameters
+		this.altitude = 0f;
+		this.areaEffect = 40f;
+		float Vmax = 120f;
+		float size = 10f;
+		
+		//
+		
 		this.p = p;
 		p.addBulletObjets(this);
 		this.p = p;
@@ -28,20 +36,17 @@ public class Fireball extends Bullet {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		this.altitude = 0f;
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
 		this.setTarget(new Checkpoint(owner.getTarget().getX(),owner.getTarget().getY()));
-		this.areaEffect = 40f;
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),10f);
+		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
 		this.vx = this.owner.getTarget().getX()-this.owner.getX();
 		this.vy = this.owner.getTarget().getY()-this.owner.getY()+altitude;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
-		float Vmax = 120f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
