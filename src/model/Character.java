@@ -70,7 +70,7 @@ public class Character extends ActionObjet{
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
-		this.maxLifePoints = 20f;
+		this.maxLifePoints = 100f;
 		this.lifePoints= this.maxLifePoints;
 
 	}
