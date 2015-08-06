@@ -8,6 +8,7 @@ public class Player {
 	Vector<Vector<Character>> groups;
 	int team;
 	int groupSelection;
+	int ennemiesKilled;
 	
 	
 	public Player(int team) {
@@ -17,6 +18,7 @@ public class Player {
 			this.groups.add(new Vector<Character>());
 		this.team = team;
 		groupSelection = -1;
+		ennemiesKilled = 0;
 	}
 	
 	

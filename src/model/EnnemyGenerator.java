@@ -16,7 +16,7 @@ public class EnnemyGenerator extends ActionObjet {
 		this.p =p;
 		this.g =g;
 		this.team=1;
-		this.spawnTime = 40f;
+		this.spawnTime = 80f;
 		this.state = spawnTime;
 		this.lifePoints = 1f;
 		this.collisionBox= new Point(x,y);

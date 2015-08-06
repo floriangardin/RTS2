@@ -7,6 +7,7 @@ public class BottomBar extends Bar {
 	
 	SelectionInterface selection ;
 	DescriptionInterface description;
+	DisplayInterface display;
 	
 	public BottomBar(Plateau p ,Player player, Game g){
 		this.p = p ;
@@ -17,6 +18,7 @@ public class BottomBar extends Bar {
 		this.y = 4f/5f*g.resY;
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
+		this.display = new DisplayInterface(this);
 	}
 	
 	
@@ -29,6 +31,7 @@ public class BottomBar extends Bar {
 		// Draw subcomponents :
 		selection.draw(g);
 		description.draw(g);
+		display.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
 		g.setColor(Color.white);
 		g.fillRect(this.sizeX/3f-0.5f,this.y,1f,this.sizeY);

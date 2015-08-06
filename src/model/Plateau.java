@@ -125,6 +125,8 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
+				if(o.team==1)
+					this.g.players.get(0).ennemiesKilled+=1;
 				
 				this.deathSound.play(0.8f+1f*((float)Math.random()),0.2f);
 			}
