@@ -314,7 +314,7 @@ public class Character extends ActionObjet{
 				return;
 			}
 		}
-		if(!this.target.isAlive()){
+		if(!this.target.isAlive() ){
 			this.target = null;
 			// Now require a new target if possible
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
@@ -322,7 +322,19 @@ public class Character extends ActionObjet{
 				//Take the nearest target :
 				this.target = Utils.nearestObject(potential_targets, this);
 			}
-		}if(someoneStopped && this.isLeader() && this.group!=null){
+		}
+		else if(this.target instanceof Character){
+			Character c =(Character) this.target;
+			if(c.team!=this.team && !this.sightBox.intersects(this.target.collisionBox)){
+				this.target=null;
+			}
+			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
+			if(potential_targets.size()>0){
+				//Take the nearest target :
+				this.target = Utils.nearestObject(potential_targets, this);
+			}
+		}
+		if(someoneStopped && this.isLeader() && this.group!=null){
 			this.stop();
 		}
 		if(target instanceof Weapon && Utils.distance(this,target)<2f*this.collisionBox.getBoundingCircleRadius()){
