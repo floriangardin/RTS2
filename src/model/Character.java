@@ -40,7 +40,7 @@ public class Character extends ActionObjet{
 
 	public Character(Plateau p,int team,float x, float y){
 		// Parameters
-		this.basicVelocity = 70f;
+		this.basicVelocity = 100f;
 		float size = 20f;
 		float sight = 100f;
 		this.maxLifePoints = 100f;
