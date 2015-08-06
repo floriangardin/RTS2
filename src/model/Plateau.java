@@ -31,7 +31,9 @@ public class Plateau {
 	protected Vector<Bullet> toAddBullets;
 	protected Vector<Bullet> toRemoveBullets;
 
-
+	protected Vector<EnemyGenerator> enemyGens;
+	protected Vector<EnemyGenerator> toAddEnemyGens;
+	protected Vector<EnemyGenerator> toRemoveEnemyGens;
 
 	protected Vector<NaturalObjet> naturalObjets ;
 	protected Vector<NaturalObjet> toAddNaturalObjets;
@@ -68,6 +70,10 @@ public class Plateau {
 		this.naturalObjets = new Vector<NaturalObjet>();
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets= new Vector<NaturalObjet>();
+		//ENEMYGENERATOR
+		this.enemyGens = new Vector<EnemyGenerator>();
+		this.toAddEnemyGens = new Vector<EnemyGenerator>();
+		this.toRemoveEnemyGens = new Vector<EnemyGenerator>();
 		//SELECTION
 		this.selection = new Vector<Vector<Character>>();
 		this.toAddSelection = new Vector<Vector<Character>>();
@@ -109,6 +115,12 @@ public class Plateau {
 	}
 	private void removeNaturalObjets(NaturalObjet o){
 		toRemoveNaturalObjets.addElement(o);
+	}
+	public void addEnemyGenerator(EnemyGenerator o){
+		toAddEnemyGens.addElement(o);
+	}
+	public void removeEnemyGenerator(EnemyGenerator o){
+		toRemoveEnemyGens.addElement(o);
 	}
 	public void addSelection(Character o,int team){
 		toAddSelection.get(team).addElement(o);
@@ -153,6 +165,11 @@ public class Plateau {
 				this.removeNaturalObjets(o);
 			}
 		}
+		for(EnemyGenerator o : enemyGens){
+			if(!o.isAlive()){
+				this.removeEnemyGenerator(o);
+			}
+		}
 
 		// Update selection
 		for(int i=0;i<nTeams;i++){
@@ -194,6 +211,12 @@ public class Plateau {
 		for(NaturalObjet o: toAddNaturalObjets){
 			naturalObjets.addElement(o);
 		}
+		for(EnemyGenerator o: toRemoveEnemyGens){
+			enemyGens.remove(o);
+		}
+		for(EnemyGenerator o: toAddEnemyGens){
+			enemyGens.addElement(o);
+		}
 
 		// Clear the vector :
 		for(int i = 0;i<nTeams;i++){
@@ -205,10 +228,12 @@ public class Plateau {
 		toRemoveEquipments.clear();
 		toRemoveBullets.clear();
 		toRemoveNaturalObjets.clear();
+		toRemoveEnemyGens.clear();
 		toAddCharacters.clear();
 		toAddEquipments.clear();
 		toAddBullets.clear();
 		toAddNaturalObjets.clear();
+		toAddEnemyGens.clear();
 	}
 
 	//getters and setters
@@ -242,8 +267,14 @@ public class Plateau {
 			for(ActionObjet i:equipments){
 
 				if(i.collisionBox.intersects(o.collisionBox)){
-
 					i.collision(o);
+				}
+			}
+			// Between characters and generator
+			for(EnemyGenerator e:enemyGens){
+
+				if(e.collisionBox.intersects(o.collisionBox)){
+					o.collision(e);
 				}
 			}
 		}
@@ -424,17 +455,16 @@ public class Plateau {
 	//general methods 
 	public void action(){
 		for(Character o: this.characters){
-			//TODO : Leader handling leader stuff
-
 			o.action();
 		}
 		for(ActionObjet o: this.equipments){
-			//TODO : Leader handling leader stuff
 			o.action();
 		}
 		for(Bullet o: bullets){
-			//TODO : Leader handling leader stuff
 			o.action();
+		}
+		for(EnemyGenerator e: this.enemyGens){
+			e.action();
 		}
 	}
 	public void update(){

@@ -17,7 +17,7 @@ public class Game extends BasicGame
 		displayUnit = !displayUnit;
 	}
 	// Ennemy generator 
-	EnnemyGenerator gen ;
+	EnemyGenerator gen ;
 	//Music 
 	Music mainMusic ;
 	Music musicMenu;
@@ -26,6 +26,8 @@ public class Game extends BasicGame
 	Sounds sounds;
 	//Images ;
 	Images images;
+	//Maps;
+	Map map;
 	// Bottom bar :
 	BottomBar bottomBars;
 	// Top bars:
@@ -117,6 +119,10 @@ public class Game extends BasicGame
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			//o.draw(g);
 			toDraw.add(o);
+		}
+		// Draw the enemy generators
+		for(EnemyGenerator e : this.plateau.enemyGens){
+			toDraw.add(e);
 		}
 		Utils.triY(toDraw);
 		for(Objet o: toDraw)
@@ -282,40 +288,8 @@ public class Game extends BasicGame
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 
-		//Instantiate allies
-		Character[] team = new Character[5];
-		for(int i=0;i<5;i++){		
-			team[i]=new Character(this.plateau,0,500f+10f*i,500f);
-			this.players.get(0).groups.get(i).add(team[i]);
-		}
-		// Give equipement to team 
-		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
-		team[0].collectWeapon(new Sword(plateau,team[0]));
-		team[0].collectArmor(new HeavyArmor(team[0].getX(),team[0].getY(),plateau,team[0]));
-
-		team[1].collectWeapon(new Bow(plateau,team[1]));
-		team[1].collectArmor(new LightArmor(team[1].getX(),team[1].getY(),plateau,team[1]));
-
-		team[2].collectWeapon(new Sword(plateau,team[2]));
-		team[2].collectArmor(new MediumArmor(team[2].getX(),team[2].getY(),plateau,team[1]));
-		team[2].collectHorse(new Horse(plateau, team[2]));
-
-		team[3].collectWeapon(new Bible(plateau,team[3]));
-		team[4].collectWeapon(new Balista(plateau,team[4]));
-
-
-		for(int i = 0;i<9; i++){
-			new Water(395f+32*i,570f,plateau);
-		}
-		for(int i = 0;i<3; i++){
-			new Tree(368f,490f+32*i,plateau,4);
-			new Tree(682f,490f+32*i,plateau,4);
-		}
-		// Instantiate ennemy generator :
-		new EnnemyGenerator(plateau,this,520f,100f);
-		// Instantiate ennemy generator :
-		new EnnemyGenerator(plateau,this,520f,100f);
-
+		this.map.createMap2(plateau);
+		
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
@@ -340,6 +314,7 @@ public class Game extends BasicGame
 		this.background =  new Image("pics/dirt.png");
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
+		this.map = new Map();
 		this.setMenu(menuIntro);
 
 
