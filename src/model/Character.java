@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Ellipse;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Rectangle;
 
 public class Character extends ActionObjet{
 
@@ -67,7 +68,7 @@ public class Character extends ActionObjet{
 			break;
 		default:
 		}
-		p.addCharacterObjets(this);;
+		p.addCharacterObjets(this);
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);
 		this.setXY(x, y);
@@ -130,6 +131,7 @@ public class Character extends ActionObjet{
 
 
 	public void stop(){
+		this.checkpointTarget = null;
 		if(this.getTarget() instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
 				this.setTarget(null);
@@ -296,6 +298,10 @@ public class Character extends ActionObjet{
 			this.setTarget(null);
 			return;
 		}
+		if(someoneStopped && this.isLeader() && this.group!=null){
+			this.stop();
+			return;
+		}
 		if(this.getTarget()==null){
 			Vector<Objet> potential_targets;
 			if(this.weapon!=null && this.weapon.damage>0) 
@@ -337,13 +343,11 @@ public class Character extends ActionObjet{
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			}
 		}
-		if(someoneStopped && this.isLeader() && this.group!=null){
-			this.stop();
-		}
 		if(this.getTarget() instanceof Weapon && Utils.distance(this,this.getTarget())<2f*this.collisionBox.getBoundingCircleRadius()){
 			this.collectWeapon((Weapon)this.getTarget());
 			this.setTarget(new Checkpoint(this.getTarget().getX(),this.getTarget().getY()));
 			this.stop();
+			return;
 		}
 		if(this.weapon==null){
 			// If the character has no weapon it always goes toward the target
@@ -363,7 +367,7 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
-		if(this.getTarget()==null){
+		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
 		float accx,accy;
@@ -519,6 +523,14 @@ public class Character extends ActionObjet{
 
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {
+		 this.collisionRect((Rectangle)o.collisionBox);
+	}
+	// Collision with EnemyGenerator
+	public void collision(EnemyGenerator o) {
+		 this.collisionRect((Rectangle)o.collisionBox);
+	}
+
+	public void collisionRect(Rectangle o) {
 		/*On considère pour l'instant que nos natural objets sont carrés
 		 * il faut dans un premier temps déterminer de quel côté éjecter l'objet
 		 * pour cela on délimite 4 secteurs:
@@ -529,31 +541,11 @@ public class Character extends ActionObjet{
 		 *	puis on éjecte le point au bord du côté correspondant via projection
 		 */
 		float oX, oY;
-		oX = o.collisionBox.getCenterX();
-		oY = o.collisionBox.getCenterY();
+		oX = o.getCenterX();
+		oY = o.getCenterY();
 		float x, y;
 		x = this.getX();
 		y = this.getY();
-		// If the point is in the corner the treatment is special
-		//		if(Utils.distance(o, this)-this.collisionBox.getBoundingCircleRadius()>0.99f*o.collisionBox.getBoundingCircleRadius()){
-		//			float r, r0;
-		//			r = this.collisionBox.getBoundingCircleRadius();
-		//			r0 = o.collisionBox.getBoundingCircleRadius();
-		//			if(oX>x){
-		//				if(oY<y){
-		//					this.setXY(oX-r0-r, y+r+r0);
-		//				} else {
-		//					this.setXY(oX-r0-r, y-r-r0);
-		//				}
-		//			} else {
-		//				if(oY<y){
-		//					this.setXY(oX+r0+r, y+r+r0);
-		//				} else {
-		//					this.setXY(oX+r0+r, y-r-r0);
-		//				}
-		//			}
-		//		}
-		// Choosing the sector to eject the point
 		int sector = 0;
 		if(x-oX>0f){
 			if(y-oY>Math.abs(x-oX)){
@@ -575,13 +567,13 @@ public class Character extends ActionObjet{
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
-		case 1: newX = o.collisionBox.getMaxX()+this.collisionBox.getBoundingCircleRadius();
+		case 1: newX = o.getMaxX()+this.collisionBox.getBoundingCircleRadius();
 		break;
-		case 2:	newY = o.collisionBox.getMaxY()+this.collisionBox.getBoundingCircleRadius();
+		case 2:	newY = o.getMaxY()+this.collisionBox.getBoundingCircleRadius();
 		break;
-		case 3: newX = o.collisionBox.getMinX()-this.collisionBox.getBoundingCircleRadius();
+		case 3: newX = o.getMinX()-this.collisionBox.getBoundingCircleRadius();
 		break;
-		case 4: newY = o.collisionBox.getMinY()-this.collisionBox.getBoundingCircleRadius();
+		case 4: newY = o.getMinY()-this.collisionBox.getBoundingCircleRadius();
 		break;
 		default:
 		}
@@ -633,7 +625,5 @@ public class Character extends ActionObjet{
 		this.setXY(finalX, finalY);
 
 	}
-
-
 }
 

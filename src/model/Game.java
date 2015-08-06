@@ -17,7 +17,7 @@ public class Game extends BasicGame
 		displayUnit = !displayUnit;
 	}
 	// Ennemy generator 
-	EnnemyGenerator gen ;
+	EnemyGenerator gen ;
 	//Music 
 	Music mainMusic ;
 	Music musicMenu;
@@ -117,6 +117,10 @@ public class Game extends BasicGame
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			//o.draw(g);
 			toDraw.add(o);
+		}
+		// Draw the enemy generators
+		for(EnemyGenerator e : this.plateau.enemyGens){
+			toDraw.add(e);
 		}
 		Utils.triY(toDraw);
 		for(Objet o: toDraw)
@@ -309,10 +313,9 @@ public class Game extends BasicGame
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);
 		}
-		// Instantiate ennemy generator :
-		new EnnemyGenerator(plateau,this,520f,100f);
-		// Instantiate ennemy generator :
-		new EnnemyGenerator(plateau,this,520f,100f);
+		new Tree(200f,400f,plateau,1);
+		// Instantiate enemy generator :
+		new EnemyGenerator(plateau,this,520f,100f);
 
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);

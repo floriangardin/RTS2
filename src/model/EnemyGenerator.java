@@ -2,16 +2,19 @@ package model;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 
-public class EnnemyGenerator extends ActionObjet {
+public class EnemyGenerator extends ActionObjet {
 	// Class which pop ennemies at random time interval
 
 	Game g;
 	float spawnTime;
 	float state;
 	int n_generated ;
-	public EnnemyGenerator(Plateau p,Game g,float x, float y){
-		p.addEquipmentObjets(this);
+	float sizeX, sizeY;
+	
+	public EnemyGenerator(Plateau p,Game g,float x, float y){
+		p.addEnemyGenerator(this);
 		this.x = x;
 		this.y = y;
 		this.p =p;
@@ -20,7 +23,9 @@ public class EnnemyGenerator extends ActionObjet {
 		this.spawnTime = 80f;
 		this.state = spawnTime;
 		this.lifePoints = 1f;
-		this.collisionBox= new Point(x,y);
+		this.sizeX = 120f; 
+		this.sizeY = 120f;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
 	}
 
@@ -35,7 +40,7 @@ public class EnnemyGenerator extends ActionObjet {
 	}
 	public void generate(){
 		// Create character
-		Character c = new Character(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()-0.5f)*40f);
+		Character c = new Character(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 		// Add a random weapon to character
 		if(n_generated<10){
 			c.collectArmor(new LightArmor(c.getX(),c.getY(),p,c));
@@ -70,7 +75,7 @@ public class EnnemyGenerator extends ActionObjet {
 
 	}
 	public Graphics draw(Graphics g){
-		g.drawImage(this.image,this.getX()-40f,this.getY()-80f,this.getX()+40f,this.getY(),0f,0f,this.image.getWidth(),this.image.getHeight());
+		g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY(),0f,0f,this.image.getWidth(),this.image.getHeight());
 		return g;
 	}
 }
