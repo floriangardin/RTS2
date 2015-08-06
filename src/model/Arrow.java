@@ -41,7 +41,7 @@ public class Arrow extends Bullet{
 		this.image = p.images.arrow.getScaledCopy(1f);
 		this.image.rotate(this.angle);
 		this.sound = p.sounds.arrow;
-		this.sound.play();
+		this.sound.play(1f,this.p.soundVolume);
 	}
 	
 	
