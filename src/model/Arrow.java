@@ -3,6 +3,7 @@ package model;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
@@ -37,7 +38,7 @@ public class Arrow extends Bullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.images.arrow;
+		this.image = p.images.arrow.getScaledCopy(1f);
 		this.image.rotate(this.angle);
 		this.sound = p.sounds.arrow;
 		this.sound.play();

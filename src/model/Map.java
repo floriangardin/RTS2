@@ -30,7 +30,7 @@ public class Map {
 
 
 		for(int i = 0;i<9; i++){
-			new Water(395f+32*i,570f,plateau);
+			new Water(395f+32*i,570f,32f,32f,plateau);
 		}
 		for(int i = 0;i<3; i++){
 			new Tree(368f,490f+32*i,plateau,4);
@@ -65,21 +65,14 @@ public class Map {
 		team[4].collectWeapon(new Balista(plateau,team[4]));
 
 
-		for(int i=0; i<(int)(plateau.maxX/32f+32f); i++){
-			new Water(32*i,16f,plateau);
-			new Water(32*i,plateau.maxY-16f,plateau);
-		}
-		for(int i=0; i<(int)(plateau.maxY/32f+32f); i++){
-			new Water(16f,32*i,plateau);
-			new Water(plateau.maxX-16f,32*i,plateau);
-		}
+		new Water(plateau.maxX/2f,32f,plateau.maxX,32f,plateau);
 		for(int i = 0;i<3; i++){
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);
 		}
 		new Tree(200f,400f,plateau,1);
 		// Instantiate enemy generator :
-		new EnemyGenerator(plateau,plateau.g,520f,150f);
+		new EnemyGenerator(plateau,plateau.g,300f,plateau.maxY/2f);
 
 	}
 }

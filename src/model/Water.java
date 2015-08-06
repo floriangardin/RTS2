@@ -8,11 +8,15 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Water extends NaturalObjet {
 	
-	public Water(float x, float y, Plateau p) {
-		float size = 32.0f;
+	float sizeX;
+	float sizeY;
+	
+	public Water(float x, float y, float sizeX, float sizeY, Plateau p) {
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
 		this.p = p;
 		this.image= this.p.images.water;
-		this.collisionBox = new Rectangle(x-size/2,y-size/2,size,size);
+		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.blue;
 		p.addNaturalObjets(this);
 		this.lifePoints = 1.0f;
