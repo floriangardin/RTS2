@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.Sound;
-public class Bolt extends Bullet {
+public class Fireball extends Bullet {
 
 	protected float altitude;
 	protected int animation;
@@ -15,7 +15,7 @@ public class Bolt extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Bolt(Plateau p,Character owner,float damage){
+	public Fireball(Plateau p,Character owner,float damage){
 		this.p = p;
 		p.addBulletObjets(this);
 		this.p = p;
@@ -55,6 +55,7 @@ public class Bolt extends Bullet {
 		this.sound = p.sounds.fireball;
 		this.sound.play();
 	}
+	public Fireball(){}
 	public void action(){
 		if(explosion){
 			this.lifePoints-=1f;

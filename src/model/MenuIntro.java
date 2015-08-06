@@ -11,6 +11,9 @@ import org.newdawn.slick.SlickException;
 public class MenuIntro extends Menu {
 
 	Vector<Objet> trees = new Vector<Objet>();
+	Vector<Bullet> bullets = new Vector<Bullet>();
+	float timer = 0f;
+	float nextBullet = 1f;
 	Image title;
 
 	public MenuIntro(Game game){
@@ -31,6 +34,7 @@ public class MenuIntro extends Menu {
 		}
 		Utils.triY(trees);
 		try{
+			this.sounds = new Sounds();
 			title = new Image("pics/Title.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -57,14 +61,22 @@ public class MenuIntro extends Menu {
 	}
 
 	public void draw(Graphics g){
+		
 
 		for(int i=0;i<3;i++){
 			for(int j=0;j<2;j++){
 				g.drawImage(this.game.background, i*512, j*512);
 			}
 		}
+		Vector<Objet> toDraw = new Vector<Objet>();
 		for(Objet o: this.trees)
+			toDraw.add(o);
+		for(Bullet b: this.bullets)
+			toDraw.add(b);
+		Utils.triY(toDraw);
+		for(Objet o: toDraw){
 			o.draw(g);
+		}
 		for(int i=0; i<this.items.size(); i++){
 			this.items.get(i).draw(g);
 		}
@@ -78,6 +90,55 @@ public class MenuIntro extends Menu {
 	public void update(Input i){
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 			callItems(i);
-
+		if(i.isKeyPressed(Input.KEY_R)){
+			this.game.app.setShowFPS(true);
+		}
+		this.timer += 0.1f;
+		for(Bullet b : this.bullets)
+			b.action();
+		if(this.timer>this.nextBullet){
+			this.timer = 0f;
+			float x1 = (float)(Math.random()*this.game.resX), x2 = (float)(Math.random()*this.game.resX);
+			float y1 = (float)(Math.random()*this.game.resY), y2 = (float)(Math.random()*this.game.resY);
+			boolean arrow = Math.random()>0.5;
+			if(x1/this.game.resX>y1/this.game.resY){
+				if(x1/this.game.resX+y1/this.game.resY>1f){
+					y1 = this.game.resY;
+				} else {
+					x1 = 0f;
+				}
+			} else {
+				if(x1/this.game.resX+y1/this.game.resY>1f){
+					x1 = this.game.resX;
+				} else {
+					y1 = 0f;
+				}
+			}
+			if(arrow){
+				if(x2/this.game.resX>y2/this.game.resY){
+					if(x2/this.game.resX+y2/this.game.resY>1f){
+						y2 = this.game.resY;
+					} else {
+						x2 = 0f;
+					}
+				} else {
+					if(x2/this.game.resX+y2/this.game.resY>1f){
+						x2 = this.game.resX;
+					} else {
+						y2 = 0f;
+					}
+				}
+				this.bullets.addElement(new MenuArrow(x1,x2,y1,y2,this));
+			} else {
+				this.bullets.addElement(new MenuFireball(x1,y1,x2,y2,this));
+			}
+		}
+		Vector<Bullet> toremove = new Vector<Bullet>();
+		for(Bullet b: this.bullets){
+			if(b.lifePoints<=0)
+				toremove.add(b);
+		}
+		for(Bullet b: toremove)
+			this.bullets.remove(b);
 	}
 }

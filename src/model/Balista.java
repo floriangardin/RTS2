@@ -51,7 +51,7 @@ public class Balista extends RangeWeapon{
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
 
 			if(target.collisionBox.intersects(circle)){
-				new Bolt(this.p,this.owner,this.damage);
+				new Fireball(this.p,this.owner,this.damage);
 				this.state = 0f;
 			}
 		}
