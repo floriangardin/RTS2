@@ -7,15 +7,20 @@ import org.newdawn.slick.geom.Circle;
 public class Balista extends RangeWeapon{
 
 	public Balista(Plateau p ,Character owner){
-		this.p = p;
-		this.name = "Balista";
-		this.lifePoints = 1f;
-		p.addEquipmentObjets(this);
+		// Parameters
+
 		this.range = 200f;
 		this.weight = 0.9f;
 		this.state = 30f;
 		this.chargeTime = 40f;
 		this.damage = 8f;
+		
+		//
+		
+		this.p = p;
+		this.name = "Balista";
+		this.lifePoints = 1f;
+		p.addEquipmentObjets(this);
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),range);
 		this.setOwner(owner);
 

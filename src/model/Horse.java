@@ -10,6 +10,11 @@ public class Horse extends RidableObjet{
 	protected Rectangle collisionBox;
 	
 	public Horse(Plateau p, Character owner){
+		// Parameters
+		this.velocity = 1.8f;
+		
+		//
+		
 		this.p = p;
 		float collisionWidth = 5f;
 		float collisionLength = 10f;
@@ -18,7 +23,6 @@ public class Horse extends RidableObjet{
 		this.collisionBox = new Rectangle(x-collisionWidth/2f,y-collisionLength/2f,collisionWidth,collisionLength);
 		this.color = Color.orange;
 		this.lifePoints = 1.0f;
-		this.velocity = 1.8f;
 		this.setOwner(owner);
 	}
 	

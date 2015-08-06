@@ -5,14 +5,19 @@ import org.newdawn.slick.geom.Circle;
 public class Bible extends ContactWeapon{
 
 	public Bible(Plateau p, Character owner){
-		this.p = p;
-		p.addEquipmentObjets(this);
-		this.name = "Bible";
+		// Parameters
 		this.state = 0f;
 		this.damage = -0.2f;
 		this.chargeTime = 0.2f;
+		this.name = "Bible";
+		float extraRange = 10f;
+		
+		//
+		
+		this.p = p;
 		this.lifePoints = 1f;
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+10f);
+		p.addEquipmentObjets(this);
+		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+extraRange);
 		this.setOwner(owner);
 	}
 

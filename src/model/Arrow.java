@@ -12,20 +12,24 @@ public class Arrow extends Bullet{
 	protected float angle= 0f;
 	
 	public Arrow(Plateau p,Character owner,float damage){
+		// Parameters
+		this.damage = 3f;
+		float size = 2f;
+		float Vmax = 200f;
+		
+		// 
 		this.p = p;
 		this.damage = damage;
 		p.addBulletObjets(this);
-		this.damage = 3f;
 		this.lifePoints = 1f;
 		this.owner = owner;
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),2f);
+		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = this.owner.getTarget().getX()-this.owner.getX();
 		this.vy = this.owner.getTarget().getY()-this.owner.getY();
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
-		float Vmax = 200f;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
