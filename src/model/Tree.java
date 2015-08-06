@@ -17,10 +17,20 @@ public class Tree extends NaturalObjet {
 		this.lifePoints = 1.0f;
 		this.setXY(x, y);
 		String s = "Tree0"+String.valueOf(type);
-		try {
-			this.image = new Image("pics/"+s+".png");
-		} catch (SlickException e) {
-			e.printStackTrace();
+		switch(type){
+		case 1:
+			this.image = this.p.images.tree01;
+			break;
+		case 2:
+			this.image = this.p.images.tree02;
+			break;
+		case 3:
+			this.image = this.p.images.tree03;
+			break;
+		case 4:
+			this.image = this.p.images.tree04;
+			break;
+		default:
 		}
 	}
 	public Tree(float x, float y, int type) {

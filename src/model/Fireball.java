@@ -21,21 +21,16 @@ public class Fireball extends Bullet {
 		this.areaEffect = 40f;
 		float Vmax = 120f;
 		float size = 10f;
-		
+
 		//
-		
+
 		this.p = p;
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
-		try {
-			this.image = (new Image("pics/Fireball.png")).getSubImage(0, 150, 75, 75);
-			this.image1 = (new Image("pics/Fireball.png")).getSubImage(75, 150, 75, 75);
-			this.image2 = (new Image("pics/Fireball.png")).getSubImage(150, 150, 75, 75);
-			this.boom = new Image("pics/Explosion.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.image = (this.p.images.fireball).getSubImage(0, 150, 75, 75);
+		this.image1 = (this.p.images.fireball).getSubImage(75, 150, 75, 75);
+		this.image2 = (this.p.images.fireball).getSubImage(150, 150, 75, 75);
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
@@ -109,7 +104,7 @@ public class Fireball extends Bullet {
 				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,3*r,0f,4*r,r);
 			else 
 				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,4*r,0f,5*r,r);
-			
+
 		} else {
 			if(animation<3)	
 				g.drawImage(this.image, this.getX()-28f, this.getY()-28f, this.getX()+28f, this.getY()+28f,0f,0f,this.image.getWidth(),this.image.getHeight());

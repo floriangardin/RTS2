@@ -24,6 +24,8 @@ public class Game extends BasicGame
 	Music musicStartGame;
 	//Sounds ;
 	Sounds sounds;
+	//Images ;
+	Images images;
 	// Bottom bar :
 	BottomBar bottomBars;
 	// Top bars:
@@ -318,6 +320,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 		this.sounds = new Sounds();
+		this.images = new Images();
 		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
 		this.background =  new Image("pics/dirt.png");
 		this.menuIntro = new MenuIntro(this);
