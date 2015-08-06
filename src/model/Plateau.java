@@ -309,7 +309,7 @@ public class Plateau {
 		Objet target = this.findTarget(x, y);
 		//TODO : look amongst horses and weapons too
 		if(target==null){
-			target = new Checkpoint(x,y);
+			target = new Checkpoint(this,x,y);
 		}
 		Character leader = null;
 		for(Character o:this.selection.get(team)){
@@ -351,7 +351,7 @@ public class Plateau {
 		Objet target = this.findTarget(x, y);
 		//TODO : look amongst horses and weapons too
 		if(target==null){
-			target = new Checkpoint(x,y);
+			target = new Checkpoint(this,x,y);
 		}
 		Character leader = null;
 		for(Character o:this.selection.get(team)){

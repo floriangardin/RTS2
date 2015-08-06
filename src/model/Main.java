@@ -19,10 +19,10 @@ public class Main {
 			Game game = new Game();
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
-			
-		
 			game.app = app;
-			app.setDisplayMode(resolutionX, resolutionY, true);
+
+			app.setDisplayMode(resolutionX, resolutionY,false);
+
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);

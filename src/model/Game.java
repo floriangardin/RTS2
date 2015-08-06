@@ -182,8 +182,21 @@ public class Game extends BasicGame
 			this.setMenu(menuPause);
 			return;
 		}
+
 		
+		if(this.musicMenu.playing() && !isInMenu){
+			this.musicMenu.fade(300,0f,true);
+			if(!this.musicStartGame.playing()){
+				this.musicStartGame.play();
+				
+			}
+		}
+
 		
+		if(!isInMenu && !this.musicStartGame.playing() && !this.mainMusic.playing()){
+			this.mainMusic.loop();
+		}
+			
 		// GAME PART 
 
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
@@ -312,7 +325,7 @@ public class Game extends BasicGame
 		Image cursor = new Image("pics/cursor.png");
 		
 		gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
-		mainMusic = new Music("music/background.ogg");
+		mainMusic = new Music("music/ambiance.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
 		this.musicMenu = new Music("music/intro_verdi.ogg");
