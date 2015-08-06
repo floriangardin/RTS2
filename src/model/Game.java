@@ -19,6 +19,9 @@ public class Game extends BasicGame
 	// Ennemy generator 
 	EnemyGenerator gen ;
 	//Music 
+	float soundVolume;
+	// Volume
+	float volume;
 	Music mainMusic ;
 	Music musicMenu;
 	Music musicStartGame;
@@ -32,8 +35,7 @@ public class Game extends BasicGame
 	BottomBar bottomBars;
 	// Top bars:
 	TopBar topBars;
-	// Volume
-	float volume;
+
 	Image background ;
 	Constants constants;
 	// Selection
@@ -300,6 +302,7 @@ public class Game extends BasicGame
 	{	
 		Image cursor = new Image("pics/cursor.png");
 		this.volume = 0.2f;
+		this.soundVolume = 0.2f;
 		gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 		mainMusic = new Music("music/ambiance.ogg");
 		//mainMusic.setVolume(0.1f);

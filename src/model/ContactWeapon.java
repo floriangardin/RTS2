@@ -20,7 +20,7 @@ public class ContactWeapon extends Weapon {
 		if(c.team!=this.owner.team && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Attack !
 			// Attack sound
-			this.sound.play();
+			this.sound.play(1f,this.p.soundVolume);
 			if(c.getArmor()!=null && c.getArmor().damageReductor<this.damage){
 				c.lifePoints+=c.getArmor().damageReductor-this.damage;
 
