@@ -65,7 +65,10 @@ public class Map {
 		team[4].collectWeapon(new Balista(plateau,team[4]));
 
 
-		new Water(plateau.maxX/2f,32f,plateau.maxX,32f,plateau);
+		new Water(plateau.maxX/2f,-plateau.maxX/2f+32f,plateau.maxX,plateau.maxX,plateau);
+		new Water(plateau.maxX/2f,plateau.maxY+plateau.maxX/2f-32f,plateau.maxX,plateau.maxX,plateau);
+		new Water(-plateau.maxY/2f+32f,plateau.maxY/2f,plateau.maxY,plateau.maxY,plateau);
+		new Water(plateau.maxX+plateau.maxY/2f-32f,plateau.maxY/2f,plateau.maxY,plateau.maxY,plateau);
 		for(int i = 0;i<3; i++){
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);

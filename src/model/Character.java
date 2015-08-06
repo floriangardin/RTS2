@@ -366,7 +366,6 @@ public class Character extends ActionObjet{
 			}
 			else{
 				this.stop();
-				System.out.println("ee");
 				return;
 			}
 		}
