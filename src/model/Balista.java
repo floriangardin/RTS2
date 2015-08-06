@@ -10,7 +10,7 @@ public class Balista extends RangeWeapon{
 		// Parameters
 
 		this.range = 200f;
-		this.weight = 0.9f;
+		this.weight = 0.6f;
 		this.state = 30f;
 		this.chargeTime = 20f;
 		this.damage = 8f;
