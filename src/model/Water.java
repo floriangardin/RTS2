@@ -10,15 +10,10 @@ public class Water extends NaturalObjet {
 	
 	public Water(float x, float y, Plateau p) {
 		float size = 32.0f;
-		try {
-			this.image= new Image("pics/water.jpg");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.p = p;
+		this.image= this.p.images.water;
 		this.collisionBox = new Rectangle(x-size/2,y-size/2,size,size);
 		this.color = Color.blue;
-		this.p = p;
 		p.addNaturalObjets(this);
 		this.lifePoints = 1.0f;
 		this.setXY(x, y);

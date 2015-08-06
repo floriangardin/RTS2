@@ -37,11 +37,7 @@ public class Arrow extends Bullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		try {
-			this.image = new Image("pics/Arrow.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.image = p.images.arrow;
 		this.image.rotate(this.angle);
 		this.sound = p.sounds.arrow;
 		this.sound.play();

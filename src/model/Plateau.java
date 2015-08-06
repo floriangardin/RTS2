@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class Plateau {
 	
 	Sounds sounds;
+	Images images;
 	public Game g;
 	protected Sound deathSound;
 	protected int nTeams;
@@ -44,6 +45,7 @@ public class Plateau {
 
 	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){
 		this.sounds = g.sounds;
+		this.images = g.images;
 		this.g = g;
 		//GENERAL
 		this.constants = constants;

@@ -40,24 +40,21 @@ public class Character extends ActionObjet{
 	public Character(Plateau p,int team,float x, float y){
 		// Parameters
 		this.basicVelocity = 70f;
-		float size = 15f;
+		float size = 20f;
 		float sight = 100f;
 		this.maxLifePoints = 100f;
-		 
-		//
-		
-		try{
-			Image imagea = new Image("pics/Corps.png");
-			Image imageb = new Image("pics/Armure.png");
-			if(team==0)
-				imageb = new Image("pics/Blue.png");
-			if(team==1)
-				imageb = new Image("pics/Red.png");
-			this.image = Utils.mergeImages(imagea, imageb);
 
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		//
+
+		this.p = p;
+		Image imagea = this.p.images.corps;
+		Image imageb = this.p.images.corps;
+		if(team==0)
+			imageb = this.p.images.blue;
+		if(team==1)
+			imageb = this.p.images.red;
+		this.image = Utils.mergeImages(imagea, imageb);
+
 		this.team = team;
 		// the maximum number of float by second
 		this.maxVelocity = this.basicVelocity;
@@ -70,7 +67,6 @@ public class Character extends ActionObjet{
 			break;
 		default:
 		}
-		this.p = p;
 		p.addCharacterObjets(this);;
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);
@@ -248,49 +244,46 @@ public class Character extends ActionObjet{
 		this.maxVelocity = this.basicVelocity*v;
 	}
 	public void updateImage(){
-		try{
-			//Handling the team
-			Image imagea = new Image("pics/Corps.png");
-			Image imageb = new Image("pics/Armure.png");
-			Image imagec = new Image("pics/HorseBlue.png");
-			if(team==0){
-				imageb = new Image("pics/Blue.png");
-				imagec = new Image("pics/HorseBlue.png");
-			}
-			if(team==1){
-				imageb = new Image("pics/Red.png");
-				imagec = new Image("pics/HorseRed.png");
-			}
-			this.image = Utils.mergeImages(imagea, imageb);
-			//Handling the armor
-			if(this.armor!=null){
-				if(this.armor instanceof LightArmor)
-					imageb = new Image("pics/LightArmor.png");
-				else if(this.armor instanceof MediumArmor)
-					imageb = new Image("pics/MediumArmor.png");
-				else if(this.armor instanceof HeavyArmor)
-					imageb = new Image("pics/HeavyArmor.png");
-				this.image = Utils.mergeImages(this.image, imageb);
-			}
-			//Handling the weapon
-			if(this.weapon!=null){
-				if(this.weapon instanceof Sword)
-					imageb = new Image("pics/Sword.png");
-				if(this.weapon instanceof Bow)
-					imageb = new Image("pics/Bow.png");
-				if(this.weapon instanceof Bible)
-					imageb = new Image("pics/Bible.png");
-				if(this.weapon instanceof Balista)
-					imageb = new Image("pics/Magicwand.png");
-				this.image = Utils.mergeImages(this.image, imageb);
-			}
 
-			//Handling the horse
-			if(this.horse!=null){
-				this.image = Utils.mergeHorse(imagec, this.image);
-			}
-		} catch (SlickException e) {
-			e.printStackTrace();
+		//Handling the team
+		Image imagea = this.p.images.corps;
+		Image imageb = this.p.images.corps;
+		Image imagec = this.p.images.corps;
+		if(team==0){
+			imageb = this.p.images.blue;
+			imagec = this.p.images.horseBlue;
+		}
+		if(team==1){
+			imageb = this.p.images.red;
+			imagec = this.p.images.horseRed;
+		}
+		this.image = Utils.mergeImages(imagea, imageb);
+		//Handling the armor
+		if(this.armor!=null){
+			if(this.armor instanceof LightArmor)
+				imageb = this.p.images.lightArmor;
+			else if(this.armor instanceof MediumArmor)
+				imageb = this.p.images.mediumArmor;
+			else if(this.armor instanceof HeavyArmor)
+				imageb = this.p.images.heavyArmor;
+			this.image = Utils.mergeImages(this.image, imageb);
+		}
+		//Handling the weapon
+		if(this.weapon!=null){
+			if(this.weapon instanceof Sword)
+				imageb = this.p.images.sword;
+			if(this.weapon instanceof Bow)
+				imageb = this.p.images.bow;
+			if(this.weapon instanceof Bible)
+				imageb = this.p.images.bible;
+			if(this.weapon instanceof Balista)
+				imageb = this.p.images.magicwand;
+			this.image = Utils.mergeImages(this.image, imageb);
+		}
+
+		//Handling the horse
+		if(this.horse!=null){
+			this.image = Utils.mergeHorse(imagec, this.image);
 		}
 	}
 
