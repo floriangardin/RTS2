@@ -21,6 +21,7 @@ public class Game extends BasicGame
 	//Music 
 	Music mainMusic ;
 	Music musicMenu;
+	Music musicStartGame;
 	//Sounds ;
 	Sounds sounds;
 	// Bottom bar :
@@ -170,7 +171,7 @@ public class Game extends BasicGame
 			this.menuCurrent.update(i);
 			return;
 		}
-
+		
 		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
 			if(!this.musicMenu.playing()){
 				this.musicMenu.play();
@@ -180,11 +181,18 @@ public class Game extends BasicGame
 		}
 		if(this.musicMenu.playing() && !isInMenu){
 			this.musicMenu.fade(300,0f,true);
+			if(!this.musicStartGame.playing()){
+				this.musicStartGame.play();
+			}
 		}
+		
+		
+		// GAME PART 
+
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 			this.plateau.clearSelection(team);
 		}
-
+		
 		//TODO: Handling the groups
 		int touche;
 		for(int to=0; to<10; to++){
@@ -308,6 +316,7 @@ public class Game extends BasicGame
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
 		this.musicMenu = new Music("music/intro_verdi.ogg");
+		this.musicStartGame = new Music("music/nazi_start.ogg");
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 		this.sounds = new Sounds();
