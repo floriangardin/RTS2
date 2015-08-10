@@ -11,7 +11,7 @@ public class Main {
 	Constants constants;
 	public static void main(String[] args) {
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 1200;		
+		int resolutionX = 1366;		
 		int resolutionY = 768;
 		
 		try {
@@ -20,7 +20,7 @@ public class Main {
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-			app.setDisplayMode(resolutionX, resolutionY,false);
+			app.setDisplayMode(resolutionX, resolutionY,true);
 			//app.setFullscreen(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);

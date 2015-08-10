@@ -41,7 +41,7 @@ public class Map {
 		new EnemyGenerator(plateau,plateau.g,520f,100f);
 
 	}
-	
+
 	public void createMap2(Plateau plateau){
 		//Instantiate allies
 		Character[] team = new Character[5];
@@ -54,14 +54,14 @@ public class Map {
 		team[2].setXY(plateau.maxX-120f, plateau.maxY/2f+20f);
 		team[3].setXY(plateau.maxX-120f, plateau.maxY/2f-20f);
 		team[4].setXY(plateau.maxX-120f, plateau.maxY/2f);
-		
+
 		float x1,y1;
 		for(int i=0; i<10; i++){
 			x1 = (float)(Math.random()*(4f*plateau.maxX/6f-30f)+15f);
 			y1 = (float)(Math.random()*(4f*plateau.maxY/6f-30f)+15f);
 			new Tree(x1,y1,plateau,(int)(Math.random()*4f+1f));
 		}
-		
+
 		// Give equipement to team 
 		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
 		team[0].collectWeapon(new Sword(plateau,team[0]));
@@ -82,16 +82,51 @@ public class Map {
 		new Water(plateau.maxX/2f,plateau.maxY+plateau.maxX/2f-32f,plateau.maxX,plateau.maxX,plateau);
 		new Water(-plateau.maxY/2f+32f,plateau.maxY/2f,plateau.maxY,plateau.maxY,plateau);
 		new Water(plateau.maxX+plateau.maxY/2f-32f,plateau.maxY/2f,plateau.maxY,plateau.maxY,plateau);
-		
+
 		//Water
 		new Water(plateau.maxX/12f,plateau.maxY/6f,plateau.maxX/6f,plateau.maxY*2f/6f,plateau);
 		new Water(11f*plateau.maxX/12f,5f*plateau.maxY/6f,plateau.maxX/6f,plateau.maxY*2f/6f,plateau);
 		new Water(plateau.maxX/12f,5f*plateau.maxY/6f,plateau.maxX/6f,plateau.maxY*2f/6f,plateau);
 		new Water(11f*plateau.maxX/12f,plateau.maxY/6f,plateau.maxX/6f,plateau.maxY*2f/6f,plateau);
-		
-		
+
+
 		// Instantiate enemy generator :
 		new EnemyGenerator(plateau,plateau.g,120f,plateau.maxY/2f-10f);
+
+	}
+
+	public void createMapVersus(Plateau plateau){
+		//Instantiate allies
+		Character[][] team = new Character[2][5];
+		for(int k = 0;k<2;k++){
+			for(int i=0;i<5;i++){		
+				team[k][i]=new Character(plateau,k,500f+10f*i,500f);
+				plateau.g.players.get(k).groups.get(i).add(team[k][i]);
+			}
+			team[k][0].setXY(plateau.maxX-120f+20f-200f -500f*k, plateau.maxY/2f);
+			team[k][1].setXY(plateau.maxX-120f-20f-200f-500f*k, plateau.maxY/2f);
+			team[k][2].setXY(plateau.maxX-120f-200f-500f*k, plateau.maxY/2f+20f);
+			team[k][3].setXY(plateau.maxX-120f-200f-500f*k, plateau.maxY/2f-20f);
+			team[k][4].setXY(plateau.maxX-120f-200f-500f*k, plateau.maxY/2f);
+
+
+			// Give equipement to team 
+			// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
+			team[k][0].collectWeapon(new Sword(plateau,team[k][0]));
+			team[k][0].collectArmor(new HeavyArmor(team[k][0].getX(),team[k][0].getY(),plateau,team[k][0]));
+
+			team[k][1].collectWeapon(new Bow(plateau,team[k][1]));
+			team[k][1].collectArmor(new LightArmor(team[k][1].getX(),team[k][1].getY(),plateau,team[k][1]));
+
+			team[k][2].collectWeapon(new Sword(plateau,team[k][2]));
+			team[k][2].collectArmor(new MediumArmor(team[k][2].getX(),team[k][2].getY(),plateau,team[k][1]));
+			team[k][2].collectHorse(new Horse(plateau, team[k][2]));
+
+			team[k][3].collectWeapon(new Bible(plateau,team[k][3]));
+			team[k][4].collectWeapon(new Balista(plateau,team[k][4]));
+
+		}
+
 
 	}
 }

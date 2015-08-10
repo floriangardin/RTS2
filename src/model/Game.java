@@ -23,7 +23,6 @@ public class Game extends BasicGame
 	// Volume
 	float volume;
 	Music mainMusic ;
-	Music musicMenu;
 	Music musicStartGame;
 	//Sounds ;
 	Sounds sounds;
@@ -175,31 +174,18 @@ public class Game extends BasicGame
 		// Update the selection rectangle :
 		// Test if new selection :
 		if(isInMenu){
-			if(!this.musicMenu.playing()){
-				this.musicMenu.play();
-				this.musicMenu.setVolume(this.volume);
-			}
 			this.menuCurrent.update(i);
 			return;
 		}
 		
 		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
-			if(!this.musicMenu.playing()){
-				this.musicMenu.play();
-				this.musicMenu.setVolume(this.volume);
-			}
 			this.setMenu(menuPause);
 			return;
 		}
 
-		
-		if(this.musicMenu.playing() && !isInMenu){
-			this.musicMenu.fade(300,0f,true);
-			if(!this.musicStartGame.playing()){
-				this.musicStartGame.play();
-				this.musicStartGame.setVolume(this.volume);
-				
-			}
+		if(!this.musicStartGame.playing()){
+			this.musicStartGame.play();
+			this.musicStartGame.setVolume(this.volume);
 		}
 
 		
@@ -290,7 +276,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 
-		this.map.createMap2(plateau);
+		this.map.createMapVersus(plateau);
 		
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
@@ -307,7 +293,7 @@ public class Game extends BasicGame
 		mainMusic = new Music("music/ambiance.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
-		this.musicMenu = new Music("music/intro_verdi.ogg");
+		
 		this.musicStartGame = new Music("music/nazi_start.ogg");
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));

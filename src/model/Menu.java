@@ -4,13 +4,14 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 
 public abstract class Menu {
 
 	protected Vector<Menu_Item> items;
 	public Game game;
 	public Sounds sounds;
-
+	public Music music;
 	public void callItems(Input i){
 		
 	}
