@@ -9,6 +9,7 @@ public class Checkpoint extends ActionObjet {
 	float printed;
 	public Checkpoint(Plateau p , float x, float y){
 		this.lifePoints=1f;
+		this.team = -1;
 		this.p = p;
 		p.addEquipmentObjets(this);
 		this.x = x;
