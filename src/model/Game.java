@@ -49,6 +49,7 @@ public class Game extends BasicGame
 	// Resolution : 
 	float resX;
 	float resY;
+	boolean playStartMusic = true;
 	// We keep the reference of the plateau in the game :
 	// Only the game knows the reference for raw vector of objects !
 	private Vector<ActionObjet> actionObjets = new Vector<ActionObjet>();
@@ -183,12 +184,12 @@ public class Game extends BasicGame
 			return;
 		}
 
-		if(!this.musicStartGame.playing()){
+		if(playStartMusic && !this.mainMusic.playing() ){
 			this.musicStartGame.play();
 			this.musicStartGame.setVolume(this.volume);
+			playStartMusic = false;
 		}
 
-		
 		if(!isInMenu && !this.musicStartGame.playing() && !this.mainMusic.playing()){
 			this.mainMusic.loop();
 		}
@@ -276,7 +277,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 
-		this.map.createMapVersus(plateau);
+		this.map.createMap1(plateau);
 		
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);

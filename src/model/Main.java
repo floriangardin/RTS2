@@ -1,4 +1,6 @@
 package model;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 
 import org.lwjgl.LWJGLUtil;
@@ -10,9 +12,12 @@ public class Main {
 	
 	Constants constants;
 	public static void main(String[] args) {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		double height = screenSize.getHeight();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 1366;		
-		int resolutionY = 768;
+		int resolutionX = (int)width;		
+		int resolutionY = (int)height;
 		
 		try {
 			Main main = new Main();
