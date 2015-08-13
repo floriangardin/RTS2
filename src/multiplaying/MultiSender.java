@@ -41,7 +41,7 @@ public class MultiSender extends Thread{
 					packet.setData(message);
 					client.send(packet);
 					sent++;
-					System.out.println("sent :" + sent);
+					//System.out.println("sent :" + sent);
 					if(debug)
 						System.out.println("message sent: " + this.depot.get(0));
 					this.depot.remove(0);
