@@ -1,5 +1,7 @@
 package model;
 import java.io.File;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
@@ -20,12 +22,15 @@ public class Main {
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
+
 			app.setDisplayMode(resolutionX, resolutionY,false);
+
 			//app.setFullscreen(true);
+			app.setUpdateOnlyWhenVisible(false);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(true);
 			app.setClearEachFrame(true);
-			app.setShowFPS(false);
+			app.setShowFPS(true);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

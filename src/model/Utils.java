@@ -188,17 +188,34 @@ public class Utils {
 			System.out.println("-> bug: characters est null");
 		else{
 			for(Character c:p.characters)
-				System.out.println(c+" " + c.x+ " " +c.y);
+				System.out.println(c+" " + c.x+ " " +c.y + " " +c.id);
 		}
 		System.out.println();
-		System.out.println("========================================");
-		System.out.println();
-		System.out.println("** Natural Objets");
-		if(p.naturalObjets==null)
-			System.out.println("-> bug: characters est null");
-		else{
-			for(NaturalObjet c:p.naturalObjets)
-				System.out.println(c+" " + c.x+ " " +c.y);
+//		System.out.println("========================================");
+//		System.out.println();
+//		System.out.println("** Natural Objets");
+//		if(p.naturalObjets==null)
+//			System.out.println("-> bug: characters est null");
+//		else{
+//			for(NaturalObjet c:p.naturalObjets)
+//				System.out.println(c+" " + c.x+ " " +c.y);
+//		}
+	}
+
+	public static String[] split(String s, char c){
+		Vector<String> v = new Vector<String>();
+		int indice=0;
+		for(int i=0; i<s.length(); i++){
+			if(s.charAt(i)==c){
+				v.add(s.substring(indice,i));
+				indice = i+1;			
+			}
 		}
+		v.add(s.substring(indice,s.length()));
+		String[] t = new String[v.size()];
+		for(int i=0; i<v.size(); i++){
+			t[i] = v.get(i);
+		}
+		return t;
 	}
 }

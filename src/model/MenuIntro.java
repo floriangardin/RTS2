@@ -8,6 +8,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import multiplaying.InputModel;
+
 public class MenuIntro extends Menu {
 
 	Vector<Objet> trees = new Vector<Objet>();
@@ -21,9 +23,11 @@ public class MenuIntro extends Menu {
 
 	public MenuIntro(Game game){
 		this.game = game;
-		this.items = this.createHorizontalCentered(2, this.game.resX, this.game.resY);
+		this.items = this.createHorizontalCentered(4, this.game.resX, this.game.resY);
 		this.items.get(0).name = "Nouvelle Partie";
-		this.items.get(1).name = "Quitter";
+		this.items.get(1).name = "Multiplayer";
+		this.items.get(2).name = "Options";
+		this.items.get(3).name = "Quitter";
 		float x1,x2,y1,y2;
 		float sizeX = this.game.resX;
 		float sizeY = this.game.resY;
@@ -44,19 +48,28 @@ public class MenuIntro extends Menu {
 		}
 	}
 
-	public void callItems(Input i){
-		for(int j=0; j<items.size(); j++){
-			if(items.get(j).isClicked(i))
-				callItem(j);
-		}
-	}
+//	public void callItems(Input i){
+//		for(int j=0; j<items.size(); j++){
+//			if(items.get(j).isClicked(i))
+//				callItem(j);
+//		}
+//	}
+//	public void callItems(InputModel im){
+//		for(int j=0; j<items.size(); j++){
+//			if(items.get(j).isClicked(im))
+//				callItem(j);
+//		}
+//	}
 	public void callItem(int i){
 		switch(i){
 		case 0:
 			this.toGame = true;
 			this.game.musicMenu.fade(300,0f,true);
 			break;
-		case 1: 
+		case 1:
+			this.game.menuCurrent = new MenuMulti(this);
+			break;
+		case 3: 
 			this.game.app.exit();
 			break;
 		default:		
@@ -103,14 +116,17 @@ public class MenuIntro extends Menu {
 	}
 
 	public void update(Input i){
+		InputModel im = new InputModel(0,0,i);
+		this.update(im);
+	}
+	public void update(InputModel im){
 		if(!toGame){
-			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
-				callItems(i);
-			if(i.isKeyPressed(Input.KEY_R)){
-				this.game.app.setShowFPS(true);
+			if(im!=null){
+				if(im.isPressedLeftClick)
+					callItems(im);
+				for(Menu_Item item: this.items)
+					item.update(im);				
 			}
-			for(Menu_Item item: this.items)
-				item.update(i);
 			this.timer += 0.1f;
 			for(Bullet b : this.bullets)
 				b.action();

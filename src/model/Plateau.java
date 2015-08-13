@@ -8,8 +8,12 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import multiplaying.*;
+import multiplaying.OutputModel.OutputBullet;
+import multiplaying.OutputModel.OutputChar;
+
 public class Plateau {
-	
+
 	float soundVolume;
 	Sounds sounds;
 	Images images;
@@ -39,10 +43,14 @@ public class Plateau {
 	protected Vector<NaturalObjet> naturalObjets ;
 	protected Vector<NaturalObjet> toAddNaturalObjets;
 	protected Vector<NaturalObjet> toRemoveNaturalObjets;
-	// Vector of vector of vector of vector * 10^12
+
 	protected Vector<Vector<Character>> selection;
 	protected Vector<Vector<Character>> toAddSelection;
 	protected Vector<Vector<Character>> toRemoveSelection ;
+	protected Vector<Rectangle> rectangleSelection;
+	Vector<Float> recX ;
+	Vector<Float> recY ;
+
 	protected Constants constants;
 	//TODO : make actionsObjets and everything else private 
 
@@ -80,10 +88,16 @@ public class Plateau {
 		this.selection = new Vector<Vector<Character>>();
 		this.toAddSelection = new Vector<Vector<Character>>();
 		this.toRemoveSelection = new Vector<Vector<Character>>();
+		this.rectangleSelection = new Vector<Rectangle>();
+		this.recX = new Vector<Float>();
+		this.recY = new Vector<Float>();
 		for(int i =0; i<nTeams;i++){
+			this.recX.addElement(0f);
+			this.recY.addElement(0f);
 			this.selection.addElement(new Vector<Character>());
 			this.toAddSelection.addElement(new Vector<Character>());
 			this.toRemoveSelection.addElement(new Vector<Character>());
+			this.rectangleSelection.addElement(null);
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
@@ -143,7 +157,7 @@ public class Plateau {
 				this.removeCharacter(o);
 				if(o.team==1)
 					this.g.players.get(0).ennemiesKilled+=1;
-				
+
 				this.deathSound.play(0.8f+1f*((float)Math.random()),this.soundVolume);
 			}
 		}
@@ -378,7 +392,7 @@ public class Plateau {
 		}
 
 	}
-	
+
 	public void updateSecondaryTarget(float x, float y, int team){
 		//called when right click on the mouse
 		Objet target = this.findTarget(x, y);
@@ -419,7 +433,7 @@ public class Plateau {
 		}
 
 	}
-	
+
 	public Objet findTarget(float x, float y){
 		Point point= new Point(x,y);
 		Objet target = null;
@@ -442,7 +456,7 @@ public class Plateau {
 		}	
 		return target;
 	}
-	
+
 	private void selection(Rectangle select, int team) {
 		//handling the selection
 		for(Character o: characters){
@@ -469,9 +483,194 @@ public class Plateau {
 			e.action();
 		}
 	}
-	public void update(){
-		// Handle collision and cleaning of buffers
+	public OutputModel update(Vector<InputModel> ims){
+		/* Pipeline of the update:
+		 * 1 - If ESC start menu
+		 * 2 - Handling inputs (1 loop per player)
+		 * 3 - Collision, Action, Cleaning
+		 * 4 - Other updates
+		 */
+
+		OutputModel om = new OutputModel(0);
+		
+		// 1 - If ESC start menu
+		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
+			this.g.setMenu(g.menuPause);
+			return om;
+		}
+		// 2 - Handling inputs (1 loop per player)
+		InputModel im;
+		for(int player=0; player<ims.size(); player++){
+			im = ims.get(player);
+			if(im!=null){
+				for(int to=0; to<10; to++){
+					if(im.isPressedNumPad[to]){
+						this.g.players.get(player).groupSelection = to;
+						if(im.isPressedCTRL){
+							// Creating a new group made of the selection
+							this.g.players.get(player).groups.get(to).clear();
+							for(Character c: this.selection.get(player))
+								this.g.players.get(player).groups.get(to).add(c);
+						} else if(im.isPressedMAJ){
+							// Adding the current selection to the group
+							for(Character c: this.selection.get(player))
+								this.g.players.get(player).groups.get(to).add(c);
+						} else {
+							this.selection.get(player).clear();
+							for(Character c: this.g.players.get(player).groups.get(to))
+								this.selection.get(player).add(c);
+						}
+					}
+				}
+				if(im.isPressedLeftClick){
+					this.clearSelection(player);
+				}
+				// Update the rectangle
+				if(im.leftClick){
+					// As long as the button is pressed, the selection is updated
+					if(rectangleSelection.get(player)==null){
+						recX.set(player, (float)im.xMouse);
+						recY.set(player, (float)im.yMouse);
+						rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
+					}
+					rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+							(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
+				}
+				else if(this.selection!=null){
+					// The button is not pressed and wasn't, the selection is non null
+					this.updateSelection(rectangleSelection.get(player), player);
+					this.rectangleSelection.set(player, null);
+				}
+				else{
+					// We update selection when left click is released
+					this.rectangleSelection.set(player, null);
+				}
+				// Action for player k
+				if(im.isPressedRightClick){
+					if(im.isPressedMAJ){
+						updateSecondaryTarget(im.xMouse,im.yMouse,player);
+					} else {				
+						updateTarget(im.xMouse,im.yMouse,player);
+					}
+				}
+				// Update the selections of the players
+				this.g.players.get(player).selection.clear();
+				for(Character c: this.selection.get(player))
+					this.g.players.get(player).selection.addElement(c);
+
+			}
+		}
+		// Handling the changes
+		// TODO : Mulitplayer selection
+		for(Character c : this.selection.get(1)){
+			om.selection.add(c.id);
+		}
+		
+		// 3 - Collision, Action, Cleaning
 		this.collision();
+		this.clean();
+		this.action();
+
+
+		// 4 - Update of the music
+		if(!g.isInMenu && !this.g.musicStartGame.playing() && !this.g.mainMusic.playing()){
+			this.g.mainMusic.loop();
+		}
+		for(Character c: this.characters){
+			om.toChangeCharacters.add(new OutputChar(c.id,c.team,c.x,c.y,c.lifePoints,c.typeArmor,c.typeWeapon, c.typeHorse, c.animation, c.orientation));
+		}
+		for(Bullet b: this.bullets){
+			if(b instanceof Arrow)
+				om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy));
+			else
+				om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
+		}
+		return om;
+	}
+
+	public void updateFromOutput(OutputModel om, InputModel im){
+		// Handling im
+		
+		if(im!=null){
+			int player = this.g.currentPlayer;
+
+			// Update the rectangle
+			if(im.leftClick){
+				// As long as the button is pressed, the selection is updated
+				if(rectangleSelection.get(player)==null){
+					recX.set(player,(float)im.xMouse);
+					recY.set(player,(float)im.yMouse);
+					rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
+				}
+				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
+			}
+			else {
+				this.rectangleSelection.set(player, null);
+			}
+		}
+		if(om!=null){
+			// Characters
+			// Changing characters
+			Character c=null;
+			for(OutputChar occ : om.toChangeCharacters){
+				c = null;
+				for(Character c2: this.characters)
+					if(c2.id==occ.id)
+						c = c2;
+				if(c!=null){
+					c.change(occ);
+				} else {
+					new Character(occ,this);
+				}
+			}
+			boolean toErase = true;
+			for(Character c2: this.characters){
+				toErase = true;
+				for(OutputChar occ : om.toChangeCharacters){
+					if(occ.id==c2.id)
+						toErase = false;
+				}
+				if(toErase)
+					this.toRemoveCharacters.addElement(c2);
+			}
+			// Bullets
+			// Changing bullets
+			Bullet b=null;
+			for(OutputBullet ocb : om.toChangeBullets){
+				b = null;
+				for(Bullet b2: this.bullets)
+					if(b2.id==ocb.id)
+						b = b2;
+				if(b!=null){
+					b.change(ocb);
+				}else{
+					if(ocb.typeBullet==0){
+						new Arrow(ocb,this);
+					} else if (ocb.typeBullet == 1){
+						new Fireball(ocb,this);				
+					}
+				}
+
+			}
+			toErase = true;
+			for(Bullet c2: this.bullets){
+				toErase = true;
+				for(OutputBullet occ : om.toChangeBullets){
+					if(occ.id==c2.id)
+						toErase = false;
+				}
+				if(toErase)
+					this.toRemoveBullets.addElement(c2);
+			}
+			this.selection.set(this.g.currentPlayer, new Vector<Character>());
+			for(int i : om.selection){
+				for(Character c2: this.characters)
+					if(c2.id==i)
+						this.selection.get(this.g.currentPlayer).addElement(c2);
+			}
+		}
+		// Remove objets from lists
 		this.clean();
 	}
 }

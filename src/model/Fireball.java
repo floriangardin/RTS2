@@ -1,12 +1,12 @@
 package model;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Point;
+
+import multiplaying.OutputModel.OutputBullet;
+
 public class Fireball extends Bullet {
 
 	protected float altitude;
@@ -25,6 +25,8 @@ public class Fireball extends Bullet {
 		//
 
 		this.p = p;
+		this.id = p.g.idBullet;
+		p.g.idBullet++;
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
@@ -45,6 +47,32 @@ public class Fireball extends Bullet {
 		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
+		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
+		if(this.vx<0)
+			this.angle+=180;
+		if(this.angle<0)
+			this.angle+=360;
+		this.image.rotate(this.angle);
+		this.image1.rotate(this.angle);
+		this.image2.rotate(this.angle);
+		this.sound = p.sounds.fireball;
+		this.sound.play(1f,this.p.soundVolume);
+	}
+	public Fireball(OutputBullet ocb, Plateau p){
+		// Parameters
+		this.p = p;
+		p.addBulletObjets(this);
+		this.id = ocb.id;
+		this.image = (this.p.images.fireball).getSubImage(0, 150, 75, 75);
+		this.image1 = (this.p.images.fireball).getSubImage(75, 150, 75, 75);
+		this.image2 = (this.p.images.fireball).getSubImage(150, 150, 75, 75);
+		this.boom = this.p.images.explosion;
+		this.animation = 0;
+		this.lifePoints = 1f;
+		this.collisionBox = new Point(ocb.x,ocb.y);
+		this.setXY(ocb.x,ocb.y);
+		this.vx = ocb.vx;
+		this.vy = ocb.vy;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
 		if(this.vx<0)
 			this.angle+=180;

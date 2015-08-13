@@ -1,12 +1,11 @@
 package model;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.ImageBuffer;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Point;
+
+import multiplaying.*;
+import multiplaying.OutputModel.*;
 
 public class Arrow extends Bullet{
 
@@ -17,9 +16,10 @@ public class Arrow extends Bullet{
 		this.damage = 3f;
 		float size = 2f;
 		float Vmax = 200f;
-		
 		// 
 		this.p = p;
+		this.id = p.g.idBullet;
+		p.g.idBullet++;
 		this.damage = damage;
 		p.addBulletObjets(this);
 		this.lifePoints = 1f;
@@ -43,7 +43,27 @@ public class Arrow extends Bullet{
 		this.sound = p.sounds.arrow;
 		this.sound.play(1f,this.p.soundVolume);
 	}
-	
+	public Arrow(OutputBullet ocb ,Plateau p){
+		// Only used to display on client screen
+		// Parameters
+		this.p = p;
+		this.id = ocb.id;
+		p.addBulletObjets(this);
+		this.lifePoints = 1f;
+		this.collisionBox = new Point(x,y);
+		this.setXY(ocb.x,ocb.y);
+		this.vx = ocb.vx;
+		this.vy = ocb.vy;
+		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
+		if(this.vx<0)
+			this.angle+=180;
+		if(this.angle<0)
+			this.angle+=360;
+		this.image = p.images.arrow.getScaledCopy(1f);
+		this.image.rotate(this.angle);
+		this.sound = p.sounds.arrow;
+		this.sound.play(1f,this.p.soundVolume);
+	}
 	
 	public void collision(Character c){
 		if(c.team!=this.owner.team){

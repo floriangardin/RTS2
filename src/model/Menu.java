@@ -5,6 +5,8 @@ import java.util.Vector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import multiplaying.InputModel;
+
 public abstract class Menu {
 
 	protected Vector<Menu_Item> items;
@@ -12,7 +14,16 @@ public abstract class Menu {
 	public Sounds sounds;
 
 	public void callItems(Input i){
-		
+		for(int j=0; j<items.size(); j++){
+			if(items.get(j).isClicked(i))
+				callItem(j);
+		}
+	}
+	public void callItems(InputModel im){
+		for(int j=0; j<items.size(); j++){
+			if(items.get(j).isClicked(im))
+				callItem(j);
+		}
 	}
 
 	public void callItem(int i){
@@ -21,9 +32,9 @@ public abstract class Menu {
 
 	public Vector<Menu_Item> createHorizontalCentered(int i, float sizeX, float sizeY){
 		Vector<Menu_Item> items = new Vector<Menu_Item>();
-		float unitY = sizeY/(5f+2f*i);
+		float unitY = sizeY/(9f+3f*i);
 		for(int j=0;j<i;j++){
-			items.add(new Menu_Item(sizeX/3f,3*unitY+2f*j*unitY,sizeX/3f,unitY,""));
+			items.add(new Menu_Item(sizeX/3f,5*unitY+3f*j*unitY,sizeX/3f,2*unitY,""));
 		}
 		return items;
 	}
@@ -41,6 +52,9 @@ public abstract class Menu {
 	}
 	
 	public void update(Input i){
+		
+	}
+	public void update(InputModel im){
 		
 	}
 }

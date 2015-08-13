@@ -20,7 +20,7 @@ public abstract class Objet {
 	protected Plateau p;
 	protected float lifePoints;
 	protected String name;
-	protected int team;
+	
 	protected Image image;
 	
 	public void setName(String s){

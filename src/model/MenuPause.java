@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import multiplaying.InputModel;
+
 public class MenuPause extends Menu {
 	
 	public MenuPause(Game game){
@@ -41,14 +43,14 @@ public class MenuPause extends Menu {
 		default:		
 		}
 	}
-	public void update(Input i){
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
+	public void update(InputModel im){
+		if(im.isPressedESC){
 			this.game.quitMenu();
 			return;
 		}
-		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
-			callItems(i);
+		if(im.isPressedLeftClick)
+			callItems(im);
 		for(Menu_Item item: this.items)
-			item.update(i);
+			item.update(im);
 	}
 }

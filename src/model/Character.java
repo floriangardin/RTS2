@@ -6,22 +6,16 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.ImageBuffer;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Ellipse;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
-public class Character extends ActionObjet{
-	static int NAKED  = 0;
-	static int FIGHTER = 1;
-	static int HEALER = 2;
-	static int DEAD = 3;
-	static int OTHER = 4;
+import multiplaying.OutputModel.OutputChar;
 
-	// Handle group attack
-	protected boolean actionMode;
+public class Character extends ActionObjet{
+
+	protected int id;
 	// General attributes
 	protected Circle sightBox;
 	protected float maxLifePoints;
@@ -34,6 +28,7 @@ public class Character extends ActionObjet{
 	protected Armor armor;
 	protected RidableObjet horse;
 	protected Weapon weapon;
+	public int typeArmor, typeWeapon, typeHorse;
 	// About velocity
 	protected float maxVelocity; 	//current maximum
 	protected float basicVelocity;
@@ -41,20 +36,24 @@ public class Character extends ActionObjet{
 	protected float horseVelocity = 0; 	//horse coefficient
 
 	// About drawing
-	protected float animationValue=0f;
-	protected int orientation=2;
+	public float animationValue=0f;
+	public int animation = 0;
+	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
+
+	public float size = 20f;
+	public float sight = 100f;
 
 	public Character(Plateau p,int team,float x, float y){
 		// Parameters
 		this.basicVelocity = 100f;
-		float size = 20f;
-		float sight = 100f;
 		this.maxLifePoints = 100f;
-		this.actionMode = false;
+
 		//
-		this.secondaryTargets = new Vector<Objet>();
+
 		this.p = p;
+		this.id = p.g.idChar;
+		p.g.idChar+=1;
 		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
@@ -82,7 +81,30 @@ public class Character extends ActionObjet{
 		this.setXY(x, y);
 		this.armor = null;
 		this.horse = null;
-		this.lifePoints= this.maxLifePoints;
+		this.weapon = null;
+		this.lifePoints= this.maxLifePoints-10f;
+	}
+	public Character(OutputChar occ, Plateau p){
+		// Only used to display on client screen
+		// Parameters
+		this.maxLifePoints = 100f;
+		this.id = occ.id;
+		this.p = p;
+		this.team = occ.team;
+		Image imagea = this.p.images.corps;
+		Image imageb = this.p.images.corps;
+		if(team==0)
+			imageb = this.p.images.blue;
+		if(team==1)
+			imageb = this.p.images.red;
+		this.image = Utils.mergeImages(imagea, imageb);
+		this.selection_circle = this.p.images.selection_circle;
+		this.lifePoints = this.maxLifePoints-10f;
+		p.addCharacterObjets(this);
+		this.collisionBox = new Circle(x,y,size);
+		this.sightBox = new Circle(x,y,sight);
+		this.setXY(occ.x, occ.y);
+		changeEquipment(occ.armorType,occ.weaponType,occ.horseType);
 	}
 
 	// Getters
@@ -99,6 +121,9 @@ public class Character extends ActionObjet{
 	}
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
+	}
+	public int getId(){
+		return id;
 	}
 
 	protected void setXY(float x, float y){
@@ -137,11 +162,7 @@ public class Character extends ActionObjet{
 		return this.weight;
 	}
 
-	public void stopToAction(){
-		this.checkpointTarget=null;
-		this.vx = 0f;
-		this.vy = 0f;
-	}
+
 	public void stop(){
 		this.checkpointTarget = null;
 		if(this.getTarget() instanceof Checkpoint){
@@ -222,28 +243,49 @@ public class Character extends ActionObjet{
 	}
 	//Set functions
 	public void setWeapon(Weapon weapon) {
-		if(weapon!=null)
+		if(weapon!=null){
 			this.weight += weapon.weight;
-		else
+			if(weapon instanceof Sword)
+				this.typeWeapon = 1;
+			if(weapon instanceof Bow)
+				this.typeWeapon = 2;
+			if(weapon instanceof Bible)
+				this.typeWeapon = 3;
+			if(weapon instanceof Balista)
+				this.typeWeapon = 4;
+		}else{
 			this.weight -= this.weapon.weight;
+			this.typeWeapon = 0;
+		}
 		this.weapon = weapon;
 		this.updateVelocity();
 		this.updateImage();
 	}
 	public void setArmor(Armor armor) {
-		if(armor!=null)
+		if(armor!=null){
 			this.weight += armor.weight;
-		else 
+			if(armor instanceof LightArmor)
+				this.typeArmor = 1;
+			if(armor instanceof MediumArmor)
+				this.typeArmor = 2;
+			if(armor instanceof HeavyArmor)
+				this.typeArmor = 3;
+		}else {
 			this.weight -= this.armor.weight;
+			this.typeArmor = 0;
+		}
 		this.armor = armor;
 		this.updateVelocity();
 		this.updateImage();
 	}
 	public void setHorse(RidableObjet horse) {
-		if(horse!=null)
+		if(horse!=null){
 			this.horseVelocity = horse.velocity;
-		else if (this.horse!=null)
+			this.typeHorse = 1;
+		}else if (this.horse!=null){
 			this.horseVelocity = 0f;
+			this.typeHorse = 0;
+		}
 		this.horse = horse;
 		this.updateVelocity();
 		this.updateImage();
@@ -306,246 +348,6 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
-		int state = whichBehavior();
-
-		if(state==Character.NAKED){
-			actionNaked();
-		}
-		else if(state==Character.FIGHTER){
-			actionFighter();
-		}
-		else if(state==Character.HEALER){
-			actionHealer();
-		}
-		else if(state==Character.DEAD){
-			actionDead();
-		}
-		else{
-			actionOther();
-		}
-	}
-	public void actionNaked(){
-		// We can't really do something, if has a target, then move
-		if(hasTarget()){
-			this.move();
-		}
-		else if(hasSecondaryTarget()){
-			this.target = this.secondaryTargets.get(0);
-			this.secondaryTargets.remove(0);
-			this.move();
-		}
-
-		//TODO add runaway behavior?
-	}
-
-	public void actionFighter(){
-		// First test if the current target is dead, in this case remove target and recall method
-		if(this.hasTarget() && !this.target.isAlive()){
-			this.target=null;
-			actionFighter();
-		}
-		//Now that we are sure to not have a dead target test presence of target or secondary target
-		if(hasTarget()){
-			// First check the team of the target
-			if(this.target.team!=this.team && this.target.team!=-1){
-				//We have a target. Let's first check that it is in the sightrange
-				if(this.target.collisionBox.intersects(this.sightBox)){
-					//If we are not at range, move toward ennemy
-					if(!this.target.collisionBox.intersects(this.weapon.collisionBox)){
-						move();
-					}
-					else{
-						stopToAction();
-					}
-				}
-				else{
-					//TODO Handle group sight
-					this.target=new Checkpoint(this.p,this.target.x,this.target.y);
-					this.actionMode = true;
-					actionFighter();
-				}
-			}
-			else if(!(this.target instanceof Checkpoint)){
-				// Move toward him until collision
-				if(!this.collisionBox.intersects(this.target.collisionBox)){
-					move();
-				}
-				else{
-					this.target=null;
-					this.stop();
-					actionFighter();
-				}
-			}
-			else{
-				if(!actionMode){
-					if(!this.collisionBox.contains(this.target.collisionBox)){
-						move();
-					}
-					else{
-						this.target=null;
-						this.stop();
-						actionFighter();
-					}
-				}
-				else if(findEnnemyTarget()){
-					actionMode = !actionMode;
-					
-				}
-				else{
-					move();
-				}
-			}
-		}
-		else if(hasSecondaryTarget()){
-			this.target = this.secondaryTargets.get(0);
-			this.secondaryTargets.remove(0);
-			this.actionFighter();
-		}
-		else{
-			findEnnemyTarget();
-		}
-
-		// Leader specific actions :
-		if(someoneStopped && this.isLeader() && this.group!=null){
-			this.stop();
-			return;
-		}
-	}
-	public void actionHealer(){
-		// First test if the current target is dead, in this case remove target and recall method
-				if(this.hasTarget() && !this.target.isAlive()){
-					this.target=null;
-					actionHealer();
-				}
-				//Now that we are sure to not have a dead target test presence of target or secondary target
-				if(hasTarget()){
-					// First check the team of the target
-					if(this.target.team==this.team && this.target.team!=-1){
-						//We have a target. Let's first check that it is in the sightrange
-					
-						//If we are not at range, move toward ennemy
-						if(!this.target.collisionBox.intersects(this.weapon.collisionBox)){
-							move();
-						}
-						else{
-							stopToAction();
-						}
-					}
-					else if(this.target.team!=this.team && this.target.team!=-1){
-						//TODO Handle group sight
-						this.target=new Checkpoint(this.p,this.target.x,this.target.y);
-						this.actionMode = true;
-						actionHealer();
-					}
-					else if(!(this.target instanceof Checkpoint)){
-						// Move toward him until collision
-						if(!this.collisionBox.intersects(this.target.collisionBox)){
-							move();
-						}
-						else{
-							this.target=null;
-							this.stop();
-							actionHealer();
-						}
-					}
-					else{
-						if(!actionMode){
-							if(!this.collisionBox.contains(this.target.collisionBox)){
-								move();
-							}
-							else{
-								this.target=null;
-								this.stop();
-								actionHealer();
-							}
-						}
-						else if(findAllieTarget()){
-							actionMode = !actionMode;
-							
-						}
-						else{
-							move();
-						}
-					}
-				}
-				else if(hasSecondaryTarget()){
-					this.target = this.secondaryTargets.get(0);
-					this.secondaryTargets.remove(0);
-					this.actionHealer();
-				}
-				else{
-					findAllieTarget();
-				}
-
-				// Leader specific actions :
-				if(someoneStopped && this.isLeader() && this.group!=null){
-					this.stop();
-					return;
-				}
-
-	}
-
-	public void actionOther(){
-
-	}
-	public void actionDead(){
-		this.target = null;
-	}
-
-
-	public int whichBehavior(){
-		if(!this.isAlive()){
-			return Character.DEAD;
-		}
-		else if(this.weapon==null){
-			return Character.NAKED;
-		}
-		else if(this.weapon.damage>0f){
-			return Character.FIGHTER;
-		}
-		else if(this.weapon.damage<0f){
-			return Character.HEALER;
-		}
-		else{
-			return Character.OTHER;
-		}
-	}
-
-	// ALL SUBMETHODS TO MAKE EVERYTHING CLEAR
-	public boolean findEnnemyTarget(){
-		Vector<Objet> potential_targets;
-		potential_targets = p.getEnnemiesInSight(this);
-		if(potential_targets.size()>0){
-			this.target = Utils.nearestObject(potential_targets, this);
-			return true;
-		}
-		return false;
-	}
-	public boolean findAllieTarget(){
-		Vector<Objet> potential_targets;
-		potential_targets = p.getWoundedAlliesInSight(this);
-		if(potential_targets.size()>0){
-			this.target = Utils.nearestObject(potential_targets, this);
-			return true;
-		}
-		return false;
-	}
-	public boolean shouldMove(){
-		return this.target!=null||this.secondaryTargets.size()>0;
-	}
-	public boolean hasTarget(){
-		return this.target!=null;
-	}
-	public boolean hasTargetOrSecondaryTarget(){
-		return hasTarget() || hasSecondaryTarget();
-	}
-	public boolean hasSecondaryTarget(){
-		return this.secondaryTargets.size()>0;
-	}
-
-	@Deprecated
-	public void action_old(){
-
 		if(!this.isAlive()){
 			this.setTarget(null);
 			return;
@@ -586,25 +388,18 @@ public class Character extends ActionObjet{
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			}
 		}
-		else if(this.getTarget() instanceof Character && this.weapon.damage>0f){
+		else if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
 				this.setTarget(null);
 				return;
 			}
-
 			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
 			if(potential_targets.size()>0){
 				//Take the nearest target :
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			}
-
 		}
-		else if(this.getTarget() instanceof Character && this.weapon.damage<0f){
-			Vector<Objet> potential_allies = p.getAlliesInSight(this);
-			this.setTarget(Utils.nearestObject(potential_allies, this));
-		}
-
 		if(this.getTarget() instanceof Weapon && Utils.distance(this,this.getTarget())<2f*this.collisionBox.getBoundingCircleRadius()){
 			this.collectWeapon((Weapon)this.getTarget());
 			this.setTarget(new Checkpoint(this.getTarget().getX(),this.getTarget().getY()));
@@ -707,13 +502,15 @@ public class Character extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		float animation = 1f,direction = 0f;
-		if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
-			animation = 1f;
-		else if(this.animationValue>=1f && this.animationValue<2f)
-			animation = 0f;
-		else
-			animation = 2f;
+		float direction = 0f;
+		if(animationValue!=0f){
+			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
+				animation = 1;
+			else if(this.animationValue>=1f && this.animationValue<2f)
+				animation = 0;
+			else
+				animation = 2;
+		}
 		direction = (float)(orientation/2-1);
 		int imageWidth = this.image.getWidth()/3;
 		int imageHeight = this.image.getHeight()/4;
@@ -890,6 +687,38 @@ public class Character extends ActionObjet{
 		}
 		this.setXY(finalX, finalY);
 
+	}
+
+	public void change(OutputChar occ){
+		this.setXY(occ.x, occ.y);
+		this.lifePoints = occ.lifePoints;
+		this.animation = occ.animation;
+		this.orientation = occ.direction;
+		this.changeEquipment(occ.armorType, occ.weaponType, occ.horseType);
+	}
+
+	public void changeEquipment(int typeArmor, int typeWeapon, int typeHorse){
+		this.typeArmor = typeArmor;
+		this.typeWeapon = typeWeapon;
+		this.typeHorse = typeHorse;
+		switch(typeArmor){
+		case 1: this.armor = new LightArmor(x,y,p,this);break;
+		case 2: this.armor = new MediumArmor(x,y,p,this);break;
+		case 3: this.armor = new HeavyArmor(x,y,p,this);break;
+		default:
+		}
+		switch(typeWeapon){
+		case 1: this.weapon = new Sword(p,this);break;
+		case 2: this.weapon = new Bow(p,this);break;
+		case 3: this.weapon = new Bible(p,this);break;
+		case 4: this.weapon = new Balista(p,this);break;
+		default:
+		}
+		switch(typeHorse){
+		case 1: this.horse = new Horse(p,this);break;
+		default:
+		}
+		this.updateImage();
 	}
 }
 

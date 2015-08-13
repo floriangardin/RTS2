@@ -7,7 +7,7 @@ public class Bible extends ContactWeapon{
 	public Bible(Plateau p, Character owner){
 		// Parameters
 		this.state = 0f;
-		this.damage = -0.2f;
+		this.damage = -0.8f;
 		this.chargeTime = 0.2f;
 		this.name = "Bible";
 		float extraRange = 30f;
@@ -34,8 +34,7 @@ public class Bible extends ContactWeapon{
 	}
 
 	public void collision(Character c){
-
-		if(c!=this.owner && c.team==this.owner.team && c==this.getTarget() && this.state>this.chargeTime){
+		if(c!=this.owner && c.team==this.owner.team && c==this.getTarget() && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Heal !
 			if(c.lifePoints>=c.maxLifePoints){
 				if(this.owner.getTarget()==c){

@@ -1,5 +1,6 @@
 package model;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -8,14 +9,17 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.tiled.*;
 
+import multiplaying.*;
+
 public class Game extends BasicGame 
 {	
-	int team = 0;
 	int step = 0;
 	boolean displayUnit= true;
 	public void changeDisplayUnit(){
 		displayUnit = !displayUnit;
 	}
+	public int idChar = 0;
+	public int idBullet = 0;
 	// Ennemy generator 
 	EnemyGenerator gen ;
 	//Music 
@@ -42,9 +46,6 @@ public class Game extends BasicGame
 	Rectangle selection;
 	boolean new_selection;
 	Vector<Objet> objets_selection=new Vector<Objet>();
-	// Point where you clicked the rectangle the first time : 
-	float recX ;
-	float recY ;
 	// framerate
 	int framerate ;
 	// Resolution : 
@@ -56,6 +57,34 @@ public class Game extends BasicGame
 	protected Vector<Player> players = new Vector<Player>();
 	// Then we declare the plateau
 	private Plateau plateau ;
+
+	// Network and multiplaying
+	protected boolean inMultiplayer;
+	public long startTime;
+	// Host and client
+	public InetAddress addressHost;
+	public InetAddress addressClient;
+	public Vector<InputModel> inputs = new Vector<InputModel>();
+	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
+	public Vector<String> toSendInputs = new Vector<String>();
+	public Vector<OutputModel> outputs = new Vector<OutputModel>();
+	public Vector<OutputModel> toRemoveOutputs = new Vector<OutputModel>();
+	public Vector<String> toSendOutputs = new Vector<String>();
+	public Vector<String> connexions = new Vector<String>();
+	public Vector<String> toSendConnexions = new Vector<String>();
+	public int timeValue;
+	public int delay = 5;
+	// Sender and Receiver
+	public MultiReceiver inputReceiver = new MultiReceiver(this,2345);
+	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,2345,this.toSendInputs);
+	public MultiReceiver outputReceiver = new MultiReceiver(this,2346);
+	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, 2346, this.toSendOutputs);
+	public MultiReceiver connexionReceiver = new MultiReceiver(this,2344);
+	public MultiSender connexionSender;
+	public boolean isHost;
+	//Debugging network
+	public int toAdd = 0;
+	public int toRemove = 0;
 
 	// Current player
 	protected int currentPlayer = 0;
@@ -69,10 +98,21 @@ public class Game extends BasicGame
 		this.isInMenu = false;
 		this.menuCurrent = null;
 		app.setClearEachFrame(true);
+		this.musicMenu.fade(300,0f,true);
+		this.musicMenu.fade(300,0f,true);
+		if(!this.musicStartGame.playing()){
+			this.musicStartGame.play();
+			this.musicStartGame.setVolume(this.volume);
+
+		}
 	}
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
+		if(m!=null && !this.musicMenu.playing()){
+			this.musicMenu.play();
+			this.musicMenu.setVolume(this.volume);
+		}
 		app.setClearEachFrame(false);
 	}
 
@@ -102,7 +142,6 @@ public class Game extends BasicGame
 		// Draw the selection of your team 
 		for(Character o: plateau.selection.get(currentPlayer)){
 			o.drawIsSelected(g);
-
 		}
 		//Creation of the drawing Vector
 		Vector<Objet> toDraw = new Vector<Objet>();
@@ -135,9 +174,9 @@ public class Game extends BasicGame
 			//toDraw.add(o);
 		}
 		// Draw the selection :
-		if(this.selection !=null){
+		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
 			g.setColor(Color.green);
-			g.draw(this.selection);
+			g.draw(this.plateau.rectangleSelection.get(currentPlayer));
 
 		}
 
@@ -167,120 +206,125 @@ public class Game extends BasicGame
 	}
 	// Do our logic 
 	@Override
-	public void update(GameContainer gc, int t) throws SlickException 
+	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
+		InputModel im=null;
+		Vector<InputModel> ims = new Vector<InputModel>();
+		//System.out.println(this.plateau.characters);
+		if(inMultiplayer){
 
-		// Get the input from the usr
-		Input i = gc.getInput();
-		// Update the selection rectangle :
-		// Test if new selection :
-		if(isInMenu){
-			if(!this.musicMenu.playing()){
-				this.musicMenu.play();
-				this.musicMenu.setVolume(this.volume);
-			}
-			this.menuCurrent.update(i);
-			return;
-		}
-		
-		if(!isInMenu && i.isKeyPressed(org.newdawn.slick.Input.KEY_ESCAPE)){
-			if(!this.musicMenu.playing()){
-				this.musicMenu.play();
-				this.musicMenu.setVolume(this.volume);
-			}
-			this.setMenu(menuPause);
-			return;
-		}
+			//Utils.printCurrentState(this.plateau);
+			// The game is in multriplaying mode
+			if(isHost){
+				/* Multiplaying Host Pipeline
+				 * 1 - take the input of t-5 client and host
+				 * 2 - perform action() and update()
+				 * 3 - send the output of the action and update step
+				 */
 
-		
-		if(this.musicMenu.playing() && !isInMenu){
-			this.musicMenu.fade(300,0f,true);
-			if(!this.musicStartGame.playing()){
-				this.musicStartGame.play();
-				this.musicStartGame.setVolume(this.volume);
-				
-			}
-		}
+				// Defining the clock
+				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
 
-		
-		if(!isInMenu && !this.musicStartGame.playing() && !this.mainMusic.playing()){
-			this.mainMusic.loop();
-		}
-			
-		// GAME PART 
-
-		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-			this.plateau.clearSelection(team);
-		}
-		
-		//TODO: Handling the groups
-		int touche;
-		for(int to=0; to<10; to++){
-			touche = to + 2;
-			if(i.isKeyPressed(touche)){
-				this.players.get(this.currentPlayer).groupSelection = touche-2;
-				if(i.isKeyDown(org.newdawn.slick.Input.KEY_LCONTROL) || i.isKeyDown(org.newdawn.slick.Input.KEY_RCONTROL)){
-					// Creating a new group made of the selection
-					this.players.get(currentPlayer).groups.get(to).clear();
-					for(Character c: this.plateau.selection.get(currentPlayer))
-						this.players.get(currentPlayer).groups.get(to).add(c);
-				} else if(i.isKeyDown(org.newdawn.slick.Input.KEY_LSHIFT) || i.isKeyDown(org.newdawn.slick.Input.KEY_RSHIFT)){
-					// Adding the current selection to the group
-					for(Character c: this.plateau.selection.get(currentPlayer))
-						this.players.get(currentPlayer).groups.get(to).add(c);
-				} else {
-					this.plateau.selection.get(currentPlayer).clear();
-					for(Character c: this.players.get(currentPlayer).groups.get(to))
-						this.plateau.selection.get(currentPlayer).add(c);
+				// 1 - take the input of t-5 client and host
+				int indice;
+				InputModel imm;
+				for(int player = 0; player<players.size(); player++){
+					if(player!=currentPlayer){
+						indice = 0;
+						imm=null;
+						im=null;
+						while(indice<this.inputs.size()){
+							imm = this.inputs.get(indice);
+							if(imm.team==player && imm.timeValue<=timeValue){
+								if(imm.timeValue<timeValue-5){
+									this.toRemoveInputs.addElement(imm);
+									// If the input is for a past time we erase it
+								} else {
+									if(im!=null){
+										im.mix(imm);
+									} else {
+										im = imm;
+									}
+									this.toRemoveInputs.addElement(imm);
+								}
+							}
+							indice+=1;
+						}
+						for(InputModel im2 : this.toRemoveInputs){
+							this.inputs.remove(im2);
+							this.toRemove++;
+						}
+						this.toRemoveInputs.clear();
+						ims.add(im);
+					} else {
+						im = new InputModel(timeValue,currentPlayer,gc.getInput());
+						ims.add(im);
+					}
 				}
+
+				// 2 - perform action() and update()
+				OutputModel om = null;
+				if(isInMenu){
+					this.menuCurrent.update(ims.get(0));
+				} else {
+					om = this.plateau.update(ims);
+				}
+
+				// 3 - send the output of the action and update step
+				om.timeValue = timeValue+delay;
+				this.toSendOutputs.addElement(om.toString());
+
+			} else if(!isHost){
+				/* Multiplaying Client Pipeline
+				 * 1 - send the input to host
+				 * 2 - take the output from t-5
+				 * 3 - update from the output file
+				 */
+
+				// Defining the clock
+				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
+
+				// 1 - send the input to host
+				im = new InputModel(timeValue+delay,currentPlayer,gc.getInput());
+				this.toSendInputs.addElement(im.toString());
+
+				// 2 - take the output from t-5
+				int indice = 0;
+				OutputModel om = null,omm;
+				while(indice<this.outputs.size()){
+					omm = this.outputs.get(indice);
+					if(omm.timeValue<=timeValue){
+						if(omm.timeValue<timeValue-5){
+							this.toRemoveOutputs.addElement(omm);
+							// If the input is for a past time we erase it
+						} else {
+							om = omm;
+							this.toRemoveOutputs.addElement(omm);
+						}
+					}
+					indice+=1;
+				}
+				for(OutputModel om2 : this.toRemoveOutputs){
+					this.outputs.remove(om2);
+				}
+				this.toRemoveOutputs.clear();
+
+				// 3 - update from the output file
+				this.plateau.updateFromOutput(om, im);
+
 			}
-		}
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_A)){
-			currentPlayer+=1;
-			if(currentPlayer==2)
-				currentPlayer = 0;
-		}
-		if(i.isKeyPressed(org.newdawn.slick.Input.KEY_Z))
-			Utils.printCurrentState(plateau);
-
-		// Update the rectangle
-		if(i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			if(selection==null){
-				recX = i.getAbsoluteMouseX();
-				recY = i.getAbsoluteMouseY();
-				selection = new Rectangle(recX,recY,0.1f,0.1f);
-
+		} else if (!inMultiplayer){
+			// If not in multiplayer mode, dealing with the common input
+			ims.add(new InputModel(0,1,gc.getInput()));
+			// updating the game
+			if(isInMenu){
+				this.menuCurrent.update(ims.get(0));
+			} else {
+				this.plateau.update(ims);
 			}
-			selection.setBounds( (float)Math.min(recX,i.getAbsoluteMouseX()), (float)Math.min(recY, i.getAbsoluteMouseY()),
-					(float)Math.abs(i.getAbsoluteMouseX()-recX)+0.1f, (float)Math.abs(i.getAbsoluteMouseY()-recY)+0.1f);
-		}
-		else if(!i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && this.selection!=null){
-			plateau.updateSelection(selection, this.currentPlayer);
-			this.selection = null;
-		}
-		else{
-			// We update selection when left click is released
-			selection = null;
-		}
-		// Action for player k
-		if(i.isMousePressed(Input.MOUSE_RIGHT_BUTTON)){
-			if(i.isKeyDown(org.newdawn.slick.Input.KEY_LSHIFT) || i.isKeyDown(org.newdawn.slick.Input.KEY_RSHIFT)){
-				this.plateau.updateSecondaryTarget(i.getMouseX(),i.getMouseY(),currentPlayer);
-			} else {				
-				this.plateau.updateTarget(i.getMouseX(),i.getMouseY(),currentPlayer);
-			}
-		}
-		// Perform the collision, the creation and destruction of elements.
 
-		plateau.update();
-		// Perform the actions;
-		plateau.action();
-
-		for(int pl =0; pl <this.players.size(); pl++){
-			this.players.get(currentPlayer).selection.clear();
-			for(Character c: this.plateau.selection.get(currentPlayer))
-				this.players.get(currentPlayer).selection.addElement(c);
 		}
+
 	}
 
 	public void newGame(){
@@ -291,7 +335,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(1));
 
 		this.map.createMap2(plateau);
-		
+
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
 		selection = null;
@@ -313,14 +357,18 @@ public class Game extends BasicGame
 		this.players.add(new Player(1));
 		this.sounds = new Sounds();
 		this.images = new Images();
-		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,3,this);
 		this.background =  new Image("pics/dirt.png");
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
 		this.map = new Map();
 		this.setMenu(menuIntro);
-
-
+		this.startTime = System.currentTimeMillis();
+		//		Thread t1 = new Thread(new InputListener(this, this.app, 0));
+		//		t1.start();
+		try{
+			Thread.sleep(10);
+		} catch(InterruptedException e) {}
 	}
 	public Game ()
 	{

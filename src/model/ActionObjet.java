@@ -8,8 +8,8 @@ public abstract class ActionObjet extends Objet{
 
 	protected float vx;
 	protected float vy;
-	
-	protected Objet target;
+	protected int team;
+	private Objet target;
 	protected Checkpoint checkpointTarget;
 
 
