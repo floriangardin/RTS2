@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 
 import multiplaying.InputModel;
 
@@ -12,7 +13,7 @@ public abstract class Menu {
 	protected Vector<Menu_Item> items;
 	public Game game;
 	public Sounds sounds;
-
+	public Music music;
 	public void callItems(Input i){
 		for(int j=0; j<items.size(); j++){
 			if(items.get(j).isClicked(i))

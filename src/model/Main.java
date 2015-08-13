@@ -1,4 +1,6 @@
 package model;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -12,10 +14,12 @@ public class Main {
 	
 	Constants constants;
 	public static void main(String[] args) {
-		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		double height = screenSize.getHeight();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 1200;		
-		int resolutionY = 768;
+		int resolutionX = (int)width;		
+		int resolutionY = (int)height;
 		
 		try {
 			Main main = new Main();
@@ -23,9 +27,7 @@ public class Main {
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-
-			app.setDisplayMode(resolutionX, resolutionY,false);
-
+			app.setDisplayMode(resolutionX, resolutionY,true);
 			//app.setFullscreen(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setTargetFrameRate(main.framerate);

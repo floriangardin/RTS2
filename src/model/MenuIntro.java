@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
 import multiplaying.InputModel;
@@ -17,11 +18,18 @@ public class MenuIntro extends Menu {
 	float timer = 0f;
 	float nextBullet = 1f;
 	Image title;
-
 	boolean toGame = false;
 	public float timeToGame = 200f;
 
 	public MenuIntro(Game game){
+		try {
+			this.music = new Music("music/intro_verdi.ogg");
+			this.music.setVolume(0.5f);
+			this.music.loop();
+		} catch (SlickException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		this.game = game;
 		this.items = this.createHorizontalCentered(4, this.game.resX, this.game.resY);
 		this.items.get(0).name = "Nouvelle Partie";
@@ -64,7 +72,7 @@ public class MenuIntro extends Menu {
 		switch(i){
 		case 0:
 			this.toGame = true;
-			this.game.musicMenu.fade(300,0f,true);
+			this.music.fade(300,0f, true);
 			break;
 		case 1:
 			this.game.menuCurrent = new MenuMulti(this);

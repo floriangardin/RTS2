@@ -20,7 +20,7 @@ public class EnemyGenerator extends ActionObjet {
 		this.p =p;
 		this.g =g;
 		this.team=1;
-		this.spawnTime = 80f;
+		this.spawnTime = 40f;
 		this.state = spawnTime;
 		this.lifePoints = 1f;
 		this.sizeX = 120f; 
