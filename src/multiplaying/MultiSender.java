@@ -17,7 +17,8 @@ public class MultiSender extends Thread{
 	Vector<String> depot;
 
 	// DEBUGGING
-	private boolean debug = true;
+	private boolean debug = false;
+	int sent = 0;
 	
 	public MultiSender(GameContainer gc, Game g, InetAddress address, int port, Vector<String> depot){
 		this.gc = gc;
@@ -39,6 +40,8 @@ public class MultiSender extends Thread{
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
 					client.send(packet);
+					sent++;
+					System.out.println("sent :" + sent);
 					if(debug)
 						System.out.println("message sent: " + this.depot.get(0));
 					this.depot.remove(0);

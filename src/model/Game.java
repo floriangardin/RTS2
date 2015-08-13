@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.*;
 import org.newdawn.slick.tiled.*;
 
 import multiplaying.*;
+import multiplaying.ConnectionModel.*;
 
 public class Game extends BasicGame 
 {	
@@ -56,7 +57,7 @@ public class Game extends BasicGame
 	private Vector<ActionObjet> actionObjets = new Vector<ActionObjet>();
 	protected Vector<Player> players = new Vector<Player>();
 	// Then we declare the plateau
-	private Plateau plateau ;
+	public Plateau plateau ;
 
 	// Network and multiplaying
 	protected boolean inMultiplayer;
@@ -73,7 +74,7 @@ public class Game extends BasicGame
 	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
-	public int delay = 5;
+	public int delay = 2;
 	// Sender and Receiver
 	public MultiReceiver inputReceiver = new MultiReceiver(this,2345);
 	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,2345,this.toSendInputs);
@@ -338,6 +339,26 @@ public class Game extends BasicGame
 
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
+		selection = null;
+	}
+	public void newGame(ConnectionModel cm){
+		//Clean all variables
+		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.players = new Vector<Player>();
+		this.players.add(new Player(0));
+		this.players.add(new Player(1));
+
+		this.addressHost = cm.ia;
+		for( ConnectionObjet co : cm.naturalObjets){
+			if(co instanceof ConnectionTree){
+				new Tree(co.x,co.y,this.plateau,((ConnectionTree) co).type);
+			} else if(co instanceof ConnectionWater){
+				new Water(co.x,co.y,((ConnectionWater)co).sizeX,((ConnectionWater)co).sizeY,this.plateau);
+			}
+		}
+
+		// Instantiate BottomBars for current player:
+		this.bottomBars = new BottomBar(this.plateau,this.players.get(1),this);
 		selection = null;
 	}
 	// Init our Game objects

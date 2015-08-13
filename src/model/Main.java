@@ -12,6 +12,7 @@ public class Main {
 	
 	Constants constants;
 	public static void main(String[] args) {
+		
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		int resolutionX = 1200;		
 		int resolutionY = 768;

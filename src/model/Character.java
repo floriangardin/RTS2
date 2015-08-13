@@ -698,6 +698,8 @@ public class Character extends ActionObjet{
 	}
 
 	public void changeEquipment(int typeArmor, int typeWeapon, int typeHorse){
+		if(this.typeArmor==typeArmor && this.typeWeapon==typeWeapon && this.typeHorse==typeHorse)
+			return;
 		this.typeArmor = typeArmor;
 		this.typeWeapon = typeWeapon;
 		this.typeHorse = typeHorse;

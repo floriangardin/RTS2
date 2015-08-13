@@ -520,6 +520,7 @@ public class Plateau {
 							for(Character c: this.g.players.get(player).groups.get(to))
 								this.selection.get(player).add(c);
 						}
+						System.out.println("group "+ player + " " + to + " "+ this.g.players.get(player).groups.get(to));
 					}
 				}
 				if(im.isPressedLeftClick){
@@ -670,6 +671,7 @@ public class Plateau {
 						this.selection.get(this.g.currentPlayer).addElement(c2);
 			}
 		}
+		this.g.outputReceiver.lock = false;
 		// Remove objets from lists
 		this.clean();
 	}

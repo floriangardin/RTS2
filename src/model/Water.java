@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Water extends NaturalObjet {
 	
-	float sizeX;
-	float sizeY;
+	public float sizeX;
+	public float sizeY;
 	
 	public Water(float x, float y, float sizeX, float sizeY, Plateau p) {
 		this.sizeX = sizeX;

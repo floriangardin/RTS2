@@ -39,10 +39,10 @@ public abstract class Objet {
 		return g;}
 	protected void collision(Objet o){}
 	public void collision(Character c){}
-	protected float getX(){
+	public float getX(){
 		return x;
 	}
-	protected float getY(){
+	public float getY(){
 		return y;
 	}
 	protected void setXY(float x, float y){

@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 
+import multiplaying.ConnectionModel;
 import multiplaying.InputModel;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
@@ -22,21 +23,31 @@ public class MenuMulti extends Menu {
 	Vector<Menu_Item> hostItems;
 	Vector<Menu_Item> joinItems;
 	String IP = "";
+	String localIP;
 	InetAddress addressEnemy;
+	InetAddress addressLocal;
 	private float timerMessage = 0f;
 	private boolean lock = false;
 	private float timeoutConnexion;
+	private boolean waitingForReady = false;
+	private boolean waitingForStart = false;
 
 
 	public MenuMulti(MenuIntro m) {
 		this.game = m.game;
+		try {
+			localIP= InetAddress.getLocalHost ().getHostAddress ();
+			addressLocal = InetAddress.getLocalHost ();
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
 		this.mainItems = this.createHorizontalCentered(3, this.game.resX, this.game.resY);
 		this.mainItems.get(0).name = "Host Game";
 		this.mainItems.get(1).name = "Join Game";
 		this.mainItems.get(2).name = "Back";
 		this.hostItems = this.createHorizontalCentered(4, this.game.resX, this.game.resY);
 		this.hostItems.get(0).name = "Host Game";
-		this.hostItems.get(1).name = "Your IP: 127.0.0.1 (héhé)"; // TODO
+		this.hostItems.get(1).name = "Your IP: "+localIP; // TODO
 		this.hostItems.get(2).name = "*** no client ***";
 		this.hostItems.get(3).name = "Back";
 		this.hostItems.get(0).colorAnimation = false;
@@ -60,39 +71,39 @@ public class MenuMulti extends Menu {
 	public void callItem(int i){
 		if(inHost){
 			switch(i){
-			case 2:
-				this.items = this.mainItems;
-				this.inHost = false;
+			case 3:
+				if(waitingForStart){
+					this.sendMessage("2start");
+					this.initMulti(true);
+					this.game.inMultiplayer = true;
+					this.game.isHost = true;
+					this.game.startTime = System.currentTimeMillis();
+					this.game.inputReceiver.start();
+					this.game.outputSender.start();
+					this.game.quitMenu();
+				} else {
+					this.setInHost(false);
+				}
 			default:
 			}
 		} else if(inJoin){
 			switch(i){
-			case 2:
-				this.items = this.mainItems;
-				this.inJoin = false;
+			case 3:
+				if(waitingForReady){
+					this.sendMessage("2ready");
+					this.joinItems.get(3).name = "Waiting for host";
+					this.timeoutConnexion = 600f;
+				} else{
+					this.setInJoin(false);
+				}
 			default:
 			}
 		} else {
 			switch(i){
 			case 0:
-
-				//				this.game.inMultiplayer = true;
-				//				this.game.isHost = true;
-				//				this.game.startTime = System.currentTimeMillis();
-				//				this.game.inputReceiver.start();
-				//				this.game.outputSender.start();
-				//				this.game.newGame();
-				//				this.game.quitMenu();
 				this.setInHost(true);
 				break;
 			case 1: 
-				//				this.game.inMultiplayer = true;
-				//				this.game.startTime = System.currentTimeMillis();
-				//				this.game.inputSender.start();
-				//				this.game.outputReceiver.start();
-				//				this.game.currentPlayer = 1;
-				//				this.game.newGame();
-				//				this.game.quitMenu();
 				this.setInJoin(true);
 				break;
 			case 2:
@@ -126,14 +137,61 @@ public class MenuMulti extends Menu {
 	public void update(InputModel im){
 		this.timerMessage=Math.max(this.timerMessage-1f, 0f);
 		this.timeoutConnexion=Math.max(this.timeoutConnexion-1f, 0f);
-		if(timerMessage==0f && timeoutConnexion==0f){
-			lock = false;
-			this.joinItems.get(2).name = "*** no game found ***";
-		}
-		if(timeoutConnexion>0f){
+		if(inJoin){
+			if(lock && timerMessage==0f && timeoutConnexion==0f && !waitingForReady){
+				lock = false;
+				this.joinItems.get(2).name = "*** no game found ***";
+			}
 			if(this.game.connexions.size()>0){
-				// TODO connexion established
-				this.joinItems.get(2).name = this.game.connexions.get(0);
+				// TODO connection established
+				if(!waitingForReady){
+					ConnectionModel cm = new ConnectionModel(this.game.connexions.get(0));
+					this.joinItems.get(2).name = cm.ia.getHostAddress();
+					this.addressEnemy = cm.ia;
+					this.game.newGame(cm);
+					this.joinItems.get(3).name = "ready";
+					this.waitingForReady = true;
+					this.game.connexions.clear();
+					this.lock = true;
+				} else {
+					this.initMulti(false);
+					this.game.inMultiplayer = true;
+					this.game.startTime = System.currentTimeMillis();
+					this.game.inputSender.start();
+					this.game.outputReceiver.start();
+					this.game.outputReceiver.setLock = true;
+					this.game.currentPlayer = 1;
+					this.game.quitMenu();
+				}
+			}
+		} else if (inHost){
+			if(this.game.connexions.size()>0){
+				// TODO connection established
+				if(!waitingForReady){
+					this.hostItems.get(2).name = "client: " + this.game.connexions.get(0);
+					try {
+						this.addressEnemy = InetAddress.getByName(this.game.connexions.get(0));
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
+					System.out.println("client recu: " +addressEnemy.getHostName());
+					this.game.connexions.clear();
+					this.game.newGame();
+					this.game.toSendConnexions.clear();
+					this.game.connexionSender = new MultiSender(this.game.app, this.game, addressEnemy, 2344, this.game.toSendConnexions);
+					this.game.connexionSender.start();
+					ConnectionModel cm = new ConnectionModel(addressLocal,this.game.plateau.toAddNaturalObjets);
+					this.game.toSendConnexions.add(cm.toString());
+					try{Thread.sleep(100);}catch(InterruptedException e){}
+					this.game.connexionSender.interrupt();
+					this.waitingForReady  = true;
+					this.lock = true;
+					this.hostItems.get(3).name = "Waiting for the client";
+				} else {
+					this.hostItems.get(3).name = "Start";
+					this.waitingForStart = true;
+					this.lock = false;
+				}
 			}
 		}
 		if(im!=null){
@@ -144,7 +202,7 @@ public class MenuMulti extends Menu {
 				this.joinItems.get(1).name = "IP: " + IP;
 				if(im.isPressedLeftClick)
 					callItems(im);
-				if(im.isPressedESC){
+				if(im.isPressedESC && !waitingForStart){
 					if(inJoin){
 						this.setInJoin(false);
 					} else if (inHost){
@@ -162,17 +220,25 @@ public class MenuMulti extends Menu {
 								this.IP += (i+1);
 						}
 					}
-					if(im.isPressedENTER){
-						this.sendRequest(IP);
-					}
 					if(im.isPressedBACK && this.IP.length()>0){
 						this.IP = this.IP.substring(0, IP.length()-1);
 					}
 					if(im.isPressedDOT && this.IP.length()<16){
 						this.IP += ".";
 					}
+					if(im.isPressedENTER){
+						this.sendRequest(IP);
+					}
 				}
 			}
+			if(inJoin && waitingForReady){
+				if(im.isPressedLeftClick)
+					callItems(im);
+				if(im.isPressedENTER){
+					callItem(3);
+				}
+			}
+
 		}
 
 		this.timer += 0.1f;
@@ -227,12 +293,11 @@ public class MenuMulti extends Menu {
 	public void setInHost(boolean inHost){
 		this.inHost = inHost;
 		if(inHost){
+			this.game.connexionReceiver = new MultiReceiver(this.game, 2344);
 			this.game.connexionReceiver.start();
 			this.items = this.hostItems;
 		} else {
-			this.game.connexionReceiver.server.disconnect();
 			this.game.connexionReceiver.server.close();
-			this.game.connexionReceiver.stop();
 			this.items = this.mainItems;
 		}
 	}
@@ -243,20 +308,21 @@ public class MenuMulti extends Menu {
 		} else {
 			if(this.game.connexionSender!=null && this.game.connexionSender.isAlive())
 				this.game.connexionSender.interrupt();
-			this.game.connexionReceiver.server.disconnect();
-			this.game.connexionReceiver.server.close();
-			this.game.connexionReceiver.stop();
+			if(this.game.connexionReceiver.isAlive()){
+				this.game.connexionReceiver.server.disconnect();
+				this.game.connexionReceiver.server.close();
+			}
 			this.items = this.mainItems;
 		}
 	}
 	public void sendRequest(String IP){
 		try {
-			InetAddress ia = InetAddress.getByName("localhost");
-			String s = "2connexion?";
+			InetAddress ia = InetAddress.getByName(IP);
 			this.game.connexionSender = new MultiSender(this.game.app,this.game,ia,2344,this.game.toSendConnexions);
+			this.game.connexionReceiver = new MultiReceiver(this.game, 2344);
 			this.game.connexionReceiver.start();
 			this.game.connexionSender.start();
-			this.game.toSendConnexions.add(s);
+			this.game.toSendConnexions.add("2"+localIP);
 			while(this.game.toSendConnexions.size()>0){try{Thread.sleep(100);}catch(InterruptedException e){}}
 			this.game.connexionSender.interrupt();
 			this.joinItems.get(2).name = "Request sent";
@@ -267,7 +333,26 @@ public class MenuMulti extends Menu {
 			this.timerMessage  = 120f;
 			this.IP = "";
 			this.lock = true;
-			System.out.println("invalid ip");
 		}
+	}
+	public void sendMessage(String msg){
+		InetAddress ia = addressEnemy;
+		this.game.connexionSender = new MultiSender(this.game.app,this.game,ia,2344,this.game.toSendConnexions);
+		this.game.connexionSender.start();
+		this.game.toSendConnexions.add("2"+msg);
+		while(this.game.toSendConnexions.size()>0){try{Thread.sleep(100);}catch(InterruptedException e){}}
+		this.game.connexionSender.interrupt();
+		this.lock = true;
+	}
+	public void initMulti(boolean isHost){
+		if(isHost){
+			this.game.addressClient = addressEnemy;
+			this.game.addressHost = addressLocal;
+		} else {
+			this.game.addressClient = addressLocal;
+			this.game.addressHost = addressEnemy;			
+		}
+		this.game.inputSender = new MultiSender(this.game.app,this.game,game.addressHost,2345,this.game.toSendInputs);
+		this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressClient, 2346, this.game.toSendOutputs);
 	}
 }

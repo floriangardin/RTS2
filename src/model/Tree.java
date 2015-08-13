@@ -11,8 +11,10 @@ public class Tree extends NaturalObjet {
 	float sizeX = 30f;
 	float sizeY = 10f;
 	float coeffDraw = 0.7f;
+	public int type;
 
 	public Tree(float x, float y, Plateau p, int type) {
+		this.type = type;
 		float size = 25.0f;
 		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.gray;
