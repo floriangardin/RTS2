@@ -222,36 +222,14 @@ public class Game extends BasicGame
 				// Defining the clock
 				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
 
-				// 1 - take the input of t-5 client and host
-				int indice;
-				InputModel imm;
+				// 1 - take the input of client and host
 				for(int player = 0; player<players.size(); player++){
 					if(player!=currentPlayer){
-						indice = 0;
-						imm=null;
-						im=null;
-						while(indice<this.inputs.size()){
-							imm = this.inputs.get(indice);
-							if(imm.team==player && imm.timeValue<=timeValue){
-								if(imm.timeValue<timeValue-5){
-									this.toRemoveInputs.addElement(imm);
-									// If the input is for a past time we erase it
-								} else {
-									if(im!=null){
-										im.mix(imm);
-									} else {
-										im = imm;
-									}
-									this.toRemoveInputs.addElement(imm);
-								}
-							}
-							indice+=1;
+						while(this.inputs.size()==0){
+							try{Thread.sleep(1);} catch(InterruptedException e){}
 						}
-						for(InputModel im2 : this.toRemoveInputs){
-							this.inputs.remove(im2);
-							this.toRemove++;
-						}
-						this.toRemoveInputs.clear();
+						im = this.inputs.get(0);
+						this.inputs.clear();
 						ims.add(im);
 					} else {
 						im = new InputModel(timeValue,currentPlayer,gc.getInput());
@@ -267,8 +245,7 @@ public class Game extends BasicGame
 					om = this.plateau.update(ims);
 				}
 
-				// 3 - send the output of the action and update step
-				om.timeValue = timeValue+delay;
+				// 3 - send the output of the action and update step;
 				this.toSendOutputs.addElement(om.toString());
 
 			} else if(!isHost){
@@ -282,29 +259,15 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
 
 				// 1 - send the input to host
-				im = new InputModel(timeValue+delay,currentPlayer,gc.getInput());
+				im = new InputModel(timeValue,currentPlayer,gc.getInput());
 				this.toSendInputs.addElement(im.toString());
 
 				// 2 - take the output from t-5
-				int indice = 0;
-				OutputModel om = null,omm;
-				while(indice<this.outputs.size()){
-					omm = this.outputs.get(indice);
-					if(omm.timeValue<=timeValue){
-						if(omm.timeValue<timeValue-5){
-							this.toRemoveOutputs.addElement(omm);
-							// If the input is for a past time we erase it
-						} else {
-							om = omm;
-							this.toRemoveOutputs.addElement(omm);
-						}
-					}
-					indice+=1;
+				OutputModel om = null;
+				while(this.outputs.size()==0){
+					try{Thread.sleep(1);} catch(InterruptedException e){}
 				}
-				for(OutputModel om2 : this.toRemoveOutputs){
-					this.outputs.remove(om2);
-				}
-				this.toRemoveOutputs.clear();
+				this.outputs.clear();
 
 				// 3 - update from the output file
 				this.plateau.updateFromOutput(om, im);
