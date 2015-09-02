@@ -225,6 +225,7 @@ public class Game extends BasicGame
 				// 1 - take the input of client and host
 				for(int player = 0; player<players.size(); player++){
 					if(player!=currentPlayer){
+						System.out.println("entrée de la boucle serveur");
 						while(this.inputs.size()==0){
 							try{Thread.sleep(1);} catch(InterruptedException e){}
 						}
@@ -265,6 +266,7 @@ public class Game extends BasicGame
 
 				// 2 - take the output from t-5
 				OutputModel om = null;
+				System.out.println("entrée de la boucle client");
 				while(this.outputs.size()==0){
 					try{Thread.sleep(1);} catch(InterruptedException e){}
 				}
