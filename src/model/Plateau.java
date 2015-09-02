@@ -507,25 +507,24 @@ public class Plateau {
 
 			im = ims.get(player);
 
-			// Move camera according to inputs :
-			if(im.isPressedUP || im.yMouse<Ycam+10){
-				Ycam -= 10;
-			}
-			if(im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10){
-				Ycam +=10;
-			}
-			
-			if(im.isPressedLEFT|| im.xMouse<Xcam+10){
-				Xcam -=10;
-			}
-			
-			if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
-				Xcam += 10;
-
-			}
 
 
 			if(im!=null){
+				if(player==this.g.currentPlayer){
+					// Move camera according to inputs :
+					if(im.isPressedUP || im.yMouse<Ycam+10){
+						Ycam -= 10;
+					}
+					if(im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10){
+						Ycam +=10;
+					}
+					if(im.isPressedLEFT|| im.xMouse<Xcam+10){
+						Xcam -=10;
+					}
+					if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
+						Xcam += 10;
+					}
+				}
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
 						this.g.players.get(player).groupSelection = to;
