@@ -39,7 +39,11 @@ public class Game extends BasicGame
 	BottomBar bottomBars;
 	// Top bars:
 	TopBar topBars;
-
+	// CAmera
+	float X;
+	float Y;
+	float Xcam;
+	float Ycam;
 	Image background ;
 	Constants constants;
 	// Selection
@@ -51,6 +55,8 @@ public class Game extends BasicGame
 	// Resolution : 
 	float resX;
 	float resY;
+	float maxX;
+	float maxY;
 	boolean playStartMusic = true;
 	// We keep the reference of the plateau in the game :
 	// Only the game knows the reference for raw vector of objects !
@@ -113,27 +119,29 @@ public class Game extends BasicGame
 		app.setClearEachFrame(false);
 	}
 
-
+ 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
 		//Utils.triY1(this.plateau.characters);
-
+		g.translate(plateau.Xcam, plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
 		if(isInMenu){
 			this.menuCurrent.draw(g);
 			return;
 		}
-		for(int i=0;i<3;i++){
-			for(int j=0;j<2;j++){
-				g.drawImage(this.background, i*512, j*512);
+		int i = 0;
+		int j = 0;
+		while(i<this.maxX){
+			while(j<this.maxY){
+				g.drawImage(this.background, i,j);
+				j+=this.background.getHeight();
 			}
+			i+=this.background.getWidth();
+			j= 0;
 		}
-
-
 		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
-
 
 
 		// Draw the selection of your team 
@@ -197,9 +205,7 @@ public class Game extends BasicGame
 
 		// Draw bottom bar
 		if(this.bottomBars!=null)
-			this.bottomBars.draw(g);
-
-
+			this.bottomBars.draw(g,plateau.Xcam,plateau.Ycam);
 	}
 	// Do our logic 
 	@Override
@@ -254,7 +260,7 @@ public class Game extends BasicGame
 						this.toRemoveInputs.clear();
 						ims.add(im);
 					} else {
-						im = new InputModel(timeValue,currentPlayer,gc.getInput());
+						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
 						ims.add(im);
 					}
 				}
@@ -282,7 +288,7 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
 
 				// 1 - send the input to host
-				im = new InputModel(timeValue+delay,currentPlayer,gc.getInput());
+				im = new InputModel(timeValue+delay,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
 				this.toSendInputs.addElement(im.toString());
 
 				// 2 - take the output from t-5
@@ -312,7 +318,7 @@ public class Game extends BasicGame
 			}
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput()));
+			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam));
 			// updating the game
 			if(isInMenu){
 				this.menuCurrent.update(ims.get(0));
@@ -326,7 +332,7 @@ public class Game extends BasicGame
 
 	public void newGame(){
 		//Clean all variables
-		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
@@ -338,7 +344,7 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
-		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,2,this);
+		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
@@ -373,7 +379,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(1));
 		this.sounds = new Sounds();
 		this.images = new Images();
-		this.plateau = new Plateau(this.constants,this.resX,4f/5f*this.resY,3,this);
+		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,3,this);
 		this.background =  new Image("pics/dirt.png");
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
@@ -394,7 +400,9 @@ public class Game extends BasicGame
 		this.constants = constants;
 		this.framerate = constants.FRAMERATE ;
 		this.resX = resX;
-		this.resY = resY ;
+		this.resY = resY;
+		this.maxX = 3000;
+		this.maxY = 3000;
 		//
 	}
 }

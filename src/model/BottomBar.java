@@ -21,13 +21,15 @@ public class BottomBar extends Bar {
 		this.display = new DisplayInterface(this);
 	}
 	
-	
-	public Graphics draw(Graphics g){
-		// Draw Background : 
+	public Graphics draw(Graphics g,float Xcam, float Ycam){
+		// Draw Background :
+		g.translate(-Xcam, -Ycam);
+		float xt =x ;
+		float yt = y;
 		g.setColor(Color.black);
-		g.fillRect(x, y,sizeX, sizeY);
+		g.fillRect(xt, yt,sizeX, sizeY);
 		g.setColor(Color.white);
-		g.fillRect(x,y,sizeX,1f);
+		g.fillRect(xt,yt,sizeX,1f);
 		// Draw subcomponents :
 		selection.draw(g);
 		description.draw(g);

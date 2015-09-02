@@ -22,7 +22,10 @@ public class Plateau {
 	protected int nTeams;
 	protected float maxX ;
 	protected float maxY ;
-
+	// Camera 
+	float Xcam;
+	float Ycam;
+	
 	// ADD ALL OBJETS 
 	protected Vector<Character> characters;
 	protected Vector<Character> toAddCharacters;
@@ -501,7 +504,26 @@ public class Plateau {
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
 		for(int player=0; player<ims.size(); player++){
+			
 			im = ims.get(player);
+			
+			// Move camera according to inputs :
+			if(im.isPressedUP){
+				Ycam += 10;
+			}
+			if(im.isPressedDOWN){
+				Ycam -=10;
+			}
+			
+			if(im.isPressedLEFT){
+				Xcam +=10;
+			}
+			
+			if(im.isPressedRIGHT){
+				Xcam -= 10;
+			}
+			
+			
 			if(im!=null){
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){

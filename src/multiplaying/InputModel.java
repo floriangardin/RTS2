@@ -13,19 +13,23 @@ public class InputModel extends MultiObjetModel{
 
 	public boolean isPressedRightClick;
 	public boolean isPressedLeftClick;
-
+	
 	public boolean isPressedESC;
 	public boolean isPressedMAJ;
 	public boolean isPressedCTRL;
 	public boolean isPressedBACK;
 	public boolean isPressedDOT;
 	public boolean isPressedENTER;
+	public boolean isPressedLEFT;
+	public boolean isPressedRIGHT;
+	public boolean isPressedUP;
+	public boolean isPressedDOWN;
 	public boolean[] isPressedNumPad = new boolean[10];
 
 	public int xMouse;
 	public int yMouse;
 
-	public InputModel (int time, int team, Input input){
+	public InputModel (int time, int team, Input input, int Xcam,int Ycam){
 		this.team = team;
 		this.timeValue = time;
 
@@ -34,14 +38,21 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
 		this.leftClick = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 		this.isPressedLeftClick = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		this.xMouse = input.getAbsoluteMouseX();
-		this.yMouse = input.getAbsoluteMouseY();
+		this.xMouse = input.getAbsoluteMouseX()-Xcam;
+		this.yMouse = input.getAbsoluteMouseY()-Ycam;
 		this.isPressedESC = input.isKeyPressed(Input.KEY_ESCAPE);
 		this.isPressedMAJ = input.isKeyPressed(Input.KEY_LSHIFT) || input.isKeyPressed(Input.KEY_RSHIFT);
 		this.isPressedCTRL = input.isKeyPressed(Input.KEY_LCONTROL) || input.isKeyPressed(Input.KEY_RCONTROL);
 		this.isPressedBACK = input.isKeyPressed(Input.KEY_BACK);
 		this.isPressedDOT = input.isKeyPressed(Input.KEY_COMMA);
 		this.isPressedENTER = input.isKeyPressed(Input.KEY_RETURN);
+		this.isPressedUP = input.isKeyDown(Input.KEY_UP);
+		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT);
+		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT);
+		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN);
+		
+		
+		
 		for(int i=0; i<10;i++){
 			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
 		}
