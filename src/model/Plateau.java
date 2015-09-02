@@ -25,7 +25,7 @@ public class Plateau {
 	// Camera 
 	float Xcam;
 	float Ycam;
-	
+
 	// ADD ALL OBJETS 
 	protected Vector<Character> characters;
 	protected Vector<Character> toAddCharacters;
@@ -495,7 +495,7 @@ public class Plateau {
 		 */
 
 		OutputModel om = new OutputModel(0);
-		
+
 		// 1 - If ESC start menu
 		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
 			this.g.setMenu(g.menuPause);
@@ -504,9 +504,9 @@ public class Plateau {
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
 		for(int player=0; player<ims.size(); player++){
-			
+
 			im = ims.get(player);
-			
+
 			// Move camera according to inputs :
 			System.out.println(im.yMouse);
 			if(im.isPressedUP || im.yMouse<Ycam+10){
@@ -522,9 +522,10 @@ public class Plateau {
 			
 			if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
 				Xcam += 10;
+
 			}
-			
-			
+
+
 			if(im!=null){
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
@@ -589,7 +590,7 @@ public class Plateau {
 		for(Character c : this.selection.get(1)){
 			om.selection.add(c.id);
 		}
-		
+
 		// 3 - Collision, Action, Cleaning
 		this.collision();
 		this.clean();
@@ -614,7 +615,7 @@ public class Plateau {
 
 	public void updateFromOutput(OutputModel om, InputModel im){
 		// Handling im
-		
+
 		if(im!=null){
 			int player = this.g.currentPlayer;
 
@@ -631,6 +632,20 @@ public class Plateau {
 			}
 			else {
 				this.rectangleSelection.set(player, null);
+			}
+
+			// Move camera according to inputs :
+			if(im.isPressedUP){
+				Ycam += 10;
+			}
+			if(im.isPressedDOWN){
+				Ycam -=10;
+			}
+			if(im.isPressedLEFT){
+				Xcam +=10;
+			}
+			if(im.isPressedRIGHT){
+				Xcam -= 10;
 			}
 		}
 		if(om!=null){
