@@ -225,14 +225,11 @@ public class Game extends BasicGame
 				// 1 - take the input of client and host
 				for(int player = 0; player<players.size(); player++){
 					if(player!=currentPlayer){
-						System.out.println("entrée de la boucle serveur");
-						while(this.inputs.size()==0){
-							try{Thread.sleep(1);} catch(InterruptedException e){}
+						if(this.inputs.size()>0){
+							im = this.inputs.get(0);
+							this.inputs.clear();
+							ims.add(im);
 						}
-						System.out.println("sortie de la boucle serveur");
-						im = this.inputs.get(0);
-						this.inputs.clear();
-						ims.add(im);
 					} else {
 						im = new InputModel(timeValue,currentPlayer,gc.getInput());
 						ims.add(im);
@@ -264,17 +261,15 @@ public class Game extends BasicGame
 				im = new InputModel(timeValue,currentPlayer,gc.getInput());
 				this.toSendInputs.addElement(im.toString());
 
-				// 2 - take the output from t-5
+				// 2 - take the output
 				OutputModel om = null;
-				System.out.println("entrée de la boucle client");
-				while(this.outputs.size()==0){
-					try{Thread.sleep(1);} catch(InterruptedException e){}
-				}
-				System.out.println("sortie de la boucle client");
-				this.outputs.clear();
+				if(this.outputs.size()>0){
+					om = this.outputs.get(0);
+					this.outputs.clear();
 
-				// 3 - update from the output file
-				this.plateau.updateFromOutput(om, im);
+					// 3 - update from the output file
+					this.plateau.updateFromOutput(om, im);
+				}
 
 			}
 		} else if (!inMultiplayer){
@@ -334,7 +329,7 @@ public class Game extends BasicGame
 		mainMusic = new Music("music/ambiance.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
-		
+
 		this.musicStartGame = new Music("music/nazi_start.ogg");
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
