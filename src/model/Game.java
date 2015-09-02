@@ -228,6 +228,7 @@ public class Game extends BasicGame
 						while(this.inputs.size()==0){
 							try{Thread.sleep(1);} catch(InterruptedException e){}
 						}
+						System.out.println("sortie de la boucle serveur");
 						im = this.inputs.get(0);
 						this.inputs.clear();
 						ims.add(im);
@@ -267,6 +268,7 @@ public class Game extends BasicGame
 				while(this.outputs.size()==0){
 					try{Thread.sleep(1);} catch(InterruptedException e){}
 				}
+				System.out.println("sortie de la boucle client");
 				this.outputs.clear();
 
 				// 3 - update from the output file
