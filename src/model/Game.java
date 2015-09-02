@@ -39,11 +39,7 @@ public class Game extends BasicGame
 	BottomBar bottomBars;
 	// Top bars:
 	TopBar topBars;
-	// CAmera
-	float X;
-	float Y;
-	float Xcam;
-	float Ycam;
+
 	Image background ;
 	Constants constants;
 	// Selection
@@ -111,6 +107,8 @@ public class Game extends BasicGame
 			this.musicStartGame.setVolume(this.volume);
 
 		}
+		this.plateau.Xcam = this.maxX/2 - this.resX/2;
+		this.plateau.Ycam = this.maxY/2 -this.resY/2;
 	}
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
@@ -124,7 +122,7 @@ public class Game extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
 		//Utils.triY1(this.plateau.characters);
-		g.translate(plateau.Xcam, plateau.Ycam);
+		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
 		if(isInMenu){
@@ -364,6 +362,7 @@ public class Game extends BasicGame
 		this.framerate = constants.FRAMERATE ;
 		this.resX = resX;
 		this.resY = resY;
+		
 		this.maxX = 3000;
 		this.maxY = 3000;
 		//

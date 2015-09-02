@@ -108,11 +108,11 @@ public class Map {
 				team[k][i]=new Character(plateau,k,500f+10f*i,500f);
 				plateau.g.players.get(k).groups.get(i).add(team[k][i]);
 			}
-			team[k][0].setXY(plateau.maxX-120f+20f-200f -500f*k, plateau.maxY/2f);
-			team[k][1].setXY(plateau.maxX-120f-20f-200f-500f*k, plateau.maxY/2f);
-			team[k][2].setXY(plateau.maxX-120f-200f-500f*k, plateau.maxY/2f+20f);
-			team[k][3].setXY(plateau.maxX-120f-200f-500f*k, plateau.maxY/2f-20f);
-			team[k][4].setXY(plateau.maxX-120f-200f-500f*k, plateau.maxY/2f);
+			team[k][0].setXY((k+1)*plateau.maxX/3f+20f-200f , plateau.maxY/2f);
+			team[k][1].setXY((k+1)*plateau.maxX/3f-20f-200f, plateau.maxY/2f);
+			team[k][2].setXY((k+1)*plateau.maxX/3f-200f, plateau.maxY/2f+20f);
+			team[k][3].setXY((k+1)*plateau.maxX/3f-200f, plateau.maxY/2f-20f);
+			team[k][4].setXY((k+1)*plateau.maxX/3f-200f, plateau.maxY/2f);
 
 
 			// Give equipement to team 

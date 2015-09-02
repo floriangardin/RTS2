@@ -85,6 +85,7 @@ public class MenuIntro extends Menu {
 	}
 
 	public void draw(Graphics g){
+		g.translate(this.game.plateau.Xcam,this.game.plateau.Ycam);
 		if(toGame){
 			if(this.timeToGame>80f){
 				g.setColor(new Color(0f,0f,0f,0.05f));

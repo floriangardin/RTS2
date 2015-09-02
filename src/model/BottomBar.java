@@ -23,7 +23,7 @@ public class BottomBar extends Bar {
 	
 	public Graphics draw(Graphics g,float Xcam, float Ycam){
 		// Draw Background :
-		g.translate(-Xcam, -Ycam);
+		g.translate(Xcam, Ycam);
 		float xt =x ;
 		float yt = y;
 		g.setColor(Color.black);

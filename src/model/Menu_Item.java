@@ -43,6 +43,7 @@ public class Menu_Item {
 
 
 	public void draw(Graphics g){
+		
 		g.setColor(Color.black);
 		g.fillRect(x, y, sizeX, sizeY);
 		g.setColor(this.color);

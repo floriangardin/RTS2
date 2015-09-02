@@ -41,6 +41,7 @@ public abstract class Menu {
 	}
 
 	public void draw(Graphics g){
+		//g.translate(-game.Xcam,-game.Ycam);
 		for(int i=0; i<this.items.size(); i++){
 			this.items.get(i).draw(g);
 		}

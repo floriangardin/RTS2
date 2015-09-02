@@ -38,8 +38,8 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
 		this.leftClick = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 		this.isPressedLeftClick = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		this.xMouse = input.getAbsoluteMouseX()-Xcam;
-		this.yMouse = input.getAbsoluteMouseY()-Ycam;
+		this.xMouse = input.getAbsoluteMouseX()+Xcam;
+		this.yMouse = input.getAbsoluteMouseY()+Ycam;
 		this.isPressedESC = input.isKeyPressed(Input.KEY_ESCAPE);
 		this.isPressedMAJ = input.isKeyPressed(Input.KEY_LSHIFT) || input.isKeyPressed(Input.KEY_RSHIFT);
 		this.isPressedCTRL = input.isKeyPressed(Input.KEY_LCONTROL) || input.isKeyPressed(Input.KEY_RCONTROL);
