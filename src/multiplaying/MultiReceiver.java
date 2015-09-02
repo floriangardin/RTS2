@@ -32,7 +32,8 @@ public class MultiReceiver extends Thread{
 	public void run(){
 		try{
 			this.server = new DatagramSocket(port);
-
+			if(debug)
+				System.out.println("Création d'un receiver - " + port);
 			while(!server.isClosed()){
 				if(!lock){
 					message = new byte[8000];
@@ -44,7 +45,7 @@ public class MultiReceiver extends Thread{
 					}
 					this.lock = setLock;
 					String msg = new String(packet.getData());
-					if(debug) System.out.println("message received: " + msg);
+					if(debug) System.out.println("port : " + port + " message received: " + msg);
 					if(msg.length()>0){
 						int c = Integer.parseInt(msg.substring(0,1));
 						switch(c){

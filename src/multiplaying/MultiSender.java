@@ -34,6 +34,8 @@ public class MultiSender extends Thread{
 			DatagramSocket client = new DatagramSocket();
 			byte[] message;
 			DatagramPacket packet;
+			if(debug)
+				System.out.println("Création d'un sender - " + port);
 			while(true){
 				if(this.depot.size()>0){
 					message = (depot.get(0).toString()).getBytes();
@@ -43,7 +45,7 @@ public class MultiSender extends Thread{
 					sent++;
 					//System.out.println("sent :" + sent);
 					if(debug)
-						System.out.println("message sent: " + this.depot.get(0));
+						System.out.println("port : " + port + " message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
 				try{
