@@ -272,6 +272,7 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
+		this.players.add(new Player(2));
 
 		this.map.createMap1(plateau);
 		// Instantiate BottomBars for current player:
