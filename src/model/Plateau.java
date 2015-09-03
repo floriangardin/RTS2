@@ -592,7 +592,7 @@ public class Plateau {
 		}
 		// Handling the changes
 		// TODO : Mulitplayer selection
-		for(Character c : this.selection.get(1)){
+		for(Character c : this.selection.get(2)){
 			om.selection.add(c.id);
 		}
 
