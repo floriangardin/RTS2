@@ -744,6 +744,7 @@ public class Plateau {
 		for(Building c: this.buildings)
 			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
+		System.out.println(obj.size());
 		return obj;
 	}
 	
