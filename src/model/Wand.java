@@ -8,11 +8,10 @@ public class Wand extends RangeWeapon{
 	public Wand(Plateau p ,Character owner){
 		// Parameters
 
-		this.range = 200f;
-		this.weight = 0.6f;
+		this.range = owner.range;
 		this.state = 30f;
-		this.chargeTime = 20f;
-		this.damage = 8f;
+		this.chargeTime = owner.chargeTime;
+		this.damage = owner.damage;
 		this.p = p;
 		this.name = "Wand";
 		this.lifePoints = 1f;

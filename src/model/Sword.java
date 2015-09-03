@@ -8,9 +8,8 @@ public class Sword extends ContactWeapon {
 	
 	public Sword(Plateau p ,Character owner){
 		// Parameters
-		this.weight = 0.2f;
-		this.damage = 5f;
-		this.chargeTime = 5f;
+		this.damage = owner.damage;
+		this.chargeTime = owner.chargeTime;
 		float extraSize = 10f;
 		
 		//

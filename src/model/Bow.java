@@ -8,10 +8,9 @@ public class Bow extends RangeWeapon{
 	public Bow(Plateau p,Character owner){
 		// Parameters
 
-		this.weight = 0.2f;
-		this.range = 100f;
-		this.damage = 3f;
-		this.chargeTime = 5f;
+		this.range = owner.range;
+		this.damage = owner.damage;
+		this.chargeTime = owner.chargeTime;
 		
 		//
 		
@@ -42,8 +41,6 @@ public class Bow extends RangeWeapon{
 		if(this.owner.team==target.team){
 			return;
 		}
-
-		
 		if(target.lifePoints<=0f){
 			this.owner.setTarget(null);
 			this.state=0f;
@@ -54,7 +51,6 @@ public class Bow extends RangeWeapon{
 			// Launch a bullet
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
 			if(target.collisionBox.intersects(circle)){
-				
 				new Arrow(this.p,this.owner,this.damage);
 				this.state = 0f;
 			}

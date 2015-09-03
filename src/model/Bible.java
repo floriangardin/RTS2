@@ -7,8 +7,8 @@ public class Bible extends ContactWeapon{
 	public Bible(Plateau p, Character owner){
 		// Parameters
 		this.state = 0f;
-		this.damage = -0.8f;
-		this.chargeTime = 0.2f;
+		this.damage = owner.damage;
+		this.chargeTime = owner.chargeTime;
 		this.name = "Bible";
 		float extraRange = 30f;
 		this.p = p;

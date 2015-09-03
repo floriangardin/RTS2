@@ -21,7 +21,10 @@ public class Character extends ActionObjet{
 	protected float armor = 0f;	
 	public float size = 20f;
 	public float sight = 100f;
-	protected float maxVelocity = 100f; 
+	protected float maxVelocity = 100f;
+	public float range;
+	public float damage;
+	public float chargeTime;
 	
 	// Group attributes
 	protected Character leader;
@@ -643,52 +646,64 @@ public class Character extends ActionObjet{
 	public static Character createSpearman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Spearman";
-		c.collectWeapon(new Spear(p,c));
 		c.maxVelocity = p.constants.smVelocity;
 		c.maxLifePoints = p.constants.smLifePoints;
 		c.armor = p.constants.smArmor;
+		c.damage = p.constants.smDamage;
+		c.chargeTime = p.constants.smChargeTime;
 		c.lifePoints = c.maxLifePoints;
+		c.collectWeapon(new Spear(p,c));
 		return c;
 	}
 	public static Character createBowman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Bowman";
-		c.collectWeapon(new Bow(p,c));
 		c.maxVelocity = p.constants.bmVelocity;
 		c.maxLifePoints = p.constants.bmLifePoints;
 		c.armor = p.constants.bmArmor;
+		c.damage = p.constants.bmDamage;
+		c.range = p.constants.bmRange;
+		c.chargeTime = p.constants.bmChargeTime;
 		c.lifePoints = c.maxLifePoints;
+		c.collectWeapon(new Bow(p,c));
 		return c;
 	}
 	public static Character createWizard(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Wizard";
-		c.collectWeapon(new Wand(p,c));
 		c.maxVelocity = p.constants.wzVelocity;
 		c.maxLifePoints = p.constants.wzLifePoints;
 		c.armor = p.constants.wzArmor;
+		c.damage = p.constants.wzDamage;
+		c.range= p.constants.wzRange;
 		c.lifePoints = c.maxLifePoints;
+		c.chargeTime = p.constants.wzChargeTime;
+		c.collectWeapon(new Wand(p,c));
 		return c;
 	}
 	public static Character createKnight(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Knight";
-		c.collectWeapon(new Sword(p,c));
 		c.collectHorse(new Horse(p,c));
 		c.maxVelocity = p.constants.ktVelocity;
 		c.maxLifePoints = p.constants.ktLifePoints;
 		c.armor = p.constants.ktArmor;
+		c.damage = p.constants.ktDamage;
+		c.chargeTime = p.constants.ktChargeTime;
 		c.lifePoints = c.maxLifePoints;
+		c.collectWeapon(new Sword(p,c));
 		return c;
 	}
 	public static Character createPriest(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Priest";
-		c.collectWeapon(new Bible(p,c));
 		c.collectHorse(new Horse(p,c));
 		c.maxVelocity = p.constants.prVelocity;
 		c.maxLifePoints = p.constants.prLifePoints;
 		c.armor = p.constants.prArmor;
+		c.damage = p.constants.prDamage;
+		c.chargeTime = p.constants.prChargeTime;
+		c.collectWeapon(new Bible(p,c));
 		c.lifePoints = c.maxLifePoints;
 		return c;
 	}

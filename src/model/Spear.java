@@ -8,9 +8,8 @@ public class Spear extends ContactWeapon {
 	
 	public Spear(Plateau p ,Character owner){
 		// Parameters
-		this.weight = 0.2f;
-		this.damage = 6f;
-		this.chargeTime = 6f;
+		this.damage = owner.damage;
+		this.chargeTime = owner.chargeTime;
 		float extraSize = 10f;
 		
 		//
