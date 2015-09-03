@@ -9,22 +9,16 @@ public class Map {
 	public void createMap1(Plateau plateau){
 		//Instantiate allies
 		Character[] team = new Character[5];
-		for(int i=0;i<5;i++){		
-			team[i]=new Character(plateau,0,500f+10f*i,500f);
+		for(int i=0;i<5;i++){
+			switch(i){
+			case 0: team[i]=Character.createSpearman(plateau,0,500f+10f*i,500f);break;
+			case 1: team[i]=Character.createBowman(plateau,0,500f+10f*i,500f);break;
+			case 2: team[i]=Character.createKnight(plateau,0,500f+10f*i,500f);break;
+			case 3: team[i]=Character.createPriest(plateau,0,500f+10f*i,500f);break;
+			case 4: team[i]=Character.createWizard(plateau,0,500f+10f*i,500f);break;
+			}
 			plateau.g.players.get(0).groups.get(i).add(team[i]);
 		}
-		// Give equipement to team 
-		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
-		team[0].collectWeapon(new Sword(plateau,team[0]));
-		
-		team[1].collectWeapon(new Bow(plateau,team[1]));
-		
-		team[2].collectWeapon(new Sword(plateau,team[2]));
-		team[2].collectHorse(new Horse(plateau, team[2]));
-
-		team[3].collectWeapon(new Bible(plateau,team[3]));
-		team[4].collectWeapon(new Wand(plateau,team[4]));
-
 
 		for(int i = 0;i<9; i++){
 			new Water(395f+32*i,570f,32f,32f,plateau);

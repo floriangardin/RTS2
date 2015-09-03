@@ -14,7 +14,7 @@ public class Wand extends RangeWeapon{
 		this.chargeTime = 20f;
 		this.damage = 8f;
 		this.p = p;
-		this.name = "Balista";
+		this.name = "Wand";
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),range);

@@ -110,12 +110,11 @@ public class Fireball extends Bullet {
 		this.explosion = true;
 	}
 	public void boom(Character c){
-		if(c.getArmor()<=this.damage){
-				c.lifePoints+=c.getArmor()-this.damage;
-			}
-		else{
-			c.lifePoints-=this.damage;
-		}
+		float damage = this.damage;
+		if(c.weapon!= null && c.weapon instanceof Bow)
+			damage = damage * this.p.constants.bonusWandBow;
+		c.lifePoints-=this.damage;
+		
 	}
 
 	public Graphics draw(Graphics g){

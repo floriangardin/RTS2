@@ -640,41 +640,45 @@ public class Character extends ActionObjet{
 
 
 	//// CREATION FUNCTIONS
-	public static Character createSpearMan(Plateau p,int team,float x, float y){
+	public static Character createSpearman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Spearman";
 		c.collectWeapon(new Spear(p,c));
-		c.maxVelocity = 80f;
-		c.maxLifePoints = 100f;
-		c.armor = 4f; 
+		c.maxVelocity = p.constants.smVelocity;
+		c.maxLifePoints = p.constants.smLifePoints;
+		c.armor = p.constants.smArmor;
+		c.lifePoints = c.maxLifePoints;
 		return c;
 	}
 	public static Character createBowman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Bowman";
 		c.collectWeapon(new Bow(p,c));
-		c.maxVelocity = 110f;
-		c.maxLifePoints = 60f;
-		c.armor = 2f; 
+		c.maxVelocity = p.constants.bmVelocity;
+		c.maxLifePoints = p.constants.bmLifePoints;
+		c.armor = p.constants.bmArmor;
+		c.lifePoints = c.maxLifePoints;
 		return c;
 	}
 	public static Character createWizard(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Wizard";
 		c.collectWeapon(new Wand(p,c));
-		c.maxVelocity = 60f;
-		c.maxLifePoints = 60f;
-		c.armor = 3f; 
+		c.maxVelocity = p.constants.wzVelocity;
+		c.maxLifePoints = p.constants.wzLifePoints;
+		c.armor = p.constants.wzArmor;
+		c.lifePoints = c.maxLifePoints;
 		return c;
 	}
-	public static Character createKnigt(Plateau p,int team,float x, float y){
+	public static Character createKnight(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Knight";
 		c.collectWeapon(new Sword(p,c));
 		c.collectHorse(new Horse(p,c));
-		c.maxVelocity = 140f;
-		c.maxLifePoints = 110f;
-		c.armor = 5f; 
+		c.maxVelocity = p.constants.ktVelocity;
+		c.maxLifePoints = p.constants.ktLifePoints;
+		c.armor = p.constants.ktArmor;
+		c.lifePoints = c.maxLifePoints;
 		return c;
 	}
 	public static Character createPriest(Plateau p,int team,float x, float y){
@@ -682,9 +686,10 @@ public class Character extends ActionObjet{
 		c.name = "Priest";
 		c.collectWeapon(new Bible(p,c));
 		c.collectHorse(new Horse(p,c));
-		c.maxVelocity = 140f;
-		c.maxLifePoints = 60f;
-		c.armor = 1f; 
+		c.maxVelocity = p.constants.prVelocity;
+		c.maxLifePoints = p.constants.prLifePoints;
+		c.armor = p.constants.prArmor;
+		c.lifePoints = c.maxLifePoints;
 		return c;
 	}
 

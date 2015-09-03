@@ -25,11 +25,8 @@ public class ContactWeapon extends Weapon {
 				damage = damage*this.p.constants.bonusSpearHorse;
 			if(this instanceof Sword && c.weapon instanceof Bow)
 				damage = damage*this.p.constants.bonusSwordBow;
-			if(c.getArmor()<this.damage){
-				c.lifePoints+=c.getArmor()-this.damage;
-			}
-			else{
-				c.lifePoints-=this.damage;
+			if(c.getArmor()<damage){
+				c.lifePoints+=c.getArmor()-damage;
 			}
 			// Reset the state
 			this.state = 0f;

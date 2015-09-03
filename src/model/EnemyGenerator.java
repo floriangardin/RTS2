@@ -38,29 +38,27 @@ public class EnemyGenerator extends ActionObjet {
 
 	}
 	public void generate(){
-		// Create character
-		Character c = new Character(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 		// Add a random weapon to character
 		if(n_generated<10){
-			c.collectWeapon(new Sword(p,c));	
+			Character.createSpearman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 		}
 		else if(n_generated<40){
 			if(n_generated%2==0){
-				c.collectWeapon(new Bow(p,c));
+				Character.createBowman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 			}
 			else{
-				c.collectWeapon(new Sword(p,c));	
+				Character.createSpearman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 			}
 		}
 		else if(n_generated<80){
 			if(n_generated%3==0){
-				c.collectWeapon(new Wand(p,c));
+				Character.createWizard(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 			}
 			else if(n_generated%3==1){
-				c.collectWeapon(new Sword(p,c));	
+				Character.createSpearman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 			}
 			else{
-				c.collectWeapon(new Bow(p,c));
+				Character.createKnight(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 			}
 		}
 
