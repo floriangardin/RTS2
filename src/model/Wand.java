@@ -3,9 +3,9 @@ package model;
 
 import org.newdawn.slick.geom.Circle;
 
-public class Balista extends RangeWeapon{
+public class Wand extends RangeWeapon{
 
-	public Balista(Plateau p ,Character owner){
+	public Wand(Plateau p ,Character owner){
 		// Parameters
 
 		this.range = 200f;

@@ -23,7 +23,7 @@ public class Map {
 		team[2].collectHorse(new Horse(plateau, team[2]));
 
 		team[3].collectWeapon(new Bible(plateau,team[3]));
-		team[4].collectWeapon(new Balista(plateau,team[4]));
+		team[4].collectWeapon(new Wand(plateau,team[4]));
 
 
 		for(int i = 0;i<9; i++){
@@ -85,7 +85,7 @@ public class Map {
 		team[2].collectHorse(new Horse(plateau, team[2]));
 
 		team[3].collectWeapon(new Bible(plateau,team[3]));
-		team[4].collectWeapon(new Balista(plateau,team[4]));
+		team[4].collectWeapon(new Wand(plateau,team[4]));
 
 
 		// Instantiate enemy generator :
@@ -119,7 +119,7 @@ public class Map {
 			team[k][2].collectHorse(new Horse(plateau, team[k][2]));
 
 			team[k][3].collectWeapon(new Bible(plateau,team[k][3]));
-			team[k][4].collectWeapon(new Balista(plateau,team[k][4]));
+			team[k][4].collectWeapon(new Wand(plateau,team[k][4]));
 
 		}
 

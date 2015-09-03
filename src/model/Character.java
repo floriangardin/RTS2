@@ -44,7 +44,7 @@ public class Character extends ActionObjet{
 	
 	public Character(Plateau p,int team,float x, float y){
 		this.p = p;
-		this.id = p.g.idChar;
+		this.name = "Character";
 		p.g.idChar+=1;
 		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
@@ -214,7 +214,7 @@ public class Character extends ActionObjet{
 				this.typeWeapon = 2;
 			if(weapon instanceof Bible)
 				this.typeWeapon = 3;
-			if(weapon instanceof Balista)
+			if(weapon instanceof Wand)
 				this.typeWeapon = 4;
 		}else{
 			this.typeWeapon = 0;
@@ -254,7 +254,7 @@ public class Character extends ActionObjet{
 				imageb = this.p.images.bow;
 			if(this.weapon instanceof Bible)
 				imageb = this.p.images.bible;
-			if(this.weapon instanceof Balista)
+			if(this.weapon instanceof Wand)
 				imageb = this.p.images.magicwand;
 			this.image = Utils.mergeImages(this.image, imageb);
 		}
@@ -628,7 +628,7 @@ public class Character extends ActionObjet{
 		case 1: this.weapon = new Sword(p,this);break;
 		case 2: this.weapon = new Bow(p,this);break;
 		case 3: this.weapon = new Bible(p,this);break;
-		case 4: this.weapon = new Balista(p,this);break;
+		case 4: this.weapon = new Wand(p,this);break;
 		default:
 		}
 		switch(typeHorse){
@@ -642,7 +642,49 @@ public class Character extends ActionObjet{
 	//// CREATION FUNCTIONS
 	public static Character createSpearMan(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
+		c.name = "Spearman";
+		c.collectWeapon(new Spear(p,c));
+		c.maxVelocity = 80f;
+		c.maxLifePoints = 100f;
+		c.armor = 4f; 
+		return c;
+	}
+	public static Character createBowman(Plateau p,int team,float x, float y){
+		Character c = new Character(p,team,x,y);
+		c.name = "Bowman";
+		c.collectWeapon(new Bow(p,c));
+		c.maxVelocity = 110f;
+		c.maxLifePoints = 60f;
+		c.armor = 2f; 
+		return c;
+	}
+	public static Character createWizard(Plateau p,int team,float x, float y){
+		Character c = new Character(p,team,x,y);
+		c.name = "Wizard";
+		c.collectWeapon(new Wand(p,c));
+		c.maxVelocity = 60f;
+		c.maxLifePoints = 60f;
+		c.armor = 3f; 
+		return c;
+	}
+	public static Character createKnigt(Plateau p,int team,float x, float y){
+		Character c = new Character(p,team,x,y);
+		c.name = "Knight";
 		c.collectWeapon(new Sword(p,c));
+		c.collectHorse(new Horse(p,c));
+		c.maxVelocity = 140f;
+		c.maxLifePoints = 110f;
+		c.armor = 5f; 
+		return c;
+	}
+	public static Character createPriest(Plateau p,int team,float x, float y){
+		Character c = new Character(p,team,x,y);
+		c.name = "Priest";
+		c.collectWeapon(new Bible(p,c));
+		c.collectHorse(new Horse(p,c));
+		c.maxVelocity = 140f;
+		c.maxLifePoints = 60f;
+		c.armor = 1f; 
 		return c;
 	}
 

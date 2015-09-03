@@ -21,10 +21,12 @@ public class DescriptionInterface extends Bar {
 	public Graphics draw(Graphics g){
 		if(this.parent.player.selection.size()>0){
 			this.c0 = this.parent.player.selection.get(0);
+			g.setColor(Color.white);
+			g.drawString(c0.name, x+30f, y+15f);
 			if(c0.horse!=null)
-				g.drawImage(c0.image, x+15f, y+5f, x+this.sizeX/3f-15f, y+sizeY*2f/3f+15f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
+				g.drawImage(c0.image, x+25f, y+40f, x+this.sizeX/3f-25f, y+sizeY*2f/3f+15f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
 			else
-				g.drawImage(c0.image, x+10f, y+5f, x+this.sizeX/3f-10f, y+sizeY*2f/3f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
+				g.drawImage(c0.image, x+25f, y+40f, x+this.sizeX/3f-25f, y+sizeY*2f/3f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
 			g.setColor(Color.red);
 			g.fillRect(x+10f, y+this.sizeY-25f, this.sizeX/3f-20f, 20f);
 			g.setColor(Color.green);

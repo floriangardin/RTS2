@@ -16,14 +16,17 @@ public class ContactWeapon extends Weapon {
 
 	public void collision(Character c){
 		
-		
 		if(c.team!=this.owner.team && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Attack !
 			// Attack sound
+			float damage = this.damage;
 			this.sound.play(1f,this.p.soundVolume);
+			if(this instanceof Spear && c.horse!=null)
+				damage = damage*this.p.constants.bonusSpearHorse;
+			if(this instanceof Sword && c.weapon instanceof Bow)
+				damage = damage*this.p.constants.bonusSwordBow;
 			if(c.getArmor()<this.damage){
 				c.lifePoints+=c.getArmor()-this.damage;
-
 			}
 			else{
 				c.lifePoints-=this.damage;

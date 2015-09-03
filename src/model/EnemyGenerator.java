@@ -54,7 +54,7 @@ public class EnemyGenerator extends ActionObjet {
 		}
 		else if(n_generated<80){
 			if(n_generated%3==0){
-				c.collectWeapon(new Balista(p,c));
+				c.collectWeapon(new Wand(p,c));
 			}
 			else if(n_generated%3==1){
 				c.collectWeapon(new Sword(p,c));	
