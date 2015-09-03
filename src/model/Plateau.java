@@ -101,7 +101,7 @@ public class Plateau {
 		this.rectangleSelection = new Vector<Rectangle>();
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
-		for(int i =0; i<nTeams;i++){
+		for(int i =0; i<=nTeams;i++){
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
 			this.selection.addElement(new Vector<Character>());
@@ -530,6 +530,30 @@ public class Plateau {
 					if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
 						Xcam += 10;
 					}
+					if(im.isPressedLeftClick){
+						this.clearSelection(player);
+					}
+					// Update the rectangle
+					if(im.leftClick){
+						// As long as the button is pressed, the selection is updated
+						if(rectangleSelection.get(player)==null){
+							recX.set(player, (float)im.xMouse);
+							recY.set(player, (float)im.yMouse);
+							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
+						}
+						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
+					}
+					else if(this.selection!=null){
+						// The button is not pressed and wasn't, the selection is non null
+						this.updateSelection(rectangleSelection.get(player), player);
+						this.rectangleSelection.set(player, null);
+					}
+					else{
+						// We update selection when left click is released
+						this.rectangleSelection.set(player, null);
+					}
+					
 				}
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
@@ -551,6 +575,7 @@ public class Plateau {
 						System.out.println("group "+ player + " " + to + " "+ this.g.players.get(player).groups.get(to));
 					}
 				}
+
 				if(im.isPressedLeftClick){
 					this.clearSelection(player);
 				}
@@ -576,6 +601,7 @@ public class Plateau {
 					
 				}
 				
+
 				// Action for player k
 				if(im.isPressedRightClick){
 					if(im.isPressedMAJ){
@@ -593,7 +619,7 @@ public class Plateau {
 		}
 		// Handling the changes
 		// TODO : Mulitplayer selection
-		for(Character c : this.selection.get(1)){
+		for(Character c : this.selection.get(2)){
 			om.selection.add(c.id);
 		}
 
@@ -745,6 +771,7 @@ public class Plateau {
 		for(Building c: this.buildings)
 			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
+		System.out.println(obj.size());
 		return obj;
 	}
 	

@@ -174,26 +174,8 @@ public class Game extends BasicGame
 		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
 			g.setColor(Color.green);
 			g.draw(this.plateau.rectangleSelection.get(currentPlayer));
-
 		}
 
-		int gentils=0,mechants=0;
-		for(Character c: plateau.characters){
-			if(c.team==0)
-				gentils+=1;
-			else
-				mechants+=1;
-		}
-		g.setColor(Color.blue);
-		g.drawString(String.valueOf(gentils), 10, 30);
-
-		g.setColor(Color.red);
-		g.drawString(String.valueOf(mechants), 10, 70);
-
-		if(this.app.isShowingFPS()){
-			g.setColor(Color.black);
-			g.fill(new Rectangle(0,0,90,30));
-		}
 		// Draw bottom bar
 		if(this.bottomBars!=null)
 			this.bottomBars.draw(g,plateau.Xcam,plateau.Ycam);
@@ -220,7 +202,7 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
 				// 1 - take the input of client and host
-				for(int player = 0; player<players.size(); player++){
+				for(int player = 1; player<players.size(); player++){
 					if(player!=currentPlayer){
 						if(this.inputs.size()>0){
 							im = this.inputs.get(0);
@@ -290,6 +272,7 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
+		this.players.add(new Player(2));
 
 		this.map.createMap1(plateau);
 		// Instantiate BottomBars for current player:
@@ -302,6 +285,7 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
+		this.players.add(new Player(2));
 
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
