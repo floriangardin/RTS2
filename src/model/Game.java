@@ -262,7 +262,7 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
 
 				// 1 - send the input to host
-				im = new InputMode0l(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
+				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
 
 				this.toSendInputs.addElement(im.toString());
 
