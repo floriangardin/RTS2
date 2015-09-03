@@ -17,22 +17,20 @@ public class Character extends ActionObjet{
 	protected int id;
 	// General attributes
 	protected Circle sightBox;
-	protected float maxLifePoints;
-	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
+	protected float maxLifePoints = 100f;
+	protected float armor = 0f;	
+	public float size = 20f;
+	public float sight = 100f;
+	protected float maxVelocity = 100f; 
+	
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
 	protected boolean someoneStopped;
 	// Equipment attributes
-	protected Armor armor;
 	protected RidableObjet horse;
 	protected Weapon weapon;
-	public int typeArmor, typeWeapon, typeHorse;
-	// About velocity
-	protected float maxVelocity; 	//current maximum
-	protected float basicVelocity;
-	protected float weight = 0;			//weapon and armor coefficient
-	protected float horseVelocity = 0; 	//horse coefficient
+	public int typeWeapon, typeHorse;
 
 	// About drawing
 	public float animationValue=0f;
@@ -40,16 +38,11 @@ public class Character extends ActionObjet{
 	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
 
-	public float size = 20f;
-	public float sight = 100f;
 
+	
+	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
+	
 	public Character(Plateau p,int team,float x, float y){
-		// Parameters
-		this.basicVelocity = 100f;
-		this.maxLifePoints = 100f;
-
-		//
-
 		this.p = p;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
@@ -61,10 +54,8 @@ public class Character extends ActionObjet{
 		if(team==1)
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
-
 		this.team = team;
 		// the maximum number of float by second
-		this.maxVelocity = this.basicVelocity;
 		switch(team){
 		case 0:
 			this.color = Color.blue;
@@ -78,10 +69,9 @@ public class Character extends ActionObjet{
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);
 		this.setXY(x, y);
-		this.armor = null;
 		this.horse = null;
 		this.weapon = null;
-		this.lifePoints= this.maxLifePoints-10f;
+		this.lifePoints= this.maxLifePoints;
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
@@ -103,7 +93,7 @@ public class Character extends ActionObjet{
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);
 		this.setXY(occ.x, occ.y);
-		changeEquipment(occ.armorType,occ.weaponType,occ.horseType);
+		changeEquipment(occ.weaponType,occ.horseType);
 	}
 
 	public boolean isLeader(){
@@ -115,7 +105,9 @@ public class Character extends ActionObjet{
 	public int getId(){
 		return id;
 	}
-
+	public float getArmor(){
+		return this.armor;
+	}
 	protected void setXY(float x, float y){
 		this.x = x;
 		this.y = y ;
@@ -146,10 +138,6 @@ public class Character extends ActionObjet{
 			}
 		}
 		this.orientation = sector;
-	}
-
-	public float getWeight(){
-		return this.weight;
 	}
 
 
@@ -193,12 +181,6 @@ public class Character extends ActionObjet{
 			this.setWeapon(null);
 		}
 	}
-	public void dropArmor(){
-		if(this.armor!=null){
-			this.armor.setOwner(null);
-			this.setArmor(null);
-		}
-	}
 	public void dropHorse(){
 		if(this.horse!=null){
 			this.horse.setOwner(null);
@@ -211,11 +193,6 @@ public class Character extends ActionObjet{
 		this.setWeapon(weapon);
 		weapon.setOwner(this);
 	}
-	public void collectArmor(Armor armor){
-		this.dropArmor();
-		this.setArmor(armor);
-		armor.setOwner(this);
-	}
 	public void collectHorse(RidableObjet horse){
 		this.dropHorse();
 		this.setHorse(horse);
@@ -225,16 +202,12 @@ public class Character extends ActionObjet{
 	public Weapon getWeapon() {
 		return weapon;
 	}
-	public Armor getArmor() {
-		return armor;
-	}
 	public RidableObjet getHorse() {
 		return horse;
 	}
 	//Set functions
 	public void setWeapon(Weapon weapon) {
 		if(weapon!=null){
-			this.weight += weapon.weight;
 			if(weapon instanceof Sword)
 				this.typeWeapon = 1;
 			if(weapon instanceof Bow)
@@ -244,53 +217,22 @@ public class Character extends ActionObjet{
 			if(weapon instanceof Balista)
 				this.typeWeapon = 4;
 		}else{
-			this.weight -= this.weapon.weight;
 			this.typeWeapon = 0;
 		}
 		this.weapon = weapon;
-		this.updateVelocity();
-		this.updateImage();
-	}
-	public void setArmor(Armor armor) {
-		if(armor!=null){
-			this.weight += armor.weight;
-			if(armor instanceof LightArmor)
-				this.typeArmor = 1;
-			if(armor instanceof MediumArmor)
-				this.typeArmor = 2;
-			if(armor instanceof HeavyArmor)
-				this.typeArmor = 3;
-		}else {
-			this.weight -= this.armor.weight;
-			this.typeArmor = 0;
-		}
-		this.armor = armor;
-		this.updateVelocity();
 		this.updateImage();
 	}
 	public void setHorse(RidableObjet horse) {
 		if(horse!=null){
-			this.horseVelocity = horse.velocity;
 			this.typeHorse = 1;
 		}else if (this.horse!=null){
-			this.horseVelocity = 0f;
 			this.typeHorse = 0;
 		}
 		this.horse = horse;
-		this.updateVelocity();
 		this.updateImage();
 	}
 	//Update functions
-	public void updateVelocity(){
-		float v = 1f;
-		if(this.horse!=null)
-			v = v * this.horse.velocity;
-		v = v/(1f+this.weight);
-
-		this.maxVelocity = this.basicVelocity*v;
-	}
 	public void updateImage(){
-
 		//Handling the team
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
@@ -304,16 +246,6 @@ public class Character extends ActionObjet{
 			imagec = this.p.images.horseRed;
 		}
 		this.image = Utils.mergeImages(imagea, imageb);
-		//Handling the armor
-		if(this.armor!=null){
-			if(this.armor instanceof LightArmor)
-				imageb = this.p.images.lightArmor;
-			else if(this.armor instanceof MediumArmor)
-				imageb = this.p.images.mediumArmor;
-			else if(this.armor instanceof HeavyArmor)
-				imageb = this.p.images.heavyArmor;
-			this.image = Utils.mergeImages(this.image, imageb);
-		}
 		//Handling the weapon
 		if(this.weapon!=null){
 			if(this.weapon instanceof Sword)
@@ -333,6 +265,7 @@ public class Character extends ActionObjet{
 		}
 	}
 
+	
 	//// ACTION METHODS
 
 	// Main method called on every time loop
@@ -486,8 +419,7 @@ public class Character extends ActionObjet{
 
 
 	//// GRAPHISMS
-
-
+	
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
@@ -530,6 +462,9 @@ public class Character extends ActionObjet{
 		}
 	}	
 
+	
+	//// COLLISIONS
+	
 	// Collision with other Characters
 	public void collision(Character o) {
 		// If collision test who have the highest velocity
@@ -567,8 +502,6 @@ public class Character extends ActionObjet{
 		}
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
-
-
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {
 		this.collisionRect((Rectangle)o.collisionBox);
@@ -676,26 +609,21 @@ public class Character extends ActionObjet{
 
 	}
 
+	
+	//// UPDATE FUNCTIONS
+	
+	// update from an outputchar
 	public void change(OutputChar occ){
 		this.setXY(occ.x, occ.y);
 		this.lifePoints = occ.lifePoints;
 		this.animation = occ.animation;
 		this.orientation = occ.direction;
-		this.changeEquipment(occ.armorType, occ.weaponType, occ.horseType);
+		this.changeEquipment(occ.weaponType, occ.horseType);
 	}
-
-	public void changeEquipment(int typeArmor, int typeWeapon, int typeHorse){
-		if(this.typeArmor==typeArmor && this.typeWeapon==typeWeapon && this.typeHorse==typeHorse)
-			return;
-		this.typeArmor = typeArmor;
+	// update the equiments
+	public void changeEquipment(int typeWeapon, int typeHorse){
 		this.typeWeapon = typeWeapon;
 		this.typeHorse = typeHorse;
-		switch(typeArmor){
-		case 1: this.armor = new LightArmor(x,y,p,this);break;
-		case 2: this.armor = new MediumArmor(x,y,p,this);break;
-		case 3: this.armor = new HeavyArmor(x,y,p,this);break;
-		default:
-		}
 		switch(typeWeapon){
 		case 1: this.weapon = new Sword(p,this);break;
 		case 2: this.weapon = new Bow(p,this);break;
@@ -709,5 +637,14 @@ public class Character extends ActionObjet{
 		}
 		this.updateImage();
 	}
+
+
+	//// CREATION FUNCTIONS
+	public static Character createSpearMan(Plateau p,int team,float x, float y){
+		Character c = new Character(p,team,x,y);
+		c.collectWeapon(new Sword(p,c));
+		return c;
+	}
+
 }
 

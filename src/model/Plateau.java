@@ -600,7 +600,7 @@ public class Plateau {
 			this.g.mainMusic.loop();
 		}
 		for(Character c: this.characters){
-			om.toChangeCharacters.add(new OutputChar(c.id,c.team,c.x,c.y,c.lifePoints,c.typeArmor,c.typeWeapon, c.typeHorse, c.animation, c.orientation));
+			om.toChangeCharacters.add(new OutputChar(c.id,c.team,c.x,c.y,c.lifePoints,c.typeWeapon, c.typeHorse, c.animation, c.orientation));
 		}
 		for(Bullet b: this.bullets){
 			if(b instanceof Arrow)

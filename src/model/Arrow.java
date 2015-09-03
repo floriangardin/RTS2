@@ -9,7 +9,7 @@ import multiplaying.OutputModel.*;
 public class Arrow extends Bullet{
 
 	protected float angle= 0f;
-	
+
 	public Arrow(Plateau p,Character owner,float damage){
 		// Parameters
 		this.damage = 3f;
@@ -63,14 +63,12 @@ public class Arrow extends Bullet{
 		this.sound = p.sounds.arrow;
 		this.sound.play(1f,this.p.soundVolume);
 	}
-	
+
 	public void collision(Character c){
 		if(c.team!=this.owner.team){
 			// Attack if armor<damage and collision
-			if(c.getArmor()!=null){
-				if(c.getArmor().damageReductor<=this.damage){
-					c.lifePoints+=c.getArmor().damageReductor-this.damage;
-				}
+			if(c.getArmor()<=this.damage){
+				c.lifePoints+=c.getArmor()-this.damage;
 			}
 			else{
 				c.lifePoints-=this.damage;
@@ -91,10 +89,10 @@ public class Arrow extends Bullet{
 			this.lifePoints=-1f;
 		}
 	}
-	
-	
+
+
 	// For MenuArrow
 	public Arrow(){
-		
+
 	}
 }

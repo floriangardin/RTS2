@@ -126,15 +126,9 @@ public class OutputModel extends MultiObjetModel{
 	public static class OutputChar{
 		public float x,y,lifePoints;
 		public int id, team;
-		public int armorType, weaponType, horseType;
+		public int weaponType, horseType;
 		public int animation, direction;
-		/* Armor Type:
-		 * 0 - none
-		 * 1 - light
-		 * 2 - medium
-		 * 3 - heavy
-		 * 
-		 * Weapon Type
+		/* Weapon Type
 		 * 0 - none
 		 * 1 - sword
 		 * 2 - bow
@@ -145,14 +139,13 @@ public class OutputModel extends MultiObjetModel{
 		 * 0 - none
 		 * 1 - horse
 		 */
-		public OutputChar(int id, int team, float x, float y, float lifePoints, int armor, int weapon, int horse, int animation, int direction){
+		public OutputChar(int id, int team, float x, float y, float lifePoints, int weapon, int horse, int animation, int direction){
 			// Output to create a new character
 			this.id = id;
 			this.team = team;
 			this.x = x;
 			this.y = y;
 			this.lifePoints = lifePoints;
-			this.armorType = armor;
 			this.weaponType = weapon;
 			this.horseType = horse;
 			this.animation = animation;
@@ -165,15 +158,14 @@ public class OutputModel extends MultiObjetModel{
 			this.x = Float.parseFloat(t[2]);
 			this.y = Float.parseFloat(t[3]);
 			this.lifePoints = Float.parseFloat((t[4]));
-			this.armorType = Integer.parseInt(t[5]);
-			this.weaponType = Integer.parseInt(t[6]);
-			this.horseType = Integer.parseInt(t[7]);
-			this.animation = Integer.parseInt(t[8]);
-			this.direction = Integer.parseInt(t[9]);
+			this.weaponType = Integer.parseInt(t[5]);
+			this.horseType = Integer.parseInt(t[6]);
+			this.animation = Integer.parseInt(t[7]);
+			this.direction = Integer.parseInt(t[8]);
 		}
 		public String toString(){
 			String s= "";
-			s+=id+" " +team +" "+x+" "+y+" "+lifePoints+" "+armorType+" "+weaponType+ " "+horseType+" "+animation+" "+direction;
+			s+=id+" " +team +" "+x+" "+y+" "+lifePoints+" "+weaponType+ " "+horseType+" "+animation+" "+direction;
 			return s;
 		}
 	}

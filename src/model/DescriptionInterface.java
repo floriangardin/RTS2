@@ -32,13 +32,13 @@ public class DescriptionInterface extends Bar {
 			g.setColor(Color.white);
 			String s = "HP: " + (int)c0.lifePoints + " / " + (int)c0.maxLifePoints;
 			g.drawString(s, x+sizeX/3f+10f, y+10f);
-			if(c0.armor!=null)
-				s = "Armor: " + (int)c0.armor.damageReductor*10;
+			if(c0.getArmor()!=0f)
+				s = "Armor: " + (int)c0.getArmor()*10;
 			else
 				s = "No Armor";
 			g.drawString(s, x+sizeX/3f+10f, y+45f);
 			//s = "Velocity: " + (int)c0.maxVelocity;
-			s = "W: " + (int)(c0.weight*10)+" V: " + (int)c0.maxVelocity;
+			s = "Speed: " + (int)c0.maxVelocity;
 			g.drawString(s, x+sizeX/3f+10f, y+80f);
 			if(c0.weapon!=null){
 				float aux = this.parent.p.constants.FRAMERATE/(c0.weapon.chargeTime*10f);

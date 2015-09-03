@@ -21,8 +21,8 @@ public class ContactWeapon extends Weapon {
 			//Attack !
 			// Attack sound
 			this.sound.play(1f,this.p.soundVolume);
-			if(c.getArmor()!=null && c.getArmor().damageReductor<this.damage){
-				c.lifePoints+=c.getArmor().damageReductor-this.damage;
+			if(c.getArmor()<this.damage){
+				c.lifePoints+=c.getArmor()-this.damage;
 
 			}
 			else{

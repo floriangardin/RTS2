@@ -16,13 +16,10 @@ public class Map {
 		// Give equipement to team 
 		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
 		team[0].collectWeapon(new Sword(plateau,team[0]));
-		team[0].collectArmor(new HeavyArmor(team[0].getX(),team[0].getY(),plateau,team[0]));
-
+		
 		team[1].collectWeapon(new Bow(plateau,team[1]));
-		team[1].collectArmor(new LightArmor(team[1].getX(),team[1].getY(),plateau,team[1]));
-
+		
 		team[2].collectWeapon(new Sword(plateau,team[2]));
-		team[2].collectArmor(new MediumArmor(team[2].getX(),team[2].getY(),plateau,team[1]));
 		team[2].collectHorse(new Horse(plateau, team[2]));
 
 		team[3].collectWeapon(new Bible(plateau,team[3]));
@@ -81,13 +78,10 @@ public class Map {
 		// Give equipement to team 
 		// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
 		team[0].collectWeapon(new Sword(plateau,team[0]));
-		team[0].collectArmor(new HeavyArmor(team[0].getX(),team[0].getY(),plateau,team[0]));
-
+		
 		team[1].collectWeapon(new Bow(plateau,team[1]));
-		team[1].collectArmor(new LightArmor(team[1].getX(),team[1].getY(),plateau,team[1]));
-
+		
 		team[2].collectWeapon(new Sword(plateau,team[2]));
-		team[2].collectArmor(new MediumArmor(team[2].getX(),team[2].getY(),plateau,team[1]));
 		team[2].collectHorse(new Horse(plateau, team[2]));
 
 		team[3].collectWeapon(new Bible(plateau,team[3]));
@@ -118,13 +112,10 @@ public class Map {
 			// Give equipement to team 
 			// 0 : sword heavy armor, 1: Bow light armor , 2: Horse sword medium armor, 3: Bible no armor, 4:magician no armor
 			team[k][0].collectWeapon(new Sword(plateau,team[k][0]));
-			team[k][0].collectArmor(new HeavyArmor(team[k][0].getX(),team[k][0].getY(),plateau,team[k][0]));
-
+			
 			team[k][1].collectWeapon(new Bow(plateau,team[k][1]));
-			team[k][1].collectArmor(new LightArmor(team[k][1].getX(),team[k][1].getY(),plateau,team[k][1]));
-
+			
 			team[k][2].collectWeapon(new Sword(plateau,team[k][2]));
-			team[k][2].collectArmor(new MediumArmor(team[k][2].getX(),team[k][2].getY(),plateau,team[k][1]));
 			team[k][2].collectHorse(new Horse(plateau, team[k][2]));
 
 			team[k][3].collectWeapon(new Bible(plateau,team[k][3]));

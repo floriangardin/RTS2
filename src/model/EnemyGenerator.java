@@ -42,30 +42,24 @@ public class EnemyGenerator extends ActionObjet {
 		Character c = new Character(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
 		// Add a random weapon to character
 		if(n_generated<10){
-			c.collectArmor(new LightArmor(c.getX(),c.getY(),p,c));
 			c.collectWeapon(new Sword(p,c));	
 		}
 		else if(n_generated<40){
 			if(n_generated%2==0){
-				c.collectArmor(new LightArmor(c.getX(),c.getY(),p,c));
 				c.collectWeapon(new Bow(p,c));
 			}
 			else{
-				c.collectArmor(new MediumArmor(c.getX(),c.getY(),p,c));
 				c.collectWeapon(new Sword(p,c));	
 			}
 		}
 		else if(n_generated<80){
 			if(n_generated%3==0){
-				c.collectArmor(new MediumArmor(c.getX(),c.getY(),p,c));
 				c.collectWeapon(new Balista(p,c));
 			}
 			else if(n_generated%3==1){
-				c.collectArmor(new MediumArmor(c.getX(),c.getY(),p,c));
 				c.collectWeapon(new Sword(p,c));	
 			}
 			else{
-				c.collectArmor(new MediumArmor(c.getX(),c.getY(),p,c));
 				c.collectWeapon(new Bow(p,c));
 			}
 		}
