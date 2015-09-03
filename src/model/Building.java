@@ -14,7 +14,7 @@ public class Building extends ActionObjet{
 		this.y = y;
 		this.p =p;
 		this.g =g;
-		this.team=1;
+		this.team=0;
 		this.lifePoints = 1f;
 		this.sizeX = 120f; 
 		this.sizeY = 120f;

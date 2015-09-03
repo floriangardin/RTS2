@@ -52,6 +52,16 @@ public class Constants {
 	public float prChargeTime = 0.2f;
 	
 	
+	//// BUILDINGS STATS
+
+	// Mill
+	public int millChargeTime = 5;
+	public int millLifePoints = 500;
+	
+	// Mine
+	public int mineChargeTime = 5;
+	public int mineLifePoints = 500;
+	
 	//// Attack Bonuses
 		
 	public float bonusSpearHorse = 2f;
