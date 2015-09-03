@@ -131,10 +131,12 @@ public class Game extends BasicGame
 		}
 		//Creation of the drawing Vector
 		Vector<Objet> toDraw = new Vector<Objet>();
+		Vector<Objet> toDrawAfter = new Vector<Objet>();
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			toDraw.add(o);
+			if(plateau.isVisibleByPlayer(currentPlayer, o))
+				toDrawAfter.add(o);
 		}
 		for(ActionObjet o : plateau.equipments){
 			//o.draw(g);
@@ -144,21 +146,30 @@ public class Game extends BasicGame
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			//o.draw(g);
-			toDraw.add(o);
+			if(!(o instanceof Water)&& plateau.isVisibleByPlayer(currentPlayer, o))
+				toDrawAfter.add(o);
+			else
+				toDraw.add(o);
 		}
 		// Draw the enemy generators
 		for(Building e : this.plateau.buildings){
-			toDraw.add(e);
+			if(plateau.isVisibleByPlayer(currentPlayer, e))
+				toDrawAfter.add(e);
+			else
+				toDraw.add(e);
 		}
 		Utils.triY(toDraw);
+		Utils.triY(toDrawAfter);
+		// determine visible objets
 		for(Objet o: toDraw)
 			o.draw(g);
-
-		for(Bullet o : plateau.bullets){
-			o.draw(g);
-			//toDraw.add(o);
-		}
 		plateau.drawFogOfWar(g);
+		for(Objet o: toDrawAfter)
+			o.draw(g);
+		for(Bullet o : plateau.bullets){
+			if(plateau.isVisibleByPlayer(currentPlayer,o))
+				o.draw(g);
+		}
 		// Draw the selection :
 		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
 			g.setColor(Color.green);

@@ -26,7 +26,7 @@ public class Constants {
 	public float bmLifePoints = 60f;
 	public float bmArmor = 2f; 
 	public float bmDamage = 7f;
-	public float bmRange = 100f;
+	public float bmRange = 200f;
 	public float bmChargeTime = 5f;
 
 	// Wizard

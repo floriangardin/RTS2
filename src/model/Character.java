@@ -59,15 +59,6 @@ public class Character extends ActionObjet{
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.team = team;
 		// the maximum number of float by second
-		switch(team){
-		case 0:
-			this.color = Color.blue;
-			break;
-		case 1:
-			this.color = Color.red;
-			break;
-		default:
-		}
 		p.addCharacterObjets(this);
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);

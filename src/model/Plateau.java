@@ -728,7 +728,7 @@ public class Plateau {
 		gf.fillRect(0, 0, resX, resY);
 		gf.setColor(Color.white);
 		for(Objet o:visibleObjet)
-			gf.fillOval(o.x-Xcam-o.sight/2f,o.y-Ycam-o.sight/2f,o.sight,o.sight);
+			gf.fillOval(o.x-Xcam-o.sight,o.y-Ycam-o.sight,o.sight*2f,o.sight*2f);
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(fog,Xcam,Ycam);		
@@ -738,14 +738,24 @@ public class Plateau {
 	private Vector<Objet> getInCamObjets(int team) {
 		Vector<Objet> obj = new Vector<Objet>();
 		for(Character c: this.characters)
-			if(c.team==team&&c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX
-			||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY)
+			if(c.team==team&&(c.x+c.sight>Xcam&&c.x-c.sight<Xcam+this.g.resX&&c.y+c.sight>Ycam&&c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
 		for(Building c: this.buildings)
-			if(c.team==team&&c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX
-			||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY)
+			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
 		return obj;
+	}
+	
+	public boolean isVisibleByPlayer(int player, Objet objet){
+		if(objet.x+objet.sight<Xcam||objet.x-objet.sight>Xcam+this.g.resX||objet.y+objet.sight<Ycam||objet.y-objet.sight>Ycam+this.g.resY)
+			return false;
+		for(Character c: this.characters)
+			if(c.team==player && Utils.distance(c, objet)<c.sight)
+				return true;
+		for(Building b: this.buildings)
+			if(b.team==player && Utils.distance(b,  objet)<b.sight)
+				return true;
+		return false;
 	}
 
 }
