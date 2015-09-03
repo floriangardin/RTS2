@@ -15,8 +15,7 @@ public class ContactWeapon extends Weapon {
 	}
 
 	public void collision(Character c){
-		
-		if(c.team!=this.owner.team && this.state>this.chargeTime && !this.owner.isMobile()){
+		if(c.team!=this.owner.team && this.owner.getTarget()==c && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Attack !
 			// Attack sound
 			float damage = this.damage;

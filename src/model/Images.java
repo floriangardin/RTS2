@@ -15,6 +15,7 @@ public class Images {
 	Image tent;
 	Image cursor;
 	Image selection_circle;
+	Image fog;
 	
 	public Images(){
 		try {
@@ -42,6 +43,7 @@ public class Images {
 			this.dirt = new Image("pics/dirt.png");
 			this.water = new Image("pics/water.jpg");
 			this.cursor = new Image("pics/cursor.png");
+			this.fog = new Image("pics/fog.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

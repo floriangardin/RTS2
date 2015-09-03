@@ -20,7 +20,6 @@ public class Character extends ActionObjet{
 	protected float maxLifePoints = 100f;
 	protected float armor = 0f;	
 	public float size = 20f;
-	public float sight = 100f;
 	protected float maxVelocity = 100f;
 	public float range;
 	public float damage;
@@ -48,6 +47,7 @@ public class Character extends ActionObjet{
 	public Character(Plateau p,int team,float x, float y){
 		this.p = p;
 		this.name = "Character";
+		this.sight = 100f;
 		p.g.idChar+=1;
 		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
@@ -317,20 +317,10 @@ public class Character extends ActionObjet{
 		else if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
-				this.setTarget(null);
-				return;
+//				this.setTarget(null);
+//				return;
+				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
-			Vector<Objet> potential_targets = p.getEnnemiesInSight(this);
-			if(potential_targets.size()>0){
-				//Take the nearest target :
-				this.setTarget(Utils.nearestObject(potential_targets, this));
-			}
-		}
-		if(this.getTarget() instanceof Weapon && Utils.distance(this,this.getTarget())<2f*this.collisionBox.getBoundingCircleRadius()){
-			this.collectWeapon((Weapon)this.getTarget());
-			this.setTarget(new Checkpoint(this.getTarget().getX(),this.getTarget().getY()));
-			this.stop();
-			return;
 		}
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			this.stop();
@@ -343,8 +333,7 @@ public class Character extends ActionObjet{
 			// If the character has a weapon it goes toward the target till it is at range
 			if(this.getTarget()!=null && !this.getTarget().collisionBox.intersects(this.weapon.collisionBox)){
 				move();
-			}
-			else{
+			}else{
 				this.stop();
 				return;
 			}

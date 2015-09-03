@@ -12,6 +12,7 @@ public abstract class Objet {
 	protected Sound sound;
 	protected float x;
 	protected float y;
+	public float sight;
 	protected Shape collisionBox;
 	protected Color color;
 	protected Plateau p;

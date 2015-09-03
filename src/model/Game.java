@@ -158,6 +158,7 @@ public class Game extends BasicGame
 			o.draw(g);
 			//toDraw.add(o);
 		}
+		plateau.drawFogOfWar(g);
 		// Draw the selection :
 		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
 			g.setColor(Color.green);
@@ -182,7 +183,6 @@ public class Game extends BasicGame
 			g.setColor(Color.black);
 			g.fill(new Rectangle(0,0,90,30));
 		}
-
 		// Draw bottom bar
 		if(this.bottomBars!=null)
 			this.bottomBars.draw(g,plateau.Xcam,plateau.Ycam);

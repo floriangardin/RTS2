@@ -3,6 +3,10 @@ package model;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
@@ -25,6 +29,9 @@ public class Plateau {
 	// Camera 
 	float Xcam;
 	float Ycam;
+	// fog of war
+	Image fog;
+	Graphics gf;
 
 	// ADD ALL OBJETS 
 	protected Vector<Character> characters;
@@ -104,6 +111,8 @@ public class Plateau {
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
+			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
+			this.gf = fog.getGraphics();
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -708,6 +717,37 @@ public class Plateau {
 		// Remove objets from lists
 		this.clean();
 	}
+
+	// drawing method
+	public void drawFogOfWar(Graphics g){
+		Vector<Objet> visibleObjet = new Vector<Objet>();
+		visibleObjet = this.getInCamObjets(this.g.currentPlayer);
+		float resX = this.g.resX;
+		float resY = this.g.resY;
+		this.gf.setColor(new Color(50,50,50));
+		gf.fillRect(0, 0, resX, resY);
+		gf.setColor(Color.white);
+		for(Objet o:visibleObjet)
+			gf.fillOval(o.x-Xcam-o.sight/2f,o.y-Ycam-o.sight/2f,o.sight,o.sight);
+		gf.flush();
+		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+		g.drawImage(fog,Xcam,Ycam);		
+		g.setDrawMode(Graphics.MODE_NORMAL);
+	}
+
+	private Vector<Objet> getInCamObjets(int team) {
+		Vector<Objet> obj = new Vector<Objet>();
+		for(Character c: this.characters)
+			if(c.team==team&&c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX
+			||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY)
+				obj.add(c);
+		for(Building c: this.buildings)
+			if(c.team==team&&c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX
+			||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY)
+				obj.add(c);
+		return obj;
+	}
+
 }
 
 

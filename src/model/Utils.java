@@ -3,8 +3,10 @@ package model;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.SlickException;
 
 // Class for static methods
 public class Utils {
@@ -111,7 +113,6 @@ public class Utils {
 		}
 		return bimage.getImage();
 	}
-
 	
 	public static void triY(Vector<Objet> liste){
 		if(liste.size()<=1)
