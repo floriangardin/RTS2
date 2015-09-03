@@ -30,7 +30,7 @@ public class Map {
 		new Tree(200f,400f,plateau,1);
 		// Instantiate enemy generator :
 		new EnemyGenerator(plateau,plateau.g,520f,100f);
-
+		new BuildingMill(plateau,plateau.g,1600f,600f);
 	}
 
 	public void createMap2(Plateau plateau){
