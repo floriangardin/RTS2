@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 import multiplaying.OutputModel.OutputChar;
@@ -107,15 +106,6 @@ public class Character extends ActionObjet{
 		changeEquipment(occ.armorType,occ.weaponType,occ.horseType);
 	}
 
-	// Getters
-	private Vector<ActionObjet> getEnnemies(){
-		//TODO:
-		return null;
-	}
-	private Vector<Objet> getObjets(){
-		//TODO:
-		return null;
-	}
 	public boolean isLeader(){
 		return this.leader==this;
 	}
@@ -441,8 +431,6 @@ public class Character extends ActionObjet{
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
-			//if so deleting the acceleration (for now)
-			//TODO: handle stopping
 			newvx = 0f;
 			newvy = 0f;
 			this.stop();
@@ -532,7 +520,6 @@ public class Character extends ActionObjet{
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
-		float r = this.collisionBox.getBoundingCircleRadius();
 		g.setColor(Color.green);
 		if(this.horse!=null){
 			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);

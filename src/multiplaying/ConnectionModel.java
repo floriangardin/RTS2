@@ -5,8 +5,6 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 import model.*;
-import multiplaying.OutputModel.OutputBullet;
-import multiplaying.OutputModel.OutputChar;
 
 public class ConnectionModel {
 

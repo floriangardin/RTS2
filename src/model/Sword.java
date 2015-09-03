@@ -1,7 +1,6 @@
 package model;
 
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+
 import org.newdawn.slick.geom.Circle;
 
 public class Sword extends ContactWeapon {

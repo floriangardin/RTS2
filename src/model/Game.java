@@ -1,66 +1,55 @@
 package model;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.Vector;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
-import org.newdawn.slick.tiled.*;
 
 import multiplaying.*;
 import multiplaying.ConnectionModel.*;
 
 public class Game extends BasicGame 
 {	
-	int step = 0;
-	boolean displayUnit= true;
-	public void changeDisplayUnit(){
-		displayUnit = !displayUnit;
-	}
+
 	public int idChar = 0;
 	public int idBullet = 0;
-	// Ennemy generator 
-	EnemyGenerator gen ;
-	//Music 
+	
+	// Music and sounds
 	float soundVolume;
-	// Volume
 	float volume;
 	Music mainMusic ;
 	Music musicStartGame;
-	//Sounds ;
 	Sounds sounds;
-	//Images ;
 	Images images;
-	//Maps;
+	boolean playStartMusic = true;
+	
+	// Constants
 	Map map;
-	// Bottom bar :
-	BottomBar bottomBars;
-	// Top bars:
-	TopBar topBars;
-
 	Image background ;
 	Constants constants;
+	
+	// Bars
+	BottomBar bottomBars;
+	TopBar topBars;
+
 	// Selection
 	Rectangle selection;
 	boolean new_selection;
 	Vector<Objet> objets_selection=new Vector<Objet>();
-	// framerate
-	int framerate ;
+	
 	// Resolution : 
 	float resX;
 	float resY;
 	float maxX;
 	float maxY;
-	boolean playStartMusic = true;
-	// We keep the reference of the plateau in the game :
-	// Only the game knows the reference for raw vector of objects !
-	private Vector<ActionObjet> actionObjets = new Vector<ActionObjet>();
-	protected Vector<Player> players = new Vector<Player>();
-	// Then we declare the plateau
+	
+	// Plateau
 	public Plateau plateau ;
-
+	AppGameContainer app;
+	protected Vector<Player> players = new Vector<Player>();
+	protected int currentPlayer = 0;
+	
+	
 	// Network and multiplaying
 	protected boolean inMultiplayer;
 	public long startTime;
@@ -76,7 +65,6 @@ public class Game extends BasicGame
 	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
-	public int delay = 2;
 	// Sender and Receiver
 	public MultiReceiver inputReceiver = new MultiReceiver(this,2345);
 	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,2345,this.toSendInputs);
@@ -89,23 +77,19 @@ public class Game extends BasicGame
 	public int toAdd = 0;
 	public int toRemove = 0;
 
-	// Current player
-	protected int currentPlayer = 0;
 	// Menus
-	AppGameContainer app;
 	protected Menu menuPause;
 	protected Menu menuIntro;
 	protected Menu menuCurrent = null;
 	public boolean isInMenu = false;
+	
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
 		app.setClearEachFrame(true);
-
 		if(!this.musicStartGame.playing()){
 			this.musicStartGame.play();
 			this.musicStartGame.setVolume(this.volume);
-
 		}
 		this.plateau.Xcam = this.maxX/2 - this.resX/2;
 		this.plateau.Ycam = this.maxY/2 -this.resY/2;
@@ -113,7 +97,6 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
-
 		app.setClearEachFrame(false);
 	}
 
@@ -151,8 +134,7 @@ public class Game extends BasicGame
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			if(this.displayUnit)
-				toDraw.add(o);
+			toDraw.add(o);
 		}
 		for(ActionObjet o : plateau.equipments){
 			//o.draw(g);
@@ -224,7 +206,7 @@ public class Game extends BasicGame
 				 */
 
 				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
+				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
 				// 1 - take the input of client and host
 				for(int player = 0; player<players.size(); player++){
@@ -259,7 +241,7 @@ public class Game extends BasicGame
 				 */
 
 				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/framerate;
+				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
 				// 1 - send the input to host
 				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
@@ -359,7 +341,6 @@ public class Game extends BasicGame
 	}
 	public void setParams(Constants constants,float resX,float resY){
 		this.constants = constants;
-		this.framerate = constants.FRAMERATE ;
 		this.resX = resX;
 		this.resY = resY;
 		

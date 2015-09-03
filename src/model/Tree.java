@@ -15,14 +15,12 @@ public class Tree extends NaturalObjet {
 
 	public Tree(float x, float y, Plateau p, int type) {
 		this.type = type;
-		float size = 25.0f;
 		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.gray;
 		this.p = p;
 		p.addNaturalObjets(this);
 		this.lifePoints = 1.0f;
 		this.setXY(x, y);
-		String s = "Tree0"+String.valueOf(type);
 		switch(type){
 		case 1:
 			this.image = this.p.images.tree01;
@@ -54,7 +52,6 @@ public class Tree extends NaturalObjet {
 	}
 	
 	public void collision(Objet o){
-		//TODO: collision
 	}
 	
 	public Graphics draw(Graphics g){

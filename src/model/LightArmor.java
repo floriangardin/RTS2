@@ -2,7 +2,6 @@ package model;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Shape;
 
 public class LightArmor extends Armor {
 

@@ -4,7 +4,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
-import multiplaying.*;
 import multiplaying.OutputModel.*;
 
 public class Arrow extends Bullet{

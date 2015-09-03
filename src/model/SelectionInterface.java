@@ -22,6 +22,7 @@ public class SelectionInterface extends Bar {
 		
 		// Draw the selection of current player
 		float startX = this.x+10f;
+		@SuppressWarnings("unused")
 		float startY = this.y+20f;
 		g.setColor(Color.red);
 		// Draw 4 separations

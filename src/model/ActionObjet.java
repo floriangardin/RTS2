@@ -1,7 +1,6 @@
 package model;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
+
 
 
 public abstract class ActionObjet extends Objet{

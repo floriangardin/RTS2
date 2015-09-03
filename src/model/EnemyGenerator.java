@@ -1,7 +1,6 @@
 package model;
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 public class EnemyGenerator extends ActionObjet {

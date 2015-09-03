@@ -2,7 +2,6 @@ package multiplaying;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.Vector;
 
 import model.Game;
 
@@ -12,7 +11,6 @@ public class MultiReceiver extends Thread{
 	int port;
 	public int received = 0;
 
-	@SuppressWarnings("resource")
 	public DatagramSocket server;
 	byte[] message;
 	DatagramPacket packet;

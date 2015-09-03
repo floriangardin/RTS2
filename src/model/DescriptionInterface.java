@@ -40,7 +40,6 @@ public class DescriptionInterface extends Bar {
 			//s = "Velocity: " + (int)c0.maxVelocity;
 			s = "W: " + (int)(c0.weight*10)+" V: " + (int)c0.maxVelocity;
 			g.drawString(s, x+sizeX/3f+10f, y+80f);
-			float damage = 0;
 			if(c0.weapon!=null){
 				float aux = this.parent.p.constants.FRAMERATE/(c0.weapon.chargeTime*10f);
 				int a = (int)(aux*100f)/100;

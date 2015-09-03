@@ -2,8 +2,6 @@ package model;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
