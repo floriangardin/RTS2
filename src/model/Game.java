@@ -174,26 +174,8 @@ public class Game extends BasicGame
 		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
 			g.setColor(Color.green);
 			g.draw(this.plateau.rectangleSelection.get(currentPlayer));
-
 		}
 
-		int gentils=0,mechants=0;
-		for(Character c: plateau.characters){
-			if(c.team==0)
-				gentils+=1;
-			else
-				mechants+=1;
-		}
-		g.setColor(Color.blue);
-		g.drawString(String.valueOf(gentils), 10, 30);
-
-		g.setColor(Color.red);
-		g.drawString(String.valueOf(mechants), 10, 70);
-
-		if(this.app.isShowingFPS()){
-			g.setColor(Color.black);
-			g.fill(new Rectangle(0,0,90,30));
-		}
 		// Draw bottom bar
 		if(this.bottomBars!=null)
 			this.bottomBars.draw(g,plateau.Xcam,plateau.Ycam);

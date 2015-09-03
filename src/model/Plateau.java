@@ -101,7 +101,7 @@ public class Plateau {
 		this.rectangleSelection = new Vector<Rectangle>();
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
-		for(int i =0; i<nTeams;i++){
+		for(int i =0; i<=nTeams;i++){
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
 			this.selection.addElement(new Vector<Character>());
