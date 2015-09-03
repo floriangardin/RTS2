@@ -503,12 +503,9 @@ public class Plateau {
 		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
-		for(int player=0; player<ims.size(); player++){
+		for(int player=1; player<1+ims.size(); player++){
 
-			im = ims.get(player);
-
-
-
+			im = ims.get(player-1);
 			if(im!=null){
 				if(player==this.g.currentPlayer){
 					// Move camera according to inputs :

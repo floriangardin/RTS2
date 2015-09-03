@@ -11,11 +11,11 @@ public class Map {
 		Character[] team = new Character[5];
 		for(int i=0;i<5;i++){
 			switch(i){
-			case 0: team[i]=Character.createSpearman(plateau,0,500f+10f*i,500f);break;
-			case 1: team[i]=Character.createBowman(plateau,0,500f+10f*i,500f);break;
-			case 2: team[i]=Character.createKnight(plateau,0,500f+10f*i,500f);break;
-			case 3: team[i]=Character.createPriest(plateau,0,500f+10f*i,500f);break;
-			case 4: team[i]=Character.createWizard(plateau,0,500f+10f*i,500f);break;
+			case 0: team[i]=Character.createSpearman(plateau,1,500f+10f*i,500f);break;
+			case 1: team[i]=Character.createBowman(plateau,1,500f+10f*i,500f);break;
+			case 2: team[i]=Character.createKnight(plateau,1,500f+10f*i,500f);break;
+			case 3: team[i]=Character.createPriest(plateau,1,500f+10f*i,500f);break;
+			case 4: team[i]=Character.createWizard(plateau,1,500f+10f*i,500f);break;
 			}
 			plateau.g.players.get(0).groups.get(i).add(team[i]);
 		}

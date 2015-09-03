@@ -52,9 +52,9 @@ public class Character extends ActionObjet{
 		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
-		if(team==0)
-			imageb = this.p.images.blue;
 		if(team==1)
+			imageb = this.p.images.blue;
+		if(team==2)
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.team = team;
@@ -85,9 +85,9 @@ public class Character extends ActionObjet{
 		this.team = occ.team;
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
-		if(team==0)
-			imageb = this.p.images.blue;
 		if(team==1)
+			imageb = this.p.images.blue;
+		if(team==2)
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.selection_circle = this.p.images.selection_circle;
@@ -240,11 +240,11 @@ public class Character extends ActionObjet{
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
 		Image imagec = this.p.images.corps;
-		if(team==0){
+		if(team==1){
 			imageb = this.p.images.blue;
 			imagec = this.p.images.horseBlue;
 		}
-		if(team==1){
+		if(team==2){
 			imageb = this.p.images.red;
 			imagec = this.p.images.horseRed;
 		}

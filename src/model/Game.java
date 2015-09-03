@@ -47,7 +47,7 @@ public class Game extends BasicGame
 	public Plateau plateau ;
 	AppGameContainer app;
 	protected Vector<Player> players = new Vector<Player>();
-	protected int currentPlayer = 0;
+	protected int currentPlayer = 1;
 	
 	
 	// Network and multiplaying
@@ -320,6 +320,7 @@ public class Game extends BasicGame
 		this.musicStartGame = new Music("music/nazi_start.ogg");
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
+		this.players.add(new Player(2));
 		this.sounds = new Sounds();
 		this.images = new Images();
 		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,3,this);

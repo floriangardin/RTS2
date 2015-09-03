@@ -17,7 +17,7 @@ public class EnemyGenerator extends Building {
 		this.y = y;
 		this.p =p;
 		this.g =g;
-		this.team=1;
+		this.team=2;
 		this.spawnTime = 40f;
 		this.state = spawnTime;
 		this.lifePoints = 1f;
