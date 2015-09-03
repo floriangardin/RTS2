@@ -202,7 +202,7 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
 				// 1 - take the input of client and host
-				for(int player = 0; player<players.size(); player++){
+				for(int player = 1; player<players.size(); player++){
 					if(player!=currentPlayer){
 						if(this.inputs.size()>0){
 							im = this.inputs.get(0);
