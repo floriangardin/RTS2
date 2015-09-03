@@ -147,7 +147,7 @@ public class Game extends BasicGame
 			toDraw.add(o);
 		}
 		// Draw the enemy generators
-		for(EnemyGenerator e : this.plateau.enemyGens){
+		for(Building e : this.plateau.buildings){
 			toDraw.add(e);
 		}
 		Utils.triY(toDraw);

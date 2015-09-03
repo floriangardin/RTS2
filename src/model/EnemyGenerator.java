@@ -3,17 +3,16 @@ package model;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
-public class EnemyGenerator extends ActionObjet {
+public class EnemyGenerator extends Building {
 	// Class which pop ennemies at random time interval
 
 	Game g;
 	float spawnTime;
 	float state;
 	int n_generated ;
-	float sizeX, sizeY;
 	
 	public EnemyGenerator(Plateau p,Game g,float x, float y){
-		p.addEnemyGenerator(this);
+		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
 		this.p =p;

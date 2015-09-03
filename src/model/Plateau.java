@@ -39,9 +39,9 @@ public class Plateau {
 	protected Vector<Bullet> toAddBullets;
 	protected Vector<Bullet> toRemoveBullets;
 
-	protected Vector<EnemyGenerator> enemyGens;
-	protected Vector<EnemyGenerator> toAddEnemyGens;
-	protected Vector<EnemyGenerator> toRemoveEnemyGens;
+	protected Vector<Building> buildings;
+	protected Vector<Building> toAddBuildings;
+	protected Vector<Building> toRemoveBuildings;
 
 	protected Vector<NaturalObjet> naturalObjets ;
 	protected Vector<NaturalObjet> toAddNaturalObjets;
@@ -84,9 +84,9 @@ public class Plateau {
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets= new Vector<NaturalObjet>();
 		//ENEMYGENERATOR
-		this.enemyGens = new Vector<EnemyGenerator>();
-		this.toAddEnemyGens = new Vector<EnemyGenerator>();
-		this.toRemoveEnemyGens = new Vector<EnemyGenerator>();
+		this.buildings = new Vector<Building>();
+		this.toAddBuildings = new Vector<Building>();
+		this.toRemoveBuildings = new Vector<Building>();
 		//SELECTION
 		this.selection = new Vector<Vector<Character>>();
 		this.toAddSelection = new Vector<Vector<Character>>();
@@ -135,11 +135,11 @@ public class Plateau {
 	private void removeNaturalObjets(NaturalObjet o){
 		toRemoveNaturalObjets.addElement(o);
 	}
-	public void addEnemyGenerator(EnemyGenerator o){
-		toAddEnemyGens.addElement(o);
+	public void addBuilding(Building o){
+		toAddBuildings.addElement(o);
 	}
-	public void removeEnemyGenerator(EnemyGenerator o){
-		toRemoveEnemyGens.addElement(o);
+	public void removeBuilding(Building o){
+		toRemoveBuildings.addElement(o);
 	}
 	public void addSelection(Character o,int team){
 		toAddSelection.get(team).addElement(o);
@@ -184,9 +184,9 @@ public class Plateau {
 				this.removeNaturalObjets(o);
 			}
 		}
-		for(EnemyGenerator o : enemyGens){
+		for(Building o : buildings){
 			if(!o.isAlive()){
-				this.removeEnemyGenerator(o);
+				this.removeBuilding(o);
 			}
 		}
 
@@ -230,11 +230,11 @@ public class Plateau {
 		for(NaturalObjet o: toAddNaturalObjets){
 			naturalObjets.addElement(o);
 		}
-		for(EnemyGenerator o: toRemoveEnemyGens){
-			enemyGens.remove(o);
+		for(Building o: toRemoveBuildings){
+			buildings.remove(o);
 		}
-		for(EnemyGenerator o: toAddEnemyGens){
-			enemyGens.addElement(o);
+		for(Building o: toAddBuildings){
+			buildings.addElement(o);
 		}
 
 		// Clear the vector :
@@ -247,12 +247,12 @@ public class Plateau {
 		toRemoveEquipments.clear();
 		toRemoveBullets.clear();
 		toRemoveNaturalObjets.clear();
-		toRemoveEnemyGens.clear();
+		toRemoveBuildings.clear();
 		toAddCharacters.clear();
 		toAddEquipments.clear();
 		toAddBullets.clear();
 		toAddNaturalObjets.clear();
-		toAddEnemyGens.clear();
+		toAddBuildings.clear();
 	}
 
 	//getters and setters
@@ -290,7 +290,7 @@ public class Plateau {
 				}
 			}
 			// Between characters and generator
-			for(EnemyGenerator e:enemyGens){
+			for(Building e:buildings){
 
 				if(e.collisionBox.intersects(o.collisionBox)){
 					o.collision(e);
@@ -482,7 +482,7 @@ public class Plateau {
 		for(Bullet o: bullets){
 			o.action();
 		}
-		for(EnemyGenerator e: this.enemyGens){
+		for(Building e: this.buildings){
 			e.action();
 		}
 	}
