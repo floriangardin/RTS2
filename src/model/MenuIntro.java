@@ -23,7 +23,7 @@ public class MenuIntro extends Menu {
 
 	public MenuIntro(Game game){
 		try {
-			this.music = new Music("music/intro_verdi.ogg");
+			this.music = new Music("music/menuTheme.ogg");
 			this.music.setVolume(0.5f);
 			this.music.loop();
 		} catch (SlickException e1) {
