@@ -1,11 +1,14 @@
 package model;
 
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 public class BuildingMill extends Building{
 	
 	public int chargeTime;
 	public int state;
+	public int animation = 0;
 	
 	public BuildingMill(Plateau p,Game g,float x, float y){
 		p.addBuilding(this);
@@ -24,8 +27,14 @@ public class BuildingMill extends Building{
 	
 	public void action(){
 		this.state+=1;
+		this.animation+=1;
 		if(state == chargeTime && team!=0){
 			this.p.g.players.get(team).food+=1;
 		}
+	}
+	
+	public Graphics draw(Graphics g){
+		g.drawImage(this.p.images.windmill, this.x-112f, this.y-220f, this.x+112f, this.y+100f, 0f,0f,224f,320f);
+		return g;
 	}
 }
