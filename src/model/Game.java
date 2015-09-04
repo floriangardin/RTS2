@@ -223,8 +223,8 @@ public class Game extends BasicGame
 								this.inputs.remove(0);
 							}
 							ims.add(im);
-//							this.players.get(im.team).bottomBar.sizeX = resX;
-//							this.players.get(im.team).bottomBar.sizeY = 1f/6f*resY;
+							this.players.get(im.team).bottomBar.sizeX = resX;
+							this.players.get(im.team).bottomBar.sizeY = 1f/6f*resY;
 						}
 					} else {
 						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);

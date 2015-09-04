@@ -777,7 +777,7 @@ public class Plateau {
 						+(float)this.g.players.get(player).topBar.sizeY+im.Ycam+2f,
 						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f+im.Ycam-recY.get(player))+0.1f);
 			}
-		} else 	if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)>this.g.players.get(player).bottomBar.y){
+		} else 	if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
 
 			BottomBar b = this.g.players.get(player).bottomBar;
 			//If click on minimap
