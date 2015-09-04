@@ -104,6 +104,8 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		Utils.printCurrentState(plateau);
+		System.out.println("Game.java line 108");
 		//Utils.triY1(this.plateau.characters);
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
@@ -135,7 +137,7 @@ public class Game extends BasicGame
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			if(plateau.isVisibleByPlayer(currentPlayer, o))
+			//if(plateau.isVisibleByPlayer(currentPlayer, o))
 				toDrawAfter.add(o);
 		}
 		for(ActionObjet o : plateau.equipments){
@@ -163,7 +165,7 @@ public class Game extends BasicGame
 		// determine visible objets
 		for(Objet o: toDraw)
 			o.draw(g);
-		plateau.drawFogOfWar(g);
+		//plateau.drawFogOfWar(g);
 		for(Objet o: toDrawAfter)
 			o.draw(g);
 		for(Bullet o : plateau.bullets){
