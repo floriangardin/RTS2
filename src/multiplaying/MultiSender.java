@@ -17,7 +17,7 @@ public class MultiSender extends Thread{
 	Vector<String> depot;
 
 	// DEBUGGING
-	private boolean debug = true;
+	private boolean debug =false;
 	int sent = 0;
 	
 	public MultiSender(GameContainer gc, Game g, InetAddress address, int port, Vector<String> depot){
