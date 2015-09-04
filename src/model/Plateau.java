@@ -645,17 +645,18 @@ public class Plateau {
 				}
 			}
 		}
+		System.out.println("plateau line 648 : " + this.selection.get(1) + "  " +this.selection.get(2));
 		// Handling the changes
-		// TODO : Mulitplayer selection
-		for(Character c : this.selection.get(2)){
-			om.selection.add(c.id);
-		}
 
 		// 3 - Collision, Action, Cleaning
 		this.collision();
 		this.clean();
 		this.action();
 
+		// TODO : Mulitplayer selection
+		for(Character c : this.selection.get(2)){
+			om.selection.add(c.id);
+		}
 
 		// 4 - Update of the music
 		if(!g.isInMenu && !this.g.musicStartGame.playing() && !this.g.mainMusic.playing()){
