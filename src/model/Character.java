@@ -84,7 +84,7 @@ public class Character extends ActionObjet{
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.selection_circle = this.p.images.selection_circle;
-		this.lifePoints = this.maxLifePoints-10f;
+		this.lifePoints = this.maxLifePoints;
 		p.addCharacterObjets(this);
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);

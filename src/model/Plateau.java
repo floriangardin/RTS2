@@ -731,12 +731,9 @@ public class Plateau {
 		this.gf.setColor(new Color(50,50,50));
 		gf.fillRect(0, 0, resX, resY);
 		gf.setColor(Color.white);
-		System.out.print(this.g.currentPlayer+ " - ");
 		for(Objet o:visibleObjet){
 			gf.fillOval(o.x-Xcam-o.sight,o.y-Ycam-o.sight,o.sight*2f,o.sight*2f);
-			System.out.print(this.g.currentPlayer+" "+o.x+" "+o.y+" "+Xcam+" "+Ycam+" * ");
 		}
-		System.out.println();
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(fog,Xcam,Ycam);		
