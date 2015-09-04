@@ -536,7 +536,6 @@ public class Plateau {
 				}
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
-						this.g.players.get(player).groupSelection = to;
 						if(im.isPressedCTRL){
 							// Creating a new group made of the selection
 							this.g.players.get(player).groups.get(to).clear();
@@ -551,7 +550,7 @@ public class Plateau {
 							for(Character c: this.g.players.get(player).groups.get(to))
 								this.selection.get(player).add(c);
 						}
-						System.out.println("group "+ player + " " + to + " "+ this.g.players.get(player).groups.get(to));
+						this.g.players.get(player).groupSelection = to;
 					}
 				}
 				if(im.isPressedLeftClick){
