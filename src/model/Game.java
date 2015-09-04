@@ -175,11 +175,15 @@ public class Game extends BasicGame
 				o.draw(g);
 		}
 		// Draw the selection :
-		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
-			g.setColor(Color.green);
-			g.draw(this.plateau.rectangleSelection.get(currentPlayer));
+		for(int player=1; player<3; player++){
+			if(this.plateau.rectangleSelection.get(player) !=null){
+				if(player==currentPlayer){
+					g.setColor(Color.green);
+				} else
+					g.setColor(Color.red);
+				g.draw(this.plateau.rectangleSelection.get(player));
+			}
 		}
-
 		// Draw bottom bar
 		g.translate(plateau.Xcam, plateau.Ycam);
 		if(this.bottomBars!=null)

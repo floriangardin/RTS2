@@ -639,14 +639,11 @@ public class Plateau {
 							updateTarget(im.xMouse,im.yMouse,player);
 						}
 					}
+					// Update the selections of the players
+					this.g.players.get(player).selection.clear();
+					for(Character c: this.selection.get(player))
+						this.g.players.get(player).selection.addElement(c);
 				}
-				// Update the selections of the players
-				this.g.players.get(player).selection.clear();
-				for(Character c: this.selection.get(player))
-					this.g.players.get(player).selection.addElement(c);
-
-				
-
 			}
 		}
 		// Handling the changes
