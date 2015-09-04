@@ -250,6 +250,7 @@ public class Game extends BasicGame
 					om = this.outputs.remove(0);
 				}
 				// 3 - update from the output file
+				this.outputReceiver.lock = false;
 				this.plateau.updateFromOutput(om, im);
 
 

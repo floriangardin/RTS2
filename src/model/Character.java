@@ -602,6 +602,8 @@ public class Character extends ActionObjet{
 		this.lifePoints = occ.lifePoints;
 		this.animation = occ.animation;
 		this.orientation = occ.direction;
+		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
+			return;
 		this.changeEquipment(occ.weaponType, occ.horseType);
 	}
 	// update the equiments

@@ -741,7 +741,6 @@ public class Plateau {
 						this.selection.get(this.g.currentPlayer).addElement(c2);
 			}
 		}
-		this.g.outputReceiver.lock = false;
 		// Remove objets from lists
 		this.clean();
 	}
