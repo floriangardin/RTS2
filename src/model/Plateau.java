@@ -521,17 +521,17 @@ public class Plateau {
 			if(im!=null){
 				if(player==this.g.currentPlayer && this.rectangleSelection.get(g.currentPlayer)==null && !im.leftClick){
 					// Move camera according to inputs :
-					if((im.isPressedUP || im.yMouse<Ycam+10)&&this.Ycam>-this.g.resY/2){
-						Ycam -= 10;
+					if((im.isPressedUP || im.yMouse<im.Ycam+10)&&im.Ycam>-im.resY/2){
+						im.Ycam -= 10;
 					}
-					if((im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10) && this.Ycam<this.maxY-this.g.resY/2){
-						Ycam +=10;
+					if((im.isPressedDOWN || im.yMouse>im.Ycam+im.resY-10) && im.Ycam<this.maxY-im.resY/2){
+						im.Ycam +=10;
 					}
-					if((im.isPressedLEFT|| im.xMouse<Xcam+10) && this.Xcam>-this.g.resX/2 ){
-						Xcam -=10;
+					if((im.isPressedLEFT|| im.xMouse<im.Xcam+10) && im.Xcam>-im.resX/2 ){
+						im.Xcam -=10;
 					}
-					if((im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10)&& this.Xcam<this.maxX-this.g.resX/2){
-						Xcam += 10;
+					if((im.isPressedRIGHT || im.xMouse>im.Xcam+im.resX-10)&& im.Xcam<this.maxX-im.resX/2){
+						im.Xcam += 10;
 					}
 				}
 				for(int to=0; to<10; to++){
@@ -559,12 +559,12 @@ public class Plateau {
 				}
 				// Split click bottom bar and not bottom bar
 				//Top Bar
-				if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)<(1f/20f)*this.g.resY){
+				if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<(1f/20f)*im.resY){
 					if(this.rectangleSelection.get(player)!=null){
 						Rectangle r  = this.rectangleSelection.get(player);
 						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)this.g.players.get(player).topBar.y
-								+(float)this.g.players.get(player).topBar.sizeY+Ycam+2f,
-								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f+Ycam-recY.get(player))+0.1f);
+								+(float)this.g.players.get(player).topBar.sizeY+im.Ycam+2f,
+								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f+im.Ycam-recY.get(player))+0.1f);
 					}
 				}
 				//Bottom Bar
@@ -587,7 +587,7 @@ public class Plateau {
 					}
 				}
 				// FIELD
-				else if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-Ycam)<=this.g.players.get(player).bottomBar.y ){
+				else if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
 					
 					if(im.leftClick){
 						// As long as the button is pressed, the selection is updated

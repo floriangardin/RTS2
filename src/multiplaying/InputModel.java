@@ -40,7 +40,7 @@ public class InputModel extends MultiObjetModel{
 		this.resX = resX;
 		this.resY = resY;
 		this.Xcam = Xcam;
-		this.Ycam = Xcam;
+		this.Ycam = Ycam;
 
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 		this.isPressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
