@@ -7,6 +7,9 @@ import model.Utils;
 public class InputModel extends MultiObjetModel{
 
 	public int team;
+	
+	public int resX;
+	public int resY;
 
 	public boolean rightClick;
 	public boolean leftClick;
@@ -29,10 +32,11 @@ public class InputModel extends MultiObjetModel{
 	public int xMouse;
 	public int yMouse;
 
-	public InputModel (int time, int team, Input input, int Xcam,int Ycam){
+	public InputModel (int time, int team, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.team = team;
 		this.timeValue = time;
-
+		this.resX = resX;
+		this.resY = resY;
 
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 		this.isPressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
@@ -63,7 +67,7 @@ public class InputModel extends MultiObjetModel{
 		int intBuffer = 0;
 		boolean boolBuffer = false;
 		for(int i=0; i<vaneau.length; i++){
-			if(i<4){
+			if(i<6){
 				intBuffer = Integer.parseInt(vaneau[i]);
 			} else {
 				boolBuffer = (vaneau[i].equals("true"));
@@ -73,16 +77,18 @@ public class InputModel extends MultiObjetModel{
 			case 1: this.team = intBuffer;break;
 			case 2: this.xMouse = intBuffer;break;
 			case 3: this.yMouse = intBuffer;break;
-			case 4: this.leftClick = boolBuffer;break;
-			case 5: this.rightClick = boolBuffer;break;
-			case 6: this.isPressedLeftClick = boolBuffer;break;
-			case 7: this.isPressedRightClick = boolBuffer;break;
-			case 8: this.isPressedESC = boolBuffer;break;
-			case 9: this.isPressedMAJ = boolBuffer;break;
-			case 10: this.isPressedCTRL = boolBuffer;break;
-			case 11: this.isPressedBACK = boolBuffer;break;
-			case 12: this.isPressedDOT = boolBuffer;break;
-			case 13: this.isPressedENTER = boolBuffer; break;
+			case 4: this.resX = intBuffer;break;
+			case 5: this.resY = intBuffer;break;
+			case 6: this.leftClick = boolBuffer;break;
+			case 7: this.rightClick = boolBuffer;break;
+			case 8: this.isPressedLeftClick = boolBuffer;break;
+			case 9: this.isPressedRightClick = boolBuffer;break;
+			case 10: this.isPressedESC = boolBuffer;break;
+			case 11: this.isPressedMAJ = boolBuffer;break;
+			case 12: this.isPressedCTRL = boolBuffer;break;
+			case 13: this.isPressedBACK = boolBuffer;break;
+			case 14: this.isPressedDOT = boolBuffer;break;
+			case 15: this.isPressedENTER = boolBuffer; break;
 			default:
 				this.isPressedNumPad[i-14] = boolBuffer;break;
 			}
@@ -91,7 +97,7 @@ public class InputModel extends MultiObjetModel{
 
 	public String toString(){
 		String s = "0";
-		s+=timeValue+" "+team+ " "+xMouse+" "+yMouse;
+		s+=timeValue+" "+team+ " "+xMouse+" "+yMouse+" "+resX+" "+resY;
 		s+=" "+leftClick + " " +rightClick+" "+isPressedLeftClick+" "+isPressedRightClick+" "+isPressedESC+" "+isPressedMAJ+" "+isPressedCTRL+
 				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER;
 		for(int i=0; i<10;i++){

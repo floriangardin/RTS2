@@ -11,13 +11,13 @@ public class TopBar extends Bar {
 	Image imageGold ;
 	Image imageFood;
 	
-	public TopBar(Plateau p ,Player player, Game g){
+	public TopBar(Plateau p ,Player player, int resX, int resY){
 		
 		this.p = p ;
 		this.player = player;
 		this.player.topBar = this;
-		this.sizeX = g.resX;
-		this.sizeY = 1f/20f*g.resY;
+		this.sizeX = resX;
+		this.sizeY = 1f/20f*resY;
 		this.x = 0f;
 		this.y = 0f;
 		try {

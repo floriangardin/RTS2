@@ -18,14 +18,14 @@ public class BottomBar extends Bar {
 	float rw;
 	float rh;
 	
-	public BottomBar(Plateau p ,Player player, Game g){
+	public BottomBar(Plateau p ,Player player, int resX, int resY){
 		this.p = p ;
 		this.player = player;
 		this.player.bottomBar = this;
-		this.sizeX = g.resX;
-		this.sizeY = 1f/6f*g.resY;
+		this.sizeX = resX;
+		this.sizeY = 1f/6f*resY;
 		this.x = 0;
-		this.y = 5f/6f*g.resY;
+		this.y = 5f/6f*resY;
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
