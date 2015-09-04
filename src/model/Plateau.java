@@ -769,10 +769,10 @@ public class Plateau {
 				Xcam += 10;
 			}
 		}
-		
-		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(g.currentPlayer).bottomBar.y){
 
-			BottomBar b = this.g.players.get(g.currentPlayer).bottomBar;
+		BottomBar b = this.g.players.get(g.currentPlayer).bottomBar;
+		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>b.y){
+
 			//If click on minimap
 			if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
 					b.startX+b.w && this.rectangleSelection.get(g.currentPlayer)==null){
