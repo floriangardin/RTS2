@@ -400,14 +400,7 @@ public class Character extends ActionObjet{
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
-	}
 
-
-	//// GRAPHISMS
-	
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		float direction = 0f;
 		if(animationValue!=0f){
 			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
 				animation = 1;
@@ -416,6 +409,14 @@ public class Character extends ActionObjet{
 			else
 				animation = 2;
 		}
+	}
+
+
+	//// GRAPHISMS
+	
+	public Graphics draw(Graphics g){
+		float r = collisionBox.getBoundingCircleRadius();
+		float direction = 0f;
 		direction = (float)(orientation/2-1);
 		int imageWidth = this.image.getWidth()/3;
 		int imageHeight = this.image.getHeight()/4;
