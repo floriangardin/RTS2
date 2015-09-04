@@ -134,8 +134,8 @@ public class Game extends BasicGame
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			//if(plateau.isVisibleByPlayer(currentPlayer, o))
-			toDrawAfter.add(o);
+			if(plateau.isVisibleByPlayer(currentPlayer, o))
+				toDrawAfter.add(o);
 		}
 		for(ActionObjet o : plateau.equipments){
 			//o.draw(g);

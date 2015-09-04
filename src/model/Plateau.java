@@ -737,10 +737,10 @@ public class Plateau {
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(fog,Xcam,Ycam);		
 		g.setDrawMode(Graphics.MODE_NORMAL);
-		//Utils.printCurrentState(this);
 	}
 
 	private Vector<Objet> getInCamObjets(int team) {
+		System.out.println("Plateau line 743   : team " + team+" Xcam "+Xcam+ " Ycam "+Ycam);
 		Vector<Objet> obj = new Vector<Objet>();
 		for(Character c: this.characters)
 			if(c.team==team&&(c.x+c.sight>Xcam&&c.x-c.sight<Xcam+this.g.resX&&c.y+c.sight>Ycam&&c.y-c.sight<Ycam+this.g.resY))
@@ -754,6 +754,8 @@ public class Plateau {
 	public boolean isVisibleByPlayer(int player, Objet objet){
 		if(objet.x+objet.sight<Xcam||objet.x-objet.sight>Xcam+this.g.resX||objet.y+objet.sight<Ycam||objet.y-objet.sight>Ycam+this.g.resY)
 			return false;
+		if(objet.team==player)
+			return true;
 		for(Character c: this.characters)
 			if(c.team==player && Utils.distance(c, objet)<c.sight)
 				return true;
