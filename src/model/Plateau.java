@@ -519,6 +519,7 @@ public class Plateau {
 					im = inp;
 			//im = ims.get(player-1);
 			if(im!=null){
+				System.out.println("Ok pour player "+ im.team+" Plateau line 522");
 				if(player==this.g.currentPlayer){
 					// Move camera according to inputs :
 					if(im.isPressedUP || im.yMouse<Ycam+10){
@@ -536,27 +537,6 @@ public class Plateau {
 					if(im.isPressedLeftClick){
 						this.clearSelection(player);
 					}
-					// Update the rectangle
-					if(im.leftClick){
-						// As long as the button is pressed, the selection is updated
-						if(rectangleSelection.get(player)==null){
-							recX.set(player, (float)im.xMouse);
-							recY.set(player, (float)im.yMouse);
-							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
-						}
-						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
-					}
-					else if(this.selection!=null){
-						// The button is not pressed and wasn't, the selection is non null
-						this.updateSelection(rectangleSelection.get(player), player);
-						this.rectangleSelection.set(player, null);
-					}
-					else{
-						// We update selection when left click is released
-						this.rectangleSelection.set(player, null);
-					}
-					
 				}
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
@@ -595,7 +575,6 @@ public class Plateau {
 				}
 				else{
 					// The button is not pressed and wasn't, the selection is non null
-					
 					this.rectangleSelection.set(player, null);
 				}
 				if(this.selection!=null){
