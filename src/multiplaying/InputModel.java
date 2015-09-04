@@ -129,8 +129,6 @@ public class InputModel extends MultiObjetModel{
 			if(!this.isPressedNumPad[i]&& m2.isPressedNumPad[i])
 				this.isPressedNumPad[i] = true;
 		}
-		this.xMouse = (this.xMouse+m2.xMouse)/2;
-		this.yMouse = (this.yMouse+m2.yMouse)/2;
 	}
 
 }
