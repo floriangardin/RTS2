@@ -781,18 +781,18 @@ public class Plateau {
 
 			BottomBar b = this.g.players.get(player).bottomBar;
 			//If click on minimap
-			if((im.xMouse-Xcam)>b.startX && (im.xMouse-Xcam)<
+			if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
 					b.startX+b.w && this.rectangleSelection.get(player)==null){
 
 				// Put camera where the click happened
-				Xcam = (int)Math.floor((im.xMouse-Xcam-b.startX)/b.rw)-this.g.resX/2f;
-				Ycam = (int)Math.floor((im.yMouse-Ycam-b.startY)/b.rh)-this.g.resY/2f;
+				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-im.resX/2f;
+				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-im.resY/2f;
 
 			}
 			if(this.rectangleSelection.get(player)!=null){
 				Rectangle r  = this.rectangleSelection.get(player);
 				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+Ycam-2f-recY.get(player))+0.1f);
+						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+im.Ycam-2f-recY.get(player))+0.1f);
 			}
 		}
 
