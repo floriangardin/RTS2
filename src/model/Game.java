@@ -54,8 +54,8 @@ public class Game extends BasicGame
 	protected boolean inMultiplayer;
 	public long startTime;
 	public int portConnexion = 6113;
-	public int portInput = 2344;
-	public int portOutput = 2346;
+	public int portInput = 6114;
+	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
