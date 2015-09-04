@@ -104,12 +104,6 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		//Utils.triY1(this.plateau.characters);
-		if(!isInMenu){
-			System.out.println("Game line 108");
-			System.out.println(this.plateau.selection.get(1));
-			System.out.println(this.plateau.selection.get(2));
-		}
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
@@ -168,7 +162,7 @@ public class Game extends BasicGame
 		// determine visible objets
 		for(Objet o: toDraw)
 			o.draw(g);
-		//plateau.drawFogOfWar(g);
+		plateau.drawFogOfWar(g);
 		for(Objet o: toDrawAfter)
 			o.draw(g);
 		for(Bullet o : plateau.bullets){

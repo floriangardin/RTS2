@@ -514,13 +514,11 @@ public class Plateau {
 		InputModel im;
 		for(int player=1; player<this.g.players.size(); player++){
 			im = null;
-			System.out.println("vaneau: "+player + " + " + ims);
 			for(InputModel inp : ims)
 				if(inp.team==player)
 					im = inp;
 			//im = ims.get(player-1);
 			if(im!=null){
-				System.out.println("Ok pour player "+ im.team+" Plateau line 522");
 				if(player==this.g.currentPlayer){
 					// Move camera according to inputs :
 					if(im.isPressedUP || im.yMouse<Ycam+10){
