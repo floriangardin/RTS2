@@ -223,8 +223,8 @@ public class Game extends BasicGame
 								this.inputs.remove(0);
 							}
 							ims.add(im);
-							this.players.get(im.team).bottomBar.sizeX = resX;
-							this.players.get(im.team).bottomBar.sizeY = 1f/6f*resY;
+//							this.players.get(im.team).bottomBar.sizeX = resX;
+//							this.players.get(im.team).bottomBar.sizeY = 1f/6f*resY;
 						}
 					} else {
 						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
@@ -295,9 +295,11 @@ public class Game extends BasicGame
 			this.map.createMap1(plateau);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
-			this.bottomBars = new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
-			this.topBars = new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 		}
+		this.bottomBars = this.players.get(currentPlayer).bottomBar;
+		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;
 	}
 	public void newGame(ConnectionModel cm){

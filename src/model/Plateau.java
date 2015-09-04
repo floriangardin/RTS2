@@ -635,7 +635,6 @@ public class Plateau {
 				}
 			}
 		}
-		System.out.println("plateau line 648 : " + this.selection.get(1) + "  " +this.selection.get(2));
 		// Handling the changes
 
 		// 3 - Collision, Action, Cleaning
@@ -754,6 +753,9 @@ public class Plateau {
 	}
 
 	public void updateView(InputModel im){
+		System.out.println(im.team+ " xcam "+im.Xcam+" ycam "+im.Ycam+" resx "+im.resX+" resy "+im.resY);
+//		this.g.players.get(im.team).bottomBar.sizeX = im.resX;
+//		this.g.players.get(im.team).bottomBar.sizeY = 1f/6f*im.resY;
 		if(this.rectangleSelection.get(g.currentPlayer)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<Ycam+10)&&this.Ycam>-this.g.resY/2){
@@ -769,24 +771,24 @@ public class Plateau {
 				Xcam += 10;
 			}
 		}
-
-		BottomBar b = this.g.players.get(g.currentPlayer).bottomBar;
-		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>b.y){
-
-			//If click on minimap
-			if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
-					b.startX+b.w && this.rectangleSelection.get(g.currentPlayer)==null){
-
-				// Put camera where the click happened
-				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-this.g.resX/2f;
-				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-this.g.resY/2f;
-			}
-			if(this.rectangleSelection.get(g.currentPlayer)!=null){
-				Rectangle r  = this.rectangleSelection.get(g.currentPlayer);
-				rectangleSelection.get(g.currentPlayer).setBounds( (float)Math.min(recX.get(g.currentPlayer),im.xMouse), (float)Math.min(recY.get(g.currentPlayer), im.yMouse),
-						(float)Math.abs(im.xMouse-recX.get(g.currentPlayer))+0.1f, (float)Math.abs(this.g.players.get(g.currentPlayer).bottomBar.y+im.Ycam-2f-recY.get(g.currentPlayer))+0.1f);
-			}
-		}
+//		int player = g.currentPlayer;
+//		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
+//			
+//			BottomBar b = this.g.players.get(player).bottomBar;
+//			//If click on minimap
+//			if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
+//					b.startX+b.w && this.rectangleSelection.get(player)==null){
+//
+//				// Put camera where the click happened
+//				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-this.g.resX/2f;
+//				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-this.g.resY/2f;
+//			}
+//			if(this.rectangleSelection.get(player)!=null){
+//				Rectangle r  = this.rectangleSelection.get(player);
+//				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+//						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+im.Ycam-2f-recY.get(player))+0.1f);
+//			}
+//		}
 		
 	}
 
