@@ -512,6 +512,8 @@ public class Plateau {
 		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
+		System.out.println(ims);
+		System.out.println("Plateau line 515");
 		for(int player=1; player<1+ims.size(); player++){
 			im = null;
 			for(InputModel inp : ims)
