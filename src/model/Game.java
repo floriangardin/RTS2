@@ -222,7 +222,6 @@ public class Game extends BasicGame
 								im.mix(this.inputs.get(0));
 								this.inputs.remove(0);
 							}
-							System.out.println("game line 221 + " + this.inputs.size());
 							ims.add(im);
 							this.players.get(im.team).bottomBar.sizeX = resX;
 							this.players.get(im.team).bottomBar.sizeY = 1f/6f*resY;
