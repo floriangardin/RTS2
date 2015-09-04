@@ -14,7 +14,7 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
-	
+
 	// Music and sounds
 	float soundVolume;
 	float volume;
@@ -23,12 +23,12 @@ public class Game extends BasicGame
 	Sounds sounds;
 	Images images;
 	boolean playStartMusic = true;
-	
+
 	// Constants
 	Map map;
 	Image background ;
 	Constants constants;
-	
+
 	// Bars
 	BottomBar bottomBars;
 	TopBar topBars;
@@ -37,23 +37,27 @@ public class Game extends BasicGame
 	Rectangle selection;
 	boolean new_selection;
 	Vector<Objet> objets_selection=new Vector<Objet>();
-	
+
 	// Resolution : 
 	float resX;
 	float resY;
 	float maxX;
 	float maxY;
-	
+
 	// Plateau
 	public Plateau plateau ;
 	AppGameContainer app;
 	protected Vector<Player> players = new Vector<Player>();
 	protected int currentPlayer = 1;
-	
-	
+
+
 	// Network and multiplaying
 	protected boolean inMultiplayer;
 	public long startTime;
+	public int portConnexion = 6113;
+	public int portInput = 6114;
+	public int portOutput = 6115;
+	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
 	public InetAddress addressClient;
@@ -67,11 +71,11 @@ public class Game extends BasicGame
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
 	// Sender and Receiver
-	public MultiReceiver inputReceiver = new MultiReceiver(this,2345);
-	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,2345,this.toSendInputs);
-	public MultiReceiver outputReceiver = new MultiReceiver(this,2346);
-	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, 2346, this.toSendOutputs);
-	public MultiReceiver connexionReceiver = new MultiReceiver(this,2344);
+	public MultiReceiver inputReceiver = new MultiReceiver(this,portInput);
+	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,portInput,this.toSendInputs);
+	public MultiReceiver outputReceiver = new MultiReceiver(this,portOutput);
+	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, portOutput, this.toSendOutputs);
+	public MultiReceiver connexionReceiver = new MultiReceiver(this,portConnexion);
 	public MultiSender connexionSender;
 	public boolean isHost;
 	//Debugging network
@@ -83,7 +87,7 @@ public class Game extends BasicGame
 	protected Menu menuIntro;
 	protected Menu menuCurrent = null;
 	public boolean isInMenu = false;
-	
+
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -101,11 +105,10 @@ public class Game extends BasicGame
 		app.setClearEachFrame(false);
 	}
 
- 
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		//Utils.triY1(this.plateau.characters);
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
@@ -249,11 +252,12 @@ public class Game extends BasicGame
 				OutputModel om = null;
 				if(this.outputs.size()>0){
 					om = this.outputs.get(0);
-					this.outputs.clear();
-
-					// 3 - update from the output file
-					this.plateau.updateFromOutput(om, im);
+					om = this.outputs.remove(0);
 				}
+				// 3 - update from the output file
+				this.outputReceiver.lock = false;
+				this.plateau.updateFromOutput(om, im);
+
 
 			}
 		} else if (!inMultiplayer){
@@ -352,7 +356,7 @@ public class Game extends BasicGame
 		this.constants = constants;
 		this.resX = resX;
 		this.resY = resY;
-		
+
 		this.maxX = 3000;
 		this.maxY = 3000;
 		//

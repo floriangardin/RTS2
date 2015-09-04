@@ -48,6 +48,7 @@ public class Character extends ActionObjet{
 		this.p = p;
 		this.name = "Character";
 		this.sight = 100f;
+		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
@@ -71,6 +72,7 @@ public class Character extends ActionObjet{
 		// Only used to display on client screen
 		// Parameters
 		this.maxLifePoints = 100f;
+		this.sight = 100f;
 		this.id = occ.id;
 		this.p = p;
 		this.team = occ.team;
@@ -82,7 +84,7 @@ public class Character extends ActionObjet{
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.selection_circle = this.p.images.selection_circle;
-		this.lifePoints = this.maxLifePoints-10f;
+		this.lifePoints = this.maxLifePoints;
 		p.addCharacterObjets(this);
 		this.collisionBox = new Circle(x,y,size);
 		this.sightBox = new Circle(x,y,sight);
@@ -398,14 +400,7 @@ public class Character extends ActionObjet{
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
-	}
 
-
-	//// GRAPHISMS
-	
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		float direction = 0f;
 		if(animationValue!=0f){
 			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
 				animation = 1;
@@ -414,6 +409,14 @@ public class Character extends ActionObjet{
 			else
 				animation = 2;
 		}
+	}
+
+
+	//// GRAPHISMS
+	
+	public Graphics draw(Graphics g){
+		float r = collisionBox.getBoundingCircleRadius();
+		float direction = 0f;
 		direction = (float)(orientation/2-1);
 		int imageWidth = this.image.getWidth()/3;
 		int imageHeight = this.image.getHeight()/4;
@@ -601,6 +604,8 @@ public class Character extends ActionObjet{
 		this.lifePoints = occ.lifePoints;
 		this.animation = occ.animation;
 		this.orientation = occ.direction;
+		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
+			return;
 		this.changeEquipment(occ.weaponType, occ.horseType);
 	}
 	// update the equiments

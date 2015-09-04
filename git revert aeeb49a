@@ -1,0 +1,611 @@
+[33mcommit 0d25d62590f3d480b8c07cdad92b0e382e604b31[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 14:49:56 2015 +0200
+
+    e
+
+[33mcommit b63b4cd77612319073242e65ef4d977835200aa0[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 14:35:37 2015 +0200
+
+    e
+
+[33mcommit 6c8d5c72393a6d9367a3a1b338a17579ddb70e3d[m
+Merge: 18dec2d 1134b53
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Sep 4 00:19:33 2015 +0100
+
+    fix merge
+
+[33mcommit 18dec2d1df6039b2f58da34b717d1eb08bd1c26b[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Sep 4 00:17:54 2015 +0100
+
+    add selection live
+
+[33mcommit 1134b539a89fa5ad2fbb0f0b88d7e8d8a635d64b[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:59:11 2015 +0200
+
+    test1
+
+[33mcommit 7b9c19bbfd3f170d69c3f6978b9532d24a962532[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:55:02 2015 +0200
+
+    test1
+
+[33mcommit 3c33d64d38c97f17575e05588afce6830698c916[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:41:57 2015 +0200
+
+    test1
+
+[33mcommit 452bd616963c01d785d64c157eb798a05a043f40[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:37:18 2015 +0200
+
+    test1
+
+[33mcommit 9d25cf69ff9f9ecc9c6801e8e7bd921fdd73d611[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:21:56 2015 +0200
+
+    test1
+
+[33mcommit 93fe2ce2c15826f359c05efc23065a013b18ed2f[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:12:43 2015 +0200
+
+    test1
+
+[33mcommit 352f142d0020bd37e83eb87d68a73d8094b348c6[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Fri Sep 4 00:04:19 2015 +0200
+
+    test1
+
+[33mcommit aeeb49a7fa05b4650363175fa82a16368824b81e[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 18:43:39 2015 +0200
+
+    last edit before leaving
+
+[33mcommit 18ce768f348990d5023b45584606321215557cfe[m
+Merge: 8ae1e8b 4cb6b24
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 18:41:31 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 8ae1e8bf4ed7917991d6052752e2e3131003b292[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 18:41:21 2015 +0200
+
+    r
+
+[33mcommit 4cb6b2487def6b025f453222f7f017744a4a7e61[m
+Merge: ed9e625 abc3aeb
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Sep 3 18:09:22 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit ed9e62590e08502a0f32a8a141ebe9ac2df286b7[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Sep 3 18:09:10 2015 +0200
+
+    add menu theme
+
+[33mcommit abc3aebe0ac4a256dd71722a7eb24655b0d9e208[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 18:08:30 2015 +0200
+
+    upgrading fog of war
+
+[33mcommit e6ba939a8602fbd54423a2ee59b2048966fc4f74[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 17:29:23 2015 +0200
+
+    upgrading fog of war
+
+[33mcommit ea92fd02c550d9e9821b98e4d0541533c2301838[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 17:06:16 2015 +0200
+
+    creating fog of war
+
+[33mcommit 0a0f2a63f72b18878fdffd09df1efbd4ff67bde0[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 13:32:56 2015 +0200
+
+    creating mill and mine
+
+[33mcommit 9c494dbe5e0e80496f205e188f2af8c00ac7cdd4[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 13:23:00 2015 +0200
+
+    changing idplayers
+
+[33mcommit b8cb8b49d4715a004bc28907b86c467aac888e8f[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 13:16:03 2015 +0200
+
+    changing buildings
+
+[33mcommit 7b3fbd4157f61e8b2a8681a04f3ae02c7c46c963[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 13:13:47 2015 +0200
+
+    creating buildings
+
+[33mcommit e98a6d0d53eb06978c7ce8fd5169bbd389bc63dd[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 13:07:13 2015 +0200
+
+    change characters
+
+[33mcommit bd43ae6d10e126d65025262f4d23501571bb3c52[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 12:35:40 2015 +0200
+
+    change characters
+
+[33mcommit e4649e78899cfe52b4b0a526c83c5b6a40c131c7[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 12:00:56 2015 +0200
+
+    modification weapon
+
+[33mcommit f862307d4cbcbcbda57bca73e063319b89d18a47[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 10:58:38 2015 +0200
+
+    without armor 2
+
+[33mcommit a91380a7a5e9368d36c164ae11a864f23065f905[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 10:58:20 2015 +0200
+
+    without armor
+
+[33mcommit 73e023f2055a18d7637c948c0f9cf6a85914f4de[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Thu Sep 3 10:32:47 2015 +0200
+
+    suppres warning
+
+[33mcommit 0a8493bc0a6dfa1afc27b46d103e97ad48dc8cc3[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Sep 3 10:22:16 2015 +0200
+
+    repare
+
+[33mcommit 2db0206086ce375295ba7d254faf5fd46f8fd3e6[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Wed Sep 2 19:32:42 2015 +0200
+
+    mythevaneau
+
+[33mcommit 8a1d6dca6084038f4d5bc82dfb4e882e18a7f1e2[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 19:20:08 2015 +0200
+
+    e
+
+[33mcommit 2d0df73468c5add6bed1aecfb28dfcd776bb8cec[m
+Merge: 1d7e50f 75aeeb5
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Wed Sep 2 19:18:17 2015 +0200
+
+    fix camera
+
+[33mcommit 1d7e50f56d85d9a2cca4142ebd4ad1d3e10d9b92[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Wed Sep 2 19:16:29 2015 +0200
+
+    camera ok
+
+[33mcommit 75aeeb5d049e89012454b9530ed089ccba103187[m
+Merge: 9763965 72b22a3
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 18:48:47 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 97639658e686cd0ab4aea9a973e0fca18ac064ad[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 18:47:24 2015 +0200
+
+    e
+
+[33mcommit cd50c735202e14cde63ec43db08d143eeb5e801a[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 18:44:41 2015 +0200
+
+    e
+
+[33mcommit 72b22a33e0e814e00e1b8ed159680997254a482d[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Wed Sep 2 17:35:29 2015 +0100
+
+    e
+
+[33mcommit ae51f330e02d33ac06e8f7ca258032fb3acb3ff4[m
+Merge: 66e8dc9 104ca66
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Wed Sep 2 18:30:04 2015 +0200
+
+    add camera fix
+
+[33mcommit 66e8dc98ae2fc835c93c1697d6ac9bc228e42423[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Wed Sep 2 18:29:10 2015 +0200
+
+    add camera
+
+[33mcommit 104ca66788c72c0d9f0baa32042924a36185c3d6[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 18:17:52 2015 +0200
+
+    e
+
+[33mcommit ecbcd863a8b75847c3e71fcefc143cb17e76e8be[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 18:10:55 2015 +0200
+
+    e
+
+[33mcommit 86edc0a8e28d62c2acac952d3dc700bef416cc99[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 17:13:41 2015 +0200
+
+    r
+
+[33mcommit 0dfe63b5235079c6201e490115e246699e78ef66[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 17:09:05 2015 +0200
+
+    r
+
+[33mcommit 85bfcddc6d2300bb2b9a932a83aa77563b75801f[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 17:05:38 2015 +0200
+
+    e
+
+[33mcommit 5fe97771184e457ebda2b8e4efbdb3fde9494878[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 16:54:39 2015 +0200
+
+    r
+
+[33mcommit 3d6db25ccb24c132e6a4cb916ef6ddec8fe0ecfe[m
+Author: MagicWelcome <bienvenu.kevin@sfr.fr>
+Date:   Wed Sep 2 16:27:04 2015 +0200
+
+    e
+
+[33mcommit 2abb096f9ce597a5b5fa74178d5b9a0400b852cb[m
+Merge: 934a201 5f02a38
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 13 17:54:37 2015 +0100
+
+    new gameplay and lan
+
+[33mcommit 5f02a3809c7c031e7ec97ededb470fb39d75af45[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 13 17:29:17 2015 +0100
+
+    jedoiscommit
+
+[33mcommit 934a2018ce920852a7c11f7ec67356052075f72c[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 13 15:21:48 2015 +0200
+
+    e1
+
+[33mcommit f8bdbd9345622ab95214a98787487e8012ca4636[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 13 15:14:59 2015 +0200
+
+    lan working
+
+[33mcommit a1c739d3c8b5bda9451b573502badaa85cab006a[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 13 11:28:58 2015 +0200
+
+    copying from other computer
+
+[33mcommit 2df15f952dc7ec72401abd99e9f5e08acee657f0[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 13 11:26:04 2015 +0200
+
+    creating
+
+[33mcommit 1f093ee526fb02dabbaa21bf68c5bfe222cc8929[m
+Merge: 0c4798b 54de764
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 13 11:18:38 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 0c4798be564839d64d5d046d83470bb2b72b603f[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 13 11:18:22 2015 +0200
+
+    e
+
+[33mcommit 20074687374b183620960f1ddb2e40f03bc004d9[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Mon Aug 10 23:15:42 2015 +0100
+
+    sound fixed and new map versus
+
+[33mcommit 28b6fc6ce38fe6684fd278123fdc3ea01183d373[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Mon Aug 10 22:39:11 2015 +0100
+
+    first commit IA
+
+[33mcommit 54de76486b457bc03555eb6bee5a6fef34074db2[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Mon Aug 10 22:23:18 2015 +0100
+
+    Rewrite action method
+
+[33mcommit fcd986bab61088f551710de7e0e6455f3fc08224[m
+Merge: 87adf80 6eac97a
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:51:18 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 87adf802f5691a81c0d61f2f293538021fcdec49[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:50:57 2015 +0200
+
+    new map
+
+[33mcommit 6eac97a43b71a730807103161f0f2b506fcbce94[m
+Merge: 0041ac2 3feb3aa
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Aug 7 00:41:56 2015 +0100
+
+    fix
+
+[33mcommit 0041ac2b9d85242e155954ee231641309a25b582[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Aug 7 00:41:33 2015 +0100
+
+    change params
+
+[33mcommit 3feb3aa1e370b0c82079d61e415053d256b74b81[m
+Merge: 610d6bf 8f463e5
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:34:49 2015 +0200
+
+    merge
+
+[33mcommit 610d6bf0acc2b4e28de369b809cf7345a5b40db2[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:33:59 2015 +0200
+
+    map1/2
+
+[33mcommit 8f463e50fdb2a2eae3e2d428fa4db4c32a71a5ef[m
+Merge: 2d9ed24 d1a9a56
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Aug 7 00:33:16 2015 +0100
+
+    fix merge
+
+[33mcommit 2d9ed24dda5b1ffbe9d064b242bc7831bc242d7c[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Aug 7 00:32:52 2015 +0100
+
+    add circle
+
+[33mcommit d1a9a566e89e2cc6bf7ed00a23e3ab11d9f5f786[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:20:38 2015 +0200
+
+    moine repare
+
+[33mcommit 60a8b37d822f0689bef91925bacb2924cb161639[m
+Merge: 11f0ed4 efe0296
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:15:23 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 11f0ed4ccb93a57eee9e15b093617a6f4b442df4[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:15:14 2015 +0200
+
+    collision tente reparee
+
+[33mcommit efe0296158708f67299334f19dd0a38851413478[m
+Merge: e226f37 01f6310
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Aug 7 00:12:54 2015 +0100
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit e226f375adb55f1eec62a357b6ec4677d2783fba[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Fri Aug 7 00:12:40 2015 +0100
+
+    sound in game controled
+
+[33mcommit 01f6310cd83c411b5dbea1c2efd7996d650253f0[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:10:11 2015 +0200
+
+    mythe
+
+[33mcommit 03dc134b1893253a2629c87b5affcb17031155a8[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 01:00:00 2015 +0200
+
+    try01
+
+[33mcommit 61e54268233f8043f805e3856586597f235e1824[m
+Merge: f591262 983b353
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 00:59:48 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit f59126235014f2a1a5b8acc9586ec8085007b5ef[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 00:57:24 2015 +0200
+
+    fleche restauree
+
+[33mcommit 983b35389c67dcd5f069989fa78b4eb48ba65a20[m
+Merge: ab3fb07 623727d
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 23:41:33 2015 +0100
+
+    fix
+
+[33mcommit ab3fb077a9c74c827b65ef54df164d02f0525e4a[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 23:39:49 2015 +0100
+
+    add things
+
+[33mcommit 623727d7c07d46c6e891b12e33d1a994b865ea33[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 00:38:09 2015 +0200
+
+    r
+
+[33mcommit e2083defe736e70336cbd86135e268764d21d79e[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Fri Aug 7 00:16:02 2015 +0200
+
+    e
+
+[33mcommit 4b0cf93b12d4220cd1754d515df7e713c5f8cd5b[m
+Merge: 125f2c6 6615a28
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 23:16:16 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 125f2c6d10fe342d9a232939a87ed280904c90f3[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 23:16:07 2015 +0200
+
+    e
+
+[33mcommit 6615a28b3bdbb123e9797e365cdbf885f2cf2478[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 22:15:27 2015 +0100
+
+    solve range magician
+
+[33mcommit 647941c87ccc18a870c80cb6f2c250f5b2428b3f[m
+Merge: 625ef7d e739793
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 23:10:49 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 625ef7d924817e52ee79406b25a1e76eb6c9827f[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 23:10:29 2015 +0200
+
+    e
+
+[33mcommit e73979316012c7bc48131be44333bef0125db8ea[m
+Merge: b284b56 fb690c0
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 22:05:47 2015 +0100
+
+    e
+
+[33mcommit b284b560caffa313c7b6567262b1b7f4a0124845[m
+Merge: 763863c e0f1a8e
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 22:04:52 2015 +0100
+
+    e
+
+[33mcommit fb690c065d48573da432e690fea4b8a158f51d74[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 23:03:41 2015 +0200
+
+    e
+
+[33mcommit 763863cf507324fc16f8489e89f19465dd7e3883[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 22:00:45 2015 +0100
+
+    add background music
+
+[33mcommit 1f2f1c7673249811588d31ce708ccbf1db039136[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 21:42:12 2015 +0100
+
+    add checkpoint
+
+[33mcommit e0f1a8ea3aa811fc55a03db49bfe329acfece690[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 22:28:27 2015 +0200
+
+    e
+
+[33mcommit a3d9d24dd3e6c04e5ee709517d86eda0166f8d7e[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 22:02:48 2015 +0200
+
+    e
+
+[33mcommit 2971d53d57d16e6010d88344480c5c4336119504[m
+Merge: 8b02032 5d5cbc9
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 20:43:04 2015 +0100
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 8b02032b29a8c7abbe10be33e79db4f860503616[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 20:42:42 2015 +0100
+
+    add sightbox limitation
+
+[33mcommit 5d5cbc91f4a852efd7262faf87256c081dd82cdd[m
+Merge: 8132372 ad077c4
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 21:32:28 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 81323721ca7f573b0f7e8ffb2823f094fd64eb6b[m
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 21:32:20 2015 +0200
+
+    e
+
+[33mcommit ad077c493a08b4e99a2814e3ea690db36b192b1c[m
+Merge: 6405443 711d8a9
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 20:02:42 2015 +0100
+
+    Merge branch 'master' of github.com:Spepsi/RTS2
+
+[33mcommit 6405443566a253a0381bde74752e7d828caafe93[m
+Author: Spepsi <floriangardin@hotmail.fr>
+Date:   Thu Aug 6 20:02:25 2015 +0100
+
+    add cursor
+
+[33mcommit 711d8a929918554c995527605af36091eb09a60b[m
+Merge: 9aaf1eb 1d085ad
+Author: Kévin Bienvenu <bienvenu.kevin@sfr.fr>
+Date:   Thu Aug 6 20:24:53 2015 +0200
+
+    Merge branch 'master' of github.com:Spepsi/RTS2

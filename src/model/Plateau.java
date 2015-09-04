@@ -200,7 +200,7 @@ public class Plateau {
 		}
 
 		// Update selection
-		for(int i=0;i<nTeams;i++){
+		for(int i=0;i<=nTeams;i++){
 			for(Character c: selection.get(i)){
 				if(!c.isAlive()){
 					this.removeSelection(c, i);
@@ -247,7 +247,7 @@ public class Plateau {
 		}
 
 		// Clear the vector :
-		for(int i = 0;i<nTeams;i++){
+		for(int i = 0;i<=nTeams;i++){
 			toAddSelection.get(i).clear();
 			toRemoveSelection.get(i).clear();
 		}
@@ -512,9 +512,12 @@ public class Plateau {
 		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
-		for(int player=1; player<1+ims.size(); player++){
-
-			im = ims.get(player-1);
+		for(int player=1; player<this.g.players.size(); player++){
+			im = null;
+			for(InputModel inp : ims)
+				if(inp.team==player)
+					im = inp;
+			//im = ims.get(player-1);
 			if(im!=null){
 				if(player==this.g.currentPlayer && this.rectangleSelection.get(g.currentPlayer)==null && !im.leftClick){
 					// Move camera according to inputs :
@@ -530,15 +533,9 @@ public class Plateau {
 					if((im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10)&& this.Xcam<this.maxX-this.g.resX/2){
 						Xcam += 10;
 					}
-					if(im.isPressedLeftClick){
-						this.clearSelection(player);
-					}
-					// Update the rectangle
-					
 				}
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
-						this.g.players.get(player).groupSelection = to;
 						if(im.isPressedCTRL){
 							// Creating a new group made of the selection
 							this.g.players.get(player).groups.get(to).clear();
@@ -553,12 +550,11 @@ public class Plateau {
 							for(Character c: this.g.players.get(player).groups.get(to))
 								this.selection.get(player).add(c);
 						}
-						System.out.println("group "+ player + " " + to + " "+ this.g.players.get(player).groups.get(to));
+						this.g.players.get(player).groupSelection = to;
 					}
 				}
 				if(!im.leftClick){
 					// The button is not pressed and wasn't, the selection is non null
-
 					this.rectangleSelection.set(player, null);
 				}
 				// Split click bottom bar and not bottom bar
@@ -777,7 +773,6 @@ public class Plateau {
 						this.selection.get(this.g.currentPlayer).addElement(c2);
 			}
 		}
-		this.g.outputReceiver.lock = false;
 		// Remove objets from lists
 		this.clean();
 	}
@@ -791,8 +786,9 @@ public class Plateau {
 		this.gf.setColor(new Color(50,50,50));
 		gf.fillRect(0, 0, resX, resY);
 		gf.setColor(Color.white);
-		for(Objet o:visibleObjet)
+		for(Objet o:visibleObjet){
 			gf.fillOval(o.x-Xcam-o.sight,o.y-Ycam-o.sight,o.sight*2f,o.sight*2f);
+		}
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(fog,Xcam,Ycam);		
@@ -807,13 +803,14 @@ public class Plateau {
 		for(Building c: this.buildings)
 			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
-
 		return obj;
 	}
 
 	public boolean isVisibleByPlayer(int player, Objet objet){
 		if(objet.x+objet.sight<Xcam||objet.x-objet.sight>Xcam+this.g.resX||objet.y+objet.sight<Ycam||objet.y-objet.sight>Ycam+this.g.resY)
 			return false;
+		if(objet.team==player)
+			return true;
 		for(Character c: this.characters)
 			if(c.team==player && Utils.distance(c, objet)<c.sight)
 				return true;

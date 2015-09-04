@@ -88,7 +88,12 @@ public class OutputModel extends MultiObjetModel{
 		return s;
 	}
 
-
+	public static class OutputBuilding{
+		public float x, y;
+		public float sizeX, sizeY;
+		public int id;
+		public int typeBuilding;
+	}
 
 	public static class OutputBullet{
 		public float x,y,vx,vy;
