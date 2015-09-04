@@ -191,7 +191,7 @@ public class MenuIntro extends Menu {
 		} else {
 			this.timeToGame -= 1f;
 			if(timeToGame<0f){
-				this.game.newGame();
+				this.game.newGame(true);
 				this.game.quitMenu();
 			}
 		}

@@ -277,15 +277,15 @@ public class Game extends BasicGame
 
 	}
 
-	public void newGame(){
+	public void newGame(boolean host){
 		//Clean all variables
 		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 		this.players.add(new Player(2));
-
-		this.map.createMap1(plateau);
+		if(host)
+			this.map.createMap1(plateau);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			this.bottomBars = new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
@@ -295,7 +295,7 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
-		newGame();
+		newGame(false);
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
 			if(co instanceof ConnectionTree){

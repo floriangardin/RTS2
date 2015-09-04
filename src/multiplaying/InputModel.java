@@ -90,7 +90,7 @@ public class InputModel extends MultiObjetModel{
 			case 14: this.isPressedDOT = boolBuffer;break;
 			case 15: this.isPressedENTER = boolBuffer; break;
 			default:
-				this.isPressedNumPad[i-14] = boolBuffer;break;
+				this.isPressedNumPad[i-16] = boolBuffer;break;
 			}
 		}
 	}
