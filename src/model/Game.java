@@ -213,7 +213,8 @@ public class Game extends BasicGame
 					if(player!=currentPlayer){
 						if(this.inputs.size()>0){
 							im = this.inputs.get(0);
-							this.inputs.clear();
+							im = this.inputs.remove(0);
+							System.out.println("Game line 217 + taille buffer: " + this.inputs.size());
 							ims.add(im);
 						}
 					} else {
