@@ -519,21 +519,11 @@ public class Plateau {
 					im = inp;
 			//im = ims.get(player-1);
 			if(im!=null){
-				if(player==this.g.currentPlayer && this.rectangleSelection.get(g.currentPlayer)==null && !im.leftClick){
-					// Move camera according to inputs :
-					if((im.isPressedUP || im.yMouse<Ycam+10)&&this.Ycam>-this.g.resY/2){
-						Ycam -= 10;
-					}
-					if((im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10) && this.Ycam<this.maxY-this.g.resY/2){
-						Ycam +=10;
-					}
-					if((im.isPressedLEFT|| im.xMouse<Xcam+10) && this.Xcam>-this.g.resX/2 ){
-						Xcam -=10;
-					}
-					if((im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10)&& this.Xcam<this.maxX-this.g.resX/2){
-						Xcam += 10;
-					}
-				}
+				
+				//updating the view
+				if(player==g.currentPlayer)
+					this.updateView(im);
+				
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
 						if(im.isPressedCTRL){
@@ -569,12 +559,12 @@ public class Plateau {
 				}
 				//Bottom Bar
 				else if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
-					
+
 					BottomBar b = this.g.players.get(player).bottomBar;
 					//If click on minimap
 					if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
 							b.startX+b.w && this.rectangleSelection.get(player)==null){
-						
+
 						// Put camera where the click happened
 						Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-this.g.resX/2f;
 						Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-this.g.resY/2f;
@@ -587,7 +577,7 @@ public class Plateau {
 				}
 				// FIELD
 				else if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
-					
+
 					if(im.leftClick){
 						// As long as the button is pressed, the selection is updated
 						if(rectangleSelection.get(player)==null){
@@ -695,19 +685,8 @@ public class Plateau {
 				this.rectangleSelection.set(player, null);
 			}
 
-			// Move camera according to inputs :
-			if(im.isPressedUP || im.yMouse<Ycam+10){
-				Ycam -= 10;
-			}
-			if(im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10){
-				Ycam +=10;
-			}
-			if(im.isPressedLEFT|| im.xMouse<Xcam+10){
-				Xcam -=10;
-			}
-			if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
-				Xcam += 10;
-			}
+			this.updateView(im);
+
 		}
 		if(om!=null){
 			// Characters
@@ -772,6 +751,43 @@ public class Plateau {
 		}
 		// Remove objets from lists
 		this.clean();
+	}
+
+	public void updateView(InputModel im){
+		if(this.rectangleSelection.get(g.currentPlayer)==null && !im.leftClick){
+			// Move camera according to inputs :
+			if((im.isPressedUP || im.yMouse<Ycam+10)&&this.Ycam>-this.g.resY/2){
+				Ycam -= 10;
+			}
+			if((im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10) && this.Ycam<this.maxY-this.g.resY/2){
+				Ycam +=10;
+			}
+			if((im.isPressedLEFT|| im.xMouse<Xcam+10) && this.Xcam>-this.g.resX/2 ){
+				Xcam -=10;
+			}
+			if((im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10)&& this.Xcam<this.maxX-this.g.resX/2){
+				Xcam += 10;
+			}
+		}
+		
+		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(g.currentPlayer).bottomBar.y){
+
+			BottomBar b = this.g.players.get(g.currentPlayer).bottomBar;
+			//If click on minimap
+			if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
+					b.startX+b.w && this.rectangleSelection.get(g.currentPlayer)==null){
+
+				// Put camera where the click happened
+				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-this.g.resX/2f;
+				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-this.g.resY/2f;
+			}
+			if(this.rectangleSelection.get(g.currentPlayer)!=null){
+				Rectangle r  = this.rectangleSelection.get(g.currentPlayer);
+				rectangleSelection.get(g.currentPlayer).setBounds( (float)Math.min(recX.get(g.currentPlayer),im.xMouse), (float)Math.min(recY.get(g.currentPlayer), im.yMouse),
+						(float)Math.abs(im.xMouse-recX.get(g.currentPlayer))+0.1f, (float)Math.abs(this.g.players.get(g.currentPlayer).bottomBar.y+im.Ycam-2f-recY.get(g.currentPlayer))+0.1f);
+			}
+		}
+		
 	}
 
 	// drawing method
