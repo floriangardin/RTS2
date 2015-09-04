@@ -761,6 +761,7 @@ public class Plateau {
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(fog,Xcam,Ycam);		
 		g.setDrawMode(Graphics.MODE_NORMAL);
+		//Utils.printCurrentState(this);
 	}
 
 	private Vector<Objet> getInCamObjets(int team) {
@@ -771,7 +772,6 @@ public class Plateau {
 		for(Building c: this.buildings)
 			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
-		System.out.println(obj.size());
 		return obj;
 	}
 	

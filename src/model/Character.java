@@ -48,6 +48,7 @@ public class Character extends ActionObjet{
 		this.p = p;
 		this.name = "Character";
 		this.sight = 100f;
+		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.selection_circle = this.p.images.selection_circle;
 		Image imagea = this.p.images.corps;
