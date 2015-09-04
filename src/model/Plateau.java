@@ -512,8 +512,9 @@ public class Plateau {
 		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
-		for(int player=1; player<=this.g.players.size(); player++){
+		for(int player=1; player<this.g.players.size(); player++){
 			im = null;
+			System.out.println("vaneau: "+player + " + " + ims);
 			for(InputModel inp : ims)
 				if(inp.team==player)
 					im = inp;
