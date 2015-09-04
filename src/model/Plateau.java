@@ -575,9 +575,9 @@ public class Plateau {
 				if(this.selection!=null){
 					// The button is not pressed and wasn't, the selection is non null
 					this.updateSelection(rectangleSelection.get(player), player);
-					
+
 				}
-				
+
 
 				// Action for player k
 				if(im.isPressedRightClick){
@@ -731,8 +731,12 @@ public class Plateau {
 		this.gf.setColor(new Color(50,50,50));
 		gf.fillRect(0, 0, resX, resY);
 		gf.setColor(Color.white);
-		for(Objet o:visibleObjet)
+		System.out.print(this.g.currentPlayer+ " - ");
+		for(Objet o:visibleObjet){
 			gf.fillOval(o.x-Xcam-o.sight,o.y-Ycam-o.sight,o.sight*2f,o.sight*2f);
+			System.out.print(this.g.currentPlayer+" "+o.x+" "+o.y+" "+Xcam+" "+Ycam+" * ");
+		}
+		System.out.println();
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(fog,Xcam,Ycam);		
@@ -740,7 +744,6 @@ public class Plateau {
 	}
 
 	private Vector<Objet> getInCamObjets(int team) {
-		System.out.println("Plateau line 743   : team " + team+" Xcam "+Xcam+ " Ycam "+Ycam);
 		Vector<Objet> obj = new Vector<Objet>();
 		for(Character c: this.characters)
 			if(c.team==team&&(c.x+c.sight>Xcam&&c.x-c.sight<Xcam+this.g.resX&&c.y+c.sight>Ycam&&c.y-c.sight<Ycam+this.g.resY))
@@ -750,7 +753,7 @@ public class Plateau {
 				obj.add(c);
 		return obj;
 	}
-	
+
 	public boolean isVisibleByPlayer(int player, Objet objet){
 		if(objet.x+objet.sight<Xcam||objet.x-objet.sight>Xcam+this.g.resX||objet.y+objet.sight<Ycam||objet.y-objet.sight>Ycam+this.g.resY)
 			return false;
