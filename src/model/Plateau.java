@@ -200,7 +200,7 @@ public class Plateau {
 		}
 
 		// Update selection
-		for(int i=0;i<nTeams;i++){
+		for(int i=0;i<=nTeams;i++){
 			for(Character c: selection.get(i)){
 				if(!c.isAlive()){
 					this.removeSelection(c, i);
@@ -247,7 +247,7 @@ public class Plateau {
 		}
 
 		// Clear the vector :
-		for(int i = 0;i<nTeams;i++){
+		for(int i = 0;i<=nTeams;i++){
 			toAddSelection.get(i).clear();
 			toRemoveSelection.get(i).clear();
 		}
@@ -535,9 +535,6 @@ public class Plateau {
 					if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
 						Xcam += 10;
 					}
-					if(im.isPressedLeftClick){
-						this.clearSelection(player);
-					}
 				}
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
@@ -559,7 +556,6 @@ public class Plateau {
 						System.out.println("group "+ player + " " + to + " "+ this.g.players.get(player).groups.get(to));
 					}
 				}
-
 				if(im.isPressedLeftClick){
 					this.clearSelection(player);
 				}
