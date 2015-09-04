@@ -178,7 +178,7 @@ public class MenuMulti extends Menu {
 					this.game.connexions.clear();
 					this.game.newGame();
 					this.game.toSendConnexions.clear();
-					this.game.connexionSender = new MultiSender(this.game.app, this.game, addressEnemy, 2344, this.game.toSendConnexions);
+					this.game.connexionSender = new MultiSender(this.game.app, this.game, addressEnemy, this.game.portConnexion, this.game.toSendConnexions);
 					this.game.connexionSender.start();
 					ConnectionModel cm = new ConnectionModel(addressLocal,this.game.plateau.toAddNaturalObjets);
 					this.game.toSendConnexions.add(cm.toString());
@@ -293,7 +293,7 @@ public class MenuMulti extends Menu {
 	public void setInHost(boolean inHost){
 		this.inHost = inHost;
 		if(inHost){
-			this.game.connexionReceiver = new MultiReceiver(this.game, 2344);
+			this.game.connexionReceiver = new MultiReceiver(this.game, this.game.portConnexion);
 			this.game.connexionReceiver.start();
 			this.items = this.hostItems;
 		} else {
@@ -318,8 +318,8 @@ public class MenuMulti extends Menu {
 	public void sendRequest(String IP){
 		try {
 			InetAddress ia = InetAddress.getByName(IP);
-			this.game.connexionSender = new MultiSender(this.game.app,this.game,ia,2344,this.game.toSendConnexions);
-			this.game.connexionReceiver = new MultiReceiver(this.game, 2344);
+			this.game.connexionSender = new MultiSender(this.game.app,this.game,ia,this.game.portConnexion,this.game.toSendConnexions);
+			this.game.connexionReceiver = new MultiReceiver(this.game, this.game.portConnexion);
 			this.game.connexionReceiver.start();
 			this.game.connexionSender.start();
 			this.game.toSendConnexions.add("2"+localIP);
@@ -337,7 +337,7 @@ public class MenuMulti extends Menu {
 	}
 	public void sendMessage(String msg){
 		InetAddress ia = addressEnemy;
-		this.game.connexionSender = new MultiSender(this.game.app,this.game,ia,2344,this.game.toSendConnexions);
+		this.game.connexionSender = new MultiSender(this.game.app,this.game,ia,this.game.portConnexion,this.game.toSendConnexions);
 		this.game.connexionSender.start();
 		this.game.toSendConnexions.add("2"+msg);
 		while(this.game.toSendConnexions.size()>0){try{Thread.sleep(100);}catch(InterruptedException e){}}
@@ -352,7 +352,7 @@ public class MenuMulti extends Menu {
 			this.game.addressClient = addressLocal;
 			this.game.addressHost = addressEnemy;			
 		}
-		this.game.inputSender = new MultiSender(this.game.app,this.game,game.addressHost,2345,this.game.toSendInputs);
-		this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressClient, 2346, this.game.toSendOutputs);
+		this.game.inputSender = new MultiSender(this.game.app,this.game,game.addressHost,this.game.portInput,this.game.toSendInputs);
+		this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressClient, this.game.portOutput, this.game.toSendOutputs);
 	}
 }

@@ -53,6 +53,10 @@ public class Game extends BasicGame
 	// Network and multiplaying
 	protected boolean inMultiplayer;
 	public long startTime;
+	public int portConnexion = 6112;
+	public int portInput = 2345;
+	public int portOutput = 2346;
+	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
 	public InetAddress addressClient;
@@ -66,11 +70,11 @@ public class Game extends BasicGame
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
 	// Sender and Receiver
-	public MultiReceiver inputReceiver = new MultiReceiver(this,2345);
-	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,2345,this.toSendInputs);
-	public MultiReceiver outputReceiver = new MultiReceiver(this,2346);
-	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, 2346, this.toSendOutputs);
-	public MultiReceiver connexionReceiver = new MultiReceiver(this,2344);
+	public MultiReceiver inputReceiver = new MultiReceiver(this,portInput);
+	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,portInput,this.toSendInputs);
+	public MultiReceiver outputReceiver = new MultiReceiver(this,portOutput);
+	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, portOutput, this.toSendOutputs);
+	public MultiReceiver connexionReceiver = new MultiReceiver(this,portConnexion);
 	public MultiSender connexionSender;
 	public boolean isHost;
 	//Debugging network
