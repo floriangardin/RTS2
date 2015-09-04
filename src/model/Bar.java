@@ -1,6 +1,7 @@
 package model;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 public abstract class Bar {
 		
@@ -10,6 +11,7 @@ public abstract class Bar {
 		float y;
 		Player player;
 		Plateau p;
+		Image background;
 		
 	public Graphics draw(Graphics g){
 		return g;

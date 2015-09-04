@@ -99,10 +99,15 @@ public class MenuIntro extends Menu {
 			}
 			g.fillRect(0, 0, this.game.resX, this.game.resY);
 		} else {
-			for(int i=0;i<3;i++){
-				for(int j=0;j<2;j++){
-					g.drawImage(this.game.background, i*512, j*512);
+			int i = 0;
+			int j = 0;
+			while(i<this.game.maxX){
+				while(j<this.game.maxY){
+					g.drawImage(this.game.background, i,j);
+					j+=this.game.background.getHeight();
 				}
+				i+=this.game.background.getWidth();
+				j= 0;
 			}
 			Vector<Objet> toDraw = new Vector<Objet>();
 			for(Objet o: this.trees)
@@ -113,8 +118,8 @@ public class MenuIntro extends Menu {
 			for(Objet o: toDraw){
 				o.draw(g);
 			}
-			for(int i=0; i<this.items.size(); i++){
-				this.items.get(i).draw(g);
+			for(int k=0; k<this.items.size(); k++){
+				this.items.get(k).draw(g);
 			}
 			g.drawImage(this.title, this.game.resX/2f-200f, 20f);
 			g.setColor(Color.black);

@@ -516,43 +516,24 @@ public class Plateau {
 
 			im = ims.get(player-1);
 			if(im!=null){
-				if(player==this.g.currentPlayer){
+				if(player==this.g.currentPlayer && this.rectangleSelection.get(g.currentPlayer)==null && !im.leftClick){
 					// Move camera according to inputs :
-					if(im.isPressedUP || im.yMouse<Ycam+10){
+					if((im.isPressedUP || im.yMouse<Ycam+10)&&this.Ycam>-this.g.resY/2){
 						Ycam -= 10;
 					}
-					if(im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10){
+					if((im.isPressedDOWN || im.yMouse>Ycam+this.g.resY-10) && this.Ycam<this.maxY-this.g.resY/2){
 						Ycam +=10;
 					}
-					if(im.isPressedLEFT|| im.xMouse<Xcam+10){
+					if((im.isPressedLEFT|| im.xMouse<Xcam+10) && this.Xcam>-this.g.resX/2 ){
 						Xcam -=10;
 					}
-					if(im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10){
+					if((im.isPressedRIGHT || im.xMouse>Xcam+this.g.resX-10)&& this.Xcam<this.maxX-this.g.resX/2){
 						Xcam += 10;
 					}
 					if(im.isPressedLeftClick){
 						this.clearSelection(player);
 					}
 					// Update the rectangle
-					if(im.leftClick){
-						// As long as the button is pressed, the selection is updated
-						if(rectangleSelection.get(player)==null){
-							recX.set(player, (float)im.xMouse);
-							recY.set(player, (float)im.yMouse);
-							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
-						}
-						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
-					}
-					else if(this.selection!=null){
-						// The button is not pressed and wasn't, the selection is non null
-						this.updateSelection(rectangleSelection.get(player), player);
-						this.rectangleSelection.set(player, null);
-					}
-					else{
-						// We update selection when left click is released
-						this.rectangleSelection.set(player, null);
-					}
 					
 				}
 				for(int to=0; to<10; to++){
@@ -575,45 +556,100 @@ public class Plateau {
 						System.out.println("group "+ player + " " + to + " "+ this.g.players.get(player).groups.get(to));
 					}
 				}
-
-				if(im.isPressedLeftClick){
-					this.clearSelection(player);
-				}
-				// Update the rectangle
-				if(im.leftClick){
-					// As long as the button is pressed, the selection is updated
-					if(rectangleSelection.get(player)==null){
-						recX.set(player, (float)im.xMouse);
-						recY.set(player, (float)im.yMouse);
-						rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
-					}
-					rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-							(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
-				}
-				else{
+				if(!im.leftClick){
 					// The button is not pressed and wasn't, the selection is non null
-					
+
 					this.rectangleSelection.set(player, null);
 				}
-				if(this.selection!=null){
-					// The button is not pressed and wasn't, the selection is non null
-					this.updateSelection(rectangleSelection.get(player), player);
-					
-				}
-				
-
-				// Action for player k
-				if(im.isPressedRightClick){
-					if(im.isPressedMAJ){
-						updateSecondaryTarget(im.xMouse,im.yMouse,player);
-					} else {				
-						updateTarget(im.xMouse,im.yMouse,player);
+				// Split click bottom bar and not bottom bar
+				//Top Bar
+				if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)<(1f/20f)*this.g.resY){
+					if(this.rectangleSelection.get(player)!=null){
+						Rectangle r  = this.rectangleSelection.get(player);
+						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)this.g.players.get(player).topBar.y
+								+(float)this.g.players.get(player).topBar.sizeY+Ycam+2f,
+								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f+Ycam-recY.get(player))+0.1f);
 					}
 				}
-				// Update the selections of the players
-				this.g.players.get(player).selection.clear();
-				for(Character c: this.selection.get(player))
-					this.g.players.get(player).selection.addElement(c);
+				//Bottom Bar
+				else if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)>this.g.players.get(player).bottomBar.y){
+					
+					BottomBar b = this.g.players.get(player).bottomBar;
+					//If click on minimap
+					if((im.xMouse-Xcam)>b.startX && (im.xMouse-Xcam)<
+							b.startX+b.w && this.rectangleSelection.get(player)==null){
+						
+						// Put camera where the click happened
+						Xcam = (int)Math.floor((im.xMouse-Xcam-b.startX)/b.rw)-this.g.resX/2f;
+						Ycam = (int)Math.floor((im.yMouse-Ycam-b.startY)/b.rh)-this.g.resY/2f;
+						System.out.println("xcam "+Xcam+" xmouse " +im.xMouse+" startX " + b.startX);
+					}
+					if(this.rectangleSelection.get(player)!=null){
+						Rectangle r  = this.rectangleSelection.get(player);
+						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+Ycam-2f-recY.get(player))+0.1f);
+					}
+				}
+				// FIELD
+				else if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-Ycam)<=this.g.players.get(player).bottomBar.y ){
+					
+					if(im.leftClick){
+						// As long as the button is pressed, the selection is updated
+						if(rectangleSelection.get(player)==null){
+							recX.set(player, (float)im.xMouse);
+							recY.set(player, (float)im.yMouse);
+							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
+						}
+						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
+					}
+					else if(this.selection!=null){
+						// The button is not pressed and wasn't, the selection is non null
+						this.updateSelection(rectangleSelection.get(player), player);
+						this.rectangleSelection.set(player, null);
+					}
+					else{
+						// We update selection when left click is released
+						this.rectangleSelection.set(player, null);
+					}
+
+					if(im.isPressedLeftClick){
+						this.clearSelection(player);
+					}
+					// Update the rectangle
+					if(im.leftClick){
+						// As long as the button is pressed, the selection is updated
+						if(rectangleSelection.get(player)==null){
+							recX.set(player, (float)im.xMouse);
+							recY.set(player, (float)im.yMouse);
+							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
+						}
+						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
+					}
+
+					if(this.selection!=null){
+						// The button is not pressed and wasn't, the selection is non null
+						this.updateSelection(rectangleSelection.get(player), player);
+
+					}
+
+
+					// Action for player k
+					if(im.isPressedRightClick){
+						if(im.isPressedMAJ){
+							updateSecondaryTarget(im.xMouse,im.yMouse,player);
+						} else {				
+							updateTarget(im.xMouse,im.yMouse,player);
+						}
+					}
+					// Update the selections of the players
+					this.g.players.get(player).selection.clear();
+					for(Character c: this.selection.get(player))
+						this.g.players.get(player).selection.addElement(c);
+				}
+
+				
 
 			}
 		}
@@ -771,13 +807,23 @@ public class Plateau {
 		for(Building c: this.buildings)
 			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY))
 				obj.add(c);
-		System.out.println(obj.size());
+
 		return obj;
 	}
-	
+
 	public boolean isVisibleByPlayer(int player, Objet objet){
 		if(objet.x+objet.sight<Xcam||objet.x-objet.sight>Xcam+this.g.resX||objet.y+objet.sight<Ycam||objet.y-objet.sight>Ycam+this.g.resY)
 			return false;
+		for(Character c: this.characters)
+			if(c.team==player && Utils.distance(c, objet)<c.sight)
+				return true;
+		for(Building b: this.buildings)
+			if(b.team==player && Utils.distance(b,  objet)<b.sight)
+				return true;
+		return false;
+	}
+
+	public boolean isVisibleByPlayerMinimap(int player, Objet objet){
 		for(Character c: this.characters)
 			if(c.team==player && Utils.distance(c, objet)<c.sight)
 				return true;

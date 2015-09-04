@@ -13,16 +13,16 @@ public class Player {
 	int food;
 	int gold;
 	int pop;
-	
-	
+	BottomBar bottomBar;
+	TopBar topBar;
 	public Player(int team) {
 		this.selection = new Vector<Character>();
 		this.groups = new Vector<Vector<Character>>();
 		for(int i=0; i<10; i++)
 			this.groups.add(new Vector<Character>());
 		this.team = team;
-		food = 0;
-		gold = 0;
+		food = 1000;
+		gold = 20000;
 		pop = 0;
 		groupSelection = -1;
 		ennemiesKilled = 0;

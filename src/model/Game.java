@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
+import org.newdawn.slick.util.Log;
 
 import multiplaying.*;
 import multiplaying.ConnectionModel.*;
@@ -177,8 +178,11 @@ public class Game extends BasicGame
 		}
 
 		// Draw bottom bar
+		g.translate(plateau.Xcam, plateau.Ycam);
 		if(this.bottomBars!=null)
-			this.bottomBars.draw(g,plateau.Xcam,plateau.Ycam);
+			this.bottomBars.draw(g);
+		if(this.topBars!=null)
+			this.topBars.draw(g);
 	}
 	// Do our logic 
 	@Override
@@ -254,7 +258,7 @@ public class Game extends BasicGame
 			}
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam));
+			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam)));
 			// updating the game
 			if(isInMenu){
 				this.menuCurrent.update(ims.get(0));
@@ -276,7 +280,9 @@ public class Game extends BasicGame
 
 		this.map.createMap1(plateau);
 		// Instantiate BottomBars for current player:
-		this.bottomBars = new BottomBar(this.plateau,this.players.get(0),this);
+		this.bottomBars = new BottomBar(this.plateau,this.players.get(1),this);
+		this.topBars = new TopBar(this.plateau,this.players.get(1),this);
+		
 		selection = null;
 	}
 	public void newGame(ConnectionModel cm){
@@ -298,12 +304,14 @@ public class Game extends BasicGame
 
 		// Instantiate BottomBars for current player:
 		this.bottomBars = new BottomBar(this.plateau,this.players.get(1),this);
+		this.topBars = new TopBar(this.plateau,this.players.get(1),this);
 		selection = null;
 	}
 	// Init our Game objects
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
+		
 		Image cursor = new Image("pics/cursor.png");
 		this.volume = 0.2f;
 		this.soundVolume = 0.2f;
@@ -319,7 +327,7 @@ public class Game extends BasicGame
 		this.sounds = new Sounds();
 		this.images = new Images();
 		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,3,this);
-		this.background =  new Image("pics/dirt.png");
+		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
 		this.map = new Map();
@@ -327,6 +335,11 @@ public class Game extends BasicGame
 		this.startTime = System.currentTimeMillis();
 		//		Thread t1 = new Thread(new InputListener(this, this.app, 0));
 		//		t1.start();
+		
+		// Create background image manually
+
+		
+		
 		try{
 			Thread.sleep(10);
 		} catch(InterruptedException e) {}
