@@ -18,6 +18,7 @@ public class Images {
 	Image selection_rectangle;
 	Image fog;
 	Image fire;
+	Image smoke;
 	Image windmill;
 	Image windmillarms;
 	
@@ -76,6 +77,7 @@ public class Images {
 			this.cursor = new Image("pics/cursor.png");
 			this.fog = new Image("pics/fog.png");
 			this.fire = new Image("pics/fire.png");
+			this.smoke = new Image("pics/smoke.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
 			
@@ -89,9 +91,9 @@ public class Images {
 //			buildingAcademyBlue;
 //			buildingAcademyRed;
 //			buildingAcademyNeutral;
-//			buildingMillBlue;
-//			buildingMillRed;
-//			buildingMillNeutral;
+			buildingMillBlue = new Image("pics/Building/MillBlue.png");
+			buildingMillRed = new Image("pics/Building/MillRed.png");
+			buildingMillNeutral = new Image("pics/Building/MillNeutral.png");
 			buildingMineBlue = new Image("pics/Building/MineBlue.png");
 			buildingMineRed = new Image("pics/Building/MineRed.png");
 			buildingMineNeutral = new Image("pics/Building/MineNeutral.png");

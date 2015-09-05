@@ -26,15 +26,21 @@ public class BuildingMine extends Building{
 		p.g.idChar+=1;
 		this.type = 0;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.sight = 300f;
 		this.name= "Mine";
 		this.maxLifePoints = p.constants.millLifePoints;
 		this.chargeTime = p.constants.mineChargeTime;
 		this.lifePoints = p.constants.mineLifePoints;
-		this.sizeX = 150f; 
-		this.sizeY = 200f;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.windmill;
+		this.sizeX = p.constants.mineSizeX;
+		this.sizeY = p.constants.mineSizeY;
+		this.sight = p.constants.mineSight;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		if(team==1){
+			this.image = this.p.images.buildingMineBlue;
+		} else if(team==2){
+			this.image = this.p.images.buildingMineRed;
+		} else {
+			this.image = this.p.images.buildingMineNeutral;
+		}
 		
 	}
 	
@@ -51,8 +57,15 @@ public class BuildingMine extends Building{
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 
 		this.sizeY = ocb.sizeY;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.windmill;
+		this.sight = ocb.sight;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		if(team==1){
+			this.image = this.p.images.buildingMineBlue;
+		} else if(team==2){
+			this.image = this.p.images.buildingMineRed;
+		} else {
+			this.image = this.p.images.buildingMineNeutral;
+		}
 	}
 	
 	public void action(){
@@ -63,6 +76,13 @@ public class BuildingMine extends Building{
 		}
 		if(this.lifePoints<10f){
 			this.team = this.teamCapturing;
+			if(team==1){
+				this.image = this.p.images.buildingMineBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingMineRed;
+			} else {
+				this.image = this.p.images.buildingMineNeutral;
+			}
 			this.lifePoints=this.maxLifePoints;
 			this.constructionPhase = true;
 		}
@@ -70,7 +90,7 @@ public class BuildingMine extends Building{
 	
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-152f, this.y-320f);
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 291, 291);
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints
 			g.setColor(Color.red);

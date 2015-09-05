@@ -35,8 +35,8 @@ public class Map {
 		// Instantiate enemy generator :
 
 		
-		new BuildingMill(plateau,plateau.g,1200f,500f);
-		new BuildingMine(plateau,plateau.g,1200f,800f);
+		new BuildingMill(plateau,plateau.g,1200f,300f);
+		new BuildingMine(plateau,plateau.g,900f,800f);
 
 
 		new Barrack(plateau,plateau.g,520f,700f);
