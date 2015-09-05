@@ -43,7 +43,9 @@ public class ContactWeapon extends Weapon {
 			}
 					
 			c.lifePoints+=-damage;
-
+			if(c.lifePoints<=1f){
+				c.lifePoints = 1f;
+			}
 			// Reset the state
 			this.state = 0f;
 		}

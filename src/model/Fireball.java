@@ -107,6 +107,12 @@ public class Fireball extends Bullet {
 
 			}
 		}
+		for(Building c : this.p.buildings){
+			if(c.collisionBox.intersects(area) && c.team!=this.owner.team){
+				this.boom(c);
+
+			}
+		}
 		this.explosion = true;
 	}
 	public void boom(Character c){
@@ -114,6 +120,15 @@ public class Fireball extends Bullet {
 		if(c.weapon!= null && c.weapon instanceof Bow)
 			damage = damage * this.p.constants.bonusWandBow;
 		c.lifePoints-=this.damage;
+		
+	}
+	
+	public void boom(Building c){
+		float damage = this.damage;
+		c.lifePoints-=this.damage;
+		if(c.lifePoints<=1f){
+			c.lifePoints=1f;
+		}
 		
 	}
 

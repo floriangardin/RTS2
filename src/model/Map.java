@@ -45,41 +45,34 @@ public class Map {
 	}
 
 	public void createMapLan(Plateau plateau){
-		//Instantiate allies
-		Character[] team = new Character[5];
-		for(int i=0;i<5;i++){
-			switch(i){
-			case 0: team[i]=Character.createSpearman(plateau,1,500f+10f*i,500f);break;
-			case 1: team[i]=Character.createBowman(plateau,1,500f+10f*i,500f);break;
-			case 2: team[i]=Character.createKnight(plateau,1,500f+10f*i,500f);break;
-			case 3: team[i]=Character.createPriest(plateau,1,500f+10f*i,500f);break;
-			case 4: team[i]=Character.createWizard(plateau,1,500f+10f*i,500f);break;
-			}
-			plateau.g.players.get(0).groups.get(i).add(team[i]);
-		}
-		Character.createBowman(plateau, 2, 101f, 100f);
-		Character.createBowman(plateau, 2, 102f, 100f);
-		Character.createBowman(plateau, 2, 100f, 100f);
-		Character.createBowman(plateau, 2, 103f, 100f);
-//	
-//		for(int i = 0;i<9; i++){
-//			new Water(395f+32*i,570f,32f,32f,plateau);
-//		}
-		for(int i = 0;i<3; i++){
-			new Tree(368f,490f+32*i,plateau,4);
-			//new Tree(682f,490f+32*i,plateau,4);
-		}
-		new Tree(200f,400f,plateau,1);
-		// Instantiate enemy generator :
+		plateau.maxX = 2000f;
+		plateau.maxY = 3000f;
 
+		Character.createBowman(plateau, 1, 101f, 300f);
+		Character.createKnight(plateau, 1, 102f, 300f);
+		Character.createPriest(plateau, 1, 100f, 300f);
+		Character.createWizard(plateau, 1, 103f, 300f);
+		Character.createSpearman(plateau, 1, 103f, 300f);
 		
-		new BuildingMill(plateau,plateau.g,1200f,500f);
-		new BuildingMine(plateau,plateau.g,1200f,800f);
+		new BuildingMill(plateau,plateau.g,0f,100f);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
+		new Barrack(plateau,plateau.g,plateau.maxX/2,100f);
+		
+		Character.createBowman(plateau, 2, 101f, 700f);
+		Character.createKnight(plateau, 2, 102f, 700f);
+		Character.createPriest(plateau, 2, 100f, 700f);
+		Character.createWizard(plateau, 2, 103f, 700f);
+		Character.createSpearman(plateau, 2, 103f, 700f);
+		
+		new BuildingMill(plateau,plateau.g,0f,plateau.maxY-200f);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
+		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
 
+		// Barrack in the middle
+		new BuildingMill(plateau,plateau.g,0f,plateau.maxY/2);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2);
+		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
 
-		new Barrack(plateau,plateau.g,520f,700f);
-		//Barrack test = new Barrack(plateau,plateau.g,720f,700f);
-		//test.team = 2;
 	}
 	public void createMap2(Plateau plateau){
 
