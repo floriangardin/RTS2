@@ -14,6 +14,7 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
+	public int idBuilding = 0;
 
 	// Music and sounds
 	float soundVolume;

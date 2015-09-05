@@ -16,6 +16,8 @@ public class BuildingMill extends Building{
 		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
+		this.id = p.g.idBuilding;
+		p.g.idBuilding+=1;
 		this.p =p;
 		this.g =g;
 		this.team=0;
