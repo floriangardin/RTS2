@@ -510,7 +510,7 @@ public class Plateau {
 		}
 
 		if(this.toAddSelection.get(team).size()==0){
-			
+
 			for(Building o: buildings){
 				if(o.collisionBox.intersects(select) && o.team==team ){
 					//add character to team selection
@@ -586,17 +586,31 @@ public class Plateau {
 					this.rectangleSelection.set(player, null);
 				}
 				// Split click bottom bar and not bottom bar
-				System.out.println("player " + player+ "   xcam: " + im.Xcam+ "  ycam: "+im.Ycam);
 				//Top Bar
-				if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<(1f/20f)*im.resY){
+				if((im.yMouse-im.Ycam)<(1f/20f)*im.resY){
 
 
 				}
 				//Bottom Bar
-				else if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)>this.g.players.get(player).bottomBar.y){
+				else if((im.yMouse-Ycam)>this.g.players.get(player).bottomBar.y){
+					BottomBar bb = this.g.players.get(player).bottomBar;
+					float relativeXMouse = (im.xMouse-im.Xcam);
+					float relativeYMouse = (im.yMouse-im.Ycam);
+					//Handling production buildings
+					if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
+						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof ProductionBuilding){
+							if(im.leftClick){
+								((ProductionBuilding) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/bb.prodIconNb));
+							}else{
+								System.out.println("sur l'emplacement");
+							}
+								
+						}
+					}
+
 				}
 				// FIELD
-				else if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
+				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
 					//update the rectangle
 					if(im.leftClick){
 						// As long as the button is pressed, the selection is updated
