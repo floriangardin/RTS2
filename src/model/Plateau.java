@@ -752,9 +752,6 @@ public class Plateau {
 	}
 
 	public void updateView(InputModel im, int player){
-		System.out.println(im.team+ " xcam "+im.Xcam+" ycam "+im.Ycam+" resx "+im.resX+" resy "+im.resY);
-		//		this.g.players.get(im.team).bottomBar.sizeX = im.resX;
-		//		this.g.players.get(im.team).bottomBar.sizeY = 1f/6f*im.resY;
 		if(player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<im.Ycam+10)&&im.Ycam>-im.resY/2){
@@ -770,14 +767,17 @@ public class Plateau {
 				Xcam += 10;
 			}
 		}
-
-		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<(1f/20f)*im.resY){
+		float bottomTopBar = this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f;
+		// check if in topbar
+		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<bottomTopBar){
 			if(this.rectangleSelection.get(player)!=null){
 				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)this.g.players.get(player).topBar.y
 						+(float)this.g.players.get(player).topBar.sizeY+im.Ycam+2f,
 						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f+im.Ycam-recY.get(player))+0.1f);
 			}
-		} else 	if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
+		} else 
+		// check if in bottombar	
+			if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
 
 			BottomBar b = this.g.players.get(player).bottomBar;
 			//If click on minimap
@@ -790,7 +790,6 @@ public class Plateau {
 
 			}
 			if(this.rectangleSelection.get(player)!=null){
-				Rectangle r  = this.rectangleSelection.get(player);
 				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
 						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+im.Ycam-2f-recY.get(player))+0.1f);
 			}

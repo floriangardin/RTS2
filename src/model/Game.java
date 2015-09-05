@@ -32,6 +32,8 @@ public class Game extends BasicGame
 	// Bars
 	BottomBar bottomBars;
 	TopBar topBars;
+	float relativeHeightBottomBar = 1f/6f;
+	float relativeHeightTopBar = 1f/20f;
 
 	// Selection
 	Rectangle selection;
@@ -223,8 +225,11 @@ public class Game extends BasicGame
 								this.inputs.remove(0);
 							}
 							ims.add(im);
-							this.players.get(im.team).bottomBar.sizeX = resX;
-							this.players.get(im.team).bottomBar.sizeY = 1f/6f*resY;
+							this.players.get(im.team).bottomBar.sizeX = im.resX;
+							this.players.get(im.team).bottomBar.sizeY = this.relativeHeightBottomBar*im.resY;
+							this.players.get(im.team).bottomBar.y = (1f-this.relativeHeightBottomBar)*im.resY;
+							this.players.get(im.team).topBar.sizeX = im.resX;
+							this.players.get(im.team).topBar.sizeY = this.relativeHeightTopBar*im.resY;
 						}
 					} else {
 						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);

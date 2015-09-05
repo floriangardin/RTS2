@@ -17,7 +17,7 @@ public class TopBar extends Bar {
 		this.player = player;
 		this.player.topBar = this;
 		this.sizeX = resX;
-		this.sizeY = 1f/20f*resY;
+		this.sizeY = this.p.g.relativeHeightTopBar*resY;
 		this.x = 0f;
 		this.y = 0f;
 		try {
