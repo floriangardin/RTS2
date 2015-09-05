@@ -38,7 +38,10 @@ public class ContactWeapon extends Weapon {
 			//Attack !
 			// Attack sound
 			float damage = this.damage;
-			this.sound.play(1f,this.p.soundVolume);			
+			if(this.sound!=null){
+				this.sound.play(1f,this.p.soundVolume);	
+			}
+					
 			c.lifePoints+=-damage;
 
 			// Reset the state

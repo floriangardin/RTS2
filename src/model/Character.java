@@ -14,10 +14,10 @@ import multiplaying.OutputModel.OutputChar;
 
 public class Character extends ActionObjet{
 
-	protected int id;
+	
 	// General attributes
 	protected Circle sightBox;
-	protected float maxLifePoints = 100f;
+	
 	protected float armor = 0f;	
 	public float size = 20f;
 	protected float maxVelocity = 100f;
@@ -45,6 +45,7 @@ public class Character extends ActionObjet{
 	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
 	
 	public Character(Plateau p,int team,float x, float y){
+		this.maxLifePoints = 100f;
 		this.p = p;
 		this.name = "Character";
 		this.sight = 100f;

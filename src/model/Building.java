@@ -1,5 +1,7 @@
 package model;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import multiplaying.OutputModel.OutputBuilding;
@@ -14,14 +16,15 @@ public class Building extends ActionObjet{
 	public float maxLifePoints;
 	public float constructionPoints;
 	boolean constructionPhase;
-	public int id;
+
 	public int type;
-	
+
 	public Building(){}
-	
+
 	public Building(Plateau p,Game g,float x, float y){
 		p.addBuilding(this);
 		this.constructionPoints = 0f;
+		
 		destructionPhase = true;
 		isCapturing = false;
 		teamCapturing = 0;
@@ -37,28 +40,27 @@ public class Building extends ActionObjet{
 		this.image = this.p.images.tent;
 		this.sight = 300f;
 	}
-	
-	
+
+
 	public void collision(Weapon w){
 		if(!isCapturing){
-			
+
 			isCapturing = true;
 			teamCapturing = w.owner.team;
 		}
-		
+
 		if(constructionPhase && w.owner.team==this.team){
-			
+
 			this.constructionPoints+=0.1f;
 			if(this.constructionPoints>maxLifePoints){
 				this.constructionPhase=false;
 				this.destructionPhase = true;
 				this.constructionPoints = 0f;
 				this.isCapturing = false;
-				System.out.println("achieved");
 				
 			}
 		}
-		
+
 	}
 
 	public void change(OutputBuilding ocb) {
@@ -67,7 +69,7 @@ public class Building extends ActionObjet{
 		this.maxLifePoints = ocb.maxlifepoints;
 		this.constructionPoints = ocb.constrpoints;
 	}
-	
+
 	public Building(OutputBuilding ocb, Plateau p){
 		switch(ocb.typeBuilding){
 		case 0: new BuildingMill(ocb,p); break;
@@ -78,5 +80,15 @@ public class Building extends ActionObjet{
 		default:
 		}
 	}
-	
+
+	public void drawIsSelected(Graphics g){
+		g.setColor(Color.green);
+		
+		
+		g.drawImage(this.selection_circle,-60f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-100f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
+
+	}	
+
+
 }
