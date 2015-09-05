@@ -21,6 +21,7 @@ public class OutputModel extends MultiObjetModel{
 		String[] v;
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
+		toChangeBuildings = new Vector<OutputBuilding>();
 		selection = new Vector<Integer>();
 
 		for(int i=0; i<t.length; i++){
@@ -104,9 +105,9 @@ public class OutputModel extends MultiObjetModel{
 		public float sizeX, sizeY;
 		public int id;
 		public int typeBuilding;
-		public float lifepoints;
+		public float lifepoints, maxlifepoints, constrpoints;
 		public int team;
-		public OutputBuilding(int id, int type, float x, float y, float sizeX, float sizeY, float lifepoints,int team){
+		public OutputBuilding(int id, int type, float x, float y, float sizeX, float sizeY, float lifepoints, float constrpoints, float maxlifepoints,int team){
 			this.x = x;
 			this.team = team;
 			this.y = y;
@@ -115,6 +116,8 @@ public class OutputModel extends MultiObjetModel{
 			this.sizeY = sizeY;
 			this.typeBuilding = type;
 			this.lifepoints = lifepoints;
+			this.maxlifepoints = maxlifepoints;
+			this.constrpoints = constrpoints;
 		}
 		public OutputBuilding(Building b){
 			this.x = b.getX();
@@ -124,8 +127,8 @@ public class OutputModel extends MultiObjetModel{
 			this.sizeX = b.sizeX;
 			this.sizeY = b.sizeY;
 			this.lifepoints = b.lifePoints;
-			
-			
+			this.maxlifepoints = b.maxLifePoints;
+			this.constrpoints = b.constructionPoints;
 		}
 		public OutputBuilding(String s){
 			try{
@@ -136,15 +139,17 @@ public class OutputModel extends MultiObjetModel{
 			this.y = Float.parseFloat(t[3]);
 			this.sizeX = Float.parseFloat(t[4]);
 			this.sizeY = Float.parseFloat(t[5]);
-			this.id = Integer.parseInt(t[6]);
-			this.team = Integer.parseInt(t[7]);
+			this.team = Integer.parseInt(t[6]);
+			this.lifepoints = Float.parseFloat(t[7]);
+			this.maxlifepoints = Float.parseFloat(t[8]);
+			this.constrpoints = Float.parseFloat(t[9]);
 			} catch (NumberFormatException e ){
 				//System.out.println(s);
 			}
 		}
 		public String toString(){
 			String s = "";
-			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+id+" "+team;
+			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+team+" "+lifepoints+" "+maxlifepoints+" "+constrpoints;
 			return s;
 		}
 	}

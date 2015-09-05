@@ -2,6 +2,8 @@ package model;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import multiplaying.OutputModel.OutputBuilding;
+
 public class Building extends ActionObjet{
 	Game g;
 	public float sizeX;
@@ -9,8 +11,8 @@ public class Building extends ActionObjet{
 	int teamCapturing;
 	boolean isCapturing;
 	boolean destructionPhase;
-	float maxLifePoints;
-	float constructionPoints;
+	public float maxLifePoints;
+	public float constructionPoints;
 	boolean constructionPhase;
 	public int id;
 	public int type;
@@ -57,6 +59,24 @@ public class Building extends ActionObjet{
 			}
 		}
 		
+	}
+
+	public void change(OutputBuilding ocb) {
+		this.lifePoints = ocb.lifepoints;
+		this.team = ocb.team;	
+		this.maxLifePoints = ocb.maxlifepoints;
+		this.constructionPoints = ocb.constrpoints;
+	}
+	
+	public Building(OutputBuilding ocb, Plateau p){
+		switch(ocb.typeBuilding){
+		case 0: break;
+		case 1: break;
+		case 2: break;
+		case 3: break;
+		case 4: break;
+		default:
+		}
 	}
 	
 }

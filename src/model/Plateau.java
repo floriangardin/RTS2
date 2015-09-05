@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
 import multiplaying.*;
+import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
 
@@ -635,6 +636,9 @@ public class Plateau {
 			else
 				om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
 		}
+		for(Building b: this.buildings){
+			om.toChangeBuildings.add(new OutputBuilding(b));
+		}
 		return om;
 	}
 
@@ -716,6 +720,32 @@ public class Plateau {
 				if(toErase)
 					this.toRemoveBullets.addElement(c2);
 			}
+			// Buildings
+			// Changing buildings
+			Building bu=null;
+			for(OutputBuilding ocb : om.toChangeBuildings){
+				bu = null;
+				for(Building b2: this.buildings)
+					if(b2.id==ocb.id)
+						bu = b2;
+				if(bu!=null){
+					bu.change(ocb);
+				}else{
+					new Building(ocb, this);
+				}
+
+			}
+			toErase = true;
+			for(Building c2: this.buildings){
+				toErase = true;
+				for(OutputBuilding occ : om.toChangeBuildings){
+					if(occ.id==c2.id)
+						toErase = false;
+				}
+				if(toErase)
+					this.toRemoveBuildings.addElement(c2);
+			}
+			//selections
 			this.selection.set(this.g.currentPlayer, new Vector<Character>());
 			for(int i : om.selection){
 				for(Character c2: this.characters)
