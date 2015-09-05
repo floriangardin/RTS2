@@ -33,8 +33,8 @@ public class HeadQuarters extends Building {
 		type= 5;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
-		this.id = p.g.idBuilding;
-		p.g.idBuilding+=1;
+		this.id = p.g.idChar;
+		p.g.idChar+=1;
 		this.x = f;
 		this.y = h;
 		this.sizeX = 120f; 

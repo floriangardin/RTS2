@@ -19,23 +19,29 @@ public class Barrack extends ProductionBuilding{
 		constructionPhase = false;
 		destructionPhase = true;
 		isCapturing = false;
-		this.sight = 300f;
 		this.p = plateau ;
 		maxLifePoints = p.constants.barrackLifePoints;
+		this.sizeX = this.p.constants.barrackSizeX; 
+		this.sizeY = this.p.constants.barrackSizeY;
+		this.sight = this.p.constants.barrackSight;
 		this.name = "Barrack";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
 		type= 3;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
-		this.id = p.g.idBuilding;
-		p.g.idBuilding+=1;
+		this.id = p.g.idChar;
+		p.g.idChar+=1;
 		this.x = f;
 		this.y = h;
-		this.sizeX = 285f; 
-		this.sizeY = 348f/2f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.image = this.p.images.buildingBarrackNeutral;
+		if(team==1){
+			this.image = this.p.images.buildingBarrackBlue;
+		} else if(team==2){
+			this.image = this.p.images.buildingBarrackRed;
+		} else {
+			this.image = this.p.images.buildingBarrackNeutral;
+		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
@@ -44,10 +50,6 @@ public class Barrack extends ProductionBuilding{
 		this.productionTime.addElement(this.p.constants.spearmanProdTime);
 		this.productionList.addElement(UnitsList.Bowman);
 		this.productionTime.addElement(this.p.constants.bowmanProdTime);
-		
-		
-		
-
 	}
 
 	public Barrack(OutputBuilding ocb, Plateau p){
@@ -61,10 +63,18 @@ public class Barrack extends ProductionBuilding{
 		this.x = ocb.x;
 		this.y = ocb.y;
 		this.id = ocb.id;
-		this.sizeX = 285f; 
-		this.sizeY = 285f*2f/3f;
+		this.sizeX = this.p.constants.barrackSizeX; 
+		this.sizeY = this.p.constants.barrackSizeY;
+		this.sight = this.p.constants.barrackSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.buildingBarrackNeutral;
+		if(ocb.team==1){
+			this.image = this.p.images.buildingBarrackBlue;
+		} else if(ocb.team==2){
+			this.image = this.p.images.buildingBarrackRed;
+		} else {
+			this.image = this.p.images.buildingBarrackNeutral;
+		}
+		
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
@@ -73,8 +83,6 @@ public class Barrack extends ProductionBuilding{
 		this.productionTime.addElement(this.p.constants.spearmanProdTime);
 		this.productionList.addElement(UnitsList.Bowman);
 		this.productionTime.addElement(this.p.constants.bowmanProdTime);
-		
-		
 	}
 
 	public void product(int unit){

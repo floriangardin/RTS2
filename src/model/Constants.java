@@ -66,6 +66,10 @@ public class Constants {
 	public int barrackLifePoints = 200;
 	public float spearmanProdTime = 40f;
 	public float bowmanProdTime = 60f;
+	public float barrackSight = 300f;
+	public float barrackSizeX = 285f;
+	public float barrackSizeY = 285f*2f/3f;
+	
 	//Stable
 	public int stableLifePoints = 200;
 	
