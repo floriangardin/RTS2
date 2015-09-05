@@ -319,6 +319,8 @@ public class Game extends BasicGame
 		}
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
+		this.bottomBars.player = this.players.get(this.currentPlayer);
+		this.topBars.player = this.players.get(this.currentPlayer);
 	}
 	// Init our Game objects
 	@Override

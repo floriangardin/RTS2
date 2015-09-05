@@ -115,13 +115,13 @@ public class BottomBar extends Bar {
 		// Draw units on camera :
 		
 		for(Character c : this.p.characters){		
-			if(c.team==1){
+			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
 					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
 				}
 			}
-			else{
+			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
 					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
