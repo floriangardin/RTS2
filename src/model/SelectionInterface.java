@@ -22,7 +22,7 @@ public class SelectionInterface extends Bar {
 		
 		// Draw the selection of current player
 		float startX = this.x+10f;
-		@SuppressWarnings("unused")
+		
 		float startY = this.y+20f;
 		g.setColor(Color.red);
 		// Draw 4 separations
@@ -35,11 +35,19 @@ public class SelectionInterface extends Bar {
 				g.setColor(Color.white);
 			}
 		}
-		int compteur = 0;
+		
 
 		// Draw building state
-		if(this.player.selection.get(0) instanceof ProductionBuilding){
-			ProductionBuilding p = (ProductionBuilding) this.player.selection.get(0)  ;
+		if(this.player.selection.get(0) instanceof ProductionBuilding ){
+			
+			ProductionBuilding b = (ProductionBuilding) this.player.selection.get(0)  ;
+			if(b.isProducing){
+				g.setColor(Color.red);
+				g.drawRect(startX+20f, startY+20f, 100f,20f);
+				g.setColor(Color.green);
+				g.drawRect(startX+20f, startY+20f,b.charge*100f/b.productionTime.get(b.queue.get(0)),20f);
+					
+			}
 			
 		}
 			
