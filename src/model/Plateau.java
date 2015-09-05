@@ -571,6 +571,7 @@ public class Plateau {
 					this.rectangleSelection.set(player, null);
 				}
 				// Split click bottom bar and not bottom bar
+				System.out.println("player " + player+ "   xcam: " + im.Xcam+ "  ycam: "+im.Ycam);
 				//Top Bar
 				if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<(1f/20f)*im.resY){
 
