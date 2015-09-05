@@ -14,6 +14,7 @@ public class Barrack extends ProductionBuilding{
 
 	public Barrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
+		this.animation=-1f;
 		team = 0;
 		constructionPhase = false;
 		destructionPhase = true;
@@ -31,10 +32,10 @@ public class Barrack extends ProductionBuilding{
 		p.g.idBuilding+=1;
 		this.x = f;
 		this.y = h;
-		this.sizeX = 120f; 
-		this.sizeY = 120f;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.tent;
+		this.sizeX = 285f; 
+		this.sizeY = 348f/2f;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.image = this.p.images.buildingBarrackNeutral;
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
@@ -61,9 +62,9 @@ public class Barrack extends ProductionBuilding{
 		this.y = ocb.y;
 		this.id = ocb.id;
 		this.sizeX = 285f; 
-		this.sizeY = 174f;
+		this.sizeY = 285f*2f/3f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.tent;
+		this.image = this.p.images.buildingBarrackNeutral;
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
@@ -91,6 +92,9 @@ public class Barrack extends ProductionBuilding{
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
+			this.animation+=3f;
+			if(animation>120f)
+				animation = 0f;
 			this.charge+=0.1f;
 			if(this.charge>=this.productionTime.get(this.queue.get(0))){
 				this.charge=0f;
@@ -98,24 +102,34 @@ public class Barrack extends ProductionBuilding{
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;
+					this.animation = -1f;
 				}
 			}
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
+			this.animation = -1f;
 		}
 		// if reach production reset and create first unit in the queue
 		
 		if(this.lifePoints<10f){
 
 			this.team = this.teamCapturing;
+			if(this.team==1)
+				this.image = this.p.images.buildingBarrackBlue;
+			if(this.team==2)
+				this.image = this.p.images.buildingBarrackRed;
 			this.lifePoints=this.maxLifePoints;
 			this.constructionPhase = true;
 		}
 	}
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY*3f/4f, this.x+this.sizeX/2f, this.y+this.sizeY/4f, 0, 0, 285, 348);
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 285, 285);
+		if(animation>=0f){
+			g.drawImage(this.p.images.fire, this.x+5f/18f*sizeX, this.y-24f,this.x+5f/18f*sizeX+32f, this.y+24f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
+			g.drawImage(this.p.images.fire, this.x-9f/18f*sizeX-2f, this.y-84f,this.x-9f/18f*sizeX+32f-2f, this.y-36f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
+		}
 		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints

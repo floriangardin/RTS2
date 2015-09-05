@@ -19,10 +19,10 @@ public class Map {
 			}
 			plateau.g.players.get(0).groups.get(i).add(team[i]);
 		}
+		Character.createBowman(plateau, 2, 101f, 100f);
+		Character.createBowman(plateau, 2, 102f, 100f);
 		Character.createBowman(plateau, 2, 100f, 100f);
-		Character.createBowman(plateau, 2, 100f, 100f);
-		Character.createBowman(plateau, 2, 100f, 100f);
-		Character.createBowman(plateau, 2, 100f, 100f);
+		Character.createBowman(plateau, 2, 103f, 100f);
 //	
 //		for(int i = 0;i<9; i++){
 //			new Water(395f+32*i,570f,32f,32f,plateau);
@@ -40,8 +40,8 @@ public class Map {
 
 
 		new Barrack(plateau,plateau.g,520f,700f);
-		Barrack test = new Barrack(plateau,plateau.g,720f,700f);
-		test.team = 2;
+		//Barrack test = new Barrack(plateau,plateau.g,720f,700f);
+		//test.team = 2;
 	}
 
 	public void createMap2(Plateau plateau){
