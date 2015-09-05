@@ -92,10 +92,13 @@ public class Barrack extends ProductionBuilding{
 				this.isProducing = true;
 			}
 			this.charge+=0.1f;
-			if(this.charge>=this.queue.get(0)){
+			if(this.charge>=this.productionTime.get(this.queue.get(0))){
 				this.charge=0f;
-				Character.createCharacter(p, team, x, y+this.sizeY, this.productionList.get(this.queue.get(0)));
+				Character.createCharacter(p, team, x+(float)Math.random(), y+this.sizeY/2, this.productionList.get(this.queue.get(0)));
 				this.queue.remove(0);
+				if(this.queue.size()==0){
+					this.isProducing =false;
+				}
 			}
 		}
 		else if(this.isProducing){
