@@ -114,20 +114,33 @@ public class BottomBar extends Bar {
 		g.fillRect(startX, startY, w, h);
 		// Draw units on camera :
 		
-		for(Character c : this.p.characters){
-			
-			if(c.team!=this.player.team){
+		for(Character c : this.p.characters){		
+			if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
-
 					g.setColor(Color.red);
 					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
 				}
 			}
 			else{
-				g.setColor(Color.blue);
-				g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
+				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
+					g.setColor(Color.blue);
+					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
+				}
 			}
-
+		}
+		for(Building c : this.p.buildings){		
+			if(c.team==1){
+				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
+					g.setColor(Color.red);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
+				}
+			}
+			else{
+				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
+					g.setColor(Color.blue);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
+				}
+			}
 		}
 
 		// Draw rect of camera 

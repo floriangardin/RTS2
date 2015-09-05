@@ -659,7 +659,7 @@ public class Plateau {
 
 		// 5 - creation of the outputmodel
 		for(Character c: this.characters){
-			om.toChangeCharacters.add(new OutputChar(c.id,c.team,c.x,c.y,c.lifePoints,c.typeWeapon, c.typeHorse, c.animation, c.orientation));
+			om.toChangeCharacters.add(new OutputChar(c));
 		}
 		for(Bullet b: this.bullets){
 			if(b instanceof Arrow)
@@ -896,6 +896,8 @@ public class Plateau {
 	}
 
 	public boolean isVisibleByPlayerMinimap(int player, Objet objet){
+		if(objet.team==player)
+			return true;
 		for(Character c: this.characters)
 			if(c.team==player && Utils.distance(c, objet)<c.sight)
 				return true;

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import model.Building;
 import model.Utils;
+import model.Character;
 
 public class OutputModel extends MultiObjetModel{
 
@@ -197,6 +198,7 @@ public class OutputModel extends MultiObjetModel{
 		public int id, team;
 		public int weaponType, horseType;
 		public int animation, direction;
+		public float sight;
 		/* Weapon Type
 		 * 0 - none
 		 * 1 - sword
@@ -208,17 +210,18 @@ public class OutputModel extends MultiObjetModel{
 		 * 0 - none
 		 * 1 - horse
 		 */
-		public OutputChar(int id, int team, float x, float y, float lifePoints, int weapon, int horse, int animation, int direction){
+		public OutputChar(Character c){
 			// Output to create a new character
-			this.id = id;
-			this.team = team;
-			this.x = x;
-			this.y = y;
-			this.lifePoints = lifePoints;
-			this.weaponType = weapon;
-			this.horseType = horse;
-			this.animation = animation;
-			this.direction = direction;
+			this.id = c.id;
+			this.team = c.team;
+			this.x = c.getX();
+			this.y = c.getY();
+			this.lifePoints = c.lifePoints;
+			this.weaponType = c.typeWeapon;
+			this.horseType = c.typeHorse;
+			this.animation = c.animation;
+			this.direction = c.orientation;
+			this.sight = c.sight;
 		}
 		public OutputChar(String s){
 			String[] t = Utils.split(s, ' ');
@@ -231,10 +234,11 @@ public class OutputModel extends MultiObjetModel{
 			this.horseType = Integer.parseInt(t[6]);
 			this.animation = Integer.parseInt(t[7]);
 			this.direction = Integer.parseInt(t[8]);
+			this.sight = Float.parseFloat((t[9]));
 		}
 		public String toString(){
 			String s= "";
-			s+=id+" " +team +" "+x+" "+y+" "+lifePoints+" "+weaponType+ " "+horseType+" "+animation+" "+direction;
+			s+=id+" " +team +" "+x+" "+y+" "+lifePoints+" "+weaponType+ " "+horseType+" "+animation+" "+direction+" "+sight;
 			return s;
 		}
 	}

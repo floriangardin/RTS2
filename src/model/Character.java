@@ -31,7 +31,7 @@ public class Character extends ActionObjet{
 	protected boolean someoneStopped;
 	// Equipment attributes
 	protected RidableObjet horse;
-	protected Weapon weapon;
+	public Weapon weapon;
 	public int typeWeapon, typeHorse;
 
 	// About drawing
@@ -613,6 +613,7 @@ public class Character extends ActionObjet{
 		this.lifePoints = occ.lifePoints;
 		this.animation = occ.animation;
 		this.orientation = occ.direction;
+		this.sight = occ.sight;
 		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
 			return;
 		this.changeEquipment(occ.weaponType, occ.horseType);
