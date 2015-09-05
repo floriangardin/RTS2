@@ -781,9 +781,9 @@ public class Plateau {
 
 			BottomBar b = this.g.players.get(player).bottomBar;
 			//If click on minimap
-			if((im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
+			if(player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
 					b.startX+b.w && this.rectangleSelection.get(player)==null){
-
+				System.out.println("vaneau");
 				// Put camera where the click happened
 				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-im.resX/2f;
 				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-im.resY/2f;
