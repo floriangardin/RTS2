@@ -58,11 +58,22 @@ public class Images {
 			
 			
 			//Icones
-			this.iconeBowman = new Image("pics/fireball.png").getSubImage(0, 0, 24, 24);
-			this.iconeSpearman = new Image("pics/fireball.png").getSubImage(0, 0, 24, 24);
+			this.iconeBowman = new Image("pics/iconBow.png").getSubImage(0, 0, 512, 512);
+			this.iconeSpearman = new Image("pics/iconSpear.png").getSubImage(0, 0, 512, 512);
 			
 		} catch (SlickException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public Image getIconByName(String name){
+		switch(name){
+		case "Spearman": return this.iconeSpearman;
+		case "Bowman": return this.iconeBowman;
+		case "Knight": return this.iconeKnight;
+		case "Priest": return this.iconePriest;
+		case "Wizard": return this.iconeWizard;
+		default: return null;
 		}
 	}
 
