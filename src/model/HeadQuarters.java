@@ -60,6 +60,7 @@ public class HeadQuarters extends Building {
 		this.g = p.g;
 		this.x = ocb.x;
 		this.y = ocb.y;
+		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
 		this.id = ocb.id;
 		this.sizeX = 120f; 
 		this.sizeY = 120f;

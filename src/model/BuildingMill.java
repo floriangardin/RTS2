@@ -54,6 +54,7 @@ public class BuildingMill extends Building{
 		this.sizeX = ocb.sizeX; 
 		this.sizeY = ocb.sizeY;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
 		this.image = this.p.images.windmill;
 		this.millarms = this.p.images.windmillarms.getSubImage(0, 0, 288, 320);
 	}

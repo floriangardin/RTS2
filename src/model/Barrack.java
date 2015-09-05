@@ -66,6 +66,7 @@ public class Barrack extends ProductionBuilding{
 		this.sizeX = this.p.constants.barrackSizeX; 
 		this.sizeY = this.p.constants.barrackSizeY;
 		this.sight = this.p.constants.barrackSight;
+		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		if(ocb.team==1){
 			this.image = this.p.images.buildingBarrackBlue;
