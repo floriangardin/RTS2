@@ -9,7 +9,7 @@ public abstract class ProductionBuilding extends Building {
 	Vector<Integer> queue ;
 	Vector<Float> productionTime;
 	float charge;
-	
+	boolean isProducing;
 	
 	public void product(int unit){
 		

@@ -82,18 +82,24 @@ public class Barrack extends ProductionBuilding{
 			
 			this.queue.add(unit);
 		}
-		Character.createCharacter(p, team, x, y, this.productionList.get(this.queue.get(0)));
 	}
 
 	public void action(){
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue.size()>0){
+			if(!this.isProducing){
+				this.isProducing = true;
+			}
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.get(0)){
 				this.charge=0f;
 				Character.createCharacter(p, team, x, y+this.sizeY, this.productionList.get(this.queue.get(0)));
+				this.queue.remove(0);
 			}
+		}
+		else if(this.isProducing){
+			this.isProducing = false;
 		}
 		// if reach production reset and create first unit in the queue
 		
