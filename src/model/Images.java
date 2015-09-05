@@ -50,7 +50,7 @@ public class Images {
 	public Images(){
 		try {
 			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
-			this.selection_rectangle = new Image("pics/selection_circle.png").getScaledCopy(1f/20f);
+			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
 			this.arrow = new Image("pics/arrow.png");
 			this.fireball = new Image("pics/fireball.png");
 			this.explosion = new Image("pics/explosion.png");

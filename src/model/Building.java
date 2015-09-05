@@ -89,7 +89,6 @@ public class Building extends ActionObjet{
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		
-		
 		g.drawImage(this.selection_circle,-60f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-100f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 
