@@ -25,12 +25,13 @@ public class Map {
 //		}
 		for(int i = 0;i<3; i++){
 			new Tree(368f,490f+32*i,plateau,4);
-			new Tree(682f,490f+32*i,plateau,4);
+			//new Tree(682f,490f+32*i,plateau,4);
 		}
 		new Tree(200f,400f,plateau,1);
 		// Instantiate enemy generator :
 		new EnemyGenerator(plateau,plateau.g,520f,100f);
-		new BuildingMill(plateau,plateau.g,1600f,600f);
+		new BuildingMill(plateau,plateau.g,1200f,500f);
+		new BuildingMine(plateau,plateau.g,1200f,800f);
 		new Barrack(plateau,plateau.g,520f,700f);
 	}
 

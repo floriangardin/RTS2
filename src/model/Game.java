@@ -133,7 +133,7 @@ public class Game extends BasicGame
 
 
 		// Draw the selection of your team 
-		for(Character o: plateau.selection.get(currentPlayer)){
+		for(ActionObjet o: plateau.selection.get(currentPlayer)){
 			o.drawIsSelected(g);
 		}
 		//Creation of the drawing Vector
@@ -301,6 +301,7 @@ public class Game extends BasicGame
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 		}
+		
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -10,6 +12,8 @@ public class BottomBar extends Bar {
 	SelectionInterface selection ;
 	DescriptionInterface description;
 	DisplayInterface display;
+	
+	
 	// Minimap caract
 	float startX;
 	float startY;
@@ -17,6 +21,15 @@ public class BottomBar extends Bar {
 	float h;
 	float rw;
 	float rh;
+	
+	// Production Bar
+	Building buildingToShow;
+	float prodX;
+	float prodY;
+	float prodW;
+	float prodH;
+	float icoSizeX;
+	float icoSizeY;
 	
 	public BottomBar(Plateau p ,Player player, int resX, int resY){
 		this.p = p ;
@@ -31,6 +44,7 @@ public class BottomBar extends Bar {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.buildingToShow = null;
 		this.update(resX, resY);
 	}
 
@@ -43,6 +57,14 @@ public class BottomBar extends Bar {
 		h = this.sizeY-2f;
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
+		
+		this.prodX = 2.0f*this.sizeX/3f-1f;
+		this.prodY = this.y+1f;
+		this.prodW = 0.5f*this.sizeX;
+		this.prodH = this.sizeY-2f ; 
+		this.icoSizeX = this.prodW/5f;
+		this.icoSizeY = this.prodH/3f;
+		
 		this.startX = 2.5f*this.sizeX/3f-1f;
 		this.startY = this.y+1f;
 	}
@@ -109,7 +131,15 @@ public class BottomBar extends Bar {
 		g.setColor(Color.green);
 
 		g.drawRect(hlx,hly,brx-hlx,bry-hly );
-
+		
+		
+		// Draw Production/Effect Bar
+		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof ProductionBuilding){
+			ProductionBuilding b =(ProductionBuilding) this.player.selection.get(0);
+			//Print building capacities
+			Vector<UnitsList> ul = b.productionList;
+			
+		}
 
 		return g;
 	}

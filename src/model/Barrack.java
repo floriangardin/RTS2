@@ -15,12 +15,16 @@ public class Barrack extends ProductionBuilding{
 	public Barrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		team = 0;
-		type= 3;
+		
 		isCapturing=false;
-		maxLifePoints = 50f;
+		this.constructionPhase = false;
 		this.sight = 300f;
 		this.p = plateau ;
+		maxLifePoints = p.constants.barrackLifePoints;
+		this.name = "Barrack";
 		p.addBuilding(this);
+		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		type= 3;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
 		this.id = p.g.idBuilding;

@@ -1,10 +1,13 @@
 package model;
 
+import org.newdawn.slick.Graphics;
+
 
 
 
 public abstract class ActionObjet extends Objet{
-
+	public int id;
+	public float maxLifePoints;
 	protected float vx;
 	protected float vy;
 	private Objet target;
@@ -32,6 +35,10 @@ public abstract class ActionObjet extends Objet{
 		this.target = t;
 		if(t!=null)
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+	}
+	public void drawIsSelected(Graphics g) {
+		
+		
 	}
 
 

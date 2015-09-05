@@ -56,11 +56,19 @@ public class Constants {
 
 	// Mill
 	public int millChargeTime = 5;
-	public int millLifePoints = 500;
+	public int millLifePoints = 100;
 	
 	// Mine
 	public int mineChargeTime = 5;
-	public int mineLifePoints = 500;
+	public int mineLifePoints = 100;
+	
+	// Barrack
+	public int barrackLifePoints = 200;
+	//Stable
+	public int stableLifePoints = 200;
+	
+	// Academy 
+	public int academyLifePoints = 200;
 	
 	//// Attack Bonuses
 		

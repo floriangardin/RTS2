@@ -19,6 +19,13 @@ public class Images {
 	Image windmill;
 	Image windmillarms;
 	
+	//Icones
+	Image iconeSpearman;
+	Image iconeBowman;
+	Image iconePriest;
+	Image iconeWizard;
+	Image iconeKnight;
+	
 	public Images(){
 		try {
 			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
@@ -48,6 +55,12 @@ public class Images {
 			this.fog = new Image("pics/fog.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
+			
+			
+			//Icones
+			this.iconeBowman = new Image("pics/fireball.png").getSubImage(0, 0, 24, 24);
+			this.iconeSpearman = new Image("pics/fireball.png").getSubImage(0, 0, 24, 24);
+			
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

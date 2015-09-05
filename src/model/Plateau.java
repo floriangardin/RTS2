@@ -55,9 +55,9 @@ public class Plateau {
 	protected Vector<NaturalObjet> toAddNaturalObjets;
 	protected Vector<NaturalObjet> toRemoveNaturalObjets;
 
-	protected Vector<Vector<Character>> selection;
-	protected Vector<Vector<Character>> toAddSelection;
-	protected Vector<Vector<Character>> toRemoveSelection ;
+	protected Vector<Vector<ActionObjet>> selection;
+	protected Vector<Vector<ActionObjet>> toAddSelection;
+	protected Vector<Vector<ActionObjet>> toRemoveSelection ;
 	protected Vector<Rectangle> rectangleSelection;
 	Vector<Float> recX ;
 	Vector<Float> recY ;
@@ -96,18 +96,18 @@ public class Plateau {
 		this.toAddBuildings = new Vector<Building>();
 		this.toRemoveBuildings = new Vector<Building>();
 		//SELECTION
-		this.selection = new Vector<Vector<Character>>();
-		this.toAddSelection = new Vector<Vector<Character>>();
-		this.toRemoveSelection = new Vector<Vector<Character>>();
+		this.selection = new Vector<Vector<ActionObjet>>();
+		this.toAddSelection = new Vector<Vector<ActionObjet>>();
+		this.toRemoveSelection = new Vector<Vector<ActionObjet>>();
 		this.rectangleSelection = new Vector<Rectangle>();
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
 		for(int i =0; i<=nTeams;i++){
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
-			this.selection.addElement(new Vector<Character>());
-			this.toAddSelection.addElement(new Vector<Character>());
-			this.toRemoveSelection.addElement(new Vector<Character>());
+			this.selection.addElement(new Vector<ActionObjet>());
+			this.toAddSelection.addElement(new Vector<ActionObjet>());
+			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
 			this.rectangleSelection.addElement(null);
 		}
 		try {
@@ -151,10 +151,10 @@ public class Plateau {
 	public void removeBuilding(Building o){
 		toRemoveBuildings.addElement(o);
 	}
-	public void addSelection(Character o,int team){
+	public void addSelection(ActionObjet o,int team){
 		toAddSelection.get(team).addElement(o);
 	}
-	public void removeSelection(Character o, int team){
+	public void removeSelection(ActionObjet o, int team){
 		toRemoveSelection.get(team).addElement(o);
 	}
 
@@ -202,15 +202,15 @@ public class Plateau {
 
 		// Update selection
 		for(int i=0;i<=nTeams;i++){
-			for(Character c: selection.get(i)){
+			for(ActionObjet c: selection.get(i)){
 				if(!c.isAlive()){
 					this.removeSelection(c, i);
 				}
 			}
-			for(Character o: toRemoveSelection.get(i)){
+			for(ActionObjet o: toRemoveSelection.get(i)){
 				selection.get(i).remove(o);
 			}
-			for(Character o: toAddSelection.get(i)){
+			for(ActionObjet o: toAddSelection.get(i)){
 				selection.get(i).addElement(o);
 			}
 		}
@@ -311,17 +311,17 @@ public class Plateau {
 		for(Bullet b : bullets){
 			for(NaturalObjet n: naturalObjets){
 				if(b.collisionBox.intersects(n.collisionBox))
-				b.collision(n);
+					b.collision(n);
 			}
 			for(Building c: buildings){
 				if(b.collisionBox.intersects(c.collisionBox))
-				b.collision(c);
+					b.collision(c);
 			}
 		}
 		for(Building b : buildings){
 			for(ActionObjet o : equipments){
 				if(o.collisionBox.intersects(b.collisionBox) && o instanceof Weapon){
-					
+
 					Weapon w = (Weapon) o;
 					w.collision(b);
 					b.collision(w);
@@ -388,36 +388,39 @@ public class Plateau {
 			target = new Checkpoint(this,x,y);
 		}
 		Character leader = null;
-		for(Character o:this.selection.get(team)){
-			if(leader==null){
-				leader=o;
-			}
-			//first we deal with o's elder group
-			//if o was the leader and there were other members in the group
-			if(o.isLeader() && o.group.size()>1){
-				//we set the group of the new leader
-				o.group.get(1).group = o.group;
-				//we set the new leader amongst the member of the group
-				for(Character o1: o.group){
-					o1.leader = o.group.get(1);
+		for(ActionObjet c:this.selection.get(team)){
+			if(c instanceof Character){
+				Character o = (Character) c;
+				if(leader==null){
+					leader=o;
 				}
-				//we remove o from the group
+				//first we deal with o's elder group
+				//if o was the leader and there were other members in the group
+				if(o.isLeader() && o.group.size()>1){
+					//we set the group of the new leader
+					o.group.get(1).group = o.group;
+					//we set the new leader amongst the member of the group
+					for(Character o1: o.group){
+						o1.leader = o.group.get(1);
+					}
+					//we remove o from the group
 
+				}
+				if(o.leader!=null){
+					o.leader.group.remove(o);
+				}
+				if(leader==o){
+					o.group = new Vector<Character>();
+				}
+				//we set to o its new leader and to its leader's group the new member
+				o.leader = leader;
+				if(!o.isLeader())
+					o.group=null;
+				o.leader.group.add(o);
+				//eventually we assign the target
+				o.setTarget(target);
+				o.secondaryTargets.clear();
 			}
-			if(o.leader!=null){
-				o.leader.group.remove(o);
-			}
-			if(leader==o){
-				o.group = new Vector<Character>();
-			}
-			//we set to o its new leader and to its leader's group the new member
-			o.leader = leader;
-			if(!o.isLeader())
-				o.group=null;
-			o.leader.group.add(o);
-			//eventually we assign the target
-			o.setTarget(target);
-			o.secondaryTargets.clear();
 		}
 
 	}
@@ -430,36 +433,38 @@ public class Plateau {
 			target = new Checkpoint(this,x,y);
 		}
 		Character leader = null;
-		for(Character o:this.selection.get(team)){
-			if(leader==null){
-				leader=o;
-			}
-			//first we deal with o's elder group
-			//if o was the leader and there were other members in the group
-			if(o.isLeader() && o.group.size()>1){
-				//we set the group of the new leader
-				o.group.get(1).group = o.group;
-				//we set the new leader amongst the member of the group
-				for(Character o1: o.group){
-					o1.leader = o.group.get(1);
+		for(ActionObjet c:this.selection.get(team)){
+			if(c instanceof Character){
+				Character o = (Character) c;
+				if(leader==null){
+					leader=o;
 				}
-				//we remove o from the group
+				//first we deal with o's elder group
+				//if o was the leader and there were other members in the group
+				if(o.isLeader() && o.group.size()>1){
+					//we set the group of the new leader
+					o.group.get(1).group = o.group;
+					//we set the new leader amongst the member of the group
+					for(Character o1: o.group){
+						o1.leader = o.group.get(1);
+					}
+					//we remove o from the group
 
-			}
-			if(o.leader!=null){
-				o.leader.group.remove(o);
-			}
-			if(leader==o){
-				o.group = new Vector<Character>();
-			}
-			//we set to o its new leader and to its leader's group the new member
-			o.leader = leader;
-			if(!o.isLeader())
-				o.group=null;
-			o.leader.group.add(o);
-			//eventually we assign the target
-			o.secondaryTargets.add(target);
-		}
+				}
+				if(o.leader!=null){
+					o.leader.group.remove(o);
+				}
+				if(leader==o){
+					o.group = new Vector<Character>();
+				}
+				//we set to o its new leader and to its leader's group the new member
+				o.leader = leader;
+				if(!o.isLeader())
+					o.group=null;
+				o.leader.group.add(o);
+				//eventually we assign the target
+				o.secondaryTargets.add(target);
+			}}
 
 	}
 
@@ -501,6 +506,16 @@ public class Plateau {
 			if(o.collisionBox.intersects(select) && o.team==team ){
 				//add character to team selection
 				this.addSelection(o, team);
+			}
+		}
+
+		if(this.toAddSelection.get(team).size()==0){
+			
+			for(Building o: buildings){
+				if(o.collisionBox.intersects(select) && o.team==team ){
+					//add character to team selection
+					this.addSelection(o, team);
+				}
 			}
 		}
 	}
@@ -552,15 +567,15 @@ public class Plateau {
 						if(im.isPressedCTRL){
 							// Creating a new group made of the selection
 							this.g.players.get(player).groups.get(to).clear();
-							for(Character c: this.selection.get(player))
+							for(ActionObjet c: this.selection.get(player))
 								this.g.players.get(player).groups.get(to).add(c);
 						} else if(im.isPressedMAJ){
 							// Adding the current selection to the group
-							for(Character c: this.selection.get(player))
+							for(ActionObjet c: this.selection.get(player))
 								this.g.players.get(player).groups.get(to).add(c);
 						} else {
 							this.selection.get(player).clear();
-							for(Character c: this.g.players.get(player).groups.get(to))
+							for(ActionObjet c: this.g.players.get(player).groups.get(to))
 								this.selection.get(player).add(c);
 						}
 						this.g.players.get(player).groupSelection = to;
@@ -574,7 +589,7 @@ public class Plateau {
 				//Top Bar
 				if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<(1f/20f)*im.resY){
 
-					
+
 				}
 				//Bottom Bar
 				else if((im.leftClick||im.rightClick) && (im.yMouse-Ycam)>this.g.players.get(player).bottomBar.y){
@@ -599,7 +614,7 @@ public class Plateau {
 					}
 					// Update the selections of the players
 					this.g.players.get(player).selection.clear();
-					for(Character c: this.selection.get(player))
+					for(ActionObjet c: this.selection.get(player))
 						this.g.players.get(player).selection.addElement(c);
 				}
 				// we update the selection according to the rectangle wherever is the mouse
@@ -617,7 +632,7 @@ public class Plateau {
 		this.action();
 
 		// TODO : Mulitplayer selection
-		for(Character c : this.selection.get(2)){
+		for(ActionObjet c : this.selection.get(2)){
 			om.selection.add(c.id);
 		}
 
@@ -625,7 +640,7 @@ public class Plateau {
 		if(!g.isInMenu && !this.g.musicStartGame.playing() && !this.g.mainMusic.playing()){
 			this.g.mainMusic.loop();
 		}
-		
+
 		// 5 - creation of the outputmodel
 		for(Character c: this.characters){
 			om.toChangeCharacters.add(new OutputChar(c.id,c.team,c.x,c.y,c.lifePoints,c.typeWeapon, c.typeHorse, c.animation, c.orientation));
@@ -746,7 +761,7 @@ public class Plateau {
 					this.toRemoveBuildings.addElement(c2);
 			}
 			//selections
-			this.selection.set(this.g.currentPlayer, new Vector<Character>());
+			this.selection.set(this.g.currentPlayer, new Vector<ActionObjet>());
 			for(int i : om.selection){
 				for(Character c2: this.characters)
 					if(c2.id==i)
@@ -811,7 +826,7 @@ public class Plateau {
 		rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
 				(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
 	}
-	
+
 	// drawing method
 	public void drawFogOfWar(Graphics g){
 		Vector<Objet> visibleObjet = new Vector<Objet>();
@@ -838,9 +853,9 @@ public class Plateau {
 		for(Building c: this.buildings)
 			if(c.team==team&&(c.x+c.sight>Xcam||c.x-c.sight<Xcam+this.g.resX||c.y+c.sight>Ycam||c.y-c.sight<Ycam+this.g.resY)){
 				obj.add(c);
-				
+
 			}
-				
+
 		return obj;
 	}
 
