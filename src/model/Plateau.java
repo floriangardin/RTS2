@@ -782,6 +782,9 @@ public class Plateau {
 				for(Character c2: this.characters)
 					if(c2.id==i)
 						this.selection.get(this.g.currentPlayer).addElement(c2);
+				for(Building c2: this.buildings)
+					if(c2.id==i)
+						this.selection.get(this.g.currentPlayer).addElement(c2);
 			}
 		}
 		// Remove objets from lists

@@ -16,6 +16,7 @@ public class Images {
 	Image cursor;
 	Image selection_circle;
 	Image fog;
+	Image fire;
 	Image windmill;
 	Image windmillarms;
 	
@@ -72,6 +73,7 @@ public class Images {
 			this.water = new Image("pics/water.jpg");
 			this.cursor = new Image("pics/cursor.png");
 			this.fog = new Image("pics/fog.png");
+			this.fire = new Image("pics/fire.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
 			

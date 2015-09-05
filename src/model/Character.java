@@ -48,7 +48,7 @@ public class Character extends ActionObjet{
 		this.maxLifePoints = 100f;
 		this.p = p;
 		this.name = "Character";
-		this.sight = 100f;
+		this.sight = 300f;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.selection_circle = this.p.images.selection_circle;
@@ -524,17 +524,17 @@ public class Character extends ActionObjet{
 		y = this.getY();
 		int sector = 0;
 		if(x-oX>0f){
-			if(y-oY>Math.abs(x-oX)){
+			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
-			} else if(y-oY<-Math.abs(x-oX)){
+			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 4;
 			} else {
 				sector = 1;
 			}
 		} else {
-			if(y-oY>Math.abs(x-oX)){
+			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
-			} else if(y-oY<-Math.abs(x-oX)){
+			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 4;
 			} else {
 				sector = 3;

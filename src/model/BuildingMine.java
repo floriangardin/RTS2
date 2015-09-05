@@ -22,8 +22,8 @@ public class BuildingMine extends Building{
 		this.y = y;
 		this.p =p;
 		this.g =g;
-		this.id = p.g.idBuilding;
-		p.g.idBuilding+=1;
+		this.id = p.g.idChar;
+		p.g.idChar+=1;
 		this.type = 0;
 		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
 		this.sight = 300f;
