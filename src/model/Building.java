@@ -73,7 +73,7 @@ public class Building extends ActionObjet{
 		case 0: new BuildingMill(ocb,p); break;
 		case 1: break;
 		case 2: break;
-		case 3: break;
+		case 3: new Barrack(ocb,p); break;
 		case 4: break;
 		default:
 		}

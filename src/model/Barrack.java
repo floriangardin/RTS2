@@ -7,12 +7,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import multiplaying.OutputModel.OutputBuilding;
+
 public class Barrack extends ProductionBuilding{
 
 
 	public Barrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		team = 0;
+		type= 3;
+		this.id = p.g.idBuilding;
+		p.g.idBuilding+=1;
 		isCapturing=false;
 		maxLifePoints = 50f;
 		this.p = plateau ;
@@ -30,6 +35,27 @@ public class Barrack extends ProductionBuilding{
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionList.addElement(UnitsList.Bowman);
 
+	}
+
+	public Barrack(OutputBuilding ocb, Plateau p){
+		team = ocb.team;
+		type= 3;
+		maxLifePoints = ocb.maxlifepoints;
+		this.p = p;
+		p.addBuilding(this);
+		this.lifePoints = this.maxLifePoints;
+		this.g = p.g;
+		this.x = ocb.x;
+		this.y = ocb.y;
+		this.sizeX = 120f; 
+		this.sizeY = 120f;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.image = this.p.images.tent;
+		// List of potential production (Spearman
+		this.productionList = new Vector<UnitsList>();
+		this.productionList.addElement(UnitsList.Spearman);
+		this.productionList.addElement(UnitsList.Bowman);
+		
 	}
 
 	public void product(int unit){
