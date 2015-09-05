@@ -37,9 +37,7 @@ public class BottomBar extends Bar {
 		this.p = p ;
 		this.player = player;
 		this.player.bottomBar = this;
-		this.selection = new SelectionInterface(this);
-		this.description = new DescriptionInterface(this);
-		this.display = new DisplayInterface(this);
+
 		try {
 			this.background = new Image("pics/bottombar.jpg");
 		} catch (SlickException e) {
@@ -59,6 +57,9 @@ public class BottomBar extends Bar {
 		h = this.sizeY-2f;
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
+		this.selection = new SelectionInterface(this);
+		this.description = new DescriptionInterface(this);
+		this.display = new DisplayInterface(this);
 		
 		this.prodX = 2.0f*this.sizeX/3f-1f;
 		this.prodY = this.y+1f;
@@ -142,8 +143,7 @@ public class BottomBar extends Bar {
 			Vector<UnitsList> ul = b.productionList;
 			Font f = g.getFont();
 			float ratio =1f/prodIconNb;
-			for(int i=0; i<Math.min(4, ul.size());i++){
-				System.out.println(ul.get(i).name);
+			for(int i=0; i<Math.min(4, ul.size());i++){ 
 				g.drawImage(this.p.images.getIconByName(ul.get(i).name), prodX+2f, prodY+2f + ratio*i*prodH, prodX-2f+ratio*prodH, prodY-2f+ratio*(i+1)*prodH, 0, 0, 512,512);
 				g.setColor(Color.white);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);

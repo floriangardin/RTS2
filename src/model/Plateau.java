@@ -599,10 +599,11 @@ public class Plateau {
 					//Handling production buildings
 					if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
 						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof ProductionBuilding){
-							if(im.leftClick){
-								((ProductionBuilding) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/bb.prodIconNb));
+							if(im.isPressedLeftClick){
+								
+								((ProductionBuilding) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
 							}else{
-								System.out.println("sur l'emplacement");
+								
 							}
 								
 						}
