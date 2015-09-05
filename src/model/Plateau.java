@@ -599,16 +599,16 @@ public class Plateau {
 						this.clearSelection(player);
 					}
 					// Update the rectangle
-					if(im.leftClick){
-						// As long as the button is pressed, the selection is updated
-						if(rectangleSelection.get(player)==null){
-							recX.set(player, (float)im.xMouse);
-							recY.set(player, (float)im.yMouse);
-							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
-						}
-						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
-					}
+//					if(im.leftClick){
+//						// As long as the button is pressed, the selection is updated
+//						if(rectangleSelection.get(player)==null){
+//							recX.set(player, (float)im.xMouse);
+//							recY.set(player, (float)im.yMouse);
+//							rectangleSelection.set(player, new Rectangle(recX.get(player),recY.get(player),0.1f,0.1f));
+//						}
+//						rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+//								(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
+//					}
 
 					if(this.selection!=null){
 						// The button is not pressed and wasn't, the selection is non null
