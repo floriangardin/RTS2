@@ -16,5 +16,10 @@ public abstract class Bullet extends ActionObjet {
 		this.x = ocb.x;
 		this.y = ocb.y;
 	}
+	
+	
+	public void collision(Building c){
+		
+	}
 
 }

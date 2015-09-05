@@ -34,6 +34,15 @@ public class Bow extends RangeWeapon{
 		// update x and y
 		this.setXY(this.owner.getX(), this.owner.getY());
 		// Test if target
+		if(this.owner.getTarget() instanceof Building && this.state>this.chargeTime){
+			Building target =(Building) this.owner.getTarget();
+			// Launch a bullet
+						Circle circle = new Circle(this.getX(),this.getY(),this.range);
+						if(target.collisionBox.intersects(circle)){
+							new Arrow(this.p,this.owner,this.damage);
+							this.state = 0f;
+						}
+		}
 		if(!(this.owner.getTarget() instanceof Character)){
 			return;
 		}

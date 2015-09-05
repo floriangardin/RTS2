@@ -19,10 +19,10 @@ public class BuildingMill extends Building{
 		this.team=0;
 		this.chargeTime = p.constants.millChargeTime;
 		this.lifePoints = p.constants.millLifePoints;
-		this.sizeX = 120f; 
-		this.sizeY = 120f;
+		this.sizeX = 220f; 
+		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.tent;
+		this.image = this.p.images.windmill;
 		this.millarms = this.p.images.windmillarms.getSubImage(0, 0, 288, 320);
 		
 	}
@@ -37,7 +37,7 @@ public class BuildingMill extends Building{
 	}
 	
 	public Graphics draw(Graphics g){
-		g.drawImage(this.p.images.windmill, this.x-112f, this.y-220f, this.x+112f, this.y+100f, 0f,0f,224f,320f);
+		g.drawImage(this.image, this.x-112f, this.y-220f, this.x+112f, this.y+100f, 0f,0f,224f,320f);
 		g.drawImage(this.millarms,this.x-144f,this.y-320f);
 		return g;
 	}

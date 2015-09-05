@@ -11,6 +11,9 @@ public abstract class Weapon extends ActionObjet {
 		if(owner!=null)
 			this.setXY(owner.getX(),owner.getY());
 	}
-	
+
+	public void collision(Building c){
+		
+	}
 	
 }

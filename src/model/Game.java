@@ -308,8 +308,8 @@ public class Game extends BasicGame
 		}
 
 		// Instantiate BottomBars for current player:
-		this.bottomBars = new BottomBar(this.plateau,this.players.get(1),this);
-		this.topBars = new TopBar(this.plateau,this.players.get(1),this);
+		this.bottomBars = new BottomBar(this.plateau,this.players.get(2),this);
+		this.topBars = new TopBar(this.plateau,this.players.get(2),this);
 		selection = null;
 	}
 	// Init our Game objects

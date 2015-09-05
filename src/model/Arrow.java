@@ -77,6 +77,20 @@ public class Arrow extends Bullet{
 		}
 
 	}
+	
+	public void collision(Building c){
+		
+		if(c.team!=this.owner.team){
+			// Attack if armor<damage and collision
+			float damage = this.damage;
+			
+			
+			c.lifePoints+=-damage;
+			
+			this.lifePoints=-1f;
+		}
+
+	}
 	public Graphics draw(Graphics g){
 		g.drawImage(this.image,this.getX()-5f,this.getY()-5f);
 		//g.setColor(Color.white);

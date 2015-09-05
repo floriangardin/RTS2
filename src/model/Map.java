@@ -19,10 +19,10 @@ public class Map {
 			}
 			plateau.g.players.get(0).groups.get(i).add(team[i]);
 		}
-
-		for(int i = 0;i<9; i++){
-			new Water(395f+32*i,570f,32f,32f,plateau);
-		}
+//
+//		for(int i = 0;i<9; i++){
+//			new Water(395f+32*i,570f,32f,32f,plateau);
+//		}
 		for(int i = 0;i<3; i++){
 			new Tree(368f,490f+32*i,plateau,4);
 			new Tree(682f,490f+32*i,plateau,4);
@@ -31,6 +31,7 @@ public class Map {
 		// Instantiate enemy generator :
 		new EnemyGenerator(plateau,plateau.g,520f,100f);
 		new BuildingMill(plateau,plateau.g,1600f,600f);
+		new Barrack(plateau,plateau.g,520f,700f);
 	}
 
 	public void createMap2(Plateau plateau){

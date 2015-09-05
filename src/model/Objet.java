@@ -20,7 +20,7 @@ public abstract class Objet {
 	protected String name;
 	protected int team;
 	
-	protected Image image;
+	public Image image;
 	
 	public void setName(String s){
 		this.name = s;

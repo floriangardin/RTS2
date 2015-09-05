@@ -315,6 +315,14 @@ public class Character extends ActionObjet{
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
 		}
+		else if(this.getTarget() instanceof Building){
+			Building c =(Building) this.getTarget();
+			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
+//				this.setTarget(null);
+//				return;
+				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
+			}
+		}
 		if(someoneStopped && this.isLeader() && this.group!=null){
 			this.stop();
 			return;
@@ -493,19 +501,19 @@ public class Character extends ActionObjet{
 		this.collisionRect((Rectangle)o.collisionBox);
 	}
 	// Collision with EnemyGenerator
-	public void collision(EnemyGenerator o) {
+	public void collision(Building o) {
 		this.collisionRect((Rectangle)o.collisionBox);
 	}
 
 	public void collisionRect(Rectangle o) {
-		/*On considère pour l'instant que nos natural objets sont carrés
-		 * il faut dans un premier temps déterminer de quel côté éjecter l'objet
-		 * pour cela on délimite 4 secteurs:
-		 * 		1: à droite
+		/*On considï¿½re pour l'instant que nos natural objets sont carrï¿½s
+		 * il faut dans un premier temps dï¿½terminer de quel cï¿½tï¿½ ï¿½jecter l'objet
+		 * pour cela on dï¿½limite 4 secteurs:
+		 * 		1: ï¿½ droite
 		 * 		2: en haut
-		 * 		3: à gauche
+		 * 		3: ï¿½ gauche
 		 * 		4: en bas
-		 *	puis on éjecte le point au bord du côté correspondant via projection
+		 *	puis on ï¿½jecte le point au bord du cï¿½tï¿½ correspondant via projection
 		 */
 		float oX, oY;
 		oX = o.getCenterX();
@@ -628,6 +636,25 @@ public class Character extends ActionObjet{
 
 
 	//// CREATION FUNCTIONS
+	public static Character createCharacter(Plateau p,int team,float x, float y,UnitsList which){
+		
+		switch(which){
+		case Spearman:
+			return createSpearman(p,team,x,y);	
+		case Knight:
+			return createKnight(p,team,x,y);
+		case Priest:
+			return createPriest(p,team,x,y);
+		case Bowman:
+			return createBowman(p,team,x,y);
+		case Wizard:
+			return createWizard(p,team,x,y);
+			
+		default:
+			return null;
+		}
+
+	}
 	public static Character createSpearman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Spearman";

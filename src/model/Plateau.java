@@ -309,7 +309,23 @@ public class Plateau {
 		// Between bullets and natural objets
 		for(Bullet b : bullets){
 			for(NaturalObjet n: naturalObjets){
+				if(b.collisionBox.intersects(n.collisionBox))
 				b.collision(n);
+			}
+			for(Building c: buildings){
+				if(b.collisionBox.intersects(c.collisionBox))
+				b.collision(c);
+			}
+		}
+		for(Building b : buildings){
+			for(ActionObjet o : equipments){
+				if(o.collisionBox.intersects(b.collisionBox) && o instanceof Weapon){
+					System.out.println("collision weapon");
+					Weapon w = (Weapon) o;
+					w.collision(b);
+					b.collision(w);
+
+				}
 			}
 		}
 	}
@@ -458,6 +474,15 @@ public class Plateau {
 			}
 		}
 		if(target==null){
+			for(Building i: this.buildings){
+				// looking amongst natural object
+				if(i.collisionBox.contains(point)){
+					target = i;
+					break;
+				}
+			}
+		}	
+		if(target==null){
 			for(NaturalObjet i: naturalObjets){
 				// looking amongst natural object
 				if(i.collisionBox.contains(point)){
@@ -578,7 +603,7 @@ public class Plateau {
 						// Put camera where the click happened
 						Xcam = (int)Math.floor((im.xMouse-Xcam-b.startX)/b.rw)-this.g.resX/2f;
 						Ycam = (int)Math.floor((im.yMouse-Ycam-b.startY)/b.rh)-this.g.resY/2f;
-						System.out.println("xcam "+Xcam+" xmouse " +im.xMouse+" startX " + b.startX);
+						
 					}
 					if(this.rectangleSelection.get(player)!=null){
 						Rectangle r  = this.rectangleSelection.get(player);
