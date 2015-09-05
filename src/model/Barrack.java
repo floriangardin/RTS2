@@ -48,6 +48,7 @@ public class Barrack extends ProductionBuilding{
 		this.g = p.g;
 		this.x = ocb.x;
 		this.y = ocb.y;
+		this.id = ocb.id;
 		this.sizeX = 120f; 
 		this.sizeY = 120f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
