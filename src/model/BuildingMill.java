@@ -27,7 +27,7 @@ public class BuildingMill extends Building{
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.type = 1;
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.sight = 300f;
 		this.name= "Mill";
 		this.maxLifePoints = p.constants.millLifePoints;
@@ -54,7 +54,7 @@ public class BuildingMill extends Building{
 		this.sizeX = ocb.sizeX; 
 		this.sizeY = ocb.sizeY;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.image = this.p.images.windmill;
 		this.millarms = this.p.images.windmillarms.getSubImage(0, 0, 288, 320);
 	}

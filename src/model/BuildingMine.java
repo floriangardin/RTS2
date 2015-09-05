@@ -25,7 +25,7 @@ public class BuildingMine extends Building{
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.type = 0;
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.sight = 300f;
 		this.name= "Mine";
 		this.maxLifePoints = p.constants.millLifePoints;
@@ -47,7 +47,7 @@ public class BuildingMine extends Building{
 		this.g =p.g;
 		this.team=ocb.team;
 		this.chargeTime = p.constants.millChargeTime;
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 
 		this.sizeY = ocb.sizeY;

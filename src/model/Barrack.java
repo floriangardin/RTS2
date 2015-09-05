@@ -26,7 +26,7 @@ public class Barrack extends ProductionBuilding{
 		this.sight = this.p.constants.barrackSight;
 		this.name = "Barrack";
 		p.addBuilding(this);
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -66,7 +66,7 @@ public class Barrack extends ProductionBuilding{
 		this.sizeX = this.p.constants.barrackSizeX; 
 		this.sizeY = this.p.constants.barrackSizeY;
 		this.sight = this.p.constants.barrackSight;
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		if(ocb.team==1){
 			this.image = this.p.images.buildingBarrackBlue;
