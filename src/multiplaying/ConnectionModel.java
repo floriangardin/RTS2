@@ -10,6 +10,7 @@ public class ConnectionModel {
 
 	public long currentTime;
 	public InetAddress ia;
+	public float resX, resY;
 	public Vector<ConnectionObjet> naturalObjets;
 
 	public ConnectionModel(InetAddress ia, Vector<NaturalObjet> n){

@@ -18,14 +18,10 @@ public class BottomBar extends Bar {
 	float rw;
 	float rh;
 	
-	public BottomBar(Plateau p ,Player player, Game g){
+	public BottomBar(Plateau p ,Player player, int resX, int resY){
 		this.p = p ;
 		this.player = player;
 		this.player.bottomBar = this;
-		this.sizeX = g.resX;
-		this.sizeY = 1f/6f*g.resY;
-		this.x = 0;
-		this.y = 5f/6f*g.resY;
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
@@ -35,16 +31,23 @@ public class BottomBar extends Bar {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.startX = 2.5f*this.sizeX/3f-1f;
-		this.startY = this.y+1f;
+		this.update(resX, resY);
+	}
 
-		// Calculate the height and width
+	public void update(int resX, int resY){
+		this.sizeX = resX;
+		this.sizeY = this.p.g.relativeHeightBottomBar*resY;
+		this.x = 0;
+		this.y = (1f-this.p.g.relativeHeightBottomBar)*resY;
 		w = this.sizeX/6f;
 		h = this.sizeY-2f;
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
+		this.startX = 2.5f*this.sizeX/3f-1f;
+		this.startY = this.y+1f;
 	}
-
+	
+	
 	public Graphics draw(Graphics g){
 		// Draw Background :
 

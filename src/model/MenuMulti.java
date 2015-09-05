@@ -176,7 +176,7 @@ public class MenuMulti extends Menu {
 					}
 					System.out.println("client recu: " +addressEnemy.getHostName());
 					this.game.connexions.clear();
-					this.game.newGame();
+					this.game.newGame(true);
 					this.game.toSendConnexions.clear();
 					this.game.connexionSender = new MultiSender(this.game.app, this.game, addressEnemy, this.game.portConnexion, this.game.toSendConnexions);
 					this.game.connexionSender.start();

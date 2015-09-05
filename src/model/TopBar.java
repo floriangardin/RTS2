@@ -11,15 +11,12 @@ public class TopBar extends Bar {
 	Image imageGold ;
 	Image imageFood;
 	
-	public TopBar(Plateau p ,Player player, Game g){
+	public TopBar(Plateau p ,Player player, int resX, int resY){
 		
 		this.p = p ;
 		this.player = player;
 		this.player.topBar = this;
-		this.sizeX = g.resX;
-		this.sizeY = 1f/20f*g.resY;
-		this.x = 0f;
-		this.y = 0f;
+		this.update(resX, resY);
 		try {
 			int taille = 24;
 			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
@@ -30,6 +27,14 @@ public class TopBar extends Bar {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void update(int resX, int resY){
+
+		this.sizeX = resX;
+		this.sizeY = this.p.g.relativeHeightTopBar*resY;
+		this.x = 0f;
+		this.y = 0f;
 	}
 	
 	public Graphics draw(Graphics g){

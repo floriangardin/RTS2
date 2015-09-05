@@ -2,6 +2,7 @@ package multiplaying;
 
 import java.util.Vector;
 
+import model.Building;
 import model.Utils;
 
 public class OutputModel extends MultiObjetModel{
@@ -9,12 +10,9 @@ public class OutputModel extends MultiObjetModel{
 
 	public Vector<OutputChar> toChangeCharacters;
 
-	// Not useful yet, because there are no isolated equipment to display
-	//	protected Vector<ActionObjet> equipments;
-	//	protected Vector<ActionObjet> toAddEquipments;
-	//	protected Vector<ActionObjet> toRemoveEquipments;
-
 	public Vector<OutputBullet> toChangeBullets;
+	
+	public Vector<OutputBuilding> toChangeBuildings;
 
 	public Vector<Integer> selection;
 
@@ -41,6 +39,8 @@ public class OutputModel extends MultiObjetModel{
 					case 2:
 						toChangeBullets.add(new OutputBullet(v[j]));break;
 					case 3:
+						toChangeBuildings.add(new OutputBuilding(v[j]));break;
+					case 4:
 						selection.add(Integer.parseInt(v[j]));break;
 					}
 				}
@@ -51,6 +51,7 @@ public class OutputModel extends MultiObjetModel{
 		this.timeValue = timeValue;
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
+		toChangeBuildings = new Vector<OutputBuilding>();
 		selection = new Vector<Integer>();
 	}
 	public String toString(){
@@ -61,8 +62,9 @@ public class OutputModel extends MultiObjetModel{
 		 * chaque attribut au sein d'un élément est séparé par un ' '
 		 * 
 		 * Selon l'ordre:
-		 * toChangeChar | toAddChar | toRemoveChar | toChangeBullet | toAddBullet | toRemoveBullet | Selection
+		 * toChangeChar | toChangeBullet | toChangeBuilding | Selection
 		 */
+		// For the Characters
 		int size = toChangeCharacters.size();
 		for(int i =0; i<size; i++){
 			s+=toChangeCharacters.get(i).toString();
@@ -78,6 +80,15 @@ public class OutputModel extends MultiObjetModel{
 				s+="*";
 		}
 		s+="|";
+		// For the buildings
+		size = toChangeBuildings.size();
+		for(int i =0; i<size; i++){
+			s+=toChangeBuildings.get(i).toString();
+			if(i<size-1)
+				s+="*";
+		}
+		s+="|";
+		// for the selections
 		size = selection.size();
 		for(int i =0; i<size; i++){
 			s+=selection.get(i).toString();
@@ -93,6 +104,49 @@ public class OutputModel extends MultiObjetModel{
 		public float sizeX, sizeY;
 		public int id;
 		public int typeBuilding;
+		public float lifepoints;
+		public int team;
+		public OutputBuilding(int id, int type, float x, float y, float sizeX, float sizeY, float lifepoints,int team){
+			this.x = x;
+			this.team = team;
+			this.y = y;
+			this.id = id;
+			this.sizeX = sizeX;
+			this.sizeY = sizeY;
+			this.typeBuilding = type;
+			this.lifepoints = lifepoints;
+		}
+		public OutputBuilding(Building b){
+			this.x = b.getX();
+			this.y = b.getY();
+			this.team = b.team;
+			this.id= b.id;
+			this.sizeX = b.sizeX;
+			this.sizeY = b.sizeY;
+			this.lifepoints = b.lifePoints;
+			
+			
+		}
+		public OutputBuilding(String s){
+			try{
+			String[] t = Utils.split(s, ' ');
+			this.id = Integer.parseInt(t[0]);
+			this.typeBuilding = Integer.parseInt(t[1]);
+			this.x = Float.parseFloat(t[2]);
+			this.y = Float.parseFloat(t[3]);
+			this.sizeX = Float.parseFloat(t[4]);
+			this.sizeY = Float.parseFloat(t[5]);
+			this.id = Integer.parseInt(t[6]);
+			this.team = Integer.parseInt(t[7]);
+			} catch (NumberFormatException e ){
+				//System.out.println(s);
+			}
+		}
+		public String toString(){
+			String s = "";
+			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+id+" "+team;
+			return s;
+		}
 	}
 
 	public static class OutputBullet{

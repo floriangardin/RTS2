@@ -32,6 +32,8 @@ public class Game extends BasicGame
 	// Bars
 	BottomBar bottomBars;
 	TopBar topBars;
+	float relativeHeightBottomBar = 1f/6f;
+	float relativeHeightTopBar = 1f/20f;
 
 	// Selection
 	Rectangle selection;
@@ -175,11 +177,15 @@ public class Game extends BasicGame
 				o.draw(g);
 		}
 		// Draw the selection :
-		if(this.plateau.rectangleSelection.get(currentPlayer) !=null){
-			g.setColor(Color.green);
-			g.draw(this.plateau.rectangleSelection.get(currentPlayer));
+		for(int player=1; player<3; player++){
+			if(this.plateau.rectangleSelection.get(player) !=null){
+				if(player==currentPlayer){
+					g.setColor(Color.green);
+				} else
+					g.setColor(Color.red);
+				g.draw(this.plateau.rectangleSelection.get(player));
+			}
 		}
-
 		// Draw bottom bar
 		g.translate(plateau.Xcam, plateau.Ycam);
 		if(this.bottomBars!=null)
@@ -213,12 +219,17 @@ public class Game extends BasicGame
 					if(player!=currentPlayer){
 						if(this.inputs.size()>0){
 							im = this.inputs.get(0);
-							im = this.inputs.remove(0);
-							System.out.println("Game line 217 + taille buffer: " + this.inputs.size());
+							this.inputs.remove(0);
+							if(this.inputs.size()>0){
+								im.mix(this.inputs.get(0));
+								this.inputs.remove(0);
+							}
 							ims.add(im);
+							this.players.get(im.team).bottomBar.update(im.resX, im.resY);
+							this.players.get(im.team).topBar.update(im.resX, im.resY);
 						}
 					} else {
-						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
+						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
 						ims.add(im);
 					}
 				}
@@ -245,7 +256,7 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
 				// 1 - send the input to host
-				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam);
+				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
 
 				this.toSendInputs.addElement(im.toString());
 
@@ -263,7 +274,7 @@ public class Game extends BasicGame
 			}
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam)));
+			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 			// updating the game
 			if(isInMenu){
 				this.menuCurrent.update(ims.get(0));
@@ -275,29 +286,27 @@ public class Game extends BasicGame
 
 	}
 
-	public void newGame(){
+	public void newGame(boolean host){
 		//Clean all variables
 		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
 		this.players.add(new Player(2));
-
-		this.map.createMap1(plateau);
-		// Instantiate BottomBars for current player:
-		this.bottomBars = new BottomBar(this.plateau,this.players.get(1),this);
-		this.topBars = new TopBar(this.plateau,this.players.get(1),this);
-		
+		if(host)
+			this.map.createMap1(plateau);
+		// Instantiate BottomBars for all players:
+		for(int player=1; player<3; player++){
+			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+		}
+		this.bottomBars = this.players.get(currentPlayer).bottomBar;
+		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
-		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
-		this.players = new Vector<Player>();
-		this.players.add(new Player(0));
-		this.players.add(new Player(1));
-		this.players.add(new Player(2));
-
+		newGame(false);
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
 			if(co instanceof ConnectionTree){
@@ -306,17 +315,12 @@ public class Game extends BasicGame
 				new Water(co.x,co.y,((ConnectionWater)co).sizeX,((ConnectionWater)co).sizeY,this.plateau);
 			}
 		}
-
-		// Instantiate BottomBars for current player:
-		this.bottomBars = new BottomBar(this.plateau,this.players.get(2),this);
-		this.topBars = new TopBar(this.plateau,this.players.get(2),this);
-		selection = null;
 	}
 	// Init our Game objects
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-		
+
 		Image cursor = new Image("pics/cursor.png");
 		this.volume = 0.2f;
 		this.soundVolume = 0.2f;
@@ -340,11 +344,11 @@ public class Game extends BasicGame
 		this.startTime = System.currentTimeMillis();
 		//		Thread t1 = new Thread(new InputListener(this, this.app, 0));
 		//		t1.start();
-		
+
 		// Create background image manually
 
-		
-		
+
+
 		try{
 			Thread.sleep(10);
 		} catch(InterruptedException e) {}

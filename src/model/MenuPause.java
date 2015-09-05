@@ -27,7 +27,7 @@ public class MenuPause extends Menu {
 			this.game.quitMenu();
 			break;
 		case 1: 
-			this.game.newGame();
+			this.game.newGame(true);
 			this.game.quitMenu();
 			break;
 		case 2:

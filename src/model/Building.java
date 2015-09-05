@@ -4,14 +4,16 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Building extends ActionObjet{
 	Game g;
-	float sizeX, sizeY;
+	public float sizeX;
+	public float sizeY;
 	int teamCapturing;
 	boolean isCapturing;
 	boolean destructionPhase;
 	float maxLifePoints;
 	float constructionPoints;
 	boolean constructionPhase;
-	
+	public int id;
+	public int type;
 	
 	public Building(){}
 	
@@ -45,6 +47,5 @@ public class Building extends ActionObjet{
 		}
 		
 	}
-
 	
 }
