@@ -73,6 +73,7 @@ public class Building extends ActionObjet{
 		this.maxLifePoints = ocb.maxlifepoints;
 		this.constructionPoints = ocb.constrpoints;
 		this.animation = ocb.animation;
+		this.sight = ocb.sight;
 	}
 
 	public Building(OutputBuilding ocb, Plateau p){

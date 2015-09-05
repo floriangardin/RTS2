@@ -57,10 +57,16 @@ public class Constants {
 	// Mill
 	public int millChargeTime = 5;
 	public int millLifePoints = 100;
+	public float millSight = 300f;
+	public float millSizeX = 294f;
+	public float millSizeY = 294f*2f/3f;
 	
 	// Mine
 	public int mineChargeTime = 5;
 	public int mineLifePoints = 100;
+	public float mineSight = 300f;
+	public float mineSizeX = 291f;
+	public float mineSizeY = 291f*2f/3f;
 	
 	// Barrack
 	public int barrackLifePoints = 200;

@@ -101,7 +101,7 @@ public class Barrack extends ProductionBuilding{
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
-			this.animation+=3f;
+			this.animation+=2f;
 			if(animation>120f)
 				animation = 0f;
 			this.charge+=0.1f;

@@ -22,22 +22,28 @@ public class BuildingMill extends Building{
 		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
+		this.animation = -1f;
 		this.p =p;
 		this.g =g;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.type = 1;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.sight = 300f;
 		this.name= "Mill";
 		this.maxLifePoints = p.constants.millLifePoints;
 		this.chargeTime = p.constants.millChargeTime;
 		this.lifePoints = p.constants.millLifePoints;
-		this.sizeX = 220f; 
-		this.sizeY = 220f;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.windmill;
-		this.millarms = this.p.images.windmillarms.getSubImage(0, 0, 288, 320);
+		this.sizeX = p.constants.millSizeX; 
+		this.sizeY = p.constants.millSizeY;
+		this.sight = p.constants.millSight;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		if(team==1){
+			this.image = this.p.images.buildingMillBlue;
+		} else if(team==2){
+			this.image = this.p.images.buildingMillRed;
+		} else {
+			this.image = this.p.images.buildingMillNeutral;
+		}
 		
 	}
 	
@@ -53,24 +59,39 @@ public class BuildingMill extends Building{
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 
 		this.sizeY = ocb.sizeY;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.sight = ocb.sight;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.image = this.p.images.windmill;
-		this.millarms = this.p.images.windmillarms.getSubImage(0, 0, 288, 320);
+		if(ocb.team==1){
+			this.image = this.p.images.buildingMillBlue;
+		} else if(ocb.team==2){
+			this.image = this.p.images.buildingMillRed;
+		} else {
+			this.image = this.p.images.buildingMillNeutral;
+		}
 	}
 	
 	public void action(){
 		this.state+=0.1f;
-		this.millarms.rotate(0.2f);
+		if(this.team!=0)
+			this.animation+=2f;
+		if(animation>120f)
+			animation = 0f;
 		
 		if(state >= chargeTime && team!=0){
-			
 			this.p.g.players.get(team).food+=1;
 			state = 0;
 		}
 		if(this.lifePoints<10f){
 			
 			this.team = this.teamCapturing;
+			if(team==1){
+				this.image = this.p.images.buildingMillBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingMillRed;
+			} else {
+				this.image = this.p.images.buildingMillNeutral;
+			}
 			this.lifePoints=this.maxLifePoints;
 			this.constructionPhase = true;
 		}
@@ -79,8 +100,10 @@ public class BuildingMill extends Building{
 	
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-152f, this.y-270f, this.x+112f, this.y+100f, 0f,0f,224f,320f);
-		g.drawImage(this.millarms,this.x-194f,this.y-370f);
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 295, 295);
+		if(animation>=0f){
+			g.drawImage(this.p.images.smoke, this.x+1f/18f*sizeX-12f, this.y-144f,this.x+1f/18f*sizeX+36f, this.y-96f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+		}
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints
 			g.setColor(Color.red);

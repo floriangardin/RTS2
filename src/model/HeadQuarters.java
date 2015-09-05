@@ -39,7 +39,7 @@ public class HeadQuarters extends Building {
 		this.y = h;
 		this.sizeX = 120f; 
 		this.sizeY = 120f;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.image = this.p.images.tent;
 		// List of potential production (Spearman
 		this.techsDiscovered = new Vector<Technologie>();
@@ -64,7 +64,7 @@ public class HeadQuarters extends Building {
 		this.id = ocb.id;
 		this.sizeX = 120f; 
 		this.sizeY = 120f;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.image = this.p.images.tent;
 
 
