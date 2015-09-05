@@ -29,7 +29,7 @@ public class HeadQuarters extends Building {
 		maxLifePoints = p.constants.barrackLifePoints;
 		this.name = "HeadQuarters";
 		p.addBuilding(this);
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 5;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -60,7 +60,7 @@ public class HeadQuarters extends Building {
 		this.g = p.g;
 		this.x = ocb.x;
 		this.y = ocb.y;
-		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
+		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.id = ocb.id;
 		this.sizeX = 120f; 
 		this.sizeY = 120f;
