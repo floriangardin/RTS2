@@ -587,12 +587,12 @@ public class Plateau {
 				}
 				// Split click bottom bar and not bottom bar
 				//Top Bar
-				if((im.yMouse-im.Ycam)<(1f/20f)*im.resY){
+				if((im.yMouse-im.Ycam)<this.g.relativeHeightTopBar*im.resY){
 
 
 				}
 				//Bottom Bar
-				else if((im.yMouse-Ycam)>this.g.players.get(player).bottomBar.y){
+				else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
 					BottomBar bb = this.g.players.get(player).bottomBar;
 					float relativeXMouse = (im.xMouse-im.Xcam);
 					float relativeYMouse = (im.yMouse-im.Ycam);
@@ -786,6 +786,9 @@ public class Plateau {
 					if(c2.id==i)
 						this.selection.get(this.g.currentPlayer).addElement(c2);
 			}
+			this.g.players.get(this.g.currentPlayer).selection.clear();
+			for(ActionObjet o:this.selection.get(this.g.currentPlayer))
+				this.g.players.get(this.g.currentPlayer).selection.addElement(o);
 		}
 		// Remove objets from lists
 		this.clean();
