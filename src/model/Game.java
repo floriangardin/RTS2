@@ -317,6 +317,8 @@ public class Game extends BasicGame
 				new Water(co.x,co.y,((ConnectionWater)co).sizeX,((ConnectionWater)co).sizeY,this.plateau);
 			}
 		}
+		this.bottomBars = this.players.get(currentPlayer).bottomBar;
+		this.topBars = this.players.get(currentPlayer).topBar;
 	}
 	// Init our Game objects
 	@Override

@@ -129,13 +129,13 @@ public class BottomBar extends Bar {
 			}
 		}
 		for(Building c : this.p.buildings){		
-			if(c.team==1){
+			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
 					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
 				}
 			}
-			else{
+			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
 					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
