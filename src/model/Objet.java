@@ -16,9 +16,9 @@ public abstract class Objet {
 	protected Shape collisionBox;
 	protected Color color;
 	protected Plateau p;
-	protected float lifePoints;
+	public float lifePoints;
 	protected String name;
-	protected int team;
+	public int team;
 	
 	protected Image image;
 	

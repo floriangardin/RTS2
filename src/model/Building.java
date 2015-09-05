@@ -4,7 +4,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Building extends ActionObjet{
 	Game g;
-	float sizeX, sizeY;
+	public float sizeX;
+	public float sizeY;
+	public int id;
+	public int type;
 	
 	public Building(){}
 	
@@ -21,4 +24,5 @@ public class Building extends ActionObjet{
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
 	}
+	
 }
