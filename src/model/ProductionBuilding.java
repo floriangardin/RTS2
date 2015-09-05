@@ -6,7 +6,10 @@ public abstract class ProductionBuilding extends Building {
 
 	
 	Vector<UnitsList> productionList;
-	Vector<UnitsList> queue ;
+	Vector<Integer> queue ;
+	Vector<Float> productionTime;
+	float charge;
+	
 	
 	public void product(int unit){
 		

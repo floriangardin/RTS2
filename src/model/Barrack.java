@@ -15,9 +15,9 @@ public class Barrack extends ProductionBuilding{
 	public Barrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		team = 0;
-		
-		isCapturing=false;
-		this.constructionPhase = false;
+		constructionPhase = false;
+		destructionPhase = true;
+		isCapturing = false;
 		this.sight = 300f;
 		this.p = plateau ;
 		maxLifePoints = p.constants.barrackLifePoints;
@@ -36,9 +36,16 @@ public class Barrack extends ProductionBuilding{
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
 		// List of potential production (Spearman
+		this.queue = new Vector<Integer>();
+		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
+		this.productionTime.addElement(this.p.constants.spearmanProdTime);
 		this.productionList.addElement(UnitsList.Bowman);
+		this.productionTime.addElement(this.p.constants.bowmanProdTime);
+		
+		
+		
 
 	}
 
@@ -58,24 +65,36 @@ public class Barrack extends ProductionBuilding{
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
 		// List of potential production (Spearman
+		this.queue = new Vector<Integer>();
+		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
+		this.productionTime.addElement(this.p.constants.spearmanProdTime);
 		this.productionList.addElement(UnitsList.Bowman);
+		this.productionTime.addElement(this.p.constants.bowmanProdTime);
+		
 		
 	}
 
 	public void product(int unit){
 
 		if(unit<this.productionList.size()){
-			// Create a copy instead
-			this.queue.add(this.productionList.get(unit));
+			
+			this.queue.add(unit);
 		}
-		Character.createCharacter(p, team, x, y, this.queue.get(0));
+		Character.createCharacter(p, team, x, y, this.productionList.get(this.queue.get(0)));
 	}
 
 	public void action(){
 		//Do the action of Barrack
 		//Product, increase state of the queue
+		if(this.queue.size()>0){
+			this.charge+=0.1f;
+			if(this.charge>=this.queue.get(0)){
+				this.charge=0f;
+				Character.createCharacter(p, team, x, y+this.sizeY, this.productionList.get(this.queue.get(0)));
+			}
+		}
 		// if reach production reset and create first unit in the queue
 		
 		if(this.lifePoints<10f){

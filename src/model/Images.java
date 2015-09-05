@@ -58,8 +58,8 @@ public class Images {
 			
 			
 			//Icones
-			this.iconeBowman = new Image("pics/iconBow.png").getSubImage(0, 0, 512, 512);
-			this.iconeSpearman = new Image("pics/iconSpear.png").getSubImage(0, 0, 512, 512);
+			this.iconeBowman = new Image("pics/iconBow.png");
+			this.iconeSpearman = new Image("pics/iconSpear.png");
 			
 		} catch (SlickException e) {
 			e.printStackTrace();
