@@ -24,7 +24,7 @@ public class Building extends ActionObjet{
 	public Building(Plateau p,Game g,float x, float y){
 		p.addBuilding(this);
 		this.constructionPoints = 0f;
-		
+		constructionPhase = false;
 		destructionPhase = true;
 		isCapturing = false;
 		teamCapturing = 0;
@@ -43,16 +43,19 @@ public class Building extends ActionObjet{
 
 
 	public void collision(Weapon w){
-		if(!isCapturing){
+		if(!isCapturing && w.owner.team!=team){
 
 			isCapturing = true;
-			teamCapturing = w.owner.team;
+			if(w.owner.team!=team){
+				teamCapturing = w.owner.team;
+			}
+			
 		}
 
-		if(constructionPhase && w.owner.team==this.team){
+		if(constructionPhase){
 
 			this.constructionPoints+=0.1f;
-			if(this.constructionPoints>maxLifePoints){
+			if(this.constructionPoints>=maxLifePoints){
 				this.constructionPhase=false;
 				this.destructionPhase = true;
 				this.constructionPoints = 0f;

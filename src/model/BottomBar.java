@@ -138,6 +138,9 @@ public class BottomBar extends Bar {
 			ProductionBuilding b =(ProductionBuilding) this.player.selection.get(0);
 			//Print building capacities
 			Vector<UnitsList> ul = b.productionList;
+			//for (Units)
+			
+			
 			
 		}
 

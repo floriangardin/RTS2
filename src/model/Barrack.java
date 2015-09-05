@@ -15,9 +15,9 @@ public class Barrack extends ProductionBuilding{
 	public Barrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		team = 0;
-		
-		isCapturing=false;
-		this.constructionPhase = false;
+		constructionPhase = false;
+		destructionPhase = true;
+		isCapturing = false;
 		this.sight = 300f;
 		this.p = plateau ;
 		maxLifePoints = p.constants.barrackLifePoints;

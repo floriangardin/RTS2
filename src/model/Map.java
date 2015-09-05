@@ -40,6 +40,8 @@ public class Map {
 
 
 		new Barrack(plateau,plateau.g,520f,700f);
+		Barrack test = new Barrack(plateau,plateau.g,720f,700f);
+		test.team = 2;
 	}
 
 	public void createMap2(Plateau plateau){
