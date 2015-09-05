@@ -8,7 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 public class Main {
-	int framerate = 60;
+	int framerate = 200;
 	
 	Constants constants;
 	public static void main(String[] args) {

@@ -46,6 +46,7 @@ public class BuildingMill extends Building{
 		this.x = ocb.x;
 		this.y = ocb.y;
 		this.p =p;
+		this.id = ocb.id;
 		this.g =p.g;
 		this.team=ocb.team;
 		this.chargeTime = p.constants.millChargeTime;

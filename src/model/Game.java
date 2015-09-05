@@ -220,11 +220,13 @@ public class Game extends BasicGame
 					if(player!=currentPlayer){
 						if(this.inputs.size()>0){
 							im = this.inputs.get(0);
-							this.inputs.remove(0);
-							if(this.inputs.size()>0){
-								im.mix(this.inputs.get(0));
-								this.inputs.remove(0);
-							}
+							this.inputs.clear();
+							//this.inputs.remove(0);
+//							if(this.inputs.size()>0){
+//								im.mix(this.inputs.get(0));
+//								this.inputs.remove(0);
+//							}
+							System.out.println("game line 228 " + this.inputs.size());
 							ims.add(im);
 							this.players.get(im.team).bottomBar.update(im.resX, im.resY);
 							this.players.get(im.team).topBar.update(im.resX, im.resY);

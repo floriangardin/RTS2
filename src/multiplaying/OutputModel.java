@@ -123,6 +123,7 @@ public class OutputModel extends MultiObjetModel{
 			this.x = b.getX();
 			this.y = b.getY();
 			this.team = b.team;
+			this.typeBuilding = b.type;
 			this.id= b.id;
 			this.sizeX = b.sizeX;
 			this.sizeY = b.sizeY;

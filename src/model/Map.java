@@ -19,7 +19,11 @@ public class Map {
 			}
 			plateau.g.players.get(0).groups.get(i).add(team[i]);
 		}
-//
+		Character.createBowman(plateau, 2, 100f, 100f);
+		Character.createBowman(plateau, 2, 100f, 100f);
+		Character.createBowman(plateau, 2, 100f, 100f);
+		Character.createBowman(plateau, 2, 100f, 100f);
+//	
 //		for(int i = 0;i<9; i++){
 //			new Water(395f+32*i,570f,32f,32f,plateau);
 //		}
@@ -29,9 +33,12 @@ public class Map {
 		}
 		new Tree(200f,400f,plateau,1);
 		// Instantiate enemy generator :
-		new EnemyGenerator(plateau,plateau.g,520f,100f);
+
+		
 		new BuildingMill(plateau,plateau.g,1200f,500f);
 		new BuildingMine(plateau,plateau.g,1200f,800f);
+
+
 		new Barrack(plateau,plateau.g,520f,700f);
 	}
 
