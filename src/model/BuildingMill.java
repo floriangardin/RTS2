@@ -16,10 +16,10 @@ public class BuildingMill extends Building{
 		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
-		this.id = p.g.idBuilding;
-		p.g.idBuilding+=1;
 		this.p =p;
 		this.g =g;
+		this.id = p.g.idBuilding;
+		p.g.idBuilding+=1;
 		this.team=0;
 		this.chargeTime = p.constants.millChargeTime;
 		this.lifePoints = p.constants.millLifePoints;

@@ -16,8 +16,6 @@ public class Barrack extends ProductionBuilding{
 		teamCapturing= 0;
 		team = 0;
 		type= 3;
-		this.id = p.g.idBuilding;
-		p.g.idBuilding+=1;
 		isCapturing=false;
 		maxLifePoints = 50f;
 		this.sight = 300f;
@@ -25,6 +23,8 @@ public class Barrack extends ProductionBuilding{
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
+		this.id = p.g.idBuilding;
+		p.g.idBuilding+=1;
 		this.x = f;
 		this.y = h;
 		this.sizeX = 120f; 
