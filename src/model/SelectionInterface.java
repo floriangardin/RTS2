@@ -45,12 +45,12 @@ public class SelectionInterface extends Bar {
 						//Show production bar
 						g.drawImage(icone,this.x+this.sizeX/4, this.y+this.sizeY/2 - 50f,this.x+this.sizeX/4+24f, this.y+this.sizeY/2 - 50f+24,0,0,512,512);
 						g.setColor(Color.red);
-						g.fillRect(this.x+this.sizeX/2, this.y+this.sizeY/2 - 50f, 100f,20f);
+						g.fillRect(this.x+this.sizeX/3, this.y+this.sizeY/2 - 50f, 100f,20f);
 						g.setColor(Color.green);
-						g.fillRect(this.x+this.sizeX/2, this.y+this.sizeY/2 - 50f,b.charge*100f/b.productionTime.get(q),20f);
+						g.fillRect(this.x+this.sizeX/3, this.y+this.sizeY/2 - 50f,b.charge*100f/b.productionTime.get(q),20f);
 					}
 					else{
-						g.drawImage(icone,this.x+this.sizeX/4+25f*compteur, this.y+2*this.sizeY/3 - 50f,this.x+this.sizeX/4+25f*compteur+24f, this.y+2*this.sizeY/3 - 50f+24f,0f,0f,512f,512f);
+						g.drawImage(icone,this.x+this.sizeX/4+25f*(compteur-1), this.y+2*this.sizeY/3 - 50f,this.x+this.sizeX/4+25f*(compteur-1)+24f, this.y+2*this.sizeY/3 - 50f+24f,0f,0f,512f,512f);
 					}
 					compteur ++;
 		

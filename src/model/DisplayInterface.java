@@ -17,8 +17,7 @@ public class DisplayInterface extends Bar{
 	}
 	
 	public Graphics draw(Graphics g){
-		String s = "Ennemies killed : " + this.parent.player.ennemiesKilled;
-		g.drawString(s, x + 30f, y+60f);
+
 		return g;
 	}
 	
