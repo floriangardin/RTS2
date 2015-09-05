@@ -15,6 +15,7 @@ public class Barrack extends ProductionBuilding{
 		team = 0;
 		isCapturing=false;
 		maxLifePoints = 50f;
+		this.sight = 300f;
 		this.p = plateau ;
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
@@ -45,7 +46,7 @@ public class Barrack extends ProductionBuilding{
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		// if reach production reset and create first unit in the queue
-
+		
 		if(this.lifePoints<10f){
 
 			this.team = this.teamCapturing;
@@ -66,7 +67,7 @@ public class Barrack extends ProductionBuilding{
 
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints){
+		if(this.constructionPoints<this.maxLifePoints && constructionPhase){
 			g.setColor(Color.white);
 			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;

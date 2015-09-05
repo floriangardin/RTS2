@@ -35,7 +35,7 @@ public class Building extends ActionObjet{
 		this.sizeY = 120f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
-		
+		this.sight = 300f;
 	}
 	
 	
@@ -48,7 +48,7 @@ public class Building extends ActionObjet{
 		
 		if(constructionPhase && w.owner.team==this.team){
 			
-			this.constructionPoints+=0.01f;
+			this.constructionPoints+=0.1f;
 			if(this.constructionPoints>maxLifePoints){
 				this.constructionPhase=false;
 				this.destructionPhase = true;
