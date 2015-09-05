@@ -73,6 +73,7 @@ public class Character extends ActionObjet{
 		// Only used to display on client screen
 		// Parameters
 		this.maxLifePoints = 100f;
+		this.name = "Character";
 		this.sight = 100f;
 		this.id = occ.id;
 		this.p = p;
