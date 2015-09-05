@@ -47,6 +47,7 @@ public class BuildingMine extends Building{
 		this.g =p.g;
 		this.team=ocb.team;
 		this.chargeTime = p.constants.millChargeTime;
+		this.selection_circle = this.p.images.selection_circle.getScaledCopy(4f);
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 
 		this.sizeY = ocb.sizeY;
