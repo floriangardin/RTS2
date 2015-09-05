@@ -19,6 +19,25 @@ public class Images {
 	Image windmill;
 	Image windmillarms;
 	
+	//Building
+	Image buildingBarrackBlue;
+	Image buildingBarrackRed;
+	Image buildingBarrackNeutral;
+	Image buildingStableBlue;
+	Image buildingStableRed;
+	Image buildingStableNeutral;
+	Image buildingAcademyBlue;
+	Image buildingAcademyRed;
+	Image buildingAcademyNeutral;
+	Image buildingMillBlue;
+	Image buildingMillRed;
+	Image buildingMillNeutral;
+	Image buildingMineBlue;
+	Image buildingMineRed;
+	Image buildingMineNeutral;
+	Image buildingHeadQuartersBlue;
+	Image buildingHeadQuartersRed;
+	
 	//Icones
 	Image iconeSpearman;
 	Image iconeBowman;
@@ -56,6 +75,24 @@ public class Images {
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
 			
+			//Building
+			buildingBarrackBlue = new Image("pics/Building/BarrackBlue.png");
+			buildingBarrackRed = new Image("pics/Building/BarrackRed.png");
+			buildingBarrackNeutral = new Image("pics/Building/BarrackNeutral.png");
+//			buildingStableBlue;
+//			buildingStableRed;
+//			buildingStableNeutral;
+//			buildingAcademyBlue;
+//			buildingAcademyRed;
+//			buildingAcademyNeutral;
+//			buildingMillBlue;
+//			buildingMillRed;
+//			buildingMillNeutral;
+			buildingMineBlue = new Image("pics/Building/MineBlue.png");
+			buildingMineRed = new Image("pics/Building/MineRed.png");
+			buildingMineNeutral = new Image("pics/Building/MineNeutral.png");
+			buildingHeadQuartersBlue = new Image("pics/Building/HeadQuartersBlue.png");
+			buildingHeadQuartersRed = new Image("pics/Building/HeadQuartersRed.png");
 			
 			//Icones
 			this.iconeBowman = new Image("pics/iconBow.png");

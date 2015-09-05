@@ -60,8 +60,8 @@ public class Barrack extends ProductionBuilding{
 		this.x = ocb.x;
 		this.y = ocb.y;
 		this.id = ocb.id;
-		this.sizeX = 120f; 
-		this.sizeY = 120f;
+		this.sizeX = 285f; 
+		this.sizeY = 174f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
 		// List of potential production (Spearman
@@ -112,7 +112,8 @@ public class Barrack extends ProductionBuilding{
 	}
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY*3f/4f, this.x+this.sizeX/2f, this.y+this.sizeY/4f, 0, 0, 285, 348);
+		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints
 			g.setColor(Color.red);

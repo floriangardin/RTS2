@@ -5,6 +5,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import multiplaying.OutputModel.OutputBuilding;
+
 public class BuildingMine extends Building{
 	
 	public int chargeTime;
@@ -34,6 +36,22 @@ public class BuildingMine extends Building{
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.windmill;
 		
+	}
+	
+	public BuildingMine(OutputBuilding ocb, Plateau p){
+		p.addBuilding(this);
+		this.x = ocb.x;
+		this.y = ocb.y;
+		this.p =p;
+		this.id = ocb.id;
+		this.g =p.g;
+		this.team=ocb.team;
+		this.chargeTime = p.constants.millChargeTime;
+		this.lifePoints = ocb.lifepoints;
+		this.sizeX = ocb.sizeX; 
+		this.sizeY = ocb.sizeY;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.image = this.p.images.windmill;
 	}
 	
 	public void action(){

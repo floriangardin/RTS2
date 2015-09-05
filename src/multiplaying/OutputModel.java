@@ -107,7 +107,8 @@ public class OutputModel extends MultiObjetModel{
 		public int typeBuilding;
 		public float lifepoints, maxlifepoints, constrpoints;
 		public int team;
-		public OutputBuilding(int id, int type, float x, float y, float sizeX, float sizeY, float lifepoints, float constrpoints, float maxlifepoints,int team){
+		public float animation;
+		public OutputBuilding(int id, int type, float x, float y, float sizeX, float sizeY, float lifepoints, float constrpoints, float maxlifepoints,int team, float animation){
 			this.x = x;
 			this.team = team;
 			this.y = y;
@@ -118,6 +119,7 @@ public class OutputModel extends MultiObjetModel{
 			this.lifepoints = lifepoints;
 			this.maxlifepoints = maxlifepoints;
 			this.constrpoints = constrpoints;
+			this.animation = animation;
 		}
 		public OutputBuilding(Building b){
 			this.x = b.getX();
@@ -130,6 +132,7 @@ public class OutputModel extends MultiObjetModel{
 			this.lifepoints = b.lifePoints;
 			this.maxlifepoints = b.maxLifePoints;
 			this.constrpoints = b.constructionPoints;
+			this.animation = b.animation;
 		}
 		public OutputBuilding(String s){
 			try{
@@ -144,13 +147,14 @@ public class OutputModel extends MultiObjetModel{
 			this.lifepoints = Float.parseFloat(t[7]);
 			this.maxlifepoints = Float.parseFloat(t[8]);
 			this.constrpoints = Float.parseFloat(t[9]);
+			this.animation = Float.parseFloat(t[10]);
 			} catch (NumberFormatException e ){
 				//System.out.println(s);
 			}
 		}
 		public String toString(){
 			String s = "";
-			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+team+" "+lifepoints+" "+maxlifepoints+" "+constrpoints;
+			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+team+" "+lifepoints+" "+maxlifepoints+" "+constrpoints+" "+animation;
 			return s;
 		}
 	}
