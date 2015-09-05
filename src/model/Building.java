@@ -16,6 +16,7 @@ public class Building extends ActionObjet{
 	public float maxLifePoints;
 	public float constructionPoints;
 	boolean constructionPhase;
+	public float animation;
 
 	public int type;
 
@@ -71,12 +72,13 @@ public class Building extends ActionObjet{
 		this.team = ocb.team;	
 		this.maxLifePoints = ocb.maxlifepoints;
 		this.constructionPoints = ocb.constrpoints;
+		this.animation = ocb.animation;
 	}
 
 	public Building(OutputBuilding ocb, Plateau p){
 		switch(ocb.typeBuilding){
-		case 0: new BuildingMill(ocb,p); break;
-		case 1: break;
+		case 0: new BuildingMine(ocb,p); break;
+		case 1: new BuildingMill(ocb,p); break;
 		case 2: break;
 		case 3: new Barrack(ocb,p); break;
 		case 4: break;
