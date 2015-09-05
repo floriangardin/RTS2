@@ -21,6 +21,7 @@ public class OutputModel extends MultiObjetModel{
 		String[] v;
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
+		toChangeBuildings = new Vector<OutputBuilding>();
 		selection = new Vector<Integer>();
 
 		for(int i=0; i<t.length; i++){
