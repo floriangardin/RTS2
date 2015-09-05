@@ -33,7 +33,7 @@ public class Wand extends RangeWeapon{
 		// update x and y
 		this.setXY(this.owner.getX(), this.owner.getY());
 		// Test if target
-		if(this.owner.getTarget() instanceof Building && this.state>this.chargeTime){
+		if(this.owner.getTarget() instanceof Building && this.state>this.chargeTime && this.owner.getTarget().team!=this.owner.team){
 			Building target =(Building) this.owner.getTarget();
 			// Launch a bullet
 						Circle circle = new Circle(this.getX(),this.getY(),this.range);

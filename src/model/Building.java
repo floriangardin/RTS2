@@ -39,11 +39,22 @@ public class Building extends ActionObjet{
 	
 	public void collision(Weapon w){
 		if(!isCapturing){
+			
 			isCapturing = true;
-			teamCapturing = w.team;
+			teamCapturing = w.owner.team;
 		}
-		if(constructionPhase){
-			this.constructionPoints+=0.1f;
+		
+		if(constructionPhase && w.owner.team==this.team){
+			
+			this.constructionPoints+=0.01f;
+			if(this.constructionPoints>maxLifePoints){
+				this.constructionPhase=false;
+				this.destructionPhase = true;
+				this.constructionPoints = 0f;
+				this.isCapturing = false;
+				System.out.println("achieved");
+				
+			}
 		}
 		
 	}

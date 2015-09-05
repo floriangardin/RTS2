@@ -320,7 +320,7 @@ public class Plateau {
 		for(Building b : buildings){
 			for(ActionObjet o : equipments){
 				if(o.collisionBox.intersects(b.collisionBox) && o instanceof Weapon){
-					System.out.println("collision weapon");
+					
 					Weapon w = (Weapon) o;
 					w.collision(b);
 					b.collision(w);
