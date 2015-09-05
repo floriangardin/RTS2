@@ -65,5 +65,16 @@ public class Images {
 			e.printStackTrace();
 		}
 	}
+	
+	public Image getIconByName(String name){
+		switch(name){
+		case "Spearman": return this.iconeSpearman;
+		case "Bowman": return this.iconeBowman;
+		case "Knight": return this.iconeKnight;
+		case "Priest": return this.iconePriest;
+		case "Wizard": return this.iconeWizard;
+		default: return null;
+		}
+	}
 
 }
