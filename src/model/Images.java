@@ -49,6 +49,9 @@ public class Images {
 	Image iconeWizard;
 	Image iconeKnight;
 	
+	//Tech
+	Image techEagleView;
+	
 	public Images(){
 		try {
 			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
@@ -109,6 +112,9 @@ public class Images {
 			this.iconePriest = new Image("pics/iconBible.png");
 			this.iconeWizard = new Image("pics/iconFireball.png");
 			
+			//Icones Techs
+			this.techEagleView = new Image("tech/eagleview.png");
+			
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -123,6 +129,14 @@ public class Images {
 		case "Wizard": return this.iconeWizard;
 		default: return null;
 		}
+	}
+	
+	public Image getIconeTech(String name){
+		switch(name){
+		case "EagleView": return this.techEagleView;
+		default: return null;
+		}
+		
 	}
 
 }

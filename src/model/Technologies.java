@@ -8,7 +8,7 @@ public enum Technologies {
 
 	Age2("Age2",10f,0f,50f),
 	Age3("Age3",10f,0f,50f),
-	Sight100("Priest",10f,5f,40f);
+	Sight100("Eagle View",10f,5f,40f);
 	
 
 	String name = "";
