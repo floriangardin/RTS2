@@ -53,13 +53,13 @@ public abstract class ProductionBuilding extends Building {
 		if(this.lifePoints<10f){
 
 			this.team = this.teamCapturing;
-			if(this.team==1)
-				this.image = this.p.images.buildingBarrackBlue;
-			if(this.team==2)
-				this.image = this.p.images.buildingBarrackRed;
+			this.updateImage();
+			
 			this.lifePoints=this.maxLifePoints;
 			
 		}
 	}
+	
+	
 	
 }
