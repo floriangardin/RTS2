@@ -68,9 +68,9 @@ public class Building extends ActionObjet{
 		switch(ocb.typeBuilding){
 		case 0: new BuildingMine(ocb,p); break;
 		case 1: new BuildingMill(ocb,p); break;
-		case 2: break;
+		case 2: new Stable(ocb,p);break;
 		case 3: new Barrack(ocb,p); break;
-		case 4: break;
+		case 4: new Academy(ocb,p);break;
 		default:
 		}
 	}
