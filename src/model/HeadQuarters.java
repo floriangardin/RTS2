@@ -18,13 +18,15 @@ public class HeadQuarters extends Building {
 	Vector<Technologie> techsUndiscovered;
 	Vector<Technologie> techsDiscovered;
 	
-	public HeadQuarters(Plateau plateau, Game g, float f, float h) {
-		teamCapturing= 0;
-		team = 0;
-
-		this.sight = 300f;
+	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
+		teamCapturing= team;
 		this.p = plateau ;
-		maxLifePoints = p.constants.barrackLifePoints;
+		this.team = team;
+		this.sizeX = this.p.constants.headQuartersSizeX; 
+		this.sizeY = this.p.constants.headQuartersSizeY;
+		this.sight = this.p.constants.headQuartersSight;
+		
+		maxLifePoints = p.constants.headQuartersLifePoints;
 		this.name = "HeadQuarters";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
@@ -35,16 +37,19 @@ public class HeadQuarters extends Building {
 		p.g.idChar+=1;
 		this.x = f;
 		this.y = h;
-		this.sizeX = 120f; 
-		this.sizeY = 120f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.image = this.p.images.tent;
+		if(this.team == 1){
+			this.image = this.p.images.buildingHeadQuartersBlue;
+		}
+		else if(this.team == 2){
+			this.image = this.p.images.buildingHeadQuartersRed;
+		}
+		else {
+			this.image = this.p.images.tent;
+		}
 		// List of potential production (Spearman
 		this.techsDiscovered = new Vector<Technologie>();
 		this.techsUndiscovered = new Vector<Technologie>();
-
-		
-		
 
 	}
 
@@ -60,10 +65,19 @@ public class HeadQuarters extends Building {
 		this.y = ocb.y;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.id = ocb.id;
-		this.sizeX = 120f; 
-		this.sizeY = 120f;
+		this.sizeX = this.p.constants.headQuartersSizeX; 
+		this.sizeY = this.p.constants.headQuartersSizeY;
+		this.sight = this.p.constants.headQuartersSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.image = this.p.images.tent;
+		if(this.team == 1){
+			this.image = this.p.images.buildingHeadQuartersBlue;
+		}
+		else if(this.team == 2){
+			this.image = this.p.images.buildingHeadQuartersRed;
+		}
+		else {
+			this.image = this.p.images.tent;
+		}
 
 		
 	}
@@ -73,7 +87,7 @@ public class HeadQuarters extends Building {
 	}
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 224, 384);
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints
 			g.setColor(Color.red);

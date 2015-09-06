@@ -53,7 +53,11 @@ public class Constants {
 	
 	
 	//// BUILDINGS STATS
-
+	//headQuarters
+	public int headQuartersLifePoints = 200;
+	public float headQuartersSight = 300f;
+	public float headQuartersSizeX = 291f;
+	public float headQuartersSizeY = 291f*2f/3f;
 	// Mill
 	public int millChargeTime = 5;
 	public int millLifePoints = 100;

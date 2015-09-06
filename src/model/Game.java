@@ -131,8 +131,8 @@ public class Game extends BasicGame
 
 		
 		g.setColor(Color.black);
-		g.fillRect(this.plateau.maxX, 0, this.maxX, this.maxY);
-		g.fillRect(0, this.plateau.maxY, this.maxX, this.maxY);
+		g.fillRect(this.plateau.maxX, 0, this.plateau.maxX, this.plateau.maxY);
+		g.fillRect(0, this.plateau.maxY, this.plateau.maxX, this.plateau.maxY);
 		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 
