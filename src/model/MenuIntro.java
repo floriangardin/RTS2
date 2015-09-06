@@ -101,8 +101,8 @@ public class MenuIntro extends Menu {
 		} else {
 			int i = 0;
 			int j = 0;
-			while(i<this.game.maxX){
-				while(j<this.game.maxY){
+			while(i<this.game.plateau.maxX){
+				while(j<this.game.plateau.maxY){
 					g.drawImage(this.game.background, i,j);
 					j+=this.game.background.getHeight();
 				}

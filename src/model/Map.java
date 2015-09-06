@@ -48,8 +48,6 @@ public class Map {
 	public void createMapLan(Plateau plateau){
 		plateau.maxX = 2000f;
 		plateau.maxY = 3000f;
-		plateau.g.maxX = plateau.maxX;
-		plateau.g.maxY = plateau.maxY;
 
 		Character.createBowman(plateau, 1, plateau.maxX/2-1f, 300f);
 		Character.createKnight(plateau, 1, plateau.maxX/2, 300f);
