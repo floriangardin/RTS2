@@ -113,7 +113,7 @@ public class Images {
 			this.iconeWizard = new Image("pics/iconFireball.png");
 			
 			//Icones Techs
-			this.techEagleView = new Image("tech/eagleview.png");
+			this.techEagleView = new Image("Tech/EagleView.png");
 			
 		} catch (SlickException e) {
 			e.printStackTrace();
