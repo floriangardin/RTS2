@@ -2,7 +2,7 @@ package model;
 
 import java.util.Vector;
 
-public abstract class ProductionBuilding extends Building {
+public abstract class BuildingProduction extends Building {
 
 	
 	Vector<UnitsList> productionList;

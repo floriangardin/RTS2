@@ -9,10 +9,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 import multiplaying.OutputModel.OutputBuilding;
 
-public class Academy extends ProductionBuilding {
+public class BuildingAcademy extends BuildingProduction {
 
 	
-	public Academy(Plateau plateau, Game g, float f, float h) {
+	public BuildingAcademy(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		this.animation=-1f;
 		team = 0;
@@ -47,7 +47,7 @@ public class Academy extends ProductionBuilding {
 		this.productionTime.addElement(this.p.constants.spearmanProdTime);
 	}
 
-	public Academy(OutputBuilding ocb, Plateau p){
+	public BuildingAcademy(OutputBuilding ocb, Plateau p){
 		team = ocb.team;
 		type= 4;
 		maxLifePoints = ocb.maxlifepoints;

@@ -50,6 +50,10 @@ public class Building extends ActionObjet{
 		else{
 			if(this.potentialTeam!=this.team){
 				this.team = this.potentialTeam;
+				if(this instanceof BuildingProduction){
+					((BuildingProduction)this).queue.clear();
+					((BuildingProduction)this).charge = 0f;					
+				}
 				this.updateImage();
 			}
 		}
@@ -62,15 +66,16 @@ public class Building extends ActionObjet{
 		this.constructionPoints = ocb.constrpoints;
 		this.animation = ocb.animation;
 		this.sight = ocb.sight;
+		this.updateImage();
 	}
 
 	public Building(OutputBuilding ocb, Plateau p){
 		switch(ocb.typeBuilding){
 		case 0: new BuildingMine(ocb,p); break;
 		case 1: new BuildingMill(ocb,p); break;
-		case 2: new Stable(ocb,p);break;
-		case 3: new Barrack(ocb,p); break;
-		case 4: new Academy(ocb,p);break;
+		case 2: new BuildingStable(ocb,p);break;
+		case 3: new BuildingBarrack(ocb,p); break;
+		case 4: new BuildingAcademy(ocb,p);break;
 		default:
 		}
 	}
@@ -84,7 +89,7 @@ public class Building extends ActionObjet{
 	}	
 	
 	public void updateImage(){
-		if(this instanceof Barrack){
+		if(this instanceof BuildingBarrack){
 			if(team==1){
 				this.image = this.p.images.buildingBarrackBlue;
 			} else if(team==2){
@@ -94,7 +99,7 @@ public class Building extends ActionObjet{
 			}
 		}
 
-		else if(this instanceof Stable){
+		else if(this instanceof BuildingStable){
 			if(team==1){
 				this.image = this.p.images.buildingStableBlue;
 			} else if(team==2){
@@ -103,7 +108,7 @@ public class Building extends ActionObjet{
 				this.image = this.p.images.buildingStableNeutral;
 			}
 		}
-		else if(this instanceof Academy){
+		else if(this instanceof BuildingAcademy){
 			if(team==1){
 				this.image = this.p.images.buildingAcademyBlue;
 			} else if(team==2){

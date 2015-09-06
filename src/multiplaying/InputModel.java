@@ -29,6 +29,12 @@ public class InputModel extends MultiObjetModel{
 	public boolean isPressedRIGHT;
 	public boolean isPressedUP;
 	public boolean isPressedDOWN;
+
+	public boolean isPressedW;
+	public boolean isPressedX;
+	public boolean isPressedC;
+	public boolean isPressedV;
+	
 	public boolean[] isPressedNumPad = new boolean[10];
 
 	public int xMouse;
@@ -58,6 +64,10 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT)|| input.isKeyDown(Input.KEY_Q);
 		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT)|| input.isKeyDown(Input.KEY_D);
 		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN)|| input.isKeyDown(Input.KEY_S);
+		this.isPressedW = input.isKeyPressed(Input.KEY_W);
+		this.isPressedX = input.isKeyPressed(Input.KEY_X);
+		this.isPressedC = input.isKeyPressed(Input.KEY_C);
+		this.isPressedV = input.isKeyPressed(Input.KEY_V);
 		
 		
 		
@@ -95,8 +105,12 @@ public class InputModel extends MultiObjetModel{
 			case 15: this.isPressedBACK = boolBuffer;break;
 			case 16: this.isPressedDOT = boolBuffer;break;
 			case 17: this.isPressedENTER = boolBuffer; break;
+			case 18: this.isPressedW = boolBuffer;break;
+			case 19: this.isPressedX = boolBuffer;break;
+			case 20: this.isPressedC = boolBuffer;break;
+			case 21: this.isPressedV = boolBuffer; break;
 			default:
-				this.isPressedNumPad[i-18] = boolBuffer;break;
+				this.isPressedNumPad[i-22] = boolBuffer;break;
 			}
 		}
 	}
@@ -105,7 +119,7 @@ public class InputModel extends MultiObjetModel{
 		String s = "0";
 		s+=timeValue+" "+team+ " "+xMouse+" "+yMouse+" "+resX+" "+resY+" "+Xcam+" "+Ycam;
 		s+=" "+leftClick + " " +rightClick+" "+isPressedLeftClick+" "+isPressedRightClick+" "+isPressedESC+" "+isPressedMAJ+" "+isPressedCTRL+
-				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER;
+				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER+" "+isPressedW+" "+isPressedX+" "+isPressedC+" "+isPressedV;
 		for(int i=0; i<10;i++){
 			s+= " " + this.isPressedNumPad[i];
 		}
@@ -131,6 +145,14 @@ public class InputModel extends MultiObjetModel{
 			this.leftClick = true;
 		if(!this.rightClick && m2.rightClick)
 			this.rightClick = true;
+		if(!this.isPressedW && m2.isPressedW)
+			this.isPressedW = true;
+		if(!this.isPressedX && m2.isPressedX)
+			this.isPressedX = true;
+		if(!this.isPressedC && m2.isPressedC)
+			this.isPressedC = true;
+		if(!this.isPressedV && m2.isPressedV)
+			this.isPressedV = true;
 		for(int i=0;i<10;i++){
 			if(!this.isPressedNumPad[i]&& m2.isPressedNumPad[i])
 				this.isPressedNumPad[i] = true;

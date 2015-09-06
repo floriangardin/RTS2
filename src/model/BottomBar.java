@@ -150,8 +150,8 @@ public class BottomBar extends Bar {
 		
 		
 		// Draw Production/Effect Bar
-		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof ProductionBuilding){
-			ProductionBuilding b =(ProductionBuilding) this.player.selection.get(0);
+		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingProduction){
+			BuildingProduction b =(BuildingProduction) this.player.selection.get(0);
 			//Print building capacities
 			Vector<UnitsList> ul = b.productionList;
 			Font f = g.getFont();

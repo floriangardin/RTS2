@@ -31,9 +31,9 @@ public class SelectionInterface extends Bar {
 
 
 		// Draw building state
-		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof ProductionBuilding ){
+		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof BuildingProduction ){
 
-			ProductionBuilding b = (ProductionBuilding) this.parent.player.selection.get(0);
+			BuildingProduction b = (BuildingProduction) this.parent.player.selection.get(0);
 			int compteur = 0;
 			if(b.isProducing){
 				for(int q : b.queue){

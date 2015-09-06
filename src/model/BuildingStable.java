@@ -9,19 +9,19 @@ import org.newdawn.slick.geom.Rectangle;
 
 import multiplaying.OutputModel.OutputBuilding;
 
-public class Barrack extends ProductionBuilding{
+public class BuildingStable extends BuildingProduction{
 
 
-	public Barrack(Plateau plateau, Game g, float f, float h) {
+	public BuildingStable(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		this.animation=-1f;
 		team = 0;
 		this.p = plateau ;
-		maxLifePoints = p.constants.barrackLifePoints;
-		this.sizeX = this.p.constants.barrackSizeX; 
-		this.sizeY = this.p.constants.barrackSizeY;
-		this.sight = this.p.constants.barrackSight;
-		this.name = "Barrack";
+		maxLifePoints = p.constants.stableLifePoints;
+		this.sizeX = this.p.constants.stableSizeX; 
+		this.sizeY = this.p.constants.stableSizeY;
+		this.sight = this.p.constants.stableSight;
+		this.name = "Stable";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
@@ -33,64 +33,63 @@ public class Barrack extends ProductionBuilding{
 		this.y = h;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
-			this.image = this.p.images.buildingBarrackBlue;
+			this.image = this.p.images.buildingStableBlue;
 		} else if(team==2){
-			this.image = this.p.images.buildingBarrackRed;
+			this.image = this.p.images.buildingStableRed;
 		} else {
-			this.image = this.p.images.buildingBarrackNeutral;
+			this.image = this.p.images.buildingStableNeutral;
 		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Spearman);
-		this.productionTime.addElement(this.p.constants.spearmanProdTime);
-		this.productionList.addElement(UnitsList.Bowman);
-		this.productionTime.addElement(this.p.constants.bowmanProdTime);
+		this.productionList.addElement(UnitsList.Knight);
+		this.productionTime.addElement(this.p.constants.knightProdTime);
+		this.productionList.addElement(UnitsList.Priest);
+		this.productionTime.addElement(this.p.constants.priestProdTime);
 	}
 
-	public Barrack(OutputBuilding ocb, Plateau p){
+	public BuildingStable(OutputBuilding ocb, Plateau p){
 		team = ocb.team;
 		type= 3;
 		maxLifePoints = ocb.maxlifepoints;
 		this.p = p;
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
+		this.name = "Stable";
 		this.g = p.g;
 		this.x = ocb.x;
 		this.y = ocb.y;
 		this.id = ocb.id;
-		this.sizeX = this.p.constants.barrackSizeX; 
-		this.name = "Barrack";
-		this.sizeY = this.p.constants.barrackSizeY;
-		this.sight = this.p.constants.barrackSight;
+		this.sizeX = this.p.constants.stableSizeX; 
+		this.sizeY = this.p.constants.stableSizeY;
+		this.sight = this.p.constants.stableSight;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		if(ocb.team==1){
-			this.image = this.p.images.buildingBarrackBlue;
+			this.image = this.p.images.buildingStableBlue;
 		} else if(ocb.team==2){
-			this.image = this.p.images.buildingBarrackRed;
+			this.image = this.p.images.buildingStableRed;
 		} else {
-			this.image = this.p.images.buildingBarrackNeutral;
+			this.image = this.p.images.buildingStableNeutral;
 		}
 		
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Spearman);
-		this.productionTime.addElement(this.p.constants.spearmanProdTime);
-		this.productionList.addElement(UnitsList.Bowman);
-		this.productionTime.addElement(this.p.constants.bowmanProdTime);
+		this.productionList.addElement(UnitsList.Knight);
+		this.productionTime.addElement(this.p.constants.knightProdTime);
+		this.productionList.addElement(UnitsList.Priest);
+		this.productionTime.addElement(this.p.constants.priestProdTime);
 	}
 
-
+	
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 285, 285);
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 291, 291);
 		if(animation>=0f){
-			g.drawImage(this.p.images.fire, this.x+5f/18f*sizeX, this.y-24f,this.x+5f/18f*sizeX+32f, this.y+24f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
-			g.drawImage(this.p.images.fire, this.x-9f/18f*sizeX-2f, this.y-84f,this.x-9f/18f*sizeX+32f-2f, this.y-36f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
+			g.drawImage(this.p.images.fountain, this.x-6f/18f*sizeX-48f, this.y-128f,this.x-6f/18f*sizeX+48f, this.y-32f, (int)(animation/30f)*96, 0, ((int)(animation/30f)+1)*96, 96);
 		}
 		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
 		if(this.lifePoints<this.maxLifePoints){
@@ -103,7 +102,7 @@ public class Barrack extends ProductionBuilding{
 
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && this.constructionPoints>0f){
+		if(this.constructionPoints<this.maxLifePoints && this.constructionPoints>0){
 			g.setColor(Color.white);
 			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;
@@ -114,3 +113,4 @@ public class Barrack extends ProductionBuilding{
 	}
 
 }
+

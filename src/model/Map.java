@@ -39,8 +39,8 @@ public class Map {
 		new BuildingMine(plateau,plateau.g,900f,800f);
 
 
-		new Academy(plateau,plateau.g,520f,700f);
-		new Stable(plateau,plateau.g,520f,1000f);
+		new BuildingAcademy(plateau,plateau.g,520f,700f);
+		new BuildingStable(plateau,plateau.g,520f,1000f);
 		//Barrack test = new Barrack(plateau,plateau.g,720f,700f);
 		//test.team = 2;
 	}
@@ -57,10 +57,10 @@ public class Map {
 		
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
-		new Barrack(plateau,plateau.g,plateau.maxX/2,100f);
+		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,100f);
 		
-		new Stable(plateau,plateau.g,plateau.maxX/4,2*plateau.maxY/5);
-		new Academy(plateau,plateau.g,3*plateau.maxX/4,2*plateau.maxY/5);
+		new BuildingStable(plateau,plateau.g,plateau.maxX/4,2*plateau.maxY/5);
+		new BuildingAcademy(plateau,plateau.g,3*plateau.maxX/4,2*plateau.maxY/5);
 
 		Character.createBowman(plateau, 2, plateau.maxX/2-1f, plateau.maxY-300f);
 		Character.createKnight(plateau, 2, plateau.maxX/2, plateau.maxY-300f);
@@ -70,16 +70,16 @@ public class Map {
 		
 		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
-		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
+		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
 		
 		// Stables and academy 
-		new Stable(plateau,plateau.g,plateau.maxX/4, 3*plateau.maxY/5);
-		new Academy(plateau,plateau.g,3f*plateau.maxX/4, 3*plateau.maxY/5);
+		new BuildingStable(plateau,plateau.g,plateau.maxX/4, 3*plateau.maxY/5);
+		new BuildingAcademy(plateau,plateau.g,3f*plateau.maxX/4, 3*plateau.maxY/5);
 		
 		// Barrack in the middle
 		new BuildingMill(plateau,plateau.g,150f,plateau.maxY/2);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2);
-		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
+		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
 
 	}
 	public void createMap2(Plateau plateau){
