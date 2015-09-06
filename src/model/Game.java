@@ -363,7 +363,6 @@ public class Game extends BasicGame
 		// Create background image manually
 
 
-
 		try{
 			Thread.sleep(10);
 		} catch(InterruptedException e) {}

@@ -19,6 +19,8 @@ public class Data {
 	public float smArmor = 4f;
 	public float smDamage = 5f;
 	public float smChargeTime = 5f; 
+	public float smSight = 300f;
+	
 	
 	// Bowman
 	public float bmVelocity = 90f;
@@ -27,6 +29,7 @@ public class Data {
 	public float bmDamage = 7f;
 	public float bmRange = 200f;
 	public float bmChargeTime = 5f;
+	public float bmSight = 300f;
 
 	// Wizard
 	public float wzVelocity = 60f;
@@ -35,6 +38,7 @@ public class Data {
 	public float wzChargeTime = 15f;
 	public float wzRange = 100f;
 	public float wzDamage = 15f;
+	public float wzSight = 300f;
 
 	// Knight
 	public float ktVelocity = 110f;
@@ -42,6 +46,7 @@ public class Data {
 	public float ktArmor = 5f; 
 	public float ktDamage = 8f;
 	public float ktChargeTime = 7f;
+	public float ktSight = 300f;
 	
 	// Priest
 	public float prVelocity = 110f;
@@ -49,6 +54,7 @@ public class Data {
 	public float prArmor = 1f; 
 	public float prDamage = -1f;
 	public float prChargeTime = 0.2f;
+	public float prSight = 300f;
 	
 	
 	//// BUILDINGS STATS
@@ -93,6 +99,7 @@ public class Data {
 	public float academySight = 300f;
 	public float academySizeX = 291f;
 	public float academySizeY = 291f*2f/3f;
+	
 	
 	//// Attack Bonuses
 		

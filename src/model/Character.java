@@ -59,7 +59,7 @@ public class Character extends ActionObjet{
 		if(team==2)
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
-		this.team = team;
+		
 		// the maximum number of float by second
 		p.addCharacterObjets(this);
 		this.collisionBox = new Circle(x,y,size);
@@ -72,12 +72,13 @@ public class Character extends ActionObjet{
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
 		// Parameters
-		this.maxLifePoints = 100f;
+		this.team = occ.team;
+		this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;
 		this.name = "Character";
-		this.sight = 100f;
+		this.sight =this.p.g.players.get(team).data.smSight;
 		this.id = occ.id;
 		this.p = p;
-		this.team = occ.team;
+		
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
 		if(team==1)
@@ -667,6 +668,7 @@ public class Character extends ActionObjet{
 		c.damage = p.g.players.get(team).data.smDamage;
 		c.chargeTime = p.g.players.get(team).data.smChargeTime;
 		c.lifePoints = c.maxLifePoints;
+		c.sight = p.g.players.get(team).data.smSight;
 		c.collectWeapon(new Spear(p,c));
 		return c;
 	}
@@ -679,6 +681,7 @@ public class Character extends ActionObjet{
 		c.damage = p.g.players.get(team).data.bmDamage;
 		c.range = p.g.players.get(team).data.bmRange;
 		c.chargeTime = p.g.players.get(team).data.bmChargeTime;
+		c.sight = p.g.players.get(team).data.bmSight;
 		c.lifePoints = c.maxLifePoints;
 		c.collectWeapon(new Bow(p,c));
 		return c;
@@ -693,6 +696,7 @@ public class Character extends ActionObjet{
 		c.range= p.g.players.get(team).data.wzRange;
 		c.lifePoints = c.maxLifePoints;
 		c.chargeTime = p.g.players.get(team).data.wzChargeTime;
+		c.sight = p.g.players.get(team).data.wzSight;
 		c.collectWeapon(new Wand(p,c));
 		return c;
 	}
@@ -706,6 +710,7 @@ public class Character extends ActionObjet{
 		c.damage = p.g.players.get(team).data.ktDamage;
 		c.chargeTime = p.g.players.get(team).data.ktChargeTime;
 		c.lifePoints = c.maxLifePoints;
+		c.sight = p.g.players.get(team).data.ktSight;
 		c.collectWeapon(new Sword(p,c));
 		return c;
 	}
@@ -720,6 +725,7 @@ public class Character extends ActionObjet{
 		c.chargeTime = p.g.players.get(team).data.prChargeTime;
 		c.collectWeapon(new Bible(p,c));
 		c.lifePoints = c.maxLifePoints;
+		c.sight = p.g.players.get(team).data.prSight;
 		return c;
 	}
 
