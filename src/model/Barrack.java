@@ -16,9 +16,6 @@ public class Barrack extends ProductionBuilding{
 		teamCapturing= 0;
 		this.animation=-1f;
 		team = 0;
-		constructionPhase = false;
-		destructionPhase = true;
-		isCapturing = false;
 		this.p = plateau ;
 		maxLifePoints = p.constants.barrackLifePoints;
 		this.sizeX = this.p.constants.barrackSizeX; 
@@ -129,7 +126,7 @@ public class Barrack extends ProductionBuilding{
 			if(this.team==2)
 				this.image = this.p.images.buildingBarrackRed;
 			this.lifePoints=this.maxLifePoints;
-			this.constructionPhase = true;
+			
 		}
 	}
 	public Graphics draw(Graphics g){
@@ -150,7 +147,7 @@ public class Barrack extends ProductionBuilding{
 
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && constructionPhase){
+		if(this.constructionPoints<this.maxLifePoints && this.constructionPoints>0f){
 			g.setColor(Color.white);
 			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;

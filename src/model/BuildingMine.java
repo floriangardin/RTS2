@@ -15,8 +15,7 @@ public class BuildingMine extends Building{
 	public BuildingMine(Plateau p,Game g,float x, float y){
 		teamCapturing= 0;
 		team = 0;
-		this.constructionPhase = false;
-		isCapturing=false;
+
 		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
@@ -84,7 +83,7 @@ public class BuildingMine extends Building{
 				this.image = this.p.images.buildingMineNeutral;
 			}
 			this.lifePoints=this.maxLifePoints;
-			this.constructionPhase = true;
+			
 		}
 	}
 	
@@ -101,7 +100,7 @@ public class BuildingMine extends Building{
 
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && constructionPhase){
+		if(this.constructionPoints<this.maxLifePoints && this.constructionPoints>0f){
 			g.setColor(Color.white);
 			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;

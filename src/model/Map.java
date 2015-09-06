@@ -48,28 +48,29 @@ public class Map {
 		plateau.maxX = 2000f;
 		plateau.maxY = 3000f;
 
-		Character.createBowman(plateau, 1, 101f, 300f);
-		Character.createKnight(plateau, 1, 102f, 300f);
-		Character.createPriest(plateau, 1, 100f, 300f);
-		Character.createWizard(plateau, 1, 103f, 300f);
-		Character.createSpearman(plateau, 1, 103f, 300f);
+		Character.createBowman(plateau, 1, plateau.maxX/2-1f, 300f);
+		Character.createKnight(plateau, 1, plateau.maxX/2, 300f);
+		Character.createPriest(plateau, 1, plateau.maxX/2+1f, 300f);
+		Character.createWizard(plateau, 1, plateau.maxX/2+2f, 300f);
+		Character.createSpearman(plateau, 1, plateau.maxX/2+3f, 300f);
 		
-		new BuildingMill(plateau,plateau.g,0f,100f);
+		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
 		new Barrack(plateau,plateau.g,plateau.maxX/2,100f);
 		
-		Character.createBowman(plateau, 2, 101f, 700f);
-		Character.createKnight(plateau, 2, 102f, 700f);
-		Character.createPriest(plateau, 2, 100f, 700f);
-		Character.createWizard(plateau, 2, 103f, 700f);
-		Character.createSpearman(plateau, 2, 103f, 700f);
+
+		Character.createBowman(plateau, 2, plateau.maxX/2-1f, plateau.maxY-300f);
+		Character.createKnight(plateau, 2, plateau.maxX/2, plateau.maxY-300f);
+		Character.createPriest(plateau, 2, plateau.maxX/2+1f, plateau.maxY-300f);
+		Character.createWizard(plateau, 2, plateau.maxX/2+2f, plateau.maxY-300f);
+		Character.createSpearman(plateau, 2, plateau.maxX/2+3f, plateau.maxY-300f);
 		
-		new BuildingMill(plateau,plateau.g,0f,plateau.maxY-200f);
+		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
 		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
 
 		// Barrack in the middle
-		new BuildingMill(plateau,plateau.g,0f,plateau.maxY/2);
+		new BuildingMill(plateau,plateau.g,150f,plateau.maxY/2);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2);
 		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
 

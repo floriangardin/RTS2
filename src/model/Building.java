@@ -11,13 +11,10 @@ public class Building extends ActionObjet{
 	public float sizeX;
 	public float sizeY;
 	int teamCapturing;
-	boolean isCapturing;
-	boolean destructionPhase;
 	public float maxLifePoints;
 	public float constructionPoints;
-	boolean constructionPhase;
 	public float animation;
-
+	public int potentialTeam;
 	public int type;
 
 	public Building(){}
@@ -25,9 +22,6 @@ public class Building extends ActionObjet{
 	public Building(Plateau p,Game g,float x, float y){
 		p.addBuilding(this);
 		this.constructionPoints = 0f;
-		constructionPhase = false;
-		destructionPhase = true;
-		isCapturing = false;
 		teamCapturing = 0;
 		this.x = x;
 		this.y = y;
@@ -42,29 +36,22 @@ public class Building extends ActionObjet{
 		this.sight = 300f;
 	}
 
-
 	public void collision(Weapon w){
-		if(!isCapturing && w.owner.team!=team){
-
-			isCapturing = true;
-			if(w.owner.team!=team){
-				teamCapturing = w.owner.team;
-			}
-			
-		}
-
-		if(constructionPhase){
-
-			this.constructionPoints+=0.1f;
-			if(this.constructionPoints>=maxLifePoints){
-				this.constructionPhase=false;
-				this.destructionPhase = true;
-				this.constructionPoints = 0f;
-				this.isCapturing = false;
+		if(this.potentialTeam!=w.owner.team){
+			if(this.constructionPoints<=0f){
+				this.potentialTeam = w.owner.team;
 				
 			}
+			this.constructionPoints-=0.1f;
 		}
-
+		else if(this.constructionPoints<this.maxLifePoints){
+			this.constructionPoints+=0.1f;
+		}
+		else{
+			if(this.potentialTeam!=this.team){
+				this.team = this.potentialTeam;
+			}
+		}
 	}
 
 	public void change(OutputBuilding ocb) {
@@ -89,7 +76,7 @@ public class Building extends ActionObjet{
 
 	public void drawIsSelected(Graphics g){
 
-		
+
 		g.drawImage(this.selection_circle,this.getX()-5f-this.collisionBox.getWidth()/2,this.getY()-this.collisionBox.getHeight()/2-5f,this.getX()+this.collisionBox.getWidth()/2+5f,this.getY()+this.collisionBox.getHeight()/2+5f,0,0,this.selection_circle.getWidth(),this.selection_circle.getHeight());
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 

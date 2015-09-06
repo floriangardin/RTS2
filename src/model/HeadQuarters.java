@@ -21,9 +21,7 @@ public class HeadQuarters extends Building {
 	public HeadQuarters(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		team = 0;
-		constructionPhase = false;
-		destructionPhase = true;
-		isCapturing = false;
+
 		this.sight = 300f;
 		this.p = plateau ;
 		maxLifePoints = p.constants.barrackLifePoints;
@@ -67,12 +65,8 @@ public class HeadQuarters extends Building {
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.image = this.p.images.tent;
 
-
-		
 		
 	}
-
-
 
 	public void action(){
 
@@ -90,7 +84,7 @@ public class HeadQuarters extends Building {
 
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && constructionPhase){
+		if(this.constructionPoints<this.maxLifePoints){
 			g.setColor(Color.white);
 			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;
