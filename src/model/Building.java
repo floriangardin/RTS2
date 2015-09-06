@@ -50,6 +50,7 @@ public class Building extends ActionObjet{
 		else{
 			if(this.potentialTeam!=this.team){
 				this.team = this.potentialTeam;
+				this.updateImage();
 			}
 		}
 	}
@@ -81,6 +82,55 @@ public class Building extends ActionObjet{
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 
 	}	
+	
+	public void updateImage(){
+		if(this instanceof Barrack){
+			if(team==1){
+				this.image = this.p.images.buildingBarrackBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingBarrackRed;
+			} else {
+				this.image = this.p.images.buildingBarrackNeutral;
+			}
+		}
+
+		else if(this instanceof Stable){
+			if(team==1){
+				this.image = this.p.images.buildingStableBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingStableRed;
+			} else {
+				this.image = this.p.images.buildingStableNeutral;
+			}
+		}
+		else if(this instanceof Academy){
+			if(team==1){
+				this.image = this.p.images.buildingAcademyBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingAcademyRed;
+			} else {
+				this.image = this.p.images.buildingAcademyNeutral;
+			}
+		}
+		else if(this instanceof BuildingMill){
+			if(team==1){
+				this.image = this.p.images.buildingMillBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingMillRed;
+			} else {
+				this.image = this.p.images.buildingMillNeutral;
+			}
+		}
+		else if(this instanceof BuildingMine){
+			if(team==1){
+				this.image = this.p.images.buildingMineBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingMineRed;
+			} else {
+				this.image = this.p.images.buildingMineNeutral;
+			}
+		}
+	}
 
 
 }

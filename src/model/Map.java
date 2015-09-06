@@ -39,7 +39,7 @@ public class Map {
 		new BuildingMine(plateau,plateau.g,900f,800f);
 
 
-		new Barrack(plateau,plateau.g,520f,700f);
+		new Academy(plateau,plateau.g,520f,700f);
 		new Stable(plateau,plateau.g,520f,1000f);
 		//Barrack test = new Barrack(plateau,plateau.g,720f,700f);
 		//test.team = 2;

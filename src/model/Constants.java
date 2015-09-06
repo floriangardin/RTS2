@@ -86,6 +86,10 @@ public class Constants {
 	
 	// Academy 
 	public int academyLifePoints = 200;
+	public float wizardProdTime = 40f;
+	public float academySight = 300f;
+	public float academySizeX = 291f;
+	public float academySizeY = 291f*2f/3f;
 	
 	//// Attack Bonuses
 		
