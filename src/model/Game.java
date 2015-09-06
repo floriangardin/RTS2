@@ -376,6 +376,8 @@ public class Game extends BasicGame
 		this.constants = constants;
 		this.resX = resX;
 		this.resY = resY;
+		this.maxX = 3000;
+		this.maxY = 3000;
 		//
 	}
 }
