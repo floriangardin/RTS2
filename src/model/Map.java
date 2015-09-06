@@ -45,6 +45,37 @@ public class Map {
 		//test.team = 2;
 	}
 
+	public void createMapLan(Plateau plateau){
+		plateau.maxX = 2000f;
+		plateau.maxY = 3000f;
+
+		Character.createBowman(plateau, 1, plateau.maxX/2-1f, 300f);
+		Character.createKnight(plateau, 1, plateau.maxX/2, 300f);
+		Character.createPriest(plateau, 1, plateau.maxX/2+1f, 300f);
+		Character.createWizard(plateau, 1, plateau.maxX/2+2f, 300f);
+		Character.createSpearman(plateau, 1, plateau.maxX/2+3f, 300f);
+		
+		new BuildingMill(plateau,plateau.g,150f,100f);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
+		new Barrack(plateau,plateau.g,plateau.maxX/2,100f);
+		
+
+		Character.createBowman(plateau, 2, plateau.maxX/2-1f, plateau.maxY-300f);
+		Character.createKnight(plateau, 2, plateau.maxX/2, plateau.maxY-300f);
+		Character.createPriest(plateau, 2, plateau.maxX/2+1f, plateau.maxY-300f);
+		Character.createWizard(plateau, 2, plateau.maxX/2+2f, plateau.maxY-300f);
+		Character.createSpearman(plateau, 2, plateau.maxX/2+3f, plateau.maxY-300f);
+		
+		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
+		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
+
+		// Barrack in the middle
+		new BuildingMill(plateau,plateau.g,150f,plateau.maxY/2);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2);
+		new Barrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
+
+	}
 	public void createMap2(Plateau plateau){
 
 		float x1,y1;

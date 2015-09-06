@@ -33,19 +33,7 @@ public class ContactWeapon extends Weapon {
 	}
 	public void collision(Building c){
 		
-		if(c.team!=this.owner.team && this.owner.getTarget()==c && this.state>this.chargeTime && !this.owner.isMobile()){
-			
-			//Attack !
-			// Attack sound
-			float damage = this.damage;
-			if(this.sound!=null){
-				this.sound.play(1f,this.p.soundVolume);	
-			}
-					
-			c.lifePoints+=-damage;
 
-			// Reset the state
-			this.state = 0f;
-		}
+		
 	}
 }

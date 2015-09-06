@@ -120,14 +120,19 @@ public class Game extends BasicGame
 		}
 		int i = 0;
 		int j = 0;
-		while(i<this.maxX){
-			while(j<this.maxY){
+		while(i<this.maxX+this.background.getWidth()){
+			while(j<this.maxY+this.background.getHeight()){
 				g.drawImage(this.background, i,j);
 				j+=this.background.getHeight();
 			}
 			i+=this.background.getWidth();
 			j= 0;
 		}
+
+		
+		g.setColor(Color.black);
+		g.fillRect(this.plateau.maxX, 0, this.maxX, this.maxY);
+		g.fillRect(0, this.plateau.maxY, this.maxX, this.maxY);
 		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 
@@ -295,7 +300,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(1));
 		this.players.add(new Player(2));
 		if(host)
-			this.map.createMap1(plateau);
+			this.map.createMapLan(plateau);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);

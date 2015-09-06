@@ -107,6 +107,7 @@ public class Fireball extends Bullet {
 
 			}
 		}
+		
 		this.explosion = true;
 	}
 	public void boom(Character c){
@@ -115,6 +116,10 @@ public class Fireball extends Bullet {
 			damage = damage * this.p.constants.bonusWandBow;
 		c.lifePoints-=this.damage;
 		
+	}
+	
+	public void boom(Building c){
+	
 	}
 
 	public Graphics draw(Graphics g){
