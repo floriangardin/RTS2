@@ -73,18 +73,7 @@ public class BuildingMine extends Building{
 			this.p.g.players.get(team).gold+=1;
 			this.state = 0f;
 		}
-		if(this.lifePoints<10f){
-			this.team = this.teamCapturing;
-			if(team==1){
-				this.image = this.p.images.buildingMineBlue;
-			} else if(team==2){
-				this.image = this.p.images.buildingMineRed;
-			} else {
-				this.image = this.p.images.buildingMineNeutral;
-			}
-			this.lifePoints=this.maxLifePoints;
-			
-		}
+		
 	}
 	
 	public Graphics draw(Graphics g){

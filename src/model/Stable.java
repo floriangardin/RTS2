@@ -16,9 +16,6 @@ public class Stable extends ProductionBuilding{
 		teamCapturing= 0;
 		this.animation=-1f;
 		team = 0;
-		constructionPhase = false;
-		destructionPhase = true;
-		isCapturing = false;
 		this.p = plateau ;
 		maxLifePoints = p.constants.stableLifePoints;
 		this.sizeX = this.p.constants.stableSizeX; 
@@ -86,52 +83,7 @@ public class Stable extends ProductionBuilding{
 		this.productionTime.addElement(this.p.constants.priestProdTime);
 	}
 
-	public void product(int unit){
-
-		if(unit<this.productionList.size()){
-			
-			this.queue.add(unit);
-		}
-	}
-
-	public void action(){
-		//Do the action of Stable
-		//Product, increase state of the queue
-		if(this.queue.size()>0){
-			if(!this.isProducing){
-				this.isProducing = true;
-			}
-			this.animation+=2f;
-			if(animation>120f)
-				animation = 0f;
-			this.charge+=0.1f;
-			if(this.charge>=this.productionTime.get(this.queue.get(0))){
-				this.charge=0f;
-				Character.createCharacter(p, team, x+(float)Math.random(), y+this.sizeY/2, this.productionList.get(this.queue.get(0)));
-				this.queue.remove(0);
-				if(this.queue.size()==0){
-					this.isProducing =false;
-					this.animation = -1f;
-				}
-			}
-		}
-		else if(this.isProducing){
-			this.isProducing = false;
-			this.animation = -1f;
-		}
-		// if reach production reset and create first unit in the queue
-		
-		if(this.lifePoints<10f){
-
-			this.team = this.teamCapturing;
-			if(this.team==1)
-				this.image = this.p.images.buildingStableBlue;
-			if(this.team==2)
-				this.image = this.p.images.buildingStableRed;
-			this.lifePoints=this.maxLifePoints;
-			this.constructionPhase = true;
-		}
-	}
+	
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 291, 291);
@@ -149,7 +101,7 @@ public class Stable extends ProductionBuilding{
 
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && constructionPhase){
+		if(this.constructionPoints<this.maxLifePoints && this.constructionPoints>0){
 			g.setColor(Color.white);
 			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;

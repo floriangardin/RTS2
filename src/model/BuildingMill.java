@@ -81,19 +81,7 @@ public class BuildingMill extends Building{
 			this.p.g.players.get(team).food+=1;
 			state = 0;
 		}
-		if(this.lifePoints<10f){
-			
-			this.team = this.teamCapturing;
-			if(team==1){
-				this.image = this.p.images.buildingMillBlue;
-			} else if(team==2){
-				this.image = this.p.images.buildingMillRed;
-			} else {
-				this.image = this.p.images.buildingMillNeutral;
-			}
-			this.lifePoints=this.maxLifePoints;
-			
-		}
+
 	}
 
 	
