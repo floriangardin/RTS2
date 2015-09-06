@@ -66,8 +66,10 @@ public class Building extends ActionObjet{
 		this.constructionPoints = ocb.constrpoints;
 		this.animation = ocb.animation;
 		this.sight = ocb.sight;
-		if(this instanceof BuildingProduction)
+		if(this instanceof BuildingProduction){
+			System.out.println("vaneau");
 			((BuildingProduction) this).changeQueue(ocb);
+		}
 		this.updateImage();
 	}
 

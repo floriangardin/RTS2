@@ -174,7 +174,7 @@ public class MenuMulti extends Menu {
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					}
-					System.out.println("client recu: " +addressEnemy.getHostName());
+					//System.out.println("client recu: " +addressEnemy.getHostName());
 					this.game.connexions.clear();
 					this.game.newGame(true);
 					this.game.toSendConnexions.clear();

@@ -35,7 +35,7 @@ public class SelectionInterface extends Bar {
 
 			BuildingProduction b = (BuildingProduction) this.parent.player.selection.get(0);
 			int compteur = 0;
-			if(b.isProducing){
+			if(b.queue.size()>0){
 				for(int q : b.queue){
 
 					Image icone = this.parent.p.images.getIconByName(b.productionList.get(q).name);

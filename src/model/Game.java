@@ -201,7 +201,6 @@ public class Game extends BasicGame
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
-		System.out.println(resX + " "+ resY+ " "+plateau.maxX+" "+plateau.maxY);
 		InputModel im=null;
 		Vector<InputModel> ims = new Vector<InputModel>();
 		//System.out.println(this.plateau.characters);
@@ -327,8 +326,6 @@ public class Game extends BasicGame
 		this.currentPlayer = 2;
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
-		this.bottomBars.player = this.players.get(this.currentPlayer);
-		this.topBars.player = this.players.get(this.currentPlayer);
 		this.bottomBars.update((int)resX, (int)resY);
 	}
 	// Init our Game objects
