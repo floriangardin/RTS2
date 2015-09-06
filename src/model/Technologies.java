@@ -2,7 +2,7 @@ package model;
 
 import org.newdawn.slick.Image;
 
-public enum TechnologiesList {
+public enum Technologies {
 
 
 
@@ -16,10 +16,9 @@ public enum TechnologiesList {
 	float prodTime;
 	float foodPrice;
 	float goldPrice;
-	Technologie techRequired;
 	Image icon;
 	
-	TechnologiesList(String name,float food,float gold,float prodTime){
+	Technologies(String name,float food,float gold,float prodTime){
 
 		this.name = name;
 		this.goldPrice = gold;
@@ -34,6 +33,7 @@ public enum TechnologiesList {
 		case Age3:
 			break;
 		case Sight100:
+			
 			break;
 		}
 	}

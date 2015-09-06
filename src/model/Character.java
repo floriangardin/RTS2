@@ -354,8 +354,8 @@ public class Character extends ActionObjet{
 		accy = this.getTarget().getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
-		float maxVNorm = this.maxVelocity/((float)this.p.constants.FRAMERATE);
-		float ACC = this.p.constants.ACC/((float)this.p.constants.FRAMERATE);
+		float maxVNorm = this.maxVelocity/((float)this.p.g.players.get(team).data.FRAMERATE);
+		float ACC = this.p.g.players.get(team).data.ACC/((float)this.p.g.players.get(team).data.FRAMERATE);
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
@@ -406,7 +406,7 @@ public class Character extends ActionObjet{
 		this.setVXVY(newvx, newvy);
 
 		this.setXY(newX, newY);
-		this.animationValue+=4f/(float)this.p.constants.FRAMERATE;
+		this.animationValue+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
@@ -661,11 +661,11 @@ public class Character extends ActionObjet{
 	public static Character createSpearman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Spearman";
-		c.maxVelocity = p.constants.smVelocity;
-		c.maxLifePoints = p.constants.smLifePoints;
-		c.armor = p.constants.smArmor;
-		c.damage = p.constants.smDamage;
-		c.chargeTime = p.constants.smChargeTime;
+		c.maxVelocity = p.g.players.get(team).data.smVelocity;
+		c.maxLifePoints = p.g.players.get(team).data.smLifePoints;
+		c.armor = p.g.players.get(team).data.smArmor;
+		c.damage = p.g.players.get(team).data.smDamage;
+		c.chargeTime = p.g.players.get(team).data.smChargeTime;
 		c.lifePoints = c.maxLifePoints;
 		c.collectWeapon(new Spear(p,c));
 		return c;
@@ -673,12 +673,12 @@ public class Character extends ActionObjet{
 	public static Character createBowman(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Bowman";
-		c.maxVelocity = p.constants.bmVelocity;
-		c.maxLifePoints = p.constants.bmLifePoints;
-		c.armor = p.constants.bmArmor;
-		c.damage = p.constants.bmDamage;
-		c.range = p.constants.bmRange;
-		c.chargeTime = p.constants.bmChargeTime;
+		c.maxVelocity = p.g.players.get(team).data.bmVelocity;
+		c.maxLifePoints = p.g.players.get(team).data.bmLifePoints;
+		c.armor = p.g.players.get(team).data.bmArmor;
+		c.damage = p.g.players.get(team).data.bmDamage;
+		c.range = p.g.players.get(team).data.bmRange;
+		c.chargeTime = p.g.players.get(team).data.bmChargeTime;
 		c.lifePoints = c.maxLifePoints;
 		c.collectWeapon(new Bow(p,c));
 		return c;
@@ -686,13 +686,13 @@ public class Character extends ActionObjet{
 	public static Character createWizard(Plateau p,int team,float x, float y){
 		Character c = new Character(p,team,x,y);
 		c.name = "Wizard";
-		c.maxVelocity = p.constants.wzVelocity;
-		c.maxLifePoints = p.constants.wzLifePoints;
-		c.armor = p.constants.wzArmor;
-		c.damage = p.constants.wzDamage;
-		c.range= p.constants.wzRange;
+		c.maxVelocity = p.g.players.get(team).data.wzVelocity;
+		c.maxLifePoints = p.g.players.get(team).data.wzLifePoints;
+		c.armor = p.g.players.get(team).data.wzArmor;
+		c.damage = p.g.players.get(team).data.wzDamage;
+		c.range= p.g.players.get(team).data.wzRange;
 		c.lifePoints = c.maxLifePoints;
-		c.chargeTime = p.constants.wzChargeTime;
+		c.chargeTime = p.g.players.get(team).data.wzChargeTime;
 		c.collectWeapon(new Wand(p,c));
 		return c;
 	}
@@ -700,11 +700,11 @@ public class Character extends ActionObjet{
 		Character c = new Character(p,team,x,y);
 		c.name = "Knight";
 		c.collectHorse(new Horse(p,c));
-		c.maxVelocity = p.constants.ktVelocity;
-		c.maxLifePoints = p.constants.ktLifePoints;
-		c.armor = p.constants.ktArmor;
-		c.damage = p.constants.ktDamage;
-		c.chargeTime = p.constants.ktChargeTime;
+		c.maxVelocity = p.g.players.get(team).data.ktVelocity;
+		c.maxLifePoints = p.g.players.get(team).data.ktLifePoints;
+		c.armor = p.g.players.get(team).data.ktArmor;
+		c.damage = p.g.players.get(team).data.ktDamage;
+		c.chargeTime = p.g.players.get(team).data.ktChargeTime;
 		c.lifePoints = c.maxLifePoints;
 		c.collectWeapon(new Sword(p,c));
 		return c;
@@ -713,11 +713,11 @@ public class Character extends ActionObjet{
 		Character c = new Character(p,team,x,y);
 		c.name = "Priest";
 		c.collectHorse(new Horse(p,c));
-		c.maxVelocity = p.constants.prVelocity;
-		c.maxLifePoints = p.constants.prLifePoints;
-		c.armor = p.constants.prArmor;
-		c.damage = p.constants.prDamage;
-		c.chargeTime = p.constants.prChargeTime;
+		c.maxVelocity = p.g.players.get(team).data.prVelocity;
+		c.maxLifePoints = p.g.players.get(team).data.prLifePoints;
+		c.armor = p.g.players.get(team).data.prArmor;
+		c.damage = p.g.players.get(team).data.prDamage;
+		c.chargeTime = p.g.players.get(team).data.prChargeTime;
 		c.collectWeapon(new Bible(p,c));
 		c.lifePoints = c.maxLifePoints;
 		return c;

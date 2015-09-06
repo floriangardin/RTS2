@@ -33,7 +33,8 @@ public class Plateau {
 	// fog of war
 	Image fog;
 	Graphics gf;
-
+	
+	
 	// ADD ALL OBJETS 
 	protected Vector<Character> characters;
 	protected Vector<Character> toAddCharacters;
@@ -118,6 +119,7 @@ public class Plateau {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	// functions that handle buffers

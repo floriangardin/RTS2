@@ -63,7 +63,7 @@ public class BottomBar extends Bar {
 		
 		this.prodX = 2.0f*this.sizeX/3f-1f;
 		this.prodY = this.y+1f;
-		this.prodW = 0.5f*this.sizeX;
+		this.prodW = this.sizeX/6f;
 		this.prodH = this.sizeY-2f ; 
 		this.icoSizeX = this.prodW/5f;
 		this.icoSizeY = this.prodH/3f;
