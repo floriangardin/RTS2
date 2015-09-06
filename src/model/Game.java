@@ -114,10 +114,7 @@ public class Game extends BasicGame
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
-		if(isInMenu){
-			this.menuCurrent.draw(g);
-			return;
-		}
+		
 		int i = 0;
 		int j = 0;
 		while(i<this.maxX+this.background.getWidth()){
@@ -128,7 +125,11 @@ public class Game extends BasicGame
 			i+=this.background.getWidth();
 			j= 0;
 		}
-
+		if(isInMenu){
+			g.translate(plateau.Xcam, plateau.Ycam);
+			this.menuCurrent.draw(g);
+			return;
+		}
 		
 		g.setColor(Color.black);
 		g.fillRect(this.plateau.maxX, 0, this.maxX, this.maxY);
@@ -202,6 +203,7 @@ public class Game extends BasicGame
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
+		System.out.println(resX + " "+ resY);
 		InputModel im=null;
 		Vector<InputModel> ims = new Vector<InputModel>();
 		//System.out.println(this.plateau.characters);
