@@ -591,11 +591,11 @@ public class Plateau {
 
 		OutputModel om = new OutputModel(0);
 
-		// 1 - If ESC start menu
-		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
-			this.g.setMenu(g.menuPause);
-			return om;
-		}
+//		// 1 - If ESC start menu
+//		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
+//			this.g.setMenu(g.menuPause);
+//			return om;
+//		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
 		for(int player=1; player<this.g.players.size(); player++){
@@ -679,7 +679,7 @@ public class Plateau {
 						this.g.players.get(player).selection.addElement(c);
 				}
 				// Handling other hotkeys
-				if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV){
+				if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
 					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
 
 						if(im.isPressedW)
@@ -690,7 +690,8 @@ public class Plateau {
 							((BuildingProduction) this.selection.get(player).get(0)).product(2);
 						if(im.isPressedV)
 							((BuildingProduction) this.selection.get(player).get(0)).product(3);
-
+						if(im.isPressedESC)
+							((BuildingProduction) this.selection.get(player).get(0)).removeProd();
 					}
 				}
 				// we update the selection according to the rectangle wherever is the mouse
