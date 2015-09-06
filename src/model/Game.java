@@ -350,7 +350,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(2));
 		this.sounds = new Sounds();
 		this.images = new Images();
-		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,3,this);
+		this.plateau = new Plateau(this.constants,this.maxX,this.maxY,3,this);
 		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
@@ -376,9 +376,6 @@ public class Game extends BasicGame
 		this.constants = constants;
 		this.resX = resX;
 		this.resY = resY;
-
-		this.maxX = 3000;
-		this.maxY = 3000;
 		//
 	}
 }
