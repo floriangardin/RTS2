@@ -40,6 +40,7 @@ public class Map {
 
 
 		new Barrack(plateau,plateau.g,520f,700f);
+		new Stable(plateau,plateau.g,520f,1000f);
 		//Barrack test = new Barrack(plateau,plateau.g,720f,700f);
 		//test.team = 2;
 	}
