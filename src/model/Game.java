@@ -294,7 +294,7 @@ public class Game extends BasicGame
 
 	public void newGame(boolean host){
 		//Clean all variables
-		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
+		this.plateau = new Plateau(this.constants,this.maxX,this.maxY,2,this);
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
@@ -313,9 +313,9 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
+		this.maxX = 2000f;
+		this.maxY = 3000f;
 		newGame(false);
-		plateau.maxX = 2000f;
-		plateau.maxY = 3000f;
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
 			if(co instanceof ConnectionTree){
@@ -329,6 +329,7 @@ public class Game extends BasicGame
 		this.topBars = this.players.get(currentPlayer).topBar;
 		this.bottomBars.player = this.players.get(this.currentPlayer);
 		this.topBars.player = this.players.get(this.currentPlayer);
+		this.bottomBars.update((int)resX, (int)resY);
 	}
 	// Init our Game objects
 	@Override
