@@ -317,6 +317,8 @@ public class Game extends BasicGame
 		//Clean all variables
 		this.maxX = 2000f;
 		this.maxY = 3000f;
+		plateau.maxX = this.maxX;
+		plateau.maxY = this.maxY;
 		newGame(false);
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
