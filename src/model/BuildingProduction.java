@@ -6,21 +6,21 @@ import multiplaying.OutputModel.OutputBuilding;
 
 public abstract class BuildingProduction extends Building {
 
-	
+
 	Vector<UnitsList> productionList;
 	public Vector<Integer> queue ;
 	Vector<Float> productionTime;
 	public float charge;
 	boolean isProducing;
-	
+
 	public void product(int unit){
 
 		if(this.queue.size()<5 && unit<this.productionList.size()){
 			if(this.productionList.get(unit).foodPrice<=this.p.g.players.get(team).food
 					&& this.productionList.get(unit).goldPrice<=this.p.g.players.get(team).gold){
-			this.queue.add(unit);
-			this.p.g.players.get(team).gold-=this.productionList.get(unit).goldPrice;
-			this.p.g.players.get(team).food-=this.productionList.get(unit).foodPrice;
+				this.queue.add(unit);
+				this.p.g.players.get(team).gold-=this.productionList.get(unit).goldPrice;
+				this.p.g.players.get(team).food-=this.productionList.get(unit).foodPrice;
 			}
 		}
 	}
@@ -51,14 +51,14 @@ public abstract class BuildingProduction extends Building {
 			this.animation = -1f;
 		}
 		// if reach production reset and create first unit in the queue
-		
+
 		if(this.lifePoints<10f){
 
 			this.team = this.teamCapturing;
 			this.updateImage();
-			
+
 			this.lifePoints=this.maxLifePoints;
-			
+
 		}
 	}
 
@@ -69,7 +69,17 @@ public abstract class BuildingProduction extends Building {
 			if(ocb.queue[i]!=-1)
 				this.queue.add(ocb.queue[i]);
 	}
-	
-	
-	
+
+	public void removeProd() {
+		if(this.queue.size()>0){
+			this.p.g.players.get(this.team).food += this.productionList.get(queue.get(0)).foodPrice;
+			this.p.g.players.get(this.team).gold += this.productionList.get(queue.get(0)).goldPrice;
+			this.queue.remove(0);
+			this.charge = 0f;
+		}
+
+	}
+
+
+
 }
