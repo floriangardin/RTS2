@@ -73,11 +73,11 @@ public class Character extends ActionObjet{
 		// Only used to display on client screen
 		// Parameters
 		this.team = occ.team;
+		this.p = p;
 		this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;
 		this.name = "Character";
 		this.sight =this.p.g.players.get(team).data.smSight;
 		this.id = occ.id;
-		this.p = p;
 		
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
