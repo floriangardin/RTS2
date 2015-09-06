@@ -54,10 +54,10 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedBACK = input.isKeyPressed(Input.KEY_BACK);
 		this.isPressedDOT = input.isKeyPressed(Input.KEY_COMMA);
 		this.isPressedENTER = input.isKeyPressed(Input.KEY_RETURN);
-		this.isPressedUP = input.isKeyDown(Input.KEY_UP);
-		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT);
-		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT);
-		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN);
+		this.isPressedUP = input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_Z);
+		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT)|| input.isKeyDown(Input.KEY_Q);
+		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT)|| input.isKeyDown(Input.KEY_D);
+		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN)|| input.isKeyDown(Input.KEY_S);
 		
 		
 		

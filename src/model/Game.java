@@ -314,6 +314,8 @@ public class Game extends BasicGame
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
 		newGame(false);
+		plateau.maxX = 2000f;
+		plateau.maxY = 3000f;
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
 			if(co instanceof ConnectionTree){
