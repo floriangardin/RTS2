@@ -114,6 +114,7 @@ public class Data {
 		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = framerate;
+		
 	}
 
 }

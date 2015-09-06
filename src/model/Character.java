@@ -45,6 +45,7 @@ public class Character extends ActionObjet{
 	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
 	
 	public Character(Plateau p,int team,float x, float y){
+		this.team = team;
 		this.maxLifePoints = 100f;
 		this.p = p;
 		this.name = "Character";
@@ -72,6 +73,7 @@ public class Character extends ActionObjet{
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
 		// Parameters
+		
 		this.team = occ.team;
 		this.p = p;
 		this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;
