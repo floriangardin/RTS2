@@ -56,6 +56,7 @@ public class Stable extends ProductionBuilding{
 		this.p = p;
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
+		this.name = "Stable";
 		this.g = p.g;
 		this.x = ocb.x;
 		this.y = ocb.y;

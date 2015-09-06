@@ -8,7 +8,9 @@ import model.Character;
 
 public class OutputModel extends MultiObjetModel{
 
-
+	public int gold;
+	public int food;
+	
 	public Vector<OutputChar> toChangeCharacters;
 
 	public Vector<OutputBullet> toChangeBullets;
@@ -30,19 +32,23 @@ public class OutputModel extends MultiObjetModel{
 				continue;
 			if(i==0){
 				timeValue = Integer.parseInt(t[i]);
+			} else if(i==1) {
+				food = Integer.parseInt(t[i]);
+			} else if(i==2) {
+				gold = Integer.parseInt(t[i]);
 			} else {
 				v = Utils.split(t[i], '*');
 				for(int j=0; j<v.length; j++){
 					if(v[j].equals(""))
 						continue;
 					switch(i){
-					case 1:
-						toChangeCharacters.add(new OutputChar(v[j]));break;
-					case 2:
-						toChangeBullets.add(new OutputBullet(v[j]));break;
 					case 3:
-						toChangeBuildings.add(new OutputBuilding(v[j]));break;
+						toChangeCharacters.add(new OutputChar(v[j]));break;
 					case 4:
+						toChangeBullets.add(new OutputBullet(v[j]));break;
+					case 5:
+						toChangeBuildings.add(new OutputBuilding(v[j]));break;
+					case 6:
 						selection.add(Integer.parseInt(v[j]));break;
 					}
 				}
@@ -57,7 +63,7 @@ public class OutputModel extends MultiObjetModel{
 		selection = new Vector<Integer>();
 	}
 	public String toString(){
-		String s = "1" +(int)this.timeValue+"|";
+		String s = "1" +(int)this.timeValue+"|"+this.food+"|"+this.gold+"|";
 		/*STRUCTURE D'UN OUTPUT MODEL
 		 * chaque grande partie est séparée par un '|'
 		 * chaque élément au sein d'une partie est séparé par un '-'

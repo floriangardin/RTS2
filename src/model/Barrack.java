@@ -61,6 +61,7 @@ public class Barrack extends ProductionBuilding{
 		this.y = ocb.y;
 		this.id = ocb.id;
 		this.sizeX = this.p.constants.barrackSizeX; 
+		this.name = "Barrack";
 		this.sizeY = this.p.constants.barrackSizeY;
 		this.sight = this.p.constants.barrackSight;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);

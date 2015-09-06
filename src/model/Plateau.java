@@ -638,6 +638,8 @@ public class Plateau {
 					// The button is not pressed and wasn't, the selection is non null
 					this.updateSelection(rectangleSelection.get(player), player);
 				}
+				om.food = this.g.players.get(2).food;
+				om.gold = this.g.players.get(2).gold;
 			}
 		}
 		// Handling the changes
@@ -789,6 +791,8 @@ public class Plateau {
 			this.g.players.get(this.g.currentPlayer).selection.clear();
 			for(ActionObjet o:this.selection.get(this.g.currentPlayer))
 				this.g.players.get(this.g.currentPlayer).selection.addElement(o);
+			this.g.players.get(2).gold = om.gold;
+			this.g.players.get(2).food = om.food;
 		}
 		// Remove objets from lists
 		this.clean();

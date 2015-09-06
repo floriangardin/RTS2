@@ -21,7 +21,7 @@ public class Academy extends ProductionBuilding {
 		this.sizeX = this.p.constants.academySizeX; 
 		this.sizeY = this.p.constants.academySizeY;
 		this.sight = this.p.constants.academySight;
-		this.name = "academy";
+		this.name = "Academy";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 4;
@@ -59,6 +59,7 @@ public class Academy extends ProductionBuilding {
 		this.y = ocb.y;
 		this.id = ocb.id;
 		this.sizeX = this.p.constants.academySizeX; 
+		this.name = "Academy";
 		this.sizeY = this.p.constants.academySizeY;
 		this.sight = this.p.constants.academySight;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);

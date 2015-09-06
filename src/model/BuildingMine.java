@@ -55,6 +55,7 @@ public class BuildingMine extends Building{
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 
+		this.name= "Mine";
 		this.sizeY = ocb.sizeY;
 		this.sight = ocb.sight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
