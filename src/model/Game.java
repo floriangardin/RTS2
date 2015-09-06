@@ -114,10 +114,7 @@ public class Game extends BasicGame
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
-		if(isInMenu){
-			this.menuCurrent.draw(g);
-			return;
-		}
+		
 		int i = 0;
 		int j = 0;
 		while(i<this.maxX+this.background.getWidth()){
@@ -128,7 +125,11 @@ public class Game extends BasicGame
 			i+=this.background.getWidth();
 			j= 0;
 		}
-
+		if(isInMenu){
+			g.translate(plateau.Xcam, plateau.Ycam);
+			this.menuCurrent.draw(g);
+			return;
+		}
 		
 		g.setColor(Color.black);
 		g.fillRect(this.plateau.maxX, 0, this.plateau.maxX, this.plateau.maxY);
@@ -202,6 +203,7 @@ public class Game extends BasicGame
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
+		System.out.println(resX + " "+ resY+ " "+maxX+" "+maxY);
 		InputModel im=null;
 		Vector<InputModel> ims = new Vector<InputModel>();
 		//System.out.println(this.plateau.characters);
@@ -294,7 +296,7 @@ public class Game extends BasicGame
 
 	public void newGame(boolean host){
 		//Clean all variables
-		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,2,this);
+		this.plateau = new Plateau(this.constants,this.maxX,this.maxY,2,this);
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0));
 		this.players.add(new Player(1));
@@ -313,9 +315,11 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
+		this.maxX = 2000f;
+		this.maxY = 3000f;
+		plateau.maxX = this.maxX;
+		plateau.maxY = this.maxY;
 		newGame(false);
-		plateau.maxX = 2000f;
-		plateau.maxY = 3000f;
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
 			if(co instanceof ConnectionTree){
@@ -329,6 +333,7 @@ public class Game extends BasicGame
 		this.topBars = this.players.get(currentPlayer).topBar;
 		this.bottomBars.player = this.players.get(this.currentPlayer);
 		this.topBars.player = this.players.get(this.currentPlayer);
+		this.bottomBars.update((int)resX, (int)resY);
 	}
 	// Init our Game objects
 	@Override
@@ -349,7 +354,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(2));
 		this.sounds = new Sounds();
 		this.images = new Images();
-		this.plateau = new Plateau(this.constants,this.maxX,4f/5f*this.maxY,3,this);
+		this.plateau = new Plateau(this.constants,this.maxX,this.maxY,3,this);
 		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
@@ -375,7 +380,6 @@ public class Game extends BasicGame
 		this.constants = constants;
 		this.resX = resX;
 		this.resY = resY;
-
 		this.maxX = 3000;
 		this.maxY = 3000;
 		//

@@ -3,6 +3,7 @@ package multiplaying;
 import java.util.Vector;
 
 import model.Building;
+import model.BuildingProduction;
 import model.Utils;
 import model.Character;
 
@@ -116,20 +117,9 @@ public class OutputModel extends MultiObjetModel{
 		public int team;
 		public float animation;
 		public float sight;
-		public OutputBuilding(int id, int type, float x, float y, float sizeX, float sizeY, float lifepoints, float constrpoints, float sight, float maxlifepoints,int team, float animation){
-			this.x = x;
-			this.team = team;
-			this.y = y;
-			this.id = id;
-			this.sizeX = sizeX;
-			this.sizeY = sizeY;
-			this.typeBuilding = type;
-			this.lifepoints = lifepoints;
-			this.maxlifepoints = maxlifepoints;
-			this.constrpoints = constrpoints;
-			this.animation = animation;
-			this.sight = sight;
-		}
+		public float charge;
+		public int[] queue = new int[5];
+
 		public OutputBuilding(Building b){
 			this.x = b.getX();
 			this.y = b.getY();
@@ -143,6 +133,15 @@ public class OutputModel extends MultiObjetModel{
 			this.constrpoints = b.constructionPoints;
 			this.animation = b.animation;
 			this.sight = b.sight;
+			if(b instanceof BuildingProduction){
+				this.charge = ((BuildingProduction)b).charge;
+				for(int i=0;i<5;i++){
+					if(i<((BuildingProduction)b).queue.size())
+						this.queue[i] = ((BuildingProduction)b).queue.get(i);
+					else
+						this.queue[i] = -1;
+				}
+			}
 		}
 		public OutputBuilding(String s){
 			try{
@@ -159,13 +158,22 @@ public class OutputModel extends MultiObjetModel{
 			this.constrpoints = Float.parseFloat(t[9]);
 			this.animation = Float.parseFloat(t[10]);
 			this.sight = Float.parseFloat(t[11]);
+			this.charge = Float.parseFloat(t[12]);
+			this.queue[0] = Integer.parseInt(t[13]);
+			this.queue[1] = Integer.parseInt(t[14]);
+			this.queue[2] = Integer.parseInt(t[15]);
+			this.queue[3] = Integer.parseInt(t[16]);
+			this.queue[4] = Integer.parseInt(t[17]);
 			} catch (NumberFormatException e ){
 				//System.out.println(s);
 			}
 		}
 		public String toString(){
 			String s = "";
-			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+team+" "+lifepoints+" "+maxlifepoints+" "+constrpoints+" "+animation+" "+sight;
+			s+=id+" "+typeBuilding+" "+x+" "+y+" "+sizeX+" "+sizeY+" "+team+" "+lifepoints+" "+maxlifepoints+" "+constrpoints+" "+animation+" "+sight+" "+charge;
+			for(int i=0;i<5;i++){
+				s+=" "+this.queue[i];
+			}
 			return s;
 		}
 	}

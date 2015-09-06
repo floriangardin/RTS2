@@ -66,6 +66,8 @@ public class Building extends ActionObjet{
 		this.constructionPoints = ocb.constrpoints;
 		this.animation = ocb.animation;
 		this.sight = ocb.sight;
+		if(this instanceof BuildingProduction)
+			((BuildingProduction) this).changeQueue(ocb);
 		this.updateImage();
 	}
 

@@ -2,18 +2,20 @@ package model;
 
 import java.util.Vector;
 
+import multiplaying.OutputModel.OutputBuilding;
+
 public abstract class BuildingProduction extends Building {
 
 	
 	Vector<UnitsList> productionList;
-	Vector<Integer> queue ;
+	public Vector<Integer> queue ;
 	Vector<Float> productionTime;
-	float charge;
+	public float charge;
 	boolean isProducing;
 	
 	public void product(int unit){
 
-		if(unit<this.productionList.size()){
+		if(this.queue.size()<5 && unit<this.productionList.size()){
 			if(this.productionList.get(unit).foodPrice<=this.p.g.players.get(team).food
 					&& this.productionList.get(unit).goldPrice<=this.p.g.players.get(team).gold){
 			this.queue.add(unit);
@@ -58,6 +60,14 @@ public abstract class BuildingProduction extends Building {
 			this.lifePoints=this.maxLifePoints;
 			
 		}
+	}
+
+	public void changeQueue(OutputBuilding ocb) {
+		this.charge = ocb.charge;
+		this.queue.clear();
+		for(int i=0; i<5; i++)
+			if(ocb.queue[i]!=-1)
+				this.queue.add(ocb.queue[i]);
 	}
 	
 	
