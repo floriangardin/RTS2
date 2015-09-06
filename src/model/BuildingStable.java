@@ -17,10 +17,10 @@ public class BuildingStable extends BuildingProduction{
 		this.animation=-1f;
 		team = 0;
 		this.p = plateau ;
-		maxLifePoints = p.constants.stableLifePoints;
-		this.sizeX = this.p.constants.stableSizeX; 
-		this.sizeY = this.p.constants.stableSizeY;
-		this.sight = this.p.constants.stableSight;
+		maxLifePoints = p.g.players.get(team).data.stableLifePoints;
+		this.sizeX = this.p.g.players.get(team).data.stableSizeX; 
+		this.sizeY = this.p.g.players.get(team).data.stableSizeY;
+		this.sight = this.p.g.players.get(team).data.stableSight;
 		this.name = "Stable";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
@@ -44,9 +44,9 @@ public class BuildingStable extends BuildingProduction{
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Knight);
-		this.productionTime.addElement(this.p.constants.knightProdTime);
+		this.productionTime.addElement(this.p.g.players.get(team).data.knightProdTime);
 		this.productionList.addElement(UnitsList.Priest);
-		this.productionTime.addElement(this.p.constants.priestProdTime);
+		this.productionTime.addElement(this.p.g.players.get(team).data.priestProdTime);
 	}
 
 	public BuildingStable(OutputBuilding ocb, Plateau p){
@@ -61,9 +61,9 @@ public class BuildingStable extends BuildingProduction{
 		this.x = ocb.x;
 		this.y = ocb.y;
 		this.id = ocb.id;
-		this.sizeX = this.p.constants.stableSizeX; 
-		this.sizeY = this.p.constants.stableSizeY;
-		this.sight = this.p.constants.stableSight;
+		this.sizeX = this.p.g.players.get(team).data.stableSizeX; 
+		this.sizeY = this.p.g.players.get(team).data.stableSizeY;
+		this.sight = this.p.g.players.get(team).data.stableSight;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		if(ocb.team==1){
@@ -79,9 +79,9 @@ public class BuildingStable extends BuildingProduction{
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Knight);
-		this.productionTime.addElement(this.p.constants.knightProdTime);
+		this.productionTime.addElement(this.p.g.players.get(team).data.knightProdTime);
 		this.productionList.addElement(UnitsList.Priest);
-		this.productionTime.addElement(this.p.constants.priestProdTime);
+		this.productionTime.addElement(this.p.g.players.get(team).data.priestProdTime);
 	}
 
 	

@@ -17,10 +17,10 @@ public class BuildingAcademy extends BuildingProduction {
 		this.animation=-1f;
 		team = 0;
 		this.p = plateau ;
-		maxLifePoints = p.constants.academyLifePoints;
-		this.sizeX = this.p.constants.academySizeX; 
-		this.sizeY = this.p.constants.academySizeY;
-		this.sight = this.p.constants.academySight;
+		maxLifePoints = p.g.players.get(team).data.academyLifePoints;
+		this.sizeX = this.p.g.players.get(team).data.academySizeX; 
+		this.sizeY = this.p.g.players.get(team).data.academySizeY;
+		this.sight = this.p.g.players.get(team).data.academySight;
 		this.name = "Academy";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
@@ -44,7 +44,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Wizard);
-		this.productionTime.addElement(this.p.constants.spearmanProdTime);
+		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
 	}
 
 	public BuildingAcademy(OutputBuilding ocb, Plateau p){
@@ -58,10 +58,10 @@ public class BuildingAcademy extends BuildingProduction {
 		this.x = ocb.x;
 		this.y = ocb.y;
 		this.id = ocb.id;
-		this.sizeX = this.p.constants.academySizeX; 
+		this.sizeX = this.p.g.players.get(team).data.academySizeX; 
 		this.name = "Academy";
-		this.sizeY = this.p.constants.academySizeY;
-		this.sight = this.p.constants.academySight;
+		this.sizeY = this.p.g.players.get(team).data.academySizeY;
+		this.sight = this.p.g.players.get(team).data.academySight;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		if(ocb.team==1){
@@ -77,7 +77,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Wizard);
-		this.productionTime.addElement(this.p.constants.spearmanProdTime);
+		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
 
 	}
 

@@ -29,12 +29,12 @@ public class BuildingMill extends Building{
 		this.type = 1;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "Mill";
-		this.maxLifePoints = p.constants.millLifePoints;
-		this.chargeTime = p.constants.millChargeTime;
-		this.lifePoints = p.constants.millLifePoints;
-		this.sizeX = p.constants.millSizeX; 
-		this.sizeY = p.constants.millSizeY;
-		this.sight = p.constants.millSight;
+		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
+		this.chargeTime = p.g.players.get(team).data.millChargeTime;
+		this.lifePoints = p.g.players.get(team).data.millLifePoints;
+		this.sizeX = p.g.players.get(team).data.millSizeX; 
+		this.sizeY = p.g.players.get(team).data.millSizeY;
+		this.sight = p.g.players.get(team).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
 			this.image = this.p.images.buildingMillBlue;
@@ -54,7 +54,7 @@ public class BuildingMill extends Building{
 		this.id = ocb.id;
 		this.g =p.g;
 		this.team=ocb.team;
-		this.chargeTime = p.constants.millChargeTime;
+		this.chargeTime = p.g.players.get(team).data.millChargeTime;
 		this.name= "Mill";
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 

@@ -13,10 +13,10 @@ public class HeadQuarters extends Building {
 
 	int charge ;
 
-	Technologie production;
+	
 	boolean isProducing;
-	Vector<Technologie> techsUndiscovered;
-	Vector<Technologie> techsDiscovered;
+	Vector<Technologies> techsDiscovered;
+	Vector<Technologies> techsUndiscovered;
 	
 	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
 		teamCapturing= team;
@@ -48,8 +48,8 @@ public class HeadQuarters extends Building {
 			this.image = this.p.images.tent;
 		}
 		// List of potential production (Spearman
-		this.techsDiscovered = new Vector<Technologie>();
-		this.techsUndiscovered = new Vector<Technologie>();
+		this.techsDiscovered = new Vector<Technologies>();
+		this.techsUndiscovered = new Vector<Technologies>();
 
 	}
 

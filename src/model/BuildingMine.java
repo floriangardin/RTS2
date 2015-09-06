@@ -26,12 +26,12 @@ public class BuildingMine extends Building{
 		this.type = 0;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "Mine";
-		this.maxLifePoints = p.constants.millLifePoints;
-		this.chargeTime = p.constants.mineChargeTime;
-		this.lifePoints = p.constants.mineLifePoints;
-		this.sizeX = p.constants.mineSizeX;
-		this.sizeY = p.constants.mineSizeY;
-		this.sight = p.constants.mineSight;
+		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
+		this.chargeTime = p.g.players.get(team).data.mineChargeTime;
+		this.lifePoints = p.g.players.get(team).data.mineLifePoints;
+		this.sizeX = p.g.players.get(team).data.mineSizeX;
+		this.sizeY = p.g.players.get(team).data.mineSizeY;
+		this.sight = p.g.players.get(team).data.mineSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
 			this.image = this.p.images.buildingMineBlue;
@@ -51,7 +51,7 @@ public class BuildingMine extends Building{
 		this.id = ocb.id;
 		this.g =p.g;
 		this.team=ocb.team;
-		this.chargeTime = p.constants.millChargeTime;
+		this.chargeTime = p.g.players.get(team).data.millChargeTime;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.lifePoints = ocb.lifepoints;
 		this.sizeX = ocb.sizeX; 
