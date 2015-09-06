@@ -18,6 +18,7 @@ public class Images {
 	Image selection_rectangle;
 	Image fog;
 	Image fire;
+	Image fountain;
 	Image smoke;
 	Image windmill;
 	Image windmillarms;
@@ -76,6 +77,7 @@ public class Images {
 			this.water = new Image("pics/water.jpg");
 			this.cursor = new Image("pics/cursor.png");
 			this.fog = new Image("pics/fog.png");
+			this.fountain = new Image("pics/fountain.png");
 			this.fire = new Image("pics/fire.png");
 			this.smoke = new Image("pics/smoke.png");
 			this.windmill = new Image("pics/windmill.png");
@@ -85,9 +87,9 @@ public class Images {
 			buildingBarrackBlue = new Image("pics/Building/BarrackBlue.png");
 			buildingBarrackRed = new Image("pics/Building/BarrackRed.png");
 			buildingBarrackNeutral = new Image("pics/Building/BarrackNeutral.png");
-//			buildingStableBlue;
-//			buildingStableRed;
-//			buildingStableNeutral;
+			buildingStableBlue = new Image("pics/Building/StableBlue.png");
+			buildingStableRed = new Image("pics/Building/StableRed.png");
+			buildingStableNeutral = new Image("pics/Building/StableNeutral.png");
 //			buildingAcademyBlue;
 //			buildingAcademyRed;
 //			buildingAcademyNeutral;
@@ -103,6 +105,9 @@ public class Images {
 			//Icones
 			this.iconeBowman = new Image("pics/iconBow.png");
 			this.iconeSpearman = new Image("pics/iconSpear.png");
+			this.iconeKnight = new Image("pics/iconHorse.png");
+			this.iconePriest = new Image("pics/iconBible.png");
+			this.iconeWizard = new Image("pics/iconFireball.png");
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

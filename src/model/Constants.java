@@ -78,6 +78,11 @@ public class Constants {
 	
 	//Stable
 	public int stableLifePoints = 200;
+	public float knightProdTime = 40f;
+	public float priestProdTime = 60f;
+	public float stableSight = 300f;
+	public float stableSizeX = 291f;
+	public float stableSizeY = 291f*2f/3f;
 	
 	// Academy 
 	public int academyLifePoints = 200;
