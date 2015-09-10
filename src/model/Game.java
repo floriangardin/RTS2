@@ -109,7 +109,6 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		Utils.printCurrentState(this.plateau);
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
