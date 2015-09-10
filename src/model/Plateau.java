@@ -11,7 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
-
+import units.*;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.HeadQuarters;
@@ -671,6 +671,19 @@ public class Plateau {
 							((BuildingProduction) this.selection.get(player).get(0)).product(3);
 						if(im.isPressedESC)
 							((BuildingProduction) this.selection.get(player).get(0)).removeProd();
+					}
+					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof HeadQuarters){
+
+						if(im.isPressedW)
+							((HeadQuarters) this.selection.get(player).get(0)).product(0);
+						if(im.isPressedX)
+							((HeadQuarters) this.selection.get(player).get(0)).product(1);
+						if(im.isPressedC)
+							((HeadQuarters) this.selection.get(player).get(0)).product(2);
+						if(im.isPressedV)
+							((HeadQuarters) this.selection.get(player).get(0)).product(3);
+						if(im.isPressedESC)
+							((HeadQuarters) this.selection.get(player).get(0)).removeProd();
 					}
 				}
 				// we update the selection according to the rectangle wherever is the mouse

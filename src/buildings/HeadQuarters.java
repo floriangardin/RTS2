@@ -32,18 +32,18 @@ public class HeadQuarters extends Building {
 			this.productionList = new Vector<Technologie>();
 			this.productionList.addElement(new DualistAge2(this.p,this.player));
 			this.productionList.addElement(new DualistEagleView(this.p,this.player));
-			
+
 			this.allTechs = new Vector<Technologie>();
 			DualistAge2 d2 = new DualistAge2(this.p,this.player);
 			this.allTechs.addElement(d2);
 			DualistAge3 d3 = new DualistAge3(this.p,this.player);
-			this.allTechs.addElement(new DualistAge3(this.p,this.player));
+			this.allTechs.addElement(d3);
 			d3.techRequired=d2;
 			DualistEagleView ev =new DualistEagleView(this.p,this.player);
 			this.allTechs.addElement(ev);
 			ev.techRequired = d2;
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
-			
+
 		}
 		else if(this.p.g.players.get(team).civ==1){
 			this.productionList = new Vector<Technologie>();
@@ -85,7 +85,14 @@ public class HeadQuarters extends Building {
 
 
 	}
-	
+	public void removeProd() {
+		if(this.queue!=null){
+			this.p.g.players.get(this.team).food += queue.tech.foodPrice;
+			this.p.g.players.get(this.team).gold += queue.tech.goldPrice;
+			this.queue=null;
+			this.charge = 0f;
+		}
+	}
 	public void updateProductionList(){
 		this.productionList.clear();
 		for(Technologie t:this.allTechs){
@@ -122,7 +129,7 @@ public class HeadQuarters extends Building {
 
 
 	}
-	
+
 	public void product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
 			if(this.productionList.get(unit).tech.foodPrice<=this.p.g.players.get(team).food
@@ -155,14 +162,14 @@ public class HeadQuarters extends Building {
 				this.isProducing =false;
 				this.animation = -1f;
 				this.updateProductionList();
-				
+
 			}
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
 			this.animation = -1f;
 		}
-		
+
 
 	}
 	public Graphics draw(Graphics g){

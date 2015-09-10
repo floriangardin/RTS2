@@ -5,8 +5,9 @@ import java.util.Vector;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import model.Plateau;
-import model.Player;
+import model.*;
+import units.*;
+import units.Character;
 
 public class DualistEagleView extends Technologie {
 
@@ -26,13 +27,18 @@ public class DualistEagleView extends Technologie {
 	
 	public void applyEffect(){
 		// Va chercher le player.data correspondant et ajoute le bonus ou ajoute tech concerné
-		this.player.data.knight.sight*=2;
-		this.player.data.priest.sight*=2;
-		this.player.data.inquisitor.sight*=2;
-		this.player.data.spearman.sight*=2;
-		this.player.data.crossbowman.sight*=2;
+		this.player.data.knight.sight*=1.5;
+		this.player.data.priest.sight*=1.5;
+		this.player.data.inquisitor.sight*=1.5;
+		this.player.data.spearman.sight*=1.5;
+		this.player.data.crossbowman.sight*=1.5;
 		// Age passing does nothing
-		// Then update
+		// Then update all existing units
+		for(Character c : this.p.characters){
+			if(c.team == this.player.team){
+				c.sight*=1.5;
+			}
+		}
 		
 	}
 }
