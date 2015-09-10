@@ -23,7 +23,8 @@ public class UnitKnight extends Character {
 		this.weapon = new Sword(this.p,this);
 		this.weapon.destroy();
 		this.civ = 0;
-		this.sightBox = new Circle(this.sight,0,0);
+		this.sightBox = new Circle(0,0,this.sight);
+		this.range = this.size+20f;
 		this.horse = new Horse(p,this);
 		
 		this.updateImage();

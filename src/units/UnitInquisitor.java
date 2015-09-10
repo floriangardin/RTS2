@@ -21,7 +21,8 @@ public class UnitInquisitor extends Character {
 		this.chargeTime = 15f;
 		this.weapon = new Wand(this.p,this);
 		this.civ = 0;
-		this.sightBox = new Circle(this.sight,0,0);
+		this.sightBox = new Circle(0,0,this.sight);
+		this.range = 200f;
 		this.weapon.destroy();
 		this.updateImage();
 	}

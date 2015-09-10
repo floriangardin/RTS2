@@ -14,7 +14,7 @@ public class UnitSpearman extends Character {
 		this.maxLifePoints = 80f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
-		this.collisionBox = new Circle(0f,0f,20f);
+		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 80f;
 		this.armor = 4f;
 		this.damage = 5f;
@@ -22,7 +22,8 @@ public class UnitSpearman extends Character {
 		this.weapon = new Spear(this.p,this);
 		this.weapon.destroy();
 		this.civ = 0;
-		this.sightBox = new Circle(this.sight,0,0);
+		this.sightBox = new Circle(0,0,this.sight);
+		this.range = this.size+20f;
 		this.updateImage();
 	}
 

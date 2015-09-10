@@ -23,7 +23,8 @@ public class UnitPriest extends Character {
 		this.weapon = new Bible(this.p,this);
 		this.weapon.destroy();
 		this.civ = 0;
-		this.sightBox = new Circle(this.sight,0,0);
+		this.sightBox = new Circle(0,0,this.sight);
+		this.range = 50f;
 		this.horse = new Horse(p,this);
 		this.updateImage();
 	}

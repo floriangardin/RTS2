@@ -14,7 +14,7 @@ public class UnitCrossbowman extends Character {
 		this.maxLifePoints = 60f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
-		this.collisionBox = new Circle(0f,0f,20f);
+		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 90f;
 		this.armor = 2f;
 		this.damage = 5f;
@@ -22,7 +22,8 @@ public class UnitCrossbowman extends Character {
 		this.weapon = new Bow(this.p,this);
 		this.weapon.destroy();
 		this.civ = 0;
-		this.sightBox = new Circle(this.sight,0,0);
+		this.range = 200f;
+		this.sightBox = new Circle(0,0,this.sight);
 
 		this.updateImage();
 	}

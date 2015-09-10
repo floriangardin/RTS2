@@ -58,35 +58,9 @@ public class Character extends ActionObjet{
 	protected int civ ;
 
 
-	
-	public Vector<Objet> secondaryTargets = new Vector<Objet>();
-	// Constructor for data
-	public Character(Plateau p,int team,float x, float y){
-		this.team = team;
-		this.maxLifePoints = 100f;
-		this.p = p;
-		this.name = "Character";
-		this.sight = 300f;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
-		this.selection_circle = this.p.images.selection_circle;
-		Image imagea = this.p.images.corps;
-		Image imageb = this.p.images.corps;
-		if(team==1)
-			imageb = this.p.images.blue;
-		if(team==2)
-			imageb = this.p.images.red;
-		this.image = Utils.mergeImages(imagea, imageb);
 
-		// the maximum number of float by second
-		p.addCharacterObjets(this);
-		this.collisionBox = new Circle(x,y,size);
-		this.sightBox = new Circle(x,y,sight);
-		this.setXY(x, y);
-		this.horse = null;
-		this.weapon = null;
-		this.lifePoints= this.maxLifePoints;
-	}
+	public Vector<Objet> secondaryTargets = new Vector<Objet>();
+
 	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p,Player player){
 		this.p = p;
@@ -104,11 +78,12 @@ public class Character extends ActionObjet{
 		this.size = 20f;
 		this.isHidden = false;
 		this.spells = new Vector<Spell>();
-		
+
 	}
 	// Copy constructor , to really create an unit
 	public Character(Character c,float x,float y){
 		this.p = c.p;
+		this.size = c.size;
 		p.addCharacterObjets(this);
 		p.g.idChar+=1;
 		this.name = c.name;
@@ -117,8 +92,9 @@ public class Character extends ActionObjet{
 		this.maxLifePoints = c.maxLifePoints;
 		this.lifePoints = c.maxLifePoints;
 		this.sight = c.sight;
-		this.collisionBox = c.collisionBox;
-		this.sightBox = c.sightBox;
+		this.collisionBox = new Circle(c.collisionBox.getCenterX(),c.collisionBox.getCenterY(),c.collisionBox.getBoundingCircleRadius());
+		this.sightBox = new Circle(c.sightBox.getCenterX(),c.sightBox.getCenterY(),c.sightBox.getBoundingCircleRadius());
+
 		this.setXY(x, y);
 		this.maxVelocity = c.maxVelocity;
 		this.armor = c.armor;
@@ -128,6 +104,7 @@ public class Character extends ActionObjet{
 		this.image = c.image;
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
+		
 		// COpy weapon
 		switch(c.weapon.name){
 		case "bow":
@@ -146,10 +123,9 @@ public class Character extends ActionObjet{
 			this.weapon = new Bible(this.p,this);
 			break;
 		default:
-			System.out.println("pas d'armes");
-			System.out.println("pas d'amer : " + c.weapon.name);
+
 		}
-		System.out.println(c.weapon.name);
+
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
@@ -364,6 +340,7 @@ public class Character extends ActionObjet{
 		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !this.getTarget().collisionBox.intersects(this.weapon.collisionBox))){
 			this.move();
 		}else{
+			this.stop();
 			// The target is at range, the character don't move
 		}
 
@@ -443,18 +420,20 @@ public class Character extends ActionObjet{
 			else
 				animation = 2;
 		}
-		// Handling the group deplacement
-		boolean nextToStop = false;
-		boolean oneHasArrived = false;
-		for(Character c: this.group){
-			if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
-				nextToStop = true;
-			if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
-				oneHasArrived = true;
-		}
-		if(nextToStop && oneHasArrived){
-			this.stop();
-			return;
+		if(this.group!=null){
+			// Handling the group deplacement
+			boolean nextToStop = false;
+			boolean oneHasArrived = false;
+			for(Character c: this.group){
+				if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
+					nextToStop = true;
+				if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
+					oneHasArrived = true;
+			}
+			if(nextToStop && oneHasArrived){
+				this.stop();
+				return;
+			}
 		}
 	}
 	// Stopping method

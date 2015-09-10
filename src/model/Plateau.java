@@ -834,16 +834,16 @@ public class Plateau {
 		if(player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<im.Ycam+10)&&im.Ycam>-im.resY/2){
-				Ycam -= 10;
+				Ycam -= 20;
 			}
 			if((im.isPressedDOWN || im.yMouse>im.Ycam+im.resY-10) && im.Ycam<this.maxY-im.resY/2){
-				Ycam +=10;
+				Ycam +=20;
 			}
 			if((im.isPressedLEFT|| im.xMouse<im.Xcam+10) && im.Xcam>-im.resX/2 ){
-				Xcam -=10;
+				Xcam -=20;
 			}
 			if((im.isPressedRIGHT || im.xMouse>im.Xcam+im.resX-10)&& im.Xcam<this.maxX-im.resX/2){
-				Xcam += 10;
+				Xcam += 20;
 			}
 			//Displaying the selected group
 			for(int to=0; to<10; to++){
