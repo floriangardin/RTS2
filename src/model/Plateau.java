@@ -109,6 +109,10 @@ public class Plateau {
 		this.naturalObjets = new Vector<NaturalObjet>();
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets= new Vector<NaturalObjet>();
+		//SPELLS
+		this.spells = new Vector<ActionObjet>();
+		this.toAddSpells = new Vector<ActionObjet>();
+		this.toRemoveSpells= new Vector<ActionObjet>();
 		//ENEMYGENERATOR
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
