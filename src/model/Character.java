@@ -46,6 +46,8 @@ public class Character extends ActionObjet{
 	boolean isHidden;
 	int civ ;
 
+
+	
 	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
 	// Constructor for data
 	public Character(Plateau p,int team,float x, float y){
@@ -115,6 +117,7 @@ public class Character extends ActionObjet{
 		this.image = c.image;
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
+
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
@@ -125,6 +128,7 @@ public class Character extends ActionObjet{
 		this.name = "Character";
 		//this.sight =this.p.g.players.get(team).data.smSight;
 		this.id = occ.id;
+
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
 		if(team==1)
@@ -186,34 +190,7 @@ public class Character extends ActionObjet{
 	}
 
 
-	public void stop(){
-		this.checkpointTarget = null;
-		if(this.getTarget() instanceof Checkpoint){
-			if(this.secondaryTargets.size()==0){
-				this.setTarget(null);
-			}else{
-				this.setTarget(this.secondaryTargets.firstElement());
-				this.secondaryTargets.remove(0);
-				return;
-			}
 
-		}
-		this.vx = 0f;
-		this.vy = 0f;
-		if(!this.isLeader() && this.leader!=null && this.leader.isMobile()){
-			this.leader.stop();
-		}
-		if(this.isLeader()){
-			for(Character c : this.group){
-				if(!c.isLeader() && c.isMobile()){
-					c.stop();
-				}
-				c.leader = null;
-			}
-			this.group = null;
-		}
-		this.animationValue=0f;
-	}
 
 
 	//// WEAPONS
@@ -316,34 +293,19 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
+		// Handling the death of the unit
 		if(!this.isAlive()){
 			this.setTarget(null);
 			return;
 		}
-		if(this.getTarget()==null){
-			Vector<Objet> potential_targets;
-			if(this.weapon!=null && this.weapon.damage>0f) 
-				potential_targets = p.getEnnemiesInSight(this);
-			else if (this.weapon!=null && this.weapon.damage<0f) 
-				potential_targets = p.getWoundedAlliesInSight(this);
-			else
-				potential_targets = new Vector<Objet>();
-			if(potential_targets.size()>0){
-				//Take the nearest target :
-				this.setTarget(Utils.nearestObject(potential_targets, this));
-			}
-			if(this.getTarget()==null){
-				if(this.checkpointTarget!=null){
-					this.setTarget(this.checkpointTarget);
-					move();
-					this.setTarget(null);
-				}
-				return;
-			}
-		}
-		if(!this.getTarget().isAlive() ){
+		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
 			this.setTarget(null);
-			// Now require a new target if possible
+		}
+		if(this.getTarget()==null && this.secondaryTargets.size()>0){
+			this.setTarget(this.secondaryTargets.get(0));
+		}
+		if(this.getTarget()==null){
+			// The character has no target, we look for a new one
 			Vector<Objet> potential_targets;
 			if(this.weapon!=null && this.weapon.damage>0f) 
 				potential_targets = p.getEnnemiesInSight(this);
@@ -352,42 +314,27 @@ public class Character extends ActionObjet{
 			else
 				potential_targets = new Vector<Objet>();
 			if(potential_targets.size()>0){
-				//Take the nearest target :
 				this.setTarget(Utils.nearestObject(potential_targets, this));
+			} else {
+				this.setTarget(this.checkpointTarget);
 			}
+			//			move();
+			//			this.setTarget(null);
+			//			return;
 		}
-		else if(this.getTarget() instanceof Character){
+		if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
-				//				this.setTarget(null);
-				//				return;
+				//TODO : create a boolean isVisible and update it
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
 		}
-		else if(this.getTarget() instanceof Building){
-			Building c =(Building) this.getTarget();
-			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
-				//				this.setTarget(null);
-				//				return;
-				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
-			}
+		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !this.getTarget().collisionBox.intersects(this.weapon.collisionBox))){
+			this.move();
+		}else{
+			// The target is at range, the character don't move
 		}
-		if(someoneStopped && this.isLeader() && this.group!=null){
-			this.stop();
-			return;
-		}
-		if(this.weapon==null){
-			// If the character has no weapon it always goes toward the target
-			move();
-		} else{
-			// If the character has a weapon it goes toward the target till it is at range
-			if(this.getTarget()!=null && !this.getTarget().collisionBox.intersects(this.weapon.collisionBox)){
-				move();
-			}else{
-				this.stop();
-				return;
-			}
-		}
+
 
 	}
 	// Movement method
@@ -406,8 +353,7 @@ public class Character extends ActionObjet{
 		float newvx, newvy;
 		//Checking if the point is not too close of the target
 		if(accNorm<1.0f){
-			newvx = 0f;
-			newvy = 0f;
+			// 1st possible call of stop: the target is near
 			this.stop();
 			return;
 		} else {
@@ -422,8 +368,7 @@ public class Character extends ActionObjet{
 			newvx = newvx*maxVNorm/vNorm;
 			newvy = newvy*maxVNorm/vNorm;
 		} else if(accNorm<5.0f && vNorm<2.0f || this.collisionBox.intersects(this.getTarget().collisionBox)){
-			//if the velocity is small and the acceleration against it
-			//the point needs to be stopped
+			// 2nd possible call: the target is near and the character is going backward
 			this.stop();
 			return;
 		}
@@ -466,8 +411,50 @@ public class Character extends ActionObjet{
 			else
 				animation = 2;
 		}
+		// Handling the group deplacement
+		boolean nextToStop = false;
+		boolean oneHasArrived = false;
+		for(Character c: this.group){
+			if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
+				nextToStop = true;
+			if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
+				oneHasArrived = true;
+		}
+		if(nextToStop && oneHasArrived){
+			this.stop();
+			return;
+		}
 	}
+	// Stopping method
+	// 
+	public void stop(){
+		this.checkpointTarget = null;
+		if(this.getTarget() instanceof Checkpoint){
+			if(this.secondaryTargets.size()==0){
+				this.setTarget(null);
+				this.vx = 0f;
+				this.vy = 0f;
+				this.animationValue=0f;
+			}else{
+				this.setTarget(this.secondaryTargets.firstElement());
+				this.secondaryTargets.remove(0);
+				return;
+			}
 
+		}
+		//		if(!this.isLeader() && this.leader!=null && this.leader.isMobile()){
+		//			this.leader.stop();
+		//		}
+		//		if(this.isLeader()){
+		//			for(Character c : this.group){
+		//				if(!c.isLeader() && c.isMobile()){
+		//					c.stop();
+		//				}
+		//				c.leader = null;
+		//			}
+		//			this.group = null;
+		//		}
+	}
 
 	//// GRAPHISMS
 
@@ -685,26 +672,7 @@ public class Character extends ActionObjet{
 	}
 
 
-	//// CREATION FUNCTIONS
-//	public static Character createCharacter(Plateau p,int team,float x, float y,UnitsList which){
-//
-//		switch(which){
-//		case Spearman:
-//			return createSpearman(p,team,x,y);	
-//		case Knight:
-//			return createKnight(p,team,x,y);
-//		case Priest:
-//			return createPriest(p,team,x,y);
-//		case Bowman:
-//			return createBowman(p,team,x,y);
-//		case Wizard:
-//			return createWizard(p,team,x,y);
-//
-//		default:
-//			return null;
-//		}
-//
-//	}
+
 
 }
 

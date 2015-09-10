@@ -170,9 +170,6 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
-				if(o.team==1)
-					this.g.players.get(0).ennemiesKilled+=1;
-
 				this.deathSound.play(0.8f+1f*((float)Math.random()),this.soundVolume);
 			}
 		}
@@ -184,11 +181,6 @@ public class Plateau {
 		for(Bullet o : bullets){
 			if(!o.isAlive()){
 				this.removeBullet(o);
-			}
-		}
-		for(Character o : characters){
-			if(!o.isAlive()){
-				this.removeCharacter(o);
 			}
 		}
 		for(NaturalObjet o : naturalObjets){
@@ -220,6 +212,8 @@ public class Plateau {
 		for(Character o: toRemoveCharacters){
 			characters.remove(o);
 			o.destroy();
+			if(o.weapon!=null)
+				o.weapon.destroy();
 		}
 		for(Character o: toAddCharacters){
 			characters.addElement(o);
@@ -397,42 +391,24 @@ public class Plateau {
 		if(target==null){
 			target = new Checkpoint(this,x,y);
 		}
-		Character leader = null;
 		for(ActionObjet c:this.selection.get(team)){
 			if(c instanceof Character){
 				Character o = (Character) c;
-				if(leader==null){
-					leader=o;
-				}
 				//first we deal with o's elder group
-				//if o was the leader and there were other members in the group
-				if(o.isLeader() && o.group.size()>1){
-					//we set the group of the new leader
-					o.group.get(1).group = o.group;
-					//we set the new leader amongst the member of the group
-					for(Character o1: o.group){
-						o1.leader = o.group.get(1);
-					}
-					//we remove o from the group
-
+				if(o.group!=null && o.group.size()>1){
+					for(Character c1 : o.group)
+						if(c1!=o)
+							c1.group.remove(o);
 				}
-				if(o.leader!=null){
-					o.leader.group.remove(o);
-				}
-				if(leader==o){
-					o.group = new Vector<Character>();
-				}
-				//we set to o its new leader and to its leader's group the new member
-				o.leader = leader;
-				if(!o.isLeader())
-					o.group=null;
-				o.leader.group.add(o);
-				//eventually we assign the target
+				// Then we create its new group
+				o.group = new Vector<Character>();
+				for(ActionObjet c1: this.selection.get(team))
+					if(c1 instanceof Character)
+						o.group.add((Character)c1);
 				o.setTarget(target);
 				o.secondaryTargets.clear();
 			}
 		}
-
 	}
 
 	public void updateSecondaryTarget(float x, float y, int team){
@@ -442,40 +418,23 @@ public class Plateau {
 		if(target==null){
 			target = new Checkpoint(this,x,y);
 		}
-		Character leader = null;
 		for(ActionObjet c:this.selection.get(team)){
 			if(c instanceof Character){
 				Character o = (Character) c;
-				if(leader==null){
-					leader=o;
-				}
 				//first we deal with o's elder group
-				//if o was the leader and there were other members in the group
-				if(o.isLeader() && o.group.size()>1){
-					//we set the group of the new leader
-					o.group.get(1).group = o.group;
-					//we set the new leader amongst the member of the group
-					for(Character o1: o.group){
-						o1.leader = o.group.get(1);
-					}
-					//we remove o from the group
-
+				if(o.group!=null && o.group.size()>1){
+					for(Character c1 : o.group)
+						if(c1!=o)
+							c1.group.remove(o);
 				}
-				if(o.leader!=null){
-					o.leader.group.remove(o);
-				}
-				if(leader==o){
-					o.group = new Vector<Character>();
-				}
-				//we set to o its new leader and to its leader's group the new member
-				o.leader = leader;
-				if(!o.isLeader())
-					o.group=null;
-				o.leader.group.add(o);
-				//eventually we assign the target
+				// Then we create its new group
+				o.group = new Vector<Character>();
+				for(ActionObjet c1: this.selection.get(team))
+					if(c1 instanceof Character)
+						o.group.add((Character)c1);
 				o.secondaryTargets.add(target);
-			}}
-
+			}
+		}
 	}
 
 	public Objet findTarget(float x, float y){
