@@ -15,7 +15,7 @@ public abstract class Technologie {
 	public Player player;
 	public Data data;
 	public boolean isDiscovered;
-	public Vector<Technologie> techRequired;
+	public Technologie techRequired;
 	public Image icon;
 	public String name;
 	

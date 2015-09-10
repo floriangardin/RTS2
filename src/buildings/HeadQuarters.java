@@ -22,6 +22,7 @@ public class HeadQuarters extends Building {
 	boolean isProducing;
 	Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> productionList;
+	public Vector<Technologie> allTechs;
 	public Player player;
 	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
 		// Init ProductionList
@@ -31,9 +32,18 @@ public class HeadQuarters extends Building {
 			this.productionList = new Vector<Technologie>();
 			this.productionList.addElement(new DualistAge2(this.p,this.player));
 			this.productionList.addElement(new DualistEagleView(this.p,this.player));
+			
+			this.allTechs = new Vector<Technologie>();
+			DualistAge2 d2 = new DualistAge2(this.p,this.player);
+			this.allTechs.addElement(d2);
+			DualistAge3 d3 = new DualistAge3(this.p,this.player);
+			this.allTechs.addElement(new DualistAge3(this.p,this.player));
+			d3.techRequired=d2;
+			DualistEagleView ev =new DualistEagleView(this.p,this.player);
+			this.allTechs.addElement(ev);
+			ev.techRequired = d2;
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
-
-
+			
 		}
 		else if(this.p.g.players.get(team).civ==1){
 			this.productionList = new Vector<Technologie>();
@@ -71,11 +81,19 @@ public class HeadQuarters extends Building {
 		}
 		// List of potential production (Spearman
 		this.techsDiscovered = new Vector<Technologie>();
-
+		this.updateProductionList();
 
 
 	}
-
+	
+	public void updateProductionList(){
+		this.productionList.clear();
+		for(Technologie t:this.allTechs){
+			if(t.techRequired==null || this.techsDiscovered.contains(t.techRequired)){
+				this.productionList.addElement(t);
+			}
+		}
+	}
 	public HeadQuarters(OutputBuilding ocb, Plateau p){
 		team = ocb.team;
 		type= 5;
@@ -131,19 +149,20 @@ public class HeadQuarters extends Building {
 				this.charge=0f;
 				this.techsDiscovered.addElement(this.queue);
 				this.productionList.removeElement(queue);
+				this.allTechs.removeElement(this.queue);
+				this.queue.applyEffect();
 				this.queue=null;
 				this.isProducing =false;
 				this.animation = -1f;
+				this.updateProductionList();
 				
-
 			}
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
 			this.animation = -1f;
 		}
-
-
+		
 
 	}
 	public Graphics draw(Graphics g){

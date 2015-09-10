@@ -17,6 +17,7 @@ public class Player {
 	public Data data;
 	public int food;
 	public int gold;
+	public int special;
 	public int pop;
 	public BottomBar bottomBar;
 	public TopBar topBar;
@@ -31,6 +32,7 @@ public class Player {
 		food = 0;
 		gold = 0;
 		pop = 0;
+		special = 0;
 		groupSelection = -1;
 		ennemiesKilled = 0 ;
 		this.data = new Data(this.p,this,this.p.constants.FRAMERATE);

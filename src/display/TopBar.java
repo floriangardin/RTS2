@@ -13,7 +13,7 @@ public class TopBar extends Bar {
 	
 	Image imageGold ;
 	Image imageFood;
-	
+	Image imageSpecial;
 	public TopBar(Plateau p ,Player player, int resX, int resY){
 		
 		this.p = p ;
@@ -24,6 +24,7 @@ public class TopBar extends Bar {
 			int taille = 24;
 			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
 			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
+			this.imageSpecial = new Image("pics/arrow.png");
 			this.background = new Image("pics/bottombar.jpg").getSubImage(0,0,683,(int) sizeY);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
@@ -59,11 +60,13 @@ public class TopBar extends Bar {
 		// Draw subcomponents :
 
 		// Draw Ressources
-		g.drawImage(this.imageFood, 3*this.sizeX/5,(this.sizeY-24)/2);
+		g.drawImage(this.imageFood, 3*this.sizeX/6,(this.sizeY-24)/2);
 		// Draw number of ressources
-		g.drawString(": "+this.player.food, 3.1f*this.sizeX/5,(this.sizeY-24)/2);
-		g.drawImage(this.imageGold, 4*this.sizeX/5,(this.sizeY-24)/2);
-		g.drawString(": "+this.player.gold, 4.1f*this.sizeX/5,(this.sizeY-24)/2);
+		g.drawString(": "+this.player.food, 3.1f*this.sizeX/6,(this.sizeY-24)/2);
+		g.drawImage(this.imageGold, 4*this.sizeX/6,(this.sizeY-24)/2);
+		g.drawString(": "+this.player.gold, 4.1f*this.sizeX/6,(this.sizeY-24)/2);
+		g.drawImage(this.imageSpecial, 5*this.sizeX/6,(this.sizeY-32)/2);
+		g.drawString(": "+this.player.special, 5.1f*this.sizeX/6,(this.sizeY-24)/2);
 		// Draw separation 
 		g.setColor(Color.white);
 		g.fillRect(xt,this.sizeY,sizeX,1f);

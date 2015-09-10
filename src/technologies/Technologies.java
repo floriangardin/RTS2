@@ -8,7 +8,7 @@ public enum Technologies {
 
 	DualistAge2("Age2",0f,0f,100f),
 	DualistAge3("Age3",100f,100f,150f),
-	EagleView("Eagle View",10f,5f,50f);
+	EagleView("Eagle View",0f,0f,50f);
 	
 
 	String name = "";

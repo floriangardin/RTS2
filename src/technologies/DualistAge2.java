@@ -16,7 +16,6 @@ public class DualistAge2 extends Technologie {
 		this.p = p;
 		this.player = player;
 		this.data = this.player.data;
-		this.techRequired = new Vector<Technologie>();
 		try {
 			this.icon = new Image("pics/tech/age2.png");
 		} catch (SlickException e) {
