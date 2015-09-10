@@ -128,7 +128,28 @@ public class Character extends ActionObjet{
 		this.image = c.image;
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
-
+		// COpy weapon
+		switch(c.weapon.name){
+		case "bow":
+			this.weapon = new Bow(this.p,this);
+			break;
+		case "sword":
+			this.weapon = new Sword(this.p,this);
+			break;
+		case "spear":
+			this.weapon = new Spear(this.p,this);
+			break;
+		case "wand":
+			this.weapon = new Wand(this.p,this);
+			break;
+		case "bible":
+			this.weapon = new Bible(this.p,this);
+			break;
+		default:
+			System.out.println("pas d'armes");
+			System.out.println("pas d'amer : " + c.weapon.name);
+		}
+		System.out.println(c.weapon.name);
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen

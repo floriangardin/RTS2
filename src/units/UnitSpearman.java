@@ -20,6 +20,7 @@ public class UnitSpearman extends Character {
 		this.damage = 5f;
 		this.chargeTime = 5f;
 		this.weapon = new Spear(this.p,this);
+		this.weapon.destroy();
 		this.civ = 0;
 		this.sightBox = new Circle(this.sight,0,0);
 		this.updateImage();

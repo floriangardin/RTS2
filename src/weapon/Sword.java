@@ -23,7 +23,7 @@ public class Sword extends ContactWeapon {
 		this.lifePoints = 1f;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+extraSize);
 		this.setOwner(owner);
-		this.name = "Sword";
+		this.name = "sword";
 		this.sound = p.sounds.sword;
 		
 	}

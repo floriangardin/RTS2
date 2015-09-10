@@ -21,9 +21,11 @@ public class UnitKnight extends Character {
 		this.damage = 8f;
 		this.chargeTime = 7f;
 		this.weapon = new Sword(this.p,this);
+		this.weapon.destroy();
 		this.civ = 0;
 		this.sightBox = new Circle(this.sight,0,0);
 		this.horse = new Horse(p,this);
+		
 		this.updateImage();
 	}
 	

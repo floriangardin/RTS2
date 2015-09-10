@@ -14,7 +14,7 @@ public abstract class ActionObjet extends Objet{
 	protected Checkpoint checkpointTarget;
 
 
-	protected void destroy(){
+	public void destroy(){
 		this.lifePoints = -10;
 		this.target = null;
 		this.x = -100f;

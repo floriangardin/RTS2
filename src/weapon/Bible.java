@@ -12,13 +12,14 @@ public class Bible extends ContactWeapon{
 		this.state = 0f;
 		this.damage = owner.damage;
 		this.chargeTime = owner.chargeTime;
-		this.name = "Bible";
+		this.name = "bible";
 		float extraRange = 30f;
 		this.p = p;
 		this.lifePoints = 1f;
 		p.addEquipmentObjets(this);
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),owner.collisionBox.getBoundingCircleRadius()+extraRange);
 		this.setOwner(owner);
+		
 	}
 
 	public void action(){

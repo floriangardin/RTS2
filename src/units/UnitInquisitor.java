@@ -22,7 +22,7 @@ public class UnitInquisitor extends Character {
 		this.weapon = new Wand(this.p,this);
 		this.civ = 0;
 		this.sightBox = new Circle(this.sight,0,0);
-
+		this.weapon.destroy();
 		this.updateImage();
 	}
 

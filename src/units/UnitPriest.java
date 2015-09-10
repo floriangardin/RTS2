@@ -21,6 +21,7 @@ public class UnitPriest extends Character {
 		this.damage = -1f;
 		this.chargeTime = 0.2f;
 		this.weapon = new Bible(this.p,this);
+		this.weapon.destroy();
 		this.civ = 0;
 		this.sightBox = new Circle(this.sight,0,0);
 		this.horse = new Horse(p,this);

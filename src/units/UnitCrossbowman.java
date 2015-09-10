@@ -20,6 +20,7 @@ public class UnitCrossbowman extends Character {
 		this.damage = 5f;
 		this.chargeTime = 5f;
 		this.weapon = new Bow(this.p,this);
+		this.weapon.destroy();
 		this.civ = 0;
 		this.sightBox = new Circle(this.sight,0,0);
 
