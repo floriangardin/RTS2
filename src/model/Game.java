@@ -190,6 +190,10 @@ public class Game extends BasicGame
 			if(plateau.isVisibleByPlayer(currentPlayer,o))
 				o.draw(g);
 		}
+		for(ActionObjet a: plateau.spells){
+			if(plateau.isVisibleByPlayer(currentPlayer, a))
+				a.draw(g);
+		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
 			if(this.plateau.rectangleSelection.get(player) !=null){
@@ -206,6 +210,10 @@ public class Game extends BasicGame
 			this.bottomBars.draw(g);
 		if(this.topBars!=null)
 			this.topBars.draw(g);
+		if(plateau.f!=null && plateau.f.collisionBox!=null){
+			g.setColor(Color.white);
+			g.draw(plateau.f.collisionBox);
+		}
 	}
 	// Do our logic 
 	@Override

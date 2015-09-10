@@ -23,6 +23,9 @@ import multiplaying.*;
 import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
+import spells.Firewall;
+import spells.Spell;
+import spells.SpellFirewall;
 import units.Character;
 import weapon.Weapon;
 
@@ -68,6 +71,11 @@ public class Plateau {
 	public Vector<Vector<ActionObjet>> selection;
 	public Vector<Vector<ActionObjet>> toAddSelection;
 	public Vector<Vector<ActionObjet>> toRemoveSelection ;
+
+	public Vector<ActionObjet> spells;
+	public Vector<ActionObjet> toAddSpells;
+	public Vector<ActionObjet> toRemoveSpells;
+	
 	public Vector<Rectangle> rectangleSelection;
 	public Vector<Float> recX ;
 	public Vector<Float> recY ;
@@ -101,6 +109,10 @@ public class Plateau {
 		this.naturalObjets = new Vector<NaturalObjet>();
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets= new Vector<NaturalObjet>();
+		//SPELLS
+		this.spells = new Vector<ActionObjet>();
+		this.toAddSpells = new Vector<ActionObjet>();
+		this.toRemoveSpells= new Vector<ActionObjet>();
 		//ENEMYGENERATOR
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
@@ -162,6 +174,12 @@ public class Plateau {
 	public void removeBuilding(Building o){
 		toRemoveBuildings.addElement(o);
 	}
+	public void addSpell(ActionObjet o){
+		toAddSpells.addElement(o);
+	}
+	public void removeSpell(ActionObjet o){
+		toRemoveSpells.addElement(o);
+	}
 	public void addSelection(ActionObjet o,int team){
 		toAddSelection.get(team).addElement(o);
 	}
@@ -202,6 +220,11 @@ public class Plateau {
 				this.removeBuilding(o);
 			}
 		}
+		for(ActionObjet o : spells){
+			if(!o.isAlive()){
+				this.removeSpell(o);
+			}
+		}
 
 		// Update selection
 		for(int i=0;i<=nTeams;i++){
@@ -233,6 +256,12 @@ public class Plateau {
 		for(ActionObjet o: toAddEquipments){
 			equipments.addElement(o);
 		}
+		for(ActionObjet o: toAddSpells){
+			spells.addElement(o);
+		}
+		for(ActionObjet o: toRemoveSpells){
+			spells.remove(o);
+		}
 		for(Bullet o: toRemoveBullets){
 			bullets.remove(o);
 		}
@@ -262,8 +291,10 @@ public class Plateau {
 		toRemoveEquipments.clear();
 		toRemoveBullets.clear();
 		toRemoveNaturalObjets.clear();
+		toRemoveSpells.clear();
 		toRemoveBuildings.clear();
 		toAddCharacters.clear();
+		toAddSpells.clear();
 		toAddEquipments.clear();
 		toAddBullets.clear();
 		toAddNaturalObjets.clear();
@@ -550,7 +581,13 @@ public class Plateau {
 		for(Building e: this.buildings){
 			e.action();
 		}
+		for(ActionObjet a : this.spells){
+			a.action();
+		}
 	}
+	
+	//TODO
+	public SpellFirewall f ;
 	public OutputModel update(Vector<InputModel> ims){
 		/* Pipeline of the update:
 		 * 1 - If ESC start menu
@@ -559,6 +596,7 @@ public class Plateau {
 		 * 4 - Other updates
 		 */
 
+		
 		OutputModel om = new OutputModel(0);
 
 //		// 1 - If ESC start menu
@@ -568,6 +606,7 @@ public class Plateau {
 //		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
+		
 		for(int player=1; player<this.g.players.size(); player++){
 			im = null;
 			for(InputModel inp : ims)

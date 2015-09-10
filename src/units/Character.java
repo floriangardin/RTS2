@@ -52,7 +52,7 @@ public class Character extends ActionObjet{
 	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
 	// Spells ( what should appear in the bottom bar
-	Vector<Spell> spells;
+	Vector<Spell> spells = new Vector<Spell>();
 	// Invisibility 
 	boolean isHidden;
 	protected int civ ;
@@ -306,6 +306,8 @@ public class Character extends ActionObjet{
 			this.setTarget(null);
 			return;
 		}
+		for(Spell s:this.spells)
+			s.state+=1f;
 		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
 			this.setTarget(null);
 		}
