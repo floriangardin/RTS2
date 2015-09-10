@@ -305,9 +305,9 @@ public class Game extends BasicGame
 		//Clean all variables
 		this.plateau = new Plateau(this.constants,this.plateau.maxX,this.plateau.maxY,2,this);
 		this.players = new Vector<Player>();
-		this.players.add(new Player(this.plateau,0));
-		this.players.add(new Player(this.plateau,1));
-		this.players.add(new Player(this.plateau,2));
+		this.players.add(new Player(this.plateau,0,0));
+		this.players.add(new Player(this.plateau,1,0));
+		this.players.add(new Player(this.plateau,2,0));
 		if(host)
 			this.map.createMapLan(plateau,this.players);
 		// Instantiate BottomBars for all players:
@@ -357,9 +357,9 @@ public class Game extends BasicGame
 		this.plateau = new Plateau(this.constants,3000,3000,3,this);
 		
 		this.musicStartGame = new Music("music/nazi_start.ogg");
-		this.players.add(new Player(this.plateau,0));
-		this.players.add(new Player(this.plateau,1));
-		this.players.add(new Player(this.plateau,2));
+		this.players.add(new Player(this.plateau,0,0));
+		this.players.add(new Player(this.plateau,1,0));
+		this.players.add(new Player(this.plateau,2,0));
 		
 		
 

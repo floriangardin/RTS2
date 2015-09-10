@@ -7,7 +7,7 @@ import display.TopBar;
 import units.UnitsList;
 
 public class Player {
-	
+	public int civ;
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
 	public Plateau p;
@@ -20,7 +20,8 @@ public class Player {
 	public int pop;
 	public BottomBar bottomBar;
 	public TopBar topBar;
-	public Player(Plateau p ,int team) {
+	public Player(Plateau p ,int team,int civ) {
+		this.civ  = civ;
 		this.p = p;
 		this.selection = new Vector<ActionObjet>();
 		this.groups = new Vector<Vector<ActionObjet>>();

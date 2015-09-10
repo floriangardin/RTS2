@@ -3,6 +3,7 @@ package buildings;
 import java.util.Vector;
 
 import multiplaying.OutputModel.OutputBuilding;
+import technologies.*;
 import technologies.Technologie;
 
 import org.newdawn.slick.Color;
@@ -12,6 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Game;
 import model.Plateau;
+import model.Player;
 
 public class HeadQuarters extends Building {
 
@@ -20,10 +22,25 @@ public class HeadQuarters extends Building {
 	int queue;
 	boolean isProducing;
 	Vector<Technologie> techsDiscovered;
-	Vector<Technologie> techsUndiscovered;
 	public Vector<Technologie> productionList;
-	
+	public Player player;
 	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
+		// Init ProductionList
+		this.player = this.p.g.players.get(team);
+		if(this.p.g.players.get(team).civ==0){
+			this.productionList = new Vector<Technologie>();
+			this.productionList.addElement(new DualistAge2(this.p,this.player));
+			this.productionList.addElement(new DualistEagleView(this.p,this.player));
+			//this.productionList.addElement(new DualistAge2(this.p,this.player));
+			
+			
+		}
+		else if(this.p.g.players.get(team).civ==1){
+			this.productionList = new Vector<Technologie>();
+		}
+		else{
+			this.productionList = new Vector<Technologie>();
+		}
 		this.queue = -1;
 		teamCapturing= team;
 		this.p = plateau ;
@@ -31,9 +48,8 @@ public class HeadQuarters extends Building {
 		this.sizeX = this.p.constants.headQuartersSizeX; 
 		this.sizeY = this.p.constants.headQuartersSizeY;
 		this.sight = this.p.constants.headQuartersSight;
-		
 		maxLifePoints = p.constants.headQuartersLifePoints;
-		this.name = "HeadQuarters";
+		this.name = "headQuarters";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 5;
@@ -55,8 +71,8 @@ public class HeadQuarters extends Building {
 		}
 		// List of potential production (Spearman
 		this.techsDiscovered = new Vector<Technologie>();
-		this.techsUndiscovered = new Vector<Technologie>();
-		this.productionList = new Vector<Technologie>();
+		
+		
 
 	}
 
