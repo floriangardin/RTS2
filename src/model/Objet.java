@@ -7,17 +7,19 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
 
+import units.Character;
+
 public abstract class Objet {
-	Image selection_circle;
-	protected Sound sound;
-	protected float x;
-	protected float y;
+	public Image selection_circle;
+	public Sound sound;
+	public float x;
+	public float y;
 	public float sight;
-	protected Shape collisionBox;
-	protected Color color;
-	protected Plateau p;
+	public Shape collisionBox;
+	public Color color;
+	public Plateau p;
 	public float lifePoints;
-	protected String name;
+	public String name;
 	public int team;
 	
 	public Image image;
@@ -51,7 +53,7 @@ public abstract class Objet {
 		this.collisionBox.setCenterY(y);
 	}
 	
-	protected boolean isAlive(){
+	public boolean isAlive(){
 		return this.lifePoints>0f;
 	}
 

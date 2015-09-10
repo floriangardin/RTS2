@@ -7,9 +7,9 @@ public class Sounds {
 // STORE ALL THE SOUNDS
 	
 	
-	Sound sword;
-	Sound arrow;
-	Sound fireball;
+	public Sound sword;
+	public Sound arrow;
+	public Sound fireball;
 	
 	public Sounds(){
 		

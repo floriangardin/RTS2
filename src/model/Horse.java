@@ -3,6 +3,8 @@ package model;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
+import units.Character;
+
 public class Horse extends RidableObjet{
 
 	protected Rectangle collisionBox;

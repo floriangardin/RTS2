@@ -1,5 +1,13 @@
 package model;
 
+import units.Character;
+import units.UnitCrossbowman;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitPriest;
+import units.UnitSpearman;
+import units.UnitsList;
+
 public class Data {
 
 	

@@ -1,5 +1,6 @@
 package model;
 
+import units.Character;
 
 public abstract class RidableObjet extends ActionObjet {
 	// A ridable objet doesn't do any action ....

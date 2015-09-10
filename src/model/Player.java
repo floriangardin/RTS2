@@ -2,20 +2,24 @@ package model;
 
 import java.util.Vector;
 
+import display.BottomBar;
+import display.TopBar;
+import units.UnitsList;
+
 public class Player {
 	
-	Vector<ActionObjet> selection;
-	Vector<Vector<ActionObjet>> groups;
-	Plateau p;
-	int team;
-	int groupSelection;
-	int ennemiesKilled;
-	Data data;
-	int food;
-	int gold;
-	int pop;
-	BottomBar bottomBar;
-	TopBar topBar;
+	public Vector<ActionObjet> selection;
+	public Vector<Vector<ActionObjet>> groups;
+	public Plateau p;
+	public int team;
+	public int groupSelection;
+	public int ennemiesKilled;
+	public Data data;
+	public int food;
+	public int gold;
+	public int pop;
+	public BottomBar bottomBar;
+	public TopBar topBar;
 	public Player(Plateau p ,int team) {
 		this.p = p;
 		this.selection = new Vector<ActionObjet>();

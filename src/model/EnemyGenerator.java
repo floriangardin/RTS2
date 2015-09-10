@@ -3,6 +3,8 @@ package model;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import buildings.Building;
+
 public class EnemyGenerator extends Building {
 	// Class which pop ennemies at random time interval
 

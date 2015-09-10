@@ -5,52 +5,54 @@ import org.newdawn.slick.SlickException;
 
 public class Images {
 	
-	Image water, dirt;
-	Image arrow, fireball, explosion;
-	Image bible, sword, magicwand, bow;
-	Image blue, red, corps;
-	Image horseBlue, horseRed;
-	Image lightArmor, mediumArmor, heavyArmor;
-	Image tree01, tree02, tree03, tree04;
-	Image tent;
-	Image cursor;
-	Image selection_circle;
-	Image selection_rectangle;
-	Image fog;
-	Image fire;
-	Image fountain;
-	Image smoke;
-	Image windmill;
-	Image windmillarms;
+	public Image water, dirt;
+	public Image arrow;
+	public Image fireball;
+	public Image explosion;
+	public Image bible, sword, magicwand, bow;
+	public Image blue, red, corps;
+	public Image horseBlue, horseRed;
+	public Image lightArmor, mediumArmor, heavyArmor;
+	public Image tree01, tree02, tree03, tree04;
+	public Image tent;
+	public Image cursor;
+	public Image selection_circle;
+	public Image selection_rectangle;
+	public Image fog;
+	public Image fire;
+	public Image fountain;
+	public Image smoke;
+	public Image windmill;
+	public Image windmillarms;
 	
 	//Building
-	Image buildingBarrackBlue;
-	Image buildingBarrackRed;
-	Image buildingBarrackNeutral;
-	Image buildingStableBlue;
-	Image buildingStableRed;
-	Image buildingStableNeutral;
-	Image buildingAcademyBlue;
-	Image buildingAcademyRed;
-	Image buildingAcademyNeutral;
-	Image buildingMillBlue;
-	Image buildingMillRed;
-	Image buildingMillNeutral;
-	Image buildingMineBlue;
-	Image buildingMineRed;
-	Image buildingMineNeutral;
-	Image buildingHeadQuartersBlue;
-	Image buildingHeadQuartersRed;
+	public Image buildingBarrackBlue;
+	public Image buildingBarrackRed;
+	public Image buildingBarrackNeutral;
+	public Image buildingStableBlue;
+	public Image buildingStableRed;
+	public Image buildingStableNeutral;
+	public Image buildingAcademyBlue;
+	public Image buildingAcademyRed;
+	public Image buildingAcademyNeutral;
+	public Image buildingMillBlue;
+	public Image buildingMillRed;
+	public Image buildingMillNeutral;
+	public Image buildingMineBlue;
+	public Image buildingMineRed;
+	public Image buildingMineNeutral;
+	public Image buildingHeadQuartersBlue;
+	public Image buildingHeadQuartersRed;
 	
 	//Icones
-	Image iconeSpearman;
-	Image iconeBowman;
-	Image iconePriest;
-	Image iconeWizard;
-	Image iconeKnight;
+	public Image iconeSpearman;
+	public Image iconeBowman;
+	public Image iconePriest;
+	public Image iconeWizard;
+	public Image iconeKnight;
 	
 	//Tech
-	Image techEagleView;
+	public Image techEagleView;
 	
 	public Images(){
 		try {

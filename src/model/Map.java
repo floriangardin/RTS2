@@ -2,6 +2,21 @@ package model;
 
 import java.util.Vector;
 
+import buildings.BuildingAcademy;
+import buildings.BuildingBarrack;
+import buildings.BuildingMill;
+import buildings.BuildingMine;
+import buildings.BuildingStable;
+import buildings.HeadQuarters;
+import nature.Tree;
+import nature.Water;
+import units.Character;
+import units.UnitsList;
+import weapon.Bible;
+import weapon.Bow;
+import weapon.Sword;
+import weapon.Wand;
+
 public class Map {
 
 	public Map(){

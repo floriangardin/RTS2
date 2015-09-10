@@ -6,8 +6,18 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.util.Log;
 
+import buildings.Building;
+import bullets.Bullet;
+import display.BottomBar;
+import display.TopBar;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuPause;
 import multiplaying.*;
 import multiplaying.ConnectionModel.*;
+import nature.Tree;
+import nature.Water;
+import units.Character;
 
 public class Game extends BasicGame 
 {	
@@ -16,43 +26,43 @@ public class Game extends BasicGame
 	public int idBullet = 0;
 
 	// Music and sounds
-	float soundVolume;
-	float volume;
-	Music mainMusic ;
-	Music musicStartGame;
-	Sounds sounds;
-	Images images;
-	boolean playStartMusic = true;
+	public float soundVolume;
+	public float volume;
+	public Music mainMusic ;
+	public Music musicStartGame;
+	public Sounds sounds;
+	public Images images;
+	public boolean playStartMusic = true;
 
 	// Constants
-	Map map;
-	Image background ;
-	Constants constants;
+	public Map map;
+	public Image background ;
+	public Constants constants;
 
 	// Bars
-	BottomBar bottomBars;
-	TopBar topBars;
-	float relativeHeightBottomBar = 1f/6f;
-	float relativeHeightTopBar = 1f/20f;
+	public BottomBar bottomBars;
+	public TopBar topBars;
+	public float relativeHeightBottomBar = 1f/6f;
+	public float relativeHeightTopBar = 1f/20f;
 
 	// Selection
-	Rectangle selection;
-	boolean new_selection;
-	Vector<Objet> objets_selection=new Vector<Objet>();
+	public Rectangle selection;
+	public boolean new_selection;
+	public Vector<Objet> objets_selection=new Vector<Objet>();
 
 	// Resolution : 
-	float resX;
-	float resY;
+	public float resX;
+	public float resY;
 
 	// Plateau
 	public Plateau plateau ;
-	AppGameContainer app;
-	protected Vector<Player> players = new Vector<Player>();
-	protected int currentPlayer = 1;
+	public AppGameContainer app;
+	public Vector<Player> players = new Vector<Player>();
+	public int currentPlayer = 1;
 
 
 	// Network and multiplaying
-	protected boolean inMultiplayer;
+	public boolean inMultiplayer;
 	public long startTime;
 	public int portConnexion = 6113;
 	public int portInput = 6114;
@@ -83,9 +93,9 @@ public class Game extends BasicGame
 	public int toRemove = 0;
 
 	// Menus
-	protected Menu menuPause;
-	protected Menu menuIntro;
-	protected Menu menuCurrent = null;
+	public Menu menuPause;
+	public Menu menuIntro;
+	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
 
 	public void quitMenu(){

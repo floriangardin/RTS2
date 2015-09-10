@@ -8,6 +8,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 
+import units.Character;
+
 // Class for static methods
 public class Utils {
 

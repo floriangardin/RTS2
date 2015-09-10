@@ -5,6 +5,8 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 import model.*;
+import nature.Tree;
+import nature.Water;
 
 public class ConnectionModel {
 

@@ -12,58 +12,66 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import buildings.Building;
+import buildings.BuildingProduction;
+import bullets.Arrow;
+import bullets.Bullet;
+import bullets.Fireball;
+import display.BottomBar;
 import multiplaying.*;
 import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
+import units.Character;
+import weapon.Weapon;
 
 public class Plateau {
 
-	float soundVolume;
-	Sounds sounds;
-	Images images;
+	public float soundVolume;
+	public Sounds sounds;
+	public Images images;
 	public Game g;
-	protected Sound deathSound;
-	protected int nTeams;
-	protected float maxX ;
-	protected float maxY ;
+	public Sound deathSound;
+	public int nTeams;
+	public float maxX ;
+	public float maxY ;
 	// Camera 
-	float Xcam;
-	float Ycam;
+	public float Xcam;
+	public float Ycam;
 	// fog of war
-	Image fog;
-	Graphics gf;
+	public Image fog;
+	public Graphics gf;
 	
 	
 	// ADD ALL OBJETS 
-	protected Vector<Character> characters;
-	protected Vector<Character> toAddCharacters;
-	protected Vector<Character> toRemoveCharacters;
+	public Vector<Character> characters;
+	public Vector<Character> toAddCharacters;
+	public Vector<Character> toRemoveCharacters;
 
-	protected Vector<ActionObjet> equipments;
-	protected Vector<ActionObjet> toAddEquipments;
-	protected Vector<ActionObjet> toRemoveEquipments;
+	public Vector<ActionObjet> equipments;
+	public Vector<ActionObjet> toAddEquipments;
+	public Vector<ActionObjet> toRemoveEquipments;
 
-	protected Vector<Bullet> bullets;
-	protected Vector<Bullet> toAddBullets;
-	protected Vector<Bullet> toRemoveBullets;
+	public Vector<Bullet> bullets;
+	public Vector<Bullet> toAddBullets;
+	public Vector<Bullet> toRemoveBullets;
 
-	protected Vector<Building> buildings;
-	protected Vector<Building> toAddBuildings;
-	protected Vector<Building> toRemoveBuildings;
+	public Vector<Building> buildings;
+	public Vector<Building> toAddBuildings;
+	public Vector<Building> toRemoveBuildings;
 
-	protected Vector<NaturalObjet> naturalObjets ;
-	protected Vector<NaturalObjet> toAddNaturalObjets;
-	protected Vector<NaturalObjet> toRemoveNaturalObjets;
+	public Vector<NaturalObjet> naturalObjets ;
+	public Vector<NaturalObjet> toAddNaturalObjets;
+	public Vector<NaturalObjet> toRemoveNaturalObjets;
 
-	protected Vector<Vector<ActionObjet>> selection;
-	protected Vector<Vector<ActionObjet>> toAddSelection;
-	protected Vector<Vector<ActionObjet>> toRemoveSelection ;
-	protected Vector<Rectangle> rectangleSelection;
-	Vector<Float> recX ;
-	Vector<Float> recY ;
+	public Vector<Vector<ActionObjet>> selection;
+	public Vector<Vector<ActionObjet>> toAddSelection;
+	public Vector<Vector<ActionObjet>> toRemoveSelection ;
+	public Vector<Rectangle> rectangleSelection;
+	public Vector<Float> recX ;
+	public Vector<Float> recY ;
 
-	protected Constants constants;
+	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
 
 	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){

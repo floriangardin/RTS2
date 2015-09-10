@@ -2,10 +2,10 @@ package multiplaying;
 
 import java.util.Vector;
 
-import model.Building;
-import model.BuildingProduction;
+import buildings.Building;
+import buildings.BuildingProduction;
 import model.Utils;
-import model.Character;
+import units.Character;
 
 public class OutputModel extends MultiObjetModel{
 
