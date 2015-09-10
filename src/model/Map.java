@@ -30,10 +30,10 @@ public class Map {
 		plateau.maxY = 3000f;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-//		data1.create(UnitsList.Crossbowman, plateau.maxX/2-1f, 300f);
-//		data1.create(UnitsList.Knight, plateau.maxX/2, 300f);
-//		data1.create(UnitsList.Inquisitor, plateau.maxX/2+1f, 300f);
-//		data1.create(UnitsList.Priest, plateau.maxX/2+2f, 300f);
+		data1.create(UnitsList.Crossbowman, plateau.maxX/2-1f, 300f);
+		data1.create(UnitsList.Knight, plateau.maxX/2, 300f);
+		data1.create(UnitsList.Inquisitor, plateau.maxX/2+1f, 300f);
+		data1.create(UnitsList.Priest, plateau.maxX/2+2f, 300f);
 		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 300f);
 		
 		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);

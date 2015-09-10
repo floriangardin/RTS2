@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import buildings.BuildingProduction;
+import buildings.HeadQuarters;
 
 
 public class SelectionInterface extends Bar {
@@ -43,7 +44,7 @@ public class SelectionInterface extends Bar {
 					Image icone = this.parent.p.images.getIconByName(b.productionList.get(q).name);
 					if(compteur ==0){
 						//Show icons
-						
+
 						//Show production bar
 						g.drawImage(icone,this.x+this.sizeX/4, this.y+this.sizeY/2 - 50f,this.x+this.sizeX/4+24f, this.y+this.sizeY/2 - 50f+24,0,0,512,512);
 						g.setColor(Color.red);
@@ -55,13 +56,40 @@ public class SelectionInterface extends Bar {
 						g.drawImage(icone,this.x+this.sizeX/4+25f*(compteur-1), this.y+2*this.sizeY/3 - 50f,this.x+this.sizeX/4+25f*(compteur-1)+24f, this.y+2*this.sizeY/3 - 50f+24f,0f,0f,512f,512f);
 					}
 					compteur ++;
-		
+
 				}
 			}
 
 
 
+
 		}
+		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof HeadQuarters ){
+
+			HeadQuarters b = (HeadQuarters) this.parent.player.selection.get(0);
+			int compteur = 0;
+			if(b.queue!=null){
+
+				Image icone = b.queue.icon;
+
+				//Show icons
+
+				//Show production bar
+				g.drawImage(icone,this.x+this.sizeX/4, this.y+this.sizeY/2 - 50f,this.x+this.sizeX/4+24f, this.y+this.sizeY/2 - 50f+24,0,0,512,512);
+				g.setColor(Color.red);
+				g.fillRect(this.x+this.sizeX/3, this.y+this.sizeY/2 - 50f, 100f,20f);
+				g.setColor(Color.green);
+				g.fillRect(this.x+this.sizeX/3, this.y+this.sizeY/2 - 50f,b.charge*100f/b.queue.tech.prodTime,20f);
+
+
+
+			}
+
+
+
+
+		}
+
 
 
 

@@ -124,11 +124,11 @@ public class Images {
 	
 	public Image getIconByName(String name){
 		switch(name){
-		case "Spearman": return this.iconeSpearman;
-		case "Bowman": return this.iconeBowman;
-		case "Knight": return this.iconeKnight;
-		case "Priest": return this.iconePriest;
-		case "Wizard": return this.iconeWizard;
+		case "spearman": return this.iconeSpearman;
+		case "crossbowman": return this.iconeBowman;
+		case "knight": return this.iconeKnight;
+		case "priest": return this.iconePriest;
+		case "inquisitor": return this.iconeWizard;
 		default: return null;
 		}
 	}

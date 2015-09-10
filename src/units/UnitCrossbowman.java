@@ -10,7 +10,7 @@ public class UnitCrossbowman extends Character {
 
 	public UnitCrossbowman(Plateau p, Player player) {
 		super(p, player);
-		this.name = "spearman";
+		this.name = "crossbowman";
 		this.maxLifePoints = 60f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;

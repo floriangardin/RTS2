@@ -8,10 +8,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import buildings.Building;
-import buildings.BuildingProduction;
+import buildings.*;
 import model.Plateau;
 import model.Player;
+import technologies.Technologie;
 import units.Character;
 import units.UnitsList;
 
@@ -171,7 +171,21 @@ public class BottomBar extends Bar {
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
-
+		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof HeadQuarters){
+			HeadQuarters b =(HeadQuarters) this.player.selection.get(0);
+			//Print building capacities
+			Vector<Technologie> ul = b.productionList;
+			Font f = g.getFont();
+			float ratio =1f/prodIconNb;
+			for(int i=0; i<Math.min(4, ul.size());i++){ 
+				g.drawImage(ul.get(i).icon, prodX+2f, prodY+2f + ratio*i*prodH, prodX-2f+ratio*prodH, prodY-2f+ratio*(i+1)*prodH, 0, 0, 512,512);
+				g.setColor(Color.white);
+				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
+				g.setColor(Color.black);
+				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+			}
+		}
+		
 		return g;
 	}
 
