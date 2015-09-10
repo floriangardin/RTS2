@@ -306,6 +306,8 @@ public class Character extends ActionObjet{
 			this.setTarget(null);
 			return;
 		}
+		for(Spell s:this.spells)
+			s.state+=1f;
 		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
 			this.setTarget(null);
 		}

@@ -4,6 +4,7 @@ import org.newdawn.slick.geom.Circle;
 
 import model.Plateau;
 import model.Player;
+import spells.SpellFirewall;
 import weapon.Wand;
 
 public class UnitInquisitor extends Character {
@@ -24,6 +25,7 @@ public class UnitInquisitor extends Character {
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 200f;
 		this.weapon.destroy();
+		this.spells.add(new SpellFirewall(this));
 		this.updateImage();
 	}
 
