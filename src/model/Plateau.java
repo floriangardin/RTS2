@@ -14,6 +14,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import buildings.Building;
 import buildings.BuildingProduction;
+import buildings.HeadQuarters;
 import bullets.Arrow;
 import bullets.Bullet;
 import bullets.Fireball;
@@ -616,6 +617,15 @@ public class Plateau {
 							if(im.isPressedLeftClick){
 
 								((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+							}else{
+
+							}
+
+						}
+						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof HeadQuarters){
+							if(im.isPressedLeftClick){
+
+								((HeadQuarters) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
 							}else{
 
 							}

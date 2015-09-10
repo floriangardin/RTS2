@@ -308,6 +308,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(this.plateau,0,0));
 		this.players.add(new Player(this.plateau,1,0));
 		this.players.add(new Player(this.plateau,2,0));
+		
 		if(host)
 			this.map.createMapLan(plateau,this.players);
 		// Instantiate BottomBars for all players:

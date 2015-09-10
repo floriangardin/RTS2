@@ -6,16 +6,15 @@ public enum Technologies {
 
 
 
-	DualistAge2("Age2",10f,0f,50f),
-	DualistAge3("Age3",10f,0f,50f),
-	Sight100("Eagle View",10f,5f,40f);
+	DualistAge2("Age2",0f,0f,100f),
+	DualistAge3("Age3",100f,100f,150f),
+	EagleView("Eagle View",10f,5f,50f);
 	
 
 	String name = "";
-	int ageRequired;
-	float prodTime;
-	float foodPrice;
-	float goldPrice;
+	public float prodTime;
+	public float foodPrice;
+	public float goldPrice;
 	Image icon;
 	
 	Technologies(String name,float food,float gold,float prodTime){

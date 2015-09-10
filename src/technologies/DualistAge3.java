@@ -8,17 +8,17 @@ import org.newdawn.slick.SlickException;
 import model.Plateau;
 import model.Player;
 
-public class DualistAge2 extends Technologie {
+public class DualistAge3 extends Technologie {
 
-	public DualistAge2(Plateau p, Player player) {
-		this.tech = tech.DualistAge2;
-		this.name = "Fervour Age";
+	public DualistAge3(Plateau p, Player player) {
+		this.tech = tech.DualistAge3;
+		this.name = "Fanatism Age";
 		this.p = p;
 		this.player = player;
 		this.data = this.player.data;
 		this.techRequired = new Vector<Technologie>();
 		try {
-			this.icon = new Image("pics/tech/age2.png");
+			this.icon = new Image("pics/tech/age3.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

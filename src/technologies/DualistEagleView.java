@@ -11,7 +11,8 @@ import model.Player;
 public class DualistEagleView extends Technologie {
 
 	public DualistEagleView(Plateau p, Player player) {
-		this.tech = tech.DualistAge2;
+		this.tech = tech.EagleView;
+		this.name = "Eagle View";
 		this.p = p;
 		this.player = player;
 		this.data = this.player.data;

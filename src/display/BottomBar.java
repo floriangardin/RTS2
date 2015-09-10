@@ -186,7 +186,6 @@ public class BottomBar extends Bar {
 			}
 		}
 		
-
 		return g;
 	}
 

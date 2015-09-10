@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import multiplaying.OutputModel.OutputBuilding;
 import technologies.*;
-import technologies.Technologie;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -17,23 +16,24 @@ import model.Player;
 
 public class HeadQuarters extends Building {
 
-	int charge ;
+	public float charge ;
 
-	int queue;
+	public Technologie queue;
 	boolean isProducing;
 	Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> productionList;
 	public Player player;
 	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
 		// Init ProductionList
+		this.p = plateau ;
 		this.player = this.p.g.players.get(team);
 		if(this.p.g.players.get(team).civ==0){
 			this.productionList = new Vector<Technologie>();
 			this.productionList.addElement(new DualistAge2(this.p,this.player));
 			this.productionList.addElement(new DualistEagleView(this.p,this.player));
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
-			
-			
+
+
 		}
 		else if(this.p.g.players.get(team).civ==1){
 			this.productionList = new Vector<Technologie>();
@@ -41,9 +41,9 @@ public class HeadQuarters extends Building {
 		else{
 			this.productionList = new Vector<Technologie>();
 		}
-		this.queue = -1;
+		this.queue = null;
 		teamCapturing= team;
-		this.p = plateau ;
+
 		this.team = team;
 		this.sizeX = this.p.constants.headQuartersSizeX; 
 		this.sizeY = this.p.constants.headQuartersSizeY;
@@ -71,8 +71,8 @@ public class HeadQuarters extends Building {
 		}
 		// List of potential production (Spearman
 		this.techsDiscovered = new Vector<Technologie>();
-		
-		
+
+
 
 	}
 
@@ -102,14 +102,48 @@ public class HeadQuarters extends Building {
 			this.image = this.p.images.tent;
 		}
 
-		
+
 	}
 	
 	public void product(int unit){
-			
+		if(this.queue==null && unit<this.productionList.size()){
+			if(this.productionList.get(unit).tech.foodPrice<=this.p.g.players.get(team).food
+					&& this.productionList.get(unit).tech.goldPrice<=this.p.g.players.get(team).gold){
+				this.queue=this.productionList.get(unit);
+				this.p.g.players.get(team).gold-=this.productionList.get(unit).tech.goldPrice;
+				this.p.g.players.get(team).food-=this.productionList.get(unit).tech.foodPrice;
+			}
+		}
 	}
-
 	public void action(){
+
+		//Do the action of Barrack
+		//Product, increase state of the queue
+		if(this.queue!=null){
+			if(!this.isProducing){
+				this.isProducing = true;
+			}
+			this.animation+=2f;
+			if(animation>120f)
+				animation = 0f;
+			this.charge+=0.1f;
+			if(this.charge>=this.queue.tech.prodTime){
+				this.charge=0f;
+				this.techsDiscovered.addElement(this.queue);
+				this.productionList.removeElement(queue);
+				this.queue=null;
+				this.isProducing =false;
+				this.animation = -1f;
+				
+
+			}
+		}
+		else if(this.isProducing){
+			this.isProducing = false;
+			this.animation = -1f;
+		}
+
+
 
 	}
 	public Graphics draw(Graphics g){
