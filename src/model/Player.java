@@ -27,7 +27,7 @@ public class Player {
 		gold = 0;
 		pop = 0;
 		groupSelection = -1;
-		ennemiesKilled = 0;
+		ennemiesKilled = 0 ;
 		this.data = new Data(this.p,this,this.p.constants.FRAMERATE);
 	}
 	

@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 
 import multiplaying.OutputModel.OutputChar;
 
@@ -43,7 +44,7 @@ public class Character extends ActionObjet{
 
 	
 	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
-	
+	// Constructor for data
 	public Character(Plateau p,int team,float x, float y){
 		this.team = team;
 		this.maxLifePoints = 100f;
@@ -70,10 +71,29 @@ public class Character extends ActionObjet{
 		this.weapon = null;
 		this.lifePoints= this.maxLifePoints;
 	}
+	// Constructor for data
+	public Character(Plateau p,Player player){
+		this.p = p;
+		this.team = player.team;
+	}
+	// Copy constructor 
+	public Character(Character c,float x,float y,boolean update){
+		this.p = c.p;
+		p.addCharacterObjets(this);
+		this.team = c.team;
+		this.damage = c.damage;
+		this.maxLifePoints = c.maxLifePoints;
+		if(update){
+			this.lifePoints = c.maxLifePoints;
+		}
+		this.sight = c.sight;
+		this.collisionBox = c.collisionBox;
+		this.setXY(x, y);
+		
+	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
 		// Parameters
-		
 		this.team = occ.team;
 		this.p = p;
 		this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;

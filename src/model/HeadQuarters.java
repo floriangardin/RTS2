@@ -86,9 +86,7 @@ public class HeadQuarters extends Building {
 	}
 	
 	public void product(int unit){
-
-	
-		
+			
 	}
 
 	public void action(){
