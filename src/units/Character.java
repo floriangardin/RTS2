@@ -443,8 +443,6 @@ public class Character extends ActionObjet{
 		if(this.getTarget() instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
 				this.setTarget(null);
-				this.vx = 0f;
-				this.vy = 0f;
 				this.animationValue=0f;
 			}else{
 				this.setTarget(this.secondaryTargets.firstElement());
@@ -453,18 +451,8 @@ public class Character extends ActionObjet{
 			}
 
 		}
-		//		if(!this.isLeader() && this.leader!=null && this.leader.isMobile()){
-		//			this.leader.stop();
-		//		}
-		//		if(this.isLeader()){
-		//			for(Character c : this.group){
-		//				if(!c.isLeader() && c.isMobile()){
-		//					c.stop();
-		//				}
-		//				c.leader = null;
-		//			}
-		//			this.group = null;
-		//		}
+		this.vx = 0f;
+		this.vy = 0f;
 	}
 
 	//// GRAPHISMS
