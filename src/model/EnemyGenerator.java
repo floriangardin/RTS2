@@ -37,29 +37,6 @@ public class EnemyGenerator extends Building {
 
 	}
 	public void generate(){
-		// Add a random weapon to character
-		if(n_generated<10){
-			Character.createSpearman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
-		}
-		else if(n_generated<40){
-			if(n_generated%2==0){
-				Character.createBowman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
-			}
-			else{
-				Character.createSpearman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
-			}
-		}
-		else if(n_generated<80){
-			if(n_generated%3==0){
-				Character.createWizard(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
-			}
-			else if(n_generated%3==1){
-				Character.createSpearman(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
-			}
-			else{
-				Character.createKnight(p,team,x+((float)Math.random()-0.5f)*40f,y+((float)Math.random()+2f)*10f);
-			}
-		}
 
 
 

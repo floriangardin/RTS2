@@ -300,7 +300,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(this.plateau,1));
 		this.players.add(new Player(this.plateau,2));
 		if(host)
-			this.map.createMapLan(plateau);
+			this.map.createMapLan(plateau,this.players);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
@@ -341,15 +341,18 @@ public class Game extends BasicGame
 		mainMusic = new Music("music/ambiance.ogg");
 		//mainMusic.setVolume(0.1f);
 		//mainMusic.loop();
+		this.sounds = new Sounds();
+		this.images = new Images();
 		
 
 		this.plateau = new Plateau(this.constants,3000,3000,3,this);
+		
 		this.musicStartGame = new Music("music/nazi_start.ogg");
 		this.players.add(new Player(this.plateau,0));
 		this.players.add(new Player(this.plateau,1));
 		this.players.add(new Player(this.plateau,2));
-		this.sounds = new Sounds();
-		this.images = new Images();
+		
+		
 
 
 		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);

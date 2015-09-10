@@ -2,10 +2,10 @@ package model;
 
 public enum UnitsList {
 
-	Knight("Knight",10f,0f,50f),
-	Bowman("Bowman",10f,0f,50f),
+	Knight("knight",10f,0f,50f),
+	Crossbowman("crossbowman",10f,0f,50f),
 	Priest("Priest",10f,5f,40f),
-	Wizard("Wizard",10f,5f,60f),
+	Inquisitor("inquisitor",10f,5f,60f),
 	Spearman("Spearman",10f,0f,40f);
 	
 	String name = "";

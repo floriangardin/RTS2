@@ -15,17 +15,17 @@ import multiplaying.OutputModel.OutputChar;
 
 public class Character extends ActionObjet{
 
-	
+
 	// General attributes
 	protected Circle sightBox;
-	
+
 	protected float armor = 0f;	
 	public float size = 20f;
 	protected float maxVelocity = 100f;
 	public float range;
 	public float damage;
 	public float chargeTime;
-	
+
 	// Group attributes
 	protected Character leader;
 	protected Vector<Character> group;
@@ -34,15 +34,18 @@ public class Character extends ActionObjet{
 	protected RidableObjet horse;
 	public Weapon weapon;
 	public int typeWeapon, typeHorse;
-
+	public Player player;
 	// About drawing
 	public float animationValue=0f;
 	public int animation = 0;
 	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
+	// Spells ( what should appear in the bottom bar
+	Vector<Spell> spells;
+	// Invisibility 
+	boolean isHidden;
+	int civ ;
 
-
-	
 	protected Vector<Objet> secondaryTargets = new Vector<Objet>();
 	// Constructor for data
 	public Character(Plateau p,int team,float x, float y){
@@ -61,7 +64,7 @@ public class Character extends ActionObjet{
 		if(team==2)
 			imageb = this.p.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
-		
+
 		// the maximum number of float by second
 		p.addCharacterObjets(this);
 		this.collisionBox = new Circle(x,y,size);
@@ -71,36 +74,57 @@ public class Character extends ActionObjet{
 		this.weapon = null;
 		this.lifePoints= this.maxLifePoints;
 	}
-	// Constructor for data
+	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p,Player player){
 		this.p = p;
+		this.player = player;
 		this.team = player.team;
+		this.name = "character";
+		this.selection_circle = this.p.images.selection_circle;
+		Image imagea = this.p.images.corps;
+		Image imageb = this.p.images.corps;
+		if(team==1)
+			imageb = this.p.images.blue;
+		if(team==2)
+			imageb = this.p.images.red;
+		this.image = Utils.mergeImages(imagea, imageb);
+		this.size = 20f;
+		this.isHidden = false;
+		this.spells = new Vector<Spell>();
+		
 	}
-	// Copy constructor 
-	public Character(Character c,float x,float y,boolean update){
+	// Copy constructor , to really create an unit
+	public Character(Character c,float x,float y){
 		this.p = c.p;
 		p.addCharacterObjets(this);
+		p.g.idChar+=1;
+		this.name = c.name;
 		this.team = c.team;
 		this.damage = c.damage;
 		this.maxLifePoints = c.maxLifePoints;
-		if(update){
-			this.lifePoints = c.maxLifePoints;
-		}
+		this.lifePoints = c.maxLifePoints;
 		this.sight = c.sight;
 		this.collisionBox = c.collisionBox;
+		this.sightBox = c.sightBox;
 		this.setXY(x, y);
-		
+		this.maxVelocity = c.maxVelocity;
+		this.armor = c.armor;
+		this.range = c.range;
+		this.chargeTime = c.chargeTime;
+		this.isHidden = c.isHidden;
+		this.image = c.image;
+		this.selection_circle = c.selection_circle;
+		this.horse = c.horse;
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
 		// Parameters
 		this.team = occ.team;
 		this.p = p;
-		this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;
+		//this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;
 		this.name = "Character";
-		this.sight =this.p.g.players.get(team).data.smSight;
+		//this.sight =this.p.g.players.get(team).data.smSight;
 		this.id = occ.id;
-		
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
 		if(team==1)
@@ -286,7 +310,7 @@ public class Character extends ActionObjet{
 		}
 	}
 
-	
+
 	//// ACTION METHODS
 
 	// Main method called on every time loop
@@ -335,16 +359,16 @@ public class Character extends ActionObjet{
 		else if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
-//				this.setTarget(null);
-//				return;
+				//				this.setTarget(null);
+				//				return;
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
 		}
 		else if(this.getTarget() instanceof Building){
 			Building c =(Building) this.getTarget();
 			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
-//				this.setTarget(null);
-//				return;
+				//				this.setTarget(null);
+				//				return;
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
 		}
@@ -446,7 +470,7 @@ public class Character extends ActionObjet{
 
 
 	//// GRAPHISMS
-	
+
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
@@ -481,9 +505,9 @@ public class Character extends ActionObjet{
 		}
 	}	
 
-	
+
 	//// COLLISIONS
-	
+
 	// Collision with other Characters
 	public void collision(Character o) {
 		// If collision test who have the highest velocity
@@ -628,9 +652,9 @@ public class Character extends ActionObjet{
 
 	}
 
-	
+
 	//// UPDATE FUNCTIONS
-	
+
 	// update from an outputchar
 	public void change(OutputChar occ){
 		this.setXY(occ.x, occ.y);
@@ -662,94 +686,25 @@ public class Character extends ActionObjet{
 
 
 	//// CREATION FUNCTIONS
-	public static Character createCharacter(Plateau p,int team,float x, float y,UnitsList which){
-		
-		switch(which){
-		case Spearman:
-			return createSpearman(p,team,x,y);	
-		case Knight:
-			return createKnight(p,team,x,y);
-		case Priest:
-			return createPriest(p,team,x,y);
-		case Bowman:
-			return createBowman(p,team,x,y);
-		case Wizard:
-			return createWizard(p,team,x,y);
-			
-		default:
-			return null;
-		}
-
-	}
-	public static Character createSpearman(Plateau p,int team,float x, float y){
-		Character c = new Character(p,team,x,y);
-		c.name = "Spearman";
-		c.maxVelocity = p.g.players.get(team).data.smVelocity;
-		c.maxLifePoints = p.g.players.get(team).data.smLifePoints;
-		c.armor = p.g.players.get(team).data.smArmor;
-		c.damage = p.g.players.get(team).data.smDamage;
-		c.chargeTime = p.g.players.get(team).data.smChargeTime;
-		c.lifePoints = c.maxLifePoints;
-		c.sight = p.g.players.get(team).data.smSight;
-		c.collectWeapon(new Spear(p,c));
-		return c;
-	}
-	public static Character createBowman(Plateau p,int team,float x, float y){
-		Character c = new Character(p,team,x,y);
-		c.name = "Bowman";
-		c.maxVelocity = p.g.players.get(team).data.bmVelocity;
-		c.maxLifePoints = p.g.players.get(team).data.bmLifePoints;
-		c.armor = p.g.players.get(team).data.bmArmor;
-		c.damage = p.g.players.get(team).data.bmDamage;
-		c.range = p.g.players.get(team).data.bmRange;
-		c.chargeTime = p.g.players.get(team).data.bmChargeTime;
-		c.sight = p.g.players.get(team).data.bmSight;
-		c.lifePoints = c.maxLifePoints;
-		c.collectWeapon(new Bow(p,c));
-		return c;
-	}
-	public static Character createWizard(Plateau p,int team,float x, float y){
-		Character c = new Character(p,team,x,y);
-		c.name = "Wizard";
-		c.maxVelocity = p.g.players.get(team).data.wzVelocity;
-		c.maxLifePoints = p.g.players.get(team).data.wzLifePoints;
-		c.armor = p.g.players.get(team).data.wzArmor;
-		c.damage = p.g.players.get(team).data.wzDamage;
-		c.range= p.g.players.get(team).data.wzRange;
-		c.lifePoints = c.maxLifePoints;
-		c.chargeTime = p.g.players.get(team).data.wzChargeTime;
-		c.sight = p.g.players.get(team).data.wzSight;
-		c.collectWeapon(new Wand(p,c));
-		return c;
-	}
-	public static Character createKnight(Plateau p,int team,float x, float y){
-		Character c = new Character(p,team,x,y);
-		c.name = "Knight";
-		c.collectHorse(new Horse(p,c));
-		c.maxVelocity = p.g.players.get(team).data.ktVelocity;
-		c.maxLifePoints = p.g.players.get(team).data.ktLifePoints;
-		c.armor = p.g.players.get(team).data.ktArmor;
-		c.damage = p.g.players.get(team).data.ktDamage;
-		c.chargeTime = p.g.players.get(team).data.ktChargeTime;
-		c.lifePoints = c.maxLifePoints;
-		c.sight = p.g.players.get(team).data.ktSight;
-		c.collectWeapon(new Sword(p,c));
-		return c;
-	}
-	public static Character createPriest(Plateau p,int team,float x, float y){
-		Character c = new Character(p,team,x,y);
-		c.name = "Priest";
-		c.collectHorse(new Horse(p,c));
-		c.maxVelocity = p.g.players.get(team).data.prVelocity;
-		c.maxLifePoints = p.g.players.get(team).data.prLifePoints;
-		c.armor = p.g.players.get(team).data.prArmor;
-		c.damage = p.g.players.get(team).data.prDamage;
-		c.chargeTime = p.g.players.get(team).data.prChargeTime;
-		c.collectWeapon(new Bible(p,c));
-		c.lifePoints = c.maxLifePoints;
-		c.sight = p.g.players.get(team).data.prSight;
-		return c;
-	}
+//	public static Character createCharacter(Plateau p,int team,float x, float y,UnitsList which){
+//
+//		switch(which){
+//		case Spearman:
+//			return createSpearman(p,team,x,y);	
+//		case Knight:
+//			return createKnight(p,team,x,y);
+//		case Priest:
+//			return createPriest(p,team,x,y);
+//		case Bowman:
+//			return createBowman(p,team,x,y);
+//		case Wizard:
+//			return createWizard(p,team,x,y);
+//
+//		default:
+//			return null;
+//		}
+//
+//	}
 
 }
 

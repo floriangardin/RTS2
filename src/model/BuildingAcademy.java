@@ -43,7 +43,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Wizard);
+		this.productionList.addElement(UnitsList.Inquisitor);
 		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
 	}
 
@@ -76,7 +76,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Wizard);
+		this.productionList.addElement(UnitsList.Inquisitor);
 		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
 
 	}

@@ -13,49 +13,11 @@ public class Data {
 	
 	//// UNIT STAT
 	
-	// Spearman
-	public float smVelocity = 80f;
-	public float smLifePoints = 80f;
-	public float smArmor = 4f;
-	public float smDamage = 5f;
-	public float smChargeTime = 5f; 
-	public float smSight = 300f;
-	
-	
-	// Bowman
-	public float bmVelocity = 90f;
-	public float bmLifePoints = 60f;
-	public float bmArmor = 2f; 
-	public float bmDamage = 7f;
-	public float bmRange = 200f;
-	public float bmChargeTime = 5f;
-	public float bmSight = 300f;
-
-	// Wizard
-	public float wzVelocity = 60f;
-	public float wzLifePoints = 60f;
-	public float wzArmor = 3f; 
-	public float wzChargeTime = 15f;
-	public float wzRange = 100f;
-	public float wzDamage = 15f;
-	public float wzSight = 300f;
-
-	// Knight
-	public float ktVelocity = 110f;
-	public float ktLifePoints = 110f;
-	public float ktArmor = 5f; 
-	public float ktDamage = 8f;
-	public float ktChargeTime = 7f;
-	public float ktSight = 300f;
-	
-	// Priest
-	public float prVelocity = 110f;
-	public float prLifePoints = 60f;
-	public float prArmor = 1f; 
-	public float prDamage = -1f;
-	public float prChargeTime = 0.2f;
-	public float prSight = 300f;
-	
+	public UnitSpearman spearman;
+	public UnitKnight knight;
+	public UnitPriest priest;
+	public UnitInquisitor inquisitor;
+	public UnitCrossbowman crossbowman;
 	
 	//// BUILDINGS STATS
 	//headQuarters
@@ -114,6 +76,33 @@ public class Data {
 		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = framerate;
+		// Init unit 
+		this.spearman = new UnitSpearman(p,player);
+		this.crossbowman = new UnitCrossbowman(p,player);
+		this.knight = new UnitKnight(p,player);
+		this.priest = new  UnitPriest(p,player);
+		this.inquisitor = new UnitInquisitor(p,player);
+		
+	}
+	
+	public Character create(UnitsList which,float x, float y){
+		
+		switch(which){
+		case Spearman:
+			return  new UnitSpearman(this.spearman,x ,y);	
+		case Knight:
+			return new UnitKnight(this.knight,x ,y);	
+		case Priest:
+			return  new UnitPriest(this.priest,x ,y);	
+		case Crossbowman:
+			return  new UnitCrossbowman(this.crossbowman,x ,y);	
+		case Inquisitor:
+			return  new UnitInquisitor(this.inquisitor,x ,y);	
+
+		default:
+			return null;
+		}
+
 		
 	}
 

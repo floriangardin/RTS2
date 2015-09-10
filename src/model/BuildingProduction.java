@@ -38,7 +38,7 @@ public abstract class BuildingProduction extends Building {
 			this.charge+=0.1f;
 			if(this.charge>=this.productionTime.get(this.queue.get(0))){
 				this.charge=0f;
-				Character.createCharacter(p, team, x+(float)Math.random(), y+this.sizeY/2, this.productionList.get(this.queue.get(0)));
+				this.p.g.players.get(team).create(this.productionList.get(this.queue.get(0)), x+(float)Math.random(), y+this.sizeY/2 );
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;

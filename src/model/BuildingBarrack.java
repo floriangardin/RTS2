@@ -40,12 +40,13 @@ public class BuildingBarrack extends BuildingProduction{
 			this.image = this.p.images.buildingBarrackNeutral;
 		}
 		// List of potential production (Spearman
+		//TODO Merge production time and production list in vector of UnitsList
 		this.queue = new Vector<Integer>();
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
-		this.productionList.addElement(UnitsList.Bowman);
+		this.productionList.addElement(UnitsList.Crossbowman);
 		this.productionTime.addElement(this.p.g.players.get(team).data.bowmanProdTime);
 	}
 
@@ -80,7 +81,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
-		this.productionList.addElement(UnitsList.Bowman);
+		this.productionList.addElement(UnitsList.Crossbowman);
 		this.productionTime.addElement(this.p.g.players.get(team).data.bowmanProdTime);
 	}
 

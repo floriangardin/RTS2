@@ -24,11 +24,7 @@ public class Technologie {
 		
 		switch(this.tech){
 		case Sight100:
-			this.player.data.smSight*=2;
-			this.player.data.bmSight*=2;
-			this.player.data.ktSight*=2;
-			this.player.data.wzSight*=2;
-			this.player.data.prSight*=2;
+
 			break;
 		}
 	}

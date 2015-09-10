@@ -32,5 +32,7 @@ public class Player {
 	}
 	
 	
-
+	public void create(UnitsList u,float x , float y){
+		this.data.create(u,x,y);
+	}
 }
