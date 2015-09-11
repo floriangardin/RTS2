@@ -78,6 +78,9 @@ public class Data {
 	public float bonusBowFoot = 2f;
 	public float bonusWandBow = 2f;
 	
+	// Ressources
+	public int bonusFood = 0;
+	public int bonusGold = 0;
 	public Data(Plateau plateau, Player player,int framerate){
 		this.p = plateau;
 		this.player = player;

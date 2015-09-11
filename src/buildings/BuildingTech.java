@@ -12,7 +12,6 @@ public abstract class BuildingTech extends Building {
 	
 	public void updateProductionList(){
 		if(this.hq==null){
-			System.out.println("c'est nul");
 			return;
 		}
 		this.productionList.clear();
@@ -22,7 +21,6 @@ public abstract class BuildingTech extends Building {
 			}
 		}
 	}
-	
 	
 	public void removeProd() {
 		if(this.queue!=null){

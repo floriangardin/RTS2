@@ -5,21 +5,22 @@ import java.util.Vector;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import model.*;
-import units.*;
 import units.Character;
+import units.UnitKnight;
+import units.UnitSpearman;
+import model.Plateau;
+import model.Player;
 
-public class DualistEagleView extends Technologie {
+public class DualistContact3 extends Technologie {
 
-	public DualistEagleView(Plateau p, Player player) {
-		this.tech = Technologies.EagleView;
-		this.name = "Eagle View";
+	public DualistContact3(Plateau p, Player player) {
+		this.tech = Technologies.DualistContactAttack2;
+		this.name = tech.name;
 		this.p = p;
 		this.player = player;
 		this.data = this.player.data;
-		
 		try {
-			this.icon = new Image("pics/tech/eagleView.png");
+			this.icon = new Image("pics/tech/contact3.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -27,18 +28,22 @@ public class DualistEagleView extends Technologie {
 	
 	public void applyEffect(){
 		// Va chercher le player.data correspondant et ajoute le bonus ou ajoute tech concerné
-		this.player.data.knight.sight*=1.5;
-		this.player.data.priest.sight*=1.5;
-		this.player.data.inquisitor.sight*=1.5;
-		this.player.data.spearman.sight*=1.5;
-		this.player.data.crossbowman.sight*=1.5;
+		// Age passing does nothing
+		// Then update
+		this.player.data.knight.damage+=1;
+		this.player.data.spearman.damage+=1;
+
 		// Age passing does nothing
 		// Then update all existing units
 		for(Character c : this.p.characters){
 			if(c.team == this.player.team){
-				c.sight*=1.5;
+				if(c instanceof UnitKnight || c instanceof UnitSpearman){
+					c.armor+=1;
+				}
+				
 			}
 		}
 		
+
 	}
 }

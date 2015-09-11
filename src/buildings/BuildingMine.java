@@ -17,7 +17,8 @@ public class BuildingMine extends BuildingTech{
 	
 	public int chargeTime;
 	public float state;
-
+	public int bonusProd;
+	
 	public BuildingMine(Plateau p,Game g,float x, float y){
 		
 		teamCapturing= 0;
@@ -87,7 +88,7 @@ public class BuildingMine extends BuildingTech{
 			animation = 0f;
 		
 		if(state >= chargeTime && team!=0){
-			this.p.g.players.get(team).gold+=1;
+			this.p.g.players.get(team).gold+=1+this.p.g.players.get(team).data.bonusGold;
 			state = 0;
 		}
 		

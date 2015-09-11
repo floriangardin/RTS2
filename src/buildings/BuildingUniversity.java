@@ -147,7 +147,6 @@ public class BuildingUniversity extends BuildingTech {
 				this.isProducing =false;
 				this.animation = -1f;
 				this.updateProductionList();
-
 			}
 		}
 		else if(this.isProducing){
