@@ -43,6 +43,9 @@ public class Images {
 	public Image buildingMineNeutral;
 	public Image buildingHeadQuartersBlue;
 	public Image buildingHeadQuartersRed;
+	public Image buildingUniversityNeutral;
+	public Image buildingUniversityBlue;
+	public Image buildingUniversityRed;
 	
 	//Icones
 	public Image iconeSpearman;
@@ -109,6 +112,9 @@ public class Images {
 			buildingMineNeutral = new Image("pics/Building/MineNeutral.png");
 			buildingHeadQuartersBlue = new Image("pics/Building/HeadQuartersBlue.png");
 			buildingHeadQuartersRed = new Image("pics/Building/HeadQuartersRed.png");
+			buildingUniversityNeutral = new Image("pics/Building/UniversityNeutral.png");
+			buildingUniversityBlue = new Image("pics/Building/UniversityBlue.png");
+			buildingUniversityRed = new Image("pics/Building/UniversityRed.png");
 			
 			//Icones
 			this.iconeBowman = new Image("pics/iconBow.png");
