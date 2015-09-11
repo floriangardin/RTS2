@@ -17,11 +17,11 @@ import model.Player;
 
 public class BuildingUniversity extends BuildingTech {
 
-	public float charge ;
 
-	public Technologie queue;
+
+	
 	boolean isProducing;
-	public Vector<Technologie> productionList;
+	
 	public Player player;
 	
 	public BuildingUniversity(Plateau plateau, Game g, float f, float h,int team) {
@@ -29,6 +29,7 @@ public class BuildingUniversity extends BuildingTech {
 		
 		this.p = plateau ;
 		this.player = this.p.g.players.get(team);
+		this.productionList = new Vector<Technologie>();
 		if(this.p.g.players.get(team).civ==0){
 			this.productionList = new Vector<Technologie>();
 			
@@ -61,13 +62,13 @@ public class BuildingUniversity extends BuildingTech {
 		this.y = h;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(this.team == 1){
-			this.image = this.p.images.buildingHeadQuartersBlue;
+			this.image = this.p.images.buildingUniversityBlue;
 		}
 		else if(this.team == 2){
-			this.image = this.p.images.buildingHeadQuartersRed;
+			this.image = this.p.images.buildingUniversityRed;
 		}
 		else {
-			this.image = this.p.images.tent;
+			this.image = this.p.images.buildingUniversityNeutral;
 		}
 		// List of potential production (Spearman
 		
