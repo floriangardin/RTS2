@@ -89,6 +89,7 @@ public class Character extends ActionObjet{
 		this.p = c.p;
 		this.size = c.size;
 		p.addCharacterObjets(this);
+		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.name = c.name;
 		this.team = c.team;
