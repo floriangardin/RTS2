@@ -1,23 +1,27 @@
 package buildings;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import technologies.Technologie;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
 
-public class BuildingMill extends Building{
+public class BuildingMill extends BuildingTech{
 	
 	public int chargeTime;
 	public float state;
 	public Image millarms;
-	
+
 	public BuildingMill(Plateau p,Game g,float x, float y){
+		
 		teamCapturing= 0;
 		team = 0;
 
@@ -31,7 +35,7 @@ public class BuildingMill extends Building{
 		p.g.idChar+=1;
 		this.type = 1;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.name= "Mill";
+		this.name= "mill";
 		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
 		this.chargeTime = p.g.players.get(team).data.millChargeTime;
 		this.lifePoints = p.g.players.get(team).data.millLifePoints;
@@ -47,7 +51,8 @@ public class BuildingMill extends Building{
 			this.image = this.p.images.buildingMillNeutral;
 		}
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		
+		this.productionList = new Vector<Technologie>();
+		this.updateProductionList();
 	}
 	
 	public BuildingMill(OutputBuilding ocb, Plateau p){
@@ -74,7 +79,7 @@ public class BuildingMill extends Building{
 			this.image = this.p.images.buildingMillNeutral;
 		}
 	}
-	
+
 	public void action(){
 		this.state+=0.1f;
 		if(this.team!=0)
@@ -86,8 +91,38 @@ public class BuildingMill extends Building{
 			this.p.g.players.get(team).food+=1;
 			state = 0;
 		}
+		
+		
+		//Do the action of prod tech
+		//Product, increase state of the queue
+		if(this.queue!=null){
+			if(!this.isProducing){
+				this.isProducing = true;
+			}
+			this.animation+=2f;
+			if(animation>120f)
+				animation = 0f;
+			this.charge+=0.1f;
+			if(this.charge>=this.queue.tech.prodTime){
+				this.charge=0f;
+				this.hq.techsDiscovered.addElement(this.queue);
+				this.productionList.removeElement(queue);
+				this.hq.allTechs.removeElement(this.queue);
+				this.queue.applyEffect();
+				this.queue=null;
+				this.isProducing =false;
+				this.animation = -1f;
+				this.updateProductionList();
+
+			}
+		}
+		else if(this.isProducing){
+			this.isProducing = false;
+			this.animation = -1f;
+		}
 
 	}
+
 
 	
 	public Graphics draw(Graphics g){

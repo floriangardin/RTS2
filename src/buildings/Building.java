@@ -1,5 +1,7 @@
 package buildings;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
@@ -10,6 +12,7 @@ import model.Game;
 import model.Objet;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
+import units.UnitsList;
 import weapon.Weapon;
 
 public class Building extends ActionObjet{
@@ -23,6 +26,12 @@ public class Building extends ActionObjet{
 	public int potentialTeam;
 	public int type;
 	public Objet rallyPoint;
+	public HeadQuarters hq;
+
+	public float charge;
+	public boolean isProducing;
+	
+	
 	public Building(){}
 
 	public Building(Plateau p,Game g,float x, float y){
@@ -47,7 +56,7 @@ public class Building extends ActionObjet{
 		if(this.potentialTeam!=w.owner.team){
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = w.owner.team;
-				
+				this.hq = this.p.g.players.get(w.owner.team).hq;
 			}
 			this.constructionPoints-=0.1f;
 		}
@@ -60,6 +69,12 @@ public class Building extends ActionObjet{
 				if(this instanceof BuildingProduction){
 					((BuildingProduction)this).queue.clear();
 					((BuildingProduction)this).charge = 0f;					
+				}
+				if(this instanceof BuildingTech){
+					((BuildingTech)this).queue=null;
+					((BuildingTech)this).charge = 0f;
+					this.hq = this.p.g.players.get(this.team).hq;
+					((BuildingTech)this).updateProductionList();
 				}
 				this.updateImage();
 			}
@@ -74,7 +89,7 @@ public class Building extends ActionObjet{
 		this.animation = ocb.animation;
 		this.sight = ocb.sight;
 		if(this instanceof BuildingProduction){
-			System.out.println("vaneau");
+			
 			((BuildingProduction) this).changeQueue(ocb);
 		}
 		this.updateImage();

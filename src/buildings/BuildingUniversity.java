@@ -15,36 +15,23 @@ import model.Game;
 import model.Plateau;
 import model.Player;
 
-public class HeadQuarters extends BuildingTech {
+public class BuildingUniversity extends BuildingTech {
 
+	public float charge ;
 
-	
+	public Technologie queue;
 	boolean isProducing;
-	Vector<Technologie> techsDiscovered;
-	public Vector<Technologie> allTechs;
+	public Vector<Technologie> productionList;
 	public Player player;
-	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
+	
+	public BuildingUniversity(Plateau plateau, Game g, float f, float h,int team) {
 		// Init ProductionList
+		
 		this.p = plateau ;
 		this.player = this.p.g.players.get(team);
-		this.productionList = new Vector<Technologie>();
-		this.allTechs = new Vector<Technologie>();
 		if(this.p.g.players.get(team).civ==0){
+			this.productionList = new Vector<Technologie>();
 			
-			this.productionList.addElement(new DualistAge2(this.p,this.player));
-			this.productionList.addElement(new DualistEagleView(this.p,this.player));
-
-			
-			DualistAge2 d2 = new DualistAge2(this.p,this.player);
-			this.allTechs.addElement(d2);
-			DualistAge3 d3 = new DualistAge3(this.p,this.player);
-			this.allTechs.addElement(d3);
-			d3.techRequired=d2;
-			DualistEagleView ev =new DualistEagleView(this.p,this.player);
-			this.allTechs.addElement(ev);
-			ev.techRequired = d2;
-			DualistBonusFood d4 = new DualistBonusFood(this.p,this.player);
-			this.allTechs.addElement(d4);
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
 
 		}
@@ -62,7 +49,7 @@ public class HeadQuarters extends BuildingTech {
 		this.sizeY = this.p.constants.headQuartersSizeY;
 		this.sight = this.p.constants.headQuartersSight;
 		maxLifePoints = p.constants.headQuartersLifePoints;
-		this.name = "headquarters";
+		this.name = "university";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 5;
@@ -83,24 +70,23 @@ public class HeadQuarters extends BuildingTech {
 			this.image = this.p.images.tent;
 		}
 		// List of potential production (Spearman
-		this.techsDiscovered = new Vector<Technologie>();
+		
 		this.updateProductionList();
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 
 
 	}
-
-	
-	public void updateProductionList(){
-		this.productionList.clear();
-		for(Technologie t:this.allTechs){
-			if((t.techRequired==null || this.techsDiscovered.contains(t.techRequired)) && t.tech.building == this.name ){
-				this.productionList.addElement(t);
-			}
+	public void removeProd() {
+		if(this.queue!=null){
+			this.p.g.players.get(this.team).food += queue.tech.foodPrice;
+			this.p.g.players.get(this.team).gold += queue.tech.goldPrice;
+			this.queue=null;
+			this.charge = 0f;
 		}
 	}
-	
-	public HeadQuarters(OutputBuilding ocb, Plateau p){
+
+	public BuildingUniversity(OutputBuilding ocb, Plateau p,HeadQuarters hq){
+		this.hq = hq;
 		team = ocb.team;
 		type= 5;
 		maxLifePoints = ocb.maxlifepoints;
@@ -129,7 +115,16 @@ public class HeadQuarters extends BuildingTech {
 
 	}
 
-
+	public void product(int unit){
+		if(this.queue==null && unit<this.productionList.size()){
+			if(this.productionList.get(unit).tech.foodPrice<=this.p.g.players.get(team).food
+					&& this.productionList.get(unit).tech.goldPrice<=this.p.g.players.get(team).gold){
+				this.queue=this.productionList.get(unit);
+				this.p.g.players.get(team).gold-=this.productionList.get(unit).tech.goldPrice;
+				this.p.g.players.get(team).food-=this.productionList.get(unit).tech.foodPrice;
+			}
+		}
+	}
 	public void action(){
 
 		//Do the action of Barrack
@@ -144,9 +139,9 @@ public class HeadQuarters extends BuildingTech {
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.charge=0f;
-				this.techsDiscovered.addElement(this.queue);
+				this.hq.techsDiscovered.addElement(this.queue);
 				this.productionList.removeElement(queue);
-				this.allTechs.removeElement(this.queue);
+				this.hq.allTechs.removeElement(this.queue);
 				this.queue.applyEffect();
 				this.queue=null;
 				this.isProducing =false;

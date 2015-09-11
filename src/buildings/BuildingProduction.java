@@ -1,5 +1,6 @@
 package buildings;
 import units.Character;
+
 import java.util.Vector;
 
 import multiplaying.OutputModel.OutputBuilding;
@@ -11,8 +12,6 @@ public abstract class BuildingProduction extends Building {
 	public Vector<UnitsList> productionList;
 	public Vector<Integer> queue ;
 	public Vector<Float> productionTime;
-	public float charge;
-	public boolean isProducing;
 
 	public void product(int unit){
 
