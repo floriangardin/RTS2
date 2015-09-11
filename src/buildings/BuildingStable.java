@@ -28,7 +28,7 @@ public class BuildingStable extends BuildingProduction{
 		this.name = "stable";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		type= 3;
+		type= 2;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
 		this.id = p.g.idChar;

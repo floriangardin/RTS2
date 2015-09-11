@@ -22,6 +22,7 @@ public class SpellEffect extends ActionObjet{
 	public SpellEffect(){}
 	
 	public SpellEffect(Plateau p, OutputSpell s){
+		System.out.println("creation");
 		switch(s.type){
 		case 1: new Firewall(p, s);break;
 		case 2: new BlessedArea(p, s); break;

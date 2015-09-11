@@ -40,7 +40,7 @@ public class BlessedArea extends SpellEffect{
 	}
 	
 	public BlessedArea(Plateau p, OutputSpell s){
-		this.id = p.g.idChar;
+		this.id = s.id;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
 		p.addSpell(this);

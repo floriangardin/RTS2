@@ -85,8 +85,8 @@ public class Plateau {
 	public Vector<Float> recY ;
 	public Vector<Vector<ActionObjet>> inRectangle ;
 
-	public boolean isCastingSpell = false;
-	public int castingSpell = -1;
+	public Vector<Boolean> isCastingSpell;
+	public Vector<Integer> castingSpell;
 
 	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
@@ -133,6 +133,10 @@ public class Plateau {
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<Vector<ActionObjet>>();
+		
+		//CASTING SPELLS
+		this.isCastingSpell = new Vector<Boolean>();
+		this.castingSpell = new Vector<Integer>();
 		for(int i =0; i<=nTeams;i++){
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
@@ -141,6 +145,8 @@ public class Plateau {
 			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
 			this.rectangleSelection.addElement(null);
 			this.inRectangle.addElement(new Vector<ActionObjet>());
+			this.isCastingSpell.addElement(false);
+			this.castingSpell.addElement(-1);
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
@@ -656,9 +662,9 @@ public class Plateau {
 				// Handling groups of units
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
-						if(isCastingSpell){
-							isCastingSpell = false;
-							castingSpell = -1;
+						if(isCastingSpell.get(player)){
+							isCastingSpell.set(player, false);
+							castingSpell.set(player,-1);
 						}
 						if(im.isPressedCTRL){
 							// Creating a new group made of the selection
@@ -718,8 +724,8 @@ public class Plateau {
 								Character c = ((Character) this.selection.get(player).get(0));
 								if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
 									if(c.spells.get(number).needToClick){
-										this.isCastingSpell = true;
-										this.castingSpell = number;
+										this.isCastingSpell.set(player, true);
+										this.castingSpell.set(player, number);
 									} else {
 										c.spells.get(number).launch(c, c);
 									}
@@ -738,7 +744,7 @@ public class Plateau {
 					
 					if(im.leftClick){
 
-						if(isCastingSpell){
+						if(isCastingSpell.get(player)){
 
 						} else {
 							// As long as the button is pressed, the selection is updated
@@ -746,14 +752,14 @@ public class Plateau {
 						}
 					}
 					if(im.isPressedLeftClick){
-						if(isCastingSpell){
+						if(isCastingSpell.get(player)){
 							// Handling the spell
 							Character c = (Character)this.g.players.get(player).selection.get(0); 
-							Spell spell = c.spells.get(castingSpell);
+							Spell spell = c.spells.get(castingSpell.get(player));
 							spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
-							c.spellsState.set(castingSpell,0f);
-							isCastingSpell = false;
-							castingSpell = -1;
+							c.spellsState.set(castingSpell.get(player),0f);
+							isCastingSpell.set(player,false);
+							castingSpell.set(player,-1);
 						} else if(im.isPressedMAJ){
 							
 						} else {
@@ -765,9 +771,9 @@ public class Plateau {
 						//RALLY POINT
 						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
 							((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
-						} else if(isCastingSpell){
-							isCastingSpell = false;
-							castingSpell = -1;
+						} else if(isCastingSpell.get(player)){
+							isCastingSpell.set(player,false);
+							castingSpell.set(player,-1);
 						} else if(im.isPressedMAJ){
 							updateSecondaryTarget(im.xMouse,im.yMouse,player);
 						} else {				
@@ -816,15 +822,15 @@ public class Plateau {
 						if(im.isPressedV)
 							number = 3;
 						if(im.isPressedESC){
-							this.isCastingSpell = false;
-							this.castingSpell = -1;
+							isCastingSpell.set(player,false);
+							castingSpell.set(player,-1);
 						}
 							
 						Character c = ((Character) this.selection.get(player).get(0));
 						if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
 							if(c.spells.get(number).needToClick){
-								this.isCastingSpell = true;
-								this.castingSpell = number;
+								isCastingSpell.set(player,true);
+								castingSpell.set(player,number);
 							} else {
 								c.spells.get(number).launch(c, c);
 							}
@@ -1044,7 +1050,7 @@ public class Plateau {
 	}
 
 	public void updateView(InputModel im, int player){
-		if(!isCastingSpell && player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
+		if(!isCastingSpell.get(player) && player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<im.Ycam+10)&&im.Ycam>-im.resY/2){
 				Ycam -= 20;

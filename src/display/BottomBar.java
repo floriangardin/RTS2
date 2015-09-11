@@ -207,7 +207,7 @@ public class BottomBar extends Bar {
 				g.fillRect(prodX+2f, prodY+2f + ratio*i*prodH+diffY, -4f+ratio*prodH, (-2f + ratio*prodH)-diffY);
 				g.setColor(Color.white);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
-				if(this.p.isCastingSpell && this.p.castingSpell==i){
+				if(this.p.isCastingSpell.get(player.team) && this.p.castingSpell.get(player.team)==i){
 					g.setColor(Color.green);
 					g.drawRect(prodX+1f, prodY +1f+ ratio*i*sizeY, prodW-2f, ratio*prodH-2f);
 				}
