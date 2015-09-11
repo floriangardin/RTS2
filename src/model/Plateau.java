@@ -1010,11 +1010,10 @@ public class Plateau {
 					if(s2.id==ocs.id)
 						sp = s2;
 				if(sp!=null){
-
+					System.out.println("échec de la quête");
 				}else{
 					new SpellEffect(this, ocs);
 				}
-
 			}
 			toErase = true;
 			for(SpellEffect c2: this.spells){

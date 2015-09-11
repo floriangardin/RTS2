@@ -27,6 +27,7 @@ public class SpellConversion extends Spell{
 		Objet t = p.findTarget(target.x, target.y);
 		if(t instanceof Character && t.team!=launcher.team && launcher.player.special>=this.faithCost){
 			((Character)t).changeTeam(launcher.team);
+			launcher.player.special-=this.faithCost;
 		}
 	}
 }
