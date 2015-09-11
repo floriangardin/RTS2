@@ -42,7 +42,7 @@ public class SpellInstantHealth extends Spell{
 			}
 		}
 
-		if(h instanceof Character && h.team==launcher.team && launcher!=h ){
+		if(h instanceof Character && h.team==launcher.team && launcher!=h && this.range>=Utils.distance(h, launcher)){
 			h.lifePoints = ((Character) h ).maxLifePoints;
 			
 		}
