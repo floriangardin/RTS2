@@ -142,27 +142,10 @@ public class Character extends ActionObjet{
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
 		// Parameters
-		this.team = occ.team;
-		this.p = p;
-		//this.maxLifePoints = this.p.g.players.get(team).data.smLifePoints;
-		this.name = "Character";
-		//this.sight =this.p.g.players.get(team).data.smSight;
+		this.name = occ.name;
+		this.player = this.p.g.players.get(team);
+		this.player.create(UnitsList.switchName(occ.name),occ.x,occ.y);
 		this.id = occ.id;
-
-		Image imagea = this.p.images.corps;
-		Image imageb = this.p.images.corps;
-		if(team==1)
-			imageb = this.p.images.blue;
-		if(team==2)
-			imageb = this.p.images.red;
-		this.image = Utils.mergeImages(imagea, imageb);
-		this.selection_circle = this.p.images.selection_circle;
-		this.lifePoints = this.maxLifePoints;
-		p.addCharacterObjets(this);
-		this.collisionBox = new Circle(x,y,size);
-		this.sightBox = new Circle(x,y,sight);
-		this.setXY(occ.x, occ.y);
-		changeEquipment(occ.weaponType,occ.horseType);
 	}
 
 	public boolean isLeader(){
@@ -710,11 +693,16 @@ public class Character extends ActionObjet{
 
 	// update from an outputchar
 	public void change(OutputChar occ){
+		if(occ.team!=this.team)
+			this.changeTeam(occ.team);
 		this.setXY(occ.x, occ.y);
 		this.lifePoints = occ.lifePoints;
 		this.animation = occ.animation;
 		this.orientation = occ.direction;
 		this.sight = occ.sight;
+		this.isImmolating = (occ.isImmolating==1);
+		for(int i=0; i<this.spells.size();i++)
+			this.spellsState.set(i,occ.spellState[i]);
 		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
 			return;
 		this.changeEquipment(occ.weaponType, occ.horseType);

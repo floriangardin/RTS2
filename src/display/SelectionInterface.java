@@ -8,7 +8,7 @@ import org.newdawn.slick.Image;
 
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
-import buildings.HeadQuarters;
+import buildings.BuildingHeadQuarters;
 
 
 public class SelectionInterface extends Bar {

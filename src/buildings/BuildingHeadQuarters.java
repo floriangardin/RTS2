@@ -16,7 +16,7 @@ import model.Game;
 import model.Plateau;
 import model.Player;
 
-public class HeadQuarters extends BuildingTech {
+public class BuildingHeadQuarters extends BuildingTech {
 
 
 	public int age=1;
@@ -24,7 +24,7 @@ public class HeadQuarters extends BuildingTech {
 	Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> allTechs;
 	public Player player;
-	public HeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
+	public BuildingHeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
 		// Init ProductionList
 		this.p = plateau ;
 		this.player = this.p.g.players.get(team);
@@ -119,7 +119,7 @@ public class HeadQuarters extends BuildingTech {
 		else {
 			this.image = this.p.images.tent;
 		}
-		// List of potential production (Spearman
+		// List of potential production 
 		this.techsDiscovered = new Vector<Technologie>();
 		this.updateProductionList();
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
@@ -137,7 +137,7 @@ public class HeadQuarters extends BuildingTech {
 		}
 	}
 	
-	public HeadQuarters(OutputBuilding ocb, Plateau p){
+	public BuildingHeadQuarters(OutputBuilding ocb, Plateau p){
 		team = ocb.team;
 		type= 5;
 		maxLifePoints = ocb.maxlifepoints;

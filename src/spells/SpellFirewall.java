@@ -17,11 +17,9 @@ import model.Utils;
 public class SpellFirewall extends Spell{
 
 	public float remainingTime;
-	public float width;
 	
 	public SpellFirewall(Plateau p, Player player){
 		this.chargeTime = 450f;
-		this.width = 15f;
 		this.name = "Firewall";
 		this.icon = p.images.spellFirewall;
 		this.range = 200f;
@@ -32,28 +30,10 @@ public class SpellFirewall extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-
-		Firewall f = new Firewall(launcher.p,launcher);
 		Objet t = realTarget(target, launcher);
+		Firewall f = new Firewall(launcher.p,launcher,t);
 		f.damage = this.damage;
 		f.remainingTime = this.remainingTime;
-		float vx = t.getY()-launcher.getY();
-		float vy = launcher.getX()-t.getX();
-		float norm = (float)Math.sqrt(vx*vx+vy*vy);
-		vx = vx/norm;
-		vy = vy/norm;
-		float ax,ay,bx,by,cx,cy,dx,dy;
-		ax = launcher.getX()+vx*width/2f;
-		ay = launcher.getY()+vy*width/2f;
-		bx = launcher.getX()-vx*width/2f;
-		by = launcher.getY()-vy*width/2f;
-		dx = t.getX()+vx*width/2f;
-		dy = t.getY()+vy*width/2f;
-		cx = t.getX()-vx*width/2f;
-		cy = t.getY()-vy*width/2f;
-		float[] arg = {ax,ay,bx,by,cx,cy,dx,dy};
-		f.collisionBox = new Polygon(arg);
-		f.createAnimation(t, launcher);
 	}
 	
 	public Objet realTarget(Objet target, Character launcher){
@@ -68,5 +48,4 @@ public class SpellFirewall extends Spell{
 			return target;
 		}
 	}
-	
 }

@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.*;
 import model.Plateau;
+import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 
 public class BlessedArea extends SpellEffect{
@@ -22,16 +23,32 @@ public class BlessedArea extends SpellEffect{
 	public float[] animationX = new float[nbFire];
 	public float[] animationY = new float[nbFire];
 	public float animationMax=120f;
-	public float size;
+	public float size = 200f;;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Plateau p, Character launcher, Checkpoint target){
+	public BlessedArea(Plateau p, Character launcher, Checkpoint t){
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
 		p.addSpell(this);
 		this.image = p.images.blessedArea;
 		owner = launcher;
+		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
+		this.x = t.getX();
+		this.y = t.getY();
+		this.createAnimation();
+	}
+	
+	public BlessedArea(Plateau p, OutputSpell s){
+		this.id = p.g.idChar;
+		p.g.idChar+=1;
+		this.lifePoints = 1f;
+		p.addSpell(this);
+		this.image = p.images.blessedArea;
+		this.x = s.x1;
+		this.y = s.y1;
+		this.collisionBox = new Rectangle(x-size/2f,y-size/2f,size,size);
+		this.createAnimation();
 	}
 
 	public void createAnimation(){
@@ -47,9 +64,6 @@ public class BlessedArea extends SpellEffect{
 
 	public void action(){
 		this.remainingTime-=1f;
-		this.animationState +=1f;
-		if(this.animationState>animationMax)
-			animationState = 0f;
 		Vector<Character> toDelete = new Vector<Character>();
 		if(this.remainingTime<=0f){
 			this.lifePoints = -1f;
@@ -74,6 +88,10 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
+
+		this.animationState +=1f;
+		if(this.animationState>animationMax)
+			animationState = 0f;
 		float x,y,r,currentAnimation;
 		for(int i=0;i<4;i++){
 				r = this.image.getWidth()/4f;

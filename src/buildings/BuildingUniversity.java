@@ -24,7 +24,7 @@ public class BuildingUniversity extends BuildingTech {
 	
 	public Player player;
 	
-	public BuildingUniversity(Plateau plateau, Game g, float f, float h,int team) {
+	public BuildingUniversity(Plateau plateau, Game g, float f, float h) {
 		// Init ProductionList
 		
 		this.p = plateau ;
@@ -45,7 +45,6 @@ public class BuildingUniversity extends BuildingTech {
 		this.queue = null;
 		teamCapturing= team;
 
-		this.team = team;
 		this.sizeX = this.p.constants.headQuartersSizeX; 
 		this.sizeY = this.p.constants.headQuartersSizeY;
 		this.sight = this.p.constants.headQuartersSight;
@@ -53,7 +52,7 @@ public class BuildingUniversity extends BuildingTech {
 		this.name = "university";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		type= 5;
+		type= 6;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
 		this.id = p.g.idChar;
@@ -86,7 +85,7 @@ public class BuildingUniversity extends BuildingTech {
 		}
 	}
 
-	public BuildingUniversity(OutputBuilding ocb, Plateau p,HeadQuarters hq){
+	public BuildingUniversity(OutputBuilding ocb, Plateau p,BuildingHeadQuarters hq){
 		this.hq = hq;
 		team = ocb.team;
 		type= 5;

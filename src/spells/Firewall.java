@@ -3,9 +3,13 @@ package spells;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Polygon;
 
+import model.Checkpoint;
 import model.Objet;
 import model.Plateau;
+import model.Utils;
+import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 
 public class Firewall extends SpellEffect{
@@ -20,16 +24,65 @@ public class Firewall extends SpellEffect{
 	public float[] animationX = new float[nbFire];
 	public float[] animationY = new float[nbFire];
 	public float animationMax=120f;
+	public float x,y,x2,y2;
 
-	public Firewall(Plateau p, Character launcher){
+	public Firewall(Plateau p, Character launcher, Objet t){
 		this.id = p.g.idChar;
+		this.x = launcher.getX();
+		this.y = launcher.getY();
+		this.x2 = t.getX();
+		this.y2 = t.getY();
+		float width = 15f;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
 		p.addSpell(this);
 		image = p.images.explosion;
 		owner = launcher;
+		float vx = t.getY()-launcher.getY();
+		float vy = launcher.getX()-t.getX();
+		float norm = (float)Math.sqrt(vx*vx+vy*vy);
+		vx = vx/norm;
+		vy = vy/norm;
+		float ax,ay,bx,by,cx,cy,dx,dy;
+		ax = launcher.getX()+vx*width/2f;
+		ay = launcher.getY()+vy*width/2f;
+		bx = launcher.getX()-vx*width/2f;
+		by = launcher.getY()-vy*width/2f;
+		dx = t.getX()+vx*width/2f;
+		dy = t.getY()+vy*width/2f;
+		cx = t.getX()-vx*width/2f;
+		cy = t.getY()-vy*width/2f;
+		float[] arg = {ax,ay,bx,by,cx,cy,dx,dy};
+		this.collisionBox = new Polygon(arg);
+		this.createAnimation(t, launcher);
 	}
 
+	public Firewall(Plateau p, OutputSpell s){
+		float x = s.x1, y = s.y1, x2 = s.x2, y2 = s.y2;
+		this.id = s.id;
+		float width = 15f;
+		this.lifePoints = 1f;
+		p.addSpell(this);
+		image = p.images.explosion;
+		float vx = y2-y;
+		float vy = x-x2;
+		float norm = (float)Math.sqrt(vx*vx+vy*vy);
+		vx = vx/norm;
+		vy = vy/norm;
+		float ax,ay,bx,by,cx,cy,dx,dy;
+		ax = x+vx*width/2f;
+		ay = y+vy*width/2f;
+		bx = x-vx*width/2f;
+		by = y-vy*width/2f;
+		dx = x2+vx*width/2f;
+		dy = y2+vy*width/2f;
+		cx = x2-vx*width/2f;
+		cy = y2-vy*width/2f;
+		float[] arg = {ax,ay,bx,by,cx,cy,dx,dy};
+		this.collisionBox = new Polygon(arg);
+		this.createAnimation(new Checkpoint(x,y), new Checkpoint(x2,y2));
+	}
+	
 	public void createAnimation(Objet o1, Objet o2){
 		float x1 = o1.getX(),x2=o2.getX(),y1=o1.getY(),y2=o2.getY();
 		for(int i=0;i<nbFire;i++){
@@ -40,10 +93,15 @@ public class Firewall extends SpellEffect{
 
 	public void action(){
 		this.remainingTime-=1f;
-		int i = (int)(Math.random()*nbFire*5);
-		if(i<nbFire){
-			if(this.animationState[i]==0f)
-				this.animationState[i]=1f;
+		if(this.remainingTime<=0f)
+			this.lifePoints = -1f;
+	}
+
+	public Graphics draw(Graphics g){
+		int j = (int)(Math.random()*nbFire*5);
+		if(j<nbFire){
+			if(this.animationState[j]==0f)
+				this.animationState[j]=1f;
 		}
 		for(int k=0; k<nbFire;k++){
 			if(this.animationState[k]>0f)
@@ -51,11 +109,6 @@ public class Firewall extends SpellEffect{
 			if(this.animationState[k]>animationMax)
 				this.animationState[k] = 0f;
 		}
-		if(this.remainingTime<=0f)
-			this.lifePoints = -1f;
-	}
-
-	public Graphics draw(Graphics g){
 		float x,y,r;
 		for(int i=0;i<nbFire;i++){
 			if(this.animationState[i]>0f){
@@ -84,4 +137,7 @@ public class Firewall extends SpellEffect{
 			c.lifePoints-=this.damage;
 		}
 	}
+	
+	
+	
 }

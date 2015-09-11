@@ -4,7 +4,7 @@ import units.Character;
 
 import java.util.Vector;
 
-import buildings.HeadQuarters;
+import buildings.BuildingHeadQuarters;
 import display.BottomBar;
 import display.TopBar;
 import units.UnitsList;
@@ -24,7 +24,7 @@ public class Player {
 	public int pop;
 	public BottomBar bottomBar;
 	public TopBar topBar;
-	public HeadQuarters hq ;
+	public BuildingHeadQuarters hq ;
 	public Player(Plateau p ,int team,int civ) {
 		
 		this.civ  = civ;

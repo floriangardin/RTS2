@@ -41,4 +41,10 @@ public abstract class BuildingTech extends Building {
 			}
 		}
 	}
+	
+	public int getIndexOfQueue(){
+		if(productionList.contains(queue))
+			return productionList.indexOf(queue);
+		return -1;
+	}
 }

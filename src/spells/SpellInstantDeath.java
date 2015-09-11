@@ -24,7 +24,7 @@ public class SpellInstantDeath extends Spell{
 		this.chargeTime = 450f;
 		this.width = 15f;
 		this.name = "Instant Death";
-		this.icon = p.images.spellFirewall;
+		this.icon = p.images.spellInstantDeath;
 		this.range = 200f;
 		this.damage = 1f;
 		this.remainingTime = 250f;

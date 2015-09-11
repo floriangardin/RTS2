@@ -8,7 +8,7 @@ import buildings.BuildingMill;
 import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingUniversity;
-import buildings.HeadQuarters;
+import buildings.BuildingHeadQuarters;
 import nature.Tree;
 import nature.Water;
 import units.Character;
@@ -38,11 +38,11 @@ public class Map {
 		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 300f);
 		
 		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);
-		HeadQuarters team1h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
 		data1.player.hq = team1h;
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
-		BuildingUniversity bar = new BuildingUniversity(plateau,plateau.g,plateau.maxX/2,100f,1);
+		BuildingUniversity bar = new BuildingUniversity(plateau,plateau.g,plateau.maxX/2,100f);
 		
 		new BuildingStable(plateau,plateau.g,plateau.maxX/4,2*plateau.maxY/5);
 		new BuildingAcademy(plateau,plateau.g,3*plateau.maxX/4,2*plateau.maxY/5);
@@ -53,7 +53,7 @@ public class Map {
 		data2.create(UnitsList.Inquisitor, plateau.maxX/2+1f,  plateau.maxY-300f);
 		data2.create(UnitsList.Priest, plateau.maxX/2+2f,  plateau.maxY-300f);
 		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-300f);
-		HeadQuarters team2h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5,2);
+		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5,2);
 		data2.player.hq = team2h;
 		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);

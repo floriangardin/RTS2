@@ -57,37 +57,8 @@ public class BuildingBarrack extends BuildingProduction{
 
 	public BuildingBarrack(OutputBuilding ocb, Plateau p){
 		team = ocb.team;
-		type= 3;
-		maxLifePoints = ocb.maxlifepoints;
-		this.p = p;
-		p.addBuilding(this);
-		this.lifePoints = this.maxLifePoints;
-		this.g = p.g;
-		this.x = ocb.x;
-		this.y = ocb.y;
+		new BuildingBarrack(p,p.g,ocb.x,ocb.y);
 		this.id = ocb.id;
-		this.sizeX = this.p.g.players.get(team).data.barrackSizeX; 
-		this.name = "Barrack";
-		this.sizeY = this.p.g.players.get(team).data.barrackSizeY;
-		this.sight = this.p.g.players.get(team).data.barrackSight;
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		if(ocb.team==1){
-			this.image = this.p.images.buildingBarrackBlue;
-		} else if(ocb.team==2){
-			this.image = this.p.images.buildingBarrackRed;
-		} else {
-			this.image = this.p.images.buildingBarrackNeutral;
-		}
-		
-		// List of potential production (Spearman
-		this.queue = new Vector<Integer>();
-		this.productionTime = new Vector<Float>();
-		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Spearman);
-		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
-		this.productionList.addElement(UnitsList.Crossbowman);
-		this.productionTime.addElement(this.p.g.players.get(team).data.bowmanProdTime);
 	}
 
 

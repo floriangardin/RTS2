@@ -16,7 +16,7 @@ import units.*;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
-import buildings.HeadQuarters;
+import buildings.BuildingHeadQuarters;
 import bullets.Arrow;
 import bullets.Bullet;
 import bullets.Fireball;
@@ -25,6 +25,7 @@ import multiplaying.*;
 import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
+import multiplaying.OutputModel.OutputSpell;
 import spells.Firewall;
 import spells.Spell;
 import spells.SpellEffect;
@@ -849,8 +850,6 @@ public class Plateau {
 				this.g.players.get(player).selection.clear();
 				for(ActionObjet c: this.selection.get(player))
 					this.g.players.get(player).selection.addElement(c);
-				om.food = this.g.players.get(2).food;
-				om.gold = this.g.players.get(2).gold;
 			}
 		}
 		// Handling the changes
@@ -871,6 +870,9 @@ public class Plateau {
 		}
 
 		// 5 - creation of the outputmodel
+		om.food = this.g.players.get(2).food;
+		om.gold = this.g.players.get(2).gold;
+		om.gold = this.g.players.get(2).special;
 		for(Character c: this.characters){
 			om.toChangeCharacters.add(new OutputChar(c));
 		}
@@ -882,6 +884,9 @@ public class Plateau {
 		}
 		for(Building b: this.buildings){
 			om.toChangeBuildings.add(new OutputBuilding(b));
+		}
+		for(SpellEffect s : this.spells){
+			om.toChangeSpells.add(new OutputSpell(s));
 		}
 		return om;
 	}
@@ -989,6 +994,32 @@ public class Plateau {
 				if(toErase)
 					this.toRemoveBuildings.addElement(c2);
 			}
+
+			// Spell
+			// Changing spells
+			SpellEffect sp=null;
+			for(OutputSpell ocs : om.toChangeSpells){
+				sp = null;
+				for(SpellEffect s2: this.spells)
+					if(s2.id==ocs.id)
+						sp = s2;
+				if(sp!=null){
+
+				}else{
+					new SpellEffect(this, ocs);
+				}
+
+			}
+			toErase = true;
+			for(SpellEffect c2: this.spells){
+				toErase = true;
+				for(OutputSpell occ : om.toChangeSpells){
+					if(occ.id==c2.id)
+						toErase = false;
+				}
+				if(toErase)
+					this.toRemoveSpells.addElement(c2);
+			}
 			//selections
 			this.selection.set(this.g.currentPlayer, new Vector<ActionObjet>());
 			for(int i : om.selection){
@@ -1004,6 +1035,7 @@ public class Plateau {
 				this.g.players.get(this.g.currentPlayer).selection.addElement(o);
 			this.g.players.get(2).gold = om.gold;
 			this.g.players.get(2).food = om.food;
+			this.g.players.get(2).special = om.special;
 		}
 		// Remove objets from lists
 		this.clean();

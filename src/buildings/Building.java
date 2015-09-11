@@ -26,7 +26,7 @@ public class Building extends ActionObjet{
 	public int potentialTeam;
 	public int type;
 	public Objet rallyPoint;
-	public HeadQuarters hq;
+	public BuildingHeadQuarters hq;
 
 	public float charge;
 	public boolean isProducing;
@@ -97,17 +97,23 @@ public class Building extends ActionObjet{
 		if(this instanceof BuildingProduction){
 			
 			((BuildingProduction) this).changeQueue(ocb);
+		} else if(this instanceof BuildingTech){
+			((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
+			this.charge = ocb.charge;
 		}
 		this.updateImage();
 	}
 
 	public Building(OutputBuilding ocb, Plateau p){
+		Building b;
 		switch(ocb.typeBuilding){
-		case 0: new BuildingMine(ocb,p); break;
-		case 1: new BuildingMill(ocb,p); break;
-		case 2: new BuildingStable(ocb,p);break;
-		case 3: new BuildingBarrack(ocb,p); break;
-		case 4: new BuildingAcademy(ocb,p);break;
+		case 0: b = new BuildingMine(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
+		case 1: b = new BuildingMill(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
+		case 2: b = new BuildingStable(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
+		case 3: b = new BuildingBarrack(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
+		case 4: b = new BuildingAcademy(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
+		case 5: b = new BuildingHeadQuarters(p,p.g,ocb.x,ocb.y,ocb.team); b.id = ocb.id;break;
+		case 6: b = new BuildingUniversity(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
 		default:
 		}
 	}

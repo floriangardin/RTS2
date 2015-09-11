@@ -54,35 +54,8 @@ public class BuildingAcademy extends BuildingProduction {
 
 	public BuildingAcademy(OutputBuilding ocb, Plateau p){
 		team = ocb.team;
-		type= 4;
-		maxLifePoints = ocb.maxlifepoints;
-		this.p = p;
-		p.addBuilding(this);
-		this.lifePoints = this.maxLifePoints;
-		this.g = p.g;
-		this.x = ocb.x;
-		this.y = ocb.y;
+		new BuildingAcademy(p,p.g,ocb.x,ocb.y);
 		this.id = ocb.id;
-		this.sizeX = this.p.g.players.get(team).data.academySizeX; 
-		this.name = "Academy";
-		this.sizeY = this.p.g.players.get(team).data.academySizeY;
-		this.sight = this.p.g.players.get(team).data.academySight;
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		if(ocb.team==1){
-			this.image = this.p.images.buildingAcademyBlue;
-		} else if(ocb.team==2){
-			this.image = this.p.images.buildingAcademyRed;
-		} else {
-			this.image = this.p.images.buildingAcademyNeutral;
-		}
-		
-		// List of potential production (Spearman
-		this.queue = new Vector<Integer>();
-		this.productionTime = new Vector<Float>();
-		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Inquisitor);
-		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
 
 	}
 
