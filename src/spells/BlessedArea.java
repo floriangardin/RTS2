@@ -1,5 +1,7 @@
 package spells;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,7 +14,7 @@ import units.Character;
 public class BlessedArea extends SpellEffect{
 
 	public float remainingTime;
-	public float damage;
+	public float effect;
 	public Image image;
 	public int nbFire=4;
 	public Character owner;
@@ -21,6 +23,7 @@ public class BlessedArea extends SpellEffect{
 	public float[] animationY = new float[nbFire];
 	public float animationMax=120f;
 	public float size;
+	public Vector<Character> targeted = new Vector<Character>();
 
 	public BlessedArea(Plateau p, Character launcher, Checkpoint target){
 		this.id = p.g.idChar;
@@ -47,8 +50,27 @@ public class BlessedArea extends SpellEffect{
 		this.animationState +=1f;
 		if(this.animationState>animationMax)
 			animationState = 0f;
-		if(this.remainingTime<=0f)
+		Vector<Character> toDelete = new Vector<Character>();
+		if(this.remainingTime<=0f){
 			this.lifePoints = -1f;
+			for(Character c:this.targeted){
+				c.weapon.chargeTime/=this.effect;
+				toDelete.add(c);
+			}
+		}
+		for(Character c:toDelete){
+			this.targeted.remove(c);
+		}
+		toDelete = new Vector<Character>();
+		for(Character c:this.targeted){
+			if(!c.collisionBox.intersects(this.collisionBox)){
+				c.weapon.chargeTime/=this.effect;
+				toDelete.add(c);
+			}
+		}
+		for(Character c:toDelete){
+			this.targeted.remove(c);
+		}
 	}
 
 	public Graphics draw(Graphics g){
@@ -75,8 +97,9 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void collision(Character c){
-		if(c!=owner){
-			c.lifePoints-=this.damage;
+		if(this.lifePoints>0 && c.team==owner.team && !this.targeted.contains(c)){
+			c.weapon.chargeTime*=this.effect;
+			this.targeted.addElement(c);
 		}
 	}
 }

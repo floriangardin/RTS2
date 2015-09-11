@@ -77,6 +77,7 @@ public class Data {
 	public SpellFirewall firewall;
 	public SpellBlessedArea blessedArea;
 	public SpellImmolation immolation;
+	public SpellConversion conversion;
 	
 	//// Special
 	
@@ -103,6 +104,7 @@ public class Data {
 		this.firewall = new SpellFirewall(p,player);
 		this.blessedArea = new SpellBlessedArea(p,player);
 		this.immolation = new SpellImmolation(p,player);
+		this.conversion = new SpellConversion(p,player);
 		// Init unit 
 		this.spearman = new UnitSpearman(p,player,this);
 		this.crossbowman = new UnitCrossbowman(p,player,this);

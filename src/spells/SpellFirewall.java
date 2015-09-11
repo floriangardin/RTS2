@@ -28,7 +28,7 @@ public class SpellFirewall extends Spell{
 		this.damage = 1f;
 		this.remainingTime = 250f;
 		this.player = player;
-		this.needToClick=false;
+		this.needToClick=true;
 	}
 
 	public void launch(Objet target, Character launcher){

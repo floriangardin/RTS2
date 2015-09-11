@@ -9,6 +9,7 @@ import units.Character;
 public class SpellBlessedArea extends Spell{
 	public float remainingTime;
 	public float size;
+	public float effect;
 	
 	public SpellBlessedArea(Plateau p, Player player){
 		this.chargeTime = 450f;
@@ -16,6 +17,7 @@ public class SpellBlessedArea extends Spell{
 		this.icon = p.images.spellBlessedArea;
 		this.range = 200f;
 		this.remainingTime = 250f;
+		this.effect= 0.75f;
 		this.size = 200f;
 		this.player = player;
 		this.needToClick=true;
@@ -30,6 +32,7 @@ public class SpellBlessedArea extends Spell{
 		ba.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
 		ba.x = t.getX();
 		ba.y = t.getY();
+		ba.effect = this.effect;
 		ba.createAnimation();
 	}
 	

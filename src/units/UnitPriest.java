@@ -28,6 +28,7 @@ public class UnitPriest extends Character {
 		this.range = 50f;
 		this.horse = new Horse(p,this);
 		this.spells.add(data.immolation);
+		this.spells.add(data.conversion);
 		this.updateImage();
 	}
 

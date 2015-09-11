@@ -34,8 +34,8 @@ public class Map {
 		data1.create(UnitsList.Crossbowman, plateau.maxX/2-1f, 300f);
 		data1.create(UnitsList.Knight, plateau.maxX/2, 300f);
 		data1.create(UnitsList.Inquisitor, plateau.maxX/2+1f, 300f);
-		data1.create(UnitsList.Inquisitor, plateau.maxX/2+2f, 300f);
-		data1.create(UnitsList.Inquisitor, plateau.maxX/2+3f, 300f);
+		data1.create(UnitsList.Priest, plateau.maxX/2+2f, 300f);
+		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 300f);
 		
 		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);
 		HeadQuarters team1h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);

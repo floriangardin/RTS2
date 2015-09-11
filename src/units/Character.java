@@ -324,7 +324,6 @@ public class Character extends ActionObjet{
 			this.remainingTime-=1f;
 			if(this.remainingTime<=0f){
 				this.lifePoints=-1f;
-				System.out.println("vaneau: " + this.player);
 				this.player.special+=this.player.data.gainedFaithByImmolation;
 			}
 			return;
@@ -697,6 +696,13 @@ public class Character extends ActionObjet{
 		}
 		this.setXY(finalX, finalY);
 
+	}
+	
+	//// Changing the team
+	public void changeTeam(int newTeam){
+		this.team = newTeam;
+		this.player = this.p.g.players.get(newTeam);
+		this.updateImage();
 	}
 
 
