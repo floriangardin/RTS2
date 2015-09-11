@@ -29,7 +29,7 @@ public class SpellInstantDeath extends Spell{
 		this.damage = 1f;
 		this.remainingTime = 250f;
 		this.player = player;
-		this.needToClick=false;
+		this.needToClick=true;
 	}
 
 	public void launch(Objet target, Character launcher){
@@ -42,7 +42,7 @@ public class SpellInstantDeath extends Spell{
 			}
 		}
 
-		if(h instanceof Character && target.team!=launcher.team){
+		if(h instanceof Character && h.team!=launcher.team && launcher!=h){
 			h.lifePoints = 0f;
 			
 		}
