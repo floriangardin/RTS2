@@ -32,7 +32,19 @@ public class SpellInstantHealth extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
+		// Check if target intersect an ennemy
+		Objet h = target;
 		
+		for(Character c : p.characters){
+			if(c.collisionBox.contains(target.collisionBox)){
+				h =c;
+			}
+		}
+
+		if(h instanceof Character && target.team==launcher.team){
+			h.lifePoints = ((Character) h ).maxLifePoints;
+			
+		}
 	}
 
 }

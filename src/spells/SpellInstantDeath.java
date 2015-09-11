@@ -23,7 +23,7 @@ public class SpellInstantDeath extends Spell{
 		this.p = p;
 		this.chargeTime = 450f;
 		this.width = 15f;
-		this.name = "InstantDeath";
+		this.name = "Instant Death";
 		this.icon = p.images.spellFirewall;
 		this.range = 200f;
 		this.damage = 1f;
@@ -33,8 +33,17 @@ public class SpellInstantDeath extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		if(target instanceof Character){
-			target.team = launcher.team;
+		// Check if target intersect an ennemy
+		Objet h = target;
+		
+		for(Character c : p.characters){
+			if(c.collisionBox.contains(target.collisionBox)){
+				h =c;
+			}
+		}
+
+		if(h instanceof Character && target.team!=launcher.team){
+			h.lifePoints = 0f;
 			
 		}
 	}
