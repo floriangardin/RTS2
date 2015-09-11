@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import multiplaying.OutputModel.OutputBuilding;
 import technologies.*;
+import units.UnitsList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -170,6 +171,13 @@ public class HeadQuarters extends BuildingTech {
 
 		//Do the action of Barrack
 		//Product, increase state of the queue
+		// If enough faith create archange
+		
+		if(this.player.civ==0 && this.player.special>=40f){
+			
+			this.player.data.create(UnitsList.Archange, this.x, this.y+this.sizeY/2);
+			this.player.special=0;
+		}
 		if(this.queue!=null){
 			if(!this.isProducing){
 				this.isProducing = true;

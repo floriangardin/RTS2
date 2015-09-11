@@ -2,6 +2,7 @@ package model;
 
 import spells.*;
 import units.Character;
+import units.UnitArchange;
 import units.UnitCrossbowman;
 import units.UnitInquisitor;
 import units.UnitKnight;
@@ -27,7 +28,7 @@ public class Data {
 	public UnitPriest priest;
 	public UnitInquisitor inquisitor;
 	public UnitCrossbowman crossbowman;
-	
+	public UnitArchange archange;
 	//// BUILDINGS STATS
 	//headQuarters
 	public int headQuartersLifePoints = 200;
@@ -78,6 +79,8 @@ public class Data {
 	public SpellBlessedArea blessedArea;
 	public SpellImmolation immolation;
 	public SpellConversion conversion;
+	public SpellInstantHealth instantHealth;
+	public SpellInstantDeath instantDeath ;
 	
 	//// Special
 	
@@ -105,13 +108,15 @@ public class Data {
 		this.blessedArea = new SpellBlessedArea(p,player);
 		this.immolation = new SpellImmolation(p,player);
 		this.conversion = new SpellConversion(p,player);
+		this.instantDeath = new SpellInstantDeath(p,player);
+		this.instantHealth = new SpellInstantHealth(p,player);
 		// Init unit 
 		this.spearman = new UnitSpearman(p,player,this);
 		this.crossbowman = new UnitCrossbowman(p,player,this);
 		this.knight = new UnitKnight(p,player,this);
 		this.priest = new  UnitPriest(p,player,this);
 		this.inquisitor = new UnitInquisitor(p,player,this);
-		
+		this.archange = new UnitArchange(p,player,this);
 	}
 	
 	public Character create(UnitsList which,float x, float y){
@@ -136,7 +141,10 @@ public class Data {
 		case Inquisitor:
 			c =  new UnitInquisitor(this.inquisitor,x ,y);
 			c.player = this.player;
-			break;	
+			break;
+		case Archange:
+			c = new UnitArchange(this.archange,x,y);
+			c.player = this.player;
 
 		default:
 			c = null;
