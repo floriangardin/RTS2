@@ -19,13 +19,14 @@ public class SpellConversion extends Spell{
 		this.range = 50f;
 		this.damage = 0f;
 		this.player = player;
-		this.needToClick=false;
+		this.needToClick=true;
+		this.p = p;
 	}
 
 	public void launch(Objet target, Character launcher){
-
-		if(target instanceof Character && target.team!=launcher.team && launcher.player.special>=this.faithCost){
-			((Character)target).changeTeam(launcher.team);
+		Objet t = p.findTarget(target.x, target.y);
+		if(t instanceof Character && t.team!=launcher.team && launcher.player.special>=this.faithCost){
+			((Character)t).changeTeam(launcher.team);
 		}
 	}
 }
