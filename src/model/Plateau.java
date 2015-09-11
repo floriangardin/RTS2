@@ -383,7 +383,7 @@ public class Plateau {
 
 	public void updateSelection(Rectangle select,int team){
 		if(select!=null){
-			this.clearSelection(team);
+			//this.clearSelection(team);
 			this.selection(select,team);
 			this.g.players.get(team).groupSelection = -1;
 		}
@@ -600,8 +600,6 @@ public class Plateau {
 		}
 	}
 
-	//TODO
-	public SpellFirewall f ;
 	public OutputModel update(Vector<InputModel> ims){
 		/* Pipeline of the update:
 		 * 1 - If ESC start menu
@@ -731,6 +729,8 @@ public class Plateau {
 							c.spellsState.set(castingSpell,0f);
 							isCastingSpell = false;
 							castingSpell = -1;
+						} else if(im.isPressedMAJ){
+							
 						} else {
 							this.clearSelection(player);
 						}

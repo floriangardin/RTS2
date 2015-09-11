@@ -106,6 +106,9 @@ public class Character extends ActionObjet{
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
 		
+		this.group = new Vector<Character>();
+		this.group.add(this);
+		
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
 			this.spellsState.addElement(0f);
