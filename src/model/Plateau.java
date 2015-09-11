@@ -82,6 +82,7 @@ public class Plateau {
 	public Vector<Rectangle> rectangleSelection;
 	public Vector<Float> recX ;
 	public Vector<Float> recY ;
+	public Vector<Vector<ActionObjet>> inRectangle ;
 
 	public boolean isCastingSpell = false;
 	public int castingSpell = -1;
@@ -130,6 +131,7 @@ public class Plateau {
 		this.rectangleSelection = new Vector<Rectangle>();
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
+		this.inRectangle = new Vector<Vector<ActionObjet>>();
 		for(int i =0; i<=nTeams;i++){
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
@@ -137,6 +139,7 @@ public class Plateau {
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
 			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
 			this.rectangleSelection.addElement(null);
+			this.inRectangle.addElement(new Vector<ActionObjet>());
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
@@ -232,7 +235,8 @@ public class Plateau {
 			}
 		}
 
-		// Update selection
+		// Update selection and groups
+		Vector<ActionObjet> toDelete = new Vector<ActionObjet>();
 		for(int i=0;i<=nTeams;i++){
 			for(ActionObjet c: selection.get(i)){
 				if(!c.isAlive()){
@@ -244,6 +248,19 @@ public class Plateau {
 			}
 			for(ActionObjet o: toAddSelection.get(i)){
 				selection.get(i).addElement(o);
+			}
+			if(toAddSelection.get(i).size()>0){
+				Utils.triName(selection.get(i));
+			}
+			for(int k=0; k<10; k++){
+				toDelete.clear();
+				for(ActionObjet c: this.g.players.get(i).groups.get(k)){
+					if(!c.isAlive())
+						toDelete.add(c);
+				}
+				for(ActionObjet c: toDelete){
+					this.g.players.get(i).groups.get(k).remove(c);
+				}
 			}
 		}
 		// Remove objets from lists
@@ -386,9 +403,13 @@ public class Plateau {
 	public void updateSelection(Rectangle select,int team){
 		if(select!=null){
 			//this.clearSelection(team);
+			for(ActionObjet a : this.inRectangle.get(team)){
+				this.toRemoveSelection.get(team).add(a);
+			}
 			this.selection(select,team);
 			this.g.players.get(team).groupSelection = -1;
 		}
+		
 	}
 
 	public void updateSelectionCTRL(Rectangle select,int team){
@@ -526,20 +547,19 @@ public class Plateau {
 	}
 
 	private void selection(Rectangle select, int team) {
-		//handling the selection
+		//return the units in the rectangle select for the team team
+		this.inRectangle.get(team).clear();
 		for(Character o: characters){
-			if(o.collisionBox.intersects(select) && o.team==team ){
-				//add character to team selection
+			if(o.collisionBox.intersects(select) && o.team==team){
 				this.addSelection(o, team);
+				this.inRectangle.get(team).addElement(o);
 			}
 		}
-
 		if(this.toAddSelection.get(team).size()==0){
-
 			for(Building o: buildings){
-				if(o.collisionBox.intersects(select) && o.team==team ){
-					//add character to team selection
+				if(o.collisionBox.intersects(select) && o.team==team){
 					this.addSelection(o, team);
+					this.inRectangle.get(team).addElement(o);
 				}
 			}
 		}
@@ -547,7 +567,7 @@ public class Plateau {
 	private void selectionCTRL(Rectangle select, int team) {
 		//handling the selection
 		for(Character o: characters){
-			if(o.collisionBox.intersects(select) && o.team==team ){
+			if(o.collisionBox.intersects(select) && o.team==team){
 				//add character to team selection
 				this.addSelection(o, team);
 			}
@@ -556,7 +576,7 @@ public class Plateau {
 		if(this.toAddSelection.get(team).size()==0){
 
 			for(Building o: buildings){
-				if(o.collisionBox.intersects(select) && o.team==team ){
+				if(o.collisionBox.intersects(select) && o.team==team){
 					//add character to team selection
 					this.addSelection(o, team);
 				}
@@ -658,6 +678,7 @@ public class Plateau {
 				if(!im.leftClick){
 					// The button is not pressed and wasn't, the selection is non null
 					this.rectangleSelection.set(player, null);
+					this.inRectangle.get(player).clear();
 				}
 				// Split click bottom bar and not bottom bar
 				//Top Bar
@@ -708,11 +729,7 @@ public class Plateau {
 				// FIELD
 				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
 					//update the rectangle
-					//RALLY POINT
-					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction && im.isPressedRightClick){
-						
-						((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
-					}
+					
 					if(im.leftClick){
 
 						if(isCastingSpell){
@@ -739,22 +756,20 @@ public class Plateau {
 					}
 					// Action for player k
 					if(im.isPressedRightClick){
-
-						if(isCastingSpell){
+						//RALLY POINT
+						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+							((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
+						} else if(isCastingSpell){
 							isCastingSpell = false;
 							castingSpell = -1;
-						}else if(im.isPressedMAJ){
+						} else if(im.isPressedMAJ){
 							updateSecondaryTarget(im.xMouse,im.yMouse,player);
 						} else {				
 							updateTarget(im.xMouse,im.yMouse,player);
 						}
 					}
-					// Update the selections of the players
-					this.g.players.get(player).selection.clear();
-					for(ActionObjet c: this.selection.get(player))
-						this.g.players.get(player).selection.addElement(c);
 				}
-				// Handling other hotkeys
+				// Handling other hotkeys in production bar
 				if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
 					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
 
@@ -782,7 +797,14 @@ public class Plateau {
 						if(im.isPressedESC)
 							((BuildingTech) this.selection.get(player).get(0)).removeProd();
 					}
-
+				}
+				// Handling hotkeys for gestion of selection
+				if(im.isPressedTAB){
+					if(this.selection.get(player).size()>0){
+						Utils.switchTriName(this.selection.get(player));
+						if(this.g.players.get(player).groupSelection!=-1)
+							Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
+					}
 				}
 
 				// we update the selection according to the rectangle wherever is the mouse
@@ -792,6 +814,10 @@ public class Plateau {
 				} else {
 					this.updateSelectionCTRL(rectangleSelection.get(player),player);
 				}
+				// Update the selections of the players
+				this.g.players.get(player).selection.clear();
+				for(ActionObjet c: this.selection.get(player))
+					this.g.players.get(player).selection.addElement(c);
 				om.food = this.g.players.get(2).food;
 				om.gold = this.g.players.get(2).gold;
 			}
@@ -970,19 +996,11 @@ public class Plateau {
 			//Displaying the selected group
 			for(int to=0; to<10; to++){
 				if(im.isPressedNumPad[to]){
-					if(this.g.players.get(player).groupSelection == to){
-						float xmoy=0f, ymoy=0f;
-						int taille = this.g.players.get(player).groups.get(to).size();
-						for(Objet o: this.g.players.get(player).groups.get(to)){
-							xmoy += o.getX();
-							ymoy += o.getY();
-						}
-						if(taille!=0){
-							xmoy = xmoy/taille;
-							ymoy = ymoy/taille;
-							this.Xcam = Math.min(maxX-im.resX/2f, Math.max(-im.resX/2f, xmoy-im.resX/2f));
-							this.Ycam = Math.min(maxY-im.resY/2f, Math.max(-im.resY/2f, ymoy-im.resY/2f));
-						}
+					if(this.g.players.get(player).groupSelection == to && this.g.players.get(player).groups.get(to).size()>0){
+						float xmoy=this.g.players.get(player).groups.get(to).get(0).getX();
+						float ymoy=this.g.players.get(player).groups.get(to).get(0).getY();
+						this.Xcam = Math.min(maxX-im.resX/2f, Math.max(-im.resX/2f, xmoy-im.resX/2f));
+						this.Ycam = Math.min(maxY-im.resY/2f, Math.max(-im.resY/2f, ymoy-im.resY/2f));
 					}
 				}
 			}

@@ -159,28 +159,6 @@ public class Utils {
 		
 	}
 
-	public static void triY1(Vector<Character> liste){
-		Vector<Character> liste1 = new Vector<Character>();
-		int len = liste.size();
-		for(int i=0; i<len; i++)
-			liste1.add(liste.get(i));
-		liste.clear();
-		float min=-1f;
-		int index = 0;
-		for(int i=0;i<len;i++){
-			min = liste1.firstElement().y;
-			index = 0;
-			for(int j=1;j<liste1.size();j++){
-				if(liste1.get(j).y<min){
-					index = j;
-					min = liste1.get(j).y;
-				}
-			}
-			liste.add(liste1.get(index));
-			liste1.remove(index);
-		}
-	}
-	
 	public static void printCurrentState(Plateau p){
 		System.out.println("DEBUG MODE");
 		System.out.println();
@@ -220,5 +198,71 @@ public class Utils {
 			t[i] = v.get(i);
 		}
 		return t;
+	}
+
+	public static void triName(Vector<ActionObjet> liste){
+		if(liste.size()<=1)
+			return;
+		Vector<ActionObjet> liste1 = new Vector<ActionObjet>(), liste2= new Vector<ActionObjet>();
+		for(int i=0;i<liste.size();i++){
+			if(i<liste.size()/2)
+				liste1.add(liste.get(i));
+			else
+				liste2.add(liste.get(i));
+		}
+		liste.clear();
+		triName(liste1);
+		triName(liste2);
+		String y1="",y2="";
+		boolean b1=true, b2=true;
+		while(true){
+			b1 = !liste1.isEmpty();
+			b2 = !liste2.isEmpty();
+			if(!b1 && !b2)
+				break;
+			if(!b1){
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+				continue;
+			}
+			if(!b2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+				continue;
+			}
+			y1 = liste1.firstElement().name;
+			y2 = liste2.firstElement().name;
+			if(y1.compareTo(y2)>=0){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+			} else {
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+			}
+		}
+	}
+
+	public static void switchTriName(Vector<ActionObjet> liste){
+		if(liste == null || liste.size()==0){
+			return;
+		}
+		String name = liste.get(0).name;
+		boolean useful = false;
+		for(ActionObjet a: liste)
+			if(!a.name.equals(name))
+				useful = true;
+		ActionObjet buffer;
+		if(!useful){
+			buffer = liste.get(0);
+			liste.remove(0);
+			liste.add(buffer);
+			return;
+		}
+		while(liste.get(0).name.equals(name)){
+			buffer = liste.get(0);
+			liste.remove(0);
+			liste.add(buffer);
+		}
+			
 	}
 }
