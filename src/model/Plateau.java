@@ -350,7 +350,6 @@ public class Plateau {
 			//Between spells and characters
 			for(SpellEffect s:this.spells){
 				if(s.collisionBox!=null){
-					System.out.println("vaneau");
 					if(s.collisionBox.intersects(o.collisionBox)){
 						s.collision(o);		
 					}
