@@ -28,9 +28,8 @@ public class UnitArchange extends Character {
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+20f;
 		this.weapon.destroy();
-		this.spells.add(data.immolation);
-		this.spells.add(data.firewall);
-		this.spells.add(data.blessedArea);
+		this.spells.add(data.instantDeath);
+		this.spells.add(data.instantHealth);
 		this.updateImage();
 	}
 

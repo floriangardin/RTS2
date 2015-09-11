@@ -64,6 +64,7 @@ public class Images {
 	public Image spellImmolation;
 	public Image spellConversion;
 	public Image spellInstantDeath;
+	public Image spellInstantHealth;
 	
 	public Images(){
 		try {
@@ -99,6 +100,7 @@ public class Images {
 			this.smoke = new Image("pics/smoke.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
+			
 			
 			//Building
 			buildingBarrackBlue = new Image("pics/Building/BarrackBlue.png");
@@ -138,7 +140,7 @@ public class Images {
 			this.spellImmolation = new Image("pics/Spell/immolation.png");
 			this.spellConversion = new Image("pics/Spell/conversion.png");
 			this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
-			
+			this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
