@@ -1,5 +1,6 @@
 package model;
 
+import spells.*;
 import units.Character;
 import units.UnitCrossbowman;
 import units.UnitInquisitor;
@@ -71,6 +72,17 @@ public class Data {
 	public float academySizeY = 291f*2f/3f;
 	
 	
+	//// Spells
+	
+	public SpellFirewall firewall;
+	public SpellBlessedArea blessedArea;
+	public SpellImmolation immolation;
+	
+	//// Special
+	
+	public float gainedFaithByImmolation = 1f;
+	
+	
 	//// Attack Bonuses
 		
 	public float bonusSpearHorse = 2f;
@@ -84,33 +96,47 @@ public class Data {
 		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = framerate;
+		// Init spells
+		this.firewall = new SpellFirewall(p,player);
+		this.blessedArea = new SpellBlessedArea(p,player);
+		this.immolation = new SpellImmolation(p,player);
 		// Init unit 
-		this.spearman = new UnitSpearman(p,player);
-		this.crossbowman = new UnitCrossbowman(p,player);
-		this.knight = new UnitKnight(p,player);
-		this.priest = new  UnitPriest(p,player);
-		this.inquisitor = new UnitInquisitor(p,player);
+		this.spearman = new UnitSpearman(p,player,this);
+		this.crossbowman = new UnitCrossbowman(p,player,this);
+		this.knight = new UnitKnight(p,player,this);
+		this.priest = new  UnitPriest(p,player,this);
+		this.inquisitor = new UnitInquisitor(p,player,this);
 		
 	}
 	
 	public Character create(UnitsList which,float x, float y){
-		
+		Character c;
 		switch(which){
 		case Spearman:
-			return  new UnitSpearman(this.spearman,x ,y);	
+			c =  new UnitSpearman(this.spearman,x ,y);	
+			c.player = this.player;
+			break;
 		case Knight:
-			return new UnitKnight(this.knight,x ,y);	
+			c = new UnitKnight(this.knight,x ,y);	
+			c.player = this.player;
+			break;
 		case Priest:
-			return  new UnitPriest(this.priest,x ,y);	
+			c =  new UnitPriest(this.priest,x ,y);
+			c.player = this.player;
+			break;	
 		case Crossbowman:
-			return  new UnitCrossbowman(this.crossbowman,x ,y);	
+			c =  new UnitCrossbowman(this.crossbowman,x ,y);
+			c.player = this.player;
+			break;	
 		case Inquisitor:
-			return  new UnitInquisitor(this.inquisitor,x ,y);	
+			c =  new UnitInquisitor(this.inquisitor,x ,y);
+			c.player = this.player;
+			break;	
 
 		default:
-			return null;
+			c = null;
 		}
-
+		return c;
 		
 	}
 

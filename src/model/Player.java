@@ -45,6 +45,7 @@ public class Player {
 	
 	
 	public Character create(UnitsList u,float x , float y){
-		return this.data.create(u,x,y);
+		Character c = this.data.create(u,x,y);
+		return c;
 	}
 }

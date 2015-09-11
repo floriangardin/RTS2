@@ -2,6 +2,7 @@ package units;
 
 import org.newdawn.slick.geom.Circle;
 
+import model.Data;
 import model.Horse;
 import model.Plateau;
 import model.Player;
@@ -9,7 +10,7 @@ import weapon.Sword;
 
 public class UnitKnight extends Character {
 
-	public UnitKnight(Plateau p, Player player) {
+	public UnitKnight(Plateau p, Player player, Data data) {
 		super(p, player);
 		this.name = "knight";
 		this.maxLifePoints = 110f;
@@ -26,6 +27,7 @@ public class UnitKnight extends Character {
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+20f;
 		this.horse = new Horse(p,this);
+		this.spells.add(data.immolation);
 		
 		this.updateImage();
 	}

@@ -7,8 +7,11 @@ import org.newdawn.slick.geom.Transform;
 
 import model.ActionObjet;
 import model.Checkpoint;
+import model.Data;
 import units.Character;
 import model.Objet;
+import model.Plateau;
+import model.Player;
 import model.Utils;
 
 public class SpellFirewall extends Spell{
@@ -16,14 +19,16 @@ public class SpellFirewall extends Spell{
 	public float remainingTime;
 	public float width;
 	
-	public SpellFirewall(ActionObjet owner){
+	public SpellFirewall(Plateau p, Player player){
 		this.chargeTime = 450f;
-		this.width = 10f;
-		this.damage = 3f;
-		this.range = 200f;
-		this.remainingTime = 250f;
+		this.width = 15f;
 		this.name = "Firewall";
-		this.icon = owner.p.images.spellFirewall;
+		this.icon = p.images.spellFirewall;
+		this.range = 200f;
+		this.damage = 1f;
+		this.remainingTime = 250f;
+		this.player = player;
+		this.needToClick=false;
 	}
 
 	public void launch(Objet target, Character launcher){

@@ -715,8 +715,12 @@ public class Plateau {
 								int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
 								Character c = ((Character) this.selection.get(player).get(0));
 								if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-									this.isCastingSpell = true;
-									this.castingSpell = number;
+									if(c.spells.get(number).needToClick){
+										this.isCastingSpell = true;
+										this.castingSpell = number;
+									} else {
+										c.spells.get(number).launch(c, c);
+									}
 								}
 							}else{
 
@@ -816,8 +820,12 @@ public class Plateau {
 							
 						Character c = ((Character) this.selection.get(player).get(0));
 						if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-							this.isCastingSpell = true;
-							this.castingSpell = number;
+							if(c.spells.get(number).needToClick){
+								this.isCastingSpell = true;
+								this.castingSpell = number;
+							} else {
+								c.spells.get(number).launch(c, c);
+							}
 						}
 					}
 				}

@@ -20,6 +20,7 @@ public class Images {
 	public Image selection_rectangle;
 	public Image fog;
 	public Image fire;
+	public Image blessedArea;
 	public Image fountain;
 	public Image smoke;
 	public Image windmill;
@@ -59,6 +60,8 @@ public class Images {
 	
 	//Spell
 	public Image spellFirewall;
+	public Image spellBlessedArea;
+	public Image spellImmolation;
 	
 	public Images(){
 		try {
@@ -90,6 +93,7 @@ public class Images {
 			this.fog = new Image("pics/fog.png");
 			this.fountain = new Image("pics/fountain.png");
 			this.fire = new Image("pics/fire.png");
+			this.blessedArea = new Image("pics/blessedArea.png");
 			this.smoke = new Image("pics/smoke.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
@@ -128,6 +132,8 @@ public class Images {
 			
 			//Icone spell
 			this.spellFirewall = new Image("pics/Spell/firewall.png");
+			this.spellBlessedArea = new Image("pics/Spell/blessedArea.png");
+			this.spellImmolation = new Image("pics/Spell/immolation.png");
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

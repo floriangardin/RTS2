@@ -2,13 +2,14 @@ package units;
 
 import org.newdawn.slick.geom.Circle;
 
+import model.Data;
 import model.Plateau;
 import model.Player;
 import weapon.Bow;
 
 public class UnitCrossbowman extends Character {
 
-	public UnitCrossbowman(Plateau p, Player player) {
+	public UnitCrossbowman(Plateau p, Player player, Data data) {
 		super(p, player);
 		this.name = "crossbowman";
 		this.maxLifePoints = 60f;
@@ -24,6 +25,7 @@ public class UnitCrossbowman extends Character {
 		this.civ = 0;
 		this.range = 200f;
 		this.sightBox = new Circle(0,0,this.sight);
+		this.spells.add(data.immolation);
 
 		this.updateImage();
 	}
