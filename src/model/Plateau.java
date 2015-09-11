@@ -624,6 +624,7 @@ public class Plateau {
 	}
 
 	public OutputModel update(Vector<InputModel> ims){
+		Utils.printCurrentState(this);
 		/* Pipeline of the update:
 		 * 1 - If ESC start menu
 		 * 2 - Handling inputs (1 loop per player)
@@ -872,7 +873,7 @@ public class Plateau {
 		// 5 - creation of the outputmodel
 		om.food = this.g.players.get(2).food;
 		om.gold = this.g.players.get(2).gold;
-		om.gold = this.g.players.get(2).special;
+		om.special = this.g.players.get(2).special;
 		for(Character c: this.characters){
 			om.toChangeCharacters.add(new OutputChar(c));
 		}
@@ -893,6 +894,7 @@ public class Plateau {
 
 
 	public void updateFromOutput(OutputModel om, InputModel im){
+		Utils.printCurrentState(this);
 		// Handling im
 
 		if(im!=null){
