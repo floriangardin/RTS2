@@ -251,10 +251,13 @@ public class Utils {
 		for(ActionObjet a: liste)
 			if(!a.name.equals(name))
 				useful = true;
+		ActionObjet buffer;
 		if(!useful){
+			buffer = liste.get(0);
+			liste.remove(0);
+			liste.add(buffer);
 			return;
 		}
-		ActionObjet buffer;
 		while(liste.get(0).name.equals(name)){
 			buffer = liste.get(0);
 			liste.remove(0);
