@@ -54,6 +54,9 @@ public class Images {
 	//Tech
 	public Image techEagleView;
 	
+	//Spell
+	public Image spellFirewall;
+	
 	public Images(){
 		try {
 			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
@@ -116,6 +119,9 @@ public class Images {
 			
 			//Icones Techs
 			this.techEagleView = new Image("pics/Tech/EagleView.png");
+			
+			//Icone spell
+			this.spellFirewall = new Image("pics/Spell/firewall.png");
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

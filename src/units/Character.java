@@ -52,7 +52,8 @@ public class Character extends ActionObjet{
 	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
 	// Spells ( what should appear in the bottom bar
-	Vector<Spell> spells = new Vector<Spell>();
+	public Vector<Spell> spells = new Vector<Spell>();
+	public Vector<Float> spellsState = new Vector<Float>();
 	// Invisibility 
 	boolean isHidden;
 	protected int civ ;
@@ -104,6 +105,11 @@ public class Character extends ActionObjet{
 		this.image = c.image;
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
+		
+		for(Spell s:c.spells){
+			this.spells.addElement(s);
+			this.spellsState.addElement(0f);
+		}
 		
 		// COpy weapon
 		switch(c.weapon.name){
@@ -306,8 +312,9 @@ public class Character extends ActionObjet{
 			this.setTarget(null);
 			return;
 		}
-		for(Spell s:this.spells)
-			s.state+=1f;
+		for(int i=0; i<this.spells.size(); i++){
+			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
+		}
 		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
 			this.setTarget(null);
 		}

@@ -25,6 +25,7 @@ import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
 import spells.Firewall;
 import spells.Spell;
+import spells.SpellEffect;
 import spells.SpellFirewall;
 import units.Character;
 import weapon.Weapon;
@@ -45,8 +46,8 @@ public class Plateau {
 	// fog of war
 	public Image fog;
 	public Graphics gf;
-	
-	
+
+
 	// ADD ALL OBJETS 
 	public Vector<Character> characters;
 	public Vector<Character> toAddCharacters;
@@ -72,13 +73,16 @@ public class Plateau {
 	public Vector<Vector<ActionObjet>> toAddSelection;
 	public Vector<Vector<ActionObjet>> toRemoveSelection ;
 
-	public Vector<ActionObjet> spells;
-	public Vector<ActionObjet> toAddSpells;
-	public Vector<ActionObjet> toRemoveSpells;
-	
+	public Vector<SpellEffect> spells;
+	public Vector<SpellEffect> toAddSpells;
+	public Vector<SpellEffect> toRemoveSpells;
+
 	public Vector<Rectangle> rectangleSelection;
 	public Vector<Float> recX ;
 	public Vector<Float> recY ;
+
+	public boolean isCastingSpell = false;
+	public int castingSpell = -1;
 
 	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
@@ -110,9 +114,9 @@ public class Plateau {
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets= new Vector<NaturalObjet>();
 		//SPELLS
-		this.spells = new Vector<ActionObjet>();
-		this.toAddSpells = new Vector<ActionObjet>();
-		this.toRemoveSpells= new Vector<ActionObjet>();
+		this.spells = new Vector<SpellEffect>();
+		this.toAddSpells = new Vector<SpellEffect>();
+		this.toRemoveSpells= new Vector<SpellEffect>();
 		//ENEMYGENERATOR
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
@@ -174,10 +178,10 @@ public class Plateau {
 	public void removeBuilding(Building o){
 		toRemoveBuildings.addElement(o);
 	}
-	public void addSpell(ActionObjet o){
+	public void addSpell(SpellEffect o){
 		toAddSpells.addElement(o);
 	}
-	public void removeSpell(ActionObjet o){
+	public void removeSpell(SpellEffect o){
 		toRemoveSpells.addElement(o);
 	}
 	public void addSelection(ActionObjet o,int team){
@@ -220,7 +224,7 @@ public class Plateau {
 				this.removeBuilding(o);
 			}
 		}
-		for(ActionObjet o : spells){
+		for(SpellEffect o : spells){
 			if(!o.isAlive()){
 				this.removeSpell(o);
 			}
@@ -256,10 +260,10 @@ public class Plateau {
 		for(ActionObjet o: toAddEquipments){
 			equipments.addElement(o);
 		}
-		for(ActionObjet o: toAddSpells){
+		for(SpellEffect o: toAddSpells){
 			spells.addElement(o);
 		}
-		for(ActionObjet o: toRemoveSpells){
+		for(SpellEffect o: toRemoveSpells){
 			spells.remove(o);
 		}
 		for(Bullet o: toRemoveBullets){
@@ -342,6 +346,17 @@ public class Plateau {
 					o.collision(e);
 				}
 			}
+
+			//Between spells and characters
+			for(SpellEffect s:this.spells){
+				if(s.collisionBox!=null){
+					System.out.println("vaneau");
+					if(s.collisionBox.intersects(o.collisionBox)){
+						s.collision(o);		
+					}
+				}
+			}
+
 		}
 		// Between bullets and natural objets
 		for(Bullet b : bullets){
@@ -585,7 +600,7 @@ public class Plateau {
 			a.action();
 		}
 	}
-	
+
 	//TODO
 	public SpellFirewall f ;
 	public OutputModel update(Vector<InputModel> ims){
@@ -595,18 +610,20 @@ public class Plateau {
 		 * 3 - Collision, Action, Cleaning
 		 * 4 - Other updates
 		 */
+		//		if(this.spells.size()>0){
+		//			System.out.println(this.spells);
+		//		}
 
-		
 		OutputModel om = new OutputModel(0);
 
-//		// 1 - If ESC start menu
-//		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
-//			this.g.setMenu(g.menuPause);
-//			return om;
-//		}
+		//		// 1 - If ESC start menu
+		//		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
+		//			this.g.setMenu(g.menuPause);
+		//			return om;
+		//		}
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
-		
+
 		for(int player=1; player<this.g.players.size(); player++){
 			im = null;
 			for(InputModel inp : ims)
@@ -618,6 +635,10 @@ public class Plateau {
 				// Handling groups of units
 				for(int to=0; to<10; to++){
 					if(im.isPressedNumPad[to]){
+						if(isCastingSpell){
+							isCastingSpell = false;
+							castingSpell = -1;
+						}
 						if(im.isPressedCTRL){
 							// Creating a new group made of the selection
 							this.g.players.get(player).groups.get(to).clear();
@@ -670,6 +691,19 @@ public class Plateau {
 							}
 
 						}
+						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+							if(im.isPressedLeftClick){
+								int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
+								Character c = ((Character) this.selection.get(player).get(0));
+								if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+									this.isCastingSpell = true;
+									this.castingSpell = number;
+								}
+							}else{
+
+							}
+
+						}
 					}
 
 				}
@@ -677,15 +711,34 @@ public class Plateau {
 				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
 					//update the rectangle
 					if(im.leftClick){
-						// As long as the button is pressed, the selection is updated
-						this.updateRectangle(im,player);
+
+						if(isCastingSpell){
+
+						} else {
+							// As long as the button is pressed, the selection is updated
+							this.updateRectangle(im,player);
+						}
 					}
 					if(im.isPressedLeftClick){
-						this.clearSelection(player);
+						if(isCastingSpell){
+							// Handling the spell
+							Character c = (Character)this.g.players.get(player).selection.get(0); 
+							Spell spell = c.spells.get(castingSpell);
+							spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+							c.spellsState.set(castingSpell,0f);
+							isCastingSpell = false;
+							castingSpell = -1;
+						} else {
+							this.clearSelection(player);
+						}
 					}
 					// Action for player k
 					if(im.isPressedRightClick){
-						if(im.isPressedMAJ){
+
+						if(isCastingSpell){
+							isCastingSpell = false;
+							castingSpell = -1;
+						}else if(im.isPressedMAJ){
 							updateSecondaryTarget(im.xMouse,im.yMouse,player);
 						} else {				
 							updateTarget(im.xMouse,im.yMouse,player);
@@ -880,7 +933,7 @@ public class Plateau {
 	}
 
 	public void updateView(InputModel im, int player){
-		if(player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
+		if(!isCastingSpell && player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<im.Ycam+10)&&im.Ycam>-im.resY/2){
 				Ycam -= 20;

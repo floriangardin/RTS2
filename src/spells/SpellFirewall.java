@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Transform;
 
 import model.ActionObjet;
 import model.Checkpoint;
+import units.Character;
 import model.Objet;
 import model.Utils;
 
@@ -14,52 +15,53 @@ public class SpellFirewall extends Spell{
 
 	public float remainingTime;
 	public float width;
-	public Shape collisionBox;
 	
 	public SpellFirewall(ActionObjet owner){
-		this.chargeTime = 50f;
+		this.chargeTime = 450f;
 		this.width = 10f;
-		this.owner = owner;
 		this.damage = 3f;
-		this.range = 100f;
-		this.remainingTime = 150f;
-		this.state = 0f;
+		this.range = 200f;
+		this.remainingTime = 250f;
+		this.name = "Firewall";
+		this.icon = owner.p.images.spellFirewall;
 	}
 
-	public void launch(Objet target){
-		
-		Firewall f = new Firewall(this.owner.p);
-		Objet t = realTarget(target.getX(),target.getY());
+	public void launch(Objet target, Character launcher){
+
+		Firewall f = new Firewall(launcher.p,launcher);
+		Objet t = realTarget(target, launcher);
 		f.damage = this.damage;
 		f.remainingTime = this.remainingTime;
-		float vx = t.getY()-this.owner.getY();
-		float vy = this.owner.getX()-t.getX();
+		float vx = t.getY()-launcher.getY();
+		float vy = launcher.getX()-t.getX();
 		float norm = (float)Math.sqrt(vx*vx+vy*vy);
 		vx = vx/norm;
 		vy = vy/norm;
 		float ax,ay,bx,by,cx,cy,dx,dy;
-		ax = this.owner.getX()+vx*width/2f;
-		ay = this.owner.getY()+vy*width/2f;
-		bx = this.owner.getX()-vx*width/2f;
-		by = this.owner.getY()-vy*width/2f;
+		ax = launcher.getX()+vx*width/2f;
+		ay = launcher.getY()+vy*width/2f;
+		bx = launcher.getX()-vx*width/2f;
+		by = launcher.getY()-vy*width/2f;
 		dx = t.getX()+vx*width/2f;
 		dy = t.getY()+vy*width/2f;
 		cx = t.getX()-vx*width/2f;
 		cy = t.getY()-vy*width/2f;
 		float[] arg = {ax,ay,bx,by,cx,cy,dx,dy};
 		f.collisionBox = new Polygon(arg);
+		f.createAnimation(t, launcher);
 	}
 	
-	public Objet realTarget(float x, float y){
-		if(Utils.distance(new Checkpoint(x, y),this.owner)>range){
-			float ux = x - this.owner.getX();
-			float uy = y - this.owner.getY();
+	public Objet realTarget(Objet target, Character launcher){
+		if(Utils.distance(target,launcher)>range){
+			float ux = target.getX() - launcher.getX();
+			float uy = target.getY() - launcher.getY();
 			float norm = (float) Math.sqrt(ux*ux+uy*uy);
 			ux = ux*this.range/norm;
 			uy = uy*this.range/norm;
-			return new Checkpoint(this.owner.getX()+ux,this.owner.getY()+uy);
+			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
 		} else {
-			return new Checkpoint(x,y);
+			return target;
 		}
 	}
+	
 }

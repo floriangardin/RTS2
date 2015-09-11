@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import buildings.*;
 import model.Plateau;
 import model.Player;
+import spells.Spell;
 import technologies.Technologie;
 import units.Character;
 import units.UnitsList;
@@ -20,8 +21,8 @@ public class BottomBar extends Bar {
 	public SelectionInterface selection ;
 	public DescriptionInterface description;
 	public DisplayInterface display;
-	
-	
+
+
 	// Minimap caract
 	public float startX;
 	public float startY;
@@ -29,7 +30,7 @@ public class BottomBar extends Bar {
 	public float h;
 	public float rw;
 	public float rh;
-	
+
 	// Production Bar
 	public Building buildingToShow;
 	public float prodX;
@@ -39,7 +40,7 @@ public class BottomBar extends Bar {
 	public int prodIconNb = 4;
 	public float icoSizeX;
 	public float icoSizeY;
-	
+
 	public BottomBar(Plateau p ,Player player, int resX, int resY){
 		this.p = p ;
 		this.player = player;
@@ -67,19 +68,19 @@ public class BottomBar extends Bar {
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
-		
+
 		this.prodX = 2.0f*this.sizeX/3f-1f;
 		this.prodY = this.y+1f;
 		this.prodW = this.sizeX/6f;
 		this.prodH = this.sizeY-2f ; 
 		this.icoSizeX = this.prodW/5f;
 		this.icoSizeY = this.prodH/3f;
-		
+
 		this.startX = 2.5f*this.sizeX/3f-1f;
 		this.startY = this.y+1f;
 	}
-	
-	
+
+
 	public Graphics draw(Graphics g){
 		// Draw Background :
 
@@ -105,8 +106,8 @@ public class BottomBar extends Bar {
 		g.setColor(Color.white);
 		g.fillRect(this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
 		g.fillRect(2f*this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
-		
-		
+
+
 		// Draw the minimap 
 
 		// Find the high left corner
@@ -120,7 +121,7 @@ public class BottomBar extends Bar {
 		g.setColor(Color.white);
 		g.fillRect(startX, startY, w, h);
 		// Draw units on camera :
-		
+
 		for(Character c : this.p.characters){		
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
@@ -154,8 +155,8 @@ public class BottomBar extends Bar {
 		g.setColor(Color.green);
 
 		g.drawRect(hlx,hly,brx-hlx,bry-hly );
-		
-		
+
+
 		// Draw Production/Effect Bar
 		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingProduction){
 			BuildingProduction b =(BuildingProduction) this.player.selection.get(0);
@@ -185,7 +186,29 @@ public class BottomBar extends Bar {
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
-		
+		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof Character){
+			Character b =(Character) this.player.selection.get(0);
+			//Print building capacities
+			Vector<Spell> ul = b.spells;
+			Vector<Float> state = b.spellsState;
+			Font f = g.getFont();
+			float ratio =1f/prodIconNb;
+			for(int i=0; i<Math.min(4, ul.size());i++){ 
+				g.drawImage(ul.get(i).icon, prodX+2f, prodY+2f + ratio*i*prodH, prodX-2f+ratio*prodH, prodY-2f+ratio*(i+1)*prodH, 0, 0, 512,512);
+				Color c = new Color(0,0,0,180);
+				g.setColor(c);
+				float diffY = (-4f + ratio*prodH)*state.get(i)/ul.get(i).chargeTime;
+				g.fillRect(prodX+2f, prodY+2f + ratio*i*prodH+diffY, -4f+ratio*prodH, (-2f + ratio*prodH)-diffY);
+				g.setColor(Color.white);
+				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
+				if(this.p.isCastingSpell && this.p.castingSpell==i){
+					g.setColor(Color.green);
+					g.drawRect(prodX+1f, prodY +1f+ ratio*i*sizeY, prodW-2f, ratio*prodH-2f);
+				}
+				g.setColor(Color.black);
+				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+			}
+		}
 		return g;
 	}
 

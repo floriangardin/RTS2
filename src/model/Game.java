@@ -17,6 +17,7 @@ import multiplaying.*;
 import multiplaying.ConnectionModel.*;
 import nature.Tree;
 import nature.Water;
+import spells.SpellEffect;
 import units.Character;
 
 public class Game extends BasicGame 
@@ -122,7 +123,6 @@ public class Game extends BasicGame
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
-		Utils.printCurrentState(plateau);
 		int i = 0;
 		int j = 0;
 		while(i<this.plateau.maxX+this.background.getWidth()){
@@ -190,9 +190,9 @@ public class Game extends BasicGame
 			if(plateau.isVisibleByPlayer(currentPlayer,o))
 				o.draw(g);
 		}
-		for(ActionObjet a: plateau.spells){
-			if(plateau.isVisibleByPlayer(currentPlayer, a))
-				a.draw(g);
+		for(SpellEffect a: plateau.spells){
+			//if(plateau.isVisibleByPlayer(currentPlayer, a))
+			a.draw(g);
 		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
@@ -210,10 +210,6 @@ public class Game extends BasicGame
 			this.bottomBars.draw(g);
 		if(this.topBars!=null)
 			this.topBars.draw(g);
-		if(plateau.f!=null && plateau.f.collisionBox!=null){
-			g.setColor(Color.white);
-			g.draw(plateau.f.collisionBox);
-		}
 	}
 	// Do our logic 
 	@Override

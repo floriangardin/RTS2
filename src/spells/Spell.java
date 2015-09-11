@@ -6,24 +6,20 @@ import model.ActionObjet;
 import model.Checkpoint;
 import model.Objet;
 import model.Utils;
+import units.Character;;
 
 public class Spell {
 
 	public Image icon;
 	public float chargeTime;
-	public float state;
 	public float range;
 	public float damage;
 	public ActionObjet owner;
+	public String name;
 	
-	public void clicked(float x, float y){
-		if(this.state==this.chargeTime && Utils.distance(new Checkpoint(x,y),this.owner)<this.range){
-			this.launch(new Checkpoint(x,y));
-			this.state = 0f;
-		}
-	}
+
 	
-	public void launch(Objet target){}
+	public void launch(Objet target, Character launcher){}
 	
 	
 }
