@@ -1,4 +1,6 @@
 package model;
+import units.*;
+import units.Character;
 
 import java.util.Vector;
 
@@ -39,7 +41,7 @@ public class Player {
 	}
 	
 	
-	public void create(UnitsList u,float x , float y){
-		this.data.create(u,x,y);
+	public Character create(UnitsList u,float x , float y){
+		return this.data.create(u,x,y);
 	}
 }

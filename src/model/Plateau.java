@@ -11,7 +11,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
-
+import units.*;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.HeadQuarters;
@@ -665,6 +665,7 @@ public class Plateau {
 
 
 				}
+
 				//Bottom Bar
 				else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
 					BottomBar bb = this.g.players.get(player).bottomBar;
@@ -685,8 +686,6 @@ public class Plateau {
 							if(im.isPressedLeftClick){
 
 								((HeadQuarters) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
-							}else{
-
 							}
 
 						}
@@ -709,6 +708,11 @@ public class Plateau {
 				// FIELD
 				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
 					//update the rectangle
+					//RALLY POINT
+					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction && im.isPressedRightClick){
+						
+						((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
+					}
 					if(im.leftClick){
 
 						if(isCastingSpell){
@@ -763,7 +767,22 @@ public class Plateau {
 						if(im.isPressedESC)
 							((BuildingProduction) this.selection.get(player).get(0)).removeProd();
 					}
+					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof HeadQuarters){
+
+						if(im.isPressedW)
+							((HeadQuarters) this.selection.get(player).get(0)).product(0);
+						if(im.isPressedX)
+							((HeadQuarters) this.selection.get(player).get(0)).product(1);
+						if(im.isPressedC)
+							((HeadQuarters) this.selection.get(player).get(0)).product(2);
+						if(im.isPressedV)
+							((HeadQuarters) this.selection.get(player).get(0)).product(3);
+						if(im.isPressedESC)
+							((HeadQuarters) this.selection.get(player).get(0)).removeProd();
+					}
+
 				}
+
 				// we update the selection according to the rectangle wherever is the mouse
 				if(!im.isPressedCTRL){
 					// The button is not pressed and wasn't, the selection is non null
@@ -980,11 +999,21 @@ public class Plateau {
 
 				BottomBar b = this.g.players.get(player).bottomBar;
 				//If click on minimap
-				if(player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
+				if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
 						b.startX+b.w && this.rectangleSelection.get(player)==null){
 					// Put camera where the click happened
 					Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-im.resX/2f;
 					Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-im.resY/2f;
+
+				}
+				if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
+						b.startX+b.w && this.rectangleSelection.get(player)==null){
+					// Handle right click
+					if(im.isPressedMAJ){
+						updateSecondaryTarget((int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw),(int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh),player);
+					} else {				
+						updateTarget((int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw),(int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh),player);
+					}
 
 				}
 				if(this.rectangleSelection.get(player)!=null){

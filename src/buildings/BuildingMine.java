@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
@@ -42,6 +43,7 @@ public class BuildingMine extends Building{
 		} else {
 			this.image = this.p.images.buildingMineNeutral;
 		}
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		
 	}
 	

@@ -118,10 +118,9 @@ public class BottomBar extends Bar {
 		// Find the bottom right corner
 
 		// Draw background 
-		g.setColor(Color.white);
+		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.fillRect(startX, startY, w, h);
-		// Draw units on camera :
-
+		// Draw units on camera 
 		for(Character c : this.p.characters){		
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
@@ -136,23 +135,29 @@ public class BottomBar extends Bar {
 				}
 			}
 		}
-		for(Building c : this.p.buildings){		
+		for(Building c : this.p.buildings){
+			if(c.team==0){
+				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
+					g.setColor(Color.gray);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
+				}
+			}
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 				}
 			}
 			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 				}
 			}
 		}
 
 		// Draw rect of camera 
-		g.setColor(Color.green);
+		g.setColor(Color.white);
 
 		g.drawRect(hlx,hly,brx-hlx,bry-hly );
 

@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
@@ -51,6 +52,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
 		this.productionList.addElement(UnitsList.Crossbowman);
 		this.productionTime.addElement(this.p.g.players.get(team).data.bowmanProdTime);
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 	}
 
 	public BuildingBarrack(OutputBuilding ocb, Plateau p){
