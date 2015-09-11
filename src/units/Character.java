@@ -143,6 +143,7 @@ public class Character extends ActionObjet{
 		// Only used to display on client screen
 		// Parameters
 		this.name = occ.name;
+		this.p = p;
 		this.player = this.p.g.players.get(team);
 		this.player.create(UnitsList.switchName(occ.name),occ.x,occ.y);
 		this.id = occ.id;

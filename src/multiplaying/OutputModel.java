@@ -79,9 +79,9 @@ public class OutputModel extends MultiObjetModel{
 	public String toString(){
 		String s = "1" +(int)this.timeValue+"|"+this.food+"|"+this.gold+"|"+this.special+"|";
 		/*STRUCTURE D'UN OUTPUT MODEL
-		 * chaque grande partie est séparée par un '|'
-		 * chaque élément au sein d'une partie est séparé par un '-'
-		 * chaque attribut au sein d'un élément est séparé par un ' '
+		 * chaque grande partie est sï¿½parï¿½e par un '|'
+		 * chaque ï¿½lï¿½ment au sein d'une partie est sï¿½parï¿½ par un '-'
+		 * chaque attribut au sein d'un ï¿½lï¿½ment est sï¿½parï¿½ par un ' '
 		 * 
 		 * Selon l'ordre:
 		 * toChangeChar | toChangeBullet | toChangeBuilding | Selection
@@ -243,7 +243,7 @@ public class OutputModel extends MultiObjetModel{
 		public int animation, direction;
 		public float sight;
 		public int isImmolating;
-		public float[] spellState;
+		public float[] spellState = new float[4];
 		public String name;
 		/* Weapon Type
 		 * 0 - none
