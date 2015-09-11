@@ -12,7 +12,7 @@ public class DualistBonusFood extends Technologie {
 
 	public DualistBonusFood(Plateau p, Player player) {
 		this.tech = Technologies.DualistBonusFood;
-		this.name = "bonus food";
+		this.name = tech.name;
 		this.p = p;
 		this.player = player;
 		this.data = this.player.data;
