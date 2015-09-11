@@ -37,7 +37,8 @@ public class Map {
 		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 300f);
 		
 		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);
-		
+		HeadQuarters team1h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
+		data1.player.hq = team1h;
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
 		BuildingBarrack bar = new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,100f);
@@ -50,12 +51,13 @@ public class Map {
 		data2.create(UnitsList.Inquisitor, plateau.maxX/2+1f,  plateau.maxY-300f);
 		data2.create(UnitsList.Priest, plateau.maxX/2+2f,  plateau.maxY-300f);
 		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-300f);
-		
+		HeadQuarters team2h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5,2);
+		data2.player.hq = team2h;
 		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
 		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
 		
-		HeadQuarters team1h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
+		
 		team1h.constructionPoints = team1h.maxLifePoints-1f;
 		// Stables and academy 
 		new BuildingStable(plateau,plateau.g,plateau.maxX/4, 3*plateau.maxY/5);
@@ -66,7 +68,7 @@ public class Map {
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2);
 		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
 		
-		HeadQuarters team2h = new HeadQuarters(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5,2);
+		
 		team2h.constructionPoints = team2h.maxLifePoints-1f;
 		
 	}

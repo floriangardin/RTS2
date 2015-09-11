@@ -1,21 +1,25 @@
 package buildings;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import technologies.Technologie;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
 
-public class BuildingMine extends Building{
+public class BuildingMine extends BuildingTech{
 	
 	public int chargeTime;
 	public float state;
-	
+
 	public BuildingMine(Plateau p,Game g,float x, float y){
+		
 		teamCapturing= 0;
 		team = 0;
 
@@ -28,7 +32,7 @@ public class BuildingMine extends Building{
 		p.g.idChar+=1;
 		this.type = 0;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.name= "Mine";
+		this.name= "mine";
 		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
 		this.chargeTime = p.g.players.get(team).data.mineChargeTime;
 		this.lifePoints = p.g.players.get(team).data.mineLifePoints;
@@ -44,7 +48,8 @@ public class BuildingMine extends Building{
 			this.image = this.p.images.buildingMineNeutral;
 		}
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		
+		this.productionList = new Vector<Technologie>();
+		this.updateProductionList();
 	}
 	
 	public BuildingMine(OutputBuilding ocb, Plateau p){
@@ -72,12 +77,49 @@ public class BuildingMine extends Building{
 		}
 	}
 	
+
+	
 	public void action(){
 		this.state+=0.1f;
+		if(this.team!=0)
+			this.animation+=2f;
+		if(animation>120f)
+			animation = 0f;
+		
 		if(state >= chargeTime && team!=0){
 			this.p.g.players.get(team).gold+=1;
-			this.state = 0f;
+			state = 0;
 		}
+		
+		
+		//Do the action of Barrack
+		//Product, increase state of the queue
+		if(this.queue!=null){
+			if(!this.isProducing){
+				this.isProducing = true;
+			}
+			this.animation+=2f;
+			if(animation>120f)
+				animation = 0f;
+			this.charge+=0.1f;
+			if(this.charge>=this.queue.tech.prodTime){
+				this.charge=0f;
+				this.hq.techsDiscovered.addElement(this.queue);
+				this.productionList.removeElement(queue);
+				this.hq.allTechs.removeElement(this.queue);
+				this.queue.applyEffect();
+				this.queue=null;
+				this.isProducing =false;
+				this.animation = -1f;
+				this.updateProductionList();
+
+			}
+		}
+		else if(this.isProducing){
+			this.isProducing = false;
+			this.animation = -1f;
+		}
+
 		
 	}
 	

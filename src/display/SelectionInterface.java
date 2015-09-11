@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import buildings.BuildingProduction;
+import buildings.BuildingTech;
 import buildings.HeadQuarters;
 
 
@@ -64,10 +65,9 @@ public class SelectionInterface extends Bar {
 
 
 		}
-		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof HeadQuarters ){
+		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof BuildingTech ){
 
-			HeadQuarters b = (HeadQuarters) this.parent.player.selection.get(0);
-			int compteur = 0;
+			BuildingTech b = (BuildingTech) this.parent.player.selection.get(0);
 			if(b.queue!=null){
 
 				Image icone = b.queue.icon;

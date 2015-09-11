@@ -177,8 +177,8 @@ public class BottomBar extends Bar {
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
-		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof HeadQuarters){
-			HeadQuarters b =(HeadQuarters) this.player.selection.get(0);
+		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingTech){
+			BuildingTech b =(BuildingTech) this.player.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
 			Font f = g.getFont();

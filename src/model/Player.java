@@ -4,6 +4,7 @@ import units.Character;
 
 import java.util.Vector;
 
+import buildings.HeadQuarters;
 import display.BottomBar;
 import display.TopBar;
 import units.UnitsList;
@@ -23,7 +24,9 @@ public class Player {
 	public int pop;
 	public BottomBar bottomBar;
 	public TopBar topBar;
+	public HeadQuarters hq ;
 	public Player(Plateau p ,int team,int civ) {
+		
 		this.civ  = civ;
 		this.p = p;
 		this.selection = new Vector<ActionObjet>();

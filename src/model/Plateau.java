@@ -11,9 +11,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
+
 import units.*;
 import buildings.Building;
 import buildings.BuildingProduction;
+import buildings.BuildingTech;
 import buildings.HeadQuarters;
 import bullets.Arrow;
 import bullets.Bullet;
@@ -701,10 +703,10 @@ public class Plateau {
 							}
 
 						}
-						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof HeadQuarters){
+						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
 							if(im.isPressedLeftClick){
 
-								((HeadQuarters) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+								((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
 							}
 
 						}
@@ -782,18 +784,18 @@ public class Plateau {
 						if(im.isPressedESC)
 							((BuildingProduction) this.selection.get(player).get(0)).removeProd();
 					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof HeadQuarters){
+					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
 
 						if(im.isPressedW)
-							((HeadQuarters) this.selection.get(player).get(0)).product(0);
+							((BuildingTech) this.selection.get(player).get(0)).product(0);
 						if(im.isPressedX)
-							((HeadQuarters) this.selection.get(player).get(0)).product(1);
+							((BuildingTech) this.selection.get(player).get(0)).product(1);
 						if(im.isPressedC)
-							((HeadQuarters) this.selection.get(player).get(0)).product(2);
+							((BuildingTech) this.selection.get(player).get(0)).product(2);
 						if(im.isPressedV)
-							((HeadQuarters) this.selection.get(player).get(0)).product(3);
+							((BuildingTech) this.selection.get(player).get(0)).product(3);
 						if(im.isPressedESC)
-							((HeadQuarters) this.selection.get(player).get(0)).removeProd();
+							((BuildingTech) this.selection.get(player).get(0)).removeProd();
 					}
 					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
 

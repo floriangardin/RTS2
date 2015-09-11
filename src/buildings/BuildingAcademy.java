@@ -25,7 +25,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.sizeX = this.p.g.players.get(team).data.academySizeX; 
 		this.sizeY = this.p.g.players.get(team).data.academySizeY;
 		this.sight = this.p.g.players.get(team).data.academySight;
-		this.name = "Academy";
+		this.name = "academy";
 		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 4;
