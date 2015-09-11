@@ -24,7 +24,7 @@ public class SpellInstantHealth extends Spell{
 		this.chargeTime = 450f;
 		this.width = 15f;
 		this.name = "Instant Health";
-		this.icon = p.images.spellFirewall;
+		this.icon = p.images.spellInstantHealth;
 		this.range = 200f;
 		this.damage = 1f;
 		this.remainingTime = 250f;
