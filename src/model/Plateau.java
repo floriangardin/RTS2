@@ -748,7 +748,6 @@ public class Plateau {
 							// Handling the spell
 							Character c = (Character)this.g.players.get(player).selection.get(0); 
 							Spell spell = c.spells.get(castingSpell);
-							this.findTarget(im.xMouse, im.yMouse);
 							spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
 							c.spellsState.set(castingSpell,0f);
 							isCastingSpell = false;

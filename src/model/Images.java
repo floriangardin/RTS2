@@ -63,6 +63,7 @@ public class Images {
 	public Image spellBlessedArea;
 	public Image spellImmolation;
 	public Image spellConversion;
+	public Image spellInstantDeath;
 	
 	public Images(){
 		try {
@@ -136,6 +137,7 @@ public class Images {
 			this.spellBlessedArea = new Image("pics/Spell/blessedArea.png");
 			this.spellImmolation = new Image("pics/Spell/immolation.png");
 			this.spellConversion = new Image("pics/Spell/conversion.png");
+			this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

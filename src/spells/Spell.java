@@ -22,6 +22,9 @@ public class Spell {
 	public boolean needToClick;
 	public Plateau p;
 
+	public void cast(Objet target, Character launcher, int number){
+		
+	}
 	
 	public void launch(Objet target, Character launcher){}
 	
