@@ -795,6 +795,29 @@ public class Plateau {
 						if(im.isPressedESC)
 							((HeadQuarters) this.selection.get(player).get(0)).removeProd();
 					}
+					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+
+						int number = 4;
+						
+						if(im.isPressedW)
+							number = 0;
+						if(im.isPressedX)
+							number = 1;
+						if(im.isPressedC)
+							number = 2;
+						if(im.isPressedV)
+							number = 3;
+						if(im.isPressedESC){
+							this.isCastingSpell = false;
+							this.castingSpell = -1;
+						}
+							
+						Character c = ((Character) this.selection.get(player).get(0));
+						if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+							this.isCastingSpell = true;
+							this.castingSpell = number;
+						}
+					}
 				}
 				// Handling hotkeys for gestion of selection
 				if(im.isPressedTAB){
