@@ -145,7 +145,7 @@ public class Data {
 		case Archange:
 			c = new UnitArchange(this.archange,x,y);
 			c.player = this.player;
-
+			break;
 		default:
 			c = null;
 		}
