@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 
+import spells.SpellEffect;
 import units.Character;
 
 // Class for static methods
@@ -170,6 +171,16 @@ public class Utils {
 		else{
 			for(Character c:p.characters)
 				System.out.println(c+" " +c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.player.team +" "+c.lifePoints);
+		}
+		System.out.println();
+		System.out.println("========================================");
+		System.out.println();
+		System.out.println("** Spells");
+		if(p.spells==null)
+			System.out.println("-> bug: spells est null");
+		else{
+			for(SpellEffect c:p.spells)
+				System.out.println(c+" " + c.x+ " " +c.y + " " +c.id);
 		}
 		System.out.println();
 //		System.out.println("========================================");
