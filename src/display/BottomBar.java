@@ -181,6 +181,7 @@ public class BottomBar extends Bar {
 			BuildingTech b =(BuildingTech) this.player.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
+			
 			Font f = g.getFont();
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<Math.min(4, ul.size());i++){ 

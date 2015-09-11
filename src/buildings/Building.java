@@ -76,6 +76,12 @@ public class Building extends ActionObjet{
 					this.hq = this.p.g.players.get(this.team).hq;
 					((BuildingTech)this).updateProductionList();
 				}
+				if(this instanceof BuildingMine){
+					((BuildingMine) this).bonusProd = 0;
+				}
+				if(this instanceof BuildingMill){
+					((BuildingMill) this).bonusProd = 0;
+				}
 				this.updateImage();
 			}
 		}

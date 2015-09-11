@@ -18,7 +18,7 @@ import model.Player;
 public class HeadQuarters extends BuildingTech {
 
 
-	
+	public int age=1;
 	boolean isProducing;
 	Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> allTechs;
@@ -31,22 +31,58 @@ public class HeadQuarters extends BuildingTech {
 		this.allTechs = new Vector<Technologie>();
 		if(this.p.g.players.get(team).civ==0){
 			
-			this.productionList.addElement(new DualistAge2(this.p,this.player));
-			this.productionList.addElement(new DualistEagleView(this.p,this.player));
-
-			
+			// AGING
 			DualistAge2 d2 = new DualistAge2(this.p,this.player);
 			this.allTechs.addElement(d2);
 			DualistAge3 d3 = new DualistAge3(this.p,this.player);
 			this.allTechs.addElement(d3);
 			d3.techRequired=d2;
+			
+			// SIGHT TECH
 			DualistEagleView ev =new DualistEagleView(this.p,this.player);
 			this.allTechs.addElement(ev);
 			ev.techRequired = d2;
+			
+			// RESSOURCES BONUS
 			DualistBonusFood d4 = new DualistBonusFood(this.p,this.player);
 			this.allTechs.addElement(d4);
-			//this.productionList.addElement(new DualistAge2(this.p,this.player));
-
+			DualistBonusGold bg = new DualistBonusGold(this.p,this.player);
+			this.allTechs.addElement(bg);
+			
+			// EXPLOSION TECH
+			DualistExplosion ex = new DualistExplosion(this.p,this.player);
+			ex.techRequired=d3;
+			
+			// SHIELD TECH
+			DualistShield2 s2 = new DualistShield2(this.p,this.player);
+			this.allTechs.addElement(s2);
+			DualistShield3 s3 = new DualistShield3(this.p,this.player);
+			s3.techRequired = s2;
+			this.allTechs.addElement(s3);
+			
+			// HEALTH TECH
+			DualistHealth2 h2 = new DualistHealth2(this.p,this.player);
+			this.allTechs.addElement(h2);
+			DualistHealth3 h3 = new DualistHealth3(this.p,this.player);
+			h3.techRequired = h2;
+			this.allTechs.addElement(h3);
+			
+			// CONTACT WEAPON TECH
+			DualistContact2 c2 = new DualistContact2(this.p,this.player);
+			this.allTechs.addElement(c2);
+			DualistContact3 c3 = new DualistContact3(this.p,this.player);
+			c3.techRequired = c2;
+			this.allTechs.addElement(c3);
+			
+			
+			// RANGE WEAPON TECH
+			DualistRangeAttack2 r2 = new DualistRangeAttack2(this.p,this.player);
+			this.allTechs.addElement(r2);
+			DualistRangeAttack3 r3 = new DualistRangeAttack3(this.p,this.player);
+			r3.techRequired = r2;
+			this.allTechs.addElement(r3);
+			
+	
 		}
 		else if(this.p.g.players.get(team).civ==1){
 			this.productionList = new Vector<Technologie>();
@@ -94,7 +130,7 @@ public class HeadQuarters extends BuildingTech {
 	public void updateProductionList(){
 		this.productionList.clear();
 		for(Technologie t:this.allTechs){
-			if((t.techRequired==null || this.techsDiscovered.contains(t.techRequired)) && t.tech.building == this.name ){
+			if(this.age>=t.tech.age && (t.techRequired==null || this.techsDiscovered.contains(t.techRequired)) && t.tech.building == this.name ){
 				this.productionList.addElement(t);
 			}
 		}

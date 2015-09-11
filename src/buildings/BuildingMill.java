@@ -19,7 +19,8 @@ public class BuildingMill extends BuildingTech{
 	public int chargeTime;
 	public float state;
 	public Image millarms;
-
+	public int bonusProd;
+	
 	public BuildingMill(Plateau p,Game g,float x, float y){
 		
 		teamCapturing= 0;
@@ -36,6 +37,7 @@ public class BuildingMill extends BuildingTech{
 		this.type = 1;
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";
+		
 		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
 		this.chargeTime = p.g.players.get(team).data.millChargeTime;
 		this.lifePoints = p.g.players.get(team).data.millLifePoints;
@@ -88,7 +90,7 @@ public class BuildingMill extends BuildingTech{
 			animation = 0f;
 		
 		if(state >= chargeTime && team!=0){
-			this.p.g.players.get(team).food+=1;
+			this.p.g.players.get(team).food+=1+this.p.g.players.get(team).data.bonusFood;
 			state = 0;
 		}
 		
