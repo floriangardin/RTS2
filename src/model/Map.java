@@ -40,11 +40,11 @@ public class Map {
 		
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
-		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,100f);
-		
+		BuildingBarrack bar = new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,100f);
+		bar.team = 1;
 		new BuildingStable(plateau,plateau.g,plateau.maxX/4,2*plateau.maxY/5);
 		new BuildingAcademy(plateau,plateau.g,3*plateau.maxX/4,2*plateau.maxY/5);
-		
+		players.get(1).food = 1000;
 		data2.create(UnitsList.Crossbowman, plateau.maxX/2-1f, plateau.maxY-300f);
 		data2.create(UnitsList.Knight, plateau.maxX/2,  plateau.maxY-300f);
 		data2.create(UnitsList.Inquisitor, plateau.maxX/2+1f,  plateau.maxY-300f);

@@ -10,6 +10,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import model.Player;
@@ -82,6 +83,7 @@ public class HeadQuarters extends Building {
 		// List of potential production (Spearman
 		this.techsDiscovered = new Vector<Technologie>();
 		this.updateProductionList();
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 
 
 	}

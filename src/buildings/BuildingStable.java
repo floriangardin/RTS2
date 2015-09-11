@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
@@ -50,6 +51,7 @@ public class BuildingStable extends BuildingProduction{
 		this.productionTime.addElement(this.p.g.players.get(team).data.knightProdTime);
 		this.productionList.addElement(UnitsList.Priest);
 		this.productionTime.addElement(this.p.g.players.get(team).data.priestProdTime);
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 	}
 
 	public BuildingStable(OutputBuilding ocb, Plateau p){

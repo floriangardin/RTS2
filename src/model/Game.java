@@ -122,7 +122,7 @@ public class Game extends BasicGame
 		g.translate(-plateau.Xcam,- plateau.Ycam);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
-		Utils.printCurrentState(plateau);
+		
 		int i = 0;
 		int j = 0;
 		while(i<this.plateau.maxX+this.background.getWidth()){

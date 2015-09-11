@@ -20,8 +20,8 @@ public class BottomBar extends Bar {
 	public SelectionInterface selection ;
 	public DescriptionInterface description;
 	public DisplayInterface display;
-	
-	
+
+
 	// Minimap caract
 	public float startX;
 	public float startY;
@@ -29,7 +29,7 @@ public class BottomBar extends Bar {
 	public float h;
 	public float rw;
 	public float rh;
-	
+
 	// Production Bar
 	public Building buildingToShow;
 	public float prodX;
@@ -39,7 +39,7 @@ public class BottomBar extends Bar {
 	public int prodIconNb = 4;
 	public float icoSizeX;
 	public float icoSizeY;
-	
+
 	public BottomBar(Plateau p ,Player player, int resX, int resY){
 		this.p = p ;
 		this.player = player;
@@ -67,19 +67,19 @@ public class BottomBar extends Bar {
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
-		
+
 		this.prodX = 2.0f*this.sizeX/3f-1f;
 		this.prodY = this.y+1f;
 		this.prodW = this.sizeX/6f;
 		this.prodH = this.sizeY-2f ; 
 		this.icoSizeX = this.prodW/5f;
 		this.icoSizeY = this.prodH/3f;
-		
+
 		this.startX = 2.5f*this.sizeX/3f-1f;
 		this.startY = this.y+1f;
 	}
-	
-	
+
+
 	public Graphics draw(Graphics g){
 		// Draw Background :
 
@@ -105,8 +105,8 @@ public class BottomBar extends Bar {
 		g.setColor(Color.white);
 		g.fillRect(this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
 		g.fillRect(2f*this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
-		
-		
+
+
 		// Draw the minimap 
 
 		// Find the high left corner
@@ -117,10 +117,9 @@ public class BottomBar extends Bar {
 		// Find the bottom right corner
 
 		// Draw background 
-		g.setColor(Color.white);
+		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.fillRect(startX, startY, w, h);
 		// Draw units on camera :
-		
 		for(Character c : this.p.characters){		
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
@@ -135,27 +134,33 @@ public class BottomBar extends Bar {
 				}
 			}
 		}
-		for(Building c : this.p.buildings){		
+		for(Building c : this.p.buildings){
+			if(c.team==0){
+				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
+					g.setColor(Color.gray);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
+				}
+			}
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 				}
 			}
 			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 4f, 4f);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 				}
 			}
 		}
 
 		// Draw rect of camera 
-		g.setColor(Color.green);
+		g.setColor(Color.white);
 
 		g.drawRect(hlx,hly,brx-hlx,bry-hly );
-		
-		
+
+
 		// Draw Production/Effect Bar
 		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingProduction){
 			BuildingProduction b =(BuildingProduction) this.player.selection.get(0);
@@ -185,7 +190,7 @@ public class BottomBar extends Bar {
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
-		
+
 		return g;
 	}
 

@@ -1,5 +1,5 @@
 package buildings;
-
+import units.Character;
 import java.util.Vector;
 
 import multiplaying.OutputModel.OutputBuilding;
@@ -39,7 +39,9 @@ public abstract class BuildingProduction extends Building {
 			this.charge+=0.1f;
 			if(this.charge>=this.productionTime.get(this.queue.get(0))){
 				this.charge=0f;
-				this.p.g.players.get(team).create(this.productionList.get(this.queue.get(0)), x+(float)Math.random(), y+this.sizeY/2 );
+				Character c = this.p.g.players.get(team).create(this.productionList.get(this.queue.get(0)), this.x+ (float) Math.random(),this.y+this.sizeY/2 );
+				c.setTarget(this.rallyPoint);
+
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;

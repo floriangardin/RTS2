@@ -5,7 +5,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.ActionObjet;
+import model.Checkpoint;
 import model.Game;
+import model.Objet;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
 import weapon.Weapon;
@@ -20,7 +22,7 @@ public class Building extends ActionObjet{
 	public float animation;
 	public int potentialTeam;
 	public int type;
-
+	public Objet rallyPoint;
 	public Building(){}
 
 	public Building(Plateau p,Game g,float x, float y){
@@ -38,8 +40,9 @@ public class Building extends ActionObjet{
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
 		this.image = this.p.images.tent;
 		this.sight = 300f;
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 	}
-
+	
 	public void collision(Weapon w){
 		if(this.potentialTeam!=w.owner.team){
 			if(this.constructionPoints<=0f){
