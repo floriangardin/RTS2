@@ -20,6 +20,7 @@ public class SpellInstantHealth extends Spell{
 	public float width;
 
 	public SpellInstantHealth(Plateau p, Player player){
+		this.p = p;
 		this.chargeTime = 450f;
 		this.width = 15f;
 		this.name = "Instant Health";
@@ -28,7 +29,7 @@ public class SpellInstantHealth extends Spell{
 		this.damage = 1f;
 		this.remainingTime = 250f;
 		this.player = player;
-		this.needToClick=false;
+		this.needToClick=true;
 	}
 
 	public void launch(Objet target, Character launcher){
