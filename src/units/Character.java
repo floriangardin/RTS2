@@ -626,6 +626,8 @@ public class Character extends ActionObjet{
 		//Si la collision a lieu dans un coin, on ne la considère pas
 		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
 			//System.out.println("dans un coin");
+			if(this.getTarget()==null)
+				return;
 			if( (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
 					(this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
 				switch(sector){
