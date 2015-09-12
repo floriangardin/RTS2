@@ -33,7 +33,7 @@ public class SpellConversion extends Spell{
 				((Character)t).changeTeam(launcher.team);
 				launcher.player.special-=this.faithCost;
 			} else {
-				p.addMessage(Message.NotEnoughFaith, launcher.team);
+				p.addMessage(Message.getById(2), launcher.team);
 			}
 		}
 	}

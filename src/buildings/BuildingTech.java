@@ -51,16 +51,16 @@ public abstract class BuildingTech extends Building {
 				this.p.g.players.get(team).food-=this.productionList.get(unit).tech.foodPrice;
 			} else {
 				if(this.productionList.get(unit).tech.foodPrice>this.p.g.players.get(team).food)
-					this.p.addMessage(Message.NotEnoughFood, team);
+					this.p.addMessage(Message.getById(0), team);
 				else
-					this.p.addMessage(Message.NotEnoughGold, team);
+					this.p.addMessage(Message.getById(1), team);
 			}
 		}
 	}
 	
 	
 	public void techTerminate(Technologie q){
-		this.p.addMessage(Message.ResearchComplete, team);
+		this.p.addMessage(Message.getById(4), team);
 		this.charge=0f;
 		this.hq.techsDiscovered.addElement(q);
 		this.productionList.removeElement(q);

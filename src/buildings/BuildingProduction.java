@@ -26,9 +26,9 @@ public abstract class BuildingProduction extends Building {
 				this.p.g.players.get(team).food-=this.productionList.get(unit).foodPrice;
 			}else {
 				if(this.productionList.get(unit).foodPrice>this.p.g.players.get(team).food)
-					this.p.addMessage(Message.NotEnoughFood, team);
+					this.p.addMessage(Message.getById(0), team);
 				else
-					this.p.addMessage(Message.NotEnoughGold, team);
+					this.p.addMessage(Message.getById(1), team);
 			}
 		}
 	}

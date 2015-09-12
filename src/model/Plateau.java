@@ -736,7 +736,7 @@ public class Plateau {
 											c.spells.get(number).launch(c, c);
 										}
 									} else {
-										this.addMessage(Message.NotEnoughMana, player);
+										this.addMessage(Message.getById(4), player);
 									}
 								}
 							}else{
