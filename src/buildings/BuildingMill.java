@@ -56,31 +56,6 @@ public class BuildingMill extends BuildingTech{
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
 	}
-	
-	public BuildingMill(OutputBuilding ocb, Plateau p){
-		p.addBuilding(this);
-		this.x = ocb.x;
-		this.y = ocb.y;
-		this.p =p;
-		this.id = ocb.id;
-		this.g =p.g;
-		this.team=ocb.team;
-		this.chargeTime = p.g.players.get(team).data.millChargeTime;
-		this.name= "Mill";
-		this.lifePoints = ocb.lifepoints;
-		this.sizeX = ocb.sizeX; 
-		this.sizeY = ocb.sizeY;
-		this.sight = ocb.sight;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		if(ocb.team==1){
-			this.image = this.p.images.buildingMillBlue;
-		} else if(ocb.team==2){
-			this.image = this.p.images.buildingMillRed;
-		} else {
-			this.image = this.p.images.buildingMillNeutral;
-		}
-	}
 
 	public void action(){
 		this.state+=0.1f;
