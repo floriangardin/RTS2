@@ -50,6 +50,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.productionList.addElement(UnitsList.Inquisitor);
 		this.productionTime.addElement(UnitsList.Inquisitor.time);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.updateImage();
 	}
 
 	public BuildingAcademy(OutputBuilding ocb, Plateau p){
@@ -60,26 +61,6 @@ public class BuildingAcademy extends BuildingProduction {
 	}
 
 
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 291, 291);
-//		if(animation>=0f){
-//			g.drawImage(this.p.images.fire, this.x+5f/18f*sizeX, this.y-24f,this.x+5f/18f*sizeX+32f, this.y+24f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
-//			g.drawImage(this.p.images.fire, this.x-9f/18f*sizeX-2f, this.y-84f,this.x-9f/18f*sizeX+32f-2f, this.y-36f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
-//		}
-		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
-		if(this.lifePoints<this.maxLifePoints){
-			// Lifepoints
-			g.setColor(Color.red);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()+r,this.getY()-r-30f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
-
-		}
-
-		this.drawConstructionBar(g);
-		return g;
-	}	
+	
 	
 }

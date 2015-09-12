@@ -52,63 +52,16 @@ public class BuildingStable extends BuildingProduction{
 		this.productionList.addElement(UnitsList.Priest);
 		this.productionTime.addElement(UnitsList.Priest.time);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-	}
-
-	public BuildingStable(OutputBuilding ocb, Plateau p){
-		team = ocb.team;
-		type= 3;
-		maxLifePoints = ocb.maxlifepoints;
-		this.p = p;
-		p.addBuilding(this);
-		this.lifePoints = this.maxLifePoints;
-		this.name = "Stable";
-		this.g = p.g;
-		this.x = ocb.x;
-		this.y = ocb.y;
-		this.id = ocb.id;
-		this.sizeX = this.p.g.players.get(team).data.stableSizeX; 
-		this.sizeY = this.p.g.players.get(team).data.stableSizeY;
-		this.sight = this.p.g.players.get(team).data.stableSight;
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		if(ocb.team==1){
-			this.image = this.p.images.buildingStableBlue;
-		} else if(ocb.team==2){
-			this.image = this.p.images.buildingStableRed;
-		} else {
-			this.image = this.p.images.buildingStableNeutral;
-		}
-		
-		// List of potential production (Spearman
-		this.queue = new Vector<Integer>();
-		this.productionTime = new Vector<Float>();
-		this.productionList = new Vector<UnitsList>();
-		this.productionList.addElement(UnitsList.Knight);
-		this.productionTime.addElement(UnitsList.Knight.time);
-		this.productionList.addElement(UnitsList.Priest);
-		this.productionTime.addElement(UnitsList.Priest.time);
+		this.updateImage();
 	}
 
 	
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 291, 291);
+
+	public void drawAnimation(Graphics g){
 		if(animation>=0f){
+			this.drawAnimation(g);
 			g.drawImage(this.p.images.fountain, this.x-6f/18f*sizeX-48f, this.y-128f,this.x-6f/18f*sizeX+48f, this.y-32f, (int)(animation/30f)*96, 0, ((int)(animation/30f)+1)*96, 96);
 		}
-		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
-		if(this.lifePoints<this.maxLifePoints){
-			// Lifepoints
-			g.setColor(Color.red);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()+r,this.getY()-r-30f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
-
-		}
-
-		this.drawConstructionBar(g);
-		return g;
 	}
 
 }

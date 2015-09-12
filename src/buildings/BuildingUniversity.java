@@ -73,6 +73,7 @@ public class BuildingUniversity extends BuildingTech {
 		
 		this.updateProductionList();
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.updateImage();
 
 
 	}
@@ -85,35 +86,7 @@ public class BuildingUniversity extends BuildingTech {
 		}
 	}
 
-	public BuildingUniversity(OutputBuilding ocb, Plateau p,BuildingHeadQuarters hq){
-		this.hq = hq;
-		team = ocb.team;
-		type= 5;
-		maxLifePoints = ocb.maxlifepoints;
-		this.p = p;
-		p.addBuilding(this);
-		this.lifePoints = this.maxLifePoints;
-		this.g = p.g;
-		this.x = ocb.x;
-		this.y = ocb.y;
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.id = ocb.id;
-		this.sizeX = this.p.constants.headQuartersSizeX; 
-		this.sizeY = this.p.constants.headQuartersSizeY;
-		this.sight = this.p.constants.headQuartersSight;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(this.team == 1){
-			this.image = this.p.images.buildingHeadQuartersBlue;
-		}
-		else if(this.team == 2){
-			this.image = this.p.images.buildingHeadQuartersRed;
-		}
-		else {
-			this.image = this.p.images.tent;
-		}
 
-
-	}
 
 	public void product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
@@ -148,19 +121,5 @@ public class BuildingUniversity extends BuildingTech {
 
 
 	}
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 367, 355);
-		if(this.lifePoints<this.maxLifePoints){
-			// Lifepoints
-			g.setColor(Color.red);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()+r,this.getY()-r-30f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
-		}
-		this.drawConstructionBar(g);
-		
-		return g;
-	}
+	
 }

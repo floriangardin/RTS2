@@ -128,6 +128,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.constructionPoints = this.maxLifePoints;
 		this.potentialTeam = this.team;
+		this.updateImage();
 		
 
 	}
@@ -185,20 +186,5 @@ public class BuildingHeadQuarters extends BuildingTech {
 	
 	
 
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 224, 384);
-		if(this.lifePoints<this.maxLifePoints){
-			// Lifepoints
-			g.setColor(Color.red);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()+r,this.getY()-r-30f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
-
-		}
-
-		this.drawConstructionBar(g);
-		return g;
-	}
+	
 }
