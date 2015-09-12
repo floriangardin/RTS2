@@ -13,12 +13,12 @@ public class UnitKnight extends Character {
 	public UnitKnight(Plateau p, Player player, Data data) {
 		super(p, player);
 		this.name = "knight";
-		this.maxLifePoints = 110f;
+		this.maxLifePoints = 90f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 110f;
-		this.armor = 5f;
+		this.armor = 3f;
 		this.damage = 8f;
 		this.chargeTime = 7f;
 		this.weapon = new Sword(this.p,this);
