@@ -372,34 +372,24 @@ public class Character extends ActionObjet{
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
-		float accx,accy;
-		accx = this.getTarget().getX()-this.getX();
-		accy = this.getTarget().getY()-this.getY();
-		//Creating the norm of the acceleration and the new velocities among x and y
-		float accNorm = (float) Math.sqrt(accx*accx+accy*accy);
-		float maxVNorm = this.maxVelocity/((float)this.p.g.players.get(team).data.FRAMERATE);
-		float ACC = this.p.g.players.get(team).data.ACC/((float)this.p.g.players.get(team).data.FRAMERATE);
 		float newvx, newvy;
+		newvx = this.getTarget().getX()-this.getX();
+		newvy = this.getTarget().getY()-this.getY();
+		//Creating the norm of the acceleration and the new velocities among x and y
+		float maxVNorm = this.maxVelocity/((float)this.p.g.players.get(team).data.FRAMERATE);
+		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+
 		//Checking if the point is not too close of the target
-		if(accNorm<1.0f){
+		if(vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop();
 			return;
-		} else {
-			accx = accx*ACC/(accNorm);
-			accy = accy*ACC/(accNorm);
-			newvx = vx + accx;
-			newvy = vy + accy;
 		}
-		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
-		if(vNorm>maxVNorm*maxVNorm){
+		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		if(vNorm>maxVNorm){
 			//if the velocity is too large it is reduced to the maxVelocity value
 			newvx = newvx*maxVNorm/vNorm;
 			newvy = newvy*maxVNorm/vNorm;
-		} else if(accNorm<5.0f && vNorm<2.0f || this.collisionBox.intersects(this.getTarget().collisionBox)){
-			// 2nd possible call: the target is near and the character is going backward
-			this.stop();
-			return;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 		float newX,newY;
@@ -596,6 +586,12 @@ public class Character extends ActionObjet{
 	}
 
 	public void collisionRect(Rectangle o) {
+		//Si la collision a lieu dans un coin, on ne la considère pas
+		if((o.getMaxX()-this.getX()<2f || this.getX()-o.getMinX()<2f)&&(o.getMaxY()-this.getY()<2f || this.getY()-o.getMinY()<2f)){
+			//System.out.println("dans un coin");
+			this.move();
+			return;
+		}
 		/*On considï¿½re pour l'instant que nos natural objets sont carrï¿½s
 		 * il faut dans un premier temps dï¿½terminer de quel cï¿½tï¿½ ï¿½jecter l'objet
 		 * pour cela on dï¿½limite 4 secteurs:
@@ -612,6 +608,8 @@ public class Character extends ActionObjet{
 		x = this.getX();
 		y = this.getY();
 		int sector = 0;
+
+
 		if(x-oX>0f){
 			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
@@ -651,12 +649,15 @@ public class Character extends ActionObjet{
 			y0 = y1 - this.vy;
 			x2 = newX;
 			y2 = newY;
+			boolean b;
 			switch(Math.floorMod(sector, 2)){
-			case 0: 
+			case 1: 
+				// à droite ou à gauche
+				b = (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
 				float ya,yb;
 				ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
 				yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
-				if ( Math.abs(ya-y2)<Math.abs(yb-y2)){
+				if ( (b && Math.abs(ya-oY)>Math.abs(yb-oY)) || (!b && Math.abs(ya-y2)<Math.abs(yb-y2))){
 					finalY = ya;
 					finalX = x2;
 				} else {
@@ -669,11 +670,13 @@ public class Character extends ActionObjet{
 					finalY = this.getY();
 				this.setVXVY(finalX-x0, 0f);
 				break;
-			case 1:
+			case 0:
+				// en haut ou en bas
+				b = (this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
 				float xa,xb;
 				xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
 				xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
-				if ( Math.abs(xa-x2)<Math.abs(xb-x2)){
+				if ( (b && Math.abs(xa-oX)>Math.abs(xb-oX)) || (!b && Math.abs(xa-x2)<Math.abs(xb-x2))){
 					finalX = xa;
 					finalY = y2;
 				} else {
