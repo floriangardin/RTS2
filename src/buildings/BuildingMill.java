@@ -57,6 +57,7 @@ public class BuildingMill extends BuildingTech{
 		this.updateProductionList();
 	}
 
+	
 	public void action(){
 		this.state+=0.1f;
 		if(this.team!=0)
