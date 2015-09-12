@@ -342,5 +342,10 @@ public class OutputModel extends MultiObjetModel{
 				//System.out.println(s);
 			}
 		}
+		public String toString(){
+			String s = "";
+			s+= id+" "+type+" "+x1+" "+y1+" "+x2+" "+y2;
+			return s;
+		}
 	}
 }
