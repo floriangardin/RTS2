@@ -21,7 +21,9 @@ public class BottomBar extends Bar {
 	public SelectionInterface selection ;
 	public DescriptionInterface description;
 	public DisplayInterface display;
-
+	Image imageGold ;
+	Image imageFood;
+	Image imageSpecial;
 
 	// Minimap caract
 	public float startX;
@@ -54,6 +56,17 @@ public class BottomBar extends Bar {
 		}
 		this.buildingToShow = null;
 		this.update(resX, resY);
+		try {
+			int taille = 24;
+			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
+			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
+			this.imageSpecial = new Image("pics/arrow.png");
+			this.background = new Image("pics/bottombar.jpg").getSubImage(0,0,683,(int) sizeY);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void update(int resX, int resY){
@@ -69,14 +82,14 @@ public class BottomBar extends Bar {
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
 
-		this.prodX = 2.0f*this.sizeX/3f-1f;
+		this.prodX = this.selection.x+this.selection.sizeX;
 		this.prodY = this.y+1f;
-		this.prodW = this.sizeX/6f;
+		this.prodW = this.sizeX/4f;
 		this.prodH = this.sizeY-2f ; 
 		this.icoSizeX = this.prodW/5f;
 		this.icoSizeY = this.prodH/3f;
 
-		this.startX = 2.5f*this.sizeX/3f-1f;
+		this.startX = this.prodX+this.prodW;
 		this.startY = this.y+1f;
 	}
 
@@ -104,8 +117,7 @@ public class BottomBar extends Bar {
 		display.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
 		g.setColor(Color.white);
-		g.fillRect(this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
-		g.fillRect(2f*this.sizeX/3f-0.5f,this.y,1f,this.sizeY);
+		
 
 
 		// Draw the minimap 
@@ -175,6 +187,12 @@ public class BottomBar extends Bar {
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				g.setColor(Color.black);
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawImage(this.imageFood,prodX + 3.5f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString(": "+(int)ul.get(i).foodPrice,prodX + 3.85f*this.prodW/7, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawImage(this.imageGold,prodX + 4.7f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString(": "+(int)ul.get(i).goldPrice,prodX + 5.05f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString("T: ",prodX + 5.9f*this.prodW/7, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString(Integer.toString(((int)ul.get(i).time)),prodX + 6.25f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
 		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingTech){
@@ -188,8 +206,16 @@ public class BottomBar extends Bar {
 				g.drawImage(ul.get(i).icon, prodX+2f, prodY+2f + ratio*i*prodH, prodX-2f+ratio*prodH, prodY-2f+ratio*(i+1)*prodH, 0, 0, 512,512);
 				g.setColor(Color.white);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
+				// CHANGE PUT PRICES
+				
 				g.setColor(Color.black);
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawImage(this.imageFood,prodX + 3.5f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString(": "+(int)ul.get(i).tech.foodPrice,prodX + 3.85f*this.prodW/7, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawImage(this.imageGold,prodX + 4.7f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString(": "+(int)ul.get(i).tech.goldPrice,prodX + 5.05f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString("T: ",prodX + 5.9f*this.prodW/7, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
+				g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),prodX + 6.25f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
 		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof Character){

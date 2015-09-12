@@ -61,7 +61,6 @@ public class TopBar extends Bar {
 
 		// Draw Ressources
 		g.drawImage(this.imageFood, 3*this.sizeX/6,(this.sizeY-24)/2);
-		// Draw number of ressources
 		g.drawString(": "+this.player.food, 3.1f*this.sizeX/6,(this.sizeY-24)/2);
 		g.drawImage(this.imageGold, 4*this.sizeX/6,(this.sizeY-24)/2);
 		g.drawString(": "+this.player.gold, 4.1f*this.sizeX/6,(this.sizeY-24)/2);

@@ -17,7 +17,7 @@ public class SelectionInterface extends Bar {
 
 	public SelectionInterface(BottomBar parent){
 		this.parent = parent;
-		this.sizeX = parent.sizeX/3f;
+		this.sizeX = parent.sizeX/5f;
 		this.sizeY = parent.sizeY;
 		this.x = parent.x+parent.sizeX/3f;
 		this.y = parent.y;
