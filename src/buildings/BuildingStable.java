@@ -59,7 +59,6 @@ public class BuildingStable extends BuildingProduction{
 
 	public void drawAnimation(Graphics g){
 		if(animation>=0f){
-			this.drawAnimation(g);
 			g.drawImage(this.p.images.fountain, this.x-6f/18f*sizeX-48f, this.y-128f,this.x-6f/18f*sizeX+48f, this.y-32f, (int)(animation/30f)*96, 0, ((int)(animation/30f)+1)*96, 96);
 		}
 	}
