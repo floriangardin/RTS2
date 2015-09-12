@@ -2,6 +2,9 @@ package buildings;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
+
+import display.Message;
 import technologies.Technologie;
 
 public abstract class BuildingTech extends Building {
@@ -46,6 +49,11 @@ public abstract class BuildingTech extends Building {
 				this.queue=this.productionList.get(unit);
 				this.p.g.players.get(team).gold-=this.productionList.get(unit).tech.goldPrice;
 				this.p.g.players.get(team).food-=this.productionList.get(unit).tech.foodPrice;
+			} else {
+				if(this.productionList.get(unit).tech.foodPrice>this.p.g.players.get(team).food)
+					this.p.addMessage(new Message("not enough food",75,Color.white), team);
+				else
+					this.p.addMessage(new Message("not enough gold",75,Color.white), team);
 			}
 		}
 	}

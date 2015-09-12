@@ -144,16 +144,17 @@ public class BottomBar extends Bar {
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
+					float r = c.collisionBox.getBoundingCircleRadius();
+					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
-					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
+					float r = c.collisionBox.getBoundingCircleRadius();
+					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
-			float r = c.collisionBox.getBoundingCircleRadius();
-			g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 		}
 		for(Building c : this.p.buildings){
 			if(c.team==0){

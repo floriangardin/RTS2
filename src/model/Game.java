@@ -9,6 +9,7 @@ import org.newdawn.slick.util.Log;
 import buildings.Building;
 import bullets.Bullet;
 import display.BottomBar;
+import display.Message;
 import display.TopBar;
 import menu.Menu;
 import menu.MenuIntro;
@@ -207,16 +208,13 @@ public class Game extends BasicGame
 		if(this.topBars!=null)
 			this.topBars.draw(g);
 		// Draw messages
-		String s = this.plateau.messages.get(this.currentPlayer);
-		if(s!=null){
-			g.setColor(Color.red);
+		Message m;
+		for(int k=0; k<this.plateau.messages.get(currentPlayer).size();k++){
+			m = this.plateau.messages.get(currentPlayer).get(k);
+			g.setColor(m.color);
 			Font f = g.getFont();
-			float width = f.getWidth(s);
-			float height = f.getHeight(s);
-			g.drawString(s, (this.resX-width)/2f, this.bottomBars.y-10f-height/2f);
-			if(this.plateau.messagesRemainingTime.get(this.currentPlayer)>=74){
-				this.plateau.sounds.fireball.play();
-			}
+			float height = f.getHeight(m.message);
+			g.drawString(m.message, 20f, this.topBars.sizeY+20f+2f*height*k);
 		}
 	}
 	// Do our logic 

@@ -22,6 +22,7 @@ import bullets.Arrow;
 import bullets.Bullet;
 import bullets.Fireball;
 import display.BottomBar;
+import display.Message;
 import multiplaying.*;
 import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
@@ -89,8 +90,7 @@ public class Plateau {
 	public Vector<Boolean> isCastingSpell;
 	public Vector<Integer> castingSpell;
 
-	public Vector<String> messages;
-	public Vector<Integer> messagesRemainingTime;
+	public Vector<Vector<Message>> messages;
 
 	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
@@ -138,8 +138,7 @@ public class Plateau {
 		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<Vector<ActionObjet>>();
 		//MESSAGES
-		this.messages = new Vector<String>();
-		this.messagesRemainingTime = new Vector<Integer>();
+		this.messages = new Vector<Vector<Message>>();
 
 		//CASTING SPELLS
 		this.isCastingSpell = new Vector<Boolean>();
@@ -154,8 +153,7 @@ public class Plateau {
 			this.inRectangle.addElement(new Vector<ActionObjet>());
 			this.isCastingSpell.addElement(false);
 			this.castingSpell.addElement(-1);
-			this.messages.addElement(null);
-			this.messagesRemainingTime.addElement(0);
+			this.messages.addElement(new Vector<Message>());
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
@@ -738,7 +736,7 @@ public class Plateau {
 											c.spells.get(number).launch(c, c);
 										}
 									} else {
-										this.addMessage("wait for the cooldown", player);
+										this.addMessage(new Message("wait for the cooldown",75,Color.white), player);
 									}
 								}
 							}else{
@@ -886,12 +884,16 @@ public class Plateau {
 		}
 
 		// 5 - Update of the messages
+		Vector<Message> toDelete = new Vector<Message>();
 		for(int player=1; player<this.g.players.size(); player++){
-			if(this.messages.get(player)!=null){
-				this.messagesRemainingTime.set(player,this.messagesRemainingTime.get(player)-1);
-				if(this.messagesRemainingTime.get(player)<=0)
-					this.messages.set(player, null);
+			toDelete.clear();
+			for(Message m: this.messages.get(player)){
+				m.remainingTime-=1f;
+				if(m.remainingTime<=0f)
+					toDelete.add(m);
 			}
+			for(Message m:toDelete)
+				this.messages.get(player).remove(m);
 		}
 
 		// 6 - creation of the outputmodel
@@ -1219,10 +1221,8 @@ public class Plateau {
 		return false;
 	}
 
-	public void addMessage(String message, int team){
-		this.messages.set(team,message);
-		this.messagesRemainingTime.set(team, 50);
-
+	public void addMessage(Message m, int team){
+		this.messages.get(team).add(0, m);
 	}
 
 }
