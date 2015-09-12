@@ -16,7 +16,7 @@ public class Arrow extends Bullet{
 	public Arrow(Plateau p,Character owner,float damage){
 		// Parameters
 		float size = 2f;
-		float Vmax = 200f;
+		float Vmax = 250f;
 		// 
 		this.p = p;
 		this.id = p.g.idBullet;

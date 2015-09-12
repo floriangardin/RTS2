@@ -16,6 +16,7 @@ import model.Objet;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBuilding;
 import units.UnitsList;
+import weapon.Bow;
 import weapon.Weapon;
 
 public class Building extends ActionObjet{
@@ -58,6 +59,8 @@ public class Building extends ActionObjet{
 	}
 
 	public void collision(Weapon w){
+		if(w instanceof Bow)
+			return;
 		if(this instanceof BuildingStable && w.owner.player.hq.age<2){
 			//			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
