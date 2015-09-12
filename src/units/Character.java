@@ -675,7 +675,8 @@ public class Character extends ActionObjet{
 			switch(Math.floorMod(sector, 2)){
 			case 1: 
 				// à droite ou à gauche
-				b = (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
+				b = (this.getTarget().getX()-o.getCenterX())*(this.getX()-o.getCenterX())<=0f;
+				b = b&&(this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
 				float ya,yb;
 				ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
 				yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
@@ -694,7 +695,8 @@ public class Character extends ActionObjet{
 				break;
 			case 0:
 				// en haut ou en bas
-				b = (this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
+				b = (this.getTarget().getY()-o.getCenterY())*(this.getY()-o.getCenterY())<=0f;
+				b = b&&(this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
 				float xa,xb;
 				xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
 				xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
