@@ -295,7 +295,7 @@ public class Game extends BasicGame
 				OutputModel om = null;
 				if(this.outputs.size()>0){
 					om = this.outputs.get(0);
-					om = this.outputs.remove(0);
+					this.outputs.clear();
 				}
 				// 3 - update from the output file
 				this.outputReceiver.lock = false;

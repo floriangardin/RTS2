@@ -628,7 +628,6 @@ public class Character extends ActionObjet{
 			//System.out.println("dans un coin");
 			if( (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
 					(this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
-				System.out.println("vaneau");
 				switch(sector){
 				case 1: 
 				case 3:
