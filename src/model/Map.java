@@ -78,15 +78,14 @@ public class Map {
 		data1.create(UnitsList.Spearman, 300f, plateau.maxY/2+3f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,200f,plateau.maxY/2,1);
 		
-		new BuildingMill(plateau,plateau.g,100f,150f);
-		new BuildingMine(plateau,plateau.g,100f,plateau.maxY-200f);
+		new BuildingMill(plateau,plateau.g,200f,1*plateau.maxY/4+55f);
+		new BuildingMine(plateau,plateau.g,200f,3*plateau.maxY/4-55f);
 		new BuildingBarrack(plateau,plateau.g,1*plateau.maxX/5+100f,plateau.maxY/2);
 		new BuildingStable(plateau,plateau.g,2*plateau.maxX/6+40f,plateau.maxY/4-55f);
 		new BuildingAcademy(plateau,plateau.g,2*plateau.maxX/6+40f,3*plateau.maxY/4+55f);
 		
 		// Water
-		data1.player.food = 1000;
-		data1.player.gold = 1000;
+
 			
 		// ENCULE KEVIN 
 			new Water(3.0f*plateau.maxX/6,175f,800f,350f,plateau);
@@ -94,8 +93,8 @@ public class Map {
 			
 		// Player 2 side
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2,2);
-		new BuildingMill(plateau,plateau.g,plateau.maxX-200f,150f);
-		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
+		new BuildingMill(plateau,plateau.g,plateau.maxX-200f,1*plateau.maxY/4+55f);
+		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,3*plateau.maxY/4-55f);
 		new BuildingBarrack(plateau,plateau.g,4*plateau.maxX/5-100f,plateau.maxY/2);
 		
 		data2.create(UnitsList.Spearman,  plateau.maxX-350f, plateau.maxY/2+3f);
