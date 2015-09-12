@@ -110,14 +110,14 @@ public class BottomBar extends Bar {
 			u+=680f;
 		}
 
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 		g.fillRect(xt,yt,sizeX,1f);
 		// Draw subcomponents :
 		selection.draw(g);
 		description.draw(g);
 		display.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 
 
 
@@ -194,7 +194,7 @@ public class BottomBar extends Bar {
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<Math.min(4, ul.size());i++){ 
 				g.drawImage(this.p.images.getIconByName(ul.get(i).name), prodX+2f, prodY+2f + ratio*i*prodH, prodX-2f+ratio*prodH, prodY-2f+ratio*(i+1)*prodH, 0, 0, 512,512);
-				g.setColor(Color.white);
+				g.setColor(Color.black);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				g.setColor(Color.black);
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
@@ -215,7 +215,7 @@ public class BottomBar extends Bar {
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<Math.min(4, ul.size());i++){ 
 				g.drawImage(ul.get(i).icon, prodX+2f, prodY+2f + ratio*i*prodH, prodX-2f+ratio*prodH, prodY-2f+ratio*(i+1)*prodH, 0, 0, 512,512);
-				g.setColor(Color.white);
+				g.setColor(Color.black);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				// CHANGE PUT PRICES
 
@@ -242,7 +242,7 @@ public class BottomBar extends Bar {
 				g.setColor(c);
 				float diffY = (-4f + ratio*prodH)*state.get(i)/ul.get(i).chargeTime;
 				g.fillRect(prodX+2f, prodY+2f + ratio*i*prodH+diffY, -4f+ratio*prodH, (-2f + ratio*prodH)-diffY);
-				g.setColor(Color.white);
+				g.setColor(Color.black);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				if(this.p.isCastingSpell.get(player.team) && this.p.castingSpell.get(player.team)==i){
 					g.setColor(Color.green);

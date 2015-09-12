@@ -1,5 +1,6 @@
 package model;
 import java.net.InetAddress;
+import java.util.Timer;
 import java.util.Vector;
 
 import org.newdawn.slick.*;
@@ -35,7 +36,10 @@ public class Game extends BasicGame
 	public Sounds sounds;
 	public Images images;
 	public boolean playStartMusic = true;
-
+	// TIMEr
+	public Timer timer ;
+	
+	
 	// Constants
 	public Map map;
 	public Image background ;
@@ -365,8 +369,9 @@ public class Game extends BasicGame
 		//mainMusic.loop();
 		this.sounds = new Sounds();
 		this.images = new Images();
-
-
+		
+		this.timer = new Timer();
+		
 		this.plateau = new Plateau(this.constants,3000,3000,3,this);
 
 		this.musicStartGame = new Music("music/nazi_start.ogg");

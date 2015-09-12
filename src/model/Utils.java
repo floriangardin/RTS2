@@ -278,4 +278,17 @@ public class Utils {
 		}
 			
 	}
+	
+	public static String gameTime(long startTime){
+		String result = "";
+		result+=((int) ((System.currentTimeMillis()-startTime)/1000))/60;
+		result+=":";
+		if((((System.currentTimeMillis()-startTime)/1000)%60)<10){
+			result+="0";
+		}
+		result+=((System.currentTimeMillis()-startTime)/1000)%60;
+		
+		return result;
+		
+	}
 }
