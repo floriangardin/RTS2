@@ -39,14 +39,15 @@ public class Map {
 		
 		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
+		
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
 		BuildingUniversity bar = new BuildingUniversity(plateau,plateau.g,plateau.maxX/2,100f);
 		
 		new BuildingStable(plateau,plateau.g,plateau.maxX/4,2*plateau.maxY/5);
 		new BuildingAcademy(plateau,plateau.g,3*plateau.maxX/4,2*plateau.maxY/5);
-		players.get(1).food = 1000;
-		players.get(1).gold = 1000;
+		players.get(1).food = 0;
+		players.get(1).gold = 0;
 		data2.create(UnitsList.Crossbowman, plateau.maxX/2-1f, plateau.maxY-300f);
 		data2.create(UnitsList.Knight, plateau.maxX/2,  plateau.maxY-300f);
 		data2.create(UnitsList.Inquisitor, plateau.maxX/2+1f,  plateau.maxY-300f);

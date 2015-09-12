@@ -51,23 +51,18 @@ public class Data {
 	
 	// Barrack
 	public int barrackLifePoints = 200;
-	public float spearmanProdTime = 40f;
-	public float bowmanProdTime = 60f;
 	public float barrackSight = 300f;
 	public float barrackSizeX = 285f;
 	public float barrackSizeY = 285f*2f/3f;
 	
 	//Stable
 	public int stableLifePoints = 200;
-	public float knightProdTime = 40f;
-	public float priestProdTime = 60f;
 	public float stableSight = 300f;
 	public float stableSizeX = 291f;
 	public float stableSizeY = 291f*2f/3f;
 	
 	// Academy 
 	public int academyLifePoints = 200;
-	public float wizardProdTime = 40f;
 	public float academySight = 300f;
 	public float academySizeX = 291f;
 	public float academySizeY = 291f*2f/3f;

@@ -126,7 +126,9 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.techsDiscovered = new Vector<Technologie>();
 		this.updateProductionList();
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-
+		this.constructionPoints = this.maxLifePoints;
+		this.potentialTeam = this.team;
+		
 
 	}
 
