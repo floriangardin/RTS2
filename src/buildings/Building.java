@@ -55,11 +55,11 @@ public class Building extends ActionObjet{
 
 	public void collision(Weapon w){
 		if(this instanceof BuildingStable && w.owner.player.hq.age<2){
-			this.p.addMessage(Message.getById(5), w.owner.team);
+//			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
 		}
 		if(this instanceof BuildingAcademy && w.owner.player.hq.age<3){
-			this.p.addMessage(Message.getById(5), w.owner.team);
+//			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
 		}
 		if(this.potentialTeam!=w.owner.team){
