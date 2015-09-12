@@ -42,6 +42,19 @@ public abstract class BuildingTech extends Building {
 		}
 	}
 	
+	
+	public void techTerminate(Technologie q){
+		this.charge=0f;
+		this.hq.techsDiscovered.addElement(q);
+		this.productionList.removeElement(q);
+		this.hq.allTechs.removeElement(q);
+		q.applyEffect();
+		this.queue=null;
+		this.isProducing =false;
+		this.animation = -1f;
+		this.updateProductionList();
+	}
+	
 	public int getIndexOfQueue(){
 		if(productionList.contains(queue))
 			return productionList.indexOf(queue);

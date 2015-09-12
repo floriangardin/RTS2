@@ -19,7 +19,7 @@ public class MultiReceiver extends Thread{
 	public boolean setLock = false;
 
 	// DEBUGGING
-	private boolean debug = false;
+	private boolean debug = true;
 
 	public MultiReceiver(Game g, int port){
 		this.g = g;
@@ -31,7 +31,7 @@ public class MultiReceiver extends Thread{
 		try{
 			this.server = new DatagramSocket(port);
 			if(debug)
-				System.out.println("Création d'un receiver - " + port);
+				System.out.println("Crï¿½ation d'un receiver - " + port);
 			while(!server.isClosed()){
 				if(!lock){
 					message = new byte[8000];

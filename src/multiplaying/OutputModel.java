@@ -16,6 +16,8 @@ public class OutputModel extends MultiObjetModel{
 	public int gold;
 	public int food;
 	public int special;
+	
+	public Vector<Integer> toChangeTech;
 
 	public Vector<OutputChar> toChangeCharacters;
 
@@ -30,6 +32,7 @@ public class OutputModel extends MultiObjetModel{
 	public OutputModel(String s){
 		String[] t = Utils.split(s, '|');
 		String[] v;
+		toChangeTech = new Vector<Integer>();
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
 		toChangeBuildings = new Vector<OutputBuilding>();
@@ -54,14 +57,16 @@ public class OutputModel extends MultiObjetModel{
 						continue;
 					switch(i){
 					case 4:
-						toChangeCharacters.add(new OutputChar(v[j]));break;
+						toChangeTech.add(Integer.parseInt(v[j]));break;
 					case 5:
-						toChangeBullets.add(new OutputBullet(v[j]));break;
+						toChangeCharacters.add(new OutputChar(v[j]));break;
 					case 6:
-						toChangeBuildings.add(new OutputBuilding(v[j]));break;
+						toChangeBullets.add(new OutputBullet(v[j]));break;
 					case 7:
-						toChangeSpells.add(new OutputSpell(v[j]));break;
+						toChangeBuildings.add(new OutputBuilding(v[j]));break;
 					case 8:
+						toChangeSpells.add(new OutputSpell(v[j]));break;
+					case 9:
 						selection.add(Integer.parseInt(v[j]));break;
 					}
 				}
@@ -70,6 +75,7 @@ public class OutputModel extends MultiObjetModel{
 	}
 	public OutputModel(int timeValue){
 		this.timeValue = timeValue;
+		toChangeTech = new Vector<Integer>();
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
 		toChangeBuildings = new Vector<OutputBuilding>();
@@ -86,8 +92,16 @@ public class OutputModel extends MultiObjetModel{
 		 * Selon l'ordre:
 		 * toChangeChar | toChangeBullet | toChangeBuilding | Selection
 		 */
+		// For the Technologies
+		int size = toChangeTech.size();
+		for(int i =0; i<size; i++){
+			s+=toChangeTech.get(i).toString();
+			if(i<size-1)
+				s+="*";
+		}
+		s+="|";
 		// For the Characters
-		int size = toChangeCharacters.size();
+		size = toChangeCharacters.size();
 		for(int i =0; i<size; i++){
 			s+=toChangeCharacters.get(i).toString();
 			if(i<size-1)

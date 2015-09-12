@@ -15,17 +15,19 @@ import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import model.Player;
+import model.Utils;
 
 public class BuildingHeadQuarters extends BuildingTech {
 
 
 	public int age=1;
 	boolean isProducing;
-	Vector<Technologie> techsDiscovered;
+	public Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> allTechs;
 	public Player player;
 	public BuildingHeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
 		// Init ProductionList
+		this.hq = this;
 		this.p = plateau ;
 		this.player = this.p.g.players.get(team);
 		this.productionList = new Vector<Technologie>();
@@ -166,6 +168,20 @@ public class BuildingHeadQuarters extends BuildingTech {
 
 	}
 
+	
+	public void changeTech(Vector<Integer> techs){
+		for(Integer q : techs){
+			boolean useful = true;
+			for(Technologie t : this.techsDiscovered){
+				if(t.id==q){
+					useful = false;
+				}
+			}
+			if(useful){
+				this.techTerminate(Technologie.technologie(q, p, player));
+			}
+		}
+	}
 
 	public void action(){
 
@@ -187,15 +203,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 				animation = 0f;
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
-				this.charge=0f;
-				this.techsDiscovered.addElement(this.queue);
-				this.productionList.removeElement(queue);
-				this.allTechs.removeElement(this.queue);
-				this.queue.applyEffect();
-				this.queue=null;
-				this.isProducing =false;
-				this.animation = -1f;
-				this.updateProductionList();
+				this.techTerminate(this.queue);
 
 			}
 		}
@@ -206,6 +214,9 @@ public class BuildingHeadQuarters extends BuildingTech {
 
 
 	}
+	
+	
+
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 224, 384);

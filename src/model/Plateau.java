@@ -12,6 +12,7 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import technologies.Technologie;
 import units.*;
 import buildings.Building;
 import buildings.BuildingProduction;
@@ -865,10 +866,6 @@ public class Plateau {
 		this.clean();
 		this.action();
 
-		// TODO : Mulitplayer selection
-		for(ActionObjet c : this.selection.get(2)){
-			om.selection.add(c.id);
-		}
 
 		// 4 - Update of the music
 		if(!g.isInMenu && !this.g.musicStartGame.playing() && !this.g.mainMusic.playing()){
@@ -879,6 +876,9 @@ public class Plateau {
 		om.food = this.g.players.get(2).food;
 		om.gold = this.g.players.get(2).gold;
 		om.special = this.g.players.get(2).special;
+		for(Technologie t: this.g.players.get(2).hq.techsDiscovered){
+			om.toChangeTech.addElement(t.id);
+		}
 		for(Character c: this.characters){
 			om.toChangeCharacters.add(new OutputChar(c));
 		}
@@ -893,6 +893,9 @@ public class Plateau {
 		}
 		for(SpellEffect s : this.spells){
 			om.toChangeSpells.add(new OutputSpell(s));
+		}
+		for(ActionObjet c : this.selection.get(2)){
+			om.selection.add(c.id);
 		}
 		return om;
 	}
@@ -922,6 +925,9 @@ public class Plateau {
 
 		}
 		if(om!=null){
+			// Techs
+			// Changing techs
+			this.g.players.get(2).hq.changeTech(om.toChangeTech);
 			// Characters
 			// Changing characters
 			Character c=null;
@@ -1010,7 +1016,7 @@ public class Plateau {
 					if(s2.id==ocs.id)
 						sp = s2;
 				if(sp!=null){
-					System.out.println("échec de la quête");
+					System.out.println("ï¿½chec de la quï¿½te");
 				}else{
 					new SpellEffect(this, ocs);
 				}

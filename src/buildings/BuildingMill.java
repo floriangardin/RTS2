@@ -106,15 +106,7 @@ public class BuildingMill extends BuildingTech{
 				animation = 0f;
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
-				this.charge=0f;
-				this.hq.techsDiscovered.addElement(this.queue);
-				this.productionList.removeElement(queue);
-				this.hq.allTechs.removeElement(this.queue);
-				this.queue.applyEffect();
-				this.queue=null;
-				this.isProducing =false;
-				this.animation = -1f;
-				this.updateProductionList();
+				this.techTerminate(this.queue);
 
 			}
 		}
