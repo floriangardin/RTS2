@@ -217,8 +217,8 @@ public class Building extends ActionObjet{
 			g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
 		else
 			g.drawImage(this.imageNeutre, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
-		
-		this.drawAnimation(g);
+		if(visibleByCurrentPlayer)
+			this.drawAnimation(g);
 		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints
