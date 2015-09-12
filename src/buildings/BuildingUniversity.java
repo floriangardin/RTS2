@@ -150,7 +150,7 @@ public class BuildingUniversity extends BuildingTech {
 	}
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 224, 384);
+		g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, 367, 355);
 		if(this.lifePoints<this.maxLifePoints){
 			// Lifepoints
 			g.setColor(Color.red);

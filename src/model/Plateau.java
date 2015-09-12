@@ -1230,6 +1230,8 @@ public class Plateau {
 	}
 
 	public void addMessage(Message m, int team){
+		if(this.messages.get(team).size()>19)
+			return;
 		this.messages.get(team).add(0, m);
 	}
 

@@ -586,12 +586,7 @@ public class Character extends ActionObjet{
 	}
 
 	public void collisionRect(Rectangle o) {
-		//Si la collision a lieu dans un coin, on ne la considère pas
-		if((o.getMaxX()-this.getX()<2f || this.getX()-o.getMinX()<2f)&&(o.getMaxY()-this.getY()<2f || this.getY()-o.getMinY()<2f)){
-			//System.out.println("dans un coin");
-			this.move();
-			return;
-		}
+
 		/*On considï¿½re pour l'instant que nos natural objets sont carrï¿½s
 		 * il faut dans un premier temps dï¿½terminer de quel cï¿½tï¿½ ï¿½jecter l'objet
 		 * pour cela on dï¿½limite 4 secteurs:
@@ -625,6 +620,32 @@ public class Character extends ActionObjet{
 				sector = 4;
 			} else {
 				sector = 3;
+			}
+		}
+
+		//Si la collision a lieu dans un coin, on ne la considère pas
+		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
+			//System.out.println("dans un coin");
+			if( (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
+					(this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
+				System.out.println("vaneau");
+				switch(sector){
+				case 1: 
+				case 3:
+					if(this.getY()>o.getCenterY())
+						this.setXY(this.getX()-5*this.vx, this.getY()+5f);
+					else
+						this.setXY(this.getX()-5*this.vx, this.getY()-5f);
+					break;
+				case 2:
+				case 4:
+					if(this.getX()>o.getCenterX())
+						this.setXY(this.getX()+5f, this.getY()-5*this.vy);
+					else
+						this.setXY(this.getX()-5f, this.getY()-5*this.vy);
+					break;
+				}
+				return;
 			}
 		}
 		// Ejecting the point

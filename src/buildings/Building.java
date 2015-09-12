@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import display.Message;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
@@ -54,9 +55,11 @@ public class Building extends ActionObjet{
 
 	public void collision(Weapon w){
 		if(this instanceof BuildingStable && w.owner.player.hq.age<2){
+			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
 		}
 		if(this instanceof BuildingAcademy && w.owner.player.hq.age<3){
+			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
 		}
 		if(this.potentialTeam!=w.owner.team){
