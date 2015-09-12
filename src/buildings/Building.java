@@ -101,7 +101,6 @@ public class Building extends ActionObjet{
 				if(ocb.queue[0]!=-1){
 					((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
 					this.charge = ocb.charge;
-					System.out.println(((BuildingTech)this).queue);
 				} else {
 
 				}
