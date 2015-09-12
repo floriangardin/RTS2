@@ -624,7 +624,7 @@ public class Character extends ActionObjet{
 		}
 
 		//Si la collision a lieu dans un coin, on ne la considère pas
-		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
+		if((o.getMaxX()-this.getX()<4f || this.getX()-o.getMinX()<4f)&&(o.getMaxY()-this.getY()<4f || this.getY()-o.getMinY()<4f)){
 			//System.out.println("dans un coin");
 			if(this.getTarget()==null)
 				return;
@@ -634,16 +634,16 @@ public class Character extends ActionObjet{
 				case 1: 
 				case 3:
 					if(this.getY()>o.getCenterY())
-						this.setXY(this.getX()-5*this.vx, this.getY()+10f);
+						this.setXY(this.getX()-15f*vx, this.getY()+20f);
 					else
-						this.setXY(this.getX()-5*this.vx, this.getY()-10f);
+						this.setXY(this.getX()-15f*vx, this.getY()-20f);
 					break;
 				case 2:
 				case 4:
 					if(this.getX()>o.getCenterX())
-						this.setXY(this.getX()+10f, this.getY()-5*this.vy);
+						this.setXY(this.getX()+20f, this.getY()-15f*vy);
 					else
-						this.setXY(this.getX()-10f, this.getY()-5*this.vy);
+						this.setXY(this.getX()-20f, this.getY()-15f*vy);
 					break;
 				}
 				return;
