@@ -16,7 +16,15 @@ public abstract class BuildingTech extends Building {
 		}
 		this.productionList.clear();
 		for(Technologie t:this.hq.allTechs){
-			if(this.hq.age>=t.tech.age && (t.techRequired==null || this.hq.techsDiscovered.contains(t.techRequired)) && t.tech.building == this.name ){
+			boolean ok = true;
+			if(t.techRequired!=null){
+				int idr = t.techRequired.id;
+				ok = false;
+				for(Technologie te : this.hq.techsDiscovered)
+					if(idr==te.id)
+						ok = true;
+			}
+			if(this.hq.age>=t.tech.age && ok && t.tech.building == this.name ){
 				this.productionList.addElement(t);
 			}
 		}

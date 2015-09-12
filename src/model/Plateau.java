@@ -1047,13 +1047,13 @@ public class Plateau {
 			this.g.players.get(2).gold = om.gold;
 			this.g.players.get(2).food = om.food;
 			this.g.players.get(2).special = om.special;
+//			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
+//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
+			
 		}
 		// Remove objets from lists
 		this.clean();
-
-		System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
-		System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
-	}
+		}
 
 	public void updateView(InputModel im, int player){
 		if(!isCastingSpell.get(player) && player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
