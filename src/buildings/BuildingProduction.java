@@ -38,7 +38,12 @@ public abstract class BuildingProduction extends Building {
 			this.charge+=0.1f;
 			if(this.charge>=this.productionTime.get(this.queue.get(0))){
 				this.charge=0f;
-				Character c = this.p.g.players.get(team).create(this.productionList.get(this.queue.get(0)), this.x+ (float) Math.random(),this.y+this.sizeY/2 );
+				float dirX = this.rallyPoint.x-this.x;
+				float dirY = this.rallyPoint.y - this.y;
+				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
+				float startX = (float)Math.random()+this.x + this.sizeX*dirX/norm/2;
+				float startY =(float) Math.random()+ this.y + this.sizeY*dirY/norm/2;
+				Character c = this.p.g.players.get(team).create(this.productionList.get(this.queue.get(0)), startX,startY );
 				c.setTarget(this.rallyPoint);
 
 				this.queue.remove(0);

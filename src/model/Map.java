@@ -76,16 +76,17 @@ public class Map {
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
 		data1.create(UnitsList.Spearman, 300f, plateau.maxY/2+3f);
-		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,100f,plateau.maxY/2,1);
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,200f,plateau.maxY/2,1);
 		
 		new BuildingMill(plateau,plateau.g,100f,150f);
 		new BuildingMine(plateau,plateau.g,100f,plateau.maxY-200f);
-		new BuildingBarrack(plateau,plateau.g,1*plateau.maxX/5,plateau.maxY/2);
-		new BuildingStable(plateau,plateau.g,2*plateau.maxX/6+20f,plateau.maxY/4-20f);
-		new BuildingAcademy(plateau,plateau.g,2*plateau.maxX/6+20f,3*plateau.maxY/4+20f);
+		new BuildingBarrack(plateau,plateau.g,1*plateau.maxX/5+100f,plateau.maxY/2);
+		new BuildingStable(plateau,plateau.g,2*plateau.maxX/6+40f,plateau.maxY/4-55f);
+		new BuildingAcademy(plateau,plateau.g,2*plateau.maxX/6+40f,3*plateau.maxY/4+55f);
 		
 		// Water
-
+		data1.player.food = 1000;
+		data1.player.gold = 1000;
 			
 		// ENCULE KEVIN 
 			new Water(3.0f*plateau.maxX/6,175f,800f,350f,plateau);
@@ -95,7 +96,7 @@ public class Map {
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2,2);
 		new BuildingMill(plateau,plateau.g,plateau.maxX-200f,150f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
-		new BuildingBarrack(plateau,plateau.g,4*plateau.maxX/5,plateau.maxY/2);
+		new BuildingBarrack(plateau,plateau.g,4*plateau.maxX/5-100f,plateau.maxY/2);
 		
 		data2.create(UnitsList.Spearman,  plateau.maxX-350f, plateau.maxY/2+3f);
 		
@@ -103,8 +104,8 @@ public class Map {
 		// CENTER
 		
 		// Stables and academy 
-		new BuildingStable(plateau,plateau.g, 4*plateau.maxX/6,plateau.maxY/4-20f);
-		new BuildingAcademy(plateau,plateau.g, 4*plateau.maxX/6,3f*plateau.maxY/4+20f);
+		new BuildingStable(plateau,plateau.g, 4*plateau.maxX/6,plateau.maxY/4-55f);
+		new BuildingAcademy(plateau,plateau.g, 4*plateau.maxX/6,3f*plateau.maxY/4+55f);
 		
 		// Barrack in the middle
 		new BuildingMill(plateau,plateau.g,plateau.maxX/2,plateau.maxY/7);
