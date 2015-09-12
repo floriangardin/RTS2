@@ -5,6 +5,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import com.sun.javafx.util.Utils;
+
 import model.Plateau;
 import model.Player;
 
@@ -55,7 +57,10 @@ public class TopBar extends Bar {
 			g.drawImage(this.background,u,y);
 			u+=680f;
 		}
-		g.setColor(Color.white);
+		g.setColor(Color.black);
+		g.drawString(model.Utils.gameTime(this.p.g.startTime), this.sizeX/6, (this.sizeY-24)/2);
+		
+		
 		g.fillRect(xt,yt,sizeX,1f);
 		// Draw subcomponents :
 
@@ -67,7 +72,7 @@ public class TopBar extends Bar {
 		g.drawImage(this.imageSpecial, 5*this.sizeX/6,(this.sizeY-32)/2);
 		g.drawString(": "+this.player.special, 5.1f*this.sizeX/6,(this.sizeY-24)/2);
 		// Draw separation 
-		g.setColor(Color.white);
+		
 		g.fillRect(xt,this.sizeY,sizeX,1f);
 		return g;
 	}

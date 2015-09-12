@@ -28,7 +28,7 @@ public class Main {
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-			app.setDisplayMode(resolutionX, resolutionY,false);
+			app.setDisplayMode(resolutionX, resolutionY,true);
 			//app.setFullscreen(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setTargetFrameRate(main.framerate);
