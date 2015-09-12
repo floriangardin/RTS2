@@ -86,7 +86,7 @@ public class Data {
 		
 	public float bonusSpearHorse = 3f;
 	public float bonusSwordBow = 3f;
-	public float bonusBowFoot = 2f;
+	public float bonusBowFoot = 3f;
 	public float bonusWandBow = 2f;
 	
 	// Ressources
