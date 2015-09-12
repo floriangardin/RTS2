@@ -1007,6 +1007,11 @@ public class Plateau {
 			// Techs
 			// Changing techs
 			this.g.players.get(2).hq.changeTech(om.toChangeTech);
+			for(Building baa:this.buildings){
+				if(baa instanceof BuildingTech && baa.team==2){
+					((BuildingTech)baa).updateProductionList();
+				}
+			}
 			// Spell
 			// Changing spells
 			SpellEffect sp=null;
@@ -1047,8 +1052,8 @@ public class Plateau {
 			this.g.players.get(2).gold = om.gold;
 			this.g.players.get(2).food = om.food;
 			this.g.players.get(2).special = om.special;
-			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
-			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
+//			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
+//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 			
 		}
 		// Remove objets from lists
