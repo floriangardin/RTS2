@@ -144,7 +144,6 @@ public class BottomBar extends Bar {
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
-					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
 				}
 			}
 			else if(c.team==1){
@@ -153,32 +152,30 @@ public class BottomBar extends Bar {
 					g.fillRect(startX+rw*c.x, startY+rh*c.y, 3f, 3f);
 				}
 			}
+			float r = c.collisionBox.getBoundingCircleRadius();
+			g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 		}
 		for(Building c : this.p.buildings){
 			if(c.team==0){
 				g.setColor(Color.gray);
-				g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 			}
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 				} else {
 					g.setColor(Color.gray);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 					
 				}
 			}
 			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 				} else {
 					g.setColor(Color.gray);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 					
 				}
 			}
+			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
 		}
 
 		// Draw rect of camera 
