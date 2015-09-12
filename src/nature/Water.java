@@ -10,8 +10,7 @@ import model.Plateau;
 
 public class Water extends NaturalObjet {
 	
-	public float sizeX;
-	public float sizeY;
+	
 	
 	public Water(float x, float y, float sizeX, float sizeY, Plateau p) {
 		this.sizeX = sizeX;
@@ -37,6 +36,8 @@ public class Water extends NaturalObjet {
 				if(-32f<x+this.image.getWidth()*i && x+this.image.getWidth()*i<this.p.maxX+32f)
 					if(-32f<y+this.image.getHeight()*j && y+this.image.getHeight()*j<this.p.maxY+32f)
 						g.drawImage(this.image,x+this.image.getWidth()*i,y+this.image.getHeight()*j);
+		g.setColor(Color.green);
+		
 		return g;
 	}
 }

@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import buildings.*;
+import model.NaturalObjet;
 import model.Plateau;
 import model.Player;
 import spells.Spell;
@@ -117,7 +118,7 @@ public class BottomBar extends Bar {
 		display.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
 		g.setColor(Color.white);
-		
+
 
 
 		// Draw the minimap 
@@ -132,7 +133,13 @@ public class BottomBar extends Bar {
 		// Draw background 
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.fillRect(startX, startY, w, h);
+		// Draw water
+		for(NaturalObjet q : p.naturalObjets){
+			g.setColor(Color.cyan);
+			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
+		}
 		// Draw units on camera 
+
 		for(Character c : this.p.characters){		
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
@@ -149,21 +156,27 @@ public class BottomBar extends Bar {
 		}
 		for(Building c : this.p.buildings){
 			if(c.team==0){
-				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
-					g.setColor(Color.gray);
-					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
-				}
+				g.setColor(Color.gray);
+				g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
 			}
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.red);
 					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
+				} else {
+					g.setColor(Color.gray);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
+					
 				}
 			}
 			else if(c.team==1){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
 					g.setColor(Color.blue);
 					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
+				} else {
+					g.setColor(Color.gray);
+					g.fillOval(startX+rw*c.x, startY+rh*c.y, 8f, 8f);
+					
 				}
 			}
 		}
@@ -199,7 +212,7 @@ public class BottomBar extends Bar {
 			BuildingTech b =(BuildingTech) this.player.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
-			
+
 			Font f = g.getFont();
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<Math.min(4, ul.size());i++){ 
@@ -207,7 +220,7 @@ public class BottomBar extends Bar {
 				g.setColor(Color.white);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				// CHANGE PUT PRICES
-				
+
 				g.setColor(Color.black);
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 				g.drawImage(this.imageFood,prodX + 3.5f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
