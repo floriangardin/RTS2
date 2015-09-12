@@ -104,14 +104,8 @@ public class BuildingMine extends BuildingTech{
 			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
 
 		}
-		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && this.constructionPoints>0f){
-			g.setColor(Color.white);
-			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
-			float x = this.constructionPoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.blue);
-			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()-r+x,this.getY()-r-50f));
-		}
+
+		this.drawConstructionBar(g);
 		return g;
 	}
 }

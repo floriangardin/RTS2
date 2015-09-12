@@ -870,12 +870,24 @@ public class Plateau {
 					this.g.players.get(player).selection.addElement(c);
 			}
 		}
+
 		// Handling the changes
 
 		// 3 - Collision, Action, Cleaning
 		this.collision();
 		this.clean();
 		this.action();
+
+		// 4 - Update the visibility
+		for(Character c:this.characters)
+			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, c);
+		for(Building b:this.buildings)
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+		for(Bullet b:this.bullets)
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+		for(SpellEffect b:this.spells)
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+
 
 
 		// 4 - Update of the music
@@ -1091,6 +1103,16 @@ public class Plateau {
 			//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 
 		}
+		// 4 - Update the visibility
+		for(Character c:this.characters)
+			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, c);
+		for(Building b:this.buildings)
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+		for(Bullet b:this.bullets)
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+		for(SpellEffect b:this.spells)
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+
 		// Remove objets from lists
 		this.clean();
 	}

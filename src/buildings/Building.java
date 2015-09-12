@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import display.Message;
@@ -55,11 +56,11 @@ public class Building extends ActionObjet{
 
 	public void collision(Weapon w){
 		if(this instanceof BuildingStable && w.owner.player.hq.age<2){
-//			this.p.addMessage(Message.getById(5), w.owner.team);
+			//			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
 		}
 		if(this instanceof BuildingAcademy && w.owner.player.hq.age<3){
-//			this.p.addMessage(Message.getById(5), w.owner.team);
+			//			this.p.addMessage(Message.getById(5), w.owner.team);
 			return;
 		}
 		if(this.potentialTeam!=w.owner.team){
@@ -186,6 +187,18 @@ public class Building extends ActionObjet{
 			} else {
 				this.image = this.p.images.buildingMineNeutral;
 			}
+		}
+	}
+
+	public void drawConstructionBar(Graphics g){
+		// Construction points
+		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer){
+			float r = collisionBox.getBoundingCircleRadius();
+			g.setColor(Color.white);
+			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
+			float x = this.constructionPoints*2f*r/this.maxLifePoints;
+			g.setColor(Color.blue);
+			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()-r+x,this.getY()-r-50f));
 		}
 	}
 

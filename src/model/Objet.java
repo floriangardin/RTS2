@@ -21,6 +21,7 @@ public abstract class Objet {
 	public float lifePoints;
 	public String name;
 	public int team;
+	public boolean visibleByCurrentPlayer;
 	
 	public Image image;
 	

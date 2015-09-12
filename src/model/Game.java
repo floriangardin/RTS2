@@ -160,7 +160,7 @@ public class Game extends BasicGame
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			if(plateau.isVisibleByPlayer(currentPlayer, o))
+			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
 		}
 		for(ActionObjet o : plateau.equipments){
@@ -174,7 +174,7 @@ public class Game extends BasicGame
 		}
 		// Draw the enemy generators
 		for(Building e : this.plateau.buildings){
-			if(plateau.isVisibleByPlayer(currentPlayer, e))
+			if(e.visibleByCurrentPlayer)
 				toDrawAfter.add(e);
 			else
 				toDraw.add(e);
@@ -188,7 +188,7 @@ public class Game extends BasicGame
 		for(Objet o: toDrawAfter)
 			o.draw(g);
 		for(Bullet o : plateau.bullets){
-			if(plateau.isVisibleByPlayer(currentPlayer,o))
+			if(o.visibleByCurrentPlayer)
 				o.draw(g);
 		}
 		for(SpellEffect a: plateau.spells){
