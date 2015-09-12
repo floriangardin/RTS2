@@ -166,6 +166,8 @@ public class OutputModel extends MultiObjetModel{
 				this.charge = ((BuildingTech)b).charge;
 				if(((BuildingTech)b).queue!=null)
 					this.queue[0] = ((BuildingTech)b).getIndexOfQueue();
+				else
+					this.queue[0] = -1;
 			}
 		}
 		public OutputBuilding(String s){

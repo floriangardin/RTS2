@@ -98,9 +98,14 @@ public class Building extends ActionObjet{
 			
 			((BuildingProduction) this).changeQueue(ocb);
 		} else if(this instanceof BuildingTech){
-			if(((BuildingTech)this).queue!= null)
+			if(ocb.queue[0]!=-1){
 				((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
-			this.charge = ocb.charge;
+				this.charge = ocb.charge;
+				((BuildingTech)this).isProducing = true;
+			} else {
+
+				((BuildingTech)this).isProducing = false;
+			}
 		}
 		this.updateImage();
 	}
