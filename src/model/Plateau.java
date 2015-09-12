@@ -1009,6 +1009,7 @@ public class Plateau {
 			this.g.players.get(2).hq.changeTech(om.toChangeTech);
 			for(Building baa:this.buildings){
 				if(baa instanceof BuildingTech && baa.team==2){
+					((BuildingTech)baa).hq = this.g.players.get(2).hq;
 					((BuildingTech)baa).updateProductionList();
 				}
 			}
