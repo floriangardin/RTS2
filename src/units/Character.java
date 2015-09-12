@@ -109,15 +109,15 @@ public class Character extends ActionObjet{
 		this.image = c.image;
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
-		
+
 		this.group = new Vector<Character>();
 		this.group.add(this);
-		
+
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
 			this.spellsState.addElement(0f);
 		}
-		
+
 		// COpy weapon
 		switch(c.weapon.name){
 		case "bow":
@@ -264,6 +264,7 @@ public class Character extends ActionObjet{
 		Image imagea = this.p.images.corps;
 		Image imageb = this.p.images.corps;
 		Image imagec = this.p.images.corps;
+		Image imaged = null;
 		if(team==1){
 			imageb = this.p.images.blue;
 			imagec = this.p.images.horseBlue;
@@ -275,15 +276,24 @@ public class Character extends ActionObjet{
 		this.image = Utils.mergeImages(imagea, imageb);
 		//Handling the weapon
 		if(this.weapon!=null){
-			if(this.weapon instanceof Sword)
+			if(this.weapon instanceof Sword){
 				imageb = this.p.images.sword;
-			if(this.weapon instanceof Bow)
+				imaged = this.p.images.mediumArmor;
+			}
+			if(this.weapon instanceof Spear){
+				imageb = this.p.images.sword;
+				imaged = this.p.images.heavyArmor;
+			}
+			if(this.weapon instanceof Bow){
 				imageb = this.p.images.bow;
+				imaged = this.p.images.lightArmor;
+			}
 			if(this.weapon instanceof Bible)
 				imageb = this.p.images.bible;
 			if(this.weapon instanceof Wand)
 				imageb = this.p.images.magicwand;
 			this.image = Utils.mergeImages(this.image, imageb);
+			this.image = Utils.mergeImages(this.image, imaged);
 		}
 
 		//Handling the horse
@@ -682,7 +692,7 @@ public class Character extends ActionObjet{
 		this.setXY(finalX, finalY);
 
 	}
-	
+
 	//// Changing the team
 	public void changeTeam(int newTeam){
 		this.team = newTeam;

@@ -11,6 +11,7 @@ public class Images {
 	public Image explosion;
 	public Image bible, sword, magicwand, bow;
 	public Image blue, red, corps;
+	public Image archangeBlue, archangeRed;
 	public Image horseBlue, horseRed;
 	public Image lightArmor, mediumArmor, heavyArmor;
 	public Image tree01, tree02, tree03, tree04;
@@ -83,6 +84,8 @@ public class Images {
 			this.corps = new Image("pics/corps.png");
 			this.red = new Image("pics/red.png");
 			this.blue = new Image("pics/blue.png");
+			this.archangeBlue = new Image("pics/archangeBlue.png");
+			this.archangeRed = new Image("pics/archangeRed.png");
 			this.horseRed = new Image("pics/horseRed.png");
 			this.horseBlue = new Image("pics/horseBlue.png");
 			this.tree01 = new Image("pics/tree01.png");

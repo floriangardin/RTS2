@@ -210,6 +210,18 @@ public class Game extends BasicGame
 			this.bottomBars.draw(g);
 		if(this.topBars!=null)
 			this.topBars.draw(g);
+		// Draw messages
+		String s = this.plateau.messages.get(this.currentPlayer);
+		if(s!=null){
+			g.setColor(Color.red);
+			Font f = g.getFont();
+			float width = f.getWidth(s);
+			float height = f.getHeight(s);
+			g.drawString(s, (this.resX-width)/2f, this.bottomBars.y-10f-height/2f);
+			if(this.plateau.messagesRemainingTime.get(this.currentPlayer)>=74){
+				this.plateau.sounds.fireball.play();
+			}
+		}
 	}
 	// Do our logic 
 	@Override

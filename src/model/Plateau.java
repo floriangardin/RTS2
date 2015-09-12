@@ -89,6 +89,9 @@ public class Plateau {
 	public Vector<Boolean> isCastingSpell;
 	public Vector<Integer> castingSpell;
 
+	public Vector<String> messages;
+	public Vector<Integer> messagesRemainingTime;
+
 	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
 
@@ -134,6 +137,9 @@ public class Plateau {
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<Vector<ActionObjet>>();
+		//MESSAGES
+		this.messages = new Vector<String>();
+		this.messagesRemainingTime = new Vector<Integer>();
 
 		//CASTING SPELLS
 		this.isCastingSpell = new Vector<Boolean>();
@@ -148,6 +154,8 @@ public class Plateau {
 			this.inRectangle.addElement(new Vector<ActionObjet>());
 			this.isCastingSpell.addElement(false);
 			this.castingSpell.addElement(-1);
+			this.messages.addElement(null);
+			this.messagesRemainingTime.addElement(0);
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
@@ -640,7 +648,6 @@ public class Plateau {
 		//		if(this.spells.size()>0){
 		//			System.out.println(this.spells);
 		//		}
-
 		OutputModel om = new OutputModel(0);
 
 		//		// 1 - If ESC start menu
@@ -722,12 +729,16 @@ public class Plateau {
 							if(im.isPressedLeftClick){
 								int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
 								Character c = ((Character) this.selection.get(player).get(0));
-								if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-									if(c.spells.get(number).needToClick){
-										this.isCastingSpell.set(player, true);
-										this.castingSpell.set(player, number);
+								if(c.spells.size()>number){
+									if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+										if(c.spells.get(number).needToClick){
+											this.isCastingSpell.set(player, true);
+											this.castingSpell.set(player, number);
+										} else {
+											c.spells.get(number).launch(c, c);
+										}
 									} else {
-										c.spells.get(number).launch(c, c);
+										this.addMessage("wait for the cooldown", player);
 									}
 								}
 							}else{
@@ -874,7 +885,16 @@ public class Plateau {
 			this.g.mainMusic.loop();
 		}
 
-		// 5 - creation of the outputmodel
+		// 5 - Update of the messages
+		for(int player=1; player<this.g.players.size(); player++){
+			if(this.messages.get(player)!=null){
+				this.messagesRemainingTime.set(player,this.messagesRemainingTime.get(player)-1);
+				if(this.messagesRemainingTime.get(player)<=0)
+					this.messages.set(player, null);
+			}
+		}
+
+		// 6 - creation of the outputmodel
 		om.food = this.g.players.get(2).food;
 		om.gold = this.g.players.get(2).gold;
 		om.special = this.g.players.get(2).special;
@@ -899,6 +919,8 @@ public class Plateau {
 		for(ActionObjet c : this.selection.get(2)){
 			om.selection.add(c.id);
 		}
+
+
 		return om;
 	}
 
@@ -1195,6 +1217,12 @@ public class Plateau {
 			if(b.team==player && Utils.distance(b,  objet)<b.sight)
 				return true;
 		return false;
+	}
+
+	public void addMessage(String message, int team){
+		this.messages.set(team,message);
+		this.messagesRemainingTime.set(team, 50);
+
 	}
 
 }

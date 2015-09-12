@@ -41,6 +41,8 @@ public class Utils {
 	}
 
 	public static Image mergeImages(Image a, Image b){
+		if(b==null)
+			return a;
 		int maxW = Math.max(a.getWidth(), b.getWidth()), maxH = Math.max(a.getHeight(), b.getHeight());
 		ImageBuffer bimage = new ImageBuffer(maxW,maxH);
 		Color ca;
