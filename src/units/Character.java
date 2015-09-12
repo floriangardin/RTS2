@@ -628,22 +628,22 @@ public class Character extends ActionObjet{
 			//System.out.println("dans un coin");
 			if(this.getTarget()==null)
 				return;
-			if( (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
-					(this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
+			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
+					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
 				switch(sector){
 				case 1: 
 				case 3:
 					if(this.getY()>o.getCenterY())
-						this.setXY(this.getX()-15f*vx, this.getY()+20f);
+						this.setXY(this.getX(), this.getY()+30f);
 					else
-						this.setXY(this.getX()-15f*vx, this.getY()-20f);
+						this.setXY(this.getX(), this.getY()-30f);
 					break;
 				case 2:
 				case 4:
 					if(this.getX()>o.getCenterX())
-						this.setXY(this.getX()+20f, this.getY()-15f*vy);
+						this.setXY(this.getX()+30f, this.getY());
 					else
-						this.setXY(this.getX()-20f, this.getY()-15f*vy);
+						this.setXY(this.getX()-30f, this.getY());
 					break;
 				}
 				return;
