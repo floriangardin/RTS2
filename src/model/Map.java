@@ -39,7 +39,6 @@ public class Map {
 		
 		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
-		data1.player.hq = team1h;
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
 		BuildingUniversity bar = new BuildingUniversity(plateau,plateau.g,plateau.maxX/2,100f);
@@ -54,7 +53,6 @@ public class Map {
 		data2.create(UnitsList.Priest, plateau.maxX/2+2f,  plateau.maxY-300f);
 		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-300f);
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5,2);
-		data2.player.hq = team2h;
 		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
 		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
