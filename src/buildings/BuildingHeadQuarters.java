@@ -131,15 +131,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 	}
 
 	
-	public void updateProductionList(){
-		this.productionList.clear();
-		for(Technologie t:this.allTechs){
-			if(this.age>=t.tech.age && (t.techRequired==null || this.techsDiscovered.contains(t.techRequired)) && t.tech.building == this.name ){
-				this.productionList.addElement(t);
-			}
-		}
-	}
-	
+
 	
 
 	
