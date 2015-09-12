@@ -924,10 +924,8 @@ public class Plateau {
 			this.updateView(im, player);
 
 		}
+		
 		if(om!=null){
-			// Techs
-			// Changing techs
-			this.g.players.get(2).hq.changeTech(om.toChangeTech);
 			// Characters
 			// Changing characters
 			Character c=null;
@@ -1007,6 +1005,9 @@ public class Plateau {
 					this.toRemoveBuildings.addElement(c2);
 			}
 
+			// Techs
+			// Changing techs
+			this.g.players.get(2).hq.changeTech(om.toChangeTech);
 			// Spell
 			// Changing spells
 			SpellEffect sp=null;
