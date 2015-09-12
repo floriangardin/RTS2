@@ -48,7 +48,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Inquisitor);
-		this.productionTime.addElement(this.p.g.players.get(team).data.spearmanProdTime);
+		this.productionTime.addElement(UnitsList.Inquisitor.time);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 	}
 

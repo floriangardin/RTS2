@@ -53,6 +53,12 @@ public class Building extends ActionObjet{
 	}
 
 	public void collision(Weapon w){
+		if(this instanceof BuildingStable && w.owner.player.hq.age<2){
+			return;
+		}
+		if(this instanceof BuildingAcademy && w.owner.player.hq.age<3){
+			return;
+		}
 		if(this.potentialTeam!=w.owner.team){
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = w.owner.team;
