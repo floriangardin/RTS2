@@ -634,16 +634,16 @@ public class Character extends ActionObjet{
 				case 1: 
 				case 3:
 					if(this.getY()>o.getCenterY())
-						this.setXY(this.getX()-5*this.vx, this.getY()+5f);
+						this.setXY(this.getX()-5*this.vx, this.getY()+10f);
 					else
-						this.setXY(this.getX()-5*this.vx, this.getY()-5f);
+						this.setXY(this.getX()-5*this.vx, this.getY()-10f);
 					break;
 				case 2:
 				case 4:
 					if(this.getX()>o.getCenterX())
-						this.setXY(this.getX()+5f, this.getY()-5*this.vy);
+						this.setXY(this.getX()+10f, this.getY()-5*this.vy);
 					else
-						this.setXY(this.getX()-5f, this.getY()-5*this.vy);
+						this.setXY(this.getX()-10f, this.getY()-5*this.vy);
 					break;
 				}
 				return;
