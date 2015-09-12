@@ -12,6 +12,7 @@ import units.Character;
 public class DualistEagleView extends Technologie {
 
 	public DualistEagleView(Plateau p, Player player) {
+		this.id = 13;
 		this.tech = Technologies.EagleView;
 		this.name = "Eagle View";
 		this.p = p;

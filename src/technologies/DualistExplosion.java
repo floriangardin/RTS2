@@ -12,6 +12,7 @@ import model.Player;
 public class DualistExplosion extends Technologie {
 
 	public DualistExplosion(Plateau p, Player player) {
+		this.id = 12;
 		this.tech = Technologies.DualistExplosion;
 		this.name = tech.name;
 		this.p = p;

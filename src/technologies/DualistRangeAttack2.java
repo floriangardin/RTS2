@@ -16,6 +16,7 @@ import model.Player;
 public class DualistRangeAttack2 extends Technologie {
 
 	public DualistRangeAttack2(Plateau p, Player player) {
+		this.id = 9;
 		this.tech = Technologies.DualistRangeAttack2;
 		this.name = tech.name;
 		this.p = p;

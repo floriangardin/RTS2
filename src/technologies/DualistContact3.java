@@ -14,6 +14,7 @@ import model.Player;
 public class DualistContact3 extends Technologie {
 
 	public DualistContact3(Plateau p, Player player) {
+		this.id = 11;
 		this.tech = Technologies.DualistContactAttack3;
 		this.name = tech.name;
 		this.p = p;

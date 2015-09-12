@@ -12,6 +12,7 @@ import model.Player;
 public class DualistHealth3 extends Technologie {
 
 	public DualistHealth3(Plateau p, Player player) {
+		this.id = 7;
 		this.tech = Technologies.DualistHealth3;
 		this.name = tech.name;
 		this.p = p;

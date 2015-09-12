@@ -11,6 +11,7 @@ import model.Player;
 public class DualistBonusFood extends Technologie {
 
 	public DualistBonusFood(Plateau p, Player player) {
+		this.id = 2;
 		this.tech = Technologies.DualistBonusFood;
 		this.name = tech.name;
 		this.p = p;

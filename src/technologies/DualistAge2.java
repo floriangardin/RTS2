@@ -13,6 +13,7 @@ import model.Player;
 public class DualistAge2 extends Technologie {
 
 	public DualistAge2(Plateau p, Player player) {
+		this.id = 0;
 		this.tech = Technologies.DualistAge2;
 		this.name = "Fervour Age";
 		this.p = p;
