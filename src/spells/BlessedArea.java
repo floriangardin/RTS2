@@ -27,6 +27,7 @@ public class BlessedArea extends SpellEffect{
 	public Vector<Character> targeted = new Vector<Character>();
 
 	public BlessedArea(Plateau p, Character launcher, Checkpoint t){
+		this.type = 2;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;

@@ -28,6 +28,7 @@ public class Firewall extends SpellEffect{
 
 	public Firewall(Plateau p, Character launcher, Objet t){
 		this.id = p.g.idChar;
+		this.type = 1;
 		this.x = launcher.getX();
 		this.y = launcher.getY();
 		this.x2 = t.getX();

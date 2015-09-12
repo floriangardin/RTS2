@@ -311,7 +311,7 @@ public class OutputModel extends MultiObjetModel{
 		public int type;
 
 		public OutputSpell(SpellEffect s){
-			type = s.getType();
+			type = s.type;
 			id = s.id;
 			switch(type){
 			case 1 : Firewall f = (Firewall)s;
