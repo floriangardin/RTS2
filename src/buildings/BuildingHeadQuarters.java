@@ -145,6 +145,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		type= 5;
 		maxLifePoints = ocb.maxlifepoints;
 		this.p = p;
+		this.p.g.players.get(team).hq = this;
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
 		this.g = p.g;
