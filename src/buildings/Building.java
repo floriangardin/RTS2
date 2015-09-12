@@ -30,8 +30,8 @@ public class Building extends ActionObjet{
 
 	public float charge;
 	public boolean isProducing;
-	
-	
+
+
 	public Building(){}
 
 	public Building(Plateau p,Game g,float x, float y){
@@ -51,7 +51,7 @@ public class Building extends ActionObjet{
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 	}
-	
+
 	public void collision(Weapon w){
 		if(this.potentialTeam!=w.owner.team){
 			if(this.constructionPoints<=0f){
@@ -94,15 +94,17 @@ public class Building extends ActionObjet{
 		this.constructionPoints = ocb.constrpoints;
 		this.animation = ocb.animation;
 		this.sight = ocb.sight;
-		if(this instanceof BuildingProduction){
-			((BuildingProduction) this).changeQueue(ocb);
-		} else if(this instanceof BuildingTech){
-			if(ocb.queue[0]!=-1){
-				((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
-				this.charge = ocb.charge;
-				System.out.println(((BuildingTech)this).queue);
-			} else {
-				
+		if(ocb.team==this.team){
+			if(this instanceof BuildingProduction){
+				((BuildingProduction) this).changeQueue(ocb);
+			} else if(this instanceof BuildingTech){
+				if(ocb.queue[0]!=-1){
+					((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
+					this.charge = ocb.charge;
+					System.out.println(((BuildingTech)this).queue);
+				} else {
+
+				}
 			}
 		}
 		this.updateImage();
@@ -129,7 +131,7 @@ public class Building extends ActionObjet{
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 
 	}	
-	
+
 	public void updateImage(){
 		if(this instanceof BuildingBarrack){
 			if(team==1){
