@@ -47,7 +47,12 @@ public abstract class BuildingTech extends Building {
 		this.charge=0f;
 		this.hq.techsDiscovered.addElement(q);
 		this.productionList.removeElement(q);
-		this.hq.allTechs.removeElement(q);
+		Technologie toDelete = null;
+		for(Technologie t:this.hq.allTechs)
+			if(t.id==q.id)
+				toDelete = t;
+		if(toDelete != null)
+			this.hq.allTechs.removeElement(toDelete);
 		q.applyEffect();
 		this.queue=null;
 		this.isProducing =false;

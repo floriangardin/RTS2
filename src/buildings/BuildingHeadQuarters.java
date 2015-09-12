@@ -140,35 +140,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		}
 	}
 	
-	public BuildingHeadQuarters(OutputBuilding ocb, Plateau p){
-		team = ocb.team;
-		type= 5;
-		maxLifePoints = ocb.maxlifepoints;
-		this.p = p;
-		this.p.g.players.get(team).hq = this;
-		p.addBuilding(this);
-		this.lifePoints = this.maxLifePoints;
-		this.g = p.g;
-		this.x = ocb.x;
-		this.y = ocb.y;
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
-		this.id = ocb.id;
-		this.sizeX = this.p.constants.headQuartersSizeX; 
-		this.sizeY = this.p.constants.headQuartersSizeY;
-		this.sight = this.p.constants.headQuartersSight;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(this.team == 1){
-			this.image = this.p.images.buildingHeadQuartersBlue;
-		}
-		else if(this.team == 2){
-			this.image = this.p.images.buildingHeadQuartersRed;
-		}
-		else {
-			this.image = this.p.images.tent;
-		}
-
-
-	}
+	
 
 	
 	public void changeTech(Vector<Integer> techs){
