@@ -139,7 +139,7 @@ public class Game extends BasicGame
 			this.menuCurrent.draw(g);
 			return;
 		}
-		
+
 		g.setColor(Color.black);
 		g.fillRect(this.plateau.maxX, 0, this.plateau.maxX, this.plateau.maxY);
 		g.fillRect(0, this.plateau.maxY, this.plateau.maxX, this.plateau.maxY);
@@ -209,12 +209,14 @@ public class Game extends BasicGame
 			this.topBars.draw(g);
 		// Draw messages
 		Message m;
-		for(int k=0; k<this.plateau.messages.get(currentPlayer).size();k++){
-			m = this.plateau.messages.get(currentPlayer).get(k);
-			g.setColor(m.color);
-			Font f = g.getFont();
-			float height = f.getHeight(m.message);
-			g.drawString(m.message, 20f, this.topBars.sizeY+20f+2f*height*k);
+		if(this.plateau.messages.size()>2){
+			for(int k=0; k<this.plateau.messages.get(currentPlayer).size();k++){
+				m = this.plateau.messages.get(currentPlayer).get(k);
+				g.setColor(m.color);
+				Font f = g.getFont();
+				float height = f.getHeight(m.message);
+				g.drawString(m.message, 20f, this.topBars.sizeY+20f+2f*height*k);
+			}
 		}
 	}
 	// Do our logic 
@@ -245,10 +247,10 @@ public class Game extends BasicGame
 							im = this.inputs.get(0);
 							this.inputs.clear();
 							//this.inputs.remove(0);
-//							if(this.inputs.size()>0){
-//								im.mix(this.inputs.get(0));
-//								this.inputs.remove(0);
-//							}
+							//							if(this.inputs.size()>0){
+							//								im.mix(this.inputs.get(0));
+							//								this.inputs.remove(0);
+							//							}
 							ims.add(im);
 							this.players.get(im.team).bottomBar.update(im.resX, im.resY);
 							this.players.get(im.team).topBar.update(im.resX, im.resY);
@@ -318,7 +320,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(this.plateau,0,0));
 		this.players.add(new Player(this.plateau,1,0));
 		this.players.add(new Player(this.plateau,2,0));
-		
+
 		if(host)
 			this.map.createMapPhillipe(plateau,this.players);
 		// Instantiate BottomBars for all players:
@@ -326,7 +328,7 @@ public class Game extends BasicGame
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 		}
-		
+
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;
@@ -363,16 +365,16 @@ public class Game extends BasicGame
 		//mainMusic.loop();
 		this.sounds = new Sounds();
 		this.images = new Images();
-		
+
 
 		this.plateau = new Plateau(this.constants,3000,3000,3,this);
-		
+
 		this.musicStartGame = new Music("music/nazi_start.ogg");
 		this.players.add(new Player(this.plateau,0,0));
 		this.players.add(new Player(this.plateau,1,0));
 		this.players.add(new Player(this.plateau,2,0));
-		
-		
+
+
 
 
 		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
