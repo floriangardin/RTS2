@@ -134,7 +134,7 @@ public class Plateau {
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<Vector<ActionObjet>>();
-		
+
 		//CASTING SPELLS
 		this.isCastingSpell = new Vector<Boolean>();
 		this.castingSpell = new Vector<Integer>();
@@ -417,7 +417,7 @@ public class Plateau {
 			this.selection(select,team);
 			this.g.players.get(team).groupSelection = -1;
 		}
-		
+
 	}
 
 	public void updateSelectionCTRL(Rectangle select,int team){
@@ -741,7 +741,7 @@ public class Plateau {
 				// FIELD
 				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
 					//update the rectangle
-					
+
 					if(im.leftClick){
 
 						if(isCastingSpell.get(player)){
@@ -754,14 +754,16 @@ public class Plateau {
 					if(im.isPressedLeftClick){
 						if(isCastingSpell.get(player)){
 							// Handling the spell
-							Character c = (Character)this.g.players.get(player).selection.get(0); 
-							Spell spell = c.spells.get(castingSpell.get(player));
-							spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
-							c.spellsState.set(castingSpell.get(player),0f);
+							if(this.g.players.get(player).selection.size()>0){
+								Character c = (Character)this.g.players.get(player).selection.get(0); 
+								Spell spell = c.spells.get(castingSpell.get(player));
+								spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+								c.spellsState.set(castingSpell.get(player),0f);
+							}
 							isCastingSpell.set(player,false);
 							castingSpell.set(player,-1);
 						} else if(im.isPressedMAJ){
-							
+
 						} else {
 							this.clearSelection(player);
 						}
@@ -812,7 +814,7 @@ public class Plateau {
 					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
 
 						int number = 4;
-						
+
 						if(im.isPressedW)
 							number = 0;
 						if(im.isPressedX)
@@ -825,7 +827,7 @@ public class Plateau {
 							isCastingSpell.set(player,false);
 							castingSpell.set(player,-1);
 						}
-							
+
 						Character c = ((Character) this.selection.get(player).get(0));
 						if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
 							if(c.spells.get(number).needToClick){
@@ -923,7 +925,7 @@ public class Plateau {
 			this.updateView(im, player);
 
 		}
-		
+
 		if(om!=null){
 			// Characters
 			// Changing characters
@@ -1053,13 +1055,13 @@ public class Plateau {
 			this.g.players.get(2).gold = om.gold;
 			this.g.players.get(2).food = om.food;
 			this.g.players.get(2).special = om.special;
-//			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
-//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
-			
+			//			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
+			//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
+
 		}
 		// Remove objets from lists
 		this.clean();
-		}
+	}
 
 	public void updateView(InputModel im, int player){
 		if(!isCastingSpell.get(player) && player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
