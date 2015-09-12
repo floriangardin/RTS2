@@ -736,7 +736,7 @@ public class Plateau {
 											c.spells.get(number).launch(c, c);
 										}
 									} else {
-										this.addMessage(new Message("wait for the cooldown",75,Color.white), player);
+										this.addMessage(Message.NotEnoughMana, player);
 									}
 								}
 							}else{
@@ -921,7 +921,9 @@ public class Plateau {
 		for(ActionObjet c : this.selection.get(2)){
 			om.selection.add(c.id);
 		}
-
+		for(Message m:this.messages.get(2)){
+			om.toChangeMessages.add(m);
+		}
 
 		return om;
 	}
@@ -1062,6 +1064,12 @@ public class Plateau {
 				}
 				if(toErase)
 					this.toRemoveSpells.addElement(c2);
+			}
+			// Messages
+			// Changing messages
+			this.messages.clear();
+			for(Message m:om.toChangeMessages){
+				this.messages.get(2).add(m);
 			}
 			//selections
 			this.selection.set(this.g.currentPlayer, new Vector<ActionObjet>());
