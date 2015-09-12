@@ -903,7 +903,6 @@ public class Plateau {
 
 	public void updateFromOutput(OutputModel om, InputModel im){
 		// Handling im
-
 		if(im!=null){
 			int player = this.g.currentPlayer;
 
@@ -1051,6 +1050,9 @@ public class Plateau {
 		}
 		// Remove objets from lists
 		this.clean();
+
+		System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
+		System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 	}
 
 	public void updateView(InputModel im, int player){
