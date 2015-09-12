@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -29,6 +30,7 @@ public class Building extends ActionObjet{
 	public int type;
 	public Objet rallyPoint;
 	public BuildingHeadQuarters hq;
+	public Image imageNeutre;
 
 	public float charge;
 	public boolean isProducing;
@@ -52,6 +54,7 @@ public class Building extends ActionObjet{
 		this.image = this.p.images.tent;
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.updateImage();
 	}
 
 	public void collision(Weapon w){
@@ -131,6 +134,7 @@ public class Building extends ActionObjet{
 		case 6: b = new BuildingUniversity(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
 		default:
 		}
+		this.updateImage();
 	}
 
 	public void drawIsSelected(Graphics g){
@@ -143,6 +147,7 @@ public class Building extends ActionObjet{
 
 	public void updateImage(){
 		if(this instanceof BuildingBarrack){
+			this.imageNeutre = this.p.images.buildingBarrackNeutral;
 			if(team==1){
 				this.image = this.p.images.buildingBarrackBlue;
 			} else if(team==2){
@@ -153,6 +158,7 @@ public class Building extends ActionObjet{
 		}
 
 		else if(this instanceof BuildingStable){
+			this.imageNeutre = this.p.images.buildingStableNeutral;
 			if(team==1){
 				this.image = this.p.images.buildingStableBlue;
 			} else if(team==2){
@@ -162,6 +168,7 @@ public class Building extends ActionObjet{
 			}
 		}
 		else if(this instanceof BuildingAcademy){
+			this.imageNeutre = this.p.images.buildingAcademyNeutral;
 			if(team==1){
 				this.image = this.p.images.buildingAcademyBlue;
 			} else if(team==2){
@@ -171,6 +178,7 @@ public class Building extends ActionObjet{
 			}
 		}
 		else if(this instanceof BuildingMill){
+			this.imageNeutre = this.p.images.buildingMillNeutral;
 			if(team==1){
 				this.image = this.p.images.buildingMillBlue;
 			} else if(team==2){
@@ -180,6 +188,7 @@ public class Building extends ActionObjet{
 			}
 		}
 		else if(this instanceof BuildingMine){
+			this.imageNeutre = this.p.images.buildingMineNeutral;
 			if(team==1){
 				this.image = this.p.images.buildingMineBlue;
 			} else if(team==2){
@@ -188,18 +197,51 @@ public class Building extends ActionObjet{
 				this.image = this.p.images.buildingMineNeutral;
 			}
 		}
+		else if(this instanceof BuildingUniversity){
+			this.imageNeutre = this.p.images.buildingUniversityNeutral;
+			if(team==1){
+				this.image = this.p.images.buildingUniversityBlue;
+			} else if(team==2){
+				this.image = this.p.images.buildingUniversityRed;
+			} else {
+				this.image = this.p.images.buildingUniversityNeutral;
+			}
+		}
 	}
 
-	public void drawConstructionBar(Graphics g){
-		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer){
-			float r = collisionBox.getBoundingCircleRadius();
-			g.setColor(Color.white);
-			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
-			float x = this.constructionPoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.blue);
-			g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()-r+x,this.getY()-r-50f));
+	
+	
+	public Graphics draw(Graphics g){
+		float r = collisionBox.getBoundingCircleRadius();
+		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters)
+			g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
+		else
+			g.drawImage(this.imageNeutre, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
+		
+		this.drawAnimation(g);
+		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
+		if(this.lifePoints<this.maxLifePoints){
+			// Lifepoints
+			g.setColor(Color.red);
+			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()+r,this.getY()-r-30f));
+			float x = this.lifePoints*2f*r/this.maxLifePoints;
+			g.setColor(Color.green);
+			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
+
 		}
+		// Construction points
+				if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer){
+					g.setColor(Color.white);
+					g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
+					float x = this.constructionPoints*2f*r/this.maxLifePoints;
+					g.setColor(Color.blue);
+					g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()-r+x,this.getY()-r-50f));
+				}
+		return g;
+	}
+	
+	public void drawAnimation(Graphics g){
+		
 	}
 
 

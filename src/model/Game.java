@@ -38,8 +38,8 @@ public class Game extends BasicGame
 	public boolean playStartMusic = true;
 	// TIMEr
 	public Timer timer ;
-	
-	
+
+
 	// Constants
 	public Map map;
 	public Image background ;
@@ -192,17 +192,16 @@ public class Game extends BasicGame
 				o.draw(g);
 		}
 		for(SpellEffect a: plateau.spells){
-			//if(plateau.isVisibleByPlayer(currentPlayer, a))
-			a.draw(g);
+			if(a.visibleByCurrentPlayer)
+				a.draw(g);
 		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
 			if(this.plateau.rectangleSelection.get(player) !=null){
 				if(player==currentPlayer){
 					g.setColor(Color.green);
-				} else
-					g.setColor(Color.red);
-				g.draw(this.plateau.rectangleSelection.get(player));
+					g.draw(this.plateau.rectangleSelection.get(player));
+				}
 			}
 		}
 		// Draw bottom bar
@@ -369,9 +368,9 @@ public class Game extends BasicGame
 		//mainMusic.loop();
 		this.sounds = new Sounds();
 		this.images = new Images();
-		
+
 		this.timer = new Timer();
-		
+
 		this.plateau = new Plateau(this.constants,3000,3000,3,this);
 
 		this.musicStartGame = new Music("music/nazi_start.ogg");
