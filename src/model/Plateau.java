@@ -900,6 +900,7 @@ public class Plateau {
 
 
 	public void updateFromOutput(OutputModel om, InputModel im){
+		Utils.printCurrentState(this);
 		// Handling im
 
 		if(im!=null){
