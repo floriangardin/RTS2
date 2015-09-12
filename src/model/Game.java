@@ -165,11 +165,7 @@ public class Game extends BasicGame
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
-			//o.draw(g);
-			if(!(o instanceof Water)&& plateau.isVisibleByPlayer(currentPlayer, o))
-				toDrawAfter.add(o);
-			else
-				toDraw.add(o);
+			o.draw(g);
 		}
 		// Draw the enemy generators
 		for(Building e : this.plateau.buildings){

@@ -59,10 +59,10 @@ public class Tree extends NaturalObjet {
 	}
 	
 	public Graphics draw(Graphics g){
-		float x1 = this.getX()-coeffDraw*this.image.getWidth()/2f;
-		float y1 = this.getY()-coeffDraw*this.image.getHeight()+2f*sizeY;
-		float x2 = this.getX()+coeffDraw*this.image.getWidth()/2f;
-		float y2 = this.getY()+2f*sizeY;
+		float x1 = this.x-coeffDraw*this.image.getWidth()/2f;
+		float y1 = this.y-coeffDraw*this.image.getHeight()+2f*sizeY;
+		float x2 = this.x+coeffDraw*this.image.getWidth()/2f;
+		float y2 = this.y+2f*sizeY;
 		g.drawImage(this.image,x1,y1,x2,y2,0f,0f,this.image.getWidth(),this.image.getHeight());
 		//g.setColor(this.color);
 		//g.fill(this.collisionBox);

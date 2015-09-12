@@ -31,46 +31,44 @@ public class Map {
 		plateau.maxY = 3000f;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		data1.create(UnitsList.Crossbowman, plateau.maxX/2-1f, 300f);
-		data1.create(UnitsList.Knight, plateau.maxX/2, 300f);
-		data1.create(UnitsList.Inquisitor, plateau.maxX/2+1f, 300f);
-		data1.create(UnitsList.Priest, plateau.maxX/2+2f, 300f);
 		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 300f);
-		
-		data2.create(UnitsList.Spearman, plateau.maxX/2+4f, 300f);
-		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5,1);
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,100f,1);
 		
 		new BuildingMill(plateau,plateau.g,150f,100f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,100f);
-		BuildingUniversity bar = new BuildingUniversity(plateau,plateau.g,plateau.maxX/2,100f);
+		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,1*plateau.maxY/5);
+		new BuildingStable(plateau,plateau.g,plateau.maxX/4-20f,2*plateau.maxY/6+20f);
+		new BuildingAcademy(plateau,plateau.g,3*plateau.maxX/4+20f,2*plateau.maxY/6+20f);
 		
-		new BuildingStable(plateau,plateau.g,plateau.maxX/4,2*plateau.maxY/5);
-		new BuildingAcademy(plateau,plateau.g,3*plateau.maxX/4,2*plateau.maxY/5);
-		players.get(1).food = 0;
-		players.get(1).gold = 0;
-		data2.create(UnitsList.Crossbowman, plateau.maxX/2-1f, plateau.maxY-300f);
-		data2.create(UnitsList.Knight, plateau.maxX/2,  plateau.maxY-300f);
-		data2.create(UnitsList.Inquisitor, plateau.maxX/2+1f,  plateau.maxY-300f);
-		data2.create(UnitsList.Priest, plateau.maxX/2+2f,  plateau.maxY-300f);
-		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-300f);
-		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5,2);
+		// Water
+
+			
+		// ENCULE KEVIN 
+			new Water(175f,3.0f*plateau.maxY/6,350f,800f,plateau);
+			new Water(plateau.maxX-175f,3.0f*plateau.maxY/6,350f,800f,plateau);
+			
+		// Player 2 side
+		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f,2);
 		new BuildingMill(plateau,plateau.g,150f,plateau.maxY-200f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY-200f);
-		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY-200f);
+		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,4*plateau.maxY/5);
+		
+		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-350f);
 		
 		
-		team1h.constructionPoints = team1h.maxLifePoints-1f;
+		// CENTER
+		
 		// Stables and academy 
-		new BuildingStable(plateau,plateau.g,plateau.maxX/4, 3*plateau.maxY/5);
-		new BuildingAcademy(plateau,plateau.g,3f*plateau.maxX/4, 3*plateau.maxY/5);
+		new BuildingStable(plateau,plateau.g,plateau.maxX/4-20f, 4*plateau.maxY/6);
+		new BuildingAcademy(plateau,plateau.g,3f*plateau.maxX/4+20f, 4*plateau.maxY/6);
 		
 		// Barrack in the middle
-		new BuildingMill(plateau,plateau.g,150f,plateau.maxY/2);
-		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2);
-		new BuildingBarrack(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
+		new BuildingMill(plateau,plateau.g,plateau.maxX/7,plateau.maxY/2);
+		new BuildingMine(plateau,plateau.g,6f*plateau.maxX/7,plateau.maxY/2);
+		new BuildingUniversity(plateau,plateau.g,plateau.maxX/2,plateau.maxY/2);
 		
 		
-		team2h.constructionPoints = team2h.maxLifePoints-1f;
+		
 		
 	}
 

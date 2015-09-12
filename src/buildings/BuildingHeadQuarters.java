@@ -157,7 +157,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		//Product, increase state of the queue
 		// If enough faith create archange
 		
-		if(this.player.civ==0 && this.player.special>=2f){
+		if(this.player.civ==0 && this.player.special>=UnitsList.Archange.specialPrice){
 			
 			this.player.data.create(UnitsList.Archange, this.x, this.y+this.sizeY/2);
 			this.player.special=0;
