@@ -6,7 +6,7 @@ public enum Technologies {
 
 
 
-	DualistAge2("Age2",200f,200f,400f,"headquarters",1,0),
+	DualistAge2("Age2",100f,100f,400f,"headquarters",1,0),
 	DualistAge3("Age3",300f,300f,500f,"headquarters",2,1),
 	DualistBonusFood("bonus food",50f,100f,150f,"mill",2,2),
 	DualistBonusGold("bonus gold",50f,100f,150f,"mine",2,3),

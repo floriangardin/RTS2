@@ -67,7 +67,7 @@ public class BuildingMill extends BuildingTech{
 			animation = 0f;
 		
 		if(state >= chargeTime && team!=0){
-			this.p.g.players.get(team).food+=1+this.p.g.players.get(team).data.bonusFood;
+			this.p.g.players.get(team).food+=2+this.p.g.players.get(team).data.bonusFood;
 			state = 0;
 		}
 		
