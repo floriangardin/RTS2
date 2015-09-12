@@ -94,7 +94,7 @@ public class Building extends ActionObjet{
 		this.constructionPoints = ocb.constrpoints;
 		this.animation = ocb.animation;
 		this.sight = ocb.sight;
-		if(ocb.team==this.team){
+		if(ocb.team==2){
 			if(this instanceof BuildingProduction){
 				((BuildingProduction) this).changeQueue(ocb);
 			} else if(this instanceof BuildingTech){
