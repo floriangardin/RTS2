@@ -1067,7 +1067,7 @@ public class Plateau {
 			}
 			// Messages
 			// Changing messages
-			this.messages.clear();
+			this.messages.get(2).clear();
 			for(Message m:om.toChangeMessages){
 				this.messages.get(2).add(m);
 			}

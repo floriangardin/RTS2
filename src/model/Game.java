@@ -335,8 +335,8 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
-		this.plateau.maxX = 2000f;
-		this.plateau.maxY = 3000f;
+		this.plateau.maxX = 3000f;
+		this.plateau.maxY = 2000f;
 		newGame(false);
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
