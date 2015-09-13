@@ -70,6 +70,7 @@ public class Arrow extends Bullet{
 	}
 
 	public void collision(Character c){
+		System.out.println("mythe");
 		if(c.team!=this.team){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
