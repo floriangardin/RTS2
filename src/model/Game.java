@@ -302,6 +302,11 @@ public class Game extends BasicGame
 				// 3 - update from the output file
 				this.outputReceiver.lock = false;
 				this.plateau.updateFromOutput(om, im);
+				
+				// 4 - re-sending the input to host
+				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
+				this.toSendInputs.addElement(im.toString());
+
 
 
 			}

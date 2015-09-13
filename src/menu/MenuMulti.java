@@ -83,11 +83,8 @@ public class MenuMulti extends Menu {
 					this.game.startTime = System.currentTimeMillis();
 					this.game.inputReceiver.start();
 					this.game.outputSender.start();
-					this.game.messageSender.start();
-					this.game.messageReceiver.start();
 					this.game.quitMenu();
-					this.game.messages.addElement(""+System.currentTimeMillis());
-				} else {
+					} else {
 					this.setInHost(false);
 				}
 			default:
