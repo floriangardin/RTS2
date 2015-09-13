@@ -52,6 +52,7 @@ public class Arrow extends Bullet{
 		this.p = p;
 		this.id = ocb.id;
 		p.addBulletObjets(this);
+		this.damage = ocb.damage;
 		this.team = 3-p.g.currentPlayer;
 		this.lifePoints = 1f;
 		this.collisionBox = new Circle(ocb.x,ocb.y,size);
@@ -70,7 +71,6 @@ public class Arrow extends Bullet{
 	}
 
 	public void collision(Character c){
-		System.out.println("mythe");
 		if(c.team!=this.team){
 			// Attack if armor<damage and collision
 			float damage = this.damage;

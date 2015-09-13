@@ -921,9 +921,9 @@ public class Plateau {
 		for(Bullet b: this.bullets){
 			if(b.team==this.g.currentPlayer){
 				if(b instanceof Arrow)
-					om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy));
+					om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy,b.damage));
 				else
-					om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
+					om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy,b.damage));
 			}
 		}
 		for(Building b: this.buildings){
