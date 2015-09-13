@@ -747,7 +747,6 @@ public class Character extends ActionObjet{
 			for(Character c: this.p.characters)
 				if(c.id == occ.idTarget){
 					this.setTarget(c);
-					System.out.println("héhé");
 				}
 		}
 		this.isImmolating = (occ.isImmolating==1);
