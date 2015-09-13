@@ -18,25 +18,27 @@ public class ContactWeapon extends Weapon {
 	}
 
 	public void collision(Character c){
-		if(c.team!=this.owner.team && ((Character)this.owner.getTarget()).id==c.id && this.state>this.chargeTime && !this.owner.isMobile()){
-			//Attack !
-			// Attack sound
-			float damage = this.damage;
-			this.sound.play(1f,this.p.soundVolume);
-			if(this instanceof Spear && c.horse!=null)
-				damage = damage*this.p.constants.bonusSpearHorse;
-			if(this instanceof Sword && c.weapon instanceof Bow)
-				damage = damage*this.p.constants.bonusSwordBow;
-			if(c.getArmor()<damage){
-				c.lifePoints+=c.getArmor()-damage;
+		if(this.owner.getTarget()!=null && this.owner.getTarget() instanceof Character){
+			if(c.team!=this.owner.team && ((Character)this.owner.getTarget()).id==c.id && this.state>this.chargeTime && !this.owner.isMobile()){
+				//Attack !
+				// Attack sound
+				float damage = this.damage;
+				this.sound.play(1f,this.p.soundVolume);
+				if(this instanceof Spear && c.horse!=null)
+					damage = damage*this.p.constants.bonusSpearHorse;
+				if(this instanceof Sword && c.weapon instanceof Bow)
+					damage = damage*this.p.constants.bonusSwordBow;
+				if(c.getArmor()<damage){
+					c.lifePoints+=c.getArmor()-damage;
+				}
+				// Reset the state
+				this.state = 0f;
 			}
-			// Reset the state
-			this.state = 0f;
 		}
 	}
 	public void collision(Building c){
-		
 
-		
+
+
 	}
 }
