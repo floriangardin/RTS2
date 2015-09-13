@@ -81,7 +81,7 @@ public class MenuMulti extends Menu {
 					this.game.inMultiplayer = true;
 					this.game.isHost = true;
 					this.game.startTime = System.currentTimeMillis();
-					this.game.outputSender.start();
+					this.game.outputReceiver.start();
 					this.game.outputSender.start();
 					this.game.quitMenu();
 				} else {
