@@ -752,6 +752,8 @@ public class Character extends ActionObjet{
 		this.isImmolating = (occ.isImmolating==1);
 		for(int i=0; i<this.spells.size();i++)
 			this.spellsState.set(i,occ.spellState[i]);
+		if(this.weapon!=null)
+			this.weapon.setXY(this.getX(),this.getY());
 		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
 			return;
 		this.changeEquipment(occ.weaponType, occ.horseType);

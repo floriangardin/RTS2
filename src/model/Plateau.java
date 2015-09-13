@@ -369,10 +369,12 @@ public class Plateau {
 			}
 			// Between characters and weapons
 			for(ActionObjet i:equipments){
+				System.out.print(i+"  ");
 				if(i.collisionBox.intersects(o.collisionBox)){
 					i.collision(o);
 				}
 			}
+			System.out.println();
 			// Between characters and generator
 			for(Building e:buildings){
 				if(e.collisionBox.intersects(o.collisionBox)){

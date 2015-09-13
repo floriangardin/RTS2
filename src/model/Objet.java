@@ -49,7 +49,7 @@ public abstract class Objet {
 	public float getY(){
 		return y;
 	}
-	protected void setXY(float x, float y){
+	public void setXY(float x, float y){
 		this.x = x;
 		this.y = y;
 		this.collisionBox.setCenterX(x);
