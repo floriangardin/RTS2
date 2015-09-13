@@ -79,7 +79,6 @@ public class Arrow extends Bullet{
 			if(c.getArmor()<=damage){
 				c.lifePoints+=c.getArmor()-damage;
 			}
-			this.lifePoints=-1f;
 		}
 
 	}

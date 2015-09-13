@@ -772,8 +772,8 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 
-	public void q(Arrow a){
-		if(a.team!=this.team){
+	public void collision(Arrow b){
+		if(b.team!=this.team){
 			// Attack if armor<damage and collision
 			this.lifePoints=-1f;
 		}
