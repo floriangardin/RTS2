@@ -95,7 +95,7 @@ public class Map {
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,3*plateau.maxY/4-55f);
 		new BuildingBarrack(plateau,plateau.g,4*plateau.maxX/5-100f,plateau.maxY/2);
 		
-		data2.create(UnitsList.Crossbowman, 301f, plateau.maxY/2+3f);
+		data2.create(UnitsList.Crossbowman, 320f, plateau.maxY/2+3f);
 		
 		
 		// CENTER
