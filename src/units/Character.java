@@ -146,7 +146,7 @@ public class Character extends ActionObjet{
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
 		// Parameters
-		System.out.println(occ);
+		//System.out.println(occ);
 		this.name = occ.name;
 		this.p = p;
 		this.player = this.p.g.players.get(team);

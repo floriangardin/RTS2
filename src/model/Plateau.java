@@ -369,12 +369,10 @@ public class Plateau {
 			}
 			// Between characters and weapons
 			for(ActionObjet i:equipments){
-				System.out.print(i+"  ");
 				if(i.collisionBox.intersects(o.collisionBox)){
 					i.collision(o);
 				}
 			}
-			System.out.println();
 			// Between characters and generator
 			for(Building e:buildings){
 				if(e.collisionBox.intersects(o.collisionBox)){
@@ -639,7 +637,6 @@ public class Plateau {
 		for(Bullet o: bullets){
 			if(o.team==this.g.currentPlayer)
 				o.action();
-			System.out.println(o.id+" "+o.team+" "+o.x+" "+o.y);
 		}
 		for(Building e: this.buildings){
 			if(e.team==this.g.currentPlayer)
