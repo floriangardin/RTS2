@@ -982,8 +982,10 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Bullet c2: this.bullets){
-				if(g.undestroyable.contains(c2))
+				if(g.undestroyable.contains(c2)){
+					System.out.println("on évite la mort");
 					continue;
+				}
 				toErase = true;
 				for(OutputBullet occ : om.toChangeBullets){
 					if(occ.id==c2.id && occ.team == c2.team)

@@ -261,7 +261,7 @@ public class Game extends BasicGame
 				this.outputs.clear();
 				this.plateau.updateFromOutput(om);
 			}
-
+			System.out.println(undestroyable);
 
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
