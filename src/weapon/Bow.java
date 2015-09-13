@@ -37,6 +37,8 @@ public class Bow extends RangeWeapon{
 		}
 		// update x and y
 		this.setXY(this.owner.getX(), this.owner.getY());
+		if(this.team!=this.p.g.currentPlayer)
+			return;
 
 		if(!(this.owner.getTarget() instanceof Character)){
 			return;
