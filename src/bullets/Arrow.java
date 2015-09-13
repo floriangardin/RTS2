@@ -68,7 +68,7 @@ public class Arrow extends Bullet{
 	}
 
 	public void collision(Character c){
-		if(c.team!=this.owner.team){
+		if(c.team!=this.team){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
 			if(c.horse==null){
@@ -95,6 +95,7 @@ public class Arrow extends Bullet{
 	public void action(){
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
 		if(this.x>this.p.maxX || this.x<0 || this.y>this.p.maxY||this.y<0){
+			System.out.println("sortie de map");
 			this.lifePoints=-1f;
 		}
 	}
