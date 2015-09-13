@@ -871,14 +871,7 @@ public class Plateau {
 
 		// Handling the changes
 		
-		// Entre parenthèse - détruire les bullets
-		for(Bullet b:this.bullets){
-			if(!b.isAlive())
-				if(b instanceof Arrow)
-					om.toSupprBullets.add(new OutputBullet(b.id,0,b.team,b.x,b.y,b.vx,b.vy,b.damage));
-				else
-					om.toSupprBullets.add(new OutputBullet(b.id,1,b.team,b.x,b.y,b.vx,b.vy,b.damage));
-		}
+		
 
 		// 3 - Collision, Action, Cleaning
 		this.collision();
@@ -986,10 +979,17 @@ public class Plateau {
 				}
 
 			}
-			for(OutputBullet occ : om.toSupprBullets){
-				for(Bullet c2:this.bullets)
+			toErase = true;
+			for(Bullet c2: this.bullets){
+				if(c2.team!=this.g.currentPlayer)
+					continue;
+				toErase = true;
+				for(OutputBullet occ : om.toChangeBullets){
 					if(occ.id==c2.id && occ.team == c2.team)
-						this.bullets.remove(c2);
+						toErase = false;
+				}
+				if(toErase)
+					this.toRemoveBullets.addElement(c2);
 			}
 			// Buildings
 			// Changing buildings

@@ -24,8 +24,6 @@ public class OutputModel extends MultiObjetModel{
 
 	public Vector<OutputChar> toChangeCharacters;
 
-	public Vector<OutputBullet> toSupprBullets;
-
 	public Vector<OutputBullet> toChangeBullets;
 
 	public Vector<OutputBuilding> toChangeBuildings;
@@ -42,7 +40,6 @@ public class OutputModel extends MultiObjetModel{
 		toChangeTech = new Vector<Integer>();
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
-		toSupprBullets = new Vector<OutputBullet>();
 		toChangeBuildings = new Vector<OutputBuilding>();
 		toChangeSpells = new Vector<OutputSpell>();
 		toChangeMessages = new Vector<Message>();
@@ -72,14 +69,12 @@ public class OutputModel extends MultiObjetModel{
 					case 6:
 						toChangeBullets.add(new OutputBullet(v[j]));break;
 					case 7:
-						toSupprBullets.add(new OutputBullet(v[j]));break;
-					case 8:
 						toChangeBuildings.add(new OutputBuilding(v[j]));break;
-					case 9:
+					case 8:
 						toChangeSpells.add(new OutputSpell(v[j]));break;
-					case 10:
+					case 9:
 						toChangeMessages.add(Message.getById(Integer.parseInt(v[j])));break;
-					case 11:
+					case 10:
 						selection.add(Integer.parseInt(v[j]));break;
 					}
 				}
@@ -91,7 +86,6 @@ public class OutputModel extends MultiObjetModel{
 		toChangeTech = new Vector<Integer>();
 		toChangeCharacters = new Vector<OutputChar>();
 		toChangeBullets = new Vector<OutputBullet>();
-		toSupprBullets = new Vector<OutputBullet>();
 		toChangeBuildings = new Vector<OutputBuilding>();
 		toChangeSpells = new Vector<OutputSpell>();
 		toChangeMessages = new Vector<Message>();
@@ -127,14 +121,6 @@ public class OutputModel extends MultiObjetModel{
 		size = toChangeBullets.size();
 		for(int i =0; i<size; i++){
 			s+=toChangeBullets.get(i).toString();
-			if(i<size-1)
-				s+="*";
-		}
-		s+="|";
-		// For the suppressed bullets
-		size = toSupprBullets.size();
-		for(int i =0; i<size; i++){
-			s+=toSupprBullets.get(i).toString();
 			if(i<size-1)
 				s+="*";
 		}
