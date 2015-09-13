@@ -280,6 +280,8 @@ public class Game extends BasicGame
 
 		if(host)
 			this.map.createMapPhillipe(plateau,this.players);
+		else
+			this.map.createMapPhillipe(plateau,this.players);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
@@ -296,13 +298,6 @@ public class Game extends BasicGame
 		this.plateau.maxY = 2000;
 		newGame(false);
 		this.addressHost = cm.ia;
-		for( ConnectionObjet co : cm.naturalObjets){
-			if(co instanceof ConnectionTree){
-				new Tree(co.x,co.y,this.plateau,((ConnectionTree) co).type);
-			} else if(co instanceof ConnectionWater){
-				new Water(co.x,co.y,((ConnectionWater)co).sizeX,((ConnectionWater)co).sizeY,this.plateau);
-			}
-		}
 		this.currentPlayer = 2;
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
