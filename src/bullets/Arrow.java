@@ -53,7 +53,7 @@ public class Arrow extends Bullet{
 		this.id = ocb.id;
 		p.addBulletObjets(this);
 		this.damage = ocb.damage;
-		this.team = 3-p.g.currentPlayer;
+		this.team = ocb.team;
 		this.lifePoints = 1f;
 		this.collisionBox = new Circle(ocb.x,ocb.y,size);
 		this.setXY(ocb.x,ocb.y);

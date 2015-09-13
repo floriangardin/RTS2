@@ -42,7 +42,6 @@ public abstract class Objet {
 		return g;}
 	protected void collision(Objet o){}
 	public void collision(Character c){}
-	public void collision(Arrow b){}
 	public float getX(){
 		return x;
 	}

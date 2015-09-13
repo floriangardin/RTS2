@@ -33,6 +33,7 @@ import spells.Spell;
 import spells.SpellEffect;
 import spells.SpellFirewall;
 import units.Character;
+import weapon.Bow;
 import weapon.Weapon;
 
 public class Plateau {
@@ -625,7 +626,8 @@ public class Plateau {
 				o.action();
 		}
 		for(ActionObjet o: this.equipments){
-			o.action();
+			if(o.team==this.g.currentPlayer || !(o instanceof Bow))
+				o.action();
 		}
 		for(Bullet o: bullets){
 			if(o.team==this.g.currentPlayer)
@@ -962,7 +964,7 @@ public class Plateau {
 					continue;
 				b = null;
 				for(Bullet b2: this.bullets)
-					if(b2.id==ocb.id)
+					if(b2.id==ocb.id && b2.team==ocb.team)
 						b = b2;
 				if(b!=null){
 					b.change(ocb);
