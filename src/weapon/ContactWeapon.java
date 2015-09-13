@@ -18,6 +18,7 @@ public class ContactWeapon extends Weapon {
 	}
 
 	public void collision(Character c){
+		System.out.println("collision");
 		if(c.team!=this.owner.team && this.owner.getTarget()==c && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Attack !
 			// Attack sound

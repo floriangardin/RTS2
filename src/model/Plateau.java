@@ -368,9 +368,7 @@ public class Plateau {
 				}
 			}
 			// Between characters and weapons
-			System.out.println(equipments.size());
 			for(ActionObjet i:equipments){
-
 				if(i.collisionBox.intersects(o.collisionBox)){
 					i.collision(o);
 				}
