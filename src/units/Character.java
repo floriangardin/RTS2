@@ -741,6 +741,11 @@ public class Character extends ActionObjet{
 		this.animation = occ.animation;
 		this.orientation = occ.direction;
 		this.sight = occ.sight;
+		if(occ.idTarget!=-1){
+			for(Character c: this.p.characters)
+				if(c.id == occ.idTarget)
+					this.setTarget(c);
+		}
 		this.isImmolating = (occ.isImmolating==1);
 		for(int i=0; i<this.spells.size();i++)
 			this.spellsState.set(i,occ.spellState[i]);
