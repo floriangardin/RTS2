@@ -84,7 +84,7 @@ public class MenuMulti extends Menu {
 					this.game.inputReceiver.start();
 					this.game.outputSender.start();
 					this.game.quitMenu();
-					} else {
+				} else {
 					this.setInHost(false);
 				}
 			default:
@@ -95,7 +95,7 @@ public class MenuMulti extends Menu {
 				if(waitingForReady){
 					this.sendMessage("2ready");
 					this.joinItems.get(3).name = "Waiting for host";
-					this.timeoutConnexion = 300f;
+					this.timeoutConnexion = 600f;
 				} else{
 					this.setInJoin(false);
 				}
@@ -162,8 +162,6 @@ public class MenuMulti extends Menu {
 					this.game.startTime = System.currentTimeMillis();
 					this.game.inputSender.start();
 					this.game.outputReceiver.start();
-					this.game.messageSender.start();
-					this.game.messageReceiver.start();
 					this.game.outputReceiver.setLock = true;
 					this.game.currentPlayer = 2;
 					this.game.quitMenu();

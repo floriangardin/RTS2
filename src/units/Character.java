@@ -623,8 +623,8 @@ public class Character extends ActionObjet{
 			}
 		}
 
-		//Si la collision a lieu dans un coin, on ne la considère pas
-		if((o.getMaxX()-this.getX()<4f || this.getX()-o.getMinX()<4f)&&(o.getMaxY()-this.getY()<4f || this.getY()-o.getMinY()<4f)){
+		//Si la collision a lieu dans un coin, on ne la considï¿½re pas
+		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
 			//System.out.println("dans un coin");
 			if(this.getTarget()==null)
 				return;
@@ -634,16 +634,20 @@ public class Character extends ActionObjet{
 				case 1: 
 				case 3:
 					if(this.getY()>o.getCenterY())
+
 						this.setXY(this.getX(), this.getY()+30f);
 					else
 						this.setXY(this.getX(), this.getY()-30f);
+
 					break;
 				case 2:
 				case 4:
 					if(this.getX()>o.getCenterX())
+
 						this.setXY(this.getX()+30f, this.getY());
 					else
 						this.setXY(this.getX()-30f, this.getY());
+
 					break;
 				}
 				return;
@@ -674,9 +678,8 @@ public class Character extends ActionObjet{
 			boolean b;
 			switch(Math.floorMod(sector, 2)){
 			case 1: 
-				// à droite ou à gauche
-				b = (this.getTarget().getX()-o.getCenterX())*(this.getX()-o.getCenterX())<=0f;
-				b = b&&(this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
+				// ï¿½ droite ou ï¿½ gauche
+				b = (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
 				float ya,yb;
 				ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
 				yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
@@ -695,8 +698,7 @@ public class Character extends ActionObjet{
 				break;
 			case 0:
 				// en haut ou en bas
-				b = (this.getTarget().getY()-o.getCenterY())*(this.getY()-o.getCenterY())<=0f;
-				b = b&&(this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
+				b = (this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
 				float xa,xb;
 				xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
 				xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
