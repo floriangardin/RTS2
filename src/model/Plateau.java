@@ -960,8 +960,8 @@ public class Plateau {
 			// Changing bullets
 			Bullet b=null;
 			for(OutputBullet ocb : om.toChangeBullets){
-				if(ocb.team==this.g.currentPlayer)
-					continue;
+//				if(ocb.team==this.g.currentPlayer)
+//					continue;
 				b = null;
 				for(Bullet b2: this.bullets)
 					if(b2.id==ocb.id && b2.team==ocb.team)
