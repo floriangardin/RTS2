@@ -631,8 +631,7 @@ public class Plateau {
 				o.action();
 		}
 		for(ActionObjet o: this.equipments){
-			if(o.team==this.g.currentPlayer)
-				o.action();
+			o.action();
 		}
 		for(Bullet o: bullets){
 			if(o.team==this.g.currentPlayer)

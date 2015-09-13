@@ -752,8 +752,8 @@ public class Character extends ActionObjet{
 						this.setTarget(c);
 					}
 			}
-			if(this.weapon!=null)
-				this.weapon.state = occ.stateWeapon;
+//			if(this.weapon!=null)
+//				this.weapon.state = occ.stateWeapon;
 			this.isImmolating = (occ.isImmolating==1);
 			for(int i=0; i<this.spells.size();i++)
 				this.spellsState.set(i,occ.spellState[i]);
@@ -763,8 +763,8 @@ public class Character extends ActionObjet{
 				return;
 			this.changeEquipment(occ.weaponType, occ.horseType);
 		} else {
-			if(this.weapon!=null)
-				this.weapon.state = occ.stateWeapon;
+//			if(this.weapon!=null)
+//				this.weapon.state = occ.stateWeapon;
 		}
 	}
 	// update the equiments
