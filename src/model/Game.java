@@ -326,7 +326,7 @@ public class Game extends BasicGame
 		this.players.add(new Player(this.plateau,2,0));
 
 		if(host)
-			this.map.createMapPhillipe(plateau,this.players);
+			this.map.createMapPhillipeMacro(plateau,this.players);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
@@ -339,8 +339,8 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
-		this.plateau.maxX = 3000f;
-		this.plateau.maxY = 2000f;
+		this.plateau.maxX = 5000f;
+		this.plateau.maxY = 2500f;
 		newGame(false);
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){

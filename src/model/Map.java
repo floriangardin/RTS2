@@ -75,8 +75,10 @@ public class Map {
 		plateau.maxX = 3000f;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		data1.create(UnitsList.Knight, plateau.maxX-300f, plateau.maxY/2+3f);
+		data1.create(UnitsList.Spearman, plateau.maxX-300f, plateau.maxY/2+3f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,200f,plateau.maxY/2,1);
+		
+		
 		
 		new BuildingMill(plateau,plateau.g,200f,1*plateau.maxY/4+55f);
 		new BuildingMine(plateau,plateau.g,200f,3*plateau.maxY/4-55f);
@@ -113,5 +115,75 @@ public class Map {
 		
 	}
 
+	
+	public void createMapPhillipeMacro(Plateau plateau,Vector<Player> players){
+		plateau.maxY = 2500f;
+		plateau.maxX = 5000f;
+		
+		float X = plateau.maxX;
+		float Y = plateau.maxY;
+		Data data1 = players.get(1).data;
+		Data data2 = players.get(2).data;
+		data1.create(UnitsList.Knight, plateau.maxX-300f, plateau.maxY/2+3f);
+		
+		//HQ
+		new BuildingHeadQuarters(plateau,plateau.g,X/9,Y/2,1);
+		new BuildingHeadQuarters(plateau,plateau.g,8*X/9,Y/2,2);
+
+		// FARMS
+		
+		new BuildingMill(plateau,plateau.g,X/18,3*Y/5);
+		new BuildingMill(plateau,plateau.g,17*X/18,3*Y/5);
+		
+		new BuildingMill(plateau,plateau.g,X/18,2*Y/5);
+		new BuildingMill(plateau,plateau.g,17*X/18,2*Y/5);
+		
+		new BuildingMill(plateau,plateau.g,7*X/18,3*Y/5);
+		new BuildingMill(plateau,plateau.g,11*X/18,2*Y/5);
+		
+		new BuildingMine(plateau,plateau.g,7*X/18,2*Y/5);
+		new BuildingMine(plateau,plateau.g,11*X/18,3*Y/5);
+		
+		new BuildingMine(plateau,plateau.g,X/18,4*Y/5);
+		new BuildingMine(plateau,plateau.g,17*X/18,4*Y/5);
+		
+		new BuildingMine(plateau,plateau.g,X/18,1*Y/5);
+		new BuildingMine(plateau,plateau.g,17*X/18,1*Y/5);
+		
+		new BuildingBarrack(plateau,plateau.g,3*X/18,1*Y/5);
+		new BuildingBarrack(plateau,plateau.g,15*X/18,1*Y/5);
+		
+		new BuildingBarrack(plateau,plateau.g,3*X/18,4*Y/5);
+		new BuildingBarrack(plateau,plateau.g,15*X/18,4*Y/5);
+		
+		new BuildingUniversity(plateau,plateau.g,3*X/18,Y/2);
+		new BuildingUniversity(plateau,plateau.g,15*X/18,Y/2);
+		
+		new BuildingStable(plateau,plateau.g,X/2,Y/6);
+		new BuildingStable(plateau,plateau.g,X/2,5*Y/6);
+		
+		new BuildingAcademy(plateau,plateau.g,X/2,Y/2);
+
+		data1.player.create(UnitsList.Spearman, X/9 + 1f, Y/2);
+		data2.player.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
+
+		// Water
+
+			
+		// ENCULE KEVIN 
+		new Water(5f*X/18,2f*Y/3,X/9,2f*Y/3,plateau);
+		new Water(13f*X/18,1f*Y/3,X/9,2f*Y/3,plateau);
+		
+		
+		
+		
+			
+		// Player 2 side
+		
+
+		
+
+		
+	}
 
 }

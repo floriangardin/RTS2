@@ -2,12 +2,12 @@ package units;
 
 public enum UnitsList {
 
-	Knight("knight",100f,0f,0f,150f),
+	Knight("knight",75f,50f,0f,150f),
 	Crossbowman("crossbowman",40f,20f,0f,80f),
-	Priest("priest",50f,50f,0f,100f),
+	Priest("priest",50f,100f,0f,100f),
 	Inquisitor("inquisitor",60f,100f,0f,180f),
 	Spearman("spearman",60f,0f,0f,100f),
-	Archange("archange",0f,0f,10f,0f);
+	Archange("archange",0f,0f,7f,0f);
 	
 	public String name = "";
 	public float goldPrice ;
