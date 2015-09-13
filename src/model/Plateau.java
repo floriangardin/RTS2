@@ -345,6 +345,8 @@ public class Plateau {
 	//general method calling collision method of the regarded objects
 	public void collision(){
 		for(Character o : characters){
+			if(o.team!=this.g.currentPlayer)
+				continue;
 			// Handle collision between actionObjets and action objects
 			for(Character i:characters){
 				if(i.collisionBox.intersects(o.collisionBox) && i!=o){
@@ -620,19 +622,24 @@ public class Plateau {
 	//general methods 
 	public void action(){
 		for(Character o: this.characters){
-			o.action();
+			if(o.team==this.g.currentPlayer)
+				o.action();
 		}
 		for(ActionObjet o: this.equipments){
-			o.action();
+			if(o.team==this.g.currentPlayer)
+				o.action();
 		}
 		for(Bullet o: bullets){
-			o.action();
+			if(o.team==this.g.currentPlayer)
+				o.action();
 		}
 		for(Building e: this.buildings){
-			e.action();
+			if(e.team==this.g.currentPlayer)
+				e.action();
 		}
 		for(ActionObjet a : this.spells){
-			a.action();
+			if(a.team==this.g.currentPlayer)
+				a.action();
 		}
 	}
 
@@ -1001,7 +1008,7 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Building c2: this.buildings){
-				if(c2.team==this.g.currentPlayer)
+				if(c2.team==this.g.currentPlayer || c2.team==0)
 					continue;
 				toErase = true;
 				for(OutputBuilding occ : om.toChangeBuildings){
