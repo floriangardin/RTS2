@@ -17,7 +17,7 @@ public class MultiSender extends Thread{
 	Vector<String> depot;
 
 	// DEBUGGING
-	private boolean debug =false;
+	private boolean debug =true;
 	int sent = 0;
 	
 	public MultiSender(GameContainer gc, Game g, InetAddress address, int port, Vector<String> depot){
@@ -45,7 +45,7 @@ public class MultiSender extends Thread{
 					sent++;
 					//System.out.println("sent :" + sent);
 					if(debug)
-						System.out.println("adresse : " + address+ " port : " + port + " message sent: " + this.depot.get(0));
+						System.out.println(" port : " + port + " message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
 				try{
