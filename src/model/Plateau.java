@@ -969,10 +969,12 @@ public class Plateau {
 				if(b!=null){
 					b.change(ocb);
 				}else{
-					if(ocb.typeBullet==0){
-						new Arrow(ocb,this);
-					} else if (ocb.typeBullet == 1){
-						new Fireball(ocb,this);				
+					if(ocb.team!=this.g.currentPlayer){
+						if(ocb.typeBullet==0){
+							new Arrow(ocb,this);
+						} else if (ocb.typeBullet == 1){
+							new Fireball(ocb,this);				
+						}
 					}
 				}
 
