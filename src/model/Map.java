@@ -119,19 +119,13 @@ public class Map {
 	public void createMapPhillipeMacro(Plateau plateau,Vector<Player> players){
 		plateau.maxY = 2500f;
 		plateau.maxX = 5000f;
-		
 		float X = plateau.maxX;
 		float Y = plateau.maxY;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		data1.create(UnitsList.Knight, plateau.maxX-300f, plateau.maxY/2+3f);
-		
 		//HQ
-		new BuildingHeadQuarters(plateau,plateau.g,X/9,Y/2,1);
-		new BuildingHeadQuarters(plateau,plateau.g,8*X/9,Y/2,2);
-
-		// FARMS
-		
+		new BuildingHeadQuarters(plateau,plateau.g,3*X/18,Y/2,1);
+		new BuildingHeadQuarters(plateau,plateau.g,15*X/18,Y/2,2);
 		new BuildingMill(plateau,plateau.g,X/18,3*Y/5);
 		new BuildingMill(plateau,plateau.g,17*X/18,3*Y/5);
 		
@@ -156,8 +150,8 @@ public class Map {
 		new BuildingBarrack(plateau,plateau.g,3*X/18,4*Y/5);
 		new BuildingBarrack(plateau,plateau.g,15*X/18,4*Y/5);
 		
-		new BuildingUniversity(plateau,plateau.g,3*X/18,Y/2);
-		new BuildingUniversity(plateau,plateau.g,15*X/18,Y/2);
+		new BuildingUniversity(plateau,plateau.g,X/9,10*Y/11);
+		new BuildingUniversity(plateau,plateau.g,8*X/9,Y/11);
 		
 		new BuildingStable(plateau,plateau.g,X/2,Y/6);
 		new BuildingStable(plateau,plateau.g,X/2,5*Y/6);
