@@ -14,7 +14,6 @@ import display.Message;
 import display.TopBar;
 import menu.Menu;
 import menu.MenuIntro;
-import menu.MenuPause;
 import multiplaying.*;
 import multiplaying.ConnectionModel.*;
 import nature.Tree;
@@ -243,74 +242,27 @@ public class Game extends BasicGame
 				// Defining the clock
 				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
-				// 1 - take the input of client and host
-				for(int player = 1; player<players.size(); player++){
-					if(player!=currentPlayer){
-						if(this.inputs.size()>0){
-							im = this.inputs.get(0);
-							this.inputs.clear();
-							//this.inputs.remove(0);
-							//							if(this.inputs.size()>0){
-							//								im.mix(this.inputs.get(0));
-							//								this.inputs.remove(0);
-							//							}
-							ims.add(im);
-							this.players.get(im.team).bottomBar.update(im.resX, im.resY);
-							this.players.get(im.team).topBar.update(im.resX, im.resY);
-						}
-					} else {
-						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-						ims.add(im);
-					}
-				}
 
-				// 2 - perform action() and update()
+				// 1 - perform action() and update()
 				OutputModel om = null;
 				if(isInMenu){
-					this.menuCurrent.update(ims.get(0));
+					this.menuCurrent.update(gc.getInput());
 				} else {
-					om = this.plateau.update(ims);
+					om = this.plateau.update(gc.getInput());
 				}
 
 				// 3 - send the output of the action and update step;
 				this.toSendOutputs.addElement(om.toString());
 
-			} else if(!isHost){
-				/* Multiplaying Client Pipeline
-				 * 1 - send the input to host
-				 * 2 - take the output from t-5
-				 * 3 - update from the output file
-				 */
-
-				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
-
-				// 1 - send the input to host
-				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-
-				this.toSendInputs.addElement(im.toString());
-
-				// 2 - take the output
-				OutputModel om = null;
-				if(this.outputs.size()>0){
-					om = this.outputs.get(0);
-					this.outputs.clear();
-				}
-				// 3 - update from the output file
-				this.outputReceiver.lock = false;
-				this.plateau.updateFromOutput(om, im);
-
-
-
 			}
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
-			// updating the game
+//			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+//			// updating the game
 			if(isInMenu){
-				this.menuCurrent.update(ims.get(0));
+				this.menuCurrent.update(gc.getInput());
 			} else {
-				this.plateau.update(ims);
+				this.plateau.update(gc.getInput());
 			}
 
 		}
@@ -384,7 +336,7 @@ public class Game extends BasicGame
 
 		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
-		this.menuPause = new MenuPause(this);
+		//this.menuPause = new MenuPause(this);
 		this.map = new Map();
 		this.setMenu(menuIntro);
 		this.startTime = System.currentTimeMillis();

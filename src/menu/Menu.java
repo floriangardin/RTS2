@@ -58,7 +58,4 @@ public abstract class Menu {
 	public void update(Input i){
 		
 	}
-	public void update(InputModel im){
-		
-	}
 }

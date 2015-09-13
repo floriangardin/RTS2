@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 import bullets.Bullet;
 import model.Objet;
@@ -137,7 +138,7 @@ public class MenuMulti extends Menu {
 		}
 	}
 
-	public void update(InputModel im){
+	public void update(Input i){
 		this.timerMessage=Math.max(this.timerMessage-1f, 0f);
 		this.timeoutConnexion=Math.max(this.timeoutConnexion-1f, 0f);
 		if(inJoin){
@@ -197,15 +198,14 @@ public class MenuMulti extends Menu {
 				}
 			}
 		}
-		if(im!=null){
 			for(Menu_Item item: this.items)
-				item.update(im);
+				item.update(i);
 			if(!lock){
 
 				this.joinItems.get(1).name = "IP: " + IP;
-				if(im.isPressedLeftClick)
-					callItems(im);
-				if(im.isPressedESC && !waitingForStart){
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+					callItems(i);
+				if(i.isKeyPressed(Input.KEY_ESCAPE) && !waitingForStart){
 					if(inJoin){
 						this.setInJoin(false);
 					} else if (inHost){
@@ -215,34 +215,34 @@ public class MenuMulti extends Menu {
 					}
 				}
 				if(inJoin){
-					for(int i=0; i<10; i++){
-						if(im.isPressedNumPad[i] && this.IP.length()<16){
-							if(i==9)
+					for(int k=0; k<10; k++){
+						if(i.isKeyPressed(k+2) && this.IP.length()<16){
+							if(k==9)
 								this.IP += "0";
 							else
-								this.IP += (i+1);
+								this.IP += (k+1);
 						}
 					}
-					if(im.isPressedBACK && this.IP.length()>0){
+					if(i.isKeyPressed(Input.KEY_BACK) && this.IP.length()>0){
 						this.IP = this.IP.substring(0, IP.length()-1);
 					}
-					if(im.isPressedDOT && this.IP.length()<16){
+					if(i.isKeyPressed(Input.KEY_COMMA) && this.IP.length()<16){
 						this.IP += ".";
 					}
-					if(im.isPressedENTER){
+					if(i.isKeyPressed(Input.KEY_RETURN)){
 						this.sendRequest(IP);
 					}
 				}
 			}
 			if(inJoin && waitingForReady){
-				if(im.isPressedLeftClick)
-					callItems(im);
-				if(im.isPressedENTER){
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+					callItems(i);
+				if(i.isKeyPressed(Input.KEY_RETURN)){
 					callItem(3);
 				}
 			}
 
-		}
+		
 
 		this.timer += 0.1f;
 		for(Bullet b : this.bullets)

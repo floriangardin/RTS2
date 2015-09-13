@@ -136,17 +136,11 @@ public class MenuIntro extends Menu {
 	}
 
 	public void update(Input i){
-		InputModel im = new InputModel(0,0,i,(int) game.plateau.Xcam,(int) game.plateau.Ycam,(int)game.resX,(int)game.resY);
-		this.update(im);
-	}
-	public void update(InputModel im){
 		if(!toGame){
-			if(im!=null){
-				if(im.isPressedLeftClick)
-					callItems(im);
-				for(Menu_Item item: this.items)
-					item.update(im);				
-			}
+			if(this.game.app.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON))
+				callItems(i);
+			for(Menu_Item item: this.items)
+				item.update(i);
 			this.timer += 0.1f;
 			for(Bullet b : this.bullets)
 				b.action();
