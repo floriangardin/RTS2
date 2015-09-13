@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import buildings.*;
+import bullets.Arrow;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Horse;
@@ -771,7 +772,13 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 
+	public void collision(Arrow a){
+		if(a.team!=this.team){
+			// Attack if armor<damage and collision
+			this.lifePoints=-1f;
+		}
 
+	}
 
 
 }

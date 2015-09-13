@@ -401,6 +401,12 @@ public class Plateau {
 				if(b.collisionBox.intersects(c.collisionBox))
 					b.collision(c);
 			}
+			if(b instanceof Arrow){
+				for(Character c:characters){
+					if(c.collisionBox.intersects(c.collisionBox))
+						c.collision((Arrow)b);
+				}
+			}
 		}
 		for(Building b : buildings){
 			for(ActionObjet o : equipments){
@@ -921,7 +927,7 @@ public class Plateau {
 		}
 		for(Building b: this.buildings){
 			if(b.team==this.g.currentPlayer)
-			om.toChangeBuildings.add(new OutputBuilding(b));
+				om.toChangeBuildings.add(new OutputBuilding(b));
 		}
 		for(SpellEffect s : this.spells){
 			if(s.team==this.g.currentPlayer)
@@ -933,7 +939,7 @@ public class Plateau {
 
 
 	public void updateFromOutput(OutputModel om){
-		
+
 		if(om!=null){
 			// Characters
 			// Changing characters
@@ -1046,7 +1052,7 @@ public class Plateau {
 				if(toErase)
 					this.toRemoveSpells.addElement(c2);
 			}
-			
+
 			//			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
 			//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 
