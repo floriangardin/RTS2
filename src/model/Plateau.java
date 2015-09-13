@@ -869,8 +869,6 @@ public class Plateau {
 		for(ActionObjet c: this.selection.get(player))
 			this.g.players.get(player).selection.addElement(c);
 
-		// Handling the changes
-		
 		
 
 		// 3 - Collision, Action, Cleaning
@@ -981,8 +979,6 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Bullet c2: this.bullets){
-				if(c2.team!=this.g.currentPlayer)
-					continue;
 				toErase = true;
 				for(OutputBullet occ : om.toChangeBullets){
 					if(occ.id==c2.id && occ.team == c2.team)
