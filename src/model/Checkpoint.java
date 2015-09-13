@@ -36,6 +36,8 @@ public class Checkpoint extends ActionObjet {
 		if(printed<=2f){
 			printed+=0.1f;
 		}
+		if(printed>1.5f)
+			this.destroy();
 		
 	}
 	
