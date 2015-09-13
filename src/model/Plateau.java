@@ -981,6 +981,7 @@ public class Plateau {
 
 			}
 			toErase = true;
+			System.out.println(this.bullets);
 			for(Bullet c2: this.bullets){
 				if(g.undestroyable.contains(c2)){
 					System.out.println("on évite la mort");
