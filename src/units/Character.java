@@ -779,7 +779,6 @@ public class Character extends ActionObjet{
 			// Attack if armor<damage and collision
 			this.lifePoints=-1f;
 		}
-
 	}
 
 
