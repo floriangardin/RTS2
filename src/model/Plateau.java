@@ -986,22 +986,10 @@ public class Plateau {
 				}
 
 			}
-			toErase = true;
-			for(Bullet c2: this.bullets){
-				if(c2.team==this.g.currentPlayer)
-					continue;
-				toErase = true;
-				for(OutputBullet occ : om.toChangeBullets){
-					if(occ.id==c2.id && occ.team == c2.team)
-						toErase = false;
-				}
-				if(toErase)
-					this.toRemoveBullets.addElement(c2);
-			}
 			for(OutputBullet occ : om.toSupprBullets){
 				for(Bullet c2:this.bullets)
 					if(occ.id==c2.id && occ.team == c2.team)
-						this.toRemoveBullets.addElement(c2);
+						this.bullets.remove(c2);
 			}
 			// Buildings
 			// Changing buildings
