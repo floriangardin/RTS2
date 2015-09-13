@@ -649,7 +649,6 @@ public class Plateau {
 			if(a.team==this.g.currentPlayer)
 				a.action();
 		}
-		System.out.println();
 	}
 
 	public OutputModel update(InputModel im){
