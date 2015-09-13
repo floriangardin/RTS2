@@ -230,6 +230,7 @@ public class Game extends BasicGame
 		InputModel im=null;
 		//System.out.println(this.plateau.characters);
 		if(inMultiplayer){
+			System.out.println("--");
 			/* Multiplaying Host Pipeline
 			 * 1 - take the input of t-5 client and host
 			 * 2 - perform action() and update()
