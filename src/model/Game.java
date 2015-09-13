@@ -244,7 +244,7 @@ public class Game extends BasicGame
 
 			OutputModel om = null;
 
-			undestroyable2 = undestroyable;
+			//undestroyable2 = undestroyable;
 			undestroyable = new Vector<Objet>();
 
 			// 1 - perform action() and update()
