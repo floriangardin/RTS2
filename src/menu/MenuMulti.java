@@ -162,7 +162,6 @@ public class MenuMulti extends Menu {
 					this.game.startTime = System.currentTimeMillis();
 					this.game.outputSender.start();
 					this.game.outputReceiver.start();
-					this.game.outputReceiver.setLock = true;
 					this.game.currentPlayer = 2;
 					this.game.quitMenu();
 				}

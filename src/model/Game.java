@@ -87,7 +87,7 @@ public class Game extends BasicGame
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
 	// Sender and Receiver
-	public MultiReceiver outputReceiver = new MultiReceiver(this,portOutput);
+	public MultiReceiver outputReceiver = new MultiReceiver(this,portInput);
 	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, portOutput, this.toSendOutputs);
 	public MultiReceiver connexionReceiver = new MultiReceiver(this,portConnexion);
 	public MultiSender connexionSender;

@@ -43,7 +43,8 @@ public class MultiReceiver extends Thread{
 					}
 					this.lock = setLock;
 					String msg = new String(packet.getData());
-					if(debug) System.out.println("port : " + port + " message received: " + msg);
+					if(debug) 
+						System.out.println("port : " + port + " message received: " + msg);
 					if(msg.length()>0){
 						int c = Integer.parseInt(msg.substring(0,1));
 						switch(c){
@@ -53,9 +54,9 @@ public class MultiReceiver extends Thread{
 						default:
 						}
 					}
-				} else {
-					try{Thread.sleep(1);}catch(InterruptedException e){}
-				}
+				} 
+				try{Thread.sleep(1);}catch(InterruptedException e){}
+				
 			}
 			if(debug)
 				System.out.println("Mort d'un receiver - " + port);
