@@ -19,7 +19,7 @@ public class MultiReceiver extends Thread{
 	public boolean setLock = false;
 
 	// DEBUGGING
-	private boolean debug = true;
+	private boolean debug = false;
 
 	public MultiReceiver(Game g, int port){
 		this.g = g;
@@ -34,7 +34,7 @@ public class MultiReceiver extends Thread{
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
 				if(!lock){
-					message = new byte[16000];
+					message = new byte[8000];
 					packet = new DatagramPacket(message, message.length);
 					try{
 						server.receive(packet);
@@ -43,7 +43,7 @@ public class MultiReceiver extends Thread{
 					}
 					this.lock = setLock;
 					String msg = new String(packet.getData());
-					if(debug) System.out.println(System.currentTimeMillis() + "port : " + port + " message received: " + msg);
+					if(debug) System.out.println("port : " + port + " message received: " + msg);
 					if(msg.length()>0){
 						int c = Integer.parseInt(msg.substring(0,1));
 						switch(c){

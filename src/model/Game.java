@@ -73,7 +73,7 @@ public class Game extends BasicGame
 	public int portConnexion = 6113;
 	public int portInput = 6114;
 	public int portOutput = 6115;
-	public int portMessage = 6116;
+	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
 	public InetAddress addressClient;
@@ -85,7 +85,6 @@ public class Game extends BasicGame
 	public Vector<String> toSendOutputs = new Vector<String>();
 	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
-	public Vector<String> messages = new Vector<String>();
 	public int timeValue;
 	// Sender and Receiver
 	public MultiReceiver inputReceiver = new MultiReceiver(this,portInput);
@@ -94,8 +93,6 @@ public class Game extends BasicGame
 	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, portOutput, this.toSendOutputs);
 	public MultiReceiver connexionReceiver = new MultiReceiver(this,portConnexion);
 	public MultiSender connexionSender;
-	public MultiReceiver messageReceiver = new MultiReceiver(this,portMessage);
-	public MultiSender messageSender = new MultiSender(this.app,this,addressClient, portMessage, this.messages);
 	public boolean isHost;
 	//Debugging network
 	public int toAdd = 0;
@@ -302,11 +299,6 @@ public class Game extends BasicGame
 				// 3 - update from the output file
 				this.outputReceiver.lock = false;
 				this.plateau.updateFromOutput(om, im);
-				
-//				// 4 - re-sending the input to host
-//				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-//				this.toSendInputs.addElement(im.toString());
-
 
 
 			}

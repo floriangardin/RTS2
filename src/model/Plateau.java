@@ -646,8 +646,6 @@ public class Plateau {
 		//		if(this.spells.size()>0){
 		//			System.out.println(this.spells);
 		//		}
-		long startTime = System.currentTimeMillis();
-		long time;
 		OutputModel om = new OutputModel(0);
 
 		//		// 1 - If ESC start menu
@@ -871,8 +869,6 @@ public class Plateau {
 				for(ActionObjet c: this.selection.get(player))
 					this.g.players.get(player).selection.addElement(c);
 			}
-			time = System.currentTimeMillis() - startTime;
-			System.out.println("fin du traitement joueur " + player+" : "+time);
 		}
 
 		// Handling the changes
@@ -881,10 +877,6 @@ public class Plateau {
 		this.collision();
 		this.clean();
 		this.action();
-		
-
-		time = System.currentTimeMillis() - startTime;
-		System.out.println("gestion du plateau : "+time);
 
 		// 4 - Update the visibility
 		for(Character c:this.characters)
@@ -944,8 +936,6 @@ public class Plateau {
 		for(Message m:this.messages.get(2)){
 			om.toChangeMessages.add(m);
 		}
-		time = System.currentTimeMillis() - startTime;
-		System.out.println("autres gestion : "+time);
 
 		return om;
 	}
@@ -953,8 +943,6 @@ public class Plateau {
 
 	public void updateFromOutput(OutputModel om, InputModel im){
 		// Handling im
-		long startTime = System.currentTimeMillis();
-		long time;
 		if(im!=null){
 			int player = this.g.currentPlayer;
 
@@ -976,8 +964,6 @@ public class Plateau {
 
 		}
 
-		time = System.currentTimeMillis() - startTime;
-		System.out.println("gestion de l'imput : "+time);
 		if(om!=null){
 			// Characters
 			// Changing characters
@@ -1117,9 +1103,6 @@ public class Plateau {
 			//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 
 		}
-
-		time = System.currentTimeMillis() - startTime;
-		System.out.println("mise à jour du plateau : "+time);
 		// 4 - Update the visibility
 		for(Character c:this.characters)
 			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, c);
@@ -1132,9 +1115,6 @@ public class Plateau {
 
 		// Remove objets from lists
 		this.clean();
-
-		time = System.currentTimeMillis() - startTime;
-		System.out.println("autre gestion : "+time);
 	}
 
 	public void updateView(InputModel im, int player){

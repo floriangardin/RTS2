@@ -75,8 +75,7 @@ public class Map {
 		plateau.maxX = 3000f;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		for(int i= 0;i<100;i++)
-			data1.create(UnitsList.Spearman, 300f+(float)Math.random(), plateau.maxY/2+3f+(float) Math.random());
+		data1.create(UnitsList.Spearman, 300f, plateau.maxY/2+3f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(plateau,plateau.g,200f,plateau.maxY/2,1);
 		
 		new BuildingMill(plateau,plateau.g,200f,1*plateau.maxY/4+55f);
@@ -91,15 +90,14 @@ public class Map {
 		// ENCULE KEVIN 
 			new Water(3.0f*plateau.maxX/6,175f,800f,350f,plateau);
 			new Water(3.0f*plateau.maxX/6,plateau.maxY-175f,800f,350f,plateau);
-		
-		
+			
 		// Player 2 side
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(plateau,plateau.g,plateau.maxX-200f,plateau.maxY/2,2);
 		new BuildingMill(plateau,plateau.g,plateau.maxX-200f,1*plateau.maxY/4+55f);
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,3*plateau.maxY/4-55f);
 		new BuildingBarrack(plateau,plateau.g,4*plateau.maxX/5-100f,plateau.maxY/2);
-		for(int i = 0;i<100;i++)
-			data2.create(UnitsList.Spearman,  plateau.maxX-350f+(float)Math.random(), plateau.maxY/2+3f+(float) Math.random());
+		
+		data2.create(UnitsList.Spearman,  plateau.maxX-350f, plateau.maxY/2+3f);
 		
 		
 		// CENTER
