@@ -402,12 +402,6 @@ public class Plateau {
 				if(b.collisionBox.intersects(c.collisionBox))
 					b.collision(c);
 			}
-			if(b instanceof Arrow){
-				for(Character c:characters){
-					if(b.collisionBox.intersects(c.collisionBox))
-						c.collision((Arrow)b);
-				}
-			}
 		}
 		for(Building b : buildings){
 			for(ActionObjet o : equipments){
@@ -964,9 +958,11 @@ public class Plateau {
 			// Changing bullets
 			Bullet b=null;
 			for(OutputBullet ocb : om.toChangeBullets){
+				if(ocb.team==this.g.currentPlayer)
+					continue;
 				b = null;
 				for(Bullet b2: this.bullets)
-					if(b2.id==ocb.id && b2.team!=this.g.currentPlayer)
+					if(b2.id==ocb.id)
 						b = b2;
 				if(b!=null){
 					b.change(ocb);
@@ -981,11 +977,9 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Bullet c2: this.bullets){
-				if(c2.team==this.g.currentPlayer)
-					continue;
 				toErase = true;
 				for(OutputBullet occ : om.toChangeBullets){
-					if(occ.id==c2.id)
+					if(occ.id==c2.id && occ.team == c2.team)
 						toErase = false;
 				}
 				if(toErase)
