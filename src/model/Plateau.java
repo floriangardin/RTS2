@@ -981,10 +981,8 @@ public class Plateau {
 
 			}
 			toErase = true;
-			System.out.println(this.bullets);
 			for(Bullet c2: this.bullets){
 				if(g.undestroyable.contains(c2)||g.undestroyable2.contains(c2)){
-					System.out.println("on évite la mort");
 					continue;
 				}
 				toErase = true;
@@ -994,7 +992,6 @@ public class Plateau {
 				}
 				if(toErase){
 					this.toRemoveBullets.addElement(c2);
-					System.out.println("on cause la mort: "+c2.id+" "+c2.team);
 				}
 			}
 			// Buildings

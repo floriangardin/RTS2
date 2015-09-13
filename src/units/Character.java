@@ -149,7 +149,7 @@ public class Character extends ActionObjet{
 		//System.out.println(occ);
 		this.name = occ.name;
 		this.p = p;
-		this.player = this.p.g.players.get(team);
+		this.player = this.p.g.players.get(occ.team);
 		Character c = this.player.create(UnitsList.switchName(occ.name),occ.x,occ.y);
 		c.id = occ.id;
 	}
