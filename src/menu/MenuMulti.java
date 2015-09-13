@@ -350,10 +350,11 @@ public class MenuMulti extends Menu {
 		if(isHost){
 			this.game.addressClient = addressEnemy;
 			this.game.addressHost = addressLocal;
+			this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressClient, this.game.portOutput, this.game.toSendOutputs);
 		} else {
 			this.game.addressClient = addressLocal;
-			this.game.addressHost = addressEnemy;			
+			this.game.addressHost = addressEnemy;
+			this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressHost, this.game.portOutput, this.game.toSendOutputs);			
 		}
-		this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressClient, this.game.portOutput, this.game.toSendOutputs);
-	}
+		}
 }
