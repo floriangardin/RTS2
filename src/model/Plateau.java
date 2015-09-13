@@ -1056,6 +1056,7 @@ public class Plateau {
 			//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 
 		}
+		this.clean();
 	}
 
 	public void updateView(InputModel im, int player){
