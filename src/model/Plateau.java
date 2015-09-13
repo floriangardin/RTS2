@@ -993,7 +993,7 @@ public class Plateau {
 				}
 				if(toErase){
 					this.toRemoveBullets.addElement(c2);
-					System.out.println("on cause la mort");
+					System.out.println("on cause la mort: "+c2.id+" "+c2.team);
 				}
 			}
 			// Buildings

@@ -264,7 +264,6 @@ public class Game extends BasicGame
 						System.out.print(m.id+" "+m.team+" -- ");
 					for(Objet o:undestroyable)
 						System.out.println(((Bullet)o).id+" "+((Bullet)o).team);
-					System.out.println();
 				}
 				this.outputs.clear();
 				this.plateau.updateFromOutput(om);
