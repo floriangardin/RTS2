@@ -8,8 +8,8 @@ import org.newdawn.slick.Graphics;
 public abstract class ActionObjet extends Objet{
 	public int id;
 	public float maxLifePoints;
-	protected float vx;
-	protected float vy;
+	public float vx;
+	public float vy;
 	private Objet target;
 	protected Checkpoint checkpointTarget;
 

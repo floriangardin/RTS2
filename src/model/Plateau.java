@@ -870,6 +870,15 @@ public class Plateau {
 			this.g.players.get(player).selection.addElement(c);
 
 		// Handling the changes
+		
+		// Entre parenthèse - détruire les bullets
+		for(Bullet b:this.bullets){
+			if(!b.isAlive())
+				if(b instanceof Arrow)
+					om.toSupprBullets.add(new OutputBullet(b.id,0,b.team,b.x,b.y,b.vx,b.vy,b.damage));
+				else
+					om.toSupprBullets.add(new OutputBullet(b.id,1,b.team,b.x,b.y,b.vx,b.vy,b.damage));
+		}
 
 		// 3 - Collision, Action, Cleaning
 		this.collision();

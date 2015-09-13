@@ -5,6 +5,8 @@ import java.util.Vector;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
+import bullets.Arrow;
+import bullets.Bullet;
 import display.Message;
 import model.Utils;
 import spells.BlessedArea;
@@ -263,6 +265,20 @@ public class OutputModel extends MultiObjetModel{
 			this.vx = vx;
 			this.vy = vy;
 			this.damage = damage;
+		}
+		public OutputBullet(Bullet b){
+			// Output to create a new bullet
+			this.id = b.id;
+			if(b instanceof Arrow)
+				this.typeBullet = 0;
+			else
+				this.typeBullet = 1;
+			this.team = b.team;
+			this.x = b.x;
+			this.y = b.y;
+			this.vx = b.vx;
+			this.vy = b.vy;
+			this.damage = b.damage;
 		}
 		public OutputBullet(String s){
 			try{
