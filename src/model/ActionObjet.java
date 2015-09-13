@@ -32,6 +32,8 @@ public abstract class ActionObjet extends Objet{
 		return this.target;
 	}
 	public void setTarget(Objet t){
+		if(this.getTarget() instanceof Checkpoint)
+			this.getTarget().destroy();
 		this.target = t;
 		if(t!=null)
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
