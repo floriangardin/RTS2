@@ -332,7 +332,7 @@ public class OutputModel extends MultiObjetModel{
 			this.spellState[1] = Float.parseFloat((t[13]));
 			this.spellState[2] = Float.parseFloat((t[14]));
 			this.spellState[3] = Float.parseFloat((t[15]));
-			this.name = t[15];
+			this.name = t[16];
 		}
 		public String toString(){
 			String s= "";
