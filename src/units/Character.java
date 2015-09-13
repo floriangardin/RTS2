@@ -775,6 +775,7 @@ public class Character extends ActionObjet{
 
 	public void collision(Arrow b){
 		if(b.team!=this.team){
+			System.out.println("touche - tete de noeud");
 			// Attack if armor<damage and collision
 			this.lifePoints=-1f;
 		}
