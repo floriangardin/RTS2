@@ -960,8 +960,8 @@ public class Plateau {
 			// Changing bullets
 			Bullet b=null;
 			for(OutputBullet ocb : om.toChangeBullets){
-//				if(ocb.team==this.g.currentPlayer)
-//					continue;
+				//				if(ocb.team==this.g.currentPlayer)
+				//					continue;
 				b = null;
 				for(Bullet b2: this.bullets)
 					if(b2.id==ocb.id && b2.team==ocb.team)
@@ -979,6 +979,8 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Bullet c2: this.bullets){
+				if(c2.team==this.g.currentPlayer)
+					continue;
 				toErase = true;
 				for(OutputBullet occ : om.toChangeBullets){
 					if(occ.id==c2.id && occ.team == c2.team)
@@ -986,6 +988,11 @@ public class Plateau {
 				}
 				if(toErase)
 					this.toRemoveBullets.addElement(c2);
+			}
+			for(OutputBullet occ : om.toSupprBullets){
+				for(Bullet c2:this.bullets)
+					if(occ.id==c2.id && occ.team == c2.team)
+						this.toRemoveBullets.addElement(c2);
 			}
 			// Buildings
 			// Changing buildings
