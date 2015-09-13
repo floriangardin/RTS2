@@ -17,6 +17,7 @@ import menu.MenuIntro;
 import menu.MenuPause;
 import multiplaying.*;
 import multiplaying.ConnectionModel.*;
+import multiplaying.OutputModel.OutputBullet;
 import nature.Tree;
 import nature.Water;
 import spells.SpellEffect;
@@ -258,10 +259,15 @@ public class Game extends BasicGame
 			// 3 - receive the output of the action of the other player;
 			if(this.outputs.size()>0){
 				om = this.outputs.get(this.outputs.size()-1);
+				if(undestroyable.size()>0){
+					for(OutputBullet m : om.toChangeBullets)
+						System.out.print(m.id+" ");
+					System.out.println();
+					System.out.println(undestroyable);
+				}
 				this.outputs.clear();
 				this.plateau.updateFromOutput(om);
 			}
-			System.out.println(undestroyable);
 
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
