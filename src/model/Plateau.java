@@ -364,8 +364,6 @@ public class Plateau {
 			// Between Characters and bullets
 			for(Bullet i: bullets){
 				if(i.collisionBox.intersects(o.collisionBox)){
-					if(i instanceof Arrow)
-						System.out.println("collision: char:" + o.id+ " "+o.team+ " "+ o.getX()+"  arrow:"+i.id+" "+i.team+ " "+ i.getX());
 					i.collision(o);
 				}
 			}
@@ -395,6 +393,8 @@ public class Plateau {
 		}
 		// Between bullets and natural objets
 		for(Bullet b : bullets){
+			if(b.team!=g.currentPlayer)
+				continue;
 			for(NaturalObjet n: naturalObjets){
 				if(b.collisionBox.intersects(n.collisionBox))
 					b.collision(n);
@@ -403,9 +403,9 @@ public class Plateau {
 				if(b.collisionBox.intersects(c.collisionBox))
 					b.collision(c);
 			}
-			if(b instanceof Arrow && b.team==this.g.currentPlayer){
+			if(b instanceof Arrow){
 				for(Character c:characters){
-					if(c.collisionBox.intersects(c.collisionBox))
+					if(b.collisionBox.intersects(c.collisionBox))
 						c.collision((Arrow)b);
 				}
 			}
@@ -413,7 +413,6 @@ public class Plateau {
 		for(Building b : buildings){
 			for(ActionObjet o : equipments){
 				if(o.collisionBox.intersects(b.collisionBox) && o instanceof Weapon){
-
 					Weapon w = (Weapon) o;
 					w.collision(b);
 					b.collision(w);
