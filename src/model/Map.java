@@ -87,7 +87,7 @@ public class Map {
 		// Water
 
 			
-		// ENCULE KEVIN 
+		// Mythe KEVIN 
 			new Water(3.0f*plateau.maxX/6,175f,800f,350f,plateau);
 			new Water(3.0f*plateau.maxX/6,plateau.maxY-175f,800f,350f,plateau);
 			
