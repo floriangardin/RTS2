@@ -751,6 +751,8 @@ public class Character extends ActionObjet{
 					this.setTarget(c);
 				}
 		}
+		if(this.weapon!=null)
+			this.weapon.state = occ.stateWeapon;
 		this.isImmolating = (occ.isImmolating==1);
 		for(int i=0; i<this.spells.size();i++)
 			this.spellsState.set(i,occ.spellState[i]);
