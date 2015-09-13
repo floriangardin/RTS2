@@ -261,9 +261,10 @@ public class Game extends BasicGame
 				om = this.outputs.get(this.outputs.size()-1);
 				if(undestroyable.size()>0){
 					for(OutputBullet m : om.toChangeBullets)
-						System.out.print(m.id+" ");
+						System.out.print(m.id+" "+m.team+" -- ");
+					for(Objet o:undestroyable)
+						System.out.println(((Bullet)o).id+" "+((Bullet)o).team);
 					System.out.println();
-					System.out.println(undestroyable);
 				}
 				this.outputs.clear();
 				this.plateau.updateFromOutput(om);
