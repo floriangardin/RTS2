@@ -745,7 +745,7 @@ public class Character extends ActionObjet{
 			for(Character c: this.p.characters)
 				if(c.id == occ.idTarget)
 					this.setTarget(c);
-		}q
+		}
 		this.isImmolating = (occ.isImmolating==1);
 		for(int i=0; i<this.spells.size();i++)
 			this.spellsState.set(i,occ.spellState[i]);
