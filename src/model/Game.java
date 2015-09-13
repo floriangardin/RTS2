@@ -233,6 +233,7 @@ public class Game extends BasicGame
 			 * 3 - send the output of the action and update step
 			 */
 
+			this.outputReceiver.lock = false;
 			// Defining the clock
 			timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
