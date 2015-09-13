@@ -25,6 +25,7 @@ public class Bow extends RangeWeapon{
 		this.state = this.chargeTime;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),this.range);
 		this.setOwner(owner);
+		this.team = owner.team;
 
 	}
 	public void action(){
