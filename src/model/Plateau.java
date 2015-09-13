@@ -967,7 +967,7 @@ public class Plateau {
 				for(Bullet b2: this.bullets)
 					if(b2.id==ocb.id && b2.team==ocb.team)
 						b = b2;
-				if(b!=null){
+				if(b!=null && ocb.team!=g.currentPlayer){
 					b.change(ocb);
 				}else{
 					if(ocb.team!=this.g.currentPlayer){
