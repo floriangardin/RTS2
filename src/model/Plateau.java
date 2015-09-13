@@ -182,6 +182,7 @@ public class Plateau {
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
+		this.g.undestroyable.addElement(o);
 	}
 	private void removeBullet(Bullet o){
 		toRemoveBullets.addElement(o);
@@ -981,6 +982,8 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Bullet c2: this.bullets){
+				if(g.undestroyable.contains(c2))
+					continue;
 				toErase = true;
 				for(OutputBullet occ : om.toChangeBullets){
 					if(occ.id==c2.id && occ.team == c2.team)

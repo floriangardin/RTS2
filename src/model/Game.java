@@ -67,6 +67,8 @@ public class Game extends BasicGame
 	public int currentPlayer = 1;
 
 
+	Vector<Objet> undestroyable = new Vector<Objet>();
+	
 	// Network and multiplaying
 	public boolean inMultiplayer;
 	public long startTime;
@@ -239,7 +241,7 @@ public class Game extends BasicGame
 
 			OutputModel om = null;
 
-
+			undestroyable = new Vector<Objet>();
 
 			// 1 - perform action() and update()
 			im = new InputModel(timeValue,this.currentPlayer,gc.getInput(),this.plateau.Xcam,this.plateau.Ycam,this.resX,this.resY);
