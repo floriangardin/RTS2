@@ -912,24 +912,20 @@ public class Plateau {
 		om.gold = this.g.players.get(2).gold;
 		om.special = this.g.players.get(2).special;
 		for(Character c: this.characters){
-			if(c.team==this.g.currentPlayer)
-				om.toChangeCharacters.add(new OutputChar(c));
+			om.toChangeCharacters.add(new OutputChar(c));
 		}
 		for(Bullet b: this.bullets){
-			if(b.team==this.g.currentPlayer){
-				if(b instanceof Arrow)
-					om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy,b.damage));
-				else
-					om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy,b.damage));
-			}
+			if(b instanceof Arrow)
+				om.toChangeBullets.add(new OutputBullet(b.id,0,b.team,b.x,b.y,b.vx,b.vy,b.damage));
+			else
+				om.toChangeBullets.add(new OutputBullet(b.id,1,b.team,b.x,b.y,b.vx,b.vy,b.damage));
+
 		}
 		for(Building b: this.buildings){
-			if(b.team==this.g.currentPlayer)
-				om.toChangeBuildings.add(new OutputBuilding(b));
+			om.toChangeBuildings.add(new OutputBuilding(b));
 		}
 		for(SpellEffect s : this.spells){
-			if(s.team==this.g.currentPlayer)
-				om.toChangeSpells.add(new OutputSpell(s));
+			om.toChangeSpells.add(new OutputSpell(s));
 		}
 
 		return om;

@@ -236,13 +236,14 @@ public class OutputModel extends MultiObjetModel{
 
 	public static class OutputBullet{
 		public float x,y,vx,vy;
-		public int id;
+		public int id, team;
 		public int typeBullet;
 		public float damage;
-		public OutputBullet(int id, int type, float x, float y, float vx, float vy,float damage){
+		public OutputBullet(int id, int type, int team, float x, float y, float vx, float vy,float damage){
 			// Output to create a new bullet
 			this.id = id;
 			this.typeBullet = type;
+			this.team = team;
 			this.x = x;
 			this.y = y;
 			this.vx = vx;
@@ -254,18 +255,19 @@ public class OutputModel extends MultiObjetModel{
 				String[] t = Utils.split(s, ' ');
 				this.id = Integer.parseInt(t[0]);
 				this.typeBullet = Integer.parseInt(t[1]);
-				this.x = Float.parseFloat(t[2]);
-				this.y = Float.parseFloat(t[3]);
-				this.vx = Float.parseFloat(t[4]);
-				this.vy = Float.parseFloat(t[5]);
-				this.damage = Float.parseFloat(t[6]);
+				this.team = Integer.parseInt(t[2]);
+				this.x = Float.parseFloat(t[3]);
+				this.y = Float.parseFloat(t[4]);
+				this.vx = Float.parseFloat(t[5]);
+				this.vy = Float.parseFloat(t[6]);
+				this.damage = Float.parseFloat(t[7]);
 			} catch (NumberFormatException e ){
 				//System.out.println(s);
 			}
 		}
 		public String toString(){
 			String s = "";
-			s+=id+" "+typeBullet+" "+x+" "+y+" "+vx+" "+vy+" "+damage;
+			s+=id+" "+typeBullet+" "+team+" "+x+" "+y+" "+vx+" "+vy+" "+damage;
 			return s;
 		}
 	}

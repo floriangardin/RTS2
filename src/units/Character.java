@@ -139,7 +139,7 @@ public class Character extends ActionObjet{
 		default:
 
 		}
-		
+
 		this.weapon.team = this.team;
 
 	}
@@ -738,29 +738,34 @@ public class Character extends ActionObjet{
 
 	// update from an outputchar
 	public void change(OutputChar occ){
-		if(occ.team!=this.team)
-			this.changeTeam(occ.team);
-		this.setXY(occ.x, occ.y);
-		this.lifePoints = occ.lifePoints;
-		this.animation = occ.animation;
-		this.orientation = occ.direction;
-		this.sight = occ.sight;
-		if(occ.idTarget!=-1){
-			for(Character c: this.p.characters)
-				if(c.id == occ.idTarget){
-					this.setTarget(c);
-				}
+		if(this.team!=this.p.g.currentPlayer){
+			if(occ.team!=this.team)
+				this.changeTeam(occ.team);
+			this.setXY(occ.x, occ.y);
+			this.lifePoints = occ.lifePoints;
+			this.animation = occ.animation;
+			this.orientation = occ.direction;
+			this.sight = occ.sight;
+			if(occ.idTarget!=-1){
+				for(Character c: this.p.characters)
+					if(c.id == occ.idTarget){
+						this.setTarget(c);
+					}
+			}
+			if(this.weapon!=null)
+				this.weapon.state = occ.stateWeapon;
+			this.isImmolating = (occ.isImmolating==1);
+			for(int i=0; i<this.spells.size();i++)
+				this.spellsState.set(i,occ.spellState[i]);
+			if(this.weapon!=null)
+				this.weapon.setXY(this.getX(),this.getY());
+			if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
+				return;
+			this.changeEquipment(occ.weaponType, occ.horseType);
+		} else {
+			if(this.weapon!=null)
+				this.weapon.state = occ.stateWeapon;
 		}
-		if(this.weapon!=null)
-			this.weapon.state = occ.stateWeapon;
-		this.isImmolating = (occ.isImmolating==1);
-		for(int i=0; i<this.spells.size();i++)
-			this.spellsState.set(i,occ.spellState[i]);
-		if(this.weapon!=null)
-			this.weapon.setXY(this.getX(),this.getY());
-		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
-			return;
-		this.changeEquipment(occ.weaponType, occ.horseType);
 	}
 	// update the equiments
 	public void changeEquipment(int typeWeapon, int typeHorse){
