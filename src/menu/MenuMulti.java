@@ -81,7 +81,7 @@ public class MenuMulti extends Menu {
 					this.game.inMultiplayer = true;
 					this.game.isHost = true;
 					this.game.startTime = System.currentTimeMillis();
-					this.game.inputReceiver.start();
+					this.game.outputSender.start();
 					this.game.outputSender.start();
 					this.game.quitMenu();
 				} else {
@@ -160,7 +160,7 @@ public class MenuMulti extends Menu {
 					this.initMulti(false);
 					this.game.inMultiplayer = true;
 					this.game.startTime = System.currentTimeMillis();
-					this.game.inputSender.start();
+					this.game.outputSender.start();
 					this.game.outputReceiver.start();
 					this.game.outputReceiver.setLock = true;
 					this.game.currentPlayer = 2;
@@ -355,7 +355,6 @@ public class MenuMulti extends Menu {
 			this.game.addressClient = addressLocal;
 			this.game.addressHost = addressEnemy;			
 		}
-		this.game.inputSender = new MultiSender(this.game.app,this.game,game.addressHost,this.game.portInput,this.game.toSendInputs);
 		this.game.outputSender = new MultiSender(this.game.app,this.game,game.addressClient, this.game.portOutput, this.game.toSendOutputs);
 	}
 }

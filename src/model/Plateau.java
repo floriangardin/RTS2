@@ -43,11 +43,11 @@ public class Plateau {
 	public Game g;
 	public Sound deathSound;
 	public int nTeams;
-	public float maxX ;
-	public float maxY ;
+	public int maxX ;
+	public int maxY ;
 	// Camera 
-	public float Xcam;
-	public float Ycam;
+	public int Xcam;
+	public int Ycam;
 	// fog of war
 	public Image fog;
 	public Graphics gf;
@@ -95,7 +95,7 @@ public class Plateau {
 	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
 
-	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){
+	public Plateau(Constants constants,int maxX,int maxY,int nTeams, Game g){
 		this.soundVolume = g.soundVolume;
 		this.sounds = g.sounds;
 		this.images = g.images;
@@ -636,7 +636,7 @@ public class Plateau {
 		}
 	}
 
-	public OutputModel update(Vector<InputModel> ims){
+	public OutputModel update(InputModel im){
 		/* Pipeline of the update:
 		 * 1 - If ESC start menu
 		 * 2 - Handling inputs (1 loop per player)
@@ -654,222 +654,213 @@ public class Plateau {
 		//			return om;
 		//		}
 		// 2 - Handling inputs (1 loop per player)
-		InputModel im;
 
-		for(int player=1; player<this.g.players.size(); player++){
-			im = null;
-			for(InputModel inp : ims)
-				if(inp.team==player)
-					im = inp;
-			//im = ims.get(player-1);
-			if(im!=null){
-				this.updateView(im, player);
-				// Handling groups of units
-				for(int to=0; to<10; to++){
-					if(im.isPressedNumPad[to]){
-						if(isCastingSpell.get(player)){
-							isCastingSpell.set(player, false);
-							castingSpell.set(player,-1);
-						}
-						if(im.isPressedCTRL){
-							// Creating a new group made of the selection
-							this.g.players.get(player).groups.get(to).clear();
-							for(ActionObjet c: this.selection.get(player))
-								this.g.players.get(player).groups.get(to).add(c);
-						} else if(im.isPressedMAJ){
-							// Adding the current selection to the group
-							for(ActionObjet c: this.selection.get(player))
-								this.g.players.get(player).groups.get(to).add(c);
-						} else {
-							this.selection.get(player).clear();
-							for(ActionObjet c: this.g.players.get(player).groups.get(to))
-								this.selection.get(player).add(c);
-						}
-						this.g.players.get(player).groupSelection = to;
-					}
+		int player=this.g.currentPlayer;
+		this.updateView(im, player);
+		// Handling groups of units
+		for(int to=0; to<10; to++){
+			if(im.isPressedNumPad[to]){
+				if(isCastingSpell.get(player)){
+					isCastingSpell.set(player, false);
+					castingSpell.set(player,-1);
 				}
-				if(!im.leftClick){
-					// The button is not pressed and wasn't, the selection is non null
-					this.rectangleSelection.set(player, null);
-					this.inRectangle.get(player).clear();
-				}
-				// Split click bottom bar and not bottom bar
-				//Top Bar
-				if((im.yMouse-im.Ycam)<this.g.relativeHeightTopBar*im.resY){
-
-
-				}
-
-				//Bottom Bar
-				else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
-					BottomBar bb = this.g.players.get(player).bottomBar;
-					float relativeXMouse = (im.xMouse-im.Xcam);
-					float relativeYMouse = (im.yMouse-im.Ycam);
-					//Handling production buildings
-					if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
-						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-							if(im.isPressedLeftClick){
-
-								((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
-							}else{
-
-							}
-
-						}
-						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
-							if(im.isPressedLeftClick){
-
-								((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
-							}
-
-						}
-						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
-							if(im.isPressedLeftClick){
-								int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
-								Character c = ((Character) this.selection.get(player).get(0));
-								if(c.spells.size()>number){
-									if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-										if(c.spells.get(number).needToClick){
-											this.isCastingSpell.set(player, true);
-											this.castingSpell.set(player, number);
-										} else {
-											c.spells.get(number).launch(c, c);
-										}
-									} else {
-										this.addMessage(Message.getById(4), player);
-									}
-								}
-							}else{
-
-							}
-
-						}
-					}
-
-				}
-				// FIELD
-				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
-					//update the rectangle
-
-					if(im.leftClick){
-
-						if(isCastingSpell.get(player)){
-
-						} else {
-							// As long as the button is pressed, the selection is updated
-							this.updateRectangle(im,player);
-						}
-					}
-					if(im.isPressedLeftClick){
-						if(isCastingSpell.get(player)){
-							// Handling the spell
-							if(this.g.players.get(player).selection.size()>0){
-								Character c = (Character)this.g.players.get(player).selection.get(0); 
-								Spell spell = c.spells.get(castingSpell.get(player));
-								spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
-								c.spellsState.set(castingSpell.get(player),0f);
-							}
-							isCastingSpell.set(player,false);
-							castingSpell.set(player,-1);
-						} else if(im.isPressedMAJ){
-
-						} else {
-							this.clearSelection(player);
-						}
-					}
-					// Action for player k
-					if(im.isPressedRightClick){
-						//RALLY POINT
-						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-							((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
-						} else if(isCastingSpell.get(player)){
-							isCastingSpell.set(player,false);
-							castingSpell.set(player,-1);
-						} else if(im.isPressedMAJ){
-							updateSecondaryTarget(im.xMouse,im.yMouse,player);
-						} else {				
-							updateTarget(im.xMouse,im.yMouse,player);
-						}
-					}
-				}
-				// Handling other hotkeys in production bar
-				if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
-					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-
-						if(im.isPressedW)
-							((BuildingProduction) this.selection.get(player).get(0)).product(0);
-						if(im.isPressedX)
-							((BuildingProduction) this.selection.get(player).get(0)).product(1);
-						if(im.isPressedC)
-							((BuildingProduction) this.selection.get(player).get(0)).product(2);
-						if(im.isPressedV)
-							((BuildingProduction) this.selection.get(player).get(0)).product(3);
-						if(im.isPressedESC)
-							((BuildingProduction) this.selection.get(player).get(0)).removeProd();
-					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
-
-						if(im.isPressedW)
-							((BuildingTech) this.selection.get(player).get(0)).product(0);
-						if(im.isPressedX)
-							((BuildingTech) this.selection.get(player).get(0)).product(1);
-						if(im.isPressedC)
-							((BuildingTech) this.selection.get(player).get(0)).product(2);
-						if(im.isPressedV)
-							((BuildingTech) this.selection.get(player).get(0)).product(3);
-						if(im.isPressedESC)
-							((BuildingTech) this.selection.get(player).get(0)).removeProd();
-					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
-
-						int number = 4;
-
-						if(im.isPressedW)
-							number = 0;
-						if(im.isPressedX)
-							number = 1;
-						if(im.isPressedC)
-							number = 2;
-						if(im.isPressedV)
-							number = 3;
-						if(im.isPressedESC){
-							isCastingSpell.set(player,false);
-							castingSpell.set(player,-1);
-						}
-
-						Character c = ((Character) this.selection.get(player).get(0));
-						if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-							if(c.spells.get(number).needToClick){
-								isCastingSpell.set(player,true);
-								castingSpell.set(player,number);
-							} else {
-								c.spells.get(number).launch(c, c);
-							}
-						}
-					}
-				}
-				// Handling hotkeys for gestion of selection
-				if(im.isPressedTAB){
-					if(this.selection.get(player).size()>0){
-						Utils.switchTriName(this.selection.get(player));
-						if(this.g.players.get(player).groupSelection!=-1)
-							Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
-					}
-				}
-
-				// we update the selection according to the rectangle wherever is the mouse
-				if(!im.isPressedCTRL){
-					// The button is not pressed and wasn't, the selection is non null
-					this.updateSelection(rectangleSelection.get(player), player);
+				if(im.isPressedCTRL){
+					// Creating a new group made of the selection
+					this.g.players.get(player).groups.get(to).clear();
+					for(ActionObjet c: this.selection.get(player))
+						this.g.players.get(player).groups.get(to).add(c);
+				} else if(im.isPressedMAJ){
+					// Adding the current selection to the group
+					for(ActionObjet c: this.selection.get(player))
+						this.g.players.get(player).groups.get(to).add(c);
 				} else {
-					this.updateSelectionCTRL(rectangleSelection.get(player),player);
+					this.selection.get(player).clear();
+					for(ActionObjet c: this.g.players.get(player).groups.get(to))
+						this.selection.get(player).add(c);
 				}
-				// Update the selections of the players
-				this.g.players.get(player).selection.clear();
-				for(ActionObjet c: this.selection.get(player))
-					this.g.players.get(player).selection.addElement(c);
+				this.g.players.get(player).groupSelection = to;
 			}
 		}
+		if(!im.leftClick){
+			// The button is not pressed and wasn't, the selection is non null
+			this.rectangleSelection.set(player, null);
+			this.inRectangle.get(player).clear();
+		}
+		// Split click bottom bar and not bottom bar
+		//Top Bar
+		if((im.yMouse-im.Ycam)<this.g.relativeHeightTopBar*im.resY){
+
+
+		}
+
+		//Bottom Bar
+		else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
+			BottomBar bb = this.g.players.get(player).bottomBar;
+			float relativeXMouse = (im.xMouse-im.Xcam);
+			float relativeYMouse = (im.yMouse-im.Ycam);
+			//Handling production buildings
+			if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
+				if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+					if(im.isPressedLeftClick){
+
+						((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+					}else{
+
+					}
+
+				}
+				else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
+					if(im.isPressedLeftClick){
+
+						((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+					}
+
+				}
+				else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+					if(im.isPressedLeftClick){
+						int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
+						Character c = ((Character) this.selection.get(player).get(0));
+						if(c.spells.size()>number){
+							if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+								if(c.spells.get(number).needToClick){
+									this.isCastingSpell.set(player, true);
+									this.castingSpell.set(player, number);
+								} else {
+									c.spells.get(number).launch(c, c);
+								}
+							} else {
+								this.addMessage(Message.getById(4), player);
+							}
+						}
+					}else{
+
+					}
+
+				}
+			}
+
+		}
+		// FIELD
+		else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
+			//update the rectangle
+
+			if(im.leftClick){
+
+				if(isCastingSpell.get(player)){
+
+				} else {
+					// As long as the button is pressed, the selection is updated
+					this.updateRectangle(im,player);
+				}
+			}
+			if(im.isPressedLeftClick){
+				if(isCastingSpell.get(player)){
+					// Handling the spell
+					if(this.g.players.get(player).selection.size()>0){
+						Character c = (Character)this.g.players.get(player).selection.get(0); 
+						Spell spell = c.spells.get(castingSpell.get(player));
+						spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+						c.spellsState.set(castingSpell.get(player),0f);
+					}
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				} else if(im.isPressedMAJ){
+
+				} else {
+					this.clearSelection(player);
+				}
+			}
+			// Action for player k
+			if(im.isPressedRightClick){
+				//RALLY POINT
+				if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
+				} else if(isCastingSpell.get(player)){
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				} else if(im.isPressedMAJ){
+					updateSecondaryTarget(im.xMouse,im.yMouse,player);
+				} else {				
+					updateTarget(im.xMouse,im.yMouse,player);
+				}
+			}
+		}
+		// Handling other hotkeys in production bar
+		if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
+			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+
+				if(im.isPressedW)
+					((BuildingProduction) this.selection.get(player).get(0)).product(0);
+				if(im.isPressedX)
+					((BuildingProduction) this.selection.get(player).get(0)).product(1);
+				if(im.isPressedC)
+					((BuildingProduction) this.selection.get(player).get(0)).product(2);
+				if(im.isPressedV)
+					((BuildingProduction) this.selection.get(player).get(0)).product(3);
+				if(im.isPressedESC)
+					((BuildingProduction) this.selection.get(player).get(0)).removeProd();
+			}
+			else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
+
+				if(im.isPressedW)
+					((BuildingTech) this.selection.get(player).get(0)).product(0);
+				if(im.isPressedX)
+					((BuildingTech) this.selection.get(player).get(0)).product(1);
+				if(im.isPressedC)
+					((BuildingTech) this.selection.get(player).get(0)).product(2);
+				if(im.isPressedV)
+					((BuildingTech) this.selection.get(player).get(0)).product(3);
+				if(im.isPressedESC)
+					((BuildingTech) this.selection.get(player).get(0)).removeProd();
+			}
+			else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+
+				int number = 4;
+
+				if(im.isPressedW)
+					number = 0;
+				if(im.isPressedX)
+					number = 1;
+				if(im.isPressedC)
+					number = 2;
+				if(im.isPressedV)
+					number = 3;
+				if(im.isPressedESC){
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				}
+
+				Character c = ((Character) this.selection.get(player).get(0));
+				if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+					if(c.spells.get(number).needToClick){
+						isCastingSpell.set(player,true);
+						castingSpell.set(player,number);
+					} else {
+						c.spells.get(number).launch(c, c);
+					}
+				}
+			}
+		}
+		// Handling hotkeys for gestion of selection
+		if(im.isPressedTAB){
+			if(this.selection.get(player).size()>0){
+				Utils.switchTriName(this.selection.get(player));
+				if(this.g.players.get(player).groupSelection!=-1)
+					Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
+			}
+		}
+
+		// we update the selection according to the rectangle wherever is the mouse
+		if(!im.isPressedCTRL){
+			// The button is not pressed and wasn't, the selection is non null
+			this.updateSelection(rectangleSelection.get(player), player);
+		} else {
+			this.updateSelectionCTRL(rectangleSelection.get(player),player);
+		}
+		// Update the selections of the players
+		this.g.players.get(player).selection.clear();
+		for(ActionObjet c: this.selection.get(player))
+			this.g.players.get(player).selection.addElement(c);
 
 		// Handling the changes
 
@@ -888,8 +879,6 @@ public class Plateau {
 		for(SpellEffect b:this.spells)
 			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
 
-
-
 		// 4 - Update of the music
 		if(!g.isInMenu && !this.g.musicStartGame.playing() && !this.g.mainMusic.playing()){
 			this.g.mainMusic.loop();
@@ -897,73 +886,46 @@ public class Plateau {
 
 		// 5 - Update of the messages
 		Vector<Message> toDelete = new Vector<Message>();
-		for(int player=1; player<this.g.players.size(); player++){
-			toDelete.clear();
-			for(Message m: this.messages.get(player)){
-				m.remainingTime-=1f;
-				if(m.remainingTime<=0f)
-					toDelete.add(m);
-			}
-			for(Message m:toDelete)
-				this.messages.get(player).remove(m);
+		toDelete.clear();
+		for(Message m: this.messages.get(player)){
+			m.remainingTime-=1f;
+			if(m.remainingTime<=0f)
+				toDelete.add(m);
 		}
+		for(Message m:toDelete)
+			this.messages.get(player).remove(m);
 
 		// 6 - creation of the outputmodel
 		om.food = this.g.players.get(2).food;
 		om.gold = this.g.players.get(2).gold;
 		om.special = this.g.players.get(2).special;
-		for(Technologie t: this.g.players.get(2).hq.techsDiscovered){
-			om.toChangeTech.addElement(t.id);
-		}
 		for(Character c: this.characters){
-			om.toChangeCharacters.add(new OutputChar(c));
+			if(c.team==this.g.currentPlayer)
+				om.toChangeCharacters.add(new OutputChar(c));
 		}
 		for(Bullet b: this.bullets){
-			if(b instanceof Arrow)
-				om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy));
-			else
-				om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
+			if(b.team==this.g.currentPlayer){
+				if(b instanceof Arrow)
+					om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy));
+				else
+					om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
+			}
 		}
 		for(Building b: this.buildings){
+			if(b.team==this.g.currentPlayer)
 			om.toChangeBuildings.add(new OutputBuilding(b));
 		}
 		for(SpellEffect s : this.spells){
-			om.toChangeSpells.add(new OutputSpell(s));
-		}
-		for(ActionObjet c : this.selection.get(2)){
-			om.selection.add(c.id);
-		}
-		for(Message m:this.messages.get(2)){
-			om.toChangeMessages.add(m);
+			if(s.team==this.g.currentPlayer)
+				om.toChangeSpells.add(new OutputSpell(s));
 		}
 
 		return om;
 	}
 
 
-	public void updateFromOutput(OutputModel om, InputModel im){
-		// Handling im
-		if(im!=null){
-			int player = this.g.currentPlayer;
-
-			// IF in field
-
-			if(!im.leftClick){
-				// The button is not pressed and wasn't, the selection is non null
-				this.rectangleSelection.set(player, null);
-			}
-			if((im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
-
-				// Update the rectangle
-				if(im.leftClick){
-					// As long as the button is pressed, the selection is updated
-					this.updateRectangle(im, player);
-				}
-			}
-			this.updateView(im, player);
-
-		}
-
+	public void updateFromOutput(OutputModel om){
+		
 		if(om!=null){
 			// Characters
 			// Changing characters
@@ -981,6 +943,8 @@ public class Plateau {
 			}
 			boolean toErase = true;
 			for(Character c2: this.characters){
+				if(c2.team==this.g.currentPlayer)
+					continue;
 				toErase = true;
 				for(OutputChar occ : om.toChangeCharacters){
 					if(occ.id==c2.id)
@@ -1010,6 +974,8 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Bullet c2: this.bullets){
+				if(c2.team==this.g.currentPlayer)
+					continue;
 				toErase = true;
 				for(OutputBullet occ : om.toChangeBullets){
 					if(occ.id==c2.id)
@@ -1035,6 +1001,8 @@ public class Plateau {
 			}
 			toErase = true;
 			for(Building c2: this.buildings){
+				if(c2.team==this.g.currentPlayer)
+					continue;
 				toErase = true;
 				for(OutputBuilding occ : om.toChangeBuildings){
 					if(occ.id==c2.id)
@@ -1044,15 +1012,6 @@ public class Plateau {
 					this.toRemoveBuildings.addElement(c2);
 			}
 
-			// Techs
-			// Changing techs
-			this.g.players.get(2).hq.changeTech(om.toChangeTech);
-			for(Building baa:this.buildings){
-				if(baa instanceof BuildingTech && baa.team==2){
-					((BuildingTech)baa).hq = this.g.players.get(2).hq;
-					((BuildingTech)baa).updateProductionList();
-				}
-			}
 			// Spell
 			// Changing spells
 			SpellEffect sp=null;
@@ -1069,6 +1028,8 @@ public class Plateau {
 			}
 			toErase = true;
 			for(SpellEffect c2: this.spells){
+				if(c2.team==this.g.currentPlayer)
+					continue;
 				toErase = true;
 				for(OutputSpell occ : om.toChangeSpells){
 					if(occ.id==c2.id)
@@ -1077,44 +1038,11 @@ public class Plateau {
 				if(toErase)
 					this.toRemoveSpells.addElement(c2);
 			}
-			// Messages
-			// Changing messages
-			this.messages.get(2).clear();
-			for(Message m:om.toChangeMessages){
-				this.messages.get(2).add(m);
-			}
-			//selections
-			this.selection.set(this.g.currentPlayer, new Vector<ActionObjet>());
-			for(int i : om.selection){
-				for(Character c2: this.characters)
-					if(c2.id==i)
-						this.selection.get(this.g.currentPlayer).addElement(c2);
-				for(Building c2: this.buildings)
-					if(c2.id==i)
-						this.selection.get(this.g.currentPlayer).addElement(c2);
-			}
-			this.g.players.get(this.g.currentPlayer).selection.clear();
-			for(ActionObjet o:this.selection.get(this.g.currentPlayer))
-				this.g.players.get(this.g.currentPlayer).selection.addElement(o);
-			this.g.players.get(2).gold = om.gold;
-			this.g.players.get(2).food = om.food;
-			this.g.players.get(2).special = om.special;
+			
 			//			System.out.println("allTechs: " +this.g.players.get(2).hq.allTechs);
 			//			System.out.println("techDiscovered: " +this.g.players.get(2).hq.techsDiscovered);
 
 		}
-		// 4 - Update the visibility
-		for(Character c:this.characters)
-			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, c);
-		for(Building b:this.buildings)
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
-		for(Bullet b:this.bullets)
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
-		for(SpellEffect b:this.spells)
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
-
-		// Remove objets from lists
-		this.clean();
 	}
 
 	public void updateView(InputModel im, int player){
@@ -1136,10 +1064,10 @@ public class Plateau {
 			for(int to=0; to<10; to++){
 				if(im.isPressedNumPad[to]){
 					if(this.g.players.get(player).groupSelection == to && this.g.players.get(player).groups.get(to).size()>0){
-						float xmoy=this.g.players.get(player).groups.get(to).get(0).getX();
-						float ymoy=this.g.players.get(player).groups.get(to).get(0).getY();
-						this.Xcam = Math.min(maxX-im.resX/2f, Math.max(-im.resX/2f, xmoy-im.resX/2f));
-						this.Ycam = Math.min(maxY-im.resY/2f, Math.max(-im.resY/2f, ymoy-im.resY/2f));
+						int xmoy=(int)Math.floor(this.g.players.get(player).groups.get(to).get(0).getX());
+						int ymoy=(int)Math.floor(this.g.players.get(player).groups.get(to).get(0).getY());
+						this.Xcam = Math.min(maxX-im.resX/2, Math.max(-im.resX/2, xmoy-im.resX/2));
+						this.Ycam = Math.min(maxY-im.resY/2, Math.max(-im.resY/2, ymoy-im.resY/2));
 					}
 				}
 			}
@@ -1161,8 +1089,8 @@ public class Plateau {
 				if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
 						b.startX+b.w && this.rectangleSelection.get(player)==null){
 					// Put camera where the click happened
-					Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-im.resX/2f;
-					Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-im.resY/2f;
+					Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-im.resX/2;
+					Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-im.resY/2;
 
 				}
 				if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<

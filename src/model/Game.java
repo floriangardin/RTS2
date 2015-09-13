@@ -57,8 +57,8 @@ public class Game extends BasicGame
 	public Vector<Objet> objets_selection=new Vector<Objet>();
 
 	// Resolution : 
-	public float resX;
-	public float resY;
+	public int resX;
+	public int resY;
 
 	// Plateau
 	public Plateau plateau ;
@@ -87,8 +87,6 @@ public class Game extends BasicGame
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
 	// Sender and Receiver
-	public MultiReceiver inputReceiver = new MultiReceiver(this,portInput);
-	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,portInput,this.toSendInputs);
 	public MultiReceiver outputReceiver = new MultiReceiver(this,portOutput);
 	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, portOutput, this.toSendOutputs);
 	public MultiReceiver connexionReceiver = new MultiReceiver(this,portConnexion);
@@ -227,90 +225,45 @@ public class Game extends BasicGame
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
 		InputModel im=null;
-		Vector<InputModel> ims = new Vector<InputModel>();
 		//System.out.println(this.plateau.characters);
 		if(inMultiplayer){
+			/* Multiplaying Host Pipeline
+			 * 1 - take the input of t-5 client and host
+			 * 2 - perform action() and update()
+			 * 3 - send the output of the action and update step
+			 */
 
-			//Utils.printCurrentState(this.plateau);
-			// The game is in multriplaying mode
-			if(isHost){
-				/* Multiplaying Host Pipeline
-				 * 1 - take the input of t-5 client and host
-				 * 2 - perform action() and update()
-				 * 3 - send the output of the action and update step
-				 */
+			// Defining the clock
+			timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
-				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
-
-				// 1 - take the input of client and host
-				for(int player = 1; player<players.size(); player++){
-					if(player!=currentPlayer){
-						if(this.inputs.size()>0){
-							im = this.inputs.get(0);
-							this.inputs.clear();
-							//this.inputs.remove(0);
-							//							if(this.inputs.size()>0){
-							//								im.mix(this.inputs.get(0));
-							//								this.inputs.remove(0);
-							//							}
-							ims.add(im);
-							this.players.get(im.team).bottomBar.update(im.resX, im.resY);
-							this.players.get(im.team).topBar.update(im.resX, im.resY);
-						}
-					} else {
-						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-						ims.add(im);
-					}
-				}
-
-				// 2 - perform action() and update()
-				OutputModel om = null;
-				if(isInMenu){
-					this.menuCurrent.update(ims.get(0));
-				} else {
-					om = this.plateau.update(ims);
-				}
-
-				// 3 - send the output of the action and update step;
-				this.toSendOutputs.addElement(om.toString());
-
-			} else if(!isHost){
-				/* Multiplaying Client Pipeline
-				 * 1 - send the input to host
-				 * 2 - take the output from t-5
-				 * 3 - update from the output file
-				 */
-
-				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
-
-				// 1 - send the input to host
-				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-
-				this.toSendInputs.addElement(im.toString());
-
-				// 2 - take the output
-				OutputModel om = null;
-				if(this.outputs.size()>0){
-					om = this.outputs.get(0);
-					this.outputs.clear();
-				}
-				// 3 - update from the output file
-				this.outputReceiver.lock = false;
-				this.plateau.updateFromOutput(om, im);
-
-
-
+			// 1 - perform action() and update()
+			im = new InputModel(timeValue,this.currentPlayer,gc.getInput(),this.plateau.Xcam,this.plateau.Ycam,this.resX,this.resY);
+			OutputModel om = null;
+			if(isInMenu){
+				this.menuCurrent.update(im);
+			} else {
+				om = this.plateau.update(im);
 			}
+
+			// 2 - send the output of the action and update step;
+			this.toSendOutputs.addElement(om.toString());
+			
+			// 3 - receive the output of the action of the other player;
+			if(this.outputs.size()>0){
+				om = this.outputs.get(this.outputs.size()-1);
+				this.outputs.clear();
+				this.plateau.updateFromOutput(om);
+			}
+
+
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+			im = new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			// updating the game
 			if(isInMenu){
-				this.menuCurrent.update(ims.get(0));
+				this.menuCurrent.update(im);
 			} else {
-				this.plateau.update(ims);
+				this.plateau.update(im);
 			}
 
 		}
@@ -339,8 +292,8 @@ public class Game extends BasicGame
 	}
 	public void newGame(ConnectionModel cm){
 		//Clean all variables
-		this.plateau.maxX = 3000f;
-		this.plateau.maxY = 2000f;
+		this.plateau.maxX = 3000;
+		this.plateau.maxY = 2000;
 		newGame(false);
 		this.addressHost = cm.ia;
 		for( ConnectionObjet co : cm.naturalObjets){
@@ -402,7 +355,7 @@ public class Game extends BasicGame
 	{
 		super("Ultra Mythe RTS 3.0");
 	}
-	public void setParams(Constants constants,float resX,float resY){
+	public void setParams(Constants constants,int resX, int resY){
 		this.constants = constants;
 		this.resX = resX;
 		this.resY = resY;
