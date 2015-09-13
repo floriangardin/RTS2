@@ -403,7 +403,7 @@ public class Plateau {
 				if(b.collisionBox.intersects(c.collisionBox))
 					b.collision(c);
 			}
-			if(b instanceof Arrow){
+			if(b instanceof Arrow && b.team!=this.g.currentPlayer){
 				for(Character c:characters){
 					if(c.collisionBox.intersects(c.collisionBox))
 						c.collision((Arrow)b);
