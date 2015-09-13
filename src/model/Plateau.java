@@ -375,7 +375,6 @@ public class Plateau {
 			}
 			// Between characters and generator
 			for(Building e:buildings){
-
 				if(e.collisionBox.intersects(o.collisionBox)){
 					o.collision(e);
 				}
