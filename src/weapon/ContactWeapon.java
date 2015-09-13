@@ -18,10 +18,6 @@ public class ContactWeapon extends Weapon {
 	}
 
 	public void collision(Character c){
-		System.out.println("vaneau 1 "+this.owner.id+" "+this.owner.team+" "+!(this.owner.getTarget() instanceof Character) + "  "+((Character)this.owner.getTarget()==null));
-		if(!(this.owner.getTarget() instanceof Character) || (Character)this.owner.getTarget()==null)
-			return;
-		System.out.println("vaneau 2 "+(c.team!=this.owner.team)+" "+(((Character)this.owner.getTarget()).id==c.id)+" "+(this.state>this.chargeTime)+" "+this.state+" "+!this.owner.isMobile());
 		if(c.team!=this.owner.team && ((Character)this.owner.getTarget()).id==c.id && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Attack !
 			// Attack sound
