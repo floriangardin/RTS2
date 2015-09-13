@@ -57,6 +57,9 @@ public class MultiReceiver extends Thread{
 					try{Thread.sleep(1);}catch(InterruptedException e){}
 				}
 			}
+			if(debug)
+				System.out.println("Mort d'un receiver - " + port);
+			
 
 		} catch (SocketException e1) {
 			e1.printStackTrace();
