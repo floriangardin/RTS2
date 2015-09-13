@@ -369,7 +369,8 @@ public class Plateau {
 			}
 			// Between characters and weapons
 			for(ActionObjet i:equipments){
-				System.out.println("collision: char:" + o.id+ " "+o.team+ " "+ o.getX()+"  arrow:"+i.id+" "+i.team+ " "+ i.getX()+"  owner:"+((Arrow)i).owner.id+" "+((Arrow)i).owner.getX());
+				if(i instanceof Arrow)
+					System.out.println("collision: char:" + o.id+ " "+o.team+ " "+ o.getX()+"  arrow:"+i.id+" "+i.team+ " "+ i.getX()+"  owner:"+((Arrow)i).owner.id+" "+((Arrow)i).owner.getX());
 				if(i.collisionBox.intersects(o.collisionBox)){
 					i.collision(o);
 				}
