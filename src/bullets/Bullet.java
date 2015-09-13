@@ -16,8 +16,7 @@ public abstract class Bullet extends ActionObjet {
 
 		
 	public void change(OutputBullet ocb){
-		this.x = ocb.x;
-		this.y = ocb.y;
+		this.setXY(ocb.x, ocb.y);
 	}
 	
 	
