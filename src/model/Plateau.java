@@ -631,6 +631,7 @@ public class Plateau {
 		for(Bullet o: bullets){
 			if(o.team==this.g.currentPlayer)
 				o.action();
+			System.out.println(o.id+" "+o.team+" "+o.x+" "+o.y);
 		}
 		for(Building e: this.buildings){
 			if(e.team==this.g.currentPlayer)
@@ -640,6 +641,7 @@ public class Plateau {
 			if(a.team==this.g.currentPlayer)
 				a.action();
 		}
+		System.out.println();
 	}
 
 	public OutputModel update(InputModel im){
