@@ -75,7 +75,7 @@ public class Map {
 		plateau.maxX = 3000;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		data1.create(UnitsList.Spearman, 300f, plateau.maxY/2+3f);
+		data1.create(UnitsList.Crossbowman, 300f, plateau.maxY/2+3f);
 		new BuildingHeadQuarters(plateau,plateau.g,200f,plateau.maxY/2,1);
 		
 		new BuildingMill(plateau,plateau.g,200f,1*plateau.maxY/4+55f);
@@ -95,7 +95,7 @@ public class Map {
 		new BuildingMine(plateau,plateau.g,plateau.maxX-200f,3*plateau.maxY/4-55f);
 		new BuildingBarrack(plateau,plateau.g,4*plateau.maxX/5-100f,plateau.maxY/2);
 		
-		data2.create(UnitsList.Spearman, 301f, plateau.maxY/2+3f);
+		data2.create(UnitsList.Crossbowman, 301f, plateau.maxY/2+3f);
 		
 		
 		// CENTER

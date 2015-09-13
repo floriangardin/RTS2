@@ -236,19 +236,13 @@ public class Game extends BasicGame
 			this.outputReceiver.lock = false;
 			// Defining the clock
 			timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
-			
+
 			OutputModel om = null;
-			
-			// 3 - receive the output of the action of the other player;
-			if(this.outputs.size()>0){
-				om = this.outputs.get(this.outputs.size()-1);
-				this.outputs.clear();
-				this.plateau.updateFromOutput(om);
-			}
-			
+
+
 			// 1 - perform action() and update()
 			im = new InputModel(timeValue,this.currentPlayer,gc.getInput(),this.plateau.Xcam,this.plateau.Ycam,this.resX,this.resY);
-			
+
 			if(isInMenu){
 				this.menuCurrent.update(im);
 			} else {
@@ -257,7 +251,13 @@ public class Game extends BasicGame
 
 			// 2 - send the output of the action and update step;
 			this.toSendOutputs.addElement(om.toString());
-			
+
+			// 3 - receive the output of the action of the other player;
+			if(this.outputs.size()>0){
+				om = this.outputs.get(this.outputs.size()-1);
+				this.outputs.clear();
+				this.plateau.updateFromOutput(om);
+			}
 
 
 		} else if (!inMultiplayer){
