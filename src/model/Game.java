@@ -69,6 +69,7 @@ public class Game extends BasicGame
 
 
 	Vector<Objet> undestroyable = new Vector<Objet>();
+	Vector<Objet> undestroyable2 = new Vector<Objet>();
 	
 	// Network and multiplaying
 	public boolean inMultiplayer;
@@ -243,6 +244,7 @@ public class Game extends BasicGame
 
 			OutputModel om = null;
 
+			undestroyable2 = undestroyable;
 			undestroyable = new Vector<Objet>();
 
 			// 1 - perform action() and update()
@@ -260,12 +262,12 @@ public class Game extends BasicGame
 			// 3 - receive the output of the action of the other player;
 			if(this.outputs.size()>0){
 				om = this.outputs.get(this.outputs.size()-1);
-				if(undestroyable.size()>0){
-					for(OutputBullet m : om.toChangeBullets)
-						System.out.print(m.id+" "+m.team+" -- ");
-					for(Objet o:undestroyable)
-						System.out.println(((Bullet)o).id+" "+((Bullet)o).team);
-				}
+//				if(undestroyable.size()>0){
+//					for(OutputBullet m : om.toChangeBullets)
+//						System.out.print(m.id+" "+m.team+" -- ");
+//					for(Objet o:undestroyable)
+//						System.out.println(((Bullet)o).id+" "+((Bullet)o).team);
+//				}
 				this.outputs.clear();
 				this.plateau.updateFromOutput(om);
 			}
