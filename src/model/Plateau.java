@@ -368,6 +368,7 @@ public class Plateau {
 				}
 			}
 			// Between characters and weapons
+			System.out.println(equipments.size());
 			for(ActionObjet i:equipments){
 
 				if(i.collisionBox.intersects(o.collisionBox)){
@@ -626,8 +627,7 @@ public class Plateau {
 				o.action();
 		}
 		for(ActionObjet o: this.equipments){
-			if(o.team==this.g.currentPlayer)
-				o.action();
+			o.action();
 		}
 		for(Bullet o: bullets){
 			if(o.team==this.g.currentPlayer)
