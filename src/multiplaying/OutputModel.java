@@ -276,7 +276,7 @@ public class OutputModel extends MultiObjetModel{
 		public int idTarget;
 		public int weaponType, horseType;
 		public int animation, direction;
-		public float sight;
+		public float sight, stateWeapon;
 		public int isImmolating;
 		public float[] spellState = new float[4];
 		public String name;
@@ -305,6 +305,10 @@ public class OutputModel extends MultiObjetModel{
 			this.weaponType = c.typeWeapon;
 			this.horseType = c.typeHorse;
 			this.animation = c.animation;
+			if(c.weapon!=null)
+				this.stateWeapon = c.weapon.state;
+			else 
+				this.stateWeapon = -1;
 			this.direction = c.orientation;
 			this.sight = c.sight;
 			if(c.isImmolating)
@@ -322,24 +326,25 @@ public class OutputModel extends MultiObjetModel{
 			this.id = Integer.parseInt(t[0]);
 			this.team = Integer.parseInt(t[1]);
 			this.idTarget = Integer.parseInt(t[2]);
-			this.x = Float.parseFloat(t[3]);
-			this.y = Float.parseFloat(t[4]);
-			this.lifePoints = Float.parseFloat((t[5]));
-			this.weaponType = Integer.parseInt(t[6]);
-			this.horseType = Integer.parseInt(t[7]);
-			this.animation = Integer.parseInt(t[8]);
-			this.direction = Integer.parseInt(t[9]);
-			this.sight = Float.parseFloat((t[10]));
-			this.isImmolating = Integer.parseInt(t[11]);
-			this.spellState[0] = Float.parseFloat((t[12]));
-			this.spellState[1] = Float.parseFloat((t[13]));
-			this.spellState[2] = Float.parseFloat((t[14]));
-			this.spellState[3] = Float.parseFloat((t[15]));
-			this.name = t[16];
+			this.stateWeapon = Float.parseFloat(t[3]);
+			this.x = Float.parseFloat(t[4]);
+			this.y = Float.parseFloat(t[5]);
+			this.lifePoints = Float.parseFloat((t[6]));
+			this.weaponType = Integer.parseInt(t[7]);
+			this.horseType = Integer.parseInt(t[8]);
+			this.animation = Integer.parseInt(t[9]);
+			this.direction = Integer.parseInt(t[10]);
+			this.sight = Float.parseFloat((t[11]));
+			this.isImmolating = Integer.parseInt(t[12]);
+			this.spellState[0] = Float.parseFloat((t[13]));
+			this.spellState[1] = Float.parseFloat((t[14]));
+			this.spellState[2] = Float.parseFloat((t[15]));
+			this.spellState[3] = Float.parseFloat((t[16]));
+			this.name = t[17];
 		}
 		public String toString(){
 			String s= "";
-			s+=id+" " +team+" "+idTarget +" "+x+" "+y+" "+lifePoints+" "+weaponType+ " "+horseType+" "+animation+" "+direction+" "+sight+" "+
+			s+=id+" " +team+" "+idTarget +" "+stateWeapon+" "+x+" "+y+" "+lifePoints+" "+weaponType+ " "+horseType+" "+animation+" "+direction+" "+sight+" "+
 					isImmolating+" "+spellState[0]+" "+spellState[1]+" "+spellState[2]+" "+spellState[3]+" "+name;
 			return s;
 		}
