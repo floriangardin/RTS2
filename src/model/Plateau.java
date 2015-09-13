@@ -873,9 +873,9 @@ public class Plateau {
 		
 
 		// 3 - Collision, Action, Cleaning
+		this.action();
 		this.collision();
 		this.clean();
-		this.action();
 
 		// 4 - Update the visibility
 		for(Character c:this.characters)
