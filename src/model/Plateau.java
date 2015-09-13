@@ -1161,7 +1161,7 @@ public class Plateau {
 	public boolean isVisibleByPlayer(int player, Objet objet){
 		if(objet.x+objet.sight<Xcam||objet.x-objet.sight>Xcam+this.g.resX||objet.y+objet.sight<Ycam||objet.y-objet.sight>Ycam+this.g.resY)
 			return false;
-		if(objet.team==player)
+		if(objet.team==player && !(objet instanceof Bullet))
 			return true;
 		for(Character c: this.characters)
 			if(c.team==player && Utils.distance(c, objet)<c.sight)
