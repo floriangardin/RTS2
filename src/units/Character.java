@@ -745,8 +745,10 @@ public class Character extends ActionObjet{
 		this.sight = occ.sight;
 		if(occ.idTarget!=-1){
 			for(Character c: this.p.characters)
-				if(c.id == occ.idTarget)
+				if(c.id == occ.idTarget){
 					this.setTarget(c);
+					System.out.println("héhé");
+				}
 		}
 		this.isImmolating = (occ.isImmolating==1);
 		for(int i=0; i<this.spells.size();i++)
