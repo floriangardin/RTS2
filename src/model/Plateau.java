@@ -991,8 +991,10 @@ public class Plateau {
 					if(occ.id==c2.id && occ.team == c2.team)
 						toErase = false;
 				}
-				if(toErase)
+				if(toErase){
 					this.toRemoveBullets.addElement(c2);
+					System.out.println("on cause la mort");
+				}
 			}
 			// Buildings
 			// Changing buildings
