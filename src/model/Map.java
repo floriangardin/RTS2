@@ -75,7 +75,7 @@ public class Map {
 		plateau.maxX = 3000;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		data1.create(UnitsList.Spearman, 300f, plateau.maxY/2+3f);
+		data1.create(UnitsList.Crossbowman, 302f, plateau.maxY/2+3f);
 		new BuildingHeadQuarters(plateau,plateau.g,200f,plateau.maxY/2,1);
 		
 		new BuildingMill(plateau,plateau.g,200f,1*plateau.maxY/4+55f);
