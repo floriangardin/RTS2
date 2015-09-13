@@ -139,6 +139,8 @@ public class Character extends ActionObjet{
 		default:
 
 		}
+		
+		this.weapon.team = this.team;
 
 	}
 	public Character(OutputChar occ, Plateau p){
