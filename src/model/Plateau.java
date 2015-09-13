@@ -964,7 +964,7 @@ public class Plateau {
 			for(OutputBullet ocb : om.toChangeBullets){
 				b = null;
 				for(Bullet b2: this.bullets)
-					if(b2.id==ocb.id)
+					if(b2.id==ocb.id && b2.team!=this.g.currentPlayer)
 						b = b2;
 				if(b!=null){
 					b.change(ocb);
