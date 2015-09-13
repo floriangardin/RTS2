@@ -18,7 +18,7 @@ public class ContactWeapon extends Weapon {
 	}
 
 	public void collision(Character c){
-		if((Character)this.owner.getTarget()==null)
+		if(!(this.owner.getTarget() instanceof Character) || (Character)this.owner.getTarget()==null)
 			return;
 		if(c.team!=this.owner.team && ((Character)this.owner.getTarget()).id==c.id && this.state>this.chargeTime && !this.owner.isMobile()){
 			//Attack !
