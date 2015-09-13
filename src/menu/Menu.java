@@ -33,7 +33,7 @@ public abstract class Menu {
 
 	}
 
-	public Vector<Menu_Item> createHorizontalCentered(int i, float sizeX, float sizeY){
+	public Vector<Menu_Item> createHorizontalCentered(int i, int sizeX, int sizeY){
 		Vector<Menu_Item> items = new Vector<Menu_Item>();
 		float unitY = sizeY/(9f+3f*i);
 		for(int j=0;j<i;j++){

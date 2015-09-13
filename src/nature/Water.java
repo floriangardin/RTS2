@@ -33,8 +33,8 @@ public class Water extends NaturalObjet {
 		float y = this.getY()-sizeY/2f;
 		for(int i=0; i<(int)(this.sizeX/this.image.getWidth())+1;i++)
 			for(int j=0; j<(int)(this.sizeY/this.image.getHeight())+1;j++)
-				if(-32f<x+this.image.getWidth()*i && x+this.image.getWidth()*i<this.p.maxX+32f)
-					if(-32f<y+this.image.getHeight()*j && y+this.image.getHeight()*j<this.p.maxY+32f)
+				if(-32f<x+this.image.getWidth()*i && x+this.image.getWidth()*i<1f*this.p.maxX+32f)
+					if(-32f<y+this.image.getHeight()*j && y+this.image.getHeight()*j<1f*this.p.maxY+32f)
 						g.drawImage(this.image,x+this.image.getWidth()*i,y+this.image.getHeight()*j);
 		g.setColor(Color.green);
 		

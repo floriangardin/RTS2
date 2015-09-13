@@ -77,8 +77,8 @@ public class BottomBar extends Bar {
 		this.y = (1f-this.p.g.relativeHeightBottomBar)*resY;
 		w = this.sizeX/6f;
 		h = this.sizeY-2f;
-		rw = w/this.p.maxX;
-		rh = h/this.p.maxY;
+		rw = 1f*w/this.p.maxX;
+		rh = 1f*h/this.p.maxY;
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
