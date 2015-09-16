@@ -1,7 +1,11 @@
 package multiplaying;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Input;
 
+import model.ActionObjet;
+import model.Plateau;
 import model.Utils;
 
 public class InputModel extends MultiObjetModel{
@@ -18,7 +22,7 @@ public class InputModel extends MultiObjetModel{
 
 	public boolean isPressedRightClick;
 	public boolean isPressedLeftClick;
-	
+
 	public boolean isPressedESC;
 	public boolean isPressedMAJ;
 	public boolean isPressedCTRL;
@@ -35,19 +39,21 @@ public class InputModel extends MultiObjetModel{
 	public boolean isPressedX;
 	public boolean isPressedC;
 	public boolean isPressedV;
-	
+
 	public boolean[] isPressedNumPad = new boolean[10];
+
+	public Vector<Integer> selection;
 
 	public int xMouse;
 	public int yMouse;
 
-	public InputModel (int time, int team, Input input, int Xcam,int Ycam, int resX, int resY){
+	public InputModel (int time, int team, Input input, Plateau p){
 		this.team = team;
 		this.timeValue = time;
-		this.resX = resX;
-		this.resY = resY;
-		this.Xcam = Xcam;
-		this.Ycam = Ycam;
+		this.resX = (int)p.g.resX;
+		this.resY = (int)p.g.resY;
+		this.Xcam = (int)p.Xcam;
+		this.Ycam = (int)p.Ycam;
 
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 		this.isPressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
@@ -70,23 +76,27 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedX = input.isKeyPressed(Input.KEY_X);
 		this.isPressedC = input.isKeyPressed(Input.KEY_C);
 		this.isPressedV = input.isKeyPressed(Input.KEY_V);
-		
-		
-		
+
+		this.selection = new Vector<Integer>();
+		for(ActionObjet c: p.selection.get(team)){
+			this.selection.addElement(c.id);
+		}
 		for(int i=0; i<10;i++){
 			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
 		}
 	}
-	
+
 	public InputModel(String im){
 		String[] vaneau = Utils.split(im, ' ');
 		int intBuffer = 0;
 		boolean boolBuffer = false;
 		for(int i=0; i<vaneau.length; i++){
-			if(i<8){
-				intBuffer = Integer.parseInt(vaneau[i]);
-			} else {
-				boolBuffer = (vaneau[i].equals("true"));
+			if(i!=23){
+				if(i<8){
+					intBuffer = Integer.parseInt(vaneau[i]);
+				} else {
+					boolBuffer = (vaneau[i].equals("true"));
+				}
 			}
 			switch(i){
 			case 0: this.timeValue = intBuffer;break;
@@ -112,8 +122,13 @@ public class InputModel extends MultiObjetModel{
 			case 20: this.isPressedX = boolBuffer;break;
 			case 21: this.isPressedC = boolBuffer;break;
 			case 22: this.isPressedV = boolBuffer; break;
+			case 23: 
+				String[] v = Utils.split(vaneau[23],'|');
+				for(String s:v)
+					this.selection.addElement(Integer.parseInt(s));
+				break;
 			default:
-				this.isPressedNumPad[i-23] = boolBuffer;break;
+				this.isPressedNumPad[i-24] = boolBuffer;break;
 			}
 		}
 	}
@@ -123,6 +138,8 @@ public class InputModel extends MultiObjetModel{
 		s+=timeValue+" "+team+ " "+xMouse+" "+yMouse+" "+resX+" "+resY+" "+Xcam+" "+Ycam;
 		s+=" "+leftClick + " " +rightClick+" "+isPressedLeftClick+" "+isPressedRightClick+" "+isPressedESC+" "+isPressedMAJ+" "+isPressedCTRL+
 				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER+" "+isPressedTAB+" "+isPressedW+" "+isPressedX+" "+isPressedC+" "+isPressedV;
+		for(Integer i: this.selection)
+			s+=i+"|";
 		for(int i=0; i<10;i++){
 			s+= " " + this.isPressedNumPad[i];
 		}

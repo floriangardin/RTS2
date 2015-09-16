@@ -635,6 +635,74 @@ public class Plateau {
 			a.action();
 		}
 	}
+	
+	public void handlingSelection(InputModel im){
+		// Handling groups of units
+		int player = g.currentPlayer;
+		for(int to=0; to<10; to++){
+			if(im.isPressedNumPad[to]){
+				if(isCastingSpell.get(player)){
+					isCastingSpell.set(player, false);
+					castingSpell.set(player,-1);
+				}
+				if(im.isPressedCTRL){
+					// Creating a new group made of the selection
+					this.g.players.get(player).groups.get(to).clear();
+					for(ActionObjet c: this.selection.get(player))
+						this.g.players.get(player).groups.get(to).add(c);
+				} else if(im.isPressedMAJ){
+					// Adding the current selection to the group
+					for(ActionObjet c: this.selection.get(player))
+						this.g.players.get(player).groups.get(to).add(c);
+				} else {
+					this.selection.get(player).clear();
+					for(ActionObjet c: this.g.players.get(player).groups.get(to))
+						this.selection.get(player).add(c);
+				}
+				this.g.players.get(player).groupSelection = to;
+			}
+		}
+		if(!im.leftClick){
+			// The button is not pressed and wasn't, the selection is non null
+			this.rectangleSelection.set(player, null);
+			this.inRectangle.get(player).clear();
+		}
+		// Split click bottom bar and not bottom bar
+		//Top Bar
+		if((im.yMouse-im.Ycam)<this.g.relativeHeightTopBar*im.resY){
+
+		}
+		//Bottom Bar
+		else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
+
+		}
+		// FIELD
+		else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
+			//update the rectangle
+			if(im.leftClick && !isCastingSpell.get(player)){
+				// As long as the button is pressed, the selection is updated
+				this.updateRectangle(im,player);
+			}
+			if(im.isPressedLeftClick && !isCastingSpell.get(player) && !im.isPressedMAJ){
+				this.clearSelection(player);
+			}
+		}
+		// Handling hotkeys for gestion of selection
+		if(im.isPressedTAB){
+			if(this.selection.get(player).size()>0){
+				Utils.switchTriName(this.selection.get(player));
+				if(this.g.players.get(player).groupSelection!=-1)
+					Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
+			}
+		}
+		// we update the selection according to the rectangle wherever is the mouse
+		if(!im.isPressedCTRL){
+			// The button is not pressed and wasn't, the selection is non null
+			this.updateSelection(rectangleSelection.get(player), player);
+		} else {
+			this.updateSelectionCTRL(rectangleSelection.get(player),player);
+		}
+	}
 
 	public OutputModel update(Vector<InputModel> ims){
 		/* Pipeline of the update:
@@ -664,42 +732,25 @@ public class Plateau {
 			//im = ims.get(player-1);
 			if(im!=null){
 				this.updateView(im, player);
-				// Handling groups of units
-				for(int to=0; to<10; to++){
-					if(im.isPressedNumPad[to]){
-						if(isCastingSpell.get(player)){
-							isCastingSpell.set(player, false);
-							castingSpell.set(player,-1);
-						}
-						if(im.isPressedCTRL){
-							// Creating a new group made of the selection
-							this.g.players.get(player).groups.get(to).clear();
-							for(ActionObjet c: this.selection.get(player))
-								this.g.players.get(player).groups.get(to).add(c);
-						} else if(im.isPressedMAJ){
-							// Adding the current selection to the group
-							for(ActionObjet c: this.selection.get(player))
-								this.g.players.get(player).groups.get(to).add(c);
-						} else {
-							this.selection.get(player).clear();
-							for(ActionObjet c: this.g.players.get(player).groups.get(to))
-								this.selection.get(player).add(c);
-						}
-						this.g.players.get(player).groupSelection = to;
+				if(player!=g.currentPlayer){
+					//selections
+					this.selection.set(player, new Vector<ActionObjet>());
+					for(int i : im.selection){
+						for(Character c2: this.characters)
+							if(c2.id==i)
+								this.selection.get(player).addElement(c2);
+						for(Building c2: this.buildings)
+							if(c2.id==i)
+								this.selection.get(player).addElement(c2);
 					}
-				}
-				if(!im.leftClick){
-					// The button is not pressed and wasn't, the selection is non null
-					this.rectangleSelection.set(player, null);
-					this.inRectangle.get(player).clear();
+				} else {
+					this.handlingSelection(im);
 				}
 				// Split click bottom bar and not bottom bar
 				//Top Bar
 				if((im.yMouse-im.Ycam)<this.g.relativeHeightTopBar*im.resY){
 
-
 				}
-
 				//Bottom Bar
 				else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
 					BottomBar bb = this.g.players.get(player).bottomBar;
@@ -723,6 +774,7 @@ public class Plateau {
 							}
 
 						}
+						//handling spells
 						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
 							if(im.isPressedLeftClick){
 								int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
@@ -749,17 +801,6 @@ public class Plateau {
 				}
 				// FIELD
 				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
-					//update the rectangle
-
-					if(im.leftClick){
-
-						if(isCastingSpell.get(player)){
-
-						} else {
-							// As long as the button is pressed, the selection is updated
-							this.updateRectangle(im,player);
-						}
-					}
 					if(im.isPressedLeftClick){
 						if(isCastingSpell.get(player)){
 							// Handling the spell
@@ -771,10 +812,6 @@ public class Plateau {
 							}
 							isCastingSpell.set(player,false);
 							castingSpell.set(player,-1);
-						} else if(im.isPressedMAJ){
-
-						} else {
-							this.clearSelection(player);
 						}
 					}
 					// Action for player k
@@ -848,22 +885,6 @@ public class Plateau {
 						}
 					}
 				}
-				// Handling hotkeys for gestion of selection
-				if(im.isPressedTAB){
-					if(this.selection.get(player).size()>0){
-						Utils.switchTriName(this.selection.get(player));
-						if(this.g.players.get(player).groupSelection!=-1)
-							Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
-					}
-				}
-
-				// we update the selection according to the rectangle wherever is the mouse
-				if(!im.isPressedCTRL){
-					// The button is not pressed and wasn't, the selection is non null
-					this.updateSelection(rectangleSelection.get(player), player);
-				} else {
-					this.updateSelectionCTRL(rectangleSelection.get(player),player);
-				}
 				// Update the selections of the players
 				this.g.players.get(player).selection.clear();
 				for(ActionObjet c: this.selection.get(player))
@@ -930,12 +951,13 @@ public class Plateau {
 		for(SpellEffect s : this.spells){
 			om.toChangeSpells.add(new OutputSpell(s));
 		}
-		for(ActionObjet c : this.selection.get(2)){
-			om.selection.add(c.id);
-		}
+		//		for(ActionObjet c : this.selection.get(2)){
+		//			om.selection.add(c.id);
+		//		}
 		for(Message m:this.messages.get(2)){
 			om.toChangeMessages.add(m);
 		}
+
 
 		return om;
 	}
@@ -961,6 +983,7 @@ public class Plateau {
 				}
 			}
 			this.updateView(im, player);
+			this.handlingSelection(im);
 
 		}
 
@@ -1083,16 +1106,16 @@ public class Plateau {
 			for(Message m:om.toChangeMessages){
 				this.messages.get(2).add(m);
 			}
-			//selections
-			this.selection.set(this.g.currentPlayer, new Vector<ActionObjet>());
-			for(int i : om.selection){
-				for(Character c2: this.characters)
-					if(c2.id==i)
-						this.selection.get(this.g.currentPlayer).addElement(c2);
-				for(Building c2: this.buildings)
-					if(c2.id==i)
-						this.selection.get(this.g.currentPlayer).addElement(c2);
-			}
+			//			//selections
+			//			this.selection.set(this.g.currentPlayer, new Vector<ActionObjet>());
+			//			for(int i : om.selection){
+			//				for(Character c2: this.characters)
+			//					if(c2.id==i)
+			//						this.selection.get(this.g.currentPlayer).addElement(c2);
+			//				for(Building c2: this.buildings)
+			//					if(c2.id==i)
+			//						this.selection.get(this.g.currentPlayer).addElement(c2);
+			//			}
 			this.g.players.get(this.g.currentPlayer).selection.clear();
 			for(ActionObjet o:this.selection.get(this.g.currentPlayer))
 				this.g.players.get(this.g.currentPlayer).selection.addElement(o);

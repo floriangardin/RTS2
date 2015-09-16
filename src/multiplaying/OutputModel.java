@@ -30,8 +30,6 @@ public class OutputModel extends MultiObjetModel{
 
 	public Vector<Message> toChangeMessages;
 
-	public Vector<Integer> selection;
-
 	public OutputModel(String s){
 		String[] t = Utils.split(s, '|');
 		String[] v;
@@ -41,7 +39,6 @@ public class OutputModel extends MultiObjetModel{
 		toChangeBuildings = new Vector<OutputBuilding>();
 		toChangeSpells = new Vector<OutputSpell>();
 		toChangeMessages = new Vector<Message>();
-		selection = new Vector<Integer>();
 
 		for(int i=0; i<t.length; i++){
 			if(i==t.length-1)
@@ -72,8 +69,6 @@ public class OutputModel extends MultiObjetModel{
 						toChangeSpells.add(new OutputSpell(v[j]));break;
 					case 9:
 						toChangeMessages.add(Message.getById(Integer.parseInt(v[j])));break;
-					case 10:
-						selection.add(Integer.parseInt(v[j]));break;
 					}
 				}
 			}
@@ -87,7 +82,6 @@ public class OutputModel extends MultiObjetModel{
 		toChangeBuildings = new Vector<OutputBuilding>();
 		toChangeSpells = new Vector<OutputSpell>();
 		toChangeMessages = new Vector<Message>();
-		selection = new Vector<Integer>();
 	}
 	public String toString(){
 		String s = "1" +(int)this.timeValue+"|"+this.food+"|"+this.gold+"|"+this.special+"|";
@@ -143,14 +137,6 @@ public class OutputModel extends MultiObjetModel{
 		size = toChangeMessages.size();
 		for(int i =0; i<size; i++){
 			s+=toChangeMessages.get(i).id;
-			if(i<size-1)
-				s+="*";
-		}
-		s+="|";
-		// for the selections
-		size = selection.size();
-		for(int i =0; i<size; i++){
-			s+=selection.get(i).toString();
 			if(i<size-1)
 				s+="*";
 		}
