@@ -50,7 +50,7 @@ public class BottomBar extends Bar {
 		this.player.bottomBar = this;
 
 		try {
-			this.background = new Image("pics/bottombar.jpg");
+			this.background = new Image("pics/bottombar.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,7 +62,7 @@ public class BottomBar extends Bar {
 			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
 			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
 			this.imageSpecial = new Image("pics/arrow.png");
-			this.background = new Image("pics/bottombar.jpg").getSubImage(0,0,683,(int) sizeY);
+			this.background = new Image("pics/bottombar.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class BottomBar extends Bar {
 		float v = y;
 		while(u<sizeX){
 			g.drawImage(this.background,u,y);
-			u+=680f;
+			u+=1680f;
 		}
 
 		g.setColor(Color.black);
