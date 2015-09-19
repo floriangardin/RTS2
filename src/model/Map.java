@@ -31,8 +31,8 @@ public class Map {
 		plateau.maxY = 600f;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
-		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 100f);
-		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-100f);
+		data1.create(UnitsList.Crossbowman, plateau.maxX/2+3f, 100f);
+		data2.create(UnitsList.Inquisitor, plateau.maxX/2+3f,  plateau.maxY-100f);
 		new BuildingHeadQuarters(plateau,plateau.g,500f,150f,1);
 		new BuildingHeadQuarters(plateau,plateau.g,500f,150f,2);
 		
