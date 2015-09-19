@@ -205,7 +205,8 @@ public class Utils {
 				indice = i+1;			
 			}
 		}
-		v.add(s.substring(indice,s.length()));
+		if(indice!=s.length())
+			v.add(s.substring(indice,s.length()));
 		String[] t = new String[v.size()];
 		for(int i=0; i<v.size(); i++){
 			t[i] = v.get(i);

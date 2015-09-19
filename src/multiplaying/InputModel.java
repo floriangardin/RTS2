@@ -87,6 +87,7 @@ public class InputModel extends MultiObjetModel{
 	}
 
 	public InputModel(String im){
+		System.out.println(im);
 		String[] vaneau = Utils.split(im, ' ');
 		int intBuffer = 0;
 		boolean boolBuffer = false;
@@ -124,6 +125,8 @@ public class InputModel extends MultiObjetModel{
 			case 22: this.isPressedV = boolBuffer; break;
 			case 23: 
 				String[] v = Utils.split(vaneau[23],'|');
+				System.out.println(v);
+				System.out.println(vaneau[23]);
 				for(String s:v)
 					this.selection.addElement(Integer.parseInt(s));
 				break;
