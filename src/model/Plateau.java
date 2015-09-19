@@ -45,6 +45,7 @@ public class Plateau {
 	public int nTeams;
 	public float maxX ;
 	public float maxY ;
+	public int idMap;
 	// Camera 
 	public float Xcam;
 	public float Ycam;

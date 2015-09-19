@@ -14,7 +14,6 @@ import display.Message;
 import display.TopBar;
 import menu.Menu;
 import menu.MenuIntro;
-import menu.MenuPause;
 import multiplaying.*;
 import multiplaying.ConnectionModel.*;
 import nature.Tree;
@@ -316,8 +315,12 @@ public class Game extends BasicGame
 		}
 
 	}
+	
+	public void newGame(){
+		this.newGame(99);
+	}
 
-	public void newGame(boolean host){
+	public void newGame(int idMap){
 		//Clean all variables
 		this.plateau = new Plateau(this.constants,this.plateau.maxX,this.plateau.maxY,2,this);
 		this.players = new Vector<Player>();
@@ -325,7 +328,12 @@ public class Game extends BasicGame
 		this.players.add(new Player(this.plateau,1,0));
 		this.players.add(new Player(this.plateau,2,0));
 
-		if(host)
+		switch(idMap){
+		case 0: this.map.createMapPhillipe(plateau, players);break;
+		case 1: this.map.createMapPhillipeMacro(plateau, players);break;
+		case 99: this.map.createMapTest(plateau, players);break;
+		}
+		plateau.idMap = idMap;
 			this.map.createMapPhillipeMacro(plateau,this.players);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
@@ -341,15 +349,8 @@ public class Game extends BasicGame
 		//Clean all variables
 		this.plateau.maxX = 5000f;
 		this.plateau.maxY = 2500f;
-		newGame(false);
+		newGame(cm.idMap);
 		this.addressHost = cm.ia;
-		for( ConnectionObjet co : cm.naturalObjets){
-			if(co instanceof ConnectionTree){
-				new Tree(co.x,co.y,this.plateau,((ConnectionTree) co).type);
-			} else if(co instanceof ConnectionWater){
-				new Water(co.x,co.y,((ConnectionWater)co).sizeX,((ConnectionWater)co).sizeY,this.plateau);
-			}
-		}
 		this.currentPlayer = 2;
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
@@ -384,7 +385,6 @@ public class Game extends BasicGame
 
 		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
-		this.menuPause = new MenuPause(this);
 		this.map = new Map();
 		this.setMenu(menuIntro);
 		this.startTime = System.currentTimeMillis();

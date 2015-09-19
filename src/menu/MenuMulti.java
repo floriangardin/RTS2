@@ -179,11 +179,11 @@ public class MenuMulti extends Menu {
 					}
 					//System.out.println("client recu: " +addressEnemy.getHostName());
 					this.game.connexions.clear();
-					this.game.newGame(true);
+					this.game.newGame();
 					this.game.toSendConnexions.clear();
 					this.game.connexionSender = new MultiSender(this.game.app, this.game, addressEnemy, this.game.portConnexion, this.game.toSendConnexions);
 					this.game.connexionSender.start();
-					ConnectionModel cm = new ConnectionModel(addressLocal,this.game.plateau.toAddNaturalObjets);
+					ConnectionModel cm = new ConnectionModel(addressLocal,this.game.plateau.idMap);
 					this.game.toSendConnexions.add(cm.toString());
 					try{Thread.sleep(100);}catch(InterruptedException e){}
 					this.game.connexionSender.interrupt();
