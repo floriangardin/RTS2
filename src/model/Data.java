@@ -39,8 +39,8 @@ public class Data {
 	public int millChargeTime = 5;
 	public int millLifePoints = 100;
 	public float millSight = 300f;
-	public float millSizeX = 294f;
-	public float millSizeY = 294f*2f/3f;
+	public float millSizeX = 300f;
+	public float millSizeY = 200f;
 	
 	// Mine
 	public int mineChargeTime = 5;
