@@ -33,7 +33,8 @@ public class Map {
 		Data data2 = players.get(2).data;
 		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 100f);
 		data2.create(UnitsList.Spearman, plateau.maxX/2+3f,  plateau.maxY-100f);
-		
+		new BuildingHeadQuarters(plateau,plateau.g,200f,200f,1);
+		new BuildingHeadQuarters(plateau,plateau.g,200f,200f,2);
 		
 	}
 	
