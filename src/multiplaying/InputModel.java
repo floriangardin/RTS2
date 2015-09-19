@@ -137,7 +137,7 @@ public class InputModel extends MultiObjetModel{
 		String s = "0";
 		s+=timeValue+" "+team+ " "+xMouse+" "+yMouse+" "+resX+" "+resY+" "+Xcam+" "+Ycam;
 		s+=" "+leftClick + " " +rightClick+" "+isPressedLeftClick+" "+isPressedRightClick+" "+isPressedESC+" "+isPressedMAJ+" "+isPressedCTRL+
-				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER+" "+isPressedTAB+" "+isPressedW+" "+isPressedX+" "+isPressedC+" "+isPressedV;
+				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER+" "+isPressedTAB+" "+isPressedW+" "+isPressedX+" "+isPressedC+" "+isPressedV+" ";
 		for(Integer i: this.selection)
 			s+=i+"|";
 		for(int i=0; i<10;i++){
