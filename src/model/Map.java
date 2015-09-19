@@ -27,8 +27,8 @@ public class Map {
 	
 
 	public void createMapTest(Plateau plateau,Vector<Player> players){
-		plateau.maxX = 200f;
-		plateau.maxY = 300f;
+		plateau.maxX = 400f;
+		plateau.maxY = 600f;
 		Data data1 = players.get(1).data;
 		Data data2 = players.get(2).data;
 		data1.create(UnitsList.Spearman, plateau.maxX/2+3f, 100f);
