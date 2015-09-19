@@ -334,7 +334,6 @@ public class Game extends BasicGame
 		case 99: this.map.createMapTest(plateau, players);break;
 		}
 		plateau.idMap = idMap;
-			this.map.createMapPhillipeMacro(plateau,this.players);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
