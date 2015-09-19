@@ -259,7 +259,7 @@ public class Game extends BasicGame
 							this.players.get(im.team).topBar.update(im.resX, im.resY);
 						}
 					} else {
-						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
+						im = new InputModel(timeValue,currentPlayer,gc.getInput(),plateau);
 						ims.add(im);
 					}
 				}
@@ -286,7 +286,7 @@ public class Game extends BasicGame
 				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
 
 				// 1 - send the input to host
-				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
+				im = new InputModel(timeValue,currentPlayer,gc.getInput(),plateau);
 
 				this.toSendInputs.addElement(im.toString());
 
@@ -305,7 +305,7 @@ public class Game extends BasicGame
 			}
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+			ims.add(new InputModel(0,1,gc.getInput(),plateau));
 			// updating the game
 			if(isInMenu){
 				this.menuCurrent.update(ims.get(0));

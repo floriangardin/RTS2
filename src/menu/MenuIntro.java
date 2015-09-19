@@ -136,7 +136,7 @@ public class MenuIntro extends Menu {
 	}
 
 	public void update(Input i){
-		InputModel im = new InputModel(0,0,i,(int) game.plateau.Xcam,(int) game.plateau.Ycam,(int)game.resX,(int)game.resY);
+		InputModel im = new InputModel(0,0,i,game.plateau);
 		this.update(im);
 	}
 	public void update(InputModel im){
