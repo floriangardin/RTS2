@@ -58,7 +58,7 @@ public class Data {
 	//Stable
 	public int stableLifePoints = 200;
 	public float stableSight = 300f;
-	public float stableSizeX = 291f;
+	public float stableSizeX = 350f;
 	public float stableSizeY = 291f*2f/3f;
 	
 	// Academy 

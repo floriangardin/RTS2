@@ -2,6 +2,7 @@ package model;
 
 import java.util.Vector;
 
+import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
 import buildings.BuildingMill;
