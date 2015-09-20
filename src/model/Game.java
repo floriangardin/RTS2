@@ -382,7 +382,8 @@ public class Game extends BasicGame
 
 
 
-		this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
+		//this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
+		this.background =  new Image("pics/TestTexture1.png").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
 		this.menuPause = new MenuPause(this);
 		this.map = new Map();

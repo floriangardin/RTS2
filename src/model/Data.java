@@ -47,7 +47,7 @@ public class Data {
 	public int mineLifePoints = 100;
 	public float mineSight = 300f;
 	public float mineSizeX = 291f;
-	public float mineSizeY = 291f*2f/3f;
+	public float mineSizeY = 145f;
 	
 	// Barrack
 	public int barrackLifePoints = 200;
@@ -58,8 +58,8 @@ public class Data {
 	//Stable
 	public int stableLifePoints = 200;
 	public float stableSight = 300f;
-	public float stableSizeX = 350f;
-	public float stableSizeY = 291f*2f/3f;
+	public float stableSizeX = 450f;
+	public float stableSizeY = 250f;
 	
 	// Academy 
 	public int academyLifePoints = 200;
