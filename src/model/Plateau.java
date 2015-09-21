@@ -1145,45 +1145,56 @@ public class Plateau {
 			}
 		}
 		float bottomTopBar = this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f;
+		// If minibar activated
+		if(im.isPressedA){
+			BottomBar b = this.g.players.get(player).bottomBar;
+			b.minimap.toDraw = true;
+			if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.minimap.startX && (im.xMouse-im.Xcam)<
+					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
+				// Put camera where the click happened
+				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw)-im.resX/2f;
+				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh)-im.resY/2f;
+
+			}
+			if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.minimap.startX && (im.xMouse-im.Xcam)<
+					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
+				// Handle right click
+				if(im.isPressedMAJ){
+					updateSecondaryTarget((int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh),player);
+				} else {				
+					updateTarget((int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh),player);
+				}
+
+			}
+		}
+		else{
+			BottomBar b = this.g.players.get(player).bottomBar;
+			b.minimap.toDraw = false;
+		}
+
+
 		// check if in topbar
-		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)<bottomTopBar){
+
+		// check if in bottombar	
+		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
+
+			BottomBar b = this.g.players.get(player).bottomBar;
+			//If click on minimap
+
+
 			if(this.rectangleSelection.get(player)!=null){
-				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)this.g.players.get(player).topBar.y
-						+(float)this.g.players.get(player).topBar.sizeY+im.Ycam+2f,
-						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f+im.Ycam-recY.get(player))+0.1f);
+				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+im.Ycam-2f-recY.get(player))+0.1f);
 			}
-		} else 
-			// check if in bottombar	
-			if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
-
-				BottomBar b = this.g.players.get(player).bottomBar;
-				//If click on minimap
-				if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
-						b.startX+b.w && this.rectangleSelection.get(player)==null){
-					// Put camera where the click happened
-					Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw)-im.resX/2f;
-					Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh)-im.resY/2f;
-
-				}
-				if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.startX && (im.xMouse-im.Xcam)<
-						b.startX+b.w && this.rectangleSelection.get(player)==null){
-					// Handle right click
-					if(im.isPressedMAJ){
-						updateSecondaryTarget((int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw),(int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh),player);
-					} else {				
-						updateTarget((int)Math.floor((im.xMouse-im.Xcam-b.startX)/b.rw),(int)Math.floor((im.yMouse-im.Ycam-b.startY)/b.rh),player);
-					}
-
-				}
-				if(this.rectangleSelection.get(player)!=null){
-					rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-							(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+im.Ycam-2f-recY.get(player))+0.1f);
-				}
-			}
-
+		}
 	}
 
+
+
 	private void updateRectangle(InputModel im, int player) {
+		if(im.isPressedA){
+			return;
+		}
 		if(rectangleSelection.get(player)==null || im.isPressedCTRL){
 			recX.set(player, (float)im.xMouse);
 			recY.set(player, (float)im.yMouse);

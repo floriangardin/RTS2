@@ -139,8 +139,7 @@ public class MenuIntro extends Menu {
 			Vector<Objet> toDraw = new Vector<Objet>();
 			for(Objet o: this.trees)
 				toDraw.add(o);
-			for(Bullet b: this.bullets)
-				toDraw.add(b);
+
 			Utils.triY(toDraw);
 			for(Objet o: toDraw){
 				o.draw(g);
@@ -176,7 +175,7 @@ public class MenuIntro extends Menu {
 				this.timer = 0f;
 				float x1 = (float)(Math.random()*this.game.resX), x2 = (float)(Math.random()*this.game.resX);
 				float y1 = (float)(Math.random()*this.game.resY), y2 = (float)(Math.random()*this.game.resY);
-				boolean arrow = Math.random()>0.5;
+				boolean arrow = Math.random()>1;
 				if(x1/this.game.resX>y1/this.game.resY){
 					if(x1/this.game.resX+y1/this.game.resY>1f){
 						y1 = this.game.resY;

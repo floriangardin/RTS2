@@ -25,7 +25,7 @@ public class DescriptionInterface extends Bar {
 	public Graphics draw(Graphics g){
 		if(this.parent.player.selection.size()>0){
 			this.c0 = this.parent.player.selection.get(0);
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 			g.drawString(c0.name, x+30f, y+15f);
 			if(this.c0 instanceof Building){
 				Building c0 = (Building) this.c0;
@@ -42,7 +42,7 @@ public class DescriptionInterface extends Bar {
 				g.fillRect(x+10f, y+this.sizeY-25f, this.sizeX/3f-20f, 20f);
 				g.setColor(Color.green);
 				g.fillRect(x+10f, y+this.sizeY-25f, (this.sizeX/3f-20f)*c0.lifePoints/c0.maxLifePoints, 20f);
-				g.setColor(Color.black);
+				g.setColor(Color.white);
 				String s = "HP: " + (int)c0.lifePoints + " / " + (int)c0.maxLifePoints;
 				g.drawString(s, x+sizeX/3f+10f, y+10f);
 				

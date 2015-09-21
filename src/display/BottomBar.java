@@ -22,6 +22,7 @@ public class BottomBar extends Bar {
 	public SelectionInterface selection ;
 	public DescriptionInterface description;
 	public DisplayInterface display;
+	public MinimapInterface minimap;
 	Image imageGold ;
 	Image imageFood;
 	Image imageSpecial;
@@ -50,7 +51,7 @@ public class BottomBar extends Bar {
 		this.player.bottomBar = this;
 
 		try {
-			this.background = new Image("pics/bottombar.png");
+			this.background = new Image("pics/menu/bottombar.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,7 +63,7 @@ public class BottomBar extends Bar {
 			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
 			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
 			this.imageSpecial = new Image("pics/arrow.png");
-			this.background = new Image("pics/bottombar.png");
+			this.background = new Image("pics/menu/bottombar.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +83,7 @@ public class BottomBar extends Bar {
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
+		this.minimap = new MinimapInterface(this);
 
 		this.prodX = this.selection.x+this.selection.sizeX;
 		this.prodY = this.y+1f;
@@ -98,91 +100,21 @@ public class BottomBar extends Bar {
 	public Graphics draw(Graphics g){
 		// Draw Background :
 
-		float xt =x ;
-		float yt = y;
-		g.setColor(Color.black);
-		g.fillRect(xt, yt,sizeX, sizeY);
+		
 		// Draw image according to size
-		float u = x;
-		float v = y;
-		while(u<sizeX){
-			g.drawImage(this.background,u,y);
-			u+=1680f;
-		}
 
-		g.setColor(Color.black);
-		g.fillRect(xt,yt,sizeX,1f);
+		//g.drawImage(this.background,x,y-6f);
+
+		
 		// Draw subcomponents :
 		selection.draw(g);
 		description.draw(g);
 		display.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
-		g.setColor(Color.black);
-
-
-
-		// Draw the minimap 
-
-		// Find the high left corner
-		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
-		float hly = Math.max(startY,startY+rh*this.p.Ycam);
-		float brx = Math.min(startX+w,startX+rw*(this.p.Xcam+this.p.g.resX));
-		float bry = Math.min(startY+h,startY+rh*(this.p.Ycam+this.p.g.resY));
-		// Find the bottom right corner
-
-		// Draw background 
-		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.fillRect(startX, startY, w, h);
-		// Draw water
-		for(NaturalObjet q : p.naturalObjets){
-			g.setColor(Color.cyan);
-			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
-		}
-		// Draw units on camera 
-
-		for(Character c : this.p.characters){		
-			if(c.team==2){
-				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
-					g.setColor(Color.red);
-					float r = c.collisionBox.getBoundingCircleRadius();
-					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
-				}
-			}
-			else if(c.team==1){
-				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
-					g.setColor(Color.blue);
-					float r = c.collisionBox.getBoundingCircleRadius();
-					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
-				}
-			}
-		}
-		for(Building c : this.p.buildings){
-			if(c.team==0){
-				g.setColor(Color.gray);
-			}
-			if(c.team==2){
-				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
-					g.setColor(Color.red);
-				} else {
-					g.setColor(Color.gray);
-					
-				}
-			}
-			else if(c.team==1){
-				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
-					g.setColor(Color.blue);
-				} else {
-					g.setColor(Color.gray);
-					
-				}
-			}
-			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
-		}
-
-		// Draw rect of camera 
 		g.setColor(Color.white);
 
-		g.drawRect(hlx,hly,brx-hlx,bry-hly );
+
+
 
 
 		// Draw Production/Effect Bar
@@ -219,7 +151,7 @@ public class BottomBar extends Bar {
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				// CHANGE PUT PRICES
 
-				g.setColor(Color.black);
+				g.setColor(Color.white);
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 				g.drawImage(this.imageFood,prodX + 3.5f*this.prodW/7 , prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 				g.drawString(": "+(int)ul.get(i).tech.foodPrice,prodX + 3.85f*this.prodW/7, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
@@ -242,7 +174,7 @@ public class BottomBar extends Bar {
 				g.setColor(c);
 				float diffY = (-4f + ratio*prodH)*state.get(i)/ul.get(i).chargeTime;
 				g.fillRect(prodX+2f, prodY+2f + ratio*i*prodH+diffY, -4f+ratio*prodH, (-2f + ratio*prodH)-diffY);
-				g.setColor(Color.black);
+				g.setColor(Color.white);
 				g.drawRect(prodX, prodY + ratio*i*sizeY, prodW, ratio*prodH);
 				if(this.p.isCastingSpell.get(player.team) && this.p.castingSpell.get(player.team)==i){
 					g.setColor(Color.green);
@@ -252,6 +184,10 @@ public class BottomBar extends Bar {
 				g.drawString(ul.get(i).name, prodX + ratio*prodH+10f, prodY + ratio*i*prodH + ratio/2f*prodH - f.getHeight(ul.get(i).name)/2f);
 			}
 		}
+		
+		// MINIMAP CENTERED :
+		this.minimap.draw(g);
+		
 		return g;
 	}
 
