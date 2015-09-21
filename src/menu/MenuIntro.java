@@ -26,6 +26,10 @@ public class MenuIntro extends Menu {
 	Image title;
 	boolean toGame = false;
 	public float timeToGame = 200f;
+	public Image newGame;
+	public Image multiplayer;
+	public Image options;
+	public Image exit;
 
 	public MenuIntro(Game game){
 		try {
@@ -37,11 +41,28 @@ public class MenuIntro extends Menu {
 			e1.printStackTrace();
 		}
 		this.game = game;
-		this.items = this.createHorizontalCentered(4, this.game.resX, this.game.resY);
-		this.items.get(0).name = "Nouvelle Partie";
-		this.items.get(1).name = "Multiplayer";
-		this.items.get(2).name = "Options";
-		this.items.get(3).name = "Quitter";
+		this.items = new Vector<Menu_Item>();
+		
+		float startY = 100f+0.1f*this.game.resX;
+		float stepY = 0.15f*this.game.resY;
+		
+		try {
+			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(this.game.resX/1680);
+			float startX = this.game.resX/2-this.newGame.getWidth()/2;
+			this.items.addElement(new Menu_Item(startX,startY,this.newGame,"New Game"));
+			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(this.game.resX/1680);
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,"Multiplayer"));
+			this.options = new Image("pics/menu/options.png").getScaledCopy(this.game.resX/1680);
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,"Options"));
+			this.exit = new Image("pics/menu/exit.png");
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,"Exit"));
+			
+		} catch (SlickException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		float x1,x2,y1,y2;
 		float sizeX = this.game.resX;
 		float sizeY = this.game.resY;
@@ -56,7 +77,7 @@ public class MenuIntro extends Menu {
 		Utils.triY(trees);
 		try{
 			this.sounds = new Sounds();
-			title = new Image("pics/Title.png");
+			this.title = new Image("pics/menu/goldtitle.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -124,13 +145,14 @@ public class MenuIntro extends Menu {
 			for(Objet o: toDraw){
 				o.draw(g);
 			}
-			for(int k=0; k<this.items.size(); k++){
-				this.items.get(k).draw(g);
+			
+			for(Menu_Item item: this.items){
+				item.draw(g);
 			}
-			g.drawImage(this.title, this.game.resX/2f-200f, 20f);
+			g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
 			g.setColor(Color.black);
 			String copyright = "           Copyright 2015           \n- GdB Production / Welcome's Games -";
-			g.drawString(copyright, 6.6f*this.game.resX/18f, 4f*this.game.resY/5f);
+			//g.drawString(copyright, 6.6f*this.game.resX/18f, 4.5f*this.game.resY/5f);
 			//            abcdefghijklmn  abcdefghijklmnopqrstuvwxyabcdefghijk
 		}
 	}

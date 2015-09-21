@@ -37,7 +37,7 @@ public abstract class Menu {
 		Vector<Menu_Item> items = new Vector<Menu_Item>();
 		float unitY = sizeY/(9f+3f*i);
 		for(int j=0;j<i;j++){
-			items.add(new Menu_Item(sizeX/3f,5*unitY+3f*j*unitY,sizeX/3f,2*unitY,""));
+			//items.add(new Menu_Item(sizeX/3f,5*unitY+3f*j*unitY,sizeX/3f,2*unitY,""));
 		}
 		return items;
 	}

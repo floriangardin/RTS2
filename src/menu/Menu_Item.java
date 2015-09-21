@@ -2,6 +2,7 @@ package menu;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
 import multiplaying.InputModel;
@@ -12,7 +13,7 @@ public class Menu_Item {
 	public float sizeY;
 	public float x;
 	public float y;
-
+	public Image image;
 	public String name;
 
 	public boolean isMouseOnIt = false;
@@ -21,13 +22,13 @@ public class Menu_Item {
 
 	public boolean colorAnimation = true;
 
-	public Menu_Item(float x, float y, float sizeX, float sizeY, String name) {
-		super();
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
+	public Menu_Item(float x, float y, Image im, String name) {
+		this.image = im;
 		this.x = x;
 		this.y = y;
 		this.name = name;
+		this.sizeX = this.image.getWidth();
+		this.sizeY = this.image.getHeight();
 	}
 
 	public boolean isClicked(Input i){
@@ -44,12 +45,7 @@ public class Menu_Item {
 
 	public void draw(Graphics g){
 		
-		g.setColor(Color.black);
-		g.fillRect(x, y, sizeX, sizeY);
-		g.setColor(this.color);
-		g.fillRect(x+10f, y+10f, sizeX-20f, sizeY-20f);
-		g.setColor(Color.white);
-		g.drawString(name, x+sizeX/3f, y+sizeY/3f);
+		g.drawImage(this.image,x, y);
 	}
 
 	public void printDebug(){

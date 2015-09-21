@@ -10,10 +10,10 @@ public class MenuPause extends Menu {
 	
 	public MenuPause(Game game){
 		this.game = game;
-		this.items = this.createHorizontalCentered(3, this.game.resX, this.game.resY);
-		this.items.get(0).name = "Continuer";
-		this.items.get(1).name = "Recommencer";
-		this.items.get(2).name = "Retour Menu";
+//		this.items = this.createHorizontalCentered(3, this.game.resX, this.game.resY);
+//		this.items.get(0).name = "Continuer";
+//		this.items.get(1).name = "Recommencer";
+//		this.items.get(2).name = "Retour Menu";
 	}
 	
 	public void callItems(Input i){
