@@ -106,9 +106,9 @@ public class Images {
 			
 			
 			//Building
-			buildingBarrackBlue = new Image("pics/Building/BarrackBlue.png");
-			buildingBarrackRed = new Image("pics/Building/BarrackRed.png");
-			buildingBarrackNeutral = new Image("pics/Building/BarrackNeutral.png");
+			buildingBarrackBlue = new Image("pics/Building/CaserneBleu.png");
+			buildingBarrackRed = new Image("pics/Building/CaserneRouge.png");
+			buildingBarrackNeutral = new Image("pics/Building/CaserneNeutre.png");
 			buildingStableBlue = new Image("pics/Building/EcurieBleu.png");
 			buildingStableRed = new Image("pics/Building/EcurieRouge.png");
 			buildingStableNeutral = new Image("pics/Building/EcurieNeutre.png");

@@ -1199,8 +1199,14 @@ public class Plateau {
 		visibleObjet = this.getInCamObjets(this.g.currentPlayer);
 		float resX = this.g.resX;
 		float resY = this.g.resY;
+		this.gf.setColor(new Color(255,255,255));
+		gf.fillRect(0, 0, resX, resX);
 		this.gf.setColor(new Color(50,50,50));
-		gf.fillRect(0, 0, resX, resY);
+		float xmin = Math.max(0,-Xcam);
+		float ymin = Math.max(0,-Ycam);
+		float xmax = Math.min(resX,maxX-Xcam);
+		float ymax = Math.min(resY,maxY-Ycam);
+		gf.fillRect(xmin,ymin,xmax-xmin,ymax-ymin);
 		gf.setColor(Color.white);
 		for(Objet o:visibleObjet){
 			gf.fillOval(o.x-Xcam-o.sight,o.y-Ycam-o.sight,o.sight*2f,o.sight*2f);
