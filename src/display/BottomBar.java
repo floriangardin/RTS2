@@ -85,7 +85,7 @@ public class BottomBar extends Bar {
 		this.display = new DisplayInterface(this);
 		this.minimap = new MinimapInterface(this);
 
-		this.prodX = this.selection.x+this.selection.sizeX;
+		this.prodX = this.selection.x;
 		this.prodY = this.y+1f;
 		this.prodW = this.sizeX/4f;
 		this.prodH = this.sizeY-2f ; 
@@ -108,7 +108,7 @@ public class BottomBar extends Bar {
 		
 		// Draw subcomponents :
 		selection.draw(g);
-		description.draw(g);
+		//description.draw(g);
 		display.draw(g);
 		// Draw Separation (1/3 1/3 1/3) : 
 		g.setColor(Color.white);

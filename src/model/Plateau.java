@@ -693,105 +693,101 @@ public class Plateau {
 					this.rectangleSelection.set(player, null);
 					this.inRectangle.get(player).clear();
 				}
-				// Split click bottom bar and not bottom bar
-				//Top Bar
-				if((im.yMouse-im.Ycam)<this.g.relativeHeightTopBar*im.resY){
-
-
-				}
 
 				//Bottom Bar
-				else if((im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
-					BottomBar bb = this.g.players.get(player).bottomBar;
-					float relativeXMouse = (im.xMouse-im.Xcam);
-					float relativeYMouse = (im.yMouse-im.Ycam);
-					//Handling production buildings
-					if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
-						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-							if(im.isPressedLeftClick){
 
-								((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
-							}else{
+				BottomBar bb = this.g.players.get(player).bottomBar;
+				float relativeXMouse = (im.xMouse-im.Xcam);
+				float relativeYMouse = (im.yMouse-im.Ycam);
+				//Handling production buildings
+				if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
+					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+						if(im.isPressedLeftClick){
 
-							}
+							((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+						}else{
 
 						}
-						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
-							if(im.isPressedLeftClick){
 
-								((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
-							}
+					}
+					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
+						if(im.isPressedLeftClick){
 
+							((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
 						}
-						else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
-							if(im.isPressedLeftClick){
-								int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
-								Character c = ((Character) this.selection.get(player).get(0));
-								if(c.spells.size()>number){
-									if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-										if(c.spells.get(number).needToClick){
-											this.isCastingSpell.set(player, true);
-											this.castingSpell.set(player, number);
-										} else {
-											c.spells.get(number).launch(c, c);
-										}
+
+					}
+					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+						if(im.isPressedLeftClick){
+							int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
+							Character c = ((Character) this.selection.get(player).get(0));
+							if(c.spells.size()>number){
+								if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+									if(c.spells.get(number).needToClick){
+										this.isCastingSpell.set(player, true);
+										this.castingSpell.set(player, number);
 									} else {
-										this.addMessage(Message.getById(4), player);
+										c.spells.get(number).launch(c, c);
 									}
+								} else {
+									this.addMessage(Message.getById(4), player);
 								}
-							}else{
-
 							}
+						}else{
 
 						}
-					}
 
+					}
 				}
+
+
 				// FIELD
-				else if( (im.yMouse-im.Ycam)>=this.g.players.get(player).topBar.y && (im.yMouse-im.Ycam)<=this.g.players.get(player).bottomBar.y ){
-					//update the rectangle
 
-					if(im.leftClick){
+				//update the rectangle
 
-						if(isCastingSpell.get(player)){
+				if(im.leftClick){
 
-						} else {
-							// As long as the button is pressed, the selection is updated
-							this.updateRectangle(im,player);
-						}
-					}
-					if(im.isPressedLeftClick){
-						if(isCastingSpell.get(player)){
-							// Handling the spell
-							if(this.g.players.get(player).selection.size()>0){
-								Character c = (Character)this.g.players.get(player).selection.get(0); 
-								Spell spell = c.spells.get(castingSpell.get(player));
-								spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
-								c.spellsState.set(castingSpell.get(player),0f);
-							}
-							isCastingSpell.set(player,false);
-							castingSpell.set(player,-1);
-						} else if(im.isPressedMAJ){
+					if(isCastingSpell.get(player)){
 
-						} else {
-							this.clearSelection(player);
-						}
-					}
-					// Action for player k
-					if(im.isPressedRightClick){
-						//RALLY POINT
-						if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-							((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
-						} else if(isCastingSpell.get(player)){
-							isCastingSpell.set(player,false);
-							castingSpell.set(player,-1);
-						} else if(im.isPressedMAJ){
-							updateSecondaryTarget(im.xMouse,im.yMouse,player);
-						} else {				
-							updateTarget(im.xMouse,im.yMouse,player);
-						}
+					} else {
+						// As long as the button is pressed, the selection is updated
+						this.updateRectangle(im,player);
 					}
 				}
+				if(im.isPressedLeftClick){
+					if(isCastingSpell.get(player)){
+						// Handling the spell
+						if(this.g.players.get(player).selection.size()>0){
+							Character c = (Character)this.g.players.get(player).selection.get(0); 
+							Spell spell = c.spells.get(castingSpell.get(player));
+							spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+							c.spellsState.set(castingSpell.get(player),0f);
+						}
+						isCastingSpell.set(player,false);
+						castingSpell.set(player,-1);
+					} else if(im.isPressedMAJ){
+
+					} else {
+						this.clearSelection(player);
+					}
+				}
+				// Action for player k
+				if(im.isPressedRightClick){
+					//RALLY POINT
+					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+						((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
+					} else if(isCastingSpell.get(player)){
+						isCastingSpell.set(player,false);
+						castingSpell.set(player,-1);
+					} else if(im.isPressedMAJ ){
+						if(!im.isPressedA)
+							updateSecondaryTarget(im.xMouse,im.yMouse,player);
+					} else {
+						if(!im.isPressedA)
+							updateTarget(im.xMouse,im.yMouse,player);
+					}
+				}
+
 				// Handling other hotkeys in production bar
 				if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
 					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
@@ -1144,8 +1140,7 @@ public class Plateau {
 				}
 			}
 		}
-		float bottomTopBar = this.g.players.get(player).topBar.y+(float)this.g.players.get(player).topBar.sizeY+2f;
-		// If minibar activated
+
 		if(im.isPressedA){
 			BottomBar b = this.g.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
@@ -1176,17 +1171,7 @@ public class Plateau {
 		// check if in topbar
 
 		// check if in bottombar	
-		if((im.leftClick||im.rightClick) && (im.yMouse-im.Ycam)>this.g.players.get(player).bottomBar.y){
 
-			BottomBar b = this.g.players.get(player).bottomBar;
-			//If click on minimap
-
-
-			if(this.rectangleSelection.get(player)!=null){
-				rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
-						(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(this.g.players.get(player).bottomBar.y+im.Ycam-2f-recY.get(player))+0.1f);
-			}
-		}
 	}
 
 

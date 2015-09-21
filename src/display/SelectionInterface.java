@@ -19,7 +19,7 @@ public class SelectionInterface extends Bar {
 		this.parent = parent;
 		this.sizeX = parent.sizeX/5f;
 		this.sizeY = parent.sizeY;
-		this.x = parent.x+parent.sizeX/3f;
+		this.x = parent.x+10f;
 		this.y = parent.y;
 	}
 
