@@ -4,6 +4,7 @@ import java.util.Timer;
 import java.util.Vector;
 
 import org.newdawn.slick.*;
+import java.awt.font.*;
 import org.newdawn.slick.geom.*;
 import org.newdawn.slick.util.Log;
 
@@ -27,7 +28,8 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
-
+	// Font 
+	public TrueTypeFont font;
 	// Music and sounds
 	public float soundVolume;
 	public float volume;
@@ -126,6 +128,7 @@ public class Game extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
 		g.translate(-plateau.Xcam,- plateau.Ycam);
+		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
 		int i = 0;
@@ -359,7 +362,8 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{	
-
+		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.ROMAN_BASELINE,28);
+		this.font = new TrueTypeFont(fe, true);
 		Image cursor = new Image("pics/cursor.png");
 		this.volume = 0.2f;
 		this.soundVolume = 0.2f;

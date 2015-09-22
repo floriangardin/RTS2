@@ -54,17 +54,17 @@ public class TopBar extends Bar {
 		float v = y;
 
 		g.setColor(Color.white);
-		g.drawString(model.Utils.gameTime(this.p.g.startTime), this.sizeX/6, (this.sizeY-24)/2);
+		g.drawString(model.Utils.gameTime(this.p.g.startTime), this.sizeX/6, (this.sizeY-28)/2);
 
 		// Draw subcomponents :
 
 		// Draw Ressources
 		g.drawImage(this.imageFood, 5*this.sizeX/8,(this.sizeY-24)/2);
-		g.drawString(": "+this.player.food, 5.2f*this.sizeX/8,(this.sizeY-24)/2);
+		g.drawString(": "+this.player.food, 5.2f*this.sizeX/8,(this.sizeY-28)/2);
 		g.drawImage(this.imageGold, 6*this.sizeX/8,(this.sizeY-24)/2);
-		g.drawString(": "+this.player.gold, 6.2f*this.sizeX/8,(this.sizeY-24)/2);
+		g.drawString(": "+this.player.gold, 6.2f*this.sizeX/8,(this.sizeY-28)/2);
 		g.drawImage(this.imageSpecial, 7*this.sizeX/8,(this.sizeY-32)/2);
-		g.drawString(": "+this.player.special, 7.2f*this.sizeX/8,(this.sizeY-24)/2);
+		g.drawString(": "+this.player.special, 7.2f*this.sizeX/8,(this.sizeY-28)/2);
 		// Draw separation 
 
 		return g;

@@ -162,6 +162,7 @@ public class Map {
 		new BuildingAcademy(plateau,plateau.g,X/2,Y/2);
 
 		data1.player.create(UnitsList.Inquisitor, X/9 + 1f, Y/2);
+		data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
 		data2.player.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
