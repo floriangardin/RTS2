@@ -2,6 +2,8 @@ package display;
 
 import java.util.Vector;
 
+import model.Game;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,14 +15,15 @@ import buildings.BuildingHeadQuarters;
 
 public class SelectionInterface extends Bar {
 
-	BottomBar parent;
-
+	public BottomBar parent;
+	public Game game;
 	public SelectionInterface(BottomBar parent){
+		this.game = parent.p.g;
 		this.parent = parent;
 		this.sizeX = parent.sizeX/5f;
-		this.sizeY = parent.sizeY;
-		this.x = parent.x+10f;
-		this.y = parent.y;
+		this.sizeY = 100f;
+		this.x = this.game.resX/2-this.sizeX/2;
+		this.y = 10f;
 	}
 
 	public Graphics draw(Graphics g){
@@ -54,7 +57,7 @@ public class SelectionInterface extends Bar {
 						g.fillRect(this.x+this.sizeX/3, this.y+this.sizeY/2 - 50f,b.charge*100f/b.productionTime.get(q),20f);
 					}
 					else{
-						g.drawImage(icone,this.x+this.sizeX/4+25f*(compteur-1), this.y+2*this.sizeY/3 - 50f,this.x+this.sizeX/4+25f*(compteur-1)+24f, this.y+2*this.sizeY/3 - 50f+24f,0f,0f,512f,512f);
+						g.drawImage(icone,this.x+this.sizeX/4-25f*(compteur), this.y+this.sizeY/2 - 50f,this.x+this.sizeX/4-25f*(compteur)+24f, this.y+1*this.sizeY/2 - 50f+24f,0f,0f,512f,512f);
 					}
 					compteur ++;
 

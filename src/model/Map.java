@@ -13,6 +13,7 @@ import buildings.BuildingHeadQuarters;
 import nature.Tree;
 import nature.Water;
 import units.Character;
+import units.UnitSpearman;
 import units.UnitsList;
 import weapon.Bible;
 import weapon.Bow;
@@ -145,7 +146,8 @@ public class Map {
 		new BuildingMine(plateau,plateau.g,X/18,1*Y/5);
 		new BuildingMine(plateau,plateau.g,17*X/18,1*Y/5);
 		
-		new BuildingBarrack(plateau,plateau.g,3*X/18,1*Y/5);
+		BuildingBarrack bar = new BuildingBarrack(plateau,plateau.g,3*X/18,1*Y/5);
+		bar.team = 1;
 		new BuildingBarrack(plateau,plateau.g,15*X/18,1*Y/5);
 		
 		new BuildingBarrack(plateau,plateau.g,3*X/18,4*Y/5);
@@ -159,7 +161,9 @@ public class Map {
 		
 		new BuildingAcademy(plateau,plateau.g,X/2,Y/2);
 
-		data1.player.create(UnitsList.Spearman, X/9 + 1f, Y/2);
+		data1.player.create(UnitsList.Inquisitor, X/9 + 1f, Y/2);
+		data1.player.gold = 1000;
+		data1.player.food = 1000;
 		data2.player.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
 
 		// Water

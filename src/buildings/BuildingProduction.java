@@ -87,10 +87,12 @@ public abstract class BuildingProduction extends Building {
 
 	public void removeProd() {
 		if(this.queue.size()>0){
-			this.p.g.players.get(this.team).food += this.productionList.get(queue.get(0)).foodPrice;
-			this.p.g.players.get(this.team).gold += this.productionList.get(queue.get(0)).goldPrice;
-			this.queue.remove(0);
-			this.charge = 0f;
+			this.p.g.players.get(this.team).food += this.productionList.get(queue.get(this.queue.size()-1)).foodPrice;
+			this.p.g.players.get(this.team).gold += this.productionList.get(queue.get(this.queue.size()-1)).goldPrice;
+			this.queue.remove(this.queue.size()-1);
+			if(this.queue.size()==0){
+				this.charge=0f;
+			}
 		}
 
 	}

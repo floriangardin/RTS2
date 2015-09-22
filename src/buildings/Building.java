@@ -233,12 +233,15 @@ public class Building extends ActionObjet{
 
 		}
 		// Construction points
-				if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer){
+				if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
 					g.setColor(Color.white);
-					g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()+r,this.getY()-r-50f));
+					g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,2*r,4f));
 					float x = this.constructionPoints*2f*r/this.maxLifePoints;
-					g.setColor(Color.blue);
-					g.draw(new Line(this.getX()-r,this.getY()-r-50f,this.getX()-r+x,this.getY()-r-50f));
+					if(this.potentialTeam==1)
+						g.setColor(Color.blue);
+					else
+						g.setColor(Color.red);
+					g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,x,4f));
 				}
 		return g;
 	}

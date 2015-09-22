@@ -700,11 +700,13 @@ public class Plateau {
 				float relativeXMouse = (im.xMouse-im.Xcam);
 				float relativeYMouse = (im.yMouse-im.Ycam);
 				//Handling production buildings
-				if(relativeXMouse>bb.prodX && relativeXMouse<bb.prodX+bb.prodW && relativeYMouse>bb.prodY && relativeYMouse<bb.prodY+bb.prodH){
+				if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
+					bb.action.toDrawDescription=true;
 					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+						
 						if(im.isPressedLeftClick){
 
-							((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+							((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb)));
 						}else{
 
 						}
@@ -713,13 +715,13 @@ public class Plateau {
 					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
 						if(im.isPressedLeftClick){
 
-							((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb)));
+							((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb)));
 						}
 
 					}
 					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
 						if(im.isPressedLeftClick){
-							int number = (int)((relativeYMouse-bb.prodY)/(bb.prodH/bb.prodIconNb));
+							int number = (int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb));
 							Character c = ((Character) this.selection.get(player).get(0));
 							if(c.spells.size()>number){
 								if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
@@ -738,8 +740,12 @@ public class Plateau {
 						}
 
 					}
+					continue;
 				}
-
+				else{
+					this.g.players.get(player).bottomBar.action.toDrawDescription=false;
+					
+				}
 
 				// FIELD
 
@@ -1116,16 +1122,16 @@ public class Plateau {
 	public void updateView(InputModel im, int player){
 		if(!isCastingSpell.get(player) && player==this.g.currentPlayer && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
-			if((im.isPressedUP || im.yMouse<im.Ycam+10)&&im.Ycam>-im.resY/2){
+			if((im.isPressedUP || im.yMouse<im.Ycam+5)&&im.Ycam>-im.resY/2){
 				Ycam -= 20;
 			}
-			if((im.isPressedDOWN || im.yMouse>im.Ycam+im.resY-10) && im.Ycam<this.maxY-im.resY/2){
+			if((im.isPressedDOWN || im.yMouse>im.Ycam+im.resY-5) && im.Ycam<this.maxY-im.resY/2){
 				Ycam +=20;
 			}
-			if((im.isPressedLEFT|| im.xMouse<im.Xcam+10) && im.Xcam>-im.resX/2 ){
+			if((im.isPressedLEFT|| im.xMouse<im.Xcam+5) && im.Xcam>-im.resX/2 ){
 				Xcam -=20;
 			}
-			if((im.isPressedRIGHT || im.xMouse>im.Xcam+im.resX-10)&& im.Xcam<this.maxX-im.resX/2){
+			if((im.isPressedRIGHT || im.xMouse>im.Xcam+im.resX-5)&& im.Xcam<this.maxX-im.resX/2){
 				Xcam += 20;
 			}
 			//Displaying the selected group

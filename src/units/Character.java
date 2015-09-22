@@ -483,10 +483,10 @@ public class Character extends ActionObjet{
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			g.setColor(Color.red);
-			g.draw(new Line(this.getX()-r,this.getY()-r,this.getX()+r,this.getY()-r));
+			g.fill(new Rectangle(this.getX()-r,this.getY()-r,2*r,2f));
 			float x = this.lifePoints*2f*r/this.maxLifePoints;
 			g.setColor(Color.green);
-			g.draw(new Line(this.getX()-r,this.getY()-r,this.getX()-r+x,this.getY()-r));
+			g.fill(new Rectangle(this.getX()-r,this.getY()-r,x,2f));
 		}
 		//Draw the immolation
 		if(isImmolating){

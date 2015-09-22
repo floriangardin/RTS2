@@ -74,6 +74,7 @@ public class MinimapInterface extends Bar {
 		for(Building c : this.p.buildings){
 			if(c.team==0){
 				g.setColor(Color.gray);
+
 			}
 			if(c.team==2){
 				if(this.p.isVisibleByPlayerMinimap(this.player.team, c)){
@@ -92,6 +93,17 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
+			
+			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayerMinimap(this.player.team, c)){
+				float ratio = c.constructionPoints/c.maxLifePoints;
+				if(c.potentialTeam==1){
+					g.setColor(Color.blue);
+				}
+				else if(c.potentialTeam==2){
+					g.setColor(Color.red);
+				}
+				g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
+			}
 		}
 
 		// Draw rect of camera 
