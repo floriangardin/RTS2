@@ -30,7 +30,13 @@ public class MenuIntro extends Menu {
 	public Image multiplayer;
 	public Image options;
 	public Image exit;
-
+	
+	public Image newGameSelected;
+	public Image multiplayerSelected;
+	public Image optionsSelected;
+	public Image exitSelected;
+	public int selected = -1;
+	
 	public MenuIntro(Game game){
 		try {
 			this.music = new Music("music/menuTheme.ogg");
@@ -42,20 +48,28 @@ public class MenuIntro extends Menu {
 		}
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		
+		this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
 		float stepY = 0.15f*this.game.resY;
 		
 		try {
+			
+			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(this.game.resX/1680);
+			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(this.game.resX/1680);
+			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(this.game.resX/1680);
+			this.exitSelected = new Image("pics/menu/exitselected.png");
+		
+			
 			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(this.game.resX/1680);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.newGame,"New Game"));
+			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,"New Game"));
 			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,"Multiplayer"));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,"Multiplayer"));
 			this.options = new Image("pics/menu/options.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,"Options"));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,"Options"));
 			this.exit = new Image("pics/menu/exit.png");
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,"Exit"));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
+			
 			
 		} catch (SlickException e1) {
 			// TODO Auto-generated catch block
@@ -148,9 +162,10 @@ public class MenuIntro extends Menu {
 			for(Menu_Item item: this.items){
 				item.draw(g);
 			}
+
 			g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
-			g.setColor(Color.black);
-			String copyright = "           Copyright 2015           \n- GdB Production / Welcome's Games -";
+			g.setColor(Color.white);
+			String copyright = "Copyright 2015           \n - GdB Production / Welcome's Games -";
 			//g.drawString(copyright, 6.6f*this.game.resX/18f, 4.5f*this.game.resY/5f);
 			//            abcdefghijklmn  abcdefghijklmnopqrstuvwxyabcdefghijk
 		}

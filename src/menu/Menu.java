@@ -12,7 +12,8 @@ import multiplaying.InputModel;
 
 public abstract class Menu {
 
-	protected Vector<Menu_Item> items;
+	public Vector<Menu_Item> items;
+	public Vector<Menu_Item> itemsSelected;
 	public Game game;
 	public Sounds sounds;
 	public Music music;

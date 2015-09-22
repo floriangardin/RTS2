@@ -15,15 +15,17 @@ public class Menu_Item {
 	public float y;
 	public Image image;
 	public String name;
-
+	public Image selectedImage;
 	public boolean isMouseOnIt = false;
 	public float animation = 0f;
 	public Color color = Color.black;
-
+	public Image toDraw;
 	public boolean colorAnimation = true;
 
-	public Menu_Item(float x, float y, Image im, String name) {
+	public Menu_Item(float x, float y, Image im, Image selectedImage,String name) {
 		this.image = im;
+		this.selectedImage = selectedImage;
+		this.toDraw = this.image;
 		this.x = x;
 		this.y = y;
 		this.name = name;
@@ -45,7 +47,7 @@ public class Menu_Item {
 
 	public void draw(Graphics g){
 		
-		g.drawImage(this.image,x, y);
+		g.drawImage(this.toDraw,x, y);
 	}
 
 	public void printDebug(){
@@ -55,13 +57,9 @@ public class Menu_Item {
 	public void update(InputModel im){
 		if(this.colorAnimation){
 			if(this.isClicked(im)){
-				this.animation+=1f;
-				if(this.animation>60f)
-					this.animation = 0f;
-				float c = Math.min((150f*animation/60f)/255f, (150f-150f*animation/60f)/255f);
-				this.color = new Color(c,c,c);
+				this.toDraw = this.selectedImage;
 			} else {
-				this.color = Color.black;
+				this.toDraw = this.image;
 			}
 		}
 	}
