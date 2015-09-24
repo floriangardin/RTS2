@@ -20,6 +20,7 @@ import multiplaying.*;
 import multiplaying.ConnectionModel.*;
 import nature.Tree;
 import nature.Water;
+import pathfinding.MapGrid;
 import spells.SpellEffect;
 import units.Character;
 
@@ -335,7 +336,6 @@ public class Game extends BasicGame
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 		}
-
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;

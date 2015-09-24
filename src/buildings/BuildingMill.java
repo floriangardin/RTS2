@@ -26,7 +26,6 @@ public class BuildingMill extends BuildingTech{
 		teamCapturing= 0;
 		team = 0;
 
-		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
 		this.animation = -1f;
@@ -43,6 +42,7 @@ public class BuildingMill extends BuildingTech{
 		this.lifePoints = p.g.players.get(team).data.millLifePoints;
 		this.sizeX = p.g.players.get(team).data.millSizeX; 
 		this.sizeY = p.g.players.get(team).data.millSizeY;
+		p.addBuilding(this);
 		this.sight = p.g.players.get(team).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){

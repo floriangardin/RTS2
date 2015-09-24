@@ -12,6 +12,7 @@ import buildings.BuildingUniversity;
 import buildings.BuildingHeadQuarters;
 import nature.Tree;
 import nature.Water;
+import pathfinding.MapGrid;
 import units.Character;
 import units.UnitSpearman;
 import units.UnitsList;
@@ -121,6 +122,7 @@ public class Map {
 	public void createMapPhillipeMacro(Plateau plateau,Vector<Player> players){
 		plateau.maxY = 2500f;
 		plateau.maxX = 5000f;
+		plateau.mapGrid = new MapGrid(0f, plateau.maxX,0f, plateau.maxY);
 		float X = plateau.maxX;
 		float Y = plateau.maxY;
 		Data data1 = players.get(1).data;
@@ -161,8 +163,9 @@ public class Map {
 		
 		new BuildingAcademy(plateau,plateau.g,X/2,Y/2);
 
-		data1.player.create(UnitsList.Inquisitor, X/9 + 1f, Y/2);
-		data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
+		for(int caca =0; caca<200; caca++)
+			data1.player.create(UnitsList.Inquisitor, X/9 + (float)Math.random(), Y/2+(float)Math.random());
+		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
 		data2.player.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);

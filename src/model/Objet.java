@@ -7,6 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
 
+import pathfinding.Case;
 import units.Character;
 
 public abstract class Objet {
@@ -15,6 +16,7 @@ public abstract class Objet {
 	public float x;
 	public float y;
 	public float sight;
+	public Case c;
 	public Shape collisionBox;
 	public Color color;
 	public Plateau p;
@@ -52,6 +54,7 @@ public abstract class Objet {
 		this.y = y;
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
+		this.c = this.p.mapGrid.getCase(x, y);
 	}
 	
 	public boolean isAlive(){

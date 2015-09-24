@@ -50,7 +50,6 @@ public class BuildingUniversity extends BuildingTech {
 		this.sight = this.p.constants.headQuartersSight;
 		maxLifePoints = p.constants.headQuartersLifePoints;
 		this.name = "university";
-		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;
 		this.lifePoints = this.maxLifePoints;
@@ -59,6 +58,7 @@ public class BuildingUniversity extends BuildingTech {
 		p.g.idChar+=1;
 		this.x = f;
 		this.y = h;
+		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(this.team == 1){
 			this.image = this.p.images.buildingUniversityBlue;

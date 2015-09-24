@@ -36,6 +36,7 @@ public class InputModel extends MultiObjetModel{
 	public boolean isPressedC;
 	public boolean isPressedV;
 	public boolean isPressedA;
+	public boolean isPressedB;
 	public boolean[] isPressedNumPad = new boolean[10];
 
 	public int xMouse;
@@ -71,6 +72,7 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedC = input.isKeyPressed(Input.KEY_C);
 		this.isPressedV = input.isKeyPressed(Input.KEY_V);
 		this.isPressedA = input.isKeyDown(Input.KEY_A);
+		this.isPressedB = input.isKeyDown(Input.KEY_B);
 		
 		
 		for(int i=0; i<10;i++){

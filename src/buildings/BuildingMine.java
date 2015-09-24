@@ -24,7 +24,6 @@ public class BuildingMine extends BuildingTech{
 		teamCapturing= 0;
 		team = 0;
 
-		p.addBuilding(this);
 		this.x = x;
 		this.y = y;
 		this.p =p;
@@ -39,6 +38,7 @@ public class BuildingMine extends BuildingTech{
 		this.lifePoints = p.g.players.get(team).data.mineLifePoints;
 		this.sizeX = p.g.players.get(team).data.mineSizeX;
 		this.sizeY = p.g.players.get(team).data.mineSizeY;
+		p.addBuilding(this);
 		this.sight = p.g.players.get(team).data.mineSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){

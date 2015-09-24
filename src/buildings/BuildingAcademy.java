@@ -26,7 +26,6 @@ public class BuildingAcademy extends BuildingProduction {
 		this.sizeY = this.p.g.players.get(team).data.academySizeY;
 		this.sight = this.p.g.players.get(team).data.academySight;
 		this.name = "academy";
-		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 4;
 		this.lifePoints = this.maxLifePoints;
@@ -36,6 +35,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.x = f;
 		this.y = h;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		p.addBuilding(this);
 		if(team==1){
 			this.image = this.p.images.buildingAcademyBlue;
 		} else if(team==2){

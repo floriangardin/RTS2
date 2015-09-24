@@ -24,7 +24,7 @@ public class BottomBar extends Bar {
 	public DisplayInterface display;
 	public MinimapInterface minimap;
 	public ActionInterface action;
-
+	public PathInterface path;
 
 
 
@@ -58,6 +58,7 @@ public class BottomBar extends Bar {
 		this.display = new DisplayInterface(this);
 		this.minimap = new MinimapInterface(this);
 		this.action = new ActionInterface(this);
+		this.path = new PathInterface(this);
 	}
 
 	public Graphics draw(Graphics g){
@@ -79,6 +80,10 @@ public class BottomBar extends Bar {
 		
 		// ACTIONS, Spells  and production
 		action.draw(g);
+		
+		// Draw path 
+		
+		path.draw(g);
 		
 		return g;
 	}

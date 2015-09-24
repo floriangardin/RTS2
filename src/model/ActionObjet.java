@@ -1,6 +1,10 @@
 package model;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Graphics;
+
+import pathfinding.Case;
 
 
 
@@ -8,10 +12,10 @@ import org.newdawn.slick.Graphics;
 public abstract class ActionObjet extends Objet{
 	public int id;
 	public float maxLifePoints;
-	protected float vx;
-	protected float vy;
-	private Objet target;
-	protected Checkpoint checkpointTarget;
+	public float vx;
+	public float vy;
+	public Objet target;
+	public Checkpoint checkpointTarget;
 
 
 	public void destroy(){
@@ -37,8 +41,10 @@ public abstract class ActionObjet extends Objet{
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 	}
 	public void drawIsSelected(Graphics g) {
-		
-		
+	
+	}
+	public Vector<Case> computeWay(float xEnd, float yEnd){
+		return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 	}
 
 

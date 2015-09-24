@@ -80,14 +80,14 @@ public class MenuIntro extends Menu {
 		float x1,x2,y1,y2;
 		float sizeX = this.game.resX;
 		float sizeY = this.game.resY;
-		for(int i=0; i<4; i++){
-			x1 = sizeX/18f+(float)Math.random()*2f*sizeX/9f;
-			x2 = 13f*sizeX/18f+(float)Math.random()*2f*sizeX/9f;
-			y1 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
-			y2 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
-			this.trees.add(new Tree(x1,y1,(int)(Math.random()*4f+1f)));
-			this.trees.add(new Tree(x2,y2,(int)(Math.random()*4f+1f)));
-		}
+//		for(int i=0; i<4; i++){
+//			x1 = sizeX/18f+(float)Math.random()*2f*sizeX/9f;
+//			x2 = 13f*sizeX/18f+(float)Math.random()*2f*sizeX/9f;
+//			y1 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
+//			y2 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
+//			this.trees.add(new Tree(x1,y1,(int)(Math.random()*4f+1f)));
+//			this.trees.add(new Tree(x2,y2,(int)(Math.random()*4f+1f)));
+//		}
 		Utils.triY(trees);
 		try{
 			this.sounds = new Sounds();
@@ -183,46 +183,46 @@ public class MenuIntro extends Menu {
 				for(Menu_Item item: this.items)
 					item.update(im);				
 			}
-			this.timer += 0.1f;
-			for(Bullet b : this.bullets)
-				b.action();
-			if(this.timer>this.nextBullet){
-				this.timer = 0f;
-				float x1 = (float)(Math.random()*this.game.resX), x2 = (float)(Math.random()*this.game.resX);
-				float y1 = (float)(Math.random()*this.game.resY), y2 = (float)(Math.random()*this.game.resY);
-				boolean arrow = Math.random()>1;
-				if(x1/this.game.resX>y1/this.game.resY){
-					if(x1/this.game.resX+y1/this.game.resY>1f){
-						y1 = this.game.resY;
-					} else {
-						x1 = 0f;
-					}
-				} else {
-					if(x1/this.game.resX+y1/this.game.resY>1f){
-						x1 = this.game.resX;
-					} else {
-						y1 = 0f;
-					}
-				}
-				if(arrow){
-					if(x2/this.game.resX>y2/this.game.resY){
-						if(x2/this.game.resX+y2/this.game.resY>1f){
-							y2 = this.game.resY;
-						} else {
-							x2 = 0f;
-						}
-					} else {
-						if(x2/this.game.resX+y2/this.game.resY>1f){
-							x2 = this.game.resX;
-						} else {
-							y2 = 0f;
-						}
-					}
-					this.bullets.addElement(new MenuArrow(x1,x2,y1,y2,this));
-				} else {
-					this.bullets.addElement(new MenuFireball(x1,y1,x2,y2,this));
-				}
-			}
+//			this.timer += 0.1f;
+//			for(Bullet b : this.bullets)
+//				b.action();
+//			if(this.timer>this.nextBullet){
+//				this.timer = 0f;
+//				float x1 = (float)(Math.random()*this.game.resX), x2 = (float)(Math.random()*this.game.resX);
+//				float y1 = (float)(Math.random()*this.game.resY), y2 = (float)(Math.random()*this.game.resY);
+//				boolean arrow = Math.random()>1;
+//				if(x1/this.game.resX>y1/this.game.resY){
+//					if(x1/this.game.resX+y1/this.game.resY>1f){
+//						y1 = this.game.resY;
+//					} else {
+//						x1 = 0f;
+//					}
+//				} else {
+//					if(x1/this.game.resX+y1/this.game.resY>1f){
+//						x1 = this.game.resX;
+//					} else {
+//						y1 = 0f;
+//					}
+//				}
+//				if(arrow){
+//					if(x2/this.game.resX>y2/this.game.resY){
+//						if(x2/this.game.resX+y2/this.game.resY>1f){
+//							y2 = this.game.resY;
+//						} else {
+//							x2 = 0f;
+//						}
+//					} else {
+//						if(x2/this.game.resX+y2/this.game.resY>1f){
+//							x2 = this.game.resX;
+//						} else {
+//							y2 = 0f;
+//						}
+//					}
+//					this.bullets.addElement(new MenuArrow(x1,x2,y1,y2,this));
+//				} else {
+//					this.bullets.addElement(new MenuFireball(x1,y1,x2,y2,this));
+//				}
+//			}
 			Vector<Bullet> toremove = new Vector<Bullet>();
 			for(Bullet b: this.bullets){
 				if(b.lifePoints<=0)

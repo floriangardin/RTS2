@@ -28,6 +28,7 @@ import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
 import multiplaying.OutputModel.OutputSpell;
+import pathfinding.MapGrid;
 import spells.Firewall;
 import spells.Spell;
 import spells.SpellEffect;
@@ -94,12 +95,15 @@ public class Plateau {
 
 	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
+	
+	public MapGrid mapGrid;
 
 	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){
 		this.soundVolume = g.soundVolume;
 		this.sounds = g.sounds;
 		this.images = g.images;
 		this.g = g;
+		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
 		this.constants = constants;
 		this.nTeams = nTeams;
@@ -186,12 +190,14 @@ public class Plateau {
 		toRemoveBullets.addElement(o);
 	}
 	public void addNaturalObjets(NaturalObjet o){
+		this.mapGrid.insertNewRec(o.x, o.y, o.sizeX, o.sizeY);
 		toAddNaturalObjets.addElement(o);
 	}
 	private void removeNaturalObjets(NaturalObjet o){
 		toRemoveNaturalObjets.addElement(o);
 	}
 	public void addBuilding(Building o){
+		this.mapGrid.insertNewRec(o.x, o.y, o.sizeX, o.sizeY);
 		toAddBuildings.addElement(o);
 	}
 	public void removeBuilding(Building o){
@@ -1146,7 +1152,17 @@ public class Plateau {
 				}
 			}
 		}
+		// PATHFINDING
+		if(im.isPressedB){
+			BottomBar b = this.g.players.get(player).bottomBar;
+			b.path.toDraw = true;
 
+		}
+		else{
+			BottomBar b = this.g.players.get(player).bottomBar;
+			b.path.toDraw = false;
+		}
+		
 		if(im.isPressedA){
 			BottomBar b = this.g.players.get(player).bottomBar;
 			b.minimap.toDraw = true;

@@ -21,6 +21,7 @@ import model.Player;
 import model.RidableObjet;
 import model.Utils;
 import multiplaying.OutputModel.OutputChar;
+import pathfinding.Case;
 import spells.Spell;
 import weapon.*;
 
@@ -64,6 +65,7 @@ public class Character extends ActionObjet{
 
 
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
+	public Vector<Case> waypoints = new Vector<Case>();
 
 	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p,Player player){
@@ -169,6 +171,7 @@ public class Character extends ActionObjet{
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY());
+		this.c = this.p.mapGrid.getCase(x, y);
 	}
 	public void setVXVY(float vx, float vy){
 		this.vx = vx;
@@ -308,6 +311,7 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
+
 		// Handling the death of the unit
 		if(!this.isAlive()){
 			this.setTarget(null);
@@ -352,7 +356,7 @@ public class Character extends ActionObjet{
 		}
 		if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
-			if(c.team!=this.team && !this.sightBox.intersects(this.getTarget().collisionBox)){
+			if(c.team!=this.team && !c.visibleByCurrentPlayer){
 				//TODO : create a boolean isVisible and update it
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
@@ -372,9 +376,33 @@ public class Character extends ActionObjet{
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
+		if(this.c == this.getTarget().c){
+			System.out.println("t'es fou roger");
+			this.moveToward(this.getTarget());
+		} else if(this.waypoints.size()>0){
+			if(this.c == this.waypoints.get(0)){
+				this.waypoints.remove(0);
+				this.move();
+			} else {
+				this.moveToward(this.waypoints.get(0));
+			}
+		} else {
+			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
+		}
+
+	}
+	// Moving toward method method
+	// 
+	public void moveToward(Case c){
+		moveToward(new Checkpoint(c.x+c.sizeX/2f,c.y+c.sizeY/2f));
+	}
+	public void moveToward(Objet o){
+		if(o==null && this.checkpointTarget==null){
+			return;
+		}
 		float newvx, newvy;
-		newvx = this.getTarget().getX()-this.getX();
-		newvy = this.getTarget().getY()-this.getY();
+		newvx = o.getX()-this.getX();
+		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.maxVelocity/((float)this.p.g.players.get(team).data.FRAMERATE);
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
@@ -446,8 +474,6 @@ public class Character extends ActionObjet{
 			}
 		}
 	}
-	// Stopping method
-	// 
 	public void stop(){
 		this.checkpointTarget = null;
 		if(this.getTarget() instanceof Checkpoint){
@@ -766,6 +792,13 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 
+	public void setTarget(Objet t){
+		this.target = t;
+		if(t!=null){
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+			this.waypoints = this.computeWay(t.x, t.y);
+		}
+	}
 
 
 

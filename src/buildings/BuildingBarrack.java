@@ -26,7 +26,6 @@ public class BuildingBarrack extends BuildingProduction{
 		this.sizeY = this.p.g.players.get(team).data.barrackSizeY;
 		this.sight = this.p.g.players.get(team).data.barrackSight;
 		this.name = "barrack";
-		p.addBuilding(this);
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
 		this.lifePoints = this.maxLifePoints;
@@ -35,6 +34,7 @@ public class BuildingBarrack extends BuildingProduction{
 		p.g.idChar+=1;
 		this.x = f;
 		this.y = h;
+		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
 			this.image = this.p.images.buildingBarrackBlue;

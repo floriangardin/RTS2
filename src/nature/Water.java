@@ -19,9 +19,9 @@ public class Water extends NaturalObjet {
 		this.image= this.p.images.water;
 		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.blue;
-		p.addNaturalObjets(this);
 		this.lifePoints = 1.0f;
 		this.setXY(x, y);
+		p.addNaturalObjets(this);
 	}
 	
 	public void collision(Objet o){
