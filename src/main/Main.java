@@ -29,11 +29,12 @@ public class Main {
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
 			app.setDisplayMode(resolutionX, resolutionY,true);
+			
 			//app.setFullscreen(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setTargetFrameRate(main.framerate);
-			app.setVSync(true);
-			app.setClearEachFrame(true);
+			app.setVSync(false);
+			app.setClearEachFrame(false);
 			app.setShowFPS(true);
 			app.start();
 		} catch (SlickException e) {
