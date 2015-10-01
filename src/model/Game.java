@@ -231,6 +231,7 @@ public class Game extends BasicGame
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
 		InputModel im=null;
+		
 		Vector<InputModel> ims = new Vector<InputModel>();
 		//System.out.println(this.plateau.characters);
 		if(inMultiplayer){

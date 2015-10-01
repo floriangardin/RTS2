@@ -45,10 +45,10 @@ public class BuildingUniversity extends BuildingTech {
 		this.queue = null;
 		teamCapturing= team;
 
-		this.sizeX = this.p.constants.headQuartersSizeX; 
-		this.sizeY = this.p.constants.headQuartersSizeY;
-		this.sight = this.p.constants.headQuartersSight;
-		maxLifePoints = p.constants.headQuartersLifePoints;
+		this.sizeX = this.p.g.players.get(team).data.universitySizeX; 
+		this.sizeY = this.p.g.players.get(team).data.universitySizeY;
+		this.sight = this.p.g.players.get(team).data.universitySight;
+		maxLifePoints = this.p.g.players.get(team).data.universityLifePoints;
 		this.name = "university";
 		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;

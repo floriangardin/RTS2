@@ -95,10 +95,10 @@ public class MapGrid {
 		insertNewX(X+sizeX/2f);
 		insertNewY(Y-sizeY/2f);
 		insertNewY(Y+sizeY/2f);
-//		int imin = (X-sizeX/2f<0 ? 0: Xcoord.indexOf(X-sizeX/2f));
-//		int imax = (X+sizeX/2f>maxX ? grid.size()-1 : Xcoord.indexOf(X+sizeX/2f));
-//		int jmin = (Y-sizeY/2f<0 ? 0: Ycoord.indexOf(Y-sizeY/2f));
-//		int jmax = (Y+sizeY/2f>maxY ? grid.get(0).size()-1 : Ycoord.indexOf(Y+sizeY/2f));
+		//		int imin = (X-sizeX/2f<0 ? 0: Xcoord.indexOf(X-sizeX/2f));
+		//		int imax = (X+sizeX/2f>maxX ? grid.size()-1 : Xcoord.indexOf(X+sizeX/2f));
+		//		int jmin = (Y-sizeY/2f<0 ? 0: Ycoord.indexOf(Y-sizeY/2f));
+		//		int jmax = (Y+sizeY/2f>maxY ? grid.get(0).size()-1 : Ycoord.indexOf(Y+sizeY/2f));
 		int imin = (Xcoord.indexOf(X-sizeX/2f));
 		int imax = (Xcoord.indexOf(X+sizeX/2f));
 		int jmin = (Ycoord.indexOf(Y-sizeY/2f));
@@ -121,6 +121,7 @@ public class MapGrid {
 	}
 
 	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
+		System.out.println("MapGrid line 124: calcul d'un chemin");
 		Vector<Case> path = new Vector<Case>();
 		int iStart=0, jStart=0, iEnd=0, jEnd=0;
 		while(xStart>Xcoord.get(iStart+1))
@@ -145,35 +146,38 @@ public class MapGrid {
 			nbIt++;
 			u = openList.firstElement();
 			openList.remove(0);
-			if(u.i==iEnd && u.j==jEnd){
-				while(u!=null){
-					path.insertElementAt(grid.get(u.i).get(u.j),0);
-					u = u.comeFrom;
+			// voisin de droite
+			for(int k=0;k<8;k++){
+				switch(k){
+				case 0: //à droite
+					iTrav = u.i+1; jTrav = u.j;break;
+				case 1: //à gauche
+					iTrav = u.i-1; jTrav = u.j;break;
+				case 2: //en bas
+					iTrav = u.i; jTrav = u.j+1;break;
+				case 3: //en haut
+					iTrav = u.i; jTrav = u.j-1;break;
+				case 4: //en bas à droite
+					iTrav = u.i+1; jTrav = u.j+1;break;
+				case 5: //en bas à gauche
+					iTrav = u.i-1; jTrav = u.j+1;break;
+				case 6: //en haut à droite
+					iTrav = u.i+1; jTrav = u.j-1;break;
+				case 7: //en haut à gauche
+					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
-				return path;
-			} else {
-				// voisin de droite
-				for(int k=0;k<8;k++){
-					switch(k){
-					case 0: //à droite
-						iTrav = u.i+1; jTrav = u.j;break;
-					case 1: //à gauche
-						iTrav = u.i-1; jTrav = u.j;break;
-					case 2: //en bas
-						iTrav = u.i; jTrav = u.j+1;break;
-					case 3: //en haut
-						iTrav = u.i; jTrav = u.j-1;break;
-					case 4: //en bas à droite
-						iTrav = u.i+1; jTrav = u.j+1;break;
-					case 5: //en bas à gauche
-						iTrav = u.i-1; jTrav = u.j+1;break;
-					case 6: //en haut à droite
-						iTrav = u.i+1; jTrav = u.j-1;break;
-					case 7: //en haut à gauche
-						iTrav = u.i-1; jTrav = u.j-1;break;
+				if(iTrav==iEnd && jTrav==jEnd){
+					path.add(grid.get(iTrav).get(jTrav));
+					while(u!=null){
+						path.insertElementAt(grid.get(u.i).get(u.j),0);
+						u = u.comeFrom;
 					}
-					if(iTrav>=0&& iTrav<grid.size() && jTrav>=0&& jTrav<grid.get(0).size() && grid.get(iTrav).get(jTrav).ok){
-						v = new Point(iTrav,jTrav,this,u);
+					return path;
+				}
+				if(iTrav>=0&& iTrav<grid.size() && jTrav>=0&& jTrav<grid.get(0).size() && grid.get(iTrav).get(jTrav).ok){
+					if(k<4 || (grid.get(iTrav).get(u.j).ok && grid.get(u.i).get(jTrav).ok)){
+
+						v = new Point(iTrav,jTrav,this,u,(k<4?1f:1.5f));
 						boolean doNothing = false;
 						Point toDelete = null;
 						for(Point p : closedList){
@@ -210,13 +214,14 @@ public class MapGrid {
 						openList.insertElementAt(v,indice);
 					}
 				}
-				closedList.addElement(u);
 			}
+			closedList.addElement(u);
+
 		}
 
 		return path;
 	}
-	
+
 	public void printPath(Vector<Case> path){
 		Case c;
 		for(int j=0; j<grid.get(0).size();j++){
@@ -232,13 +237,13 @@ public class MapGrid {
 						System.out.print("? ");
 					else
 						System.out.print("X ");
-					
+
 				}
 			}
 			System.out.println("");
 		}
 	}
-	
+
 	public class Point {
 		public int i;
 		public int j;
@@ -253,12 +258,12 @@ public class MapGrid {
 			this.map = map;
 			this.id = map.grid.get(i).get(j).id;
 		}
-		public Point(int i, int j, MapGrid map, Point comeFrom){
+		public Point(int i, int j, MapGrid map, Point comeFrom, float addCost){
 			this.i = i;
 			this.j = j;
 			this.map = map;
 			this.id = map.grid.get(i).get(j).id;
-			this.cost=comeFrom.cost+1;
+			this.cost=comeFrom.cost+addCost;
 			this.comeFrom = comeFrom;
 		}
 		public void computeDistance(int iEnd, int jEnd){

@@ -377,7 +377,6 @@ public class Character extends ActionObjet{
 			return;
 		}
 		if(this.c == this.getTarget().c){
-			System.out.println("t'es fou roger");
 			this.moveToward(this.getTarget());
 		} else if(this.waypoints.size()>0){
 			if(this.c == this.waypoints.get(0)){
@@ -792,13 +791,18 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 
-	public void setTarget(Objet t){
+	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
-			this.waypoints = this.computeWay(t.x, t.y);
+			if(waypoints==null)
+				this.waypoints = this.computeWay(t.x, t.y);
+			else
+				this.waypoints = waypoints;
 		}
 	}
+	
+	
 
 
 

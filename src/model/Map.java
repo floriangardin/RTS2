@@ -163,8 +163,8 @@ public class Map {
 		
 		new BuildingAcademy(plateau,plateau.g,X/2,Y/2);
 
-		for(int caca =0; caca<200; caca++)
-			data1.player.create(UnitsList.Inquisitor, X/9 + (float)Math.random(), Y/2+(float)Math.random());
+		for(int caca =0; caca<20; caca++)
+			data1.player.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;

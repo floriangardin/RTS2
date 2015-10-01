@@ -36,6 +36,9 @@ public abstract class ActionObjet extends Objet{
 		return this.target;
 	}
 	public void setTarget(Objet t){
+		this.setTarget(t,null);
+	}
+	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
 		if(t!=null)
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());

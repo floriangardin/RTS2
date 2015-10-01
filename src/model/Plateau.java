@@ -28,6 +28,7 @@ import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
 import multiplaying.OutputModel.OutputSpell;
+import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Firewall;
 import spells.Spell;
@@ -499,10 +500,18 @@ public class Plateau {
 				}
 				// Then we create its new group
 				o.group = new Vector<Character>();
-				for(ActionObjet c1: this.selection.get(team))
-					if(c1 instanceof Character)
+				Vector<Case> waypoints = null;
+				for(ActionObjet c1: this.selection.get(team)){
+					if(c1 instanceof Character){
 						o.group.add((Character)c1);
-				o.setTarget(target);
+						System.out.println("Plateau line 507: " + (waypoints!=null) +" "+(c.c==c1.c)+" "+(((Character)c1).waypoints.size()>0));
+						if(waypoints!=null && c1.c == c.c && c1.getTarget().c==target.c){
+							System.out.println("Plateau line 508 : copie d'une chemin");
+							waypoints = ((Character) c1).waypoints;
+						}
+					}
+				}
+				o.setTarget(target, waypoints);
 				o.secondaryTargets.clear();
 			}
 		}

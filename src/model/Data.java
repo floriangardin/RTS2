@@ -12,17 +12,17 @@ import units.UnitsList;
 
 public class Data {
 
-	
+
 	Player player;
 	Plateau p;
-	
+
 	public final float ACC;
 	public final float FROT;
 	public final int FRAMERATE;
 
-	
+
 	//// UNIT STAT
-	
+
 	public UnitSpearman spearman;
 	public UnitKnight knight;
 	public UnitPriest priest;
@@ -33,62 +33,68 @@ public class Data {
 	//headQuarters
 	public int headQuartersLifePoints = 200;
 	public float headQuartersSight = 300f;
-	public float headQuartersSizeX = 291f;
-	public float headQuartersSizeY = 291f*2f/3f;
+	public float headQuartersSizeX = 300f;
+	public float headQuartersSizeY = 200f;
 	// Mill
 	public int millChargeTime = 5;
 	public int millLifePoints = 100;
 	public float millSight = 300f;
 	public float millSizeX = 300f;
 	public float millSizeY = 200f;
-	
+
 	// Mine
 	public int mineChargeTime = 5;
 	public int mineLifePoints = 100;
 	public float mineSight = 300f;
-	public float mineSizeX = 291f;
-	public float mineSizeY = 145f;
-	
+	public float mineSizeX = 300f;
+	public float mineSizeY = 150f;
+
 	// Barrack
 	public int barrackLifePoints = 200;
 	public float barrackSight = 300f;
 	public float barrackSizeX = 400f;
 	public float barrackSizeY = 250;
-	
+
 	//Stable
 	public int stableLifePoints = 200;
 	public float stableSight = 300f;
 	public float stableSizeX = 450f;
 	public float stableSizeY = 250f;
-	
+
 	// Academy 
 	public int academyLifePoints = 200;
 	public float academySight = 300f;
-	public float academySizeX = 291f;
-	public float academySizeY = 291f*2f/3f;
-	
-	
+	public float academySizeX = 300f;
+	public float academySizeY = 200f;
+
+	// University 
+	public int universityLifePoints = 200;
+	public float universitySight = 300f;
+	public float universitySizeX = 300f;
+	public float universitySizeY = 200f;
+
+
 	//// Spells
-	
+
 	public SpellFirewall firewall;
 	public SpellBlessedArea blessedArea;
 	public SpellImmolation immolation;
 	public SpellConversion conversion;
 	public SpellInstantHealth instantHealth;
 	public SpellInstantDeath instantDeath ;
-	
+
 	//// Special
-	
+
 	public float gainedFaithByImmolation = 1f;
-	
-	
+
+
 	//// Attack Bonuses
-		
+
 	public float bonusSpearHorse = 3f;
 	public float bonusSwordBow = 2f;
 	public float bonusBowFoot = 3f;
 	public float bonusWandBow = 2f;
-	
+
 	// Ressources
 	public int bonusFood = 0;
 	public int bonusGold = 0;
@@ -113,7 +119,7 @@ public class Data {
 		this.inquisitor = new UnitInquisitor(p,player,this);
 		this.archange = new UnitArchange(p,player,this);
 	}
-	
+
 	public Character create(UnitsList which,float x, float y){
 		Character c;
 		switch(which){
@@ -145,8 +151,8 @@ public class Data {
 			c = null;
 		}
 		return c;
-		
+
 	}
-	
+
 
 }
