@@ -67,7 +67,7 @@ public class MenuIntro extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,"Multiplayer"));
 			this.options = new Image("pics/menu/options.png").getScaledCopy(this.game.resX/1680);
 			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,"Options"));
-			this.exit = new Image("pics/menu/exit.png");
+			this.exit = new Image("pics/menu/exit.png").getScaledCopy(this.game.resX/1680);
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
 			
 			
