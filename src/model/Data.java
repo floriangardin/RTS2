@@ -8,6 +8,7 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
+import units.UnitTest;
 import units.UnitsList;
 
 public class Data {
@@ -29,6 +30,7 @@ public class Data {
 	public UnitInquisitor inquisitor;
 	public UnitCrossbowman crossbowman;
 	public UnitArchange archange;
+	public UnitTest test;
 	//// BUILDINGS STATS
 	//headQuarters
 	public int headQuartersLifePoints = 200;
@@ -118,6 +120,7 @@ public class Data {
 		this.priest = new  UnitPriest(p,player,this);
 		this.inquisitor = new UnitInquisitor(p,player,this);
 		this.archange = new UnitArchange(p,player,this);
+		this.test = new UnitTest(p,player,this);
 	}
 
 	public Character create(UnitsList which,float x, float y){
@@ -145,6 +148,10 @@ public class Data {
 			break;
 		case Archange:
 			c = new UnitArchange(this.archange,x,y);
+			c.player = this.player;
+			break;
+		case Test:
+			c = new UnitTest(this.test,x,y);
 			c.player = this.player;
 			break;
 		default:

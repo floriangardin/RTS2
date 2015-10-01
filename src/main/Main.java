@@ -30,13 +30,15 @@ public class Main {
 			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-			app.setDisplayMode(resolutionX, resolutionY,false);
+			app.setDisplayMode(resolutionX, resolutionY,true);
+			
 			//app.setFullscreen(true);
-			app.setUpdateOnlyWhenVisible(false);
+			app.setUpdateOnlyWhenVisible(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(false);
 			app.setClearEachFrame(false);
 			app.setShowFPS(true);
+			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

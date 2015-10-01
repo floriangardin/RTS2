@@ -5,6 +5,7 @@ import java.util.Vector;
 import model.Plateau;
 import model.Player;
 import units.Character;
+import units.UnitsList;
 
 public class IA {
 	
@@ -27,6 +28,19 @@ public class IA {
 	public void updateCharacters(){
 		
 	}
+	
+	public static UnitsList getUnitType(Character c){
+		return c.type;
+	}
+	
+	public static Vector<UnitsList> getAllUnitType(Vector<Character> c){
+		Vector<UnitsList> result = new Vector<UnitsList>();
+		for(Character ch : c){
+			result.addElement(ch.type);
+		}
+		return result;
+	}
+	
 	
 
 }

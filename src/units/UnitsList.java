@@ -7,7 +7,8 @@ public enum UnitsList {
 	Priest("priest",50f,100f,0f,100f),
 	Inquisitor("inquisitor",60f,100f,0f,180f),
 	Spearman("spearman",60f,0f,0f,100f),
-	Archange("archange",0f,0f,7f,0f);
+	Archange("archange",0f,0f,7f,0f),
+	Test("test",0f,0f,0f,0f);
 	
 	public String name = "";
 	public float goldPrice ;
@@ -31,6 +32,7 @@ public enum UnitsList {
 		case "priest" : return Priest;
 		case "inquisitor" : return Inquisitor;
 		case "archange" : return Archange;
+		case "test" : return Test;
 		default: return null;
 		}
 	}

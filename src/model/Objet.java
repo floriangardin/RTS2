@@ -11,6 +11,14 @@ import pathfinding.Case;
 import units.Character;
 
 public abstract class Objet {
+	
+	// Animation : mode,orientation,increment
+	public Image[][][] animations;
+	public int mode;
+	public int orientation;
+	public int increment;
+	public float incrementf;
+	
 	public Image selection_circle;
 	public Sound sound;
 	public float x;

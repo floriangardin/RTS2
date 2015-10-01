@@ -165,6 +165,7 @@ public class Map {
 
 		for(int caca =0; caca<20; caca++)
 			data1.player.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
+
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
