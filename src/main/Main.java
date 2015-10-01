@@ -31,11 +31,12 @@ public class Main {
 			app.setDisplayMode(resolutionX, resolutionY,true);
 			
 			//app.setFullscreen(true);
-			app.setUpdateOnlyWhenVisible(false);
+			app.setUpdateOnlyWhenVisible(true);
 			app.setTargetFrameRate(main.framerate);
 			app.setVSync(false);
 			app.setClearEachFrame(false);
 			app.setShowFPS(true);
+			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

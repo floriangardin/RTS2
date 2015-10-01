@@ -20,6 +20,7 @@ public class UnitArchange extends Character {
 	public UnitArchange(Plateau p, Player player, Data data) {
 		super(p, player);
 		this.name = "archange";
+		this.type = UnitsList.Archange;
 		this.maxLifePoints = 200f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;

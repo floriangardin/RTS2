@@ -12,6 +12,7 @@ public class UnitSpearman extends Character {
 	public UnitSpearman(Plateau p, Player player, Data data) {
 		super(p, player);
 		this.name = "spearman";
+		this.type = UnitsList.Spearman;
 		this.maxLifePoints = 80f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;

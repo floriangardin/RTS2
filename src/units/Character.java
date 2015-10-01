@@ -27,7 +27,7 @@ import weapon.*;
 
 public class Character extends ActionObjet{
 
-
+	
 	// General attributes
 	public Circle sightBox;
 
@@ -61,7 +61,9 @@ public class Character extends ActionObjet{
 	// Special Abilities
 	public boolean isImmolating = false;
 	public float remainingTime;
-
+	
+	// UnitsList associated
+	public UnitsList type;
 
 
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
@@ -70,6 +72,7 @@ public class Character extends ActionObjet{
 	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p,Player player){
 		this.p = p;
+		this.animations = new Image[1][4][4];
 		this.player = player;
 		this.team = player.team;
 		this.name = "character";
@@ -101,7 +104,7 @@ public class Character extends ActionObjet{
 		this.sight = c.sight;
 		this.collisionBox = new Circle(c.collisionBox.getCenterX(),c.collisionBox.getCenterY(),c.collisionBox.getBoundingCircleRadius());
 		this.sightBox = new Circle(c.sightBox.getCenterX(),c.sightBox.getCenterY(),c.sightBox.getBoundingCircleRadius());
-
+		this.animations = c.animations;
 		this.setXY(x, y);
 		this.maxVelocity = c.maxVelocity;
 		this.armor = c.armor;
@@ -367,7 +370,14 @@ public class Character extends ActionObjet{
 			this.stop();
 			// The target is at range, the character don't move
 		}
-
+		
+		// Update animation;
+		if(this.vx>0 ||this.vy>0){
+			this.incrementf+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+		}
+		if(this instanceof UnitTest)
+			this.increment= ((int)this.incrementf)%this.animations[0][0].length;
+		//Choose mode
 
 	}
 	// Movement method
@@ -377,7 +387,7 @@ public class Character extends ActionObjet{
 			return;
 		}
 		if(this.c == this.getTarget().c){
-			System.out.println("t'es fou roger");
+			
 			this.moveToward(this.getTarget());
 		} else if(this.waypoints.size()>0){
 			if(this.c == this.waypoints.get(0)){
@@ -449,7 +459,7 @@ public class Character extends ActionObjet{
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
-
+		
 		if(animationValue!=0f){
 			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
 				animation = 1;

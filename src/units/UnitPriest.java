@@ -13,6 +13,7 @@ public class UnitPriest extends Character {
 	public UnitPriest(Plateau p, Player player, Data data) {
 		super(p, player);
 		this.name = "priest";
+		this.type = UnitsList.Priest;
 		this.maxLifePoints = 60f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
