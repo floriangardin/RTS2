@@ -1,4 +1,4 @@
-package IA;
+package main;
 
 public class MainSimu {
 
