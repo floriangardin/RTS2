@@ -162,6 +162,7 @@ public class Plateau {
 		}
 		try {
 			this.deathSound = new Sound("music/death.ogg");
+			System.out.println(this.g.resX+" "+this.g.resY);
 			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
 			this.gf = fog.getGraphics();
 		} catch (SlickException e) {

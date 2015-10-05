@@ -16,33 +16,33 @@ import model.Plateau;
 public class Simulation {
 
 	
-	Vector<Vector<Character>> armies;
+	public Vector<Vector<Character>> armies;
 	
-	Vector<Vector<Character>> armiesInitial;
-	Plateau p;
-	boolean end;
-	int victory;
-	Report report;
-	Game game;
-	int framerate ;
-	float sizeX = 200;
-	float sizeY = 200;
+	public Vector<Vector<Character>> armiesInitial;
+	public Plateau p;
+	public boolean end;
+	public int victory;
+	public Report report;
+	public Game game;
+	public int framerate ;
+	public float sizeX = 200;
+	public float sizeY = 200;
 	
-	int sizeArmy1;
-	int sizeArmy2;
-	int timeout;
+	public int sizeArmy1;
+	public int sizeArmy2;
+	public int timeout;
 	
-	public Simulation(){
+	public Simulation(Game game){
 		//INIT SIZE ARMY
 		this.sizeArmy1= (int)Math.random()*10;
 		this.sizeArmy2 = (int)((float)Math.random()-0.5f)*10+this.sizeArmy2;
 		
 		// INIT GAME AND PLATEAU
 		this.framerate = 60;
-		game = new Game();
-		game.setParams(new Constants(framerate),800,600);
+		this.game = game;
+
 		end = false;
-		this.p = new Plateau(new Constants(60),sizeX,sizeY,2,new Game());
+		this.p = new Plateau(new Constants(60),sizeX,sizeY,2,this.game);
 		//INIT ARMIES
 		armies = new Vector<Vector<Character>>();
 		armies.add(new Vector<Character>());
