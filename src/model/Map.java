@@ -177,17 +177,22 @@ public class Map {
 		// ENCULE KEVIN 
 		new Water(5f*X/18,2f*Y/3,X/9,2f*Y/3,plateau);
 		new Water(13f*X/18,1f*Y/3,X/9,2f*Y/3,plateau);
-		
-		
-		
-		
-			
+					
 		// Player 2 side
-		
 
-		
-
-		
 	}
 
+	public void createMapMicro(Plateau plateau,Vector<Player> players){
+		plateau.maxY = 2500f;
+		plateau.maxX = 5000f;
+		plateau.mapGrid = new MapGrid(0f, plateau.maxX,0f, plateau.maxY);
+		float X = plateau.maxX;
+		float Y = plateau.maxY;
+		Data data1 = players.get(1).data;
+		Data data2 = players.get(2).data;
+
+		// Player 2 side
+
+	}
+	
 }
