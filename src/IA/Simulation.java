@@ -3,6 +3,13 @@ package IA;
 import java.util.Vector;
 
 import units.Character;
+import units.UnitArchange;
+import units.UnitCrossbowman;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitPriest;
+import units.UnitSpearman;
+import units.UnitTest;
 import model.Constants;
 import model.Game;
 import model.Plateau;
@@ -10,7 +17,8 @@ public class Simulation {
 
 	
 	Vector<Vector<Character>> armies;
-
+	
+	Vector<Vector<Character>> armiesInitial;
 	Plateau p;
 	boolean end;
 	int victory;
@@ -22,7 +30,7 @@ public class Simulation {
 	
 	int sizeArmy1;
 	int sizeArmy2;
-	
+	int timeout;
 	
 	public Simulation(){
 		//INIT SIZE ARMY
@@ -42,10 +50,10 @@ public class Simulation {
 		
 		// GENERATE RANDOM ARMY
 		for(int i=0 ;i<this.sizeArmy1;i++){
-			
+			this.armies.get(0).add(generateRandomUnit(1));
 		}
 		for(int i=0 ;i<this.sizeArmy2;i++){
-			
+			this.armies.get(0).add(generateRandomUnit(2));
 		}
 
 
@@ -58,9 +66,9 @@ public class Simulation {
 			}
 		}
 		
-		//LAUNCH SIMULATION
 		
-		simulate();
+		
+		
 		
 	}
 	
@@ -78,6 +86,28 @@ public class Simulation {
 	}
 	public void update(){
 		//Call action on each character until end of fight
+		for(Character c : this.p.characters){
+			c.action();
+		}
+		// Remove characters if death
+		Vector<Character> toRemove = new Vector<Character>();
+		for(Vector<Character> cs : armies){
+			for(Character c : cs){
+				if(c.lifePoints<=0){
+					toRemove.add(c);
+				}
+				
+			}
+		}
+		
+		for(Character c : toRemove){
+			if(armies.get(0).contains(c)){
+				armies.get(0).remove(c);
+			}
+			if(armies.get(1).contains(c)){
+				armies.get(1).remove(c);
+			}
+		}
 		
 		//Update end
 		if(this.armies.get(0).size()==0){
@@ -95,9 +125,43 @@ public class Simulation {
 		//Call action on each character until end of fight
 	}
 	
-	public Character generateRandomUnit(){
+	public Character generateRandomUnit(int team){
+		int n_units = 5;
+		Character c;
+		int i = (int) Math.random()*n_units;
+		switch(i){
+		case 0:
+			c =  new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
+			
+			break;
+		case 1:
+			c = new UnitKnight(this.p,this.game.players.get(team),this.game.players.get(team).data);	
+			
+			break;
+		case 2:
+			c =  new UnitPriest(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			
+			break;	
+		case 3:
+			c =  new UnitCrossbowman(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			
+			break;	
+		case 4:
+			c =  new UnitInquisitor(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			
+			break;
+		case 5:
+			c = new UnitArchange(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			
+			break;
+		
+		default:
+			c = new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
+		}
+		return c;
 		
 	}
+	
 	
 	
 }
