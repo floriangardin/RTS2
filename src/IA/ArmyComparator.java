@@ -9,6 +9,9 @@ public class ArmyComparator {
 
 	public ArmyEstimator ally;
 	public ArmyEstimator ennemy;
+	
+	//NUMBER OF PARAMETERS
+	static int numberParameters = 41;
 
 	//COMMON PARAMETERS
 	public float distance;
@@ -16,11 +19,15 @@ public class ArmyComparator {
 	public float concave2;
 	public float contrePotential1;
 	public float contrePotential2;
+	
+	//FINAL OBSERVATION
+	public float[] obs = new float[numberParameters];
 
 	public ArmyComparator(ArmyEstimator a1, ArmyEstimator a2){
 		ally = a1;
 		ennemy = a2;
-		this.computeCommonParameters();
+		if(a1!=null && a2!=null)
+			this.computeCommonParameters();
 	}
 
 	public void computeCommonParameters(){
@@ -136,7 +143,7 @@ public class ArmyComparator {
 		 * 39 contrePotential1;
 		 * 40 contrePotential2;
 		 */
-		float[] obs = new float[41];
+		try{
 		obs[0] =  ally.numberUnits;
 		obs[1] =  ally.attackSum;
 		obs[2] =  ally.dpsSum;
@@ -178,6 +185,9 @@ public class ArmyComparator {
 		obs[38] = concave2;
 		obs[39] = contrePotential1;
 		obs[40] = contrePotential2;
+		}catch(ArrayIndexOutOfBoundsException e){
+			
+		}
 		return obs;
 	}
 }
