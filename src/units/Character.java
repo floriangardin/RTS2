@@ -812,6 +812,20 @@ public class Character extends ActionObjet{
 		}
 	}
 	
+	public boolean encounters(Character c){
+		boolean b = false;
+		if(c.horse!=null && this.name=="Spearman"){
+			return true;
+		}
+		if(c.horse==null && this.weapon instanceof Bow){
+			return true;
+		}
+		if(c.weapon instanceof Bow && this.weapon instanceof Wand){
+			return true;
+		}
+		return b;
+	}
+	
 	
 
 
