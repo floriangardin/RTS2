@@ -172,19 +172,22 @@ public class Utils {
 			System.out.println("-> bug: characters est null");
 		else{
 			for(Character c:p.characters)
-				System.out.println(c+" " +c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints);
-		}
+				if(c.target!=null)
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints+" t:"+c.target.x);
+				else
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints);
+	}
 		System.out.println();
 		System.out.println("========================================");
-		System.out.println();
-		System.out.println("** Spells");
-		if(p.spells==null)
-			System.out.println("-> bug: spells est null");
-		else{
-			for(SpellEffect c:p.spells)
-				System.out.println(c+" " + c.x+ " " +c.y + " " +c.id);
-		}
-		System.out.println();
+//		System.out.println();
+//		System.out.println("** Spells");
+//		if(p.spells==null)
+//			System.out.println("-> bug: spells est null");
+//		else{
+//			for(SpellEffect c:p.spells)
+//				System.out.println(c+" " + c.x+ " " +c.y + " " +c.id);
+//		}
+//		System.out.println();
 //		System.out.println("========================================");
 //		System.out.println();
 //		System.out.println("** Natural Objets");

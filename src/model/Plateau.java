@@ -509,11 +509,13 @@ public class Plateau {
 				o.group = new Vector<Character>();
 				Vector<Case> waypoints = null;
 				for(ActionObjet c1: this.selection.get(team)){
+					if(c1==c)
+						continue;
 					if(c1 instanceof Character){
 						o.group.add((Character)c1);
-						System.out.println("Plateau line 507: " + (waypoints!=null) +" "+(c.c==c1.c)+" "+(((Character)c1).waypoints.size()>0));
-						if(waypoints!=null && c1.c == c.c && c1.getTarget().c==target.c){
-							System.out.println("Plateau line 508 : copie d'une chemin");
+//						System.out.println("Plateau line 507: " + (waypoints!=null) +" "+(c.c==c1.c)+" "+(((Character)c1).waypoints.size()>0));
+						if(((Character)c1).waypoints!=null && c1.c == c.c && c1.getTarget()!=null && c1.getTarget().c==target.c){
+//							System.out.println("Plateau line 508 : copie d'une chemin");
 							waypoints = ((Character) c1).waypoints;
 						}
 					}

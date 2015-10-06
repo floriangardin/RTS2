@@ -398,7 +398,7 @@ public class Character extends ActionObjet{
 				this.moveToward(this.waypoints.get(0));
 			}
 		} else {
-			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
+			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY(),this.getTarget().collisionBox.getWidth(),this.getTarget().collisionBox.getHeight());
 		}
 
 	}
@@ -808,7 +808,7 @@ public class Character extends ActionObjet{
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null)
-				this.waypoints = this.computeWay(t.x, t.y);
+				this.waypoints = this.computeWay(t.x, t.y, t.collisionBox.getWidth(), t.collisionBox.getHeight());
 			else
 				this.waypoints = waypoints;
 		}

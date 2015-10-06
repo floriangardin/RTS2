@@ -16,10 +16,10 @@ public class Main {
 	Constants constants;
 	public static void main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double width = screenSize.getWidth();
-		double height = screenSize.getHeight();
-//		double width = 600;
-//		double height = 400;
+//		double width = screenSize.getWidth();
+//		double height = screenSize.getHeight();
+		double width = 600;
+		double height = 400;
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		int resolutionX = (int)width;		
 		int resolutionY = (int)height;
@@ -29,7 +29,7 @@ public class Main {
 			game.setParams(new Constants(Main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-			app.setDisplayMode(resolutionX, resolutionY,true);
+			app.setDisplayMode(resolutionX, resolutionY,false);
 			
 			//app.setFullscreen(true);
 			app.setUpdateOnlyWhenVisible(true);

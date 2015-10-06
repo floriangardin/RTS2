@@ -28,8 +28,6 @@ public class Simulator {
 			game.setParams(new Constants(Main.framerate),10,10);
 			s = new Simulation(game);
 			ac = new ArmyComparator(s.armies.get(0), s.armies.get(1));
-			System.out.println(ac.ally);
-			System.out.println(ac.ennemy);
 			s.simulate();
 			Report r = s.report;
 			results[i] = r.teamVictory %2;

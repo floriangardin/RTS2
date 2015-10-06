@@ -120,14 +120,22 @@ public class MapGrid {
 		return grid.get(i).get(j);
 	}
 
-	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
+	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd, float xEndSize, float yEndSize){
 		//System.out.println("MapGrid line 124: calcul d'un chemin");
 		Vector<Case> path = new Vector<Case>();
-		int iStart=0, jStart=0, iEnd=0, jEnd=0;
+		int iStart=0, jStart=0, iEnd=0, jEnd=0, iEndMin=0, jEndMin=0, iEndMax=0, jEndMax=0;
 		while(xStart>Xcoord.get(iStart+1))
 			iStart++;
 		while(yStart>Ycoord.get(jStart+1))
 			jStart++;
+		while(xEnd-xEndSize/2f>Xcoord.get(iEndMin+1))
+			iEndMin++;
+		while(yEnd-yEndSize/2f>Ycoord.get(jEndMin+1))
+			jEndMin++;
+		while(xEnd+xEndSize/2f>Xcoord.get(iEndMax+1))
+			iEndMax++;
+		while(yEnd+yEndSize/2f>Ycoord.get(jEndMax+1))
+			jEndMax++;
 		while(xEnd>Xcoord.get(iEnd+1))
 			iEnd++;
 		while(yEnd>Ycoord.get(jEnd+1))
@@ -166,7 +174,7 @@ public class MapGrid {
 				case 7: //en haut à gauche
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
-				if(iTrav==iEnd && jTrav==jEnd){
+				if(iTrav>=iEndMin && iTrav<=iEndMax && jTrav>=jEndMin && jTrav<=jEndMax){
 					path.add(grid.get(iTrav).get(jTrav));
 					while(u!=null){
 						path.insertElementAt(grid.get(u.i).get(u.j),0);
