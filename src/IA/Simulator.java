@@ -30,15 +30,15 @@ public class Simulator {
 			ac = new ArmyComparator(s.armies.get(0), s.armies.get(1));
 			System.out.println(ac.ally);
 			System.out.println(ac.ennemy);
-			//s.simulate();
-			//Report r = s.report;
-			//results[i] = r.teamVictory %2;
+			s.simulate();
+			Report r = s.report;
+			results[i] = r.teamVictory %2;
 			for(int j=0;j<numberParameters;j++){
 				observations[i][j] = ac.obs[j];
 			}
 		}
 		// CREATION DES FICHIERS
-		String path = "C:/Users/Kévin/Documents/GitHub/RTS2/IA/FightSimulator";
+		String path = "././IA/FightSimulator";
 		File di   = new File(path);
 		File fl[] = di.listFiles();
 		String zeros = "";
@@ -53,7 +53,7 @@ public class Simulator {
         try {
             // Creation du fichier
             fichier .createNewFile();
-            // creation d'un writer (un écrivain)
+            // creation d'un writer (un ï¿½crivain)
             final FileWriter writer = new FileWriter(fichier);
             try {
             	String message = "";
@@ -75,7 +75,7 @@ public class Simulator {
         try {
             // Creation du fichier
             fichier1 .createNewFile();
-            // creation d'un writer (un écrivain)
+            // creation d'un writer (un ï¿½crivain)
             final FileWriter writer = new FileWriter(fichier1);
             try {
             	String message = "";

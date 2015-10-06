@@ -156,7 +156,7 @@ public class Simulation {
 	public Character generateRandomUnit(int team){
 		int n_units = 5;
 		Character c;
-		int i = (int) Math.random()*n_units;
+		int i = (int) (Math.random()*n_units);
 		switch(i){
 		case 0:
 			c =  new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
