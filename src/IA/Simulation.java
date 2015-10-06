@@ -2,6 +2,8 @@ package IA;
 
 import java.util.Vector;
 
+import buildings.Building;
+import bullets.Bullet;
 import units.Character;
 import units.UnitArchange;
 import units.UnitCrossbowman;
@@ -13,6 +15,8 @@ import units.UnitTest;
 import model.Constants;
 import model.Game;
 import model.Plateau;
+import model.Utils;
+import spells.SpellEffect;
 public class Simulation {
 
 	
@@ -34,15 +38,15 @@ public class Simulation {
 	
 	public Simulation(Game game){
 		//INIT SIZE ARMY
-		this.sizeArmy1= (int)Math.random()*10;
-		this.sizeArmy2 = (int)((float)Math.random()-0.5f)*10+this.sizeArmy2;
+		this.sizeArmy1= (int)(Math.random()*10);
+		this.sizeArmy2 = (int)(((float)Math.random()-0.5f)*10)+this.sizeArmy1;
 		
 		// INIT GAME AND PLATEAU
 		this.framerate = 60;
 		this.game = game;
 
 		end = false;
-		this.p = new Plateau(new Constants(60),sizeX,sizeY,2,this.game);
+		this.p = new Plateau(new Constants(this.framerate),sizeX,sizeY,2,this.game);
 		//INIT ARMIES
 		armies = new Vector<Vector<Character>>();
 		armies.add(new Vector<Character>());
@@ -51,9 +55,13 @@ public class Simulation {
 		// GENERATE RANDOM ARMY
 		for(int i=0 ;i<this.sizeArmy1;i++){
 			this.armies.get(0).add(generateRandomUnit(1));
+			this.armies.get(0).lastElement().x = (float)Math.random()*this.sizeX;
+			this.armies.get(0).lastElement().y = (float)Math.random()*this.sizeY;
 		}
 		for(int i=0 ;i<this.sizeArmy2;i++){
-			this.armies.get(0).add(generateRandomUnit(2));
+			this.armies.get(1).add(generateRandomUnit(2));
+			this.armies.get(1).lastElement().x = (float)Math.random()*this.sizeX;
+			this.armies.get(1).lastElement().y = (float)Math.random()*this.sizeY;
 		}
 
 
@@ -61,12 +69,15 @@ public class Simulation {
 		// ADD ARMY IN PLATEAU
 		for(Vector<Character> cs : armies){
 			for(Character c : cs){
-				this.p.addCharacterObjets(new Character(c,(float)Math.random()*this.sizeX,(float)Math.random()*this.sizeY));
+				new Character(c,c.x,c.y);
 				
 			}
 		}
-		
-		
+
+		System.out.println("new configuration:");
+		System.out.println("army 1: "+armies.get(0).size());
+		System.out.println("army 2: "+armies.get(1).size());
+		//Utils.printCurrentState(p);
 		
 		
 		
@@ -74,27 +85,44 @@ public class Simulation {
 	
 	public void simulate(){
 		//Call update until victory or timeout
+		end = false;
 		while(!end){
 			update();
+			Utils.printCurrentState(p);
 		}
 		
 		// if victory call report function
 		if(end){
+			System.out.println(victory+" "+armies.get(victory-1).size());
 			report = new Report(victory,armies.get(victory-1).size());
 		}
 		
 	}
+	
 	public void update(){
 		//Call action on each character until end of fight
-		for(Character c : this.p.characters){
-			c.action();
-		}
+		this.p.collision();
+		this.p.clean();
+		this.p.action();
+
+		// 4 - Update the visibility
+		for(Character c:this.p.characters)
+			c.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, c);
+		for(Building b:this.p.buildings)
+			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, b);
+		for(Bullet b:this.p.bullets)
+			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, b);
+		for(SpellEffect b:this.p.spells)
+			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, b);
+
+
 		// Remove characters if death
 		Vector<Character> toRemove = new Vector<Character>();
 		for(Vector<Character> cs : armies){
 			for(Character c : cs){
 				if(c.lifePoints<=0){
 					toRemove.add(c);
+					System.out.println("death: "+c.team);
 				}
 				
 			}

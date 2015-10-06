@@ -3,6 +3,10 @@ package IA;
 import java.io.File;
 import java.io.FileWriter;
 
+import main.Main;
+import model.Constants;
+import model.Game;
+
 public class Simulator {
 
 	public int simulationNumber;
@@ -11,18 +15,24 @@ public class Simulator {
 	public float[] results;
 	
 	public Simulator(int n){
+		
 		simulationNumber = n;
 		numberParameters = ArmyComparator.numberParameters;
-		observations = new float[numberParameters][n];
+		observations = new float[n][numberParameters];
 		results = new float[n];
 		ArmyComparator ac;
 		Simulation s;
+		Game game = new Game();
 		for(int i=0; i<n; i++){
-			s = new Simulation();
+			game = new Game();
+			game.setParams(new Constants(Main.framerate),10,10);
+			s = new Simulation(game);
 			ac = new ArmyComparator(s.armies.get(0), s.armies.get(1));
-			s.simulate();
-			Report r = s.report;
-			results[i] = r.teamVictory %2;
+			System.out.println(ac.ally);
+			System.out.println(ac.ennemy);
+			//s.simulate();
+			//Report r = s.report;
+			//results[i] = r.teamVictory %2;
 			for(int j=0;j<numberParameters;j++){
 				observations[i][j] = ac.obs[j];
 			}
@@ -31,8 +41,15 @@ public class Simulator {
 		String path = "C:/Users/Kévin/Documents/GitHub/RTS2/IA/FightSimulator";
 		File di   = new File(path);
 		File fl[] = di.listFiles();
+		String zeros = "";
+		if(fl.length/2<1000)
+			zeros+="0";
+		if(fl.length/2<100)
+			zeros+="0";
+		if(fl.length/2<10)
+			zeros+="0";
 		// ECRITURE DE LA MATRICE
-        final File fichier =new File(path+"/matrix_0"+fl.length+".txt"); 
+        final File fichier =new File(path+"/matrix_"+zeros+fl.length/2+".txt"); 
         try {
             // Creation du fichier
             fichier .createNewFile();
@@ -45,7 +62,7 @@ public class Simulator {
             		for(int j=0;j<numberParameters;j++){
             			message+=observations[i][j]+" ";
             		}
-                    writer.write(message);            		
+                    writer.write(message+"\r\n");            		
             	}
             } finally {
                 // quoiqu'il arrive, on ferme le fichier
@@ -54,7 +71,7 @@ public class Simulator {
         } catch (Exception e) {
             System.out.println("Impossible de creer le fichier matrice");
         }
-        File fichier1 =new File(path+"/results_0"+fl.length+".txt"); 
+        File fichier1 =new File(path+"/results_"+zeros+fl.length/2+".txt"); 
         try {
             // Creation du fichier
             fichier1 .createNewFile();

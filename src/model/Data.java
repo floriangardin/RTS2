@@ -120,7 +120,7 @@ public class Data {
 		this.priest = new  UnitPriest(p,player,this);
 		this.inquisitor = new UnitInquisitor(p,player,this);
 		this.archange = new UnitArchange(p,player,this);
-		this.test = new UnitTest(p,player,this);
+		//this.test = new UnitTest(p,player,this);
 	}
 
 	public Character create(UnitsList which,float x, float y){

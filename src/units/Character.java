@@ -268,6 +268,8 @@ public class Character extends ActionObjet{
 	public void updateImage(){
 		//Handling the team
 		Image imagea = this.p.images.corps;
+		if(imagea==null)
+			return;
 		Image imageb = this.p.images.corps;
 		Image imagec = this.p.images.corps;
 		Image imaged = null;

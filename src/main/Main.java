@@ -11,7 +11,7 @@ import model.Constants;
 import model.Game;
 
 public class Main {
-	int framerate = 60;
+	public static int framerate = 60;
 	
 	Constants constants;
 	public static void main(String[] args) {
@@ -25,16 +25,15 @@ public class Main {
 		int resolutionY = (int)height;
 		
 		try {
-			Main main = new Main();
 			Game game = new Game();
-			game.setParams(new Constants(main.framerate),(float) resolutionX,(float) resolutionY);
+			game.setParams(new Constants(Main.framerate),(float) resolutionX,(float) resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
 			app.setDisplayMode(resolutionX, resolutionY,true);
 			
 			//app.setFullscreen(true);
 			app.setUpdateOnlyWhenVisible(true);
-			app.setTargetFrameRate(main.framerate);
+			app.setTargetFrameRate(Main.framerate);
 			app.setVSync(false);
 			app.setClearEachFrame(false);
 			app.setShowFPS(true);

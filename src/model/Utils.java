@@ -172,7 +172,7 @@ public class Utils {
 			System.out.println("-> bug: characters est null");
 		else{
 			for(Character c:p.characters)
-				System.out.println(c+" " +c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.player.team +" "+c.lifePoints);
+				System.out.println(c+" " +c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints);
 		}
 		System.out.println();
 		System.out.println("========================================");

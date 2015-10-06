@@ -9,7 +9,7 @@ public class ArmyComparator {
 
 	public ArmyEstimator ally;
 	public ArmyEstimator ennemy;
-	
+
 	//NUMBER OF PARAMETERS
 	static int numberParameters = 41;
 
@@ -19,7 +19,7 @@ public class ArmyComparator {
 	public float concave2;
 	public float contrePotential1;
 	public float contrePotential2;
-	
+
 	//FINAL OBSERVATION
 	public float[] obs = new float[numberParameters];
 
@@ -86,11 +86,12 @@ public class ArmyComparator {
 		this.ally = new ArmyEstimator(ally);
 		this.ennemy = new ArmyEstimator(ennemy);
 		this.computeCommonParameters();
+		this.attribute2Matrix();
 	}
 
 
 
-	public  float[] attribute2Matrix(){
+	public  void attribute2Matrix(){
 		//List of attributes in exact order
 		/*
 		 * concerning army 1
@@ -144,50 +145,47 @@ public class ArmyComparator {
 		 * 40 contrePotential2;
 		 */
 		try{
-		obs[0] =  ally.numberUnits;
-		obs[1] =  ally.attackSum;
-		obs[2] =  ally.dpsSum;
-		obs[3] =  ally.lifepointsSum;
-		obs[4] =  ally.armorSum;
-		obs[5] =  ally.minMobility;
-		obs[6] =  ally.maxMobility;
-		obs[7] =  ally.meanMobility;
-		obs[8] =  ally.cacProportion;
-		obs[9] =  ally.rangeProportion;
-		obs[10] = ally.spellCasterProportion;
-		obs[11] = ally.mountedProportion;
-		obs[12] = ally.maxVar;
-		obs[13] = ally.minVar;
-		obs[14] = ally.distanceToEnnemy;
-		obs[15] = ally.alignmentDegree;
-		obs[16] = ally.meanX;
-		obs[17] = ally.meanY;
-		obs[18] = ennemy.numberUnits;
-		obs[19] = ennemy.attackSum;
-		obs[20] = ennemy.dpsSum;
-		obs[21] = ennemy.lifepointsSum;
-		obs[22] = ennemy.armorSum;
-		obs[23] = ennemy.minMobility;
-		obs[24] = ennemy.maxMobility;
-		obs[25] = ennemy.meanMobility;
-		obs[26] = ennemy.cacProportion;
-		obs[27] = ennemy.rangeProportion;
-		obs[28] = ennemy.spellCasterProportion;
-		obs[29] = ennemy.mountedProportion;
-		obs[30] = ennemy.maxVar;
-		obs[31] = ennemy.minVar;
-		obs[32] = ennemy.distanceToEnnemy;
-		obs[33] = ennemy.alignmentDegree;
-		obs[34] = ennemy.meanX;
-		obs[35] = ennemy.meanY;
-		obs[36] = distance;
-		obs[37] = concave1;
-		obs[38] = concave2;
-		obs[39] = contrePotential1;
-		obs[40] = contrePotential2;
+			obs[0] =  ally.numberUnits;
+			obs[1] =  ally.attackSum;
+			obs[2] =  ally.dpsSum;
+			obs[3] =  ally.lifepointsSum;
+			obs[4] =  ally.armorSum;
+			obs[5] =  ally.minMobility;
+			obs[6] =  ally.maxMobility;
+			obs[7] =  ally.meanMobility;
+			obs[8] =  ally.cacProportion;
+			obs[9] =  ally.rangeProportion;
+			obs[10] = ally.spellCasterProportion;
+			obs[11] = ally.mountedProportion;
+			obs[12] = ally.maxVar;
+			obs[13] = ally.minVar;
+			obs[14] = ally.alignmentDegree;
+			obs[15] = ally.meanX;
+			obs[16] = ally.meanY;
+			obs[17] = ennemy.numberUnits;
+			obs[18] = ennemy.attackSum;
+			obs[19] = ennemy.dpsSum;
+			obs[20] = ennemy.lifepointsSum;
+			obs[21] = ennemy.armorSum;
+			obs[22] = ennemy.minMobility;
+			obs[23] = ennemy.maxMobility;
+			obs[24] = ennemy.meanMobility;
+			obs[25] = ennemy.cacProportion;
+			obs[26] = ennemy.rangeProportion;
+			obs[27] = ennemy.spellCasterProportion;
+			obs[28] = ennemy.mountedProportion;
+			obs[29] = ennemy.maxVar;
+			obs[30] = ennemy.minVar;
+			obs[31] = ennemy.alignmentDegree;
+			obs[32] = ennemy.meanX;
+			obs[33] = ennemy.meanY;
+			obs[34] = distance;
+			obs[35] = concave1;
+			obs[36] = concave2;
+			obs[37] = contrePotential1;
+			obs[38] = contrePotential2;
 		}catch(ArrayIndexOutOfBoundsException e){
-			
+
 		}
-		return obs;
 	}
 }

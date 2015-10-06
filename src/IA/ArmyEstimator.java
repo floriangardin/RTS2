@@ -22,7 +22,6 @@ public class ArmyEstimator {
 	public float mountedProportion;
 	public float maxVar;
 	public float minVar;
-	public float distanceToEnnemy;
 	public float alignmentDegree;
 	public float meanX;
 	public float meanY;
@@ -32,8 +31,6 @@ public class ArmyEstimator {
 	public ArmyEstimator(Vector<Character> units ){
 		this.units = units;
 		this.updateEstimator();
-
-
 	}
 
 	public void updateEstimator(){
@@ -61,13 +58,13 @@ public class ArmyEstimator {
 			mountedProportion+= (u.horse!=null ? 1 : 0); ;
 		}
 		// CALCULATE MEANS
-		meanX /= n;
-		meanY /= n;
-		meanMobility/= n;
-		cacProportion/= n;
-		rangeProportion/= n;
-		spellCasterProportion/= n;
-		mountedProportion/= n;
+		meanX /= 1f*n;
+		meanY /= 1f*n;
+		meanMobility/= 1f*n;
+		cacProportion/= 1f*n;
+		rangeProportion/= 1f*n;
+		spellCasterProportion/= 1f*n;
+		mountedProportion/= 1f*n;
 
 		// CALCULATE 
 		for (Character u : units){
@@ -92,5 +89,27 @@ public class ArmyEstimator {
 
 		alignmentDegree = (n>1? maxVar/minVar : 1) ;
 
+	}
+
+	public String toString(){
+		String s ="";
+		s += "numberUnits "+numberUnits+"\n";
+		s += "attackSum "+attackSum+"\n";
+		s += "dpsSum "+dpsSum+"\n";
+		s += "lifepointsSum "+lifepointsSum+"\n";
+		s += "armorSum "+armorSum+"\n";
+		s += "minMobility "+minMobility+"\n";
+		s += "maxMobility "+maxMobility+"\n";
+		s += "meanMobility "+meanMobility+"\n";
+		s += "cacProportion "+cacProportion+"\n";
+		s += "rangeProportion "+rangeProportion+"\n";
+		s += "spellCasterProportion "+spellCasterProportion+"\n";
+		s += "mountedProportion "+mountedProportion+"\n";
+		s += "maxVar "+maxVar+"\n";
+		s += "minVar "+minVar+"\n";
+		s += "alignmentDegree "+alignmentDegree+"\n";
+		s += "meanX "+meanX+"\n";
+		s += "meanY "+meanY+"\n";
+		return s;
 	}
 }

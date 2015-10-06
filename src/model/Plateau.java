@@ -165,10 +165,16 @@ public class Plateau {
 			System.out.println(this.g.resX+" "+this.g.resY);
 			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
 			this.gf = fog.getGraphics();
-		} catch (SlickException e) {
+		} catch (SlickException | RuntimeException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
+		
+		//UPDATING GAME
+		this.g.players = new Vector<Player>();
+		this.g.players.add(new Player(this,0,0));
+		this.g.players.add(new Player(this,1,0));
+		this.g.players.add(new Player(this,2,0));
 
 	}
 
