@@ -14,7 +14,7 @@ public class Simulator{
 	public GameSimu game;
 	
 	public Simulator (){
-		simulationNumber = 5;
+		simulationNumber = 15;
 		numberParameters = ArmyComparator.numberParameters;
 		observations = new float[simulationNumber][numberParameters];
 		results = new float[simulationNumber];
