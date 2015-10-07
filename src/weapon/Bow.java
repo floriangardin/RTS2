@@ -52,6 +52,7 @@ public class Bow extends RangeWeapon{
 		}
 		// Launch bullet
 		if(this.state>this.chargeTime){
+			System.out.println("attack");
 			// Launch a bullet
 			Circle circle = new Circle(this.getX(),this.getY(),this.range);
 			if(target.collisionBox.intersects(circle)){

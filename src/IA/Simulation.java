@@ -1,9 +1,18 @@
 package IA;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
 import java.util.Vector;
 
-import buildings.Building;
-import bullets.Bullet;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import model.Constants;
+import model.Game;
+import model.Plateau;
+import spells.SpellEffect;
 import units.Character;
 import units.UnitArchange;
 import units.UnitCrossbowman;
@@ -11,17 +20,14 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
-import units.UnitTest;
-import model.Constants;
-import model.Game;
-import model.Plateau;
-import model.Utils;
-import spells.SpellEffect;
+import buildings.Building;
+import bullets.Bullet;
 public class Simulation {
 
-	
+
 	public Vector<Vector<Character>> armies;
-	
+	public JPanel panel;
+	public JFrame window;
 	public Vector<Vector<Character>> armiesInitial;
 	public Plateau p;
 	public boolean end;
@@ -31,46 +37,54 @@ public class Simulation {
 	public int framerate ;
 	public float sizeX = 200;
 	public float sizeY = 200;
-	
+
+	// BUFFER 
+	public final int BUFFERS = 2;
+	public  BufferStrategy bufferStrategy;
+
 	public int sizeArmy1;
 	public int sizeArmy2;
 	public int timeout;
-	
+	public int ratio ;
 	public Simulation(Game game){
 		//INIT SIZE ARMY
-		this.sizeArmy1= (int)(Math.random()*10);
-		this.sizeArmy2 = (int)(((float)Math.random()-0.5f)*10)+this.sizeArmy1;
-		
+		this.sizeArmy1= (int)(Math.random()*5);
+		this.sizeArmy2 = (int)(((float)Math.random()-0.5f)*5)+this.sizeArmy1;
+		this.ratio = 2;
 		// INIT GAME AND PLATEAU
 		this.framerate = 60;
 		this.game = game;
 
 		end = false;
 		this.p = new Plateau(new Constants(this.framerate),sizeX,sizeY,2,this.game);
+		this.game.plateau = this.p;
+
+		
 		//INIT ARMIES
 		armies = new Vector<Vector<Character>>();
 		armies.add(new Vector<Character>());
 		armies.add(new Vector<Character>());
-		
+
 		// GENERATE RANDOM ARMY
 		for(int i=0 ;i<this.sizeArmy1;i++){
-			this.armies.get(0).add(generateRandomUnit(1));
-			this.armies.get(0).lastElement().x = (float)Math.random()*this.sizeX;
-			this.armies.get(0).lastElement().y = (float)Math.random()*this.sizeY;
+			Character charact = generateRandomUnit(1);
+			Character c = this.p.g.players.get(1).create(charact.type, (float)Math.random()*this.sizeX,(float)Math.random()*this.sizeY );
+			this.armies.get(0).add(c);
+
 		}
 		for(int i=0 ;i<this.sizeArmy2;i++){
-			this.armies.get(1).add(generateRandomUnit(2));
-			this.armies.get(1).lastElement().x = (float)Math.random()*this.sizeX;
-			this.armies.get(1).lastElement().y = (float)Math.random()*this.sizeY;
+			Character charact = generateRandomUnit(2);
+			Character c = this.p.g.players.get(2).create(charact.type, (float)Math.random()*this.sizeX,(float)Math.random()*this.sizeY );
+			this.armies.get(1).add(c);
 		}
 
 
-		
+
 		// ADD ARMY IN PLATEAU
 		for(Vector<Character> cs : armies){
 			for(Character c : cs){
 				new Character(c,c.x,c.y);
-				
+
 			}
 		}
 
@@ -78,27 +92,92 @@ public class Simulation {
 		System.out.println("army 1: "+armies.get(0).size());
 		System.out.println("army 2: "+armies.get(1).size());
 		//Utils.printCurrentState(p);
-		
-		
-		
+
+		//INIT RENDER
+		window = new JFrame();
+		panel = new JPanel();
+
+		window.setSize((int) sizeX*ratio, (int) sizeY*ratio);
+
+		//Nous demandons maintenant à notre objet de se positionner au centre
+
+		window.setLocationRelativeTo(null);
+
+		//Termine le processus lorsqu'on clique sur la croix rouge
+
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+		window.setContentPane(panel);
+		window.setVisible(true);
+		// BUFFER STRATEGY
+		this.window.createBufferStrategy(2);
+		this.bufferStrategy = this.window.getBufferStrategy();
+
+
 	}
-	
+
 	public void simulate(){
 		//Call update until victory or timeout
 		end = false;
 		while(!end){
+
 			update();
-			Utils.printCurrentState(p);
+			render();
+			//Utils.printCurrentState(p);
 		}
-		
+
 		// if victory call report function
 		if(end){
 			System.out.println(victory+" "+armies.get(victory-1).size());
 			report = new Report(victory,armies.get(victory-1).size());
 		}
-		
+
 	}
-	
+
+	public void render(){
+		Graphics2D g;
+
+		g= (Graphics2D) bufferStrategy.getDrawGraphics();
+
+		
+
+		g.setColor(Color.gray);
+		g.fillRect(0, 0, (int) sizeX*ratio,(int) sizeY*ratio);
+		for(Character c : this.p.characters){
+			if(c.team ==1 ){
+				g.setColor(Color.blue);
+			}
+			if(c.team == 2 ){
+				g.setColor(Color.red);	
+			}
+
+			//g.fillRect((int) c.x*ratio, (int)c.y*ratio, 10, 10);
+			g.fillOval((int) (c.x-c.collisionBox.getBoundingCircleRadius())*ratio,(int) (c.y-c.collisionBox.getBoundingCircleRadius())*ratio,(int) c.collisionBox.getBoundingCircleRadius()*ratio*2, (int)(c.collisionBox.getBoundingCircleRadius()*ratio*2));
+
+			g.setColor(Color.BLACK);
+			g.drawString(c.id+ ""+c.weapon.name, (int) c.weapon.x*ratio,(int) c.weapon.y*ratio);
+			if(c.getTarget()!=null){
+				g.drawLine((int) c.x*ratio, (int) c.y*ratio, (int) c.getTarget().x*ratio, (int) c.getTarget().y*ratio);
+			}
+			// DRAW SIGHTBOX 
+
+			g.setColor(Color.BLACK);
+			g.drawOval((int) (c.x-c.sightBox.radius)*ratio,(int) (c.y-c.sightBox.radius)*ratio,(int) c.sightBox.radius*ratio*2, (int)(c.sightBox.radius*ratio*2));
+
+
+		}
+		
+		bufferStrategy.show();
+		g.dispose();
+
+		
+		try{
+			Thread.sleep(16);
+		}catch(InterruptedException e){
+
+		}
+	}
 	public void update(){
 		//Call action on each character until end of fight
 		this.p.collision();
@@ -107,13 +186,13 @@ public class Simulation {
 
 		// 4 - Update the visibility
 		for(Character c:this.p.characters)
-			c.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, c);
+			c.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-c.team, c);
 		for(Building b:this.p.buildings)
-			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, b);
+			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
 		for(Bullet b:this.p.bullets)
-			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, b);
+			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
 		for(SpellEffect b:this.p.spells)
-			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(1, b);
+			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
 
 
 		// Remove characters if death
@@ -124,10 +203,10 @@ public class Simulation {
 					toRemove.add(c);
 					System.out.println("death: "+c.team);
 				}
-				
+
 			}
 		}
-		
+
 		for(Character c : toRemove){
 			if(armies.get(0).contains(c)){
 				armies.get(0).remove(c);
@@ -136,7 +215,7 @@ public class Simulation {
 				armies.get(1).remove(c);
 			}
 		}
-		
+
 		//Update end
 		if(this.armies.get(0).size()==0){
 			end = true;
@@ -146,13 +225,13 @@ public class Simulation {
 			end = true;
 			victory = 1;
 		}
-		
+
 	}
-	
+
 	public void report(){
 		//Call action on each character until end of fight
 	}
-	
+
 	public Character generateRandomUnit(int team){
 		int n_units = 5;
 		Character c;
@@ -160,36 +239,36 @@ public class Simulation {
 		switch(i){
 		case 0:
 			c =  new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
-			
+
 			break;
 		case 1:
 			c = new UnitKnight(this.p,this.game.players.get(team),this.game.players.get(team).data);	
-			
+
 			break;
 		case 2:
 			c =  new UnitPriest(this.p,this.game.players.get(team),this.game.players.get(team).data);
-			
+
 			break;	
 		case 3:
 			c =  new UnitCrossbowman(this.p,this.game.players.get(team),this.game.players.get(team).data);
-			
+
 			break;	
 		case 4:
 			c =  new UnitInquisitor(this.p,this.game.players.get(team),this.game.players.get(team).data);
-			
+
 			break;
 		case 5:
 			c = new UnitArchange(this.p,this.game.players.get(team),this.game.players.get(team).data);
-			
+
 			break;
-		
+
 		default:
 			c = new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
 		}
 		return c;
-		
+
 	}
-	
-	
-	
+
+
+
 }

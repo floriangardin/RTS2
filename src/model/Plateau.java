@@ -644,6 +644,7 @@ public class Plateau {
 	//general methods 
 	public void action(){
 		for(Character o: this.characters){
+			
 			o.action();
 		}
 		for(ActionObjet o: this.equipments){

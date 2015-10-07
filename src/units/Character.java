@@ -316,9 +316,10 @@ public class Character extends ActionObjet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	public void action(){
-
+		
 		// Handling the death of the unit
 		if(!this.isAlive()){
+			
 			this.setTarget(null);
 			return;
 		}
@@ -342,6 +343,7 @@ public class Character extends ActionObjet{
 			this.setTarget(this.secondaryTargets.get(0));
 		}
 		if(this.getTarget()==null){
+			
 			// The character has no target, we look for a new one
 			Vector<Objet> potential_targets;
 			if(this.weapon!=null && this.weapon.damage>0f) 
@@ -360,15 +362,19 @@ public class Character extends ActionObjet{
 			//			return;
 		}
 		if(this.getTarget() instanceof Character){
+			
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !c.visibleByCurrentPlayer){
 				//TODO : create a boolean isVisible and update it
+				
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
 			}
 		}
 		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !this.getTarget().collisionBox.intersects(this.weapon.collisionBox))){
+			
 			this.move();
 		}else{
+
 			this.stop();
 			// The target is at range, the character don't move
 		}

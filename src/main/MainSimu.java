@@ -28,7 +28,7 @@ public class MainSimu {
 //		simu.simulate();
 //		System.out.println(simu.report.toString());
 
-		new Simulator(10);
+		new Simulator(1);
 		AL.destroy();
 	}
 
