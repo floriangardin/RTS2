@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import pathfinding.MapGrid;
 import model.Constants;
 import model.Game;
 import model.Plateau;
@@ -92,7 +93,8 @@ public class Simulation {
 		System.out.println("army 1: "+armies.get(0).size());
 		System.out.println("army 2: "+armies.get(1).size());
 		//Utils.printCurrentState(p);
-
+		// INIT GRID
+		p.mapGrid = new MapGrid(0f, p.maxX,0f, p.maxY);
 		//INIT RENDER
 		window = new JFrame();
 		panel = new JPanel();
@@ -185,15 +187,22 @@ public class Simulation {
 		this.p.action();
 
 		// 4 - Update the visibility
+//		for(Character c:this.p.characters)
+//			c.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-c.team, c);
+//		for(Building b:this.p.buildings)
+//			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
+//		for(Bullet b:this.p.bullets)
+//			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
+//		for(SpellEffect b:this.p.spells)
+//			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
 		for(Character c:this.p.characters)
-			c.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-c.team, c);
+			c.visibleByCurrentPlayer = true;
 		for(Building b:this.p.buildings)
-			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
+			b.visibleByCurrentPlayer = true;
 		for(Bullet b:this.p.bullets)
-			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
+			b.visibleByCurrentPlayer = true;
 		for(SpellEffect b:this.p.spells)
-			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
-
+			b.visibleByCurrentPlayer = true;
 
 		// Remove characters if death
 		Vector<Character> toRemove = new Vector<Character>();

@@ -118,7 +118,31 @@ public class Map {
 		
 	}
 
-	
+	public void createMapEmpty(Plateau plateau,Vector<Player> players){
+		plateau.maxY = 2500f;
+		plateau.maxX = 5000f;
+		plateau.mapGrid = new MapGrid(0f, plateau.maxX,0f, plateau.maxY);
+		float X = plateau.maxX;
+		float Y = plateau.maxY;
+		Data data1 = players.get(1).data;
+		Data data2 = players.get(2).data;
+		//HQ
+
+		
+
+
+		for(int caca =0; caca<20; caca++)
+			data1.player.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
+
+		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
+		data1.player.gold = 1000;
+		data1.player.food = 1000;
+		data2.player.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
+
+
+		// Player 2 side
+
+	}
 	public void createMapPhillipeMacro(Plateau plateau,Vector<Player> players){
 		plateau.maxY = 2500f;
 		plateau.maxX = 5000f;
