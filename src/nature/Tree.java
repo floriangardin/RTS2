@@ -27,16 +27,16 @@ public class Tree extends NaturalObjet {
 		this.setXY(x, y);
 		switch(type){
 		case 1:
-			this.image = this.p.images.tree01;
+			this.image = this.p.g.images.tree01;
 			break;
 		case 2:
-			this.image = this.p.images.tree02;
+			this.image = this.p.g.images.tree02;
 			break;
 		case 3:
-			this.image = this.p.images.tree03;
+			this.image = this.p.g.images.tree03;
 			break;
 		case 4:
-			this.image = this.p.images.tree04;
+			this.image = this.p.g.images.tree04;
 			break;
 		default:
 		}

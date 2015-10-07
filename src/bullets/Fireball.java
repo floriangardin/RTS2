@@ -6,11 +6,11 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
+import main.Main;
 import model.Checkpoint;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBullet;
 import units.Character;
-import weapon.Bow;
 
 public class Fireball extends Bullet {
 
@@ -35,10 +35,10 @@ public class Fireball extends Bullet {
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
-		this.image = (this.p.images.fireball).getSubImage(0, 150, 75, 75);
-		this.image1 = (this.p.images.fireball).getSubImage(75, 150, 75, 75);
-		this.image2 = (this.p.images.fireball).getSubImage(150, 150, 75, 75);
-		this.boom = this.p.images.explosion;
+		this.image = (this.p.g.images.fireball).getSubImage(0, 150, 75, 75);
+		this.image1 = (this.p.g.images.fireball).getSubImage(75, 150, 75, 75);
+		this.image2 = (this.p.g.images.fireball).getSubImage(150, 150, 75, 75);
+		this.boom = this.p.g.images.explosion;
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
@@ -49,7 +49,7 @@ public class Fireball extends Bullet {
 		this.vy = this.owner.getTarget().getY()-this.owner.getY()+altitude;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
-		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
+		norm  = (float)Math.sqrt(norm)*Main.framerate;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
@@ -60,18 +60,18 @@ public class Fireball extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-		this.sound = p.sounds.fireball;
-		this.sound.play(1f,this.p.soundVolume);
+//		this.sound = p.g.sounds.fireball;
+//		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 	public Fireball(OutputBullet ocb, Plateau p){
 		// Parameters
 		this.p = p;
 		p.addBulletObjets(this);
 		this.id = ocb.id;
-		this.image = (this.p.images.fireball).getSubImage(0, 150, 75, 75);
-		this.image1 = (this.p.images.fireball).getSubImage(75, 150, 75, 75);
-		this.image2 = (this.p.images.fireball).getSubImage(150, 150, 75, 75);
-		this.boom = this.p.images.explosion;
+		this.image = (this.p.g.images.fireball).getSubImage(0, 150, 75, 75);
+		this.image1 = (this.p.g.images.fireball).getSubImage(75, 150, 75, 75);
+		this.image2 = (this.p.g.images.fireball).getSubImage(150, 150, 75, 75);
+		this.boom = this.p.g.images.explosion;
 		this.animation = 0;
 		this.lifePoints = 1f;
 		this.collisionBox = new Point(ocb.x,ocb.y);
@@ -86,8 +86,8 @@ public class Fireball extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-		this.sound = p.sounds.fireball;
-		this.sound.play(1f,this.p.soundVolume);
+//		this.sound = p.g.sounds.fireball;
+//		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 	public Fireball(){}
 	public void action(){
@@ -117,8 +117,8 @@ public class Fireball extends Bullet {
 	}
 	public void boom(Character c){
 		float damage = this.damage;
-		if(c.weapon!= null && c.weapon instanceof Bow)
-			damage = damage * this.p.constants.bonusWandBow;
+		if(c.weapon!= null && c.weapon == "bow")
+			damage = damage * this.p.g.players.get(team).data.bonusBowFoot;
 		c.lifePoints-=this.damage;
 		
 	}

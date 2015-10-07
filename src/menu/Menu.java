@@ -44,9 +44,19 @@ public abstract class Menu {
 	}
 
 	public void draw(Graphics g){
+		int i = 0;
+		int j = 0;
+		while(i<this.game.resX+this.game.images.grassTexture.getWidth()){
+			while(j<this.game.resY+this.game.images.grassTexture.getHeight()){
+				g.drawImage(this.game.images.grassTexture, i,j);
+				j+=this.game.images.grassTexture.getHeight();
+			}
+			i+=this.game.images.grassTexture.getWidth();
+			j= 0;
+		}
 		//g.translate(-game.Xcam,-game.Ycam);
-		for(int i=0; i<this.items.size(); i++){
-			this.items.get(i).draw(g);
+		for(int k=0; k<this.items.size(); k++){
+			this.items.get(k).draw(g);
 		}
 	}
 

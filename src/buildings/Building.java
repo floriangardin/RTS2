@@ -1,23 +1,18 @@
 package buildings;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
-import display.Message;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import model.Plateau;
+import units.Character;
 import multiplaying.OutputModel.OutputBuilding;
-import units.UnitsList;
-import weapon.Bow;
-import weapon.Weapon;
 
 public class Building extends ActionObjet{
 	public Game g;
@@ -52,27 +47,27 @@ public class Building extends ActionObjet{
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.image = this.p.images.tent;
+		this.image = this.p.g.images.tent;
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
 	}
 
-	public void collision(Weapon w){
-		if(w instanceof Bow)
+	public void collisionWeapon(Character c){
+		if( c.weapon== "bow" || c.weapon== "wand" || c.weapon=="bible")
 			return;
-		if(this instanceof BuildingStable && w.owner.player.hq.age<2){
-			//			this.p.addMessage(Message.getById(5), w.owner.team);
-			return;
-		}
-		if(this instanceof BuildingAcademy && w.owner.player.hq.age<3){
-			//			this.p.addMessage(Message.getById(5), w.owner.team);
+		if(this instanceof BuildingStable && c.player.hq.age<2){
+			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.potentialTeam!=w.owner.team){
+		if(this instanceof BuildingAcademy && c.player.hq.age<3){
+			//			this.p.addMessage(Message.getById(5), c.team);
+			return;
+		}
+		if(this.potentialTeam!=c.team){
 			if(this.constructionPoints<=0f){
-				this.potentialTeam = w.owner.team;
-				this.hq = this.p.g.players.get(w.owner.team).hq;
+				this.potentialTeam = c.team;
+				this.hq = this.p.g.players.get(c.team).hq;
 			}
 			this.constructionPoints-=0.1f;
 		}
@@ -150,64 +145,64 @@ public class Building extends ActionObjet{
 
 	public void updateImage(){
 		if(this instanceof BuildingBarrack){
-			this.imageNeutre = this.p.images.buildingBarrackNeutral;
+			this.imageNeutre = this.p.g.images.buildingBarrackNeutral;
 			if(team==1){
-				this.image = this.p.images.buildingBarrackBlue;
+				this.image = this.p.g.images.buildingBarrackBlue;
 			} else if(team==2){
-				this.image = this.p.images.buildingBarrackRed;
+				this.image = this.p.g.images.buildingBarrackRed;
 			} else {
-				this.image = this.p.images.buildingBarrackNeutral;
+				this.image = this.p.g.images.buildingBarrackNeutral;
 			}
 		}
 
 		else if(this instanceof BuildingStable){
-			this.imageNeutre = this.p.images.buildingStableNeutral;
+			this.imageNeutre = this.p.g.images.buildingStableNeutral;
 			if(team==1){
-				this.image = this.p.images.buildingStableBlue;
+				this.image = this.p.g.images.buildingStableBlue;
 			} else if(team==2){
-				this.image = this.p.images.buildingStableRed;
+				this.image = this.p.g.images.buildingStableRed;
 			} else {
-				this.image = this.p.images.buildingStableNeutral;
+				this.image = this.p.g.images.buildingStableNeutral;
 			}
 		}
 		else if(this instanceof BuildingAcademy){
-			this.imageNeutre = this.p.images.buildingAcademyNeutral;
+			this.imageNeutre = this.p.g.images.buildingAcademyNeutral;
 			if(team==1){
-				this.image = this.p.images.buildingAcademyBlue;
+				this.image = this.p.g.images.buildingAcademyBlue;
 			} else if(team==2){
-				this.image = this.p.images.buildingAcademyRed;
+				this.image = this.p.g.images.buildingAcademyRed;
 			} else {
-				this.image = this.p.images.buildingAcademyNeutral;
+				this.image = this.p.g.images.buildingAcademyNeutral;
 			}
 		}
 		else if(this instanceof BuildingMill){
-			this.imageNeutre = this.p.images.buildingMillNeutral;
+			this.imageNeutre = this.p.g.images.buildingMillNeutral;
 			if(team==1){
-				this.image = this.p.images.buildingMillBlue;
+				this.image = this.p.g.images.buildingMillBlue;
 			} else if(team==2){
-				this.image = this.p.images.buildingMillRed;
+				this.image = this.p.g.images.buildingMillRed;
 			} else {
-				this.image = this.p.images.buildingMillNeutral;
+				this.image = this.p.g.images.buildingMillNeutral;
 			}
 		}
 		else if(this instanceof BuildingMine){
-			this.imageNeutre = this.p.images.buildingMineNeutral;
+			this.imageNeutre = this.p.g.images.buildingMineNeutral;
 			if(team==1){
-				this.image = this.p.images.buildingMineBlue;
+				this.image = this.p.g.images.buildingMineBlue;
 			} else if(team==2){
-				this.image = this.p.images.buildingMineRed;
+				this.image = this.p.g.images.buildingMineRed;
 			} else {
-				this.image = this.p.images.buildingMineNeutral;
+				this.image = this.p.g.images.buildingMineNeutral;
 			}
 		}
 		else if(this instanceof BuildingUniversity){
-			this.imageNeutre = this.p.images.buildingUniversityNeutral;
+			this.imageNeutre = this.p.g.images.buildingUniversityNeutral;
 			if(team==1){
-				this.image = this.p.images.buildingUniversityBlue;
+				this.image = this.p.g.images.buildingUniversityBlue;
 			} else if(team==2){
-				this.image = this.p.images.buildingUniversityRed;
+				this.image = this.p.g.images.buildingUniversityRed;
 			} else {
-				this.image = this.p.images.buildingUniversityNeutral;
+				this.image = this.p.g.images.buildingUniversityNeutral;
 			}
 		}
 	}

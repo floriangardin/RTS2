@@ -58,8 +58,8 @@ public abstract class Objet {
 		return y;
 	}
 	protected void setXY(float x, float y){
-		this.x = x;
-		this.y = y;
+		this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
+		this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		this.c = this.p.mapGrid.getCase(x, y);

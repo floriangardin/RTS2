@@ -10,7 +10,7 @@ public class Checkpoint extends ActionObjet {
 	public Checkpoint(Plateau p , float x, float y){
 		this.lifePoints=1f;
 		this.p = p;
-		p.addEquipmentObjets(this);
+		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
 		this.collisionBox = new Point(x,y);

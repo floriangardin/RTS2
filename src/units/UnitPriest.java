@@ -6,7 +6,6 @@ import model.Data;
 import model.Horse;
 import model.Plateau;
 import model.Player;
-import weapon.Bible;
 
 public class UnitPriest extends Character {
 
@@ -22,11 +21,11 @@ public class UnitPriest extends Character {
 		this.armor = 1f;
 		this.damage = 0f;
 		this.chargeTime = 0.2f;
-		this.weapon = new Bible(this.p,this);
-		this.weapon.destroy();
+		this.weapon = "bible";
+		
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = 50f;
+		this.range = 70f;
 		this.horse = new Horse(p,this);
 		this.spells.add(data.immolation);
 		this.spells.add(data.conversion);
@@ -37,5 +36,16 @@ public class UnitPriest extends Character {
 		super(unit,x,y);
 	}
 
-
+	public void useWeapon(){
+		Character c = (Character) this.target;
+		// Attack sound
+		float damage = this.damage;
+		//TODO Put SOund
+		//this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
+		if(c.armor<damage){
+			c.lifePoints+=c.armor-damage;
+		}
+		// Reset the state
+		this.state = 0f;
+	}
 }

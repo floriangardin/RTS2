@@ -2,18 +2,13 @@ package buildings;
 
 import java.util.Vector;
 
-import multiplaying.OutputModel.OutputBuilding;
-import technologies.*;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import model.Player;
+import technologies.Technologie;
 
 public class BuildingUniversity extends BuildingTech {
 
@@ -50,7 +45,7 @@ public class BuildingUniversity extends BuildingTech {
 		this.sight = this.p.g.players.get(team).data.universitySight;
 		maxLifePoints = this.p.g.players.get(team).data.universityLifePoints;
 		this.name = "university";
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -61,13 +56,13 @@ public class BuildingUniversity extends BuildingTech {
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(this.team == 1){
-			this.image = this.p.images.buildingUniversityBlue;
+			this.image = this.p.g.images.buildingUniversityBlue;
 		}
 		else if(this.team == 2){
-			this.image = this.p.images.buildingUniversityRed;
+			this.image = this.p.g.images.buildingUniversityRed;
 		}
 		else {
-			this.image = this.p.images.buildingUniversityNeutral;
+			this.image = this.p.g.images.buildingUniversityNeutral;
 		}
 		// List of potential production (Spearman
 		

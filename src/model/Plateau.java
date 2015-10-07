@@ -6,44 +6,35 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
-import technologies.Technologie;
-import units.*;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
-import buildings.BuildingHeadQuarters;
 import bullets.Arrow;
 import bullets.Bullet;
 import bullets.Fireball;
 import display.BottomBar;
 import display.Message;
-import multiplaying.*;
+import multiplaying.InputModel;
+import multiplaying.OutputModel;
 import multiplaying.OutputModel.OutputBuilding;
 import multiplaying.OutputModel.OutputBullet;
 import multiplaying.OutputModel.OutputChar;
 import multiplaying.OutputModel.OutputSpell;
 import pathfinding.Case;
 import pathfinding.MapGrid;
-import spells.Firewall;
 import spells.Spell;
 import spells.SpellEffect;
-import spells.SpellFirewall;
+import technologies.Technologie;
 import units.Character;
-import weapon.Weapon;
 
 public class Plateau {
 
-	public float soundVolume;
-	public Sounds sounds;
-	public Images images;
 	public Game g;
-	public Sound deathSound;
 	public int nTeams;
 	public float maxX ;
 	public float maxY ;
@@ -59,10 +50,6 @@ public class Plateau {
 	public Vector<Character> characters;
 	public Vector<Character> toAddCharacters;
 	public Vector<Character> toRemoveCharacters;
-
-	public Vector<ActionObjet> equipments;
-	public Vector<ActionObjet> toAddEquipments;
-	public Vector<ActionObjet> toRemoveEquipments;
 
 	public Vector<Bullet> bullets;
 	public Vector<Bullet> toAddBullets;
@@ -94,19 +81,15 @@ public class Plateau {
 
 	public Vector<Vector<Message>> messages;
 
-	public Constants constants;
 	//TODO : make actionsObjets and everything else private 
 	
 	public MapGrid mapGrid;
 
-	public Plateau(Constants constants,float maxX,float maxY,int nTeams, Game g){
-		this.soundVolume = g.soundVolume;
-		this.sounds = g.sounds;
-		this.images = g.images;
+	public Plateau(float maxX,float maxY,Game g){
+		int nTeams = 2;
 		this.g = g;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
-		this.constants = constants;
 		this.nTeams = nTeams;
 		this.maxX= maxX;
 		this.maxY = maxY;
@@ -114,10 +97,6 @@ public class Plateau {
 		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
-		//WEAPONS
-		this.equipments = new Vector<ActionObjet>();
-		this.toAddEquipments = new Vector<ActionObjet>();
-		this.toRemoveEquipments = new Vector<ActionObjet>();
 		//WEAPONS
 		this.bullets = new Vector<Bullet>();
 		this.toAddBullets = new Vector<Bullet>();
@@ -161,7 +140,6 @@ public class Plateau {
 			this.messages.addElement(new Vector<Message>());
 		}
 		try {
-			this.deathSound = new Sound("music/death.ogg");
 			System.out.println(this.g.resX+" "+this.g.resY);
 			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
 			this.gf = fog.getGraphics();
@@ -184,12 +162,6 @@ public class Plateau {
 	}
 	private void removeCharacter(Character o){
 		toRemoveCharacters.addElement(o);
-	}
-	public void addEquipmentObjets(ActionObjet o){
-		toAddEquipments.addElement(o);
-	}
-	private void removeEquipment(ActionObjet o){
-		toRemoveEquipments.addElement(o);
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -234,12 +206,7 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
-				this.deathSound.play(0.8f+1f*((float)Math.random()),this.soundVolume);
-			}
-		}
-		for(ActionObjet o : equipments){
-			if(!o.isAlive()){
-				this.removeEquipment(o);
+				this.g.sounds.death.play(0.8f+1f*((float)Math.random()),this.g.options.soundVolume);
 			}
 		}
 		for(Bullet o : bullets){
@@ -295,17 +262,10 @@ public class Plateau {
 		for(Character o: toRemoveCharacters){
 			characters.remove(o);
 			o.destroy();
-			if(o.weapon!=null)
-				o.weapon.destroy();
+			
 		}
 		for(Character o: toAddCharacters){
 			characters.addElement(o);
-		}
-		for(ActionObjet o: toRemoveEquipments){
-			equipments.remove(o);
-		}
-		for(ActionObjet o: toAddEquipments){
-			equipments.addElement(o);
 		}
 		for(SpellEffect o: toAddSpells){
 			spells.addElement(o);
@@ -339,14 +299,12 @@ public class Plateau {
 		}
 
 		toRemoveCharacters.clear();
-		toRemoveEquipments.clear();
 		toRemoveBullets.clear();
 		toRemoveNaturalObjets.clear();
 		toRemoveSpells.clear();
 		toRemoveBuildings.clear();
 		toAddCharacters.clear();
 		toAddSpells.clear();
-		toAddEquipments.clear();
 		toAddBullets.clear();
 		toAddNaturalObjets.clear();
 		toAddBuildings.clear();
@@ -379,16 +337,12 @@ public class Plateau {
 					i.collision(o);
 				}
 			}
-			// Between characters and weapons
-			for(ActionObjet i:equipments){
-
-				if(i.collisionBox.intersects(o.collisionBox)){
-					i.collision(o);
-				}
-			}
-			// Between characters and generator
+			// Between characters and buildings
+			Circle range = new Circle(o.x,o.y,o.range);
 			for(Building e:buildings){
-
+				if(e.collisionBox.intersects(range)){
+					e.collisionWeapon(o);
+				}
 				if(e.collisionBox.intersects(o.collisionBox)){
 					o.collision(e);
 				}
@@ -415,17 +369,7 @@ public class Plateau {
 					b.collision(c);
 			}
 		}
-		for(Building b : buildings){
-			for(ActionObjet o : equipments){
-				if(o.collisionBox.intersects(b.collisionBox) && o instanceof Weapon){
-
-					Weapon w = (Weapon) o;
-					w.collision(b);
-					b.collision(w);
-
-				}
-			}
-		}
+		
 	}
 
 	public void updateSelection(Rectangle select,int team){
@@ -644,10 +588,6 @@ public class Plateau {
 	//general methods 
 	public void action(){
 		for(Character o: this.characters){
-			
-			o.action();
-		}
-		for(ActionObjet o: this.equipments){
 			o.action();
 		}
 		for(Bullet o: bullets){
@@ -918,8 +858,8 @@ public class Plateau {
 
 
 		// 4 - Update of the music
-		if(!g.isInMenu && !this.g.musicStartGame.playing() && !this.g.mainMusic.playing()){
-			this.g.mainMusic.loop();
+		if(!g.isInMenu && !this.g.musics.imperial.playing()){
+			this.g.musics.imperial.loop();
 		}
 
 		// 5 - Update of the messages

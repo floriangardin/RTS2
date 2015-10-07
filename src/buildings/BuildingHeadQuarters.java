@@ -2,20 +2,28 @@ package buildings;
 
 import java.util.Vector;
 
-import multiplaying.OutputModel.OutputBuilding;
-import technologies.*;
-import units.UnitsList;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import model.Player;
-import model.Utils;
+import technologies.DualistAge2;
+import technologies.DualistAge3;
+import technologies.DualistBonusFood;
+import technologies.DualistBonusGold;
+import technologies.DualistContact2;
+import technologies.DualistContact3;
+import technologies.DualistEagleView;
+import technologies.DualistExplosion;
+import technologies.DualistHealth2;
+import technologies.DualistHealth3;
+import technologies.DualistRangeAttack2;
+import technologies.DualistRangeAttack3;
+import technologies.DualistShield2;
+import technologies.DualistShield3;
+import technologies.Technologie;
+import units.UnitsList;
 
 public class BuildingHeadQuarters extends BuildingTech {
 
@@ -98,15 +106,15 @@ public class BuildingHeadQuarters extends BuildingTech {
 		teamCapturing= team;
 
 		this.team = team;
-		this.sizeX = this.p.constants.headQuartersSizeX; 
-		this.sizeY = this.p.constants.headQuartersSizeY;
-		this.sight = this.p.constants.headQuartersSight;
-		maxLifePoints = p.constants.headQuartersLifePoints;
+		this.sizeX = this.player.data.headQuartersSizeX; 
+		this.sizeY = this.player.data.headQuartersSizeY;
+		this.sight = this.player.data.headQuartersSight;
+		maxLifePoints = player.data.headQuartersLifePoints;
 		this.name = "headquarters";
 		this.x = f;
 		this.y = h;
 		p.addBuilding(this);
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 5;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -114,13 +122,13 @@ public class BuildingHeadQuarters extends BuildingTech {
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(this.team == 1){
-			this.image = this.p.images.buildingHeadQuartersBlue;
+			this.image = this.p.g.images.buildingHeadQuartersBlue;
 		}
 		else if(this.team == 2){
-			this.image = this.p.images.buildingHeadQuartersRed;
+			this.image = this.p.g.images.buildingHeadQuartersRed;
 		}
 		else {
-			this.image = this.p.images.tent;
+			this.image = this.p.g.images.tent;
 		}
 		// List of potential production 
 		this.techsDiscovered = new Vector<Technologie>();

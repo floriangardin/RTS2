@@ -1,16 +1,12 @@
 package display;
 
-import java.util.Vector;
-
-import model.Game;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
-import buildings.BuildingHeadQuarters;
+import model.Game;
 
 
 public class SelectionInterface extends Bar {
@@ -45,7 +41,7 @@ public class SelectionInterface extends Bar {
 			if(b.queue.size()>0){
 				for(int q : b.queue){
 
-					Image icone = this.parent.p.images.getIconByName(b.productionList.get(q).name);
+					Image icone = this.parent.p.g.images.getIconByName(b.productionList.get(q).name);
 					if(compteur ==0){
 						//Show icons
 

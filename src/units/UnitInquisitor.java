@@ -2,12 +2,10 @@ package units;
 
 import org.newdawn.slick.geom.Circle;
 
+import bullets.Fireball;
 import model.Data;
 import model.Plateau;
 import model.Player;
-import spells.SpellBlessedArea;
-import spells.SpellFirewall;
-import weapon.Wand;
 
 public class UnitInquisitor extends Character {
 
@@ -23,11 +21,11 @@ public class UnitInquisitor extends Character {
 		this.armor = 0f;
 		this.damage = 5f;
 		this.chargeTime = 15f;
-		this.weapon = new Wand(this.p,this);
+		this.weapon = "wand";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 200f;
-		this.weapon.destroy();
+	
 		this.spells.add(data.immolation);
 		this.spells.add(data.firewall);
 		this.spells.add(data.blessedArea);
@@ -36,6 +34,18 @@ public class UnitInquisitor extends Character {
 
 	public UnitInquisitor(UnitInquisitor spearman, float x, float y) {
 		super(spearman,x,y);
+		
+		
+		
+	}
+	
+	public void useWeapon(){
+
+		new Fireball(this.p,this,this.damage);
+		this.state = 0f;
+
+
+
 	}
 
 }

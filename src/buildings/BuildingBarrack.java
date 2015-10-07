@@ -2,9 +2,7 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
@@ -26,7 +24,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.sizeY = this.p.g.players.get(team).data.barrackSizeY;
 		this.sight = this.p.g.players.get(team).data.barrackSight;
 		this.name = "barrack";
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -37,11 +35,11 @@ public class BuildingBarrack extends BuildingProduction{
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
-			this.image = this.p.images.buildingBarrackBlue;
+			this.image = this.p.g.images.buildingBarrackBlue;
 		} else if(team==2){
-			this.image = this.p.images.buildingBarrackRed;
+			this.image = this.p.g.images.buildingBarrackRed;
 		} else {
-			this.image = this.p.images.buildingBarrackNeutral;
+			this.image = this.p.g.images.buildingBarrackNeutral;
 		}
 		// List of potential production (Spearman
 		//TODO Merge production time and production list in vector of UnitsList
@@ -64,8 +62,8 @@ public class BuildingBarrack extends BuildingProduction{
 
 	public void drawAnimation(Graphics g){
 		if(animation>=0f){
-			g.drawImage(this.p.images.fire, this.x+5f/18f*sizeX, this.y-24f,this.x+5f/18f*sizeX+32f, this.y+24f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
-			g.drawImage(this.p.images.fire, this.x-9f/18f*sizeX-2f, this.y-84f,this.x-9f/18f*sizeX+32f-2f, this.y-36f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
+			g.drawImage(this.p.g.images.fire, this.x+5f/18f*sizeX, this.y-24f,this.x+5f/18f*sizeX+32f, this.y+24f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
+			g.drawImage(this.p.g.images.fire, this.x-9f/18f*sizeX-2f, this.y-84f,this.x-9f/18f*sizeX+32f-2f, this.y-36f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
 		}
 	}
 

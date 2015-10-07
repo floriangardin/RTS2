@@ -1,6 +1,11 @@
 package model;
 
-import spells.*;
+import spells.SpellBlessedArea;
+import spells.SpellConversion;
+import spells.SpellFirewall;
+import spells.SpellImmolation;
+import spells.SpellInstantDeath;
+import spells.SpellInstantHealth;
 import units.Character;
 import units.UnitArchange;
 import units.UnitCrossbowman;

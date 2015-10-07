@@ -1,9 +1,10 @@
 package spells;
 
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
-
-import model.*;
+import model.Checkpoint;
+import model.Objet;
+import model.Plateau;
+import model.Player;
+import model.Utils;
 import units.Character;
 
 public class SpellBlessedArea extends Spell{
@@ -14,7 +15,7 @@ public class SpellBlessedArea extends Spell{
 	public SpellBlessedArea(Plateau p, Player player){
 		this.chargeTime = 450f;
 		this.name = "Blessed Area";
-		this.icon = p.images.spellBlessedArea;
+		this.icon = p.g.images.spellBlessedArea;
 		this.range = 200f;
 		this.remainingTime = 250f;
 		this.effect= 0.75f;

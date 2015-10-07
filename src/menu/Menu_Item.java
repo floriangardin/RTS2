@@ -54,9 +54,9 @@ public class Menu_Item {
 		System.out.println(this.name+" "+this.x+" "+this.y+" " +this.sizeX+" " +this.sizeY);
 	}
 
-	public void update(InputModel im){
+	public void update(Input i){
 		if(this.colorAnimation){
-			if(this.isClicked(im)){
+			if(this.isClicked(i)){
 				this.toDraw = this.selectedImage;
 			} else {
 				this.toDraw = this.image;

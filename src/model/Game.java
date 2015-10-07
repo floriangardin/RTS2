@@ -3,24 +3,35 @@ import java.net.InetAddress;
 import java.util.Timer;
 import java.util.Vector;
 
-import org.newdawn.slick.*;
-import java.awt.font.*;
-import org.newdawn.slick.geom.*;
-import org.newdawn.slick.util.Log;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Rectangle;
 
 import buildings.Building;
 import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
 import display.TopBar;
+import main.Main;
 import menu.Menu;
 import menu.MenuIntro;
-import menu.MenuPause;
-import multiplaying.*;
-import multiplaying.ConnectionModel.*;
+import multiplaying.ConnectionModel;
+import multiplaying.ConnectionModel.ConnectionObjet;
+import multiplaying.ConnectionModel.ConnectionTree;
+import multiplaying.ConnectionModel.ConnectionWater;
+import multiplaying.InputModel;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiSender;
+import multiplaying.OutputModel;
 import nature.Tree;
 import nature.Water;
-import pathfinding.MapGrid;
 import spells.SpellEffect;
 import units.Character;
 
@@ -29,24 +40,17 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
+	
 	// Font 
 	public TrueTypeFont font;
 	// Music and sounds
-	public float soundVolume;
-	public float volume;
-	public Music mainMusic ;
-	public Music musicStartGame;
+	public Options options;
 	public Sounds sounds;
 	public Images images;
-	public boolean playStartMusic = true;
-	// TIMEr
+	public Musics musics;
+	
+	// Timer
 	public Timer timer ;
-
-
-	// Constants
-	public Map map;
-	public Image background ;
-	public Constants constants;
 
 	// Bars
 	public BottomBar bottomBars;
@@ -111,10 +115,6 @@ public class Game extends BasicGame
 		this.isInMenu = false;
 		this.menuCurrent = null;
 		app.setClearEachFrame(true);
-		if(!this.musicStartGame.playing()){
-			this.musicStartGame.play();
-			this.musicStartGame.setVolume(this.volume);
-		}
 		this.plateau.Xcam = this.plateau.maxX/2 - this.resX/2;
 		this.plateau.Ycam = this.plateau.maxY/2 -this.resY/2;
 	}
@@ -128,24 +128,25 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		g.translate(-plateau.Xcam,- plateau.Ycam);
 		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
-		int i = 0;
-		int j = 0;
-		while(i<this.plateau.maxX+this.background.getWidth()){
-			while(j<this.plateau.maxY+this.background.getHeight()){
-				g.drawImage(this.background, i,j);
-				j+=this.background.getHeight();
-			}
-			i+=this.background.getWidth();
-			j= 0;
-		}
+		
+		
 		if(isInMenu){
-			g.translate(plateau.Xcam, plateau.Ycam);
 			this.menuCurrent.draw(g);
 			return;
+		} 
+		g.translate(-plateau.Xcam,- plateau.Ycam);
+		int i = 0;
+		int j = 0;
+		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
+			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
+				g.drawImage(this.images.grassTexture, i,j);
+				j+=this.images.grassTexture.getHeight();
+			}
+			i+=this.images.grassTexture.getWidth();
+			j= 0;
 		}
 
 		g.setColor(Color.black);
@@ -166,10 +167,6 @@ public class Game extends BasicGame
 			//o.draw(g);
 			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
-		}
-		for(ActionObjet o : plateau.equipments){
-			//o.draw(g);
-			toDraw.add(o);
 		}
 		// Draw the natural Objets
 
@@ -246,7 +243,7 @@ public class Game extends BasicGame
 				 */
 
 				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
+				timeValue = (int)(System.currentTimeMillis() - startTime)/(Main.framerate);
 
 				// 1 - take the input of client and host
 				for(int player = 1; player<players.size(); player++){
@@ -288,7 +285,7 @@ public class Game extends BasicGame
 				 */
 
 				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(this.constants.FRAMERATE);
+				timeValue = (int)(System.currentTimeMillis() - startTime)/(Main.framerate);
 
 				// 1 - send the input to host
 				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
@@ -310,11 +307,11 @@ public class Game extends BasicGame
 			}
 		} else if (!inMultiplayer){
 			// If not in multiplayer mode, dealing with the common input
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 			// updating the game
 			if(isInMenu){
-				this.menuCurrent.update(ims.get(0));
+				this.menuCurrent.update(gc.getInput());
 			} else {
+				ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 				this.plateau.update(ims);
 			}
 
@@ -324,11 +321,13 @@ public class Game extends BasicGame
 
 	public void newGame(boolean host){
 		//Clean all variables
-		this.plateau = new Plateau(this.constants,this.plateau.maxX,this.plateau.maxY,2,this);
 		
 
 		if(host)
-			this.map.createMapPhillipeMacro(plateau,this.players);
+			Map.createMapLan(this);
+		
+		System.out.println(this.plateau.mapGrid);
+//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
@@ -358,56 +357,27 @@ public class Game extends BasicGame
 	}
 	// Init our Game objects
 	@Override
-	public void init(GameContainer gc) throws SlickException 
-	{	
+	public void init(GameContainer gc) throws SlickException {	
+		Image cursor = new Image("pics/cursor.png");
 		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.BOLD,28);
 		this.font = new TrueTypeFont(fe, true);
-		Image cursor = new Image("pics/cursor.png");
-		this.volume = 0.2f;
-		this.soundVolume = 0.2f;
-		gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
-		mainMusic = new Music("music/ambiance.ogg");
-		//mainMusic.setVolume(0.1f);
-		//mainMusic.loop();
-
-		this.timer = new Timer();
-
-		this.plateau = new Plateau(this.constants,3000,3000,3,this);
-
-		this.musicStartGame = new Music("music/nazi_start.ogg");
+		if(gc!=null)
+			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 		this.sounds = new Sounds();
+		this.options = new Options();
 		this.images = new Images(true);
+		this.musics = new Musics();
 
-
-
-
-		//this.background =  new Image("pics/grass1.jpg").getScaledCopy(0.6f);
-		this.background =  new Image("pics/TestTexture1.png").getScaledCopy(0.6f);
 		this.menuIntro = new MenuIntro(this);
-		this.menuPause = new MenuPause(this);
-		this.map = new Map();
 		this.setMenu(menuIntro);
-		this.startTime = System.currentTimeMillis();
-		//		Thread t1 = new Thread(new InputListener(this, this.app, 0));
-		//		t1.start();
-
-		// Create background image manually
-
-
-		try{
-			Thread.sleep(10);
-		} catch(InterruptedException e) {}
 	}
-	public Game ()
-	{
+	
+	
+	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
-	}
-	public void setParams(Constants constants,float resX,float resY){
-		this.constants = constants;
 		this.resX = resX;
 		this.resY = resY;
-		this.sounds = new Sounds();
 		this.images = new Images(false);
-		//
+
 	}
 }

@@ -1,21 +1,11 @@
 package display;
 
-import java.util.Vector;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import buildings.*;
-import model.NaturalObjet;
 import model.Plateau;
 import model.Player;
-import spells.Spell;
-import technologies.Technologie;
-import units.Character;
-import units.UnitsList;
 
 public class BottomBar extends Bar {
 

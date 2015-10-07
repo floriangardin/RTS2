@@ -46,8 +46,8 @@ public abstract class ActionObjet extends Objet{
 	public void drawIsSelected(Graphics g) {
 	
 	}
-	public Vector<Case> computeWay(float xEnd, float yEnd, float xSize, float ySize){
-		return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd, xSize, ySize);
+	public Vector<Case> computeWay(float xEnd, float yEnd){
+		return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 	}
 
 

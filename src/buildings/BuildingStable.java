@@ -2,15 +2,12 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
-import multiplaying.OutputModel.OutputBuilding;
 import units.UnitsList;
 
 public class BuildingStable extends BuildingProduction{
@@ -26,7 +23,7 @@ public class BuildingStable extends BuildingProduction{
 		this.sizeY = this.p.g.players.get(team).data.stableSizeY;
 		this.sight = this.p.g.players.get(team).data.stableSight;
 		this.name = "stable";
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 2;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -37,11 +34,11 @@ public class BuildingStable extends BuildingProduction{
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
-			this.image = this.p.images.buildingStableBlue;
+			this.image = this.p.g.images.buildingStableBlue;
 		} else if(team==2){
-			this.image = this.p.images.buildingStableRed;
+			this.image = this.p.g.images.buildingStableRed;
 		} else {
-			this.image = this.p.images.buildingStableNeutral;
+			this.image = this.p.g.images.buildingStableNeutral;
 		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
@@ -59,7 +56,7 @@ public class BuildingStable extends BuildingProduction{
 
 	public void drawAnimation(Graphics g){
 		if(animation>=0f){
-			g.drawImage(this.p.images.fountain, this.x-6f/18f*sizeX-48f, this.y-128f,this.x-6f/18f*sizeX+48f, this.y-32f, (int)(animation/30f)*96, 0, ((int)(animation/30f)+1)*96, 96);
+			g.drawImage(this.p.g.images.fountain, this.x-6f/18f*sizeX-48f, this.y-128f,this.x-6f/18f*sizeX+48f, this.y-32f, (int)(animation/30f)*96, 0, ((int)(animation/30f)+1)*96, 96);
 		}
 	}
 

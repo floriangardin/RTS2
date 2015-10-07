@@ -3,34 +3,33 @@ package IA;
 import java.io.File;
 import java.io.FileWriter;
 
-import main.Main;
-import model.Constants;
-import model.Game;
+import model.GameSimu;
 
-public class Simulator {
+public class Simulator{
 
 	public int simulationNumber;
 	public int numberParameters;
 	public float[][] observations;
 	public float[] results;
+	public GameSimu game;
 	
-	public Simulator(int n){
-		
-		simulationNumber = n;
+	public Simulator (){
+		simulationNumber = 5;
 		numberParameters = ArmyComparator.numberParameters;
-		observations = new float[n][numberParameters];
-		results = new float[n];
+		observations = new float[simulationNumber][numberParameters];
+		results = new float[simulationNumber];
+		game = new GameSimu(1600,1600);
+	}
+	
+	public void run(){
 		ArmyComparator ac;
 		Simulation s;
-		Game game = new Game();
-		for(int i=0; i<n; i++){
-			game = new Game();
-			game.setParams(new Constants(Main.framerate),10,10);
+		for(int i=0; i<simulationNumber; i++){
 			s = new Simulation(game);
 			ac = new ArmyComparator(s.armies.get(0), s.armies.get(1));
 			s.simulate();
 			Report r = s.report;
-			results[i] = r.teamVictory %2;
+			results[i] = r.teamVictory;
 			for(int j=0;j<numberParameters;j++){
 				observations[i][j] = ac.obs[j];
 			}
@@ -55,7 +54,7 @@ public class Simulator {
             final FileWriter writer = new FileWriter(fichier);
             try {
             	String message = "";
-            	for(int i=0; i<n; i++){
+            	for(int i=0; i<simulationNumber; i++){
             		message= "";
             		for(int j=0;j<numberParameters;j++){
             			message+=observations[i][j]+" ";
@@ -77,8 +76,8 @@ public class Simulator {
             final FileWriter writer = new FileWriter(fichier1);
             try {
             	String message = "";
-            	for(int i=0; i<n; i++){
-            		message= ""+results[i];
+            	for(int i=0; i<simulationNumber; i++){
+            		message= ""+results[i]+" ";
                     writer.write(message);            		
             	}
             } finally {
@@ -89,4 +88,6 @@ public class Simulator {
             System.out.println("Impossible de creer le fichier results");
         }
 	}
+
+	
 }

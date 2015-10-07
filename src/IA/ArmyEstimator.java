@@ -3,8 +3,6 @@ package IA;
 import java.util.Vector;
 
 import units.Character;
-import weapon.ContactWeapon;
-import weapon.RangeWeapon;
 public class ArmyEstimator {
 
 
@@ -46,14 +44,14 @@ public class ArmyEstimator {
 			meanX += u.x;
 			meanY += u.y;
 			attackSum+= u.damage ;
-			dpsSum+= u.damage/u.weapon.chargeTime ;
+			dpsSum+= u.damage/u.chargeTime ;
 			lifepointsSum+= u.lifePoints ;
 			armorSum+= u.armor ;
 			minMobility= (minMobility==0 ? u.maxVelocity:Math.min(minMobility, u.maxVelocity));
 			maxMobility=  (maxMobility==0 ? u.maxVelocity:Math.max(maxMobility, u.maxVelocity)) ;
 			meanMobility+= u.maxVelocity;;
-			cacProportion+= (u.weapon instanceof ContactWeapon ? 1 : 0);
-			rangeProportion+=(u.weapon instanceof RangeWeapon ? 1 : 0);
+			cacProportion+= (u.weapon == "sword" || u.weapon == "spear" ? 1 : 0);
+			rangeProportion+=(u.weapon == "bow" || u.weapon == "wand" ? 1 : 0);
 			spellCasterProportion+= (u.spells.size()>1 ? 1 : 0);
 			mountedProportion+= (u.horse!=null ? 1 : 0); ;
 		}
@@ -74,9 +72,9 @@ public class ArmyEstimator {
 
 		}
 
-		covMatrix[0][0]/=n-1;
-		covMatrix[0][1]/=n-1;
-		covMatrix[1][1]/=n-1;
+		covMatrix[0][0]/=n;
+		covMatrix[0][1]/=n;
+		covMatrix[1][1]/=n;
 
 		covMatrix[1][0] = covMatrix[0][1];
 
@@ -87,7 +85,7 @@ public class ArmyEstimator {
 		maxVar =  (covMatrix[0][0]+covMatrix[1][1] + (float) Math.sqrt((float) delta))/2;
 		minVar  =  (covMatrix[0][0]+covMatrix[1][1] - (float) Math.sqrt((float) delta))/2;
 
-		alignmentDegree = (n>1? maxVar/minVar : 1) ;
+		alignmentDegree = (n>1 ? (n>2? maxVar/minVar : 100000) :1);
 
 	}
 

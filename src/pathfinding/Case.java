@@ -1,5 +1,4 @@
 package pathfinding;
-import java.util.Vector;
 
 public class Case {
 	

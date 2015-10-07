@@ -1,15 +1,13 @@
 package units;
 
-import model.Data;
-import model.Plateau;
-import model.Player;
-
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
-import weapon.Wand;
+import model.Data;
+import model.Plateau;
+import model.Player;
 
 public class UnitTest extends Character {
 	public UnitTest(Plateau p, Player player, Data data) {
@@ -24,11 +22,11 @@ public class UnitTest extends Character {
 		this.armor = 0f;
 		this.damage = 5f;
 		this.chargeTime = 15f;
-		this.weapon = new Wand(this.p,this);
+		this.weapon = "wand";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 200f;
-		this.weapon.destroy();
+		
 
 
 		//Load animations

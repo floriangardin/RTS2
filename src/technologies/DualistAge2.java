@@ -1,7 +1,5 @@
 package technologies;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 

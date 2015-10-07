@@ -2,10 +2,11 @@ package units;
 
 import org.newdawn.slick.geom.Circle;
 
+import bullets.Arrow;
 import model.Data;
 import model.Plateau;
 import model.Player;
-import weapon.Bow;
+
 
 public class UnitCrossbowman extends Character {
 
@@ -21,8 +22,8 @@ public class UnitCrossbowman extends Character {
 		this.armor = 2f;
 		this.damage = 5f;
 		this.chargeTime = 5f;
-		this.weapon = new Bow(this.p,this);
-		this.weapon.destroy();
+		this.weapon ="bow";
+
 		this.civ = 0;
 		this.range = 200f;
 		this.sightBox = new Circle(0,0,this.sight);
@@ -32,6 +33,15 @@ public class UnitCrossbowman extends Character {
 	}
 	public UnitCrossbowman(UnitCrossbowman unit, float x, float y) {
 		super(unit,x,y);
+	}
+
+	public void useWeapon(){
+
+		new Arrow(this.p,this,this.damage);
+		this.state = 0f;
+
+
+
 	}
 
 }

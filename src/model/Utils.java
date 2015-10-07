@@ -3,12 +3,9 @@ package model;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
-import org.newdawn.slick.SlickException;
 
-import spells.SpellEffect;
 import units.Character;
 
 // Class for static methods

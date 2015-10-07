@@ -1,18 +1,10 @@
 package spells;
 
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
-
-import model.ActionObjet;
-import model.Checkpoint;
-import model.Data;
-import units.Character;
 import model.Objet;
 import model.Plateau;
 import model.Player;
 import model.Utils;
+import units.Character;
 
 public class SpellInstantHealth extends Spell{
 
@@ -24,7 +16,7 @@ public class SpellInstantHealth extends Spell{
 		this.chargeTime = 450f;
 		this.width = 15f;
 		this.name = "Instant Health";
-		this.icon = p.images.spellInstantHealth;
+		this.icon = p.g.images.spellInstantHealth;
 		this.range = 200f;
 		this.damage = 1f;
 		this.remainingTime = 250f;

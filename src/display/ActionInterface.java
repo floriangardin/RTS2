@@ -2,21 +2,20 @@ package display;
 
 import java.util.Vector;
 
-import model.Game;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import buildings.Building;
+import buildings.BuildingProduction;
+import buildings.BuildingTech;
+import model.Game;
 import spells.Spell;
 import technologies.Technologie;
 import units.Character;
 import units.UnitsList;
-import buildings.Building;
-import buildings.BuildingProduction;
-import buildings.BuildingTech;
 
 public class ActionInterface extends Bar {
 	
@@ -80,7 +79,7 @@ public class ActionInterface extends Bar {
 			Font f = g.getFont();
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(this.p.images.getIconByName(ul.get(i).name), this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-2f+ratio*this.sizeY, this.y-2f+ratio*(i+1)*this.sizeY, 0, 0, 512,512);
+				g.drawImage(this.p.g.images.getIconByName(ul.get(i).name), this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-2f+ratio*this.sizeY, this.y-2f+ratio*(i+1)*this.sizeY, 0, 0, 512,512);
 				g.setColor(Color.black);
 				if(this.toDrawDescription){
 				g.setColor(Color.white);

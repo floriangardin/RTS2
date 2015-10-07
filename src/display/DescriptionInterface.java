@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import buildings.Building;
+import main.Main;
 import model.ActionObjet;
 import units.Character;
 
@@ -46,8 +47,8 @@ public class DescriptionInterface extends Bar {
 				String s = "HP: " + (int)c0.lifePoints + " / " + (int)c0.maxLifePoints;
 				g.drawString(s, x+sizeX/3f+10f, y+10f);
 				
-				if(c0.getArmor()!=0f)
-					s = "Armor: " + (int)c0.getArmor()*10;
+				if(c0.armor!=0f)
+					s = "Armor: " + (int)c0.armor*10;
 				else
 					s = "No Armor";
 				g.drawString(s, x+sizeX/3f+10f, y+45f);
@@ -55,15 +56,15 @@ public class DescriptionInterface extends Bar {
 				s = "Speed: " + (int)c0.maxVelocity;
 				g.drawString(s, x+sizeX/3f+10f, y+80f);
 				if(c0.weapon!=null){
-					float aux = this.parent.p.constants.FRAMERATE/(c0.weapon.chargeTime*10f);
+					float aux = Main.framerate/(c0.chargeTime*10f);
 					int a = (int)(aux*100f)/100;
 					int b = (int)(aux*100f)-a*100;
 					s = "Att.Rate: " + a+"."+b;
 					g.drawString(s, x+2f*sizeX/3f, y+10f);
-					float aux1 = Math.abs(c0.weapon.damage);
+					float aux1 = Math.abs(c0.damage);
 					a = (int)(aux1*100f)/100;
 					b = (int)(aux1*100f)-a*100;
-					if(c0.weapon.damage<0)
+					if(c0.damage<0)
 						s = "Healing: ";
 					else
 						s = "Damage: "; 

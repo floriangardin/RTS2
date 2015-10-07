@@ -26,6 +26,7 @@ public class Images {
 	public Image smoke;
 	public Image windmill;
 	public Image windmillarms;
+	public Image grassTexture;
 
 	//Building
 	public Image buildingBarrackBlue;
@@ -145,6 +146,7 @@ public class Images {
 				this.spellConversion = new Image("pics/Spell/conversion.png");
 				this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
 				this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
+				this.grassTexture = new Image("pics/TestTexture1.png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}

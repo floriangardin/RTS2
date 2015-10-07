@@ -1,7 +1,6 @@
 package IA;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.Vector;
@@ -9,10 +8,11 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import pathfinding.MapGrid;
-import model.Constants;
+import buildings.Building;
+import bullets.Bullet;
 import model.Game;
 import model.Plateau;
+import pathfinding.MapGrid;
 import spells.SpellEffect;
 import units.Character;
 import units.UnitArchange;
@@ -21,8 +21,6 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
-import buildings.Building;
-import bullets.Bullet;
 public class Simulation {
 
 
@@ -36,8 +34,8 @@ public class Simulation {
 	public Report report;
 	public Game game;
 	public int framerate ;
-	public float sizeX = 200;
-	public float sizeY = 200;
+	public float sizeX = 400;
+	public float sizeY = 400;
 
 	// BUFFER 
 	public final int BUFFERS = 2;
@@ -47,9 +45,9 @@ public class Simulation {
 	public int sizeArmy2;
 	public int timeout;
 	public int ratio ;
-	public Simulation(Game game){
+	public Simulation (Game game){
 		//INIT SIZE ARMY
-		this.sizeArmy1= (int)(Math.random()*5);
+		this.sizeArmy1= (int)(Math.random()*10);
 		this.sizeArmy2 = (int)(((float)Math.random()-0.5f)*5)+this.sizeArmy1;
 		this.ratio = 2;
 		// INIT GAME AND PLATEAU
@@ -57,7 +55,7 @@ public class Simulation {
 		this.game = game;
 
 		end = false;
-		this.p = new Plateau(new Constants(this.framerate),sizeX,sizeY,2,this.game);
+		this.p = new Plateau(sizeX,sizeY,this.game);
 		this.game.plateau = this.p;
 
 		
@@ -66,16 +64,21 @@ public class Simulation {
 		armies.add(new Vector<Character>());
 		armies.add(new Vector<Character>());
 
+		float x, y;
 		// GENERATE RANDOM ARMY
 		for(int i=0 ;i<this.sizeArmy1;i++){
 			Character charact = generateRandomUnit(1);
-			Character c = this.p.g.players.get(1).create(charact.type, (float)Math.random()*this.sizeX,(float)Math.random()*this.sizeY );
+			x = (float)Math.random()*this.sizeX/2f+this.sizeX/4f;
+			y = (float)Math.random()*this.sizeY/2f+this.sizeY/4f;
+			Character c = this.p.g.players.get(1).create(charact.type, x, y);
 			this.armies.get(0).add(c);
 
 		}
 		for(int i=0 ;i<this.sizeArmy2;i++){
 			Character charact = generateRandomUnit(2);
-			Character c = this.p.g.players.get(2).create(charact.type, (float)Math.random()*this.sizeX,(float)Math.random()*this.sizeY );
+			x = (float)Math.random()*this.sizeX/2f+this.sizeX/4f;
+			y = (float)Math.random()*this.sizeY/2f+this.sizeY/4f;
+			Character c = this.p.g.players.get(2).create(charact.type, x, y);
 			this.armies.get(1).add(c);
 		}
 
@@ -115,7 +118,7 @@ public class Simulation {
 		// BUFFER STRATEGY
 		this.window.createBufferStrategy(2);
 		this.bufferStrategy = this.window.getBufferStrategy();
-
+		
 
 	}
 
@@ -133,6 +136,7 @@ public class Simulation {
 		if(end){
 			System.out.println(victory+" "+armies.get(victory-1).size());
 			report = new Report(victory,armies.get(victory-1).size());
+			this.window.setVisible(false);
 		}
 
 	}
@@ -158,7 +162,7 @@ public class Simulation {
 			g.fillOval((int) (c.x-c.collisionBox.getBoundingCircleRadius())*ratio,(int) (c.y-c.collisionBox.getBoundingCircleRadius())*ratio,(int) c.collisionBox.getBoundingCircleRadius()*ratio*2, (int)(c.collisionBox.getBoundingCircleRadius()*ratio*2));
 
 			g.setColor(Color.BLACK);
-			g.drawString(c.id+ ""+c.weapon.name, (int) c.weapon.x*ratio,(int) c.weapon.y*ratio);
+			g.drawString(c.id+ ""+c.weapon, (int) c.x*ratio,(int) c.y*ratio);
 			if(c.getTarget()!=null){
 				g.drawLine((int) c.x*ratio, (int) c.y*ratio, (int) c.getTarget().x*ratio, (int) c.getTarget().y*ratio);
 			}
@@ -173,12 +177,6 @@ public class Simulation {
 		bufferStrategy.show();
 		g.dispose();
 
-		
-		try{
-			Thread.sleep(16);
-		}catch(InterruptedException e){
-
-		}
 	}
 	public void update(){
 		//Call action on each character until end of fight
@@ -186,24 +184,7 @@ public class Simulation {
 		this.p.clean();
 		this.p.action();
 
-		// 4 - Update the visibility
-//		for(Character c:this.p.characters)
-//			c.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-c.team, c);
-//		for(Building b:this.p.buildings)
-//			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
-//		for(Bullet b:this.p.bullets)
-//			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
-//		for(SpellEffect b:this.p.spells)
-//			b.visibleByCurrentPlayer = this.p.isVisibleByPlayer(3-b.team, b);
-		for(Character c:this.p.characters)
-			c.visibleByCurrentPlayer = true;
-		for(Building b:this.p.buildings)
-			b.visibleByCurrentPlayer = true;
-		for(Bullet b:this.p.bullets)
-			b.visibleByCurrentPlayer = true;
-		for(SpellEffect b:this.p.spells)
-			b.visibleByCurrentPlayer = true;
-
+		
 		// Remove characters if death
 		Vector<Character> toRemove = new Vector<Character>();
 		for(Vector<Character> cs : armies){

@@ -7,7 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
-import model.*;
+import model.Checkpoint;
 import model.Plateau;
 import multiplaying.OutputModel.OutputSpell;
 import units.Character;
@@ -32,7 +32,7 @@ public class BlessedArea extends SpellEffect{
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
 		p.addSpell(this);
-		this.image = p.images.blessedArea;
+		this.image = p.g.images.blessedArea;
 		owner = launcher;
 		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
 		this.x = t.getX();
@@ -45,7 +45,7 @@ public class BlessedArea extends SpellEffect{
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
 		p.addSpell(this);
-		this.image = p.images.blessedArea;
+		this.image = p.g.images.blessedArea;
 		this.x = s.x1;
 		this.y = s.y1;
 		this.collisionBox = new Rectangle(x-size/2f,y-size/2f,size,size);
@@ -69,7 +69,7 @@ public class BlessedArea extends SpellEffect{
 		if(this.remainingTime<=0f){
 			this.lifePoints = -1f;
 			for(Character c:this.targeted){
-				c.weapon.chargeTime/=this.effect;
+				c.chargeTime/=this.effect;
 				toDelete.add(c);
 			}
 		}
@@ -79,7 +79,7 @@ public class BlessedArea extends SpellEffect{
 		toDelete = new Vector<Character>();
 		for(Character c:this.targeted){
 			if(!c.collisionBox.intersects(this.collisionBox)){
-				c.weapon.chargeTime/=this.effect;
+				c.chargeTime/=this.effect;
 				toDelete.add(c);
 			}
 		}
@@ -117,7 +117,7 @@ public class BlessedArea extends SpellEffect{
 
 	public void collision(Character c){
 		if(this.lifePoints>0 && c.team==owner.team && !this.targeted.contains(c)){
-			c.weapon.chargeTime*=this.effect;
+			c.chargeTime*=this.effect;
 			this.targeted.addElement(c);
 		}
 	}

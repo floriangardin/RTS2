@@ -1,15 +1,13 @@
 package technologies;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import model.Plateau;
+import model.Player;
 import units.Character;
 import units.UnitKnight;
 import units.UnitSpearman;
-import model.Plateau;
-import model.Player;
 
 public class DualistContact3 extends Technologie {
 

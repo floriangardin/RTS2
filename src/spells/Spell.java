@@ -3,11 +3,9 @@ package spells;
 import org.newdawn.slick.Image;
 
 import model.ActionObjet;
-import model.Checkpoint;
 import model.Objet;
 import model.Plateau;
 import model.Player;
-import model.Utils;
 import units.Character;;
 
 public class Spell {

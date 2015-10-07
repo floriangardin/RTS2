@@ -4,16 +4,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
 import model.Plateau;
 import model.Player;
-import spells.SpellBlessedArea;
-import spells.SpellFirewall;
-import weapon.Sword;
-import weapon.Wand;
+
 
 public class UnitArchange extends Character {
 
@@ -29,23 +25,23 @@ public class UnitArchange extends Character {
 		this.armor = 5f;
 		this.damage = 20f;
 		this.chargeTime = 12f;
-		this.weapon = new Sword(this.p,this);
+		this.weapon = "sword";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+20f;
-		this.weapon.destroy();
+
 		this.spells.add(data.instantDeath);
 		this.spells.add(data.instantHealth);
 		if(this.team==1)
-			this.image = this.p.images.archangeBlue;
+			this.image = this.p.g.images.archangeBlue;
 		else
-			this.image = this.p.images.archangeRed;
+			this.image = this.p.g.images.archangeRed;
 	}
 
 	public UnitArchange(UnitArchange archange, float x, float y) {
 		super(archange,x,y);
 	}
-	
+
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
@@ -69,7 +65,7 @@ public class UnitArchange extends Character {
 		}
 		//Draw the immolation
 		if(isImmolating){
-			Image fire = this.p.images.explosion;
+			Image fire = this.p.g.images.explosion;
 			r = fire.getWidth()/5f;
 			x = this.getX();
 			y = this.getY();
@@ -113,6 +109,22 @@ public class UnitArchange extends Character {
 			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
-	}	
+	}
+
+	public void useWeapon(){
+		Character c = (Character) this.target;
+		// Attack sound
+		float damage = this.damage;
+	
+		if(this.p.g.sounds!=null)
+			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
+
+		if(c.armor<damage){
+			c.lifePoints+=c.armor-damage;
+		}
+		// Reset the state
+		this.state = 0f;
+	}
+
 
 }

@@ -3,11 +3,11 @@ package display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import units.Character;
 import buildings.Building;
 import model.Game;
 import model.NaturalObjet;
 import pathfinding.Case;
+import units.Character;
 
 public class MinimapInterface extends Bar {
 	// Minimap caract

@@ -7,13 +7,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
-import buildings.*;
+import buildings.Building;
 import model.ActionObjet;
 import model.Checkpoint;
-import model.Horse;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -23,7 +21,6 @@ import model.Utils;
 import multiplaying.OutputModel.OutputChar;
 import pathfinding.Case;
 import spells.Spell;
-import weapon.*;
 
 public class Character extends ActionObjet{
 
@@ -36,15 +33,22 @@ public class Character extends ActionObjet{
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
+	
+	//philippe
+	public String weapon;
+	
+	
+	
+	public float state;
 	public float chargeTime;
-
+	public boolean canAttack;
 	// Group attributes
 	public Character leader;
 	public Vector<Character> group;
 	public boolean someoneStopped;
 	// Equipment attributes
 	public RidableObjet horse;
-	public Weapon weapon;
+
 	public int typeWeapon, typeHorse;
 	public Player player;
 	// About drawing
@@ -76,13 +80,13 @@ public class Character extends ActionObjet{
 		this.player = player;
 		this.team = player.team;
 		this.name = "character";
-		this.selection_circle = this.p.images.selection_circle;
-		Image imagea = this.p.images.corps;
-		Image imageb = this.p.images.corps;
+		this.selection_circle = this.p.g.images.selection_circle;
+		Image imagea = this.p.g.images.corps;
+		Image imageb = this.p.g.images.corps;
 		if(team==1)
-			imageb = this.p.images.blue;
+			imageb = this.p.g.images.blue;
 		if(team==2)
-			imageb = this.p.images.red;
+			imageb = this.p.g.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.size = 20f;
 		this.isHidden = false;
@@ -114,7 +118,8 @@ public class Character extends ActionObjet{
 		this.image = c.image;
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
-
+		this.weapon = c.weapon;
+	
 		this.group = new Vector<Character>();
 		this.group.add(this);
 
@@ -123,27 +128,7 @@ public class Character extends ActionObjet{
 			this.spellsState.addElement(0f);
 		}
 
-		// COpy weapon
-		switch(c.weapon.name){
-		case "bow":
-			this.weapon = new Bow(this.p,this);
-			break;
-		case "sword":
-			this.weapon = new Sword(this.p,this);
-			break;
-		case "spear":
-			this.weapon = new Spear(this.p,this);
-			break;
-		case "wand":
-			this.weapon = new Wand(this.p,this);
-			break;
-		case "bible":
-			this.weapon = new Bible(this.p,this);
-			break;
-		default:
-
-		}
-
+	
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
@@ -155,18 +140,15 @@ public class Character extends ActionObjet{
 		c.id = occ.id;
 	}
 
+
+	
 	public boolean isLeader(){
 		return this.leader==this;
 	}
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
 	}
-	public int getId(){
-		return id;
-	}
-	public float getArmor(){
-		return this.armor;
-	}
+
 	public void setXY(float x, float y){
 		this.x = x;
 		this.y = y ;
@@ -201,60 +183,9 @@ public class Character extends ActionObjet{
 	}
 
 
-
-
-
-	//// WEAPONS
-
-
-	//Drop functions
-	public void dropWeapon(){
-		if(this.weapon != null){
-			this.weapon.setOwner(null);
-			this.setWeapon(null);
-		}
-	}
-	public void dropHorse(){
-		if(this.horse!=null){
-			this.horse.setOwner(null);
-			this.setHorse(null);
-		}
-	}
-	//Collect functions
-	public void collectWeapon(Weapon weapon){
-		this.dropWeapon();
-		this.setWeapon(weapon);
-		weapon.setOwner(this);
-	}
-	public void collectHorse(RidableObjet horse){
-		this.dropHorse();
-		this.setHorse(horse);
-		horse.setOwner(this);
-	}
-	//Get functions
-	public Weapon getWeapon() {
-		return weapon;
-	}
-	public RidableObjet getHorse() {
-		return horse;
-	}
 	//Set functions
-	public void setWeapon(Weapon weapon) {
-		if(weapon!=null){
-			if(weapon instanceof Sword)
-				this.typeWeapon = 1;
-			if(weapon instanceof Bow)
-				this.typeWeapon = 2;
-			if(weapon instanceof Bible)
-				this.typeWeapon = 3;
-			if(weapon instanceof Wand)
-				this.typeWeapon = 4;
-		}else{
-			this.typeWeapon = 0;
-		}
-		this.weapon = weapon;
-		this.updateImage();
-	}
+
+	@Deprecated
 	public void setHorse(RidableObjet horse) {
 		if(horse!=null){
 			this.typeHorse = 1;
@@ -265,41 +196,42 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 	//Update functions
+	@Deprecated
 	public void updateImage(){
 		//Handling the team
-		Image imagea = this.p.images.corps;
+		Image imagea = this.p.g.images.corps;
 		if(imagea==null)
 			return;
-		Image imageb = this.p.images.corps;
-		Image imagec = this.p.images.corps;
+		Image imageb = this.p.g.images.corps;
+		Image imagec = this.p.g.images.corps;
 		Image imaged = null;
 		if(team==1){
-			imageb = this.p.images.blue;
-			imagec = this.p.images.horseBlue;
+			imageb = this.p.g.images.blue;
+			imagec = this.p.g.images.horseBlue;
 		}
 		if(team==2){
-			imageb = this.p.images.red;
-			imagec = this.p.images.horseRed;
+			imageb = this.p.g.images.red;
+			imagec = this.p.g.images.horseRed;
 		}
 		this.image = Utils.mergeImages(imagea, imageb);
 		//Handling the weapon
 		if(this.weapon!=null){
-			if(this.weapon instanceof Sword){
-				imageb = this.p.images.sword;
-				imaged = this.p.images.mediumArmor;
+			if(this.weapon == "sword"){
+				imageb = this.p.g.images.sword;
+				imaged = this.p.g.images.mediumArmor;
 			}
-			if(this.weapon instanceof Spear){
-				imageb = this.p.images.sword;
-				imaged = this.p.images.heavyArmor;
+			if(this.weapon == "spear"){
+				imageb = this.p.g.images.sword;
+				imaged = this.p.g.images.heavyArmor;
 			}
-			if(this.weapon instanceof Bow){
-				imageb = this.p.images.bow;
-				imaged = this.p.images.lightArmor;
+			if(this.weapon == "bow"){
+				imageb = this.p.g.images.bow;
+				imaged = this.p.g.images.lightArmor;
 			}
-			if(this.weapon instanceof Bible)
-				imageb = this.p.images.bible;
-			if(this.weapon instanceof Wand)
-				imageb = this.p.images.magicwand;
+			if(this.weapon == "bible")
+				imageb = this.p.g.images.bible;
+			if(this.weapon == "wand")
+				imageb = this.p.g.images.magicwand;
 			this.image = Utils.mergeImages(this.image, imageb);
 			this.image = Utils.mergeImages(this.image, imaged);
 		}
@@ -315,78 +247,33 @@ public class Character extends ActionObjet{
 
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
+	
+	// ATTACK METHOD IF AT RANGE AND CHARGE TIME OK
+	public void useWeapon(){
+			this.state = 0f;		
+	}
+	
 	public void action(){
 		
-		// Handling the death of the unit
-		if(!this.isAlive()){
-			
-			this.setTarget(null);
-			return;
-		}
-		// Handling the immolation
+		this.updateChargeTime();
+		
 		if(this.isImmolating){
-			this.lifePoints=this.maxLifePoints;
-			this.remainingTime-=1f;
-			if(this.remainingTime<=0f){
-				this.lifePoints=-1f;
-				this.player.special+=this.player.data.gainedFaithByImmolation;
-			}
+			this.updateImmolation();
 			return;
-		}
-		for(int i=0; i<this.spells.size(); i++){
-			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
-		}
-		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
-			this.setTarget(null);
-		}
-		if(this.getTarget()==null && this.secondaryTargets.size()>0){
-			this.setTarget(this.secondaryTargets.get(0));
-		}
-		if(this.getTarget()==null){
-			
-			// The character has no target, we look for a new one
-			Vector<Objet> potential_targets;
-			if(this.weapon!=null && this.weapon.damage>0f) 
-				potential_targets = p.getEnnemiesInSight(this);
-			else if (this.weapon!=null && this.weapon.damage<0f) 
-				potential_targets = p.getWoundedAlliesInSight(this);
-			else
-				potential_targets = new Vector<Objet>();
-			if(potential_targets.size()>0){
-				this.setTarget(Utils.nearestObject(potential_targets, this));
-			} else {
-				this.setTarget(this.checkpointTarget);
-			}
-			//			move();
-			//			this.setTarget(null);
-			//			return;
-		}
-		if(this.getTarget() instanceof Character){
-			
-			Character c =(Character) this.getTarget();
-			if(c.team!=this.team && !c.visibleByCurrentPlayer){
-				//TODO : create a boolean isVisible and update it
-				
-				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y));
-			}
-		}
-		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !this.getTarget().collisionBox.intersects(this.weapon.collisionBox))){
-			
-			this.move();
-		}else{
-
-			this.stop();
-			// The target is at range, the character don't move
 		}
 		
-		// Update animation;
-		if(this.vx>0 ||this.vy>0){
-			this.incrementf+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+		this.updateSetTarget();
+		Circle range = new Circle(this.getX(), this.getY(), this.range);
+		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
+			this.move();
+		}else{
+			this.stop();
+			if(this.canAttack && this.target!=null && this.target instanceof Character){
+				this.useWeapon();
+			}
 		}
-		if(this instanceof UnitTest)
-			this.increment= ((int)this.incrementf)%this.animations[0][0].length;
-		//Choose mode
-
+		
+		this.updateAnimation();
 	}
 	// Movement method
 	// the character move toward its target
@@ -404,7 +291,7 @@ public class Character extends ActionObjet{
 				this.moveToward(this.waypoints.get(0));
 			}
 		} else {
-			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY(),this.getTarget().collisionBox.getWidth(),this.getTarget().collisionBox.getHeight());
+			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
 		}
 
 	}
@@ -533,7 +420,7 @@ public class Character extends ActionObjet{
 		}
 		//Draw the immolation
 		if(isImmolating){
-			Image fire = this.p.images.explosion;
+			Image fire = this.p.g.images.explosion;
 			r = fire.getWidth()/5f;
 			x = this.getX();
 			y = this.getY();
@@ -789,32 +676,16 @@ public class Character extends ActionObjet{
 			this.spellsState.set(i,occ.spellState[i]);
 		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
 			return;
-		this.changeEquipment(occ.weaponType, occ.horseType);
+		//this.changeEquipment(occ.weaponType, occ.horseType);
 	}
-	// update the equiments
-	public void changeEquipment(int typeWeapon, int typeHorse){
-		this.typeWeapon = typeWeapon;
-		this.typeHorse = typeHorse;
-		switch(typeWeapon){
-		case 1: this.weapon = new Sword(p,this);break;
-		case 2: this.weapon = new Bow(p,this);break;
-		case 3: this.weapon = new Bible(p,this);break;
-		case 4: this.weapon = new Wand(p,this);break;
-		default:
-		}
-		switch(typeHorse){
-		case 1: this.horse = new Horse(p,this);break;
-		default:
-		}
-		this.updateImage();
-	}
+
 
 	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null)
-				this.waypoints = this.computeWay(t.x, t.y, t.collisionBox.getWidth(), t.collisionBox.getHeight());
+				this.waypoints = this.computeWay(t.x, t.y);
 			else
 				this.waypoints = waypoints;
 		}
@@ -825,18 +696,82 @@ public class Character extends ActionObjet{
 		if(c.horse!=null && this.name=="Spearman"){
 			return true;
 		}
-		if(c.horse==null && this.weapon instanceof Bow){
+		if(c.horse==null && this.weapon == "bow"){
 			return true;
 		}
-		if(c.weapon instanceof Bow && this.weapon instanceof Wand){
+		if(c.weapon == "bow" && this.weapon =="wand"){
 			return true;
 		}
 		return b;
 	}
 	
 	
+	public void updateChargeTime(){
+		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
+				if(this.state<=this.chargeTime)
+					this.state+= 0.1f;
+				if(this.state>=this.chargeTime){
+					this.canAttack = true;
+				}
+				else{
+					this.canAttack=false;
+				}
+				for(int i=0; i<this.spells.size(); i++){
+					this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
+				}
+	}
+	public void updateImmolation(){
+		this.lifePoints=this.maxLifePoints;
+		this.remainingTime-=1f;
+		if(this.remainingTime<=0f){
+			this.lifePoints=-1f;
+			this.player.special+=this.player.data.gainedFaithByImmolation;
+		}
+	}
+	public void updateSetTarget(){
 
+		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
+			this.setTarget(null);
+		}
+		if(this.getTarget()==null && this.secondaryTargets.size()>0){
+			this.setTarget(this.secondaryTargets.get(0));
+		}
+		if(this.getTarget()==null){
+			
+			// The character has no target, we look for a new one
+			Vector<Objet> potential_targets;
+			if(this.damage>0f) 
+				potential_targets = p.getEnnemiesInSight(this);
+			else if (this.damage<0f) 
+				potential_targets = p.getWoundedAlliesInSight(this);
+			else
+				potential_targets = new Vector<Objet>();
+			if(potential_targets.size()>0){
+				this.setTarget(Utils.nearestObject(potential_targets, this));
+			} else {
+				this.setTarget(this.checkpointTarget);
+			}
+			//			move();
+			//			this.setTarget(null);
+			//			return;
+		}
+		if(this.getTarget() instanceof Character){
+			
+			Character c =(Character) this.getTarget();
+			if(c.team!=this.team && !c.collisionBox.intersects(this.sightBox)){
+				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
+			}
+		}
+	}
+	public void updateAnimation(){
+		if(this.vx>0 ||this.vy>0){
+			this.incrementf+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+		}
+		if(this instanceof UnitTest)
+			this.increment= ((int)this.incrementf)%this.animations[0][0].length;
+		//Choose mode
 
+	}
 
 }
 

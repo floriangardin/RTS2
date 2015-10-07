@@ -1,9 +1,5 @@
 package spells;
 
-import java.util.Vector;
-
-import org.newdawn.slick.Color;
-
 import display.Message;
 import model.Objet;
 import model.Plateau;
@@ -18,7 +14,7 @@ public class SpellConversion extends Spell{
 		this.chargeTime = 200f;
 		this.faithCost = 2f;
 		this.name = "Conversion";
-		this.icon = p.images.spellConversion;
+		this.icon = p.g.images.spellConversion;
 		this.range = 50f;
 		this.damage = 0f;
 		this.player = player;

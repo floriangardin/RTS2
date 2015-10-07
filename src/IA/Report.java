@@ -8,7 +8,8 @@ public class Report {
 	
 	
 	public Report(int teamVictory,int remainingUnits){
-		
+		this.teamVictory = teamVictory;
+		this.remainingUnits = remainingUnits;
 	}
 	
 	public String toString(){

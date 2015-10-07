@@ -2,8 +2,6 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-
 import display.Message;
 import technologies.Technologie;
 

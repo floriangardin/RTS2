@@ -8,7 +8,6 @@ import org.newdawn.slick.geom.Polygon;
 import model.Checkpoint;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 
@@ -37,7 +36,7 @@ public class Firewall extends SpellEffect{
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
 		p.addSpell(this);
-		image = p.images.explosion;
+		image = p.g.images.explosion;
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();
@@ -64,7 +63,7 @@ public class Firewall extends SpellEffect{
 		float width = 15f;
 		this.lifePoints = 1f;
 		p.addSpell(this);
-		image = p.images.explosion;
+		image = p.g.images.explosion;
 		float vx = y2-y;
 		float vy = x-x2;
 		float norm = (float)Math.sqrt(vx*vx+vy*vy);

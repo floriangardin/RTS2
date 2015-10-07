@@ -1,11 +1,8 @@
 package technologies;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import units.Character;
 import model.Plateau;
 import model.Player;
 

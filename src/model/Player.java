@@ -1,12 +1,11 @@
 package model;
-import units.*;
-import units.Character;
-
 import java.util.Vector;
 
 import buildings.BuildingHeadQuarters;
 import display.BottomBar;
 import display.TopBar;
+import main.Main;
+import units.Character;
 import units.UnitsList;
 
 public class Player {
@@ -40,7 +39,7 @@ public class Player {
 		special = 0;
 		groupSelection = -1;
 		ennemiesKilled = 0 ;
-		this.data = new Data(this.p,this,this.p.constants.FRAMERATE);
+		this.data = new Data(this.p,this,Main.framerate);
 	}
 	
 	

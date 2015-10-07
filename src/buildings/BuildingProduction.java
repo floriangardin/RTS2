@@ -1,12 +1,9 @@
 package buildings;
-import units.Character;
-
 import java.util.Vector;
-
-import org.newdawn.slick.Color;
 
 import display.Message;
 import multiplaying.OutputModel.OutputBuilding;
+import units.Character;
 import units.UnitsList;
 
 public abstract class BuildingProduction extends Building {

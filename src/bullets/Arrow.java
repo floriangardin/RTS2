@@ -5,8 +5,9 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
+import main.Main;
 import model.Plateau;
-import multiplaying.OutputModel.*;
+import multiplaying.OutputModel.OutputBullet;
 import units.Character;
 
 public class Arrow extends Bullet{
@@ -31,7 +32,7 @@ public class Arrow extends Bullet{
 		this.vy = this.owner.getTarget().getY()-this.owner.getY();
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
-		norm  = (float)Math.sqrt(norm)*this.p.constants.FRAMERATE;
+		norm  = (float)Math.sqrt(norm)*Main.framerate;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
 		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
@@ -39,10 +40,10 @@ public class Arrow extends Bullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.images.arrow.getScaledCopy(1f);
+		this.image = p.g.images.arrow.getScaledCopy(1f);
 		this.image.rotate(this.angle);
-		this.sound = p.sounds.arrow;
-		this.sound.play(1f,this.p.soundVolume);
+		this.sound = p.g.sounds.arrow;
+		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 	public Arrow(OutputBullet ocb ,Plateau p){
 		// Only used to display on client screen
@@ -60,10 +61,8 @@ public class Arrow extends Bullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.images.arrow.getScaledCopy(1f);
+		this.image = p.g.images.arrow.getScaledCopy(1f);
 		this.image.rotate(this.angle);
-		this.sound = p.sounds.arrow;
-		this.sound.play(1f,this.p.soundVolume);
 	}
 
 	public void collision(Character c){
@@ -71,10 +70,10 @@ public class Arrow extends Bullet{
 			// Attack if armor<damage and collision
 			float damage = this.damage;
 			if(c.horse==null){
-				damage = damage * this.p.constants.bonusBowFoot;
+				damage = damage * this.p.g.players.get(team).data.bonusBowFoot;
 			}
-			if(c.getArmor()<=damage){
-				c.lifePoints+=c.getArmor()-damage;
+			if(c.armor<=damage){
+				c.lifePoints+=c.armor-damage;
 			}
 			this.lifePoints=-1f;
 		}

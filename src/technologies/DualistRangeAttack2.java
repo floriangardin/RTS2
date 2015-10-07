@@ -1,17 +1,13 @@
 package technologies;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import model.Plateau;
+import model.Player;
 import units.Character;
 import units.UnitCrossbowman;
 import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitSpearman;
-import model.Plateau;
-import model.Player;
 
 public class DualistRangeAttack2 extends Technologie {
 
@@ -42,7 +38,7 @@ public class DualistRangeAttack2 extends Technologie {
 			if(c.team == this.player.team){
 				if(c instanceof UnitCrossbowman || c instanceof UnitInquisitor){
 					c.damage+=1;
-					c.weapon.damage= c.damage;
+					c.damage= c.damage;
 				}
 				
 			}

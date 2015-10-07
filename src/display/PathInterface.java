@@ -3,7 +3,6 @@ package display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import units.Character;
 import buildings.Building;
 import model.Game;
 import model.NaturalObjet;

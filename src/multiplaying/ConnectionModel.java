@@ -4,7 +4,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Vector;
 
-import model.*;
+import model.NaturalObjet;
+import model.Utils;
 import nature.Tree;
 import nature.Water;
 

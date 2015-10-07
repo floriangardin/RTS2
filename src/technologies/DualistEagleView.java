@@ -1,12 +1,10 @@
 package technologies;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import model.*;
-import units.*;
+import model.Plateau;
+import model.Player;
 import units.Character;
 
 public class DualistEagleView extends Technologie {

@@ -2,9 +2,6 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
@@ -26,7 +23,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.sizeY = this.p.g.players.get(team).data.academySizeY;
 		this.sight = this.p.g.players.get(team).data.academySight;
 		this.name = "academy";
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 4;
 		this.lifePoints = this.maxLifePoints;
 		this.g = g;
@@ -37,11 +34,11 @@ public class BuildingAcademy extends BuildingProduction {
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		p.addBuilding(this);
 		if(team==1){
-			this.image = this.p.images.buildingAcademyBlue;
+			this.image = this.p.g.images.buildingAcademyBlue;
 		} else if(team==2){
-			this.image = this.p.images.buildingAcademyRed;
+			this.image = this.p.g.images.buildingAcademyRed;
 		} else {
-			this.image = this.p.images.buildingAcademyNeutral;
+			this.image = this.p.g.images.buildingAcademyNeutral;
 		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();

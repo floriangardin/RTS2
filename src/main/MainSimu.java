@@ -6,16 +6,15 @@ import java.io.File;
 
 import org.lwjgl.LWJGLUtil;
 import org.lwjgl.openal.AL;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.SlickException;
 
 import IA.Simulator;
-import model.Constants;
-import model.Game;
 
 public class MainSimu {
 	int framerate = 60;
 
-	Constants constants;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SlickException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
@@ -28,7 +27,14 @@ public class MainSimu {
 //		simu.simulate();
 //		System.out.println(simu.report.toString());
 
-		new Simulator(1);
+		Simulator simu = new Simulator();
+		
+		AppGameContainer app = new AppGameContainer( simu.game );
+		app.setDisplayMode(1, 1,false);
+		simu.game.simu = simu;
+		app.start();
+
+
 		AL.destroy();
 	}
 

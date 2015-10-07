@@ -2,17 +2,14 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
-import technologies.Technologie;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
-import multiplaying.OutputModel.OutputBuilding;
+import technologies.Technologie;
 
 public class BuildingMill extends BuildingTech{
 	
@@ -34,7 +31,7 @@ public class BuildingMill extends BuildingTech{
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.type = 1;
-		this.selection_circle = this.p.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";
 		
 		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
@@ -46,11 +43,11 @@ public class BuildingMill extends BuildingTech{
 		this.sight = p.g.players.get(team).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		if(team==1){
-			this.image = this.p.images.buildingMillBlue;
+			this.image = this.p.g.images.buildingMillBlue;
 		} else if(team==2){
-			this.image = this.p.images.buildingMillRed;
+			this.image = this.p.g.images.buildingMillRed;
 		} else {
-			this.image = this.p.images.buildingMillNeutral;
+			this.image = this.p.g.images.buildingMillNeutral;
 		}
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.productionList = new Vector<Technologie>();
@@ -98,7 +95,7 @@ public class BuildingMill extends BuildingTech{
 	
 	public void drawAnimation(Graphics g){
 		if(animation>=0f){
-			g.drawImage(this.p.images.smoke, this.x+1f/18f*sizeX-12f, this.y-144f,this.x+1f/18f*sizeX+36f, this.y-96f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+			g.drawImage(this.p.g.images.smoke, this.x+1f/18f*sizeX-12f, this.y-144f,this.x+1f/18f*sizeX+36f, this.y-96f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
 		}
 	}
 }

@@ -5,8 +5,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import com.sun.javafx.util.Utils;
-
 import model.Plateau;
 import model.Player;
 
