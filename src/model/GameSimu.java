@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
+import IA.FightSimulator;
 import IA.Simulator;
 import menu.MenuIntro;
 

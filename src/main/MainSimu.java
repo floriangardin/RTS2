@@ -9,7 +9,8 @@ import org.lwjgl.openal.AL;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
-import IA.Simulator;
+import IA.FightSimulator;
+import IA.MicroSimulator;
 
 public class MainSimu {
 	int framerate = 60;
@@ -27,7 +28,8 @@ public class MainSimu {
 //		simu.simulate();
 //		System.out.println(simu.report.toString());
 
-		Simulator simu = new Simulator();
+//		FightSimulator simu = new FightSimulator();
+		MicroSimulator simu = new MicroSimulator();
 		
 		AppGameContainer app = new AppGameContainer( simu.game );
 		app.setDisplayMode(1, 1,false);

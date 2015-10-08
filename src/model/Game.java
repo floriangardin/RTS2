@@ -326,7 +326,7 @@ public class Game extends BasicGame
 		if(host)
 			Map.createMapLan(this);
 		
-		System.out.println(this.plateau.mapGrid);
+		//System.out.println(this.plateau.mapGrid);
 //			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){

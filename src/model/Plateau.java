@@ -140,7 +140,7 @@ public class Plateau {
 			this.messages.addElement(new Vector<Message>());
 		}
 		try {
-			System.out.println(this.g.resX+" "+this.g.resY);
+//			System.out.println(this.g.resX+" "+this.g.resY);
 			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
 			this.gf = fog.getGraphics();
 		} catch (SlickException | RuntimeException e) {

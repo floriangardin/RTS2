@@ -24,6 +24,7 @@ import units.UnitSpearman;
 import units.UnitsList;
 public class Simulation {
 
+	public boolean render= false;
 
 	public Vector<Vector<Character>> armies;
 	public JPanel panel;
@@ -35,8 +36,8 @@ public class Simulation {
 	public Report report;
 	public Game game;
 	public int framerate ;
-	public float sizeX = 3000;
-	public float sizeY = 3000;
+	public float sizeX = 1000;
+	public float sizeY = 1000;
 
 	// BUFFER 
 	public final int BUFFERS = 2;
@@ -46,16 +47,19 @@ public class Simulation {
 	public int sizeArmy2;
 	public int timeout;
 	public float ratio ;
+
+	public boolean sleep = false;
+
 	public Simulation (Game game){
-		
+
 		// creating the simulation environment
 		this.game = game;
 		this.initializeSimulation();
-		
+
 		// creating the simulation characters
 		this.createBasicSimu();
 
-		
+
 
 
 	}
@@ -66,15 +70,17 @@ public class Simulation {
 		while(!end){
 
 			update();
-			render();
+			if(render)
+				render();
 			//Utils.printCurrentState(p);
 		}
 
 		// if victory call report function
 		if(end){
-			System.out.println(victory+" "+armies.get(victory-1).size());
+			System.out.println("victoire de l'équipe: "+victory);
 			report = new Report(victory,armies.get(victory-1).size());
-			this.window.setVisible(false);
+			if(render)
+				this.window.setVisible(false);
 		}
 
 	}
@@ -97,19 +103,20 @@ public class Simulation {
 			}
 
 			//g.fillRect((int) c.x*ratio, (int)c.y*ratio, 10, 10);
-			g.fillOval((int) (c.x-c.collisionBox.getBoundingCircleRadius()*ratio),(int) (c.y-c.collisionBox.getBoundingCircleRadius()*ratio),(int) (c.collisionBox.getBoundingCircleRadius()*ratio*2), (int)(c.collisionBox.getBoundingCircleRadius()*ratio*2));
+			g.fillOval((int) ((c.x-c.collisionBox.getBoundingCircleRadius())*ratio),(int) ((c.y-c.collisionBox.getBoundingCircleRadius())*ratio),(int) ((c.collisionBox.getBoundingCircleRadius())*ratio*2), (int)((c.collisionBox.getBoundingCircleRadius()*ratio)*2));
 
 			g.setColor(Color.BLACK);
 			g.drawString(c.id+ ""+c.weapon, (int) c.x*ratio,(int) c.y*ratio);
 			if(c.getTarget()!=null){
 				g.drawLine((int) (c.x*ratio), (int) (c.y*ratio), (int) (c.getTarget().x*ratio), (int) (c.getTarget().y*ratio));
 			}
-			// DRAW SIGHTBOX 
-
-			g.setColor(Color.BLACK);
-			g.drawOval((int) (c.x-c.sightBox.radius*ratio),(int) (c.y-c.sightBox.radius*ratio),(int) (c.sightBox.radius*ratio*2), (int)(c.sightBox.radius*ratio*2));
 
 
+			// DRAW LIFE
+			g.setColor(Color.RED);
+			g.drawLine((int)((c.x-2*c.size)*ratio),(int)((c.y-2*c.size)*ratio), (int)((c.x+2*c.size)*ratio), (int)((c.y-2*c.size)*ratio));
+			g.setColor(Color.GREEN);
+			g.drawLine((int)((c.x-2*c.size)*ratio),(int)((c.y-2*c.size)*ratio), (int)((c.x-2*c.size+4*c.size*c.lifePoints/c.maxLifePoints)*ratio), (int)((c.y-2*c.size)*ratio));
 		}
 
 		bufferStrategy.show();
@@ -125,35 +132,38 @@ public class Simulation {
 
 		// Remove characters if death
 		Vector<Character> toRemove = new Vector<Character>();
+		boolean victory1 = false, victory2 =false;
+		victory1 = true;
+		victory2 = true;
 		for(Vector<Character> cs : armies){
 			for(Character c : cs){
-				if(c.lifePoints<=0){
-					toRemove.add(c);
-					System.out.println("death: "+c.team);
+				if(c.lifePoints>0){
+					if(c.team==1){
+						victory2=false;
+					}
+					if(c.team==2){
+						victory1=false;
+					}
 				}
-
-			}
-		}
-
-		for(Character c : toRemove){
-			if(armies.get(0).contains(c)){
-				armies.get(0).remove(c);
-			}
-			if(armies.get(1).contains(c)){
-				armies.get(1).remove(c);
 			}
 		}
 
 		//Update end
-		if(this.armies.get(0).size()==0){
+		if(victory2){
 			end = true;
 			victory = 2;
 		}
-		else if(this.armies.get(1).size()==0){
+		else if(victory1){
 			end = true;
 			victory = 1;
 		}
+		if(sleep){
+			try{
+				Thread.sleep(16);
+			}catch(InterruptedException e){
 
+			}
+		}
 	}
 
 	public void report(){
@@ -177,16 +187,18 @@ public class Simulation {
 		// INIT GRID
 		p.mapGrid = new MapGrid(0f, p.maxX,0f, p.maxY);
 		//INIT RENDER
-		window = new JFrame();
-		panel = new JPanel();
+		if(render){
+			window = new JFrame();
+			panel = new JPanel();
 
-		window.setSize((int) (sizeX*ratio), (int) (sizeY*ratio));
-		window.setLocationRelativeTo(null);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setContentPane(panel);
-		window.setVisible(true);
-		this.window.createBufferStrategy(2);
-		this.bufferStrategy = this.window.getBufferStrategy();
+			window.setSize((int) (sizeX*ratio), (int) (sizeY*ratio));
+			window.setLocationRelativeTo(null);
+			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			window.setContentPane(panel);
+			window.setVisible(true);
+			this.window.createBufferStrategy(2);
+			this.bufferStrategy = this.window.getBufferStrategy();
+		}
 	}
 
 	public Character generateRandomUnit(int team){
@@ -255,7 +267,7 @@ public class Simulation {
 		//INIT SIZE ARMY
 		this.sizeArmy1= 1;
 		this.sizeArmy2 = 2;
-		
+
 		float[][] Xc = new float[4][IAUnit.n_features];
 		for(int i=0; i<4;i++){
 			for(int j=0; j<IAUnit.n_features; j++){
@@ -264,13 +276,13 @@ public class Simulation {
 		}
 
 		// GENERATE ARMY
-		Character c = this.p.g.players.get(1).create(UnitsList.Crossbowman, 1500, 1500);
+		Character c = this.p.g.players.get(1).create(UnitsList.Crossbowman, sizeX/2f, sizeY/2f);
 		c.ia = new IAUnit(c,Xc);
 		this.armies.get(0).add(c);
 
-		c = this.p.g.players.get(2).create(UnitsList.Spearman, 1250, 1250);
+		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f-150f, sizeY/2f-150f);
 		this.armies.get(1).add(c);
-		c = this.p.g.players.get(2).create(UnitsList.Spearman, 1750, 1750);
+		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f+150f, sizeY/2f+150f);
 		this.armies.get(1).add(c);
 
 	}

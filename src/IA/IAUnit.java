@@ -71,7 +71,9 @@ public class IAUnit {
 				}
 			}
 			directions[dir] = sum;
+//			System.out.print(sum+" ");
 		}
+//		System.out.println();
 	}
 	public Checkpoint computeVector(){
 		Checkpoint p = new Checkpoint(unit.x, unit.y);
@@ -94,14 +96,11 @@ public class IAUnit {
 		features.get(0).add(c.x-unit.x);
 		// distance according to y
 		features.get(1).add(c.y-unit.y);
-		// unit range
-		features.get(2).add(unit.range);
-		// enemy range
-		features.get(3).add(c.range);
-		// unit velocity
-		features.get(4).add(unit.maxVelocity);
-		// enemy velocity
-		features.get(5).add(c.maxVelocity);
+		// relative to the boundary
+		features.get(2).add(1/(c.p.maxX-c.x));
+		features.get(3).add(1/c.x);
+		features.get(4).add(1/(c.p.maxY-c.y));
+		features.get(5).add(1/c.y);
 	}
 	
 	

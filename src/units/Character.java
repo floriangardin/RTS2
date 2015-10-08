@@ -272,7 +272,13 @@ public class Character extends ActionObjet{
 				if(c.team!=this.team)
 					enemies.add(c);
 			this.moveToward(this.ia.moveInBattle(enemies));
-
+			this.updateSetTarget();
+			Circle range = new Circle(this.getX(), this.getY(), this.range);
+			if(!(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox)))){
+				if(this.canAttack && this.target!=null && this.target instanceof Character){
+					this.useWeapon();
+				}
+			}
 		}
 
 		this.updateAnimation();
