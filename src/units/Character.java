@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import IA.IAUnit;
 import buildings.Building;
 import model.ActionObjet;
 import model.Checkpoint;
@@ -24,7 +25,7 @@ import spells.Spell;
 
 public class Character extends ActionObjet{
 
-	
+
 	// General attributes
 	public Circle sightBox;
 
@@ -33,12 +34,12 @@ public class Character extends ActionObjet{
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
-	
+
 	//philippe
 	public String weapon;
-	
-	
-	
+
+	public IAUnit ia;
+
 	public float state;
 	public float chargeTime;
 	public boolean canAttack;
@@ -65,7 +66,7 @@ public class Character extends ActionObjet{
 	// Special Abilities
 	public boolean isImmolating = false;
 	public float remainingTime;
-	
+
 	// UnitsList associated
 	public UnitsList type;
 
@@ -119,7 +120,7 @@ public class Character extends ActionObjet{
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
 		this.weapon = c.weapon;
-	
+
 		this.group = new Vector<Character>();
 		this.group.add(this);
 
@@ -128,7 +129,7 @@ public class Character extends ActionObjet{
 			this.spellsState.addElement(0f);
 		}
 
-	
+
 	}
 	public Character(OutputChar occ, Plateau p){
 		// Only used to display on client screen
@@ -141,7 +142,7 @@ public class Character extends ActionObjet{
 	}
 
 
-	
+
 	public boolean isLeader(){
 		return this.leader==this;
 	}
@@ -247,32 +248,33 @@ public class Character extends ActionObjet{
 
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
-	
+
 	// ATTACK METHOD IF AT RANGE AND CHARGE TIME OK
 	public void useWeapon(){
-			this.state = 0f;		
+		this.state = 0f;		
 	}
-	
+
 	public void action(){
-		
+
 		this.updateChargeTime();
-		
+
 		if(this.isImmolating){
 			this.updateImmolation();
 			return;
 		}
-		
-		this.updateSetTarget();
-		Circle range = new Circle(this.getX(), this.getY(), this.range);
-		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
-			this.move();
-		}else{
-			this.stop();
-			if(this.canAttack && this.target!=null && this.target instanceof Character){
-				this.useWeapon();
-			}
+		if(this.ia==null){
+			// IA scriptée
+			this.actionIAScript();
+		} else {
+			// IA spécifique
+			Vector<Character> enemies = new Vector<Character>();
+			for(Character c: this.p.characters)
+				if(c.team!=this.team)
+					enemies.add(c);
+			this.moveToward(this.ia.moveInBattle(enemies));
+
 		}
-		
+
 		this.updateAnimation();
 	}
 	// Movement method
@@ -353,7 +355,7 @@ public class Character extends ActionObjet{
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
-		
+
 		if(animationValue!=0f){
 			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
 				animation = 1;
@@ -362,21 +364,7 @@ public class Character extends ActionObjet{
 			else
 				animation = 2;
 		}
-		if(this.group!=null){
-			// Handling the group deplacement
-			boolean nextToStop = false;
-			boolean oneHasArrived = false;
-			for(Character c: this.group){
-				if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
-					nextToStop = true;
-				if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
-					oneHasArrived = true;
-			}
-			if(nextToStop && oneHasArrived){
-				this.stop();
-				return;
-			}
-		}
+		
 	}
 	public void stop(){
 		this.checkpointTarget = null;
@@ -690,7 +678,7 @@ public class Character extends ActionObjet{
 				this.waypoints = waypoints;
 		}
 	}
-	
+
 	public boolean encounters(Character c){
 		boolean b = false;
 		if(c.horse!=null && this.name=="Spearman"){
@@ -704,21 +692,49 @@ public class Character extends ActionObjet{
 		}
 		return b;
 	}
+
 	
-	
+	public void actionIAScript(){
+		this.updateSetTarget();
+		Circle range = new Circle(this.getX(), this.getY(), this.range);
+		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
+			this.move();
+			if(this.group!=null){
+				// Handling the group deplacement
+				boolean nextToStop = false;
+				boolean oneHasArrived = false;
+				for(Character c: this.group){
+					if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
+						nextToStop = true;
+					if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
+						oneHasArrived = true;
+				}
+				if(nextToStop && oneHasArrived){
+					this.stop();
+					return;
+				}
+			}
+		}else{
+			this.stop();
+			if(this.canAttack && this.target!=null && this.target instanceof Character){
+				this.useWeapon();
+			}
+		}
+	}
+
 	public void updateChargeTime(){
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
-				if(this.state<=this.chargeTime)
-					this.state+= 0.1f;
-				if(this.state>=this.chargeTime){
-					this.canAttack = true;
-				}
-				else{
-					this.canAttack=false;
-				}
-				for(int i=0; i<this.spells.size(); i++){
-					this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
-				}
+		if(this.state<=this.chargeTime)
+			this.state+= 0.1f;
+		if(this.state>=this.chargeTime){
+			this.canAttack = true;
+		}
+		else{
+			this.canAttack=false;
+		}
+		for(int i=0; i<this.spells.size(); i++){
+			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
+		}
 	}
 	public void updateImmolation(){
 		this.lifePoints=this.maxLifePoints;
@@ -737,7 +753,7 @@ public class Character extends ActionObjet{
 			this.setTarget(this.secondaryTargets.get(0));
 		}
 		if(this.getTarget()==null){
-			
+
 			// The character has no target, we look for a new one
 			Vector<Objet> potential_targets;
 			if(this.damage>0f) 
@@ -756,7 +772,7 @@ public class Character extends ActionObjet{
 			//			return;
 		}
 		if(this.getTarget() instanceof Character){
-			
+
 			Character c =(Character) this.getTarget();
 			if(c.team!=this.team && !c.collisionBox.intersects(this.sightBox)){
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
