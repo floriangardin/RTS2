@@ -3,7 +3,9 @@ package model;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 
+import buildings.Building;
 import pathfinding.Case;
 
 
@@ -31,7 +33,7 @@ public abstract class ActionObjet extends Objet{
 	public void move(){
 
 	}
-	
+
 	public Objet getTarget(){
 		return this.target;
 	}
@@ -44,11 +46,16 @@ public abstract class ActionObjet extends Objet{
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 	}
 	public void drawIsSelected(Graphics g) {
-	
+
 	}
-	public Vector<Case> computeWay(float xEnd, float yEnd){
-		
-		return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
+	public Vector<Case> computeWay(){
+		if(this.getTarget() instanceof Building){
+			Building b = (Building)this.getTarget();
+			return this.p.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
+		} else {
+			float xEnd = this.getTarget().x, yEnd = this.getTarget().y;
+			return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
+		}
 	}
 
 

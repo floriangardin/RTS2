@@ -165,6 +165,9 @@ public class Character extends ActionObjet{
 		this.vx = vx;
 		this.vy = vy;
 		int sector = 0;
+		if(vx==0 && vy==0){
+			return;
+		}
 		if(vx>0f){
 			if(vy>vx){
 				sector = 2;
@@ -391,8 +394,7 @@ public class Character extends ActionObjet{
 			}
 
 		}
-		this.vx = 0f;
-		this.vy = 0f;
+		this.setVXVY(0, 0);
 	}
 
 	//// GRAPHISMS
@@ -478,7 +480,7 @@ public class Character extends ActionObjet{
 		// set the tolerance for collision:
 		//   - 0: collision is totally authorized
 		//   - 1: no collision but clipping
-		float toleranceCollision = 0.1f;
+		float toleranceCollision = 0.02f;
 		// get the mediatrice of both object
 		float y_med = this.getX()-o.getX();
 		float x_med = o.getY()-this.getY();
@@ -516,7 +518,7 @@ public class Character extends ActionObjet{
 	}
 
 	public void collisionRect(Rectangle o) {
-
+		
 		/*On consid�re pour l'instant que nos natural objets sont carr�s
 		 * il faut dans un premier temps d�terminer de quel c�t� �jecter l'objet
 		 * pour cela on d�limite 4 secteurs:
@@ -535,6 +537,26 @@ public class Character extends ActionObjet{
 		int sector = 0;
 
 
+//		if(x-oX>0f){
+//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+//				sector = 2;
+//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+//				sector = 4;
+//			} else {
+//				sector = 1;
+//			}
+//		} else {
+//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+//				sector = 2;
+//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+//				sector = 4;
+//			} else {
+//				sector = 3;
+//			}
+//		}
+		
+		x = x-vx;
+		y = y-vy;
 		if(x-oX>0f){
 			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
@@ -553,36 +575,35 @@ public class Character extends ActionObjet{
 			}
 		}
 
-		//Si la collision a lieu dans un coin, on ne la consid�re pas
-		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
-			//System.out.println("dans un coin");
-			if(this.getTarget()==null)
-				return;
-			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
-					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
-				switch(sector){
-				case 1: 
-				case 3:
-					if(this.getY()>o.getCenterY())
-
-						this.setXY(this.getX(), this.getY()+30f);
-					else
-						this.setXY(this.getX(), this.getY()-30f);
-
-					break;
-				case 2:
-				case 4:
-					if(this.getX()>o.getCenterX())
-
-						this.setXY(this.getX()+30f, this.getY());
-					else
-						this.setXY(this.getX()-30f, this.getY());
-
-					break;
-				}
-				return;
-			}
-		}
+//		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
+//			//System.out.println("dans un coin");
+//			if(this.getTarget()==null)
+//				return;
+//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
+//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
+//				switch(sector){
+//				case 1: 
+//				case 3:
+//					if(this.getY()>o.getCenterY())
+//
+//						this.setXY(this.getX(), this.getY()+30f);
+//					else
+//						this.setXY(this.getX(), this.getY()-30f);
+//
+//					break;
+//				case 2:
+//				case 4:
+//					if(this.getX()>o.getCenterX())
+//
+//						this.setXY(this.getX()+30f, this.getY());
+//					else
+//						this.setXY(this.getX()-30f, this.getY());
+//
+//					break;
+//				}
+//				return;
+//			}
+//		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
@@ -687,7 +708,7 @@ public class Character extends ActionObjet{
 			if(waypoints==null){
 				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
-					this.waypoints = this.computeWay(t.x, t.y);
+					this.waypoints = this.computeWay();
 			}else
 				this.waypoints = waypoints;
 		}

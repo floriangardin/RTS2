@@ -1,6 +1,8 @@
 package pathfinding;
 import java.util.Vector;
 
+import org.newdawn.slick.geom.Rectangle;
+
 import model.Utils;
 
 public class MapGrid {
@@ -121,7 +123,7 @@ public class MapGrid {
 			j++;
 		return grid.get(i).get(j);
 	}
-
+	
 	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
 		//System.out.println("MapGrid line 124: calcul d'un chemin");
 		Vector<Case> path = new Vector<Case>();
@@ -223,6 +225,118 @@ public class MapGrid {
 
 		return path;
 	}
+	
+	public Vector<Case> pathfinding(float xStart, float yStart, Rectangle r){
+		//System.out.println("MapGrid line 124: calcul d'un chemin");
+		Vector<Case> path = new Vector<Case>();
+		int iStart=0, jStart=0, iEnd1=0, jEnd1=0, iEnd2=0, jEnd2=0;
+		float xEnd1, xEnd2, yEnd1, yEnd2;
+		xEnd1 = r.getMinX()+0.1f;
+		yEnd1 = r.getMinY()+0.1f;
+		xEnd2 = r.getMaxX()-0.1f;
+		yEnd2 = r.getMaxY()-0.1f;
+		while(xStart>Xcoord.get(iStart+1))
+			iStart++;
+		while(yStart>Ycoord.get(jStart+1))
+			jStart++;
+		while(xEnd1>Xcoord.get(iEnd1+1))
+			iEnd1++;
+		while(yEnd1>Ycoord.get(jEnd1+1))
+			jEnd1++;
+		while(xEnd2>Xcoord.get(iEnd2+1))
+			iEnd2++;
+		while(yEnd2>Ycoord.get(jEnd2+1))
+			jEnd2++;
+		
+		Vector<Point> closedList = new Vector<Point>();
+		Vector<Point> openList = new Vector<Point>();
+		Point depart = new Point(iStart,jStart,this);
+		depart.computeDistance(iEnd1, jEnd1, iEnd2, jEnd2);
+		openList.add(depart);
+		Point u;
+		Point v;
+		int indice;
+		int iTrav=0, jTrav=0;
+		int nbIt = 0;
+		while(openList.size()>0){
+			nbIt++;
+			u = openList.firstElement();
+			openList.remove(0);
+			// voisin de droite
+			for(int k=0;k<8;k++){
+				switch(k){
+				case 0: //à droite
+					iTrav = u.i+1; jTrav = u.j;break;
+				case 1: //à gauche
+					iTrav = u.i-1; jTrav = u.j;break;
+				case 2: //en bas
+					iTrav = u.i; jTrav = u.j+1;break;
+				case 3: //en haut
+					iTrav = u.i; jTrav = u.j-1;break;
+				case 4: //en bas à droite
+					iTrav = u.i+1; jTrav = u.j+1;break;
+				case 5: //en bas à gauche
+					iTrav = u.i-1; jTrav = u.j+1;break;
+				case 6: //en haut à droite
+					iTrav = u.i+1; jTrav = u.j-1;break;
+				case 7: //en haut à gauche
+					iTrav = u.i-1; jTrav = u.j-1;break;
+				}
+				if(iTrav>=iEnd1 && jTrav>=jEnd1 && iTrav<=iEnd2 && jTrav<=jEnd2){
+					path.add(grid.get(iTrav).get(jTrav));
+					while(u!=null){
+						path.insertElementAt(grid.get(u.i).get(u.j),0);
+						u = u.comeFrom;
+					}
+					return path;
+				}
+				if(iTrav>=0&& iTrav<grid.size() && jTrav>=0&& jTrav<grid.get(0).size() && grid.get(iTrav).get(jTrav).ok){
+					if(k<4 || (grid.get(iTrav).get(u.j).ok && grid.get(u.i).get(jTrav).ok)){
+
+						v = new Point(iTrav,jTrav,this,u,(k<4?1f:1.5f));
+						boolean doNothing = false;
+						Point toDelete = null;
+						for(Point p : closedList){
+							if(p.id==v.id){
+								if(p.cost<v.cost)
+									doNothing =true;
+								else
+									toDelete = p;
+							}
+						}
+						if(toDelete!=null)
+							closedList.remove(toDelete);
+						if(doNothing)
+							continue;
+						toDelete = null;
+						for(Point p : openList){
+							if(p.id==v.id){
+								if(p.cost<v.cost)
+									doNothing =true;
+								else
+									toDelete = p;
+							}
+						}
+
+						if(toDelete!=null)
+							openList.remove(toDelete);
+						if(doNothing)
+							continue;
+						v.computeDistance(iEnd1, jEnd1, iEnd2, jEnd2);
+						v.heuristique = v.cost + v.dist;
+						indice= 0;
+						while(indice<openList.size() && openList.get(indice).heuristique<v.heuristique)
+							indice++;
+						openList.insertElementAt(v,indice);
+					}
+				}
+			}
+			closedList.addElement(u);
+
+		}
+
+		return path;
+	}
 
 	public void printPath(Vector<Case> path){
 		Case c;
@@ -270,6 +384,17 @@ public class MapGrid {
 		}
 		public void computeDistance(int iEnd, int jEnd){
 			this.dist = (float)Math.sqrt((i-iEnd)*(i-iEnd)+(j-jEnd)*(j-jEnd));
+		}
+		public void computeDistance(int iEnd1, int jEnd1, int iEnd2, int jEnd2){
+			if(i<=iEnd2 && i>=iEnd1)
+				this.dist = Math.min(Math.abs(j-jEnd1),Math.abs(j-jEnd2));
+			else if(j<=jEnd2 && j>=jEnd1)
+				this.dist = Math.min(Math.abs(i-iEnd1),Math.abs(i-iEnd2));
+			else{
+				int jd = Math.min(Math.abs(j-jEnd1),Math.abs(j-jEnd2));
+				int id = Math.min(Math.abs(i-iEnd1),Math.abs(i-iEnd2));
+				this.dist = (float)Math.sqrt((id)*(id)+(jd)*(jd));
+			}
 		}
 
 	}
