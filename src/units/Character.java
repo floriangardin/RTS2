@@ -40,6 +40,7 @@ public class Character extends ActionObjet{
 
 	public IAUnit ia;
 
+	public boolean moveAhead;
 	public float state;
 	public float chargeTime;
 	public boolean canAttack;
@@ -73,6 +74,7 @@ public class Character extends ActionObjet{
 
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Case> waypoints = new Vector<Case>();
+
 
 	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p,Player player){
@@ -287,6 +289,10 @@ public class Character extends ActionObjet{
 	// the character move toward its target
 	public void move(){
 		if(this.getTarget()==null && this.checkpointTarget==null){
+			return;
+		}
+		if(this.moveAhead){
+			this.moveToward(this.getTarget());
 			return;
 		}
 		if(this.c == this.getTarget().c){
@@ -678,9 +684,11 @@ public class Character extends ActionObjet{
 		this.target = t;
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
-			if(waypoints==null)
-				this.waypoints = this.computeWay(t.x, t.y);
-			else
+			if(waypoints==null){
+				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				if(!this.moveAhead)	
+					this.waypoints = this.computeWay(t.x, t.y);
+			}else
 				this.waypoints = waypoints;
 		}
 	}
@@ -705,6 +713,8 @@ public class Character extends ActionObjet{
 		Circle range = new Circle(this.getX(), this.getY(), this.range);
 		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
 			this.move();
+			if(!this.isMobile())
+				return;
 			if(this.group!=null){
 				// Handling the group deplacement
 				boolean nextToStop = false;

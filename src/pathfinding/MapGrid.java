@@ -1,6 +1,8 @@
 package pathfinding;
 import java.util.Vector;
 
+import model.Utils;
+
 public class MapGrid {
 
 	public float minX, maxX, minY, maxY;
@@ -270,6 +272,84 @@ public class MapGrid {
 			this.dist = (float)Math.sqrt((i-iEnd)*(i-iEnd)+(j-jEnd)*(j-jEnd));
 		}
 
+	}
+
+	public Vector<Case> isLineOk(float x1, float y1, float x2, float y2){
+		if(Utils.distance(x1, y1, x2, y2)>1000f)
+			return new Vector<Case>();
+		boolean ok = true;
+		if(x1<minX || x1>=maxX || y1<minY||y1>=maxY)
+			return null;
+		if(x2<minX || x2>=maxX || y2<minY||y2>=maxY)
+			return null;
+		int i=0, j=0;
+		float x = x1, y = y1;
+		while(x>Xcoord.get(i+1))
+			i++;
+		while(y>Ycoord.get(j+1))
+			j++;
+		float a,xint,yint,aint;
+		String dir;
+		Case arrival = this.getCase(x2, y2);
+		Vector<Case> cases = new Vector<Case>();
+		//System.out.println(this.toString());
+		while(grid.get(i).get(j).ok && grid.get(i).get(j).id!=arrival.id){
+			cases.add(grid.get(i).get(j));
+			//System.out.println(x+" "+y+" "+i+" "+j+" "+x2+" "+y2);
+			a = (y2-y)/(x2-x+0.0001f);
+			if(y>y2){
+				if(x<=x2){
+					xint = Xcoord.get(i+1);
+					yint = Ycoord.get(j);
+					aint = (yint-y)/(xint-x+0.0001f);
+					if(a>aint)
+						dir = "RIGHT";
+					else
+						dir = "UP";
+				} else {
+					xint = Xcoord.get(i);
+					yint = Ycoord.get(j);
+					aint = (yint-y)/(xint-x+0.0001f);
+					if(a<aint)
+						dir = "LEFT";
+					else
+						dir = "UP";					
+				}
+			} else {
+				if(x<=x2){
+					xint = Xcoord.get(i+1);
+					yint = Ycoord.get(j+1);
+					aint = (yint-y)/(xint-x+0.0001f);
+					if(a>aint)
+						dir = "DOWN";
+					else
+						dir = "RIGHT";
+				} else {
+					xint = Xcoord.get(i);
+					yint = Ycoord.get(j+1);
+					aint = (yint-y)/(xint-x+0.0001f);
+					if(a<aint)
+						dir = "DOWN";
+					else
+						dir = "LEFT";					
+				}
+			}
+			float newx=-1f,newy=-1f;
+			switch(dir){
+			case "UP": j-=1; newy=Ycoord.get(j+1)-0.1f; newx = x+(newy-y)/a; break;
+			case "DOWN": j+=1; newy=Ycoord.get(j)+0.1f; newx = x+(newy-y)/a; break;
+			case "RIGHT": i+=1; newx=Xcoord.get(i)+0.1f; newy = a*(newx-x)+y; break;
+			case "LEFT": i-=1; newx=Xcoord.get(i+1)-0.1f; newy = a*(newx-x)+y; break;
+			default:
+			}
+			x = newx;
+			y = newy;
+		}
+		if(grid.get(i).get(j).id==arrival.id)
+			cases.add(grid.get(i).get(j));
+		else
+			cases.clear();
+		return cases;
 	}
 
 }

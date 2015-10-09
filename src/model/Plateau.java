@@ -835,6 +835,14 @@ public class Plateau {
 				this.g.players.get(player).selection.clear();
 				for(ActionObjet c: this.selection.get(player))
 					this.g.players.get(player).selection.addElement(c);
+				
+				//TODO virer les lignes ci-dessous (debug)
+				if(im.isPressedNumPad[9]){
+					this.g.bottomBars.minimap.createRandomLine();
+				}
+				if(im.isPressedNumPad[8]){
+					this.g.bottomBars.minimap.isVisibleLine = false;
+				}
 			}
 		}
 

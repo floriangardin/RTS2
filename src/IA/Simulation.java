@@ -24,7 +24,7 @@ import units.UnitSpearman;
 import units.UnitsList;
 public class Simulation {
 
-	public boolean render= true;
+	public boolean render= false;
 
 	public Vector<Vector<Character>> armies;
 	public JPanel panel;
@@ -282,8 +282,8 @@ public class Simulation {
 
 		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f-150f, sizeY/2f-150f);
 		this.armies.get(1).add(c);
-		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f+150f, sizeY/2f+150f);
-		this.armies.get(1).add(c);
+//		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f+150f, sizeY/2f+150f);
+//		this.armies.get(1).add(c);
 
 	}
 

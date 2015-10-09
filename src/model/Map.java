@@ -1,5 +1,6 @@
 package model;
 
+import IA.IAUnit;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
 import buildings.BuildingHeadQuarters;
@@ -10,6 +11,7 @@ import buildings.BuildingUniversity;
 import nature.Water;
 import pathfinding.MapGrid;
 import units.UnitsList;
+import units.Character;
 
 public class Map {
 
@@ -106,7 +108,7 @@ public class Map {
 	}
 
 	public static void createMapEmpty(Game game){
-		initializePlateau(game, 400f, 500f);
+		initializePlateau(game, 800f, 600f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -116,16 +118,16 @@ public class Map {
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 		
-		for(int caca =0; caca<2; caca++)
-			data1.player.create(UnitsList.Inquisitor, X/9 + (float)Math.random(), Y/2+(float)Math.random());
+		data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
+		data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
 			
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
-		data2.player.create(UnitsList.Inquisitor, 8*X/9 - 1f, Y/2);
-
-
+		Character c= data2.player.create(UnitsList.Crossbowman, 7*X/9 - 1f, Y/2);
+		c.ia = new IAUnit(c,Utils.loadFloatMatrix("././IA/MicroSimulator/matrix_0007.txt"));
+		
 		// Player 2 side
 
 	}
@@ -173,7 +175,7 @@ public class Map {
 		
 		new BuildingAcademy(game.plateau,game,X/2,Y/2);
 
-		for(int caca =0; caca<200; caca++)
+		for(int caca =0; caca<20; caca++)
 			data1.player.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
@@ -189,7 +191,6 @@ public class Map {
 		new Water(13f*X/18,1f*Y/3,X/9,2f*Y/3,game.plateau);
 					
 		// Player 2 side
-
 	}
 
 	public static void createMapMicro(Game game){

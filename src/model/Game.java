@@ -314,7 +314,7 @@ public class Game extends BasicGame
 				ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 				this.plateau.update(ims);
 			}
-
+			
 		}
 
 	}
@@ -324,7 +324,7 @@ public class Game extends BasicGame
 		
 
 		if(host)
-			Map.createMapLan(this);
+			Map.createMapPhillipeMacro(this);
 		
 		//System.out.println(this.plateau.mapGrid);
 //			Map.createMapEmpty(this);

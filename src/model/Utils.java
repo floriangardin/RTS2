@@ -1,5 +1,10 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -21,6 +26,11 @@ public class Utils {
 
 	public static float distance(Objet a ,Objet b){
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
+
+	}
+	
+	public static float distance(float x1, float y1, float x2, float y2){
+		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 
 	}
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
@@ -290,5 +300,42 @@ public class Utils {
 		
 		return result;
 		
+	}
+
+	public static float[][] loadFloatMatrix(String path){
+		float[][] matrix = null;
+		Vector<float[]> buffer = new Vector<float[]>();
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(
+			        new InputStreamReader(new FileInputStream(path)));
+			String line;
+			String[] tab;
+			float[] tab1;
+		    while ((line = br.readLine()) != null) {
+		        tab = Utils.split(line, ' ');
+		        tab1 = new float[tab.length-1];
+		        for(int i=0; i<tab.length-1;i++){
+		        	tab1[i] =Float.parseFloat(tab[i]);
+		        }
+		        buffer.add(tab1);
+		    }
+		    matrix = new float[buffer.size()][buffer.get(0).length];
+		    for(int i=0; i<buffer.size();i++){
+		    	matrix[i] = buffer.get(i);
+		    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(br!=null){
+			try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return matrix;
 	}
 }

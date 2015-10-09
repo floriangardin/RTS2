@@ -1,5 +1,7 @@
 package display;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -20,6 +22,11 @@ public class MinimapInterface extends Bar {
 	public Game game;
 	public boolean toDraw;
 
+	
+	// Extra params __ Debug
+	public float x1,y1,x2,y2;
+	public boolean isVisibleLine, isPossibleLine;
+	Vector<Case> cases;
 
 	public MinimapInterface(BottomBar parent){
 		this.game = parent.p.g;
@@ -129,10 +136,30 @@ public class MinimapInterface extends Bar {
 				g.drawRect(roger.c.x*rw+startX, roger.c.y*rh+startY, roger.c.sizeX*rw, roger.c.sizeY*rh);
 			}
 		}
+		if(isVisibleLine){
+			if(isPossibleLine)
+				g.setColor(Color.green);
+			else
+				g.setColor(Color.red);
+			g.drawLine(startX+rw*x1, startY+rh*y1, startX+rw*x2, startY+rh*y2);
+			for(Case c: cases){
+				g.drawRect(startX+rw*c.x, startY+rh*c.y, rw*c.sizeX, rh*c.sizeY);
+			}
+		}
 		// Draw rect of camera 
 		g.setColor(Color.white);
 
 		g.drawRect(hlx,hly,brx-hlx,bry-hly );
 		return g;
+	}
+
+	public void createRandomLine(){
+		x1 = (float)(Math.random()*game.plateau.maxX);
+		x2 = (float)(Math.random()*game.plateau.maxX);
+		y1 = (float)(Math.random()*game.plateau.maxY);
+		y2 = (float)(Math.random()*game.plateau.maxY);
+		cases = game.plateau.mapGrid.isLineOk(x1, y1, x2, y2);
+		isPossibleLine = (cases.size()>0);
+		isVisibleLine = true;
 	}
 }

@@ -47,6 +47,7 @@ public abstract class ActionObjet extends Objet{
 	
 	}
 	public Vector<Case> computeWay(float xEnd, float yEnd){
+		
 		return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 	}
 
