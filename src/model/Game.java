@@ -240,6 +240,7 @@ public class Game extends BasicGame
 					this.plateau.currentString = outputs.lastElement();
 					outputs.clear();
 				}
+				this.plateau.update(ims);
 			} else {
 				if(inMultiplayer){
 					// host mode
