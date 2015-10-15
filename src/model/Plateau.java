@@ -94,7 +94,6 @@ public class Plateau {
 		this.g = g;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
-		this.nTeams = nTeams;
 		this.maxX= maxX;
 		this.maxY = maxY;
 		//CHARACTERS
@@ -529,6 +528,8 @@ public class Plateau {
 					// Handling the spell on the field
 					this.handleSpellsOnField(im, player);
 				}
+			} else {
+				System.out.println("player "+player+" : im null");
 			}
 		}
 
