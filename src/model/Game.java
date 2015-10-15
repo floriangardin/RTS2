@@ -244,8 +244,10 @@ public class Game extends BasicGame
 				ims.add(new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 				if(inMultiplayer){
 					// host mode
-					if(inputs.size()>0)
+					if(inputs.size()>0){
 						ims.add(this.inputs.lastElement());
+						inputs.clear();
+					}
 					this.plateau.update(ims);
 					this.toSendOutputs.add(this.plateau.currentString);
 				} else {
