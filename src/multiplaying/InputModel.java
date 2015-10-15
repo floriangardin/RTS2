@@ -1,8 +1,11 @@
 package multiplaying;
 
+import java.util.Vector;
+
 import org.newdawn.slick.Input;
 
 import display.BottomBar;
+import model.ActionObjet;
 import model.Game;
 import model.Utils;
 
@@ -43,6 +46,8 @@ public class InputModel extends MultiObjetModel{
 
 	public int xMouse;
 	public int yMouse;
+	
+	public Vector<Integer> selection;
 
 	public InputModel (Game g, int time, int team, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.team = team;
@@ -76,6 +81,10 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedA = input.isKeyDown(Input.KEY_A);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 
+		selection = new Vector<Integer>();
+		for(ActionObjet c: g.plateau.selection.get(g.currentPlayer))
+			selection.add(c.id);
+		
 		// Only for current player at the creation of the input
 		BottomBar bb = g.players.get(g.currentPlayer).bottomBar;
 		float relativeXMouse = input.getAbsoluteMouseX();
