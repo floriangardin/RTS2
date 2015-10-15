@@ -523,7 +523,7 @@ public class Plateau {
 						this.handleSelection(im, player);
 					}
 				} else {
-//					this.updateSelection();;
+					this.updateSelection(im);
 				}
 				if(g.host){
 					// Handling the spell on the field
@@ -565,6 +565,11 @@ public class Plateau {
 		//			this.messages.get(player).remove(m);
 	}
 
+
+	private void updateSelection(InputModel im) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private void handleRightClick(InputModel im, int player) {
 		if(im.isPressedRightClick){
