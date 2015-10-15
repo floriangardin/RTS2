@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
@@ -12,14 +13,17 @@ import pathfinding.Case;
 
 
 public abstract class ActionObjet extends Objet{
-	public int id;
 	public float maxLifePoints;
+	public int animation = 0;
 	public float vx;
 	public float vy;
 	public Objet target;
 	public Checkpoint checkpointTarget;
 
+	
+	//CHANGED BOOLEAN
 
+	
 	public void destroy(){
 		this.lifePoints = -10;
 		this.target = null;
@@ -58,5 +62,26 @@ public abstract class ActionObjet extends Objet{
 		}
 	}
 
+	public String toString2(){
+		String s = toString1();
+		if(changes.maxLifePoints){
+			s+="maxLifePoints:"+maxLifePoints+";";
+			changes.maxLifePoints = false;
+		}
+		if(changes.orientation){
+			s+="orientation:"+orientation+";";
+			changes.orientation = false;
+		}
+		return s;
+	}
+	
+	public void parse2(HashMap<String,String> hs){
 
+		if(hs.containsKey("maxLifePoints")){
+			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));
+		}
+		if(hs.containsKey("orientation")){
+			this.orientation=Integer.parseInt(hs.get("orientation"));
+		}
+	}
 }

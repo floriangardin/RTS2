@@ -1,6 +1,7 @@
 package units;
 
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -43,7 +44,7 @@ public class Character extends ActionObjet{
 	public boolean moveAhead;
 	public float state;
 	public float chargeTime;
-	public boolean canAttack;
+	
 	// Group attributes
 	public Character leader;
 	public Vector<Character> group;
@@ -55,7 +56,8 @@ public class Character extends ActionObjet{
 	public Player player;
 	// About drawing
 	public float animationValue=0f;
-	public int animation = 0;
+	
+	
 	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
 	// Spells ( what should appear in the bottom bar
@@ -67,11 +69,8 @@ public class Character extends ActionObjet{
 	// Special Abilities
 	public boolean isImmolating = false;
 	public float remainingTime;
-
 	// UnitsList associated
 	public UnitsList type;
-
-
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Case> waypoints = new Vector<Case>();
 
@@ -268,10 +267,10 @@ public class Character extends ActionObjet{
 			return;
 		}
 		if(this.ia==null){
-			// IA scriptée
+			// IA scriptï¿½e
 			this.actionIAScript();
 		} else {
-			// IA spécifique
+			// IA spï¿½cifique
 			Vector<Character> enemies = new Vector<Character>();
 			for(Character c: this.p.characters)
 				if(c.team!=this.team)
@@ -280,7 +279,7 @@ public class Character extends ActionObjet{
 			this.updateSetTarget();
 			Circle range = new Circle(this.getX(), this.getY(), this.range);
 			if(!(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox)))){
-				if(this.canAttack && this.target!=null && this.target instanceof Character){
+				if(state>=chargeTime && this.target!=null && this.target instanceof Character){
 					this.useWeapon();
 				}
 			}
@@ -690,7 +689,6 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 
-
 	//// UPDATE FUNCTIONS
 
 	// update from an outputchar
@@ -772,7 +770,7 @@ public class Character extends ActionObjet{
 			}
 		}else{
 			this.stop();
-			if(this.canAttack && this.target!=null && this.target instanceof Character){
+			if(state>=chargeTime && this.target!=null && this.target instanceof Character){
 				this.useWeapon();
 			}
 		}
@@ -782,12 +780,7 @@ public class Character extends ActionObjet{
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
 		if(this.state<=this.chargeTime)
 			this.state+= 0.1f;
-		if(this.state>=this.chargeTime){
-			this.canAttack = true;
-		}
-		else{
-			this.canAttack=false;
-		}
+		
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
@@ -845,5 +838,78 @@ public class Character extends ActionObjet{
 
 	}
 
+	public String toString(){
+		String s ="" ;
+		s+=toString1();
+		s+= toString2();
+		if(changes.weapon){
+			s+="weapon:"+weapon+";";
+			changes.weapon = false;
+		}
+		if(changes.chargeTime){
+			s+="chargeTime:"+chargeTime+";";
+			changes.chargeTime = false;
+		}
+		if(changes.state){
+			s+="state:"+state+";";
+			changes.state = false;
+		}
+	
+		for(Boolean b : changes.spellState){
+			s+="spellState:";
+			if(b){
+				s+=this.spellsState+",";
+				b=false;
+			}
+			s=s.substring(0, s.length()-1);
+			s+=";";
+		}
+		if(changes.animation){
+			s+="animation:"+animation+";";
+			changes.animation=false;
+		}
+		if(changes.isImmolating){
+			s+="isImmolating:"+isImmolating+";";
+			changes.isImmolating = false;
+		}
+		if(changes.remainingTime){
+			s+="remainingTime:"+remainingTime+";";
+			changes.remainingTime = false;
+		}
+		return s;
+	}
+	
+	
+	
+	public void parse3(HashMap<String,String> hs){
+
+		if(hs.containsKey("weapon")){
+			this.weapon=hs.get("weapon");
+		}
+		if(hs.containsKey("chargeTime")){
+			this.chargeTime=Float.parseFloat(hs.get("chargeTime"));
+		}
+		if(hs.containsKey("state")){
+			this.state=Float.parseFloat(hs.get("state"));
+		}
+		if(hs.containsKey("spellState")){
+			String[] r = hs.get("spellState").split(",");
+			for(int i = 0;i<r.length;i++){
+				this.spellsState.set(i,Float.parseFloat(r[i]));
+			}
+			
+		}
+		//TODO tout
+	}
+	
+	public void parse(String s){
+		//SEPARATION BETWEEN KEYS
+		HashMap<String,String> hs = preParse(s);
+		this.parse1(hs);
+		this.parse2(hs);
+		this.parse3(hs);
+		
+	}
+	
 }
 

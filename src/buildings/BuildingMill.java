@@ -25,7 +25,7 @@ public class BuildingMill extends BuildingTech{
 
 		this.x = x;
 		this.y = y;
-		this.animation = -1f;
+		
 		this.p =p;
 		this.g =g;
 		this.id = p.g.idChar;
@@ -61,7 +61,7 @@ public class BuildingMill extends BuildingTech{
 		if(this.team!=0)
 			this.animation+=2f;
 		if(animation>120f)
-			animation = 0f;
+			
 		
 		if(state >= chargeTime && team!=0){
 			this.p.g.players.get(team).food+=2+this.p.g.players.get(team).data.bonusFood;
@@ -77,7 +77,7 @@ public class BuildingMill extends BuildingTech{
 			}
 			this.animation+=2f;
 			if(animation>120f)
-				animation = 0f;
+				
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
@@ -86,7 +86,7 @@ public class BuildingMill extends BuildingTech{
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
-			this.animation = -1f;
+			
 		}
 
 	}

@@ -177,7 +177,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 			}
 			this.animation+=2f;
 			if(animation>120f)
-				animation = 0f;
+				animation = 0;
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
@@ -186,7 +186,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
-			this.animation = -1f;
+			this.animation = 0;
 		}
 
 

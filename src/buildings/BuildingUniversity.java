@@ -15,7 +15,7 @@ public class BuildingUniversity extends BuildingTech {
 
 
 	
-	boolean isProducing;
+
 	
 	public Player player;
 	
@@ -81,8 +81,6 @@ public class BuildingUniversity extends BuildingTech {
 		}
 	}
 
-
-
 	public void product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
 			if(this.productionList.get(unit).tech.foodPrice<=this.p.g.players.get(team).food
@@ -93,28 +91,15 @@ public class BuildingUniversity extends BuildingTech {
 			}
 		}
 	}
+	
 	public void action(){
-
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue!=null){
-			if(!this.isProducing){
-				this.isProducing = true;
-			}
-			this.animation+=2f;
-			if(animation>120f)
-				animation = 0f;
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 			}
 		}
-		else if(this.isProducing){
-			this.isProducing = false;
-			this.animation = -1f;
-		}
-
-
-	}
-	
+	}	
 }

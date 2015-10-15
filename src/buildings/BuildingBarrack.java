@@ -16,7 +16,7 @@ public class BuildingBarrack extends BuildingProduction{
 
 	public BuildingBarrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
-		this.animation=-1f;
+		//this.animation=-1f;
 		team = 0;
 		this.p = plateau ;
 		maxLifePoints = p.g.players.get(team).data.barrackLifePoints;

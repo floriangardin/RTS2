@@ -1,4 +1,5 @@
 package model;
+import java.util.HashMap;
 import java.util.Vector;
 
 import buildings.BuildingHeadQuarters;
@@ -13,6 +14,7 @@ public class Player {
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
 	public Plateau p;
+	
 	public int team;
 	public int groupSelection;
 	public int ennemiesKilled;
@@ -46,5 +48,38 @@ public class Player {
 	public Character create(UnitsList u,float x , float y){
 		Character c = this.data.create(u,x,y);
 		return c;
+	}
+	
+	public String toString(){
+		String s ="";
+		s+="team"+team+";";
+		s+="gold:"+gold+";";
+		s+="food"+food+";";
+		s+="special"+special+";";
+		return s;
+		
+	}
+	
+	public void parsePlayer(String s){
+
+		//SEPARATION BETWEEN KEYS
+		String[] u = s.split(";");
+		HashMap<String,String> hs = new HashMap<String,String>();
+		for(int i=0;i<u.length;i++){
+			String[] r = u[i].split(":");
+			hs.put(r[0], r[1]);
+		}
+		if(hs.containsKey("food")){
+			food=Integer.parseInt(hs.get("food"));
+		}
+		if(hs.containsKey("gold")){
+			gold=Integer.parseInt(hs.get("gold"));
+		}
+		if(hs.containsKey("special")){
+			special=Integer.parseInt(hs.get("special"));
+		}
+		if(hs.containsKey("team")){
+			team=Integer.parseInt(hs.get("team"));
+		}
 	}
 }
