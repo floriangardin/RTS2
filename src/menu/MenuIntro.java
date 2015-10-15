@@ -135,6 +135,7 @@ public class MenuIntro extends Menu {
 				if(this.game.connexions.size()>0){
 					game.inMultiplayer = true;
 					callItem(0);
+					multiplaying = false;
 				}
 			} else {
 				if(this.game.connexions.size()>0){
@@ -142,6 +143,7 @@ public class MenuIntro extends Menu {
 					game.inMultiplayer = true;
 					game.currentPlayer = 2;
 					callItem(0);
+					multiplaying = false;
 				}
 			}
 		}else if(!toGame){
