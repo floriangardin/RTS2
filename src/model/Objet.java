@@ -72,6 +72,8 @@ public abstract class Objet {
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		this.c = this.p.mapGrid.getCase(x, y);
+		this.changes.x=true;
+		this.changes.y = true;
 	}
 	
 	public boolean isAlive(){

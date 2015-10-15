@@ -988,6 +988,7 @@ public class Plateau {
 			else{
 				//CREATE NEW CHARACTER
 				//TODO
+				Character.createNewCharacter(hs, g);
 			}
 		}
 	}
