@@ -921,5 +921,11 @@ public class Character extends ActionObjet{
 		
 	}
 	
+	public static void createNewCharacter(HashMap<String,String> hs){
+		switch(hs.get("name")){
+		
+		}
+	}
+	
 }
 
