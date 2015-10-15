@@ -568,10 +568,10 @@ public class Plateau {
 
 
 	private void updateSelection(InputModel im) {
+		System.out.println(im);
 		this.selection.get(im.team).clear();
 
 		for(Integer i : im.selection){
-			System.out.println(i);
 			for(Character c: this.characters)
 				if(c.id == i)
 					this.selection.get(im.team).add(c);
