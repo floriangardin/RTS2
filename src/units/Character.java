@@ -291,6 +291,7 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
+		
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
