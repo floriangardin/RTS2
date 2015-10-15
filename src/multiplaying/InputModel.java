@@ -158,7 +158,7 @@ public class InputModel extends MultiObjetModel{
 				sel = vaneau[i].split(",");
 			}
 		}
-		for(int i=0; i<sel.length;i++){
+		for(int i=0; i<sel.length-1;i++){
 			this.selection.addElement(Integer.parseInt(sel[i]));
 		}
 	}
