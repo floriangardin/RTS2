@@ -922,10 +922,7 @@ public class Plateau {
 		this.messages.get(team).add(0, m);
 	}
 
-	
-	
 	//MULTIPLAYING
-	
 	
 	public String toString(){
 		//PLAYERS
