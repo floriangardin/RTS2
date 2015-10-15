@@ -94,6 +94,7 @@ public class Plateau {
 		this.g = g;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
+		this.nTeams = nTeams;
 		this.maxX= maxX;
 		this.maxY = maxY;
 		//CHARACTERS
