@@ -311,7 +311,7 @@ public class Game extends BasicGame
 		outputSender = new MultiSender(addressClient, portOutput, this.toSendOutputs);
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		//TODO: upgrading multiplaying
-		connexionSender = new MultiSender(host ? addressClient : addressHost, portOutput, this.toSendConnexions);
+		connexionSender = new MultiSender(host ? addressClient : addressHost, portConnexion, this.toSendConnexions);
 
 	}
 }
