@@ -70,7 +70,7 @@ public class Game extends BasicGame
 
 	// Network and multiplaying
 	public boolean inMultiplayer;
-	public boolean host = true;
+	public boolean host = false;
 	public long startTime;
 	public int portConnexion = 6113;
 	public int portInput = 6114;
