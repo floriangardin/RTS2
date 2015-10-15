@@ -111,10 +111,11 @@ public class InputModel extends MultiObjetModel{
 		String[] vaneau = Utils.split(im, ' ');
 		int intBuffer = 0;
 		boolean boolBuffer = false;
+		String[] sel = new String[0];;
 		for(int i=0; i<vaneau.length; i++){
 			if(i<8){
 				intBuffer = Integer.parseInt(vaneau[i]);
-			} else {
+			} else if(i<8) {
 				boolBuffer = (vaneau[i].equals("true"));
 			}
 			switch(i){
@@ -141,9 +142,23 @@ public class InputModel extends MultiObjetModel{
 			case 20: this.isPressedProd1 = boolBuffer;break;
 			case 21: this.isPressedProd2 = boolBuffer;break;
 			case 22: this.isPressedProd3 = boolBuffer; break;
-			default:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
+			case 30:
+			case 31:
+			case 32:
 				this.isPressedNumPad[i-23] = boolBuffer;break;
+			case 33:
+				sel = vaneau[i].split(",");
 			}
+		}
+		for(int i=0; i<sel.length;i++){
+			this.selection.addElement(i);
 		}
 	}
 
@@ -155,6 +170,9 @@ public class InputModel extends MultiObjetModel{
 		for(int i=0; i<10;i++){
 			s+= " " + this.isPressedNumPad[i];
 		}
+		s+=" ";
+		for(Integer i : selection)
+			s+=i+",";
 		return s;
 	}
 
