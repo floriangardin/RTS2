@@ -124,7 +124,9 @@ public abstract class Objet {
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
-			String[] r = u[i].split(":");
+			String[] r = u[i].split("\\:");
+			System.out.println("r0 r1");
+			System.out.println("r0 "+r[0]+" r1: "+r[1]);
 			hs.put(r[0], r[1]);
 		}
 		return hs;

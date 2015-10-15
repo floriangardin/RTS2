@@ -160,6 +160,8 @@ public class Character extends ActionObjet{
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY());
 		this.c = this.p.mapGrid.getCase(x, y);
+		this.changes.x=true;
+		this.changes.y = true;
 	}
 	public void setVXVY(float vx, float vy){
 		this.vx = vx;

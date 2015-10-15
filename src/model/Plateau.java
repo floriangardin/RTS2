@@ -1002,12 +1002,13 @@ public class Plateau {
 
 	public void parseCharacter(String s){
 		//SPLIT SELON |
-		String[] u = s.split("|");
+		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
 
 		for(int i =0;i<u.length;i++){
 			//FIND CONCERNED CHARACTER
+			
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
 			for(Character c : this.characters){
