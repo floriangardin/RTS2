@@ -52,14 +52,13 @@ public class Player {
 	
 	public String toString(){
 		String s ="";
-		s+="team"+team+";";
+		s+="team:"+team+";";
 		s+="gold:"+gold+";";
-		s+="food"+food+";";
-		s+="special"+special+";";
+		s+="food:"+food+";";
+		s+="special:"+special+";";
 		return s;
 		
 	}
-	
 	public void parsePlayer(String s){
 
 		//SEPARATION BETWEEN KEYS

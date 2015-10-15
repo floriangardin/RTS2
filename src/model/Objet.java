@@ -85,7 +85,7 @@ public abstract class Objet {
 		String s="";
 		s+="id:"+id+";";
 		if(changes.team){
-			s+="team"+team+";";
+			s+="team:"+team+";";
 			changes.team = false;
 		}
 		if(changes.x){

@@ -968,6 +968,9 @@ public class Plateau {
 
 		//Take care of player
 		this.g.players.get(g.currentPlayer).parsePlayer(u[0]);
+		System.out.println("u0 et u1");
+		System.out.println(u[0]);
+		System.out.println(u[1]);
 		parseCharacter(u[1]);
 		parseBuilding(u[2]);
 		parseBullet(u[3]);
