@@ -514,7 +514,7 @@ public class Plateau {
 					// Handling action bar
 					this.handleActionBar(im,player);
 					// Handling the right click
-					this.handleRightClick(im, player);
+					this.handleRightClick(im,player);
 					// handling only the current player
 				}
 				if(player == this.g.currentPlayer){
@@ -568,7 +568,9 @@ public class Plateau {
 
 	private void updateSelection(InputModel im) {
 		this.selection.get(im.team).clear();
+
 		for(Integer i : im.selection){
+			System.out.println(i);
 			for(Character c: this.characters)
 				if(c.id == i)
 					this.selection.get(im.team).add(c);
@@ -576,6 +578,7 @@ public class Plateau {
 				if(c.id == i)
 					this.selection.get(im.team).add(c);
 		}
+
 	}
 
 	private void handleRightClick(InputModel im, int player) {
@@ -980,17 +983,17 @@ public class Plateau {
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET
 		if(s!=null && s!=""){
-		System.out.println("parse");
-		System.out.println(s);
-		String[] u = s.split(" separation ");
-		System.out.println("u1 et u2");
-		System.out.println(u[1]);
-		System.out.println(u[2]);
-		//Take care of player
-		this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
-		parseCharacter(u[2]);
-		parseBuilding(u[3]);
-		parseBullet(u[4]);
+			System.out.println("parse");
+			System.out.println(s);
+			String[] u = s.split(" separation ");
+			System.out.println("u1 et u2");
+			System.out.println(u[1]);
+			System.out.println(u[2]);
+			//Take care of player
+			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
+			parseCharacter(u[2]);
+			parseBuilding(u[3]);
+			parseBullet(u[4]);
 		}
 	}
 
@@ -1008,7 +1011,7 @@ public class Plateau {
 
 		for(int i =0;i<u.length;i++){
 			//FIND CONCERNED CHARACTER
-			
+
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
 			for(Character c : this.characters){

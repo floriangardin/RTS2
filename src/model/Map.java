@@ -125,8 +125,7 @@ public class Map {
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
-		Character c= data2.player.create(UnitsList.Crossbowman, 7*X/9 - 1f, Y/2);
-		//c.ia = new IAUnit(c,Utils.loadFloatMatrix("././IA/MicroSimulator/matrix_0007.txt"));
+		data2.player.create(UnitsList.Spearman, 7*X/9 - 1f, Y/2);
 		
 		// Player 2 side
 
