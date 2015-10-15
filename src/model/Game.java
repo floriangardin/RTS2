@@ -247,6 +247,7 @@ public class Game extends BasicGame
 					if(inputs.size()>0){
 						ims.add(this.inputs.lastElement());
 						inputs.clear();
+						System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
 					this.toSendOutputs.add(this.plateau.currentString);

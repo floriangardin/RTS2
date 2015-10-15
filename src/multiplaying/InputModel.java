@@ -116,7 +116,7 @@ public class InputModel extends MultiObjetModel{
 		for(int i=0; i<vaneau.length; i++){
 			if(i<8){
 				intBuffer = Integer.parseInt(vaneau[i]);
-			} else if(i<8) {
+			} else if(i<33) {
 				boolBuffer = (vaneau[i].equals("true"));
 			}
 			switch(i){
