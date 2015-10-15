@@ -37,9 +37,8 @@ public abstract class BuildingProduction extends BuildingAction {
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
-			this.animation+=2f;
-			if(animation>120f)
-				animation = 0f;
+
+			
 			this.charge+=0.1f;
 			if(this.charge>=this.productionTime.get(this.queue.get(0))){
 				this.charge=0f;
@@ -54,13 +53,13 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;
-					this.animation = -1f;
+					
 				}
 			}
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
-			this.animation = -1f;
+		
 		}
 		// if reach production reset and create first unit in the queue
 
@@ -93,7 +92,27 @@ public abstract class BuildingProduction extends BuildingAction {
 		}
 
 	}
-
-
-
+	
+	public String toString(){
+		String s = toString1()+toString2()+toString3();
+		if(changes.queue){
+			s+="queue:";
+			for(int c : this.queue){
+				s+=c+",";
+			}
+			s=s.substring(0, s.length()-1);
+			s+=";";
+			changes.queue=false;
+		}
+		if(changes.productionTime){
+			s+="productionTime:";
+			for(float c : this.productionTime){
+				s+=c+",";
+			}
+			s=s.substring(0, s.length()-1);
+			s+=";";
+			changes.productionTime=false;
+		}
+		return s;
+	}
 }

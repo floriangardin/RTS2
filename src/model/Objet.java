@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,12 +15,12 @@ import units.Character;
 public abstract class Objet {
 	
 	// Animation : mode,orientation,increment
+	public int id;
 	public Image[][][] animations;
 	public int mode;
 	public int orientation;
 	public int increment;
 	public float incrementf;
-	
 	public Image selection_circle;
 	public Sound sound;
 	public float x;
@@ -32,8 +34,10 @@ public abstract class Objet {
 	public String name;
 	public int team;
 	public boolean visibleByCurrentPlayer;
-	
 	public Image image;
+	
+	//MULTIPLAYING BOOLEANS
+	public Changes changes;
 	
 	public void setName(String s){
 		this.name = s;
@@ -69,5 +73,70 @@ public abstract class Objet {
 		return this.lifePoints>0f;
 	}
 
+	// TOSTRING METHODS
+	public String toString1(){
+		String s="";
+		s+="id:"+id+";";
+		if(changes.team){
+			s+="team"+team+";";
+			changes.team = false;
+		}
+		if(changes.x){
+			s+="x:"+x+";";
+			changes.x = false;
+		}
+		if(changes.y){
+			s+="y:"+y+";";
+			changes.y = false;
+		}
+		if(changes.lifePoints){
+			s+="lifePoints:"+lifePoints+";";
+			changes.lifePoints = false;
+		}
+		if(changes.sight){
+			s+="lifePoints:"+lifePoints+";";
+			changes.sight = false;
+		}
+		if(changes.toCreate){
+			s+="create:1;";
+			s+="name:"+name+";";
+			changes.toCreate = false;
+		}
+		if(changes.toDestroy){
+			s+="destroy:1;";
+			changes.toDestroy = false;
+		}
+		return s;
+	}
+	
+	public String toString(){
+		return this.toString1();
+	}
+	
+	
+	public HashMap<String,String> preParse(String s){
+		String[] u = s.split(";");
+		HashMap<String,String> hs = new HashMap<String,String>();
+		for(int i=0;i<u.length;i++){
+			String[] r = u[i].split(":");
+			hs.put(r[0], r[1]);
+		}
+		return hs;
+	}
+	public void parse1(HashMap<String,String> hs){
+
+		if(hs.containsKey("x")){
+			this.setXY(Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y")));
+		}
+		if(hs.containsKey("lifePoints")){
+			this.lifePoints=Float.parseFloat(hs.get("lifePoints"));
+		}
+		if(hs.containsKey("sight")){
+			this.sight=Float.parseFloat(hs.get("sight"));
+		}
+		if(hs.containsKey("toDestroy")){
+			this.destroy();
+		}
+	}
 }
 

@@ -71,7 +71,7 @@ public abstract class BuildingTech extends BuildingAction {
 		q.applyEffect();
 		this.queue=null;
 		this.isProducing =false;
-		this.animation = -1f;
+		
 		this.updateProductionList();
 	}
 	
@@ -79,5 +79,15 @@ public abstract class BuildingTech extends BuildingAction {
 		if(productionList.contains(queue))
 			return productionList.indexOf(queue);
 		return -1;
+	}
+	
+	
+	public String toString(){
+		String s = toString1()+toString2()+toString3();
+		if(changes.queue){
+			s+="queue:"+this.queue.id+";";
+			changes.queue=false;
+		}
+		return s;
 	}
 }

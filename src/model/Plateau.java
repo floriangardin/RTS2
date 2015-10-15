@@ -1,6 +1,7 @@
 package model;
 //TODO
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import multiplaying.InputModel;
@@ -45,6 +46,7 @@ public class Plateau {
 	// fog of war
 	public Image fog;
 	public Graphics gf;
+
 
 
 	// ADD ALL OBJETS 
@@ -1187,6 +1189,63 @@ public class Plateau {
 			return;
 		this.messages.get(team).add(0, m);
 	}
+	
+	public String toString(){
+		//PLAYERS
+		String s = " separation ";
+		s+=this.g.players.get(3-this.g.currentPlayer);
+		//CHARACTER
+		s += " separation ";
+		for(Character c : this.characters){
+			s+=c;
+			s+="|";
+		}
+		//BUILDING
+		s+=" separation ";
+		for(Building b : this.buildings){
+			s+=b;
+			s+="|";
+		}
+		//BULLETS
+		s+=" separation ";
+		for(Bullet b : this.bullets){
+			s+=b;
+			s+="|";
+		}
+		return s;
+	}
+	
+	public void parse(String s){
+		//APPLY ACTION ON ALL CONCERNED OBJECTS
+		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET
+		String[] u = s.split(" separation ");
+		
+		//Take care of player
+		this.g.players.get(g.currentPlayer).parsePlayer(u[0]);
+		parseCharacter(u[1]);
+		parseBuilding(u[2]);
+		parseBullet(u[3]);
+	}
+	
+
+	
+	public void parseBuilding(String s){
+		
+	}
+	
+	public void parseCharacter(String s){
+		//SPLIT SELON |
+		String[] u = s.split("|");
+		// LOOP OVER EACH CHARACTER
+		for(int i =0;i<u.length;i++){
+			
+		}
+	}
+	public void parseBullet(String s){
+		
+	}
+	
+
 
 }
 

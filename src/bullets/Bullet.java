@@ -25,4 +25,8 @@ public abstract class Bullet extends ActionObjet {
 		
 	}
 
+	public String toString(){
+		String s = toString1()+toString2();
+		return s;
+	}
 }

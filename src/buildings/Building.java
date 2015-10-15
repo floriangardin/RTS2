@@ -19,9 +19,8 @@ public class Building extends ActionObjet{
 	public float sizeX;
 	public float sizeY;
 	public int teamCapturing;
-	public float maxLifePoints;
 	public float constructionPoints;
-	public float animation;
+	
 	public int potentialTeam;
 	public int type;
 	public Objet rallyPoint;
@@ -103,7 +102,7 @@ public class Building extends ActionObjet{
 		this.team = ocb.team;	
 		this.maxLifePoints = ocb.maxlifepoints;
 		this.constructionPoints = ocb.constrpoints;
-		this.animation = ocb.animation;
+		//this.animation = ocb.animation;
 		this.sight = ocb.sight;
 		if(ocb.team==2){
 			if(this instanceof BuildingProduction){
@@ -243,6 +242,47 @@ public class Building extends ActionObjet{
 	
 	public void drawAnimation(Graphics g){
 		
+	}
+	
+	
+	public String toString3(){
+		String s = toString1();
+		s+=toString2();
+		
+		if(changes.sizeX){
+			s+="sizeX:"+sizeX+";";
+			changes.sizeX = false;
+		}
+		if(changes.sizeY){
+			s+="sizeY:"+sizeY+";";
+			changes.sizeY = false;
+		}
+		if(changes.potentialTeam){
+			s+="potentialTeam:"+potentialTeam+";";
+			changes.potentialTeam = false;
+		}
+		if(changes.constructionPoints){
+			s+="constructionPoints:"+constructionPoints+";";
+			changes.constructionPoints= false;
+		}
+		if(changes.rallyPoint){
+			if(this.rallyPoint!=null){
+				s+="rallyPointX:"+this.rallyPoint.x+";";
+				s+="rallyPointY:"+this.rallyPoint.y+";";
+			}
+			changes.rallyPoint = false;
+
+		}
+		if(changes.sizeX){
+			s+="sizeX:"+sizeX+";";
+			changes.sizeX = false;
+		}
+		return s;
+	}
+	
+	public String toString(){
+		String s = toString1()+toString2()+toString3();
+		return s;
 	}
 
 

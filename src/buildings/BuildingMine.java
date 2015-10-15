@@ -55,10 +55,7 @@ public class BuildingMine extends BuildingTech{
 	
 	public void action(){
 		this.state+=0.1f;
-		if(this.team!=0)
-			this.animation+=2f;
-		if(animation>120f)
-			animation = 0f;
+
 		
 		if(state >= chargeTime && team!=0){
 			this.p.g.players.get(team).gold+=1+this.p.g.players.get(team).data.bonusGold;
@@ -74,7 +71,7 @@ public class BuildingMine extends BuildingTech{
 			}
 			this.animation+=2f;
 			if(animation>120f)
-				animation = 0f;
+				
 			this.charge+=0.1f;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
@@ -83,7 +80,7 @@ public class BuildingMine extends BuildingTech{
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
-			this.animation = -1f;
+			
 		}
 
 		
