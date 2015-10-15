@@ -567,8 +567,15 @@ public class Plateau {
 
 
 	private void updateSelection(InputModel im) {
-		// TODO Auto-generated method stub
-		
+		this.selection.get(im.team).clear();
+		for(Integer i : im.selection){
+			for(Character c: this.characters)
+				if(c.id == i)
+					this.selection.get(im.team).add(c);
+			for(Building c: this.buildings)
+				if(c.id == i)
+					this.selection.get(im.team).add(c);
+		}
 	}
 
 	private void handleRightClick(InputModel im, int player) {
