@@ -58,8 +58,6 @@ public class Character extends ActionObjet{
 	// About drawing
 	public float animationValue=0f;
 
-
-	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
 	// Spells ( what should appear in the bottom bar
 	public Vector<Spell> spells = new Vector<Spell>();
@@ -893,8 +891,6 @@ public class Character extends ActionObjet{
 		}
 		return s;
 	}
-
-
 
 	public void parse3(HashMap<String,String> hs){
 
