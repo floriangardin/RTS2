@@ -1,5 +1,6 @@
 package model;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.Vector;
 
@@ -19,19 +20,12 @@ import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
 import display.TopBar;
-import main.Main;
 import menu.Menu;
 import menu.MenuIntro;
-import multiplaying.ConnectionModel;
-import multiplaying.ConnectionModel.ConnectionObjet;
-import multiplaying.ConnectionModel.ConnectionTree;
-import multiplaying.ConnectionModel.ConnectionWater;
 import multiplaying.InputModel;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
 import multiplaying.OutputModel;
-import nature.Tree;
-import nature.Water;
 import spells.SpellEffect;
 import units.Character;
 
@@ -76,12 +70,15 @@ public class Game extends BasicGame
 
 	// Network and multiplaying
 	public boolean inMultiplayer;
+	public boolean host = true;
 	public long startTime;
 	public int portConnexion = 6113;
 	public int portInput = 6114;
 	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
+	private String addressHostString = "192.168.1.27";
+	private String addressClientString = "192.168.1.31";
 	public InetAddress addressHost;
 	public InetAddress addressClient;
 	public Vector<InputModel> inputs = new Vector<InputModel>();
@@ -94,11 +91,11 @@ public class Game extends BasicGame
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public int timeValue;
 	// Sender and Receiver
-	public MultiReceiver inputReceiver = new MultiReceiver(this,portInput);
-	public MultiSender inputSender = new MultiSender(this.app,this,addressHost,portInput,this.toSendInputs);
-	public MultiReceiver outputReceiver = new MultiReceiver(this,portOutput);
-	public MultiSender outputSender = new MultiSender(this.app,this,addressClient, portOutput, this.toSendOutputs);
-	public MultiReceiver connexionReceiver = new MultiReceiver(this,portConnexion);
+	public MultiReceiver inputReceiver;
+	public MultiSender inputSender;
+	public MultiReceiver outputReceiver;
+	public MultiSender outputSender;
+	public MultiReceiver connexionReceiver;
 	public MultiSender connexionSender;
 	public boolean isHost;
 	//Debugging network
@@ -198,10 +195,10 @@ public class Game extends BasicGame
 		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
-			if(this.plateau.rectangleSelection.get(player) !=null){
+			if(this.plateau.rectangleSelection !=null){
 				if(player==currentPlayer){
 					g.setColor(Color.green);
-					g.draw(this.plateau.rectangleSelection.get(player));
+					g.draw(this.plateau.rectangleSelection);
 				}
 			}
 		}
@@ -227,15 +224,23 @@ public class Game extends BasicGame
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
-		InputModel im=null;
 		Vector<InputModel> ims = new Vector<InputModel>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
-			this.plateau.update(ims);
+			if(!host){
+				InputModel im = new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+				this.toSendInputs.addElement(im.toString());
+			} else {
+				if(inMultiplayer){
+					if(inputs.size()>0)
+						ims.add(this.inputs.lastElement());
+				}
+				ims.add(new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+				this.plateau.update(ims);
+			}
 		}
 	}
 
@@ -254,6 +259,7 @@ public class Game extends BasicGame
 		this.bottomBars = this.players.get(currentPlayer).bottomBar;
 		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;
+
 	}
 
 	@Override
@@ -270,6 +276,15 @@ public class Game extends BasicGame
 
 		this.menuIntro = new MenuIntro(this);
 		this.setMenu(menuIntro);
+		this.connexionReceiver.start();
+		this.connexionSender.start();
+		if(!host){
+			this.outputReceiver.start();
+			this.inputSender.start();
+		} else{
+			this.outputSender.start();
+			this.inputReceiver.start();
+		}
 	}
 
 
@@ -278,6 +293,19 @@ public class Game extends BasicGame
 		this.resX = resX;
 		this.resY = resY;
 		this.images = new Images(false);
+		try {
+			addressHost = InetAddress.getByName(addressHostString);
+			addressClient = InetAddress.getByName(addressClientString);
+		} catch (UnknownHostException e) {
+			System.out.println("unknown address");
+		}
+		inputReceiver = new MultiReceiver(this,portInput);
+		inputSender = new MultiSender(addressHost,portInput,this.toSendInputs);
+		outputReceiver = new MultiReceiver(this,portOutput);
+		outputSender = new MultiSender(addressClient, portOutput, this.toSendOutputs);
+		connexionReceiver = new MultiReceiver(this,portConnexion);
+		//TODO: upgrading multiplaying
+		connexionSender = new MultiSender(host ? addressClient : addressHost, portOutput, this.toSendConnexions);
 
 	}
 }

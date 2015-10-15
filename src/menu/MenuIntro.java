@@ -34,6 +34,10 @@ public class MenuIntro extends Menu {
 	public Image optionsSelected;
 	public Image exitSelected;
 	public int selected = -1;
+	private boolean multiplaying;
+	
+	//TODO upgrading multiplayer
+	public int cooldown;
 
 	public MenuIntro(Game game){
 		try {
@@ -41,7 +45,6 @@ public class MenuIntro extends Menu {
 			this.music.setVolume(0.5f);
 			this.music.loop();
 		} catch (SlickException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		this.game = game;
@@ -66,21 +69,8 @@ public class MenuIntro extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
 
 		} catch (SlickException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-
-		float x1,x2,y1,y2;
-		float sizeX = this.game.resX;
-		float sizeY = this.game.resY;
-		//		for(int i=0; i<4; i++){
-		//			x1 = sizeX/18f+(float)Math.random()*2f*sizeX/9f;
-		//			x2 = 13f*sizeX/18f+(float)Math.random()*2f*sizeX/9f;
-		//			y1 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
-		//			y2 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
-		//			this.trees.add(new Tree(x1,y1,(int)(Math.random()*4f+1f)));
-		//			this.trees.add(new Tree(x2,y2,(int)(Math.random()*4f+1f)));
 		//		}
 		Utils.triY(trees);
 		try{
@@ -109,6 +99,9 @@ public class MenuIntro extends Menu {
 			this.toGame = true;
 			this.music.fade(300,0f, true);
 			break;
+		case 1:
+			this.multiplaying = true;
+			break;
 		case 3: 
 			this.game.app.exit();
 			break;
@@ -118,17 +111,40 @@ public class MenuIntro extends Menu {
 
 	public void draw(Graphics g){
 
-		
+		g.setColor(Color.black);
+		g.fillRect(0, 0, this.game.resX, this.game.resY);
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
 		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
 		g.setColor(Color.white);
-		
+		if(multiplaying)
+			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
 	}
 
 	public void update(Input i){
-		if(!toGame){
+		if(multiplaying){
+			if(i.isKeyPressed(Input.KEY_ESCAPE))
+				multiplaying = false;
+			if(this.game.host){
+				if(cooldown<=0){
+					this.game.toSendConnexions.addElement("mythe");
+					cooldown+=50;
+				}else
+					cooldown-=1;
+				if(this.game.connexions.size()>0){
+					game.inMultiplayer = true;
+					callItem(0);
+				}
+			} else {
+				if(this.game.connexions.size()>0){
+					this.game.toSendConnexions.addElement("mythe");
+					game.inMultiplayer = true;
+					game.currentPlayer = 2;
+					callItem(0);
+				}
+			}
+		}else if(!toGame){
 			if(i!=null){
 				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 					callItems(i);

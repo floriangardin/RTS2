@@ -15,17 +15,13 @@ public class MultiSender extends Thread{
 
 	InetAddress address;
 	int port;
-	GameContainer gc;
-	Game g;
 	Vector<String> depot;
 
 	// DEBUGGING
-	private boolean debug =false;
+	private boolean debug =true;
 	int sent = 0;
 	
-	public MultiSender(GameContainer gc, Game g, InetAddress address, int port, Vector<String> depot){
-		this.gc = gc;
-		this.g = g;
+	public MultiSender(InetAddress address, int port, Vector<String> depot){
 		this.depot = depot;
 		this.address = address;
 		this.port = port;

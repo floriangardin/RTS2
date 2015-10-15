@@ -33,7 +33,12 @@ public abstract class Objet {
 	public float lifePoints;
 	public String name;
 	public int team;
+	
+	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
+
+	public boolean visibleByCamera;
+
 	public Image image;
 	
 	//MULTIPLAYING BOOLEANS
