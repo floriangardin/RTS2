@@ -112,6 +112,7 @@ public class InputModel extends MultiObjetModel{
 		int intBuffer = 0;
 		boolean boolBuffer = false;
 		String[] sel = new String[0];;
+		selection = new Vector<Integer>();
 		for(int i=0; i<vaneau.length; i++){
 			if(i<8){
 				intBuffer = Integer.parseInt(vaneau[i]);
