@@ -957,8 +957,26 @@ public class Plateau {
 		//SPLIT SELON |
 		String[] u = s.split("|");
 		// LOOP OVER EACH CHARACTER
+		Character cha=null;
+		
 		for(int i =0;i<u.length;i++){
+			//FIND CONCERNED CHARACTER
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			for(Character c : this.characters){
+				if(c.id==idTest){
+					cha  = c;
+					break;
+				}
+			}
 			
+			if(cha!=null){
+				cha.parse(hs);
+			}
+			else{
+				//CREATE NEW CHARACTER
+				//TODO
+			}
 		}
 	}
 	public void parseBullet(String s){
