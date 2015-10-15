@@ -491,8 +491,8 @@ public class Plateau {
 		return target;
 	}
 
-	
-	
+
+
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
 		InputModel im;
@@ -578,8 +578,13 @@ public class Plateau {
 	}
 
 	private void handleRightClick(InputModel im, int player) {
-		if(im.team!=g.currentPlayer)
+		if(im.team!=g.currentPlayer){
+
 			System.out.println("mythe");
+			if(im.isPressedRightClick){
+				System.out.println("mythe");
+			}
+		}
 		if(im.isPressedRightClick){
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
@@ -986,9 +991,9 @@ public class Plateau {
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
 		System.out.println(s);
 		if(s!=null && s!=""){
-			
+
 			String[] u = s.split(" separation ");
-			
+
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);
