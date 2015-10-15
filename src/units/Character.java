@@ -914,7 +914,7 @@ public class Character extends ActionObjet{
 			this.animation=Integer.parseInt(hs.get("animation"));
 		}
 		if(hs.containsKey("isImmolating")){
-			this.isImmolating=hs.get("isImmolating")=="1";
+			this.isImmolating=hs.get("isImmolating")=="true";
 		}
 		if(hs.containsKey("remainingTime")){
 			this.remainingTime=Float.parseFloat(hs.get("remainingTime"));
