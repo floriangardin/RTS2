@@ -68,10 +68,6 @@ public abstract class ActionObjet extends Objet{
 			s+="maxLifePoints:"+maxLifePoints+";";
 			changes.maxLifePoints = false;
 		}
-		if(changes.orientation){
-			s+="orientation:"+orientation+";";
-			changes.orientation = false;
-		}
 		return s;
 	}
 	

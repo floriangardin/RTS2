@@ -18,7 +18,7 @@ public abstract class Objet {
 	public int id;
 	public Image[][][] animations;
 	public int mode;
-	public int orientation;
+	public int orientation=2;
 	public int increment;
 	public float incrementf;
 	public Image selection_circle;
@@ -95,6 +95,10 @@ public abstract class Objet {
 		if(changes.y){
 			s+="y:"+y+";";
 			changes.y = false;
+		}
+		if(changes.orientation){
+			s+="orientation:"+orientation+";";
+			changes.orientation = false;
 		}
 		if(changes.lifePoints){
 			s+="lifePoints:"+lifePoints+";";
