@@ -159,7 +159,7 @@ public class InputModel extends MultiObjetModel{
 			}
 		}
 		for(int i=0; i<sel.length;i++){
-			this.selection.addElement(i);
+			this.selection.addElement(Integer.parseInt(sel[i]));
 		}
 	}
 
