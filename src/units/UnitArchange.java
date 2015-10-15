@@ -113,6 +113,7 @@ public class UnitArchange extends Character {
 
 	public void useWeapon(){
 		Character c = (Character) this.target;
+		c.changes.lifePoints=true;
 		// Attack sound
 		float damage = this.damage;
 	
@@ -124,6 +125,7 @@ public class UnitArchange extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		
 	}
 
 

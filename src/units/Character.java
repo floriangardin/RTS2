@@ -143,15 +143,12 @@ public class Character extends ActionObjet{
 		c.id = occ.id;
 	}
 
-
-
 	public boolean isLeader(){
 		return this.leader==this;
 	}
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
 	}
-
 	public void setXY(float x, float y){
 		this.x = x;
 		this.y = y ;
@@ -188,6 +185,8 @@ public class Character extends ActionObjet{
 			}
 		}
 		this.orientation = sector;
+		this.changes.orientation = true;
+		
 	}
 
 
@@ -381,12 +380,18 @@ public class Character extends ActionObjet{
 		}
 
 		if(animationValue!=0f){
-			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f))
+			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f)){
 				animation = 1;
-			else if(this.animationValue>=1f && this.animationValue<2f)
+				this.changes.animation=true;
+			}	
+			else if(this.animationValue>=1f && this.animationValue<2f){
 				animation = 0;
-			else
+				this.changes.animation=true;
+			}	
+			else{
 				animation = 2;
+				this.changes.animation=true;
+			}	
 		}
 
 	}
@@ -788,6 +793,10 @@ public class Character extends ActionObjet{
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
+		
+		//MULTI
+		this.changes.state = true;
+		this.changes.chargeTime=true;
 	}
 	public void updateImmolation(){
 		this.lifePoints=this.maxLifePoints;
@@ -796,6 +805,8 @@ public class Character extends ActionObjet{
 			this.lifePoints=-1f;
 			this.player.special+=this.player.data.gainedFaithByImmolation;
 		}
+		this.changes.isImmolating=true;
+		this.changes.remainingTime = true;
 	}
 	public void updateSetTarget(){
 
