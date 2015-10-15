@@ -125,7 +125,7 @@ public class MapGrid {
 	}
 	
 	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
-		//System.out.println("MapGrid line 124: calcul d'un chemin");
+//		System.out.println("MapGrid line 124: calcul d'un chemin");
 		Vector<Case> path = new Vector<Case>();
 		int iStart=0, jStart=0, iEnd=0, jEnd=0;
 		while(xStart>Xcoord.get(iStart+1))
@@ -227,7 +227,7 @@ public class MapGrid {
 	}
 	
 	public Vector<Case> pathfinding(float xStart, float yStart, Rectangle r){
-		//System.out.println("MapGrid line 124: calcul d'un chemin");
+//		System.out.println("MapGrid line 230: calcul d'un chemin");
 		Vector<Case> path = new Vector<Case>();
 		int iStart=0, jStart=0, iEnd1=0, jEnd1=0, iEnd2=0, jEnd2=0;
 		float xEnd1, xEnd2, yEnd1, yEnd2;

@@ -301,8 +301,14 @@ public class Character extends ActionObjet{
 		if(this.c == this.getTarget().c){
 			this.moveToward(this.getTarget());
 		} else if(this.waypoints.size()>0){
-			if(this.c == this.waypoints.get(0)){
-				this.waypoints.remove(0);
+			int j=-1;
+			for(int i=0; i<this.waypoints.size();i++){
+				if(this.c==this.waypoints.get(i))
+					j=i;
+			}
+			if(j>=0){
+				for(int i=0; i<=j; i++)
+					this.waypoints.remove(i);
 				this.move();
 			} else {
 				this.moveToward(this.waypoints.get(0));
@@ -329,7 +335,7 @@ public class Character extends ActionObjet{
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
-		if(vNorm<maxVNorm){
+		if((this.group.size()>1 && vNorm<maxVNorm+this.size) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop();
 			return;
@@ -379,7 +385,7 @@ public class Character extends ActionObjet{
 			else
 				animation = 2;
 		}
-		
+
 	}
 	public void stop(){
 		this.checkpointTarget = null;
@@ -480,7 +486,7 @@ public class Character extends ActionObjet{
 		// set the tolerance for collision:
 		//   - 0: collision is totally authorized
 		//   - 1: no collision but clipping
-		float toleranceCollision = 0.02f;
+		float toleranceCollision = 0.03f;
 		// get the mediatrice of both object
 		float y_med = this.getX()-o.getX();
 		float x_med = o.getY()-this.getY();
@@ -500,7 +506,11 @@ public class Character extends ActionObjet{
 				y_med=-y_med;
 			}
 			//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
-			this.setXY(this.getX()-0.5f*r*x_med,this.getY()-0.5f*r*y_med);
+			int sign = (o.vy*(o.x-x)-o.vx*(o.y-y))<0 ? 1: -1;
+			float newx = this.getX()+1.5f*sign*(o.vy)/2;
+			float newy = this.getY()+1.5f*sign*(-o.vx)/2;
+			//			this.setVXVY(newx-x, newy-y);
+			this.setXY(newx,newy);
 		}
 		else{
 
@@ -518,7 +528,7 @@ public class Character extends ActionObjet{
 	}
 
 	public void collisionRect(Rectangle o) {
-		
+
 		/*On consid�re pour l'instant que nos natural objets sont carr�s
 		 * il faut dans un premier temps d�terminer de quel c�t� �jecter l'objet
 		 * pour cela on d�limite 4 secteurs:
@@ -537,26 +547,26 @@ public class Character extends ActionObjet{
 		int sector = 0;
 
 
-//		if(x-oX>0f){
-//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-//				sector = 2;
-//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-//				sector = 4;
-//			} else {
-//				sector = 1;
-//			}
-//		} else {
-//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-//				sector = 2;
-//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-//				sector = 4;
-//			} else {
-//				sector = 3;
-//			}
-//		}
-		
-		x = x-vx;
-		y = y-vy;
+		//		if(x-oX>0f){
+		//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+		//				sector = 2;
+		//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+		//				sector = 4;
+		//			} else {
+		//				sector = 1;
+		//			}
+		//		} else {
+		//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+		//				sector = 2;
+		//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+		//				sector = 4;
+		//			} else {
+		//				sector = 3;
+		//			}
+		//		}
+
+		//		x = x-vx;
+		//		y = y-vy;
 		if(x-oX>0f){
 			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
@@ -574,36 +584,36 @@ public class Character extends ActionObjet{
 				sector = 3;
 			}
 		}
-
-//		if((o.getMaxX()-this.getX()<3f || this.getX()-o.getMinX()<3f)&&(o.getMaxY()-this.getY()<3f || this.getY()-o.getMinY()<3f)){
-//			//System.out.println("dans un coin");
-//			if(this.getTarget()==null)
-//				return;
-//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
-//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
-//				switch(sector){
-//				case 1: 
-//				case 3:
-//					if(this.getY()>o.getCenterY())
-//
-//						this.setXY(this.getX(), this.getY()+30f);
-//					else
-//						this.setXY(this.getX(), this.getY()-30f);
-//
-//					break;
-//				case 2:
-//				case 4:
-//					if(this.getX()>o.getCenterX())
-//
-//						this.setXY(this.getX()+30f, this.getY());
-//					else
-//						this.setXY(this.getX()-30f, this.getY());
-//
-//					break;
-//				}
-//				return;
-//			}
-//		}
+		float cornerThreshold = 5f;
+		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
+			//System.out.println("dans un coin");
+			//			if(this.getTarget()==null)
+			//				return;
+			//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
+			//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
+			//				switch(sector){
+			//				case 1: 
+			//				case 3:
+			//					if(this.getY()>o.getCenterY())
+			//
+			//						this.setXY(this.getX(), this.getY()+30f);
+			//					else
+			//						this.setXY(this.getX(), this.getY()-30f);
+			//
+			//					break;
+			//				case 2:
+			//				case 4:
+			//					if(this.getX()>o.getCenterX())
+			//
+			//						this.setXY(this.getX()+30f, this.getY());
+			//					else
+			//						this.setXY(this.getX()-30f, this.getY());
+			//
+			//					break;
+			//				}
+			//				return;
+			//			}
+		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
@@ -630,7 +640,7 @@ public class Character extends ActionObjet{
 			switch(Math.floorMod(sector, 2)){
 			case 1: 
 				// � droite ou � gauche
-				b = (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
+				b = this.getTarget()!=null && (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
 				float ya,yb;
 				ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
 				yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
@@ -649,7 +659,7 @@ public class Character extends ActionObjet{
 				break;
 			case 0:
 				// en haut ou en bas
-				b = (this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
+				b = this.getTarget()!=null && (this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
 				float xa,xb;
 				xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
 				xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
@@ -709,8 +719,13 @@ public class Character extends ActionObjet{
 				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
 					this.waypoints = this.computeWay();
-			}else
-				this.waypoints = waypoints;
+				else
+					this.waypoints = new Vector<Case>();
+			}else{
+				this.waypoints = new Vector<Case>();
+				for(Case cas:waypoints)
+					this.waypoints.addElement(cas);
+			}
 		}
 	}
 
@@ -728,7 +743,7 @@ public class Character extends ActionObjet{
 		return b;
 	}
 
-	
+
 	public void actionIAScript(){
 		this.updateSetTarget();
 		Circle range = new Circle(this.getX(), this.getY(), this.range);
@@ -740,15 +755,19 @@ public class Character extends ActionObjet{
 				// Handling the group deplacement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				for(Character c: this.group){
-					if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
-						nextToStop = true;
-					if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
-						oneHasArrived = true;
-				}
-				if(nextToStop && oneHasArrived){
-					this.stop();
-					return;
+				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*this.size){
+					for(Character c: this.group){
+						if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
+							nextToStop = true;
+						if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
+							oneHasArrived = true;
+					}
+					//				if(nextToStop && Utils.distance(this, this.getTarget())>200f)
+					//					nextToStop = false;
+					if(nextToStop && oneHasArrived){
+						this.stop();
+						return;
+					}
 				}
 			}
 		}else{
