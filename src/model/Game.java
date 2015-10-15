@@ -300,7 +300,7 @@ public class Game extends BasicGame
 			System.out.println("unknown address");
 		}
 		try {
-			host = InetAddress.getLocalHost().getHostName().equals(addressHost.getHostName());
+			host = (InetAddress.getLocalHost().getHostName()+".home").equals(addressHost.getHostName());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
