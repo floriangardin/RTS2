@@ -14,6 +14,7 @@ import IA.IAUnit;
 import buildings.Building;
 import model.ActionObjet;
 import model.Checkpoint;
+import model.Game;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -44,7 +45,7 @@ public class Character extends ActionObjet{
 	public boolean moveAhead;
 	public float state;
 	public float chargeTime;
-	
+
 	// Group attributes
 	public Character leader;
 	public Vector<Character> group;
@@ -56,8 +57,8 @@ public class Character extends ActionObjet{
 	public Player player;
 	// About drawing
 	public float animationValue=0f;
-	
-	
+
+
 	public int orientation=2;
 	// value = [2,4,6,8] according to the numeric pad
 	// Spells ( what should appear in the bottom bar
@@ -780,7 +781,7 @@ public class Character extends ActionObjet{
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
 		if(this.state<=this.chargeTime)
 			this.state+= 0.1f;
-		
+
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
@@ -854,7 +855,7 @@ public class Character extends ActionObjet{
 			s+="state:"+state+";";
 			changes.state = false;
 		}
-	
+
 		for(Boolean b : changes.spellState){
 			s+="spellState:";
 			if(b){
@@ -878,9 +879,9 @@ public class Character extends ActionObjet{
 		}
 		return s;
 	}
-	
-	
-	
+
+
+
 	public void parse3(HashMap<String,String> hs){
 
 		if(hs.containsKey("weapon")){
@@ -897,7 +898,7 @@ public class Character extends ActionObjet{
 			for(int i = 0;i<r.length;i++){
 				this.spellsState.set(i,Float.parseFloat(r[i]));
 			}
-			
+
 		}
 		if(hs.containsKey("animation")){
 			this.animation=Integer.parseInt(hs.get("animation"));
@@ -908,24 +909,53 @@ public class Character extends ActionObjet{
 		if(hs.containsKey("remainingTime")){
 			this.remainingTime=Float.parseFloat(hs.get("remainingTime"));
 		}
-		
-		
+
+
 	}
-	
+
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
-		
+
 		this.parse1(hs);
 		this.parse2(hs);
 		this.parse3(hs);
-		
+
 	}
-	
-	public static void createNewCharacter(HashMap<String,String> hs){
+
+	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
+		Character c;
 		switch(hs.get("name")){
-		
+		case "spearman":
+			c =  new UnitSpearman(g.players.get(0).data.spearman,0,0);	
+			break;
+		case "knight":
+			c = new UnitKnight(g.players.get(0).data.knight,0,0);	
+
+			break;
+		case "priest":
+			c =  new UnitPriest(g.players.get(0).data.priest,0,0);
+			break;	
+		case "crossbowman":
+			c =  new UnitCrossbowman(g.players.get(0).data.crossbowman,0,0);
+			break;	
+		case "inquisitor":
+			c =  new UnitInquisitor(g.players.get(0).data.inquisitor,0,0);
+			break;
+		case "archange":
+			c = new UnitArchange(g.players.get(0).data.archange,0,0);
+			break;
+		case "test":
+			c = new UnitTest(g.players.get(0).data.test,0,0);
+			break;
+		default:
+			c = null;
 		}
+		c.parse(hs);
+		return c;
+		
 	}
-	
+
+
+
 }
 
