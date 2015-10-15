@@ -438,8 +438,10 @@ public class Character extends ActionObjet{
 			r = fire.getWidth()/5f;
 			x = this.getX();
 			y = this.getY();
-			if(this.remainingTime>=65f)
+			System.out.println("IMMOLATION");
+			if(this.remainingTime>=65f){
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,0f,0f,r,r);
+			}
 			else if(this.remainingTime>=55f)
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,r,0f,2*r,r);
 			else if(this.remainingTime>=45f)
@@ -914,8 +916,7 @@ public class Character extends ActionObjet{
 			this.animation=Integer.parseInt(hs.get("animation"));
 		}
 		if(hs.containsKey("isImmolating")){
-			System.out.println(hs.get("isImmolating"));
-			this.isImmolating=hs.get("isImmolating")=="1";
+			this.isImmolating=hs.get("isImmolating").equals("1");
 		}
 		if(hs.containsKey("remainingTime")){
 			this.remainingTime=Float.parseFloat(hs.get("remainingTime"));
