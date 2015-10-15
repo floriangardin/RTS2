@@ -18,14 +18,14 @@ import units.Character;
 import units.UnitsList;
 
 public class ActionInterface extends Bar {
-	
+
 	// Minimap caract
 	public float startX;
 	public float startY;
 	public float sizeX;
 	public float sizeY;
 	public Game game;
-	public boolean toDrawDescription;
+	public boolean[] toDrawDescription = new boolean[4];
 	public Image imageGold ;
 	public Image imageFood;
 	public Image imageSpecial;
@@ -48,7 +48,11 @@ public class ActionInterface extends Bar {
 		this.x = 0;
 		this.y = this.game.resY - this.sizeY;
 
-		this.toDrawDescription = false;
+		toDrawDescription[0] = false;
+		toDrawDescription[1] = false;
+		toDrawDescription[2] = false;
+		toDrawDescription[3] = false;
+
 		this.buildingToShow = null;
 		try {
 			int taille = 24;
@@ -80,16 +84,15 @@ public class ActionInterface extends Bar {
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(this.p.g.images.getIconByName(ul.get(i).name), this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-2f+ratio*this.sizeY, this.y-2f+ratio*(i+1)*this.sizeY, 0, 0, 512,512);
-				g.setColor(Color.black);
-				if(this.toDrawDescription){
 				g.setColor(Color.white);
-				g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawImage(this.imageFood,this.x + 3.6f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString(": "+(int)ul.get(i).foodPrice,this.x + 3.95f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawImage(this.imageGold,this.x + 4.8f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString(": "+(int)ul.get(i).goldPrice,this.x + 5.15f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString("T: ",this.x + 6f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString(Integer.toString(((int)ul.get(i).time)),this.x + 6.35f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+				if(ul.size()>i && this.toDrawDescription[i]){
+					g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageFood,this.x + 3.6f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).foodPrice,this.x + 3.95f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageGold,this.x + 4.8f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).goldPrice,this.x + 5.15f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString("T: ",this.x + 6f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(Integer.toString(((int)ul.get(i).time)),this.x + 6.35f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
 		}
@@ -102,18 +105,16 @@ public class ActionInterface extends Bar {
 			float ratio =1f/prodIconNb;
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(ul.get(i).icon, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-2f+ratio*this.sizeY, this.y-2f+ratio*(i+1)*this.sizeY, 0, 0, 512,512);
-				g.setColor(Color.black);
-				
 				// CHANGE PUT PRICES
-				if(this.toDrawDescription){
-				g.setColor(Color.white);
-				g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawImage(this.imageFood,this.x + 3.6f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString(": "+(int)ul.get(i).tech.foodPrice,this.x + 3.95f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawImage(this.imageGold,this.x + 4.8f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString(": "+(int)ul.get(i).tech.goldPrice,this.x + 5.15f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString("T: ",this.x + 6f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-				g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),this.x + 6.35f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+				if(ul.size()>i && this.toDrawDescription[i]){
+					g.setColor(Color.white);
+					g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageFood,this.x + 3.6f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).tech.foodPrice,this.x + 3.95f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageGold,this.x + 4.8f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).tech.goldPrice,this.x + 5.15f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString("T: ",this.x + 6f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),this.x + 6.35f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
 		}
@@ -132,23 +133,22 @@ public class ActionInterface extends Bar {
 				float diffY = (-4f + ratio*this.sizeY)*state.get(i)/ul.get(i).chargeTime;
 				g.fillRect(this.x+2f, this.y+2f + ratio*i*this.sizeY+diffY, -4f+ratio*this.sizeY, (-2f + ratio*this.sizeY)-diffY);
 				g.setColor(Color.white);
-				
+
 				if(this.p.isCastingSpell.get(player.team) && this.p.castingSpell.get(player.team)==i){
 					g.setColor(Color.green);
 					g.drawRect(this.x+1f, this.y +1f+ ratio*i*sizeY, this.sizeX-2f, ratio*this.sizeY-2f);
 				}
-				if(this.toDrawDescription){
+				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
-					g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					if(ul.get(i).chargeTime>0)
+						g.drawString(ul.get(i).name+" charge: "+state.get(i)+"/"+ul.get(i).chargeTime, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					else
+						g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
-				
+
 			}
 		}
-		
-		
-		if(!toDrawDescription){
-			return g;
-		}
+
 		return g;
 	}
 }

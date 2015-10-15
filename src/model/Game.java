@@ -76,6 +76,7 @@ public class Game extends BasicGame
 
 	// Network and multiplaying
 	public boolean inMultiplayer;
+	public boolean host;
 	public long startTime;
 	public int portConnexion = 6113;
 	public int portInput = 6114;
@@ -198,10 +199,10 @@ public class Game extends BasicGame
 		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
-			if(this.plateau.rectangleSelection.get(player) !=null){
+			if(this.plateau.rectangleSelection !=null){
 				if(player==currentPlayer){
 					g.setColor(Color.green);
-					g.draw(this.plateau.rectangleSelection.get(player));
+					g.draw(this.plateau.rectangleSelection);
 				}
 			}
 		}
@@ -234,7 +235,7 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+			ims.add(new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 			this.plateau.update(ims);
 		}
 	}

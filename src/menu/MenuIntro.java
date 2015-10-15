@@ -34,6 +34,7 @@ public class MenuIntro extends Menu {
 	public Image optionsSelected;
 	public Image exitSelected;
 	public int selected = -1;
+	private boolean multiplaying;
 
 	public MenuIntro(Game game){
 		try {
@@ -45,6 +46,8 @@ public class MenuIntro extends Menu {
 			e1.printStackTrace();
 		}
 		this.game = game;
+		this.game.connexionReceiver.start();
+		this.game.connexionSender.start();
 		this.items = new Vector<Menu_Item>();
 		this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
@@ -109,6 +112,9 @@ public class MenuIntro extends Menu {
 			this.toGame = true;
 			this.music.fade(300,0f, true);
 			break;
+		case 1:
+			this.multiplaying = true;
+			break;
 		case 3: 
 			this.game.app.exit();
 			break;
@@ -118,17 +124,27 @@ public class MenuIntro extends Menu {
 
 	public void draw(Graphics g){
 
-		
+		g.setColor(Color.black);
+		g.fillRect(0, 0, this.game.resX, this.game.resY);
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
 		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
 		g.setColor(Color.white);
-		
+		if(multiplaying)
+			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
 	}
 
 	public void update(Input i){
-		if(!toGame){
+		if(multiplaying){
+			if(i.isKeyPressed(Input.KEY_ESCAPE))
+				multiplaying = false;
+			if(this.game.host){
+				
+			} else {
+				
+			}
+		}else if(!toGame){
 			if(i!=null){
 				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 					callItems(i);

@@ -2,6 +2,8 @@ package multiplaying;
 
 import org.newdawn.slick.Input;
 
+import display.BottomBar;
+import model.Game;
 import model.Utils;
 
 public class InputModel extends MultiObjetModel{
@@ -18,7 +20,7 @@ public class InputModel extends MultiObjetModel{
 
 	public boolean isPressedRightClick;
 	public boolean isPressedLeftClick;
-	
+
 	public boolean isPressedESC;
 	public boolean isPressedMAJ;
 	public boolean isPressedCTRL;
@@ -31,10 +33,10 @@ public class InputModel extends MultiObjetModel{
 	public boolean isPressedUP;
 	public boolean isPressedDOWN;
 
-	public boolean isPressedW;
-	public boolean isPressedX;
-	public boolean isPressedC;
-	public boolean isPressedV;
+	public boolean isPressedProd0;
+	public boolean isPressedProd1;
+	public boolean isPressedProd2;
+	public boolean isPressedProd3;
 	public boolean isPressedA;
 	public boolean isPressedB;
 	public boolean[] isPressedNumPad = new boolean[10];
@@ -42,7 +44,7 @@ public class InputModel extends MultiObjetModel{
 	public int xMouse;
 	public int yMouse;
 
-	public InputModel (int time, int team, Input input, int Xcam,int Ycam, int resX, int resY){
+	public InputModel (Game g, int time, int team, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.team = team;
 		this.timeValue = time;
 		this.resX = resX;
@@ -67,19 +69,35 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT)|| input.isKeyDown(Input.KEY_Q);
 		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT)|| input.isKeyDown(Input.KEY_D);
 		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN)|| input.isKeyDown(Input.KEY_S);
-		this.isPressedW = input.isKeyPressed(Input.KEY_W);
-		this.isPressedX = input.isKeyPressed(Input.KEY_X);
-		this.isPressedC = input.isKeyPressed(Input.KEY_C);
-		this.isPressedV = input.isKeyPressed(Input.KEY_V);
+		this.isPressedProd0 = input.isKeyPressed(Input.KEY_W);
+		this.isPressedProd1 = input.isKeyPressed(Input.KEY_X);
+		this.isPressedProd2 = input.isKeyPressed(Input.KEY_C);
+		this.isPressedProd3 = input.isKeyPressed(Input.KEY_V);
 		this.isPressedA = input.isKeyDown(Input.KEY_A);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
-		
-		
+
+		// Only for current player at the creation of the input
+		BottomBar bb = g.players.get(g.currentPlayer).bottomBar;
+		float relativeXMouse = input.getAbsoluteMouseX();
+		float relativeYMouse = input.getAbsoluteMouseY();
+		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
+			int mouseOnItem = (int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb));
+			//System.out.println(mouseOnItem);
+			if(isPressedLeftClick){
+				switch(mouseOnItem){
+				case 0: isPressedProd0 = true;isPressedLeftClick = false; break;
+				case 1: isPressedProd1 = true;isPressedLeftClick = false;break;
+				case 2: isPressedProd2 = true;isPressedLeftClick = false;break;
+				case 3: isPressedProd3 = true;isPressedLeftClick = false;break;
+				default:
+				} 
+			}
+		}
 		for(int i=0; i<10;i++){
 			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
 		}
 	}
-	
+
 	public InputModel(String im){
 		String[] vaneau = Utils.split(im, ' ');
 		int intBuffer = 0;
@@ -110,10 +128,10 @@ public class InputModel extends MultiObjetModel{
 			case 16: this.isPressedDOT = boolBuffer;break;
 			case 17: this.isPressedENTER = boolBuffer; break;
 			case 18: this.isPressedTAB = boolBuffer; break;
-			case 19: this.isPressedW = boolBuffer;break;
-			case 20: this.isPressedX = boolBuffer;break;
-			case 21: this.isPressedC = boolBuffer;break;
-			case 22: this.isPressedV = boolBuffer; break;
+			case 19: this.isPressedProd0 = boolBuffer;break;
+			case 20: this.isPressedProd1 = boolBuffer;break;
+			case 21: this.isPressedProd2 = boolBuffer;break;
+			case 22: this.isPressedProd3 = boolBuffer; break;
 			default:
 				this.isPressedNumPad[i-23] = boolBuffer;break;
 			}
@@ -124,7 +142,7 @@ public class InputModel extends MultiObjetModel{
 		String s = "0";
 		s+=timeValue+" "+team+ " "+xMouse+" "+yMouse+" "+resX+" "+resY+" "+Xcam+" "+Ycam;
 		s+=" "+leftClick + " " +rightClick+" "+isPressedLeftClick+" "+isPressedRightClick+" "+isPressedESC+" "+isPressedMAJ+" "+isPressedCTRL+
-				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER+" "+isPressedTAB+" "+isPressedW+" "+isPressedX+" "+isPressedC+" "+isPressedV;
+				" "+isPressedBACK+" "+isPressedDOT+" "+isPressedENTER+" "+isPressedTAB+" "+isPressedProd0+" "+isPressedProd1+" "+isPressedProd2+" "+isPressedProd3;
 		for(int i=0; i<10;i++){
 			s+= " " + this.isPressedNumPad[i];
 		}
@@ -152,14 +170,14 @@ public class InputModel extends MultiObjetModel{
 			this.leftClick = true;
 		if(!this.rightClick && m2.rightClick)
 			this.rightClick = true;
-		if(!this.isPressedW && m2.isPressedW)
-			this.isPressedW = true;
-		if(!this.isPressedX && m2.isPressedX)
-			this.isPressedX = true;
-		if(!this.isPressedC && m2.isPressedC)
-			this.isPressedC = true;
-		if(!this.isPressedV && m2.isPressedV)
-			this.isPressedV = true;
+		if(!this.isPressedProd0 && m2.isPressedProd0)
+			this.isPressedProd0 = true;
+		if(!this.isPressedProd1 && m2.isPressedProd1)
+			this.isPressedProd1 = true;
+		if(!this.isPressedProd2 && m2.isPressedProd2)
+			this.isPressedProd2 = true;
+		if(!this.isPressedProd3 && m2.isPressedProd3)
+			this.isPressedProd3 = true;
 		for(int i=0;i<10;i++){
 			if(!this.isPressedNumPad[i]&& m2.isPressedNumPad[i])
 				this.isPressedNumPad[i] = true;

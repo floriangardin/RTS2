@@ -359,12 +359,12 @@ public class Character extends ActionObjet{
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>this.p.getMaxX()-this.collisionBox.getBoundingCircleRadius()){
-			newX = this.p.getMaxX()-this.collisionBox.getBoundingCircleRadius();
+		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>this.p.getMaxY()-this.collisionBox.getBoundingCircleRadius()){
-			newY = this.p.getMaxY()-this.collisionBox.getBoundingCircleRadius();
+		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 
