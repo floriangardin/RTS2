@@ -177,39 +177,6 @@ public class InputModel extends MultiObjetModel{
 		return s;
 	}
 
-	public void mix(InputModel m2){
-		if(!this.isPressedCTRL && m2.isPressedCTRL)
-			this.isPressedCTRL = true;
-		if(!this.isPressedESC && m2.isPressedESC)
-			this.isPressedESC = true;
-		if(!this.isPressedMAJ && m2.isPressedMAJ)
-			this.isPressedMAJ = true;
-		if(!this.isPressedTAB && m2.isPressedTAB)
-			this.isPressedTAB = true;
-		if(!this.isPressedENTER && m2.isPressedENTER)
-			this.isPressedENTER = true;
-		if(!this.isPressedDOT && m2.isPressedDOT)
-			this.isPressedDOT = true;
-		if(!this.isPressedLeftClick && m2.isPressedLeftClick)
-			this.isPressedLeftClick = true;
-		if(!this.isPressedRightClick && m2.isPressedRightClick)
-			this.isPressedRightClick = true;
-		if(!this.leftClick && m2.leftClick)
-			this.leftClick = true;
-		if(!this.rightClick && m2.rightClick)
-			this.rightClick = true;
-		if(!this.isPressedProd0 && m2.isPressedProd0)
-			this.isPressedProd0 = true;
-		if(!this.isPressedProd1 && m2.isPressedProd1)
-			this.isPressedProd1 = true;
-		if(!this.isPressedProd2 && m2.isPressedProd2)
-			this.isPressedProd2 = true;
-		if(!this.isPressedProd3 && m2.isPressedProd3)
-			this.isPressedProd3 = true;
-		for(int i=0;i<10;i++){
-			if(!this.isPressedNumPad[i]&& m2.isPressedNumPad[i])
-				this.isPressedNumPad[i] = true;
-		}
-	}
+	
 
 }

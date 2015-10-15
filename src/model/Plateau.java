@@ -580,9 +580,9 @@ public class Plateau {
 	private void handleRightClick(InputModel im, int player) {
 		if(im.team!=g.currentPlayer){
 
-			System.out.println("mythe");
+			System.out.println(im);
 			if(im.isPressedRightClick){
-				System.out.println("mythe");
+				System.out.println("mythe222");
 			}
 		}
 		if(im.isPressedRightClick){
