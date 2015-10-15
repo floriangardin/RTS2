@@ -5,11 +5,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import multiplaying.InputModel;
-import multiplaying.OutputModel;
-import multiplaying.OutputModel.OutputBuilding;
-import multiplaying.OutputModel.OutputBullet;
-import multiplaying.OutputModel.OutputChar;
-import multiplaying.OutputModel.OutputSpell;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -27,10 +22,7 @@ import units.Character;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
-import buildings.BuildingTech;
-import bullets.Arrow;
 import bullets.Bullet;
-import bullets.Fireball;
 import display.BottomBar;
 import display.Message;
 
@@ -499,6 +491,8 @@ public class Plateau {
 		return target;
 	}
 
+	
+	
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
 		InputModel im;
@@ -574,8 +568,10 @@ public class Plateau {
 
 		for(Integer i : im.selection){
 			for(Character c: this.characters)
-				if(c.id == i)
+				if(c.id == i){
 					this.selection.get(im.team).add(c);
+					System.out.println(c);
+				}
 			for(Building c: this.buildings)
 				if(c.id == i)
 					this.selection.get(im.team).add(c);
