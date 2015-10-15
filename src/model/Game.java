@@ -230,7 +230,6 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			Utils.printCurrentState(plateau);
 			if(!host){
 				// client mode
 				InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
@@ -242,6 +241,7 @@ public class Game extends BasicGame
 				}
 				this.plateau.update(ims);
 			} else {
+				ims.add(new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 				if(inMultiplayer){
 					// host mode
 					if(inputs.size()>0)
@@ -250,7 +250,6 @@ public class Game extends BasicGame
 					this.toSendOutputs.add(this.plateau.currentString);
 				} else {
 					// solo mode
-					ims.add(new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 					this.plateau.update(ims);
 				}
 			}
