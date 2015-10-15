@@ -42,7 +42,7 @@ public abstract class Objet {
 	public Image image;
 	
 	//MULTIPLAYING BOOLEANS
-	public Changes changes;
+	public Changes changes=new Changes();
 	
 	public void setName(String s){
 		this.name = s;
