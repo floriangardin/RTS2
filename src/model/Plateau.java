@@ -977,13 +977,13 @@ public class Plateau {
 		System.out.println(s);
 		String[] u = s.split(" separation ");
 		System.out.println("u0 et u1");
-		System.out.println(u[0]);
 		System.out.println(u[1]);
+		System.out.println(u[2]);
 		//Take care of player
 		this.g.players.get(g.currentPlayer).parsePlayer(u[0]);
-		parseCharacter(u[1]);
-		parseBuilding(u[2]);
-		parseBullet(u[3]);
+		parseCharacter(u[3]);
+		parseBuilding(u[4]);
+		parseBullet(u[5]);
 		}
 	}
 
