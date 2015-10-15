@@ -882,7 +882,7 @@ public class Character extends ActionObjet{
 			changes.animation=false;
 		}
 		if(changes.isImmolating){
-			s+="isImmolating:"+isImmolating+";";
+			s+="isImmolating:"+(isImmolating?1:0)+";";
 			changes.isImmolating = false;
 		}
 		if(changes.remainingTime){
@@ -914,7 +914,8 @@ public class Character extends ActionObjet{
 			this.animation=Integer.parseInt(hs.get("animation"));
 		}
 		if(hs.containsKey("isImmolating")){
-			this.isImmolating=hs.get("isImmolating")=="true";
+			System.out.println(hs.get("isImmolating"));
+			this.isImmolating=hs.get("isImmolating")=="1";
 		}
 		if(hs.containsKey("remainingTime")){
 			this.remainingTime=Float.parseFloat(hs.get("remainingTime"));
