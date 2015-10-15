@@ -63,7 +63,7 @@ public abstract class ActionObjet extends Objet{
 	}
 
 	public String toString2(){
-		String s = toString1();
+		String s = "";
 		if(changes.maxLifePoints){
 			s+="maxLifePoints:"+maxLifePoints+";";
 			changes.maxLifePoints = false;
