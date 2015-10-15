@@ -983,7 +983,7 @@ public class Plateau {
 		System.out.println("parse");
 		System.out.println(s);
 		String[] u = s.split(" separation ");
-		System.out.println("u0 et u1");
+		System.out.println("u1 et u2");
 		System.out.println(u[1]);
 		System.out.println(u[2]);
 		//Take care of player

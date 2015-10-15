@@ -83,8 +83,8 @@ public abstract class Objet {
 	// TOSTRING METHODS
 	public String toString1(){
 		String s="";
-		s+="id:"+id+";";
 		if(changes.team){
+			s+="id:"+id+";";
 			s+="team:"+team+";";
 			changes.team = false;
 		}
