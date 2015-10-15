@@ -299,6 +299,12 @@ public class Game extends BasicGame
 		} catch (UnknownHostException e) {
 			System.out.println("unknown address");
 		}
+		try {
+			host = InetAddress.getLocalHost().getHostName().equals(addressHost.getHostName());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+				
 		inputReceiver = new MultiReceiver(this,portInput);
 		inputSender = new MultiSender(addressHost,portInput,this.toSendInputs);
 		outputReceiver = new MultiReceiver(this,portOutput);

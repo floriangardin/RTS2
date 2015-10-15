@@ -128,20 +128,22 @@ public class MenuIntro extends Menu {
 				multiplaying = false;
 			if(this.game.host){
 				if(cooldown<=0){
-					this.game.toSendConnexions.addElement("mythe");
+					this.game.toSendConnexions.addElement("2mythe");
 					cooldown+=50;
 				}else
 					cooldown-=1;
 				if(this.game.connexions.size()>0){
 					game.inMultiplayer = true;
 					callItem(0);
+					multiplaying = false;
 				}
 			} else {
 				if(this.game.connexions.size()>0){
-					this.game.toSendConnexions.addElement("mythe");
+					this.game.toSendConnexions.addElement("2mythe");
 					game.inMultiplayer = true;
 					game.currentPlayer = 2;
 					callItem(0);
+					multiplaying = false;
 				}
 			}
 		}else if(!toGame){
