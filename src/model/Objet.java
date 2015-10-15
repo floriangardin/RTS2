@@ -36,11 +36,8 @@ public abstract class Objet {
 	
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
-
 	public boolean visibleByCamera;
-
 	public Image image;
-	
 	//MULTIPLAYING BOOLEANS
 	public Changes changes=new Changes();
 	
