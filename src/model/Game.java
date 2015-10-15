@@ -40,7 +40,7 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
-	
+
 	// Font 
 	public TrueTypeFont font;
 	// Music and sounds
@@ -48,7 +48,7 @@ public class Game extends BasicGame
 	public Sounds sounds;
 	public Images images;
 	public Musics musics;
-	
+
 	// Timer
 	public Timer timer ;
 
@@ -131,8 +131,8 @@ public class Game extends BasicGame
 		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
-		
-		
+
+
 		if(isInMenu){
 			this.menuCurrent.draw(g);
 			return;
@@ -228,106 +228,24 @@ public class Game extends BasicGame
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
 		InputModel im=null;
-		
 		Vector<InputModel> ims = new Vector<InputModel>();
-		//System.out.println(this.plateau.characters);
-		if(inMultiplayer){
-
-			//Utils.printCurrentState(this.plateau);
-			// The game is in multriplaying mode
-			if(isHost){
-				/* Multiplaying Host Pipeline
-				 * 1 - take the input of t-5 client and host
-				 * 2 - perform action() and update()
-				 * 3 - send the output of the action and update step
-				 */
-
-				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(Main.framerate);
-
-				// 1 - take the input of client and host
-				for(int player = 1; player<players.size(); player++){
-					if(player!=currentPlayer){
-						if(this.inputs.size()>0){
-							im = this.inputs.get(0);
-							this.inputs.clear();
-							//this.inputs.remove(0);
-							//							if(this.inputs.size()>0){
-							//								im.mix(this.inputs.get(0));
-							//								this.inputs.remove(0);
-							//							}
-							ims.add(im);
-							this.players.get(im.team).bottomBar.update(im.resX, im.resY);
-							this.players.get(im.team).topBar.update(im.resX, im.resY);
-						}
-					} else {
-						im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-						ims.add(im);
-					}
-				}
-
-				// 2 - perform action() and update()
-				OutputModel om = null;
-				if(isInMenu){
-					this.menuCurrent.update(ims.get(0));
-				} else {
-					om = this.plateau.update(ims);
-				}
-
-				// 3 - send the output of the action and update step;
-				this.toSendOutputs.addElement(om.toString());
-
-			} else if(!isHost){
-				/* Multiplaying Client Pipeline
-				 * 1 - send the input to host
-				 * 2 - take the output from t-5
-				 * 3 - update from the output file
-				 */
-
-				// Defining the clock
-				timeValue = (int)(System.currentTimeMillis() - startTime)/(Main.framerate);
-
-				// 1 - send the input to host
-				im = new InputModel(timeValue,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int) plateau.Ycam,(int)resX,(int)resY);
-
-				this.toSendInputs.addElement(im.toString());
-
-				// 2 - take the output
-				OutputModel om = null;
-				if(this.outputs.size()>0){
-					om = this.outputs.get(0);
-					this.outputs.clear();
-				}
-				// 3 - update from the output file
-				this.outputReceiver.lock = false;
-				this.plateau.updateFromOutput(om, im);
-
-
-
-			}
-		} else if (!inMultiplayer){
-			// If not in multiplayer mode, dealing with the common input
-			// updating the game
-			if(isInMenu){
-				this.menuCurrent.update(gc.getInput());
-			} else {
-				ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
-				this.plateau.update(ims);
-			}
-			
+		// If not in multiplayer mode, dealing with the common input
+		// updating the game
+		if(isInMenu){
+			this.menuCurrent.update(gc.getInput());
+		} else {
+			ims.add(new InputModel(0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+			this.plateau.update(ims);
 		}
-
 	}
 
-	public void newGame(boolean host){
+	public void newGame(){
 		//Clean all variables
-		
 
-		if(host)
-			Map.createMapPhillipeMacro(this);
-		
+		Map.createMapPhillipeMacro(this);
+
 		//System.out.println(this.plateau.mapGrid);
-//			Map.createMapEmpty(this);
+		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
@@ -337,25 +255,7 @@ public class Game extends BasicGame
 		this.topBars = this.players.get(currentPlayer).topBar;
 		selection = null;
 	}
-	public void newGame(ConnectionModel cm){
-		//Clean all variables
-		this.plateau.maxX = 5000f;
-		this.plateau.maxY = 2500f;
-		newGame(false);
-		this.addressHost = cm.ia;
-		for( ConnectionObjet co : cm.naturalObjets){
-			if(co instanceof ConnectionTree){
-				new Tree(co.x,co.y,this.plateau,((ConnectionTree) co).type);
-			} else if(co instanceof ConnectionWater){
-				new Water(co.x,co.y,((ConnectionWater)co).sizeX,((ConnectionWater)co).sizeY,this.plateau);
-			}
-		}
-		this.currentPlayer = 2;
-		this.bottomBars = this.players.get(currentPlayer).bottomBar;
-		this.topBars = this.players.get(currentPlayer).topBar;
-		this.bottomBars.update((int)resX, (int)resY);
-	}
-	// Init our Game objects
+
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
@@ -371,8 +271,8 @@ public class Game extends BasicGame
 		this.menuIntro = new MenuIntro(this);
 		this.setMenu(menuIntro);
 	}
-	
-	
+
+
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;

@@ -51,13 +51,10 @@ public class MenuIntro extends Menu {
 		float stepY = 0.15f*this.game.resY;
 
 		try {
-
 			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(this.game.resX/1680);
 			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(this.game.resX/1680);
 			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(this.game.resX/1680);
 			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(this.game.resX/1680);
-
-
 			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(this.game.resX/1680);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
 			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,"New Game"));
@@ -67,7 +64,6 @@ public class MenuIntro extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,"Options"));
 			this.exit = new Image("pics/menu/exit.png").getScaledCopy(this.game.resX/1680);
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
-
 
 		} catch (SlickException e1) {
 			// TODO Auto-generated catch block
@@ -149,7 +145,7 @@ public class MenuIntro extends Menu {
 		} else {
 			this.timeToGame -= 1f;
 			if(timeToGame<0f){
-				this.game.newGame(true);
+				this.game.newGame();
 				this.game.quitMenu();
 			}
 		}

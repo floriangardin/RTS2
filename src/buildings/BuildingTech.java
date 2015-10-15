@@ -5,7 +5,7 @@ import java.util.Vector;
 import display.Message;
 import technologies.Technologie;
 
-public abstract class BuildingTech extends Building {
+public abstract class BuildingTech extends BuildingAction {
 	public Vector<Technologie> productionList;
 	public Technologie queue;
 	

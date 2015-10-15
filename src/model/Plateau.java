@@ -3,6 +3,13 @@ package model;
 
 import java.util.Vector;
 
+import multiplaying.InputModel;
+import multiplaying.OutputModel;
+import multiplaying.OutputModel.OutputBuilding;
+import multiplaying.OutputModel.OutputBullet;
+import multiplaying.OutputModel.OutputChar;
+import multiplaying.OutputModel.OutputSpell;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,7 +18,13 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import pathfinding.Case;
+import pathfinding.MapGrid;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
 import buildings.Building;
+import buildings.BuildingAction;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
 import bullets.Arrow;
@@ -19,18 +32,6 @@ import bullets.Bullet;
 import bullets.Fireball;
 import display.BottomBar;
 import display.Message;
-import multiplaying.InputModel;
-import multiplaying.OutputModel;
-import multiplaying.OutputModel.OutputBuilding;
-import multiplaying.OutputModel.OutputBullet;
-import multiplaying.OutputModel.OutputChar;
-import multiplaying.OutputModel.OutputSpell;
-import pathfinding.Case;
-import pathfinding.MapGrid;
-import spells.Spell;
-import spells.SpellEffect;
-import technologies.Technologie;
-import units.Character;
 
 public class Plateau {
 
@@ -82,7 +83,7 @@ public class Plateau {
 	public Vector<Vector<Message>> messages;
 
 	//TODO : make actionsObjets and everything else private 
-	
+
 	public MapGrid mapGrid;
 
 	public Plateau(float maxX,float maxY,Game g){
@@ -140,14 +141,14 @@ public class Plateau {
 			this.messages.addElement(new Vector<Message>());
 		}
 		try {
-//			System.out.println(this.g.resX+" "+this.g.resY);
+			//			System.out.println(this.g.resX+" "+this.g.resY);
 			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
 			this.gf = fog.getGraphics();
 		} catch (SlickException | RuntimeException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
-		
+
 		//UPDATING GAME
 		this.g.players = new Vector<Player>();
 		this.g.players.add(new Player(this,0,0));
@@ -262,7 +263,7 @@ public class Plateau {
 		for(Character o: toRemoveCharacters){
 			characters.remove(o);
 			o.destroy();
-			
+
 		}
 		for(Character o: toAddCharacters){
 			characters.addElement(o);
@@ -297,7 +298,6 @@ public class Plateau {
 			toAddSelection.get(i).clear();
 			toRemoveSelection.get(i).clear();
 		}
-
 		toRemoveCharacters.clear();
 		toRemoveBullets.clear();
 		toRemoveNaturalObjets.clear();
@@ -369,7 +369,7 @@ public class Plateau {
 					b.collision(c);
 			}
 		}
-		
+
 	}
 
 	public void updateSelection(Rectangle select,int team){
@@ -457,9 +457,9 @@ public class Plateau {
 						continue;
 					if(c1 instanceof Character){
 						o.group.add((Character)c1);
-//						System.out.println("Plateau line 507: " + (waypoints!=null) +" "+(c.c==c1.c)+" "+(((Character)c1).waypoints.size()>0));
+						//						System.out.println("Plateau line 507: " + (waypoints!=null) +" "+(c.c==c1.c)+" "+(((Character)c1).waypoints.size()>0));
 						if(((Character)c1).waypoints!=null && c1.c == c.c && c1.getTarget()!=null && c1.getTarget().c==target.c){
-//							System.out.println("Plateau line 508 : copie d'une chemin");
+							//							System.out.println("Plateau line 508 : copie d'une chemin");
 							waypoints = ((Character) c1).waypoints;
 						}
 					}
@@ -601,7 +601,7 @@ public class Plateau {
 		}
 	}
 
-	public OutputModel update(Vector<InputModel> ims){
+	public void update(Vector<InputModel> ims){
 		/* Pipeline of the update:
 		 * 1 - If ESC start menu
 		 * 2 - Handling inputs (1 loop per player)
@@ -611,7 +611,7 @@ public class Plateau {
 		//		if(this.spells.size()>0){
 		//			System.out.println(this.spells);
 		//		}
-		OutputModel om = new OutputModel(0);
+		//		OutputModel om = new OutputModel(0);
 
 		//		// 1 - If ESC start menu
 		//		if(!this.g.inMultiplayer && !g.isInMenu && ims.get(0)!=null && ims.get(0).isPressedESC){
@@ -621,46 +621,46 @@ public class Plateau {
 		// 2 - Handling inputs (1 loop per player)
 		InputModel im;
 
-		for(int player=1; player<this.g.players.size(); player++){
-			im = null;
-			for(InputModel inp : ims)
-				if(inp.team==player)
-					im = inp;
-			//im = ims.get(player-1);
-			if(im!=null){
-				this.updateView(im, player);
-				// Handling groups of units
-				for(int to=0; to<10; to++){
-					if(im.isPressedNumPad[to]){
-						if(isCastingSpell.get(player)){
-							isCastingSpell.set(player, false);
-							castingSpell.set(player,-1);
-						}
-						if(im.isPressedCTRL){
-							// Creating a new group made of the selection
-							this.g.players.get(player).groups.get(to).clear();
-							for(ActionObjet c: this.selection.get(player))
-								this.g.players.get(player).groups.get(to).add(c);
-						} else if(im.isPressedMAJ){
-							// Adding the current selection to the group
-							for(ActionObjet c: this.selection.get(player))
-								this.g.players.get(player).groups.get(to).add(c);
-						} else {
-							this.selection.get(player).clear();
-							for(ActionObjet c: this.g.players.get(player).groups.get(to))
-								this.selection.get(player).add(c);
-						}
-						this.g.players.get(player).groupSelection = to;
+		int player = this.g.currentPlayer;
+		im = null;
+		for(InputModel inp : ims)
+			if(inp.team==player)
+				im = inp;
+		//im = ims.get(player-1);
+		if(im!=null){
+			this.updateView(im, player);
+			// Handling groups of units
+			for(int to=0; to<10; to++){
+				if(im.isPressedNumPad[to]){
+					if(isCastingSpell.get(player)){
+						isCastingSpell.set(player, false);
+						castingSpell.set(player,-1);
 					}
+					if(im.isPressedCTRL){
+						// Creating a new group made of the selection
+						this.g.players.get(player).groups.get(to).clear();
+						for(ActionObjet c: this.selection.get(player))
+							this.g.players.get(player).groups.get(to).add(c);
+					} else if(im.isPressedMAJ){
+						// Adding the current selection to the group
+						for(ActionObjet c: this.selection.get(player))
+							this.g.players.get(player).groups.get(to).add(c);
+					} else {
+						this.selection.get(player).clear();
+						for(ActionObjet c: this.g.players.get(player).groups.get(to))
+							this.selection.get(player).add(c);
+					}
+					this.g.players.get(player).groupSelection = to;
 				}
-				if(!im.leftClick){
-					// The button is not pressed and wasn't, the selection is non null
-					this.rectangleSelection.set(player, null);
-					this.inRectangle.get(player).clear();
-				}
+			}
+			if(!im.leftClick){
+				// The button is not pressed, the selection becomes null
+				this.rectangleSelection.set(player, null);
+				this.inRectangle.get(player).clear();
+			}
 
-				//Bottom Bar
-
+			//Click on Bottom Bar
+			if(im.isPressedLeftClick){
 				BottomBar bb = this.g.players.get(player).bottomBar;
 				float relativeXMouse = (im.xMouse-im.Xcam);
 				float relativeYMouse = (im.yMouse-im.Ycam);
@@ -668,182 +668,134 @@ public class Plateau {
 				if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
 					bb.action.toDrawDescription=true;
 					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-						
-						if(im.isPressedLeftClick){
-
-							((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb)));
-						}else{
-
-						}
-
-					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
-						if(im.isPressedLeftClick){
-
-							((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb)));
-						}
-
-					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
-						if(im.isPressedLeftClick){
-							int number = (int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb));
-							Character c = ((Character) this.selection.get(player).get(0));
-							if(c.spells.size()>number){
-								if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-									if(c.spells.get(number).needToClick){
-										this.isCastingSpell.set(player, true);
-										this.castingSpell.set(player, number);
-									} else {
-										c.spells.get(number).launch(c, c);
-									}
-								} else {
-									this.addMessage(Message.getById(4), player);
-								}
-							}
-						}else{
-
-						}
-
-					}
-					continue;
-				}
-				else{
-					this.g.players.get(player).bottomBar.action.toDrawDescription=false;
-					
-				}
-
-				// FIELD
-
-				//update the rectangle
-
-				if(im.leftClick){
-
-					if(isCastingSpell.get(player)){
-
-					} else {
-						// As long as the button is pressed, the selection is updated
-						this.updateRectangle(im,player);
-					}
-				}
-				if(im.isPressedLeftClick){
-					if(isCastingSpell.get(player)){
-						// Handling the spell
-						if(this.g.players.get(player).selection.size()>0){
-							Character c = (Character)this.g.players.get(player).selection.get(0); 
-							Spell spell = c.spells.get(castingSpell.get(player));
-							spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
-							c.spellsState.set(castingSpell.get(player),0f);
-						}
-						isCastingSpell.set(player,false);
-						castingSpell.set(player,-1);
-					} else if(im.isPressedMAJ){
-
-					} else {
-						this.clearSelection(player);
-					}
-				}
-				// Action for player k
-				if(im.isPressedRightClick){
-					//RALLY POINT
-					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-						((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
-					} else if(isCastingSpell.get(player)){
-						isCastingSpell.set(player,false);
-						castingSpell.set(player,-1);
-					} else if(im.isPressedMAJ ){
-						if(!im.isPressedA)
-							updateSecondaryTarget(im.xMouse,im.yMouse,player);
-					} else {
-						if(!im.isPressedA)
-							updateTarget(im.xMouse,im.yMouse,player);
-					}
-				}
-
-				// Handling other hotkeys in production bar
-				if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
-					if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-
-						if(im.isPressedW)
-							((BuildingProduction) this.selection.get(player).get(0)).product(0);
-						if(im.isPressedX)
-							((BuildingProduction) this.selection.get(player).get(0)).product(1);
-						if(im.isPressedC)
-							((BuildingProduction) this.selection.get(player).get(0)).product(2);
-						if(im.isPressedV)
-							((BuildingProduction) this.selection.get(player).get(0)).product(3);
-						if(im.isPressedESC)
-							((BuildingProduction) this.selection.get(player).get(0)).removeProd();
-					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
-
-						if(im.isPressedW)
-							((BuildingTech) this.selection.get(player).get(0)).product(0);
-						if(im.isPressedX)
-							((BuildingTech) this.selection.get(player).get(0)).product(1);
-						if(im.isPressedC)
-							((BuildingTech) this.selection.get(player).get(0)).product(2);
-						if(im.isPressedV)
-							((BuildingTech) this.selection.get(player).get(0)).product(3);
-						if(im.isPressedESC)
-							((BuildingTech) this.selection.get(player).get(0)).removeProd();
-					}
-					else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
-
-						int number = 4;
-
-						if(im.isPressedW)
-							number = 0;
-						if(im.isPressedX)
-							number = 1;
-						if(im.isPressedC)
-							number = 2;
-						if(im.isPressedV)
-							number = 3;
-						if(im.isPressedESC){
-							isCastingSpell.set(player,false);
-							castingSpell.set(player,-1);
-						}
-
+						// displaying building production
+						((BuildingProduction) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb)));
+					} else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingTech){
+						// displaying building technology
+						((BuildingTech) this.selection.get(player).get(0)).product((int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb)));
+					} else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+						// displaying character
+						int number = (int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb));
 						Character c = ((Character) this.selection.get(player).get(0));
-						if(c.spells.size()>number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-							if(c.spells.get(number).needToClick){
-								isCastingSpell.set(player,true);
-								castingSpell.set(player,number);
+						if(c.spells.size()>number){
+							if(c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+								if(c.spells.get(number).needToClick){
+									this.isCastingSpell.set(player, true);
+									this.castingSpell.set(player, number);
+								} else {
+									c.spells.get(number).launch(c, c);
+								}
 							} else {
-								c.spells.get(number).launch(c, c);
+								this.addMessage(Message.getById(4), player);
 							}
 						}
 					}
-				}
-				// Handling hotkeys for gestion of selection
-				if(im.isPressedTAB){
-					if(this.selection.get(player).size()>0){
-						Utils.switchTriName(this.selection.get(player));
-						if(this.g.players.get(player).groupSelection!=-1)
-							Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
-					}
-				}
-
-				// we update the selection according to the rectangle wherever is the mouse
-				if(!im.isPressedCTRL){
-					// The button is not pressed and wasn't, the selection is non null
-					this.updateSelection(rectangleSelection.get(player), player);
-				} else {
-					this.updateSelectionCTRL(rectangleSelection.get(player),player);
-				}
-				// Update the selections of the players
-				this.g.players.get(player).selection.clear();
-				for(ActionObjet c: this.selection.get(player))
-					this.g.players.get(player).selection.addElement(c);
-				
-				//TODO virer les lignes ci-dessous (debug)
-				if(im.isPressedNumPad[9]){
-					this.g.bottomBars.minimap.createRandomLine();
-				}
-				if(im.isPressedNumPad[8]){
-					this.g.bottomBars.minimap.isVisibleLine = false;
+				}else{
+					this.g.players.get(player).bottomBar.action.toDrawDescription=false;
 				}
 			}
+
+			// FIELD
+			//update the rectangle
+			if(im.leftClick && !isCastingSpell.get(player)){
+				// As long as the button is pressed, the selection is updated
+				this.updateRectangle(im,player);
+			}
+
+			if(im.isPressedLeftClick){
+				if(isCastingSpell.get(player)){
+					// Handling the spell
+					if(this.g.players.get(player).selection.size()>0){
+						Character c = (Character)this.g.players.get(player).selection.get(0); 
+						Spell spell = c.spells.get(castingSpell.get(player));
+						spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+						c.spellsState.set(castingSpell.get(player),0f);
+					}
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				} else if(!im.isPressedMAJ){
+					this.clearSelection(player);
+				}
+			}
+			// Right click (j'aime bien ubisoft)
+			if(im.isPressedRightClick){
+				//RALLY POINT
+				if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
+					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
+				} else if(isCastingSpell.get(player)){
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				} else if(im.isPressedMAJ ){
+					if(!im.isPressedA)
+						updateSecondaryTarget(im.xMouse,im.yMouse,player);
+				} else {
+					if(!im.isPressedA)
+						updateTarget(im.xMouse,im.yMouse,player);
+				}
+			}
+
+			// Handling other hotkeys in production bar
+			if(im.isPressedW || im.isPressedX || im.isPressedC || im.isPressedV || im.isPressedESC){
+				if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingAction){
+					if(im.isPressedW)
+						((BuildingAction) this.selection.get(player).get(0)).product(0);
+					if(im.isPressedX)
+						((BuildingAction) this.selection.get(player).get(0)).product(1);
+					if(im.isPressedC)
+						((BuildingAction) this.selection.get(player).get(0)).product(2);
+					if(im.isPressedV)
+						((BuildingAction) this.selection.get(player).get(0)).product(3);
+					if(im.isPressedESC)
+						((BuildingAction) this.selection.get(player).get(0)).removeProd();
+				}
+				else if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+
+					int number = -1;
+
+					if(im.isPressedW)
+						number = 0;
+					if(im.isPressedX)
+						number = 1;
+					if(im.isPressedC)
+						number = 2;
+					if(im.isPressedV)
+						number = 3;
+					if(im.isPressedESC){
+						isCastingSpell.set(player,false);
+						castingSpell.set(player,-1);
+					}
+					Character c = ((Character) this.selection.get(player).get(0));
+					if(-1!=number && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+						if(c.spells.get(number).needToClick){
+							isCastingSpell.set(player,true);
+							castingSpell.set(player,number);
+						} else {
+							c.spells.get(number).launch(c, c);
+						}
+					}
+				}
+			}
+			// Handling hotkeys for gestion of selection
+			if(im.isPressedTAB){
+				if(this.selection.get(player).size()>0){
+					Utils.switchTriName(this.selection.get(player));
+					if(this.g.players.get(player).groupSelection!=-1)
+						Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
+				}
+			}
+
+			// we update the selection according to the rectangle wherever is the mouse
+			if(!im.isPressedCTRL){
+				// The button is not pressed and wasn't, the selection is non null
+				this.updateSelection(rectangleSelection.get(player), player);
+			} else {
+				this.updateSelectionCTRL(rectangleSelection.get(player),player);
+			}
+			// Update the selections of the players
+			this.g.players.get(player).selection.clear();
+			for(ActionObjet c: this.selection.get(player))
+				this.g.players.get(player).selection.addElement(c);
+
 		}
 
 		// Handling the changes
@@ -865,55 +817,52 @@ public class Plateau {
 
 
 
-		// 4 - Update of the music
-		if(!g.isInMenu && !this.g.musics.imperial.playing()){
-			this.g.musics.imperial.loop();
-		}
+	
 
 		// 5 - Update of the messages
 		Vector<Message> toDelete = new Vector<Message>();
-		for(int player=1; player<this.g.players.size(); player++){
-			toDelete.clear();
-			for(Message m: this.messages.get(player)){
-				m.remainingTime-=1f;
-				if(m.remainingTime<=0f)
-					toDelete.add(m);
-			}
-			for(Message m:toDelete)
-				this.messages.get(player).remove(m);
-		}
 
-		// 6 - creation of the outputmodel
-		om.food = this.g.players.get(2).food;
-		om.gold = this.g.players.get(2).gold;
-		om.special = this.g.players.get(2).special;
-		for(Technologie t: this.g.players.get(2).hq.techsDiscovered){
-			om.toChangeTech.addElement(t.id);
+		toDelete.clear();
+		for(Message m: this.messages.get(player)){
+			m.remainingTime-=1f;
+			if(m.remainingTime<=0f)
+				toDelete.add(m);
 		}
-		for(Character c: this.characters){
-			om.toChangeCharacters.add(new OutputChar(c));
-		}
-		for(Bullet b: this.bullets){
-			if(b instanceof Arrow)
-				om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy));
-			else
-				om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
-		}
-		for(Building b: this.buildings){
-			om.toChangeBuildings.add(new OutputBuilding(b));
-		}
-		for(SpellEffect s : this.spells){
-			om.toChangeSpells.add(new OutputSpell(s));
-		}
-		for(ActionObjet c : this.selection.get(2)){
-			om.selection.add(c.id);
-		}
-		for(Message m:this.messages.get(2)){
-			om.toChangeMessages.add(m);
-		}
-
-		return om;
+		for(Message m:toDelete)
+			this.messages.get(player).remove(m);
 	}
+	//
+	//	// 6 - creation of the outputmodel
+	//	om.food = this.g.players.get(2).food;
+	//	om.gold = this.g.players.get(2).gold;
+	//	om.special = this.g.players.get(2).special;
+	//	for(Technologie t: this.g.players.get(2).hq.techsDiscovered){
+	//		om.toChangeTech.addElement(t.id);
+	//	}
+	//	for(Character c: this.characters){
+	//		om.toChangeCharacters.add(new OutputChar(c));
+	//	}
+	//	for(Bullet b: this.bullets){
+	//		if(b instanceof Arrow)
+	//			om.toChangeBullets.add(new OutputBullet(b.id,0,b.x,b.y,b.vx,b.vy));
+	//		else
+	//			om.toChangeBullets.add(new OutputBullet(b.id,1,b.x,b.y,b.vx,b.vy));
+	//	}
+	//	for(Building b: this.buildings){
+	//		om.toChangeBuildings.add(new OutputBuilding(b));
+	//	}
+	//	for(SpellEffect s : this.spells){
+	//		om.toChangeSpells.add(new OutputSpell(s));
+	//	}
+	//	for(ActionObjet c : this.selection.get(2)){
+	//		om.selection.add(c.id);
+	//	}
+	//	for(Message m:this.messages.get(2)){
+	//		om.toChangeMessages.add(m);
+	//	}
+
+
+
 
 
 	public void updateFromOutput(OutputModel om, InputModel im){
@@ -1119,17 +1068,8 @@ public class Plateau {
 				}
 			}
 		}
-		// PATHFINDING
-		if(im.isPressedB){
-			BottomBar b = this.g.players.get(player).bottomBar;
-			b.path.toDraw = true;
 
-		}
-		else{
-			BottomBar b = this.g.players.get(player).bottomBar;
-			b.path.toDraw = false;
-		}
-		
+		//MINIMAP
 		if(im.isPressedA){
 			BottomBar b = this.g.players.get(player).bottomBar;
 			b.minimap.toDraw = true;

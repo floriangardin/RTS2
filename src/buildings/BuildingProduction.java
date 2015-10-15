@@ -6,7 +6,7 @@ import multiplaying.OutputModel.OutputBuilding;
 import units.Character;
 import units.UnitsList;
 
-public abstract class BuildingProduction extends Building {
+public abstract class BuildingProduction extends BuildingAction {
 
 
 	public Vector<UnitsList> productionList;

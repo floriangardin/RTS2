@@ -37,7 +37,7 @@ public class Map {
 		// Water
 
 			
-		// ENCULE KEVIN 
+		// UbiSoft C'est Cool 
 			new Water(175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
 			new Water(game.plateau.maxX-175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
 			
@@ -81,7 +81,7 @@ public class Map {
 		// Water
 
 			
-		// ENCULE KEVIN 
+		// UbiSoft C'est Cool 
 			new Water(3.0f*game.plateau.maxX/6,175f,800f,350f,game.plateau);
 			new Water(3.0f*game.plateau.maxX/6,game.plateau.maxY-175f,800f,350f,game.plateau);
 			
@@ -186,7 +186,7 @@ public class Map {
 		// Water
 
 			
-		// ENCULE KEVIN 
+		// UbiSoft C'est Cool 
 		new Water(5f*X/18,2f*Y/3,X/9,2f*Y/3,game.plateau);
 		new Water(13f*X/18,1f*Y/3,X/9,2f*Y/3,game.plateau);
 					
