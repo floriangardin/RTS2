@@ -84,7 +84,7 @@ public class Game extends BasicGame
 	public Vector<InputModel> inputs = new Vector<InputModel>();
 	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
 	public Vector<String> toSendInputs = new Vector<String>();
-	public Vector<OutputModel> outputs = new Vector<OutputModel>();
+	public Vector<String> outputs = new Vector<String>();
 	public Vector<OutputModel> toRemoveOutputs = new Vector<OutputModel>();
 	public Vector<String> toSendOutputs = new Vector<String>();
 	public Vector<String> connexions = new Vector<String>();
@@ -224,6 +224,7 @@ public class Game extends BasicGame
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
+		Utils.printCurrentState(plateau);
 		Vector<InputModel> ims = new Vector<InputModel>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game
@@ -231,18 +232,27 @@ public class Game extends BasicGame
 			this.menuCurrent.update(gc.getInput());
 		} else {
 			if(!host){
+				// client mode
 				InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 				this.toSendInputs.addElement(im.toString());
 				ims.add(im);
+				if(outputs.size()>0){
+					this.plateau.currentString = outputs.lastElement();
+					outputs.clear();
+				}
 			} else {
 				if(inMultiplayer){
+					// host mode
 					if(inputs.size()>0)
 						ims.add(this.inputs.lastElement());
+					this.plateau.update(ims);
+					this.toSendOutputs.add(this.plateau.currentString);
+				} else {
+					// solo mode
+					ims.add(new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
+					this.plateau.update(ims);
 				}
-				ims.add(new InputModel(this,0,1,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
-				
 			}
-			this.plateau.update(ims);
 		}
 	}
 
@@ -306,7 +316,7 @@ public class Game extends BasicGame
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-				
+
 		inputReceiver = new MultiReceiver(this,portInput);
 		inputSender = new MultiSender(addressHost,portInput,this.toSendInputs);
 		outputReceiver = new MultiReceiver(this,portOutput);

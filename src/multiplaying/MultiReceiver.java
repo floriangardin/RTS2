@@ -50,7 +50,7 @@ public class MultiReceiver extends Thread{
 						int c = Integer.parseInt(msg.substring(0,1));
 						switch(c){
 						case 0: InputModel im = new InputModel(msg.substring(1, msg.length()));this.g.inputs.add(im);break;
-						case 1: OutputModel om = new OutputModel(msg.substring(1, msg.length()));this.g.outputs.add(om);break;
+						case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
 						case 2: this.g.connexions.add(msg.substring(1, msg.length()));
 						default:
 						}

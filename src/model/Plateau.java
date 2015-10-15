@@ -47,6 +47,8 @@ public class Plateau {
 	public Image fog;
 	public Graphics gf;
 
+	//
+	public String currentString ;
 
 
 	// ADD ALL OBJETS 
@@ -532,7 +534,11 @@ public class Plateau {
 			this.clean();
 			this.action();
 		} else {
-			//TODO add parse
+			if(currentString!=null){
+				this.parse(currentString);
+				currentString= null;
+			}
+			
 		}
 
 		// 3 - handling visibility
