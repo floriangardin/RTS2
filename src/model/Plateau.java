@@ -981,14 +981,12 @@ public class Plateau {
 
 	public void parse(String s){
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
-		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET
+		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
+		System.out.println(s);
 		if(s!=null && s!=""){
-			System.out.println("parse");
-			System.out.println(s);
+			
 			String[] u = s.split(" separation ");
-			System.out.println("u1 et u2");
-			System.out.println(u[1]);
-			System.out.println(u[2]);
+			
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);

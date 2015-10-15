@@ -62,7 +62,7 @@ public class Player {
 	public void parsePlayer(String s){
 
 		//SEPARATION BETWEEN KEYS
-		System.out.println("s : " +s);
+		
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
