@@ -563,7 +563,6 @@ public class Plateau {
 
 
 	private void updateSelection(InputModel im) {
-		System.out.println(im);
 		this.selection.get(im.team).clear();
 
 		for(Integer i : im.selection){
@@ -579,6 +578,8 @@ public class Plateau {
 	}
 
 	private void handleRightClick(InputModel im, int player) {
+		if(im.team!=g.currentPlayer)
+			System.out.println("mythe");
 		if(im.isPressedRightClick){
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){

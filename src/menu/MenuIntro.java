@@ -140,6 +140,11 @@ public class MenuIntro extends Menu {
 			} else {
 				if(this.game.connexions.size()>0){
 					this.game.toSendConnexions.addElement("2mythe");
+					this.game.toSendConnexions.addElement("2mythe");
+					this.game.toSendConnexions.addElement("2mythe");
+					try{
+						Thread.sleep(5);
+					} catch(InterruptedException e) { }
 					game.inMultiplayer = true;
 					game.currentPlayer = 2;
 					callItem(0);
