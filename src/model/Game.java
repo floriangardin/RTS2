@@ -224,13 +224,13 @@ public class Game extends BasicGame
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException 
 	{	
-		Utils.printCurrentState(plateau);
 		Vector<InputModel> ims = new Vector<InputModel>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
+			Utils.printCurrentState(plateau);
 			if(!host){
 				// client mode
 				InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
