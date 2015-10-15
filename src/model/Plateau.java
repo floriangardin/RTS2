@@ -502,30 +502,42 @@ public class Plateau {
 		// 1 - Handling inputs 
 		InputModel im;
 		for(int player = 1; player<=nTeams; player++){
+			if(!g.host && player!=g.currentPlayer)
+				continue;
 			im = null;
 			for(InputModel inp : ims)
 				if(inp.team==player)
 					im = inp;
 			if(im!=null){
-				// Handling action bar
-				this.handleActionBar(im,player);
-				// Handling the right click
-				this.handleRightClick(im, player);
-				// handling only the current player
+				if(g.host){
+					// Handling action bar
+					this.handleActionBar(im,player);
+					// Handling the right click
+					this.handleRightClick(im, player);
+					// handling only the current player
+				}
 				if(player == this.g.currentPlayer && !this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 					this.handleView(im, player);
 					this.handleSelection(im, player);
 				}
-				// Handling the spell on the field
-				this.handleSpellsOnField(im, player);
+				if(g.host){
+					// Handling the spell on the field
+					this.handleSpellsOnField(im, player);
+				}
 			}
 		}
-		// 2 - Collision, Action, Cleaning
-		this.collision();
-		this.clean();
-		this.action();
-		// 3 - Update the visibility
+		if(g.host){
+			// 2 - Only for host - Collision, Action, Cleaning
+			this.collision();
+			this.clean();
+			this.action();
+		} else {
+			//TODO add parse
+		}
+
+		// 3 - handling visibility
 		this.updateVisibility();
+
 		// 4 - Update of the messages
 		//		Vector<Message> toDelete = new Vector<Message>();
 		//		toDelete.clear();
@@ -909,7 +921,7 @@ public class Plateau {
 			return;
 		this.messages.get(team).add(0, m);
 	}
-	
+
 	public String toString(){
 		//PLAYERS
 		String s = " separation ";
@@ -934,31 +946,31 @@ public class Plateau {
 		}
 		return s;
 	}
-	
+
 	public void parse(String s){
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET
 		String[] u = s.split(" separation ");
-		
+
 		//Take care of player
 		this.g.players.get(g.currentPlayer).parsePlayer(u[0]);
 		parseCharacter(u[1]);
 		parseBuilding(u[2]);
 		parseBullet(u[3]);
 	}
-	
 
-	
+
+
 	public void parseBuilding(String s){
-		
+
 	}
-	
+
 	public void parseCharacter(String s){
 		//SPLIT SELON |
 		String[] u = s.split("|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
-		
+
 		for(int i =0;i<u.length;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
@@ -969,7 +981,7 @@ public class Plateau {
 					break;
 				}
 			}
-			
+
 			if(cha!=null){
 				cha.parse(hs);
 			}
@@ -980,9 +992,9 @@ public class Plateau {
 		}
 	}
 	public void parseBullet(String s){
-		
+
 	}
-	
+
 
 
 }
