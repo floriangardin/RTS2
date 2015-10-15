@@ -17,8 +17,6 @@ public class MultiReceiver extends Thread{
 	byte[] message;
 	DatagramPacket packet;
 
-	public boolean lock = false;
-	public boolean setLock = false;
 
 	// DEBUGGING
 	private boolean debug = false;
@@ -35,28 +33,23 @@ public class MultiReceiver extends Thread{
 			if(debug)
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
-				if(!lock){
-					message = new byte[8000];
-					packet = new DatagramPacket(message, message.length);
-					try{
-						server.receive(packet);
-					} catch(java.net.SocketException e){
-						break;
+				message = new byte[8000];
+				packet = new DatagramPacket(message, message.length);
+				try{
+					server.receive(packet);
+				} catch(java.net.SocketException e){
+					break;
+				}
+				String msg = new String(packet.getData());
+				if(debug) System.out.println("port : " + port + " message received: " + msg);
+				if(msg.length()>0){
+					int c = Integer.parseInt(msg.substring(0,1));
+					switch(c){
+					case 0: InputModel im = new InputModel(msg.substring(1, msg.length()));this.g.inputs.add(im);break;
+					case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
+					case 2: this.g.connexions.add(msg.substring(1, msg.length()));
+					default:
 					}
-					this.lock = setLock;
-					String msg = new String(packet.getData());
-					if(debug) System.out.println("port : " + port + " message received: " + msg);
-					if(msg.length()>0){
-						int c = Integer.parseInt(msg.substring(0,1));
-						switch(c){
-						case 0: InputModel im = new InputModel(msg.substring(1, msg.length()));this.g.inputs.add(im);break;
-						case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
-						case 2: this.g.connexions.add(msg.substring(1, msg.length()));
-						default:
-						}
-					}
-				} else {
-					try{Thread.sleep(1);}catch(InterruptedException e){}
 				}
 			}
 
