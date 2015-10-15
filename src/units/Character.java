@@ -912,9 +912,9 @@ public class Character extends ActionObjet{
 		
 	}
 	
-	public void parse(String s){
+	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
-		HashMap<String,String> hs = preParse(s);
+		
 		this.parse1(hs);
 		this.parse2(hs);
 		this.parse3(hs);
