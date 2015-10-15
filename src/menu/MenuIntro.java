@@ -35,6 +35,9 @@ public class MenuIntro extends Menu {
 	public Image exitSelected;
 	public int selected = -1;
 	private boolean multiplaying;
+	
+	//TODO upgrading multiplayer
+	public int cooldown;
 
 	public MenuIntro(Game game){
 		try {
@@ -42,12 +45,9 @@ public class MenuIntro extends Menu {
 			this.music.setVolume(0.5f);
 			this.music.loop();
 		} catch (SlickException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		this.game = game;
-		this.game.connexionReceiver.start();
-		this.game.connexionSender.start();
 		this.items = new Vector<Menu_Item>();
 		this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
@@ -69,21 +69,8 @@ public class MenuIntro extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
 
 		} catch (SlickException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-
-		float x1,x2,y1,y2;
-		float sizeX = this.game.resX;
-		float sizeY = this.game.resY;
-		//		for(int i=0; i<4; i++){
-		//			x1 = sizeX/18f+(float)Math.random()*2f*sizeX/9f;
-		//			x2 = 13f*sizeX/18f+(float)Math.random()*2f*sizeX/9f;
-		//			y1 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
-		//			y2 = sizeY/5f+(float)Math.random()*3f*sizeY/5f;
-		//			this.trees.add(new Tree(x1,y1,(int)(Math.random()*4f+1f)));
-		//			this.trees.add(new Tree(x2,y2,(int)(Math.random()*4f+1f)));
 		//		}
 		Utils.triY(trees);
 		try{
@@ -140,9 +127,22 @@ public class MenuIntro extends Menu {
 			if(i.isKeyPressed(Input.KEY_ESCAPE))
 				multiplaying = false;
 			if(this.game.host){
-				
+				if(cooldown<=0){
+					this.game.toSendConnexions.addElement("mythe");
+					cooldown+=50;
+				}else
+					cooldown-=1;
+				if(this.game.connexions.size()>0){
+					game.inMultiplayer = true;
+					callItem(0);
+				}
 			} else {
-				
+				if(this.game.connexions.size()>0){
+					this.game.toSendConnexions.addElement("mythe");
+					game.inMultiplayer = true;
+					game.currentPlayer = 2;
+					callItem(0);
+				}
 			}
 		}else if(!toGame){
 			if(i!=null){
