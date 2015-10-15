@@ -938,7 +938,7 @@ public class Plateau {
 
 	public String toString(){
 		//PLAYERS
-		String s = " separation ";
+		String s = "1 separation ";
 		s+=this.g.players.get(3-this.g.currentPlayer);
 		//CHARACTER
 		s += " separation ";
