@@ -21,7 +21,7 @@ public class MultiReceiver extends Thread{
 	public boolean setLock = false;
 
 	// DEBUGGING
-	private boolean debug = true;
+	private boolean debug = false;
 
 	public MultiReceiver(Game g, int port){
 		this.g = g;
