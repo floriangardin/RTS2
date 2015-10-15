@@ -499,7 +499,6 @@ public class Plateau {
 		return target;
 	}
 
-
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
 		InputModel im;
@@ -518,9 +517,13 @@ public class Plateau {
 					this.handleRightClick(im, player);
 					// handling only the current player
 				}
-				if(player == this.g.currentPlayer && !this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
-					this.handleView(im, player);
-					this.handleSelection(im, player);
+				if(player == this.g.currentPlayer){
+					if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
+						this.handleView(im, player);
+						this.handleSelection(im, player);
+					}
+				} else {
+//					this.updateSelection();;
 				}
 				if(g.host){
 					// Handling the spell on the field
