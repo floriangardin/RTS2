@@ -528,18 +528,24 @@ public class Plateau {
 				}
 			}
 		}
-		if(g.host){
-			// 2 - Only for host - Collision, Action, Cleaning
+
+		// 2 - Only for host - Collision, Action, Cleaning
+		if(g.host)
 			this.collision();
-			this.clean();
+		this.clean();
+		if(g.host)			
 			this.action();
+
+		if(g.host){
+			this.currentString = this.toString();
 		} else {
 			if(currentString!=null){
 				this.parse(currentString);
 				currentString= null;
 			}
-			
 		}
+
+
 
 		// 3 - handling visibility
 		this.updateVisibility();
@@ -929,7 +935,7 @@ public class Plateau {
 	}
 
 	//MULTIPLAYING
-	
+
 	public String toString(){
 		//PLAYERS
 		String s = " separation ";
