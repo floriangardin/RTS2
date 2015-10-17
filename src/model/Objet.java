@@ -126,7 +126,6 @@ public abstract class Objet {
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split("\\:");
-			
 			hs.put(r[0], r[1]);
 		}
 		return hs;

@@ -986,12 +986,15 @@ public class Plateau {
 		if(s!=null && s!=""){
 
 			String[] u = s.split(" separation ");
-
+			
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);
 			parseBuilding(u[3]);
-			parseBullet(u[4]);
+			if(u.length>=5){
+				parseBullet(u[4]);
+			}
+			
 		}
 	}
 
