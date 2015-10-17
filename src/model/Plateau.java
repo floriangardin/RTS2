@@ -1096,7 +1096,10 @@ public class Plateau {
 			}
 			else{
 				Bullet b = Bullet.createNewBullet(hs, g);
-				b.toKeep = true;
+				if(b!=null){
+					b.toKeep = true;
+				}
+				
 			}
 		}
 		//Destroy characters who didn't give any news
