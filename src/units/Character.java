@@ -900,7 +900,6 @@ public class Character extends ActionObjet{
 	}
 
 	public void parse3(HashMap<String,String> hs){
-
 		if(hs.containsKey("weapon")){
 			this.weapon=hs.get("weapon");
 		}

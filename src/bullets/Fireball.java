@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
+import model.Changes;
 import model.Checkpoint;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBullet;
@@ -21,6 +22,8 @@ public class Fireball extends Bullet {
 	protected boolean explosion= false;
 
 	public Fireball(Plateau p,Character owner,float damage){
+		//MULTI 
+		this.changes = new Changes();
 		// Parameters
 		this.altitude = 0f;
 		this.areaEffect = 40f;
