@@ -63,7 +63,10 @@ public abstract class Bullet extends ActionObjet {
 		default:
 			c = null;
 		}
-		c.parse(hs);
+		if(c!=null){
+			c.parse(hs);
+		}
+		
 		return c;
 		
 	}
