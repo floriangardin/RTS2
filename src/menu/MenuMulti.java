@@ -99,14 +99,13 @@ public class MenuMulti extends Menu {
 				String s="";
 				try {
 					s = InetAddress.getLocalHost().getHostAddress();
-					String[] tab = s.split(".");
-					s = "";
-					for(int k=0; k<tab.length-1;k++){
-						s += tab[k]+".";
-					}
 				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				String[] tab = s.split("\\.");
+				s = "";
+				for(int k=0; k<tab.length-1;k++){
+					s += tab[k]+".";
 				}
 				for(int ip=0; ip<255;ip++){
 					this.game.toSendConnexions.addElement("2"+s+""+ip);
