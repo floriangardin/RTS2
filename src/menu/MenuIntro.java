@@ -155,7 +155,7 @@ public class MenuIntro extends Menu {
 			if(i!=null){
 				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					callItems(i);
-					this.game.sounds.menuItemSelected.play();
+					this.game.sounds.menuItemSelected.play(1f,0.5f);
 				}
 				for(Menu_Item item: this.items){
 					item.update(i);
