@@ -152,31 +152,31 @@ public class InputModel extends MultiObjetModel{
 		s+="0team:" + team+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
-			s+=",rightClick";
+			s+=",rightClick: ";
 		if(leftClick)
-			s+=",leftClick";
+			s+=",leftClick: ";
 
-		if(pressedRightClick) s+=",im.isPressedpressedRightClick";
-		if(pressedLeftClick) s+=",im.isPressedpressedLeftClick";
+		if(pressedRightClick) s+=",im.isPressedpressedRightClick: ";
+		if(pressedLeftClick) s+=",im.isPressedpressedLeftClick: ";
 
-		if(isPressedESC) s+=",im.isPressedESC";
-		if(isPressedMAJ) s+=",im.isPressedMAJ";
-		if(isPressedCTRL) s+=",im.isPressedCTRL";
-		if(isPressedBACK) s+=",im.isPressedBACK";
-		if(isPressedDOT) s+=",im.isPressedDOT";
-		if(isPressedENTER) s+=",im.isPressedENTER";
-		if(isPressedTAB) s+=",im.isPressedTAB";
-		if(isPressedLEFT) s+=",im.isPressedLEFT";
-		if(isPressedRIGHT) s+=",im.isPressedRIGHT";
-		if(isPressedUP) s+=",im.isPressedUP";
-		if(isPressedDOWN) s+=",im.isPressedDOWN";
+		if(isPressedESC) s+=",im.isPressedESC: ";
+		if(isPressedMAJ) s+=",im.isPressedMAJ: ";
+		if(isPressedCTRL) s+=",im.isPressedCTRL: ";
+		if(isPressedBACK) s+=",im.isPressedBACK: ";
+		if(isPressedDOT) s+=",im.isPressedDOT: ";
+		if(isPressedENTER) s+=",im.isPressedENTER: ";
+		if(isPressedTAB) s+=",im.isPressedTAB: ";
+		if(isPressedLEFT) s+=",im.isPressedLEFT: ";
+		if(isPressedRIGHT) s+=",im.isPressedRIGHT: ";
+		if(isPressedUP) s+=",im.isPressedUP: ";
+		if(isPressedDOWN) s+=",im.isPressedDOWN: ";
 
-		if(isPressedProd0) s+=",im.isPressedProd0";
-		if(isPressedProd1) s+=",im.isPressedProd1";
-		if(isPressedProd2) s+=",im.isPressedProd2";
-		if(isPressedProd3) s+=",im.isPressedProd3";
-		if(isPressedA) s+=",im.isPressedA";
-		if(isPressedB) s+=",im.isPressedB";
+		if(isPressedProd0) s+=",im.isPressedProd0: ";
+		if(isPressedProd1) s+=",im.isPressedProd1: ";
+		if(isPressedProd2) s+=",im.isPressedProd2: ";
+		if(isPressedProd3) s+=",im.isPressedProd3: ";
+		if(isPressedA) s+=",im.isPressedA: ";
+		if(isPressedB) s+=",im.isPressedB: ";
 
 		for(int i=0; i<10; i++)
 			s+=(isPressedNumPad[i] ? ","+i+": " : "");
