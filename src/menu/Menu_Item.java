@@ -14,7 +14,6 @@ public class Menu_Item {
 	public float x;
 	public float y;
 	public Image image;
-	public String name;
 	public Image selectedImage;
 	public boolean isMouseOnIt = false;
 	public float animation = 0f;
@@ -22,13 +21,12 @@ public class Menu_Item {
 	public Image toDraw;
 	public boolean colorAnimation = true;
 
-	public Menu_Item(float x, float y, Image im, Image selectedImage,String name) {
+	public Menu_Item(float x, float y, Image im, Image selectedImage) {
 		this.image = im;
 		this.selectedImage = selectedImage;
 		this.toDraw = this.image;
 		this.x = x;
 		this.y = y;
-		this.name = name;
 		this.sizeX = this.image.getWidth();
 		this.sizeY = this.image.getHeight();
 	}
@@ -50,9 +48,6 @@ public class Menu_Item {
 		g.drawImage(this.toDraw,x, y);
 	}
 
-	public void printDebug(){
-		System.out.println(this.name+" "+this.x+" "+this.y+" " +this.sizeX+" " +this.sizeY);
-	}
 
 	public void update(Input i){
 		if(this.colorAnimation){

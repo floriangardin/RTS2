@@ -52,21 +52,21 @@ public class MenuIntro extends Menu {
 		this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
 		float stepY = 0.15f*this.game.resY;
-
+		float ratioReso = this.game.resX/2400f;
 		try {
-			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(this.game.resX/1680);
-			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(this.game.resX/1680);
-			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(this.game.resX/1680);
-			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(this.game.resX/1680);
-			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(this.game.resX/1680);
+			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
+			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(ratioReso);
+			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(ratioReso);
+			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(ratioReso);
+			this.options = new Image("pics/menu/options.png").getScaledCopy(ratioReso);
+			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(ratioReso);
+			this.exit = new Image("pics/menu/exit.png").getScaledCopy(ratioReso);
+			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,"New Game"));
-			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,"Multiplayer"));
-			this.options = new Image("pics/menu/options.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,"Options"));
-			this.exit = new Image("pics/menu/exit.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
+			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected));
 
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -153,10 +153,13 @@ public class MenuIntro extends Menu {
 			}
 		}else if(!toGame){
 			if(i!=null){
-				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					callItems(i);
-				for(Menu_Item item: this.items)
-					item.update(i);				
+					this.game.sounds.menuItemSelected.play();
+				}
+				for(Menu_Item item: this.items){
+					item.update(i);
+				}			
 			}
 			Vector<Bullet> toremove = new Vector<Bullet>();
 			for(Bullet b: this.bullets){

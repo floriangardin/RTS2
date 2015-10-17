@@ -60,11 +60,6 @@ public abstract class Menu {
 		}
 	}
 
-	public void printDebug(){
-		for(int i=0; i<this.items.size(); i++)
-			this.items.get(i).printDebug();
-		;
-	}
 	
 	public void update(Input i){
 		
