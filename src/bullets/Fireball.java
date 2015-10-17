@@ -26,9 +26,8 @@ public class Fireball extends Bullet {
 		this.areaEffect = 40f;
 		float Vmax = 120f;
 		float size = 10f;
-
+		this.name = "fireball";
 		//
-
 		this.p = p;
 		this.id = p.g.idBullet;
 		p.g.idBullet++;

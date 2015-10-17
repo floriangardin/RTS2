@@ -22,6 +22,7 @@ public class Arrow extends Bullet{
 		this.p = p;
 		this.id = p.g.idBullet;
 		p.g.idBullet++;
+		this.name ="arrow";
 		this.damage = damage;
 		p.addBulletObjets(this);
 		this.lifePoints = 1f;
