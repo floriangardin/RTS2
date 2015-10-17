@@ -41,8 +41,8 @@ public abstract class Bullet extends ActionObjet {
 			changes.ownerId = true;
 		}
 		if(changes.ownerV && owner.target!=null){
-			s+="vxtarget:"+(owner.target.x-owner.x)+";";
-			s+="vytarget:"+(owner.target.y-owner.y)+";";
+			s+="vxtarget:"+(this.vx)+";";
+			s+="vytarget:"+(this.vy)+";";
 			changes.ownerV =true;
 		}
 		return s;
