@@ -119,14 +119,19 @@ public class Map {
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 		
 		data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
-		data1.player.create(UnitsList.Crossbowman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
+		for(int i = 0;i<10;i++){
+			data1.player.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
+		}
 			
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
 		data2.player.create(UnitsList.Spearman, 7*X/9 - 1f, Y/2);
-		data2.player.create(UnitsList.Crossbowman, 7*X/9+1f - 1f, Y/2);
+		for(int i = 0;i<10;i++){
+			data2.player.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
+		}
+		
 		
 		// Player 2 side
 

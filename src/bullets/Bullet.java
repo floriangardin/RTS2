@@ -24,12 +24,6 @@ public abstract class Bullet extends ActionObjet {
 	public Character owner;
 
 		
-	public void change(OutputBullet ocb){
-		this.x = ocb.x;
-		this.y = ocb.y;
-	}
-	
-	
 	public void collision(Building c){
 		
 	}
@@ -40,7 +34,7 @@ public abstract class Bullet extends ActionObjet {
 			s+="ownerid:"+owner.id+";";
 			changes.ownerId = true;
 		}
-		if(changes.ownerV && owner.target!=null){
+		if(changes.ownerV){
 			s+="vxtarget:"+(this.vx)+";";
 			s+="vytarget:"+(this.vy)+";";
 			changes.ownerV =true;
@@ -78,9 +72,7 @@ public abstract class Bullet extends ActionObjet {
 		default:
 			c = null;
 		}
-		if(c!=null){
-			c.parse(hs);
-		}
+		
 		
 		return c;
 		

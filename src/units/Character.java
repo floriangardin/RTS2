@@ -966,7 +966,7 @@ public class Character extends ActionObjet{
 		default:
 			c = null;
 		}
-		c.parse(hs);
+		
 		return c;
 		
 	}

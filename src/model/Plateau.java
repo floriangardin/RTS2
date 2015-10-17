@@ -979,19 +979,17 @@ public class Plateau {
 	public void parse(String s){
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
-		System.out.println(s);
+		//System.out.println(s);
 		if(s!=null && s!=""){
-
+			Utils.printCurrentState(this);
 			String[] u = s.split(" separation ");
 
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);
 			parseBuilding(u[3]);
-			if(u.length>=5){
-				parseBullet(u[4]);
-			}
-
+			parseBullet(u[4]);
+			
 		}
 	}
 
@@ -1078,17 +1076,15 @@ public class Plateau {
 			//Create bullet if not in plateau
 			if(bul==null){
 				bul = Bullet.createNewBullet(hs, g);
-
 			}
 			bul.parse(hs);
 			bul.toKeep = true;	
 		}
-		//Destroy characters who didn't give any news
+		//Destroy bullets who didn't give any news
 		for(Bullet b : this.bullets){
 			if(!b.toKeep){
 				b.setLifePoints(-1f);
-			}
-			else{
+			}else{
 				b.toKeep = false;
 			}
 		}
