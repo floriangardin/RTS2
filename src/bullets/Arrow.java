@@ -24,10 +24,9 @@ public class Arrow extends Bullet{
 		 
 		this.p = p;
 		if(id==-1){
-			this.id = p.g.idBullet;
-			p.g.idBullet++;
-		}
-		else{
+			this.id = p.g.idChar;
+			p.g.idChar++;
+		}else{
 			this.id=id;
 		}
 		this.name ="arrow";

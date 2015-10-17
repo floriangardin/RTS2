@@ -9,11 +9,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
 
+import bullets.Bullet;
 import pathfinding.Case;
 import units.Character;
 
 public abstract class Objet {
-	
+
 	// Animation : mode,orientation,increment
 	public int id;
 	public Image[][][] animations;
@@ -33,14 +34,14 @@ public abstract class Objet {
 	public float lifePoints;
 	public String name;
 	public int team;
-	
+
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
 	public boolean visibleByCamera;
 	public Image image;
 	//MULTIPLAYING BOOLEANS
 	public Changes changes=new Changes();
-	
+
 	public void setName(String s){
 		this.name = s;
 	}
@@ -49,7 +50,7 @@ public abstract class Objet {
 	}
 	protected void destroy(){
 		this.lifePoints = -10;
-		
+
 		this.x = -10f;
 		this.y = -10f;
 	}
@@ -64,15 +65,20 @@ public abstract class Objet {
 		return y;
 	}
 	protected void setXY(float x, float y){
-		this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
-		this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		if(this instanceof Bullet){
+			this.x = x;
+			this.y = y;
+		} else {
+			this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
+			this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		}
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		this.c = this.p.mapGrid.getCase(x, y);
 		this.changes.x=true;
 		this.changes.y = true;
 	}
-	
+
 	public boolean isAlive(){
 		return this.lifePoints>0f;
 	}
