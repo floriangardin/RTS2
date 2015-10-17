@@ -63,10 +63,10 @@ public class MenuIntro extends Menu {
 			this.exit = new Image("pics/menu/exit.png").getScaledCopy(ratioReso);
 			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected));
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected));
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected));
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected));
+			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected,this.game));
 
 		} catch (SlickException e1) {
 			e1.printStackTrace();

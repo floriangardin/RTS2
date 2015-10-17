@@ -5,11 +5,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
+import model.Game;
 import multiplaying.InputModel;
 
 public class Menu_Item {
 
 	public float sizeX;
+	public Game game;
 	public float sizeY;
 	public float x;
 	public float y;
@@ -20,10 +22,12 @@ public class Menu_Item {
 	public Color color = Color.black;
 	public Image toDraw;
 	public boolean colorAnimation = true;
+	public boolean mouseOver = false;
 
-	public Menu_Item(float x, float y, Image im, Image selectedImage) {
+	public Menu_Item(float x, float y, Image im, Image selectedImage, Game game) {
 		this.image = im;
 		this.selectedImage = selectedImage;
+		this.game = game;
 		this.toDraw = this.image;
 		this.x = x;
 		this.y = y;
@@ -52,8 +56,14 @@ public class Menu_Item {
 	public void update(Input i){
 		if(this.colorAnimation){
 			if(this.isClicked(i)){
+				if(!mouseOver){
+					this.game.sounds.menuMouseOverItem.play();
+					mouseOver = true;
+				}
 				this.toDraw = this.selectedImage;
 			} else {
+				if(mouseOver)
+					mouseOver = false;
 				this.toDraw = this.image;
 			}
 		}
