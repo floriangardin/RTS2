@@ -15,7 +15,7 @@ public class Arrow extends Bullet{
 
 	protected float angle= 0f;
 
-	public Arrow(Plateau p,Character owner,float vx,float vy,float damage){
+	public Arrow(Plateau p,Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
 		this.changes = new Changes();
 		// Parameters
@@ -23,8 +23,13 @@ public class Arrow extends Bullet{
 		float Vmax = 250f;
 		// 
 		this.p = p;
-		this.id = p.g.idBullet;
-		p.g.idBullet++;
+		if(id==-1){
+			this.id = p.g.idBullet;
+			p.g.idBullet++;
+		}
+		else{
+			this.id=id;
+		}
 		this.name ="arrow";
 		this.damage = damage;
 		p.addBulletObjets(this);

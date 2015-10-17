@@ -21,7 +21,7 @@ public class Fireball extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Fireball(Plateau p,Character owner,float vx,float vy,float damage){
+	public Fireball(Plateau p,Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
 		this.changes = new Changes();
 		// Parameters
@@ -32,8 +32,14 @@ public class Fireball extends Bullet {
 		this.name = "fireball";
 		//
 		this.p = p;
-		this.id = p.g.idBullet;
-		p.g.idBullet++;
+		if(id==-1){
+			this.id = p.g.idBullet;
+			p.g.idBullet++;
+		}
+		else{
+			this.id = id;
+		}
+
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;

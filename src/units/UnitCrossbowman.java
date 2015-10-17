@@ -37,7 +37,7 @@ public class UnitCrossbowman extends Character {
 
 	public void useWeapon(){
 
-		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage);
+		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
 
 

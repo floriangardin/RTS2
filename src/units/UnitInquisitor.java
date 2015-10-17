@@ -33,19 +33,12 @@ public class UnitInquisitor extends Character {
 	}
 
 	public UnitInquisitor(UnitInquisitor spearman, float x, float y) {
-		super(spearman,x,y);
-		
-		
-		
+		super(spearman,x,y);	
 	}
 	
 	public void useWeapon(){
-
-		new Fireball(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage);
+		new Fireball(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
-
-
-
 	}
 
 }

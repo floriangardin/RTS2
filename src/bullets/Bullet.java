@@ -46,7 +46,7 @@ public abstract class Bullet extends ActionObjet {
 			s+="vytarget:"+(owner.target.y-owner.y)+";";
 			changes.ownerV =true;
 		}
-		return s;	
+		return s;
 	}
 	public String toString(){
 		return toString1()+toString2()+toString3();
@@ -73,9 +73,10 @@ public abstract class Bullet extends ActionObjet {
 		float vy = Float.parseFloat(hs.get("vytarget"));
 		switch(hs.get("name")){
 		case "arrow":
-			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage);
+			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+			break;
 		case "fireball":
-			c =  new Fireball(g.plateau,cha,vx,vy,cha.damage);	
+			c =  new Fireball(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));	
 			break;
 		default:
 			c = null;
