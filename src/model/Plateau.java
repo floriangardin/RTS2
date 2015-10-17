@@ -987,7 +987,9 @@ public class Plateau {
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);
 			parseBuilding(u[3]);
+			double chrono = System.nanoTime();
 			parseBullet(u[4]);
+			System.out.println("bullets : "+(System.nanoTime()-chrono));
 			
 		}
 		
