@@ -981,9 +981,7 @@ public class Plateau {
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
 		//System.out.println(s);
 		if(s!=null && s!=""){
-			Utils.printCurrentState(this);
 			String[] u = s.split(" separation ");
-
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);
