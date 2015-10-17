@@ -40,13 +40,9 @@ public class MenuIntro extends Menu {
 	public int cooldown;
 
 	public MenuIntro(Game game){
-		try {
-			this.music = new Music("music/menuTheme.ogg");
-			this.music.setVolume(0.5f);
-			this.music.loop();
-		} catch (SlickException e1) {
-			e1.printStackTrace();
-		}
+		this.music = game.musics.menu;
+		this.music.setVolume(game.options.musicVolume);
+		this.music.loop();
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
@@ -154,7 +150,7 @@ public class MenuIntro extends Menu {
 			if(i!=null){
 				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					callItems(i);
-					this.game.sounds.menuItemSelected.play(1f,0.5f);
+					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
 				}
 				for(Menu_Item item: this.items){
 					item.update(i);
@@ -170,6 +166,9 @@ public class MenuIntro extends Menu {
 		} else {
 			this.timeToGame -= 1f;
 			if(timeToGame<0f){
+				this.music = game.musics.imperial;
+				this.music.setVolume(game.options.musicVolume);
+				this.music.loop();
 				this.game.newGame();
 				this.game.quitMenu();
 			}
