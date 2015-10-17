@@ -54,6 +54,9 @@ public abstract class Bullet extends ActionObjet {
 		Bullet c;
 		//Get back the owner 
 		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("id")));
+		if(!hs.containsKey("name")){
+			return null;
+		}
 		switch(hs.get("name")){
 		case "arrow":
 			c =  new Arrow(g.plateau,cha,cha.damage);
