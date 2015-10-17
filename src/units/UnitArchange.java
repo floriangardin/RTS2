@@ -121,7 +121,7 @@ public class UnitArchange extends Character {
 			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
 
 		if(c.armor<damage){
-			c.lifePoints+=c.armor-damage;
+			c.setLifePoints(c.lifePoints+c.armor-damage);
 		}
 		// Reset the state
 		this.state = 0f;

@@ -82,7 +82,11 @@ public abstract class Objet {
 	public boolean isAlive(){
 		return this.lifePoints>0f;
 	}
-
+	
+	public void setLifePoints(float lifepoints){
+		this.lifePoints= lifepoints;
+		this.changes.lifePoints = true;
+	}
 	// TOSTRING METHODS
 	public String toString1(){
 		String s="";
@@ -121,6 +125,7 @@ public abstract class Objet {
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
+			System.out.println(u[i]);
 			String[] r = u[i].split("\\:");
 			hs.put(r[0], r[1]);
 		}

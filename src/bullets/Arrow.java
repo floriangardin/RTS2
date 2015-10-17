@@ -63,9 +63,9 @@ public class Arrow extends Bullet{
 				damage = damage * this.p.g.players.get(team).data.bonusBowFoot;
 			}
 			if(c.armor<=damage){
-				c.lifePoints+=c.armor-damage;
+				c.setLifePoints(c.lifePoints+c.armor-damage);
 			}
-			this.lifePoints=-1f;
+			this.setLifePoints(-1f);
 		}
 
 	}
@@ -83,7 +83,7 @@ public class Arrow extends Bullet{
 	public void action(){
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
 		if(this.x>this.p.maxX || this.x<0 || this.y>this.p.maxY||this.y<0){
-			this.lifePoints=-1f;
+			this.setLifePoints(-1f);
 		}
 	}
 
