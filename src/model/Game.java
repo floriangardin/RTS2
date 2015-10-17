@@ -79,8 +79,8 @@ public class Game extends BasicGame
 	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
-	private String addressHostString = "192.168.0.17";
-	private String addressClientString = "192.168.0.20";
+	private String addressHostString;
+	private String addressClientString;
 	public InetAddress addressHost;
 	public InetAddress addressClient;
 	public Vector<InputModel> inputs = new Vector<InputModel>();
@@ -297,7 +297,6 @@ public class Game extends BasicGame
 		this.menuMulti = new MenuMulti(this);
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
-		this.connexionSender.start();
 		
 	}
 
@@ -307,26 +306,11 @@ public class Game extends BasicGame
 		this.resX = resX;
 		this.resY = resY;
 		this.images = new Images(false);
-		try {
-			addressHost = InetAddress.getByName(addressHostString);
-			addressClient = InetAddress.getByName(addressClientString);
-		} catch (UnknownHostException e) {
-			System.out.println("unknown address");
-		}
-		try {
-			host = (InetAddress.getLocalHost().getHostAddress()).equals(addressHost.getHostAddress());
-			//System.out.println(host);
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
 
-		inputReceiver = new MultiReceiver(this,portInput);
-		inputSender = new MultiSender(addressHost,portInput,this.toSendInputs);
-		outputReceiver = new MultiReceiver(this,portOutput);
-		outputSender = new MultiSender(addressClient, portOutput, this.toSendOutputs);
+
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		//TODO: upgrading multiplaying
-		connexionSender = new MultiSender(host ? addressClient : addressHost, portConnexion, this.toSendConnexions);
+		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions);
 
 	}
 }

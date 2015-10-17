@@ -98,6 +98,10 @@ public class MenuMulti extends Menu {
 		if(inJoin && i.isKeyPressed(Input.KEY_ESCAPE)) inJoin = false;
 		if(inHost){
 			if(cooldown==0){
+				if(!game.connexionSender.isAlive()){
+					System.out.println("ee");
+					game.connexionSender.start();
+				}
 				String s="";
 				try {
 					s = InetAddress.getLocalHost().getHostAddress();
@@ -150,6 +154,8 @@ public class MenuMulti extends Menu {
 				} catch (UnknownHostException e1) {
 					e1.printStackTrace();
 				}
+				this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions);
+				game.connexionSender.start();
 				this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs);
 				this.game.outputReceiver = new MultiReceiver(this.game,this.game.portOutput);
 				this.game.inputSender.start();
