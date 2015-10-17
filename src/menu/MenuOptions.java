@@ -79,9 +79,9 @@ public class MenuOptions extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 3: this.game.options.musicVolume-=0.1f;break;
-		case 4: this.game.options.soundVolume-=0.1f;break;
+		case 4: this.game.options.soundVolume-=0.02f;break;
 		case 5: this.game.options.musicVolume+=0.1f;break;
-		case 6: this.game.options.soundVolume+=0.1f;break;
+		case 6: this.game.options.soundVolume+=0.02f;break;
 		case 7: 
 			this.game.setMenu(game.menuIntro);
 			this.updateOptions();
@@ -89,7 +89,7 @@ public class MenuOptions extends Menu {
 		default:		
 		}
 		this.game.options.musicVolume = Math.min(Math.max(this.game.options.musicVolume, 0f), 1f);
-		this.game.options.soundVolume = Math.min(Math.max(this.game.options.soundVolume, 0f), 1f);
+		this.game.options.soundVolume = Math.min(Math.max(this.game.options.soundVolume, 0f), 0.2f);
 	}
 
 	public void draw(Graphics g){
