@@ -187,6 +187,7 @@ public class InputModel extends MultiObjetModel{
 			for(Integer i : this.selection)
 				s+=i+"_";
 		}
+		s+=", : ";
 		return s;
 	}
 
