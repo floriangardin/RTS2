@@ -976,6 +976,7 @@ public class Plateau {
 			s+=b;
 			s+="|";
 		}
+		s+=" separation ";
 		return s;
 	}
 
