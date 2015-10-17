@@ -985,11 +985,13 @@ public class Plateau {
 			String[] u = s.split(" separation ");
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
+			double chrono1 = System.nanoTime();
 			parseCharacter(u[2]);
+			System.out.println("bullets : "+(System.nanoTime()-chrono1));
 			parseBuilding(u[3]);
-			double chrono = System.nanoTime();
+			double chrono2 = System.nanoTime();
 			parseBullet(u[4]);
-			System.out.println("bullets : "+(System.nanoTime()-chrono));
+			System.out.println("bullets : "+(System.nanoTime()-chrono2));
 			
 		}
 		
