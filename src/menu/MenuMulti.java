@@ -155,9 +155,9 @@ public class MenuMulti extends Menu {
 				this.game.inputSender.start();
 				this.game.outputReceiver.start();
 
-				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
+				this.game.toSendConnexions.addElement("2"+this.game.addressHost.getHostAddress());
+				this.game.toSendConnexions.addElement("2"+this.game.addressHost.getHostAddress());
+				this.game.toSendConnexions.addElement("2"+this.game.addressHost.getHostAddress());
 				try{
 					Thread.sleep(5);
 				} catch(InterruptedException e) { }
