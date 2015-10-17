@@ -497,14 +497,14 @@ public class Plateau {
 		// 1 - Handling inputs 
 		InputModel im;
 		for(int player = 1; player<=nTeams; player++){
-			if(!g.host && player!=g.currentPlayer)
+			if(g.inMultiplayer && !g.host && player!=g.currentPlayer)
 				continue;
 			im = null;
 			for(InputModel inp : ims)
 				if(inp.team==player)
 					im = inp;
 			if(im!=null){
-				if(g.host){
+				if(!g.inMultiplayer || g.host){
 					// Handling action bar
 					this.handleActionBar(im,player);
 					// Handling the right click
@@ -519,7 +519,7 @@ public class Plateau {
 				} else {
 					this.updateSelection(im);
 				}
-				if(g.host){
+				if(!g.inMultiplayer || g.host){
 					// Handling the spell on the field
 					this.handleSpellsOnField(im, player);
 				}
@@ -529,13 +529,13 @@ public class Plateau {
 		}
 
 		// 2 - Only for host - Collision, Action, Cleaning
-		if(g.host)
+		if(!g.inMultiplayer || g.host)
 			this.collision();
 		this.clean();
-		if(g.host)			
+		if(!g.inMultiplayer || g.host)			
 			this.action();
 
-		if(g.host){
+		if(!g.inMultiplayer || g.host){
 			this.currentString = this.toString();
 		} else {
 			if(currentString!=null){
