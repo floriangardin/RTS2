@@ -443,7 +443,6 @@ public class Character extends ActionObjet{
 			r = fire.getWidth()/5f;
 			x = this.getX();
 			y = this.getY();
-			System.out.println("IMMOLATION");
 			if(this.remainingTime>=65f){
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,0f,0f,r,r);
 			}

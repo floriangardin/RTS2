@@ -21,7 +21,7 @@ public class Arrow extends Bullet{
 		// Parameters
 		float size = 2f;
 		float Vmax = 250f;
-		// 
+		 
 		this.p = p;
 		if(id==-1){
 			this.id = p.g.idChar;
@@ -44,7 +44,7 @@ public class Arrow extends Bullet{
 		norm  = (float)Math.sqrt(norm)*Main.framerate;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
-		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
+		this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
 		if(this.vx<0)
 			this.angle+=180;
 		if(this.angle<0)
@@ -54,7 +54,7 @@ public class Arrow extends Bullet{
 		this.sound = p.g.sounds.arrow;
 		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
-	
+
 	public void collision(Character c){
 		if(c.team!=this.owner.team){
 			// Attack if armor<damage and collision
