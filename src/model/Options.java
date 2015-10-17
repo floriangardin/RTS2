@@ -20,7 +20,6 @@ public class Options {
 			String ligne;
 			String[] tab;
 			while ((ligne=br.readLine())!=null){
-				System.out.println(ligne);
 				tab = ligne.split(" ");
 				switch(tab[0]){
 				case "musics:": musicVolume = Float.parseFloat(tab[1]); break;

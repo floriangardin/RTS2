@@ -308,7 +308,6 @@ public class Game extends BasicGame
 		this.resX = resX;
 		this.resY = resY;
 		this.images = new Images(false);
-		this.options = new Options();
 		try {
 			addressHost = InetAddress.getByName(addressHostString);
 			addressClient = InetAddress.getByName(addressClientString);
