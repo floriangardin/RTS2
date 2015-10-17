@@ -48,7 +48,7 @@ public class UnitKnight extends Character {
 			damage = damage*this.p.g.players.get(team).data.bonusSwordBow;
 		}
 		if(c.armor<damage){
-			c.lifePoints+=c.armor-damage;
+			c.setLifePoints(c.lifePoints+c.armor-damage);
 		}
 		// Reset the state
 		this.state = 0f;

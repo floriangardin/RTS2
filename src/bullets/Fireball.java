@@ -101,7 +101,7 @@ public class Fireball extends Bullet {
 	public Fireball(){}
 	public void action(){
 		if(explosion){
-			this.lifePoints-=1f;
+			this.setLifePoints(-1f);
 			return;
 		}
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
@@ -128,7 +128,7 @@ public class Fireball extends Bullet {
 		float damage = this.damage;
 		if(c.weapon!= null && c.weapon == "bow")
 			damage = damage * this.p.g.players.get(team).data.bonusBowFoot;
-		c.lifePoints-=this.damage;
+		c.setLifePoints(c.lifePoints-damage);
 		
 	}
 	
