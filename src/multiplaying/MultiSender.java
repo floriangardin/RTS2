@@ -18,7 +18,7 @@ public class MultiSender extends Thread{
 	Vector<String> depot;
 
 	// DEBUGGING
-	private boolean debug =false;
+	private boolean debug = true;
 	int sent = 0;
 	
 	public MultiSender(InetAddress address, int port, Vector<String> depot){

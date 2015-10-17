@@ -134,7 +134,9 @@ public class MenuMulti extends Menu {
 					e1.printStackTrace();
 				}
 			}
-		} else {
+		} else if(inJoin) {
+			game.inMultiplayer = true;
+			game.host = false;
 			if(this.game.connexions.size()>0){
 				try {
 					this.game.addressHost = InetAddress.getByName(this.game.connexions.get(0));
