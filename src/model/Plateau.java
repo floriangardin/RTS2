@@ -1080,6 +1080,9 @@ public class Plateau {
 		String[] u = s.split("\\|");
 		//Loop over each bullet
 		Bullet bul=null;
+		if(s.equals("")){
+			return;
+		}
 		for(int i =0;i<u.length;i++){
 			//FIND CONCERNED Bullet
 			HashMap<String,String> hs = Objet.preParse(u[i]);
