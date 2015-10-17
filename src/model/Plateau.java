@@ -1064,9 +1064,6 @@ public class Plateau {
 		String[] u = s.split("\\|");
 		//Loop over each bullet
 		Bullet bul=null;
-		if(u.length<=1){
-			return;
-		}
 		// For all bullets in received message
 		for(int i =0;i<u.length;i++){
 			HashMap<String,String> hs = Objet.preParse(u[i]);
