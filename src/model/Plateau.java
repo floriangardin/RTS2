@@ -1080,9 +1080,6 @@ public class Plateau {
 		String[] u = s.split("\\|");
 		//Loop over each bullet
 		Bullet bul=null;
-		System.out.println("size : "+s.length());
-		System.out.println("s  : "+s);
-		System.out.println(u.length);
 		if(u.length==1){
 			return;
 		}
