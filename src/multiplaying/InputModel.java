@@ -149,7 +149,7 @@ public class InputModel extends MultiObjetModel{
 
 	public String toString(){
 		String s = "";
-		s+="team:" + team+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
+		s+="0team:" + team+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
 			s+=",rightClick: ";
