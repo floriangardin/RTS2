@@ -35,23 +35,24 @@ public abstract class Bullet extends ActionObjet {
 		
 	}
 
-	
 	public String toString3(){
 		String s = "";
 		if(changes.ownerId){
 			s+="ownerid:"+owner.id+";";
 			changes.ownerId = true;
 		}
-		return s;
-		
+		if(changes.ownerV && owner.target!=null){
+			s+="vxtarget:"+(owner.target.x-owner.x)+";";
+			s+="vytarget:"+(owner.target.y-owner.y)+";";
+			changes.ownerV =true;
+		}
+		return s;	
 	}
 	public String toString(){
 		return toString1()+toString2()+toString3();
 		
 	}
-	
-	
-	
+
 	public void parse3(HashMap<String,String> hs){
 		if(hs.containsKey("ownerid")){
 			//ALREADY DONE IN CREATE BULLET
@@ -62,22 +63,19 @@ public abstract class Bullet extends ActionObjet {
 
 		this.parse1(hs);
 		this.parse2(hs);
-		
-		
-		
-
 	}
 	
-
 	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){
 		Bullet c;
 		//Get back the owner 
 		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
+		float vx = Float.parseFloat(hs.get("vxtarget"));
+		float vy = Float.parseFloat(hs.get("vytarget"));
 		switch(hs.get("name")){
 		case "arrow":
-			c =  new Arrow(g.plateau,cha,cha.damage);
+			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage);
 		case "fireball":
-			c =  new Fireball(g.plateau,cha,cha.damage);	
+			c =  new Fireball(g.plateau,cha,vx,vy,cha.damage);	
 			break;
 		default:
 			c = null;

@@ -21,7 +21,7 @@ public class Fireball extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Fireball(Plateau p,Character owner,float damage){
+	public Fireball(Plateau p,Character owner,float vx,float vy,float damage){
 		//MULTI 
 		this.changes = new Changes();
 		// Parameters
@@ -48,8 +48,8 @@ public class Fireball extends Bullet {
 		this.setTarget(new Checkpoint(owner.getTarget().getX(),owner.getTarget().getY()));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
-		this.vx = this.owner.getTarget().getX()-this.owner.getX();
-		this.vy = this.owner.getTarget().getY()-this.owner.getY()+altitude;
+		this.vx = vx;
+		this.vy = vy+altitude;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*Main.framerate;

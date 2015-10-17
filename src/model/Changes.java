@@ -39,6 +39,7 @@ public class Changes {
 	//BUILDING PROD
 	public boolean productionTime=true;
 	public boolean ownerId= true;
+	public boolean ownerV=true;
 	
 	//BULLET
 	
