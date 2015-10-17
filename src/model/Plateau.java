@@ -524,7 +524,7 @@ public class Plateau {
 					this.handleSpellsOnField(im, player);
 				}
 			} else {
-				System.out.println("player "+player+" : im null");
+				//System.out.println("player "+player+" : im null");
 			}
 		}
 
@@ -578,14 +578,7 @@ public class Plateau {
 	}
 
 	private void handleRightClick(InputModel im, int player) {
-		if(im.team!=g.currentPlayer){
-
-			System.out.println(im);
-			if(im.isPressedRightClick){
-				System.out.println("mythe222");
-			}
-		}
-		if(im.isPressedRightClick){
+		if(im.pressedRightClick){
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
 				System.out.println("bug 1");
@@ -607,7 +600,7 @@ public class Plateau {
 	}
 
 	private void handleSpellsOnField(InputModel im, int player) {
-		if(im.isPressedLeftClick && isCastingSpell.get(player)){
+		if(im.pressedLeftClick && isCastingSpell.get(player)){
 			if(this.g.players.get(player).selection.size()>0){
 				Character c = (Character)this.g.players.get(player).selection.get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
@@ -673,16 +666,16 @@ public class Plateau {
 		// camera movement
 		if(!isCastingSpell.get(player) && player==this.g.currentPlayer && this.rectangleSelection==null && !im.leftClick){
 			// Move camera according to inputs :
-			if((im.isPressedUP || im.yMouse<im.Ycam+5)&&im.Ycam>-im.resY/2){
+			if((im.isPressedUP || im.yMouse<Ycam+5)&&Ycam>-g.resY/2){
 				Ycam -= 20;
 			}
-			if((im.isPressedDOWN || im.yMouse>im.Ycam+im.resY-5) && im.Ycam<this.maxY-im.resY/2){
+			if((im.isPressedDOWN || im.yMouse>Ycam+g.resY-5) && Ycam<this.maxY-g.resY/2){
 				Ycam +=20;
 			}
-			if((im.isPressedLEFT|| im.xMouse<im.Xcam+5) && im.Xcam>-im.resX/2 ){
+			if((im.isPressedLEFT|| im.xMouse<Xcam+5) && Xcam>-g.resX/2 ){
 				Xcam -=20;
 			}
-			if((im.isPressedRIGHT || im.xMouse>im.Xcam+im.resX-5)&& im.Xcam<this.maxX-im.resX/2){
+			if((im.isPressedRIGHT || im.xMouse>Xcam+g.resX-5)&& Xcam<this.maxX-g.resX/2){
 				Xcam += 20;
 			}
 			//Displaying the selected group
@@ -691,8 +684,8 @@ public class Plateau {
 					if(this.g.players.get(player).groupSelection == to && this.g.players.get(player).groups.get(to).size()>0){
 						float xmoy=this.g.players.get(player).groups.get(to).get(0).getX();
 						float ymoy=this.g.players.get(player).groups.get(to).get(0).getY();
-						this.Xcam = Math.min(maxX-im.resX/2f, Math.max(-im.resX/2f, xmoy-im.resX/2f));
-						this.Ycam = Math.min(maxY-im.resY/2f, Math.max(-im.resY/2f, ymoy-im.resY/2f));
+						this.Xcam = Math.min(maxX-g.resX/2f, Math.max(-g.resX/2f, xmoy-g.resX/2f));
+						this.Ycam = Math.min(maxY-g.resY/2f, Math.max(-g.resY/2f, ymoy-g.resY/2f));
 					}
 				}
 			}
@@ -701,20 +694,20 @@ public class Plateau {
 		if(im.isPressedA){
 			BottomBar b = this.g.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
-			if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.minimap.startX && (im.xMouse-im.Xcam)<
+			if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
 				// Put camera where the click happened
-				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw)-im.resX/2f;
-				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh)-im.resY/2f;
+				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
+				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
 
 			}
-			if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.minimap.startX && (im.xMouse-im.Xcam)<
+			if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
 				// Handle right click
 				if(im.isPressedMAJ){
-					updateSecondaryTarget((int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh),player);
+					updateSecondaryTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
 				} else {				
-					updateTarget((int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh),player);
+					updateTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
 				}
 
 			}
@@ -855,7 +848,7 @@ public class Plateau {
 			this.updateRectangle(im,player);
 		}
 		// we update the selection according to the rectangle wherever is the mouse
-		if(im.isPressedLeftClick && !im.isPressedMAJ){
+		if(im.pressedLeftClick && !im.isPressedMAJ){
 			this.clearSelection(player);
 		}
 		if(!im.isPressedCTRL){
