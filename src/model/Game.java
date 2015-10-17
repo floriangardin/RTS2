@@ -77,8 +77,8 @@ public class Game extends BasicGame
 	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
-	private String addressHostString = "192.168.1.27";
-	private String addressClientString = "192.168.1.31";
+	private String addressHostString = "192.168.0.17";
+	private String addressClientString = "192.168.0.20";
 	public InetAddress addressHost;
 	public InetAddress addressClient;
 	public Vector<InputModel> inputs = new Vector<InputModel>();
@@ -222,32 +222,30 @@ public class Game extends BasicGame
 	}
 	// Do our logic 
 	@Override
-	public synchronized void update(GameContainer gc, int t) throws SlickException 
-	{	
+	public synchronized void update(GameContainer gc, int t) throws SlickException {	
 		Vector<InputModel> ims = new Vector<InputModel>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
+			InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			ims.add(im);
 			if(!host){
 				// client mode
-				InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 				this.toSendInputs.addElement(im.toString());
-				ims.add(im);
 				if(outputs.size()>0){
 					this.plateau.currentString = outputs.lastElement();
 					outputs.clear();
 				}
 				this.plateau.update(ims);
 			} else {
-				ims.add(new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
 				if(inMultiplayer){
 					// host mode
 					if(inputs.size()>0){
 						ims.add(this.inputs.lastElement());
 						inputs.clear();
-						System.out.println(ims.lastElement());
+						//System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
 					this.toSendOutputs.add(this.plateau.currentString);
