@@ -784,7 +784,7 @@ public class Character extends ActionObjet{
 			}
 		}else{
 			this.stop();
-			if(state>=chargeTime && this.target!=null && this.target instanceof Character){
+			if(state>=chargeTime && this.target!=null && this.target.team!=this.team && this.target instanceof Character){
 				this.useWeapon();
 			}
 		}
