@@ -10,8 +10,7 @@ public class Changes {
 	public boolean sight= true;
 	public boolean lifePoints= true;
 	public boolean team= true;
-	public boolean toCreate= true;
-	public boolean toDestroy= false;
+
 	
 	//ACTION OBJET
 	public boolean maxLifePoints= true;

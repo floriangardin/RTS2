@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
+import model.Changes;
 import model.Plateau;
 import multiplaying.OutputModel.OutputBullet;
 import units.Character;
@@ -15,6 +16,8 @@ public class Arrow extends Bullet{
 	protected float angle= 0f;
 
 	public Arrow(Plateau p,Character owner,float damage){
+		//MULTI 
+		this.changes = new Changes();
 		// Parameters
 		float size = 2f;
 		float Vmax = 250f;

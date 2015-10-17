@@ -983,7 +983,7 @@ public class Plateau {
 		if(s!=null && s!=""){
 
 			String[] u = s.split(" separation ");
-			
+
 			//Take care of player
 			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
 			parseCharacter(u[2]);
@@ -991,7 +991,7 @@ public class Plateau {
 			if(u.length>=5){
 				parseBullet(u[4]);
 			}
-			
+
 		}
 	}
 
@@ -1002,41 +1002,36 @@ public class Plateau {
 	}
 
 
-	
+
 	public Character getCharacterById(int id){
-		Character c=null;
 		for(Character cha : this.characters){
 			if(id==cha.id){
-				c = cha;
-				break;
+				return cha;
 			}
 		}
-		return c;
+		return null;
 	}
-	
+
 	public Bullet getBulletById(int id){
-		Bullet c=null;
+
 		for(Bullet cha : this.bullets){
 			if(id==cha.id){
-				c = cha;
-				break;
+				return cha;
 			}
 		}
-		return c;
+		return null;
 	}
-	
+
 	public Building getBuildingById(int id){
-		Building c=null;
 		for(Building cha : this.buildings){
 			if(id==cha.id){
-				c = cha;
-				break;
+				return cha;
 			}
 		}
-		return c;
+		return null;
 	}
-	
-	
+
+
 	public void parseCharacter(String s){
 		//SPLIT SELON |
 		String[] u = s.split("\\|");
@@ -1044,22 +1039,16 @@ public class Plateau {
 		Character cha=null;
 		for(int i =0;i<u.length;i++){
 			//FIND CONCERNED CHARACTER
-
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
-			for(Character c : this.characters){
-				if(c.id==idTest){
-					cha  = c;
-					c.toKeep = true;
-					break;
-				}
+			cha = this.getCharacterById(idTest);
+			if(cha==null){
+				cha = Character.createNewCharacter(hs, g);
+
 			}
 			if(cha!=null){
 				cha.parse(hs);
-			}
-			else{
-				Character charac = Character.createNewCharacter(hs, g);
-				charac.toKeep = true;
+				cha.toKeep = true;	
 			}
 		}
 		//Destroy characters who didn't give any news
@@ -1072,35 +1061,27 @@ public class Plateau {
 			}
 		}
 	}
-	
+
 	public void parseBullet(String s){
 		String[] u = s.split("\\|");
 		//Loop over each bullet
 		Bullet bul=null;
-		if(u.length==1){
+		if(u.length<=1){
 			return;
 		}
+		// For all bullets in received message
 		for(int i =0;i<u.length;i++){
-			//FIND CONCERNED Bullet
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
-			for(Bullet b : this.bullets){
-				if(b.id==idTest){
-					bul  = b;
-					b.toKeep = true;
-					break;
-				}
+			// Find corresponding bullet in plateau
+			bul = this.getBulletById(idTest);
+			//Create bullet if not in plateau
+			if(bul==null){
+				bul = Bullet.createNewBullet(hs, g);
+
 			}
-			if(bul!=null){
-				bul.parse(hs);
-			}
-			else{
-				Bullet b = Bullet.createNewBullet(hs, g);
-				if(b!=null){
-					b.toKeep = true;
-				}
-				
-			}
+			bul.parse(hs);
+			bul.toKeep = true;	
 		}
 		//Destroy characters who didn't give any news
 		for(Bullet b : this.bullets){

@@ -81,6 +81,7 @@ public abstract class Objet {
 	public String toString1(){
 		String s="";
 		s+="id:"+id+";";
+		s+="name:"+name+";";
 		if(changes.team){
 			s+="team:"+team+";";
 			changes.team = false;
@@ -105,22 +106,11 @@ public abstract class Objet {
 			s+="lifePoints:"+lifePoints+";";
 			changes.sight = false;
 		}
-		if(changes.toCreate){
-			s+="create:1;";
-			s+="name:"+name+";";
-			changes.toCreate = false;
-		}
-		if(changes.toDestroy){
-			s+="destroy:1;";
-			changes.toDestroy = false;
-		}
 		return s;
 	}
 	public String toString(){
 		return this.toString1();
 	}
-	
-	
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
@@ -140,9 +130,6 @@ public abstract class Objet {
 		}
 		if(hs.containsKey("sight")){
 			this.sight=Float.parseFloat(hs.get("sight"));
-		}
-		if(hs.containsKey("toDestroy")){
-			this.destroy();
 		}
 	}
 }
