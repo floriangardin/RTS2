@@ -71,8 +71,6 @@ public class Arrow extends Bullet{
 	}
 	
 	public void collision(Building c){
-
-
 	}
 	public Graphics draw(Graphics g){
 		g.drawImage(this.image,this.getX()-5f,this.getY()-5f);

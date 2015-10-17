@@ -413,11 +413,7 @@ public class Character extends ActionObjet{
 		}
 		this.setVXVY(0, 0);
 	}
-	
-	public void setLifePoints(float lifepoints){
-		this.lifePoints= lifepoints;
-		this.changes.lifePoints = true;
-	}
+
 	
 	//// GRAPHISMS
 

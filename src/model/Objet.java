@@ -110,7 +110,7 @@ public abstract class Objet {
 		}
 		if(changes.lifePoints){
 			s+="lifePoints:"+lifePoints+";";
-			changes.lifePoints = false;
+			changes.lifePoints = true;
 		}
 		if(changes.sight){
 			s+="lifePoints:"+lifePoints+";";
@@ -125,14 +125,12 @@ public abstract class Objet {
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
-			System.out.println(u[i]);
 			String[] r = u[i].split("\\:");
 			hs.put(r[0], r[1]);
 		}
 		return hs;
 	}
 	public void parse1(HashMap<String,String> hs){
-
 		if(hs.containsKey("x")){
 			this.setXY(Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y")));
 		}
