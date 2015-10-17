@@ -24,19 +24,19 @@ public class MenuOptions extends Menu {
 	Image title;
 	boolean toGame = false;
 	public float timeToGame = 00f;
-	public Image newGame;
-	public Image multiplayer;
-	public Image options;
-	public Image exit;
+	public Image plus;
+	public Image plusSelected;
+	public Image minus;
+	public Image minusSelected;
 
-	public Image newGameSelected;
-	public Image multiplayerSelected;
-	public Image optionsSelected;
-	public Image exitSelected;
+	public Image back;
+	public Image backSelected;
+	public Image musics;
+	public Image sounds;
 	public int selected = -1;
 	private boolean multiplaying;
 	
-	//TODO upgrading multiplayer
+	//TODO upgrading minus
 	public int cooldown;
 
 	public MenuOptions(Game game){
@@ -48,18 +48,18 @@ public class MenuOptions extends Menu {
 		float stepY = 0.15f*this.game.resY;
 		float ratioReso = this.game.resX/2400f;
 		try {
-			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
-			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(ratioReso);
-			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(ratioReso);
-			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(ratioReso);
-			this.options = new Image("pics/menu/options.png").getScaledCopy(ratioReso);
-			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(ratioReso);
-			this.exit = new Image("pics/menu/exit.png").getScaledCopy(ratioReso);
-			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(ratioReso);
-			float startX = this.game.resX/2-this.newGame.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,this.game));
+			this.plus = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
+			this.plusSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(ratioReso);
+			this.minus= new Image("pics/menu/minus.png").getScaledCopy(ratioReso);
+			this.minusSelected= new Image("pics/menu/minusselected.png").getScaledCopy(ratioReso);
+			this.back = new Image("pics/menu/back.png").getScaledCopy(ratioReso);
+			this.backSelected = new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
+			this.musics = new Image("pics/menu/musics.png").getScaledCopy(ratioReso);
+			this.sounds = new Image("pics/menu/sounds.png").getScaledCopy(ratioReso);
+			float startX = this.game.resX/2-this.plus.getWidth()/2;
+			this.items.addElement(new Menu_Item(startX,startY,this.plus,this.plusSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.minus,this.minusSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected,this.game));
 
 		} catch (SlickException e1) {
@@ -165,7 +165,7 @@ public class MenuOptions extends Menu {
 		} else {
 			this.timeToGame -= 1f;
 			if(timeToGame<0f){
-				this.game.newGame();
+				this.game.plus();
 				this.game.quitMenu();
 			}
 		}
