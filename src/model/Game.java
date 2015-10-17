@@ -244,9 +244,7 @@ public class Game extends BasicGame
 				} else {
 					// host mode
 					if(inputs.size()>0){
-						ims.add(this.inputs.lastElement());
-//						while(inputs.size()>0)
-//								
+						ims.add(this.inputs.lastElement());	
 						inputs.clear();
 						//System.out.println(ims.lastElement());
 					}
