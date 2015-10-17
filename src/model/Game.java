@@ -314,6 +314,8 @@ public class Game extends BasicGame
 		}
 		try {
 			host = (InetAddress.getLocalHost().getHostName()+".home").equals(addressHost.getHostName());
+			System.out.println(InetAddress.getLocalHost().getHostAddress());
+			System.out.println(addressHost.getHostAddress());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
