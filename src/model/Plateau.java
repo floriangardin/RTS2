@@ -977,6 +977,7 @@ public class Plateau {
 	}
 
 	public void parse(String s){
+		
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
 		//System.out.println(s);
@@ -989,9 +990,8 @@ public class Plateau {
 			parseBullet(u[4]);
 			
 		}
+		
 	}
-
-
 
 	public void parseBuilding(String s){
 
