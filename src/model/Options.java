@@ -11,7 +11,7 @@ public class Options {
 	public float musicVolume;
 	
 	public Options(){
-		String fichier ="./options.txt";
+		String fichier ="././options.txt";
 		//lecture du fichier texte	
 		try{
 			InputStream ips=new FileInputStream(fichier); 
