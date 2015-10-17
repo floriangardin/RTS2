@@ -581,18 +581,14 @@ public class Plateau {
 		if(im.pressedRightClick){
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-				System.out.println("bug 1");
 				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
 			} else if(isCastingSpell.get(player)){
-				System.out.println("bug 2");
 				isCastingSpell.set(player,false);
 				castingSpell.set(player,-1);
 			} else if(im.isPressedMAJ ){
-				System.out.println("bug 3");
 				if(!im.isPressedA)
 					updateSecondaryTarget(im.xMouse,im.yMouse,player);
 			} else {
-				System.out.println("bug 4");
 				if(!im.isPressedA)
 					updateTarget(im.xMouse,im.yMouse,player);
 			}
