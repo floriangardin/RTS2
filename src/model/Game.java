@@ -231,16 +231,16 @@ public class Game extends BasicGame
 		} else {
 			InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
-			if(!host){
-				// client mode
-				this.toSendInputs.addElement(im.toString());
-				if(outputs.size()>0){
-					this.plateau.currentString = outputs.lastElement();
-					outputs.clear();
-				}
-				this.plateau.update(ims);
-			} else {
-				if(inMultiplayer){
+			if(inMultiplayer){
+				if(!host){
+					// client mode
+					this.toSendInputs.addElement(im.toString());
+					if(outputs.size()>0){
+						this.plateau.currentString = outputs.lastElement();
+						outputs.clear();
+					}
+					this.plateau.update(ims);
+				} else {
 					// host mode
 					if(inputs.size()>0){
 						ims.add(this.inputs.lastElement());
@@ -249,11 +249,13 @@ public class Game extends BasicGame
 					}
 					this.plateau.update(ims);
 					this.toSendOutputs.add(this.plateau.currentString);
-				} else {
-					// solo mode
-					this.plateau.update(ims);
 				}
+			} else {
+				// solo mode
+				this.plateau.update(ims);
 			}
+
+
 		}
 	}
 
