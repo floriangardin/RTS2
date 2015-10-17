@@ -37,7 +37,8 @@ public class Changes {
 	public boolean queue;
 	
 	//BUILDING PROD
-	public boolean productionTime;
+	public boolean productionTime=true;
+	public boolean ownerId= true;
 	
 	//BULLET
 	

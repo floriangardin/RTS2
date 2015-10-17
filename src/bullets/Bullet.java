@@ -35,25 +35,44 @@ public abstract class Bullet extends ActionObjet {
 		
 	}
 
-	public String toString(){
-		String s = toString1()+toString2();
+	
+	public String toString3(){
+		String s = "";
+		if(changes.ownerId){
+			s+="ownerid:"+owner.id+";";
+			changes.ownerId = true;
+		}
 		return s;
+		
+	}
+	public String toString(){
+		return toString1()+toString2()+toString3();
+		
 	}
 	
 	
+	
+	public void parse3(HashMap<String,String> hs){
+		if(hs.containsKey("ownerid")){
+			//ALREADY DONE IN CREATE BULLET
+		}
+	}
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
 
 		this.parse1(hs);
 		this.parse2(hs);
 		
+		
+		
 
 	}
+	
 
 	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){
 		Bullet c;
 		//Get back the owner 
-		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("id")));
+		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
 		switch(hs.get("name")){
 		case "arrow":
 			c =  new Arrow(g.plateau,cha,cha.damage);

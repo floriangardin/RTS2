@@ -30,6 +30,7 @@ public class Arrow extends Bullet{
 		p.addBulletObjets(this);
 		this.lifePoints = 1f;
 		this.owner = owner;
+		this.team = this.owner.team;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = this.owner.getTarget().getX()-this.owner.getX();

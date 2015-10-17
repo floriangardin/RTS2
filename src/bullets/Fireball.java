@@ -44,6 +44,7 @@ public class Fireball extends Bullet {
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
+		this.team = this.owner.team;
 		this.setTarget(new Checkpoint(owner.getTarget().getX(),owner.getTarget().getY()));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
