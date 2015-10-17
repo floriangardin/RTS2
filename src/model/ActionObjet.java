@@ -19,7 +19,7 @@ public abstract class ActionObjet extends Objet{
 	public float vy;
 	public Objet target;
 	public Checkpoint checkpointTarget;
-
+	public boolean toKeep=true;
 	
 	//CHANGED BOOLEAN
 

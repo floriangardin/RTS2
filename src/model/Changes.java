@@ -11,7 +11,7 @@ public class Changes {
 	public boolean lifePoints= true;
 	public boolean team= true;
 	public boolean toCreate= true;
-	public boolean toDestroy= true;
+	public boolean toDestroy= false;
 	
 	//ACTION OBJET
 	public boolean maxLifePoints= true;

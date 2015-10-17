@@ -74,6 +74,8 @@ public class Character extends ActionObjet{
 	public Vector<Case> waypoints = new Vector<Case>();
 
 
+
+
 	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p,Player player){
 		this.p = p;
@@ -259,7 +261,10 @@ public class Character extends ActionObjet{
 	}
 
 	public void action(){
-
+		
+		//MULTI 
+		this.toKeep = false;
+		
 		this.updateChargeTime();
 
 		if(this.isImmolating){

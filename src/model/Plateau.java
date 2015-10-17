@@ -1008,12 +1008,47 @@ public class Plateau {
 
 	}
 
+
+	
+	public Character getCharacterById(int id){
+		Character c=null;
+		for(Character cha : this.characters){
+			if(id==cha.id){
+				c = cha;
+				break;
+			}
+		}
+		return c;
+	}
+	
+	public Bullet getBulletById(int id){
+		Bullet c=null;
+		for(Bullet cha : this.bullets){
+			if(id==cha.id){
+				c = cha;
+				break;
+			}
+		}
+		return c;
+	}
+	
+	public Building getBuildingById(int id){
+		Building c=null;
+		for(Building cha : this.buildings){
+			if(id==cha.id){
+				c = cha;
+				break;
+			}
+		}
+		return c;
+	}
+	
+	
 	public void parseCharacter(String s){
 		//SPLIT SELON |
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
-
 		for(int i =0;i<u.length;i++){
 			//FIND CONCERNED CHARACTER
 
@@ -1022,26 +1057,62 @@ public class Plateau {
 			for(Character c : this.characters){
 				if(c.id==idTest){
 					cha  = c;
+					c.toKeep = true;
 					break;
 				}
 			}
-
 			if(cha!=null){
 				cha.parse(hs);
 			}
 			else{
-				//CREATE NEW CHARACTER
-				//TODO
-				Character.createNewCharacter(hs, g);
+				Character charac = Character.createNewCharacter(hs, g);
+				charac.toKeep = true;
+			}
+		}
+		//Destroy characters who didn't give any news
+		for(Character c : this.characters){
+			if(!c.toKeep){
+				c.lifePoints =-1;
+			}
+			else{
+				c.toKeep = false;
 			}
 		}
 	}
+	
 	public void parseBullet(String s){
-
+		String[] u = s.split("\\|");
+		//Loop over each bullet
+		Bullet bul=null;
+		for(int i =0;i<u.length;i++){
+			//FIND CONCERNED Bullet
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			for(Bullet b : this.bullets){
+				if(b.id==idTest){
+					bul  = b;
+					b.toKeep = true;
+					break;
+				}
+			}
+			if(bul!=null){
+				bul.parse(hs);
+			}
+			else{
+				Bullet b = Bullet.createNewBullet(hs, g);
+				b.toKeep = true;
+			}
+		}
+		//Destroy characters who didn't give any news
+		for(Bullet b : this.bullets){
+			if(!b.toKeep){
+				b.lifePoints =-1;
+			}
+			else{
+				b.toKeep = false;
+			}
+		}
 	}
-
-
-
 }
 
 
