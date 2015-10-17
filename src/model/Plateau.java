@@ -1083,7 +1083,7 @@ public class Plateau {
 		System.out.println("size : "+s.length());
 		System.out.println("s  : "+s);
 		System.out.println(u.length);
-		if(u.length==0){
+		if(u.length==1){
 			return;
 		}
 		for(int i =0;i<u.length;i++){
