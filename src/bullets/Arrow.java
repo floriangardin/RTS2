@@ -21,7 +21,7 @@ public class Arrow extends Bullet{
 		// Parameters
 		float size = 2f;
 		float Vmax = 250f;
-		// 
+		 
 		this.p = p;
 		if(id==-1){
 			this.id = p.g.idBullet;
@@ -45,7 +45,7 @@ public class Arrow extends Bullet{
 		norm  = (float)Math.sqrt(norm)*Main.framerate;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
-		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
+		this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
 		if(this.vx<0)
 			this.angle+=180;
 		if(this.angle<0)
@@ -54,25 +54,6 @@ public class Arrow extends Bullet{
 		this.image.rotate(this.angle);
 		this.sound = p.g.sounds.arrow;
 		this.sound.play(1f,this.p.g.options.soundVolume);
-	}
-	public Arrow(OutputBullet ocb ,Plateau p){
-		// Only used to display on client screen
-		// Parameters
-		this.p = p;
-		this.id = ocb.id;
-		p.addBulletObjets(this);
-		this.lifePoints = 1f;
-		this.collisionBox = new Point(x,y);
-		this.setXY(ocb.x,ocb.y);
-		this.vx = ocb.vx;
-		this.vy = ocb.vy;
-		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
-		if(this.vx<0)
-			this.angle+=180;
-		if(this.angle<0)
-			this.angle+=360;
-		this.image = p.g.images.arrow.getScaledCopy(1f);
-		this.image.rotate(this.angle);
 	}
 
 	public void collision(Character c){
