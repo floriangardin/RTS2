@@ -41,8 +41,8 @@ public class MenuIntro extends Menu {
 
 	public MenuIntro(Game game){
 		this.music = game.musics.menu;
-		this.music.setVolume(game.options.musicVolume);
 		this.music.loop();
+		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
@@ -167,8 +167,8 @@ public class MenuIntro extends Menu {
 			this.timeToGame -= 1f;
 			if(timeToGame<0f){
 				this.music = game.musics.imperial;
-				this.music.setVolume(game.options.musicVolume);
 				this.music.loop();
+				this.music.setVolume(game.options.musicVolume);
 				this.game.newGame();
 				this.game.quitMenu();
 			}

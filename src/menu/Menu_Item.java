@@ -57,7 +57,7 @@ public class Menu_Item {
 		if(this.colorAnimation){
 			if(this.isClicked(i)){
 				if(!mouseOver){
-					this.game.sounds.menuMouseOverItem.play(1f,0.5f);
+					this.game.sounds.menuMouseOverItem.play(1f,this.game.options.soundVolume);
 					mouseOver = true;
 				}
 				this.toDraw = this.selectedImage;
