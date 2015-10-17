@@ -15,7 +15,7 @@ import model.Objet;
 import model.Sounds;
 import model.Utils;
 
-public class MenuIntro extends Menu {
+public class MenuOptions extends Menu {
 
 	Vector<Objet> trees = new Vector<Objet>();
 	Vector<Bullet> bullets = new Vector<Bullet>();
@@ -39,16 +39,11 @@ public class MenuIntro extends Menu {
 	//TODO upgrading multiplayer
 	public int cooldown;
 
-	public MenuIntro(Game game){
-		try {
-			this.music = new Music("music/menuTheme.ogg");
-			this.music.setVolume(0.5f);
-			this.music.loop();
-		} catch (SlickException e1) {
-			e1.printStackTrace();
-		}
+	public MenuOptions(Game game){
+		
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
+		//this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
 		float stepY = 0.15f*this.game.resY;
 		float ratioReso = this.game.resX/2400f;
