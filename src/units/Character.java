@@ -284,7 +284,7 @@ public class Character extends ActionObjet{
 			this.updateSetTarget();
 			Circle range = new Circle(this.getX(), this.getY(), this.range);
 			if(!(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox)))){
-				if(state>=chargeTime && this.target!=null && this.target instanceof Character){
+				if(state>=chargeTime && this.target!=null && this.target.team!=this.team && this.target instanceof Character){
 					this.useWeapon();
 				}
 			}
