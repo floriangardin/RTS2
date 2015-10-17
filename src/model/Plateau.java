@@ -1035,7 +1035,11 @@ public class Plateau {
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
-		for(int i =0;i<u.length;i++){
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
@@ -1064,8 +1068,12 @@ public class Plateau {
 		String[] u = s.split("\\|");
 		//Loop over each bullet
 		Bullet bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
 		// For all bullets in received message
-		for(int i =0;i<u.length;i++){
+		for(int i =0;i<finish;i++){
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
 			// Find corresponding bullet in plateau
