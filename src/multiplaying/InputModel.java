@@ -103,7 +103,7 @@ public class InputModel extends MultiObjetModel{
 		HashMap<String,String> content = new HashMap<String, String>(); 
 		String[] vaneau = im.split(",");
 		selection = new Vector<Integer>();
-		for(int i=0; i<vaneau.length; i++){
+		for(int i=0; i<vaneau.length-1; i++){
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
 		}
 		this.team = Integer.parseInt(content.get("team"));
@@ -187,7 +187,7 @@ public class InputModel extends MultiObjetModel{
 			for(Integer i : this.selection)
 				s+=i+"_";
 		}
-		s+=", : ";
+		s+=",";
 		return s;
 	}
 
