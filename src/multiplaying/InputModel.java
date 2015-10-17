@@ -156,27 +156,27 @@ public class InputModel extends MultiObjetModel{
 		if(leftClick)
 			s+=",leftClick: ";
 
-		if(pressedRightClick) s+=",im.isPressedpressedRightClick: ";
-		if(pressedLeftClick) s+=",im.isPressedpressedLeftClick: ";
+		if(pressedRightClick) s+=",pressedRightClick: ";
+		if(pressedLeftClick) s+=",pressedLeftClick: ";
 
-		if(isPressedESC) s+=",im.isPressedESC: ";
-		if(isPressedMAJ) s+=",im.isPressedMAJ: ";
-		if(isPressedCTRL) s+=",im.isPressedCTRL: ";
-		if(isPressedBACK) s+=",im.isPressedBACK: ";
-		if(isPressedDOT) s+=",im.isPressedDOT: ";
-		if(isPressedENTER) s+=",im.isPressedENTER: ";
-		if(isPressedTAB) s+=",im.isPressedTAB: ";
-		if(isPressedLEFT) s+=",im.isPressedLEFT: ";
-		if(isPressedRIGHT) s+=",im.isPressedRIGHT: ";
-		if(isPressedUP) s+=",im.isPressedUP: ";
-		if(isPressedDOWN) s+=",im.isPressedDOWN: ";
+		if(isPressedESC) s+=",ESC: ";
+		if(isPressedMAJ) s+=",MAJ: ";
+		if(isPressedCTRL) s+=",CTRL: ";
+		if(isPressedBACK) s+=",BACK: ";
+		if(isPressedDOT) s+=",DOT: ";
+		if(isPressedENTER) s+=",ENTER: ";
+		if(isPressedTAB) s+=",TAB: ";
+		if(isPressedLEFT) s+=",LEFT: ";
+		if(isPressedRIGHT) s+=",RIGHT: ";
+		if(isPressedUP) s+=",UP: ";
+		if(isPressedDOWN) s+=",DOWN: ";
 
-		if(isPressedProd0) s+=",im.isPressedProd0: ";
-		if(isPressedProd1) s+=",im.isPressedProd1: ";
-		if(isPressedProd2) s+=",im.isPressedProd2: ";
-		if(isPressedProd3) s+=",im.isPressedProd3: ";
-		if(isPressedA) s+=",im.isPressedA: ";
-		if(isPressedB) s+=",im.isPressedB: ";
+		if(isPressedProd0) s+=",Prod0: ";
+		if(isPressedProd1) s+=",Prod1: ";
+		if(isPressedProd2) s+=",Prod2: ";
+		if(isPressedProd3) s+=",Prod3: ";
+		if(isPressedA) s+=",A: ";
+		if(isPressedB) s+=",B: ";
 
 		for(int i=0; i<10; i++)
 			s+=(isPressedNumPad[i] ? ","+i+": " : "");
