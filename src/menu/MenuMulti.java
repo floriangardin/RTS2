@@ -94,6 +94,8 @@ public class MenuMulti extends Menu {
 	}
 
 	public void update(Input i){
+		if(inHost && i.isKeyPressed(Input.KEY_ESCAPE)) inHost = false;
+		if(inJoin && i.isKeyPressed(Input.KEY_ESCAPE)) inJoin = false;
 		if(inHost){
 			if(cooldown==0){
 				String s="";
@@ -108,7 +110,12 @@ public class MenuMulti extends Menu {
 					s += tab[k]+".";
 				}
 				for(int ip=0; ip<255;ip++){
-					this.game.toSendConnexions.addElement("2"+s+""+ip);
+					try {
+						if(!InetAddress.getLocalHost().getHostAddress().equals(s+""+ip))
+							this.game.toSendConnexions.addElement("2"+s+""+ip);
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
 				}
 				cooldown++;
 			}else if(cooldown<=60){
@@ -147,7 +154,7 @@ public class MenuMulti extends Menu {
 				this.game.outputReceiver = new MultiReceiver(this.game,this.game.portOutput);
 				this.game.inputSender.start();
 				this.game.outputReceiver.start();
-				
+
 				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
 				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
 				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
@@ -162,8 +169,7 @@ public class MenuMulti extends Menu {
 				this.game.newGame();
 				this.game.quitMenu();
 			}
-		}
-		if(i!=null){
+		} else if(i!=null){
 			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				callItems(i);
 				this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);

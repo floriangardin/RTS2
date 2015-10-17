@@ -49,7 +49,7 @@ public class MultiSender extends Thread{
 					sent++;
 					//System.out.println("sent :" + sent);
 					if(debug)
-						System.out.println("port : " + port + " message sent: " + this.depot.get(0));
+						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
 				Thread.sleep((long) 0.001);
