@@ -21,7 +21,7 @@ public class Menu_Item {
 	public float animation = 0f;
 	public Color color = Color.black;
 	public Image toDraw;
-	public boolean colorAnimation = true;
+	public boolean selectionable = true;
 	public boolean mouseOver = false;
 
 	public Menu_Item(float x, float y, Image im, Image selectedImage, Game game) {
@@ -54,7 +54,7 @@ public class Menu_Item {
 
 
 	public void update(Input i){
-		if(this.colorAnimation){
+		if(this.selectionable){
 			if(this.isClicked(i)){
 				if(!mouseOver){
 					this.game.sounds.menuMouseOverItem.play(1f,this.game.options.soundVolume);

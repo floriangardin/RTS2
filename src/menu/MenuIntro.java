@@ -69,7 +69,7 @@ public class MenuIntro extends Menu {
 		//		}
 		Utils.triY(trees);
 		try{
-			this.sounds = new Sounds();
+			this.sounds = game.sounds;
 			this.title = new Image("pics/menu/goldtitle.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -96,6 +96,9 @@ public class MenuIntro extends Menu {
 			break;
 		case 1:
 			this.multiplaying = true;
+			break;
+		case 2:
+			this.game.setMenu(this.game.menuOptions);
 			break;
 		case 3: 
 			this.game.app.exit();

@@ -152,31 +152,31 @@ public class InputModel extends MultiObjetModel{
 		s+="0team:" + team+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
-			s+=",rightClick: ";
+			s+=",rightClick";
 		if(leftClick)
-			s+=",leftClick: ";
+			s+=",leftClick";
 
-		if(pressedRightClick) s+=",pressedRightClick: ";
-		if(pressedLeftClick) s+=",pressedLeftClick: ";
+		if(pressedRightClick) s+=",im.isPressedpressedRightClick";
+		if(pressedLeftClick) s+=",im.isPressedpressedLeftClick";
 
-		if(isPressedESC) s+=",ESC: ";
-		if(isPressedMAJ) s+=",MAJ: ";
-		if(isPressedCTRL) s+=",CTRL: ";
-		if(isPressedBACK) s+=",BACK: ";
-		if(isPressedDOT) s+=",DOT: ";
-		if(isPressedENTER) s+=",ENTER: ";
-		if(isPressedTAB) s+=",TAB: ";
-		if(isPressedLEFT) s+=",LEFT: ";
-		if(isPressedRIGHT) s+=",RIGHT: ";
-		if(isPressedUP) s+=",UP: ";
-		if(isPressedDOWN) s+=",DOWN: ";
+		if(isPressedESC) s+=",im.isPressedESC";
+		if(isPressedMAJ) s+=",im.isPressedMAJ";
+		if(isPressedCTRL) s+=",im.isPressedCTRL";
+		if(isPressedBACK) s+=",im.isPressedBACK";
+		if(isPressedDOT) s+=",im.isPressedDOT";
+		if(isPressedENTER) s+=",im.isPressedENTER";
+		if(isPressedTAB) s+=",im.isPressedTAB";
+		if(isPressedLEFT) s+=",im.isPressedLEFT";
+		if(isPressedRIGHT) s+=",im.isPressedRIGHT";
+		if(isPressedUP) s+=",im.isPressedUP";
+		if(isPressedDOWN) s+=",im.isPressedDOWN";
 
-		if(isPressedProd0) s+=",Prod0: ";
-		if(isPressedProd1) s+=",Prod1: ";
-		if(isPressedProd2) s+=",Prod2: ";
-		if(isPressedProd3) s+=",Prod3: ";
-		if(isPressedA) s+=",A: ";
-		if(isPressedB) s+=",B: ";
+		if(isPressedProd0) s+=",im.isPressedProd0";
+		if(isPressedProd1) s+=",im.isPressedProd1";
+		if(isPressedProd2) s+=",im.isPressedProd2";
+		if(isPressedProd3) s+=",im.isPressedProd3";
+		if(isPressedA) s+=",im.isPressedA";
+		if(isPressedB) s+=",im.isPressedB";
 
 		for(int i=0; i<10; i++)
 			s+=(isPressedNumPad[i] ? ","+i+": " : "");
@@ -191,6 +191,38 @@ public class InputModel extends MultiObjetModel{
 		return s;
 	}
 
+	public void mix(InputModel im){
+//		if(rightClick)
+//			s+=",rightClick)
+//		if(leftClick)
+//			s+=",leftClick)
+
+		if(!pressedRightClick && im.pressedRightClick) pressedRightClick = true;
+		if(!pressedLeftClick && im.pressedLeftClick) pressedLeftClick = true;
+
+		if(!isPressedESC && im.isPressedESC) isPressedESC = true;
+		if(!isPressedMAJ && im.isPressedMAJ) isPressedMAJ = true;
+		if(!isPressedCTRL && im.isPressedCTRL) isPressedCTRL = true;
+		if(!isPressedBACK && im.isPressedBACK) isPressedBACK = true;
+		if(!isPressedDOT && im.isPressedDOT) isPressedDOT = true;
+		if(!isPressedENTER && im.isPressedENTER) isPressedENTER = true;
+		if(!isPressedTAB && im.isPressedTAB) isPressedTAB = true;
+		if(!isPressedLEFT && im.isPressedLEFT) isPressedLEFT = true;
+		if(!isPressedRIGHT && im.isPressedRIGHT) isPressedRIGHT = true;
+		if(!isPressedUP && im.isPressedUP) isPressedUP = true;
+		if(!isPressedDOWN && im.isPressedDOWN) isPressedDOWN = true;
+
+		if(!isPressedProd0 && im.isPressedProd0) isPressedProd0 = true;
+		if(!isPressedProd1 && im.isPressedProd1) isPressedProd1 = true;
+		if(!isPressedProd2 && im.isPressedProd2) isPressedProd2 = true;
+		if(!isPressedProd3 && im.isPressedProd3) isPressedProd3 = true;
+		if(!isPressedA && im.isPressedA) isPressedA = true;
+		if(!isPressedB && im.isPressedB) isPressedB = true;
+
+		for(int i=0; i<10; i++)
+			if(!isPressedNumPad[i] && im.isPressedNumPad[i]) isPressedNumPad[i] = true;
+
+	}
 
 
 }

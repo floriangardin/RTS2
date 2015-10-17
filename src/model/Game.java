@@ -22,6 +22,7 @@ import display.Message;
 import display.TopBar;
 import menu.Menu;
 import menu.MenuIntro;
+import menu.MenuOptions;
 import multiplaying.InputModel;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
@@ -105,6 +106,7 @@ public class Game extends BasicGame
 	// Menus
 	public Menu menuPause;
 	public Menu menuIntro;
+	public Menu menuOptions;
 	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
 
@@ -118,7 +120,6 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
-		app.setClearEachFrame(false);
 	}
 
 	@Override
@@ -243,7 +244,9 @@ public class Game extends BasicGame
 				} else {
 					// host mode
 					if(inputs.size()>0){
-						ims.add(this.inputs.lastElement());
+						ims.add(this.inputs.remove(this.inputs.size()-1));
+						while(inputs.size()>0)
+							ims.lastElement().mix(this.inputs.remove(this.inputs.size()-1));
 						inputs.clear();
 						//System.out.println(ims.lastElement());
 					}
@@ -290,6 +293,7 @@ public class Game extends BasicGame
 		this.musics = new Musics();
 
 		this.menuIntro = new MenuIntro(this);
+		this.menuOptions = new MenuOptions(this);
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
 		this.connexionSender.start();
