@@ -79,6 +79,8 @@ public class Arrow extends Bullet{
 		return g;
 	}
 	public void action(){
+		//MULTI 
+		this.toKeep = false;
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
 		if(this.x>this.p.maxX || this.x<0 || this.y>this.p.maxY||this.y<0){
 			this.setLifePoints(-1f);

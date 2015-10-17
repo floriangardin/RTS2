@@ -1054,7 +1054,7 @@ public class Plateau {
 		//Destroy characters who didn't give any news
 		for(Character c : this.characters){
 			if(!c.toKeep){
-				c.lifePoints =-1;
+				c.setLifePoints(-1f);
 			}
 			else{
 				c.toKeep = false;
@@ -1086,7 +1086,7 @@ public class Plateau {
 		//Destroy characters who didn't give any news
 		for(Bullet b : this.bullets){
 			if(!b.toKeep){
-				b.lifePoints =-1;
+				b.setLifePoints(-1f);
 			}
 			else{
 				b.toKeep = false;

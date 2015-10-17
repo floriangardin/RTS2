@@ -124,6 +124,9 @@ public abstract class Objet {
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
+		if(u.length<=1){
+			return hs;
+		}
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split("\\:");
 			hs.put(r[0], r[1]);

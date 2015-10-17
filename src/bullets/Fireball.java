@@ -73,6 +73,7 @@ public class Fireball extends Bullet {
 //		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 	public Fireball(OutputBullet ocb, Plateau p){
+		
 		// Parameters
 		this.p = p;
 		p.addBulletObjets(this);
@@ -100,6 +101,8 @@ public class Fireball extends Bullet {
 	}
 	public Fireball(){}
 	public void action(){
+		//MULTI 
+		this.toKeep = false;
 		if(explosion){
 			this.setLifePoints(-1f);
 			return;
