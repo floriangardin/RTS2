@@ -22,7 +22,7 @@ public class MenuIntro extends Menu {
 	float timer = 0f;
 	float nextBullet = 1f;
 	Image title;
-	boolean toGame = false;
+	public boolean toGame = false;
 	public float timeToGame = 00f;
 	public Image newGame;
 	public Image multiplayer;
@@ -95,7 +95,7 @@ public class MenuIntro extends Menu {
 			this.music.fade(300,0f, true);
 			break;
 		case 1:
-			this.multiplaying = true;
+			this.game.setMenu(this.game.menuMulti);
 			break;
 		case 2:
 			this.game.setMenu(this.game.menuOptions);

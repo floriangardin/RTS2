@@ -119,7 +119,7 @@ public class Map {
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 		
 		//data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
-		for(int i = 0;i<20;i++){
+		for(int i = 0;i<1;i++){
 			data1.player.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
 		}
 			
