@@ -1,19 +1,18 @@
 package menu;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
-import bullets.Bullet;
 import model.Game;
-import model.Objet;
 import model.Sounds;
-import model.Utils;
 
 public class MenuOptions extends Menu {
 
@@ -85,9 +84,12 @@ public class MenuOptions extends Menu {
 		case 6: this.game.options.soundVolume+=0.1f;break;
 		case 7: 
 			this.game.setMenu(game.menuIntro);
+			this.updateOptions();
 			break;
 		default:		
 		}
+		this.game.options.musicVolume = Math.min(Math.max(this.game.options.musicVolume, 0f), 1f);
+		this.game.options.soundVolume = Math.min(Math.max(this.game.options.soundVolume, 0f), 1f);
 	}
 
 	public void draw(Graphics g){
@@ -111,6 +113,16 @@ public class MenuOptions extends Menu {
 		}
 	}
 	public void updateOptions(){
-		
+		try {
+			FileWriter fw = new FileWriter ("././options.txt");
+			BufferedWriter bw = new BufferedWriter (fw);
+			PrintWriter fichierSortie = new PrintWriter (bw); 
+			fichierSortie.println ("musics: " + game.options.musicVolume);
+			fichierSortie.println ("sounds: " + game.options.soundVolume); 
+			fichierSortie.close();
+		}
+		catch (Exception e){
+			System.out.println(e.toString());
+		}	
 	}
 }
