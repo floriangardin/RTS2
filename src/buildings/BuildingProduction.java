@@ -97,7 +97,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			s+="charge:"+this.charge+";";
 			changes.charge=false;
 		}
-		s+="isFinished:"+(this.charge>=this.productionList.get(this.queue.get(0)).time?0:1)+";";
+		
 		return s;
 	}
 	
