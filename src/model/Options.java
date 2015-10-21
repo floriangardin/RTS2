@@ -9,6 +9,7 @@ public class Options {
 	
 	public float soundVolume;
 	public float musicVolume;
+	public String nickname;
 	
 	public Options(){
 		String fichier ="././options.txt";
@@ -24,6 +25,7 @@ public class Options {
 				switch(tab[0]){
 				case "musics:": musicVolume = Float.parseFloat(tab[1]); break;
 				case "sounds:": soundVolume = Float.parseFloat(tab[1]); break;
+				case "nickname:": nickname = tab[1]; break;
 				default:
 				}
 			}

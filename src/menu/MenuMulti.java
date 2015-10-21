@@ -137,7 +137,7 @@ public class MenuMulti extends Menu {
 			if(this.game.connexions.size()>0){
 				try {
 					this.game.addressClient = InetAddress.getByName(this.game.connexions.get(0));
-					this.game.outputSender = new MultiSender(this.game.addressHost,this.game.portOutput,this.game.toSendInputs,this.game);
+					this.game.outputSender = new MultiSender(this.game.addressClient,this.game.portOutput,this.game.toSendOutputs,this.game);
 					this.game.inputReceiver = new MultiReceiver(this.game,this.game.portInput);
 					this.game.outputSender.start();
 					this.game.inputReceiver.start();
