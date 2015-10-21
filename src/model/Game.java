@@ -240,6 +240,7 @@ public class Game extends BasicGame
 					this.toSendInputs.addElement(im.toString());
 					if(outputs.size()>0){
 						this.plateau.currentString = outputs.lastElement();
+						outputs.remove(outputs.lastElement());
 						//System.out.println("paquets perdus:" +(outputs.size()-1));
 						//outputs.clear();
 					}

@@ -11,11 +11,14 @@ import units.UnitsList;
 
 public class Player {
 	public int civ;
+	public String civName;
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
 	public Plateau p;
 	
+	public int id;
 	public int team;
+	public String nickname;
 	public int groupSelection;
 	public int ennemiesKilled;
 	public Data data;
@@ -26,9 +29,11 @@ public class Player {
 	public BottomBar bottomBar;
 	public TopBar topBar;
 	public BuildingHeadQuarters hq ;
-	public Player(Plateau p ,int team,int civ) {
-		
+	public Player(Plateau p ,int id,String name, int team,int civ) {
 		this.civ  = civ;
+		civName = "Dualists";
+		this.id = id;
+		this.nickname = name;
 		this.p = p;
 		this.selection = new Vector<ActionObjet>();
 		this.groups = new Vector<Vector<ActionObjet>>();
