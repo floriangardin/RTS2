@@ -48,11 +48,12 @@ public class MultiReceiver extends Thread{
 					switch(c){
 					case 0: InputModel im = new InputModel(msg.substring(1, msg.length()));this.g.inputs.add(im);break;
 					case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
-					case 2: this.g.connexions.add(msg.substring(1, msg.length()));
+					case 2: 
 					if(!this.g.host){
 						this.g.addressHost = packet.getAddress();
 						System.out.println( packet.getAddress().toString());
 					}
+					this.g.connexions.add(msg.substring(1, msg.length()));
 					default:
 					}
 				}
