@@ -94,12 +94,17 @@ public class MenuMulti extends Menu {
 	}
 
 	public void update(Input i){
-		if(inHost && i.isKeyPressed(Input.KEY_ESCAPE)) inHost = false;
-		if(inJoin && i.isKeyPressed(Input.KEY_ESCAPE)) inJoin = false;
+		if(inHost && i.isKeyPressed(Input.KEY_ESCAPE)){ 
+			inHost = false;
+			this.game.connexionSender.interrupt();
+		}
+		if(inJoin && i.isKeyPressed(Input.KEY_ESCAPE)){ 
+			inJoin = false;
+		
+		}
 		if(inHost){
 			if(cooldown==0){
 				if(!game.connexionSender.isAlive()){
-					System.out.println("ee");
 					game.connexionSender.start();
 				}
 				String s="";
@@ -150,7 +155,7 @@ public class MenuMulti extends Menu {
 			game.host = false;
 			if(this.game.connexions.size()>0){
 				try {
-					this.game.addressHost = InetAddress.getByName(this.game.connexions.get(0));
+					this.game.addressHost = InetAddress.getByName(this.game.connexions.remove(0));
 				} catch (UnknownHostException e1) {
 					e1.printStackTrace();
 				}
@@ -161,9 +166,9 @@ public class MenuMulti extends Menu {
 				this.game.inputSender.start();
 				this.game.outputReceiver.start();
 
-				this.game.toSendConnexions.addElement("2"+this.game.addressHost.getHostAddress());
-				this.game.toSendConnexions.addElement("2"+this.game.addressHost.getHostAddress());
-				this.game.toSendConnexions.addElement("2"+this.game.addressHost.getHostAddress());
+				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
+				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
+				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
 				try{
 					Thread.sleep(5);
 				} catch(InterruptedException e) { }

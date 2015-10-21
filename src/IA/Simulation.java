@@ -24,7 +24,7 @@ import units.UnitSpearman;
 import units.UnitsList;
 public class Simulation {
 
-	public boolean render= false;
+	public boolean render= true;
 
 	public Vector<Vector<Character>> armies;
 	public JPanel panel;
