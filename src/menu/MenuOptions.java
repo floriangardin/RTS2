@@ -68,7 +68,7 @@ public class MenuOptions extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY+4*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.nickname,this.nickname,this.game));
 			this.items.get(8).selectionable = false;
-			//this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+3*stepY,0.8f*this.game.resX/4f,0.5f*stepY));
+			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+3*stepY,0.8f*this.game.resX/4f,0.5f*stepY));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}

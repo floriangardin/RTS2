@@ -23,6 +23,10 @@ public class Menu_Item {
 	public Image toDraw;
 	public boolean selectionable = true;
 	public boolean mouseOver = false;
+	
+	public Menu_Item(){
+		
+	}
 
 	public Menu_Item(float x, float y, Image im, Image selectedImage, Game game) {
 		this.image = im;

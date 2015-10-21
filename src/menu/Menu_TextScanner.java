@@ -6,7 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
-public class Menu_TextScanner {
+public class Menu_TextScanner extends Menu_Item{
 
 	public String s;
 	public float x,y,sizeX,sizeY;
@@ -46,13 +46,12 @@ public class Menu_TextScanner {
 		intToChar.put('Z',Input.KEY_Z);
 	}
 	
-	public String update(Input i){
+	public void update(Input i){
 		for(int k=0; k<255; k++){
 			if(i.isKeyPressed(k) && Input.getKeyName(k).length()==5){
 				s+=Input.getKeyName(k).substring(4);
 			}
 		}
-		return s;
 	}
 	
 	public void reset(){
