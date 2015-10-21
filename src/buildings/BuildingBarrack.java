@@ -19,7 +19,8 @@ public class BuildingBarrack extends BuildingProduction{
 		//this.animation=-1f;
 		team = 0;
 		this.p = plateau ;
-		maxLifePoints = p.g.players.get(team).data.barrackLifePoints;
+		//maxLifePoints = p.g.players.get(team).data.barrackLifePoints;
+		maxLifePoints = 10f;
 		this.sizeX = this.p.g.players.get(team).data.barrackSizeX; 
 		this.sizeY = this.p.g.players.get(team).data.barrackSizeY;
 		this.sight = this.p.g.players.get(team).data.barrackSight;
@@ -41,20 +42,13 @@ public class BuildingBarrack extends BuildingProduction{
 		} else {
 			this.image = this.p.g.images.buildingBarrackNeutral;
 		}
-		// List of potential production (Spearman
-		//TODO Merge production time and production list in vector of UnitsList
+		// List of potential production (Spearman)
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionList.addElement(UnitsList.Crossbowman);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
-	}
-
-	public BuildingBarrack(OutputBuilding ocb, Plateau p){
-		team = ocb.team;
-		new BuildingBarrack(p,p.g,ocb.x,ocb.y);
-		this.id = ocb.id;
 	}
 
 	public void drawAnimation(Graphics g){
