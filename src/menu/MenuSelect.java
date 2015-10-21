@@ -1,5 +1,4 @@
 package menu;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -14,9 +13,8 @@ import org.newdawn.slick.SlickException;
 import model.Game;
 import model.Sounds;
 
-public class MenuOptions extends Menu {
 
-
+public class MenuSelect extends Menu{
 
 	Image title;
 	public Image plus;
@@ -30,12 +28,9 @@ public class MenuOptions extends Menu {
 	public Image sound;
 	public Sounds sounds;
 	public Image options;
-	public Image nickname;
-	
-	public String nicknameString;
 
 
-	public MenuOptions(Game game){
+	public MenuSelect(Game game){
 
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
@@ -53,22 +48,19 @@ public class MenuOptions extends Menu {
 			this.music = new Image("pics/menu/musics.png").getScaledCopy(ratioReso);
 			this.sound = new Image("pics/menu/sounds.png").getScaledCopy(ratioReso);
 			this.options = new Image("pics/menu/options.png").getScaledCopy(ratioReso);
-			this.nickname = new Image("pics/menu/nickname.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.options.getWidth()/2;
 			this.items.addElement(new Menu_Item(startX,startY,this.options,this.options,this.game));
 			this.items.get(0).selectionable = false;
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+1*stepY,this.music,this.music,this.game));
-			this.items.get(1).selectionable = false;
+			this.items.get(0).selectionable = false;
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+2*stepY,this.sound,this.sound,this.game));
-			this.items.get(2).selectionable = false;
+			this.items.get(0).selectionable = false;
 			this.items.addElement(new Menu_Item(2*this.game.resX/4f,startY+1*stepY,this.minus,this.minusSelected,this.game));
 			this.items.addElement(new Menu_Item(2*this.game.resX/4f,startY+2*stepY,this.minus,this.minusSelected,this.game));
 			this.items.addElement(new Menu_Item(2.5f*this.game.resX/4f,startY+1*stepY,this.plus,this.plusSelected,this.game));
 			this.items.addElement(new Menu_Item(2.5f*this.game.resX/4f,startY+2*stepY,this.plus,this.plusSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+4*stepY,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.nickname,this.nickname,this.game));
-			this.items.get(8).selectionable = false;
-			//this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+3*stepY,0.8f*this.game.resX/4f,0.5f*stepY));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.back,this.backSelected,this.game));
+
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -81,7 +73,7 @@ public class MenuOptions extends Menu {
 		}
 	}
 
-	
+
 	public void callItem(int i){
 		switch(i){
 		case 3: this.game.options.musicVolume-=0.1f;break;
@@ -125,11 +117,12 @@ public class MenuOptions extends Menu {
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 			fichierSortie.println ("musics: " + game.options.musicVolume);
 			fichierSortie.println ("sounds: " + game.options.soundVolume); 
-			fichierSortie.println ("nickname: " + game.options.nickname); 
 			fichierSortie.close();
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
 		}	
 	}
+
+
 }
