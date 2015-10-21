@@ -153,6 +153,11 @@ public class MenuMulti extends Menu {
 		} else if(inJoin) {
 			game.inMultiplayer = true;
 			game.host = false;
+			try {
+				game.addressClient = InetAddress.getLocalHost();
+			} catch (UnknownHostException e2) {
+				e2.printStackTrace();
+			}
 			if(this.game.connexions.size()>0){
 				try {
 					this.game.addressHost = InetAddress.getByName(this.game.connexions.remove(0));
