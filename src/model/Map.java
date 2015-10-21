@@ -158,6 +158,9 @@ public class Map {
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
 		
+		data2.player.gold = 1000;
+		data2.player.food = 1000;
+		
 		for(int i = 0;i<1;i++){
 			data2.player.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
 		}
