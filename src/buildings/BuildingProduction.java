@@ -49,7 +49,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				float startY =(float) Math.random()+ this.y + this.sizeY*dirY/norm/2;
 				Character c = this.p.g.players.get(team).create(this.productionList.get(this.queue.get(0)), startX,startY );
 				c.setTarget(this.rallyPoint);
-
+				this.changes.queue=true;
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;
@@ -100,8 +100,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		
 		return s;
 	}
-	
-	//TODO 
+
 	public void parseBuildingProduction(HashMap<String, String> hs) {
 		if(hs.containsKey("charge")){
 			this.setCharge(Float.parseFloat(hs.get("charge")));
