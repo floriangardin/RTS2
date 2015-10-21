@@ -2,11 +2,13 @@ package menu;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 public class Menu_MapChoice extends Menu_Item {
-	
+
 	String name;
 	public boolean isSelected;
+	public boolean isOver;
 
 	public Menu_MapChoice(String name, float x, float y, float sizeX, float sizeY){
 		this.x = x;
@@ -15,13 +17,23 @@ public class Menu_MapChoice extends Menu_Item {
 		this.sizeY = sizeY;
 		this.name = name;
 	}
-	
+
 	public void draw(Graphics g){
+		g.setColor(Color.black);
 		if(isSelected)
-			g.setColor(Color.yellow);
-		else
-			g.setColor(Color.white);
+			g.drawRect(x-5f, y-5f, sizeX, sizeY+10f);
 		g.drawString(name, x, y);
 	}
-	
+
+	public void update(Input i){
+		if(this.isClicked(i)){
+			if(!isOver){
+				isOver = true;
+			}
+		} else {
+			if(isOver)
+				isOver = false;
+		}
+	}
+
 }

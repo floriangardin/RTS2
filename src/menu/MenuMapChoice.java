@@ -27,6 +27,7 @@ public class MenuMapChoice extends Menu {
 	public Image playSelected;
 	public Image backSelected;
 	public int selected = -1;
+	public int mapSelected = 0;
 	public Vector<String> maps = Map.maps();
 
 	public Vector<Menu_Item> mapchoices;
@@ -78,7 +79,7 @@ public class MenuMapChoice extends Menu {
 			this.items.addElement(new Menu_Item(startX-100f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(startX-60f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
 			for(int i=0; i<maps.size(); i++){
-				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+60f,startYMapChoice+120f+40f*i,200f,30f));
+				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+60f,startYMapChoice+220f+40f*i,200f,30f));
 			}
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -125,7 +126,10 @@ public class MenuMapChoice extends Menu {
 			}
 			for(Menu_Item item: this.items){
 				item.update(i);
-			}			
+			}	
+			for(Menu_Item item: this.mapchoices){
+				item.update(i);
+			}	
 		}
 	}
 }
