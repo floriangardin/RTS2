@@ -74,7 +74,11 @@ public class MenuMapChoice extends Menu {
 			this.game.setMenu(this.game.menuIntro);
 			break;
 		case 4: 
-			this.game.app.exit();
+			this.music = game.musics.imperial;
+			this.music.loop();
+			this.music.setVolume(game.options.musicVolume);
+			this.game.newGame();
+			this.game.quitMenu();
 			break;
 		default:		
 		}
@@ -92,44 +96,14 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void update(Input i){
-		if(multiplaying){
-			if(i.isKeyPressed(Input.KEY_ESCAPE))
-				multiplaying = false;
-			if(this.game.host){
-				if(cooldown<=0){
-					this.game.toSendConnexions.addElement("2mythe");
-					cooldown+=50;
-				}else
-					cooldown-=1;
-				if(this.game.connexions.size()>0){
-					game.inMultiplayer = true;
-					callItem(0);
-					multiplaying = false;
-				}
-			} else {
-				if(this.game.connexions.size()>0){
-					this.game.toSendConnexions.addElement("2mythe");
-					this.game.toSendConnexions.addElement("2mythe");
-					this.game.toSendConnexions.addElement("2mythe");
-					try{
-						Thread.sleep(5);
-					} catch(InterruptedException e) { }
-					game.inMultiplayer = true;
-					game.currentPlayer = 2;
-					callItem(0);
-					multiplaying = false;
-				}
+		if(i!=null){
+			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				callItems(i);
+				this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
 			}
-		}else{
-			if(i!=null){
-				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-					callItems(i);
-					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
-				}
-				for(Menu_Item item: this.items){
-					item.update(i);
-				}			
-			}
-		} 
+			for(Menu_Item item: this.items){
+				item.update(i);
+			}			
+		}
 	}
 }
