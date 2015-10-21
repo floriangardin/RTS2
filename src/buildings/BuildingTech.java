@@ -86,7 +86,7 @@ public abstract class BuildingTech extends BuildingAction {
 	
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
-		if(changes.queue){
+		if(changes.queue && this.queue!=null){
 			s+="queue:"+this.queue.id+";";
 			changes.queue=true;
 		}

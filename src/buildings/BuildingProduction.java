@@ -84,7 +84,7 @@ public abstract class BuildingProduction extends BuildingAction {
 	
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
-		if(changes.queue){
+		if(changes.queue && this.queue!=null){
 			s+="queue:";
 			for(int c : this.queue){
 				s+=c+",";
