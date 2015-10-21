@@ -12,17 +12,9 @@ import org.newdawn.slick.SlickException;
 import bullets.Bullet;
 import model.Game;
 import model.Objet;
-import model.Utils;
 
 public class MenuMapChoice extends Menu {
 
-	Vector<Objet> trees = new Vector<Objet>();
-	Vector<Bullet> bullets = new Vector<Bullet>();
-	float timer = 0f;
-	float nextBullet = 1f;
-	Image title;
-	public boolean toGame = false;
-	public float timeToGame = 00f;
 	public Image gamemode;
 	public Image players;
 	public Image map;
@@ -53,7 +45,10 @@ public class MenuMapChoice extends Menu {
 			this.playSelected = new Image("pics/menu/playselected.png").getScaledCopy(ratioReso);
 			this.back= new Image("pics/menu/back.png").getScaledCopy(ratioReso);
 			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
-			this.gamemode = new Image("pics/menu/gamemode.png").getScaledCopy(ratioReso);
+			if(multiplaying)
+				this.gamemode = new Image("pics/menu/multiplayer.png").getScaledCopy(ratioReso);
+			else
+				this.gamemode = new Image("pics/menu/singleplayer.png").getScaledCopy(ratioReso);
 			this.players = new Image("pics/menu/players.png").getScaledCopy(ratioReso);
 			this.map = new Image("pics/menu/map.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
@@ -63,35 +58,22 @@ public class MenuMapChoice extends Menu {
 			this.items.get(1).selectionable = false;
 			this.items.addElement(new Menu_Item(game.resX*2f/3f,startY+1f*stepY,this.map,this.map,this.game));
 			this.items.get(2).selectionable = false;
-			this.items.addElement(new Menu_Item(startX-20f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.map,this.map,this.game));
-			this.items.addElement(new Menu_Item(startX+20f,this.game.resY-1.5f*stepY,this.map,this.map,this.game));
+			this.items.addElement(new Menu_Item(startX-20f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(startX+20f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
 		//		}
-		Utils.triY(trees);
-		try{
-			this.sounds = game.sounds;
-			this.title = new Image("pics/menu/goldtitle.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.sounds = game.sounds;
 	}
 
 	
 	public void callItem(int i){
 		switch(i){
-		case 0:
-			this.toGame = true;
-			this.music.fade(300,0f, true);
+		case 3:
+			this.game.setMenu(this.game.menuIntro);
 			break;
-		case 1:
-			this.game.setMenu(this.game.menuMulti);
-			break;
-		case 2:
-			this.game.setMenu(this.game.menuOptions);
-			break;
-		case 3: 
+		case 4: 
 			this.game.app.exit();
 			break;
 		default:		
@@ -138,7 +120,7 @@ public class MenuMapChoice extends Menu {
 					multiplaying = false;
 				}
 			}
-		}else if(!toGame){
+		}else{
 			if(i!=null){
 				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					callItems(i);
@@ -148,22 +130,6 @@ public class MenuMapChoice extends Menu {
 					item.update(i);
 				}			
 			}
-			Vector<Bullet> toremove = new Vector<Bullet>();
-			for(Bullet b: this.bullets){
-				if(b.lifePoints<=0)
-					toremove.add(b);
-			}
-			for(Bullet b: toremove)
-				this.bullets.remove(b);
-		} else {
-			this.timeToGame -= 1f;
-			if(timeToGame<0f){
-				this.music = game.musics.imperial;
-				this.music.loop();
-				this.music.setVolume(game.options.musicVolume);
-				this.game.newGame();
-				this.game.quitMenu();
-			}
-		}
+		} 
 	}
 }

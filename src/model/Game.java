@@ -1,6 +1,5 @@
 package model;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.Vector;
 
@@ -22,6 +21,7 @@ import display.Message;
 import display.TopBar;
 import menu.Menu;
 import menu.MenuIntro;
+import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
 import multiplaying.InputModel;
@@ -109,6 +109,7 @@ public class Game extends BasicGame
 	public MenuIntro menuIntro;
 	public MenuOptions menuOptions;
 	public MenuMulti menuMulti;
+	public MenuMapChoice menuMapChoice;
 	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
 
@@ -295,6 +296,7 @@ public class Game extends BasicGame
 		this.menuIntro = new MenuIntro(this);
 		this.menuOptions = new MenuOptions(this);
 		this.menuMulti = new MenuMulti(this);
+		this.menuMapChoice = new MenuMapChoice(this);
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
 		

@@ -91,6 +91,7 @@ public class MenuIntro extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 0:
+			this.game.setMenu(this.game.menuMapChoice);
 			this.toGame = true;
 			this.music.fade(300,0f, true);
 			break;
