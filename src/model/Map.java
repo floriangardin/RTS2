@@ -38,9 +38,11 @@ public class Map {
 	}
 	
 	public static void createMap(String name, Game game){
-
 		initializePlateau(game, 2000f, 3000f);
 		updateMap(name, game);
+	}
+	public static void updateMap(int id, Game game){
+		updateMap(Map.maps().get(id),game);
 	}
 	
 	public static void updateMap(String name, Game game){

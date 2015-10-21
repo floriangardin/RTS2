@@ -79,7 +79,7 @@ public class MenuMapChoice extends Menu {
 			this.items.addElement(new Menu_Item(startX-100f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(startX-60f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
 			for(int i=0; i<maps.size(); i++){
-				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+60f,startYMapChoice+220f+40f*i,200f,30f));
+				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+60f,startYMapChoice+150f+50f*i,200f,30f));
 			}
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -95,6 +95,7 @@ public class MenuMapChoice extends Menu {
 			this.game.setMenu(this.game.menuIntro);
 			break;
 		case 6: 
+			Map.updateMap(mapSelected, game);
 			this.music = game.musics.imperial;
 			this.music.loop();
 			this.music.setVolume(game.options.musicVolume);
@@ -105,11 +106,7 @@ public class MenuMapChoice extends Menu {
 		}
 	}
 	
-	public void callMap(int j){
-		for(int i = 0; i<this.mapchoices.size(); i++){
-			this.mapchoices.get(i).isSelected = i==j;
-		}
-	}
+	
 
 	public void draw(Graphics g){
 		g.setColor(Color.black);
@@ -127,7 +124,7 @@ public class MenuMapChoice extends Menu {
 	public void update(Input i){
 		if(i!=null){
 			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				callItems(i);
+				this.callItems(i);
 				this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
 			}
 			for(Menu_Item item: this.items){
@@ -139,14 +136,15 @@ public class MenuMapChoice extends Menu {
 		}
 	}
 	
-	public void callItems(InputModel im){
+	public void callItems(Input i){
 		for(int j=0; j<items.size(); j++){
-			if(items.get(j).isClicked(im))
+			if(items.get(j).isClicked(i))
 				callItem(j);
 		}
 		for(int j=0; j<mapchoices.size(); j++){
-			if(mapchoices.get(j).isClicked(im))
-				callMap(j);
+			mapchoices.get(j).isSelected = mapchoices.get(j).isClicked(i);
+			if(mapchoices.get(j).isSelected)
+				mapSelected = j;
 		}
 	}
 }

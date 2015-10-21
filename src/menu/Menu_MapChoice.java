@@ -20,10 +20,10 @@ public class Menu_MapChoice extends Menu_Item {
 
 	public void draw(Graphics g){
 		g.setColor(Color.black);
-		if(isOver)
-			g.setColor(Color.gray);
 		if(isSelected)
 			g.drawRect(x-5f, y-5f, sizeX, sizeY+10f);
+		if(isOver)
+			g.setColor(Color.gray);
 		g.drawString(name, x, y);
 	}
 
