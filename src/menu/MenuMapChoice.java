@@ -76,10 +76,10 @@ public class MenuMapChoice extends Menu {
 	
 	public void callItem(int i){
 		switch(i){
-		case 3:
+		case 4:
 			this.game.setMenu(this.game.menuIntro);
 			break;
-		case 4: 
+		case 5: 
 			this.music = game.musics.imperial;
 			this.music.loop();
 			this.music.setVolume(game.options.musicVolume);

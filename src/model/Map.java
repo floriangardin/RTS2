@@ -18,6 +18,17 @@ public class Map {
 	public Map(){
 
 	}
+	
+	public static void createMap(String name, Game game){
+		switch(name){
+		case "lan": createMapLan(game);break;
+		case "empty": createMapEmpty(game);break;
+		case "duel": createMapDuel(game);break;
+		case "testTech": createMapTestTech(game);break;
+		case "duelLarge": createMapDuelLarge(game);break;
+		case "micro": createMapMicro(game);break;
+		}
+	}
 
 	
 
@@ -63,7 +74,7 @@ public class Map {
 		
 	}
 		
-	public static void createMapPhillipe(Game game){
+	public static void createMapDuel(Game game){
 		initializePlateau(game, 2000f, 3000f);
 		Data data1 = game.players.get(1).data;
 		Data data2 = game.players.get(2).data;
@@ -168,9 +179,8 @@ public class Map {
 		// Player 2 side
 
 	}
-
 	
-	public static void createMapPhillipeMacro(Game game){
+	public static void createMapDuelLarge(Game game){
 		initializePlateau(game, 5000f, 2500f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;

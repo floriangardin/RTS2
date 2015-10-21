@@ -139,9 +139,9 @@ public class Plateau {
 
 		//UPDATING GAME
 		this.g.players = new Vector<Player>();
-		this.g.players.add(new Player(this,0,0));
-		this.g.players.add(new Player(this,1,0));
-		this.g.players.add(new Player(this,2,0));
+		this.g.players.add(new Player(this,0,"Nature",0,0));
+		this.g.players.add(new Player(this,1,this.g.options.nickname,1,0));
+		this.g.players.add(new Player(this,2,"IA random",2,0));
 
 	}
 
