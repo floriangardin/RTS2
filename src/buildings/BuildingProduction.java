@@ -14,7 +14,7 @@ public abstract class BuildingProduction extends BuildingAction {
 	public Vector<Integer> queue ;
 
 	public void product(int unit){
-		
+		this.changes.queue=true;
 		if(this.queue.size()<5 && unit<this.productionList.size()){
 			if(this.productionList.get(unit).foodPrice<=this.p.g.players.get(team).food
 					&& this.productionList.get(unit).goldPrice<=this.p.g.players.get(team).gold){
@@ -39,7 +39,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 
 			
-			this.charge+=0.1f;
+			this.setCharge(this.charge+0.1f);
 			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
 				float dirX = this.rallyPoint.x-this.x;
