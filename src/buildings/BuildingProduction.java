@@ -107,9 +107,10 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.setCharge(Float.parseFloat(hs.get("charge")));
 		}
 		if(hs.containsKey("queue")){
+			this.queue.clear();
 			String[] r = hs.get("queue").split(",");
 			for(int i = 0;i<r.length;i++){
-				this.queue.set(i,Integer.parseInt(r[i]));
+				this.queue.addElement(Integer.parseInt(r[i]));
 			}
 		}
 	}
