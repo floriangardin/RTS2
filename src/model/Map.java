@@ -153,7 +153,6 @@ public class Map {
 			data1.player.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
 		}
 			
-
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
 		data1.player.gold = 1000;
 		data1.player.food = 1000;
