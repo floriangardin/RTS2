@@ -23,13 +23,11 @@ public class Building extends ActionObjet{
 	public float sizeY;
 	public int teamCapturing;
 	public float constructionPoints;
-	
 	public int potentialTeam;
 	public int type;
 	public Objet rallyPoint;
 	public BuildingHeadQuarters hq;
 	public Image imageNeutre;
-
 	public float charge;
 	public boolean isProducing;
 
@@ -235,13 +233,10 @@ public class Building extends ActionObjet{
 				s+="rallyPointY:"+this.rallyPoint.y+";";
 			}
 			changes.rallyPoint = true;
-
 		}
 		return s;
 	}
 	
-
-
 	public void parseBuilding(HashMap<String, String> hs) {
 		if(hs.containsKey("sizeX")){
 			this.sizeX = Float.parseFloat(hs.get("sizeX"));
@@ -264,11 +259,9 @@ public class Building extends ActionObjet{
 		if(hs.containsKey("constructionPoints")){
 			this.sizeX = Float.parseFloat(hs.get("sizeX"));
 		}
-
 	}
 
 	public void parse(HashMap<String, String> hs) {
-		
 		
 	}
 
@@ -282,11 +275,9 @@ public class Building extends ActionObjet{
 		return tec;
 	}
 	
-	public void setCharge(float charge){
+		public void setCharge(float charge){
 		this.charge = charge;
 		this.changes.charge = true;
-
-		
 	}
 	
 	public void setTeam(int team){

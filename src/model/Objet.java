@@ -94,7 +94,7 @@ public abstract class Objet {
 		s+="name:"+name+";";
 		if(changes.team){
 			s+="team:"+team+";";
-			changes.team = false;
+			changes.team = true;
 		}
 		if(changes.x){
 			s+="x:"+x+";";
