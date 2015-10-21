@@ -1,5 +1,6 @@
 package buildings;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import display.Message;
@@ -36,7 +37,7 @@ public abstract class BuildingTech extends BuildingAction {
 			this.p.g.players.get(this.team).food += queue.tech.foodPrice;
 			this.p.g.players.get(this.team).gold += queue.tech.goldPrice;
 			this.queue=null;
-			this.charge = 0f;
+			this.setCharge(0f);
 		}
 	}
 	
@@ -56,10 +57,12 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 	}
 	
-	
 	public void techTerminate(Technologie q){
+		if(q==null){
+			return;
+		}
 		this.p.addMessage(Message.getById(4), team);
-		this.charge=0f;
+		this.setCharge(0f);
 		this.hq.techsDiscovered.addElement(q);
 		this.productionList.removeElement(q);
 		Technologie toDelete = null;
@@ -88,6 +91,31 @@ public abstract class BuildingTech extends BuildingAction {
 			s+="queue:"+this.queue.id+";";
 			changes.queue=false;
 		}
+		if(changes.charge){
+			s+="charge:"+this.charge+";";
+			changes.charge=false;
+		}
+		if(changes.isFinished){
+			s+="isFinished:"+1+";";
+			changes.charge=false;
+		}
 		return s;
+	}
+	
+	public void parse3(HashMap<String, String> hs) {
+		if(hs.containsKey("queue")){
+			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("queue")));
+		}
+		if(hs.containsKey("charge")){
+			this.setCharge(Float.parseFloat(hs.get("charge")));
+		}
+		if(hs.containsKey("isFinished")){
+			this.techTerminate(this.queue);
+		}
+	}
+	public void parse(HashMap<String,String> hs){
+		this.parse1(hs);
+		this.parse2(hs);
+		this.parse3(hs);
 	}
 }

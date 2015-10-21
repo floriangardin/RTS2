@@ -1,5 +1,7 @@
 package buildings;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,6 +15,7 @@ import model.Objet;
 import model.Plateau;
 import units.Character;
 import multiplaying.OutputModel.OutputBuilding;
+import technologies.Technologie;
 
 public class Building extends ActionObjet{
 	public Game g;
@@ -285,5 +288,52 @@ public class Building extends ActionObjet{
 		return s;
 	}
 
+	public void parse3(HashMap<String, String> hs) {
+		if(hs.containsKey("sizeX")){
+			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		}
+		if(hs.containsKey("sizeY")){
+			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		}
+		if(hs.containsKey("rallyPointX")){
+			this.rallyPoint.x = Float.parseFloat(hs.get("rallyPointX"));
+		}
+		if(hs.containsKey("rallyPointY")){
+			this.rallyPoint.y = Float.parseFloat(hs.get("rallyPointY"));
+		}
+		if(hs.containsKey("constructionPoints")){
+			this.constructionPoints = Float.parseFloat(hs.get("constructionPoints"));
+		}
+		if(hs.containsKey("potentialTeam")){
+			this.potentialTeam = Integer.parseInt(hs.get("potentialTeam"));
+		}
+		if(hs.containsKey("constructionPoints")){
+			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		}
+
+	}
+
+	public void parse(HashMap<String, String> hs) {
+		
+		
+	}
+
+	
+	//TODO 
+	public Technologie getTechnologieById(int id){
+		Technologie tec = null;
+		for(Technologie t : this.hq.allTechs){
+			if(t.id==id){
+				tec = t;
+			}
+		}
+		return tec;
+	}
+	
+	public void setCharge(float charge){
+		this.charge = charge;
+		this.changes.charge = true;
+		this.changes.isFinished=true;
+	}
 
 }

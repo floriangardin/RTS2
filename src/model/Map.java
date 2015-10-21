@@ -137,6 +137,37 @@ public class Map {
 
 	}
 
+	public static void createMapTestTech(Game game){
+		initializePlateau(game, 1000f, 1000f);
+		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
+		float X = game.plateau.maxX;
+		float Y = game.plateau.maxY;
+		Data data1 = game.players.get(1).data;
+		Data data2 = game.players.get(2).data;
+
+		new BuildingHeadQuarters(game.plateau,game,0f,0f,1);
+		new BuildingHeadQuarters(game.plateau,game,X-200f,0f,2);
+		
+		//data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
+		for(int i = 0;i<1;i++){
+			data1.player.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
+		}
+			
+
+		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
+		data1.player.gold = 1000;
+		data1.player.food = 1000;
+		
+		for(int i = 0;i<1;i++){
+			data2.player.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
+		}
+		
+		
+		// Player 2 side
+
+	}
+
+	
 	public static void createMapPhillipeMacro(Game game){
 		initializePlateau(game, 5000f, 2500f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);

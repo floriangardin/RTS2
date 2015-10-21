@@ -35,6 +35,10 @@ public class Changes {
 	
 	//BUILDING TECH AND PROD
 	public boolean queue;
+	public boolean idTech;
+	public boolean charge;
+	public boolean prod;
+	public boolean isFinished;
 	
 	//BUILDING PROD
 	public boolean productionTime=true;
