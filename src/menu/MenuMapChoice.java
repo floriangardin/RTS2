@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 
 import bullets.Bullet;
 import model.Game;
+import model.Map;
 import model.Objet;
 
 public class MenuMapChoice extends Menu {
@@ -26,7 +27,9 @@ public class MenuMapChoice extends Menu {
 	public Image playSelected;
 	public Image backSelected;
 	public int selected = -1;
-	
+	public Vector<String> maps = Map.maps();
+
+	public Vector<Menu_Item> mapchoices;
 	
 	
 	private boolean multiplaying;
@@ -40,6 +43,7 @@ public class MenuMapChoice extends Menu {
 		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
+		this.mapchoices = new Vector<Menu_Item>();
 		this.multiplaying = game.inMultiplayer;
 		float startY = 100f;
 		float stepY = 0.13f*this.game.resY;
@@ -60,7 +64,7 @@ public class MenuMapChoice extends Menu {
 			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
 			this.items.addElement(new Menu_Item(30f,startY+1f*stepY+45f,this.marbre,this.marbre,this.game));
 			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(30f,startY+1f*stepY+45f,this.marbre2,this.marbre2,this.game));
+			this.items.addElement(new Menu_Item(game.resX*2f/3f+15f,startY+1f*stepY+45f,this.marbre2,this.marbre2,this.game));
 			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(startX,startY,this.gamemode,this.gamemode,this.game));
 			this.items.lastElement().selectionable = false;
@@ -80,10 +84,10 @@ public class MenuMapChoice extends Menu {
 	
 	public void callItem(int i){
 		switch(i){
-		case 4:
+		case 5:
 			this.game.setMenu(this.game.menuIntro);
 			break;
-		case 5: 
+		case 6: 
 			this.music = game.musics.imperial;
 			this.music.loop();
 			this.music.setVolume(game.options.musicVolume);
@@ -100,9 +104,9 @@ public class MenuMapChoice extends Menu {
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
-		g.setColor(Color.white);
-		if(multiplaying)
-			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
+		g.setColor(Color.black);
+		
+			
 	}
 
 	public void update(Input i){
