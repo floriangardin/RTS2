@@ -76,6 +76,7 @@ public abstract class BuildingTech extends BuildingAction {
 		this.isProducing =false;
 		
 		this.updateProductionList();
+		this.changes.isFinished = true;
 	}
 	
 	public int getIndexOfQueue(){
@@ -94,8 +95,8 @@ public abstract class BuildingTech extends BuildingAction {
 			s+="charge:"+this.charge+";";
 			changes.charge=true;
 		}
-		if(this.queue!=null){
-			s+="isFinished:"+(this.charge>=this.queue.tech.prodTime?1:0)+";";
+		if(this.changes.isFinished){
+			s+="isFinished:"+"1"+";";
 		}
 		return s;
 	}
