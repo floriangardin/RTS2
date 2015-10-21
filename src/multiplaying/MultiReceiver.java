@@ -33,7 +33,7 @@ public class MultiReceiver extends Thread{
 			if(debug)
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
-				message = new byte[8000];
+				message = new byte[800];
 				packet = new DatagramPacket(message, message.length);
 				try{
 					server.receive(packet);
