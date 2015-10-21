@@ -143,6 +143,15 @@ public abstract class Objet {
 		if(hs.containsKey("sight")){
 			this.sight=Float.parseFloat(hs.get("sight"));
 		}
+		if(hs.containsKey("team")){
+			this.setTeam(Integer.parseInt(hs.get("team")));
+		}
 	}
+	
+	
+	public void setTeam(int team){
+		this.team = team;
+	}
+	
 }
 

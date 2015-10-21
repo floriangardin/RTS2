@@ -15,12 +15,10 @@ public enum Technologies {
 	DualistHealth2("health 2",100f,50f,150f,"headquarters",2,5),
 	DualistShield3("shield 3",200f,200f,250f,"headquarters",3,6),
 	DualistHealth3("health 3",200f,200f,250f,"headquarters",3,7),
-
 	DualistContactAttack2("Contact attack 2",100f,150f,200f,"university",2,8),
 	DualistRangeAttack2("Range attack 2",100f,200f,200f,"university",2,9),
 	DualistContactAttack3("Contact attack 3",200f,350f,400f,"university",3,10),
 	DualistRangeAttack3("Range attack 3",200f,350f,400f,"university",3,11),
-	
 	DualistExplosion("Explosion",300f,300f,300f,"headquarters",3,12),
 	EagleView("Eagle View",100f,100f,100f,"university",2,13);
 	

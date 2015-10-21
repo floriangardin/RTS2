@@ -42,7 +42,6 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.allTechs = new Vector<Technologie>();
 		this.p.g.players.get(team).hq = this;
 		if(this.p.g.players.get(team).civ==0){
-			
 			// AGING
 			DualistAge2 d2 = new DualistAge2(this.p,this.player);
 			this.allTechs.addElement(d2);
@@ -104,7 +103,6 @@ public class BuildingHeadQuarters extends BuildingTech {
 		}
 		this.queue = null;
 		teamCapturing= team;
-
 		this.team = team;
 		this.sizeX = this.player.data.headQuartersSizeX; 
 		this.sizeY = this.player.data.headQuartersSizeY;

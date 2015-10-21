@@ -84,7 +84,6 @@ public abstract class BuildingTech extends BuildingAction {
 		return -1;
 	}
 	
-	
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		if(changes.queue){
@@ -95,10 +94,7 @@ public abstract class BuildingTech extends BuildingAction {
 			s+="charge:"+this.charge+";";
 			changes.charge=true;
 		}
-		if(changes.isFinished){
-			s+="isFinished:"+1+";";
-			changes.charge=true;
-		}
+		s+="isFinished:"+(this.charge>=this.queue.tech.prodTime?0:1)+";";
 		return s;
 	}
 	
@@ -109,7 +105,7 @@ public abstract class BuildingTech extends BuildingAction {
 		if(hs.containsKey("charge")){
 			this.setCharge(Float.parseFloat(hs.get("charge")));
 		}
-		if(hs.containsKey("isFinished")){
+		if(hs.containsKey("isFinished") && hs.get("isFinished").equals("1") ){
 			this.techTerminate(this.queue);
 		}
 	}

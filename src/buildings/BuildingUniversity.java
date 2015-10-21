@@ -12,24 +12,16 @@ import technologies.Technologie;
 
 public class BuildingUniversity extends BuildingTech {
 
-
-
-	
-
-	
 	public Player player;
 	
 	public BuildingUniversity(Plateau plateau, Game g, float f, float h) {
 		// Init ProductionList
-		
 		this.p = plateau ;
 		this.player = this.p.g.players.get(team);
 		this.productionList = new Vector<Technologie>();
 		if(this.p.g.players.get(team).civ==0){
 			this.productionList = new Vector<Technologie>();
-			
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
-
 		}
 		else if(this.p.g.players.get(team).civ==1){
 			this.productionList = new Vector<Technologie>();
@@ -91,7 +83,6 @@ public class BuildingUniversity extends BuildingTech {
 			}
 		}
 	}
-	
 	public void action(){
 		//Do the action of Barrack
 		//Product, increase state of the queue

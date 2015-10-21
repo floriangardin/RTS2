@@ -97,10 +97,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			s+="charge:"+this.charge+";";
 			changes.charge=false;
 		}
-		if(changes.isFinished){
-			s+="isFinished:"+1+";";
-			changes.charge=false;
-		}
+		s+="isFinished:"+(this.charge>=this.productionList.get(this.queue.get(0)).time?0:1)+";";
 		return s;
 	}
 	
@@ -108,9 +105,6 @@ public abstract class BuildingProduction extends BuildingAction {
 	public void parseBuildingProduction(HashMap<String, String> hs) {
 		if(hs.containsKey("charge")){
 			this.setCharge(Float.parseFloat(hs.get("charge")));
-		}
-		if(hs.containsKey("isFinished")){
-			
 		}
 		if(hs.containsKey("queue")){
 			String[] r = hs.get("queue").split(",");

@@ -70,14 +70,11 @@ public abstract class ActionObjet extends Objet{
 		}
 		return s;
 	}
-	
+
 	public void parseActionObjet(HashMap<String,String> hs){
 
 		if(hs.containsKey("maxLifePoints")){
 			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));
-		}
-		if(hs.containsKey("orientation")){
-			this.orientation=Integer.parseInt(hs.get("orientation"));
 		}
 	}
 }

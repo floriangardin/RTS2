@@ -299,5 +299,15 @@ public class Building extends ActionObjet{
 		}
 		
 	}
+	
+	public void setTeam(int team){
+		for(Building b : this.p.buildings){
+			if(b.team==team){
+				this.hq = b.hq;
+				
+			}
+		}
+	this.team = team;
+	}
 
 }
