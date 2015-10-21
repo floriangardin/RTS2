@@ -95,7 +95,7 @@ public abstract class BuildingTech extends BuildingAction {
 			changes.charge=true;
 		}
 		if(this.queue!=null){
-			s+="isFinished:"+(this.charge>=this.queue.tech.prodTime?0:1)+";";
+			s+="isFinished:"+(this.charge>=this.queue.tech.prodTime?1:0)+";";
 		}
 		return s;
 	}
