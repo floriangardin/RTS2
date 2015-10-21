@@ -1,5 +1,7 @@
 package buildings;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,6 +15,7 @@ import model.Objet;
 import model.Plateau;
 import units.Character;
 import multiplaying.OutputModel.OutputBuilding;
+import technologies.Technologie;
 
 public class Building extends ActionObjet{
 	public Game g;
@@ -95,43 +98,6 @@ public class Building extends ActionObjet{
 				this.updateImage();
 			}
 		}
-	}
-
-	public void change(OutputBuilding ocb) {
-		this.lifePoints = ocb.lifepoints;
-		this.team = ocb.team;	
-		this.maxLifePoints = ocb.maxlifepoints;
-		this.constructionPoints = ocb.constrpoints;
-		//this.animation = ocb.animation;
-		this.sight = ocb.sight;
-		if(ocb.team==2){
-			if(this instanceof BuildingProduction){
-				((BuildingProduction) this).changeQueue(ocb);
-			} else if(this instanceof BuildingTech){
-				if(ocb.queue[0]!=-1){
-					((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
-					this.charge = ocb.charge;
-				} else {
-
-				}
-			}
-		}
-		this.updateImage();
-	}
-
-	public Building(OutputBuilding ocb, Plateau p){
-		Building b;
-		switch(ocb.typeBuilding){
-		case 0: b = new BuildingMine(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 1: b = new BuildingMill(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 2: b = new BuildingStable(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 3: b = new BuildingBarrack(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 4: b = new BuildingAcademy(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 5: b = new BuildingHeadQuarters(p,p.g,ocb.x,ocb.y,ocb.team); b.id = ocb.id;break;
-		case 6: b = new BuildingUniversity(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		default:
-		}
-		this.updateImage();
 	}
 
 	public void drawIsSelected(Graphics g){
@@ -245,9 +211,9 @@ public class Building extends ActionObjet{
 	}
 	
 	
-	public String toString3(){
-		String s = toString1();
-		s+=toString2();
+	public String toStringBuilding(){
+		String s = toStringObjet();
+		s+=toStringActionObjet();
 		
 		if(changes.sizeX){
 			s+="sizeX:"+sizeX+";";
@@ -281,9 +247,57 @@ public class Building extends ActionObjet{
 	}
 	
 	public String toString(){
-		String s = toString1()+toString2()+toString3();
+		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		return s;
 	}
 
+	public void parseBuilding(HashMap<String, String> hs) {
+		if(hs.containsKey("sizeX")){
+			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		}
+		if(hs.containsKey("sizeY")){
+			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		}
+		if(hs.containsKey("rallyPointX")){
+			this.rallyPoint.x = Float.parseFloat(hs.get("rallyPointX"));
+		}
+		if(hs.containsKey("rallyPointY")){
+			this.rallyPoint.y = Float.parseFloat(hs.get("rallyPointY"));
+		}
+		if(hs.containsKey("constructionPoints")){
+			this.constructionPoints = Float.parseFloat(hs.get("constructionPoints"));
+		}
+		if(hs.containsKey("potentialTeam")){
+			this.potentialTeam = Integer.parseInt(hs.get("potentialTeam"));
+		}
+		if(hs.containsKey("constructionPoints")){
+			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		}
+
+	}
+
+	public void parse(HashMap<String, String> hs) {
+		
+		
+	}
+
+	public Technologie getTechnologieById(int id){
+		Technologie tec = null;
+		for(Technologie t : this.hq.allTechs){
+			if(t.id==id){
+				tec = t;
+			}
+		}
+		return tec;
+	}
+	
+	public void setCharge(float charge){
+		this.charge = charge;
+		this.changes.charge = true;
+		if(charge==0f){
+			this.changes.isFinished=true;
+		}
+		
+	}
 
 }

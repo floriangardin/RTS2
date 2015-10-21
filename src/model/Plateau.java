@@ -998,7 +998,25 @@ public class Plateau {
 	}
 
 	public void parseBuilding(String s){
+		String[] u = s.split("\\|");
+		//Loop over each Building
+		Building bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all buildings in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding Building in plateau
+			bul = this.getBuildingById(idTest);
 
+			bul.parse(hs);
+			
+		}
+		
+		
 	}
 
 

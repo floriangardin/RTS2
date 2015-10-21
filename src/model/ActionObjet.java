@@ -62,7 +62,7 @@ public abstract class ActionObjet extends Objet{
 		}
 	}
 
-	public String toString2(){
+	public String toStringActionObjet(){
 		String s = "";
 		if(changes.maxLifePoints){
 			s+="maxLifePoints:"+maxLifePoints+";";
@@ -71,7 +71,7 @@ public abstract class ActionObjet extends Objet{
 		return s;
 	}
 	
-	public void parse2(HashMap<String,String> hs){
+	public void parseActionObjet(HashMap<String,String> hs){
 
 		if(hs.containsKey("maxLifePoints")){
 			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));

@@ -141,11 +141,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 
 	}
 
-	
 
-	
-
-	
 	public void changeTech(Vector<Integer> techs){
 		for(Integer q : techs){
 			boolean useful = true;
@@ -178,10 +174,9 @@ public class BuildingHeadQuarters extends BuildingTech {
 			this.animation+=2f;
 			if(animation>120f)
 				animation = 0;
-			this.charge+=0.1f;
+			this.setCharge(this.charge+0.1f);
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
-
 			}
 		}
 		else if(this.isProducing){
@@ -191,6 +186,8 @@ public class BuildingHeadQuarters extends BuildingTech {
 
 
 	}
+	
+
 	
 	
 

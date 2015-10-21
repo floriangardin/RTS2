@@ -860,8 +860,8 @@ public class Character extends ActionObjet{
 
 	public String toString(){
 		String s ="" ;
-		s+=toString1();
-		s+= toString2();
+		s+=toStringObjet();
+		s+= toStringActionObjet();
 		if(changes.weapon){
 			s+="weapon:"+weapon+";";
 			changes.weapon = false;
@@ -899,7 +899,7 @@ public class Character extends ActionObjet{
 		return s;
 	}
 
-	public void parse3(HashMap<String,String> hs){
+	public void parseCharacter(HashMap<String,String> hs){
 		if(hs.containsKey("weapon")){
 			this.weapon=hs.get("weapon");
 		}
@@ -932,9 +932,9 @@ public class Character extends ActionObjet{
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
 
-		this.parse1(hs);
-		this.parse2(hs);
-		this.parse3(hs);
+		this.parseObjet(hs);
+		this.parseActionObjet(hs);
+		this.parseCharacter(hs);
 
 	}
 

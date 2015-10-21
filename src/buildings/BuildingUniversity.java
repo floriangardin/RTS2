@@ -77,7 +77,7 @@ public class BuildingUniversity extends BuildingTech {
 			this.p.g.players.get(this.team).food += queue.tech.foodPrice;
 			this.p.g.players.get(this.team).gold += queue.tech.goldPrice;
 			this.queue=null;
-			this.charge = 0f;
+			this.setCharge(0f);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class BuildingUniversity extends BuildingTech {
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue!=null){
-			this.charge+=0.1f;
+			this.setCharge(this.charge+0.1f);
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 			}
