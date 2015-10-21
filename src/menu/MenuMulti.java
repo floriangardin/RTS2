@@ -159,11 +159,6 @@ public class MenuMulti extends Menu {
 				e2.printStackTrace();
 			}
 			if(this.game.connexions.size()>0){
-				try {
-					this.game.addressHost = InetAddress.getByName(this.game.connexions.remove(0));
-				} catch (UnknownHostException e1) {
-					e1.printStackTrace();
-				}
 				this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions);
 				game.connexionSender.start();
 				this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs);
