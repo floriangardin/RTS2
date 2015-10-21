@@ -40,7 +40,7 @@ public class MenuOptions extends Menu {
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
-		float startY = 100f+0.1f*this.game.resX;
+		float startY = 150f;
 		float stepY = 0.15f*this.game.resY;
 		float ratioReso = this.game.resX/2400f;
 		try {
@@ -66,9 +66,9 @@ public class MenuOptions extends Menu {
 			this.items.addElement(new Menu_Item(2.5f*this.game.resX/4f,startY+1*stepY,this.plus,this.plusSelected,this.game));
 			this.items.addElement(new Menu_Item(2.5f*this.game.resX/4f,startY+2*stepY,this.plus,this.plusSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+4*stepY,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.nickname,this.nickname,this.game));
+			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+3*stepY,this.nickname,this.nickname,this.game));
 			this.items.get(8).selectionable = false;
-			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+3*stepY,0.8f*this.game.resX/4f,0.5f*stepY));
+			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+3.3f*stepY,0.8f*this.game.resX/4f,0.4f*stepY));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -83,6 +83,7 @@ public class MenuOptions extends Menu {
 
 	
 	public void callItem(int i){
+		((Menu_TextScanner) this.items.get(9)).isSelected = false;
 		switch(i){
 		case 3: this.game.options.musicVolume-=0.1f;break;
 		case 4: this.game.options.soundVolume-=0.02f;break;
@@ -92,6 +93,8 @@ public class MenuOptions extends Menu {
 			this.game.setMenu(game.menuIntro);
 			this.updateOptions();
 			break;
+		case 9:
+			((Menu_TextScanner) this.items.get(9)).isSelected = true;
 		default:		
 		}
 		this.game.options.musicVolume = Math.min(Math.max(this.game.options.musicVolume, 0f), 1f);
@@ -125,6 +128,7 @@ public class MenuOptions extends Menu {
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 			fichierSortie.println ("musics: " + game.options.musicVolume);
 			fichierSortie.println ("sounds: " + game.options.soundVolume); 
+			this.game.options.nickname = ((Menu_TextScanner)this.items.get(9)).s;
 			fichierSortie.println ("nickname: " + game.options.nickname); 
 			fichierSortie.close();
 		}
