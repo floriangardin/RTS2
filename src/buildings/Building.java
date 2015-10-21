@@ -210,10 +210,8 @@ public class Building extends ActionObjet{
 		
 	}
 	
-	
 	public String toStringBuilding(){
 		String s = toStringObjet();
-		s+=toStringActionObjet();
 		
 		if(changes.sizeX){
 			s+="sizeX:"+sizeX+";";
