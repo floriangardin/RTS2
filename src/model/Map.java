@@ -20,6 +20,8 @@ public class Map {
 	}
 	
 	public static void createMap(String name, Game game){
+
+		initializePlateau(game, 2000f, 3000f);
 		switch(name){
 		case "lan": createMapLan(game);break;
 		case "empty": createMapEmpty(game);break;
@@ -29,11 +31,15 @@ public class Map {
 		case "micro": createMapMicro(game);break;
 		}
 	}
+	
+	public static void updateMap(String name){
+		
+	}
 
 	
 
 	public static void createMapLan(Game game){
-		initializePlateau(game, 2000f, 3000f);
+		game.plateau.setMaxXMaxY(2000f, 3000f);
 		Data data1 = game.players.get(1).data;
 		Data data2 = game.players.get(2).data;
 		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f, 300f);
@@ -75,7 +81,7 @@ public class Map {
 	}
 		
 	public static void createMapDuel(Game game){
-		initializePlateau(game, 2000f, 3000f);
+		game.plateau.setMaxXMaxY(2000f, 3000f);
 		Data data1 = game.players.get(1).data;
 		Data data2 = game.players.get(2).data;
 		data1.create(UnitsList.Spearman, game.plateau.maxX-300f, game.plateau.maxY/2+3f);
@@ -119,7 +125,7 @@ public class Map {
 	}
 
 	public static void createMapEmpty(Game game){
-		initializePlateau(game, 800f, 600f);
+		game.plateau.setMaxXMaxY(800f, 600f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -149,7 +155,7 @@ public class Map {
 	}
 
 	public static void createMapTestTech(Game game){
-		initializePlateau(game, 1000f, 1000f);
+		game.plateau.setMaxXMaxY(1000f, 1000f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -181,7 +187,7 @@ public class Map {
 	}
 	
 	public static void createMapDuelLarge(Game game){
-		initializePlateau(game, 5000f, 2500f);
+		game.plateau.setMaxXMaxY(5000f, 2500f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -242,7 +248,7 @@ public class Map {
 	}
 
 	public static void createMapMicro(Game game){
-		initializePlateau(game, 400f, 500f);
+		game.plateau.setMaxXMaxY(400f, 500f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;

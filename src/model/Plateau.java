@@ -144,6 +144,12 @@ public class Plateau {
 		this.g.players.add(new Player(this,2,"IA random",2,0));
 
 	}
+	
+	public void setMaxXMaxY(float MaxX, float MaxY){
+		this.maxX = MaxX;
+		this.maxY = MaxY;
+		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
+	}
 
 	// functions that handle buffers
 	public void addCharacterObjets(Character o){
