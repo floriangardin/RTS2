@@ -16,15 +16,17 @@ public class MultiSender extends Thread{
 	InetAddress address;
 	int port;
 	Vector<String> depot;
+	Game game;
 
 	// DEBUGGING
 	private boolean debug = true;
 	int sent = 0;
 	
-	public MultiSender(InetAddress address, int port, Vector<String> depot){
+	public MultiSender(InetAddress address, int port, Vector<String> depot, Game game){
 		this.depot = depot;
 		this.address = address;
 		this.port = port;
+		this.game = game;
 	}
 
 	public void run(){
@@ -37,7 +39,7 @@ public class MultiSender extends Thread{
 				System.out.println("Création d'un sender - " + port);
 			while(true){
 				if(this.depot.size()>0){
-					if(depot.get(0).charAt(0)=='2'){
+					if(depot.get(0).charAt(0)=='2' && game.host){
 						address = InetAddress.getByName(depot.get(0).substring(1));
 					}
 					message = (depot.get(0).toString()).getBytes();

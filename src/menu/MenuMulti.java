@@ -137,7 +137,7 @@ public class MenuMulti extends Menu {
 			if(this.game.connexions.size()>0){
 				try {
 					this.game.addressClient = InetAddress.getByName(this.game.connexions.get(0));
-					this.game.outputSender = new MultiSender(this.game.addressHost,this.game.portOutput,this.game.toSendInputs);
+					this.game.outputSender = new MultiSender(this.game.addressHost,this.game.portOutput,this.game.toSendInputs,this.game);
 					this.game.inputReceiver = new MultiReceiver(this.game,this.game.portInput);
 					this.game.outputSender.start();
 					this.game.inputReceiver.start();
@@ -159,9 +159,9 @@ public class MenuMulti extends Menu {
 				e2.printStackTrace();
 			}
 			if(this.game.connexions.size()>0){
-				this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions);
+				this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions,this.game);
 				game.connexionSender.start();
-				this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs);
+				this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs,this.game);
 				this.game.outputReceiver = new MultiReceiver(this.game,this.game.portOutput);
 				this.game.inputSender.start();
 				this.game.outputReceiver.start();
