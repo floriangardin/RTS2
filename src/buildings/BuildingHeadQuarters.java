@@ -141,7 +141,6 @@ public class BuildingHeadQuarters extends BuildingTech {
 
 	}
 
-
 	public void changeTech(Vector<Integer> techs){
 		for(Integer q : techs){
 			boolean useful = true;
