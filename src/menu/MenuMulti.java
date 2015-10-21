@@ -121,7 +121,7 @@ public class MenuMulti extends Menu {
 				for(int ip=0; ip<255;ip++){
 					try {
 						if(!InetAddress.getLocalHost().getHostAddress().equals(s+""+ip))
-							this.game.toSendConnexions.addElement("2"+s+""+ip);
+							this.game.toSendConnexions.addElement("2"+s+""+InetAddress.getLocalHost().getHostAddress());
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					}
