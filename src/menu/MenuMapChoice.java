@@ -20,6 +20,7 @@ public class MenuMapChoice extends Menu {
 	public Image map;
 	public Image back;
 	public Image play;
+	public Image marbre;
 
 	public Image playSelected;
 	public Image backSelected;
@@ -45,6 +46,7 @@ public class MenuMapChoice extends Menu {
 			this.playSelected = new Image("pics/menu/playselected.png").getScaledCopy(ratioReso);
 			this.back= new Image("pics/menu/back.png").getScaledCopy(ratioReso);
 			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
+			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy(1.5f*ratioReso);
 			if(multiplaying)
 				this.gamemode = new Image("pics/menu/multiplayer.png").getScaledCopy(ratioReso);
 			else
@@ -52,14 +54,16 @@ public class MenuMapChoice extends Menu {
 			this.players = new Image("pics/menu/players.png").getScaledCopy(ratioReso);
 			this.map = new Image("pics/menu/map.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
+			this.items.addElement(new Menu_Item(30f,startY+1f*stepY+45f,this.marbre,this.marbre,this.game));
+			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(startX,startY,this.gamemode,this.gamemode,this.game));
-			this.items.get(0).selectionable = false;
+			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(25f,startY+1f*stepY,this.players,this.players,this.game));
-			this.items.get(1).selectionable = false;
+			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(game.resX*2f/3f,startY+1f*stepY,this.map,this.map,this.game));
-			this.items.get(2).selectionable = false;
-			this.items.addElement(new Menu_Item(startX-20f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(startX+20f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
+			this.items.lastElement().selectionable = false;
+			this.items.addElement(new Menu_Item(startX-80f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(startX-40f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
