@@ -1,0 +1,169 @@
+package menu;
+
+
+import java.util.Vector;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+
+import bullets.Bullet;
+import model.Game;
+import model.Objet;
+import model.Utils;
+
+public class MenuMapChoice extends Menu {
+
+	Vector<Objet> trees = new Vector<Objet>();
+	Vector<Bullet> bullets = new Vector<Bullet>();
+	float timer = 0f;
+	float nextBullet = 1f;
+	Image title;
+	public boolean toGame = false;
+	public float timeToGame = 00f;
+	public Image gamemode;
+	public Image players;
+	public Image map;
+	public Image back;
+	public Image play;
+
+	public Image playSelected;
+	public Image backSelected;
+	public int selected = -1;
+	
+	private boolean multiplaying;
+	
+	//TODO upgrading multiplayer
+	public int cooldown;
+
+	public MenuMapChoice(Game game){
+		this.music = game.musics.menu;
+		this.music.loop();
+		this.music.setVolume(game.options.musicVolume);
+		this.game = game;
+		this.items = new Vector<Menu_Item>();
+		this.multiplaying = game.inMultiplayer;
+		float startY = 100f;
+		float stepY = 0.13f*this.game.resY;
+		float ratioReso = this.game.resX/2400f;
+		try {
+			this.play = new Image("pics/menu/play.png").getScaledCopy(ratioReso);
+			this.playSelected = new Image("pics/menu/playselected.png").getScaledCopy(ratioReso);
+			this.back= new Image("pics/menu/back.png").getScaledCopy(ratioReso);
+			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
+			this.gamemode = new Image("pics/menu/gamemode.png").getScaledCopy(ratioReso);
+			this.players = new Image("pics/menu/players.png").getScaledCopy(ratioReso);
+			this.map = new Image("pics/menu/map.png").getScaledCopy(ratioReso);
+			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
+			this.items.addElement(new Menu_Item(startX,startY,this.gamemode,this.gamemode,this.game));
+			this.items.get(0).selectionable = false;
+			this.items.addElement(new Menu_Item(25f,startY+1f*stepY,this.players,this.players,this.game));
+			this.items.get(1).selectionable = false;
+			this.items.addElement(new Menu_Item(game.resX*2f/3f,startY+1f*stepY,this.map,this.map,this.game));
+			this.items.get(2).selectionable = false;
+			this.items.addElement(new Menu_Item(startX-20f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.map,this.map,this.game));
+			this.items.addElement(new Menu_Item(startX+20f,this.game.resY-1.5f*stepY,this.map,this.map,this.game));
+		} catch (SlickException e1) {
+			e1.printStackTrace();
+		}
+		//		}
+		Utils.triY(trees);
+		try{
+			this.sounds = game.sounds;
+			this.title = new Image("pics/menu/goldtitle.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	public void callItem(int i){
+		switch(i){
+		case 0:
+			this.toGame = true;
+			this.music.fade(300,0f, true);
+			break;
+		case 1:
+			this.game.setMenu(this.game.menuMulti);
+			break;
+		case 2:
+			this.game.setMenu(this.game.menuOptions);
+			break;
+		case 3: 
+			this.game.app.exit();
+			break;
+		default:		
+		}
+	}
+
+	public void draw(Graphics g){
+		g.setColor(Color.black);
+		g.fillRect(0, 0, this.game.resX, this.game.resY);
+		for(Menu_Item item: this.items){
+			item.draw(g);
+		}
+		g.setColor(Color.white);
+		if(multiplaying)
+			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
+	}
+
+	public void update(Input i){
+		if(multiplaying){
+			if(i.isKeyPressed(Input.KEY_ESCAPE))
+				multiplaying = false;
+			if(this.game.host){
+				if(cooldown<=0){
+					this.game.toSendConnexions.addElement("2mythe");
+					cooldown+=50;
+				}else
+					cooldown-=1;
+				if(this.game.connexions.size()>0){
+					game.inMultiplayer = true;
+					callItem(0);
+					multiplaying = false;
+				}
+			} else {
+				if(this.game.connexions.size()>0){
+					this.game.toSendConnexions.addElement("2mythe");
+					this.game.toSendConnexions.addElement("2mythe");
+					this.game.toSendConnexions.addElement("2mythe");
+					try{
+						Thread.sleep(5);
+					} catch(InterruptedException e) { }
+					game.inMultiplayer = true;
+					game.currentPlayer = 2;
+					callItem(0);
+					multiplaying = false;
+				}
+			}
+		}else if(!toGame){
+			if(i!=null){
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+					callItems(i);
+					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
+				}
+				for(Menu_Item item: this.items){
+					item.update(i);
+				}			
+			}
+			Vector<Bullet> toremove = new Vector<Bullet>();
+			for(Bullet b: this.bullets){
+				if(b.lifePoints<=0)
+					toremove.add(b);
+			}
+			for(Bullet b: toremove)
+				this.bullets.remove(b);
+		} else {
+			this.timeToGame -= 1f;
+			if(timeToGame<0f){
+				this.music = game.musics.imperial;
+				this.music.loop();
+				this.music.setVolume(game.options.musicVolume);
+				this.game.newGame();
+				this.game.quitMenu();
+			}
+		}
+	}
+}

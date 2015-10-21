@@ -9,60 +9,75 @@ import org.newdawn.slick.Input;
 public class Menu_TextScanner extends Menu_Item{
 
 	public String s;
-	public float x,y,sizeX,sizeY;
-	public HashMap<Character, Integer> intToChar = new HashMap<Character, Integer>();
-	
+	public HashMap<Integer, Character> intToChar = new HashMap<Integer, Character>();
+	public boolean isSelected = false;
+
 	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY){
-		this.s = s;
+		if(s!=null)
+			this.s = s;
+		else 
+			s = "";
 		this.x = x;
 		this.y = y;
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		intToChar.put('A',Input.KEY_A);
-		intToChar.put('B',Input.KEY_B);
-		intToChar.put('C',Input.KEY_C);
-		intToChar.put('D',Input.KEY_D);
-		intToChar.put('E',Input.KEY_E);
-		intToChar.put('F',Input.KEY_F);
-		intToChar.put('G',Input.KEY_G);
-		intToChar.put('H',Input.KEY_H);
-		intToChar.put('I',Input.KEY_I);
-		intToChar.put('J',Input.KEY_J);
-		intToChar.put('K',Input.KEY_K);
-		intToChar.put('L',Input.KEY_L);
-		intToChar.put('M',Input.KEY_M);
-		intToChar.put('N',Input.KEY_N);
-		intToChar.put('O',Input.KEY_O);
-		intToChar.put('P',Input.KEY_P);
-		intToChar.put('Q',Input.KEY_Q);
-		intToChar.put('R',Input.KEY_R);
-		intToChar.put('S',Input.KEY_S);
-		intToChar.put('T',Input.KEY_T);
-		intToChar.put('U',Input.KEY_U);
-		intToChar.put('V',Input.KEY_V);
-		intToChar.put('W',Input.KEY_W);
-		intToChar.put('X',Input.KEY_X);
-		intToChar.put('Y',Input.KEY_Y);
-		intToChar.put('Z',Input.KEY_Z);
+		intToChar.put(Input.KEY_A,'A');
+		intToChar.put(Input.KEY_B,'B');
+		intToChar.put(Input.KEY_C,'C');
+		intToChar.put(Input.KEY_D,'D');
+		intToChar.put(Input.KEY_E,'E');
+		intToChar.put(Input.KEY_F,'F');
+		intToChar.put(Input.KEY_G,'G');
+		intToChar.put(Input.KEY_H,'H');
+		intToChar.put(Input.KEY_I,'I');
+		intToChar.put(Input.KEY_J,'J');
+		intToChar.put(Input.KEY_K,'K');
+		intToChar.put(Input.KEY_L,'L');
+		intToChar.put(Input.KEY_M,'M');
+		intToChar.put(Input.KEY_N,'N');
+		intToChar.put(Input.KEY_O,'O');
+		intToChar.put(Input.KEY_P,'P');
+		intToChar.put(Input.KEY_Q,'Q');
+		intToChar.put(Input.KEY_R,'R');
+		intToChar.put(Input.KEY_S,'S');
+		intToChar.put(Input.KEY_T,'T');
+		intToChar.put(Input.KEY_U,'U');
+		intToChar.put(Input.KEY_V,'V');
+		intToChar.put(Input.KEY_W,'W');
+		intToChar.put(Input.KEY_X,'X');
+		intToChar.put(Input.KEY_Y,'Y');
+		intToChar.put(Input.KEY_Z,'Z');
 	}
-	
+
 	public void update(Input i){
-		for(int k=0; k<255; k++){
-			if(i.isKeyPressed(k) && Input.getKeyName(k).length()==5){
-				s+=Input.getKeyName(k).substring(4);
+		if(isSelected){
+			for(Integer k: intToChar.keySet()){
+				if(i.isKeyPressed(k)){
+					s+=intToChar.get(k);
+				}
+				if(i.isKeyPressed(Input.KEY_BACK) && s.length()>0)
+					s=s.substring(0,s.length()-1);
+				if(i.isKeyPressed(Input.KEY_RETURN))
+					isSelected = false;
 			}
 		}
 	}
-	
+
 	public void reset(){
 		s = "";
 	}
-	
+
 	public void draw(Graphics g){
-		g.setColor(Color.white);
+		if(isSelected)
+			g.setColor(Color.yellow);
+		else
+			g.setColor(Color.white);
 		g.drawRect(x, y, sizeX, sizeY);
-		g.drawString(s, x, y);
+		g.setColor(Color.white);
+		float height = g.getFont().getHeight(s);
+		if(s!=null)
+			g.drawString(s, x+15f, y+sizeY/2-height/2);
 	}
-	
-	
+
+
 }
