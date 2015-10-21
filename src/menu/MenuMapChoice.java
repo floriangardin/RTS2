@@ -26,6 +26,8 @@ public class MenuMapChoice extends Menu {
 	public Image backSelected;
 	public int selected = -1;
 	
+	
+	
 	private boolean multiplaying;
 	
 	//TODO upgrading multiplayer
@@ -62,8 +64,8 @@ public class MenuMapChoice extends Menu {
 			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(game.resX*2f/3f,startY+1f*stepY,this.map,this.map,this.game));
 			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(startX-80f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(startX-40f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
+			this.items.addElement(new Menu_Item(startX-100f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(startX-60f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
