@@ -47,6 +47,9 @@ public class MenuMapChoice extends Menu {
 		this.multiplaying = game.inMultiplayer;
 		float startY = 100f;
 		float stepY = 0.13f*this.game.resY;
+		
+		float startXMapChoice = game.resX*2f/3f;
+		float startYMapChoice = startY+1f*stepY;
 		float ratioReso = this.game.resX/2400f;
 		try {
 			this.play = new Image("pics/menu/play.png").getScaledCopy(ratioReso);
@@ -64,7 +67,7 @@ public class MenuMapChoice extends Menu {
 			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
 			this.items.addElement(new Menu_Item(30f,startY+1f*stepY+45f,this.marbre,this.marbre,this.game));
 			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(game.resX*2f/3f+15f,startY+1f*stepY+45f,this.marbre2,this.marbre2,this.game));
+			this.items.addElement(new Menu_Item(startXMapChoice+15f,startYMapChoice+45f,this.marbre2,this.marbre2,this.game));
 			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(startX,startY,this.gamemode,this.gamemode,this.game));
 			this.items.lastElement().selectionable = false;
@@ -74,6 +77,9 @@ public class MenuMapChoice extends Menu {
 			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(startX-100f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(startX-60f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
+			for(int i=0; i<maps.size(); i++){
+				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+60f,startYMapChoice+120f+40f*i,200f,30f));
+			}
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -105,7 +111,9 @@ public class MenuMapChoice extends Menu {
 			item.draw(g);
 		}
 		g.setColor(Color.black);
-		
+		for(Menu_Item item: this.mapchoices){
+			item.draw(g);
+		}
 			
 	}
 
