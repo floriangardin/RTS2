@@ -34,11 +34,11 @@ public class Changes {
 	public boolean rallyPoint= true;
 	
 	//BUILDING TECH AND PROD
-	public boolean queue;
-	public boolean idTech;
-	public boolean charge;
-	public boolean prod;
-	public boolean isFinished;
+	public boolean queue=true;
+	public boolean idTech=true;
+	public boolean charge=true;
+	public boolean prod=true;
+	public boolean isFinished=true;
 	
 	//BUILDING PROD
 	public boolean ownerId= true;
