@@ -267,7 +267,7 @@ public class Game extends BasicGame
 	public void newGame(){
 		//Clean all variables
 
-		Map.createMap("empty",this);
+		Map.createMap("techTest",this);
 
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
