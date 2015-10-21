@@ -21,6 +21,7 @@ public class MenuMapChoice extends Menu {
 	public Image back;
 	public Image play;
 	public Image marbre;
+	public Image marbre2;
 
 	public Image playSelected;
 	public Image backSelected;
@@ -49,6 +50,7 @@ public class MenuMapChoice extends Menu {
 			this.back= new Image("pics/menu/back.png").getScaledCopy(ratioReso);
 			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
 			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy(1.5f*ratioReso);
+			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy(1.5f*ratioReso);
 			if(multiplaying)
 				this.gamemode = new Image("pics/menu/multiplayer.png").getScaledCopy(ratioReso);
 			else
@@ -57,6 +59,8 @@ public class MenuMapChoice extends Menu {
 			this.map = new Image("pics/menu/map.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
 			this.items.addElement(new Menu_Item(30f,startY+1f*stepY+45f,this.marbre,this.marbre,this.game));
+			this.items.lastElement().selectionable = false;
+			this.items.addElement(new Menu_Item(30f,startY+1f*stepY+45f,this.marbre2,this.marbre2,this.game));
 			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(startX,startY,this.gamemode,this.gamemode,this.game));
 			this.items.lastElement().selectionable = false;

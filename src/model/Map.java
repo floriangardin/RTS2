@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Vector;
+
 import IA.IAUnit;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
@@ -19,9 +21,29 @@ public class Map {
 
 	}
 	
+	public static Vector<String> maps(){
+		Vector<String> maps = new Vector<String>();
+		maps.add("lan");
+		maps.add("empty");
+		maps.add("duel");
+		maps.add("testTech");
+		maps.add("duelLarge");
+		maps.add("micro");
+		return maps;
+	}
+	
+	public static void createMap(int id, Game game){
+		Vector<String> maps = Map.maps();
+		Map.createMap(maps.get(id), game);
+	}
+	
 	public static void createMap(String name, Game game){
 
 		initializePlateau(game, 2000f, 3000f);
+		updateMap(name, game);
+	}
+	
+	public static void updateMap(String name, Game game){
 		switch(name){
 		case "lan": createMapLan(game);break;
 		case "empty": createMapEmpty(game);break;
@@ -30,10 +52,6 @@ public class Map {
 		case "duelLarge": createMapDuelLarge(game);break;
 		case "micro": createMapMicro(game);break;
 		}
-	}
-	
-	public static void updateMap(String name){
-		
 	}
 
 	
