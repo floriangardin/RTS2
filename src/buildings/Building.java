@@ -211,43 +211,36 @@ public class Building extends ActionObjet{
 	}
 	
 	public String toStringBuilding(){
-		String s = toStringObjet();
+		String s = "";
 		
 		if(changes.sizeX){
 			s+="sizeX:"+sizeX+";";
-			changes.sizeX = false;
+			changes.sizeX = true;
 		}
 		if(changes.sizeY){
 			s+="sizeY:"+sizeY+";";
-			changes.sizeY = false;
+			changes.sizeY = true;
 		}
 		if(changes.potentialTeam){
 			s+="potentialTeam:"+potentialTeam+";";
-			changes.potentialTeam = false;
+			changes.potentialTeam = true;
 		}
 		if(changes.constructionPoints){
 			s+="constructionPoints:"+constructionPoints+";";
-			changes.constructionPoints= false;
+			changes.constructionPoints= true;
 		}
 		if(changes.rallyPoint){
 			if(this.rallyPoint!=null){
 				s+="rallyPointX:"+this.rallyPoint.x+";";
 				s+="rallyPointY:"+this.rallyPoint.y+";";
 			}
-			changes.rallyPoint = false;
+			changes.rallyPoint = true;
 
-		}
-		if(changes.sizeX){
-			s+="sizeX:"+sizeX+";";
-			changes.sizeX = false;
 		}
 		return s;
 	}
 	
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
-		return s;
-	}
+
 
 	public void parseBuilding(HashMap<String, String> hs) {
 		if(hs.containsKey("sizeX")){
