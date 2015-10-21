@@ -1,4 +1,5 @@
 package buildings;
+import java.util.HashMap;
 import java.util.Vector;
 
 import display.Message;
@@ -11,10 +12,9 @@ public abstract class BuildingProduction extends BuildingAction {
 
 	public Vector<UnitsList> productionList;
 	public Vector<Integer> queue ;
-	public Vector<Float> productionTime;
 
 	public void product(int unit){
-
+		
 		if(this.queue.size()<5 && unit<this.productionList.size()){
 			if(this.productionList.get(unit).foodPrice<=this.p.g.players.get(team).food
 					&& this.productionList.get(unit).goldPrice<=this.p.g.players.get(team).gold){
@@ -40,8 +40,8 @@ public abstract class BuildingProduction extends BuildingAction {
 
 			
 			this.charge+=0.1f;
-			if(this.charge>=this.productionTime.get(this.queue.get(0))){
-				this.charge=0f;
+			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
+				this.setCharge(0f);
 				float dirX = this.rallyPoint.x-this.x;
 				float dirY = this.rallyPoint.y - this.y;
 				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
@@ -62,23 +62,12 @@ public abstract class BuildingProduction extends BuildingAction {
 		
 		}
 		// if reach production reset and create first unit in the queue
-
 		if(this.lifePoints<10f){
-
 			this.team = this.teamCapturing;
 			this.updateImage();
 
 			this.lifePoints=this.maxLifePoints;
-
 		}
-	}
-
-	public void changeQueue(OutputBuilding ocb) {
-		this.charge = ocb.charge;
-		this.queue.clear();
-		for(int i=0; i<5; i++)
-			if(ocb.queue[i]!=-1)
-				this.queue.add(ocb.queue[i]);
 	}
 
 	public void removeProd() {
@@ -87,14 +76,14 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.p.g.players.get(this.team).gold += this.productionList.get(queue.get(this.queue.size()-1)).goldPrice;
 			this.queue.remove(this.queue.size()-1);
 			if(this.queue.size()==0){
-				this.charge=0f;
+				this.setCharge(this.charge+0.1f);
 			}
 		}
 
 	}
 	
 	public String toString(){
-		String s = toString1()+toString2()+toString3();
+		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		if(changes.queue){
 			s+="queue:";
 			for(int c : this.queue){
@@ -104,15 +93,39 @@ public abstract class BuildingProduction extends BuildingAction {
 			s+=";";
 			changes.queue=false;
 		}
-		if(changes.productionTime){
-			s+="productionTime:";
-			for(float c : this.productionTime){
-				s+=c+",";
-			}
-			s=s.substring(0, s.length()-1);
-			s+=";";
-			changes.productionTime=false;
+		if(changes.charge){
+			s+="charge:"+this.charge+";";
+			changes.charge=false;
+		}
+		if(changes.isFinished){
+			s+="isFinished:"+1+";";
+			changes.charge=false;
 		}
 		return s;
 	}
+	
+	//TODO 
+	public void parseBuildingProduction(HashMap<String, String> hs) {
+		if(hs.containsKey("charge")){
+			this.setCharge(Float.parseFloat(hs.get("charge")));
+		}
+		if(hs.containsKey("isFinished")){
+			
+		}
+		if(hs.containsKey("queue")){
+			String[] r = hs.get("queue").split(",");
+			for(int i = 0;i<r.length;i++){
+				this.queue.set(i,Integer.parseInt(r[i]));
+			}
+		}
+	}
+	
+	public void parse(HashMap<String,String> hs){
+		this.parseObjet(hs);
+		this.parseActionObjet(hs);
+		this.parseBuilding(hs);
+		this.parseBuildingProduction(hs);
+	}
+	
+	
 }

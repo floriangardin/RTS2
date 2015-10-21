@@ -42,7 +42,7 @@ public abstract class Bullet extends ActionObjet {
 		return s;
 	}
 	public String toString(){
-		return toString1()+toString2()+toString3();
+		return toStringObjet()+toStringActionObjet()+toString3();
 	}
 
 	public void parse3(HashMap<String,String> hs){
@@ -52,8 +52,8 @@ public abstract class Bullet extends ActionObjet {
 	}
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
-		this.parse1(hs);
-		this.parse2(hs);
+		this.parseObjet(hs);
+		this.parseActionObjet(hs);
 	}
 	
 	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){

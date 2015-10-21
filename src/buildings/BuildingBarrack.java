@@ -44,12 +44,9 @@ public class BuildingBarrack extends BuildingProduction{
 		// List of potential production (Spearman
 		//TODO Merge production time and production list in vector of UnitsList
 		this.queue = new Vector<Integer>();
-		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
-		this.productionTime.addElement(UnitsList.Spearman.time);
 		this.productionList.addElement(UnitsList.Crossbowman);
-		this.productionTime.addElement(UnitsList.Crossbowman.time);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
 	}

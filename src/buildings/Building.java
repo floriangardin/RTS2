@@ -100,43 +100,6 @@ public class Building extends ActionObjet{
 		}
 	}
 
-	public void change(OutputBuilding ocb) {
-		this.lifePoints = ocb.lifepoints;
-		this.team = ocb.team;	
-		this.maxLifePoints = ocb.maxlifepoints;
-		this.constructionPoints = ocb.constrpoints;
-		//this.animation = ocb.animation;
-		this.sight = ocb.sight;
-		if(ocb.team==2){
-			if(this instanceof BuildingProduction){
-				((BuildingProduction) this).changeQueue(ocb);
-			} else if(this instanceof BuildingTech){
-				if(ocb.queue[0]!=-1){
-					((BuildingTech)this).queue = ((BuildingTech)this).productionList.get(ocb.queue[0]);
-					this.charge = ocb.charge;
-				} else {
-
-				}
-			}
-		}
-		this.updateImage();
-	}
-
-	public Building(OutputBuilding ocb, Plateau p){
-		Building b;
-		switch(ocb.typeBuilding){
-		case 0: b = new BuildingMine(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 1: b = new BuildingMill(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 2: b = new BuildingStable(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 3: b = new BuildingBarrack(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 4: b = new BuildingAcademy(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		case 5: b = new BuildingHeadQuarters(p,p.g,ocb.x,ocb.y,ocb.team); b.id = ocb.id;break;
-		case 6: b = new BuildingUniversity(p,p.g,ocb.x,ocb.y); b.id = ocb.id;break;
-		default:
-		}
-		this.updateImage();
-	}
-
 	public void drawIsSelected(Graphics g){
 
 
@@ -248,9 +211,9 @@ public class Building extends ActionObjet{
 	}
 	
 	
-	public String toString3(){
-		String s = toString1();
-		s+=toString2();
+	public String toStringBuilding(){
+		String s = toStringObjet();
+		s+=toStringActionObjet();
 		
 		if(changes.sizeX){
 			s+="sizeX:"+sizeX+";";
@@ -284,11 +247,11 @@ public class Building extends ActionObjet{
 	}
 	
 	public String toString(){
-		String s = toString1()+toString2()+toString3();
+		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		return s;
 	}
 
-	public void parse3(HashMap<String, String> hs) {
+	public void parseBuilding(HashMap<String, String> hs) {
 		if(hs.containsKey("sizeX")){
 			this.sizeX = Float.parseFloat(hs.get("sizeX"));
 		}
@@ -318,8 +281,6 @@ public class Building extends ActionObjet{
 		
 	}
 
-	
-	//TODO 
 	public Technologie getTechnologieById(int id){
 		Technologie tec = null;
 		for(Technologie t : this.hq.allTechs){
@@ -333,7 +294,10 @@ public class Building extends ActionObjet{
 	public void setCharge(float charge){
 		this.charge = charge;
 		this.changes.charge = true;
-		this.changes.isFinished=true;
+		if(charge==0f){
+			this.changes.isFinished=true;
+		}
+		
 	}
 
 }

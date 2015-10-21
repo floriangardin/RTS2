@@ -42,10 +42,8 @@ public class BuildingAcademy extends BuildingProduction {
 		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
-		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Inquisitor);
-		this.productionTime.addElement(UnitsList.Inquisitor.time);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
 	}

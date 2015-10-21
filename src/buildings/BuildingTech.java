@@ -86,7 +86,7 @@ public abstract class BuildingTech extends BuildingAction {
 	
 	
 	public String toString(){
-		String s = toString1()+toString2()+toString3();
+		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		if(changes.queue){
 			s+="queue:"+this.queue.id+";";
 			changes.queue=false;
@@ -102,7 +102,7 @@ public abstract class BuildingTech extends BuildingAction {
 		return s;
 	}
 	
-	public void parse3(HashMap<String, String> hs) {
+	public void parseBuildingTech(HashMap<String, String> hs) {
 		if(hs.containsKey("queue")){
 			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("queue")));
 		}
@@ -114,8 +114,9 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 	}
 	public void parse(HashMap<String,String> hs){
-		this.parse1(hs);
-		this.parse2(hs);
-		this.parse3(hs);
+		this.parseObjet(hs);
+		this.parseActionObjet(hs);
+		this.parseBuilding(hs);
+		this.parseBuildingTech(hs);
 	}
 }

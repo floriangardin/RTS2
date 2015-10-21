@@ -41,7 +41,6 @@ public class Changes {
 	public boolean isFinished;
 	
 	//BUILDING PROD
-	public boolean productionTime=true;
 	public boolean ownerId= true;
 	public boolean ownerV=true;
 	

@@ -88,7 +88,7 @@ public abstract class Objet {
 		this.changes.lifePoints = true;
 	}
 	// TOSTRING METHODS
-	public String toString1(){
+	public String toStringObjet(){
 		String s="";
 		s+="id:"+id+";";
 		s+="name:"+name+";";
@@ -119,7 +119,7 @@ public abstract class Objet {
 		return s;
 	}
 	public String toString(){
-		return this.toString1();
+		return this.toStringObjet();
 	}
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");
@@ -133,7 +133,7 @@ public abstract class Objet {
 		}
 		return hs;
 	}
-	public void parse1(HashMap<String,String> hs){
+	public void parseObjet(HashMap<String,String> hs){
 		if(hs.containsKey("x")){
 			this.setXY(Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y")));
 		}
