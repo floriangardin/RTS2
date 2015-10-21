@@ -13,6 +13,7 @@ import bullets.Bullet;
 import model.Game;
 import model.Map;
 import model.Objet;
+import multiplaying.InputModel;
 
 public class MenuMapChoice extends Menu {
 
@@ -30,12 +31,11 @@ public class MenuMapChoice extends Menu {
 	public int mapSelected = 0;
 	public Vector<String> maps = Map.maps();
 
-	public Vector<Menu_Item> mapchoices;
+	public Vector<Menu_MapChoice> mapchoices;
 	
 	
 	private boolean multiplaying;
 	
-	//TODO upgrading multiplayer
 	public int cooldown;
 
 	public MenuMapChoice(Game game){
@@ -44,7 +44,7 @@ public class MenuMapChoice extends Menu {
 		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		this.mapchoices = new Vector<Menu_Item>();
+		this.mapchoices = new Vector<Menu_MapChoice>();
 		this.multiplaying = game.inMultiplayer;
 		float startY = 100f;
 		float stepY = 0.13f*this.game.resY;
@@ -104,6 +104,12 @@ public class MenuMapChoice extends Menu {
 		default:		
 		}
 	}
+	
+	public void callMap(int j){
+		for(int i = 0; i<this.mapchoices.size(); i++){
+			this.mapchoices.get(i).isSelected = i==j;
+		}
+	}
 
 	public void draw(Graphics g){
 		g.setColor(Color.black);
@@ -127,9 +133,20 @@ public class MenuMapChoice extends Menu {
 			for(Menu_Item item: this.items){
 				item.update(i);
 			}	
-			for(Menu_Item item: this.mapchoices){
+			for(Menu_MapChoice item: this.mapchoices){
 				item.update(i);
 			}	
+		}
+	}
+	
+	public void callItems(InputModel im){
+		for(int j=0; j<items.size(); j++){
+			if(items.get(j).isClicked(im))
+				callItem(j);
+		}
+		for(int j=0; j<mapchoices.size(); j++){
+			if(mapchoices.get(j).isClicked(im))
+				callMap(j);
 		}
 	}
 }
