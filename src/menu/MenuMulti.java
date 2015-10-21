@@ -103,6 +103,8 @@ public class MenuMulti extends Menu {
 		
 		}
 		if(inHost){
+			this.game.host = true;
+			game.inMultiplayer = true;
 			if(cooldown==0){
 				if(!game.connexionSender.isAlive()){
 					game.connexionSender.start();
@@ -121,7 +123,7 @@ public class MenuMulti extends Menu {
 				for(int ip=0; ip<255;ip++){
 					try {
 						if(!InetAddress.getLocalHost().getHostAddress().equals(s+""+ip))
-							this.game.toSendConnexions.addElement("2"+s+""+InetAddress.getLocalHost().getHostAddress());
+							this.game.toSendConnexions.addElement("2"+s+""+ip);
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					}
@@ -133,8 +135,6 @@ public class MenuMulti extends Menu {
 				cooldown=0;				
 			}
 			if(this.game.connexions.size()>0){
-				game.inMultiplayer = true;
-				game.host = true;
 				try {
 					this.game.addressClient = InetAddress.getByName(this.game.connexions.get(0));
 					this.game.outputSender = new MultiSender(this.game.addressHost,this.game.portOutput,this.game.toSendInputs);
