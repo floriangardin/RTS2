@@ -285,9 +285,7 @@ public class Building extends ActionObjet{
 	public void setCharge(float charge){
 		this.charge = charge;
 		this.changes.charge = true;
-		if(charge==0f){
-			this.changes.isFinished=true;
-		}
+
 		
 	}
 	
