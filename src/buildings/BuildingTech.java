@@ -9,7 +9,7 @@ import technologies.Technologie;
 public abstract class BuildingTech extends BuildingAction {
 	public Vector<Technologie> productionList;
 	public Technologie queue;
-	
+	public Technologie lastTechDiscovered;
 	
 	
 	public void updateProductionList(){
@@ -77,6 +77,7 @@ public abstract class BuildingTech extends BuildingAction {
 		
 		this.updateProductionList();
 		this.changes.isFinished = true;
+		this.lastTechDiscovered = q;
 	}
 	
 	public int getIndexOfQueue(){
@@ -97,6 +98,7 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 		if(this.changes.isFinished){
 			s+="isFinished:"+"1"+";";
+			s+="lastTechDiscovered:"+this.lastTechDiscovered.id+";";
 			this.changes.isFinished = false;
 		}
 		return s;
@@ -110,7 +112,7 @@ public abstract class BuildingTech extends BuildingAction {
 			this.setCharge(Float.parseFloat(hs.get("charge")));
 		}
 		if(hs.containsKey("isFinished") && hs.get("isFinished").equals("1") ){
-			this.techTerminate(this.queue);
+			this.techTerminate(this.getTechnologieById(Integer.parseInt(hs.get("lastTechDiscovered"))));
 		}
 	}
 	public void parse(HashMap<String,String> hs){
