@@ -332,7 +332,7 @@ public class MenuMapChoice extends Menu {
 
 			for(int i = 0;i<idTeam.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).p.getGameTeam().id = Integer.parseInt(idTeam[i]);
+					this.players.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
 				}
 
 			}

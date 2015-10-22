@@ -94,7 +94,7 @@ public class Menu_Player extends Menu_Item{
 		else	
 			g.setColor(Color.black);
 		g.fillRect(startXcolor-2f, startYcolor-2f, sizeXcolor+4f,sizeYcolor+4f);
-		switch(p.getTeam()){
+		switch(p.getGameTeam().id){
 		case 1 : g.setColor(Color.blue);break;
 		case 2 : g.setColor(Color.red);break;
 		default : g.setColor(Color.black);
