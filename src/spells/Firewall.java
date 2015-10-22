@@ -23,7 +23,7 @@ public class Firewall extends SpellEffect{
 	public float[] animationX = new float[nbFire];
 	public float[] animationY = new float[nbFire];
 	public float animationMax=120f;
-	public float x,y,x2,y2;
+	public float x2,y2;
 
 	public Firewall(Plateau p, Character launcher, Objet t,int id){
 		if(id==-1){
