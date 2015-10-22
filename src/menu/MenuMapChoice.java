@@ -249,8 +249,8 @@ public class MenuMapChoice extends Menu {
 
 	public String toString(){
 		String s = "";
-		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id);
-		s+="map:"+this.mapSelected;
+		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id)+";";
+		s+="map:"+this.mapSelected+";";
 		s+="civSelected:";
 		//Civ for all players
 		for(Menu_Player p : this.players){
@@ -268,7 +268,6 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-
 		s+="nickname:";
 		//Nickname
 		for(Menu_Player p : this.players){
@@ -277,7 +276,15 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-
+		
+		s+="isReady:";
+		for(Menu_Player p : this.players){
+			s+=p.isReady?"1":"0";
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+		
 		return s;
 	}
 
@@ -292,16 +299,30 @@ public class MenuMapChoice extends Menu {
 			String[] civ =hs.get("civSelected").split(",");
 			String[] nickname =hs.get("nickName").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
+			String[] isReady =hs.get("isReady").split(",");
 			for(int i = 0;i<civ.length;i++){
-				this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
+					if(this.game.plateau.currentPlayer.id!=i){
+						this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
+					}
 			}
 
 			for(int i = 0;i<nickname.length;i++){
-				this.players.get(i).p.nickname =  nickname[i];
+				if(this.game.plateau.currentPlayer.id!=i){
+					this.players.get(i).p.nickname =  nickname[i];
+				}
 			}
 
 			for(int i = 0;i<idTeam.length;i++){
-				this.players.get(i).p.gameteam.id = Integer.parseInt(idTeam[i]);
+				if(this.game.plateau.currentPlayer.id!=i){
+					this.players.get(i).p.gameteam.id = Integer.parseInt(idTeam[i]);
+				}
+				
+			}
+			
+			for(int i = 0;i<isReady.length;i++){
+				if(this.game.plateau.currentPlayer.id!=i){
+					this.players.get(i).isReady = idTeam[i].equals("1");
+				}
 			}
 
 		}

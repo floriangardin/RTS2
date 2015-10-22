@@ -148,7 +148,7 @@ public abstract class Objet {
 				hs.put(r[0], r[1]);
 			}
 			else{
-				hs.put(r[0], "");
+				hs.put(r[0],"");
 			}
 			
 		}
