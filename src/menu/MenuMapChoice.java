@@ -276,7 +276,7 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		
+
 		s+="isReady:";
 		for(Menu_Player p : this.players){
 			s+=p.isReady?"1":"0";
@@ -284,7 +284,7 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		
+
 		return s;
 	}
 
@@ -296,20 +296,16 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		if(hs.containsKey("civSelected")){
-			
 			String[] civ =hs.get("civSelected").split(",");
 			String[] nickname =hs.get("nickName").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
-			
-			if(this.players.size()!=civ.length){
-				this.game.plateau.addPlayer("random");
-			}
 			for(int i = 0;i<civ.length;i++){
-					if(this.game.plateau.currentPlayer.id!=i){
-						this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
-					}
+				if(this.game.plateau.currentPlayer.id!=i){
+					this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
+				}
 			}
+
 			for(int i = 0;i<nickname.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.nickname =  nickname[i];
@@ -320,8 +316,9 @@ public class MenuMapChoice extends Menu {
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.gameteam.id = Integer.parseInt(idTeam[i]);
 				}
-				
+
 			}
+
 			for(int i = 0;i<isReady.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).isReady = idTeam[i].equals("1");
