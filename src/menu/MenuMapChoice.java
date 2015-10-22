@@ -142,6 +142,11 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void update(Input i){
+		this.players.clear();
+		for(int j=0;j<this.game.plateau.players.size(); j++){
+			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+130f,startYPlayers+100f+80*j,game));
+			this.players.get(j).update(i);
+		}
 		//Checking if all players are ready then launch the game
 		if(game.inMultiplayer){
 			boolean toGame = true;
@@ -213,11 +218,6 @@ public class MenuMapChoice extends Menu {
 				this.parse(Objet.preParse(game.connexions.remove(0)));
 			}
 			this.game.toSendConnexions.addElement("2"+this.toString());
-		}
-		this.players.clear();
-		for(int j=0;j<this.game.plateau.players.size(); j++){
-			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+130f,startYPlayers+100f+80*j,game));
-			this.players.get(j).update(i);
 		}
 	}
 
