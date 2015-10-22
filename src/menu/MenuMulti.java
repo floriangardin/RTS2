@@ -88,6 +88,7 @@ public class MenuMulti extends Menu {
 			game.host = true;
 			game.inMultiplayer = true;
 			game.plateau.removePlayer(2);
+			game.plateau.currentPlayer = game.plateau.players.get(1);
 			game.setMenu(game.menuMapChoice);
 			break;
 		case 1:
@@ -102,6 +103,7 @@ public class MenuMulti extends Menu {
 					game.plateau.addPlayer("unknown");
 				}
 				game.plateau.addPlayer(this.game.options.nickname);
+				game.plateau.currentPlayer = game.plateau.players.lastElement();
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
