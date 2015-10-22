@@ -138,7 +138,7 @@ public class MenuMulti extends Menu {
 						if(!thisAddress.equals(s+""+ip)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+ip);
 							//this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
-							this.game.toSendConnexions.addElement("2"+thisAddress);
+							this.game.toSendConnexions.addElement("2"+s+""+ip);
 						}
 					}
 				} catch (UnknownHostException e) {
