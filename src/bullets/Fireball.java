@@ -173,7 +173,7 @@ public class Fireball extends Bullet {
 		String s = toStringObjet()+toStringActionObjet()+toStringBullet();
 		if(this.owner.target!=null){
 			s+="targetX:"+this.owner.target.x+";";
-			s+="targetY"+this.owner.target.y+";";
+			s+="targetY:"+this.owner.target.y+";";
 		}
 		return s;
 		

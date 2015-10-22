@@ -69,7 +69,7 @@ public abstract class Bullet extends ActionObjet {
 			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			break;
 		case "fireball":
-			if(hs.containsKey("targetX")){
+			if(hs.containsKey("targetX") && hs.containsKey("targetY") ){
 				float targetX = Float.parseFloat(hs.get("targetX"));
 				float targetY = Float.parseFloat(hs.get("targetY"));
 				c =  new Fireball(g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));

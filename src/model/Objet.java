@@ -113,7 +113,7 @@ public abstract class Objet {
 			changes.lifePoints = true;
 		}
 		if(changes.sight){
-			s+="lifePoints:"+lifePoints+";";
+			s+="sight:"+sight+";";
 			changes.sight = false;
 		}
 		return s;
