@@ -2,6 +2,7 @@ package menu;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -11,9 +12,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import model.Game;
-import model.Map;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
+import model.Objet;
 
 public class MenuMulti extends Menu {
 
@@ -123,7 +122,7 @@ public class MenuMulti extends Menu {
 		}
 		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
 		g.setColor(Color.white);
-		
+
 		g.setColor(Color.black);
 		g.drawString("Open games: ", this.startXGames+70f, startY+50f);
 		for(Menu_MapChoice s : this.gamesList)
@@ -138,20 +137,22 @@ public class MenuMulti extends Menu {
 		}
 		if(this.game.connexions.size()>0){
 			String s = this.game.connexions.remove(0);
-			String[] tab = s.split(",");
-			try {
-				OpenGames o = null;
-				for(OpenGames g : this.openGames)
-					if(g.hostName.equals(tab[1]))
-						o = g;
-				if(o==null){
-					openGames.add(new OpenGames(tab[1], InetAddress.getByName(tab[0]),Integer.parseInt(tab[2])));
-					gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
-				} else {
-					o.nPlayers = Integer.parseInt(tab[2]);
+			HashMap<String, String> hashmap = Objet.preParse(s);
+			if(hashmap.containsKey("ip") && hashmap.containsKey("hostname") && hashmap.containsKey("nplayers")){
+				try {
+					OpenGames o = null;
+					for(OpenGames g : this.openGames)
+						if(g.hostName.equals(hashmap.get("hostname")))
+							o = g;
+					if(o==null){
+						openGames.add(new OpenGames(hashmap.get("hostname"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("hnplayers"))));
+						gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
+					} else {
+						o.nPlayers = Integer.parseInt(hashmap.get("nplayers"));
+					}
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
 			}
 		}
 		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){

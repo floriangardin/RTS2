@@ -200,7 +200,7 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname+","+this.game.plateau.players.size());
+							this.game.toSendConnexions.addElement("2"+toString());
 						}
 
 					} catch (UnknownHostException e) {
@@ -217,7 +217,8 @@ public class MenuMapChoice extends Menu {
 			while(game.connexions.size()>0){
 				this.parse(Objet.preParse(game.connexions.remove(0)));
 			}
-			this.game.toSendConnexions.addElement("2"+this.toString());
+			if(!game.host)
+				this.game.toSendConnexions.addElement("2"+this.toString());
 		}
 	}
 
@@ -249,6 +250,11 @@ public class MenuMapChoice extends Menu {
 
 	public String toString(){
 		String s = "";
+		String thisAddress;
+		try {
+			thisAddress = InetAddress.getLocalHost().getHostAddress();
+			s+="ip:"+thisAddress+";hostname:"+this.game.options.nickname+",nplayers:"+this.game.plateau.players.size()+";";
+		} catch (UnknownHostException e) {}	
 		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id)+";";
 		s+="map:"+this.mapSelected+";";
 		s+="civSelected:";
