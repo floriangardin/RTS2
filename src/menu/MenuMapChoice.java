@@ -309,10 +309,12 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
-			if(civ.length<this.game.plateau.players.size()){
+	
+			if(civ.length>this.game.plateau.players.size()){
 				this.game.plateau.addPlayer("Philippe");
 				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}
+			
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
