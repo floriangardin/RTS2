@@ -76,7 +76,7 @@ public class Menu_Player extends Menu_Item{
 		float yMouse = i.getAbsoluteMouseY();
 		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 			int newTeam = p.team + 1;
-			if(newTeam>this.game.plateau.teams.size())
+			if(newTeam>=this.game.plateau.teams.size())
 				newTeam = 1;
 			p.team = newTeam;
 			p.gameteam = this.game.plateau.teams.get(newTeam);
