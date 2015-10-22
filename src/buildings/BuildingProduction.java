@@ -87,7 +87,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		if(changes.queue && this.queue!=null){
 			s+="queue:";
 			for(int c : this.queue){
-				s+=c+",";
+				s+=""+c+",";
 			}
 			s=s.substring(0, s.length()-1);
 			s+=";";
