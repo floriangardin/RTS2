@@ -188,7 +188,7 @@ public class Map {
 		
 		//data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
 		for(int i = 0;i<2;i++){
-			data1.player.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
+			data1.player.create(UnitsList.Inquisitor, 2*X/9+i - 1f, Y/2);
 			data1.player.create(UnitsList.Spearman, 2*X/9+i - 1f, Y/2+1f);
 		}
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
@@ -199,7 +199,7 @@ public class Map {
 		data2.player.food = 1000;
 		
 		for(int i = 0;i<2;i++){
-			data2.player.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
+			data2.player.create(UnitsList.Inquisitor, 7*X/9+i - 1f, Y/2);
 			data2.player.create(UnitsList.Spearman, 7*X/9+i - 1f, Y/2+1f);
 		}
 		

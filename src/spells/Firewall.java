@@ -25,15 +25,21 @@ public class Firewall extends SpellEffect{
 	public float animationMax=120f;
 	public float x,y,x2,y2;
 
-	public Firewall(Plateau p, Character launcher, Objet t){
-		this.id = p.g.idChar;
+	public Firewall(Plateau p, Character launcher, Objet t,int id){
+		if(id==-1){
+			this.id = p.g.idChar;
+			p.g.idChar+=1;
+		}
+		else{
+			this.id =id;
+		}
 		this.type = 1;
 		this.x = launcher.getX();
 		this.y = launcher.getY();
 		this.x2 = t.getX();
 		this.y2 = t.getY();
 		float width = 15f;
-		p.g.idChar+=1;
+		
 		this.lifePoints = 1f;
 		p.addSpell(this);
 		image = p.g.images.explosion;
@@ -92,6 +98,10 @@ public class Firewall extends SpellEffect{
 	}
 
 	public void action(){
+		//MULTI
+		this.changes.x = true;
+		this.changes.y = true;
+		
 		this.remainingTime-=1f;
 		if(this.remainingTime<=0f)
 			this.lifePoints = -1f;
@@ -134,10 +144,15 @@ public class Firewall extends SpellEffect{
 
 	public void collision(Character c){
 		if(c!=owner){
-			c.lifePoints-=this.damage;
+			c.setLifePoints(c.lifePoints-this.damage);
 		}
 	}
 	
-	
-	
+	public String toString(){
+		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
+		s+="x2:"+this.x2+";";
+		s+="y2:"+this.y2+";";
+		s+="idLauncher;"+this.owner.id+";";
+		return s;
+	}
 }

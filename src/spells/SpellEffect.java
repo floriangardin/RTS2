@@ -1,29 +1,46 @@
 package spells;
 
+import java.util.HashMap;
+
 import model.ActionObjet;
+import model.Game;
 import model.Plateau;
 import multiplaying.OutputModel.OutputSpell;
 import units.Character;
-
+import model.Checkpoint;
 public class SpellEffect extends ActionObjet{
-	
+
 	public int type;
 
 	public void collision(Character c){
-		
+
 	}
-	
-	
-	
-	public SpellEffect(){}
-	
-	public SpellEffect(Plateau p, OutputSpell s){
-		System.out.println("creation");
-		switch(s.type){
-		case 1: new Firewall(p, s);type=1;break;
-		case 2: new BlessedArea(p, s);type=2; break;
-		default:		
+
+	public SpellEffect(){
+
+	}
+
+	public String toStringSpellEffect(){
+		String s= "";
+		s+="typeSpell:"+type+";";
+		return s;
+	}
+	public void parse(HashMap<String, String> hs) {
+		this.parseObjet(hs);
+		this.parseActionObjet(hs);
+
+	}
+
+	public static SpellEffect createNewSpell(HashMap<String, String> hs, Game g) {
+		SpellEffect sp = null;
+		int type = Integer.parseInt(hs.get("typeSpell"));
+		Character launcher = g.plateau.getCharacterById(Integer.parseInt(hs.get("idLauncher")));
+		switch(type){
+			case 1: new Firewall(g.plateau,launcher,new Checkpoint(g.plateau,Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y"))),Integer.parseInt(hs.get("id")));
+			break;
+			case 2: new BlessedArea(g.plateau,launcher,new Checkpoint(g.plateau,Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y"))),Integer.parseInt(hs.get("id")));
+			break;
 		}
+		return sp;
 	}
-	
 }

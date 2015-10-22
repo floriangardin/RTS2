@@ -147,7 +147,10 @@ public abstract class Objet {
 			this.setTeam(Integer.parseInt(hs.get("team")));
 		}
 	}
-	
+	public void parse(HashMap<String, String> hs) {
+		
+	}
+
 	
 	public void setTeam(int team){
 		this.team = team;

@@ -32,8 +32,8 @@ public class UnitKnight extends Character {
 		this.updateImage();
 	}
 	
-	public UnitKnight(UnitKnight unit, float x, float y) {
-		super(unit,x,y);
+	public UnitKnight(UnitKnight unit, float x, float y,int id) {
+		super(unit,x,y,id);
 	}
 
 	

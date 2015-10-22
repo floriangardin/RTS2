@@ -47,8 +47,8 @@ public class UnitTest extends Character {
 		this.updateImage();
 	}
 
-	public UnitTest(UnitTest spearman, float x, float y) {
-		super(spearman,x,y);
+	public UnitTest(UnitTest spearman, float x, float y,int id) {
+		super(spearman,x,y,id);
 	}
 
 	public Graphics draw(Graphics g){
