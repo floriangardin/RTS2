@@ -308,7 +308,7 @@ public class MenuMapChoice extends Menu {
 		}
 		if(hs.containsKey("civSelected")){
 			String[] civ =hs.get("civSelected").split(",");
-			String[] nickname =hs.get("nickName").split(",");
+			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
 			for(int i = 0;i<civ.length;i++){
