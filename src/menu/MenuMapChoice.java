@@ -202,7 +202,7 @@ public class MenuMapChoice extends Menu {
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
 							this.game.toSendConnexions.addElement("2"+toString());
 							Thread.sleep(1);
-							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown+1);
+							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 						}
 
 					} catch (UnknownHostException e) {
