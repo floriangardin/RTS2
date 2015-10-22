@@ -313,6 +313,9 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
+			if(civ.length<this.game.plateau.players.size()){
+				this.game.plateau.addPlayer("Philippe");
+			}
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
