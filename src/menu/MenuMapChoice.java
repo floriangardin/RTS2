@@ -236,8 +236,8 @@ public class MenuMapChoice extends Menu {
 	
 	public String toString(){
 		String s = "";
-		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id);
-		s+="map:"+this.mapSelected;
+		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id)+";";
+		s+="map:"+this.mapSelected+";";
 		s+="civSelected:";
 		//Civ for all players
 		for(Menu_Player p : this.players){
