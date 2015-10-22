@@ -152,6 +152,9 @@ public abstract class Objet {
 		if(hs.containsKey("team")){
 			this.setTeam(Integer.parseInt(hs.get("team")));
 		}
+		if(hs.containsKey("orientation")){
+			this.setTeam(Integer.parseInt(hs.get("team")));
+		}
 	}
 	public void parse(HashMap<String, String> hs) {
 		
