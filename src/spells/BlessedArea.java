@@ -132,4 +132,11 @@ public class BlessedArea extends SpellEffect{
 			this.targeted.addElement(c);
 		}
 	}
+	
+	
+	public String toString(){
+		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
+		s+="idLauncher:"+this.owner.id+";";
+		return s;
+	}
 }
