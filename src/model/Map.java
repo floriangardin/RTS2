@@ -209,7 +209,6 @@ public class Map {
 	
 	public static void createMapDuelLarge(Game game){
 		game.plateau.setMaxXMaxY(5000f, 2500f);
-		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
 		Data data1 = game.players.get(1).data;

@@ -13,7 +13,7 @@ import model.Game;
 
 public class MultiSender extends Thread{
 
-	InetAddress address;
+	public InetAddress address;
 	int port;
 	Vector<String> depot;
 	Game game;

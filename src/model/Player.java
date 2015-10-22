@@ -2,6 +2,9 @@ package model;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
 import buildings.BuildingHeadQuarters;
 import display.BottomBar;
 import display.TopBar;
@@ -86,5 +89,21 @@ public class Player {
 		if(hs.containsKey("team")){
 			team=Integer.parseInt(hs.get("team"));
 		}
+	}
+
+
+	public void drawMapChoice(Graphics g, float f, float h) {
+		g.setColor(Color.black);
+		g.drawString("Player "+this.id+" : "+this.nickname, f, h);
+		g.fillRect(f+298f, h-2f, 94f,4f+g.getFont().getHeight("W"));
+		switch(this.team){
+		case 1 : g.setColor(Color.blue);break;
+		case 2 : g.setColor(Color.red);break;
+		default : g.setColor(Color.black);
+		}
+		g.fillRect(f+302f, h+2f, 86f, g.getFont().getHeight("W")-4f);
+		g.setColor(Color.black);
+		g.drawString(civName, f+450f, h);
+		
 	}
 }

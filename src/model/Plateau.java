@@ -149,6 +149,7 @@ public class Plateau {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
+		this.g.bottomBars = new BottomBar(this,this.g.players.get(g.currentPlayer),(int)g.resX,(int)g.resY);
 	}
 
 	// functions that handle buffers

@@ -17,6 +17,7 @@ import multiplaying.MultiSender;
 public class MenuMulti extends Menu {
 
 	Image title;
+	public Image marbre;
 	public Image host;
 	public Image join;
 	public Image back;
@@ -30,6 +31,13 @@ public class MenuMulti extends Menu {
 	//TODO upgrading multiplayer
 	public int cooldown;
 	public int cooldown1;
+	
+	public float startXGames;
+	float startY;
+	float stepY;
+	float ratioReso;
+	
+	public Vector<OpenGames> openGames;
 
 	public MenuMulti(Game game){
 		this.music = game.musics.menu;
@@ -37,9 +45,10 @@ public class MenuMulti extends Menu {
 		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		float startY = 100f+0.1f*this.game.resX;
-		float stepY = 0.15f*this.game.resY;
-		float ratioReso = this.game.resX/2400f;
+		startY = 100f+0.1f*this.game.resX;
+		stepY = 0.15f*this.game.resY;
+		startXGames = 3f*this.game.resX/8;
+		ratioReso = this.game.resX/2800f;
 		try {
 			this.host = new Image("pics/menu/host.png").getScaledCopy(ratioReso);
 			this.hostSelected = new Image("pics/menu/hostselected.png").getScaledCopy(ratioReso);
@@ -47,10 +56,13 @@ public class MenuMulti extends Menu {
 			this.joinSelected= new Image("pics/menu/joinselected.png").getScaledCopy(ratioReso);
 			this.back = new Image("pics/menu/back.png").getScaledCopy(ratioReso);
 			this.backSelected = new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
-			float startX = this.game.resX/2-this.host.getWidth()/2;
+			this.marbre = new Image("pics/menu/marbre.png");
+			float startX = 2f*this.game.resX/8-this.host.getWidth()/2;
 			this.items.addElement(new Menu_Item(startX,startY,this.host,this.hostSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.join,this.joinSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(startXGames,startY,this.marbre,this.marbre,this.game));
+			this.items.lastElement().selectionable = false;
 
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -91,16 +103,14 @@ public class MenuMulti extends Menu {
 		if(inHost || inJoin){
 			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
 		}
+		g.setColor(Color.black);
+		g.drawString("Open games: ", this.startXGames+70f, startY+50f);
 	}
 
 	public void update(Input i){
 		if(inHost && i.isKeyPressed(Input.KEY_ESCAPE)){ 
 			inHost = false;
 			this.game.connexionSender.interrupt();
-		}
-		if(inJoin && i.isKeyPressed(Input.KEY_ESCAPE)){ 
-			inJoin = false;
-		
 		}
 		if(inHost){
 			this.game.host = true;
@@ -120,13 +130,17 @@ public class MenuMulti extends Menu {
 				for(int k=0; k<tab.length-1;k++){
 					s += tab[k]+".";
 				}
-				for(int ip=0; ip<255;ip++){
-					try {
-						if(!InetAddress.getLocalHost().getHostAddress().equals(s+""+ip))
-							this.game.toSendConnexions.addElement("2"+s+""+ip);
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
+				String thisAddress;
+				try {
+					thisAddress = InetAddress.getLocalHost().getHostAddress();
+					for(int ip=0; ip<255;ip++){
+						if(!thisAddress.equals(s+""+ip)){
+							this.game.connexionSender.address = InetAddress.getByName(s+""+ip);
+							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
+						}
 					}
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
 				cooldown++;
 			}else if(cooldown<=60){
@@ -190,4 +204,16 @@ public class MenuMulti extends Menu {
 			}			
 		}
 	} 
+	
+	public class OpenGames{
+		
+		String hostName;
+		InetAddress hostAddress;
+		
+		public OpenGames(String hostName, InetAddress hostAddress) {
+			this.hostName = hostName;
+			this.hostAddress = hostAddress;
+		}
+		
+	}
 }

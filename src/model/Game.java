@@ -267,7 +267,7 @@ public class Game extends BasicGame
 	public void newGame(){
 		//Clean all variables
 
-		Map.createMap("testTech",this);
+		Map.initializePlateau(this, 1f, 1f);
 
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
@@ -300,6 +300,18 @@ public class Game extends BasicGame
 		this.menuMapChoice = new MenuMapChoice(this);
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
+		Map.initializePlateau(this, 1f, 1f);
+
+		//System.out.println(this.plateau.mapGrid);
+		//			Map.createMapEmpty(this);
+		// Instantiate BottomBars for all players:
+		for(int player=1; player<3; player++){
+			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+		}
+		this.bottomBars = this.players.get(currentPlayer).bottomBar;
+		this.topBars = this.players.get(currentPlayer).topBar;
+		selection = null;
 		
 	}
 
