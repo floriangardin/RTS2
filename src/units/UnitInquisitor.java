@@ -37,7 +37,7 @@ public class UnitInquisitor extends Character {
 	}
 	
 	public void useWeapon(){
-		new Fireball(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
+		new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
 	}
 
