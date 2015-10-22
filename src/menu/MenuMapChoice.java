@@ -216,9 +216,6 @@ public class MenuMapChoice extends Menu {
 				} else {
 					cooldown=0;				
 				}
-				if(this.game.connexions.size()>0){
-
-				}
 			}
 			while(game.connexions.size()>0){
 				this.parse(Objet.preParse(game.connexions.remove(0)));
