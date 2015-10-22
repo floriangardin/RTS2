@@ -221,6 +221,7 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 			while(game.connexions.size()>0){
+				System.out.println("mythe, ça parse menumapchoice line 224");
 				this.parse(Objet.preParse(game.connexions.remove(0)));
 			}
 			if(!game.host)
