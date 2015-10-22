@@ -255,7 +255,7 @@ public class MenuMapChoice extends Menu {
 			thisAddress = InetAddress.getLocalHost().getHostAddress();
 			s+="ip:"+thisAddress+";hostname:"+this.game.options.nickname+",nplayers:"+this.game.plateau.players.size()+";";
 		} catch (UnknownHostException e) {}	
-		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id)+";";
+		s+="idExp:"+this.game.plateau.currentPlayer.id+";";
 		s+="map:"+this.mapSelected+";";
 		s+="civSelected:";
 		//Civ for all players
