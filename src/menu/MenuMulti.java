@@ -94,10 +94,9 @@ public class MenuMulti extends Menu {
 		case 1:
 			if(gameSelected!=-1){
 				game.host = false;
-				game.inMultiplayer = false;
+				game.inMultiplayer = true;
 				game.plateau.clearPlayer();
 				game.toSendConnexions.clear();
-				game.connexions.clear();
 				OpenGames opengame = openGames.get(gameSelected);
 				this.game.connexionSender = new MultiSender(opengame.hostAddress, 6113, this.game.toSendConnexions, game);
 				this.game.connexionSender.start();

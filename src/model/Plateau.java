@@ -198,6 +198,7 @@ public class Plateau {
 			return;
 		players.remove(indice);
 		nPlayers -= 1;
+		System.out.println("player remove");
 
 		// deleting component from plateau
 		this.selection.remove(indice);
