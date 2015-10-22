@@ -11,6 +11,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import model.Game;
+import model.Map;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
 
@@ -159,7 +160,7 @@ public class MenuMulti extends Menu {
 					this.music = game.musics.imperial;
 					this.music.loop();
 					this.music.setVolume(game.options.musicVolume);
-					this.game.newGame();
+					Map.updateMap(3, game);
 					this.game.quitMenu();
 				} catch (UnknownHostException e1) {
 					e1.printStackTrace();
@@ -192,7 +193,7 @@ public class MenuMulti extends Menu {
 				this.music = game.musics.imperial;
 				this.music.loop();
 				this.music.setVolume(game.options.musicVolume);
-				this.game.newGame();
+				Map.updateMap(3, game);
 				this.game.quitMenu();
 			}
 		} else if(i!=null){
