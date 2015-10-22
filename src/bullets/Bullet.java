@@ -57,7 +57,7 @@ public abstract class Bullet extends ActionObjet {
 	}
 	
 	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){
-		Bullet c;
+		Bullet c=null;
 		//Get back the owner 
 		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
 		float vx = Float.parseFloat(hs.get("vxtarget"));
