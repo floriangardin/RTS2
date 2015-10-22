@@ -41,6 +41,7 @@ public class Firewall extends SpellEffect{
 		float width = 15f;
 		
 		this.lifePoints = 1f;
+		this.p = p;
 		p.addSpell(this);
 		image = p.g.images.explosion;
 		owner = launcher;

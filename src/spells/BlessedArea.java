@@ -38,6 +38,7 @@ public class BlessedArea extends SpellEffect{
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
+		this.p = p;
 		p.addSpell(this);
 		this.image = p.g.images.blessedArea;
 		owner = launcher;
