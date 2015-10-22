@@ -38,7 +38,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.isProducing = true;
 			}
 
-			
+
 			this.setCharge(this.charge+0.1f);
 			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
@@ -53,13 +53,13 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;
-					
+
 				}
 			}
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
-		
+
 		}
 		// if reach production reset and create first unit in the queue
 		if(this.lifePoints<10f){
@@ -81,7 +81,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		}
 
 	}
-	
+
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		if(changes.queue && this.queue!=null){
@@ -92,7 +92,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			if(this.queue.size()>0){
 				s=s.substring(0, s.length()-1);
 			}
-			
+
 			s+=";";
 			changes.queue=false;
 		}
@@ -111,18 +111,20 @@ public abstract class BuildingProduction extends BuildingAction {
 		if(hs.containsKey("queue")){
 			this.queue.clear();
 			String[] r = hs.get("queue").split(",");
-			for(int i = 0;i<r.length;i++){
-				this.queue.addElement(Integer.parseInt(r[i]));
+			if(!r[0].equals("")){
+				for(int i = 0;i<r.length;i++){
+					this.queue.addElement(Integer.parseInt(r[i]));
+				}
 			}
 		}
 	}
-	
+
 	public void parse(HashMap<String,String> hs){
 		this.parseObjet(hs);
 		this.parseActionObjet(hs);
 		this.parseBuilding(hs);
 		this.parseBuildingProduction(hs);
 	}
-	
-	
+
+
 }
