@@ -1,5 +1,7 @@
 package bullets;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
@@ -21,7 +23,7 @@ public class Fireball extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Fireball(Plateau p,Character owner,float vx,float vy,float damage,int id){
+	public Fireball(Plateau p,Character owner,float targetX,float targetY,float vx,float vy,float damage,int id){
 		//MULTI 
 		this.changes = new Changes();
 		// Parameters
@@ -51,7 +53,7 @@ public class Fireball extends Bullet {
 		this.lifePoints = 30f;
 		this.owner = owner;
 		this.team = this.owner.team;
-		this.setTarget(new Checkpoint(owner.getTarget().getX(),owner.getTarget().getY()));
+		this.setTarget(new Checkpoint(targetX,targetY));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
 		this.vx = vx;
@@ -165,4 +167,16 @@ public class Fireball extends Bullet {
 		//g.fill(new Circle(this.collisionBox.getCenterX(),this.collisionBox.getCenterY(),this.collisionBox.getBoundingCircleRadius()));
 		return g;
 	}
+	
+	
+	public String toString(){
+		String s = toStringObjet()+toStringActionObjet()+toStringBullet();
+		if(this.owner.target!=null){
+			s+="targetX:"+this.owner.target.x+";";
+			s+="targetY"+this.owner.target.y+";";
+		}
+		return s;
+		
+	}
+	
 }
