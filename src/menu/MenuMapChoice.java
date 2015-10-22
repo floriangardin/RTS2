@@ -221,7 +221,6 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 			while(game.connexions.size()>0){
-				System.out.println("mythe, ça parse menumapchoice line 224");
 				this.parse(Objet.preParse(game.connexions.remove(0)));
 			}
 			if(!game.host)
@@ -315,6 +314,7 @@ public class MenuMapChoice extends Menu {
 			String[] isReady =hs.get("isReady").split(",");
 			if(civ.length<this.game.plateau.players.size()){
 				this.game.plateau.addPlayer("Philippe");
+				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
