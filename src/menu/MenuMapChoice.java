@@ -151,7 +151,7 @@ public class MenuMapChoice extends Menu {
 		if(game.inMultiplayer){
 			if(game.host){
 				// sending games
-				if(cooldown==0){
+				if(cooldown<=255){
 					if(!game.connexionSender.isAlive()){
 						game.connexionSender.start();
 					}
@@ -169,18 +169,18 @@ public class MenuMapChoice extends Menu {
 					String thisAddress;
 					try {
 						thisAddress = InetAddress.getLocalHost().getHostAddress();
-						for(int ip=0; ip<255;ip++){
-							if(!thisAddress.equals(s+""+ip)){
-								this.game.connexionSender.address = InetAddress.getByName(s+""+ip);
-								this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
-							}
+
+						if(!thisAddress.equals(s+""+cooldown)){
+							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
+							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
 						}
+
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					}
 					cooldown++;
 				} else {
-					cooldown=cooldown<=60 ? cooldown+1:0;				
+					cooldown=0;				
 				}
 				if(this.game.connexions.size()>0){
 
@@ -218,6 +218,6 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 	}
-	
-	
+
+
 }
