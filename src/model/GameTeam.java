@@ -21,9 +21,9 @@ public class GameTeam {
 	
 	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
 		this.players = players;
+		this.id = id;
 		this.data = new Data(plateau,this,Main.framerate);
 		this.plateau = plateau;
-		this.id = id;
 		this.civ = civ;
 		switch(civ){
 		case 0 : civName = "Dualists";break;

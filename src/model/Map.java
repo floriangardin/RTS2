@@ -183,12 +183,12 @@ public class Map {
 
 		new BuildingHeadQuarters(game.plateau,game,0f,0f,1);
 		new BuildingHeadQuarters(game.plateau,game,X-200f,0f,2);
-		//new BuildingBarrack(game.plateau,game,0f,Y-200f);
-		//new BuildingBarrack(game.plateau,game,X-200f,Y-200f);
+		new BuildingBarrack(game.plateau,game,0f,Y-200f);
+		new BuildingBarrack(game.plateau,game,X-200f,Y-200f);
 		
 		//data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
 		for(int i = 0;i<1;i++){
-			data1.create(UnitsList.Inquisitor, 2*X/9+i - 1f, Y/2);
+			data1.create(UnitsList.Knight, 2*X/9+i - 1f, Y/2);
 			//data1.player.create(UnitsList.Spearman, 2*X/9+i - 1f, Y/2+1f);
 		}
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);

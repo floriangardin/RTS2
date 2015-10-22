@@ -114,7 +114,7 @@ public class MenuMapChoice extends Menu {
 				this.game.quitMenu();
 				break;
 			} else {
-				this.players.get(game.plateau.currentPlayer.id).isReady = !this.players.get(game.plateau.currentPlayer.id).isReady;
+				this.players.get(game.plateau.currentPlayer.id).isReady = true;
 			}
 		default:		
 		}
@@ -236,7 +236,7 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		int toselect = -1;
-		if(game.host){
+		if(game.host || !game.inMultiplayer){
 			for(int j=0; j<mapchoices.size(); j++){
 				if(mapchoices.get(j).isClicked(i))
 					toselect = j;

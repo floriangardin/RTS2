@@ -79,7 +79,7 @@ public class Character extends ActionObjet{
 	public Character(Plateau p, GameTeam gameteam){
 		this.p = p;
 		this.animations = new Image[1][4][4];
-		this.setTeam(gameteam.id);
+		this.setTeam(gameteam);
 		this.name = "character";
 		this.selection_circle = this.p.g.images.selection_circle;
 		Image imagea = this.p.g.images.corps;
@@ -300,14 +300,8 @@ public class Character extends ActionObjet{
 		if(this.c == this.getTarget().c){
 			this.moveToward(this.getTarget());
 		} else if(this.waypoints.size()>0){
-			int j=-1;
-			for(int i=0; i<this.waypoints.size();i++){
-				if(this.c==this.waypoints.get(i))
-					j=i;
-			}
-			if(j>=0){
-				for(int i=0; i<=j; i++)
-					this.waypoints.remove(i);
+			if(this.c==this.waypoints.get(0)){
+				this.waypoints.remove(0);
 				this.move();
 			} else {
 				this.moveToward(this.waypoints.get(0));
@@ -698,7 +692,7 @@ public class Character extends ActionObjet{
 
 	//// UPDATE FUNCTIONS
 
-	
+
 	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
 		if(t!=null){
@@ -828,7 +822,7 @@ public class Character extends ActionObjet{
 		if(this.vx>0 ||this.vy>0){
 			this.incrementf+=4f/(float)this.getGameTeam().data.FRAMERATE;
 		}
-		
+
 
 	}
 

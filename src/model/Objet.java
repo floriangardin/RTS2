@@ -63,6 +63,10 @@ public abstract class Objet {
 			}
 		}
 	}
+	public void setTeam(GameTeam g){
+		this.team = g.id;
+		this.gameteam = g;
+	}
 	protected void destroy(){
 		this.lifePoints = -10;
 

@@ -12,6 +12,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import model.Game;
+import model.Map;
 import model.Sounds;
 
 public class MenuOptions extends Menu {
@@ -131,6 +132,7 @@ public class MenuOptions extends Menu {
 			this.game.options.nickname = ((Menu_TextScanner)this.items.get(9)).s;
 			fichierSortie.println ("nickname: " + game.options.nickname); 
 			fichierSortie.close();
+			Map.initializePlateau(game, 1f, 1f);
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
