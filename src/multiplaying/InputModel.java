@@ -74,11 +74,11 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 
 		selection = new Vector<Integer>();
-		for(ActionObjet c: g.plateau.selection.get(g.currentPlayer.id))
+		for(ActionObjet c: g.plateau.selection.get(g.plateau.currentPlayer.id))
 			selection.add(c.id);
 
 		// Only for current player at the creation of the input
-		BottomBar bb = g.players.get(g.currentPlayer.id).bottomBar;
+		BottomBar bb = g.plateau.currentPlayer.bottomBar;
 		float relativeXMouse = input.getAbsoluteMouseX();
 		float relativeYMouse = input.getAbsoluteMouseY();
 		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){

@@ -64,14 +64,14 @@ public class MinimapInterface extends Bar {
 		// Draw units on camera 
 
 		for(Character c : this.p.characters){		
-			if(c.team==2){
+			if(c.getTeam()==2){
 				if(this.p.isVisibleByPlayer(this.player.team, c)){
 					g.setColor(Color.red);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
-			else if(c.team==1){
+			else if(c.getTeam()==1){
 				if(this.p.isVisibleByPlayer(this.player.team, c)){
 					g.setColor(Color.blue);
 					float r = c.collisionBox.getBoundingCircleRadius();
@@ -80,11 +80,11 @@ public class MinimapInterface extends Bar {
 			}
 		}
 		for(Building c : this.p.buildings){
-			if(c.team==0){
+			if(c.getTeam()==0){
 				g.setColor(Color.gray);
 
 			}
-			if(c.team==2){
+			if(c.getTeam()==2){
 				if(this.p.isVisibleByPlayer(this.player.team, c)){
 					g.setColor(Color.red);
 				} else {
@@ -92,7 +92,7 @@ public class MinimapInterface extends Bar {
 
 				}
 			}
-			else if(c.team==1){
+			else if(c.getTeam()==1){
 				if(this.p.isVisibleByPlayer(this.player.team, c)){
 					g.setColor(Color.blue);
 				} else {

@@ -143,7 +143,7 @@ public class MenuIntro extends Menu {
 						Thread.sleep(5);
 					} catch(InterruptedException e) { }
 					game.inMultiplayer = true;
-					game.currentPlayer = game.players.get(2);
+					game.plateau.currentPlayer = game.plateau.players.get(2);
 					callItem(0);
 					multiplaying = false;
 				}

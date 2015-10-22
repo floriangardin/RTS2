@@ -46,7 +46,7 @@ public class Menu_Player extends Menu_Item{
 	}
 	
 	public void update(Input i){
-		if(game.currentPlayer.id==p.id){
+		if(game.plateau.currentPlayer.id==p.id){
 			float xMouse = i.getAbsoluteMouseX();
 			float yMouse = i.getAbsoluteMouseY();
 			//Testing the click
@@ -104,7 +104,7 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.gray);
 		else
 			g.setColor(Color.black);
-		g.drawString(p.civName, startXciv, startYciv);
+		g.drawString(p.gameteam.civName, startXciv, startYciv);
 		
 	}
 }

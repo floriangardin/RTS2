@@ -1,9 +1,9 @@
 package spells;
 
 import model.Checkpoint;
+import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 import model.Utils;
 import units.Character;
 
@@ -11,14 +11,14 @@ public class SpellFirewall extends Spell{
 
 	public float remainingTime;
 	
-	public SpellFirewall(Plateau p, Player player){
+	public SpellFirewall(Plateau p, GameTeam gameteam){
 		this.chargeTime = 450f;
 		this.name = "Firewall";
 		this.icon = p.g.images.spellFirewall;
 		this.range = 200f;
 		this.damage = 1f;
 		this.remainingTime = 250f;
-		this.player = player;
+		this.gameteam = gameteam;
 		this.needToClick=true;
 	}
 

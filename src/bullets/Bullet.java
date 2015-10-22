@@ -8,15 +8,7 @@ import java.util.HashMap;
 import buildings.Building;
 import model.ActionObjet;
 import model.Game;
-import multiplaying.OutputModel.OutputBullet;
 import units.Character;
-import units.UnitArchange;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitPriest;
-import units.UnitSpearman;
-import units.UnitTest;
 
 public abstract class Bullet extends ActionObjet {
 	public float damage;

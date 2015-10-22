@@ -8,7 +8,6 @@ import org.newdawn.slick.geom.Polygon;
 import model.Checkpoint;
 import model.Objet;
 import model.Plateau;
-import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 
 public class Firewall extends SpellEffect{
@@ -64,31 +63,7 @@ public class Firewall extends SpellEffect{
 		this.createAnimation(t, launcher);
 	}
 
-	public Firewall(Plateau p, OutputSpell s){
-		float x = s.x1, y = s.y1, x2 = s.x2, y2 = s.y2;
-		this.id = s.id;
-		float width = 15f;
-		this.lifePoints = 1f;
-		p.addSpell(this);
-		image = p.g.images.explosion;
-		float vx = y2-y;
-		float vy = x-x2;
-		float norm = (float)Math.sqrt(vx*vx+vy*vy);
-		vx = vx/norm;
-		vy = vy/norm;
-		float ax,ay,bx,by,cx,cy,dx,dy;
-		ax = x+vx*width/2f;
-		ay = y+vy*width/2f;
-		bx = x-vx*width/2f;
-		by = y-vy*width/2f;
-		dx = x2+vx*width/2f;
-		dy = y2+vy*width/2f;
-		cx = x2-vx*width/2f;
-		cy = y2-vy*width/2f;
-		float[] arg = {ax,ay,bx,by,cx,cy,dx,dy};
-		this.collisionBox = new Polygon(arg);
-		this.createAnimation(new Checkpoint(x,y), new Checkpoint(x2,y2));
-	}
+	
 	
 	public void createAnimation(Objet o1, Objet o2){
 		float x1 = o1.getX(),x2=o2.getX(),y1=o1.getY(),y2=o2.getY();

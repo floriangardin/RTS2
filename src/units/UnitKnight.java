@@ -3,14 +3,15 @@ package units;
 import org.newdawn.slick.geom.Circle;
 
 import model.Data;
+import model.GameTeam;
 import model.Horse;
 import model.Plateau;
 import model.Player;
 
 public class UnitKnight extends Character {
 
-	public UnitKnight(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitKnight(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "knight";
 		this.type = UnitsList.Knight;
 		this.maxLifePoints = 90f;
@@ -45,7 +46,7 @@ public class UnitKnight extends Character {
 		if(this.p.g.sounds!=null)
 			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
 		if(c.weapon=="bow"){
-			damage = damage*this.p.g.players.get(team).data.bonusSwordBow;
+			damage = damage*this.getGameTeam().data.bonusSwordBow;
 		}
 		if(c.armor<damage){
 			c.setLifePoints(c.lifePoints+c.armor-damage);

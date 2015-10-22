@@ -17,25 +17,25 @@ public class BuildingUniversity extends BuildingTech {
 	public BuildingUniversity(Plateau plateau, Game g, float f, float h) {
 		// Init ProductionList
 		this.p = plateau ;
-		this.player = this.p.g.players.get(team);
+		this.setTeam(0);
 		this.productionList = new Vector<Technologie>();
-		if(this.p.g.players.get(team).civ==0){
+		if(this.getGameTeam().civ==0){
 			this.productionList = new Vector<Technologie>();
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
 		}
-		else if(this.p.g.players.get(team).civ==1){
+		else if(this.getGameTeam().civ==1){
 			this.productionList = new Vector<Technologie>();
 		}
 		else{
 			this.productionList = new Vector<Technologie>();
 		}
 		this.queue = null;
-		teamCapturing= team;
+		teamCapturing= getTeam();
 
-		this.sizeX = this.p.g.players.get(team).data.universitySizeX; 
-		this.sizeY = this.p.g.players.get(team).data.universitySizeY;
-		this.sight = this.p.g.players.get(team).data.universitySight;
-		maxLifePoints = this.p.g.players.get(team).data.universityLifePoints;
+		this.sizeX = getGameTeam().data.universitySizeX; 
+		this.sizeY = getGameTeam().data.universitySizeY;
+		this.sight = getGameTeam().data.universitySight;
+		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;
@@ -47,10 +47,10 @@ public class BuildingUniversity extends BuildingTech {
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(this.team == 1){
+		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingUniversityBlue;
 		}
-		else if(this.team == 2){
+		else if(getTeam() == 2){
 			this.image = this.p.g.images.buildingUniversityRed;
 		}
 		else {
@@ -66,8 +66,8 @@ public class BuildingUniversity extends BuildingTech {
 	}
 	public void removeProd() {
 		if(this.queue!=null){
-			this.p.g.players.get(this.team).food += queue.tech.foodPrice;
-			this.p.g.players.get(this.team).gold += queue.tech.goldPrice;
+			this.getGameTeam().food += queue.tech.foodPrice;
+			this.getGameTeam().gold += queue.tech.goldPrice;
 			this.queue=null;
 			this.setCharge(0f);
 		}
@@ -75,11 +75,11 @@ public class BuildingUniversity extends BuildingTech {
 
 	public void product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
-			if(this.productionList.get(unit).tech.foodPrice<=this.p.g.players.get(team).food
-					&& this.productionList.get(unit).tech.goldPrice<=this.p.g.players.get(team).gold){
+			if(this.productionList.get(unit).tech.foodPrice<=this.getGameTeam().food
+					&& this.productionList.get(unit).tech.goldPrice<=this.getGameTeam().gold){
 				this.queue=this.productionList.get(unit);
-				this.p.g.players.get(team).gold-=this.productionList.get(unit).tech.goldPrice;
-				this.p.g.players.get(team).food-=this.productionList.get(unit).tech.foodPrice;
+				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
+				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
 			}
 		}
 	}

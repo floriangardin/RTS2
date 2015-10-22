@@ -4,13 +4,14 @@ import org.newdawn.slick.geom.Circle;
 
 import bullets.Fireball;
 import model.Data;
+import model.GameTeam;
 import model.Plateau;
 import model.Player;
 
 public class UnitInquisitor extends Character {
 
-	public UnitInquisitor(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitInquisitor(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "inquisitor";
 		this.type = UnitsList.Inquisitor;
 		this.maxLifePoints = 60f;

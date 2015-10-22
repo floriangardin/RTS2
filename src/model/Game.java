@@ -27,7 +27,6 @@ import menu.MenuOptions;
 import multiplaying.InputModel;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
-import multiplaying.OutputModel;
 import spells.SpellEffect;
 import units.Character;
 
@@ -66,8 +65,6 @@ public class Game extends BasicGame
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
-	public Vector<Player> players = new Vector<Player>();
-	public Player currentPlayer;
 
 
 	// Network and multiplaying
@@ -87,7 +84,6 @@ public class Game extends BasicGame
 	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
 	public Vector<String> toSendInputs = new Vector<String>();
 	public Vector<String> outputs = new Vector<String>();
-	public Vector<OutputModel> toRemoveOutputs = new Vector<OutputModel>();
 	public Vector<String> toSendOutputs = new Vector<String>();
 	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
@@ -156,7 +152,7 @@ public class Game extends BasicGame
 
 
 		// Draw the selection of your team 
-		for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
+		for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
 			o.drawIsSelected(g);
 		}
 		//Creation of the drawing Vector
@@ -199,7 +195,7 @@ public class Game extends BasicGame
 		// Draw the selection :
 		for(int player=1; player<3; player++){
 			if(this.plateau.rectangleSelection !=null){
-				if(player==currentPlayer.id){
+				if(player==plateau.currentPlayer.id){
 					g.setColor(Color.green);
 					g.draw(this.plateau.rectangleSelection);
 				}
@@ -214,8 +210,8 @@ public class Game extends BasicGame
 		// Draw messages
 		Message m;
 		if(this.plateau.messages.size()>2){
-			for(int k=0; k<this.plateau.messages.get(currentPlayer.id).size();k++){
-				m = this.plateau.messages.get(currentPlayer.id).get(k);
+			for(int k=0; k<this.plateau.messages.get(plateau.currentPlayer.id).size();k++){
+				m = this.plateau.messages.get(plateau.currentPlayer.id).get(k);
 				g.setColor(m.color);
 				Font f = g.getFont();
 				float height = f.getHeight(m.message);
@@ -232,7 +228,7 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			InputModel im = new InputModel(this,0,currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(inMultiplayer){
 				if(!host){
@@ -289,11 +285,11 @@ public class Game extends BasicGame
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
-			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
-			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
+			new BottomBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
+			new TopBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
 		}
-		this.bottomBars = this.players.get(currentPlayer.id).bottomBar;
-		this.topBars = this.players.get(currentPlayer.id).topBar;
+		this.bottomBars = this.plateau.currentPlayer.bottomBar;
+		this.topBars = this.plateau.currentPlayer.topBar;
 		selection = null;
 		
 	}

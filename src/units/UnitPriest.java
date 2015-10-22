@@ -3,14 +3,15 @@ package units;
 import org.newdawn.slick.geom.Circle;
 
 import model.Data;
+import model.GameTeam;
 import model.Horse;
 import model.Plateau;
 import model.Player;
 
 public class UnitPriest extends Character {
 
-	public UnitPriest(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitPriest(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "priest";
 		this.type = UnitsList.Priest;
 		this.maxLifePoints = 60f;

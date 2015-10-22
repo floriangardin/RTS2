@@ -6,8 +6,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
+import model.GameTeam;
 import model.Plateau;
-import model.Player;
 import technologies.DualistAge2;
 import technologies.DualistAge3;
 import technologies.DualistBonusFood;
@@ -32,82 +32,80 @@ public class BuildingHeadQuarters extends BuildingTech {
 	boolean isProducing;
 	public Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> allTechs;
-	public Player player;
-	public BuildingHeadQuarters(Plateau plateau, Game g, float f, float h,int team) {
+	public BuildingHeadQuarters(Plateau plateau, Game g, float f, float h, int team) {
 		// Init ProductionList
 		this.hq = this;
 		this.p = plateau ;
-		this.player = this.p.g.players.get(team);
+		this.setTeam(team);
 		this.productionList = new Vector<Technologie>();
 		this.allTechs = new Vector<Technologie>();
-		this.p.g.players.get(team).hq = this;
-		if(this.p.g.players.get(team).civ==0){
+		this.getGameTeam().hq = this;
+		if(getGameTeam().civ==0){
 			// AGING
-			DualistAge2 d2 = new DualistAge2(this.p,this.player);
+			DualistAge2 d2 = new DualistAge2(this.p,this.getGameTeam());
 			this.allTechs.addElement(d2);
-			DualistAge3 d3 = new DualistAge3(this.p,this.player);
+			DualistAge3 d3 = new DualistAge3(this.p,this.getGameTeam());
 			this.allTechs.addElement(d3);
 			d3.techRequired=d2;
 			
 			// SIGHT TECH
-			DualistEagleView ev =new DualistEagleView(this.p,this.player);
+			DualistEagleView ev =new DualistEagleView(this.p,this.getGameTeam());
 			this.allTechs.addElement(ev);
 			ev.techRequired = d2;
 			
 			// RESSOURCES BONUS
-			DualistBonusFood d4 = new DualistBonusFood(this.p,this.player);
+			DualistBonusFood d4 = new DualistBonusFood(this.p,this.getGameTeam());
 			this.allTechs.addElement(d4);
-			DualistBonusGold bg = new DualistBonusGold(this.p,this.player);
+			DualistBonusGold bg = new DualistBonusGold(this.p,this.getGameTeam());
 			this.allTechs.addElement(bg);
 			
 			// EXPLOSION TECH
-			DualistExplosion ex = new DualistExplosion(this.p,this.player);
+			DualistExplosion ex = new DualistExplosion(this.p,this.getGameTeam());
 			ex.techRequired=d3;
 			
 			// SHIELD TECH
-			DualistShield2 s2 = new DualistShield2(this.p,this.player);
+			DualistShield2 s2 = new DualistShield2(this.p,this.getGameTeam());
 			this.allTechs.addElement(s2);
-			DualistShield3 s3 = new DualistShield3(this.p,this.player);
+			DualistShield3 s3 = new DualistShield3(this.p,this.getGameTeam());
 			s3.techRequired = s2;
 			this.allTechs.addElement(s3);
 			
 			// HEALTH TECH
-			DualistHealth2 h2 = new DualistHealth2(this.p,this.player);
+			DualistHealth2 h2 = new DualistHealth2(this.p,this.getGameTeam());
 			this.allTechs.addElement(h2);
-			DualistHealth3 h3 = new DualistHealth3(this.p,this.player);
+			DualistHealth3 h3 = new DualistHealth3(this.p,this.getGameTeam());
 			h3.techRequired = h2;
 			this.allTechs.addElement(h3);
 			
 			// CONTACT WEAPON TECH
-			DualistContact2 c2 = new DualistContact2(this.p,this.player);
+			DualistContact2 c2 = new DualistContact2(this.p,this.getGameTeam());
 			this.allTechs.addElement(c2);
-			DualistContact3 c3 = new DualistContact3(this.p,this.player);
+			DualistContact3 c3 = new DualistContact3(this.p,this.getGameTeam());
 			c3.techRequired = c2;
 			this.allTechs.addElement(c3);
 			
 			
 			// RANGE WEAPON TECH
-			DualistRangeAttack2 r2 = new DualistRangeAttack2(this.p,this.player);
+			DualistRangeAttack2 r2 = new DualistRangeAttack2(this.p,this.getGameTeam());
 			this.allTechs.addElement(r2);
-			DualistRangeAttack3 r3 = new DualistRangeAttack3(this.p,this.player);
+			DualistRangeAttack3 r3 = new DualistRangeAttack3(this.p,this.getGameTeam());
 			r3.techRequired = r2;
 			this.allTechs.addElement(r3);
 			
 	
 		}
-		else if(this.p.g.players.get(team).civ==1){
+		else if(getGameTeam().civ==1){
 			this.productionList = new Vector<Technologie>();
 		}
 		else{
 			this.productionList = new Vector<Technologie>();
 		}
 		this.queue = null;
-		teamCapturing= team;
-		this.team = team;
-		this.sizeX = this.player.data.headQuartersSizeX; 
-		this.sizeY = this.player.data.headQuartersSizeY;
-		this.sight = this.player.data.headQuartersSight;
-		maxLifePoints = player.data.headQuartersLifePoints;
+		teamCapturing= getTeam();
+		this.sizeX = this.getGameTeam().data.headQuartersSizeX; 
+		this.sizeY = this.getGameTeam().data.headQuartersSizeY;
+		this.sight = this.getGameTeam().data.headQuartersSight;
+		maxLifePoints = getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
 		this.x = f;
 		this.y = h;
@@ -119,10 +117,10 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(this.team == 1){
+		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingHeadQuartersBlue;
 		}
-		else if(this.team == 2){
+		else if(this.getTeam() == 2){
 			this.image = this.p.g.images.buildingHeadQuartersRed;
 		}
 		else {
@@ -133,7 +131,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.updateProductionList();
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.constructionPoints = this.maxLifePoints;
-		this.potentialTeam = this.team;
+		this.potentialTeam = this.getTeam();
 		this.updateImage();
 		
 
@@ -148,7 +146,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 				}
 			}
 			if(useful){
-				this.techTerminate(Technologie.technologie(q, p, player));
+				this.techTerminate(Technologie.technologie(q, p, getGameTeam()));
 			}
 		}
 	}
@@ -159,10 +157,10 @@ public class BuildingHeadQuarters extends BuildingTech {
 		//Product, increase state of the queue
 		// If enough faith create archange
 		
-		if(this.player.civ==0 && this.player.special>=UnitsList.Archange.specialPrice){
+		if(this.getGameTeam().civ==0 && this.getGameTeam().special>=UnitsList.Archange.specialPrice){
 			
-			this.player.data.create(UnitsList.Archange, this.x, this.y+this.sizeY/2);
-			this.player.special=0;
+			this.getGameTeam().data.create(UnitsList.Archange, this.x, this.y+this.sizeY/2);
+			this.getGameTeam().special=0;
 		}
 		if(this.queue!=null){
 			if(!this.isProducing){

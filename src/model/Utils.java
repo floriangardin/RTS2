@@ -180,9 +180,9 @@ public class Utils {
 		else{
 			for(Character c:p.characters)
 				if(c.target!=null)
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints+" t:"+c.target.x);
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
 				else
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints);
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 	}
 		System.out.println();
 		System.out.println("========================================");
@@ -192,7 +192,7 @@ public class Utils {
 			System.out.println("-> bug: bullets est null");
 		else{
 			for(Bullet c:p.bullets)
-				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints);
+				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 	}
 		System.out.println();
 //		System.out.println();

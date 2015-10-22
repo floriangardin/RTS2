@@ -34,8 +34,8 @@ public abstract class BuildingTech extends BuildingAction {
 	
 	public void removeProd() {
 		if(this.queue!=null){
-			this.p.g.players.get(this.team).food += queue.tech.foodPrice;
-			this.p.g.players.get(this.team).gold += queue.tech.goldPrice;
+			this.getGameTeam().food += queue.tech.foodPrice;
+			this.getGameTeam().gold += queue.tech.goldPrice;
 			this.queue=null;
 			this.setCharge(0f);
 		}
@@ -43,16 +43,16 @@ public abstract class BuildingTech extends BuildingAction {
 	
 	public void product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
-			if(this.productionList.get(unit).tech.foodPrice<=this.p.g.players.get(team).food
-					&& this.productionList.get(unit).tech.goldPrice<=this.p.g.players.get(team).gold){
+			if(this.productionList.get(unit).tech.foodPrice<=this.getGameTeam().food
+					&& this.productionList.get(unit).tech.goldPrice<=this.getGameTeam().gold){
 				this.queue=this.productionList.get(unit);
-				this.p.g.players.get(team).gold-=this.productionList.get(unit).tech.goldPrice;
-				this.p.g.players.get(team).food-=this.productionList.get(unit).tech.foodPrice;
+				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
+				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
 			} else {
-				if(this.productionList.get(unit).tech.foodPrice>this.p.g.players.get(team).food)
-					this.p.addMessage(Message.getById(0), team);
+				if(this.productionList.get(unit).tech.foodPrice>this.getGameTeam().food)
+					this.p.addMessage(Message.getById(0), getTeam());
 				else
-					this.p.addMessage(Message.getById(1), team);
+					this.p.addMessage(Message.getById(1), getTeam());
 			}
 		}
 	}
@@ -61,7 +61,7 @@ public abstract class BuildingTech extends BuildingAction {
 		if(q==null){
 			return;
 		}
-		this.p.addMessage(Message.getById(4), team);
+		this.p.addMessage(Message.getById(4), getTeam());
 		this.setCharge(0f);
 		this.hq.techsDiscovered.addElement(q);
 		this.productionList.removeElement(q);
