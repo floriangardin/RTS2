@@ -46,6 +46,12 @@ public class Plateau {
 
 	// about the output of the string
 	public String currentString ;
+	
+	// teams and players
+	public Vector<Player> players = new Vector<Player>();
+	public Player currentPlayer;
+	public Vector<GameTeam> teams = new Vector<GameTeam>();
+	
 
 
 	// ADD ALL OBJETS 
@@ -98,12 +104,15 @@ public class Plateau {
 		//ABOUT PLAYERS
 
 		//UPDATING GAME
-		this.g.players = new Vector<Player>();
-		this.g.players.add(new Player(this,0,"Nature",0,0));
-		this.g.players.add(new Player(this,1,this.g.options.nickname,1,0));
-		this.g.players.add(new Player(this,2,"IA random",2,0));
-		this.g.currentPlayer = g.players.get(1);
-		this.nPlayers = g.players.size();
+		this.teams.addElement(new GameTeam(players,this,0,0));
+		this.teams.addElement(new GameTeam(players,this,1,0));
+		this.teams.addElement(new GameTeam(players,this,2,0));
+		this.players = new Vector<Player>();
+		this.players.add(new Player(this,0,"Nature",teams.get(0)));
+		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1)));
+		this.players.add(new Player(this,2,"IA random",teams.get(2)));
+		this.currentPlayer = players.get(1);
+		this.nPlayers = players.size();
 		
 		//CHARACTERS
 		this.characters = new Vector<Character>();
@@ -160,11 +169,19 @@ public class Plateau {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
-		this.g.bottomBars = new BottomBar(this,this.g.players.get(g.currentPlayer.id),(int)g.resX,(int)g.resY);
+		this.g.bottomBars = new BottomBar(this,this.currentPlayer,(int)g.resX,(int)g.resY);
+	}
+	
+	public GameTeam getTeamById(int team) {
+		for(GameTeam t : this.teams)
+			if(t.id == team)
+				return t;
+		return null;
 	}
 
 	public void addPlayer(String name){
-		this.g.players.addElement(new Player(this,g.players.size(),name,1,0));
+		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
+		nPlayers+=1;
 		
 		// adding components in plateau
 		this.selection.addElement(new Vector<ActionObjet>());
@@ -177,9 +194,10 @@ public class Plateau {
 	}
 	
 	public void removePlayer(int indice){
-		if(indice==0 || indice>=g.players.size())
+		if(indice==0 || indice>=players.size())
 			return;
-		g.players.remove(indice);
+		players.remove(indice);
+		nPlayers -= 1;
 
 		// deleting component from plateau
 		this.selection.remove(indice);
@@ -283,12 +301,12 @@ public class Plateau {
 			}
 			for(int k=0; k<10; k++){
 				toDelete.clear();
-				for(ActionObjet c: this.g.players.get(i).groups.get(k)){
+				for(ActionObjet c: this.players.get(i).groups.get(k)){
 					if(!c.isAlive())
 						toDelete.add(c);
 				}
 				for(ActionObjet c: toDelete){
-					this.g.players.get(i).groups.get(k).remove(c);
+					this.players.get(i).groups.get(k).remove(c);
 				}
 			}
 		}
@@ -481,7 +499,7 @@ public class Plateau {
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o.team!=caller.team && o.collisionBox.intersects(caller.sightBox)){
+			if(o.getTeam()!=caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -490,7 +508,7 @@ public class Plateau {
 	public Vector<Objet> getAlliesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o!=caller && o.team==caller.team && o.collisionBox.intersects(caller.sightBox)){
+			if(o!=caller && o.getTeam()==caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -499,7 +517,7 @@ public class Plateau {
 	public Vector<Objet> getWoundedAlliesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o!=caller && o.team==caller.team && o.lifePoints<o.maxLifePoints && o.collisionBox.intersects(caller.sightBox)){
+			if(o!=caller && o.getTeam()==caller.getTeam() && o.lifePoints<o.maxLifePoints && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -543,7 +561,7 @@ public class Plateau {
 		// 1 - Handling inputs 
 		InputModel im;
 		for(int player = 1; player<=nPlayers; player++){
-			if(g.inMultiplayer && !g.host && player!=g.currentPlayer.id)
+			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
 			im = null;
 			for(InputModel inp : ims)
@@ -557,10 +575,10 @@ public class Plateau {
 					this.handleRightClick(im,player);
 					// handling only the current player
 				}
-				if(player == this.g.currentPlayer.id){
+				if(player == this.currentPlayer.id){
 					if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 						this.handleView(im, player);
-						this.handleSelection(im, player, g.players.get(player).team);
+						this.handleSelection(im, player,players.get(player).team);
 					}
 				} else {
 					this.updateSelection(im);
@@ -643,10 +661,10 @@ public class Plateau {
 
 	private void handleSpellsOnField(InputModel im, int player) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
-			if(this.g.players.get(player).selection.size()>0){
-				Character c = (Character)this.g.players.get(player).selection.get(0); 
+			if(this.players.get(player).selection.size()>0){
+				Character c = (Character)this.players.get(player).selection.get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
-				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.players.get(player).selection.get(0));
 				c.spellsState.set(castingSpell.get(player),0f);
 			}
 			isCastingSpell.set(player,false);
@@ -706,7 +724,7 @@ public class Plateau {
 		// Handle the display (camera movement & minimap)
 
 		// camera movement
-		if(!isCastingSpell.get(player) && player==this.g.currentPlayer.id && this.rectangleSelection==null && !im.leftClick){
+		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<Ycam+5)&&Ycam>-g.resY/2){
 				Ycam -= 20;
@@ -723,9 +741,9 @@ public class Plateau {
 			//Displaying the selected group
 			for(int to=0; to<10; to++){
 				if(im.isPressedNumPad[to]){
-					if(this.g.players.get(player).groupSelection == to && this.g.players.get(player).groups.get(to).size()>0){
-						float xmoy=this.g.players.get(player).groups.get(to).get(0).getX();
-						float ymoy=this.g.players.get(player).groups.get(to).get(0).getY();
+					if(this.players.get(player).groupSelection == to && this.players.get(player).groups.get(to).size()>0){
+						float xmoy=this.players.get(player).groups.get(to).get(0).getX();
+						float ymoy=this.players.get(player).groups.get(to).get(0).getY();
 						this.Xcam = Math.min(maxX-g.resX/2f, Math.max(-g.resX/2f, xmoy-g.resX/2f));
 						this.Ycam = Math.min(maxY-g.resY/2f, Math.max(-g.resY/2f, ymoy-g.resY/2f));
 					}
@@ -734,16 +752,16 @@ public class Plateau {
 		}
 		// minimap
 		if(im.isPressedA){
-			BottomBar b = this.g.players.get(player).bottomBar;
+			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
-			if(im.leftClick && player==this.g.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
+			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
 				// Put camera where the click happened
 				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
 				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
 
 			}
-			if(im.rightClick && player==this.g.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
+			if(im.rightClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
 				// Handle right click
 				if(im.isPressedMAJ){
@@ -755,11 +773,11 @@ public class Plateau {
 			}
 		}
 		else{
-			BottomBar b = this.g.players.get(player).bottomBar;
+			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = false;
 		}
 		// display for the bottom bar
-		BottomBar bb = g.currentPlayer.bottomBar;
+		BottomBar bb = currentPlayer.bottomBar;
 		float relativeXMouse = (im.xMouse-Xcam);
 		float relativeYMouse = (im.yMouse-Ycam);
 		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
@@ -780,7 +798,7 @@ public class Plateau {
 	// drawing fog of war method
 	public void drawFogOfWar(Graphics g){
 		Vector<Objet> visibleObjet = new Vector<Objet>();
-		visibleObjet = this.getInCamObjets(this.g.currentPlayer.team);
+		visibleObjet = this.getInCamObjets(this.currentPlayer.team);
 		float resX = this.g.resX;
 		float resY = this.g.resY;
 		this.gf.setColor(new Color(255,255,255));
@@ -805,22 +823,22 @@ public class Plateau {
 		//return all objects from a team in the camera view 
 		Vector<Objet> obj = new Vector<Objet>();
 		for(Character c: this.characters)
-			if(c.team==team && c.visibleByCamera)
+			if(c.getTeam()==team && c.visibleByCamera)
 				obj.add(c);
 		for(Building c: this.buildings)
-			if(c.team==team && c.visibleByCamera)
+			if(c.getTeam()==team && c.visibleByCamera)
 				obj.add(c);
 		return obj;
 	}
 	public boolean isVisibleByPlayer(int team, Objet objet){
-		if(objet.team==team)
+		if(objet.getTeam()==team)
 			return true;
 		float r = objet.collisionBox.getBoundingCircleRadius();
 		for(Character c: this.characters)
-			if(c.team==team && Utils.distance(c, objet)<c.sight+r)
+			if(c.getTeam()==team && Utils.distance(c, objet)<c.sight+r)
 				return true;
 		for(Building b: this.buildings)
-			if(b.team==team && Utils.distance(b,  objet)<b.sight+r)
+			if(b.getTeam()==team && Utils.distance(b,  objet)<b.sight+r)
 				return true;
 		return false;
 	}
@@ -829,19 +847,19 @@ public class Plateau {
 	}
 	private void updateVisibility() {
 		for(Character c:this.characters){
-			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer.team, c);
+			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, c);
 			c.visibleByCamera =this.isVisibleByCamera(c);
 		}
 		for(Building b:this.buildings){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer.team, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 		for(Bullet b:this.bullets){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer.team, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 		for(SpellEffect b:this.spells){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer.team, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 	}
@@ -856,19 +874,19 @@ public class Plateau {
 				}
 				if(im.isPressedCTRL){
 					// Creating a new group made of the selection
-					this.g.players.get(player).groups.get(to).clear();
+					this.players.get(player).groups.get(to).clear();
 					for(ActionObjet c: this.selection.get(player))
-						this.g.players.get(player).groups.get(to).add(c);
+						this.players.get(player).groups.get(to).add(c);
 				} else if(im.isPressedMAJ){
 					// Adding the current selection to the group
 					for(ActionObjet c: this.selection.get(player))
-						this.g.players.get(player).groups.get(to).add(c);
+						this.players.get(player).groups.get(to).add(c);
 				} else {
 					this.selection.get(player).clear();
-					for(ActionObjet c: this.g.players.get(player).groups.get(to))
+					for(ActionObjet c: this.players.get(player).groups.get(to))
 						this.selection.get(player).add(c);
 				}
-				this.g.players.get(player).groupSelection = to;
+				this.players.get(player).groupSelection = to;
 			}
 		}
 		// Cleaning the rectangle and buffer if mouse is released
@@ -880,8 +898,8 @@ public class Plateau {
 		if(im.isPressedTAB){
 			if(this.selection.get(player).size()>0){
 				Utils.switchTriName(this.selection.get(player));
-				if(this.g.players.get(player).groupSelection!=-1)
-					Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
+				if(this.players.get(player).groupSelection!=-1)
+					Utils.switchTriName(this.players.get(player).groups.get(this.players.get(player).groupSelection));
 			}
 		}
 		//update the rectangle
@@ -900,9 +918,9 @@ public class Plateau {
 		}
 
 		// Update the selections of the players
-		this.g.players.get(player).selection.clear();
+		this.players.get(player).selection.clear();
 		for(ActionObjet c: this.selection.get(player))
-			this.g.players.get(player).selection.addElement(c);
+			this.players.get(player).selection.addElement(c);
 
 	}
 	private void updateRectangle(InputModel im, int player) {
@@ -924,20 +942,20 @@ public class Plateau {
 			}
 			this.inRectangle.clear();
 			for(Character o: characters){
-				if(o.collisionBox.intersects(select) && o.team==team){
+				if(o.collisionBox.intersects(select) && o.getTeam()==team){
 					this.selection.get(player).add(o);
 					this.inRectangle.addElement(o);
 				}
 			}
 			if(this.toAddSelection.get(player).size()==0){
 				for(Building o: buildings){
-					if(o.collisionBox.intersects(select) && o.team==team){
+					if(o.collisionBox.intersects(select) && o.getTeam()==team){
 						this.selection.get(player).add(o);
 						this.inRectangle.addElement(o);
 					}
 				}
 			}
-			this.g.players.get(player).groupSelection = -1;
+			this.players.get(player).groupSelection = -1;
 		}
 
 	}
@@ -946,7 +964,7 @@ public class Plateau {
 			this.clearSelection(player);
 			//handling the selection
 			for(Character o: characters){
-				if(o.collisionBox.intersects(select) && o.team==team){
+				if(o.collisionBox.intersects(select) && o.getTeam()==team){
 					//add character to team selection
 					this.addSelection(o, player);
 				}
@@ -955,7 +973,7 @@ public class Plateau {
 			if(this.toAddSelection.get(player).size()==0){
 
 				for(Building o: buildings){
-					if(o.collisionBox.intersects(select) && o.team==team){
+					if(o.collisionBox.intersects(select) && o.getTeam()==team){
 						//add character to team selection
 						this.addSelection(o, player);
 					}
@@ -966,21 +984,21 @@ public class Plateau {
 				ActionObjet ao = this.toAddSelection.get(player).get(0);
 				if(ao instanceof Character){
 					for(Character o: characters){
-						if(o.team==team && o.name==ao.name && visibles.contains(o)){
+						if(o.getTeam()==team && o.name==ao.name && visibles.contains(o)){
 							//add character to team selection
 							this.addSelection(o, player);
 						}
 					}
 				} else if(ao instanceof Building){
 					for(Building o: buildings){
-						if(o.team==team && o.name==ao.name && visibles.contains(o)){
+						if(o.getTeam()==team && o.name==ao.name && visibles.contains(o)){
 							//add character to team selection
 							this.addSelection(o, player);
 						}
 					}
 				}
 			}
-			this.g.players.get(team).groupSelection = -1;
+			this.players.get(team).groupSelection = -1;
 		}
 	}
 	public void clearSelection(int player){
@@ -1000,7 +1018,7 @@ public class Plateau {
 		//PLAYERS
 		String s = "1 separation ";
 		// TODO handle more player
-		s+=this.g.players.get(3-this.g.currentPlayer.team);
+		s+=this.players.get(3-this.currentPlayer.team);
 		//CHARACTER
 		s += " separation ";
 		for(Character c : this.characters){
@@ -1036,7 +1054,7 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split(" separation ");
 			//Take care of player
-			this.g.players.get(g.currentPlayer.id).parsePlayer(u[1]);
+			this.players.get(currentPlayer.id).parsePlayer(u[1]);
 			//double chrono1 = System.nanoTime();
 			parseCharacter(u[2]);
 			//System.out.println("bullets : "+(System.nanoTime()-chrono1));
@@ -1206,6 +1224,8 @@ public class Plateau {
 			}
 		}
 	}
+
+	
 
 
 }

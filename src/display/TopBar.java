@@ -58,11 +58,11 @@ public class TopBar extends Bar {
 
 		// Draw Ressources
 		g.drawImage(this.imageFood, 5*this.sizeX/8,(this.sizeY-24)/2);
-		g.drawString(": "+this.player.food, 5.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawString(": "+this.player.gameteam.food, 5.2f*this.sizeX/8,(this.sizeY-28)/2);
 		g.drawImage(this.imageGold, 6*this.sizeX/8,(this.sizeY-24)/2);
-		g.drawString(": "+this.player.gold, 6.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawString(": "+this.player.gameteam.gold, 6.2f*this.sizeX/8,(this.sizeY-28)/2);
 		g.drawImage(this.imageSpecial, 7*this.sizeX/8,(this.sizeY-32)/2);
-		g.drawString(": "+this.player.special, 7.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawString(": "+this.player.gameteam.special, 7.2f*this.sizeX/8,(this.sizeY-28)/2);
 		// Draw separation 
 
 		return g;

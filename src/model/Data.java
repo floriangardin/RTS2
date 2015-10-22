@@ -13,13 +13,12 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
-import units.UnitTest;
 import units.UnitsList;
 
 public class Data {
 
 
-	Player player;
+	GameTeam gameteam;
 	Plateau p;
 
 	public final float ACC;
@@ -35,7 +34,6 @@ public class Data {
 	public UnitInquisitor inquisitor;
 	public UnitCrossbowman crossbowman;
 	public UnitArchange archange;
-	public UnitTest test;
 	//// BUILDINGS STATS
 	//headQuarters
 	public int headQuartersLifePoints = 200;
@@ -105,26 +103,26 @@ public class Data {
 	// Ressources
 	public int bonusFood = 0;
 	public int bonusGold = 0;
-	public Data(Plateau plateau, Player player,int framerate){
+	public Data(Plateau plateau, GameTeam gameteam,int framerate){
 		this.p = plateau;
-		this.player = player;
+		this.gameteam = gameteam;
 		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = framerate;
 		// Init spells
-		this.firewall = new SpellFirewall(p,player);
-		this.blessedArea = new SpellBlessedArea(p,player);
-		this.immolation = new SpellImmolation(p,player);
-		this.conversion = new SpellConversion(p,player);
-		this.instantDeath = new SpellInstantDeath(p,player);
-		this.instantHealth = new SpellInstantHealth(p,player);
+		this.firewall = new SpellFirewall(p,gameteam);
+		this.blessedArea = new SpellBlessedArea(p,gameteam);
+		this.immolation = new SpellImmolation(p,gameteam);
+		this.conversion = new SpellConversion(p,gameteam);
+		this.instantDeath = new SpellInstantDeath(p,gameteam);
+		this.instantHealth = new SpellInstantHealth(p,gameteam);
 		// Init unit 
-		this.spearman = new UnitSpearman(p,player,this);
-		this.crossbowman = new UnitCrossbowman(p,player,this);
-		this.knight = new UnitKnight(p,player,this);
-		this.priest = new  UnitPriest(p,player,this);
-		this.inquisitor = new UnitInquisitor(p,player,this);
-		this.archange = new UnitArchange(p,player,this);
+		this.spearman = new UnitSpearman(p,gameteam,this);
+		this.crossbowman = new UnitCrossbowman(p,gameteam,this);
+		this.knight = new UnitKnight(p,gameteam,this);
+		this.priest = new  UnitPriest(p,gameteam,this);
+		this.inquisitor = new UnitInquisitor(p,gameteam,this);
+		this.archange = new UnitArchange(p,gameteam,this);
 		//this.test = new UnitTest(p,player,this);
 	}
 
@@ -133,35 +131,27 @@ public class Data {
 		switch(which){
 		case Spearman:
 			c =  new UnitSpearman(this.spearman,x ,y,-1);	
-			c.player = this.player;
 			break;
 		case Knight:
-			c = new UnitKnight(this.knight,x ,y,-1);	
-			c.player = this.player;
+			c = new UnitKnight(this.knight,x ,y,-1);
 			break;
 		case Priest:
 			c =  new UnitPriest(this.priest,x ,y,-1);
-			c.player = this.player;
 			break;	
 		case Crossbowman:
 			c =  new UnitCrossbowman(this.crossbowman,x ,y,-1);
-			c.player = this.player;
 			break;	
 		case Inquisitor:
 			c =  new UnitInquisitor(this.inquisitor,x ,y,-1);
-			c.player = this.player;
 			break;
 		case Archange:
 			c = new UnitArchange(this.archange,x,y,-1);
-			c.player = this.player;
-			break;
-		case Test:
-			c = new UnitTest(this.test,x,y,-1);
-			c.player = this.player;
 			break;
 		default:
 			c = null;
 		}
+		if(c!=null)
+			c.setTeam(this.gameteam.id);
 		return c;
 
 	}

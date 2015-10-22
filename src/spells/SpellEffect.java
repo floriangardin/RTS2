@@ -5,7 +5,6 @@ import java.util.HashMap;
 import model.ActionObjet;
 import model.Game;
 import model.Plateau;
-import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 import model.Checkpoint;
 public class SpellEffect extends ActionObjet{

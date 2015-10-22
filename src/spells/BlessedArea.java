@@ -9,7 +9,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Plateau;
-import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 
 public class BlessedArea extends SpellEffect{
@@ -48,17 +47,7 @@ public class BlessedArea extends SpellEffect{
 		this.createAnimation();
 	}
 	
-	public BlessedArea(Plateau p, OutputSpell s){
-		this.id = s.id;
-		p.g.idChar+=1;
-		this.lifePoints = 1f;
-		p.addSpell(this);
-		this.image = p.g.images.blessedArea;
-		this.x = s.x1;
-		this.y = s.y1;
-		this.collisionBox = new Rectangle(x-size/2f,y-size/2f,size,size);
-		this.createAnimation();
-	}
+	
 
 	public void createAnimation(){
 		animationX[0] = this.getX()+size/4f;
@@ -127,7 +116,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void collision(Character c){
-		if(this.lifePoints>0 && c.team==owner.team && !this.targeted.contains(c)){
+		if(this.lifePoints>0 && c.getTeam()==owner.getTeam() && !this.targeted.contains(c)){
 			c.chargeTime*=this.effect;
 			this.targeted.addElement(c);
 		}

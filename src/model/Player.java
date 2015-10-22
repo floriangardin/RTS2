@@ -13,28 +13,19 @@ import units.Character;
 import units.UnitsList;
 
 public class Player {
-	public int civ;
-	public String civName;
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
 	public Plateau p;
 	
 	public int id;
+	public GameTeam gameteam;
 	public int team;
 	public String nickname;
 	public int groupSelection;
-	public int ennemiesKilled;
-	public Data data;
-	public int food;
-	public int gold;
-	public int special;
-	public int pop;
 	public BottomBar bottomBar;
 	public TopBar topBar;
-	public BuildingHeadQuarters hq ;
-	public Player(Plateau p ,int id,String name, int team,int civ) {
-		this.civ  = civ;
-		civName = "Dualists";
+	public Data data;
+	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
 		this.id = id;
 		this.nickname = name;
 		this.p = p;
@@ -42,28 +33,21 @@ public class Player {
 		this.groups = new Vector<Vector<ActionObjet>>();
 		for(int i=0; i<10; i++)
 			this.groups.add(new Vector<ActionObjet>());
-		this.team = team;
-		food = 0;
-		gold = 0;
-		pop = 0;
-		special = 0;
 		groupSelection = -1;
-		ennemiesKilled = 0 ;
-		this.data = new Data(this.p,this,Main.framerate);
+		this.gameteam = gameteam;
+		this.team = gameteam.id;
+		this.data = gameteam.data;
 	}
 	
 	
-	public Character create(UnitsList u,float x , float y){
-		Character c = this.data.create(u,x,y);
-		return c;
-	}
+	
 	
 	public String toString(){
 		String s ="";
 		s+="team:"+team+";";
-		s+="gold:"+gold+";";
-		s+="food:"+food+";";
-		s+="special:"+special+";";
+		s+="gold:"+gameteam.gold+";";
+		s+="food:"+gameteam.food+";";
+		s+="special:"+gameteam.special+";";
 		return s;
 		
 	}
@@ -78,16 +62,21 @@ public class Player {
 			hs.put(r[0], r[1]);
 		}
 		if(hs.containsKey("food")){
-			food=Integer.parseInt(hs.get("food"));
+			gameteam.food=Integer.parseInt(hs.get("food"));
 		}
 		if(hs.containsKey("gold")){
-			gold=Integer.parseInt(hs.get("gold"));
+			gameteam.gold=Integer.parseInt(hs.get("gold"));
 		}
 		if(hs.containsKey("special")){
-			special=Integer.parseInt(hs.get("special"));
+			gameteam.special=Integer.parseInt(hs.get("special"));
 		}
 		if(hs.containsKey("team")){
-			team=Integer.parseInt(hs.get("team"));
+			for(GameTeam t : this.p.teams){
+				if(t.id == Integer.parseInt(hs.get("team"))){
+					this.gameteam = t;
+					this.team = t.id;
+				}
+			}
 		}
 	}
 

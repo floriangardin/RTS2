@@ -16,12 +16,12 @@ public class BuildingStable extends BuildingProduction{
 	public BuildingStable(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		
-		team = 0;
 		this.p = plateau ;
-		maxLifePoints = p.g.players.get(team).data.stableLifePoints;
-		this.sizeX = this.p.g.players.get(team).data.stableSizeX; 
-		this.sizeY = this.p.g.players.get(team).data.stableSizeY;
-		this.sight = this.p.g.players.get(team).data.stableSight;
+		this.setTeam(0);
+		maxLifePoints = getGameTeam().data.stableLifePoints;
+		this.sizeX = this.getGameTeam().data.stableSizeX; 
+		this.sizeY = this.getGameTeam().data.stableSizeY;
+		this.sight = this.getGameTeam().data.stableSight;
 		this.name = "stable";
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 2;
@@ -33,9 +33,9 @@ public class BuildingStable extends BuildingProduction{
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(team==1){
+		if(getTeam()==1){
 			this.image = this.p.g.images.buildingStableBlue;
-		} else if(team==2){
+		} else if(getTeam()==2){
 			this.image = this.p.g.images.buildingStableRed;
 		} else {
 			this.image = this.p.g.images.buildingStableNeutral;

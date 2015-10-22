@@ -33,7 +33,8 @@ public abstract class Objet {
 	public Plateau p;
 	public float lifePoints;
 	public String name;
-	public int team;
+	private int team;
+	private GameTeam gameteam;
 
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
@@ -47,6 +48,20 @@ public abstract class Objet {
 	}
 	public String getName(){
 		return this.name;
+	}
+	public int getTeam(){
+		return team;
+	}
+	public GameTeam getGameTeam(){
+		return gameteam;
+	}
+	public void setTeam(int i){
+		this.team = i;
+		for(GameTeam t : this.p.teams){
+			if(t.id==i){
+				this.gameteam = t;
+			}
+		}
 	}
 	protected void destroy(){
 		this.lifePoints = -10;
@@ -161,9 +176,6 @@ public abstract class Objet {
 	}
 
 	
-	public void setTeam(int team){
-		this.team = team;
-	}
 	
 }
 

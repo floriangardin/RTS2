@@ -3,14 +3,14 @@ package technologies;
 import org.newdawn.slick.Image;
 
 import model.Data;
+import model.GameTeam;
 import model.Plateau;
-import model.Player;
 
 public abstract class Technologie {
 
 	public Technologies tech;
 	public Plateau p;
-	public Player player;
+	public GameTeam gameteam;
 	public Data data;
 	public boolean isDiscovered;
 	public Technologie techRequired;
@@ -24,22 +24,22 @@ public abstract class Technologie {
 	
 	
 	
-	public static Technologie technologie(int i,Plateau p , Player player){
+	public static Technologie technologie(int i,Plateau p , GameTeam gameteam){
 		switch(i){
-		case 0: return new DualistAge2(p,player);
-		case 1: return new DualistAge3(p,player);
-		case 2: return new DualistBonusFood(p,player);
-		case 3: return new DualistBonusGold(p,player);
-		case 4: return new 	DualistShield2(p,player);
-		case 5: return new DualistHealth2(p,player);
-		case 6: return new 	DualistShield3(p,player);
-		case 7: return new DualistHealth3(p,player);
-		case 8: return new 	DualistContact2(p,player);
-		case 9: return new DualistRangeAttack2(p,player);
-		case 10: return new DualistContact3(p,player);
-		case 11: return new DualistRangeAttack3(p,player);
-		case 12: return new DualistExplosion(p,player);
-		case 13: return new DualistEagleView(p,player);
+		case 0: return new DualistAge2(p,gameteam);
+		case 1: return new DualistAge3(p,gameteam);
+		case 2: return new DualistBonusFood(p,gameteam);
+		case 3: return new DualistBonusGold(p,gameteam);
+		case 4: return new 	DualistShield2(p,gameteam);
+		case 5: return new DualistHealth2(p,gameteam);
+		case 6: return new 	DualistShield3(p,gameteam);
+		case 7: return new DualistHealth3(p,gameteam);
+		case 8: return new 	DualistContact2(p,gameteam);
+		case 9: return new DualistRangeAttack2(p,gameteam);
+		case 10: return new DualistContact3(p,gameteam);
+		case 11: return new DualistRangeAttack3(p,gameteam);
+		case 12: return new DualistExplosion(p,gameteam);
+		case 13: return new DualistEagleView(p,gameteam);
 		default : return null;
 		}
 	}

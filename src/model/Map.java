@@ -60,8 +60,8 @@ public class Map {
 
 	public static void createMapLan(Game game){
 		game.plateau.setMaxXMaxY(2000f, 3000f);
-		Data data1 = game.players.get(1).data;
-		Data data2 = game.players.get(2).data;
+		Data data1 = game.plateau.players.get(1).data;
+		Data data2 = game.plateau.players.get(2).data;
 		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f, 300f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,100f,1);
 		
@@ -102,8 +102,8 @@ public class Map {
 		
 	public static void createMapDuel(Game game){
 		game.plateau.setMaxXMaxY(2000f, 3000f);
-		Data data1 = game.players.get(1).data;
-		Data data2 = game.players.get(2).data;
+		Data data1 = game.plateau.players.get(1).data;
+		Data data2 = game.plateau.players.get(2).data;
 		data1.create(UnitsList.Spearman, game.plateau.maxX-300f, game.plateau.maxY/2+3f);
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,200f,game.plateau.maxY/2,1);
 		
@@ -148,24 +148,24 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.players.get(1).data;
-		Data data2 = game.players.get(2).data;
+		Data data1 = game.plateau.players.get(1).data;
+		Data data2 = game.plateau.players.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 		
 		//data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
 		for(int i = 0;i<1;i++){
-			data1.player.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
+			data1.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
 		}
 			
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
-		data1.player.gold = 1000;
-		data1.player.food = 1000;
+		data1.gameteam.gold = 1000;
+		data1.gameteam.food = 1000;
 		
 		for(int i = 0;i<1;i++){
-			data2.player.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
+			data2.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
 		}
 		
 		
@@ -178,8 +178,8 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.players.get(1).data;
-		Data data2 = game.players.get(2).data;
+		Data data1 = game.plateau.players.get(1).data;
+		Data data2 = game.plateau.players.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,0f,0f,1);
 		new BuildingHeadQuarters(game.plateau,game,X-200f,0f,2);
@@ -188,18 +188,18 @@ public class Map {
 		
 		//data1.player.create(UnitsList.Spearman, 2*X/9 + (float)Math.random(), Y/2+(float)Math.random());
 		for(int i = 0;i<1;i++){
-			data1.player.create(UnitsList.Inquisitor, 2*X/9+i - 1f, Y/2);
+			data1.create(UnitsList.Inquisitor, 2*X/9+i - 1f, Y/2);
 			//data1.player.create(UnitsList.Spearman, 2*X/9+i - 1f, Y/2+1f);
 		}
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
-		data1.player.gold = 1000;
-		data1.player.food = 1000;
+		data1.gameteam.gold = 1000;
+		data1.gameteam.food = 1000;
 		
-		data2.player.gold = 1000;
-		data2.player.food = 1000;
+		data2.gameteam.gold = 1000;
+		data2.gameteam.food = 1000;
 		
 		for(int i = 0;i<1;i++){
-			data2.player.create(UnitsList.Inquisitor, 7*X/9+i - 1f, Y/2);
+			data2.create(UnitsList.Inquisitor, 7*X/9+i - 1f, Y/2);
 			//data2.player.create(UnitsList.Spearman, 7*X/9+i - 1f, Y/2+1f);
 		}
 		
@@ -211,8 +211,8 @@ public class Map {
 		game.plateau.setMaxXMaxY(5000f, 2500f);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.players.get(1).data;
-		Data data2 = game.players.get(2).data;
+		Data data1 = game.plateau.players.get(1).data;
+		Data data2 = game.plateau.players.get(2).data;
 		//HQ
 		new BuildingHeadQuarters(game.plateau,game,3*X/18,Y/2,1);
 		new BuildingHeadQuarters(game.plateau,game,15*X/18,Y/2,2);
@@ -235,7 +235,7 @@ public class Map {
 		new BuildingMine(game.plateau,game,17*X/18,1*Y/5);
 		
 		BuildingBarrack bar = new BuildingBarrack(game.plateau,game,3*X/18,1*Y/5);
-		bar.team = 1;
+
 		new BuildingBarrack(game.plateau,game,15*X/18,1*Y/5);
 		
 		new BuildingBarrack(game.plateau,game,3*X/18,4*Y/5);
@@ -250,12 +250,12 @@ public class Map {
 		new BuildingAcademy(game.plateau,game,X/2,Y/2);
 
 		for(int c =0; c<20; c++)
-			data1.player.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
+			data1.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
-		data1.player.gold = 1000;
-		data1.player.food = 1000;
-		data2.player.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
+		data1.gameteam.gold = 1000;
+		data1.gameteam.food = 1000;
+		data2.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
 
 		// Water
 
@@ -272,23 +272,23 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.players.get(1).data;
-		Data data2 = game.players.get(2).data;
+		Data data1 = game.plateau.players.get(1).data;
+		Data data2 = game.plateau.players.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 
-		data1.player.create(UnitsList.Crossbowman, X/9 - 1f, Y/2);
-		data1.player.create(UnitsList.Spearman, X/9 - 2f, Y/2);
-		data1.player.create(UnitsList.Knight, X/9 - 3f, Y/2);
-		data1.player.create(UnitsList.Priest, X/9 - 4f, Y/2);
-		data1.player.create(UnitsList.Inquisitor, X/9 - 5f, Y/2);
+		data1.create(UnitsList.Crossbowman, X/9 - 1f, Y/2);
+		data1.create(UnitsList.Spearman, X/9 - 2f, Y/2);
+		data1.create(UnitsList.Knight, X/9 - 3f, Y/2);
+		data1.create(UnitsList.Priest, X/9 - 4f, Y/2);
+		data1.create(UnitsList.Inquisitor, X/9 - 5f, Y/2);
 		
-		data2.player.create(UnitsList.Crossbowman, 8*X/9 - 1f, Y/2);
-		data2.player.create(UnitsList.Spearman, 8*X/9 - 2f, Y/2);
-		data2.player.create(UnitsList.Knight, 8*X/9 - 3f, Y/2);
-		data2.player.create(UnitsList.Priest, 8*X/9 - 4f, Y/2);
-		data2.player.create(UnitsList.Inquisitor, 8*X/9 - 5f, Y/2);
+		data2.create(UnitsList.Crossbowman, 8*X/9 - 1f, Y/2);
+		data2.create(UnitsList.Spearman, 8*X/9 - 2f, Y/2);
+		data2.create(UnitsList.Knight, 8*X/9 - 3f, Y/2);
+		data2.create(UnitsList.Priest, 8*X/9 - 4f, Y/2);
+		data2.create(UnitsList.Inquisitor, 8*X/9 - 5f, Y/2);
 
 	}
 	

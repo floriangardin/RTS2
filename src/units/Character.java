@@ -15,13 +15,12 @@ import buildings.Building;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
+import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 import model.RidableObjet;
 import model.Utils;
-import multiplaying.OutputModel.OutputChar;
 import pathfinding.Case;
 import spells.Spell;
 
@@ -54,7 +53,7 @@ public class Character extends ActionObjet{
 	public RidableObjet horse;
 
 	public int typeWeapon, typeHorse;
-	public Player player;
+	//public Player player;
 	// About drawing
 	public float animationValue=0f;
 
@@ -77,18 +76,17 @@ public class Character extends ActionObjet{
 
 
 	// Constructor for data ( not adding in plateau not giving location)
-	public Character(Plateau p,Player player){
+	public Character(Plateau p, GameTeam gameteam){
 		this.p = p;
 		this.animations = new Image[1][4][4];
-		this.player = player;
-		this.team = player.team;
+		this.setTeam(gameteam.id);
 		this.name = "character";
 		this.selection_circle = this.p.g.images.selection_circle;
 		Image imagea = this.p.g.images.corps;
 		Image imageb = this.p.g.images.corps;
-		if(team==1)
+		if(getTeam()==1)
 			imageb = this.p.g.images.blue;
-		if(team==2)
+		if(getTeam()==2)
 			imageb = this.p.g.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.size = 20f;
@@ -109,7 +107,7 @@ public class Character extends ActionObjet{
 			this.id = id;
 		}
 		this.name = c.name;
-		this.team = c.team;
+		this.setTeam(c.getTeam());
 		this.damage = c.damage;
 		this.maxLifePoints = c.maxLifePoints;
 		this.lifePoints = c.maxLifePoints;
@@ -199,7 +197,7 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 	//Update functions
-	@Deprecated
+
 	public void updateImage(){
 		//Handling the team
 		Image imagea = this.p.g.images.corps;
@@ -208,11 +206,11 @@ public class Character extends ActionObjet{
 		Image imageb = this.p.g.images.corps;
 		Image imagec = this.p.g.images.corps;
 		Image imaged = null;
-		if(team==1){
+		if(getTeam()==1){
 			imageb = this.p.g.images.blue;
 			imagec = this.p.g.images.horseBlue;
 		}
-		if(team==2){
+		if(getTeam()==2){
 			imageb = this.p.g.images.red;
 			imagec = this.p.g.images.horseRed;
 		}
@@ -274,13 +272,13 @@ public class Character extends ActionObjet{
 			// IA sp�cifique
 			Vector<Character> enemies = new Vector<Character>();
 			for(Character c: this.p.characters)
-				if(c.team!=this.team)
+				if(c.getTeam()!=this.getTeam())
 					enemies.add(c);
 			this.moveToward(this.ia.moveInBattle(enemies));
 			this.updateSetTarget();
 			Circle range = new Circle(this.getX(), this.getY(), this.range);
 			if(!(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox)))){
-				if(state>=chargeTime && this.target!=null && this.target.team!=this.team && this.target instanceof Character){
+				if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
 					this.useWeapon();
 				}
 			}
@@ -332,7 +330,7 @@ public class Character extends ActionObjet{
 		newvx = o.getX()-this.getX();
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
-		float maxVNorm = this.maxVelocity/((float)this.p.g.players.get(team).data.FRAMERATE);
+		float maxVNorm = this.maxVelocity/((float)this.getGameTeam().data.FRAMERATE);
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
@@ -373,7 +371,7 @@ public class Character extends ActionObjet{
 		this.setVXVY(newvx, newvy);
 
 		this.setXY(newX, newY);
-		this.animationValue+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+		this.animationValue+=4f/(float)this.getGameTeam().data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
@@ -694,31 +692,13 @@ public class Character extends ActionObjet{
 
 	//// Changing the team
 	public void changeTeam(int newTeam){
-		this.team = newTeam;
-		this.player = this.p.g.players.get(newTeam);
+		this.setTeam( newTeam);
 		this.updateImage();
 	}
 
 	//// UPDATE FUNCTIONS
 
-	// update from an outputchar
-	public void change(OutputChar occ){
-		if(occ.team!=this.team)
-			this.changeTeam(occ.team);
-		this.setXY(occ.x, occ.y);
-		this.lifePoints = occ.lifePoints;
-		this.animation = occ.animation;
-		this.orientation = occ.direction;
-		this.sight = occ.sight;
-		this.isImmolating = (occ.isImmolating==1);
-		for(int i=0; i<this.spells.size();i++)
-			this.spellsState.set(i,occ.spellState[i]);
-		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
-			return;
-		//this.changeEquipment(occ.weaponType, occ.horseType);
-	}
-
-
+	
 	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
 		if(t!=null){
@@ -780,7 +760,7 @@ public class Character extends ActionObjet{
 			}
 		}else{
 			this.stop();
-			if(state>=chargeTime && this.target!=null && this.target.team!=this.team && this.target instanceof Character){
+			if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
 				this.useWeapon();
 			}
 		}
@@ -804,7 +784,7 @@ public class Character extends ActionObjet{
 		this.remainingTime-=1f;
 		if(this.remainingTime<=0f){
 			this.lifePoints=-1f;
-			this.player.special+=this.player.data.gainedFaithByImmolation;
+			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 		}
 		this.changes.isImmolating=true;
 		this.changes.remainingTime = true;
@@ -839,18 +819,16 @@ public class Character extends ActionObjet{
 		if(this.getTarget() instanceof Character){
 
 			Character c =(Character) this.getTarget();
-			if(c.team!=this.team && !c.collisionBox.intersects(this.sightBox)){
+			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
 			}
 		}
 	}
 	public void updateAnimation(){
 		if(this.vx>0 ||this.vy>0){
-			this.incrementf+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+			this.incrementf+=4f/(float)this.getGameTeam().data.FRAMERATE;
 		}
-		if(this instanceof UnitTest)
-			this.increment= ((int)this.incrementf)%this.animations[0][0].length;
-		//Choose mode
+		
 
 	}
 
@@ -946,26 +924,23 @@ public class Character extends ActionObjet{
 		float y = Float.parseFloat(hs.get("y"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.players.get(g.currentPlayer).data.spearman,x,y,id);	
+			c =  new UnitSpearman(g.plateau.currentPlayer.gameteam.data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.players.get(g.currentPlayer).data.knight,x,y,id);	
+			c = new UnitKnight(g.plateau.currentPlayer.gameteam.data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.players.get(g.currentPlayer).data.priest,x,y,id);
+			c =  new UnitPriest(g.plateau.currentPlayer.gameteam.data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.players.get(g.currentPlayer).data.crossbowman,x,y,id);
+			c =  new UnitCrossbowman(g.plateau.currentPlayer.gameteam.data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.players.get(g.currentPlayer).data.inquisitor,x,y,id);
+			c =  new UnitInquisitor(g.plateau.currentPlayer.gameteam.data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.players.get(g.currentPlayer).data.archange,x,y,id);
-			break;
-		case "test":
-			c = new UnitTest(g.players.get(g.currentPlayer).data.test,x,y,id);
+			c = new UnitArchange(g.plateau.currentPlayer.gameteam.data.archange,x,y,id);
 			break;
 		default:
 			c = null;

@@ -2,13 +2,11 @@ package bullets;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
 import model.Changes;
 import model.Plateau;
-import multiplaying.OutputModel.OutputBullet;
 import units.Character;
 
 public class Arrow extends Bullet{
@@ -34,7 +32,7 @@ public class Arrow extends Bullet{
 		p.addBulletObjets(this);
 		this.lifePoints = 1f;
 		this.owner = owner;
-		this.team = this.owner.team;
+		this.setTeam(owner.getTeam());
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = vx;
@@ -56,11 +54,11 @@ public class Arrow extends Bullet{
 	}
 
 	public void collision(Character c){
-		if(c.team!=this.owner.team){
+		if(c.getTeam()!=this.owner.getTeam()){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
 			if(c.horse==null){
-				damage = damage * this.p.g.players.get(team).data.bonusBowFoot;
+				damage = damage * this.getGameTeam().data.bonusBowFoot;
 			}
 			if(c.armor<=damage){
 				c.setLifePoints(c.lifePoints+c.armor-damage);

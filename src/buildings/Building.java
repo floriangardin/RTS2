@@ -13,9 +13,8 @@ import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import model.Plateau;
-import units.Character;
-import multiplaying.OutputModel.OutputBuilding;
 import technologies.Technologie;
+import units.Character;
 
 public class Building extends ActionObjet{
 	public Game g;
@@ -42,7 +41,7 @@ public class Building extends ActionObjet{
 		this.y = y;
 		this.p =p;
 		this.g =g;
-		this.team=0;
+		this.setTeam(0);
 		this.lifePoints = 1f;
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
@@ -56,18 +55,18 @@ public class Building extends ActionObjet{
 	public void collisionWeapon(Character c){
 		if( c.weapon== "bow" || c.weapon== "wand" || c.weapon=="bible")
 			return;
-		if(this instanceof BuildingStable && c.player.hq.age<2){
+		if(this instanceof BuildingStable && c.getGameTeam().hq.age<2){
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this instanceof BuildingAcademy && c.player.hq.age<3){
+		if(this instanceof BuildingAcademy && c.getGameTeam().hq.age<3){
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.potentialTeam!=c.team){
+		if(this.potentialTeam!=c.getTeam()){
 			if(this.constructionPoints<=0f){
-				this.potentialTeam = c.team;
-				this.hq = this.p.g.players.get(c.team).hq;
+				this.potentialTeam = c.getTeam();
+				this.hq = this.p.players.get(c.getTeam()).gameteam.hq;
 			}
 			this.constructionPoints-=0.1f;
 		}
@@ -75,8 +74,8 @@ public class Building extends ActionObjet{
 			this.constructionPoints+=0.1f;
 		}
 		else{
-			if(this.potentialTeam!=this.team){
-				this.team = this.potentialTeam;
+			if(this.potentialTeam!=this.getTeam()){
+				this.setTeam(this.potentialTeam);
 				if(this instanceof BuildingProduction){
 					((BuildingProduction)this).queue.clear();
 					((BuildingProduction)this).charge = 0f;					
@@ -84,7 +83,7 @@ public class Building extends ActionObjet{
 				if(this instanceof BuildingTech){
 					((BuildingTech)this).queue=null;
 					((BuildingTech)this).charge = 0f;
-					this.hq = this.p.g.players.get(this.team).hq;
+					this.hq = this.getGameTeam().hq;
 					((BuildingTech)this).updateProductionList();
 				}
 				if(this instanceof BuildingMine){
@@ -109,9 +108,9 @@ public class Building extends ActionObjet{
 	public void updateImage(){
 		if(this instanceof BuildingBarrack){
 			this.imageNeutre = this.p.g.images.buildingBarrackNeutral;
-			if(team==1){
+			if(getTeam()==1){
 				this.image = this.p.g.images.buildingBarrackBlue;
-			} else if(team==2){
+			} else if(getTeam()==2){
 				this.image = this.p.g.images.buildingBarrackRed;
 			} else {
 				this.image = this.p.g.images.buildingBarrackNeutral;
@@ -120,9 +119,9 @@ public class Building extends ActionObjet{
 
 		else if(this instanceof BuildingStable){
 			this.imageNeutre = this.p.g.images.buildingStableNeutral;
-			if(team==1){
+			if(getTeam()==1){
 				this.image = this.p.g.images.buildingStableBlue;
-			} else if(team==2){
+			} else if(getTeam()==2){
 				this.image = this.p.g.images.buildingStableRed;
 			} else {
 				this.image = this.p.g.images.buildingStableNeutral;
@@ -130,9 +129,9 @@ public class Building extends ActionObjet{
 		}
 		else if(this instanceof BuildingAcademy){
 			this.imageNeutre = this.p.g.images.buildingAcademyNeutral;
-			if(team==1){
+			if(getTeam()==1){
 				this.image = this.p.g.images.buildingAcademyBlue;
-			} else if(team==2){
+			} else if(getTeam()==2){
 				this.image = this.p.g.images.buildingAcademyRed;
 			} else {
 				this.image = this.p.g.images.buildingAcademyNeutral;
@@ -140,9 +139,9 @@ public class Building extends ActionObjet{
 		}
 		else if(this instanceof BuildingMill){
 			this.imageNeutre = this.p.g.images.buildingMillNeutral;
-			if(team==1){
+			if(getTeam()==1){
 				this.image = this.p.g.images.buildingMillBlue;
-			} else if(team==2){
+			} else if(getTeam()==2){
 				this.image = this.p.g.images.buildingMillRed;
 			} else {
 				this.image = this.p.g.images.buildingMillNeutral;
@@ -150,9 +149,9 @@ public class Building extends ActionObjet{
 		}
 		else if(this instanceof BuildingMine){
 			this.imageNeutre = this.p.g.images.buildingMineNeutral;
-			if(team==1){
+			if(getTeam()==1){
 				this.image = this.p.g.images.buildingMineBlue;
-			} else if(team==2){
+			} else if(getTeam()==2){
 				this.image = this.p.g.images.buildingMineRed;
 			} else {
 				this.image = this.p.g.images.buildingMineNeutral;
@@ -160,9 +159,9 @@ public class Building extends ActionObjet{
 		}
 		else if(this instanceof BuildingUniversity){
 			this.imageNeutre = this.p.g.images.buildingUniversityNeutral;
-			if(team==1){
+			if(getTeam()==1){
 				this.image = this.p.g.images.buildingUniversityBlue;
-			} else if(team==2){
+			} else if(getTeam()==2){
 				this.image = this.p.g.images.buildingUniversityRed;
 			} else {
 				this.image = this.p.g.images.buildingUniversityNeutral;
@@ -170,8 +169,8 @@ public class Building extends ActionObjet{
 		}
 	}
 
-	
-	
+
+
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters)
@@ -191,26 +190,26 @@ public class Building extends ActionObjet{
 
 		}
 		// Construction points
-				if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
-					g.setColor(Color.white);
-					g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,2*r,4f));
-					float x = this.constructionPoints*2f*r/this.maxLifePoints;
-					if(this.potentialTeam==1)
-						g.setColor(Color.blue);
-					else
-						g.setColor(Color.red);
-					g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,x,4f));
-				}
+		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
+			g.setColor(Color.white);
+			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,2*r,4f));
+			float x = this.constructionPoints*2f*r/this.maxLifePoints;
+			if(this.potentialTeam==1)
+				g.setColor(Color.blue);
+			else
+				g.setColor(Color.red);
+			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,x,4f));
+		}
 		return g;
 	}
-	
+
 	public void drawAnimation(Graphics g){
-		
+
 	}
-	
+
 	public String toStringBuilding(){
 		String s = "";
-		
+
 		if(changes.sizeX){
 			s+="sizeX:"+sizeX+";";
 			changes.sizeX = true;
@@ -236,7 +235,7 @@ public class Building extends ActionObjet{
 		}
 		return s;
 	}
-	
+
 	public void parseBuilding(HashMap<String, String> hs) {
 		if(hs.containsKey("sizeX")){
 			this.sizeX = Float.parseFloat(hs.get("sizeX"));
@@ -271,20 +270,12 @@ public class Building extends ActionObjet{
 		}
 		return tec;
 	}
-	
-		public void setCharge(float charge){
+
+	public void setCharge(float charge){
 		this.charge = charge;
 		this.changes.charge = true;
 	}
 	
-	public void setTeam(int team){
-		for(Building b : this.p.buildings){
-			if(b.team==team){
-				this.hq = b.hq;
-				
-			}
-		}
-	this.team = team;
-	}
+
 
 }

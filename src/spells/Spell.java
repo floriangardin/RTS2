@@ -3,9 +3,9 @@ package spells;
 import org.newdawn.slick.Image;
 
 import model.ActionObjet;
+import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 import units.Character;;
 
 public class Spell {
@@ -16,7 +16,7 @@ public class Spell {
 	public float damage;
 	public ActionObjet owner;
 	public String name;
-	public Player player;
+	public GameTeam gameteam;
 	public boolean needToClick;
 	public Plateau p;
 

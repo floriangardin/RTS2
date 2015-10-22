@@ -191,8 +191,8 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		this.players.clear();
-		for(int j=0;j<this.game.players.size(); j++){
-			this.players.addElement(new Menu_Player(game.players.get(j),startXPlayers+130f,startYPlayers+100f+80*j,game));
+		for(int j=0;j<this.game.plateau.players.size(); j++){
+			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+130f,startYPlayers+100f+80*j,game));
 			this.players.get(j).update(i);
 		}
 	}
