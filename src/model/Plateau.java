@@ -210,6 +210,13 @@ public class Plateau {
 		
 	}
 	// functions that handle buffers
+
+	public void clearPlayer(){
+		for(int i=1; i<players.size(); i++){
+			removePlayer(0);
+		}
+	}
+	
 	public void addCharacterObjets(Character o){
 		toAddCharacters.addElement(o);
 	}

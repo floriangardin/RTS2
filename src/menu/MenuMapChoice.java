@@ -172,7 +172,7 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
+							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname+","+this.game.plateau.players.size());
 						}
 
 					} catch (UnknownHostException e) {

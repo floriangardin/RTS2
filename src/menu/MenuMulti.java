@@ -40,6 +40,7 @@ public class MenuMulti extends Menu {
 
 	public Vector<Menu_MapChoice> gamesList;
 	public Vector<OpenGames> openGames;
+	public int Nplayer;
 	public int gameSelected = -1;
 
 	public MenuMulti(Game game){
@@ -93,6 +94,12 @@ public class MenuMulti extends Menu {
 			if(gameSelected!=-1){
 				game.host = false;
 				game.inMultiplayer = false;
+				game.plateau.clearPlayer();
+				OpenGames opengame = openGames.get(gameSelected);
+				for(int j=1; j<opengame.nPlayers; j++){
+					game.plateau.addPlayer("unknown");
+				}
+				game.plateau.addPlayer(this.game.options.nickname);
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
@@ -126,37 +133,18 @@ public class MenuMulti extends Menu {
 			e2.printStackTrace();
 		}
 		if(this.game.connexions.size()>0){
-			//old version
-			//			this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions,this.game);
-			//			game.connexionSender.start();
-			//			this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs,this.game);
-			//			this.game.outputReceiver = new MultiReceiver(this.game,this.game.portOutput);
-			//			this.game.inputSender.start();
-			//			this.game.outputReceiver.start();
-			//
-			//			this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-			//			this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-			//			this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-			//			try{
-			//				Thread.sleep(5);
-			//			} catch(InterruptedException e) { }
-			//			game.inMultiplayer = true;
-			//			game.currentPlayer = 2;
-			//			this.music = game.musics.imperial;
-			//			this.music.loop();
-			//			this.music.setVolume(game.options.musicVolume);
-			//			Map.updateMap(3, game);
-			//			this.game.quitMenu();
 			String s = this.game.connexions.remove(0);
 			String[] tab = s.split(",");
 			try {
-				boolean toAdd = true;
+				OpenGames o = null;
 				for(OpenGames g : this.openGames)
 					if(g.hostName.equals(tab[1]))
-						toAdd = false;
-				if(toAdd){
-					openGames.add(new OpenGames(tab[1], InetAddress.getByName(tab[0])));
+						o = g;
+				if(o==null){
+					openGames.add(new OpenGames(tab[1], InetAddress.getByName(tab[0]),Integer.parseInt(tab[2])));
 					gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
+				} else {
+					o.nPlayers = Integer.parseInt(tab[2]);
 				}
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
@@ -198,9 +186,11 @@ public class MenuMulti extends Menu {
 
 		String hostName;
 		InetAddress hostAddress;
+		int nPlayers;
 
-		public OpenGames(String hostName, InetAddress hostAddress) {
+		public OpenGames(String hostName, InetAddress hostAddress, int nPlayers) {
 			this.hostName = hostName;
+			this.nPlayers = nPlayers;
 			this.hostAddress = hostAddress;
 		}
 
