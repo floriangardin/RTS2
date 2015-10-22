@@ -153,7 +153,7 @@ public abstract class Objet {
 			this.setTeam(Integer.parseInt(hs.get("team")));
 		}
 		if(hs.containsKey("orientation")){
-			this.setTeam(Integer.parseInt(hs.get("team")));
+			this.orientation = Integer.parseInt(hs.get("orientation"));
 		}
 	}
 	public void parse(HashMap<String, String> hs) {
