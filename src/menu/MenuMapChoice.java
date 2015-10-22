@@ -3,6 +3,7 @@ package menu;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -216,6 +217,66 @@ public class MenuMapChoice extends Menu {
 				if(mapchoices.get(j).isSelected)
 					mapSelected = j;
 			}
+		}
+	}
+	
+	public String toString(){
+		String s = "";
+		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id);
+		s+="map:"+this.mapSelected;
+		s+="civSelected:";
+		//Civ for all players
+		for(Menu_Player p : this.players){
+			s+=p.p.gameteam.civ;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+		
+		//id for all players
+		s+="idTeam:";
+		for(Menu_Player p : this.players){
+			s+=p.p.gameteam.id;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+		
+		s+="nickname:";
+		//Nickname
+		for(Menu_Player p : this.players){
+			s+=p.p.nickname;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+		
+		return s;
+	}
+
+	//TODO put parse in update of this menu
+	public void parse(HashMap<String,String> hs){
+		if(hs.containsKey("map")){
+			if(!this.game.host){
+				this.mapSelected = Integer.parseInt(hs.get("map"));
+			}
+		}
+		if(hs.containsKey("civSelected")){
+			String[] civ =hs.get("civSelected").split(",");
+			String[] nickname =hs.get("nickName").split(",");
+			String[] idTeam =hs.get("idTeam").split(",");
+			for(int i = 0;i<civ.length;i++){
+					this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
+			}
+			
+			for(int i = 0;i<nickname.length;i++){
+				this.players.get(i).p.nickname =  nickname[i];
+			}
+			
+			for(int i = 0;i<idTeam.length;i++){
+				this.players.get(i).p.gameteam.id = Integer.parseInt(idTeam[i]);
+			}
+			
 		}
 	}
 
