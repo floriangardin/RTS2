@@ -200,8 +200,9 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
+							Thread.sleep((long) 0.5);
 							this.game.toSendConnexions.addElement("2"+toString());
-							Thread.sleep(1);
+							Thread.sleep((long) 0.5);
 							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 						}
 
