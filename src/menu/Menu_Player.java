@@ -8,7 +8,7 @@ import model.Game;
 import model.Player;
 
 public class Menu_Player extends Menu_Item{
-	
+
 	Player p;
 
 	// about the team
@@ -16,23 +16,23 @@ public class Menu_Player extends Menu_Item{
 	float startYcolor;
 	float sizeXcolor;
 	float sizeYcolor;
-	
+
 	// about the civ
 	float startXciv;
 	float startYciv;
 	float sizeXciv;
 	float sizeYciv;
-	
+
 	// about the civ
 	float startXready;
 	float startYready;
-	
+
 	boolean isOverColor;
 	boolean isOverCiv;
 	boolean isReady = false;
-	
+
 	Game game;
-	
+
 	public Menu_Player(Player p, float x, float y, Game game){
 		this.p = p;
 		this.x = x;
@@ -51,7 +51,7 @@ public class Menu_Player extends Menu_Item{
 		this.startXready = x+650f;
 		this.startYready = y;
 	}
-	
+
 	public void update(Input i){
 		if(game.plateau.currentPlayer.id==p.id){
 			float xMouse = i.getAbsoluteMouseX();
@@ -77,22 +77,23 @@ public class Menu_Player extends Menu_Item{
 			}
 		}
 	}
-	
+
 	public void callItem(Input i){
 		float xMouse = i.getAbsoluteMouseX();
 		float yMouse = i.getAbsoluteMouseY();
 		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
-				p.team+=1;
-				if(p.team>game.plateau.nTeams)
-					p.team = 1;
-			
+			int newTeam = p.team + 1;
+			if(newTeam>this.game.plateau.teams.size())
+				newTeam = 1;
+			p.team = newTeam;
+			p.gameteam = this.game.plateau.teams.get(newTeam);
 		} 
 		if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
 
-			
+
 		} 
 	}
-	
+
 	public void draw(Graphics g) {
 		g.setColor(Color.black);
 		g.drawString("Player "+p.id+" : "+this.p.nickname, x, y);

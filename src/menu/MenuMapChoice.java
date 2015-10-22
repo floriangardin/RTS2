@@ -302,6 +302,9 @@ public class MenuMapChoice extends Menu {
 		if(hs.containsKey("map")){
 			if(!this.game.host){
 				this.mapSelected = Integer.parseInt(hs.get("map"));
+				for(int j = 0; j<mapchoices.size(); j++){
+					mapchoices.get(j).isSelected = j==this.mapSelected;
+				}
 			}
 		}
 		if(hs.containsKey("civSelected")){
