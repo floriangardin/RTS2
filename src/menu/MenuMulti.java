@@ -145,7 +145,7 @@ public class MenuMulti extends Menu {
 						if(g.hostName.equals(hashmap.get("hostname")))
 							o = g;
 					if(o==null){
-						openGames.add(new OpenGames(hashmap.get("hostname"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("hnplayers"))));
+						openGames.add(new OpenGames(hashmap.get("hostname"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("nplayers"))));
 						gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
 					} else {
 						o.nPlayers = Integer.parseInt(hashmap.get("nplayers"));
