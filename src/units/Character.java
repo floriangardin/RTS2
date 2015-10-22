@@ -138,15 +138,6 @@ public class Character extends ActionObjet{
 
 
 	}
-	public Character(OutputChar occ, Plateau p){
-		// Only used to display on client screen
-		// Parameters
-		this.name = occ.name;
-		this.p = p;
-		this.player = this.p.g.players.get(team);
-		Character c = this.player.create(UnitsList.switchName(occ.name),occ.x,occ.y);
-		c.id = occ.id;
-	}
 
 	public boolean isLeader(){
 		return this.leader==this;
@@ -946,28 +937,30 @@ public class Character extends ActionObjet{
 	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
 		Character c;
 		int id = Integer.parseInt(hs.get("id"));
+		float x = Float.parseFloat(hs.get("x"));
+		float y = Float.parseFloat(hs.get("y"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.players.get(0).data.spearman,0,0,id);	
+			c =  new UnitSpearman(g.players.get(g.currentPlayer).data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.players.get(0).data.knight,0,0,id);	
+			c = new UnitKnight(g.players.get(g.currentPlayer).data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.players.get(0).data.priest,0,0,id);
+			c =  new UnitPriest(g.players.get(g.currentPlayer).data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.players.get(0).data.crossbowman,0,0,id);
+			c =  new UnitCrossbowman(g.players.get(g.currentPlayer).data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.players.get(0).data.inquisitor,0,0,id);
+			c =  new UnitInquisitor(g.players.get(g.currentPlayer).data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.players.get(0).data.archange,0,0,id);
+			c = new UnitArchange(g.players.get(g.currentPlayer).data.archange,x,y,id);
 			break;
 		case "test":
-			c = new UnitTest(g.players.get(0).data.test,0,0,id);
+			c = new UnitTest(g.players.get(g.currentPlayer).data.test,x,y,id);
 			break;
 		default:
 			c = null;
