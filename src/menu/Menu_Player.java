@@ -23,8 +23,13 @@ public class Menu_Player extends Menu_Item{
 	float sizeXciv;
 	float sizeYciv;
 	
+	// about the civ
+	float startXready;
+	float startYready;
+	
 	boolean isOverColor;
 	boolean isOverCiv;
+	boolean isReady = false;
 	
 	Game game;
 	
@@ -43,6 +48,8 @@ public class Menu_Player extends Menu_Item{
 		this.startYciv = y;
 		this.sizeXciv = 200f;
 		this.sizeYciv = 60f;
+		this.startXready = x+650f;
+		this.startYready = y;
 	}
 	
 	public void update(Input i){
@@ -105,6 +112,8 @@ public class Menu_Player extends Menu_Item{
 		else
 			g.setColor(Color.black);
 		g.drawString(p.gameteam.civName, startXciv, startYciv);
-		
+		g.setColor(Color.black);
+		if(game.inMultiplayer)
+			g.drawString(this.isReady ? "Ready":"Not Ready" ,startXready , startYready);
 	}
 }

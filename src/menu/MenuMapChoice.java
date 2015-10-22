@@ -104,13 +104,15 @@ public class MenuMapChoice extends Menu {
 				this.game.setMenu(this.game.menuIntro);
 			break;
 		case 3: 
-			Map.updateMap(mapSelected, game);
-			this.music = game.musics.imperial;
-			this.music.loop();
-			this.music.setVolume(game.options.musicVolume);
-			//this.game.newGame();
-			this.game.quitMenu();
-			break;
+			if(!game.inMultiplayer){
+				Map.updateMap(mapSelected, game);
+				this.music = game.musics.imperial;
+				this.music.loop();
+				this.music.setVolume(game.options.musicVolume);
+				//this.game.newGame();
+				this.game.quitMenu();
+				break;
+			}
 		default:		
 		}
 	}
@@ -137,6 +139,18 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void update(Input i){
+		//Checking if all players are ready then launch the game
+		if(game.inMultiplayer){
+			boolean toGame = true;
+			for(Menu_Player m:this.players)
+				if(!m.isReady)
+					toGame = false;
+			if (toGame){
+				//TODO Launch Game
+
+			}
+
+		}
 		if(i!=null){
 			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				this.callItems(i);
@@ -173,7 +187,7 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
+							this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname+","+this.game.plateau.players.size());
 						}
 
 					} catch (UnknownHostException e) {
