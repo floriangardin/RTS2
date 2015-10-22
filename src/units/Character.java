@@ -872,11 +872,9 @@ public class Character extends ActionObjet{
 		}
 
 		if(this.changes.spellState){
+			s+="spellState:";
 			for(float i : this.spellsState){
-				s+="spellState:";
-				s+=i+",";
-				
-
+				s+=i+",";			
 			}
 			if(this.spellsState.size()>0){
 				s=s.substring(0, s.length()-1);
