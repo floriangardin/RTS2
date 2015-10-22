@@ -213,7 +213,7 @@ public class Plateau {
 
 	public void clearPlayer(){
 		for(int i=1; i<players.size(); i++){
-			removePlayer(0);
+			removePlayer(players.size()-1);
 		}
 	}
 	
