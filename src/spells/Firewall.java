@@ -23,7 +23,7 @@ public class Firewall extends SpellEffect{
 	public float[] animationX = new float[nbFire];
 	public float[] animationY = new float[nbFire];
 	public float animationMax=120f;
-	public float x,y,x2,y2;
+	public float x2,y2;
 
 	public Firewall(Plateau p, Character launcher, Objet t,int id){
 		if(id==-1){
@@ -41,6 +41,7 @@ public class Firewall extends SpellEffect{
 		float width = 15f;
 		
 		this.lifePoints = 1f;
+		this.p = p;
 		p.addSpell(this);
 		image = p.g.images.explosion;
 		owner = launcher;
@@ -152,7 +153,7 @@ public class Firewall extends SpellEffect{
 		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
 		s+="x2:"+this.x2+";";
 		s+="y2:"+this.y2+";";
-		s+="idLauncher;"+this.owner.id+";";
+		s+="idLauncher:"+this.owner.id+";";
 		return s;
 	}
 }

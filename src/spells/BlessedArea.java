@@ -38,6 +38,7 @@ public class BlessedArea extends SpellEffect{
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
+		this.p = p;
 		p.addSpell(this);
 		this.image = p.g.images.blessedArea;
 		owner = launcher;
@@ -130,5 +131,12 @@ public class BlessedArea extends SpellEffect{
 			c.chargeTime*=this.effect;
 			this.targeted.addElement(c);
 		}
+	}
+	
+	
+	public String toString(){
+		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
+		s+="idLauncher:"+this.owner.id+";";
+		return s;
 	}
 }

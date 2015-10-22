@@ -113,7 +113,7 @@ public abstract class Objet {
 			changes.lifePoints = true;
 		}
 		if(changes.sight){
-			s+="lifePoints:"+lifePoints+";";
+			s+="sight:"+sight+";";
 			changes.sight = false;
 		}
 		return s;
@@ -129,7 +129,13 @@ public abstract class Objet {
 		}
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split("\\:");
-			hs.put(r[0], r[1]);
+			if(r.length>1){
+				hs.put(r[0], r[1]);
+			}
+			else{
+				hs.put(r[0], "");
+			}
+			
 		}
 		return hs;
 	}
@@ -145,6 +151,9 @@ public abstract class Objet {
 		}
 		if(hs.containsKey("team")){
 			this.setTeam(Integer.parseInt(hs.get("team")));
+		}
+		if(hs.containsKey("orientation")){
+			this.orientation = Integer.parseInt(hs.get("orientation"));
 		}
 	}
 	public void parse(HashMap<String, String> hs) {

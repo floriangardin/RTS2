@@ -70,9 +70,8 @@ public abstract class ActionObjet extends Objet{
 		}
 		return s;
 	}
-
+	
 	public void parseActionObjet(HashMap<String,String> hs){
-
 		if(hs.containsKey("maxLifePoints")){
 			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));
 		}

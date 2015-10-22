@@ -138,15 +138,6 @@ public class Character extends ActionObjet{
 
 
 	}
-	public Character(OutputChar occ, Plateau p){
-		// Only used to display on client screen
-		// Parameters
-		this.name = occ.name;
-		this.p = p;
-		this.player = this.p.g.players.get(team);
-		Character c = this.player.create(UnitsList.switchName(occ.name),occ.x,occ.y);
-		c.id = occ.id;
-	}
 
 	public boolean isLeader(){
 		return this.leader==this;
@@ -191,7 +182,7 @@ public class Character extends ActionObjet{
 		}
 		this.orientation = sector;
 		this.changes.orientation = true;
-		
+
 	}
 
 
@@ -266,10 +257,10 @@ public class Character extends ActionObjet{
 	}
 
 	public void action(){
-		
+
 		//MULTI 
 		this.toKeep = false;
-		
+
 		this.updateChargeTime();
 
 		if(this.isImmolating){
@@ -300,7 +291,7 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
-		
+
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
@@ -419,7 +410,7 @@ public class Character extends ActionObjet{
 		this.setVXVY(0, 0);
 	}
 
-	
+
 	//// GRAPHISMS
 
 	public Graphics draw(Graphics g){
@@ -803,7 +794,7 @@ public class Character extends ActionObjet{
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
-		
+
 		//MULTI
 		this.changes.state = true;
 		this.changes.chargeTime=true;
@@ -880,15 +871,18 @@ public class Character extends ActionObjet{
 			changes.state = false;
 		}
 
-		for(Boolean b : changes.spellState){
+		if(this.changes.spellState){
 			s+="spellState:";
-			if(b){
-				s+=this.spellsState+",";
-				b=false;
+			for(float i : this.spellsState){
+				s+=i+",";			
 			}
-			s=s.substring(0, s.length()-1);
+			if(this.spellsState.size()>0){
+				s=s.substring(0, s.length()-1);
+			}
+			this.changes.spellState=true;
 			s+=";";
 		}
+
 		if(changes.animation){
 			s+="animation:"+animation+";";
 			changes.animation=false;
@@ -915,11 +909,13 @@ public class Character extends ActionObjet{
 			this.state=Float.parseFloat(hs.get("state"));
 		}
 		if(hs.containsKey("spellState")){
+			this.spellsState.clear();
 			String[] r = hs.get("spellState").split(",");
-			for(int i = 0;i<r.length;i++){
-				this.spellsState.set(i,Float.parseFloat(r[i]));
+			if(!r[0].equals("")){
+				for(int i = 0;i<r.length;i++){
+					this.spellsState.addElement(Float.parseFloat(r[i]));
+				}
 			}
-
 		}
 		if(hs.containsKey("animation")){
 			this.animation=Integer.parseInt(hs.get("animation"));
@@ -946,35 +942,37 @@ public class Character extends ActionObjet{
 	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
 		Character c;
 		int id = Integer.parseInt(hs.get("id"));
+		float x = Float.parseFloat(hs.get("x"));
+		float y = Float.parseFloat(hs.get("y"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.players.get(0).data.spearman,0,0,id);	
+			c =  new UnitSpearman(g.players.get(g.currentPlayer).data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.players.get(0).data.knight,0,0,id);	
+			c = new UnitKnight(g.players.get(g.currentPlayer).data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.players.get(0).data.priest,0,0,id);
+			c =  new UnitPriest(g.players.get(g.currentPlayer).data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.players.get(0).data.crossbowman,0,0,id);
+			c =  new UnitCrossbowman(g.players.get(g.currentPlayer).data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.players.get(0).data.inquisitor,0,0,id);
+			c =  new UnitInquisitor(g.players.get(g.currentPlayer).data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.players.get(0).data.archange,0,0,id);
+			c = new UnitArchange(g.players.get(g.currentPlayer).data.archange,x,y,id);
 			break;
 		case "test":
-			c = new UnitTest(g.players.get(0).data.test,0,0,id);
+			c = new UnitTest(g.players.get(g.currentPlayer).data.test,x,y,id);
 			break;
 		default:
 			c = null;
 		}
-		
+
 		return c;
-		
+
 	}
 
 

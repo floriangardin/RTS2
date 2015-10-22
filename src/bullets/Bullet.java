@@ -28,7 +28,7 @@ public abstract class Bullet extends ActionObjet {
 		
 	}
 
-	public String toString3(){
+	public String toStringBullet(){
 		String s = "";
 		if(changes.ownerId){
 			s+="ownerid:"+owner.id+";";
@@ -42,10 +42,10 @@ public abstract class Bullet extends ActionObjet {
 		return s;
 	}
 	public String toString(){
-		return toStringObjet()+toStringActionObjet()+toString3();
+		return toStringObjet()+toStringActionObjet()+toStringBullet();
 	}
 
-	public void parse3(HashMap<String,String> hs){
+	public void parseBullet(HashMap<String,String> hs){
 		if(hs.containsKey("ownerid")){
 			//ALREADY DONE IN CREATE BULLET
 		}
@@ -57,23 +57,27 @@ public abstract class Bullet extends ActionObjet {
 	}
 	
 	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){
-		Bullet c;
+		Bullet c=null;
 		//Get back the owner 
 		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
 		float vx = Float.parseFloat(hs.get("vxtarget"));
 		float vy = Float.parseFloat(hs.get("vytarget"));
+
+			
 		switch(hs.get("name")){
 		case "arrow":
 			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			break;
 		case "fireball":
-			c =  new Fireball(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));	
+			if(hs.containsKey("targetX") && hs.containsKey("targetY") ){
+				float targetX = Float.parseFloat(hs.get("targetX"));
+				float targetY = Float.parseFloat(hs.get("targetY"));
+				c =  new Fireball(g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+			}	
 			break;
 		default:
 			c = null;
 		}
-		
-		
 		return c;
 		
 	}
