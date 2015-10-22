@@ -106,7 +106,7 @@ public abstract class Objet {
 		}
 		if(changes.orientation){
 			s+="orientation:"+orientation+";";
-			changes.orientation = true;
+			changes.orientation = false;
 		}
 		if(changes.lifePoints){
 			s+="lifePoints:"+lifePoints+";";
