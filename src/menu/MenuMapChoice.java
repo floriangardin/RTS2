@@ -78,7 +78,7 @@ public class MenuMapChoice extends Menu {
 			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy(1.5f*ratioReso);
 			this.players = new Image("pics/menu/players.png").getScaledCopy(ratioReso);
 			this.map = new Image("pics/menu/map.png").getScaledCopy(ratioReso);
-			float startX = this.game.resX/2-this.gamemode.getWidth()/2;
+			float startX = this.game.resX/2-this.play.getWidth()/2;
 			this.items.addElement(new Menu_Item(startXPlayers+5f,startYPlayers+45f,this.marbre,this.marbre,this.game));
 			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(startXMapChoice+15f,startYMapChoice+45f,this.marbre2,this.marbre2,this.game));
