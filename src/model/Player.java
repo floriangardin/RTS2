@@ -18,8 +18,8 @@ public class Player {
 	public Plateau p;
 	
 	public int id;
-	public GameTeam gameteam;
-	public int team;
+	private GameTeam gameteam;
+	private int team;
 	public String nickname;
 	public int groupSelection;
 	public BottomBar bottomBar;
@@ -39,7 +39,18 @@ public class Player {
 		this.data = gameteam.data;
 	}
 	
-	
+	public int getTeam(){
+		return team;
+	}
+	public GameTeam getGameTeam(){
+		return gameteam;
+	}
+	public void setTeam(int team){
+		this.team = team;
+		for(GameTeam g : this.p.teams)
+			if(g.id == team)
+				this.gameteam = g;
+	}
 	
 	
 	public String toString(){

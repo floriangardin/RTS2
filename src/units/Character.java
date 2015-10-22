@@ -924,23 +924,23 @@ public class Character extends ActionObjet{
 		float y = Float.parseFloat(hs.get("y"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.plateau.currentPlayer.gameteam.data.spearman,x,y,id);	
+			c =  new UnitSpearman(g.plateau.currentPlayer.getGameTeam().data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.plateau.currentPlayer.gameteam.data.knight,x,y,id);	
+			c = new UnitKnight(g.plateau.currentPlayer.getGameTeam().data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.plateau.currentPlayer.gameteam.data.priest,x,y,id);
+			c =  new UnitPriest(g.plateau.currentPlayer.getGameTeam().data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.plateau.currentPlayer.gameteam.data.crossbowman,x,y,id);
+			c =  new UnitCrossbowman(g.plateau.currentPlayer.getGameTeam().data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.plateau.currentPlayer.gameteam.data.inquisitor,x,y,id);
+			c =  new UnitInquisitor(g.plateau.currentPlayer.getGameTeam().data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.plateau.currentPlayer.gameteam.data.archange,x,y,id);
+			c = new UnitArchange(g.plateau.currentPlayer.getGameTeam().data.archange,x,y,id);
 			break;
 		default:
 			c = null;

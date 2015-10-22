@@ -66,7 +66,7 @@ public class Building extends ActionObjet{
 		if(this.potentialTeam!=c.getTeam()){
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
-				this.hq = this.p.players.get(c.getTeam()).gameteam.hq;
+				this.hq = this.getGameTeam().hq;
 			}
 			this.constructionPoints-=0.1f;
 		}

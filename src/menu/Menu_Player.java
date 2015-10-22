@@ -75,12 +75,10 @@ public class Menu_Player extends Menu_Item{
 		float xMouse = i.getAbsoluteMouseX();
 		float yMouse = i.getAbsoluteMouseY();
 		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
-			int newTeam = p.team + 1;
+			int newTeam = p.getTeam() + 1;
 			if(newTeam>=this.game.plateau.teams.size())
 				newTeam = 1;
-			p.team = newTeam;
-			p.gameteam = this.game.plateau.teams.get(newTeam);
-			System.out.println("changing team: "+newTeam+" "+p.team+" "+p.gameteam.id);
+			p.setTeam(newTeam);
 		} 
 		if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
 
@@ -96,7 +94,7 @@ public class Menu_Player extends Menu_Item{
 		else	
 			g.setColor(Color.black);
 		g.fillRect(startXcolor-2f, startYcolor-2f, sizeXcolor+4f,sizeYcolor+4f);
-		switch(p.team){
+		switch(p.getTeam()){
 		case 1 : g.setColor(Color.blue);break;
 		case 2 : g.setColor(Color.red);break;
 		default : g.setColor(Color.black);
@@ -106,7 +104,7 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.gray);
 		else
 			g.setColor(Color.black);
-		g.drawString(p.gameteam.civName, startXciv, startYciv);
+		g.drawString(p.getGameTeam().civName, startXciv, startYciv);
 		g.setColor(Color.black);
 		if(game.inMultiplayer)
 			g.drawString(this.isReady ? "Ready":"Not Ready" ,startXready , startYready);

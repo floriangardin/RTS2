@@ -263,7 +263,7 @@ public class MenuMapChoice extends Menu {
 		s+="civSelected:";
 		//Civ for all players
 		for(Menu_Player p : this.players){
-			s+=p.p.gameteam.civ;
+			s+=p.p.getGameTeam().civ;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -272,7 +272,7 @@ public class MenuMapChoice extends Menu {
 		//id for all players
 		s+="idTeam:";
 		for(Menu_Player p : this.players){
-			s+=p.p.gameteam.id;
+			s+=p.p.getGameTeam().id;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -320,7 +320,7 @@ public class MenuMapChoice extends Menu {
 			
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
+					this.players.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
 				}
 			}
 
@@ -332,7 +332,7 @@ public class MenuMapChoice extends Menu {
 
 			for(int i = 0;i<idTeam.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).p.gameteam.id = Integer.parseInt(idTeam[i]);
+					this.players.get(i).p.getGameTeam().id = Integer.parseInt(idTeam[i]);
 				}
 
 			}

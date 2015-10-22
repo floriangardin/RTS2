@@ -585,7 +585,7 @@ public class Plateau {
 				if(player == this.currentPlayer.id){
 					if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 						this.handleView(im, player);
-						this.handleSelection(im, player,players.get(player).team);
+						this.handleSelection(im, player,players.get(player).getTeam());
 					}
 				} else {
 					this.updateSelection(im);
@@ -805,7 +805,7 @@ public class Plateau {
 	// drawing fog of war method
 	public void drawFogOfWar(Graphics g){
 		Vector<Objet> visibleObjet = new Vector<Objet>();
-		visibleObjet = this.getInCamObjets(this.currentPlayer.team);
+		visibleObjet = this.getInCamObjets(this.currentPlayer.getTeam());
 		float resX = this.g.resX;
 		float resY = this.g.resY;
 		this.gf.setColor(new Color(255,255,255));
@@ -854,19 +854,19 @@ public class Plateau {
 	}
 	private void updateVisibility() {
 		for(Character c:this.characters){
-			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, c);
+			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), c);
 			c.visibleByCamera =this.isVisibleByCamera(c);
 		}
 		for(Building b:this.buildings){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 		for(Bullet b:this.bullets){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 		for(SpellEffect b:this.spells){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.team, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 	}
@@ -1025,7 +1025,7 @@ public class Plateau {
 		//PLAYERS
 		String s = "1 separation ";
 		// TODO handle more player
-		s+=this.players.get(3-this.currentPlayer.team);
+		s+=this.players.get(3-this.currentPlayer.getTeam());
 		//CHARACTER
 		s += " separation ";
 		for(Character c : this.characters){
