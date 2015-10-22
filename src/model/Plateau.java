@@ -980,6 +980,11 @@ public class Plateau {
 			s+="|";
 		}
 		s+=" separation ";
+		for(SpellEffect b : this.spells){
+			s+=b;
+			s+="|";
+		}
+		s+=" separation ";
 		return s;
 	}
 
@@ -999,7 +1004,7 @@ public class Plateau {
 			//double chrono2 = System.nanoTime();
 			parseBullet(u[4]);
 			//System.out.println("bullets : "+(System.nanoTime()-chrono2));
-			
+			parseSpell(u[5]);
 		}
 		
 	}
@@ -1056,6 +1061,14 @@ public class Plateau {
 		return null;
 	}
 
+	private SpellEffect getSpellEffectById(int id) {
+		for(SpellEffect cha : this.spells){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
 
 	public void parseCharacter(String s){
 		//SPLIT SELON |
@@ -1121,6 +1134,40 @@ public class Plateau {
 			}
 		}
 	}
+	
+	
+	public void parseSpell(String s){
+		String[] u = s.split("\\|");
+		//Loop over each spells
+		SpellEffect bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all spellEffects in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding spellEffect in plateau
+			bul = this.getSpellEffectById(idTest);
+			//Create spellEffect if not in plateau
+			if(bul==null){
+				bul = SpellEffect.createNewSpell(hs, g);
+			}
+			bul.parse(hs);
+			bul.toKeep = true;	
+		}
+		//Destroy spellEffects who didn't give any news
+		for(SpellEffect b : this.spells){
+			if(!b.toKeep){
+				b.setLifePoints(-1f);
+			}else{
+				b.toKeep = false;
+			}
+		}
+	}
+
+
 }
 
 

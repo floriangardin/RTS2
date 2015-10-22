@@ -32,8 +32,8 @@ public class UnitPriest extends Character {
 		this.updateImage();
 	}
 
-	public UnitPriest(UnitPriest unit, float x, float y) {
-		super(unit,x,y);
+	public UnitPriest(UnitPriest unit, float x, float y,int id) {
+		super(unit,x,y,id);
 	}
 
 	public void useWeapon(){

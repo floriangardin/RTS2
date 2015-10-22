@@ -29,8 +29,8 @@ public class UnitSpearman extends Character {
 		this.spells.add(data.immolation);
 		this.updateImage();
 	}
-	public UnitSpearman(UnitSpearman unit, float x, float y) {
-		super(unit,x,y);
+	public UnitSpearman(UnitSpearman unit, float x, float y,int id) {
+		super(unit,x,y,id);
 	}
 
 	public void useWeapon(){

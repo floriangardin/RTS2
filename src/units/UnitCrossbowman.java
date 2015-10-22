@@ -31,8 +31,8 @@ public class UnitCrossbowman extends Character {
 
 		this.updateImage();
 	}
-	public UnitCrossbowman(UnitCrossbowman unit, float x, float y) {
-		super(unit,x,y);
+	public UnitCrossbowman(UnitCrossbowman unit, float x, float y,int id) {
+		super(unit,x,y,id);
 	}
 
 	public void useWeapon(){

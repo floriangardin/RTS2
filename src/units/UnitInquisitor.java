@@ -32,8 +32,8 @@ public class UnitInquisitor extends Character {
 		this.updateImage();
 	}
 
-	public UnitInquisitor(UnitInquisitor spearman, float x, float y) {
-		super(spearman,x,y);	
+	public UnitInquisitor(UnitInquisitor spearman, float x, float y,int id) {
+		super(spearman,x,y,id);	
 	}
 	
 	public void useWeapon(){

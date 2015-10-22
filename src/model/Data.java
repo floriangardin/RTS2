@@ -132,31 +132,31 @@ public class Data {
 		Character c;
 		switch(which){
 		case Spearman:
-			c =  new UnitSpearman(this.spearman,x ,y);	
+			c =  new UnitSpearman(this.spearman,x ,y,-1);	
 			c.player = this.player;
 			break;
 		case Knight:
-			c = new UnitKnight(this.knight,x ,y);	
+			c = new UnitKnight(this.knight,x ,y,-1);	
 			c.player = this.player;
 			break;
 		case Priest:
-			c =  new UnitPriest(this.priest,x ,y);
+			c =  new UnitPriest(this.priest,x ,y,-1);
 			c.player = this.player;
 			break;	
 		case Crossbowman:
-			c =  new UnitCrossbowman(this.crossbowman,x ,y);
+			c =  new UnitCrossbowman(this.crossbowman,x ,y,-1);
 			c.player = this.player;
 			break;	
 		case Inquisitor:
-			c =  new UnitInquisitor(this.inquisitor,x ,y);
+			c =  new UnitInquisitor(this.inquisitor,x ,y,-1);
 			c.player = this.player;
 			break;
 		case Archange:
-			c = new UnitArchange(this.archange,x,y);
+			c = new UnitArchange(this.archange,x,y,-1);
 			c.player = this.player;
 			break;
 		case Test:
-			c = new UnitTest(this.test,x,y);
+			c = new UnitTest(this.test,x,y,-1);
 			c.player = this.player;
 			break;
 		default:

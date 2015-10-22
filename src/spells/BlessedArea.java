@@ -26,7 +26,14 @@ public class BlessedArea extends SpellEffect{
 	public float size = 200f;;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Plateau p, Character launcher, Checkpoint t){
+	public BlessedArea(Plateau p, Character launcher, Checkpoint t,int id){
+		if(id==-1){
+			this.id = p.g.idChar;
+			p.g.idChar+=1;
+		}
+		else{
+			this.id =id;
+		}
 		this.type = 2;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
@@ -64,6 +71,10 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void action(){
+		//MULTI
+		this.changes.x = true;
+		this.changes.y = true;
+		
 		this.remainingTime-=1f;
 		Vector<Character> toDelete = new Vector<Character>();
 		if(this.remainingTime<=0f){
@@ -89,7 +100,6 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-
 		this.animationState +=1f;
 		if(this.animationState>animationMax)
 			animationState = 0f;

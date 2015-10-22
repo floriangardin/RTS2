@@ -38,8 +38,8 @@ public class UnitArchange extends Character {
 			this.image = this.p.g.images.archangeRed;
 	}
 
-	public UnitArchange(UnitArchange archange, float x, float y) {
-		super(archange,x,y);
+	public UnitArchange(UnitArchange archange, float x, float y,int id) {
+		super(archange,x,y,id);
 	}
 
 	public Graphics draw(Graphics g){

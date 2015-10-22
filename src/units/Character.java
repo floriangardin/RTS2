@@ -97,12 +97,17 @@ public class Character extends ActionObjet{
 
 	}
 	// Copy constructor , to really create an unit
-	public Character(Character c,float x,float y){
+	public Character(Character c,float x,float y,int id){
 		this.p = c.p;
 		this.size = c.size;
 		p.addCharacterObjets(this);
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
+		if(id==-1){
+			this.id = p.g.idChar;
+			p.g.idChar+=1;
+		}
+		else{
+			this.id = id;
+		}
 		this.name = c.name;
 		this.team = c.team;
 		this.damage = c.damage;
@@ -940,28 +945,29 @@ public class Character extends ActionObjet{
 
 	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
 		Character c;
+		int id = Integer.parseInt(hs.get("id"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.players.get(0).data.spearman,0,0);	
+			c =  new UnitSpearman(g.players.get(0).data.spearman,0,0,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.players.get(0).data.knight,0,0);	
+			c = new UnitKnight(g.players.get(0).data.knight,0,0,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.players.get(0).data.priest,0,0);
+			c =  new UnitPriest(g.players.get(0).data.priest,0,0,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.players.get(0).data.crossbowman,0,0);
+			c =  new UnitCrossbowman(g.players.get(0).data.crossbowman,0,0,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.players.get(0).data.inquisitor,0,0);
+			c =  new UnitInquisitor(g.players.get(0).data.inquisitor,0,0,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.players.get(0).data.archange,0,0);
+			c = new UnitArchange(g.players.get(0).data.archange,0,0,id);
 			break;
 		case "test":
-			c = new UnitTest(g.players.get(0).data.test,0,0);
+			c = new UnitTest(g.players.get(0).data.test,0,0,id);
 			break;
 		default:
 			c = null;
