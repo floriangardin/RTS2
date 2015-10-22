@@ -194,11 +194,10 @@ public class Plateau {
 	}
 	
 	public void removePlayer(int indice){
-		if(indice==0 || indice>=players.size())
+		if(indice==0 || indice>players.size())
 			return;
 		players.remove(indice);
 		nPlayers -= 1;
-		System.out.println("player remove");
 
 		// deleting component from plateau
 		this.selection.remove(indice);
@@ -213,7 +212,7 @@ public class Plateau {
 	// functions that handle buffers
 
 	public void clearPlayer(){
-		for(int i=1; i<players.size(); i++){
+		while(players.size()>1){
 			removePlayer(players.size()-1);
 		}
 	}
