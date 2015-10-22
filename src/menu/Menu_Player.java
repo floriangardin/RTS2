@@ -59,19 +59,12 @@ public class Menu_Player extends Menu_Item{
 			//Testing the click
 			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 				isOverColor = true;
-				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-					p.team+=1;
-					if(p.team>game.plateau.nTeams)
-						p.team = 1;
-				}
+				
 			} else {
 				isOverColor = false;
 			}
 			if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
 				isOverCiv = true;
-				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-					// changing team
-				}
 			} else {
 				isOverCiv = false;
 			}
@@ -87,6 +80,7 @@ public class Menu_Player extends Menu_Item{
 				newTeam = 1;
 			p.team = newTeam;
 			p.gameteam = this.game.plateau.teams.get(newTeam);
+			System.out.println("changing team: "+newTeam+" "+p.team+" "+p.gameteam.id);
 		} 
 		if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
 
