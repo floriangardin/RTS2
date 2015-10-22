@@ -62,14 +62,18 @@ public abstract class Bullet extends ActionObjet {
 		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
 		float vx = Float.parseFloat(hs.get("vxtarget"));
 		float vy = Float.parseFloat(hs.get("vytarget"));
-		float targetX = Float.parseFloat(hs.get("targetX"));
-		float targetY = Float.parseFloat(hs.get("targetY"));
+
+			
 		switch(hs.get("name")){
 		case "arrow":
 			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			break;
 		case "fireball":
-			c =  new Fireball(g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));	
+			if(hs.containsKey("targetX")){
+				float targetX = Float.parseFloat(hs.get("targetX"));
+				float targetY = Float.parseFloat(hs.get("targetY"));
+				c =  new Fireball(g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+			}	
 			break;
 		default:
 			c = null;
