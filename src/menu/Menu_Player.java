@@ -1,0 +1,110 @@
+package menu;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+
+import model.Game;
+import model.Player;
+
+public class Menu_Player extends Menu_Item{
+	
+	Player p;
+
+	// about the team
+	float startXcolor;
+	float startYcolor;
+	float sizeXcolor;
+	float sizeYcolor;
+	
+	// about the civ
+	float startXciv;
+	float startYciv;
+	float sizeXciv;
+	float sizeYciv;
+	
+	boolean isOverColor;
+	boolean isOverCiv;
+	
+	Game game;
+	
+	public Menu_Player(Player p, float x, float y, Game game){
+		this.p = p;
+		this.x = x;
+		this.y = y;
+		this.game = game;
+		this.sizeX = 600f;
+		this.sizeY = 50f;
+		this.startXcolor = x + 300f;
+		this.startYcolor = y;
+		this.sizeXcolor = 90f;
+		this.sizeYcolor = 40f;
+		this.startXciv = x+450f;
+		this.startYciv = y;
+		this.sizeXciv = 200f;
+		this.sizeYciv = 60f;
+	}
+	
+	public void update(Input i){
+		if(game.currentPlayer.id==p.id){
+			float xMouse = i.getAbsoluteMouseX();
+			float yMouse = i.getAbsoluteMouseY();
+			//Testing the click
+			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
+				isOverColor = true;
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+					p.team+=1;
+					if(p.team>game.plateau.nTeams)
+						p.team = 1;
+				}
+			} else {
+				isOverColor = false;
+			}
+			if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
+				isOverCiv = true;
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+					// changing team
+				}
+			} else {
+				isOverCiv = false;
+			}
+		}
+	}
+	
+	public void callItem(Input i){
+		float xMouse = i.getAbsoluteMouseX();
+		float yMouse = i.getAbsoluteMouseY();
+		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
+				p.team+=1;
+				if(p.team>game.plateau.nTeams)
+					p.team = 1;
+			
+		} 
+		if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
+
+			
+		} 
+	}
+	
+	public void draw(Graphics g) {
+		g.setColor(Color.black);
+		g.drawString("Player "+p.id+" : "+this.p.nickname, x, y);
+		if(isOverColor)
+			g.setColor(Color.gray);
+		else	
+			g.setColor(Color.black);
+		g.fillRect(startXcolor-2f, startYcolor-2f, sizeXcolor+4f,sizeYcolor+4f);
+		switch(p.team){
+		case 1 : g.setColor(Color.blue);break;
+		case 2 : g.setColor(Color.red);break;
+		default : g.setColor(Color.black);
+		}
+		g.fillRect(startXcolor+2f, startYcolor+2f, sizeXcolor-4f,sizeYcolor-4f);
+		if(isOverCiv)
+			g.setColor(Color.gray);
+		else
+			g.setColor(Color.black);
+		g.drawString(p.civName, startXciv, startYciv);
+		
+	}
+}

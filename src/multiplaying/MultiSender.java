@@ -39,9 +39,9 @@ public class MultiSender extends Thread{
 				System.out.println("Création d'un sender - " + port);
 			while(true){
 				if(this.depot.size()>0){
-					if(depot.get(0).charAt(0)=='2' && game.host){
-						address = InetAddress.getByName(depot.get(0).substring(1));
-					}
+//					if(depot.get(0).charAt(0)=='2' && game.host){
+//						address = InetAddress.getByName(depot.get(0).substring(1));
+//					}
 					message = (depot.get(0).toString()).getBytes();
 					
 					packet = new DatagramPacket(message, message.length, this.address, this.port);

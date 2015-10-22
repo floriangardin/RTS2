@@ -28,17 +28,20 @@ public class MenuMulti extends Menu {
 	public Image backSelected;
 
 	public boolean inHost, inJoin;
+	
 
 	//TODO upgrading multiplayer
 	public int cooldown;
 	public int cooldown1;
-	
+
 	public float startXGames;
 	float startY;
 	float stepY;
 	float ratioReso;
-	
+
+	public Vector<Menu_MapChoice> gamesList;
 	public Vector<OpenGames> openGames;
+	public int gameSelected = -1;
 
 	public MenuMulti(Game game){
 		this.music = game.musics.menu;
@@ -46,6 +49,8 @@ public class MenuMulti extends Menu {
 		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
+		this.gamesList = new Vector<Menu_MapChoice>();
+		this.openGames = new  Vector<OpenGames>();
 		startY = 100f+0.1f*this.game.resX;
 		stepY = 0.15f*this.game.resY;
 		startXGames = 3f*this.game.resX/8;
@@ -80,7 +85,9 @@ public class MenuMulti extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 0:
-			inHost = true;
+			game.host = true;
+			game.inMultiplayer = true;
+			game.setMenu(game.menuMapChoice);
 			break;
 		case 1:
 			inJoin = true;
@@ -113,109 +120,83 @@ public class MenuMulti extends Menu {
 			inHost = false;
 			this.game.connexionSender.interrupt();
 		}
-		if(inHost){
-			this.game.host = true;
-			game.inMultiplayer = true;
-			if(cooldown==0){
-				if(!game.connexionSender.isAlive()){
-					game.connexionSender.start();
-				}
-				String s="";
-				try {
-					s = InetAddress.getLocalHost().getHostAddress();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				String[] tab = s.split("\\.");
-				s = "";
-				for(int k=0; k<tab.length-1;k++){
-					s += tab[k]+".";
-				}
-				String thisAddress;
-				try {
-					thisAddress = InetAddress.getLocalHost().getHostAddress();
-					for(int ip=0; ip<255;ip++){
-						if(!thisAddress.equals(s+""+ip)){
-							this.game.connexionSender.address = InetAddress.getByName(s+""+ip);
-							//this.game.toSendConnexions.addElement("2"+thisAddress+","+this.game.options.nickname);
-							this.game.toSendConnexions.addElement("2"+s+""+ip);
-						}
-					}
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-				cooldown++;
-			}else if(cooldown<=60){
-				cooldown++;
-			} else {
-				cooldown=0;				
-			}
-			if(this.game.connexions.size()>0){
-				try {
-					this.game.addressClient = InetAddress.getByName(this.game.connexions.get(0));
-					this.game.outputSender = new MultiSender(this.game.addressClient,this.game.portOutput,this.game.toSendOutputs,this.game);
-					this.game.inputReceiver = new MultiReceiver(this.game,this.game.portInput);
-					this.game.outputSender.start();
-					this.game.inputReceiver.start();
-					this.music = game.musics.imperial;
-					this.music.loop();
-					this.music.setVolume(game.options.musicVolume);
-					Map.updateMap(3, game);
-					this.game.quitMenu();
-				} catch (UnknownHostException e1) {
-					e1.printStackTrace();
-				}
-			}
-		} else if(inJoin) {
-			game.inMultiplayer = true;
-			game.host = false;
-			try {
-				game.addressClient = InetAddress.getLocalHost();
-			} catch (UnknownHostException e2) {
-				e2.printStackTrace();
-			}
-			if(this.game.connexions.size()>0){
-				this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions,this.game);
-				game.connexionSender.start();
-				this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs,this.game);
-				this.game.outputReceiver = new MultiReceiver(this.game,this.game.portOutput);
-				this.game.inputSender.start();
-				this.game.outputReceiver.start();
-
-				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-				this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
-				try{
-					Thread.sleep(5);
-				} catch(InterruptedException e) { }
-				game.inMultiplayer = true;
-				game.currentPlayer = 2;
-				this.music = game.musics.imperial;
-				this.music.loop();
-				this.music.setVolume(game.options.musicVolume);
-				Map.updateMap(3, game);
-				this.game.quitMenu();
-			}
-		} else if(i!=null){
-			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				callItems(i);
-				this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
-			}
-			for(Menu_Item item: this.items){
-				item.update(i);
-			}			
+		try {
+			game.addressClient = InetAddress.getLocalHost();
+		} catch (UnknownHostException e2) {
+			e2.printStackTrace();
 		}
+		if(this.game.connexions.size()>0){
+			//old version
+//			this.game.connexionSender = new MultiSender(game.addressHost,game.portConnexion,game.toSendConnexions,this.game);
+//			game.connexionSender.start();
+//			this.game.inputSender = new MultiSender(this.game.addressHost,this.game.portInput,this.game.toSendInputs,this.game);
+//			this.game.outputReceiver = new MultiReceiver(this.game,this.game.portOutput);
+//			this.game.inputSender.start();
+//			this.game.outputReceiver.start();
+//
+//			this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
+//			this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
+//			this.game.toSendConnexions.addElement("2"+this.game.addressClient.getHostAddress());
+//			try{
+//				Thread.sleep(5);
+//			} catch(InterruptedException e) { }
+//			game.inMultiplayer = true;
+//			game.currentPlayer = 2;
+//			this.music = game.musics.imperial;
+//			this.music.loop();
+//			this.music.setVolume(game.options.musicVolume);
+//			Map.updateMap(3, game);
+//			this.game.quitMenu();
+			String s = this.game.connexions.remove(0);
+			String[] tab = s.split(",");
+			try {
+				openGames.add(new OpenGames(tab[1], InetAddress.getByName(tab[0])));
+				gamesList.add(new Menu_MapChoice(openGames.lastElement().hostName + "'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		}
+		if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+			callItems(i);
+			this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
+		}
+		for(Menu_Item item: this.items){
+			item.update(i);
+		}
+		for(Menu_MapChoice item: this.gamesList){
+			item.update(i);
+		}			
+
 	} 
 	
+	public void callItems(Input i){
+		for(int j=0; j<items.size(); j++){
+			if(items.get(j).isClicked(i))
+				callItem(j);
+		}
+		int toselect = -1;
+		for(int j=0; j<gamesList.size(); j++){
+			if(gamesList.get(j).isClicked(i))
+				toselect = j;
+		}
+		if(toselect!=-1){
+			for(int j=0; j<gamesList.size(); j++){
+				gamesList.get(j).isSelected = j==toselect;
+				if(gamesList.get(j).isSelected)
+					gameSelected = j;
+			}
+		}
+	}
+
 	public class OpenGames{
-		
+
 		String hostName;
 		InetAddress hostAddress;
-		
+
 		public OpenGames(String hostName, InetAddress hostAddress) {
 			this.hostName = hostName;
 			this.hostAddress = hostAddress;
 		}
-		
+
 	}
 }

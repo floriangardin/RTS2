@@ -67,7 +67,7 @@ public class Game extends BasicGame
 	public Plateau plateau ;
 	public AppGameContainer app;
 	public Vector<Player> players = new Vector<Player>();
-	public int currentPlayer = 1;
+	public Player currentPlayer;
 
 
 	// Network and multiplaying
@@ -156,7 +156,7 @@ public class Game extends BasicGame
 
 
 		// Draw the selection of your team 
-		for(ActionObjet o: plateau.selection.get(currentPlayer)){
+		for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
 			o.drawIsSelected(g);
 		}
 		//Creation of the drawing Vector
@@ -199,7 +199,7 @@ public class Game extends BasicGame
 		// Draw the selection :
 		for(int player=1; player<3; player++){
 			if(this.plateau.rectangleSelection !=null){
-				if(player==currentPlayer){
+				if(player==currentPlayer.id){
 					g.setColor(Color.green);
 					g.draw(this.plateau.rectangleSelection);
 				}
@@ -214,8 +214,8 @@ public class Game extends BasicGame
 		// Draw messages
 		Message m;
 		if(this.plateau.messages.size()>2){
-			for(int k=0; k<this.plateau.messages.get(currentPlayer).size();k++){
-				m = this.plateau.messages.get(currentPlayer).get(k);
+			for(int k=0; k<this.plateau.messages.get(currentPlayer.id).size();k++){
+				m = this.plateau.messages.get(currentPlayer.id).get(k);
 				g.setColor(m.color);
 				Font f = g.getFont();
 				float height = f.getHeight(m.message);
@@ -232,7 +232,7 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			InputModel im = new InputModel(this,0,currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(inMultiplayer){
 				if(!host){
@@ -264,24 +264,7 @@ public class Game extends BasicGame
 		}
 	}
 
-	public void newGame(){
-		//Clean all variables
-
-		Map.initializePlateau(this, 1f, 1f);
-
-		//System.out.println(this.plateau.mapGrid);
-		//			Map.createMapEmpty(this);
-		// Instantiate BottomBars for all players:
-		for(int player=1; player<3; player++){
-			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
-			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
-		}
-		this.bottomBars = this.players.get(currentPlayer).bottomBar;
-		this.topBars = this.players.get(currentPlayer).topBar;
-		selection = null;
-
-	}
-
+	
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
@@ -309,8 +292,8 @@ public class Game extends BasicGame
 			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
 		}
-		this.bottomBars = this.players.get(currentPlayer).bottomBar;
-		this.topBars = this.players.get(currentPlayer).topBar;
+		this.bottomBars = this.players.get(currentPlayer.id).bottomBar;
+		this.topBars = this.players.get(currentPlayer.id).topBar;
 		selection = null;
 		
 	}

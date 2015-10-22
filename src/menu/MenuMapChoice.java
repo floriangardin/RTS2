@@ -19,9 +19,6 @@ import multiplaying.MultiSender;
 
 public class MenuMapChoice extends Menu {
 
-	public Image gamemode;
-	public Image players;
-	public Image map;
 	public Image back;
 	public Image play;
 	public Image marbre;
@@ -35,6 +32,8 @@ public class MenuMapChoice extends Menu {
 	public Vector<String> maps = Map.maps();
 
 	public Vector<Menu_MapChoice> mapchoices;
+
+	public Vector<Menu_Player> players;
 
 
 	float startY;
@@ -57,6 +56,7 @@ public class MenuMapChoice extends Menu {
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		this.mapchoices = new Vector<Menu_MapChoice>();
+		this.players = new Vector<Menu_Player>();
 
 		startY = 100f;
 		stepY = 0.13f*this.game.resY;
@@ -76,8 +76,6 @@ public class MenuMapChoice extends Menu {
 			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
 			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy(1.5f*ratioReso);
 			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy(1.5f*ratioReso);
-			this.players = new Image("pics/menu/players.png").getScaledCopy(ratioReso);
-			this.map = new Image("pics/menu/map.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.play.getWidth()/2;
 			this.items.addElement(new Menu_Item(startXPlayers+5f,startYPlayers+45f,this.marbre,this.marbre,this.game));
 			this.items.lastElement().selectionable = false;
@@ -99,7 +97,10 @@ public class MenuMapChoice extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 2:
-			this.game.setMenu(this.game.menuIntro);
+			if(game.inMultiplayer)
+				this.game.setMenu(this.game.menuMulti);
+			else
+				this.game.setMenu(this.game.menuIntro);
 			break;
 		case 3: 
 			Map.updateMap(mapSelected, game);
@@ -128,8 +129,8 @@ public class MenuMapChoice extends Menu {
 		g.setColor(Color.black);
 		g.drawString("Players :" , startXPlayers+100f, startYPlayers+100f);
 		g.drawString("Map :" , startXMapChoice+60f, startYMapChoice+100f);
-		for(int i=1;i<this.game.players.size();i++){
-			game.players.get(i).drawMapChoice(g,startXPlayers+130f,startYPlayers+100f+80*i);
+		for(int i=1;i<this.players.size();i++){
+			players.get(i).draw(g);
 		}
 
 	}
@@ -182,25 +183,17 @@ public class MenuMapChoice extends Menu {
 					cooldown=cooldown<=60 ? cooldown+1:0;				
 				}
 				if(this.game.connexions.size()>0){
-//					try {
-//						this.game.addressClient = InetAddress.getByName(this.game.connexions.get(0));
-//						this.game.outputSender = new MultiSender(this.game.addressClient,this.game.portOutput,this.game.toSendOutputs,this.game);
-//						this.game.inputReceiver = new MultiReceiver(this.game,this.game.portInput);
-//						this.game.outputSender.start();
-//						this.game.inputReceiver.start();
-//						this.music = game.musics.imperial;
-//						this.music.loop();
-//						this.music.setVolume(game.options.musicVolume);
-//						this.game.newGame();
-//						this.game.quitMenu();
-//					} catch (UnknownHostException e1) {
-//						e1.printStackTrace();
-//					}
+
 				}
-			} else {
+			} else if(!game.host){
 				// updating info
-				
+
 			}
+		}
+		this.players.clear();
+		for(int j=0;j<this.game.players.size(); j++){
+			this.players.addElement(new Menu_Player(game.players.get(j),startXPlayers+130f,startYPlayers+100f+80*j,game));
+			this.players.get(j).update(i);
 		}
 	}
 
@@ -209,10 +202,22 @@ public class MenuMapChoice extends Menu {
 			if(items.get(j).isClicked(i))
 				callItem(j);
 		}
+		for(int j=0; j<players.size(); j++){
+			players.get(j).callItem(i);
+		}
+		int toselect = -1;
 		for(int j=0; j<mapchoices.size(); j++){
-			mapchoices.get(j).isSelected = mapchoices.get(j).isClicked(i);
-			if(mapchoices.get(j).isSelected)
-				mapSelected = j;
+			if(mapchoices.get(j).isClicked(i))
+				toselect = j;
+		}
+		if(toselect!=-1){
+			for(int j=0; j<mapchoices.size(); j++){
+				mapchoices.get(j).isSelected = j==toselect;
+				if(mapchoices.get(j).isSelected)
+					mapSelected = j;
+			}
 		}
 	}
+	
+	
 }

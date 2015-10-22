@@ -12,7 +12,7 @@ import model.Utils;
 
 public class InputModel extends MultiObjetModel{
 
-	public int team;
+	public int idPlayer;
 
 	public boolean rightClick;
 	public boolean leftClick;
@@ -46,7 +46,7 @@ public class InputModel extends MultiObjetModel{
 	public Vector<Integer> selection;
 
 	public InputModel (Game g, int time, int team, Input input, int Xcam,int Ycam, int resX, int resY){
-		this.team = team;
+		this.idPlayer = team;
 		this.timeValue = time;
 
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
@@ -74,11 +74,11 @@ public class InputModel extends MultiObjetModel{
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 
 		selection = new Vector<Integer>();
-		for(ActionObjet c: g.plateau.selection.get(g.currentPlayer))
+		for(ActionObjet c: g.plateau.selection.get(g.currentPlayer.id))
 			selection.add(c.id);
 
 		// Only for current player at the creation of the input
-		BottomBar bb = g.players.get(g.currentPlayer).bottomBar;
+		BottomBar bb = g.players.get(g.currentPlayer.id).bottomBar;
 		float relativeXMouse = input.getAbsoluteMouseX();
 		float relativeYMouse = input.getAbsoluteMouseY();
 		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
@@ -106,7 +106,7 @@ public class InputModel extends MultiObjetModel{
 		for(int i=0; i<vaneau.length-1; i++){
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
 		}
-		this.team = Integer.parseInt(content.get("team"));
+		this.idPlayer = Integer.parseInt(content.get("idPlayer"));
 		this.xMouse = Integer.parseInt(content.get("xMouse"));
 		this.yMouse = Integer.parseInt(content.get("yMouse"));
 		if(content.containsKey("rightClick"))
@@ -149,7 +149,7 @@ public class InputModel extends MultiObjetModel{
 
 	public String toString(){
 		String s = "";
-		s+="0team:" + team+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
+		s+="0idPlayer:" + idPlayer+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
 			s+=",rightClick: ";

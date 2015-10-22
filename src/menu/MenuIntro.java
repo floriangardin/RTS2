@@ -143,12 +143,12 @@ public class MenuIntro extends Menu {
 						Thread.sleep(5);
 					} catch(InterruptedException e) { }
 					game.inMultiplayer = true;
-					game.currentPlayer = 2;
+					game.currentPlayer = game.players.get(2);
 					callItem(0);
 					multiplaying = false;
 				}
 			}
-		}else if(!toGame){
+		} else {
 			if(i!=null){
 				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					callItems(i);
@@ -165,15 +165,6 @@ public class MenuIntro extends Menu {
 			}
 			for(Bullet b: toremove)
 				this.bullets.remove(b);
-		} else {
-			this.timeToGame -= 1f;
-			if(timeToGame<0f){
-				this.music = game.musics.imperial;
-				this.music.loop();
-				this.music.setVolume(game.options.musicVolume);
-				this.game.newGame();
-				this.game.quitMenu();
-			}
 		}
 	}
 }
