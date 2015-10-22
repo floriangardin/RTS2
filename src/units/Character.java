@@ -871,19 +871,19 @@ public class Character extends ActionObjet{
 			changes.state = false;
 		}
 		int i = 0;
-		for(Boolean b : changes.spellState){
+		if(this.changes.spellState){
 			s+="spellState:";
-			if(b){
-				s+=this.spellsState.get(i)+",";
-				b=true;
-			}
+
+			s+=this.spellsState.get(i)+",";
+			this.changes.spellState=true;
+
 			if(this.spellsState.size()>0){
 				s=s.substring(0, s.length()-1);
 			}
-			
-			s+=";";
-			i++;
 		}
+
+		s+=";";
+		i++;
 		if(changes.animation){
 			s+="animation:"+animation+";";
 			changes.animation=false;

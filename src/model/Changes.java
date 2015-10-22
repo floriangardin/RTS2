@@ -23,7 +23,7 @@ public class Changes {
 	public boolean animation = true;
 	public boolean isImmolating = true;
 	public boolean remainingTime = true;
-	public Vector<Boolean> spellState=new Vector<Boolean>();
+	public boolean spellState=true;
 	
 	
 	//BUILDING
@@ -47,9 +47,7 @@ public class Changes {
 	//BULLET
 	
 	public Changes(){
-		for(boolean b :  spellState){
-			b=true;
-		}
+
 	}
 	
 
