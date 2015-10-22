@@ -97,7 +97,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			s+="charge:"+this.charge+";";
 			changes.charge=false;
 		}
-		
+		System.out.println(s);
 		return s;
 	}
 
