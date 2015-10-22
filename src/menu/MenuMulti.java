@@ -95,6 +95,8 @@ public class MenuMulti extends Menu {
 				game.host = false;
 				game.inMultiplayer = false;
 				game.plateau.clearPlayer();
+				game.toSendConnexions.clear();
+				game.connexions.clear();
 				OpenGames opengame = openGames.get(gameSelected);
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown");

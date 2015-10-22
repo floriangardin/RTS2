@@ -14,6 +14,7 @@ import org.newdawn.slick.SlickException;
 
 import model.Game;
 import model.Map;
+import model.Objet;
 import model.Player;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
@@ -112,6 +113,8 @@ public class MenuMapChoice extends Menu {
 				//this.game.newGame();
 				this.game.quitMenu();
 				break;
+			} else {
+				this.players.get(game.plateau.currentPlayer.id).isReady = !this.players.get(game.plateau.currentPlayer.id).isReady;
 			}
 		default:		
 		}
@@ -142,9 +145,14 @@ public class MenuMapChoice extends Menu {
 		//Checking if all players are ready then launch the game
 		if(game.inMultiplayer){
 			boolean toGame = true;
+			// checking if all players are ready
 			for(Menu_Player m:this.players)
 				if(!m.isReady)
 					toGame = false;
+			// Checking if at least one player is present by team
+			if(toGame){
+				// TODO check previous condition
+			}
 			if (toGame){
 				//TODO Launch Game
 
@@ -200,10 +208,11 @@ public class MenuMapChoice extends Menu {
 				if(this.game.connexions.size()>0){
 
 				}
-			} else if(!game.host){
-				// updating info
-
 			}
+			while(game.connexions.size()>0){
+				this.parse(Objet.preParse(game.connexions.remove(0)));
+			}
+			this.game.toSendConnexions.addElement("2"+this.toString());
 		}
 		this.players.clear();
 		for(int j=0;j<this.game.plateau.players.size(); j++){
@@ -218,22 +227,26 @@ public class MenuMapChoice extends Menu {
 				callItem(j);
 		}
 		for(int j=0; j<players.size(); j++){
-			players.get(j).callItem(i);
+			if(j==game.plateau.currentPlayer.id){
+				players.get(j).callItem(i);
+			}
 		}
 		int toselect = -1;
-		for(int j=0; j<mapchoices.size(); j++){
-			if(mapchoices.get(j).isClicked(i))
-				toselect = j;
-		}
-		if(toselect!=-1){
+		if(game.host){
 			for(int j=0; j<mapchoices.size(); j++){
-				mapchoices.get(j).isSelected = j==toselect;
-				if(mapchoices.get(j).isSelected)
-					mapSelected = j;
+				if(mapchoices.get(j).isClicked(i))
+					toselect = j;
+			}
+			if(toselect!=-1){
+				for(int j=0; j<mapchoices.size(); j++){
+					mapchoices.get(j).isSelected = j==toselect;
+					if(mapchoices.get(j).isSelected)
+						mapSelected = j;
+				}
 			}
 		}
 	}
-	
+
 	public String toString(){
 		String s = "";
 		s+="idExp:"+this.players.get(this.game.plateau.currentPlayer.id);
@@ -246,7 +259,7 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		
+
 		//id for all players
 		s+="idTeam:";
 		for(Menu_Player p : this.players){
@@ -255,7 +268,7 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		
+
 		s+="nickname:";
 		//Nickname
 		for(Menu_Player p : this.players){
@@ -264,7 +277,7 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		
+
 		return s;
 	}
 
@@ -280,17 +293,17 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickName").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			for(int i = 0;i<civ.length;i++){
-					this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
+				this.players.get(i).p.gameteam.civ =  Integer.parseInt(civ[i]);
 			}
-			
+
 			for(int i = 0;i<nickname.length;i++){
 				this.players.get(i).p.nickname =  nickname[i];
 			}
-			
+
 			for(int i = 0;i<idTeam.length;i++){
 				this.players.get(i).p.gameteam.id = Integer.parseInt(idTeam[i]);
 			}
-			
+
 		}
 	}
 
