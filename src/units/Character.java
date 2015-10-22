@@ -875,14 +875,13 @@ public class Character extends ActionObjet{
 			for(float i : this.spellsState){
 				s+="spellState:";
 				s+=i+",";
-				this.changes.spellState=true;
-
-				if(this.spellsState.size()>0){
-					s=s.substring(0, s.length()-1);
-				}
+				
 
 			}
-
+			if(this.spellsState.size()>0){
+				s=s.substring(0, s.length()-1);
+			}
+			this.changes.spellState=true;
 			s+=";";
 		}
 
