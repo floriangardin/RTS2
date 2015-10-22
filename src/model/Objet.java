@@ -129,7 +129,13 @@ public abstract class Objet {
 		}
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split("\\:");
-			hs.put(r[0], r[1]);
+			if(r.length>1){
+				hs.put(r[0], r[1]);
+			}
+			else{
+				hs.put(r[0], "");
+			}
+			
 		}
 		return hs;
 	}
