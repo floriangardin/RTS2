@@ -182,7 +182,7 @@ public class Character extends ActionObjet{
 		}
 		this.orientation = sector;
 		this.changes.orientation = true;
-		
+
 	}
 
 
@@ -257,10 +257,10 @@ public class Character extends ActionObjet{
 	}
 
 	public void action(){
-		
+
 		//MULTI 
 		this.toKeep = false;
-		
+
 		this.updateChargeTime();
 
 		if(this.isImmolating){
@@ -291,7 +291,7 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
-		
+
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
@@ -410,7 +410,7 @@ public class Character extends ActionObjet{
 		this.setVXVY(0, 0);
 	}
 
-	
+
 	//// GRAPHISMS
 
 	public Graphics draw(Graphics g){
@@ -794,7 +794,7 @@ public class Character extends ActionObjet{
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
-		
+
 		//MULTI
 		this.changes.state = true;
 		this.changes.chargeTime=true;
@@ -875,9 +875,12 @@ public class Character extends ActionObjet{
 			s+="spellState:";
 			if(b){
 				s+=this.spellsState+",";
-				b=false;
+				b=true;
 			}
-			s=s.substring(0, s.length()-1);
+			if(this.spellsState.size()>0){
+				s=s.substring(0, s.length()-1);
+			}
+
 			s+=";";
 		}
 		if(changes.animation){
@@ -906,11 +909,13 @@ public class Character extends ActionObjet{
 			this.state=Float.parseFloat(hs.get("state"));
 		}
 		if(hs.containsKey("spellState")){
+			this.spellsState.clear();
 			String[] r = hs.get("spellState").split(",");
-			for(int i = 0;i<r.length;i++){
-				this.spellsState.set(i,Float.parseFloat(r[i]));
+			if(!r[0].equals("")){
+				for(int i = 0;i<r.length;i++){
+					this.spellsState.addElement(Float.parseFloat(r[i]));
+				}
 			}
-
 		}
 		if(hs.containsKey("animation")){
 			this.animation=Integer.parseInt(hs.get("animation"));
@@ -965,9 +970,9 @@ public class Character extends ActionObjet{
 		default:
 			c = null;
 		}
-		
+
 		return c;
-		
+
 	}
 
 
