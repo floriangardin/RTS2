@@ -22,7 +22,7 @@ public class MenuIntro extends Menu {
 	float timer = 0f;
 	float nextBullet = 1f;
 	Image title;
-	boolean toGame = false;
+	public boolean toGame = false;
 	public float timeToGame = 00f;
 	public Image newGame;
 	public Image multiplayer;
@@ -40,33 +40,28 @@ public class MenuIntro extends Menu {
 	public int cooldown;
 
 	public MenuIntro(Game game){
-		try {
-			this.music = new Music("music/menuTheme.ogg");
-			this.music.setVolume(0.5f);
-			this.music.loop();
-		} catch (SlickException e1) {
-			e1.printStackTrace();
-		}
+		this.music = game.musics.menu;
+		this.music.loop();
+		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 100f+0.1f*this.game.resX;
 		float stepY = 0.15f*this.game.resY;
-
+		float ratioReso = this.game.resX/2400f;
 		try {
-			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(this.game.resX/1680);
-			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(this.game.resX/1680);
-			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(this.game.resX/1680);
-			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(this.game.resX/1680);
-			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(this.game.resX/1680);
+			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
+			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(ratioReso);
+			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(ratioReso);
+			this.multiplayerSelected= new Image("pics/menu/multiplayerselected.png").getScaledCopy(ratioReso);
+			this.options = new Image("pics/menu/options.png").getScaledCopy(ratioReso);
+			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(ratioReso);
+			this.exit = new Image("pics/menu/exit.png").getScaledCopy(ratioReso);
+			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(ratioReso);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,"New Game"));
-			this.multiplayer= new Image("pics/menu/multiplayer.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,"Multiplayer"));
-			this.options = new Image("pics/menu/options.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,"Options"));
-			this.exit = new Image("pics/menu/exit.png").getScaledCopy(this.game.resX/1680);
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected ,"Exit"));
+			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected,this.game));
 
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -74,7 +69,7 @@ public class MenuIntro extends Menu {
 		//		}
 		Utils.triY(trees);
 		try{
-			this.sounds = new Sounds();
+			this.sounds = game.sounds;
 			this.title = new Image("pics/menu/goldtitle.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -96,11 +91,13 @@ public class MenuIntro extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 0:
-			this.toGame = true;
-			this.music.fade(300,0f, true);
+			this.game.setMenu(this.game.menuMapChoice);
 			break;
 		case 1:
-			this.multiplaying = true;
+			this.game.setMenu(this.game.menuMulti);
+			break;
+		case 2:
+			this.game.setMenu(this.game.menuOptions);
 			break;
 		case 3: 
 			this.game.app.exit();
@@ -146,17 +143,20 @@ public class MenuIntro extends Menu {
 						Thread.sleep(5);
 					} catch(InterruptedException e) { }
 					game.inMultiplayer = true;
-					game.currentPlayer = 2;
+					game.plateau.currentPlayer = game.plateau.players.get(2);
 					callItem(0);
 					multiplaying = false;
 				}
 			}
-		}else if(!toGame){
+		} else {
 			if(i!=null){
-				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 					callItems(i);
-				for(Menu_Item item: this.items)
-					item.update(i);				
+					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
+				}
+				for(Menu_Item item: this.items){
+					item.update(i);
+				}			
 			}
 			Vector<Bullet> toremove = new Vector<Bullet>();
 			for(Bullet b: this.bullets){
@@ -165,12 +165,6 @@ public class MenuIntro extends Menu {
 			}
 			for(Bullet b: toremove)
 				this.bullets.remove(b);
-		} else {
-			this.timeToGame -= 1f;
-			if(timeToGame<0f){
-				this.game.newGame();
-				this.game.quitMenu();
-			}
 		}
 	}
 }

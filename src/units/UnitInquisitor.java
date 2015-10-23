@@ -4,13 +4,14 @@ import org.newdawn.slick.geom.Circle;
 
 import bullets.Fireball;
 import model.Data;
+import model.GameTeam;
 import model.Plateau;
 import model.Player;
 
 public class UnitInquisitor extends Character {
 
-	public UnitInquisitor(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitInquisitor(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "inquisitor";
 		this.type = UnitsList.Inquisitor;
 		this.maxLifePoints = 60f;
@@ -32,20 +33,13 @@ public class UnitInquisitor extends Character {
 		this.updateImage();
 	}
 
-	public UnitInquisitor(UnitInquisitor spearman, float x, float y) {
-		super(spearman,x,y);
-		
-		
-		
+	public UnitInquisitor(UnitInquisitor spearman, float x, float y,int id) {
+		super(spearman,x,y,id);	
 	}
 	
 	public void useWeapon(){
-
-		new Fireball(this.p,this,this.damage);
+		new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
-
-
-
 	}
 
 }

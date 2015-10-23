@@ -1,6 +1,7 @@
 package spells;
 
 import display.Message;
+import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import model.Player;
@@ -10,26 +11,26 @@ public class SpellConversion extends Spell{
 
 	public float faithCost;
 
-	public SpellConversion(Plateau p, Player player){
+	public SpellConversion(Plateau p, GameTeam gameteam){
 		this.chargeTime = 200f;
 		this.faithCost = 2f;
 		this.name = "Conversion";
 		this.icon = p.g.images.spellConversion;
 		this.range = 50f;
 		this.damage = 0f;
-		this.player = player;
+		this.gameteam = gameteam;
 		this.needToClick=true;
 		this.p = p;
 	}
 
 	public void launch(Objet target, Character launcher){
 		Objet t = p.findTarget(target.x, target.y);
-		if(t instanceof Character && t.team!=launcher.team){
-			if(launcher.player.special>=this.faithCost){
-				((Character)t).changeTeam(launcher.team);
-				launcher.player.special-=this.faithCost;
+		if(t instanceof Character && t.getTeam()!=launcher.getTeam()){
+			if(launcher.getGameTeam().special>=this.faithCost){
+				((Character)t).changeTeam(launcher.getTeam());
+				launcher.getGameTeam().special-=this.faithCost;
 			} else {
-				p.addMessage(Message.getById(2), launcher.team);
+				p.addMessage(Message.getById(2), launcher.getTeam());
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package spells;
 
+import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import model.Player;
@@ -11,7 +12,7 @@ public class SpellInstantDeath extends Spell{
 	public float remainingTime;
 	public float width;
 
-	public SpellInstantDeath(Plateau p, Player player){
+	public SpellInstantDeath(Plateau p, GameTeam gameteam){
 		this.p = p;
 		this.chargeTime = 450f;
 		this.width = 15f;
@@ -20,7 +21,7 @@ public class SpellInstantDeath extends Spell{
 		this.range = 200f;
 		this.damage = 1f;
 		this.remainingTime = 250f;
-		this.player = player;
+		this.gameteam = gameteam;
 		this.needToClick=true;
 	}
 
@@ -34,7 +35,7 @@ public class SpellInstantDeath extends Spell{
 			}
 		}
 
-		if(h instanceof Character && h.team!=launcher.team && launcher!=h && this.range>=Utils.distance(h, launcher)){
+		if(h instanceof Character && h.getTeam()!=launcher.getTeam() && launcher!=h && this.range>=Utils.distance(h, launcher)){
 			h.lifePoints = 0f;
 			
 		}

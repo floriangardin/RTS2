@@ -15,13 +15,12 @@ import buildings.Building;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
+import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 import model.RidableObjet;
 import model.Utils;
-import multiplaying.OutputModel.OutputChar;
 import pathfinding.Case;
 import spells.Spell;
 
@@ -54,7 +53,7 @@ public class Character extends ActionObjet{
 	public RidableObjet horse;
 
 	public int typeWeapon, typeHorse;
-	public Player player;
+	//public Player player;
 	// About drawing
 	public float animationValue=0f;
 
@@ -74,19 +73,20 @@ public class Character extends ActionObjet{
 	public Vector<Case> waypoints = new Vector<Case>();
 
 
+
+
 	// Constructor for data ( not adding in plateau not giving location)
-	public Character(Plateau p,Player player){
+	public Character(Plateau p, GameTeam gameteam){
 		this.p = p;
 		this.animations = new Image[1][4][4];
-		this.player = player;
-		this.team = player.team;
+		this.setTeam(gameteam);
 		this.name = "character";
 		this.selection_circle = this.p.g.images.selection_circle;
 		Image imagea = this.p.g.images.corps;
 		Image imageb = this.p.g.images.corps;
-		if(team==1)
+		if(getTeam()==1)
 			imageb = this.p.g.images.blue;
-		if(team==2)
+		if(getTeam()==2)
 			imageb = this.p.g.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.size = 20f;
@@ -95,14 +95,19 @@ public class Character extends ActionObjet{
 
 	}
 	// Copy constructor , to really create an unit
-	public Character(Character c,float x,float y){
+	public Character(Character c,float x,float y,int id){
 		this.p = c.p;
 		this.size = c.size;
 		p.addCharacterObjets(this);
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
+		if(id==-1){
+			this.id = p.g.idChar;
+			p.g.idChar+=1;
+		}
+		else{
+			this.id = id;
+		}
 		this.name = c.name;
-		this.team = c.team;
+		this.setTeam(c.getTeam());
 		this.damage = c.damage;
 		this.maxLifePoints = c.maxLifePoints;
 		this.lifePoints = c.maxLifePoints;
@@ -130,15 +135,6 @@ public class Character extends ActionObjet{
 		}
 
 
-	}
-	public Character(OutputChar occ, Plateau p){
-		// Only used to display on client screen
-		// Parameters
-		this.name = occ.name;
-		this.p = p;
-		this.player = this.p.g.players.get(team);
-		Character c = this.player.create(UnitsList.switchName(occ.name),occ.x,occ.y);
-		c.id = occ.id;
 	}
 
 	public boolean isLeader(){
@@ -184,7 +180,7 @@ public class Character extends ActionObjet{
 		}
 		this.orientation = sector;
 		this.changes.orientation = true;
-		
+
 	}
 
 
@@ -201,7 +197,7 @@ public class Character extends ActionObjet{
 		this.updateImage();
 	}
 	//Update functions
-	@Deprecated
+
 	public void updateImage(){
 		//Handling the team
 		Image imagea = this.p.g.images.corps;
@@ -210,11 +206,11 @@ public class Character extends ActionObjet{
 		Image imageb = this.p.g.images.corps;
 		Image imagec = this.p.g.images.corps;
 		Image imaged = null;
-		if(team==1){
+		if(getTeam()==1){
 			imageb = this.p.g.images.blue;
 			imagec = this.p.g.images.horseBlue;
 		}
-		if(team==2){
+		if(getTeam()==2){
 			imageb = this.p.g.images.red;
 			imagec = this.p.g.images.horseRed;
 		}
@@ -260,6 +256,9 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
+		//MULTI 
+		this.toKeep = false;
+
 		this.updateChargeTime();
 
 		if(this.isImmolating){
@@ -273,13 +272,13 @@ public class Character extends ActionObjet{
 			// IA sp�cifique
 			Vector<Character> enemies = new Vector<Character>();
 			for(Character c: this.p.characters)
-				if(c.team!=this.team)
+				if(c.getTeam()!=this.getTeam())
 					enemies.add(c);
 			this.moveToward(this.ia.moveInBattle(enemies));
 			this.updateSetTarget();
 			Circle range = new Circle(this.getX(), this.getY(), this.range);
 			if(!(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox)))){
-				if(state>=chargeTime && this.target!=null && this.target instanceof Character){
+				if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
 					this.useWeapon();
 				}
 			}
@@ -290,7 +289,7 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
-		
+
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
@@ -301,14 +300,8 @@ public class Character extends ActionObjet{
 		if(this.c == this.getTarget().c){
 			this.moveToward(this.getTarget());
 		} else if(this.waypoints.size()>0){
-			int j=-1;
-			for(int i=0; i<this.waypoints.size();i++){
-				if(this.c==this.waypoints.get(i))
-					j=i;
-			}
-			if(j>=0){
-				for(int i=0; i<=j; i++)
-					this.waypoints.remove(i);
+			if(this.c==this.waypoints.get(0)){
+				this.waypoints.remove(0);
 				this.move();
 			} else {
 				this.moveToward(this.waypoints.get(0));
@@ -331,7 +324,7 @@ public class Character extends ActionObjet{
 		newvx = o.getX()-this.getX();
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
-		float maxVNorm = this.maxVelocity/((float)this.p.g.players.get(team).data.FRAMERATE);
+		float maxVNorm = this.maxVelocity/((float)this.getGameTeam().data.FRAMERATE);
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
@@ -372,7 +365,7 @@ public class Character extends ActionObjet{
 		this.setVXVY(newvx, newvy);
 
 		this.setXY(newX, newY);
-		this.animationValue+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+		this.animationValue+=4f/(float)this.getGameTeam().data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
@@ -408,6 +401,7 @@ public class Character extends ActionObjet{
 		}
 		this.setVXVY(0, 0);
 	}
+
 
 	//// GRAPHISMS
 
@@ -692,29 +686,11 @@ public class Character extends ActionObjet{
 
 	//// Changing the team
 	public void changeTeam(int newTeam){
-		this.team = newTeam;
-		this.player = this.p.g.players.get(newTeam);
+		this.setTeam( newTeam);
 		this.updateImage();
 	}
 
 	//// UPDATE FUNCTIONS
-
-	// update from an outputchar
-	public void change(OutputChar occ){
-		if(occ.team!=this.team)
-			this.changeTeam(occ.team);
-		this.setXY(occ.x, occ.y);
-		this.lifePoints = occ.lifePoints;
-		this.animation = occ.animation;
-		this.orientation = occ.direction;
-		this.sight = occ.sight;
-		this.isImmolating = (occ.isImmolating==1);
-		for(int i=0; i<this.spells.size();i++)
-			this.spellsState.set(i,occ.spellState[i]);
-		if(occ.weaponType==this.typeWeapon && occ.horseType == this.typeHorse)
-			return;
-		//this.changeEquipment(occ.weaponType, occ.horseType);
-	}
 
 
 	public void setTarget(Objet t, Vector<Case> waypoints){
@@ -778,7 +754,7 @@ public class Character extends ActionObjet{
 			}
 		}else{
 			this.stop();
-			if(state>=chargeTime && this.target!=null && this.target instanceof Character){
+			if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
 				this.useWeapon();
 			}
 		}
@@ -792,7 +768,7 @@ public class Character extends ActionObjet{
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
-		
+
 		//MULTI
 		this.changes.state = true;
 		this.changes.chargeTime=true;
@@ -802,7 +778,7 @@ public class Character extends ActionObjet{
 		this.remainingTime-=1f;
 		if(this.remainingTime<=0f){
 			this.lifePoints=-1f;
-			this.player.special+=this.player.data.gainedFaithByImmolation;
+			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 		}
 		this.changes.isImmolating=true;
 		this.changes.remainingTime = true;
@@ -837,25 +813,23 @@ public class Character extends ActionObjet{
 		if(this.getTarget() instanceof Character){
 
 			Character c =(Character) this.getTarget();
-			if(c.team!=this.team && !c.collisionBox.intersects(this.sightBox)){
+			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
 			}
 		}
 	}
 	public void updateAnimation(){
 		if(this.vx>0 ||this.vy>0){
-			this.incrementf+=4f/(float)this.p.g.players.get(team).data.FRAMERATE;
+			this.incrementf+=4f/(float)this.getGameTeam().data.FRAMERATE;
 		}
-		if(this instanceof UnitTest)
-			this.increment= ((int)this.incrementf)%this.animations[0][0].length;
-		//Choose mode
+
 
 	}
 
 	public String toString(){
 		String s ="" ;
-		s+=toString1();
-		s+= toString2();
+		s+=toStringObjet();
+		s+= toStringActionObjet();
 		if(changes.weapon){
 			s+="weapon:"+weapon+";";
 			changes.weapon = false;
@@ -869,15 +843,18 @@ public class Character extends ActionObjet{
 			changes.state = false;
 		}
 
-		for(Boolean b : changes.spellState){
+		if(this.changes.spellState){
 			s+="spellState:";
-			if(b){
-				s+=this.spellsState+",";
-				b=false;
+			for(float i : this.spellsState){
+				s+=i+",";			
 			}
-			s=s.substring(0, s.length()-1);
+			if(this.spellsState.size()>0){
+				s=s.substring(0, s.length()-1);
+			}
+			this.changes.spellState=true;
 			s+=";";
 		}
+
 		if(changes.animation){
 			s+="animation:"+animation+";";
 			changes.animation=false;
@@ -893,8 +870,7 @@ public class Character extends ActionObjet{
 		return s;
 	}
 
-	public void parse3(HashMap<String,String> hs){
-
+	public void parseCharacter(HashMap<String,String> hs){
 		if(hs.containsKey("weapon")){
 			this.weapon=hs.get("weapon");
 		}
@@ -905,11 +881,13 @@ public class Character extends ActionObjet{
 			this.state=Float.parseFloat(hs.get("state"));
 		}
 		if(hs.containsKey("spellState")){
+			this.spellsState.clear();
 			String[] r = hs.get("spellState").split(",");
-			for(int i = 0;i<r.length;i++){
-				this.spellsState.set(i,Float.parseFloat(r[i]));
+			if(!r[0].equals("")){
+				for(int i = 0;i<r.length;i++){
+					this.spellsState.addElement(Float.parseFloat(r[i]));
+				}
 			}
-
 		}
 		if(hs.containsKey("animation")){
 			this.animation=Integer.parseInt(hs.get("animation"));
@@ -927,43 +905,43 @@ public class Character extends ActionObjet{
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
 
-		this.parse1(hs);
-		this.parse2(hs);
-		this.parse3(hs);
+		this.parseObjet(hs);
+		this.parseActionObjet(hs);
+		this.parseCharacter(hs);
 
 	}
 
 	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
 		Character c;
+		int id = Integer.parseInt(hs.get("id"));
+		float x = Float.parseFloat(hs.get("x"));
+		float y = Float.parseFloat(hs.get("y"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.players.get(0).data.spearman,0,0);	
+			c =  new UnitSpearman(g.plateau.currentPlayer.getGameTeam().data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.players.get(0).data.knight,0,0);	
+			c = new UnitKnight(g.plateau.currentPlayer.getGameTeam().data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.players.get(0).data.priest,0,0);
+			c =  new UnitPriest(g.plateau.currentPlayer.getGameTeam().data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.players.get(0).data.crossbowman,0,0);
+			c =  new UnitCrossbowman(g.plateau.currentPlayer.getGameTeam().data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.players.get(0).data.inquisitor,0,0);
+			c =  new UnitInquisitor(g.plateau.currentPlayer.getGameTeam().data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.players.get(0).data.archange,0,0);
-			break;
-		case "test":
-			c = new UnitTest(g.players.get(0).data.test,0,0);
+			c = new UnitArchange(g.plateau.currentPlayer.getGameTeam().data.archange,x,y,id);
 			break;
 		default:
 			c = null;
 		}
-		c.parse(hs);
+
 		return c;
-		
+
 	}
 
 

@@ -8,7 +8,6 @@ import org.newdawn.slick.geom.Rectangle;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
-import multiplaying.OutputModel.OutputBuilding;
 import units.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
@@ -17,12 +16,13 @@ public class BuildingBarrack extends BuildingProduction{
 	public BuildingBarrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
 		//this.animation=-1f;
-		team = 0;
 		this.p = plateau ;
-		maxLifePoints = p.g.players.get(team).data.barrackLifePoints;
-		this.sizeX = this.p.g.players.get(team).data.barrackSizeX; 
-		this.sizeY = this.p.g.players.get(team).data.barrackSizeY;
-		this.sight = this.p.g.players.get(team).data.barrackSight;
+		this.setTeam(0);
+		//maxLifePoints = p.g.players.get(team).data.barrackLifePoints;
+		maxLifePoints = 10f;
+		this.sizeX = this.getGameTeam().data.barrackSizeX; 
+		this.sizeY = this.getGameTeam().data.barrackSizeY;
+		this.sight = this.getGameTeam().data.barrackSight;
 		this.name = "barrack";
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
@@ -34,30 +34,20 @@ public class BuildingBarrack extends BuildingProduction{
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(team==1){
+		if(getTeam()==1){
 			this.image = this.p.g.images.buildingBarrackBlue;
-		} else if(team==2){
+		} else if(getTeam()==2){
 			this.image = this.p.g.images.buildingBarrackRed;
 		} else {
 			this.image = this.p.g.images.buildingBarrackNeutral;
 		}
-		// List of potential production (Spearman
-		//TODO Merge production time and production list in vector of UnitsList
+		// List of potential production (Spearman)
 		this.queue = new Vector<Integer>();
-		this.productionTime = new Vector<Float>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
-		this.productionTime.addElement(UnitsList.Spearman.time);
 		this.productionList.addElement(UnitsList.Crossbowman);
-		this.productionTime.addElement(UnitsList.Crossbowman.time);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
-	}
-
-	public BuildingBarrack(OutputBuilding ocb, Plateau p){
-		team = ocb.team;
-		new BuildingBarrack(p,p.g,ocb.x,ocb.y);
-		this.id = ocb.id;
 	}
 
 	public void drawAnimation(Graphics g){

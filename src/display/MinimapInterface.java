@@ -64,15 +64,15 @@ public class MinimapInterface extends Bar {
 		// Draw units on camera 
 
 		for(Character c : this.p.characters){		
-			if(c.team==2){
-				if(this.p.isVisibleByPlayer(this.player.team, c)){
+			if(c.getTeam()==2){
+				if(this.p.isVisibleByPlayer(this.player.getTeam(), c)){
 					g.setColor(Color.red);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
-			else if(c.team==1){
-				if(this.p.isVisibleByPlayer(this.player.team, c)){
+			else if(c.getTeam()==1){
+				if(this.p.isVisibleByPlayer(this.player.getTeam(), c)){
 					g.setColor(Color.blue);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
@@ -80,20 +80,20 @@ public class MinimapInterface extends Bar {
 			}
 		}
 		for(Building c : this.p.buildings){
-			if(c.team==0){
+			if(c.getTeam()==0){
 				g.setColor(Color.gray);
 
 			}
-			if(c.team==2){
-				if(this.p.isVisibleByPlayer(this.player.team, c)){
+			if(c.getTeam()==2){
+				if(this.p.isVisibleByPlayer(this.player.getTeam(), c)){
 					g.setColor(Color.red);
 				} else {
 					g.setColor(Color.gray);
 
 				}
 			}
-			else if(c.team==1){
-				if(this.p.isVisibleByPlayer(this.player.team, c)){
+			else if(c.getTeam()==1){
+				if(this.p.isVisibleByPlayer(this.player.getTeam(), c)){
 					g.setColor(Color.blue);
 				} else {
 					g.setColor(Color.gray);
@@ -102,7 +102,7 @@ public class MinimapInterface extends Bar {
 			}
 			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
 			
-			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(this.player.team, c)){
+			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(this.player.getTeam(), c)){
 				float ratio = c.constructionPoints/c.maxLifePoints;
 				if(c.potentialTeam==1){
 					g.setColor(Color.blue);

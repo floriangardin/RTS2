@@ -20,13 +20,13 @@ public class BuildingMill extends BuildingTech{
 	
 	public BuildingMill(Plateau p,Game g,float x, float y){
 		
-		teamCapturing= 0;
-		team = 0;
+
 
 		this.x = x;
 		this.y = y;
 		
 		this.p =p;
+		this.setTeam(0);
 		this.g =g;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
@@ -34,17 +34,17 @@ public class BuildingMill extends BuildingTech{
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";
 		
-		this.maxLifePoints = p.g.players.get(team).data.millLifePoints;
-		this.chargeTime = p.g.players.get(team).data.millChargeTime;
-		this.lifePoints = p.g.players.get(team).data.millLifePoints;
-		this.sizeX = p.g.players.get(team).data.millSizeX; 
-		this.sizeY = p.g.players.get(team).data.millSizeY;
+		this.maxLifePoints = getGameTeam().data.millLifePoints;
+		this.chargeTime = getGameTeam().data.millChargeTime;
+		this.lifePoints = getGameTeam().data.millLifePoints;
+		this.sizeX = getGameTeam().data.millSizeX; 
+		this.sizeY = getGameTeam().data.millSizeY;
 		p.addBuilding(this);
-		this.sight = p.g.players.get(team).data.millSight;
+		this.sight = p.players.get(getTeam()).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		if(team==1){
+		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMillBlue;
-		} else if(team==2){
+		} else if(getTeam()==2){
 			this.image = this.p.g.images.buildingMillRed;
 		} else {
 			this.image = this.p.g.images.buildingMillNeutral;
@@ -58,13 +58,13 @@ public class BuildingMill extends BuildingTech{
 	
 	public void action(){
 		this.state+=0.1f;
-		if(this.team!=0)
+		if(getTeam()!=0)
 			this.animation+=2f;
 		if(animation>120f)
 			
 		
-		if(state >= chargeTime && team!=0){
-			this.p.g.players.get(team).food+=2+this.p.g.players.get(team).data.bonusFood;
+		if(state >= chargeTime && getTeam()!=0){
+			this.getGameTeam().food+=2+this.getGameTeam().data.bonusFood;
 			state = 0;
 		}
 		

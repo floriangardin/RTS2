@@ -10,8 +10,7 @@ public class Changes {
 	public boolean sight= true;
 	public boolean lifePoints= true;
 	public boolean team= true;
-	public boolean toCreate= true;
-	public boolean toDestroy= true;
+
 	
 	//ACTION OBJET
 	public boolean maxLifePoints= true;
@@ -24,7 +23,7 @@ public class Changes {
 	public boolean animation = true;
 	public boolean isImmolating = true;
 	public boolean remainingTime = true;
-	public Vector<Boolean> spellState=new Vector<Boolean>();
+	public boolean spellState=true;
 	
 	
 	//BUILDING
@@ -35,17 +34,20 @@ public class Changes {
 	public boolean rallyPoint= true;
 	
 	//BUILDING TECH AND PROD
-	public boolean queue;
+	public boolean queue=true;
+	public boolean idTech=true;
+	public boolean charge=true;
+	public boolean prod=true;
+	public boolean isFinished=true;
 	
 	//BUILDING PROD
-	public boolean productionTime;
+	public boolean ownerId= true;
+	public boolean ownerV=true;
 	
 	//BULLET
 	
 	public Changes(){
-		for(boolean b :  spellState){
-			b=true;
-		}
+
 	}
 	
 

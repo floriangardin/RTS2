@@ -1,6 +1,5 @@
 package model;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.Vector;
 
@@ -22,10 +21,12 @@ import display.Message;
 import display.TopBar;
 import menu.Menu;
 import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
 import multiplaying.InputModel;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
-import multiplaying.OutputModel;
 import spells.SpellEffect;
 import units.Character;
 
@@ -64,8 +65,6 @@ public class Game extends BasicGame
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
-	public Vector<Player> players = new Vector<Player>();
-	public int currentPlayer = 1;
 
 
 	// Network and multiplaying
@@ -77,15 +76,14 @@ public class Game extends BasicGame
 	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
-	private String addressHostString = "192.168.1.27";
-	private String addressClientString = "192.168.1.31";
+	private String addressHostString;
+	private String addressClientString;
 	public InetAddress addressHost;
 	public InetAddress addressClient;
 	public Vector<InputModel> inputs = new Vector<InputModel>();
 	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
 	public Vector<String> toSendInputs = new Vector<String>();
 	public Vector<String> outputs = new Vector<String>();
-	public Vector<OutputModel> toRemoveOutputs = new Vector<OutputModel>();
 	public Vector<String> toSendOutputs = new Vector<String>();
 	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
@@ -104,7 +102,10 @@ public class Game extends BasicGame
 
 	// Menus
 	public Menu menuPause;
-	public Menu menuIntro;
+	public MenuIntro menuIntro;
+	public MenuOptions menuOptions;
+	public MenuMulti menuMulti;
+	public MenuMapChoice menuMapChoice;
 	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
 
@@ -118,9 +119,7 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
-		app.setClearEachFrame(false);
 	}
-
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
@@ -153,7 +152,7 @@ public class Game extends BasicGame
 
 
 		// Draw the selection of your team 
-		for(ActionObjet o: plateau.selection.get(currentPlayer)){
+		for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
 			o.drawIsSelected(g);
 		}
 		//Creation of the drawing Vector
@@ -196,7 +195,7 @@ public class Game extends BasicGame
 		// Draw the selection :
 		for(int player=1; player<3; player++){
 			if(this.plateau.rectangleSelection !=null){
-				if(player==currentPlayer){
+				if(player==plateau.currentPlayer.id){
 					g.setColor(Color.green);
 					g.draw(this.plateau.rectangleSelection);
 				}
@@ -211,8 +210,8 @@ public class Game extends BasicGame
 		// Draw messages
 		Message m;
 		if(this.plateau.messages.size()>2){
-			for(int k=0; k<this.plateau.messages.get(currentPlayer).size();k++){
-				m = this.plateau.messages.get(currentPlayer).get(k);
+			for(int k=0; k<this.plateau.messages.get(plateau.currentPlayer.id).size();k++){
+				m = this.plateau.messages.get(plateau.currentPlayer.id).get(k);
 				g.setColor(m.color);
 				Font f = g.getFont();
 				float height = f.getHeight(m.message);
@@ -222,61 +221,46 @@ public class Game extends BasicGame
 	}
 	// Do our logic 
 	@Override
-	public synchronized void update(GameContainer gc, int t) throws SlickException 
-	{	
+	public synchronized void update(GameContainer gc, int t) throws SlickException {	
 		Vector<InputModel> ims = new Vector<InputModel>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			if(!host){
-				// client mode
-				InputModel im = new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
-				this.toSendInputs.addElement(im.toString());
-				ims.add(im);
-				if(outputs.size()>0){
-					this.plateau.currentString = outputs.lastElement();
-					outputs.clear();
-				}
-				this.plateau.update(ims);
-			} else {
-				ims.add(new InputModel(this,0,currentPlayer,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY));
-				if(inMultiplayer){
+			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			ims.add(im);
+			if(inMultiplayer){
+				if(!host){
+					// client mode
+					this.toSendInputs.addElement(im.toString());
+					if(outputs.size()>0){
+						this.plateau.currentString = outputs.lastElement();
+						outputs.clear();
+						//System.out.println("paquets perdus:" +(outputs.size()-1));
+						//outputs.clear();
+					}
+					this.plateau.update(ims);
+				} else {
 					// host mode
 					if(inputs.size()>0){
-						ims.add(this.inputs.lastElement());
+						ims.add(this.inputs.lastElement());	
 						inputs.clear();
-						System.out.println(ims.lastElement());
+						//System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
 					this.toSendOutputs.add(this.plateau.currentString);
-				} else {
-					// solo mode
-					this.plateau.update(ims);
 				}
+			} else {
+				// solo mode
+				this.plateau.update(ims);
 			}
+
+
 		}
 	}
 
-	public void newGame(){
-		//Clean all variables
-
-		Map.createMapEmpty(this);
-
-		//System.out.println(this.plateau.mapGrid);
-		//			Map.createMapEmpty(this);
-		// Instantiate BottomBars for all players:
-		for(int player=1; player<3; player++){
-			new BottomBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
-			new TopBar(this.plateau,this.players.get(player),(int)this.resX,(int)this.resY);
-		}
-		this.bottomBars = this.players.get(currentPlayer).bottomBar;
-		this.topBars = this.players.get(currentPlayer).topBar;
-		selection = null;
-
-	}
-
+	
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
@@ -290,16 +274,24 @@ public class Game extends BasicGame
 		this.musics = new Musics();
 
 		this.menuIntro = new MenuIntro(this);
+		this.menuOptions = new MenuOptions(this);
+		this.menuMulti = new MenuMulti(this);
+		this.menuMapChoice = new MenuMapChoice(this);
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
-		this.connexionSender.start();
-		if(!host){
-			this.outputReceiver.start();
-			this.inputSender.start();
-		} else{
-			this.outputSender.start();
-			this.inputReceiver.start();
+		Map.initializePlateau(this, 1f, 1f);
+
+		//System.out.println(this.plateau.mapGrid);
+		//			Map.createMapEmpty(this);
+		// Instantiate BottomBars for all players:
+		for(int player=1; player<3; player++){
+			new BottomBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
+			new TopBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
 		}
+		this.bottomBars = this.plateau.currentPlayer.bottomBar;
+		this.topBars = this.plateau.currentPlayer.topBar;
+		selection = null;
+		
 	}
 
 
@@ -308,25 +300,11 @@ public class Game extends BasicGame
 		this.resX = resX;
 		this.resY = resY;
 		this.images = new Images(false);
-		try {
-			addressHost = InetAddress.getByName(addressHostString);
-			addressClient = InetAddress.getByName(addressClientString);
-		} catch (UnknownHostException e) {
-			System.out.println("unknown address");
-		}
-		try {
-			host = (InetAddress.getLocalHost().getHostName()+".home").equals(addressHost.getHostName());
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
 
-		inputReceiver = new MultiReceiver(this,portInput);
-		inputSender = new MultiSender(addressHost,portInput,this.toSendInputs);
-		outputReceiver = new MultiReceiver(this,portOutput);
-		outputSender = new MultiSender(addressClient, portOutput, this.toSendOutputs);
+
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		//TODO: upgrading multiplaying
-		connexionSender = new MultiSender(host ? addressClient : addressHost, portConnexion, this.toSendConnexions);
+		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
 
 	}
 }

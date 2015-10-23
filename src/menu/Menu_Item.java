@@ -5,30 +5,36 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
+import model.Game;
 import multiplaying.InputModel;
 
 public class Menu_Item {
 
 	public float sizeX;
+	public Game game;
 	public float sizeY;
 	public float x;
 	public float y;
 	public Image image;
-	public String name;
 	public Image selectedImage;
 	public boolean isMouseOnIt = false;
 	public float animation = 0f;
 	public Color color = Color.black;
 	public Image toDraw;
-	public boolean colorAnimation = true;
+	public boolean selectionable = true;
+	public boolean mouseOver = false;
+	
+	public Menu_Item(){
+		
+	}
 
-	public Menu_Item(float x, float y, Image im, Image selectedImage,String name) {
+	public Menu_Item(float x, float y, Image im, Image selectedImage, Game game) {
 		this.image = im;
 		this.selectedImage = selectedImage;
+		this.game = game;
 		this.toDraw = this.image;
 		this.x = x;
 		this.y = y;
-		this.name = name;
 		this.sizeX = this.image.getWidth();
 		this.sizeY = this.image.getHeight();
 	}
@@ -50,15 +56,18 @@ public class Menu_Item {
 		g.drawImage(this.toDraw,x, y);
 	}
 
-	public void printDebug(){
-		System.out.println(this.name+" "+this.x+" "+this.y+" " +this.sizeX+" " +this.sizeY);
-	}
 
 	public void update(Input i){
-		if(this.colorAnimation){
+		if(this.selectionable){
 			if(this.isClicked(i)){
+				if(!mouseOver){
+					this.game.sounds.menuMouseOverItem.play(1f,this.game.options.soundVolume);
+					mouseOver = true;
+				}
 				this.toDraw = this.selectedImage;
 			} else {
+				if(mouseOver)
+					mouseOver = false;
 				this.toDraw = this.image;
 			}
 		}

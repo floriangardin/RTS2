@@ -7,9 +7,9 @@ import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
+import model.Changes;
 import model.Checkpoint;
 import model.Plateau;
-import multiplaying.OutputModel.OutputBullet;
 import units.Character;
 
 public class Fireball extends Bullet {
@@ -20,18 +20,25 @@ public class Fireball extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Fireball(Plateau p,Character owner,float damage){
+	public Fireball(Plateau p,Character owner,float targetX,float targetY,float vx,float vy,float damage,int id){
+		//MULTI 
+		this.changes = new Changes();
 		// Parameters
 		this.altitude = 0f;
 		this.areaEffect = 40f;
 		float Vmax = 120f;
 		float size = 10f;
-
+		this.name = "fireball";
 		//
-
 		this.p = p;
-		this.id = p.g.idBullet;
-		p.g.idBullet++;
+		if(id==-1){
+			this.id = p.g.idBullet;
+			p.g.idBullet++;
+		}
+		else{
+			this.id = id;
+		}
+
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
@@ -42,11 +49,12 @@ public class Fireball extends Bullet {
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
-		this.setTarget(new Checkpoint(owner.getTarget().getX(),owner.getTarget().getY()));
+		this.setTeam(owner.getTeam());
+		this.setTarget(new Checkpoint(targetX,targetY));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
-		this.vx = this.owner.getTarget().getX()-this.owner.getX();
-		this.vy = this.owner.getTarget().getY()-this.owner.getY()+altitude;
+		this.vx = vx;
+		this.vy = vy+altitude;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
 		norm  = (float)Math.sqrt(norm)*Main.framerate;
@@ -63,36 +71,13 @@ public class Fireball extends Bullet {
 //		this.sound = p.g.sounds.fireball;
 //		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
-	public Fireball(OutputBullet ocb, Plateau p){
-		// Parameters
-		this.p = p;
-		p.addBulletObjets(this);
-		this.id = ocb.id;
-		this.image = (this.p.g.images.fireball).getSubImage(0, 150, 75, 75);
-		this.image1 = (this.p.g.images.fireball).getSubImage(75, 150, 75, 75);
-		this.image2 = (this.p.g.images.fireball).getSubImage(150, 150, 75, 75);
-		this.boom = this.p.g.images.explosion;
-		this.animation = 0;
-		this.lifePoints = 1f;
-		this.collisionBox = new Point(ocb.x,ocb.y);
-		this.setXY(ocb.x,ocb.y);
-		this.vx = ocb.vx;
-		this.vy = ocb.vy;
-		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
-		if(this.vx<0)
-			this.angle+=180;
-		if(this.angle<0)
-			this.angle+=360;
-		this.image.rotate(this.angle);
-		this.image1.rotate(this.angle);
-		this.image2.rotate(this.angle);
-//		this.sound = p.g.sounds.fireball;
-//		this.sound.play(1f,this.p.g.options.soundVolume);
-	}
+	
 	public Fireball(){}
 	public void action(){
+		//MULTI 
+		this.toKeep = false;
 		if(explosion){
-			this.lifePoints-=1f;
+			this.setLifePoints(-1f);
 			return;
 		}
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
@@ -107,7 +92,7 @@ public class Fireball extends Bullet {
 		Circle area = new Circle(this.getX(),this.getY(),this.areaEffect);
 
 		for(Character c : this.p.characters){
-			if(c.collisionBox.intersects(area) && c.team!=this.owner.team){
+			if(c.collisionBox.intersects(area) && c.getTeam()!=this.owner.getTeam()){
 				this.boom(c);
 
 			}
@@ -118,8 +103,8 @@ public class Fireball extends Bullet {
 	public void boom(Character c){
 		float damage = this.damage;
 		if(c.weapon!= null && c.weapon == "bow")
-			damage = damage * this.p.g.players.get(team).data.bonusBowFoot;
-		c.lifePoints-=this.damage;
+			damage = damage * this.getGameTeam().data.bonusBowFoot;
+		c.setLifePoints(c.lifePoints-damage);
 		
 	}
 	
@@ -153,4 +138,16 @@ public class Fireball extends Bullet {
 		//g.fill(new Circle(this.collisionBox.getCenterX(),this.collisionBox.getCenterY(),this.collisionBox.getBoundingCircleRadius()));
 		return g;
 	}
+	
+	
+	public String toString(){
+		String s = toStringObjet()+toStringActionObjet()+toStringBullet();
+		if(this.owner.target!=null){
+			s+="targetX:"+this.owner.target.x+";";
+			s+="targetY:"+this.owner.target.y+";";
+		}
+		return s;
+		
+	}
+	
 }

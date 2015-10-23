@@ -9,11 +9,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
 
+import bullets.Bullet;
 import pathfinding.Case;
 import units.Character;
 
 public abstract class Objet {
-	
+
 	// Animation : mode,orientation,increment
 	public int id;
 	public Image[][][] animations;
@@ -32,24 +33,43 @@ public abstract class Objet {
 	public Plateau p;
 	public float lifePoints;
 	public String name;
-	public int team;
-	
+	private int team;
+	private GameTeam gameteam;
+
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
 	public boolean visibleByCamera;
 	public Image image;
 	//MULTIPLAYING BOOLEANS
 	public Changes changes=new Changes();
-	
+
 	public void setName(String s){
 		this.name = s;
 	}
 	public String getName(){
 		return this.name;
 	}
+	public int getTeam(){
+		return team;
+	}
+	public GameTeam getGameTeam(){
+		return gameteam;
+	}
+	public void setTeam(int i){
+		this.team = i;
+		for(GameTeam t : this.p.teams){
+			if(t.id==i){
+				this.gameteam = t;
+			}
+		}
+	}
+	public void setTeam(GameTeam g){
+		this.team = g.id;
+		this.gameteam = g;
+	}
 	protected void destroy(){
 		this.lifePoints = -10;
-		
+
 		this.x = -10f;
 		this.y = -10f;
 	}
@@ -64,26 +84,36 @@ public abstract class Objet {
 		return y;
 	}
 	protected void setXY(float x, float y){
-		this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
-		this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		if(this instanceof Bullet){
+			this.x = x;
+			this.y = y;
+		} else {
+			this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
+			this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		}
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		this.c = this.p.mapGrid.getCase(x, y);
 		this.changes.x=true;
 		this.changes.y = true;
 	}
-	
+
 	public boolean isAlive(){
 		return this.lifePoints>0f;
 	}
-
+	
+	public void setLifePoints(float lifepoints){
+		this.lifePoints= lifepoints;
+		this.changes.lifePoints = true;
+	}
 	// TOSTRING METHODS
-	public String toString1(){
+	public String toStringObjet(){
 		String s="";
 		s+="id:"+id+";";
+		s+="name:"+name+";";
 		if(changes.team){
 			s+="team:"+team+";";
-			changes.team = false;
+			changes.team = true;
 		}
 		if(changes.x){
 			s+="x:"+x+";";
@@ -99,40 +129,36 @@ public abstract class Objet {
 		}
 		if(changes.lifePoints){
 			s+="lifePoints:"+lifePoints+";";
-			changes.lifePoints = false;
+			changes.lifePoints = true;
 		}
 		if(changes.sight){
-			s+="lifePoints:"+lifePoints+";";
+			s+="sight:"+sight+";";
 			changes.sight = false;
-		}
-		if(changes.toCreate){
-			s+="create:1;";
-			s+="name:"+name+";";
-			changes.toCreate = false;
-		}
-		if(changes.toDestroy){
-			s+="destroy:1;";
-			changes.toDestroy = false;
 		}
 		return s;
 	}
 	public String toString(){
-		return this.toString1();
+		return this.toStringObjet();
 	}
-	
-	
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
+		if(u.length<=1){
+			return hs;
+		}
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split("\\:");
+			if(r.length>1){
+				hs.put(r[0], r[1]);
+			}
+			else{
+				hs.put(r[0],"");
+			}
 			
-			hs.put(r[0], r[1]);
 		}
 		return hs;
 	}
-	public void parse1(HashMap<String,String> hs){
-
+	public void parseObjet(HashMap<String,String> hs){
 		if(hs.containsKey("x")){
 			this.setXY(Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y")));
 		}
@@ -142,9 +168,18 @@ public abstract class Objet {
 		if(hs.containsKey("sight")){
 			this.sight=Float.parseFloat(hs.get("sight"));
 		}
-		if(hs.containsKey("toDestroy")){
-			this.destroy();
+		if(hs.containsKey("team")){
+			this.setTeam(Integer.parseInt(hs.get("team")));
+		}
+		if(hs.containsKey("orientation")){
+			this.orientation = Integer.parseInt(hs.get("orientation"));
 		}
 	}
+	public void parse(HashMap<String, String> hs) {
+		
+	}
+
+	
+	
 }
 

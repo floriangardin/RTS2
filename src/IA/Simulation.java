@@ -24,7 +24,7 @@ import units.UnitSpearman;
 import units.UnitsList;
 public class Simulation {
 
-	public boolean render= false;
+	public boolean render= true;
 
 	public Vector<Vector<Character>> armies;
 	public JPanel panel;
@@ -95,10 +95,10 @@ public class Simulation {
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, (int) (sizeX*ratio),(int) (sizeY*ratio));
 		for(Character c : this.p.characters){
-			if(c.team ==1 ){
+			if(c.getTeam() ==1 ){
 				g.setColor(Color.blue);
 			}
-			if(c.team == 2 ){
+			if(c.getTeam() == 2 ){
 				g.setColor(Color.red);	
 			}
 
@@ -138,10 +138,10 @@ public class Simulation {
 		for(Vector<Character> cs : armies){
 			for(Character c : cs){
 				if(c.lifePoints>0){
-					if(c.team==1){
+					if(c.getTeam()==1){
 						victory2=false;
 					}
-					if(c.team==2){
+					if(c.getTeam()==2){
 						victory1=false;
 					}
 				}
@@ -207,32 +207,32 @@ public class Simulation {
 		int i = (int) (Math.random()*n_units);
 		switch(i){
 		case 0:
-			c =  new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
+			c =  new UnitSpearman(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);	
 
 			break;
 		case 1:
-			c = new UnitKnight(this.p,this.game.players.get(team),this.game.players.get(team).data);	
+			c = new UnitKnight(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);	
 
 			break;
 		case 2:
-			c =  new UnitPriest(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			c =  new UnitPriest(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);
 
 			break;	
 		case 3:
-			c =  new UnitCrossbowman(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			c =  new UnitCrossbowman(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);
 
 			break;	
 		case 4:
-			c =  new UnitInquisitor(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			c =  new UnitInquisitor(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);
 
 			break;
 		case 5:
-			c = new UnitArchange(this.p,this.game.players.get(team),this.game.players.get(team).data);
+			c = new UnitArchange(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);
 
 			break;
 
 		default:
-			c = new UnitSpearman(this.p,this.game.players.get(team),this.game.players.get(team).data);	
+			c = new UnitSpearman(this.p,this.game.plateau.getTeamById(team),this.game.plateau.getTeamById(team).data);	
 		}
 		return c;
 
@@ -249,7 +249,7 @@ public class Simulation {
 			Character charact = generateRandomUnit(1);
 			x = (float)Math.random()*this.sizeX/2f+this.sizeX/4f;
 			y = (float)Math.random()*this.sizeY/2f+this.sizeY/4f;
-			Character c = this.p.g.players.get(1).create(charact.type, x, y);
+			Character c = this.p.getTeamById(1).data.create(charact.type, x, y);
 			this.armies.get(0).add(c);
 
 		}
@@ -257,7 +257,7 @@ public class Simulation {
 			Character charact = generateRandomUnit(2);
 			x = (float)Math.random()*this.sizeX/2f+this.sizeX/4f;
 			y = (float)Math.random()*this.sizeY/2f+this.sizeY/4f;
-			Character c = this.p.g.players.get(2).create(charact.type, x, y);
+			Character c = this.p.getTeamById(2).data.create(charact.type, x, y);
 			this.armies.get(1).add(c);
 		}
 
@@ -276,11 +276,11 @@ public class Simulation {
 		}
 
 		// GENERATE ARMY
-		Character c = this.p.g.players.get(1).create(UnitsList.Crossbowman, sizeX/2f, sizeY/2f);
+		Character c = this.p.getTeamById(1).data.create(UnitsList.Crossbowman, sizeX/2f, sizeY/2f);
 		c.ia = new IAUnit(c,Xc);
 		this.armies.get(0).add(c);
 
-		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f-150f, sizeY/2f-150f);
+		c = this.p.getTeamById(2).data.create(UnitsList.Spearman, sizeX/2f-150f, sizeY/2f-150f);
 		this.armies.get(1).add(c);
 //		c = this.p.g.players.get(2).create(UnitsList.Spearman, sizeX/2f+150f, sizeY/2f+150f);
 //		this.armies.get(1).add(c);

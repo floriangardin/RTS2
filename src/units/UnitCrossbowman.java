@@ -4,14 +4,15 @@ import org.newdawn.slick.geom.Circle;
 
 import bullets.Arrow;
 import model.Data;
+import model.GameTeam;
 import model.Plateau;
 import model.Player;
 
 
 public class UnitCrossbowman extends Character {
 
-	public UnitCrossbowman(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitCrossbowman(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "crossbowman";
 		this.type = UnitsList.Crossbowman;
 		this.maxLifePoints = 60f;
@@ -31,13 +32,13 @@ public class UnitCrossbowman extends Character {
 
 		this.updateImage();
 	}
-	public UnitCrossbowman(UnitCrossbowman unit, float x, float y) {
-		super(unit,x,y);
+	public UnitCrossbowman(UnitCrossbowman unit, float x, float y,int id) {
+		super(unit,x,y,id);
 	}
 
 	public void useWeapon(){
 
-		new Arrow(this.p,this,this.damage);
+		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
 
 

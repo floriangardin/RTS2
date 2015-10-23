@@ -9,7 +9,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Plateau;
-import multiplaying.OutputModel.OutputSpell;
 import units.Character;
 
 public class BlessedArea extends SpellEffect{
@@ -26,11 +25,19 @@ public class BlessedArea extends SpellEffect{
 	public float size = 200f;;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Plateau p, Character launcher, Checkpoint t){
+	public BlessedArea(Plateau p, Character launcher, Checkpoint t,int id){
+		if(id==-1){
+			this.id = p.g.idChar;
+			p.g.idChar+=1;
+		}
+		else{
+			this.id =id;
+		}
 		this.type = 2;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.lifePoints = 1f;
+		this.p = p;
 		p.addSpell(this);
 		this.image = p.g.images.blessedArea;
 		owner = launcher;
@@ -40,17 +47,7 @@ public class BlessedArea extends SpellEffect{
 		this.createAnimation();
 	}
 	
-	public BlessedArea(Plateau p, OutputSpell s){
-		this.id = s.id;
-		p.g.idChar+=1;
-		this.lifePoints = 1f;
-		p.addSpell(this);
-		this.image = p.g.images.blessedArea;
-		this.x = s.x1;
-		this.y = s.y1;
-		this.collisionBox = new Rectangle(x-size/2f,y-size/2f,size,size);
-		this.createAnimation();
-	}
+	
 
 	public void createAnimation(){
 		animationX[0] = this.getX()+size/4f;
@@ -64,6 +61,10 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void action(){
+		//MULTI
+		this.changes.x = true;
+		this.changes.y = true;
+		
 		this.remainingTime-=1f;
 		Vector<Character> toDelete = new Vector<Character>();
 		if(this.remainingTime<=0f){
@@ -89,7 +90,6 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-
 		this.animationState +=1f;
 		if(this.animationState>animationMax)
 			animationState = 0f;
@@ -116,9 +116,16 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void collision(Character c){
-		if(this.lifePoints>0 && c.team==owner.team && !this.targeted.contains(c)){
+		if(this.lifePoints>0 && c.getTeam()==owner.getTeam() && !this.targeted.contains(c)){
 			c.chargeTime*=this.effect;
 			this.targeted.addElement(c);
 		}
+	}
+	
+	
+	public String toString(){
+		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
+		s+="idLauncher:"+this.owner.id+";";
+		return s;
 	}
 }

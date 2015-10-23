@@ -7,14 +7,15 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
+import model.GameTeam;
 import model.Plateau;
 import model.Player;
 
 
 public class UnitArchange extends Character {
 
-	public UnitArchange(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitArchange(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "archange";
 		this.type = UnitsList.Archange;
 		this.maxLifePoints = 200f;
@@ -32,14 +33,14 @@ public class UnitArchange extends Character {
 
 		this.spells.add(data.instantDeath);
 		this.spells.add(data.instantHealth);
-		if(this.team==1)
+		if(this.getTeam()==1)
 			this.image = this.p.g.images.archangeBlue;
 		else
 			this.image = this.p.g.images.archangeRed;
 	}
 
-	public UnitArchange(UnitArchange archange, float x, float y) {
-		super(archange,x,y);
+	public UnitArchange(UnitArchange archange, float x, float y,int id) {
+		super(archange,x,y,id);
 	}
 
 	public Graphics draw(Graphics g){
@@ -121,7 +122,7 @@ public class UnitArchange extends Character {
 			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
 
 		if(c.armor<damage){
-			c.lifePoints+=c.armor-damage;
+			c.setLifePoints(c.lifePoints+c.armor-damage);
 		}
 		// Reset the state
 		this.state = 0f;

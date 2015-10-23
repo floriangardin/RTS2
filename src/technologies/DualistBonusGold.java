@@ -3,18 +3,19 @@ package technologies;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import model.GameTeam;
 import model.Plateau;
 import model.Player;
 
 public class DualistBonusGold extends Technologie {
 
-	public DualistBonusGold(Plateau p, Player player) {
+	public DualistBonusGold(Plateau p, GameTeam gameteam) {
 		this.id = 3;
 		this.tech = Technologies.DualistBonusGold;
 		this.name = tech.name;
 		this.p = p;
-		this.player = player;
-		this.data = this.player.data;
+		this.gameteam = gameteam;
+		this.data = this.gameteam.data;
 		try {
 			this.icon = new Image("pics/tech/bonusGold.png");
 		} catch (SlickException e) {

@@ -19,7 +19,7 @@ public abstract class ActionObjet extends Objet{
 	public float vy;
 	public Objet target;
 	public Checkpoint checkpointTarget;
-
+	public boolean toKeep=true;
 	
 	//CHANGED BOOLEAN
 
@@ -62,7 +62,7 @@ public abstract class ActionObjet extends Objet{
 		}
 	}
 
-	public String toString2(){
+	public String toStringActionObjet(){
 		String s = "";
 		if(changes.maxLifePoints){
 			s+="maxLifePoints:"+maxLifePoints+";";
@@ -71,13 +71,9 @@ public abstract class ActionObjet extends Objet{
 		return s;
 	}
 	
-	public void parse2(HashMap<String,String> hs){
-
+	public void parseActionObjet(HashMap<String,String> hs){
 		if(hs.containsKey("maxLifePoints")){
 			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));
-		}
-		if(hs.containsKey("orientation")){
-			this.orientation=Integer.parseInt(hs.get("orientation"));
 		}
 	}
 }

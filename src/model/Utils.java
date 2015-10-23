@@ -2,7 +2,6 @@ package model;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Vector;
@@ -11,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 
+import bullets.Bullet;
 import units.Character;
 
 // Class for static methods
@@ -180,12 +180,21 @@ public class Utils {
 		else{
 			for(Character c:p.characters)
 				if(c.target!=null)
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints+" t:"+c.target.x);
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
 				else
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.team +" "+c.lifePoints);
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 	}
 		System.out.println();
 		System.out.println("========================================");
+		System.out.println();
+		System.out.println("** Bullets");
+		if(p.bullets==null)
+			System.out.println("-> bug: bullets est null");
+		else{
+			for(Bullet c:p.bullets)
+				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+	}
+		System.out.println();
 //		System.out.println();
 //		System.out.println("** Spells");
 //		if(p.spells==null)

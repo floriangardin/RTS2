@@ -29,9 +29,14 @@ import display.Message;
 public class Plateau {
 
 	public Game g;
-	public int nTeams;
 	public float maxX ;
 	public float maxY ;
+
+	// Number of teams
+	public int nTeams;
+	// Number of players
+	public int nPlayers;
+
 	// Camera 
 	public float Xcam;
 	public float Ycam;
@@ -39,8 +44,14 @@ public class Plateau {
 	public Image fog;
 	public Graphics gf;
 
-	//
+	// about the output of the string
 	public String currentString ;
+	
+	// teams and players
+	public Vector<Player> players = new Vector<Player>();
+	public Player currentPlayer;
+	public Vector<GameTeam> teams = new Vector<GameTeam>();
+	
 
 
 	// ADD ALL OBJETS 
@@ -82,13 +93,27 @@ public class Plateau {
 	public MapGrid mapGrid;
 
 	public Plateau(float maxX,float maxY,Game g){
-		int nTeams = 2;
+		
 		this.g = g;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
-		this.nTeams = nTeams;
+		this.nTeams = 2;
 		this.maxX= maxX;
 		this.maxY = maxY;
+		
+		//ABOUT PLAYERS
+
+		//UPDATING GAME
+		this.teams.addElement(new GameTeam(players,this,0,0));
+		this.teams.addElement(new GameTeam(players,this,1,0));
+		this.teams.addElement(new GameTeam(players,this,2,0));
+		this.players = new Vector<Player>();
+		this.players.add(new Player(this,0,"Nature",teams.get(0)));
+		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1)));
+		this.players.add(new Player(this,2,"IA random",teams.get(2)));
+		this.currentPlayer = players.get(1);
+		this.nPlayers = players.size();
+		
 		//CHARACTERS
 		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
@@ -121,7 +146,7 @@ public class Plateau {
 		this.isCastingSpell = new Vector<Boolean>();
 		this.hasCastSpell = new Vector<Boolean>();
 		this.castingSpell = new Vector<Integer>();
-		for(int i =0; i<=nTeams;i++){
+		for(int i =0; i<nPlayers;i++){
 			this.selection.addElement(new Vector<ActionObjet>());
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
 			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
@@ -137,15 +162,61 @@ public class Plateau {
 		} catch (SlickException | RuntimeException e) {
 		}
 
-		//UPDATING GAME
-		this.g.players = new Vector<Player>();
-		this.g.players.add(new Player(this,0,0));
-		this.g.players.add(new Player(this,1,0));
-		this.g.players.add(new Player(this,2,0));
 
 	}
 
+	public void setMaxXMaxY(float MaxX, float MaxY){
+		this.maxX = MaxX;
+		this.maxY = MaxY;
+		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
+		this.g.bottomBars = new BottomBar(this,this.currentPlayer,(int)g.resX,(int)g.resY);
+	}
+	
+	public GameTeam getTeamById(int team) {
+		for(GameTeam t : this.teams)
+			if(t.id == team)
+				return t;
+		return null;
+	}
+
+	public void addPlayer(String name){
+		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
+		nPlayers+=1;
+		
+		// adding components in plateau
+		this.selection.addElement(new Vector<ActionObjet>());
+		this.toAddSelection.addElement(new Vector<ActionObjet>());
+		this.toRemoveSelection.addElement(new Vector<ActionObjet>());
+		this.isCastingSpell.addElement(false);
+		this.hasCastSpell.addElement(false);
+		this.castingSpell.addElement(-1);
+		this.messages.addElement(new Vector<Message>());
+	}
+	
+	public void removePlayer(int indice){
+		if(indice==0 || indice>players.size())
+			return;
+		players.remove(indice);
+		nPlayers -= 1;
+
+		// deleting component from plateau
+		this.selection.remove(indice);
+		this.toAddSelection.remove(indice);
+		this.toRemoveSelection.remove(indice);
+		this.isCastingSpell.remove(indice);
+		this.hasCastSpell.remove(indice);
+		this.castingSpell.remove(indice);
+		this.messages.remove(indice);
+		
+	}
 	// functions that handle buffers
+
+	public void clearPlayer(){
+		while(players.size()>1){
+			removePlayer(players.size()-1);
+		}
+	}
+	
 	public void addCharacterObjets(Character o){
 		toAddCharacters.addElement(o);
 	}
@@ -220,7 +291,7 @@ public class Plateau {
 
 		// Update selection and groups
 		Vector<ActionObjet> toDelete = new Vector<ActionObjet>();
-		for(int i=0;i<=nTeams;i++){
+		for(int i=0;i<nPlayers;i++){
 			for(ActionObjet c: selection.get(i)){
 				if(!c.isAlive()){
 					this.removeSelection(c, i);
@@ -237,12 +308,12 @@ public class Plateau {
 			}
 			for(int k=0; k<10; k++){
 				toDelete.clear();
-				for(ActionObjet c: this.g.players.get(i).groups.get(k)){
+				for(ActionObjet c: this.players.get(i).groups.get(k)){
 					if(!c.isAlive())
 						toDelete.add(c);
 				}
 				for(ActionObjet c: toDelete){
-					this.g.players.get(i).groups.get(k).remove(c);
+					this.players.get(i).groups.get(k).remove(c);
 				}
 			}
 		}
@@ -281,7 +352,7 @@ public class Plateau {
 		}
 
 		// Clear the vector :
-		for(int i = 0;i<=nTeams;i++){
+		for(int i = 0;i<nPlayers;i++){
 			toAddSelection.get(i).clear();
 			toRemoveSelection.get(i).clear();
 		}
@@ -435,7 +506,7 @@ public class Plateau {
 	public Vector<Objet> getEnnemiesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o.team!=caller.team && o.collisionBox.intersects(caller.sightBox)){
+			if(o.getTeam()!=caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -444,7 +515,7 @@ public class Plateau {
 	public Vector<Objet> getAlliesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o!=caller && o.team==caller.team && o.collisionBox.intersects(caller.sightBox)){
+			if(o!=caller && o.getTeam()==caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -453,7 +524,7 @@ public class Plateau {
 	public Vector<Objet> getWoundedAlliesInSight(Character caller){
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
-			if(o!=caller && o.team==caller.team && o.lifePoints<o.maxLifePoints && o.collisionBox.intersects(caller.sightBox)){
+			if(o!=caller && o.getTeam()==caller.getTeam() && o.lifePoints<o.maxLifePoints && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -496,46 +567,46 @@ public class Plateau {
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
 		InputModel im;
-		for(int player = 1; player<=nTeams; player++){
-			if(!g.host && player!=g.currentPlayer)
+		for(int player = 1; player<=nPlayers; player++){
+			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
 			im = null;
 			for(InputModel inp : ims)
-				if(inp.team==player)
+				if(inp.idPlayer==player)
 					im = inp;
 			if(im!=null){
-				if(g.host){
+				if(!g.inMultiplayer || g.host){
 					// Handling action bar
 					this.handleActionBar(im,player);
 					// Handling the right click
 					this.handleRightClick(im,player);
 					// handling only the current player
 				}
-				if(player == this.g.currentPlayer){
+				if(player == this.currentPlayer.id){
 					if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 						this.handleView(im, player);
-						this.handleSelection(im, player);
+						this.handleSelection(im, player,players.get(player).getTeam());
 					}
 				} else {
 					this.updateSelection(im);
 				}
-				if(g.host){
+				if(!g.inMultiplayer || g.host){
 					// Handling the spell on the field
 					this.handleSpellsOnField(im, player);
 				}
 			} else {
-				System.out.println("player "+player+" : im null");
+				//System.out.println("player "+player+" : im null");
 			}
 		}
 
 		// 2 - Only for host - Collision, Action, Cleaning
-		if(g.host)
+		if(!g.inMultiplayer || g.host)
 			this.collision();
 		this.clean();
-		if(g.host)			
+		if(!g.inMultiplayer || g.host)			
 			this.action();
 
-		if(g.host){
+		if(!g.inMultiplayer || g.host){
 			this.currentString = this.toString();
 		} else {
 			if(currentString!=null){
@@ -563,43 +634,32 @@ public class Plateau {
 
 
 	private void updateSelection(InputModel im) {
-		this.selection.get(im.team).clear();
+		this.selection.get(im.idPlayer).clear();
 
 		for(Integer i : im.selection){
 			for(Character c: this.characters)
 				if(c.id == i){
-					this.selection.get(im.team).add(c);
+					this.selection.get(im.idPlayer).add(c);
 				}
 			for(Building c: this.buildings)
 				if(c.id == i)
-					this.selection.get(im.team).add(c);
+					this.selection.get(im.idPlayer).add(c);
 		}
 
 	}
 
 	private void handleRightClick(InputModel im, int player) {
-		if(im.team!=g.currentPlayer){
-
-			System.out.println(im);
-			if(im.isPressedRightClick){
-				System.out.println("mythe222");
-			}
-		}
-		if(im.isPressedRightClick){
+		if(im.pressedRightClick){
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
-				System.out.println("bug 1");
 				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
 			} else if(isCastingSpell.get(player)){
-				System.out.println("bug 2");
 				isCastingSpell.set(player,false);
 				castingSpell.set(player,-1);
 			} else if(im.isPressedMAJ ){
-				System.out.println("bug 3");
 				if(!im.isPressedA)
 					updateSecondaryTarget(im.xMouse,im.yMouse,player);
 			} else {
-				System.out.println("bug 4");
 				if(!im.isPressedA)
 					updateTarget(im.xMouse,im.yMouse,player);
 			}
@@ -607,11 +667,11 @@ public class Plateau {
 	}
 
 	private void handleSpellsOnField(InputModel im, int player) {
-		if(im.isPressedLeftClick && isCastingSpell.get(player)){
-			if(this.g.players.get(player).selection.size()>0){
-				Character c = (Character)this.g.players.get(player).selection.get(0); 
+		if(im.pressedLeftClick && isCastingSpell.get(player)){
+			if(this.players.get(player).selection.size()>0){
+				Character c = (Character)this.players.get(player).selection.get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
-				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.g.players.get(player).selection.get(0));
+				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.players.get(player).selection.get(0));
 				c.spellsState.set(castingSpell.get(player),0f);
 			}
 			isCastingSpell.set(player,false);
@@ -671,60 +731,60 @@ public class Plateau {
 		// Handle the display (camera movement & minimap)
 
 		// camera movement
-		if(!isCastingSpell.get(player) && player==this.g.currentPlayer && this.rectangleSelection==null && !im.leftClick){
+		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection==null && !im.leftClick){
 			// Move camera according to inputs :
-			if((im.isPressedUP || im.yMouse<im.Ycam+5)&&im.Ycam>-im.resY/2){
+			if((im.isPressedUP || im.yMouse<Ycam+5)&&Ycam>-g.resY/2){
 				Ycam -= 20;
 			}
-			if((im.isPressedDOWN || im.yMouse>im.Ycam+im.resY-5) && im.Ycam<this.maxY-im.resY/2){
+			if((im.isPressedDOWN || im.yMouse>Ycam+g.resY-5) && Ycam<this.maxY-g.resY/2){
 				Ycam +=20;
 			}
-			if((im.isPressedLEFT|| im.xMouse<im.Xcam+5) && im.Xcam>-im.resX/2 ){
+			if((im.isPressedLEFT|| im.xMouse<Xcam+5) && Xcam>-g.resX/2 ){
 				Xcam -=20;
 			}
-			if((im.isPressedRIGHT || im.xMouse>im.Xcam+im.resX-5)&& im.Xcam<this.maxX-im.resX/2){
+			if((im.isPressedRIGHT || im.xMouse>Xcam+g.resX-5)&& Xcam<this.maxX-g.resX/2){
 				Xcam += 20;
 			}
 			//Displaying the selected group
 			for(int to=0; to<10; to++){
 				if(im.isPressedNumPad[to]){
-					if(this.g.players.get(player).groupSelection == to && this.g.players.get(player).groups.get(to).size()>0){
-						float xmoy=this.g.players.get(player).groups.get(to).get(0).getX();
-						float ymoy=this.g.players.get(player).groups.get(to).get(0).getY();
-						this.Xcam = Math.min(maxX-im.resX/2f, Math.max(-im.resX/2f, xmoy-im.resX/2f));
-						this.Ycam = Math.min(maxY-im.resY/2f, Math.max(-im.resY/2f, ymoy-im.resY/2f));
+					if(this.players.get(player).groupSelection == to && this.players.get(player).groups.get(to).size()>0){
+						float xmoy=this.players.get(player).groups.get(to).get(0).getX();
+						float ymoy=this.players.get(player).groups.get(to).get(0).getY();
+						this.Xcam = Math.min(maxX-g.resX/2f, Math.max(-g.resX/2f, xmoy-g.resX/2f));
+						this.Ycam = Math.min(maxY-g.resY/2f, Math.max(-g.resY/2f, ymoy-g.resY/2f));
 					}
 				}
 			}
 		}
 		// minimap
 		if(im.isPressedA){
-			BottomBar b = this.g.players.get(player).bottomBar;
+			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
-			if(im.leftClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.minimap.startX && (im.xMouse-im.Xcam)<
+			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
 				// Put camera where the click happened
-				Xcam = (int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw)-im.resX/2f;
-				Ycam = (int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh)-im.resY/2f;
+				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
+				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
 
 			}
-			if(im.rightClick && player==this.g.currentPlayer && (im.xMouse-im.Xcam)>b.minimap.startX && (im.xMouse-im.Xcam)<
+			if(im.rightClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
 				// Handle right click
 				if(im.isPressedMAJ){
-					updateSecondaryTarget((int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh),player);
+					updateSecondaryTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
 				} else {				
-					updateTarget((int)Math.floor((im.xMouse-im.Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-im.Ycam-b.minimap.startY)/b.minimap.rh),player);
+					updateTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
 				}
 
 			}
 		}
 		else{
-			BottomBar b = this.g.players.get(player).bottomBar;
+			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = false;
 		}
 		// display for the bottom bar
-		BottomBar bb = g.players.get(g.currentPlayer).bottomBar;
+		BottomBar bb = currentPlayer.bottomBar;
 		float relativeXMouse = (im.xMouse-Xcam);
 		float relativeYMouse = (im.yMouse-Ycam);
 		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
@@ -745,7 +805,7 @@ public class Plateau {
 	// drawing fog of war method
 	public void drawFogOfWar(Graphics g){
 		Vector<Objet> visibleObjet = new Vector<Objet>();
-		visibleObjet = this.getInCamObjets(this.g.currentPlayer);
+		visibleObjet = this.getInCamObjets(this.currentPlayer.getTeam());
 		float resX = this.g.resX;
 		float resY = this.g.resY;
 		this.gf.setColor(new Color(255,255,255));
@@ -770,22 +830,22 @@ public class Plateau {
 		//return all objects from a team in the camera view 
 		Vector<Objet> obj = new Vector<Objet>();
 		for(Character c: this.characters)
-			if(c.team==team && c.visibleByCamera)
+			if(c.getTeam()==team && c.visibleByCamera)
 				obj.add(c);
 		for(Building c: this.buildings)
-			if(c.team==team && c.visibleByCamera)
+			if(c.getTeam()==team && c.visibleByCamera)
 				obj.add(c);
 		return obj;
 	}
-	public boolean isVisibleByPlayer(int player, Objet objet){
-		if(objet.team==player)
+	public boolean isVisibleByPlayer(int team, Objet objet){
+		if(objet.getTeam()==team)
 			return true;
 		float r = objet.collisionBox.getBoundingCircleRadius();
 		for(Character c: this.characters)
-			if(c.team==player && Utils.distance(c, objet)<c.sight+r)
+			if(c.getTeam()==team && Utils.distance(c, objet)<c.sight+r)
 				return true;
 		for(Building b: this.buildings)
-			if(b.team==player && Utils.distance(b,  objet)<b.sight+r)
+			if(b.getTeam()==team && Utils.distance(b,  objet)<b.sight+r)
 				return true;
 		return false;
 	}
@@ -794,24 +854,24 @@ public class Plateau {
 	}
 	private void updateVisibility() {
 		for(Character c:this.characters){
-			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, c);
+			c.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), c);
 			c.visibleByCamera =this.isVisibleByCamera(c);
 		}
 		for(Building b:this.buildings){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 		for(Bullet b:this.bullets){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 		for(SpellEffect b:this.spells){
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.g.currentPlayer, b);
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 	}
 	// handling selection
-	public void handleSelection(InputModel im, int player){
+	public void handleSelection(InputModel im, int player, int team){
 		// Handling groups of units
 		for(int to=0; to<10; to++){
 			if(im.isPressedNumPad[to]){
@@ -821,19 +881,19 @@ public class Plateau {
 				}
 				if(im.isPressedCTRL){
 					// Creating a new group made of the selection
-					this.g.players.get(player).groups.get(to).clear();
+					this.players.get(player).groups.get(to).clear();
 					for(ActionObjet c: this.selection.get(player))
-						this.g.players.get(player).groups.get(to).add(c);
+						this.players.get(player).groups.get(to).add(c);
 				} else if(im.isPressedMAJ){
 					// Adding the current selection to the group
 					for(ActionObjet c: this.selection.get(player))
-						this.g.players.get(player).groups.get(to).add(c);
+						this.players.get(player).groups.get(to).add(c);
 				} else {
 					this.selection.get(player).clear();
-					for(ActionObjet c: this.g.players.get(player).groups.get(to))
+					for(ActionObjet c: this.players.get(player).groups.get(to))
 						this.selection.get(player).add(c);
 				}
-				this.g.players.get(player).groupSelection = to;
+				this.players.get(player).groupSelection = to;
 			}
 		}
 		// Cleaning the rectangle and buffer if mouse is released
@@ -845,8 +905,8 @@ public class Plateau {
 		if(im.isPressedTAB){
 			if(this.selection.get(player).size()>0){
 				Utils.switchTriName(this.selection.get(player));
-				if(this.g.players.get(player).groupSelection!=-1)
-					Utils.switchTriName(this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
+				if(this.players.get(player).groupSelection!=-1)
+					Utils.switchTriName(this.players.get(player).groups.get(this.players.get(player).groupSelection));
 			}
 		}
 		//update the rectangle
@@ -855,19 +915,19 @@ public class Plateau {
 			this.updateRectangle(im,player);
 		}
 		// we update the selection according to the rectangle wherever is the mouse
-		if(im.isPressedLeftClick && !im.isPressedMAJ){
+		if(im.pressedLeftClick && !im.isPressedMAJ){
 			this.clearSelection(player);
 		}
 		if(!im.isPressedCTRL){
-			this.updateSelection(rectangleSelection, player);
+			this.updateSelection(rectangleSelection, player, team);
 		} else {
-			this.updateSelectionCTRL(rectangleSelection, player);
+			this.updateSelectionCTRL(rectangleSelection, player, team);
 		}
 
 		// Update the selections of the players
-		this.g.players.get(player).selection.clear();
+		this.players.get(player).selection.clear();
 		for(ActionObjet c: this.selection.get(player))
-			this.g.players.get(player).selection.addElement(c);
+			this.players.get(player).selection.addElement(c);
 
 	}
 	private void updateRectangle(InputModel im, int player) {
@@ -882,74 +942,74 @@ public class Plateau {
 		rectangleSelection.setBounds( (float)Math.min(recX,im.xMouse), (float)Math.min(recY, im.yMouse),
 				(float)Math.abs(im.xMouse-recX)+0.1f, (float)Math.abs(im.yMouse-recY)+0.1f);
 	}
-	public void updateSelection(Rectangle select,int team){
+	public void updateSelection(Rectangle select,int player, int team){
 		if(select!=null){
 			for(ActionObjet a : this.inRectangle){
-				this.selection.get(team).remove(a);
+				this.selection.get(player).remove(a);
 			}
 			this.inRectangle.clear();
 			for(Character o: characters){
-				if(o.collisionBox.intersects(select) && o.team==team){
-					this.selection.get(team).add(o);
+				if(o.collisionBox.intersects(select) && o.getTeam()==team){
+					this.selection.get(player).add(o);
 					this.inRectangle.addElement(o);
 				}
 			}
-			if(this.toAddSelection.get(team).size()==0){
+			if(this.toAddSelection.get(player).size()==0){
 				for(Building o: buildings){
-					if(o.collisionBox.intersects(select) && o.team==team){
-						this.selection.get(team).add(o);
+					if(o.collisionBox.intersects(select) && o.getTeam()==team){
+						this.selection.get(player).add(o);
 						this.inRectangle.addElement(o);
 					}
 				}
 			}
-			this.g.players.get(team).groupSelection = -1;
+			this.players.get(player).groupSelection = -1;
 		}
 
 	}
-	public void updateSelectionCTRL(Rectangle select,int team){
+	public void updateSelectionCTRL(Rectangle select,int player, int team){
 		if(select!=null){
-			this.clearSelection(team);
+			this.clearSelection(player);
 			//handling the selection
 			for(Character o: characters){
-				if(o.collisionBox.intersects(select) && o.team==team){
+				if(o.collisionBox.intersects(select) && o.getTeam()==team){
 					//add character to team selection
-					this.addSelection(o, team);
+					this.addSelection(o, player);
 				}
 			}
 
-			if(this.toAddSelection.get(team).size()==0){
+			if(this.toAddSelection.get(player).size()==0){
 
 				for(Building o: buildings){
-					if(o.collisionBox.intersects(select) && o.team==team){
+					if(o.collisionBox.intersects(select) && o.getTeam()==team){
 						//add character to team selection
-						this.addSelection(o, team);
+						this.addSelection(o, player);
 					}
 				}
 			}
-			Vector<Objet> visibles = this.getInCamObjets(team);
-			if(this.toAddSelection.get(team).size()==1){
-				ActionObjet ao = this.toAddSelection.get(team).get(0);
+			Vector<Objet> visibles = this.getInCamObjets(player);
+			if(this.toAddSelection.get(player).size()==1){
+				ActionObjet ao = this.toAddSelection.get(player).get(0);
 				if(ao instanceof Character){
 					for(Character o: characters){
-						if(o.team==team && o.name==ao.name && visibles.contains(o)){
+						if(o.getTeam()==team && o.name==ao.name && visibles.contains(o)){
 							//add character to team selection
-							this.addSelection(o, team);
+							this.addSelection(o, player);
 						}
 					}
 				} else if(ao instanceof Building){
 					for(Building o: buildings){
-						if(o.team==team && o.name==ao.name && visibles.contains(o)){
+						if(o.getTeam()==team && o.name==ao.name && visibles.contains(o)){
 							//add character to team selection
-							this.addSelection(o, team);
+							this.addSelection(o, player);
 						}
 					}
 				}
 			}
-			this.g.players.get(team).groupSelection = -1;
+			this.players.get(team).groupSelection = -1;
 		}
 	}
-	public void clearSelection(int team){
-		this.selection.get(team).clear();
+	public void clearSelection(int player){
+		this.selection.get(player).clear();
 	}
 
 	// handling messages
@@ -964,7 +1024,8 @@ public class Plateau {
 	public String toString(){
 		//PLAYERS
 		String s = "1 separation ";
-		s+=this.g.players.get(3-this.g.currentPlayer);
+		// TODO handle more player
+		s+=this.players.get(3-this.currentPlayer.getTeam());
 		//CHARACTER
 		s += " separation ";
 		for(Character c : this.characters){
@@ -983,29 +1044,95 @@ public class Plateau {
 			s+=b;
 			s+="|";
 		}
+		s+=" separation ";
+		for(SpellEffect b : this.spells){
+			s+=b;
+			s+="|";
+		}
+		s+=" separation ";
 		return s;
 	}
 
 	public void parse(String s){
+
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
-		System.out.println(s);
+		//System.out.println(s);
 		if(s!=null && s!=""){
-
 			String[] u = s.split(" separation ");
-
 			//Take care of player
-			this.g.players.get(g.currentPlayer).parsePlayer(u[1]);
+			this.players.get(currentPlayer.id).parsePlayer(u[1]);
+			//double chrono1 = System.nanoTime();
 			parseCharacter(u[2]);
+			//System.out.println("bullets : "+(System.nanoTime()-chrono1));
 			parseBuilding(u[3]);
+			//double chrono2 = System.nanoTime();
 			parseBullet(u[4]);
+			//System.out.println("bullets : "+(System.nanoTime()-chrono2));
+			parseSpell(u[5]);
 		}
+
+	}
+
+	public void parseBuilding(String s){
+		String[] u = s.split("\\|");
+		//Loop over each Building
+		Building bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all buildings in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding Building in plateau
+			bul = this.getBuildingById(idTest);
+
+			bul.parse(hs);
+
+		}
+
+
 	}
 
 
 
-	public void parseBuilding(String s){
+	public Character getCharacterById(int id){
+		for(Character cha : this.characters){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
 
+	public Bullet getBulletById(int id){
+
+		for(Bullet cha : this.bullets){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
+
+	public Building getBuildingById(int id){
+		for(Building cha : this.buildings){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
+
+	private SpellEffect getSpellEffectById(int id) {
+		for(SpellEffect cha : this.spells){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
 	}
 
 	public void parseCharacter(String s){
@@ -1013,33 +1140,99 @@ public class Plateau {
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
-
-		for(int i =0;i<u.length;i++){
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
-
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
-			for(Character c : this.characters){
-				if(c.id==idTest){
-					cha  = c;
-					break;
-				}
-			}
+			cha = this.getCharacterById(idTest);
+			if(cha==null){
+				cha = Character.createNewCharacter(hs, g);
 
+			}
 			if(cha!=null){
 				cha.parse(hs);
+				cha.toKeep = true;	
+			}
+		}
+		//Destroy characters who didn't give any news
+		for(Character c : this.characters){
+			if(!c.toKeep){
+				c.setLifePoints(-1f);
 			}
 			else{
-				//CREATE NEW CHARACTER
-				//TODO
-				Character.createNewCharacter(hs, g);
+				c.toKeep = false;
 			}
 		}
 	}
-	public void parseBullet(String s){
 
+	public void parseBullet(String s){
+		String[] u = s.split("\\|");
+		//Loop over each bullet
+		Bullet bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all bullets in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding bullet in plateau
+			bul = this.getBulletById(idTest);
+			//Create bullet if not in plateau
+			if(bul==null){
+				bul = Bullet.createNewBullet(hs, g);
+			}
+			bul.parse(hs);
+			bul.toKeep = true;	
+		}
+		//Destroy bullets who didn't give any news
+		for(Bullet b : this.bullets){
+			if(!b.toKeep){
+				b.setLifePoints(-1f);
+			}else{
+				b.toKeep = false;
+			}
+		}
 	}
 
+
+	public void parseSpell(String s){
+		String[] u = s.split("\\|");
+		//Loop over each spells
+		SpellEffect bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all spellEffects in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding spellEffect in plateau
+			bul = this.getSpellEffectById(idTest);
+			//Create spellEffect if not in plateau
+			if(bul==null){
+				bul = SpellEffect.createNewSpell(hs, g);
+			}
+			bul.parse(hs);
+			bul.toKeep = true;	
+		}
+		//Destroy spellEffects who didn't give any news
+		for(SpellEffect b : this.spells){
+			if(!b.toKeep){
+				b.setLifePoints(-1f);
+			}else{
+				b.toKeep = false;
+			}
+		}
+	}
+
+	
 
 
 }

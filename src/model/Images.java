@@ -118,7 +118,7 @@ public class Images {
 				buildingAcademyRed = new Image("pics/Building/AcademyRed.png");
 				buildingAcademyNeutral = new Image("pics/Building/AcademyNeutral.png");
 				buildingMillBlue = new Image("pics/Building/FermeBleu.png");
-				buildingMillRed = new Image("pics/Building/MillRed.png");
+				buildingMillRed = new Image("pics/Building/FermeRouge.png");
 				buildingMillNeutral = new Image("pics/Building/FermeNeutre.png");
 				buildingMineBlue = new Image("pics/Building/MineBleu.png");
 				buildingMineRed = new Image("pics/Building/MineRouge.png");

@@ -3,14 +3,15 @@ package units;
 import org.newdawn.slick.geom.Circle;
 
 import model.Data;
+import model.GameTeam;
 import model.Horse;
 import model.Plateau;
 import model.Player;
 
 public class UnitPriest extends Character {
 
-	public UnitPriest(Plateau p, Player player, Data data) {
-		super(p, player);
+	public UnitPriest(Plateau p, GameTeam gameteam, Data data) {
+		super(p, gameteam);
 		this.name = "priest";
 		this.type = UnitsList.Priest;
 		this.maxLifePoints = 60f;
@@ -32,8 +33,8 @@ public class UnitPriest extends Character {
 		this.updateImage();
 	}
 
-	public UnitPriest(UnitPriest unit, float x, float y) {
-		super(unit,x,y);
+	public UnitPriest(UnitPriest unit, float x, float y,int id) {
+		super(unit,x,y,id);
 	}
 
 	public void useWeapon(){
@@ -44,7 +45,7 @@ public class UnitPriest extends Character {
 		//TODO Put SOund
 		//this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
 		if(c.armor<damage){
-			c.lifePoints+=c.armor-damage;
+			c.setLifePoints(c.lifePoints+c.armor-damage);
 		}
 		// Reset the state
 		this.state = 0f;

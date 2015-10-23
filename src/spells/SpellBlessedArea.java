@@ -1,6 +1,7 @@
 package spells;
 
 import model.Checkpoint;
+import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import model.Player;
@@ -12,20 +13,20 @@ public class SpellBlessedArea extends Spell{
 	public float size;
 	public float effect;
 	
-	public SpellBlessedArea(Plateau p, Player player){
+	public SpellBlessedArea(Plateau p, GameTeam gameteam){
 		this.chargeTime = 450f;
 		this.name = "Blessed Area";
 		this.icon = p.g.images.spellBlessedArea;
 		this.range = 200f;
 		this.remainingTime = 250f;
 		this.effect= 0.75f;
-		this.player = player;
+		this.gameteam = gameteam;
 		this.needToClick=true;
 	}
 
 	public void launch(Objet target, Character launcher){
 		Objet t = realTarget(target, launcher);
-		BlessedArea ba = new BlessedArea(launcher.p,launcher,(Checkpoint)t);
+		BlessedArea ba = new BlessedArea(launcher.p,launcher,(Checkpoint)t,-1);
 		ba.remainingTime = this.remainingTime;
 		ba.effect = this.effect;
 		ba.size = this.size;

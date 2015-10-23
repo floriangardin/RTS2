@@ -134,7 +134,7 @@ public class ActionInterface extends Bar {
 				g.fillRect(this.x+2f, this.y+2f + ratio*i*this.sizeY+diffY, -4f+ratio*this.sizeY, (-2f + ratio*this.sizeY)-diffY);
 				g.setColor(Color.white);
 
-				if(this.p.isCastingSpell.get(player.team) && this.p.castingSpell.get(player.team)==i){
+				if(this.p.isCastingSpell.get(player.getTeam()) && this.p.castingSpell.get(player.getTeam())==i){
 					g.setColor(Color.green);
 					g.drawRect(this.x+1f, this.y +1f+ ratio*i*sizeY, this.sizeX-2f, ratio*this.sizeY-2f);
 				}

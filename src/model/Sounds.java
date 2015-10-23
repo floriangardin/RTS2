@@ -13,6 +13,10 @@ public class Sounds {
 	public Sound death;
 	//public Sound lackRessources;
 	
+	// menu
+	public Sound menuMouseOverItem;
+	public Sound menuItemSelected;
+	
 	public Sounds(){
 		
 		try {
@@ -20,6 +24,8 @@ public class Sounds {
 			arrow=new Sound("music/arrow.ogg");
 			fireball= new Sound("music/fireball.ogg");
 			death=new Sound("music/death.ogg");
+			menuMouseOverItem = new Sound("music/menuMouseOverItem.ogg");
+			menuItemSelected = new Sound("music/menuItemSelected.ogg");
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
