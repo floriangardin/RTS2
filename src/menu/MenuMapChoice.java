@@ -120,7 +120,7 @@ public class MenuMapChoice extends Menu {
 				this.game.quitMenu();
 				break;
 			} else {
-				this.players.get(game.plateau.currentPlayer.id).isReady = true;
+				this.game.plateau.currentPlayer.isReady = true;
 			}
 		default:		
 		}

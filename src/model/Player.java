@@ -25,6 +25,8 @@ public class Player {
 	public BottomBar bottomBar;
 	public TopBar topBar;
 	public Data data;
+	public boolean isReady;
+	
 	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
 		this.id = id;
 		this.nickname = name;

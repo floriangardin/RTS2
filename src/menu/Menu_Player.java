@@ -37,6 +37,7 @@ public class Menu_Player extends Menu_Item{
 		this.p = p;
 		this.x = x;
 		this.y = y;
+		this.isReady = p.isReady;
 		this.game = game;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
