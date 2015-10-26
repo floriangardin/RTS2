@@ -29,7 +29,7 @@ public class Menu_Player extends Menu_Item{
 
 	boolean isOverColor;
 	boolean isOverCiv;
-	boolean isReady = false;
+	boolean isReady;
 
 	Game game;
 

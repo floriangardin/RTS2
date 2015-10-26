@@ -157,20 +157,25 @@ public class MenuMapChoice extends Menu {
 		if(game.inMultiplayer){
 			boolean toGame = true;
 			// checking if all players are ready
-			for(Menu_Player m:this.players)
-				if(!m.isReady)
+			for(Menu_Player m:this.players){
+				if(!m.isReady){
 					toGame = false;
+				}
+			}
 			// Checking if at least one player is present by team
 			boolean present1 = false;
 			boolean present2 = false;
 			if(toGame){
 				//  check previous condition
 				for(Player p : this.game.plateau.players){
-					if(p.getTeam()==1)
+					if(p.getTeam()==1){
 						present1 = true;
-					if(p.getTeam()==2)
+					}
+					if(p.getTeam()==2){
 						present2 = true;
+					}
 				}
+				System.out.println(present1 + " "+ present2);
 				if (present1 && present2){
 					// Launch Game
 					Map.updateMap(mapSelected, game);
