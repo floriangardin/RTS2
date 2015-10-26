@@ -157,8 +157,8 @@ public class MenuMapChoice extends Menu {
 		if(game.inMultiplayer){
 			boolean toGame = true;
 			// checking if all players are ready
-			for(Menu_Player m:this.players){
-				if(!m.isReady){
+			for(int j=1;j<this.players.size(); j++){
+				if(!this.players.get(j).isReady){
 					toGame = false;
 				}
 			}
