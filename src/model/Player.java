@@ -67,9 +67,11 @@ public class Player {
 		String result = "";
 		for(int i = 0;i<u1.length;i++){
 			HashMap<String,String> hs = new HashMap<String,String>();
-			String[] inter = s.split(";");
+			String[] inter = u1[i].split(";");
 			for(int j = 0; j<inter.length;j++){
 				String[] r = inter[j].split(":");
+				System.out.println(r[0]);
+				System.out.println(r[1]);
 				hs.put(r[0], r[1]);
 			}
 			if(hs.containsKey("id")){
@@ -79,7 +81,6 @@ public class Player {
 				}
 			}
 		}
-		
 		//SEPARATION BETWEEN KEYS
 		
 		String[] u = s.split(";");
