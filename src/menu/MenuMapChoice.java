@@ -188,7 +188,7 @@ public class MenuMapChoice extends Menu {
 					} else {
 						this.game.outputSender = new Vector<MultiSender>();
 						for(Player p: this.game.plateau.players){
-							if(p.id != this.game.plateau.currentPlayer.id){
+							if(p.id != this.game.plateau.currentPlayer.id && p.getTeam()!=0){
 								this.game.toSendOutputs.add(new Vector<String>());
 								this.game.outputSender.add(new MultiSender(p.address, this.game.portOutput, this.game.toSendOutputs.lastElement(),this.game));
 								this.game.outputSender.lastElement().start();
