@@ -70,7 +70,6 @@ public class Player {
 			String[] inter = u1[i].split(";");
 			for(int j = 0; j<inter.length;j++){
 				String[] r = inter[j].split(":");
-
 				hs.put(r[0], r[1]);
 			}
 			if(hs.containsKey("id")){
@@ -82,13 +81,10 @@ public class Player {
 		}
 		//SEPARATION BETWEEN KEYS
 		
-		String[] u = s.split(";");
+		String[] u = result.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split(":");
-			System.out.println(u);
-			System.out.println(r[0]);
-			System.out.println(r[1]);
 			hs.put(r[0], r[1]);
 		}
 		if(hs.containsKey("food")){
