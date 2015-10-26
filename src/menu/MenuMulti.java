@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 
 import model.Game;
 import model.Objet;
+import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
 
 public class MenuMulti extends Menu {
@@ -98,8 +99,12 @@ public class MenuMulti extends Menu {
 				game.plateau.clearPlayer();
 				game.toSendConnexions.clear();
 				OpenGames opengame = openGames.get(gameSelected);
-				this.game.connexionSender = new MultiSender(opengame.hostAddress, 6113, this.game.toSendConnexions, game);
+				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexions, game);
+				this.game.addressHost = opengame.hostAddress;
+				this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
+				this.game.outputReceiver.start();
 				this.game.connexionSender.start();
+				this.game.inputSender.start();
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown");
 				}
