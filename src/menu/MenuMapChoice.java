@@ -206,10 +206,10 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-							Thread.sleep((long) 0.05);
+//							Thread.sleep((long) 0.005);
 							this.game.toSendConnexions.addElement("2"+toString());
-							Thread.sleep((long) 0.05);
-							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
+							Thread.sleep((long) 0.005);
+//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 						}
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
@@ -345,6 +345,7 @@ public class MenuMapChoice extends Menu {
 			for(int i = 0;i<isReady.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).isReady = isReady[i].equals("1");
+					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
 				}
 			}
 
