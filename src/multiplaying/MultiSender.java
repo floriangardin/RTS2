@@ -19,7 +19,7 @@ public class MultiSender extends Thread{
 	Game game;
 
 	// DEBUGGING
-	private boolean debug = true;
+	private boolean debug = false;
 	int sent = 0;
 	
 	public MultiSender(InetAddress address, int port, Vector<String> depot, Game game){

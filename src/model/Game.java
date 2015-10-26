@@ -270,7 +270,7 @@ public class Game extends BasicGame
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 		this.sounds = new Sounds();
 		this.options = new Options();
-		this.images = new Images(true);
+		this.images = new Images();
 		this.musics = new Musics();
 
 		this.menuIntro = new MenuIntro(this);
@@ -299,7 +299,6 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-		this.images = new Images(false);
 
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
