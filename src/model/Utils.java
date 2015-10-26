@@ -28,7 +28,7 @@ public class Utils {
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
 
 	}
-	
+
 	public static float distance(float x1, float y1, float x2, float y2){
 		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 
@@ -125,7 +125,7 @@ public class Utils {
 		}
 		return bimage.getImage();
 	}
-	
+
 	public static void triY(Vector<Objet> liste){
 		if(liste.size()<=1)
 			return;
@@ -166,7 +166,7 @@ public class Utils {
 				liste2.remove(0);
 			}
 		}
-		
+
 	}
 
 	public static void printCurrentState(Plateau p){
@@ -178,53 +178,51 @@ public class Utils {
 		if(p.players==null)
 			System.out.println("-> bug: players est null");
 		else{
-			for(Character c:p.characters)
-				if(c.target!=null)
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
-				else
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-	}
+			for(Player c:p.players)
+				System.out.println(c.toString());
+		}
+		System.out.println("currentplayer: " + p.currentPlayer);
 		System.out.println();System.out.println("========================================");
-		System.out.println();
-		System.out.println("** Characters");
-		if(p.characters==null)
-			System.out.println("-> bug: characters est null");
-		else{
-			for(Character c:p.characters)
-				if(c.target!=null)
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
-				else
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-	}
-		System.out.println();
-		System.out.println("========================================");
-		System.out.println();
-		System.out.println("** Bullets");
-		if(p.bullets==null)
-			System.out.println("-> bug: bullets est null");
-		else{
-			for(Bullet c:p.bullets)
-				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-	}
-		System.out.println();
 //		System.out.println();
-//		System.out.println("** Spells");
-//		if(p.spells==null)
-//			System.out.println("-> bug: spells est null");
+//		System.out.println("** Characters");
+//		if(p.characters==null)
+//			System.out.println("-> bug: characters est null");
 //		else{
-//			for(SpellEffect c:p.spells)
-//				System.out.println(c+" " + c.x+ " " +c.y + " " +c.id);
+//			for(Character c:p.characters)
+//				if(c.target!=null)
+//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
+//				else
+//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 //		}
 //		System.out.println();
 //		System.out.println("========================================");
 //		System.out.println();
-//		System.out.println("** Natural Objets");
-//		if(p.naturalObjets==null)
-//			System.out.println("-> bug: characters est null");
+//		System.out.println("** Bullets");
+//		if(p.bullets==null)
+//			System.out.println("-> bug: bullets est null");
 //		else{
-//			for(NaturalObjet c:p.naturalObjets)
-//				System.out.println(c+" " + c.x+ " " +c.y);
+//			for(Bullet c:p.bullets)
+//				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 //		}
+		System.out.println();
+		//		System.out.println();
+		//		System.out.println("** Spells");
+		//		if(p.spells==null)
+		//			System.out.println("-> bug: spells est null");
+		//		else{
+		//			for(SpellEffect c:p.spells)
+		//				System.out.println(c+" " + c.x+ " " +c.y + " " +c.id);
+		//		}
+		//		System.out.println();
+		//		System.out.println("========================================");
+		//		System.out.println();
+		//		System.out.println("** Natural Objets");
+		//		if(p.naturalObjets==null)
+		//			System.out.println("-> bug: characters est null");
+		//		else{
+		//			for(NaturalObjet c:p.naturalObjets)
+		//				System.out.println(c+" " + c.x+ " " +c.y);
+		//		}
 	}
 
 	public static String[] split(String s, char c){
@@ -307,9 +305,9 @@ public class Utils {
 			liste.remove(0);
 			liste.add(buffer);
 		}
-			
+
 	}
-	
+
 	public static String gameTime(long startTime){
 		String result = "";
 		result+=((int) ((System.currentTimeMillis()-startTime)/1000))/60;
@@ -318,9 +316,9 @@ public class Utils {
 			result+="0";
 		}
 		result+=((System.currentTimeMillis()-startTime)/1000)%60;
-		
+
 		return result;
-		
+
 	}
 
 	public static float[][] loadFloatMatrix(String path){
@@ -329,22 +327,22 @@ public class Utils {
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(
-			        new InputStreamReader(new FileInputStream(path)));
+					new InputStreamReader(new FileInputStream(path)));
 			String line;
 			String[] tab;
 			float[] tab1;
-		    while ((line = br.readLine()) != null) {
-		        tab = Utils.split(line, ' ');
-		        tab1 = new float[tab.length-1];
-		        for(int i=0; i<tab.length-1;i++){
-		        	tab1[i] =Float.parseFloat(tab[i]);
-		        }
-		        buffer.add(tab1);
-		    }
-		    matrix = new float[buffer.size()][buffer.get(0).length];
-		    for(int i=0; i<buffer.size();i++){
-		    	matrix[i] = buffer.get(i);
-		    }
+			while ((line = br.readLine()) != null) {
+				tab = Utils.split(line, ' ');
+				tab1 = new float[tab.length-1];
+				for(int i=0; i<tab.length-1;i++){
+					tab1[i] =Float.parseFloat(tab[i]);
+				}
+				buffer.add(tab1);
+			}
+			matrix = new float[buffer.size()][buffer.get(0).length];
+			for(int i=0; i<buffer.size();i++){
+				matrix[i] = buffer.get(i);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

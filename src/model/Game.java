@@ -250,6 +250,7 @@ public class Game extends BasicGame
 					for(Vector<String> v : this.toSendOutputs){
 						v.add(this.plateau.currentString);
 					}
+					Utils.printCurrentState(this.plateau);
 				}
 			} else {
 				// solo mode
