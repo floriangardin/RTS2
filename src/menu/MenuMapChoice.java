@@ -349,7 +349,9 @@ public class MenuMapChoice extends Menu {
 			String[] isReady =hs.get("isReady").split(",");
 	
 			if(civ.length>this.game.plateau.players.size()){
-				this.game.plateau.addPlayer("Philippe");
+				try {
+					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
+				} catch (UnknownHostException e) {}
 				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}
 			
