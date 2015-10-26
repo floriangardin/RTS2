@@ -1,16 +1,10 @@
 package model;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-
-import buildings.BuildingHeadQuarters;
 import display.BottomBar;
 import display.TopBar;
-import main.Main;
-import units.Character;
-import units.UnitsList;
 
 public class Player {
 	public Vector<ActionObjet> selection;
@@ -26,6 +20,7 @@ public class Player {
 	public TopBar topBar;
 	public Data data;
 	public boolean isReady;
+	public InetAddress address;
 	
 	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
 		this.id = id;

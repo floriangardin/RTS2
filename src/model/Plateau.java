@@ -1,10 +1,9 @@
 package model;
 
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
-
-import multiplaying.InputModel;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -14,17 +13,18 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
-import pathfinding.Case;
-import pathfinding.MapGrid;
-import spells.Spell;
-import spells.SpellEffect;
-import units.Character;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
 import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
+import multiplaying.InputModel;
+import pathfinding.Case;
+import pathfinding.MapGrid;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
 
 public class Plateau {
 
@@ -191,6 +191,22 @@ public class Plateau {
 		this.hasCastSpell.addElement(false);
 		this.castingSpell.addElement(-1);
 		this.messages.addElement(new Vector<Message>());
+	}
+	
+	public void addPlayer(String name, InetAddress address){
+		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
+		this.players.lastElement().address = address;
+		nPlayers+=1;
+		
+		// adding components in plateau
+		this.selection.addElement(new Vector<ActionObjet>());
+		this.toAddSelection.addElement(new Vector<ActionObjet>());
+		this.toRemoveSelection.addElement(new Vector<ActionObjet>());
+		this.isCastingSpell.addElement(false);
+		this.hasCastSpell.addElement(false);
+		this.castingSpell.addElement(-1);
+		this.messages.addElement(new Vector<Message>());
+		
 	}
 	
 	public void removePlayer(int indice){

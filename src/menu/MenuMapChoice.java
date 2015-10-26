@@ -161,12 +161,25 @@ public class MenuMapChoice extends Menu {
 				if(!m.isReady)
 					toGame = false;
 			// Checking if at least one player is present by team
+			boolean present1 = false;
+			boolean present2 = false;
 			if(toGame){
-				// TODO check previous condition
-			}
-			if (toGame){
-				//TODO Launch Game
-
+				//  check previous condition
+				for(Player p : this.game.plateau.players){
+					if(p.getTeam()==1)
+						present1 = true;
+					if(p.getTeam()==2)
+						present2 = true;
+				}
+				if (present1 && present2){
+					// Launch Game
+					Map.updateMap(mapSelected, game);
+					this.music = game.musics.imperial;
+					this.music.loop();
+					this.music.setVolume(game.options.musicVolume);
+					//this.game.newGame();
+					this.game.quitMenu();
+				}
 			}
 
 		}
@@ -185,6 +198,18 @@ public class MenuMapChoice extends Menu {
 		if(game.inMultiplayer){
 			if(game.host){
 				// sending games
+				for(Player p : this.game.plateau.players){
+					if(p.address != null){
+						this.game.connexionSender.address = p.address;
+//						Thread.sleep((long) 0.005);
+						this.game.toSendConnexions.addElement("2"+toString());
+						try {
+							Thread.sleep((long) 0.005);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 				if(cooldown<=255){
 					if(!game.connexionSender.isAlive()){
 						game.connexionSender.start();
