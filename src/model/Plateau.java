@@ -46,12 +46,12 @@ public class Plateau {
 
 	// about the output of the string
 	public String currentString ;
-	
+
 	// teams and players
 	public Vector<Player> players = new Vector<Player>();
 	public Player currentPlayer;
 	public Vector<GameTeam> teams = new Vector<GameTeam>();
-	
+
 
 
 	// ADD ALL OBJETS 
@@ -93,14 +93,14 @@ public class Plateau {
 	public MapGrid mapGrid;
 
 	public Plateau(float maxX,float maxY,Game g){
-		
+
 		this.g = g;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
 		this.nTeams = 2;
 		this.maxX= maxX;
 		this.maxY = maxY;
-		
+
 		//ABOUT PLAYERS
 
 		//UPDATING GAME
@@ -113,7 +113,7 @@ public class Plateau {
 		this.players.add(new Player(this,2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
-		
+
 		//CHARACTERS
 		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
@@ -171,7 +171,7 @@ public class Plateau {
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		this.g.bottomBars = new BottomBar(this,this.currentPlayer,(int)g.resX,(int)g.resY);
 	}
-	
+
 	public GameTeam getTeamById(int team) {
 		for(GameTeam t : this.teams)
 			if(t.id == team)
@@ -182,7 +182,7 @@ public class Plateau {
 	public void addPlayer(String name){
 		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
 		nPlayers+=1;
-		
+
 		// adding components in plateau
 		this.selection.addElement(new Vector<ActionObjet>());
 		this.toAddSelection.addElement(new Vector<ActionObjet>());
@@ -192,12 +192,12 @@ public class Plateau {
 		this.castingSpell.addElement(-1);
 		this.messages.addElement(new Vector<Message>());
 	}
-	
+
 	public void addPlayer(String name, InetAddress address){
 		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
 		this.players.lastElement().address = address;
 		nPlayers+=1;
-		
+
 		// adding components in plateau
 		this.selection.addElement(new Vector<ActionObjet>());
 		this.toAddSelection.addElement(new Vector<ActionObjet>());
@@ -206,9 +206,9 @@ public class Plateau {
 		this.hasCastSpell.addElement(false);
 		this.castingSpell.addElement(-1);
 		this.messages.addElement(new Vector<Message>());
-		
+
 	}
-	
+
 	public void removePlayer(int indice){
 		if(indice==0 || indice>players.size())
 			return;
@@ -223,7 +223,7 @@ public class Plateau {
 		this.hasCastSpell.remove(indice);
 		this.castingSpell.remove(indice);
 		this.messages.remove(indice);
-		
+
 	}
 	// functions that handle buffers
 
@@ -232,7 +232,7 @@ public class Plateau {
 			removePlayer(players.size()-1);
 		}
 	}
-	
+
 	public void addCharacterObjets(Character o){
 		toAddCharacters.addElement(o);
 	}
@@ -1040,8 +1040,10 @@ public class Plateau {
 	public String toString(){
 		//PLAYERS
 		String s = "1 separation ";
-		// TODO handle more player
-		s+=this.players.get(3-this.currentPlayer.getTeam());
+		for(Player p: players){
+			s+=p;
+			s+="|";
+		}
 		//CHARACTER
 		s += " separation ";
 		for(Character c : this.characters){
@@ -1248,7 +1250,7 @@ public class Plateau {
 		}
 	}
 
-	
+
 
 
 }

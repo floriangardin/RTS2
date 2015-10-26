@@ -52,6 +52,7 @@ public class Player {
 	
 	public String toString(){
 		String s ="";
+		s+="id:"+id+";";
 		s+="team:"+team+";";
 		s+="gold:"+gameteam.gold+";";
 		s+="food:"+gameteam.food+";";
@@ -60,7 +61,25 @@ public class Player {
 		
 	}
 	public void parsePlayer(String s){
-
+		String[] u1 = s.split("\\|");
+		
+		// Find the right player :
+		String result = "";
+		for(int i = 0;i<u1.length;i++){
+			HashMap<String,String> hs = new HashMap<String,String>();
+			String[] inter = s.split(";");
+			for(int j = 0; j<inter.length;j++){
+				String[] r = inter[j].split(":");
+				hs.put(r[0], r[1]);
+			}
+			if(hs.containsKey("id")){
+				if(Integer.parseInt(hs.get("id"))==this.id){
+					result = u1[i];
+					break;
+				}
+			}
+		}
+		
 		//SEPARATION BETWEEN KEYS
 		
 		String[] u = s.split(";");
