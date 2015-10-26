@@ -100,11 +100,8 @@ public class MenuMulti extends Menu {
 				game.toSendConnexions.clear();
 				OpenGames opengame = openGames.get(gameSelected);
 				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexions, game);
-				this.game.addressHost = opengame.hostAddress;
-				this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
-				this.game.outputReceiver.start();
 				this.game.connexionSender.start();
-				this.game.inputSender.start();
+				this.game.addressHost = opengame.hostAddress;
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown");
 				}

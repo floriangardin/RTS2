@@ -178,6 +178,25 @@ public class MenuMapChoice extends Menu {
 				System.out.println(present1 + " "+ present2);
 				if (present1 && present2){
 					// Launch Game
+
+					// Create sender and receiver
+					if(!game.host){
+						this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
+						this.game.outputReceiver = new MultiReceiver(this.game, this.game.portOutput);
+						this.game.outputReceiver.start();
+						this.game.inputSender.start();
+					} else {
+						this.game.outputSender = new Vector<MultiSender>();
+						for(Player p: this.game.plateau.players){
+							if(p.id != this.game.plateau.currentPlayer.id){
+								this.game.toSendOutputs.add(new Vector<String>());
+								this.game.outputSender.add(new MultiSender(p.address, this.game.portOutput, this.game.toSendOutputs.lastElement(),this.game));
+								this.game.outputSender.lastElement().start();
+							}
+						}
+						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+						this.game.inputReceiver.start();
+					}
 					Map.updateMap(mapSelected, game);
 					this.music = game.musics.imperial;
 					this.music.loop();
@@ -206,7 +225,7 @@ public class MenuMapChoice extends Menu {
 				for(Player p : this.game.plateau.players){
 					if(p.address != null){
 						this.game.connexionSender.address = p.address;
-//						Thread.sleep((long) 0.005);
+						//						Thread.sleep((long) 0.005);
 						this.game.toSendConnexions.addElement("2"+toString());
 						try {
 							Thread.sleep((long) 0.005);
@@ -236,10 +255,10 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-//							Thread.sleep((long) 0.005);
+							//							Thread.sleep((long) 0.005);
 							this.game.toSendConnexions.addElement("2"+toString());
 							Thread.sleep((long) 0.005);
-//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
+							//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 						}
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
@@ -347,14 +366,14 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
-	
+
 			if(civ.length>this.game.plateau.players.size()){
 				try {
 					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
 				} catch (UnknownHostException e) {}
 				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}
-			
+
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);

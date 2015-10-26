@@ -76,23 +76,21 @@ public class Game extends BasicGame
 	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
-	private String addressHostString;
-	private String addressClientString;
 	public InetAddress addressHost;
 	public InetAddress addressClient;
 	public Vector<InputModel> inputs = new Vector<InputModel>();
 	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
 	public Vector<String> toSendInputs = new Vector<String>();
 	public Vector<String> outputs = new Vector<String>();
-	public Vector<String> toSendOutputs = new Vector<String>();
-	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
+	public Vector<String> connexions = new Vector<String>();
+	public Vector<Vector<String>> toSendOutputs = new Vector<Vector<String>>();
 	public int timeValue;
 	// Sender and Receiver
 	public MultiReceiver inputReceiver;
 	public MultiSender inputSender;
 	public MultiReceiver outputReceiver;
-	public MultiSender outputSender;
+	public Vector<MultiSender> outputSender;
 	public MultiReceiver connexionReceiver;
 	public MultiSender connexionSender;
 	public boolean isHost;
@@ -249,7 +247,9 @@ public class Game extends BasicGame
 						//System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
-					this.toSendOutputs.add(this.plateau.currentString);
+					for(Vector<String> v : this.toSendOutputs){
+						v.add(this.plateau.currentString);
+					}
 				}
 			} else {
 				// solo mode
