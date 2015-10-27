@@ -16,10 +16,6 @@ public class BottomBar extends Bar {
 	public ActionInterface action;
 	public PathInterface path;
 
-
-
-
-	
 	public BottomBar(Plateau p ,Player player, int resX, int resY){
 		this.p = p ;
 		this.player = player;
