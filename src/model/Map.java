@@ -268,7 +268,7 @@ public class Map {
 	}
 
 	public static void createMapMicro(Game game){
-		game.plateau.setMaxXMaxY(400f, 500f);
+		game.plateau.setMaxXMaxY(500f, 600f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
