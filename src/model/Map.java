@@ -278,17 +278,17 @@ public class Map {
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 
-		data1.create(UnitsList.Crossbowman, X/9 - 1f, Y/2);
-		data1.create(UnitsList.Spearman, X/9 - 2f, Y/2);
-		data1.create(UnitsList.Knight, X/9 - 3f, Y/2);
-		data1.create(UnitsList.Priest, X/9 - 4f, Y/2);
-		data1.create(UnitsList.Inquisitor, X/9 - 5f, Y/2);
+		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
+		data1.create(UnitsList.Spearman, 2*X/9, Y/2-2f);
+		data1.create(UnitsList.Knight, 2*X/9, Y/2);
+		data1.create(UnitsList.Priest, 2*X/9, Y/2+1f);
+		data1.create(UnitsList.Inquisitor, X/9, Y/2+2f);
 		
-		data2.create(UnitsList.Crossbowman, 8*X/9 - 1f, Y/2);
-		data2.create(UnitsList.Spearman, 8*X/9 - 2f, Y/2);
-		data2.create(UnitsList.Knight, 8*X/9 - 3f, Y/2);
-		data2.create(UnitsList.Priest, 8*X/9 - 4f, Y/2);
-		data2.create(UnitsList.Inquisitor, 8*X/9 - 5f, Y/2);
+		data2.create(UnitsList.Crossbowman, 7*X/9, Y/2-1f);
+		data2.create(UnitsList.Spearman, 7*X/9, Y/2-2f);
+		data2.create(UnitsList.Knight, 7*X/9, Y/2);
+		data2.create(UnitsList.Priest, 7*X/9, Y/2+1f);
+		data2.create(UnitsList.Inquisitor, 7*X/9, Y/2+2f);
 
 	}
 	
