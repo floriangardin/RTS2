@@ -239,6 +239,9 @@ public class Plateau {
 	}
 	private void removeCharacter(Character o){
 		toRemoveCharacters.addElement(o);
+		if(this.selection.contains(o)){
+			this.selection.remove(o);
+		}
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -282,9 +285,6 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
-				if(this.selection.contains(o)){
-					this.selection.remove(o);
-				}
 				this.g.sounds.death.play(0.8f+1f*((float)Math.random()),this.g.options.soundVolume);
 			}
 		}
