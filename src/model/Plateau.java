@@ -587,10 +587,14 @@ public class Plateau {
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
 		for(InputModel im : ims){
+			// pour tous les inputs passés en argument on fait le traitement
 			int player = im.idPlayer;
+			// si on est client on ne gère que son input
 			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
+			// on gère la sélection des sorts (type firewall/ blessed area)
 			this.handleSpellCasting(im, player);
+			// on gère côté serveur l'action bar et le click droit
 			if(!g.inMultiplayer || g.host){
 				// Handling action bar
 				this.handleActionBar(im,player);
@@ -601,13 +605,16 @@ public class Plateau {
 				
 			}
 			if(player == this.currentPlayer.id){
+				// ongère le déplacement de la caméra et la sélection
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 					this.handleView(im, player);
 					this.handleSelection(im, player,players.get(player).getTeam());
 				}
 			} else {
+				// pour tous les autres on update la selection
 				this.updateSelection(im);
 			}
+			// enfin on gère le lancement des sorts
 			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 		
 		} 

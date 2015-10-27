@@ -236,13 +236,12 @@ public class Game extends BasicGame
 					if(outputs.size()>0){
 						this.plateau.currentString = outputs.lastElement();
 						outputs.clear();
-						//System.out.println("paquets perdus:" +(outputs.size()-1));
-						//outputs.clear();
 					}
 					this.plateau.update(ims);
 				} else {
 					// host mode
-					if(inputs.size()>0){
+					// si on a des inputs en attente on les passe en argument à update de plateau
+					while(inputs.size()>0){
 						ims.add(this.inputs.lastElement());	
 						inputs.remove(0);
 						//System.out.println(ims.lastElement());
@@ -257,7 +256,6 @@ public class Game extends BasicGame
 				// solo mode
 				this.plateau.update(ims);
 			}
-
 		}
 	}
 
