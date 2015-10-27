@@ -583,7 +583,7 @@ public class Plateau {
 
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
-		for(InputModel im : this.g.inputs){
+		for(InputModel im : ims){
 			int player = im.idPlayer;
 			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
