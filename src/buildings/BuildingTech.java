@@ -99,7 +99,7 @@ public abstract class BuildingTech extends BuildingAction {
 		if(this.changes.isFinished && this.lastTechDiscovered!=null){
 			s+="isFinished:"+"1"+";";
 			s+="lastTechDiscovered:"+this.lastTechDiscovered.id+";";
-			this.changes.isFinished = false;
+			this.changes.isFinished = true;
 		}
 		return s;
 	}
