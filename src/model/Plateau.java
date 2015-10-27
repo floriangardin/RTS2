@@ -607,9 +607,7 @@ public class Plateau {
 					// Handling the spell on the field
 					this.handleSpellsOnField(im, player);
 				}
-			} else {
-				//System.out.println("player "+player+" : im null");
-			}
+			} 
 		}
 
 		// 2 - Only for host - Collision, Action, Cleaning
@@ -682,6 +680,7 @@ public class Plateau {
 	private void handleSpellsOnField(InputModel im, int player) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
 			if(this.players.get(player).selection.size()>0){
+				System.out.println("Plateau 683 : sort lancé!");
 				Character c = (Character)this.players.get(player).selection.get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
 				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.players.get(player).selection.get(0));

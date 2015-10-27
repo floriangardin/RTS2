@@ -51,7 +51,6 @@ public class MultiReceiver extends Thread{
 					case 2: 
 					if(!this.g.host){
 						this.g.addressHost = packet.getAddress();
-						System.out.println( packet.getAddress().toString());
 					}
 					this.g.connexions.add(msg.substring(1, msg.length()));
 					default:
