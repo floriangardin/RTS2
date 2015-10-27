@@ -115,7 +115,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 		}
 	}
-
+	
 	public void parse(HashMap<String,String> hs){
 		this.parseObjet(hs);
 		this.parseActionObjet(hs);
