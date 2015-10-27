@@ -681,7 +681,9 @@ public class Plateau {
 
 	private void handleSpellsOnField(InputModel im, int player) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
+			System.out.println("plateau 685: sort sur le point");
 			if(this.players.get(player).selection.size()>0){
+				System.out.println("plateau 685: sort lancé");
 				Character c = (Character)this.players.get(player).selection.get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
 				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.players.get(player).selection.get(0));
