@@ -597,10 +597,6 @@ public class Plateau {
 			} else {
 				
 			}
-			if(!g.inMultiplayer || g.host){
-				// Handling the spell on the field
-				this.handleSpellsOnField(im, player);
-			}
 			if(player == this.currentPlayer.id){
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 					this.handleView(im, player);
@@ -609,6 +605,8 @@ public class Plateau {
 			} else {
 				this.updateSelection(im);
 			}
+			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
+		
 		} 
 
 
@@ -679,11 +677,9 @@ public class Plateau {
 		}
 	}
 
-	private void handleSpellsOnField(InputModel im, int player) {
+	private void handleSpellsOnField(InputModel im, int player, boolean host) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
-			System.out.println("plateau 685: sort sur le point");
-			if(this.selection.get(player).size()>0){
-				System.out.println("plateau 685: sort lancé");
+			if(host && this.selection.get(player).size()>0){
 				Character c = (Character)this.selection.get(player).get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
 				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.selection.get(player).get(0));
@@ -696,6 +692,8 @@ public class Plateau {
 		if(hasCastSpell.get(player) && !im.leftClick)
 			hasCastSpell.set(player,false);
 	}
+	
+	
 
 	private void handleActionBar(InputModel im, int player) {
 		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
