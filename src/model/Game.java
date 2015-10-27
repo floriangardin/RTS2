@@ -229,7 +229,7 @@ public class Game extends BasicGame
 			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(inMultiplayer){
-				Utils.printCurrentState(this.plateau);
+				//Utils.printCurrentState(this.plateau);
 				if(!host){
 					// client mode
 					this.toSendInputs.addElement(im.toString());
@@ -288,7 +288,7 @@ public class Game extends BasicGame
 		// Instantiate BottomBars for all players:
 		for(int player=1; player<3; player++){
 			new BottomBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
-			new TopBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
+			new TopBar(this.plateau,(int)this.resX,(int)this.resY);
 		}
 		this.bottomBars = this.plateau.currentPlayer.bottomBar;
 		this.topBars = this.plateau.currentPlayer.topBar;
