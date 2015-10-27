@@ -34,9 +34,9 @@ public class SelectionInterface extends Bar {
 
 
 		// Draw building state
-		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof BuildingProduction ){
+		if(this.parent.p.currentPlayer.selection.size()>0 && this.parent.p.currentPlayer.selection.get(0) instanceof BuildingProduction ){
 
-			BuildingProduction b = (BuildingProduction) this.parent.player.selection.get(0);
+			BuildingProduction b = (BuildingProduction) this.parent.p.currentPlayer.selection.get(0);
 			int compteur = 0;
 			if(b.queue.size()>0){
 				for(int q : b.queue){
@@ -64,9 +64,9 @@ public class SelectionInterface extends Bar {
 
 
 		}
-		if(this.parent.player.selection.size()>0 && this.parent.player.selection.get(0) instanceof BuildingTech ){
+		if(this.parent.p.currentPlayer.selection.size()>0 && this.parent.p.currentPlayer.selection.get(0) instanceof BuildingTech ){
 
-			BuildingTech b = (BuildingTech) this.parent.player.selection.get(0);
+			BuildingTech b = (BuildingTech) this.parent.p.currentPlayer.selection.get(0);
 			if(b.queue!=null){
 
 				Image icone = b.queue.icon;

@@ -170,7 +170,7 @@ public class Plateau {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
-		this.g.bottomBars = new BottomBar(this,this.currentPlayer,(int)g.resX,(int)g.resY);
+		this.g.bottomBars = new BottomBar(this,(int)g.resX,(int)g.resY);
 	}
 
 	public GameTeam getTeamById(int team) {
@@ -583,14 +583,10 @@ public class Plateau {
 
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
-		InputModel im;
-		for(int player = 1; player<=nPlayers; player++){
+		for(InputModel im : this.g.inputs){
+			int player = im.idPlayer;
 			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
-			im = null;
-			for(InputModel inp : ims)
-				if(inp.idPlayer==player)
-					im = inp;
 			if(im!=null){
 				if(!g.inMultiplayer || g.host){
 					// Handling action bar
