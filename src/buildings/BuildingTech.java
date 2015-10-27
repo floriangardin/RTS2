@@ -108,6 +108,9 @@ public abstract class BuildingTech extends BuildingAction {
 		if(hs.containsKey("queue")){
 			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("queue")));
 		}
+		else{
+			this.queue = null;
+		}
 		if(hs.containsKey("charge")){
 			this.setCharge(Float.parseFloat(hs.get("charge")));
 		}

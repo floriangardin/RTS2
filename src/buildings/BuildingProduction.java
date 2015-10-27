@@ -92,7 +92,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				s=s.substring(0, s.length()-1);
 			}
 			s+=";";
-			changes.queue=false;
+			changes.queue=true;
 		}
 		if(changes.charge){
 			s+="charge:"+this.charge+";";
