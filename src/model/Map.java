@@ -272,8 +272,8 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.players.get(1).data;
-		Data data2 = game.plateau.players.get(2).data;
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
