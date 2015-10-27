@@ -251,7 +251,7 @@ public class Game extends BasicGame
 					for(Vector<String> v : this.toSendOutputs){
 						v.add(this.plateau.currentString);
 					}
-					System.out.println(this.toSendOutputs.size());
+					//System.out.println(this.toSendOutputs.size());
 				}
 			} else {
 				// solo mode

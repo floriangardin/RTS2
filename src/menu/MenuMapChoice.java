@@ -176,7 +176,6 @@ public class MenuMapChoice extends Menu {
 						present2 = true;
 					}
 				}
-				System.out.println(present1 + " "+ present2);
 				if (present1 && present2){
 					// Launch Game
 
