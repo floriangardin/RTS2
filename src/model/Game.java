@@ -258,7 +258,6 @@ public class Game extends BasicGame
 				this.plateau.update(ims);
 			}
 
-
 		}
 	}
 

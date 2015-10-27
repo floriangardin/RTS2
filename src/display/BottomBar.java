@@ -17,8 +17,6 @@ public class BottomBar extends Bar {
 	public PathInterface path;
 
 
-
-
 	
 	public BottomBar(Plateau p , int resX, int resY){
 		this.p = p ;

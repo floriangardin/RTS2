@@ -118,6 +118,7 @@ public class MenuMapChoice extends Menu {
 				this.music.setVolume(game.options.musicVolume);
 				//this.game.newGame();
 				this.game.quitMenu();
+				this.game.startTime = System.currentTimeMillis();
 				break;
 			} else {
 				this.game.plateau.currentPlayer.isReady = true;
@@ -201,6 +202,7 @@ public class MenuMapChoice extends Menu {
 					this.music = game.musics.imperial;
 					this.music.loop();
 					this.music.setVolume(game.options.musicVolume);
+					this.game.startTime = System.currentTimeMillis();
 					//this.game.newGame();
 					this.game.quitMenu();
 				}
