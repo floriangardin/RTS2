@@ -211,8 +211,8 @@ public class Map {
 		game.plateau.setMaxXMaxY(5000f, 2500f);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.players.get(1).data;
-		Data data2 = game.plateau.players.get(2).data;
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
 		//HQ
 		new BuildingHeadQuarters(game.plateau,game,3*X/18,Y/2,1);
 		new BuildingHeadQuarters(game.plateau,game,15*X/18,Y/2,2);
@@ -249,7 +249,7 @@ public class Map {
 		
 		new BuildingAcademy(game.plateau,game,X/2,Y/2);
 
-		for(int c =0; c<20; c++)
+		//for(int c =0; c<20; c++)
 			data1.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
