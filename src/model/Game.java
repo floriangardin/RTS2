@@ -242,7 +242,7 @@ public class Game extends BasicGame
 					this.plateau.update(ims);
 				} else {
 					// host mode
-					while(inputs.size()>0){
+					if(inputs.size()>0){
 						ims.add(this.inputs.lastElement());	
 						inputs.remove(0);
 						//System.out.println(ims.lastElement());
