@@ -597,6 +597,10 @@ public class Plateau {
 			} else {
 				
 			}
+			if(!g.inMultiplayer || g.host){
+				// Handling the spell on the field
+				this.handleSpellsOnField(im, player);
+			}
 			if(player == this.currentPlayer.id){
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 					this.handleView(im, player);
@@ -604,10 +608,6 @@ public class Plateau {
 				}
 			} else {
 				this.updateSelection(im);
-			}
-			if(!g.inMultiplayer || g.host){
-				// Handling the spell on the field
-				this.handleSpellsOnField(im, player);
 			}
 		} 
 
