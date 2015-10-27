@@ -16,11 +16,12 @@ public class BottomBar extends Bar {
 	public ActionInterface action;
 	public PathInterface path;
 
-	public BottomBar(Plateau p ,Player player, int resX, int resY){
-		this.p = p ;
-		this.player = player;
-		this.player.bottomBar = this;
 
+	
+	public BottomBar(Plateau p , int resX, int resY){
+		this.p = p ;
+		this.p.currentPlayer.bottomBar = this;
+		//this.player= p.currentPlayer;
 		try {
 			this.background = new Image("pics/menu/bottombar.png");
 		} catch (SlickException e) {

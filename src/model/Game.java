@@ -242,9 +242,9 @@ public class Game extends BasicGame
 					this.plateau.update(ims);
 				} else {
 					// host mode
-					if(inputs.size()>0){
+					while(inputs.size()>0){
 						ims.add(this.inputs.lastElement());	
-						inputs.clear();
+						inputs.remove(0);
 						//System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
@@ -285,12 +285,8 @@ public class Game extends BasicGame
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
-		for(int player=1; player<3; player++){
-			new BottomBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
-			new TopBar(this.plateau,(int)this.resX,(int)this.resY);
-		}
-		this.bottomBars = this.plateau.currentPlayer.bottomBar;
-		this.topBars = this.plateau.currentPlayer.topBar;
+		this.bottomBars = new BottomBar(this.plateau,(int)this.resX,(int)this.resY);
+		this.topBars = new TopBar(this.plateau,(int)this.resX,(int)this.resY);
 		selection = null;
 		
 	}
@@ -303,7 +299,6 @@ public class Game extends BasicGame
 
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
-		//TODO: upgrading multiplaying
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
 
 	}
