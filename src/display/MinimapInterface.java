@@ -113,39 +113,33 @@ public class MinimapInterface extends Bar {
 				g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
 			}
 		}
-		g.setColor(Color.black);
-		for(float f : this.game.plateau.mapGrid.Xcoord){
-			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);
-		}
-		for(float f : this.game.plateau.mapGrid.Ycoord){
-			g.drawLine(startX, startY+rh*f, startX+w, startY+rh*f);
-		}
-		if(this.p.currentPlayer.selection!=null && this.p.currentPlayer.selection.size()>0){
-			if(this.p.currentPlayer.selection.get(0) instanceof Character){
-				
-				Character roger = (Character) this.p.currentPlayer.selection.get(0);
-				g.setColor(Color.red);
-				g.drawString(this.p.mapGrid.maxX+" "+this.p.mapGrid.maxY, 0, 20);
-				if(roger.waypoints.size()==0)
-					g.drawString("Ta gueule",10f,10f);
-				else {
-					for(Case c :roger.waypoints)
-						g.drawRect(startX+rw*c.x, startY+rh*c.y, rw*c.sizeX, rh*c.sizeY);
-				}
-				g.setColor(Color.cyan);
-				g.drawRect(roger.c.x*rw+startX, roger.c.y*rh+startY, roger.c.sizeX*rw, roger.c.sizeY*rh);
-			}
-		}
-		if(isVisibleLine){
-			if(isPossibleLine)
-				g.setColor(Color.green);
-			else
-				g.setColor(Color.red);
-			g.drawLine(startX+rw*x1, startY+rh*y1, startX+rw*x2, startY+rh*y2);
-			for(Case c: cases){
-				g.drawRect(startX+rw*c.x, startY+rh*c.y, rw*c.sizeX, rh*c.sizeY);
-			}
-		}
+//		g.setColor(Color.black);
+//		for(float f : this.game.plateau.mapGrid.Xcoord){
+//			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);
+//		}
+//		for(float f : this.game.plateau.mapGrid.Ycoord){
+//			g.drawLine(startX, startY+rh*f, startX+w, startY+rh*f);
+//		}
+//		if(this.p.currentPlayer.selection!=null && this.p.currentPlayer.selection.size()>0){
+//			if(this.p.currentPlayer.selection.get(0) instanceof Character){
+//				
+//				Character roger = (Character) this.p.currentPlayer.selection.get(0);
+//				g.setColor(Color.red);
+//				g.drawString(this.p.mapGrid.maxX+" "+this.p.mapGrid.maxY, 0, 20);
+//				g.setColor(Color.cyan);
+//				g.drawRect(roger.c.x*rw+startX, roger.c.y*rh+startY, roger.c.sizeX*rw, roger.c.sizeY*rh);
+//			}
+//		}
+//		if(isVisibleLine){
+//			if(isPossibleLine)
+//				g.setColor(Color.green);
+//			else
+//				g.setColor(Color.red);
+//			g.drawLine(startX+rw*x1, startY+rh*y1, startX+rw*x2, startY+rh*y2);
+//			for(Case c: cases){
+//				g.drawRect(startX+rw*c.x, startY+rh*c.y, rw*c.sizeX, rh*c.sizeY);
+//			}
+//		}
 		// Draw rect of camera 
 		g.setColor(Color.white);
 
