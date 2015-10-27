@@ -123,7 +123,7 @@ public class MinimapInterface extends Bar {
 		if(this.p.currentPlayer.selection!=null && this.p.currentPlayer.selection.size()>0){
 			if(this.p.currentPlayer.selection.get(0) instanceof Character){
 				
-				Character roger = (Character) this.player.selection.get(0);
+				Character roger = (Character) this.p.currentPlayer.selection.get(0);
 				g.setColor(Color.red);
 				g.drawString(this.p.mapGrid.maxX+" "+this.p.mapGrid.maxY, 0, 20);
 				if(roger.waypoints.size()==0)
