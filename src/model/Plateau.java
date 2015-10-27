@@ -92,7 +92,7 @@ public class Plateau {
 
 	public MapGrid mapGrid;
 
-	
+
 	public Plateau(float maxX,float maxY,Game g){
 
 		this.g = g;
@@ -587,28 +587,30 @@ public class Plateau {
 			int player = im.idPlayer;
 			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
-			if(im!=null){
-				if(!g.inMultiplayer || g.host){
-					// Handling action bar
-					this.handleActionBar(im,player);
-					// Handling the right click
-					this.handleRightClick(im,player);
-					// handling only the current player
+			this.handleSpellCasting(im, player);
+			if(!g.inMultiplayer || g.host){
+				// Handling action bar
+				this.handleActionBar(im,player);
+				// Handling the right click
+				this.handleRightClick(im,player);
+				// handling only the current player
+			} else {
+				
+			}
+			if(player == this.currentPlayer.id){
+				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
+					this.handleView(im, player);
+					this.handleSelection(im, player,players.get(player).getTeam());
 				}
-				if(player == this.currentPlayer.id){
-					if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
-						this.handleView(im, player);
-						this.handleSelection(im, player,players.get(player).getTeam());
-					}
-				} else {
-					this.updateSelection(im);
-				}
-				if(!g.inMultiplayer || g.host){
-					// Handling the spell on the field
-					this.handleSpellsOnField(im, player);
-				}
-			} 
-		}
+			} else {
+				this.updateSelection(im);
+			}
+			if(!g.inMultiplayer || g.host){
+				// Handling the spell on the field
+				this.handleSpellsOnField(im, player);
+			}
+		} 
+
 
 		// 2 - Only for host - Collision, Action, Cleaning
 		if(!g.inMultiplayer || g.host)
@@ -680,7 +682,6 @@ public class Plateau {
 	private void handleSpellsOnField(InputModel im, int player) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
 			if(this.players.get(player).selection.size()>0){
-				System.out.println("Plateau 683 : sort lancé!");
 				Character c = (Character)this.players.get(player).selection.get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
 				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.players.get(player).selection.get(0));
@@ -724,16 +725,40 @@ public class Plateau {
 				}
 				Character c = ((Character) this.selection.get(player).get(0));
 				if(-1!=number && number<c.spells.size() && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-					if(c.spells.get(number).needToClick){
-						isCastingSpell.set(player,true);
-						castingSpell.set(player,number);
-					} else {
+					if(!c.spells.get(number).needToClick){
 						c.spells.get(number).launch(c, c);
 					}
 				}
 			}
 		}
 
+	}
+	
+	private void handleSpellCasting(InputModel im, int player){
+		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
+			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+				int number = -1;
+				if(im.isPressedProd0)
+					number = 0;
+				if(im.isPressedProd1)
+					number = 1;
+				if(im.isPressedProd2)
+					number = 2;
+				if(im.isPressedProd3)
+					number = 3;
+				if(im.isPressedESC){
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				}
+				Character c = ((Character) this.selection.get(player).get(0));
+				if(-1!=number && number<c.spells.size() && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+					if(c.spells.get(number).needToClick){
+						isCastingSpell.set(player,true);
+						castingSpell.set(player,number);
+					} 
+				}
+			}
+		}
 	}
 
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
@@ -1068,7 +1093,7 @@ public class Plateau {
 	}
 
 	public void parse(String s){
-		
+
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
 		//System.out.println(s);
