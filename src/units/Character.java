@@ -916,25 +916,26 @@ public class Character extends ActionObjet{
 		int id = Integer.parseInt(hs.get("id"));
 		float x = Float.parseFloat(hs.get("x"));
 		float y = Float.parseFloat(hs.get("y"));
+		int team = Integer.parseInt(hs.get("team"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.plateau.currentPlayer.getGameTeam().data.spearman,x,y,id);	
+			c =  new UnitSpearman(g.plateau.getTeamById(team).data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.plateau.currentPlayer.getGameTeam().data.knight,x,y,id);	
+			c = new UnitKnight(g.plateau.getTeamById(team).data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.plateau.currentPlayer.getGameTeam().data.priest,x,y,id);
+			c =  new UnitPriest(g.plateau.getTeamById(team).data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.plateau.currentPlayer.getGameTeam().data.crossbowman,x,y,id);
+			c =  new UnitCrossbowman(g.plateau.getTeamById(team).data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.plateau.currentPlayer.getGameTeam().data.inquisitor,x,y,id);
+			c =  new UnitInquisitor(g.plateau.getTeamById(team).data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.plateau.currentPlayer.getGameTeam().data.archange,x,y,id);
+			c = new UnitArchange(g.plateau.getTeamById(team).data.archange,x,y,id);
 			break;
 		default:
 			c = null;
