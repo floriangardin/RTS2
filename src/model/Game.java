@@ -229,6 +229,7 @@ public class Game extends BasicGame
 			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(inMultiplayer){
+				Utils.printCurrentState(this.plateau);
 				if(!host){
 					// client mode
 					this.toSendInputs.addElement(im.toString());
@@ -251,7 +252,6 @@ public class Game extends BasicGame
 						v.add(this.plateau.currentString);
 					}
 					System.out.println(this.toSendOutputs.size());
-					Utils.printCurrentState(this.plateau);
 				}
 			} else {
 				// solo mode
