@@ -92,6 +92,7 @@ public class Plateau {
 
 	public MapGrid mapGrid;
 
+	
 	public Plateau(float maxX,float maxY,Game g){
 
 		this.g = g;
@@ -1079,7 +1080,7 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split(" separation ");
 			//Take care of player
-			this.players.get(currentPlayer.id).parsePlayer(u[1]);
+			this.currentPlayer.parsePlayer(u[1]);
 			//double chrono1 = System.nanoTime();
 			parseCharacter(u[2]);
 			//System.out.println("bullets : "+(System.nanoTime()-chrono1));
