@@ -35,8 +35,8 @@ public class MenuIntro extends Menu {
 	public Image exitSelected;
 	public int selected = -1;
 	private boolean multiplaying;
-	
-	//TODO upgrading multiplayer
+
+
 	public int cooldown;
 
 	public MenuIntro(Game game){
@@ -45,9 +45,9 @@ public class MenuIntro extends Menu {
 		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		float startY = 100f+0.1f*this.game.resX;
-		float stepY = 0.15f*this.game.resY;
-		float ratioReso = this.game.resX/2400f;
+		float startY = 0.37f*this.game.resY;
+		float stepY = 0.12f*this.game.resY;
+		float ratioReso = this.game.resX/2800f;
 		try {
 			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
 			this.newGameSelected = new Image("pics/menu/newgameselected.png").getScaledCopy(ratioReso);
@@ -57,6 +57,7 @@ public class MenuIntro extends Menu {
 			this.optionsSelected = new Image("pics/menu/optionsselected.png").getScaledCopy(ratioReso);
 			this.exit = new Image("pics/menu/exit.png").getScaledCopy(ratioReso);
 			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(ratioReso);
+			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
 			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,this.game));
@@ -68,12 +69,7 @@ public class MenuIntro extends Menu {
 		}
 		//		}
 		Utils.triY(trees);
-		try{
-			this.sounds = game.sounds;
-			this.title = new Image("pics/menu/goldtitle.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.sounds = game.sounds;
 	}
 
 	//	public void callItems(Input i){
@@ -113,58 +109,23 @@ public class MenuIntro extends Menu {
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
-		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
+		g.drawImage(this.title, this.game.resX/2-this.title.getWidth()/2, 10f);
 		g.setColor(Color.white);
 		if(multiplaying)
 			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
 	}
 
 	public void update(Input i){
-		if(multiplaying){
-			if(i.isKeyPressed(Input.KEY_ESCAPE))
-				multiplaying = false;
-			if(this.game.host){
-				if(cooldown<=0){
-					this.game.toSendConnexions.addElement("2mythe");
-					cooldown+=50;
-				}else
-					cooldown-=1;
-				if(this.game.connexions.size()>0){
-					game.inMultiplayer = true;
-					callItem(0);
-					multiplaying = false;
-				}
-			} else {
-				if(this.game.connexions.size()>0){
-					this.game.toSendConnexions.addElement("2mythe");
-					this.game.toSendConnexions.addElement("2mythe");
-					this.game.toSendConnexions.addElement("2mythe");
-					try{
-						Thread.sleep(5);
-					} catch(InterruptedException e) { }
-					game.inMultiplayer = true;
-					game.plateau.currentPlayer = game.plateau.players.get(2);
-					callItem(0);
-					multiplaying = false;
-				}
+
+
+		if(i!=null){
+			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				callItems(i);
+				this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
 			}
-		} else {
-			if(i!=null){
-				if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-					callItems(i);
-					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
-				}
-				for(Menu_Item item: this.items){
-					item.update(i);
-				}			
-			}
-			Vector<Bullet> toremove = new Vector<Bullet>();
-			for(Bullet b: this.bullets){
-				if(b.lifePoints<=0)
-					toremove.add(b);
-			}
-			for(Bullet b: toremove)
-				this.bullets.remove(b);
+			for(Menu_Item item: this.items){
+				item.update(i);
+			}			
 		}
 	}
 }

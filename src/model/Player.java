@@ -1,16 +1,10 @@
 package model;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-
-import buildings.BuildingHeadQuarters;
 import display.BottomBar;
 import display.TopBar;
-import main.Main;
-import units.Character;
-import units.UnitsList;
 
 public class Player {
 	public Vector<ActionObjet> selection;
@@ -25,6 +19,9 @@ public class Player {
 	public BottomBar bottomBar;
 	public TopBar topBar;
 	public Data data;
+	public boolean isReady;
+	public InetAddress address;
+	
 	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
 		this.id = id;
 		this.nickname = name;
@@ -55,6 +52,7 @@ public class Player {
 	
 	public String toString(){
 		String s ="";
+		s+="id:"+id+";";
 		s+="team:"+team+";";
 		s+="gold:"+gameteam.gold+";";
 		s+="food:"+gameteam.food+";";
@@ -63,10 +61,27 @@ public class Player {
 		
 	}
 	public void parsePlayer(String s){
-
+		String[] u1 = s.split("\\|");
+		
+		// Find the right player :
+		String result = "";
+		for(int i = 0;i<u1.length;i++){
+			HashMap<String,String> hs = new HashMap<String,String>();
+			String[] inter = u1[i].split(";");
+			for(int j = 0; j<inter.length;j++){
+				String[] r = inter[j].split(":");
+				hs.put(r[0], r[1]);
+			}
+			if(hs.containsKey("id")){
+				if(Integer.parseInt(hs.get("id"))==this.id){
+					result = u1[i];
+					break;
+				}
+			}
+		}
 		//SEPARATION BETWEEN KEYS
 		
-		String[] u = s.split(";");
+		String[] u = result.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split(":");

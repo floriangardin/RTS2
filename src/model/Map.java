@@ -211,8 +211,8 @@ public class Map {
 		game.plateau.setMaxXMaxY(5000f, 2500f);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.players.get(1).data;
-		Data data2 = game.plateau.players.get(2).data;
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
 		//HQ
 		new BuildingHeadQuarters(game.plateau,game,3*X/18,Y/2,1);
 		new BuildingHeadQuarters(game.plateau,game,15*X/18,Y/2,2);
@@ -249,7 +249,7 @@ public class Map {
 		
 		new BuildingAcademy(game.plateau,game,X/2,Y/2);
 
-		for(int c =0; c<20; c++)
+		//for(int c =0; c<20; c++)
 			data1.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
@@ -268,27 +268,27 @@ public class Map {
 	}
 
 	public static void createMapMicro(Game game){
-		game.plateau.setMaxXMaxY(400f, 500f);
+		game.plateau.setMaxXMaxY(500f, 600f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.players.get(1).data;
-		Data data2 = game.plateau.players.get(2).data;
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
 		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
 
-		data1.create(UnitsList.Crossbowman, X/9 - 1f, Y/2);
-		data1.create(UnitsList.Spearman, X/9 - 2f, Y/2);
-		data1.create(UnitsList.Knight, X/9 - 3f, Y/2);
-		data1.create(UnitsList.Priest, X/9 - 4f, Y/2);
-		data1.create(UnitsList.Inquisitor, X/9 - 5f, Y/2);
+		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
+		data1.create(UnitsList.Spearman, 2*X/9, Y/2-2f);
+		data1.create(UnitsList.Knight, 2*X/9, Y/2);
+		data1.create(UnitsList.Priest, 2*X/9, Y/2+1f);
+		data1.create(UnitsList.Inquisitor, X/9, Y/2+2f);
 		
-		data2.create(UnitsList.Crossbowman, 8*X/9 - 1f, Y/2);
-		data2.create(UnitsList.Spearman, 8*X/9 - 2f, Y/2);
-		data2.create(UnitsList.Knight, 8*X/9 - 3f, Y/2);
-		data2.create(UnitsList.Priest, 8*X/9 - 4f, Y/2);
-		data2.create(UnitsList.Inquisitor, 8*X/9 - 5f, Y/2);
+		data2.create(UnitsList.Crossbowman, 7*X/9, Y/2-1f);
+		data2.create(UnitsList.Spearman, 7*X/9, Y/2-2f);
+		data2.create(UnitsList.Knight, 7*X/9, Y/2);
+		data2.create(UnitsList.Priest, 7*X/9, Y/2+1f);
+		data2.create(UnitsList.Inquisitor, 7*X/9, Y/2+2f);
 
 	}
 	

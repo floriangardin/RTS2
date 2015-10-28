@@ -91,9 +91,8 @@ public abstract class BuildingProduction extends BuildingAction {
 			if(this.queue.size()>0){
 				s=s.substring(0, s.length()-1);
 			}
-
 			s+=";";
-			changes.queue=false;
+			changes.queue=true;
 		}
 		if(changes.charge){
 			s+="charge:"+this.charge+";";
@@ -116,7 +115,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 		}
 	}
-
+	
 	public void parse(HashMap<String,String> hs){
 		this.parseObjet(hs);
 		this.parseActionObjet(hs);

@@ -19,7 +19,7 @@ public class MultiReceiver extends Thread{
 
 
 	// DEBUGGING
-	private boolean debug = true;
+	private boolean debug = false;
 
 	public MultiReceiver(Game g, int port){
 		this.g = g;
@@ -33,7 +33,7 @@ public class MultiReceiver extends Thread{
 			if(debug)
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
-				message = new byte[2000];
+				message = new byte[16000];
 				packet = new DatagramPacket(message, message.length);
 				try{
 					server.receive(packet);
@@ -51,7 +51,6 @@ public class MultiReceiver extends Thread{
 					case 2: 
 					if(!this.g.host){
 						this.g.addressHost = packet.getAddress();
-						System.out.println( packet.getAddress().toString());
 					}
 					this.g.connexions.add(msg.substring(1, msg.length()));
 					default:

@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 
 import model.Game;
 import model.Objet;
+import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
 
 public class MenuMulti extends Menu {
@@ -34,6 +35,9 @@ public class MenuMulti extends Menu {
 	public int cooldown1;
 
 	public float startXGames;
+	public float sizeXGames;
+	public float startYGames;
+	public float sizeYGames;
 	float startY;
 	float stepY;
 	float ratioReso;
@@ -44,16 +48,16 @@ public class MenuMulti extends Menu {
 	public int gameSelected = -1;
 
 	public MenuMulti(Game game){
-		this.music = game.musics.menu;
-		this.music.loop();
-		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		this.gamesList = new Vector<Menu_MapChoice>();
 		this.openGames = new  Vector<OpenGames>();
-		startY = 100f+0.1f*this.game.resX;
+		startY = 0.37f*this.game.resY;
 		stepY = 0.15f*this.game.resY;
 		startXGames = 3f*this.game.resX/8;
+		sizeXGames = this.game.resX/2;
+		startYGames = 0.37f*this.game.resY;
+		sizeYGames = this.game.resY*(0.95f-0.37f);
 		ratioReso = this.game.resX/2800f;
 		try {
 			this.host = new Image("pics/menu/host.png").getScaledCopy(ratioReso);
@@ -62,7 +66,8 @@ public class MenuMulti extends Menu {
 			this.joinSelected= new Image("pics/menu/joinselected.png").getScaledCopy(ratioReso);
 			this.back = new Image("pics/menu/back.png").getScaledCopy(ratioReso);
 			this.backSelected = new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
-			this.marbre = new Image("pics/menu/marbre.png");
+			this.marbre = new Image("pics/menu/marbre.png").getScaledCopy((int)sizeXGames, (int)sizeYGames);
+			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
 			float startX = 2f*this.game.resX/8-this.host.getWidth()/2;
 			this.items.addElement(new Menu_Item(startX,startY,this.host,this.hostSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.join,this.joinSelected,this.game));
@@ -74,12 +79,7 @@ public class MenuMulti extends Menu {
 			e1.printStackTrace();
 		}
 		//		}
-		try{
-			this.sounds = game.sounds;
-			this.title = new Image("pics/menu/goldtitle.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.sounds = game.sounds;
 	}
 
 	public void callItem(int i){
@@ -87,7 +87,8 @@ public class MenuMulti extends Menu {
 		case 0:
 			game.host = true;
 			game.inMultiplayer = true;
-			game.plateau.removePlayer(2);
+			game.plateau.clearPlayer();
+			game.plateau.addPlayer(game.options.nickname);
 			game.plateau.currentPlayer = game.plateau.players.get(1);
 			game.setMenu(game.menuMapChoice);
 			break;
@@ -98,8 +99,9 @@ public class MenuMulti extends Menu {
 				game.plateau.clearPlayer();
 				game.toSendConnexions.clear();
 				OpenGames opengame = openGames.get(gameSelected);
-				this.game.connexionSender = new MultiSender(opengame.hostAddress, 6113, this.game.toSendConnexions, game);
+				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexions, game);
 				this.game.connexionSender.start();
+				this.game.addressHost = opengame.hostAddress;
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown");
 				}
@@ -122,7 +124,7 @@ public class MenuMulti extends Menu {
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
-		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
+		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 10f);
 		g.setColor(Color.white);
 
 		g.setColor(Color.black);

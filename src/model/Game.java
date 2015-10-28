@@ -76,23 +76,21 @@ public class Game extends BasicGame
 	public int portOutput = 6115;
 	public int portChat = 2347;
 	// Host and client
-	private String addressHostString;
-	private String addressClientString;
 	public InetAddress addressHost;
 	public InetAddress addressClient;
 	public Vector<InputModel> inputs = new Vector<InputModel>();
 	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
 	public Vector<String> toSendInputs = new Vector<String>();
 	public Vector<String> outputs = new Vector<String>();
-	public Vector<String> toSendOutputs = new Vector<String>();
-	public Vector<String> connexions = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
+	public Vector<String> connexions = new Vector<String>();
+	public Vector<Vector<String>> toSendOutputs = new Vector<Vector<String>>();
 	public int timeValue;
 	// Sender and Receiver
 	public MultiReceiver inputReceiver;
 	public MultiSender inputSender;
 	public MultiReceiver outputReceiver;
-	public MultiSender outputSender;
+	public Vector<MultiSender> outputSender;
 	public MultiReceiver connexionReceiver;
 	public MultiSender connexionSender;
 	public boolean isHost;
@@ -231,32 +229,33 @@ public class Game extends BasicGame
 			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(inMultiplayer){
+				//Utils.printCurrentState(this.plateau);
 				if(!host){
 					// client mode
 					this.toSendInputs.addElement(im.toString());
 					if(outputs.size()>0){
 						this.plateau.currentString = outputs.lastElement();
 						outputs.clear();
-						//System.out.println("paquets perdus:" +(outputs.size()-1));
-						//outputs.clear();
 					}
 					this.plateau.update(ims);
 				} else {
 					// host mode
-					if(inputs.size()>0){
+					// si on a des inputs en attente on les passe en argument à update de plateau
+					while(inputs.size()>0){
 						ims.add(this.inputs.lastElement());	
-						inputs.clear();
+						inputs.remove(0);
 						//System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
-					this.toSendOutputs.add(this.plateau.currentString);
+					for(Vector<String> v : this.toSendOutputs){
+						v.add(this.plateau.currentString);
+					}
+					//System.out.println(this.toSendOutputs.size());
 				}
 			} else {
 				// solo mode
 				this.plateau.update(ims);
 			}
-
-
 		}
 	}
 
@@ -270,7 +269,7 @@ public class Game extends BasicGame
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 		this.sounds = new Sounds();
 		this.options = new Options();
-		this.images = new Images(true);
+		this.images = new Images();
 		this.musics = new Musics();
 
 		this.menuIntro = new MenuIntro(this);
@@ -284,12 +283,8 @@ public class Game extends BasicGame
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
-		for(int player=1; player<3; player++){
-			new BottomBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
-			new TopBar(this.plateau,this.plateau.players.get(player),(int)this.resX,(int)this.resY);
-		}
-		this.bottomBars = this.plateau.currentPlayer.bottomBar;
-		this.topBars = this.plateau.currentPlayer.topBar;
+		this.bottomBars = new BottomBar(this.plateau,(int)this.resX,(int)this.resY);
+		this.topBars = new TopBar(this.plateau,(int)this.resX,(int)this.resY);
 		selection = null;
 		
 	}
@@ -299,11 +294,9 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-		this.images = new Images(false);
 
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
-		//TODO: upgrading multiplaying
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
 
 	}

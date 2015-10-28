@@ -43,9 +43,13 @@ public class MenuMapChoice extends Menu {
 
 	float startXMapChoice;
 	float startYMapChoice;
+	float sizeXMapChoice;
+	float sizeYMapChoice;
 
 	float startXPlayers;
 	float startYPlayers;
+	float sizeXPlayers;
+	float sizeYPlayers;
 
 
 
@@ -53,40 +57,42 @@ public class MenuMapChoice extends Menu {
 
 	public MenuMapChoice(Game game){
 		this.music = game.musics.menu;
-		this.music.loop();
-		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		this.mapchoices = new Vector<Menu_MapChoice>();
 		this.players = new Vector<Menu_Player>();
 
-		startY = 100f;
-		stepY = 0.13f*this.game.resY;
+		startY = this.game.resY*0.37f;
+		stepY = 0.12f*this.game.resY;
 
-		startXMapChoice = game.resX*2f/3f;
-		startYMapChoice = startY+1f*stepY;
+		startXMapChoice = game.resX*(2f/3f+1f/60f);
+		startYMapChoice = startY;
+		sizeXMapChoice = game.resX*(1f/3f-1f/30f);
+		sizeYMapChoice = game.resY*39f/40f-startYMapChoice;
 
-		startXPlayers = 25f;
-		startYPlayers = startY+1f*stepY;
+		startXPlayers = game.resX/60f;;
+		startYPlayers = startY;
+		sizeXPlayers = game.resX*(2f/3f-1f/30f);
+		sizeYPlayers = game.resY*0.80f-startYMapChoice;
 
-		float ratioReso = this.game.resX/2400f;
+		float ratioReso = this.game.resX/2800f;
 		try {
-			this.title = new Image("pics/menu/goldtitle.png");
+			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
 			this.play = new Image("pics/menu/play.png").getScaledCopy(ratioReso);
 			this.playSelected = new Image("pics/menu/playselected.png").getScaledCopy(ratioReso);
 			this.back= new Image("pics/menu/back.png").getScaledCopy(ratioReso);
 			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
-			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy(1.5f*ratioReso);
-			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy(1.5f*ratioReso);
+			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy((int)sizeXPlayers, (int)sizeYPlayers);
+			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy((int)sizeXMapChoice,(int)sizeYMapChoice);
 			float startX = this.game.resX/2-this.play.getWidth()/2;
-			this.items.addElement(new Menu_Item(startXPlayers+5f,startYPlayers+45f,this.marbre,this.marbre,this.game));
+			this.items.addElement(new Menu_Item(startXPlayers,startYPlayers,this.marbre,this.marbre,this.game));
 			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(startXMapChoice+15f,startYMapChoice+45f,this.marbre2,this.marbre2,this.game));
+			this.items.addElement(new Menu_Item(startXMapChoice,startYMapChoice,this.marbre2,this.marbre2,this.game));
 			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(startX-100f-this.play.getWidth(),this.game.resY-1.5f*stepY,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(startX-60f,this.game.resY-1.5f*stepY,this.play,this.playSelected,this.game));
+			this.items.addElement(new Menu_Item(1f/6f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(1f/2f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.play,this.playSelected,this.game));
 			for(int i=0; i<maps.size(); i++){
-				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+100f,startYMapChoice+150f+50f*i,200f,30f));
+				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+2)/12f*sizeYMapChoice-35f/2,200f,30f));
 			}
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -112,9 +118,10 @@ public class MenuMapChoice extends Menu {
 				this.music.setVolume(game.options.musicVolume);
 				//this.game.newGame();
 				this.game.quitMenu();
+				this.game.startTime = System.currentTimeMillis();
 				break;
 			} else {
-				this.players.get(game.plateau.currentPlayer.id).isReady = true;
+				this.game.plateau.currentPlayer.isReady = true;
 			}
 		default:		
 		}
@@ -123,7 +130,7 @@ public class MenuMapChoice extends Menu {
 	public void draw(Graphics g){
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.game.resX, this.game.resY);
-		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 50f+0.05f*this.game.resY-this.title.getHeight()/2);
+		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 10f);
 
 		for(Menu_Item item: this.items){
 			item.draw(g);
@@ -133,8 +140,8 @@ public class MenuMapChoice extends Menu {
 			item.draw(g);
 		}
 		g.setColor(Color.black);
-		g.drawString("Players :" , startXPlayers+100f, startYPlayers+100f);
-		g.drawString("Map :" , startXMapChoice+60f, startYMapChoice+100f);
+		g.drawString("Players :" , startXPlayers + 1f/30f*sizeXPlayers,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
+		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYMapChoice+1f/12f*sizeYMapChoice-g.getFont().getHeight("P")/2f);
 		for(int i=1;i<this.players.size();i++){
 			players.get(i).draw(g);
 		}
@@ -144,23 +151,60 @@ public class MenuMapChoice extends Menu {
 	public void update(Input i){
 		this.players.clear();
 		for(int j=0;j<this.game.plateau.players.size(); j++){
-			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+130f,startYPlayers+100f+80*j,game));
+			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-35f/2f,game));
 			this.players.get(j).update(i);
 		}
 		//Checking if all players are ready then launch the game
 		if(game.inMultiplayer){
 			boolean toGame = true;
 			// checking if all players are ready
-			for(Menu_Player m:this.players)
-				if(!m.isReady)
+			for(int j=1;j<this.players.size(); j++){
+				if(!this.players.get(j).isReady){
 					toGame = false;
-			// Checking if at least one player is present by team
-			if(toGame){
-				// TODO check previous condition
+				}
 			}
-			if (toGame){
-				//TODO Launch Game
+			// Checking if at least one player is present by team
+			boolean present1 = false;
+			boolean present2 = false;
+			if(toGame){
+				//  check previous condition
+				for(Player p : this.game.plateau.players){
+					if(p.getTeam()==1){
+						present1 = true;
+					}
+					if(p.getTeam()==2){
+						present2 = true;
+					}
+				}
+				if (present1 && present2){
+					// Launch Game
 
+					// Create sender and receiver
+					if(!game.host){
+						this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
+						this.game.outputReceiver = new MultiReceiver(this.game, this.game.portOutput);
+						this.game.outputReceiver.start();
+						this.game.inputSender.start();
+					} else {
+						this.game.outputSender = new Vector<MultiSender>();
+						for(Player p: this.game.plateau.players){
+							if(p.id != this.game.plateau.currentPlayer.id && p.getTeam()!=0){
+								this.game.toSendOutputs.add(new Vector<String>());
+								this.game.outputSender.add(new MultiSender(p.address, this.game.portOutput, this.game.toSendOutputs.lastElement(),this.game));
+								this.game.outputSender.lastElement().start();
+							}
+						}
+						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+						this.game.inputReceiver.start();
+					}
+					Map.updateMap(mapSelected, game);
+					this.music = game.musics.imperial;
+					this.music.loop();
+					this.music.setVolume(game.options.musicVolume);
+					this.game.startTime = System.currentTimeMillis();
+					//this.game.newGame();
+					this.game.quitMenu();
+				}
 			}
 
 		}
@@ -179,6 +223,18 @@ public class MenuMapChoice extends Menu {
 		if(game.inMultiplayer){
 			if(game.host){
 				// sending games
+				for(Player p : this.game.plateau.players){
+					if(p.address != null){
+						this.game.connexionSender.address = p.address;
+						//						Thread.sleep((long) 0.005);
+						this.game.toSendConnexions.addElement("2"+toString());
+						try {
+							Thread.sleep((long) 0.005);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
 				if(cooldown<=255){
 					if(!game.connexionSender.isAlive()){
 						game.connexionSender.start();
@@ -200,12 +256,11 @@ public class MenuMapChoice extends Menu {
 
 						if(!thisAddress.equals(s+""+cooldown)){
 							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-							Thread.sleep((long) 0.5);
+							//							Thread.sleep((long) 0.005);
 							this.game.toSendConnexions.addElement("2"+toString());
-							Thread.sleep((long) 0.5);
-							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
+							Thread.sleep((long) 0.005);
+							//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 						}
-
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					} catch (InterruptedException e) {
@@ -312,12 +367,14 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
-	
+
 			if(civ.length>this.game.plateau.players.size()){
-				this.game.plateau.addPlayer("Philippe");
+				try {
+					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
+				} catch (UnknownHostException e) {}
 				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}
-			
+
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
@@ -339,7 +396,8 @@ public class MenuMapChoice extends Menu {
 
 			for(int i = 0;i<isReady.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).isReady = idTeam[i].equals("1");
+					this.players.get(i).isReady = isReady[i].equals("1");
+					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
 				}
 			}
 

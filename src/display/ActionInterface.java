@@ -75,8 +75,8 @@ public class ActionInterface extends Bar {
 
 
 		// Draw Production/Effect Bar
-		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingProduction){
-			BuildingProduction b =(BuildingProduction) this.player.selection.get(0);
+		if(this.p.currentPlayer.selection.size()>0 && this.p.currentPlayer.selection.get(0) instanceof BuildingProduction){
+			BuildingProduction b =(BuildingProduction) this.p.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<UnitsList> ul = b.productionList;
 			int limit = Math.min(4, ul.size());
@@ -96,8 +96,8 @@ public class ActionInterface extends Bar {
 				}
 			}
 		}
-		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof BuildingTech){
-			BuildingTech b =(BuildingTech) this.player.selection.get(0);
+		if(this.p.currentPlayer.selection.size()>0 && this.p.currentPlayer.selection.get(0) instanceof BuildingTech){
+			BuildingTech b =(BuildingTech) this.p.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
 			int limit = Math.min(4, ul.size());
@@ -118,8 +118,8 @@ public class ActionInterface extends Bar {
 				}
 			}
 		}
-		if(this.player.selection.size()>0 && this.player.selection.get(0) instanceof Character){
-			Character b =(Character) this.player.selection.get(0);
+		if(this.p.currentPlayer.selection.size()>0 && this.p.currentPlayer.selection.get(0) instanceof Character){
+			Character b =(Character) this.p.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Spell> ul = b.spells;
 			int limit = Math.min(4, ul.size());
@@ -134,7 +134,7 @@ public class ActionInterface extends Bar {
 				g.fillRect(this.x+2f, this.y+2f + ratio*i*this.sizeY+diffY, -4f+ratio*this.sizeY, (-2f + ratio*this.sizeY)-diffY);
 				g.setColor(Color.white);
 
-				if(this.p.isCastingSpell.get(player.getTeam()) && this.p.castingSpell.get(player.getTeam())==i){
+				if(this.p.isCastingSpell.get(p.currentPlayer.getTeam()) && this.p.castingSpell.get(p.currentPlayer.getTeam())==i){
 					g.setColor(Color.green);
 					g.drawRect(this.x+1f, this.y +1f+ ratio*i*sizeY, this.sizeX-2f, ratio*this.sizeY-2f);
 				}

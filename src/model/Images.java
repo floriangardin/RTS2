@@ -68,89 +68,88 @@ public class Images {
 	public Image spellInstantDeath;
 	public Image spellInstantHealth;
 
-	public Images(boolean b){
-		if(b){
-			try {
-				this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
-				this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
-				this.arrow = new Image("pics/arrow.png");
-				this.fireball = new Image("pics/fireball.png");
-				this.explosion = new Image("pics/explosion.png");
-				this.bible = new Image("pics/bible.png");
-				this.sword = new Image("pics/sword.png");
-				this.bow = new Image("pics/bow.png");
-				this.magicwand = new Image("pics/magicwand.png");
-				this.lightArmor = new Image("pics/lightArmor.png");
-				this.mediumArmor = new Image("pics/mediumArmor.png");
-				this.heavyArmor = new Image("pics/heavyArmor.png");
-				this.corps = new Image("pics/corps.png");
-				this.red = new Image("pics/red.png");
-				this.blue = new Image("pics/blue.png");
-				this.archangeBlue = new Image("pics/archangeBlue.png");
-				this.archangeRed = new Image("pics/archangeRed.png");
-				this.horseRed = new Image("pics/horseRed.png");
-				this.horseBlue = new Image("pics/horseBlue.png");
-				this.tree01 = new Image("pics/tree01.png");
-				this.tree02 = new Image("pics/tree02.png");
-				this.tree03 = new Image("pics/tree03.png");
-				this.tree04 = new Image("pics/tree04.png");
-				this.tent = new Image("pics/tent.png");
-				this.dirt = new Image("pics/dirt.png");
-				this.water = new Image("pics/water.jpg");
-				this.cursor = new Image("pics/cursor.png");
-				this.fog = new Image("pics/fog.png");
-				this.fountain = new Image("pics/fountain.png");
-				this.fire = new Image("pics/fire.png");
-				this.blessedArea = new Image("pics/blessedArea.png");
-				this.smoke = new Image("pics/smoke.png");
-				this.windmill = new Image("pics/windmill.png");
-				this.windmillarms = new Image("pics/windmillarms.png");
+	public Images(){
+		try {
+			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
+			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
+			this.arrow = new Image("pics/arrow.png");
+			this.fireball = new Image("pics/fireball.png");
+			this.explosion = new Image("pics/explosion.png");
+			this.bible = new Image("pics/bible.png");
+			this.sword = new Image("pics/sword.png");
+			this.bow = new Image("pics/bow.png");
+			this.magicwand = new Image("pics/magicwand.png");
+			this.lightArmor = new Image("pics/lightArmor.png");
+			this.mediumArmor = new Image("pics/mediumArmor.png");
+			this.heavyArmor = new Image("pics/heavyArmor.png");
+			this.corps = new Image("pics/corps.png");
+			this.red = new Image("pics/red.png");
+			this.blue = new Image("pics/blue.png");
+			this.archangeBlue = new Image("pics/archangeBlue.png");
+			this.archangeRed = new Image("pics/archangeRed.png");
+			this.horseRed = new Image("pics/horseRed.png");
+			this.horseBlue = new Image("pics/horseBlue.png");
+			this.tree01 = new Image("pics/tree01.png");
+			this.tree02 = new Image("pics/tree02.png");
+			this.tree03 = new Image("pics/tree03.png");
+			this.tree04 = new Image("pics/tree04.png");
+			this.tent = new Image("pics/tent.png");
+			this.dirt = new Image("pics/dirt.png");
+			this.water = new Image("pics/water.jpg");
+			this.cursor = new Image("pics/cursor.png");
+			this.fog = new Image("pics/fog.png");
+			this.fountain = new Image("pics/fountain.png");
+			this.fire = new Image("pics/fire.png");
+			this.blessedArea = new Image("pics/blessedArea.png");
+			this.smoke = new Image("pics/smoke.png");
+			this.windmill = new Image("pics/windmill.png");
+			this.windmillarms = new Image("pics/windmillarms.png");
 
 
-				//Building
-				buildingBarrackBlue = new Image("pics/Building/CaserneBleu.png");
-				buildingBarrackRed = new Image("pics/Building/CaserneRouge.png");
-				buildingBarrackNeutral = new Image("pics/Building/CaserneNeutre.png");
-				buildingStableBlue = new Image("pics/Building/EcurieBleu.png");
-				buildingStableRed = new Image("pics/Building/EcurieRouge.png");
-				buildingStableNeutral = new Image("pics/Building/EcurieNeutre.png");
-				buildingAcademyBlue = new Image("pics/Building/AcademyBlue.png");
-				buildingAcademyRed = new Image("pics/Building/AcademyRed.png");
-				buildingAcademyNeutral = new Image("pics/Building/AcademyNeutral.png");
-				buildingMillBlue = new Image("pics/Building/FermeBleu.png");
-				buildingMillRed = new Image("pics/Building/FermeRouge.png");
-				buildingMillNeutral = new Image("pics/Building/FermeNeutre.png");
-				buildingMineBlue = new Image("pics/Building/MineBleu.png");
-				buildingMineRed = new Image("pics/Building/MineRouge.png");
-				buildingMineNeutral = new Image("pics/Building/MineNeutre.png");
-				buildingHeadQuartersBlue = new Image("pics/Building/HeadQuartersBlue.png");
-				buildingHeadQuartersRed = new Image("pics/Building/HeadQuartersRed.png");
-				buildingUniversityNeutral = new Image("pics/Building/UniversityNeutral.png");
-				buildingUniversityBlue = new Image("pics/Building/UniversityBlue.png");
-				buildingUniversityRed = new Image("pics/Building/UniversityRed.png");
+			//Building
+			buildingBarrackBlue = new Image("pics/Building/CaserneBleu.png");
+			buildingBarrackRed = new Image("pics/Building/CaserneRouge.png");
+			buildingBarrackNeutral = new Image("pics/Building/CaserneNeutre.png");
+			buildingStableBlue = new Image("pics/Building/EcurieBleu.png");
+			buildingStableRed = new Image("pics/Building/EcurieRouge.png");
+			buildingStableNeutral = new Image("pics/Building/EcurieNeutre.png");
+			buildingAcademyBlue = new Image("pics/Building/AcademyBlue.png");
+			buildingAcademyRed = new Image("pics/Building/AcademyRed.png");
+			buildingAcademyNeutral = new Image("pics/Building/AcademyNeutral.png");
+			buildingMillBlue = new Image("pics/Building/FermeBleu.png");
+			buildingMillRed = new Image("pics/Building/FermeRouge.png");
+			buildingMillNeutral = new Image("pics/Building/FermeNeutre.png");
+			buildingMineBlue = new Image("pics/Building/MineBleu.png");
+			buildingMineRed = new Image("pics/Building/MineRouge.png");
+			buildingMineNeutral = new Image("pics/Building/MineNeutre.png");
+			buildingHeadQuartersBlue = new Image("pics/Building/HeadQuartersBlue.png");
+			buildingHeadQuartersRed = new Image("pics/Building/HeadQuartersRed.png");
+			buildingUniversityNeutral = new Image("pics/Building/UniversityNeutral.png");
+			buildingUniversityBlue = new Image("pics/Building/UniversityBlue.png");
+			buildingUniversityRed = new Image("pics/Building/UniversityRed.png");
 
-				//Icones
-				this.iconeBowman = new Image("pics/iconBow.png");
-				this.iconeSpearman = new Image("pics/iconSpear.png");
-				this.iconeKnight = new Image("pics/iconHorse.png");
-				this.iconePriest = new Image("pics/iconBible.png");
-				this.iconeWizard = new Image("pics/iconFireball.png");
+			//Icones
+			this.iconeBowman = new Image("pics/iconBow.png");
+			this.iconeSpearman = new Image("pics/iconSpear.png");
+			this.iconeKnight = new Image("pics/iconHorse.png");
+			this.iconePriest = new Image("pics/iconBible.png");
+			this.iconeWizard = new Image("pics/iconFireball.png");
 
-				//Icones Techs
-				this.techEagleView = new Image("pics/Tech/EagleView.png");
+			//Icones Techs
+			this.techEagleView = new Image("pics/Tech/EagleView.png");
 
-				//Icone spell
-				this.spellFirewall = new Image("pics/Spell/firewall.png");
-				this.spellBlessedArea = new Image("pics/Spell/blessedArea.png");
-				this.spellImmolation = new Image("pics/Spell/immolation.png");
-				this.spellConversion = new Image("pics/Spell/conversion.png");
-				this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
-				this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
-				this.grassTexture = new Image("pics/TestTexture1.png");
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
+			//Icone spell
+			this.spellFirewall = new Image("pics/Spell/firewall.png");
+			this.spellBlessedArea = new Image("pics/Spell/blessedArea.png");
+			this.spellImmolation = new Image("pics/Spell/immolation.png");
+			this.spellConversion = new Image("pics/Spell/conversion.png");
+			this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
+			this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
+			this.grassTexture = new Image("pics/TestTexture1.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	public Image getIconByName(String name){

@@ -1,10 +1,9 @@
 package model;
 
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
-
-import multiplaying.InputModel;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -14,17 +13,18 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
-import pathfinding.Case;
-import pathfinding.MapGrid;
-import spells.Spell;
-import spells.SpellEffect;
-import units.Character;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
 import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
+import multiplaying.InputModel;
+import pathfinding.Case;
+import pathfinding.MapGrid;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
 
 public class Plateau {
 
@@ -46,12 +46,12 @@ public class Plateau {
 
 	// about the output of the string
 	public String currentString ;
-	
+
 	// teams and players
 	public Vector<Player> players = new Vector<Player>();
 	public Player currentPlayer;
 	public Vector<GameTeam> teams = new Vector<GameTeam>();
-	
+
 
 
 	// ADD ALL OBJETS 
@@ -92,15 +92,16 @@ public class Plateau {
 
 	public MapGrid mapGrid;
 
+
 	public Plateau(float maxX,float maxY,Game g){
-		
+
 		this.g = g;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
 		//GENERAL
 		this.nTeams = 2;
 		this.maxX= maxX;
 		this.maxY = maxY;
-		
+
 		//ABOUT PLAYERS
 
 		//UPDATING GAME
@@ -113,7 +114,7 @@ public class Plateau {
 		this.players.add(new Player(this,2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
-		
+
 		//CHARACTERS
 		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
@@ -169,9 +170,9 @@ public class Plateau {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
-		this.g.bottomBars = new BottomBar(this,this.currentPlayer,(int)g.resX,(int)g.resY);
+		this.g.bottomBars = new BottomBar(this,(int)g.resX,(int)g.resY);
 	}
-	
+
 	public GameTeam getTeamById(int team) {
 		for(GameTeam t : this.teams)
 			if(t.id == team)
@@ -182,7 +183,7 @@ public class Plateau {
 	public void addPlayer(String name){
 		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
 		nPlayers+=1;
-		
+
 		// adding components in plateau
 		this.selection.addElement(new Vector<ActionObjet>());
 		this.toAddSelection.addElement(new Vector<ActionObjet>());
@@ -192,7 +193,23 @@ public class Plateau {
 		this.castingSpell.addElement(-1);
 		this.messages.addElement(new Vector<Message>());
 	}
-	
+
+	public void addPlayer(String name, InetAddress address){
+		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
+		this.players.lastElement().address = address;
+		nPlayers+=1;
+
+		// adding components in plateau
+		this.selection.addElement(new Vector<ActionObjet>());
+		this.toAddSelection.addElement(new Vector<ActionObjet>());
+		this.toRemoveSelection.addElement(new Vector<ActionObjet>());
+		this.isCastingSpell.addElement(false);
+		this.hasCastSpell.addElement(false);
+		this.castingSpell.addElement(-1);
+		this.messages.addElement(new Vector<Message>());
+
+	}
+
 	public void removePlayer(int indice){
 		if(indice==0 || indice>players.size())
 			return;
@@ -207,7 +224,7 @@ public class Plateau {
 		this.hasCastSpell.remove(indice);
 		this.castingSpell.remove(indice);
 		this.messages.remove(indice);
-		
+
 	}
 	// functions that handle buffers
 
@@ -216,12 +233,15 @@ public class Plateau {
 			removePlayer(players.size()-1);
 		}
 	}
-	
+
 	public void addCharacterObjets(Character o){
 		toAddCharacters.addElement(o);
 	}
 	private void removeCharacter(Character o){
 		toRemoveCharacters.addElement(o);
+		if(this.selection.contains(o)){
+			this.selection.remove(o);
+		}
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -566,38 +586,39 @@ public class Plateau {
 
 	public void update(Vector<InputModel> ims){
 		// 1 - Handling inputs 
-		InputModel im;
-		for(int player = 1; player<=nPlayers; player++){
+		for(InputModel im : ims){
+			// pour tous les inputs passés en argument on fait le traitement
+			int player = im.idPlayer;
+			// si on est client on ne gère que son input
 			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
-			im = null;
-			for(InputModel inp : ims)
-				if(inp.idPlayer==player)
-					im = inp;
-			if(im!=null){
-				if(!g.inMultiplayer || g.host){
-					// Handling action bar
-					this.handleActionBar(im,player);
-					// Handling the right click
-					this.handleRightClick(im,player);
-					// handling only the current player
-				}
-				if(player == this.currentPlayer.id){
-					if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
-						this.handleView(im, player);
-						this.handleSelection(im, player,players.get(player).getTeam());
-					}
-				} else {
-					this.updateSelection(im);
-				}
-				if(!g.inMultiplayer || g.host){
-					// Handling the spell on the field
-					this.handleSpellsOnField(im, player);
+			// on gère la sélection des sorts (type firewall/ blessed area)
+			this.handleSpellCasting(im, player);
+			// on gère côté serveur l'action bar et le click droit
+			if(!g.inMultiplayer || g.host){
+				// Handling action bar
+				this.handleActionBar(im,player);
+				// Handling the right click
+				this.handleRightClick(im,player);
+				// handling only the current player
+			} else {
+				
+			}
+			if(player == this.currentPlayer.id){
+				// ongère le déplacement de la caméra et la sélection
+				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
+					this.handleView(im, player);
+					this.handleSelection(im, player,players.get(player).getTeam());
 				}
 			} else {
-				//System.out.println("player "+player+" : im null");
+				// pour tous les autres on update la selection
+				this.updateSelection(im);
 			}
-		}
+			// enfin on gère le lancement des sorts
+			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
+		
+		} 
+
 
 		// 2 - Only for host - Collision, Action, Cleaning
 		if(!g.inMultiplayer || g.host)
@@ -666,12 +687,12 @@ public class Plateau {
 		}
 	}
 
-	private void handleSpellsOnField(InputModel im, int player) {
+	private void handleSpellsOnField(InputModel im, int player, boolean host) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
-			if(this.players.get(player).selection.size()>0){
-				Character c = (Character)this.players.get(player).selection.get(0); 
+			if(host && this.selection.get(player).size()>0){
+				Character c = (Character)this.selection.get(player).get(0); 
 				Spell spell = c.spells.get(castingSpell.get(player));
-				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.players.get(player).selection.get(0));
+				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.selection.get(player).get(0));
 				c.spellsState.set(castingSpell.get(player),0f);
 			}
 			isCastingSpell.set(player,false);
@@ -681,6 +702,8 @@ public class Plateau {
 		if(hasCastSpell.get(player) && !im.leftClick)
 			hasCastSpell.set(player,false);
 	}
+	
+	
 
 	private void handleActionBar(InputModel im, int player) {
 		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
@@ -712,16 +735,40 @@ public class Plateau {
 				}
 				Character c = ((Character) this.selection.get(player).get(0));
 				if(-1!=number && number<c.spells.size() && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-					if(c.spells.get(number).needToClick){
-						isCastingSpell.set(player,true);
-						castingSpell.set(player,number);
-					} else {
+					if(!c.spells.get(number).needToClick){
 						c.spells.get(number).launch(c, c);
 					}
 				}
 			}
 		}
 
+	}
+	
+	private void handleSpellCasting(InputModel im, int player){
+		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
+			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+				int number = -1;
+				if(im.isPressedProd0)
+					number = 0;
+				if(im.isPressedProd1)
+					number = 1;
+				if(im.isPressedProd2)
+					number = 2;
+				if(im.isPressedProd3)
+					number = 3;
+				if(im.isPressedESC){
+					isCastingSpell.set(player,false);
+					castingSpell.set(player,-1);
+				}
+				Character c = ((Character) this.selection.get(player).get(0));
+				if(-1!=number && number<c.spells.size() && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
+					if(c.spells.get(number).needToClick){
+						isCastingSpell.set(player,true);
+						castingSpell.set(player,number);
+					} 
+				}
+			}
+		}
 	}
 
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
@@ -1024,8 +1071,10 @@ public class Plateau {
 	public String toString(){
 		//PLAYERS
 		String s = "1 separation ";
-		// TODO handle more player
-		s+=this.players.get(3-this.currentPlayer.getTeam());
+		for(Player p: players){
+			s+=p;
+			s+="|";
+		}
 		//CHARACTER
 		s += " separation ";
 		for(Character c : this.characters){
@@ -1061,7 +1110,7 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split(" separation ");
 			//Take care of player
-			this.players.get(currentPlayer.id).parsePlayer(u[1]);
+			this.currentPlayer.parsePlayer(u[1]);
 			//double chrono1 = System.nanoTime();
 			parseCharacter(u[2]);
 			//System.out.println("bullets : "+(System.nanoTime()-chrono1));
@@ -1232,7 +1281,7 @@ public class Plateau {
 		}
 	}
 
-	
+
 
 
 }

@@ -76,6 +76,7 @@ public class Building extends ActionObjet{
 		else{
 			if(this.potentialTeam!=this.getTeam()){
 				this.setTeam(this.potentialTeam);
+				this.hq = this.getGameTeam().hq;
 				if(this instanceof BuildingProduction){
 					((BuildingProduction)this).queue.clear();
 					((BuildingProduction)this).charge = 0f;					
@@ -254,6 +255,7 @@ public class Building extends ActionObjet{
 		}
 		if(hs.containsKey("potentialTeam")){
 			this.potentialTeam = Integer.parseInt(hs.get("potentialTeam"));
+			this.hq = this.p.getTeamById(potentialTeam).hq;
 		}
 		if(hs.containsKey("constructionPoints")){
 			this.sizeX = Float.parseFloat(hs.get("sizeX"));

@@ -28,7 +28,7 @@ public class GameSimu extends Game	{
 	public void init(GameContainer gc) throws SlickException {	
 		this.sounds = new Sounds();
 		this.options = new Options();
-		this.images = new Images(true);
+		this.images = new Images();
 		this.musics = new Musics();
 		simu.run();
 

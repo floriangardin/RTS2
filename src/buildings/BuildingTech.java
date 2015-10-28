@@ -99,7 +99,7 @@ public abstract class BuildingTech extends BuildingAction {
 		if(this.changes.isFinished && this.lastTechDiscovered!=null){
 			s+="isFinished:"+"1"+";";
 			s+="lastTechDiscovered:"+this.lastTechDiscovered.id+";";
-			this.changes.isFinished = false;
+			this.changes.isFinished = true;
 		}
 		return s;
 	}
@@ -107,6 +107,9 @@ public abstract class BuildingTech extends BuildingAction {
 	public void parseBuildingTech(HashMap<String, String> hs) {
 		if(hs.containsKey("queue")){
 			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("queue")));
+		}
+		else{
+			this.queue = null;
 		}
 		if(hs.containsKey("charge")){
 			this.setCharge(Float.parseFloat(hs.get("charge")));
