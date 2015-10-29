@@ -94,8 +94,8 @@ public class BuildingMill extends BuildingTech{
 
 	
 	public void drawAnimation(Graphics g){
-		if(animation>=0f){
-			g.drawImage(this.p.g.images.smoke, this.x+1f/18f*sizeX-12f, this.y-144f,this.x+1f/18f*sizeX+36f, this.y-96f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+		if(getTeam()!=0){
+			g.drawImage(this.p.g.images.smoke, this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
 		}
 	}
 }

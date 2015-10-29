@@ -18,8 +18,8 @@ public class BuildingBarrack extends BuildingProduction{
 		//this.animation=-1f;
 		this.p = plateau ;
 		this.setTeam(0);
-		//maxLifePoints = p.g.players.get(team).data.barrackLifePoints;
-		maxLifePoints = 10f;
+		maxLifePoints = this.getGameTeam().data.barrackLifePoints;
+		//maxLifePoints = 10f;
 		this.sizeX = this.getGameTeam().data.barrackSizeX; 
 		this.sizeY = this.getGameTeam().data.barrackSizeY;
 		this.sight = this.getGameTeam().data.barrackSight;
@@ -50,11 +50,6 @@ public class BuildingBarrack extends BuildingProduction{
 		this.updateImage();
 	}
 
-	public void drawAnimation(Graphics g){
-		if(animation>=0f){
-			g.drawImage(this.p.g.images.fire, this.x+5f/18f*sizeX, this.y-24f,this.x+5f/18f*sizeX+32f, this.y+24f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
-			g.drawImage(this.p.g.images.fire, this.x-9f/18f*sizeX-2f, this.y-84f,this.x-9f/18f*sizeX+32f-2f, this.y-36f, (int)(animation/30f)*32, 96, ((int)(animation/30f)+1)*32, 144);
-		}
-	}
+	
 
 }
