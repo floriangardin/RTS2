@@ -50,9 +50,9 @@ public abstract class BuildingTech extends BuildingAction {
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
 			} else {
 				if(this.productionList.get(unit).tech.foodPrice>this.getGameTeam().food)
-					this.p.addMessage(Message.getById(0), getTeam());
+					this.p.addMessage(Message.getById("food"),p.currentPlayer.id);
 				else
-					this.p.addMessage(Message.getById(1), getTeam());
+					this.p.addMessage(Message.getById("gold"), p.currentPlayer.id);
 			}
 		}
 	}
@@ -61,7 +61,7 @@ public abstract class BuildingTech extends BuildingAction {
 		if(q==null){
 			return;
 		}
-		this.p.addMessage(Message.getById(4), getTeam());
+		this.p.addMessage(Message.getById("research"), p.currentPlayer.id);
 		this.setCharge(0f);
 		this.hq.techsDiscovered.addElement(q);
 		this.productionList.removeElement(q);

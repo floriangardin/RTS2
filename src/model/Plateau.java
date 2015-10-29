@@ -602,7 +602,7 @@ public class Plateau {
 				this.handleRightClick(im,player);
 				// handling only the current player
 			} else {
-				
+
 			}
 			if(player == this.currentPlayer.id){
 				// ongère le déplacement de la caméra et la sélection
@@ -616,7 +616,7 @@ public class Plateau {
 			}
 			// enfin on gère le lancement des sorts
 			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
-		
+
 		} 
 
 
@@ -642,15 +642,15 @@ public class Plateau {
 		this.updateVisibility();
 
 		// 4 - Update of the messages
-		//		Vector<Message> toDelete = new Vector<Message>();
-		//		toDelete.clear();
-		//		for(Message m: this.messages.get(player)){
-		//			m.remainingTime-=1f;
-		//			if(m.remainingTime<=0f)
-		//				toDelete.add(m);
-		//		}
-		//		for(Message m:toDelete)
-		//			this.messages.get(player).remove(m);
+		Vector<Message> toDelete = new Vector<Message>();
+		toDelete.clear();
+		for(Message m: this.messages.get(currentPlayer.id)){
+			m.remainingTime-=1f;
+			if(m.remainingTime<=0f)
+				toDelete.add(m);
+		}
+		for(Message m:toDelete)
+			this.messages.get(currentPlayer.id).remove(m);
 	}
 
 
@@ -702,8 +702,8 @@ public class Plateau {
 		if(hasCastSpell.get(player) && !im.leftClick)
 			hasCastSpell.set(player,false);
 	}
-	
-	
+
+
 
 	private void handleActionBar(InputModel im, int player) {
 		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
@@ -743,7 +743,7 @@ public class Plateau {
 		}
 
 	}
-	
+
 	private void handleSpellCasting(InputModel im, int player){
 		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
@@ -1060,10 +1060,10 @@ public class Plateau {
 	}
 
 	// handling messages
-	public void addMessage(Message m, int team){
-		if(this.messages.get(team).size()>19)
+	public void addMessage(Message m, int player){
+		if(this.messages.get(player).size()>19)
 			return;
-		this.messages.get(team).add(0, m);
+		this.messages.get(player).add(0, m);
 	}
 
 	//MULTIPLAYING
