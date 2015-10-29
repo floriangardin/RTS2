@@ -113,12 +113,7 @@ public class MenuMapChoice extends Menu {
 		case 3: 
 			if(!game.inMultiplayer){
 				Map.updateMap(mapSelected, game);
-				this.music = game.musics.imperial;
-				this.music.loop();
-				this.music.setVolume(game.options.musicVolume);
-				//this.game.newGame();
-				this.game.quitMenu();
-				this.game.startTime = System.currentTimeMillis();
+				game.launchGame();
 				break;
 			} else {
 				this.game.plateau.currentPlayer.isReady = true;
@@ -198,12 +193,7 @@ public class MenuMapChoice extends Menu {
 						this.game.inputReceiver.start();
 					}
 					Map.updateMap(mapSelected, game);
-					this.music = game.musics.imperial;
-					this.music.loop();
-					this.music.setVolume(game.options.musicVolume);
-					this.game.startTime = System.currentTimeMillis();
-					//this.game.newGame();
-					this.game.quitMenu();
+					game.launchGame();
 				}
 			}
 

@@ -258,6 +258,17 @@ public class Game extends BasicGame
 			}
 		}
 	}
+	
+	public void launchGame(){
+		
+		this.musics.imperial.loop();
+		this.musics.imperial.setVolume(options.musicVolume);
+		//this.game.newGame();
+		this.quitMenu();
+		this.plateau.Xcam = this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2;
+		this.plateau.Ycam = this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2;
+		this.startTime = System.currentTimeMillis();
+	}
 
 	
 	@Override
