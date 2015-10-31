@@ -45,7 +45,7 @@ public class Map {
 	
 	public static void updateMap(String name, Game game){
 		switch(name){
-		case "small duel": createMapLan(game);break;
+		case "small duel": createMapDuelSmall(game);break;
 		case "empty": createMapEmpty(game);break;
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
@@ -54,37 +54,37 @@ public class Map {
 
 	
 
-	public static void createMapLan(Game game){
+	public static void createMapDuelSmall(Game game){
 		game.plateau.setMaxXMaxY(2000f, 3000f);
 		Data data1 = game.plateau.players.get(1).data;
 		Data data2 = game.plateau.players.get(2).data;
 		
 		// Team 1 side
-		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,100f,1);
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,200f,1);
 		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f, 300f);
-		new BuildingMill(game.plateau,game,150f,100f);
-		new BuildingMine(game.plateau,game,game.plateau.maxX-200f,100f);
-		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,1*game.plateau.maxY/5);
+		new BuildingMill(game.plateau,game,550f,200f);
+		new BuildingMine(game.plateau,game,game.plateau.maxX-550f,200f);
+		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,1f*game.plateau.maxY/5);
 			
 		// Team 2 side
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY-200f,2);
 		data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f,  game.plateau.maxY-350f);
-		new BuildingMill(game.plateau,game,150f,game.plateau.maxY-200f);
-		new BuildingMine(game.plateau,game,game.plateau.maxX-200f,game.plateau.maxY-200f);
-		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,4*game.plateau.maxY/5);
+		new BuildingMill(game.plateau,game,550f,game.plateau.maxY-200f);
+		new BuildingMine(game.plateau,game,game.plateau.maxX-550f,game.plateau.maxY-200f);
+		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,4f*game.plateau.maxY/5);
 		
 		// CENTER
 		// Water
 		new Water(175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
 		new Water(game.plateau.maxX-175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
 		// Stables and academy 
-		new BuildingStable(game.plateau,game,game.plateau.maxX/4-20f,2*game.plateau.maxY/6+20f);
-		new BuildingAcademy(game.plateau,game,3*game.plateau.maxX/4+20f,2*game.plateau.maxY/6+20f);
-		new BuildingStable(game.plateau,game,game.plateau.maxX/4-20f, 4*game.plateau.maxY/6);
-		new BuildingAcademy(game.plateau,game,3f*game.plateau.maxX/4+20f, 4*game.plateau.maxY/6);
+		new BuildingStable(game.plateau,game,game.plateau.maxX/4-60f,2*game.plateau.maxY/6-10f);
+		new BuildingAcademy(game.plateau,game,3*game.plateau.maxX/4+60f,2*game.plateau.maxY/6);
+		new BuildingStable(game.plateau,game,game.plateau.maxX/4-60f, 4*game.plateau.maxY/6+10f);
+		new BuildingAcademy(game.plateau,game,3f*game.plateau.maxX/4+60f, 4*game.plateau.maxY/6);
 		// Barrack in the middle
-		new BuildingMill(game.plateau,game,game.plateau.maxX/7,game.plateau.maxY/2);
-		new BuildingMine(game.plateau,game,6f*game.plateau.maxX/7,game.plateau.maxY/2);
+		new BuildingMill(game.plateau,game,game.plateau.maxX/5,game.plateau.maxY/2);
+		new BuildingMine(game.plateau,game,4f*game.plateau.maxX/5,game.plateau.maxY/2);
 		new BuildingUniversity(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY/2);
 		
 	}
