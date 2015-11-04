@@ -154,7 +154,7 @@ public class Map {
 		
 		new BuildingAcademy(game.plateau,game,X/2,Y/2);
 
-		for(int c =0; c<50; c++)
+		//for(int c =0; c<50; c++)
 			data1.create(UnitsList.Spearman, X/9 + (float)Math.random(), Y/2+(float)Math.random());
 
 		//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
