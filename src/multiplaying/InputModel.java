@@ -45,7 +45,7 @@ public class InputModel extends MultiObjetModel{
 
 	public Vector<Integer> selection;
 
-	public InputModel (Game g, int time, int idPlayer, Input input, int Xcam,int Ycam, int resX, int resY){
+	public InputModel (Game g, int idPlayer, int time, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.idPlayer = idPlayer;
 		this.id = time;
 
