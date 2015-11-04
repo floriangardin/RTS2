@@ -9,7 +9,7 @@ import model.Changes;
 import model.Plateau;
 import units.Character;
 
-public class Arrow extends Bullet{
+public class Arrow extends CollisionBullet{
 
 	protected float angle= 0f;
 
@@ -17,7 +17,7 @@ public class Arrow extends Bullet{
 		//MULTI 
 		this.changes = new Changes();
 		// Parameters
-		float size = 2f;
+		this.size = 2f;
 		float Vmax = 250f;
 		 
 		this.p = p;

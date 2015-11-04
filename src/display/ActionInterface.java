@@ -141,7 +141,10 @@ public class ActionInterface extends Bar {
 				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
 					if(ul.get(i).chargeTime>0)
-						g.drawString(ul.get(i).name+" charge: "+state.get(i)+"/"+ul.get(i).chargeTime, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+						if(state.get(i)>=ul.get(i).chargeTime)
+							g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+						else
+							g.drawString(ul.get(i).name+" - "+(int)(100*state.get(i)/ul.get(i).chargeTime)+"%", this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 					else
 						g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}

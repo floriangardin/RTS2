@@ -34,7 +34,7 @@ public class Game extends BasicGame
 {	
 
 	// DEBUG
-	public boolean debugTimeSteps = true;
+	public boolean debugTimeSteps = false;
 	long timeSteps = 0;
 	
 	
@@ -221,6 +221,9 @@ public class Game extends BasicGame
 				g.drawString(m.message, 20f, this.topBars.sizeY+20f+2f*height*k);
 			}
 		}
+
+		if(debugTimeSteps)
+			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 	}
 	// Do our logic 
 	@Override
@@ -238,7 +241,7 @@ public class Game extends BasicGame
 			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(debugTimeSteps)
-				System.out.println("nouveau tour");
+				System.out.println("-- NOUVEAU TOUR --");
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
@@ -272,8 +275,12 @@ public class Game extends BasicGame
 			} else {
 				// solo mode
 				this.plateau.update(ims);
+				if(debugTimeSteps)
+					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
+				
 			}
 		}
+		
 	}
 	
 	public void launchGame(){

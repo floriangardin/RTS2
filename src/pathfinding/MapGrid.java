@@ -1,5 +1,6 @@
 package pathfinding;
 import java.util.Vector;
+import units.Character;
 
 import org.newdawn.slick.geom.Rectangle;
 
@@ -99,6 +100,7 @@ public class MapGrid {
 		insertNewX(X+sizeX/2f);
 		insertNewY(Y-sizeY/2f);
 		insertNewY(Y+sizeY/2f);
+		updateIndices();
 		//		int imin = (X-sizeX/2f<0 ? 0: Xcoord.indexOf(X-sizeX/2f));
 		//		int imax = (X+sizeX/2f>maxX ? grid.size()-1 : Xcoord.indexOf(X+sizeX/2f));
 		//		int jmin = (Y-sizeY/2f<0 ? 0: Ycoord.indexOf(Y-sizeY/2f));
@@ -122,6 +124,15 @@ public class MapGrid {
 		while(y>Ycoord.get(j+1))
 			j++;
 		return grid.get(i).get(j);
+	}
+	
+	public void updateIndices(){
+		for(int i=0; i<grid.size(); i++){
+			for(int j=0; j<grid.get(0).size(); j++){
+				grid.get(i).get(j).i = i;
+				grid.get(i).get(j).j = j;
+			}
+		}
 	}
 	
 	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
@@ -476,7 +487,40 @@ public class MapGrid {
 			cases.clear();
 		return cases;
 	}
+	
+	public Vector<Character> getSurroundingChars(Case c){
+		Vector<Character> chars = new Vector<Character>();
+		chars.addAll(c.characters);
+		boolean leftisok = c.x>0;
+		boolean upisok = c.y>0;
+		boolean rightisok = c.x+c.sizeX<this.maxX;
+		boolean downisok = c.y+c.sizeY<this.maxY;
+		if(leftisok)
+			chars.addAll(grid.get(c.i-1).get(c.j).characters);
+		if(rightisok)
+			chars.addAll(grid.get(c.i+1).get(c.j).characters);
+		if(upisok)
+			chars.addAll(grid.get(c.i).get(c.j-1).characters);
+		if(downisok)
+			chars.addAll(grid.get(c.i).get(c.j+1).characters);
+		if(leftisok && upisok)
+			chars.addAll(grid.get(c.i-1).get(c.j-1).characters);
+		if(leftisok && downisok)
+			chars.addAll(grid.get(c.i-1).get(c.j+1).characters);
+		if(rightisok && upisok)
+			chars.addAll(grid.get(c.i+1).get(c.j-1).characters);
+		if(rightisok && downisok)
+			chars.addAll(grid.get(c.i+1).get(c.j+1).characters);
+		return chars;
+	}
 
+	public void updateSurroundingChars(){
+		for(int i=0; i<grid.size(); i++){
+			for(int j=0; j<grid.get(0).size(); j++){
+				grid.get(i).get(j).updateSurroundingChar();
+			}
+		}
+	}
 }
 
 
