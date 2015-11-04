@@ -39,6 +39,7 @@ public class MultiSender extends Thread{
 				System.out.println("Création d'un sender - " + port);
 			while(true){
 				if(this.depot.size()>0){
+					this.game.idPaquetSend++;
 //					if(depot.get(0).charAt(0)=='2' && game.host){
 //						address = InetAddress.getByName(depot.get(0).substring(1));
 //					}

@@ -36,6 +36,11 @@ public class Game extends BasicGame
 	// DEBUG
 	public boolean debugTimeSteps = false;
 	long timeSteps = 0;
+	public boolean debugPaquet = true;
+	public int nbGameTurn = 0;
+	public int idPaquetSend = 0;
+	public int idPaquetReceived = 0;
+	public int idPaquetTreated = 0;
 	
 	
 	public int idChar = 0;
@@ -250,6 +255,7 @@ public class Game extends BasicGame
 					// client mode
 					this.toSendInputs.addElement(im.toString());
 					if(outputs.size()>0){
+						this.idPaquetTreated++;
 						this.plateau.currentString = outputs.lastElement();
 						outputs.clear();
 					}
@@ -260,6 +266,7 @@ public class Game extends BasicGame
 					// host mode
 					// si on a des inputs en attente on les passe en argument à update de plateau
 					while(inputs.size()>0){
+						this.idPaquetTreated++;
 						ims.add(this.inputs.lastElement());	
 						inputs.remove(0);
 						//System.out.println(ims.lastElement());
@@ -280,6 +287,13 @@ public class Game extends BasicGame
 				
 			}
 		}
+		if(debugPaquet){
+			nbGameTurn ++ ;
+			System.out.println("tour de jeu: " + nbGameTurn);
+			System.out.println("nb paquets envoyés: " + idPaquetSend);
+			System.out.println("nb paquets reçus: " + idPaquetReceived);
+			System.out.println("nb paquets traités: " + idPaquetTreated);
+		}
 		
 	}
 	
@@ -292,6 +306,10 @@ public class Game extends BasicGame
 		this.plateau.Xcam = this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2;
 		this.plateau.Ycam = this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2;
 		this.startTime = System.currentTimeMillis();
+		this.idPaquetReceived = 0;
+		this.idPaquetSend = 0;
+		this.idPaquetTreated = 0;
+		this.nbGameTurn = 0;
 	}
 
 	

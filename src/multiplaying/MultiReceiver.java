@@ -43,6 +43,7 @@ public class MultiReceiver extends Thread{
 				
 				String msg = new String(packet.getData());
 				if(debug) System.out.println("port : " + port + " message received: " + msg);
+				this.g.idPaquetReceived++;
 				if(msg.length()>0){
 					int c = Integer.parseInt(msg.substring(0,1));
 					switch(c){
