@@ -1,5 +1,8 @@
 package pathfinding;
 
+import java.util.Vector;
+import units.Character;
+
 public class Case {
 	
 	public boolean ok;
@@ -10,8 +13,13 @@ public class Case {
 	public float x;
 	public float y;
 	
+	public int i, j;
+	
 	public float sizeX;
 	public float sizeY;
+
+	public Vector<Character> characters = new Vector<Character>();
+	public Vector<Character> surroundingChars = new Vector<Character>();
 	
 	public Case(boolean ok, int id, MapGrid map){
 		this.ok = ok;
@@ -39,6 +47,10 @@ public class Case {
 		String s ="";
 		s+= "case "+id+" = x:" + x+" y:"+y+"   sizeX:"+sizeX+" sizeY:"+sizeY;
 		return s;
+	}
+	
+	public void updateSurroundingChar(){
+		this.surroundingChars = this.map.getSurroundingChars(this);
 	}
 	
 }

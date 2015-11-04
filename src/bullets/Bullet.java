@@ -14,7 +14,7 @@ public abstract class Bullet extends ActionObjet {
 	public float damage;
 	public float areaEffect;
 	public Character owner;
-
+	public float size;
 		
 	public void collision(Building c){
 		

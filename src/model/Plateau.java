@@ -17,6 +17,7 @@ import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
 import bullets.Bullet;
+import bullets.CollisionBullet;
 import display.BottomBar;
 import display.Message;
 import multiplaying.InputModel;
@@ -40,6 +41,7 @@ public class Plateau {
 	// Camera 
 	public float Xcam;
 	public float Ycam;
+	
 	// fog of war
 	public Image fog;
 	public Graphics gf;
@@ -52,6 +54,8 @@ public class Plateau {
 	public Player currentPlayer;
 	public Vector<GameTeam> teams = new Vector<GameTeam>();
 
+	// debug
+	public boolean collisionSwitch;
 
 
 	// ADD ALL OBJETS 
@@ -389,14 +393,15 @@ public class Plateau {
 	}
 
 	public void collision(){
+		this.mapGrid.updateSurroundingChars();
 		for(Character o : characters){
 			// Handle collision between actionObjets and action objects
-			for(Character i:characters){
-				if(i.collisionBox.intersects(o.collisionBox) && i!=o){
+			for(Character i:o.c.surroundingChars){
+				// We suppose o and i have circle collision box
+				if(i!=o && Utils.distance(i, o)<(i.size+o.size)){
 					i.collision(o);
 					o.collision(i);
 				}
-
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
@@ -406,7 +411,7 @@ public class Plateau {
 			}
 			// Between Characters and bullets
 			for(Bullet i: bullets){
-				if(i.collisionBox.intersects(o.collisionBox)){
+				if(i instanceof CollisionBullet && Utils.distance(i, o)<(i.size+o.size)){
 					i.collision(o);
 				}
 			}
@@ -420,7 +425,6 @@ public class Plateau {
 					o.collision(e);
 				}
 			}
-
 			//Between spells and characters
 			for(SpellEffect s:this.spells){
 				if(s.collisionBox!=null){
@@ -429,7 +433,6 @@ public class Plateau {
 					}
 				}
 			}
-
 		}
 		// Between bullets and natural objets
 		for(Bullet b : bullets){
@@ -585,6 +588,8 @@ public class Plateau {
 
 
 	public void update(Vector<InputModel> ims){
+		//TODO
+		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
 		for(InputModel im : ims){
 			// pour tous les inputs passés en argument on fait le traitement
@@ -618,28 +623,41 @@ public class Plateau {
 			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 
 		} 
-
+		if(g.debugTimeSteps)
+			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - g.timeSteps));
 
 		// 2 - Only for host - Collision, Action, Cleaning
 		if(!g.inMultiplayer || g.host)
 			this.collision();
+		if(g.debugTimeSteps)
+			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - g.timeSteps));
 		this.clean();
+		if(g.debugTimeSteps)
+			System.out.println(" - plateau: fin clean : " + (System.currentTimeMillis() - g.timeSteps));
 		if(!g.inMultiplayer || g.host)			
 			this.action();
+		if(g.debugTimeSteps)
+			System.out.println(" - plateau: fin action : " + (System.currentTimeMillis() - g.timeSteps));
 
-		if(!g.inMultiplayer || g.host){
-			this.currentString = this.toString();
-		} else {
-			if(currentString!=null){
-				this.parse(currentString);
-				currentString= null;
+		if(g.inMultiplayer){
+			if(g.host){
+				this.currentString = this.toString();
+			} else {
+				if(currentString!=null){
+					this.parse(currentString);
+					currentString= null;
+				}
 			}
+			if(g.debugTimeSteps)
+				System.out.println(" - plateau: fin parse : " + (System.currentTimeMillis() - g.timeSteps));
 		}
-
 
 
 		// 3 - handling visibility
 		this.updateVisibility();
+
+		if(g.debugTimeSteps)
+			System.out.println(" - plateau: fin visibility : " + (System.currentTimeMillis() - g.timeSteps));
 
 		// 4 - Update of the messages
 		Vector<Message> toDelete = new Vector<Message>();
@@ -651,6 +669,8 @@ public class Plateau {
 		}
 		for(Message m:toDelete)
 			this.messages.get(currentPlayer.id).remove(m);
+		if(g.debugTimeSteps)
+			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - g.timeSteps));
 	}
 
 

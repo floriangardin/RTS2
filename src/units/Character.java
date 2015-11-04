@@ -150,7 +150,14 @@ public class Character extends ActionObjet{
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY());
+		Case oldc = this.c;
 		this.c = this.p.mapGrid.getCase(x, y);
+		//Updating the case
+		if(oldc==null || c.id!=oldc.id){
+			if(oldc!=null && oldc.characters.contains(this))
+				oldc.characters.remove(this);
+			this.c.characters.addElement(this);
+		}
 		this.changes.x=true;
 		this.changes.y = true;
 	}
@@ -303,6 +310,15 @@ public class Character extends ActionObjet{
 			if(this.c==this.waypoints.get(0)){
 				this.waypoints.remove(0);
 				this.move();
+			} else if(this.waypoints.size()>1 && this.c==this.waypoints.get(1)){
+				this.waypoints.remove(0);
+				this.waypoints.remove(1);
+				this.move();
+			} else if(this.waypoints.size()>2 && this.c==this.waypoints.get(2)){
+				this.waypoints.remove(0);
+				this.waypoints.remove(1);
+				this.waypoints.remove(2);
+				this.move();
 			} else {
 				this.moveToward(this.waypoints.get(0));
 			}
@@ -328,7 +344,7 @@ public class Character extends ActionObjet{
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
-		if((this.group.size()>1 && vNorm<maxVNorm+this.size) || vNorm<maxVNorm){
+		if((this.group.size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop();
 			return;
@@ -734,7 +750,7 @@ public class Character extends ActionObjet{
 			if(!this.isMobile())
 				return;
 			if(this.group!=null){
-				// Handling the group deplacement
+				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
 				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*this.size){
@@ -753,6 +769,11 @@ public class Character extends ActionObjet{
 				}
 			}
 		}else{
+			if(this.getTarget()==null){
+				//System.out.println("stop2 " +(this.getTarget()!=null));
+			}else{
+				System.out.println("stop2 " +(this.getTarget() instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
+			}
 			this.stop();
 			if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
 				this.useWeapon();
