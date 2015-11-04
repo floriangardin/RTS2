@@ -772,7 +772,7 @@ public class Character extends ActionObjet{
 			if(this.getTarget()==null){
 				//System.out.println("stop2 " +(this.getTarget()!=null));
 			}else{
-				System.out.println("stop2 " +(this.getTarget() instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
+				//System.out.println("stop2 " +(this.getTarget() instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
 			}
 			this.stop();
 			if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
