@@ -292,6 +292,7 @@ public class Game extends BasicGame
 			System.out.println("tour de jeu: " + nbGameTurn);
 			System.out.println("nb paquets envoyés: " + idPaquetSend);
 			System.out.println("nb paquets reçus: " + idPaquetReceived);
+			System.out.println("-- différence: " + (idPaquetSend - idPaquetReceived));
 			System.out.println("nb paquets traités: " + idPaquetTreated);
 		}
 		
