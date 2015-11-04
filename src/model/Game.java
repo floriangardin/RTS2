@@ -40,6 +40,7 @@ public class Game extends BasicGame
 	public int nbGameTurn = 0;
 	public int idPaquetSend = 0;
 	public int nbPaquetReceived = 0;
+	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 	
 
@@ -268,7 +269,8 @@ public class Game extends BasicGame
 					// si on a des inputs en attente on les passe en argument � update de plateau
 					while(inputs.size()>0){
 						this.idPaquetTreated++;
-						ims.add(this.inputs.lastElement());	
+						ims.add(this.inputs.lastElement());
+						this.idPaquetReceived = inputs.get(0).time;
 						inputs.remove(0);
 						//System.out.println(ims.lastElement());
 					}
@@ -293,7 +295,7 @@ public class Game extends BasicGame
 			System.out.println("tour de jeu: " + nbGameTurn);
 			System.out.println("nb paquets envoy�s: " + idPaquetSend);
 			System.out.println("nb paquets re�us: " + nbPaquetReceived);
-			System.out.println("-- diff�rence: " + (idPaquetSend - nbPaquetReceived));
+			System.out.println("-- difference: " + (idPaquetSend - idPaquetReceived));
 			System.out.println("nb paquets trait�s: " + idPaquetTreated);
 		}
 		

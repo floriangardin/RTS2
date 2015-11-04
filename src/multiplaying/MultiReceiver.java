@@ -40,7 +40,6 @@ public class MultiReceiver extends Thread{
 				} catch(java.net.SocketException e){
 					break;
 				}
-				
 				String msg = new String(packet.getData());
 				if(debug) System.out.println("port : " + port + " message received: " + msg);
 				this.g.nbPaquetReceived++;

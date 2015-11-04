@@ -1135,7 +1135,7 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split(" separation ");
 			//Take care of id sent
-			System.out.println(" Ratio : " + (this.g.nbPaquetReceived-Float.parseFloat(u[1])));
+			this.g.idPaquetReceived = Integer.parseInt(u[1]);
 			//Take care of player
 			this.currentPlayer.parsePlayer(u[2]);
 			//double chrono1 = System.nanoTime();

@@ -13,6 +13,7 @@ import model.Utils;
 public class InputModel extends MultiObjetModel{
 
 	public int idPlayer;
+	public int time;
 
 	public boolean rightClick;
 	public boolean leftClick;
@@ -47,7 +48,7 @@ public class InputModel extends MultiObjetModel{
 
 	public InputModel (Game g, int idPlayer, int time, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.idPlayer = idPlayer;
-		this.id = time;
+		this.time= time;
 
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 		this.pressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
@@ -107,6 +108,7 @@ public class InputModel extends MultiObjetModel{
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
 		}
 		this.idPlayer = Integer.parseInt(content.get("idPlayer"));
+		this.time = Integer.parseInt(content.get("time"));
 		this.xMouse = Integer.parseInt(content.get("xMouse"));
 		this.yMouse = Integer.parseInt(content.get("yMouse"));
 		if(content.containsKey("rightClick"))
