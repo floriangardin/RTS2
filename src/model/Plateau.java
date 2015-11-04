@@ -592,14 +592,14 @@ public class Plateau {
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
 		for(InputModel im : ims){
-			// pour tous les inputs passés en argument on fait le traitement
+			// pour tous les inputs passï¿½s en argument on fait le traitement
 			int player = im.idPlayer;
-			// si on est client on ne gère que son input
+			// si on est client on ne gï¿½re que son input
 			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
 				continue;
-			// on gère la sélection des sorts (type firewall/ blessed area)
+			// on gï¿½re la sï¿½lection des sorts (type firewall/ blessed area)
 			this.handleSpellCasting(im, player);
-			// on gère côté serveur l'action bar et le click droit
+			// on gï¿½re cï¿½tï¿½ serveur l'action bar et le click droit
 			if(!g.inMultiplayer || g.host){
 				// Handling action bar
 				this.handleActionBar(im,player);
@@ -610,7 +610,7 @@ public class Plateau {
 
 			}
 			if(player == this.currentPlayer.id){
-				// ongère le déplacement de la caméra et la sélection
+				// ongï¿½re le dï¿½placement de la camï¿½ra et la sï¿½lection
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 					this.handleView(im, player);
 					this.handleSelection(im, player,players.get(player).getTeam());
@@ -619,7 +619,7 @@ public class Plateau {
 				// pour tous les autres on update la selection
 				this.updateSelection(im);
 			}
-			// enfin on gère le lancement des sorts
+			// enfin on gï¿½re le lancement des sorts
 			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 
 		} 
@@ -1089,8 +1089,13 @@ public class Plateau {
 	//MULTIPLAYING
 
 	public String toString(){
-		//PLAYERS
 		String s = "1 separation ";
+
+		//IDS
+		s+=this.g.idPaquetSend;
+		s+=" separation ";
+		//PLAYERS
+		
 		for(Player p: players){
 			s+=p;
 			s+="|";
@@ -1129,16 +1134,18 @@ public class Plateau {
 		//System.out.println(s);
 		if(s!=null && s!=""){
 			String[] u = s.split(" separation ");
+			//Take care of id sent
+			System.out.println(" Ratio : " + (this.g.nbPaquetReceived-Float.parseFloat(u[1])));
 			//Take care of player
-			this.currentPlayer.parsePlayer(u[1]);
+			this.currentPlayer.parsePlayer(u[2]);
 			//double chrono1 = System.nanoTime();
-			parseCharacter(u[2]);
+			parseCharacter(u[3]);
 			//System.out.println("bullets : "+(System.nanoTime()-chrono1));
-			parseBuilding(u[3]);
+			parseBuilding(u[4]);
 			//double chrono2 = System.nanoTime();
-			parseBullet(u[4]);
+			parseBullet(u[5]);
 			//System.out.println("bullets : "+(System.nanoTime()-chrono2));
-			parseSpell(u[5]);
+			parseSpell(u[6]);
 		}
 
 	}

@@ -39,9 +39,10 @@ public class Game extends BasicGame
 	public boolean debugPaquet = true;
 	public int nbGameTurn = 0;
 	public int idPaquetSend = 0;
-	public int idPaquetReceived = 0;
+	public int nbPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 	
+
 	
 	public int idChar = 0;
 	public int idBullet = 0;
@@ -264,7 +265,7 @@ public class Game extends BasicGame
 						System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
 				} else {
 					// host mode
-					// si on a des inputs en attente on les passe en argument à update de plateau
+					// si on a des inputs en attente on les passe en argument ï¿½ update de plateau
 					while(inputs.size()>0){
 						this.idPaquetTreated++;
 						ims.add(this.inputs.lastElement());	
@@ -290,10 +291,10 @@ public class Game extends BasicGame
 		if(debugPaquet){
 			nbGameTurn ++ ;
 			System.out.println("tour de jeu: " + nbGameTurn);
-			System.out.println("nb paquets envoyés: " + idPaquetSend);
-			System.out.println("nb paquets reçus: " + idPaquetReceived);
-			System.out.println("-- différence: " + (idPaquetSend - idPaquetReceived));
-			System.out.println("nb paquets traités: " + idPaquetTreated);
+			System.out.println("nb paquets envoyï¿½s: " + idPaquetSend);
+			System.out.println("nb paquets reï¿½us: " + nbPaquetReceived);
+			System.out.println("-- diffï¿½rence: " + (idPaquetSend - nbPaquetReceived));
+			System.out.println("nb paquets traitï¿½s: " + idPaquetTreated);
 		}
 		
 	}
@@ -307,7 +308,7 @@ public class Game extends BasicGame
 		this.plateau.Xcam = this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2;
 		this.plateau.Ycam = this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2;
 		this.startTime = System.currentTimeMillis();
-		this.idPaquetReceived = 0;
+		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;
 		this.idPaquetTreated = 0;
 		this.nbGameTurn = 0;
