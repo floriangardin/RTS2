@@ -45,9 +45,9 @@ public class InputModel extends MultiObjetModel{
 
 	public Vector<Integer> selection;
 
-	public InputModel (Game g, int time, int idPlayer, Input input, int Xcam,int Ycam, int resX, int resY){
+	public InputModel (Game g, int idPlayer, int time, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.idPlayer = idPlayer;
-		this.timeValue = time;
+		this.id = time;
 
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 		this.pressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
