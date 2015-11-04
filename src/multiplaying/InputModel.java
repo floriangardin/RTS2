@@ -151,7 +151,7 @@ public class InputModel extends MultiObjetModel{
 
 	public String toString(){
 		String s = "";
-		s+="0idPlayer:" + idPlayer+ ",xMouse:"+xMouse+",yMouse:"+yMouse;
+		s+="0idPlayer:" + idPlayer+ ",time:"+time+",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
 			s+=",rightClick: ";
