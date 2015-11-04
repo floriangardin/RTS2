@@ -17,8 +17,6 @@ public class DualistAge2 extends Technologie {
 		this.name = "Fervour Age";
 		this.p = p;
 		this.gameteam = gameteam;
-		System.out.println(gameteam);
-		System.out.println(gameteam.data);
 		this.data = this.gameteam.data;
 		try {
 			this.icon = new Image("pics/tech/age2.png");

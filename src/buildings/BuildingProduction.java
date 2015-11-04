@@ -22,9 +22,9 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
 			}else {
 				if(this.productionList.get(unit).foodPrice>this.getGameTeam().food)
-					this.p.addMessage(Message.getById(0), getTeam());
+					this.p.addMessage(Message.getById("food"), p.currentPlayer.id);
 				else
-					this.p.addMessage(Message.getById(1), getTeam());
+					this.p.addMessage(Message.getById("gold"), p.currentPlayer.id);
 			}
 		}
 	}

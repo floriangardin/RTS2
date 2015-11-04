@@ -418,7 +418,7 @@ public class MapGrid {
 		Case arrival = this.getCase(x2, y2);
 		Vector<Case> cases = new Vector<Case>();
 		//System.out.println(this.toString());
-		while(grid.get(i).get(j).ok && grid.get(i).get(j).id!=arrival.id){
+		while(grid.get(i).get(j).id!=arrival.id && grid.get(i).get(j).ok){
 			cases.add(grid.get(i).get(j));
 			//System.out.println(x+" "+y+" "+i+" "+j+" "+x2+" "+y2);
 			a = (y2-y)/(x2-x+0.0001f);

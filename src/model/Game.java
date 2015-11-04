@@ -33,6 +33,11 @@ import units.Character;
 public class Game extends BasicGame 
 {	
 
+	// DEBUG
+	public boolean debugTimeSteps = true;
+	long timeSteps = 0;
+	
+	
 	public int idChar = 0;
 	public int idBullet = 0;
 
@@ -144,8 +149,8 @@ public class Game extends BasicGame
 		}
 
 		g.setColor(Color.black);
-		g.fillRect(this.plateau.maxX, 0, this.plateau.maxX, this.plateau.maxY);
-		g.fillRect(0, this.plateau.maxY, this.plateau.maxX, this.plateau.maxY);
+		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
+		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
 		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
 
@@ -222,12 +227,20 @@ public class Game extends BasicGame
 	public synchronized void update(GameContainer gc, int t) throws SlickException {	
 		Vector<InputModel> ims = new Vector<InputModel>();
 		// If not in multiplayer mode, dealing with the common input
-		// updating the game
+		// updating the game	
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
+			if(debugTimeSteps)
+				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
+			if(debugTimeSteps)
+				timeSteps = System.currentTimeMillis();	
 			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
+			if(debugTimeSteps)
+				System.out.println("nouveau tour");
+			if(debugTimeSteps)
+				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
 				//Utils.printCurrentState(this.plateau);
 				if(!host){
@@ -238,6 +251,8 @@ public class Game extends BasicGame
 						outputs.clear();
 					}
 					this.plateau.update(ims);
+					if(debugTimeSteps)
+						System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
 				} else {
 					// host mode
 					// si on a des inputs en attente on les passe en argument à update de plateau
@@ -247,6 +262,8 @@ public class Game extends BasicGame
 						//System.out.println(ims.lastElement());
 					}
 					this.plateau.update(ims);
+					if(debugTimeSteps)
+						System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 					for(Vector<String> v : this.toSendOutputs){
 						v.add(this.plateau.currentString);
 					}
@@ -257,6 +274,17 @@ public class Game extends BasicGame
 				this.plateau.update(ims);
 			}
 		}
+	}
+	
+	public void launchGame(){
+		
+		this.musics.imperial.loop();
+		this.musics.imperial.setVolume(options.musicVolume);
+		//this.game.newGame();
+		this.quitMenu();
+		this.plateau.Xcam = this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2;
+		this.plateau.Ycam = this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2;
+		this.startTime = System.currentTimeMillis();
 	}
 
 	

@@ -11,6 +11,9 @@ public class Menu_TextScanner extends Menu_Item{
 	public String s;
 	public HashMap<Integer, Character> intToChar = new HashMap<Integer, Character>();
 	public boolean isSelected = false;
+	public int animation = 0;
+	public int cooldown = 0;
+	public int back = 0;
 
 	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY){
 		if(s!=null)
@@ -47,19 +50,40 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(Input.KEY_X,'X');
 		intToChar.put(Input.KEY_Y,'Y');
 		intToChar.put(Input.KEY_Z,'Z');
+		intToChar.put(Input.KEY_SPACE,' ');
 	}
 
 	public void update(Input i){
 		if(isSelected){
-			for(Integer k: intToChar.keySet()){
-				if(i.isKeyPressed(k)){
-					s+=intToChar.get(k);
+			if(s.length()<13){
+				for(Integer k: intToChar.keySet()){
+					if(i.isKeyPressed(k)){
+						if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT))
+							s+=intToChar.get(k);
+						else
+							s+=(intToChar.get(k)).toLowerCase((intToChar.get(k)));
+					}
 				}
-				if(i.isKeyPressed(Input.KEY_BACK) && s.length()>0)
-					s=s.substring(0,s.length()-1);
-				if(i.isKeyPressed(Input.KEY_RETURN))
-					isSelected = false;
 			}
+			if(i.isKeyDown(Input.KEY_BACK) && s.length()>0){
+				if(cooldown<=0){
+				s=s.substring(0,s.length()-1);
+					back++;
+					cooldown = Math.max(25-back*5,5);
+				} else {
+					cooldown -= 1;
+				}
+			} else {
+				back = 0;
+				cooldown = 0;
+			}
+			if(i.isKeyPressed(Input.KEY_RETURN))
+				isSelected = false;
+			animation +=1;
+			if(animation>60)
+				animation = 0;
+		} else {
+			animation = 0;
 		}
 	}
 
@@ -75,8 +99,13 @@ public class Menu_TextScanner extends Menu_Item{
 		g.drawRect(x, y, sizeX, sizeY);
 		g.setColor(Color.white);
 		float height = g.getFont().getHeight(s);
-		if(s!=null)
-			g.drawString(s, x+15f, y+sizeY/2-height/2);
+		if(s!=null){
+			if(animation>30){
+				g.drawString(s+"|", x+15f, y+sizeY/2-height/2);
+			} else {
+				g.drawString(s, x+15f, y+sizeY/2-height/2);				
+			}
+		}
 	}
 
 
