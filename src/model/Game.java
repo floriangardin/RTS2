@@ -243,7 +243,7 @@ public class Game extends BasicGame
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
 			if(debugTimeSteps)
 				timeSteps = System.currentTimeMillis();	
-			InputModel im = new InputModel(this,0,plateau.currentPlayer.id,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			InputModel im = new InputModel(this,plateau.currentPlayer.id,nbGameTurn,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
