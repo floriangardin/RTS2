@@ -175,23 +175,27 @@ public class MenuMapChoice extends Menu {
 					// Launch Game
 
 					// Create sender and receiver
-					
+					if(!game.host){
 						this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
 						this.game.outputReceiver = new MultiReceiver(this.game, this.game.portOutput);
 						this.game.outputReceiver.start();
 						this.game.inputSender.start();
-//					} else {
-//						this.game.outputSender = new Vector<MultiSender>();
-//						for(Player p: this.game.plateau.players){
-//							if(p.id != this.game.plateau.currentPlayer.id && p.getTeam()!=0){
-//								this.game.toSendOutputs.add(new Vector<String>());
-//								this.game.outputSender.add(new MultiSender(p.address, this.game.portOutput, this.game.toSendOutputs.lastElement(),this.game));
-//								this.game.outputSender.lastElement().start();
-//							}
-//						}
-//						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
-//						this.game.inputReceiver.start();
-//					}
+						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+						this.game.inputReceiver.start();
+					} else {
+						this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
+						this.game.outputSender = new Vector<MultiSender>();
+						for(Player p: this.game.plateau.players){
+							if(p.id != this.game.plateau.currentPlayer.id && p.getTeam()!=0){
+								this.game.toSendOutputs.add(new Vector<String>());
+								this.game.outputSender.add(new MultiSender(p.address, this.game.portOutput, this.game.toSendOutputs.lastElement(),this.game));
+								this.game.outputSender.lastElement().start();
+							}
+						}
+						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+						this.game.inputReceiver.start();
+						this.game.inputSender.start();
+					}
 					Map.updateMap(mapSelected, game);
 					game.launchGame();
 				}
