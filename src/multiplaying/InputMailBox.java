@@ -12,6 +12,7 @@ public class InputMailBox {
 	
 	public InputMailBox(Game g){
 		this.inputs = new Vector<InputObject>();
+		this.toAddInputs = new Vector<InputObject>();
 	}
 	
 	public void validate(int round,int player){
