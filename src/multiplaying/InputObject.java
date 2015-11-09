@@ -25,7 +25,7 @@ public class InputObject {
 		
 		//If this is not my inputs, inputs are automatically validated
 		this.validated = !myInputs;
-		
+		this.rawInput = rawInput;
 		//If input message
 		if(this.rawInput.substring(0, 1).equals("I")){
 			String[] inMessage = this.rawInput.split("|");
