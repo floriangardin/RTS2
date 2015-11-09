@@ -13,7 +13,7 @@ public class InputMailBox {
 		this.inputs = new Vector<InputObject>();
 	}
 	
-	public void validate(int round,int player){
+	public synchronized void validate(int round,int player){
 		for(InputObject in : inputs){
 			if(in.p.id==player && round==in.round){
 				in.validated = true;
