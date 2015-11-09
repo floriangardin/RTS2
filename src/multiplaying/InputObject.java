@@ -33,7 +33,7 @@ public class InputObject {
 			System.out.println(" raw inputs : " +this.rawInput);
 			this.round = Integer.parseInt(inMessage[1]);
 			//Not sure it works
-			this.p = this.g.getPlayerById(Integer.parseInt(inMessage[1]));
+			this.p = this.g.getPlayerById(Integer.parseInt(inMessage[2]));
 			this.input = new InputModel(inMessage[3]);
 			// We add the message into the mailbox
 			this.mailBox.addInput(this);
