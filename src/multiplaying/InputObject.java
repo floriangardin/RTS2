@@ -15,14 +15,14 @@ public class InputObject {
 	public boolean validated;
 	public Player p;
 	public Game g;
-	
+
 	public InputObject(Game g,String rawInput,boolean myInputs){
 		this.g = g;
 		this.mailBox = this.g.inputsBox;
-		
+
 		// Should check if this is a validation or a real input
 		// I for inputs, V for validation
-		
+
 		//If this is not my inputs, inputs are automatically validated
 		this.validated = !myInputs;
 		this.rawInput = rawInput;
@@ -49,11 +49,13 @@ public class InputObject {
 			String[] valMessage = this.rawInput.split("\\|");
 			int round = Integer.parseInt(valMessage[1]);
 			int idPlayer = Integer.parseInt(valMessage[2]);
+			// Ressources partagé le vecteur d'inputs de la mailbox..
 			this.mailBox.validate(round, idPlayer);
+
 		}
-		
+
 	}
-	
+
 	//If it is my own inputs
 	public InputObject(Game g,InputModel input,boolean myInputs){
 		this.g = g;
@@ -64,18 +66,18 @@ public class InputObject {
 		//Send input to other players
 		g.inputSender.depot.addElement(input.toString());
 	}
-	
+
 	public void sendValidation(MultiSender sender){
 		//TODO Check if it works ?
 		sender.depot.addElement("3V|"+this.round+"|"+p.id+"|");
 	}
-	
+
 	public InputModel getInput(){
 		return this.input;
 	}
-	
+
 	public int getRound(){
 		return this.round;
 	}
-	
+
 }

@@ -1,6 +1,7 @@
 package multiplaying;
 
 import java.util.Vector;
+import java.util.concurrent.locks.ReentrantLock;
 
 import model.Game;
 
@@ -9,20 +10,28 @@ public class InputMailBox {
 	Vector<InputObject> inputs;
 	Game g;
 	private Vector<InputObject> toAddInputs;
-	
+	ReentrantLock inputMutex = new ReentrantLock();
+
 	public InputMailBox(Game g){
 		this.inputs = new Vector<InputObject>();
 		this.toAddInputs = new Vector<InputObject>();
 	}
-	
+
 	public void validate(int round,int player){
-		for(InputObject in : inputs){
-			if(in.p.id==player && round==in.round){
-				in.validated = true;
+		this.inputMutex.lock();
+		try{
+			for(InputObject in : inputs){
+				if(in.p.id==player && round==in.round){
+					in.validated = true;
+				}
 			}
 		}
+		finally{
+			this.inputMutex.unlock();
+		}
+
 	}
-	
+
 	public void applyInputs(){
 		//TODO :
 		// Check if good round to apply and messages validated
@@ -45,13 +54,20 @@ public class InputMailBox {
 				toRemove.add(in);
 			}
 		}
-		
+
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
 	}
-	
+
 	public void addInput(InputObject input){
-		this.toAddInputs.addElement(input);
+		this.inputMutex.lock();
+		try{
+			this.toAddInputs.addElement(input);
+		}
+		finally{
+			this.inputMutex.unlock();
+		}
+		
 	}
 	public void cleanBox(){
 		this.inputs.addAll(this.toAddInputs);
