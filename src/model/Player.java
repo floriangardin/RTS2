@@ -3,6 +3,7 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
+import multiplaying.InputModel;
 import display.BottomBar;
 import display.TopBar;
 
@@ -10,6 +11,9 @@ public class Player {
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
 	public Plateau p;
+	
+	//FLO INPUTS TO BE APPLIED ON THIS ROUND
+	public Vector<InputModel> inputs;
 	
 	public int id;
 	private GameTeam gameteam;
@@ -34,6 +38,7 @@ public class Player {
 		this.gameteam = gameteam;
 		this.team = gameteam.id;
 		this.data = gameteam.data;
+		this.inputs = new Vector<InputModel>();
 	}
 	
 	public int getTeam(){
@@ -104,6 +109,10 @@ public class Player {
 				}
 			}
 		}
+	}
+	
+	public void addToPlay(InputModel in){
+		this.inputs.addElement(in);
 	}
 
 

@@ -49,10 +49,15 @@ public class MultiReceiver extends Thread{
 					case 0: InputModel im = new InputModel(msg.substring(1, msg.length()));this.g.inputs.add(im);break;
 					case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
 					case 2: 
-					if(!this.g.host){
-						this.g.addressHost = packet.getAddress();
-					}
-					this.g.connexions.add(msg.substring(1, msg.length()));
+						if(!this.g.host){
+							this.g.addressHost = packet.getAddress();
+						}
+						this.g.connexions.add(msg.substring(1, msg.length()));
+						break;
+					case 3:
+						//Multi with sending inputs
+						new InputObject(this.g,msg.substring(1, msg.length()),false);
+						break;
 					default:
 					}
 				}

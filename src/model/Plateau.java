@@ -49,6 +49,8 @@ public class Plateau {
 	// about the output of the string
 	public String currentString ;
 
+
+	
 	// teams and players
 	public Vector<Player> players = new Vector<Player>();
 	public Player currentPlayer;

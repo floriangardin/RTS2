@@ -13,6 +13,7 @@ import model.Utils;
 public class InputModel extends MultiObjetModel{
 
 	public int idPlayer;
+	public int round;
 	public int time;
 
 	public boolean rightClick;
@@ -49,7 +50,7 @@ public class InputModel extends MultiObjetModel{
 	public InputModel (Game g, int idPlayer, int time, Input input, int Xcam,int Ycam, int resX, int resY){
 		this.idPlayer = idPlayer;
 		this.time= time;
-
+		this.round = g.round;
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 		this.pressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
 		this.leftClick = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
@@ -150,8 +151,9 @@ public class InputModel extends MultiObjetModel{
 	}
 
 	public String toString(){
-		String s = "";
-		s+="0idPlayer:" + idPlayer+ ",time:"+time+",xMouse:"+xMouse+",yMouse:"+yMouse;
+		//Add header with type message, round , player;
+		String s = "3I|"+this.round+"|"+this.idPlayer+"|";
+		s+="idPlayer:" + idPlayer+ ",time:"+time+",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
 			s+=",rightClick: ";

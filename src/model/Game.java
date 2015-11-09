@@ -3,6 +3,16 @@ import java.net.InetAddress;
 import java.util.Timer;
 import java.util.Vector;
 
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
+import multiplaying.InputMailBox;
+import multiplaying.InputModel;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiSender;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -14,21 +24,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 
+import spells.SpellEffect;
+import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
 import display.TopBar;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.InputModel;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
-import spells.SpellEffect;
-import units.Character;
 
 public class Game extends BasicGame 
 {	
@@ -37,14 +39,17 @@ public class Game extends BasicGame
 	public boolean debugTimeSteps = false;
 	long timeSteps = 0;
 	public boolean debugPaquet = true;
-	public int nbGameTurn = 0;
+	public int round = 0;
 	public int idPaquetSend = 0;
 	public int nbPaquetReceived = 0;
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 	
-
+	//NEW FLO
+	//Handle inputs from you and other players
+	public InputMailBox inputsBox;
 	
+
 	public int idChar = 0;
 	public int idBullet = 0;
 
@@ -68,7 +73,7 @@ public class Game extends BasicGame
 	// Selection
 	public Rectangle selection;
 	public boolean new_selection;
-	public Vector<Objet> objets_selection=new Vector<Objet>();
+	public Vector<Objet> objets_selection= new Vector<Objet>();
 
 	// Resolution : 
 	public float resX;
@@ -245,64 +250,76 @@ public class Game extends BasicGame
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
 			if(debugTimeSteps)
 				timeSteps = System.currentTimeMillis();	
-			InputModel im = new InputModel(this,plateau.currentPlayer.id,nbGameTurn,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			InputModel im = new InputModel(this,plateau.currentPlayer.id,round,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
 			ims.add(im);
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
+				// Plus de host et de client ...
+				//
 				//Utils.printCurrentState(this.plateau);
-				if(!host){
-					// client mode
-					this.toSendInputs.addElement(im.toString());
-					if(outputs.size()>0){
-						this.idPaquetTreated++;
-						this.plateau.currentString = outputs.lastElement();
-						outputs.clear();
-					}
-					this.plateau.update(ims);
-					if(debugTimeSteps)
-						System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
-				} else {
-					// host mode
-					// si on a des inputs en attente on les passe en argument � update de plateau
-					while(inputs.size()>0){
-						this.idPaquetTreated++;
-						ims.add(this.inputs.lastElement());
-						this.idPaquetReceived = inputs.get(0).time;
-						inputs.remove(0);
-						//System.out.println(ims.lastElement());
-					}
-					this.plateau.update(ims);
-					if(debugTimeSteps)
-						System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
-					for(Vector<String> v : this.toSendOutputs){
-						v.add(this.plateau.currentString);
-					}
-					//System.out.println(this.toSendOutputs.size());
+
+				// client mode
+				// On envoie ses inputs 
+				this.toSendInputs.addElement(im.toString());
+				if(outputs.size()>0){
+					this.idPaquetTreated++;
+					this.plateau.currentString = outputs.lastElement();
+					outputs.clear();
 				}
+				
+				if(debugTimeSteps)
+					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
+
+				// host mode
+				//On reçoit ses inputs
+				// si on a des inputs en attente on les passe en argument � update de plateau
+				while(inputs.size()>0){
+					//TODO : Message de validation à envoyer
+					this.toSendInputs.addElement("val");
+					// Message de validation à envoyer ...
+					this.idPaquetTreated++;
+					//inputs contient directement les inputs déja formatés.
+					ims.add(this.inputs.lastElement());
+					this.idPaquetReceived = inputs.get(0).time;
+					inputs.remove(0);
+					//System.out.println(ims.lastElement());
+				}
+				this.plateau.update(ims);
+				if(debugTimeSteps)
+					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
+				for(Vector<String> v : this.toSendOutputs){
+					v.add(this.plateau.currentString);
+				}
+				//System.out.println(this.toSendOutputs.size());
+
+				
+				
+				
+				
 			} else {
 				// solo mode
 				this.plateau.update(ims);
 				if(debugTimeSteps)
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
-				
+
 			}
 		}
 		if(debugPaquet){
-			nbGameTurn ++ ;
-			System.out.println("tour de jeu: " + nbGameTurn);
+			round ++ ;
+			System.out.println("tour de jeu: " + round);
 			System.out.println("nb paquets envoy�s: " + idPaquetSend);
 			System.out.println("nb paquets re�us: " + nbPaquetReceived);
 			System.out.println("-- difference: " + (idPaquetSend - idPaquetReceived));
 			System.out.println("nb paquets trait�s: " + idPaquetTreated);
 		}
-		
+
 	}
-	
+
 	public void launchGame(){
-		
+
 		this.musics.imperial.loop();
 		this.musics.imperial.setVolume(options.musicVolume);
 		//this.game.newGame();
@@ -313,10 +330,14 @@ public class Game extends BasicGame
 		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;
 		this.idPaquetTreated = 0;
-		this.nbGameTurn = 0;
+		this.round = 0;
 	}
 
 	
+	public Player getPlayerById(int id){
+		return this.plateau.players.get(id);
+		
+	}
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
@@ -336,17 +357,19 @@ public class Game extends BasicGame
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
 		Map.initializePlateau(this, 1f, 1f);
-
+		
+		//FLO INPUTS
+		this.inputsBox = new InputMailBox(this);
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
 		this.bottomBars = new BottomBar(this.plateau,(int)this.resX,(int)this.resY);
 		this.topBars = new TopBar(this.plateau,(int)this.resX,(int)this.resY);
 		selection = null;
-		
+
 	}
 
-
+	
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
