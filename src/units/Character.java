@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import IA.IAUnit;
 import buildings.Building;
+import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
@@ -223,14 +224,17 @@ public class Character extends ActionObjet{
 		}
 		this.image = Utils.mergeImages(imagea, imageb);
 		//Handling the weapon
+
 		if(this.weapon!=null){
 			if(this.weapon == "sword"){
 				imageb = this.p.g.images.sword;
 				imaged = this.p.g.images.mediumArmor;
 			}
 			if(this.weapon == "spear"){
-				imageb = this.p.g.images.sword;
-				imaged = this.p.g.images.heavyArmor;
+				this.image = this.p.g.images.spearman_move;
+				return;
+				//imageb = this.p.g.images.sword;
+				//imaged = this.p.g.images.heavyArmor;
 			}
 			if(this.weapon == "bow"){
 				imageb = this.p.g.images.bow;
@@ -340,7 +344,7 @@ public class Character extends ActionObjet{
 		newvx = o.getX()-this.getX();
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
-		float maxVNorm = this.maxVelocity/((float)this.getGameTeam().data.FRAMERATE);
+		float maxVNorm = this.maxVelocity/(Main.framerate);
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
@@ -381,7 +385,12 @@ public class Character extends ActionObjet{
 		this.setVXVY(newvx, newvy);
 
 		this.setXY(newX, newY);
-		this.animationValue+=4f/(float)this.getGameTeam().data.FRAMERATE;
+		//TODO animation
+		if(this.weapon == "spear"){
+			this.animationValue+=(vNorm/5f)%4f;
+		} else {
+			this.animationValue+=4f/(float)this.getGameTeam().data.FRAMERATE;
+		}
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
@@ -400,6 +409,7 @@ public class Character extends ActionObjet{
 				this.changes.animation=true;
 			}	
 		}
+
 
 	}
 	public void stop(){
@@ -427,8 +437,11 @@ public class Character extends ActionObjet{
 		direction = (float)(orientation/2-1);
 		int imageWidth = this.image.getWidth()/3;
 		int imageHeight = this.image.getHeight()/4;
-		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
-		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
+		float factor = 1f;
+		if(this.weapon=="spear")
+			factor = 2;
+		float drawWidth = factor*r*imageWidth/Math.min(imageWidth,imageHeight);
+		float drawHeight = factor*r*imageHeight/Math.min(imageWidth,imageHeight);
 		float x1 = this.getX() - drawWidth;
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
