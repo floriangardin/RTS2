@@ -56,7 +56,10 @@ public class MultiReceiver extends Thread{
 						break;
 					case 3:
 						//Multi with sending inputs
-						new InputObject(this.g,msg.substring(1, msg.length()),false);
+						if(msg.length()>1){
+							new InputObject(this.g,msg.substring(1, msg.length()),false);
+						}
+						
 						break;
 					default:
 					}
