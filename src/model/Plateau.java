@@ -41,7 +41,7 @@ public class Plateau {
 	// Camera 
 	public float Xcam;
 	public float Ycam;
-	
+
 	// fog of war
 	public Image fog;
 	public Graphics gf;
@@ -50,7 +50,7 @@ public class Plateau {
 	public String currentString ;
 
 
-	
+
 	// teams and players
 	public Vector<Player> players = new Vector<Player>();
 	public Player currentPlayer;
@@ -597,20 +597,17 @@ public class Plateau {
 			// pour tous les inputs pass�s en argument on fait le traitement
 			int player = im.idPlayer;
 			// si on est client on ne g�re que son input
-			if(g.inMultiplayer && !g.host && player!=currentPlayer.id)
-				continue;
+			
 			// on g�re la s�lection des sorts (type firewall/ blessed area)
 			this.handleSpellCasting(im, player);
 			// on g�re c�t� serveur l'action bar et le click droit
-			if(!g.inMultiplayer || g.host){
-				// Handling action bar
-				this.handleActionBar(im,player);
-				// Handling the right click
-				this.handleRightClick(im,player);
-				// handling only the current player
-			} else {
 
-			}
+			// Handling action bar
+			this.handleActionBar(im,player);
+			// Handling the right click
+			this.handleRightClick(im,player);
+			// handling only the current player
+
 			if(player == this.currentPlayer.id){
 				// ong�re le d�placement de la cam�ra et la s�lection
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
@@ -622,37 +619,25 @@ public class Plateau {
 				this.updateSelection(im);
 			}
 			// enfin on g�re le lancement des sorts
-			this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
+			//this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
+			this.handleSpellsOnField(im, player, true);
 
 		} 
 		if(g.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - g.timeSteps));
 
-		// 2 - Only for host - Collision, Action, Cleaning
-		if(!g.inMultiplayer || g.host)
-			this.collision();
+		// 2 - For everyone
+
+		this.collision();
 		if(g.debugTimeSteps)
 			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - g.timeSteps));
 		this.clean();
 		if(g.debugTimeSteps)
-			System.out.println(" - plateau: fin clean : " + (System.currentTimeMillis() - g.timeSteps));
-		if(!g.inMultiplayer || g.host)			
-			this.action();
+			System.out.println(" - plateau: fin clean : " + (System.currentTimeMillis() - g.timeSteps));			
+		this.action();
 		if(g.debugTimeSteps)
 			System.out.println(" - plateau: fin action : " + (System.currentTimeMillis() - g.timeSteps));
 
-		if(g.inMultiplayer){
-			if(g.host){
-				this.currentString = this.toString();
-			} else {
-				if(currentString!=null){
-					this.parse(currentString);
-					currentString= null;
-				}
-			}
-			if(g.debugTimeSteps)
-				System.out.println(" - plateau: fin parse : " + (System.currentTimeMillis() - g.timeSteps));
-		}
 
 
 		// 3 - handling visibility
@@ -1097,7 +1082,7 @@ public class Plateau {
 		s+=this.g.idPaquetSend;
 		s+=" separation ";
 		//PLAYERS
-		
+
 		for(Player p: players){
 			s+=p;
 			s+="|";

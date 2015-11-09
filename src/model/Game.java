@@ -39,7 +39,7 @@ public class Game extends BasicGame
 	// DEBUG
 	public boolean debugTimeSteps = false;
 	long timeSteps = 0;
-	public boolean debugPaquet = true;
+	public boolean debugPaquet = false;
 	public int round = 0;
 	public int idPaquetSend = 0;
 	public int nbPaquetReceived = 0;
