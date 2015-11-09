@@ -8,12 +8,13 @@ public class InputMailBox {
 
 	Vector<InputObject> inputs;
 	Game g;
+	private Vector<InputObject> toAddInputs;
 	
 	public InputMailBox(Game g){
 		this.inputs = new Vector<InputObject>();
 	}
 	
-	public synchronized void validate(int round,int player){
+	public void validate(int round,int player){
 		for(InputObject in : inputs){
 			if(in.p.id==player && round==in.round){
 				in.validated = true;
@@ -49,6 +50,10 @@ public class InputMailBox {
 	}
 	
 	public void addInput(InputObject input){
-		this.inputs.addElement(input);
+		this.toAddInputs.addElement(input);
+	}
+	public void cleanBox(){
+		this.inputs.addAll(this.toAddInputs);
+		this.toAddInputs.clear();
 	}
 }

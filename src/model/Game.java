@@ -292,6 +292,8 @@ public class Game extends BasicGame
 					inputs.remove(0);
 					//System.out.println(ims.lastElement());
 				}
+				//We clean the mailbox (effectively put messages on hold in the box
+				this.inputsBox.cleanBox();
 				//ICI on met bout à bout tous les inputs validés
 				Vector<InputModel> imss= new Vector<InputModel>();
 				for(Player p : this.plateau.players){
