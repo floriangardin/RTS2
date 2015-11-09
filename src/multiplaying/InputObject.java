@@ -26,6 +26,7 @@ public class InputObject {
 		//If this is not my inputs, inputs are automatically validated
 		this.validated = !myInputs;
 		
+		//If input message
 		if(this.rawInput.substring(0, 1).equals("I")){
 			String[] inMessage = this.rawInput.split("|");
 			//0 : I, 1:round 2:player, 3: message
@@ -49,6 +50,17 @@ public class InputObject {
 			this.mailBox.validate(round, idPlayer);
 		}
 		
+	}
+	
+	//If it is my own inputs
+	public InputObject(Game g,InputModel input,boolean myInputs){
+		this.g = g;
+		this.mailBox = this.g.inputsBox;
+		this.validated = !myInputs;
+		this.p = this.g.getPlayerById(input.idPlayer);
+		this.round = input.round;
+		//Send input to other players
+		g.inputSender.depot.addElement(input.toString());
 	}
 	
 	public void sendValidation(MultiSender sender){

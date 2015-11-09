@@ -588,7 +588,7 @@ public class Plateau {
 	}
 
 
-
+	//TODO : Here we handle inputs from each players
 	public void update(Vector<InputModel> ims){
 		//TODO
 		collisionSwitch = !collisionSwitch;

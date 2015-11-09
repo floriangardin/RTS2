@@ -10,6 +10,7 @@ import menu.MenuMulti;
 import menu.MenuOptions;
 import multiplaying.InputMailBox;
 import multiplaying.InputModel;
+import multiplaying.InputObject;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
 
@@ -264,6 +265,10 @@ public class Game extends BasicGame
 				// client mode
 				// On envoie ses inputs 
 				this.toSendInputs.addElement(im.toString());
+				// On ajoute ses inputs dans sa mailbox ( qui se charge automatiquement de mettre l'input 
+				// dans la boîte d'envoie
+				
+				this.inputsBox.addInput(new InputObject(this,im,true));
 				if(outputs.size()>0){
 					this.idPaquetTreated++;
 					this.plateau.currentString = outputs.lastElement();
@@ -278,7 +283,7 @@ public class Game extends BasicGame
 				// si on a des inputs en attente on les passe en argument � update de plateau
 				while(inputs.size()>0){
 					//TODO : Message de validation à envoyer
-					this.toSendInputs.addElement("val");
+					
 					// Message de validation à envoyer ...
 					this.idPaquetTreated++;
 					//inputs contient directement les inputs déja formatés.
@@ -287,7 +292,13 @@ public class Game extends BasicGame
 					inputs.remove(0);
 					//System.out.println(ims.lastElement());
 				}
-				this.plateau.update(ims);
+				//ICI on met bout à bout tous les inputs validés
+				Vector<InputModel> imss= new Vector<InputModel>();
+				for(Player p : this.plateau.players){
+					imss.addAll(p.inputs);
+				}
+				
+				this.plateau.update(imss);
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 				for(Vector<String> v : this.toSendOutputs){
