@@ -45,6 +45,7 @@ public class InputObject {
 		//If validation message
 		else if(this.rawInput.substring(0, 1).equals("V")){
 			//Get the corresponding round and player
+			System.out.println("raw input : "+this.rawInput);
 			String[] valMessage = this.rawInput.split("\\|");
 			int round = Integer.parseInt(valMessage[1]);
 			int idPlayer = Integer.parseInt(valMessage[2]);
@@ -66,7 +67,7 @@ public class InputObject {
 	
 	public void sendValidation(MultiSender sender){
 		//TODO Check if it works ?
-		sender.depot.addElement("3V"+"|"+this.round+"|"+p.id);
+		sender.depot.addElement("3V|"+this.round+"|"+p.id);
 	}
 	
 	public InputModel getInput(){
