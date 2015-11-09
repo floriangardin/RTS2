@@ -180,10 +180,10 @@ public class MenuMapChoice extends Menu {
 						this.game.outputReceiver = new MultiReceiver(this.game, this.game.portOutput);
 						this.game.outputReceiver.start();
 						this.game.inputSender.start();
-						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portOutput);
 						this.game.inputReceiver.start();
 					} else {
-						this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
+						this.game.inputSender = new MultiSender(game.addressHost, this.game.portOutput, this.game.toSendInputs,this.game);
 						this.game.outputSender = new Vector<MultiSender>();
 						for(Player p: this.game.plateau.players){
 							if(p.id != this.game.plateau.currentPlayer.id && p.getTeam()!=0){

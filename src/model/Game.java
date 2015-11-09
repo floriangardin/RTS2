@@ -299,8 +299,12 @@ public class Game extends BasicGame
 				}
 				
 				this.plateau.update(imss);
+				//Increment to next communication turn ( for the time being synchro with render turns)
+				this.round++;
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
+				
+				//Not needed in new model
 				for(Vector<String> v : this.toSendOutputs){
 					v.add(this.plateau.currentString);
 				}

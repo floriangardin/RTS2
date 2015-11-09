@@ -31,8 +31,6 @@ public class InputObject {
 			String[] inMessage = this.rawInput.split("\\|");
 			//0 : I, 1:round 2:player, 3: message
 			System.out.println(" raw inputs : " +this.rawInput);
-			System.out.println(" inmessage : "  + inMessage[1]);
-			
 			this.round = Integer.parseInt(inMessage[1]);
 			//Not sure it works
 			this.p = this.g.getPlayerById(Integer.parseInt(inMessage[1]));
