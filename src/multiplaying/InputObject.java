@@ -30,7 +30,7 @@ public class InputObject {
 		if(this.rawInput.substring(0, 1).equals("I")){
 			String[] inMessage = this.rawInput.split("\\|");
 			//0 : I, 1:round 2:player, 3: message
-			System.out.println(" raw inputs : " +this.rawInput);
+			System.out.println(" raw inputs I : " +this.rawInput);
 			this.round = Integer.parseInt(inMessage[1]);
 			//Not sure it works
 			this.p = this.g.getPlayerById(Integer.parseInt(inMessage[2]));
@@ -45,7 +45,7 @@ public class InputObject {
 		//If validation message
 		else if(this.rawInput.substring(0, 1).equals("V")){
 			//Get the corresponding round and player
-			System.out.println("raw input : "+this.rawInput);
+			System.out.println("raw input V : "+this.rawInput);
 			String[] valMessage = this.rawInput.split("\\|");
 			int round = Integer.parseInt(valMessage[1]);
 			int idPlayer = Integer.parseInt(valMessage[2]);
@@ -67,7 +67,7 @@ public class InputObject {
 	
 	public void sendValidation(MultiSender sender){
 		//TODO Check if it works ?
-		sender.depot.addElement("3V|"+this.round+"|"+p.id);
+		sender.depot.addElement("3V|"+this.round+"|"+p.id+"|");
 	}
 	
 	public InputModel getInput(){
