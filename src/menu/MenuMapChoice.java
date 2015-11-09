@@ -191,6 +191,7 @@ public class MenuMapChoice extends Menu {
 //						}
 						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
 						this.game.inputReceiver.start();
+						this.game.inputSender.start();
 					}
 					Map.updateMap(mapSelected, game);
 					game.launchGame();
