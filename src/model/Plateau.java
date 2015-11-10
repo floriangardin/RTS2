@@ -20,7 +20,7 @@ import bullets.Bullet;
 import bullets.CollisionBullet;
 import display.BottomBar;
 import display.Message;
-import multiplaying.InputModel;
+import multiplaying.InputObject;
 import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Spell;
@@ -589,13 +589,13 @@ public class Plateau {
 
 
 	//TODO : Here we handle inputs from each players
-	public void update(Vector<InputModel> ims){
+	public void update(Vector<InputObject> ims){
 		//TODO
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
-		for(InputModel im : ims){
+		for(InputObject im : ims){
 			// pour tous les inputs pass�s en argument on fait le traitement
-			int player = im.idPlayer;
+			int player = im.player.id;
 			// si on est client on ne g�re que son input
 			
 			// on g�re la s�lection des sorts (type firewall/ blessed area)
@@ -661,22 +661,22 @@ public class Plateau {
 	}
 
 
-	private void updateSelection(InputModel im) {
-		this.selection.get(im.idPlayer).clear();
+	private void updateSelection(InputObject im) {
+		this.selection.get(im.player.id).clear();
 
 		for(Integer i : im.selection){
 			for(Character c: this.characters)
 				if(c.id == i){
-					this.selection.get(im.idPlayer).add(c);
+					this.selection.get(im.player.id).add(c);
 				}
 			for(Building c: this.buildings)
 				if(c.id == i)
-					this.selection.get(im.idPlayer).add(c);
+					this.selection.get(im.player.id).add(c);
 		}
 
 	}
 
-	private void handleRightClick(InputModel im, int player) {
+	private void handleRightClick(InputObject im, int player) {
 		if(im.pressedRightClick){
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
@@ -694,7 +694,7 @@ public class Plateau {
 		}
 	}
 
-	private void handleSpellsOnField(InputModel im, int player, boolean host) {
+	private void handleSpellsOnField(InputObject im, int player, boolean host) {
 		if(im.pressedLeftClick && isCastingSpell.get(player)){
 			if(host && this.selection.get(player).size()>0){
 				Character c = (Character)this.selection.get(player).get(0); 
@@ -712,7 +712,7 @@ public class Plateau {
 
 
 
-	private void handleActionBar(InputModel im, int player) {
+	private void handleActionBar(InputObject im, int player) {
 		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingAction){
 				if(im.isPressedProd0)
@@ -751,7 +751,7 @@ public class Plateau {
 
 	}
 
-	private void handleSpellCasting(InputModel im, int player){
+	private void handleSpellCasting(InputObject im, int player){
 		if(im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC){
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
 				int number = -1;
@@ -781,7 +781,7 @@ public class Plateau {
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
 
 	// updating rectangle
-	public void handleView(InputModel im, int player){
+	public void handleView(InputObject im, int player){
 		// Handle the display (camera movement & minimap)
 
 		// camera movement
@@ -925,7 +925,7 @@ public class Plateau {
 		}
 	}
 	// handling selection
-	public void handleSelection(InputModel im, int player, int team){
+	public void handleSelection(InputObject im, int player, int team){
 		// Handling groups of units
 		for(int to=0; to<10; to++){
 			if(im.isPressedNumPad[to]){
@@ -984,7 +984,7 @@ public class Plateau {
 			this.players.get(player).selection.addElement(c);
 
 	}
-	private void updateRectangle(InputModel im, int player) {
+	private void updateRectangle(InputObject im, int player) {
 		if(im.isPressedA){
 			return;
 		}

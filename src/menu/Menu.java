@@ -8,7 +8,7 @@ import org.newdawn.slick.Music;
 
 import model.Game;
 import model.Sounds;
-import multiplaying.InputModel;
+import multiplaying.InputObject;
 
 public abstract class Menu {
 
@@ -23,7 +23,7 @@ public abstract class Menu {
 				callItem(j);
 		}
 	}
-	public void callItems(InputModel im){
+	public void callItems(InputObject im){
 		for(int j=0; j<items.size(); j++){
 			if(items.get(j).isClicked(im))
 				callItem(j);
@@ -64,7 +64,7 @@ public abstract class Menu {
 	public void update(Input i){
 		
 	}
-	public void update(InputModel im){
+	public void update(InputObject im){
 		
 	}
 }

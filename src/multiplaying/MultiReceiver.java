@@ -20,6 +20,7 @@ public class MultiReceiver extends Thread{
 
 	// DEBUGGING
 	private boolean debug = false;
+	public boolean debugValidation = true;
 
 	public MultiReceiver(Game g, int port){
 		this.g = g;
@@ -46,7 +47,7 @@ public class MultiReceiver extends Thread{
 				if(msg.length()>0){
 					int c = Integer.parseInt(msg.substring(0,1));
 					switch(c){
-					case 0: InputModel im = new InputModel(msg.substring(1, msg.length()));this.g.inputs.add(im);break;
+					case 0: InputObject im = new InputObject(msg.substring(1, msg.length()),g);this.g.inputs.add(im);break;
 					case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
 					case 2: 
 						if(!this.g.host){
@@ -57,9 +58,24 @@ public class MultiReceiver extends Thread{
 					case 3:
 						//Multi with sending inputs
 						if(msg.length()>1){
-							new InputObject(this.g,msg.substring(1, msg.length()),false);
+							if(msg.substring(1, 2).equals("I")){
+								InputObject io = new InputObject(msg.substring(1, msg.length()),g);
+								this.g.toSendInputs.addElement(io.getMessageValidationToSend());
+								this.g.inputsHandler.addToInputs(io);
+							}
+							//If validation message
+							else if(msg.substring(1, 2).equals("V")){
+								//Get the corresponding round and player
+								String rawInput = msg.substring(1);
+								if(debugValidation)
+									System.out.println("raw input V : "+rawInput);
+								String[] valMessage = rawInput.split("\\|");
+								int round = Integer.parseInt(valMessage[1]);
+								int idPlayer = Integer.parseInt(valMessage[2]);
+								// Ressources partagé le vecteur d'inputs de la mailbox..
+								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
+							}
 						}
-						
 						break;
 					default:
 					}

@@ -8,8 +8,8 @@ import menu.MenuIntro;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
-import multiplaying.InputMailBox;
-import multiplaying.InputModel;
+import multiplaying.InputHandler;
+import multiplaying.InputObject;
 import multiplaying.InputObject;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
@@ -35,7 +35,6 @@ import display.TopBar;
 
 public class Game extends BasicGame 
 {	
-
 	// DEBUG
 	public boolean debugTimeSteps = false;
 	long timeSteps = 0;
@@ -46,9 +45,9 @@ public class Game extends BasicGame
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 	
-	//NEW FLO
+
 	//Handle inputs from you and other players
-	public InputMailBox inputsBox;
+	public InputHandler inputsHandler;
 	
 
 	public int idChar = 0;
@@ -96,8 +95,8 @@ public class Game extends BasicGame
 	// Host and client
 	public InetAddress addressHost;
 	public InetAddress addressClient;
-	public Vector<InputModel> inputs = new Vector<InputModel>();
-	public Vector<InputModel> toRemoveInputs = new Vector<InputModel>();
+	public Vector<InputObject> inputs = new Vector<InputObject>();
+	public Vector<InputObject> toRemoveInputs = new Vector<InputObject>();
 	public Vector<String> toSendInputs = new Vector<String>();
 	public Vector<String> outputs = new Vector<String>();
 	public Vector<String> toSendConnexions = new Vector<String>();
@@ -241,7 +240,7 @@ public class Game extends BasicGame
 	// Do our logic 
 	@Override
 	public synchronized void update(GameContainer gc, int t) throws SlickException {	
-		Vector<InputModel> ims = new Vector<InputModel>();
+		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
@@ -251,29 +250,19 @@ public class Game extends BasicGame
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
 			if(debugTimeSteps)
 				timeSteps = System.currentTimeMillis();	
-			InputModel im = new InputModel(this,plateau.currentPlayer.id,round,gc.getInput(),(int) plateau.Xcam,(int)Math.floor(plateau.Ycam),(int)resX,(int)resY);
+			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			ims.add(im);
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
-				// Plus de host et de client ...
-				//
 				//Utils.printCurrentState(this.plateau);
-
-				// client mode
-				// On envoie ses inputs 
+				// On envoie l'input du tour courant
 				this.toSendInputs.addElement(im.toString());
-				// On ajoute ses inputs dans sa mailbox ( qui se charge automatiquement de mettre l'input 
-				// dans la boîte d'envoie
-				
-				this.inputsBox.addInput(new InputObject(this,im,true));
-				if(outputs.size()>0){
-					this.idPaquetTreated++;
-					this.plateau.currentString = outputs.lastElement();
-					outputs.clear();
-				}
+				// On ajoute l'input du tour courant � l'inputhandler				
+				this.inputsHandler.addToInputs(im);
+
 				
 				if(debugTimeSteps)
 					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
@@ -288,19 +277,17 @@ public class Game extends BasicGame
 					this.idPaquetTreated++;
 					//inputs contient directement les inputs déja formatés.
 					ims.add(this.inputs.lastElement());
-					this.idPaquetReceived = inputs.get(0).time;
+					this.idPaquetReceived = inputs.get(0).round;
 					inputs.remove(0);
 					//System.out.println(ims.lastElement());
 				}
-				//We clean the mailbox (effectively put messages on hold in the box
-				this.inputsBox.cleanBox();
 				//ICI on met bout à bout tous les inputs validés
-				Vector<InputModel> imss= new Vector<InputModel>();
+				Vector<InputObject> imss= new Vector<InputObject>();
 				for(Player p : this.plateau.players){
 					imss.addAll(p.inputs);
 				}
 				
-				this.plateau.update(imss);
+				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
 				this.round++;
 				if(debugTimeSteps)
@@ -376,7 +363,7 @@ public class Game extends BasicGame
 		Map.initializePlateau(this, 1f, 1f);
 		
 		//FLO INPUTS
-		this.inputsBox = new InputMailBox(this);
+		this.inputsHandler = new InputHandler(this);
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:

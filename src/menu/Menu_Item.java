@@ -6,7 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
 import model.Game;
-import multiplaying.InputModel;
+import multiplaying.InputObject;
 
 public class Menu_Item {
 
@@ -44,7 +44,7 @@ public class Menu_Item {
 		float yMouse = i.getAbsoluteMouseY();
 		return (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
 	}
-	public boolean isClicked(InputModel im){
+	public boolean isClicked(InputObject im){
 		float xMouse = im.xMouse;
 		float yMouse = im.yMouse;
 		return (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
