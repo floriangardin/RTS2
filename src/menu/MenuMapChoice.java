@@ -181,7 +181,7 @@ public class MenuMapChoice extends Menu {
 						System.out.println("debut de la partie dans :" + seconds);
 						this.game.sounds.buzz.play();
 						seconds--;
-					}else if (startGame>=this.game.clock.getCurrentTime()) {
+					}else if (startGame<=this.game.clock.getCurrentTime()) {
 					
 						// Create sender and receiver
 						for(Player p : this.game.plateau.players){
