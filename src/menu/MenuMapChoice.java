@@ -178,7 +178,7 @@ public class MenuMapChoice extends Menu {
 					if(startGame==0){
 						this.startGame = this.game.clock.getCurrentTime()+5000000000L;
 					} else if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
-						System.out.println("debut de la partie dans :" + seconds);
+						System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 						this.game.sounds.buzz.play();
 						seconds--;
 					}else if (startGame<=this.game.clock.getCurrentTime()) {
@@ -186,7 +186,7 @@ public class MenuMapChoice extends Menu {
 						// Create sender and receiver
 						for(Player p : this.game.plateau.players){
 							this.game.toSendInputs.add(new Vector<String>());
-							this.game.inputSender.add(new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
+							this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
 							if(p!=this.game.plateau.currentPlayer && p.id!=0)
 								this.game.inputSender.lastElement().start();
 						}
