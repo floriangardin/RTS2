@@ -142,6 +142,11 @@ public class MenuMapChoice extends Menu {
 		for(int i=1;i<this.players.size();i++){
 			players.get(i).draw(g);
 		}
+		g.setColor(Color.white);
+		if(startGame==0)
+			g.drawString("en attente", 0f, 0f);
+		else
+			g.drawString("début dans " + ((startGame-game.clock.getCurrentTime())/100000), 0f, 0f);
 
 	}
 
