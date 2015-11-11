@@ -3,17 +3,6 @@ import java.net.InetAddress;
 import java.util.Timer;
 import java.util.Vector;
 
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -25,13 +14,24 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 
-import spells.SpellEffect;
-import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
 import display.TopBar;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
+import multiplaying.Clock;
+import multiplaying.InputHandler;
+import multiplaying.InputObject;
+import multiplaying.InputObject;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiSender;
+import spells.SpellEffect;
+import units.Character;
 
 public class Game extends BasicGame 
 {	
@@ -85,6 +85,8 @@ public class Game extends BasicGame
 
 
 	// Network and multiplaying
+	//Clock
+	public Clock clock;
 	public boolean inMultiplayer;
 	public boolean host = false;
 	public long startTime;
@@ -349,7 +351,7 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-
+		this.clock = new Clock(this);
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);

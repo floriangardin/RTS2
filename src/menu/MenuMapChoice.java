@@ -329,6 +329,11 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
+		//Send time if isHost
+		if(this.game.isHost){
+			s+="clock:"+this.game.clock.getCurrentTime();
+			s+=";";
+		}
 
 		return s;
 	}
@@ -348,7 +353,14 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
-
+			if(hs.containsKey("clock")){
+				long clockTime = Long.parseLong(hs.get("clock"));
+				if(!this.game.isHost){
+					this.game.clock.synchro(clockTime);
+				}
+				
+			}
+			
 			if(civ.length>this.game.plateau.players.size()){
 				try {
 					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
@@ -381,6 +393,8 @@ public class MenuMapChoice extends Menu {
 					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
 				}
 			}
+
+			
 
 		}
 	}
