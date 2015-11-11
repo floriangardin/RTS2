@@ -360,7 +360,7 @@ public class MenuMapChoice extends Menu {
 			s+="startTime:"+this.startGame;
 			s+=";";
 		}
-		
+
 		//Send all ip for everyone
 		s+="ips:";
 		for(Menu_Player p : this.players){
@@ -370,7 +370,7 @@ public class MenuMapChoice extends Menu {
 			else{
 				s+=p.p.address.getHostAddress();
 			}
-			
+
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -389,24 +389,8 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 		}
-		
-		//Handle ip
-		if(hs.containsKey("ips")){
-			String[] ips =hs.get("ips").split(",");
-			for(int i = 0;i<ips.length;i++){
-				if(this.game.plateau.currentPlayer.id!=i){
-					if(!ips[i].equals("null")){
-						try {
-							this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
-						} catch (UnknownHostException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					
-				}
-			}
-		}
+
+
 		if(hs.containsKey("civSelected")){
 			String[] civ =hs.get("civSelected").split(",");
 			String[] nickname =hs.get("nickname").split(",");
@@ -458,6 +442,23 @@ public class MenuMapChoice extends Menu {
 
 
 
+		}
+		//Handle ip
+		if(hs.containsKey("ips")){
+			String[] ips =hs.get("ips").split(",");
+			for(int i = 0;i<ips.length;i++){
+				if(this.game.plateau.currentPlayer.id!=i){
+					if(!ips[i].equals("null")){
+						try {
+							this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				}
+			}
 		}
 	}
 
