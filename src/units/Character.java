@@ -231,10 +231,10 @@ public class Character extends ActionObjet{
 				imaged = this.p.g.images.mediumArmor;
 			}
 			if(this.weapon == "spear"){
-//				this.image = this.p.g.images.spearman_move;
-//				return;
-				imageb = this.p.g.images.sword;
-				imaged = this.p.g.images.heavyArmor;
+				this.image = this.p.g.images.spearman_move;
+				return;
+//				imageb = this.p.g.images.sword;
+//				imaged = this.p.g.images.heavyArmor;
 			}
 			if(this.weapon == "bow"){
 				imageb = this.p.g.images.bow;
