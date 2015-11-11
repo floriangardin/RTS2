@@ -378,10 +378,19 @@ public class MenuMapChoice extends Menu {
 
 		//RESOLUTION
 
-		s+="resX:"+this.game.resX;
-		s+=";";
-		s+="resY:"+this.game.resY;
-		s+=";";
+		for(Menu_Player p : this.players){
+			s+="resX:"+p.p.bottomBar.resX;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+
+		for(Menu_Player p : this.players){
+			s+="resY:"+p.p.bottomBar.resY;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
 
 
 		return s;
@@ -404,6 +413,8 @@ public class MenuMapChoice extends Menu {
 			String[] nickname =hs.get("nickname").split(",");
 			String[] idTeam =hs.get("idTeam").split(",");
 			String[] isReady =hs.get("isReady").split(",");
+			String[] resX = hs.get("resX").split(",");
+			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clock")){
 				long clockTime = Long.parseLong(hs.get("clock"));
 				if(!this.game.host){
@@ -414,19 +425,10 @@ public class MenuMapChoice extends Menu {
 			if(hs.containsKey("startTime")){
 				this.startGame = Long.parseLong(hs.get("startTime"));
 			}
-			
-
-
+			//
 			if(civ.length>this.game.plateau.players.size()){
 				try {
-					if(hs.containsKey("resX")){
-						int resX  = (int)Float.parseFloat(hs.get("resX"));
-						int resY  =(int) Float.parseFloat(hs.get("resY"));
-						this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),resX,resY);
-					}
-					else{
-						System.out.println("MenuMapChoice line 428 : Ernst Stavro Blofeld");
-					}
+					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}
 				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}
@@ -446,6 +448,13 @@ public class MenuMapChoice extends Menu {
 			for(int i = 0;i<idTeam.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
 					this.players.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
+				}
+
+			}
+
+			for(int i = 0;i<resX.length;i++){
+				if(this.game.plateau.currentPlayer.id!=i && this.players.get(i).p.bottomBar.resX==1){
+					this.players.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
 				}
 
 			}

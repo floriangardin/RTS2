@@ -9,6 +9,7 @@ import model.Player;
 
 public class BottomBar extends Bar {
 
+	public int resX,resY;
 	public SelectionInterface selection ;
 	public DescriptionInterface description;
 	public DisplayInterface display;
@@ -35,6 +36,11 @@ public class BottomBar extends Bar {
 	}
 
 	public void update(int resX, int resY){
+		/**
+		 * Tres fortement utile et bienvenue
+		 */
+		this.resX = resX;
+		this.resY = resY;
 		this.sizeX = resX;
 		this.sizeY = this.p.g.relativeHeightBottomBar*resY;
 		this.x = 0;

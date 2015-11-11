@@ -104,10 +104,10 @@ public class MenuMulti extends Menu {
 				this.game.addressHost = opengame.hostAddress;
 				this.game.clock.start();
 				for(int j=1; j<opengame.nPlayers; j++){
-					game.plateau.addPlayer("unknown");
+					game.plateau.addPlayer("unknown",null,1,1);
 				}
 				this.game.getPlayerById(Game.ID_HOST).address=opengame.hostAddress;
-				game.plateau.addPlayer(this.game.options.nickname);
+				game.plateau.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
 				game.plateau.currentPlayer = game.plateau.players.lastElement();
 				game.setMenu(game.menuMapChoice);
 			}
