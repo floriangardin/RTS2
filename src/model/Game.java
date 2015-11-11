@@ -247,13 +247,15 @@ public class Game extends BasicGame
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
 			if(debugTimeSteps)
 				timeSteps = System.currentTimeMillis();	
+			//Update of current round
+			this.clock.setRoundFromTime();
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
-				this.clock.setRoundFromTime();
+				System.out.println("Game line 258 : now in round "+this.round);
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
@@ -265,7 +267,6 @@ public class Game extends BasicGame
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
-				this.round++;
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 
@@ -347,6 +348,7 @@ public class Game extends BasicGame
 			if(i!=0 && i!=plateau.currentPlayer.id){
 				toSendInputs.get(i).add(s);
 			}
+		System.out.println("Game line 351 : Sending inputs to all players for round "+this.round);
 	}
 
 	public Game (float resX,float resY){

@@ -14,7 +14,7 @@ public class InputObject extends MultiObjetModel{
 
 	public Player player;
 	public int round;
-	
+
 	private Vector<Boolean> validated;
 
 	public boolean rightClick;
@@ -154,6 +154,7 @@ public class InputObject extends MultiObjetModel{
 		this.validated = new Vector<Boolean>();
 		for(Player p:game.plateau.players)
 			validated.add(false);
+		System.out.println("InputObject line 157 : New input from "+this.player.id+" coming from round "+this.round);
 	}
 
 	public String toString(){
@@ -202,10 +203,10 @@ public class InputObject extends MultiObjetModel{
 	}
 
 	public void mix(InputObject im){
-//		if(rightClick)
-//			s+=",rightClick)
-//		if(leftClick)
-//			s+=",leftClick)
+		//		if(rightClick)
+		//			s+=",rightClick)
+		//		if(leftClick)
+		//			s+=",leftClick)
 
 		if(!pressedRightClick && im.pressedRightClick) pressedRightClick = true;
 		if(!pressedLeftClick && im.pressedLeftClick) pressedLeftClick = true;
@@ -235,20 +236,27 @@ public class InputObject extends MultiObjetModel{
 	}
 
 	public void validate(Player player){
-		if(validated.size()<player.id)
+		if(validated.size()<player.id){
 			validated.set(player.id-1,true);
-		else 
-			System.out.println("InputObjet line 235, putain glandu");
+			System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
+		}
+		else{
+			System.out.println("InputObjet line 242, putain glandu");
+		}
+
 	}
-	
+
 	public void validate(){
+		/** Validate everything (when it comes from other player)
+		 * 
+		 */
 		for(int i=0; i<validated.size();i++){
 			validated.set(i,true);
 		}
 	}
 
 	public String getMessageValidationToSend() {
-		// TODO Auto-generated method stub
+		
 		return "3V|"+this.round+"|"+this.player.id+"|";
 	}
 

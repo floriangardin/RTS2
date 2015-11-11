@@ -54,9 +54,10 @@ public class InputHandler {
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
 		if(toReturn.size()==this.g.plateau.players.size()-1){
+			System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
 			return toReturn;
 		} else {
-			System.out.println("InputHandler line 59: invalid or missing inputs");
+			System.out.println("InputHandler line 60: invalid or missing inputs");
 			return new Vector<InputObject>();
 		}
 	}
