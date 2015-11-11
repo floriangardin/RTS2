@@ -57,7 +57,7 @@ public class MultiReceiver extends Thread{
 						//Multi with sending inputs
 						if(msg.length()>1){
 							if(msg.substring(1, 2).equals("I")){
-								InputObject io = new InputObject(msg.substring(1, msg.length()),g);
+								InputObject io = new InputObject(msg.substring(2, msg.length()),g);
 								io.validate();
 								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 								this.g.inputsHandler.addToInputs(io);
