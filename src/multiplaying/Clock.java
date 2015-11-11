@@ -9,7 +9,7 @@ import model.Game;
 public class Clock extends Thread{
 	Game game;
 	boolean isMaster;
-	long originTime;
+	private long originTime;
 	Vector<Long> origins;
 	//ping to master clock
 	long ping;
@@ -74,6 +74,10 @@ public class Clock extends Thread{
 	public void setRoundFromTime(){
 		long roundDuration = (long) ((1000000000f/Main.framerate));
 		this.game.round =(int) (this.getCurrentTime()/roundDuration);
+	}
+	
+	public long getOrigin(){
+		return this.originTime;
 	}
 	
 	
