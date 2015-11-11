@@ -335,6 +335,7 @@ public class Game extends BasicGame
 		this.bottomBars = new BottomBar(this.plateau,(int)this.resX,(int)this.resY);
 		this.topBars = new TopBar(this.plateau,(int)this.resX,(int)this.resY);
 		selection = null;
+		this.clock = new Clock(this);
 
 	}
 
@@ -352,7 +353,7 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-		this.clock = new Clock(this);
+		
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
