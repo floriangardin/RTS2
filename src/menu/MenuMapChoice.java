@@ -351,12 +351,12 @@ public class MenuMapChoice extends Menu {
 		s = s.substring(0,s.length()-1);
 		s+= ";";
 		//Send time if isHost
-		if(this.game.isHost){
+		if(this.game.host){
 			s+="clock:"+this.game.clock.getCurrentTime();
 			s+=";";
 		}
 		//Send starttime if isHost and is about to launch game
-		if(this.game.isHost && this.startGame!=0){
+		if(this.game.host && this.startGame!=0){
 			s+="startTime:"+this.startGame;
 			s+=";";
 		}
@@ -381,7 +381,7 @@ public class MenuMapChoice extends Menu {
 			String[] isReady =hs.get("isReady").split(",");
 			if(hs.containsKey("clock")){
 				long clockTime = Long.parseLong(hs.get("clock"));
-				if(!this.game.isHost){
+				if(!this.game.host){
 					this.game.clock.synchro(clockTime);
 				}
 

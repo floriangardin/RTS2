@@ -107,7 +107,6 @@ public class Game extends BasicGame
 	public Vector<MultiSender> inputSender = new Vector<MultiSender>();
 	public MultiReceiver connexionReceiver;
 	public MultiSender connexionSender;
-	public boolean isHost;
 	//Debugging network
 	public int toAdd = 0;
 	public int toRemove = 0;
