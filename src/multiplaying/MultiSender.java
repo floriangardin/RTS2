@@ -44,7 +44,6 @@ public class MultiSender extends Thread{
 //						address = InetAddress.getByName(depot.get(0).substring(1));
 //					}
 					message = (depot.get(0).toString()).getBytes();
-					
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
 					client.send(packet);
