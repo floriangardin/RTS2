@@ -68,6 +68,7 @@ public class Clock extends Thread{
 			e.printStackTrace();
 		}
 		this.ping = (this.getCurrentTime()-time)/5;
+		System.out.println("Clock line 71 :  ping : "+this.ping);
 		
 	}
 	

@@ -58,6 +58,10 @@ public class MultiReceiver extends Thread{
 						if(msg.length()>1){
 							if(msg.substring(1, 2).equals("I")){
 								InputObject io = new InputObject(msg.substring(2, msg.length()),g);
+								
+								if(debugValidation){
+									System.out.println("MultiReceiver line 63 input received for round "+ this.g.round);
+								}
 								//A message coming from other players is automatically validated for yourself
 								io.validate();
 								//Send the validation for other players

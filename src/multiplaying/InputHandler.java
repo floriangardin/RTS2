@@ -57,7 +57,7 @@ public class InputHandler {
 			System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
 			return toReturn;
 		} else {
-			System.out.println("InputHandler line 60: invalid or missing inputs");
+			System.out.println("InputHandler line 60: invalid or missing inputs for input round "+(round-2));
 			return new Vector<InputObject>();
 		}
 	}
