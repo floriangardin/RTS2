@@ -151,6 +151,7 @@ public class InputObject extends MultiObjetModel{
 				this.selection.addElement(Integer.parseInt(sel[i]));
 			}
 		}
+		this.validated = new Vector<Boolean>();
 		for(Player p:game.plateau.players)
 			validated.add(false);
 	}
