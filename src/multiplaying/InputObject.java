@@ -236,7 +236,7 @@ public class InputObject extends MultiObjetModel{
 	}
 
 	public void validate(Player player){
-		if(validated.size()<player.id){
+		if(validated.size()>player.id){
 			validated.set(player.id-1,true);
 			System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
 		}
