@@ -850,6 +850,7 @@ public class Plateau {
 	}
 	
 	public void handleMinimap(InputObject im, int player){
+		System.out.println("Plateau line 852 : handleminimap callded");
 		if(im.isPressedA){
 			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
