@@ -157,7 +157,7 @@ public class InputObject extends MultiObjetModel{
 
 	public String toString(){
 		//Add header with type message, round , player;
-		String s = "3I";
+		String s = "3I,";
 		s+="idPlayer:" +player.id+ ",round:"+round+",xMouse:"+xMouse+",yMouse:"+yMouse;
 
 		if(rightClick)
