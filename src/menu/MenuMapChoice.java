@@ -51,6 +51,8 @@ public class MenuMapChoice extends Menu {
 	float sizeXPlayers;
 	float sizeYPlayers;
 
+	long startGame = 0;
+	public int seconds = 3;
 
 
 	public int cooldown;
@@ -173,18 +175,26 @@ public class MenuMapChoice extends Menu {
 				}
 				if (present1 && present2){
 					// Launch Game
-
-					// Create sender and receiver
-					for(Player p : this.game.plateau.players){
-						this.game.toSendInputs.add(new Vector<String>());
-						this.game.inputSender.add(new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
-						if(p!=this.game.plateau.currentPlayer && p.id!=0)
-							this.game.inputSender.lastElement().start();
+					if(startGame==0){
+						this.startGame = this.game.clock.getCurrentTime()+5000000000L;
+					} else if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
+						System.out.println("debut de la partie dans :" + seconds);
+						this.game.sounds.buzz.play();
+						seconds--;
+					}else if (startGame>=this.game.clock.getCurrentTime()) {
+					
+						// Create sender and receiver
+						for(Player p : this.game.plateau.players){
+							this.game.toSendInputs.add(new Vector<String>());
+							this.game.inputSender.add(new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
+							if(p!=this.game.plateau.currentPlayer && p.id!=0)
+								this.game.inputSender.lastElement().start();
+						}
+						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+						this.game.inputReceiver.start();
+						Map.updateMap(mapSelected, game);
+						game.launchGame();
 					}
-					this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
-					this.game.inputReceiver.start();
-					Map.updateMap(mapSelected, game);
-					game.launchGame();
 				}
 			}
 
@@ -358,9 +368,9 @@ public class MenuMapChoice extends Menu {
 				if(!this.game.isHost){
 					this.game.clock.synchro(clockTime);
 				}
-				
+
 			}
-			
+
 			if(civ.length>this.game.plateau.players.size()){
 				try {
 					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
@@ -394,7 +404,7 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 
-			
+
 
 		}
 	}
