@@ -151,8 +151,31 @@ public class MenuMapChoice extends Menu {
 			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-35f/2f,game));
 			this.players.get(j).update(i);
 		}
+		//Checking starting of the game
+		if(startGame!=0){
+			if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
+				System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
+				System.out.println("Current time: "+this.game.clock.getCurrentTime());
+				this.game.sounds.buzz.play();
+				seconds--;
+			} else if (startGame<=this.game.clock.getCurrentTime()) {
+
+				// Create sender and receiver
+				for(Player p : this.game.plateau.players){
+					this.game.toSendInputs.add(new Vector<String>());
+					this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
+					if(p.address!=null)
+						this.game.inputSender.lastElement().start();
+				}
+				this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+				this.game.inputReceiver.start();
+				Map.updateMap(mapSelected, game);
+				game.launchGame();
+			}
+			return;
+		}
 		//Checking if all players are ready then launch the game
-		if(game.inMultiplayer){
+		if(game.inMultiplayer && game.host){
 			boolean toGame = true;
 			// checking if all players are ready
 			for(int j=1;j<this.players.size(); j++){
@@ -177,24 +200,6 @@ public class MenuMapChoice extends Menu {
 					// Launch Game
 					if(startGame==0){
 						this.startGame = this.game.clock.getCurrentTime()+5000000000L;
-					} else if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
-						System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
-						System.out.println("Current time: "+this.game.clock.getCurrentTime());
-						this.game.sounds.buzz.play();
-						seconds--;
-					}else if (startGame<=this.game.clock.getCurrentTime()) {
-					
-						// Create sender and receiver
-						for(Player p : this.game.plateau.players){
-							this.game.toSendInputs.add(new Vector<String>());
-							this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
-							if(p.address!=null)
-								this.game.inputSender.lastElement().start();
-						}
-						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
-						this.game.inputReceiver.start();
-						Map.updateMap(mapSelected, game);
-						game.launchGame();
 					}
 				}
 			}
@@ -345,6 +350,11 @@ public class MenuMapChoice extends Menu {
 			s+="clock:"+this.game.clock.getCurrentTime();
 			s+=";";
 		}
+		//Send starttime if isHost and is about to launch game
+		if(this.game.isHost && this.startGame!=0){
+			s+="startTime:"+this.startGame;
+			s+=";";
+		}
 
 		return s;
 	}
@@ -370,6 +380,9 @@ public class MenuMapChoice extends Menu {
 					this.game.clock.synchro(clockTime);
 				}
 
+			}
+			if(hs.containsKey("startTime")){
+				this.startGame = Long.parseLong(hs.get("startTime"));
 			}
 
 			if(civ.length>this.game.plateau.players.size()){
