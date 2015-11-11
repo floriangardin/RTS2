@@ -50,10 +50,11 @@ public class Clock extends Thread{
 	}
 	
 	public void synchro(long masterClockTime){
-		if(!(this.origins.size()<10)){
+		if(this.origins.size()>=10){
 			this.origins.removeElementAt(0);
 		}
 		this.origins.addElement(System.nanoTime()-masterClockTime-this.ping/2);
+		this.originTime =0;
 		for(long o : origins){
 			this.originTime += o;
 		}
