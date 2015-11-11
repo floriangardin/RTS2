@@ -377,16 +377,17 @@ public class MenuMapChoice extends Menu {
 		s+= ";";
 
 		//RESOLUTION
-
+		s+="resX:";
 		for(Menu_Player p : this.players){
-			s+="resX:"+p.p.bottomBar.resX;
+			s+=p.p.bottomBar.resX;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-
+		
+		s+="resY:";
 		for(Menu_Player p : this.players){
-			s+="resY:"+p.p.bottomBar.resY;
+			s+=p.p.bottomBar.resY;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
