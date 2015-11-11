@@ -420,8 +420,8 @@ public class MenuMapChoice extends Menu {
 			if(civ.length>this.game.plateau.players.size()){
 				try {
 					if(hs.containsKey("resX")){
-						int resX  = Integer.parseInt(hs.get("resX"));
-						int resY  = Integer.parseInt(hs.get("resY"));
+						int resX  = (int)Float.parseFloat(hs.get("resX"));
+						int resY  =(int) Float.parseFloat(hs.get("resY"));
 						this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),resX,resY);
 					}
 					else{
