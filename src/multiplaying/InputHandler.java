@@ -12,6 +12,7 @@ public class InputHandler {
 
 	public InputHandler(Game g){
 		this.inputs = new Vector<InputObject>();
+		this.g = g;
 	}
 
 	public void validate(int round,Player player){
