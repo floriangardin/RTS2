@@ -376,6 +376,14 @@ public class MenuMapChoice extends Menu {
 		s = s.substring(0,s.length()-1);
 		s+= ";";
 
+		//RESOLUTION
+
+		s+="resX:"+this.game.resX;
+		s+=";";
+		s+="resY:"+this.game.resY;
+		s+=";";
+
+
 		return s;
 	}
 
@@ -406,10 +414,19 @@ public class MenuMapChoice extends Menu {
 			if(hs.containsKey("startTime")){
 				this.startGame = Long.parseLong(hs.get("startTime"));
 			}
+			
+
 
 			if(civ.length>this.game.plateau.players.size()){
 				try {
-					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
+					if(hs.containsKey("resX")){
+						int resX  = Integer.parseInt(hs.get("resX"));
+						int resY  = Integer.parseInt(hs.get("resY"));
+						this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),resX,resY);
+					}
+					else{
+						System.out.println("MenuMapChoice line 428 : Ernst Stavro Blofeld");
+					}
 				} catch (UnknownHostException e) {}
 				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
 			}

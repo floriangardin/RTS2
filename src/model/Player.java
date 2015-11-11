@@ -28,7 +28,19 @@ public class Player {
 	public InetAddress address;
 	
 	
+	public Player(Plateau p ,int id,String name, GameTeam gameteam,int resX,int resY) {
+		this.initialize(p, id, name, gameteam);
+		this.bottomBar = new BottomBar(this.p,resX,resY);
+	}
+	
+	
+	
 	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
+		this.initialize(p, id, name, gameteam);
+	}
+	
+	
+	public void initialize(Plateau p, int id , String name , GameTeam gameteam){
 		this.id = id;
 		this.nickname = name;
 		this.p = p;
@@ -42,7 +54,6 @@ public class Player {
 		this.data = gameteam.data;
 		this.inputs = new Vector<InputObject>();
 	}
-	
 	public int getTeam(){
 		return team;
 	}

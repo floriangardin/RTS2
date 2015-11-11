@@ -116,7 +116,7 @@ public class Plateau {
 		this.teams.addElement(new GameTeam(players,this,2,0));
 		this.players = new Vector<Player>();
 		this.players.add(new Player(this,0,"Nature",teams.get(0)));
-		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1)));
+		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1),(int) this.g.resX, (int) this.g.resY));
 		this.players.add(new Player(this,2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
@@ -200,8 +200,8 @@ public class Plateau {
 		this.messages.addElement(new Vector<Message>());
 	}
 
-	public void addPlayer(String name, InetAddress address){
-		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
+	public void addPlayer(String name, InetAddress address,int resX,int resY){
+		this.players.addElement(new Player(this,players.size(),name,teams.get(1),resX,resY));
 		this.players.lastElement().address = address;
 		nPlayers+=1;
 
@@ -607,7 +607,11 @@ public class Plateau {
 			// Handling the right click
 			this.handleRightClick(im,player);
 			// handling only the current player
-
+			//Handle minimap
+			if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
+				this.handleMinimap(im, player);
+			}
+			
 			if(player == this.currentPlayer.id){
 				// ong�re le d�placement de la cam�ra et la s�lection
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
@@ -854,6 +858,34 @@ public class Plateau {
 			bb.action.toDrawDescription[1]=false;
 			bb.action.toDrawDescription[2]=false;
 			bb.action.toDrawDescription[3]=false;
+		}
+	}
+	
+	public void handleMinimap(InputObject im, int player){
+		if(im.isPressedA){
+			BottomBar b = this.players.get(player).bottomBar;
+			b.minimap.toDraw = true;
+			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
+					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
+				// Put camera where the click happened
+				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
+				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
+
+			}
+			if(im.rightClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
+					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
+				// Handle right click
+				if(im.isPressedMAJ){
+					updateSecondaryTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
+				} else {				
+					updateTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
+				}
+
+			}
+		}
+		else{
+			BottomBar b = this.players.get(player).bottomBar;
+			b.minimap.toDraw = false;
 		}
 	}
 	// drawing fog of war method
