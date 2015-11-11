@@ -26,7 +26,13 @@ public class Clock extends Thread{
 		while(true){
 			this.getPing();
 			try {
-				Thread.sleep(1000);
+				if(this.game.isInMenu){
+					Thread.sleep(50);
+				}
+				else{
+					Thread.sleep(5000);
+				}
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,7 +58,7 @@ public class Clock extends Thread{
 			this.originTime += o;
 		}
 		this.originTime/=this.origins.size();
-		
+		System.out.println("Clock line 61 : Synchro clock");
 	}
 	
 	public void	getPing(){
