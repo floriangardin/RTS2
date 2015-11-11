@@ -64,4 +64,8 @@ public class MultiSender extends Thread{
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendMessage(String s){
+		this.depot.addElement(s);
+	}
 }

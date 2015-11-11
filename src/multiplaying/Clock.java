@@ -5,11 +5,14 @@ import model.Player;
 
 public class Clock {
 	Game game;
+	boolean isMaster;
 	long originTime;
-	
+	//ping to master clock
+	long ping;
 	
 	public Clock(Game g){
 		this.game = g;
+		this.isMaster = this.game.isHost;
 		this.originTime = System.nanoTime();
 		this.game.plateau.currentPlayer.originTime = this.originTime;
 	}
@@ -18,10 +21,21 @@ public class Clock {
 		return System.nanoTime()-this.originTime;
 	}
 	
-	public void synchronize(long delay, Player p){
+	public void updatePing(long messageTime){
 		//Get origin time for each player (== delay/2)
-		p.originTime = this.originTime-delay/2;
+		this.ping = this.getCurrentTime()-messageTime ;
 	}
+	
+	public void synchro(){
+		
+	}
+	
+	public void requestTime(){
+		//Send a time request for master
+		
+	}
+	
+	//We want to find the right origin time
 	
 	
 }
