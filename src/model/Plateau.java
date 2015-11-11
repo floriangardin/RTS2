@@ -115,9 +115,9 @@ public class Plateau {
 		this.teams.addElement(new GameTeam(players,this,1,0));
 		this.teams.addElement(new GameTeam(players,this,2,0));
 		this.players = new Vector<Player>();
-		this.players.add(new Player(this,0,"Nature",teams.get(0)));
+		this.players.add(new Player(this,0,"Nature",teams.get(0),2,2));
 		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1),(int) this.g.resX, (int) this.g.resY));
-		this.players.add(new Player(this,2,"IA random",teams.get(2)));
+		this.players.add(new Player(this,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 
@@ -186,19 +186,7 @@ public class Plateau {
 		return null;
 	}
 
-	public void addPlayer(String name){
-		this.players.addElement(new Player(this,players.size(),name,teams.get(1)));
-		nPlayers+=1;
 
-		// adding components in plateau
-		this.selection.addElement(new Vector<ActionObjet>());
-		this.toAddSelection.addElement(new Vector<ActionObjet>());
-		this.toRemoveSelection.addElement(new Vector<ActionObjet>());
-		this.isCastingSpell.addElement(false);
-		this.hasCastSpell.addElement(false);
-		this.castingSpell.addElement(-1);
-		this.messages.addElement(new Vector<Message>());
-	}
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
 		this.players.addElement(new Player(this,players.size(),name,teams.get(1),resX,resY));

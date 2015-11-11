@@ -35,11 +35,6 @@ public class Player {
 	
 	
 	
-	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
-		this.initialize(p, id, name, gameteam);
-	}
-	
-	
 	public void initialize(Plateau p, int id , String name , GameTeam gameteam){
 		this.id = id;
 		this.nickname = name;

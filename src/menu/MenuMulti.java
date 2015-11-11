@@ -30,10 +30,6 @@ public class MenuMulti extends Menu {
 
 
 
-	//TODO upgrading multiplayer
-	public int cooldown;
-	public int cooldown1;
-
 	public float startXGames;
 	public float sizeXGames;
 	public float startYGames;
@@ -87,8 +83,14 @@ public class MenuMulti extends Menu {
 		case 0:
 			game.host = true;
 			game.inMultiplayer = true;
+			try {
+				game.addressHost = InetAddress.getLocalHost();
+			} catch (UnknownHostException e) {
+				
+				e.printStackTrace();
+			}
 			game.plateau.clearPlayer();
-			game.plateau.addPlayer(game.options.nickname);
+			game.plateau.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
 			game.plateau.currentPlayer = game.plateau.players.get(1);
 			game.setMenu(game.menuMapChoice);
 			break;
