@@ -44,11 +44,11 @@ public class Game extends BasicGame
 	public int nbPaquetReceived = 0;
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
-	
+
 
 	//Handle inputs from you and other players
 	public InputHandler inputsHandler;
-	
+
 
 	public int idChar = 0;
 	public int idBullet = 0;
@@ -95,19 +95,14 @@ public class Game extends BasicGame
 	// Host and client
 	public InetAddress addressHost;
 	public InetAddress addressClient;
-	public Vector<InputObject> inputs = new Vector<InputObject>();
-	public Vector<InputObject> toRemoveInputs = new Vector<InputObject>();
-	public Vector<String> toSendInputs = new Vector<String>();
-	public Vector<String> outputs = new Vector<String>();
+	//public Vector<InputObject> inputs = new Vector<InputObject>();
+	public Vector<Vector<String>> toSendInputs = new Vector<Vector<String>>();
 	public Vector<String> toSendConnexions = new Vector<String>();
 	public Vector<String> connexions = new Vector<String>();
-	public Vector<Vector<String>> toSendOutputs = new Vector<Vector<String>>();
 	public int timeValue;
 	// Sender and Receiver
 	public MultiReceiver inputReceiver;
-	public MultiSender inputSender;
-	public MultiReceiver outputReceiver;
-	public Vector<MultiSender> outputSender;
+	public Vector<MultiSender> inputSender = new Vector<MultiSender>();
 	public MultiReceiver connexionReceiver;
 	public MultiSender connexionSender;
 	public boolean isHost;
@@ -251,7 +246,6 @@ public class Game extends BasicGame
 			if(debugTimeSteps)
 				timeSteps = System.currentTimeMillis();	
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
-			ims.add(im);
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
 			if(debugTimeSteps)
@@ -259,50 +253,19 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
-				this.toSendInputs.addElement(im.toString());
+				this.sendInputToAllPlayer(im.toString());
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
-
-				
 				if(debugTimeSteps)
 					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
 
-				// host mode
-				//On reçoit ses inputs
-				// si on a des inputs en attente on les passe en argument � update de plateau
-				while(inputs.size()>0){
-					//TODO : Message de validation à envoyer
-					
-					// Message de validation à envoyer ...
-					this.idPaquetTreated++;
-					//inputs contient directement les inputs déja formatés.
-					ims.add(this.inputs.lastElement());
-					this.idPaquetReceived = inputs.get(0).round;
-					inputs.remove(0);
-					//System.out.println(ims.lastElement());
-				}
-				//ICI on met bout à bout tous les inputs validés
-				Vector<InputObject> imss= new Vector<InputObject>();
-				for(Player p : this.plateau.players){
-					imss.addAll(p.inputs);
-				}
-				
+				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
 				this.round++;
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
-				
-				//Not needed in new model
-				for(Vector<String> v : this.toSendOutputs){
-					v.add(this.plateau.currentString);
-				}
-				//System.out.println(this.toSendOutputs.size());
 
-				
-				
-				
-				
 			} else {
 				// solo mode
 				this.plateau.update(ims);
@@ -312,7 +275,6 @@ public class Game extends BasicGame
 			}
 		}
 		if(debugPaquet){
-			round ++ ;
 			System.out.println("tour de jeu: " + round);
 			System.out.println("nb paquets envoy�s: " + idPaquetSend);
 			System.out.println("nb paquets re�us: " + nbPaquetReceived);
@@ -337,10 +299,10 @@ public class Game extends BasicGame
 		this.round = 0;
 	}
 
-	
+
 	public Player getPlayerById(int id){
 		return this.plateau.players.get(id);
-		
+
 	}
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
@@ -361,7 +323,7 @@ public class Game extends BasicGame
 		this.setMenu(menuIntro);
 		this.connexionReceiver.start();
 		Map.initializePlateau(this, 1f, 1f);
-		
+
 		//FLO INPUTS
 		this.inputsHandler = new InputHandler(this);
 		//System.out.println(this.plateau.mapGrid);
@@ -373,7 +335,16 @@ public class Game extends BasicGame
 
 	}
 
-	
+	public void sendInputToPlayer(Player player, String s){
+		this.toSendInputs.get(player.id).add(s);
+	}
+	public void sendInputToAllPlayer(String s){
+		for(int i=0; i<this.toSendInputs.size();i++)
+			if(i!=0 && i!=plateau.currentPlayer.id){
+				toSendInputs.get(i).add(s);
+			}
+	}
+
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;

@@ -239,6 +239,12 @@ public class InputObject extends MultiObjetModel{
 		else 
 			System.out.println("InputObjet line 235, putain glandu");
 	}
+	
+	public void validate(){
+		for(int i=0; i<validated.size();i++){
+			validated.set(i,true);
+		}
+	}
 
 	public String getMessageValidationToSend() {
 		// TODO Auto-generated method stub
@@ -251,7 +257,7 @@ public class InputObject extends MultiObjetModel{
 			if(b)
 				n++;
 		}
-		return n==this.validated.size()-2;
+		return n>=this.validated.size()-2;
 	}
 
 }

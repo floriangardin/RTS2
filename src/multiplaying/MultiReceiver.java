@@ -47,8 +47,6 @@ public class MultiReceiver extends Thread{
 				if(msg.length()>0){
 					int c = Integer.parseInt(msg.substring(0,1));
 					switch(c){
-					case 0: InputObject im = new InputObject(msg.substring(1, msg.length()),g);this.g.inputs.add(im);break;
-					case 1: this.g.outputs.addElement(msg.substring(1, msg.length()));;break;
 					case 2: 
 						if(!this.g.host){
 							this.g.addressHost = packet.getAddress();
@@ -60,7 +58,8 @@ public class MultiReceiver extends Thread{
 						if(msg.length()>1){
 							if(msg.substring(1, 2).equals("I")){
 								InputObject io = new InputObject(msg.substring(1, msg.length()),g);
-								this.g.toSendInputs.addElement(io.getMessageValidationToSend());
+								io.validate();
+								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 								this.g.inputsHandler.addToInputs(io);
 							}
 							//If validation message
