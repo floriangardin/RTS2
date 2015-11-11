@@ -187,7 +187,7 @@ public class MenuMapChoice extends Menu {
 						for(Player p : this.game.plateau.players){
 							this.game.toSendInputs.add(new Vector<String>());
 							this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
-							if(p!=this.game.plateau.currentPlayer && p.id!=0)
+							if(p.address!=null)
 								this.game.inputSender.lastElement().start();
 						}
 						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
