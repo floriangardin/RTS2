@@ -24,7 +24,9 @@ public class Player {
 	public TopBar topBar;
 	public Data data;
 	public boolean isReady;
+	//Network
 	public InetAddress address;
+	public long originTime;
 	
 	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
 		this.id = id;
