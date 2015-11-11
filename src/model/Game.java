@@ -253,6 +253,7 @@ public class Game extends BasicGame
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
+				this.clock.setRoundFromTime();
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
