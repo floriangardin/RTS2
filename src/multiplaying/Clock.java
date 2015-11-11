@@ -3,6 +3,7 @@ package multiplaying;
 import java.io.IOException;
 import java.util.Vector;
 
+import main.Main;
 import model.Game;
 
 public class Clock extends Thread{
@@ -71,7 +72,10 @@ public class Clock extends Thread{
 		
 	}
 	
-	//We want to find the right origin time
+	public void setRoundFromTime(){
+		long roundDuration = (long) ((1000000000f/Main.framerate));
+		this.game.round =(int) (this.getCurrentTime()/roundDuration);
+	}
 	
 	
 }
