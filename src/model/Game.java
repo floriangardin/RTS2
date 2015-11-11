@@ -48,7 +48,9 @@ public class Game extends BasicGame
 
 	//Handle inputs from you and other players
 	public InputHandler inputsHandler;
-
+	
+	//ID hos
+	public static int ID_HOST = 1;
 
 	public int idChar = 0;
 	public int idBullet = 0;

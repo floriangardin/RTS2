@@ -106,6 +106,7 @@ public class MenuMulti extends Menu {
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown");
 				}
+				this.game.getPlayerById(Game.ID_HOST).address=opengame.hostAddress;
 				game.plateau.addPlayer(this.game.options.nickname);
 				game.plateau.currentPlayer = game.plateau.players.lastElement();
 				game.setMenu(game.menuMapChoice);

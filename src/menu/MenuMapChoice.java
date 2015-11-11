@@ -360,6 +360,21 @@ public class MenuMapChoice extends Menu {
 			s+="startTime:"+this.startGame;
 			s+=";";
 		}
+		
+		//Send all ip for everyone
+		s+="ips:";
+		for(Menu_Player p : this.players){
+			if(p.p.address==null){
+				s+="null";
+			}
+			else{
+				s+=p.p.address.getHostAddress();
+			}
+			
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
 
 		return s;
 	}
@@ -371,6 +386,24 @@ public class MenuMapChoice extends Menu {
 				this.mapSelected = Integer.parseInt(hs.get("map"));
 				for(int j = 0; j<mapchoices.size(); j++){
 					mapchoices.get(j).isSelected = j==this.mapSelected;
+				}
+			}
+		}
+		
+		//Handle ip
+		if(hs.containsKey("ips")){
+			String[] ips =hs.get("ips").split(",");
+			for(int i = 0;i<ips.length;i++){
+				if(this.game.plateau.currentPlayer.id!=i){
+					if(!ips[i].equals("null")){
+						try {
+							this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
+						} catch (UnknownHostException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
 				}
 			}
 		}
