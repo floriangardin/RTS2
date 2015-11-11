@@ -17,11 +17,12 @@ public class InputHandler {
 
 	public void validate(int round,Player player){
 		// 
-		
-		for(InputObject in : inputs){
-			if(player.equals(in.player) && round==in.round){
-				in.validate(player);
+		int idx = 0;
+		while(idx<this.inputs.size()){
+			if(player.equals(this.inputs.get(idx).player) && round==this.inputs.get(idx).round){
+				this.inputs.get(idx).validate(player);
 			}
+			idx++;
 		}
 	}
 
