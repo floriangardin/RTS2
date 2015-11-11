@@ -18,7 +18,6 @@ public class Clock extends Thread{
 		this.game = g;
 		this.isMaster = this.game.isHost;
 		this.originTime = System.nanoTime();
-		this.game.plateau.currentPlayer.originTime = this.originTime;
 		this.origins = new Vector<Long>();
 	}
 	
