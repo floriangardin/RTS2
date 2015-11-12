@@ -258,7 +258,7 @@ public class Game extends BasicGame
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
-				System.out.println("Game line 258 : now in round "+this.round);
+				System.out.println("=== = = =Game line 258 : now in round "+this.round);
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());

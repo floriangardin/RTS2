@@ -33,6 +33,7 @@ public class InputHandler {
 		//If good round but not validated remove the message
 		Vector<InputObject> toReturn = new Vector<InputObject>();
 		Vector<InputObject> toRemove = new Vector<InputObject>();
+		int cause=0;
 		int i = 0;
 		while(i<this.inputs.size()){
 			InputObject in = this.inputs.get(i);
@@ -45,10 +46,12 @@ public class InputHandler {
 			//If right round but not validated, erase the input
 			else if(this.g.round==(in.round+2) && !in.isValidated()){
 				toRemove.add(in);
+				cause = 1;
 			}
 			//If too late to play this input, erase the input
 			else if(this.g.round>(in.round+2)){
 				toRemove.add(in);
+				cause = 2;
 			}
 			i++;
 		}
@@ -57,11 +60,17 @@ public class InputHandler {
 		if(toReturn.size()==this.g.plateau.players.size()-1){
 			System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
 			return toReturn;
-		} else {
-			System.out.println("InputHandler line 60: invalid or missing inputs for input round "+(round-2));
+		} else if(cause==1) {
+			System.out.println("InputHandler line 60: invalid inputs for input round "+(round-2));
 			this.g.roundDropped++;
 			return new Vector<InputObject>();
 		}
+		else if(cause==2){
+			System.out.println("InputHandler line 60: missing inputs for input round "+(round-2));
+			this.g.roundDropped++;
+			return new Vector<InputObject>();
+		}
+		else return new Vector<InputObject>();
 	}
 	
 	public Vector<InputObject> getInputs(){
