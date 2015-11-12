@@ -39,8 +39,8 @@ public class Game extends BasicGame
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
-	public static boolean debugReceiver = false;
-	public static boolean debugSender = false;
+	public static boolean debugReceiver = true;
+	public static boolean debugSender = true;
 
 	// debugging tools
 	long timeSteps = 0;
@@ -257,13 +257,7 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			//TODO suppr
-			for(Player p: this.plateau.players){
-				if(p.address!=null)
-					System.out.println(p.id+" "+p.address.getHostAddress()+" "+p.nickname);
-				else
-					System.out.println(p.id+" nature "+p.nickname);
-			}
+			
 			if(debugTimeSteps)
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
 			if(debugTimeSteps)

@@ -105,15 +105,15 @@ public class MenuMulti extends Menu {
 				this.game.connexionSender.start();
 				this.game.addressHost = opengame.hostAddress;
 				this.game.clock.start();
-				try {
-					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
-				} catch (UnknownHostException e) {}
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown",null,1,1);
 				}
 				this.game.getPlayerById(Game.ID_HOST).address=opengame.hostAddress;
 				game.plateau.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
 				game.plateau.currentPlayer = game.plateau.players.lastElement();
+				try {
+					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
+				} catch (UnknownHostException e) {}
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
