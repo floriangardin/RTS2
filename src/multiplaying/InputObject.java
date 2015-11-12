@@ -109,6 +109,7 @@ public class InputObject extends MultiObjetModel{
 
 	public InputObject(String im, Game game){
 		HashMap<String,String> content = new HashMap<String, String>(); 
+		System.out.println("InputObjet line 112: " + im);
 		String[] vaneau = im.split(",");
 		selection = new Vector<Integer>();
 		for(int i=0; i<vaneau.length-1; i++){
@@ -148,6 +149,7 @@ public class InputObject extends MultiObjetModel{
 		for(int i=0; i<10; i++){
 			if(content.containsKey(i+"")) isPressedNumPad[i] = true;
 		}
+		System.out.println("InputObjet line 152: " + this.toString());
 
 //		if(content.containsKey("sel")){
 //			String[] sel = content.get("sel").split("_");
