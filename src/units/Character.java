@@ -311,13 +311,13 @@ public class Character extends ActionObjet{
 				this.waypoints.remove(0);
 				this.move();
 			} else if(this.waypoints.size()>1 && this.c==this.waypoints.get(1)){
-				this.waypoints.remove(0);
 				this.waypoints.remove(1);
+				this.waypoints.remove(0);
 				this.move();
 			} else if(this.waypoints.size()>2 && this.c==this.waypoints.get(2)){
-				this.waypoints.remove(0);
-				this.waypoints.remove(1);
 				this.waypoints.remove(2);
+				this.waypoints.remove(1);
+				this.waypoints.remove(0);
 				this.move();
 			} else {
 				this.moveToward(this.waypoints.get(0));
