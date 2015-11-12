@@ -415,9 +415,9 @@ public class MapGrid {
 			return new Vector<Case>();
 		boolean ok = true;
 		if(x1<minX || x1>=maxX || y1<minY||y1>=maxY)
-			return null;
+			return new Vector<Case>();
 		if(x2<minX || x2>=maxX || y2<minY||y2>=maxY)
-			return null;
+			return new Vector<Case>();
 		int i=0, j=0;
 		float x = x1, y = y1;
 		while(x>Xcoord.get(i+1))
