@@ -260,7 +260,10 @@ public class Game extends BasicGame
 		} else {
 			//TODO suppr
 			for(Player p: this.plateau.players){
-				System.out.println(p.id+" "+p.address.getHostAddress()+" "+p.nickname);
+				if(p.address==null)
+					System.out.println(p.id+" "+p.address.getHostAddress()+" "+p.nickname);
+				else
+					System.out.println(p.id+" nature "+p.nickname);
 			}
 			if(debugTimeSteps)
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
