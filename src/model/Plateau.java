@@ -166,6 +166,8 @@ public class Plateau {
 			this.castingSpell.addElement(-1);
 			this.messages.addElement(new Vector<Message>());
 			this.rectangleSelection.addElement(null);
+			this.recX.addElement(0f);
+			this.recY.addElement(0f);
 		}
 		try {
 			//			System.out.println(this.g.resX+" "+this.g.resY);
