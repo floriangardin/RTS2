@@ -35,7 +35,7 @@ public class MultiReceiver extends Thread{
 			if(debug)
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
-				message = new byte[1024];
+				message = new byte[512];
 				packet = new DatagramPacket(message, message.length);
 				try{
 					server.receive(packet);
@@ -69,7 +69,9 @@ public class MultiReceiver extends Thread{
 								io.validate();
 								//Send the validation for other players
 								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
-								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());	
+								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
+								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
+								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 							}
 							//If validation message
 							else if(msg.substring(1, 2).equals("V")){
