@@ -597,36 +597,33 @@ public class Plateau {
 			//Handle minimap
 			if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 				this.handleMinimap(im, player);
+				this.handleSelection(im, player,players.get(player).getTeam());
 			}
 			
 			if(player == this.currentPlayer.id){
 				// ong�re le d�placement de la cam�ra et la s�lection
 				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
 					this.handleView(im, player);
-					this.handleSelection(im, player,players.get(player).getTeam());
 				}
-			} else {
-				// pour tous les autres on update la selection
-				this.updateSelection(im);
 			}
 			// enfin on g�re le lancement des sorts
 			//this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 			this.handleSpellsOnField(im, player, true);
 
 		} 
-		if(g.debugTimeSteps)
+		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - g.timeSteps));
 
 		// 2 - For everyone
 
 		this.collision();
-		if(g.debugTimeSteps)
+		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - g.timeSteps));
 		this.clean();
-		if(g.debugTimeSteps)
+		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin clean : " + (System.currentTimeMillis() - g.timeSteps));			
 		this.action();
-		if(g.debugTimeSteps)
+		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin action : " + (System.currentTimeMillis() - g.timeSteps));
 
 
@@ -634,7 +631,7 @@ public class Plateau {
 		// 3 - handling visibility
 		this.updateVisibility();
 
-		if(g.debugTimeSteps)
+		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin visibility : " + (System.currentTimeMillis() - g.timeSteps));
 
 		// 4 - Update of the messages
