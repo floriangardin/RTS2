@@ -839,8 +839,8 @@ public class Plateau {
 			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
 				// Put camera where the click happened
-				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
-				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
+				Xcam = (im.xMouse)-g.resX/2f;
+				Ycam = (im.yMouse)-g.resY/2f;
 			}
 		}
 		else{
