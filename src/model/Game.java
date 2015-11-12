@@ -38,7 +38,7 @@ public class Game extends BasicGame
 	// DEBUG
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
-	public static boolean debugValidation = false;
+	public static boolean debugValidation = true;
 	public static boolean debugReceiver = false;
 	public static boolean debugSender = false;
 
@@ -251,7 +251,7 @@ public class Game extends BasicGame
 	}
 	// Do our logic 
 	@Override
-	public synchronized void update(GameContainer gc, int t) throws SlickException {	
+	public void update(GameContainer gc, int t) throws SlickException {	
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
