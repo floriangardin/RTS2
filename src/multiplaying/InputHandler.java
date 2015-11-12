@@ -59,6 +59,7 @@ public class InputHandler {
 			return toReturn;
 		} else {
 			System.out.println("InputHandler line 60: invalid or missing inputs for input round "+(round-2));
+			this.g.roundDropped++;
 			return new Vector<InputObject>();
 		}
 	}
