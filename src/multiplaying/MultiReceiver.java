@@ -66,8 +66,9 @@ public class MultiReceiver extends Thread{
 								//A message coming from other players is automatically validated for yourself
 								this.g.inputsHandler.addToInputs(io);
 								io.validate();
-								//Send the validation for other players
-								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
+								//Send the validation for other players if the round is still ok
+								if(this.g.round<io.round+InputHandler.nDelay)
+									this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 							}
 							//If validation message
 							else if(msg.substring(1, 2).equals("V")){
@@ -75,8 +76,7 @@ public class MultiReceiver extends Thread{
 								String rawInput = msg.substring(1);
 								
 								if(Game.debugValidation){
-									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);
-									
+									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
 								}
 								String[] valMessage = rawInput.split("\\|");
 								int round = Integer.parseInt(valMessage[1]);
