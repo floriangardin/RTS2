@@ -279,6 +279,12 @@ public class Game extends BasicGame
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
+				if(this.host && this.round%30==0){
+					Vector<String> plateauState = this.plateau.toStringArray(256);
+					for(String s : plateauState){
+						this.sendInputToAllPlayer(s);
+					}
+				}
 				// On ajoute l'input du tour courant à l'inputhandler				
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)

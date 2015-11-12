@@ -848,6 +848,41 @@ public class Character extends ActionObjet{
 	}
 
 	public String toString(){
+		String s="";
+		s+="id:"+id+";";
+		s+="name:"+name+";";
+		s+="tm:"+this.getTeam()+";";
+		s+="x:"+(int)x+";";
+		s+="y:"+(int)y+";";
+		s+="lp:"+lifePoints+";";
+		s+="st:"+this.state;
+		return s;
+	}
+
+	public void parseCharacter(HashMap<String,String> hs){
+
+		if(hs.containsKey("state")){
+			this.state=Float.parseFloat(hs.get("state"));
+		}
+		if(hs.containsKey("x")){
+			this.x=Float.parseFloat(hs.get("x"));
+		}
+		if(hs.containsKey("y")){
+			this.x=Float.parseFloat(hs.get("y"));
+		}
+		if(hs.containsKey("lp")){
+			this.lifePoints=Float.parseFloat(hs.get("lp"));
+		}
+		if(hs.containsKey("st")){
+			this.state=Float.parseFloat(hs.get("st"));
+		}
+		if(hs.containsKey("tm")){
+			this.setTeam(Integer.parseInt(hs.get("tm")));
+		}
+	}
+	
+	@Deprecated
+	public String toStringEx(){
 		String s ="" ;
 		s+=toStringObjet();
 		s+= toStringActionObjet();
@@ -891,7 +926,7 @@ public class Character extends ActionObjet{
 		return s;
 	}
 
-	public void parseCharacter(HashMap<String,String> hs){
+	public void parseCharacterEx(HashMap<String,String> hs){
 		if(hs.containsKey("weapon")){
 			this.weapon=hs.get("weapon");
 		}

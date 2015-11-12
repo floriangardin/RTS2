@@ -73,6 +73,10 @@ public class MultiReceiver extends Thread{
 								if(this.g.round<io.round+InputHandler.nDelay)
 									this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 							}
+							
+							if(msg.substring(1, 2).equals("P")){
+								this.g.plateau.parse(msg.substring(1));
+							}
 							//If validation message
 							else if(msg.substring(1, 2).equals("V")){
 								//Get the corresponding round and player
