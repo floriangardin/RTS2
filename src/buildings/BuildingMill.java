@@ -57,7 +57,7 @@ public class BuildingMill extends BuildingTech{
 
 	
 	public void action(){
-		this.state+=0.1f;
+		this.state+=0.1f*Game.ratio;
 		if(getTeam()!=0)
 			this.animation+=2f;
 		if(animation>120f)
@@ -78,7 +78,7 @@ public class BuildingMill extends BuildingTech{
 			this.animation+=2f;
 			if(animation>120f)
 				
-			this.charge+=0.1f;
+			this.charge+=0.1f*Game.ratio;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 

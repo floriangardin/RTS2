@@ -87,7 +87,7 @@ public class BuildingUniversity extends BuildingTech {
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue!=null){
-			this.setCharge(this.charge+0.1f);
+			this.setCharge(this.charge+0.1f*Game.ratio);
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 			}
