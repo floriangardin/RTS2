@@ -19,7 +19,6 @@ public class MultiSender extends Thread{
 	Game game;
 
 	// DEBUGGING
-	private boolean debug = false;
 	int sent = 0;
 	
 	public MultiSender(InetAddress address, int port, Vector<String> depot, Game game){
@@ -35,7 +34,7 @@ public class MultiSender extends Thread{
 			DatagramSocket client = new DatagramSocket();
 			byte[] message;
 			DatagramPacket packet;
-			if(debug)
+			if(Game.debugSender)
 				System.out.println("Création d'un sender - " + port);
 			while(true){
 				if(this.depot.size()>0){
@@ -49,7 +48,7 @@ public class MultiSender extends Thread{
 					client.send(packet);
 					sent++;
 					//System.out.println("sent :" + sent);
-					if(debug)
+					if(Game.debugSender)
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}

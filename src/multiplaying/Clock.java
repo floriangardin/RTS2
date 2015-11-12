@@ -59,7 +59,7 @@ public class Clock extends Thread{
 			this.originTime += o;
 		}
 		this.originTime/=this.origins.size();
-		System.out.println("Clock line 61 : Synchro clock");
+		//System.out.println("Clock line 61 : Synchro clock");
 	}
 	
 	public void	getPing(){
