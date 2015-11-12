@@ -105,7 +105,6 @@ public class Game extends BasicGame
 	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
-	public InetAddress addressClient;
 	//public Vector<InputObject> inputs = new Vector<InputObject>();
 	public Vector<Vector<String>> toSendInputs = new Vector<Vector<String>>();
 	public Vector<String> toSendConnexions = new Vector<String>();

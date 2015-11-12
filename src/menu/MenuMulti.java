@@ -105,6 +105,9 @@ public class MenuMulti extends Menu {
 				this.game.connexionSender.start();
 				this.game.addressHost = opengame.hostAddress;
 				this.game.clock.start();
+				try {
+					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
+				} catch (UnknownHostException e) {}
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown",null,1,1);
 				}
@@ -138,11 +141,6 @@ public class MenuMulti extends Menu {
 	}
 
 	public void update(Input i){
-		try {
-			game.addressClient = InetAddress.getLocalHost();
-		} catch (UnknownHostException e2) {
-			e2.printStackTrace();
-		}
 		if(this.game.connexions.size()>0){
 			String s = this.game.connexions.remove(0);
 			HashMap<String, String> hashmap = Objet.preParse(s);
