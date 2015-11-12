@@ -307,6 +307,7 @@ public class Game extends BasicGame
 
 			} else {
 				ims.add(im);
+				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				// solo mode
 				this.plateau.update(ims);
 				if(debugTimeSteps)
