@@ -16,7 +16,7 @@ public class BottomBar extends Bar {
 	public MinimapInterface minimap;
 	public ActionInterface action;
 	public PathInterface path;
-
+	public TopBar topBar;
 
 	
 	public BottomBar(Plateau p , int resX, int resY){
@@ -52,6 +52,7 @@ public class BottomBar extends Bar {
 		this.minimap = new MinimapInterface(this);
 		this.action = new ActionInterface(this);
 		this.path = new PathInterface(this);
+		this.topBar = new TopBar(this.p,resX,resY);
 	}
 
 	public Graphics draw(Graphics g){
