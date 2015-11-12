@@ -260,7 +260,7 @@ public class Game extends BasicGame
 		} else {
 			//TODO suppr
 			for(Player p: this.plateau.players){
-				if(p.address==null)
+				if(p.address!=null)
 					System.out.println(p.id+" "+p.address.getHostAddress()+" "+p.nickname);
 				else
 					System.out.println(p.id+" nature "+p.nickname);
