@@ -77,6 +77,11 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedProd3 = input.isKeyPressed(Input.KEY_V);
 		this.isPressedA = input.isKeyDown(Input.KEY_A);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
+		if(isPressedA){
+			BottomBar b = player.bottomBar;
+			this.xMouse = (int) Math.floor((this.xMouse-(int)g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
+			this.yMouse = (int) Math.floor((this.yMouse-(int)g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
+		}
 
 		
 		// Only for current player at the creation of the input

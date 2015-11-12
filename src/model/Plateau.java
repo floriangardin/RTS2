@@ -156,7 +156,7 @@ public class Plateau {
 		this.isCastingSpell = new Vector<Boolean>();
 		this.hasCastSpell = new Vector<Boolean>();
 		this.castingSpell = new Vector<Integer>();
-		
+
 		for(int i =0; i<nPlayers;i++){
 			this.selection.addElement(new Vector<ActionObjet>());
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
@@ -688,11 +688,9 @@ public class Plateau {
 				isCastingSpell.set(player,false);
 				castingSpell.set(player,-1);
 			} else if(im.isPressedMAJ ){
-				if(!im.isPressedA)
-					updateSecondaryTarget(im.xMouse,im.yMouse,player);
+				updateSecondaryTarget(im.xMouse,im.yMouse,player);
 			} else {
-				if(!im.isPressedA)
-					updateTarget(im.xMouse,im.yMouse,player);
+				updateTarget(im.xMouse,im.yMouse,player);
 			}
 		}
 	}
@@ -843,17 +841,6 @@ public class Plateau {
 				// Put camera where the click happened
 				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
 				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
-
-			}
-			if(im.rightClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
-					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
-				// Handle right click
-				if(im.isPressedMAJ){
-					updateSecondaryTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
-				} else {				
-					updateTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
-				}
-
 			}
 		}
 		else{
