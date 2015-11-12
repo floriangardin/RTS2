@@ -63,12 +63,14 @@ public class InputHandler {
 		} else if(cause==1) {
 			System.out.println("InputHandler line 60: invalid inputs for input round "+(round-2));
 			this.g.roundDropped++;
+			this.g.vroundDropped.addElement(this.g.round);
 			this.g.roundDroppedValidate++;
 			return new Vector<InputObject>();
 		}
 		else{
 			System.out.println("InputHandler line 60: missing inputs for input round "+(round-2));
 			this.g.roundDroppedMissing++;
+			this.g.vroundMissing.addElement(this.g.round);
 			this.g.roundDropped++;
 			return new Vector<InputObject>();
 		}

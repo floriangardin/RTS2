@@ -110,6 +110,8 @@ public class Game extends BasicGame
 	//Debugging network
 	public int toAdd = 0;
 	public int toRemove = 0;
+	public Vector<Integer> vroundDropped=new Vector<Integer>();
+	public Vector<Integer> vroundMissing = new Vector<Integer>();
 	
 	//Debug paquets dropped
 	public int roundDropped=0;
@@ -272,6 +274,17 @@ public class Game extends BasicGame
 				System.out.println("Game line 266 : Paquets dropped missing: "+this.roundDroppedMissing);
 				System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
 				System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
+				
+				System.out.println("Game ROUND DROPPED : ");
+				for(Integer i : this.vroundDropped){
+					System.out.println(i+",");
+				}
+				
+				System.out.println("Game ROUND MISSED : ");
+				for(Integer i : this.vroundMissing){
+					System.out.println(i+",");
+				}
+				
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
