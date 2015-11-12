@@ -110,7 +110,9 @@ public class Game extends BasicGame
 	//Debugging network
 	public int toAdd = 0;
 	public int toRemove = 0;
-
+	
+	//Debug paquets dropped
+	public int roundDropped=0;
 	// Menus
 	public Menu menuPause;
 	public MenuIntro menuIntro;
@@ -264,7 +266,7 @@ public class Game extends BasicGame
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)
 					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
-
+				System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
