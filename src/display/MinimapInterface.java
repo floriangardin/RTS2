@@ -40,6 +40,11 @@ public class MinimapInterface extends Bar {
 		rh = h/this.p.maxY;
 		this.toDraw = false;
 	}
+	
+	public void update(){
+		rw = w/this.p.maxX;
+		rh = h/this.p.maxY;
+	}
 
 	public Graphics draw(Graphics g){
 		// Draw the minimap 
