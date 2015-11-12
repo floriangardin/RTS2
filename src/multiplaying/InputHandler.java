@@ -21,6 +21,7 @@ public class InputHandler {
 		while(idx<this.inputs.size()){
 			if(player.equals(this.inputs.get(idx).player) && round==this.inputs.get(idx).round){
 				this.inputs.get(idx).validate(player);
+				break;
 			}
 			idx++;
 		}
