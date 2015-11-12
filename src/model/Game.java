@@ -223,8 +223,8 @@ public class Game extends BasicGame
 		g.translate(plateau.Xcam, plateau.Ycam);
 		if(this.plateau.currentPlayer.bottomBar!=null)
 			this.plateau.currentPlayer.bottomBar.draw(g);
-		if(this.plateau.currentPlayer.topBar!=null)
-			this.plateau.currentPlayer.topBar.draw(g);
+		if(this.plateau.currentPlayer.bottomBar.topBar!=null)
+			this.plateau.currentPlayer.bottomBar.topBar.draw(g);
 		// Draw messages
 		Message m;
 		if(this.plateau.messages.size()>2){
@@ -233,7 +233,7 @@ public class Game extends BasicGame
 				g.setColor(m.color);
 				Font f = g.getFont();
 				float height = f.getHeight(m.message);
-				g.drawString(m.message, 20f, this.plateau.currentPlayer.topBar.sizeY+20f+2f*height*k);
+				g.drawString(m.message, 20f, this.plateau.currentPlayer.bottomBar.topBar.sizeY+20f+2f*height*k);
 			}
 		}
 
