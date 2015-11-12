@@ -46,6 +46,7 @@ public class InputHandler {
 			}
 			//If right round but not validated, erase the input
 			else if(this.g.round==(in.round+2) && !in.isValidated()){
+				this.g.vroundDropped.addElement(in.id);
 				cause = 1;
 			}
 			//If too late to play this input, erase the input
@@ -64,7 +65,6 @@ public class InputHandler {
 		} else if(cause==1) {
 			System.out.println("InputHandler line 60: invalid inputs for input round "+(round-2));
 			this.g.roundDropped++;
-			this.g.vroundDropped.addElement(this.g.round);
 			this.g.roundDroppedValidate++;
 			return new Vector<InputObject>();
 		}

@@ -275,16 +275,16 @@ public class Game extends BasicGame
 				System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
 				System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
 				
-				System.out.println("Game ROUND DROPPED : ");
+				System.out.println("Game ROUND DROPPED UNVALIDATED: ");
 				for(Integer i : this.vroundDropped){
-					System.out.println(i+",");
+					System.out.print(i+",");
 				}
-				
+				System.out.println();
 				System.out.println("Game ROUND MISSED : ");
 				for(Integer i : this.vroundMissing){
-					System.out.println(i+",");
+					System.out.print(i+",");
 				}
-				
+				System.out.println();
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
