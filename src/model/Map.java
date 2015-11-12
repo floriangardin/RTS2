@@ -56,8 +56,8 @@ public class Map {
 
 	public static void createMapDuelSmall(Game game){
 		game.plateau.setMaxXMaxY(2000f, 3000f);
-		Data data1 = game.plateau.players.get(1).data;
-		Data data2 = game.plateau.players.get(2).data;
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
 		
 		// Team 1 side
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,200f,1);
@@ -111,6 +111,7 @@ public class Map {
 
 	}
 	
+	
 	public static void createMapDuelLarge(Game game){
 		game.plateau.setMaxXMaxY(5000f, 2500f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
@@ -139,7 +140,7 @@ public class Map {
 		new BuildingMine(game.plateau,game,X/18,1*Y/5);
 		new BuildingMine(game.plateau,game,17*X/18,1*Y/5);
 		
-		BuildingBarrack bar = new BuildingBarrack(game.plateau,game,3*X/18,1*Y/5);
+		new BuildingBarrack(game.plateau,game,3*X/18,1*Y/5);
 
 		new BuildingBarrack(game.plateau,game,15*X/18,1*Y/5);
 		
