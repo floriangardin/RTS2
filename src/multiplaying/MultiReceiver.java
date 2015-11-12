@@ -33,7 +33,10 @@ public class MultiReceiver extends Thread{
 			if(Game.debugReceiver)
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
-				message = new byte[256];
+				if(g.isInMenu)
+					message = new byte[256];
+				else 
+					message = new byte[128];
 
 				packet = new DatagramPacket(message, message.length);
 				try{
