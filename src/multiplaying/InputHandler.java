@@ -51,8 +51,9 @@ public class InputHandler {
 			//If too late to play this input, erase the input
 			else if(this.g.round>(in.round+2)){
 				toRemove.add(in);
-				cause = 2;
+				
 			}
+
 			i++;
 		}
 		//Remove mark as treated inputs
@@ -66,13 +67,13 @@ public class InputHandler {
 			this.g.roundDroppedValidate++;
 			return new Vector<InputObject>();
 		}
-		else if(cause==2){
+		else{
 			System.out.println("InputHandler line 60: missing inputs for input round "+(round-2));
-			this.g.roundDropped++;
 			this.g.roundDroppedMissing++;
+			this.g.roundDropped++;
 			return new Vector<InputObject>();
 		}
-		else return new Vector<InputObject>();
+		
 	}
 	
 	public Vector<InputObject> getInputs(){
