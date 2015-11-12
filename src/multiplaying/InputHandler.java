@@ -57,6 +57,7 @@ public class InputHandler {
 
 			i++;
 		}
+		
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
 		if(toReturn.size()==this.g.plateau.players.size()-1){
