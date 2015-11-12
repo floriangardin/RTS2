@@ -158,7 +158,8 @@ public class InputObject extends MultiObjetModel{
 		this.validated = new Vector<Boolean>();
 		for(Player p:game.plateau.players)
 			validated.add(false);
-		System.out.println("InputObject line 157 : New input from "+this.player.id+" coming from round "+this.round);
+		if(Game.debugValidation)
+			System.out.println("InputObject line 157 : New input from "+this.player.id+" coming from round "+this.round);
 	}
 
 	public String toString(){

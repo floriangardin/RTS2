@@ -38,6 +38,10 @@ public class Game extends BasicGame
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
+	public static boolean debugReceiver = false;
+	public static boolean debugSender = false;
+
+	// debugging tools
 	long timeSteps = 0;
 	public int round = 0;
 	public int roundDebug = 0;
@@ -49,7 +53,7 @@ public class Game extends BasicGame
 
 	//Handle inputs from you and other players
 	public InputHandler inputsHandler;
-	
+
 	//ID hos
 	public static int ID_HOST = 1;
 
@@ -113,7 +117,7 @@ public class Game extends BasicGame
 	public int toRemove = 0;
 	public Vector<Integer> vroundDropped=new Vector<Integer>();
 	public Vector<Integer> vroundMissing = new Vector<Integer>();
-	
+
 	//Debug paquets dropped
 	public int roundDropped=0;
 	public int roundDroppedValidate = 0;
@@ -265,7 +269,8 @@ public class Game extends BasicGame
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
-				System.out.println("=== = = =Game line 258 : now in round "+this.round);
+				if(Game.debugValidation)
+					System.out.println("=== = = =Game line 258 : now in round "+this.round);
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
@@ -273,20 +278,22 @@ public class Game extends BasicGame
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)
 					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
-				System.out.println("Game line 266 : Paquets dropped missing: "+this.roundDroppedMissing);
-				System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
-				System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
-				
-				System.out.println("Game ROUND DROPPED UNVALIDATED: ");
-				for(Integer i : this.vroundDropped){
-					System.out.print(i+",");
+				if(Game.debugValidation){
+					System.out.println("Game line 266 : Paquets dropped missing: "+this.roundDroppedMissing);
+					System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
+					System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
+
+					System.out.println("Game ROUND DROPPED UNVALIDATED: ");
+					for(Integer i : this.vroundDropped){
+						System.out.print(i+",");
+					}
+					System.out.println();
+					System.out.println("Game ROUND MISSED : ");
+					for(Integer i : this.vroundMissing){
+						System.out.print(i+",");
+					}
+					System.out.println();
 				}
-				System.out.println();
-				System.out.println("Game ROUND MISSED : ");
-				for(Integer i : this.vroundMissing){
-					System.out.print(i+",");
-				}
-				System.out.println();
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
@@ -369,14 +376,15 @@ public class Game extends BasicGame
 			if(i!=0 && i!=plateau.currentPlayer.id){
 				toSendInputs.get(i).add(s);
 			}
-		System.out.println("Game line 351 : Sending inputs to all players for round "+this.round);
+		if(Game.debugValidation)
+			System.out.println("Game line 351 : Sending inputs to all players for round "+this.round);
 	}
 
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-		
+
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);

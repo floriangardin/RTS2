@@ -19,8 +19,6 @@ public class MultiReceiver extends Thread{
 
 
 	// DEBUGGING
-	private boolean debug = false;
-	public boolean debugValidation = true;
 
 
 	public MultiReceiver(Game g, int port){
@@ -32,7 +30,7 @@ public class MultiReceiver extends Thread{
 	public void run(){
 		try{
 			this.server = new DatagramSocket(port);
-			if(debug)
+			if(Game.debugReceiver)
 				System.out.println("Cr�ation d'un receiver - " + port);
 			while(!server.isClosed()){
 				message = new byte[512];
@@ -43,7 +41,7 @@ public class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-				if(debug) System.out.println("port : " + port + " message received: " + msg);
+				if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg);
 				this.g.nbPaquetReceived++;
 				if(msg.length()>0){
 					int c = Integer.parseInt(msg.substring(0,1));
@@ -61,7 +59,7 @@ public class MultiReceiver extends Thread{
 								InputObject io = new InputObject(msg.substring(2, msg.length()),g);
 								
 								
-								if(debugValidation){
+								if(Game.debugValidation){
 									System.out.println("MultiReceiver line 63 input received at round "+ this.g.round);
 								}
 								//A message coming from other players is automatically validated for yourself
@@ -76,7 +74,7 @@ public class MultiReceiver extends Thread{
 								//Get the corresponding round and player
 								String rawInput = msg.substring(1);
 								
-								if(debugValidation){
+								if(Game.debugValidation){
 									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);
 									
 								}

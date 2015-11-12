@@ -159,8 +159,8 @@ public class MenuMapChoice extends Menu {
 		//Checking starting of the game
 		if(startGame!=0){
 			if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
-				System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
-				System.out.println("Current time: "+this.game.clock.getCurrentTime());
+				//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
+				//System.out.println("Current time: "+this.game.clock.getCurrentTime());
 				this.game.sounds.buzz.play();
 				seconds--;
 			} else if (startGame<=this.game.clock.getCurrentTime()) {

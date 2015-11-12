@@ -849,9 +849,7 @@ public class Plateau {
 	}
 	
 	public void handleMinimap(InputObject im, int player){
-		System.out.println("Plateau line 852 : handleminimap callded");
 		if(im.isPressedA){
-			System.out.println("Plateau line 852 : isPressedA");
 			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
 			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
