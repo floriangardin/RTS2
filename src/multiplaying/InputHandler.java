@@ -61,16 +61,19 @@ public class InputHandler {
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
 		if(toReturn.size()>=this.g.plateau.players.size()-1){
-			System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
+			if(Game.debugValidation)
+				System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
 			return toReturn;
 		} else if(cause==1) {
-			System.out.println("InputHandler line 60: invalid inputs for input round "+(round-2));
+			if(Game.debugValidation)
+				System.out.println("InputHandler line 60: invalid inputs for input round "+(round-2));
 			this.g.roundDropped++;
 			this.g.roundDroppedValidate++;
 			return new Vector<InputObject>();
 		}
 		else{
-			System.out.println("InputHandler line 60: missing inputs for input round "+(round-2));
+			if(Game.debugValidation)
+				System.out.println("InputHandler line 60: missing inputs for input round "+(round-2));
 			this.g.roundDroppedMissing++;
 			this.g.vroundMissing.addElement(this.g.round);
 			this.g.roundDropped++;
