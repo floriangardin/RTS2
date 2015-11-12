@@ -147,13 +147,13 @@ public class MinimapInterface extends Bar {
 		return g;
 	}
 
-	public void createRandomLine(){
-		x1 = (float)(Math.random()*game.plateau.maxX);
-		x2 = (float)(Math.random()*game.plateau.maxX);
-		y1 = (float)(Math.random()*game.plateau.maxY);
-		y2 = (float)(Math.random()*game.plateau.maxY);
-		cases = game.plateau.mapGrid.isLineOk(x1, y1, x2, y2);
-		isPossibleLine = (cases.size()>0);
-		isVisibleLine = true;
-	}
+//	public void createRandomLine(){
+//		x1 = (float)(Math.random()*game.plateau.maxX);
+//		x2 = (float)(Math.random()*game.plateau.maxX);
+//		y1 = (float)(Math.random()*game.plateau.maxY);
+//		y2 = (float)(Math.random()*game.plateau.maxY);
+//		cases = game.plateau.mapGrid.isLineOk(x1, y1, x2, y2);
+//		isPossibleLine = (cases.size()>0);
+//		isVisibleLine = true;
+//	}
 }

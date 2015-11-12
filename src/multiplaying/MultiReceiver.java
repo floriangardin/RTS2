@@ -66,6 +66,8 @@ public class MultiReceiver extends Thread{
 								io.validate();
 								//Send the validation for other players
 								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
+								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
+								this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 								this.g.inputsHandler.addToInputs(io);
 							}
 							//If validation message
