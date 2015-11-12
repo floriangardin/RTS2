@@ -86,8 +86,8 @@ public class Plateau {
 	public Vector<SpellEffect> toRemoveSpells;
 
 	public Vector<Rectangle> rectangleSelection;
-	public float recX ;
-	public float recY ;
+	public Vector<Float> recX ;
+	public Vector<Float> recY ;
 	public Vector<ActionObjet> inRectangle ;
 
 	public Vector<Boolean> isCastingSpell;
@@ -146,6 +146,8 @@ public class Plateau {
 		this.toAddSelection = new Vector<Vector<ActionObjet>>();
 		this.toRemoveSelection = new Vector<Vector<ActionObjet>>();
 		this.rectangleSelection = new Vector<Rectangle>();
+		this.recX = new Vector<Float>();
+		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<ActionObjet>();
 		//MESSAGES
 		this.messages = new Vector<Vector<Message>>();
@@ -204,6 +206,8 @@ public class Plateau {
 		this.castingSpell.addElement(-1);
 		this.messages.addElement(new Vector<Message>());
 		this.rectangleSelection.addElement(null);
+		this.recX.addElement(0f);
+		this.recY.addElement(0f);
 
 	}
 
@@ -222,6 +226,8 @@ public class Plateau {
 		this.castingSpell.remove(indice);
 		this.messages.remove(indice);
 		this.rectangleSelection.remove(indice);
+		this.recX.remove(indice);
+		this.recY.remove(indice);
 	}
 	// functions that handle buffers
 
@@ -983,12 +989,12 @@ public class Plateau {
 			return;
 		}
 		if(this.rectangleSelection.get(player)==null || im.isPressedCTRL){
-			recX = (float)im.xMouse;
-			recY = (float)im.yMouse;
-			rectangleSelection.set(player,new Rectangle(recX,recY,0.1f,0.1f)) ;
+			recX.set(player, (float)im.xMouse) ;
+			recY.set(player, (float)im.yMouse) ;
+			rectangleSelection.set(player,new Rectangle(recX.get(player),recX.get(player),0.1f,0.1f)) ;
 		}
-		rectangleSelection.get(player).setBounds( (float)Math.min(recX,im.xMouse), (float)Math.min(recY, im.yMouse),
-				(float)Math.abs(im.xMouse-recX)+0.1f, (float)Math.abs(im.yMouse-recY)+0.1f);
+		rectangleSelection.get(player).setBounds( (float)Math.min(recX.get(player),im.xMouse), (float)Math.min(recY.get(player), im.yMouse),
+				(float)Math.abs(im.xMouse-recX.get(player))+0.1f, (float)Math.abs(im.yMouse-recY.get(player))+0.1f);
 	}
 	public void updateSelection(Rectangle select,int player, int team){
 		if(select!=null){
