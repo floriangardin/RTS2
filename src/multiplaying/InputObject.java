@@ -115,46 +115,46 @@ public class InputObject extends MultiObjetModel{
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
 		}
 		this.id = Integer.parseInt(content.get("id"));
-		this.player = game.getPlayerById(Integer.parseInt(content.get("idPlayer")));
-		this.round = Integer.parseInt(content.get("round"));
-		this.xMouse = Integer.parseInt(content.get("xMouse"));
-		this.yMouse = Integer.parseInt(content.get("yMouse"));
-		if(content.containsKey("rightClick"))
+		this.player = game.getPlayerById(Integer.parseInt(content.get("idP")));
+		this.round = Integer.parseInt(content.get("rnd"));
+		this.xMouse = Integer.parseInt(content.get("xM"));
+		this.yMouse = Integer.parseInt(content.get("yM"));
+		if(content.containsKey("rC"))
 			rightClick = true;
-		if(content.containsKey("leftClick"))
+		if(content.containsKey("lC"))
 			leftClick = true;
-		if(content.containsKey("pressedRightClick")) pressedRightClick= true;
-		if(content.containsKey("pressedLeftClick")) pressedLeftClick= true;
+		if(content.containsKey("pRC")) pressedRightClick= true;
+		if(content.containsKey("pLC")) pressedLeftClick= true;
 
 		if(content.containsKey("ESC")) isPressedESC= true;
 		if(content.containsKey("MAJ")) isPressedMAJ= true;
-		if(content.containsKey("CTRL")) isPressedCTRL= true;
-		if(content.containsKey("BACK")) isPressedBACK= true;
+		if(content.containsKey("CTR")) isPressedCTRL= true;
+		if(content.containsKey("BCK")) isPressedBACK= true;
 		if(content.containsKey("DOT")) isPressedDOT= true;
-		if(content.containsKey("ENTER")) isPressedENTER= true;
+		if(content.containsKey("ENT")) isPressedENTER= true;
 		if(content.containsKey("TAB")) isPressedTAB= true;
-		if(content.containsKey("LEFT")) isPressedLEFT= true;
-		if(content.containsKey("RIGHT")) isPressedRIGHT= true;
+		if(content.containsKey("LFT")) isPressedLEFT= true;
+		if(content.containsKey("RGT")) isPressedRIGHT= true;
 		if(content.containsKey("UP")) isPressedUP= true;
-		if(content.containsKey("DOWN")) isPressedDOWN= true;
+		if(content.containsKey("DWN")) isPressedDOWN= true;
 		if(content.containsKey("A")) isPressedA= true;
 		if(content.containsKey("B")) isPressedB= true;
 
-		if(content.containsKey("Prod0")) isPressedProd0= true;
-		if(content.containsKey("Prod1")) isPressedProd1= true;
-		if(content.containsKey("Prod2")) isPressedProd2= true;
-		if(content.containsKey("Prod3")) isPressedProd3= true;
+		if(content.containsKey("P0")) isPressedProd0= true;
+		if(content.containsKey("P1")) isPressedProd1= true;
+		if(content.containsKey("P2")) isPressedProd2= true;
+		if(content.containsKey("P3")) isPressedProd3= true;
 
 		for(int i=0; i<10; i++){
 			if(content.containsKey(i+"")) isPressedNumPad[i] = true;
 		}
 
-		if(content.containsKey("selection")){
-			String[] sel = content.get("selection").split("_");
-			for(int i=0; i<sel.length;i++){
-				this.selection.addElement(Integer.parseInt(sel[i]));
-			}
-		}
+//		if(content.containsKey("sel")){
+//			String[] sel = content.get("sel").split("_");
+//			for(int i=0; i<sel.length;i++){
+//				this.selection.addElement(Integer.parseInt(sel[i]));
+//			}
+//		}
 		this.validated = new Vector<Boolean>();
 		for(Player p:game.plateau.players)
 			validated.add(false);
@@ -164,45 +164,37 @@ public class InputObject extends MultiObjetModel{
 	public String toString(){
 		//Add header with type message, round , player;
 		String s = "3I";
-		s+="idPlayer:" +player.id+ ",round:"+round+",xMouse:"+xMouse+",yMouse:"+yMouse;
+		s+="idP:" +player.id+ ",rnd:"+round+",xM:"+xMouse+",yM:"+yMouse;
 		s+=",id:"+this.id;
 		if(rightClick)
-			s+=",rightClick: ";
+			s+=",rC: ";
 		if(leftClick)
-			s+=",leftClick: ";
+			s+=",lC: ";
 
-		if(pressedRightClick) s+=",pressedRightClick: ";
-		if(pressedLeftClick) s+=",pressedLeftClick: ";
+		if(pressedRightClick) s+=",pRC: ";
+		if(pressedLeftClick) s+=",pLC: ";
 
 		if(isPressedESC) s+=",ESC: ";
 		if(isPressedMAJ) s+=",MAJ: ";
-		if(isPressedCTRL) s+=",CTRL: ";
-		if(isPressedBACK) s+=",BACK: ";
+		if(isPressedCTRL) s+=",CTR: ";
+		if(isPressedBACK) s+=",BCK: ";
 		if(isPressedDOT) s+=",DOT: ";
-		if(isPressedENTER) s+=",ENTER: ";
+		if(isPressedENTER) s+=",ENT: ";
 		if(isPressedTAB) s+=",TAB: ";
-		if(isPressedLEFT) s+=",LEFT: ";
-		if(isPressedRIGHT) s+=",RIGHT: ";
+		if(isPressedLEFT) s+=",LFT: ";
+		if(isPressedRIGHT) s+=",RGT: ";
 		if(isPressedUP) s+=",UP: ";
-		if(isPressedDOWN) s+=",DOWN: ";
+		if(isPressedDOWN) s+=",DWN: ";
 
-		if(isPressedProd0) s+=",Prod0: ";
-		if(isPressedProd1) s+=",Prod1: ";
-		if(isPressedProd2) s+=",Prod2: ";
-		if(isPressedProd3) s+=",Prod3: ";
+		if(isPressedProd0) s+=",P0: ";
+		if(isPressedProd1) s+=",P1: ";
+		if(isPressedProd2) s+=",P2: ";
+		if(isPressedProd3) s+=",P3: ";
 		if(isPressedA) s+=",A: ";
 		if(isPressedB) s+=",B: ";
 
 		for(int i=0; i<10; i++)
 			s+=(isPressedNumPad[i] ? ","+i+": " : "");
-
-
-		if(this.selection.size()>0){
-			s+=",selection:";
-			for(Integer i : this.selection)
-				s+=i+"_";
-		}
-		s+=",";
 		return s;
 	}
 
@@ -210,12 +202,13 @@ public class InputObject extends MultiObjetModel{
 	public void validate(Player player){
 		if(validated.size()>player.id){
 			validated.set(player.id-1,true);
-			System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
+			if(Game.debugValidation)
+				System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
 		}
 		else{
-			System.out.println("InputObjet line 242, putain glandu");
+			if(Game.debugValidation)
+				System.out.println("InputObjet line 242, putain glandu");
 		}
-
 	}
 
 	public void validate(){
