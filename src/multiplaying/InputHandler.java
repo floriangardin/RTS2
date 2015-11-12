@@ -46,20 +46,18 @@ public class InputHandler {
 			}
 			//If right round but not validated, erase the input
 			else if(this.g.round==(in.round+2) && !in.isValidated()){
-				toRemove.add(in);
 				cause = 1;
 			}
 			//If too late to play this input, erase the input
 			else if(this.g.round>(in.round+2)){
 				toRemove.add(in);
-				
 			}
 
 			i++;
 		}
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
-		if(toReturn.size()==this.g.plateau.players.size()-1){
+		if(toReturn.size()>=this.g.plateau.players.size()-1){
 			System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
 			return toReturn;
 		} else if(cause==1) {
