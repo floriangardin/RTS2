@@ -19,6 +19,7 @@ import bullets.Bullet;
 import display.BottomBar;
 import display.Message;
 import display.TopBar;
+import main.Main;
 import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
@@ -49,7 +50,10 @@ public class Game extends BasicGame
 	public int nbPaquetReceived = 0;
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
-
+	
+	//Increment de game
+	
+	public static float ratio = 60f/((float)Main.framerate);
 
 	//Handle inputs from you and other players
 	public InputHandler inputsHandler;
@@ -385,7 +389,8 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-
+		
+		
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);

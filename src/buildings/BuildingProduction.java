@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import display.Message;
+import model.Game;
 import units.Character;
 import units.UnitsList;
 
@@ -38,7 +39,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 
 
-			this.setCharge(this.charge+0.1f);
+			this.setCharge(this.charge+0.1f*Game.ratio);
 			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
 				float dirX = this.rallyPoint.x-this.x;
@@ -75,7 +76,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.getGameTeam().gold += this.productionList.get(queue.get(this.queue.size()-1)).goldPrice;
 			this.queue.remove(this.queue.size()-1);
 			if(this.queue.size()==0){
-				this.setCharge(this.charge+0.1f);
+				this.setCharge(this.charge+0.1f*Game.ratio);
 			}
 		}
 

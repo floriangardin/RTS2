@@ -784,7 +784,7 @@ public class Character extends ActionObjet{
 	public void updateChargeTime(){
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
 		if(this.state<=this.chargeTime)
-			this.state+= 0.1f;
+			this.state+= 0.1f*Game.ratio;
 
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
