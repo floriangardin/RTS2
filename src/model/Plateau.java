@@ -1064,7 +1064,6 @@ public class Plateau {
 			return;
 		this.messages.get(player).add(0, m);
 	}
-
 	//MULTIPLAYING
 	public Vector<String> toStringArray(int sizeMessage){
 		// We consider a character is of length 50
@@ -1090,12 +1089,8 @@ public class Plateau {
 				s+="!";
 			}
 		}
-
 		return result;
 	}
-
-
-
 
 public void parse(String s){
 

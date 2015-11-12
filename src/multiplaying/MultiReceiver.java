@@ -62,7 +62,6 @@ public class MultiReceiver extends Thread{
 							if(msg.substring(1, 2).equals("I")){
 								InputObject io = new InputObject(msg.substring(2, msg.length()),g);
 								
-								
 								if(Game.debugValidation){
 									System.out.println("MultiReceiver line 63 input received at round "+ this.g.round);
 								}

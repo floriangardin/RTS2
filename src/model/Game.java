@@ -279,11 +279,13 @@ public class Game extends BasicGame
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
-				if(this.host && this.round%30==0){
-					Vector<String> plateauState = this.plateau.toStringArray(256);
-					for(String s : plateauState){
-						this.sendInputToAllPlayer(s);
-					}
+//				if(this.host && this.round%30==0){
+//					Vector<String> plateauState = this.plateau.toStringArray(256);
+//					System.out.println("New state to send");
+//					for(String s : plateauState){
+//						this.sendInputToAllPlayer(s);
+//					}
+//					System.out.println("inputs sent");
 				}
 				// On ajoute l'input du tour courant à l'inputhandler				
 				this.inputsHandler.addToInputs(im);
@@ -307,7 +309,8 @@ public class Game extends BasicGame
 				}
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				ims = this.inputsHandler.getInputsForRound(this.round);
-				this.plateau.update(ims);
+				if(ims.size()!=0)
+					this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
