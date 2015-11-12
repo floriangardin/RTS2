@@ -123,6 +123,7 @@ public class Game extends BasicGame
 	public MenuMapChoice menuMapChoice;
 	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
+	public int idInput;
 
 	public void quitMenu(){
 		this.isInMenu = false;

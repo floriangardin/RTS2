@@ -15,11 +15,11 @@ public class InputHandler {
 		this.g = g;
 	}
 
-	public void validate(int round,Player player){
+	public void validate(int id,Player player){
 		// 
 		int idx = 0;
 		while(idx<this.inputs.size()){
-			if(player.equals(this.inputs.get(idx).player) && round==this.inputs.get(idx).round){
+			if(player.equals(this.inputs.get(idx).player) && id==this.inputs.get(idx).id){
 				this.inputs.get(idx).validate(player);
 				break;
 			}

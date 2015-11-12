@@ -22,7 +22,7 @@ public class InputObject extends MultiObjetModel{
 
 	public boolean pressedRightClick;
 	public boolean pressedLeftClick;
-
+	public int id;
 	public boolean isPressedESC;
 	public boolean isPressedMAJ;
 	public boolean isPressedCTRL;
@@ -48,7 +48,10 @@ public class InputObject extends MultiObjetModel{
 
 	public Vector<Integer> selection;
 
+
 	public InputObject (Game g, Player player, Input input){
+		this.id= g.idInput;
+		g.idInput ++;
 		this.player = player;
 		this.round = g.round;
 		this.rightClick = input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
@@ -111,6 +114,7 @@ public class InputObject extends MultiObjetModel{
 		for(int i=0; i<vaneau.length-1; i++){
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
 		}
+		this.id = Integer.parseInt(content.get("id"));
 		this.player = game.getPlayerById(Integer.parseInt(content.get("idPlayer")));
 		this.round = Integer.parseInt(content.get("round"));
 		this.xMouse = Integer.parseInt(content.get("xMouse"));
@@ -161,7 +165,7 @@ public class InputObject extends MultiObjetModel{
 		//Add header with type message, round , player;
 		String s = "3I";
 		s+="idPlayer:" +player.id+ ",round:"+round+",xMouse:"+xMouse+",yMouse:"+yMouse;
-
+		s+=",id:"+this.id;
 		if(rightClick)
 			s+=",rightClick: ";
 		if(leftClick)
