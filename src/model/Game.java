@@ -192,7 +192,7 @@ public class Game extends BasicGame
 		for(NaturalObjet o : this.plateau.naturalObjets){
 			o.draw(g);
 		}
-		// Draw the enemy generators
+		// Draw the buildings
 		for(Building e : this.plateau.buildings){
 			if(e.visibleByCurrentPlayer)
 				toDrawAfter.add(e);
@@ -391,4 +391,5 @@ public class Game extends BasicGame
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
 
 	}
+
 }
