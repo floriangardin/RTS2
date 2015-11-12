@@ -41,7 +41,9 @@ public class MinimapInterface extends Bar {
 		this.toDraw = false;
 	}
 	
-	public void update(){
+	public void update(Game game){
+		this.game = game;
+		this.p = game.plateau;
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
 	}
