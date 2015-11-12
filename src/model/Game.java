@@ -220,7 +220,7 @@ public class Game extends BasicGame
 			if(this.plateau.rectangleSelection !=null){
 				if(player==plateau.currentPlayer.id){
 					g.setColor(Color.green);
-					g.draw(this.plateau.rectangleSelection);
+					g.draw(this.plateau.rectangleSelection.get(player));
 				}
 			}
 		}

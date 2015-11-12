@@ -85,7 +85,7 @@ public class Plateau {
 	public Vector<SpellEffect> toAddSpells;
 	public Vector<SpellEffect> toRemoveSpells;
 
-	public Rectangle rectangleSelection;
+	public Vector<Rectangle> rectangleSelection;
 	public float recX ;
 	public float recY ;
 	public Vector<ActionObjet> inRectangle ;
@@ -145,6 +145,7 @@ public class Plateau {
 		this.selection = new Vector<Vector<ActionObjet>>();
 		this.toAddSelection = new Vector<Vector<ActionObjet>>();
 		this.toRemoveSelection = new Vector<Vector<ActionObjet>>();
+		this.rectangleSelection = new Vector<Rectangle>();
 		this.inRectangle = new Vector<ActionObjet>();
 		//MESSAGES
 		this.messages = new Vector<Vector<Message>>();
@@ -153,6 +154,7 @@ public class Plateau {
 		this.isCastingSpell = new Vector<Boolean>();
 		this.hasCastSpell = new Vector<Boolean>();
 		this.castingSpell = new Vector<Integer>();
+		
 		for(int i =0; i<nPlayers;i++){
 			this.selection.addElement(new Vector<ActionObjet>());
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
@@ -161,6 +163,7 @@ public class Plateau {
 			this.hasCastSpell.addElement(false);
 			this.castingSpell.addElement(-1);
 			this.messages.addElement(new Vector<Message>());
+			this.rectangleSelection.addElement(null);
 		}
 		try {
 			//			System.out.println(this.g.resX+" "+this.g.resY);
@@ -200,6 +203,7 @@ public class Plateau {
 		this.hasCastSpell.addElement(false);
 		this.castingSpell.addElement(-1);
 		this.messages.addElement(new Vector<Message>());
+		this.rectangleSelection.addElement(null);
 
 	}
 
@@ -217,7 +221,7 @@ public class Plateau {
 		this.hasCastSpell.remove(indice);
 		this.castingSpell.remove(indice);
 		this.messages.remove(indice);
-
+		this.rectangleSelection.remove(indice);
 	}
 	// functions that handle buffers
 
@@ -584,7 +588,7 @@ public class Plateau {
 			// pour tous les inputs pass�s en argument on fait le traitement
 			int player = im.player.id;
 			// si on est client on ne g�re que son input
-			
+
 			// on g�re la s�lection des sorts (type firewall/ blessed area)
 			this.handleSpellCasting(im, player);
 			// on g�re c�t� serveur l'action bar et le click droit
@@ -599,13 +603,13 @@ public class Plateau {
 				this.handleMinimap(im, player);
 				this.handleSelection(im, player,players.get(player).getTeam());
 			}
-			
-//			if(player == this.currentPlayer.id){
-//				// ong�re le d�placement de la cam�ra et la s�lection
-//				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
-//					this.handleView(im, player);
-//				}
-//			}
+
+			//			if(player == this.currentPlayer.id){
+			//				// ong�re le d�placement de la cam�ra et la s�lection
+			//				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
+			//					this.handleView(im, player);
+			//				}
+			//			}
 			// enfin on g�re le lancement des sorts
 			//this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 			this.handleSpellsOnField(im, player, true);
@@ -818,7 +822,7 @@ public class Plateau {
 			bb.action.toDrawDescription[3]=false;
 		}
 	}
-	
+
 	public void handleMinimap(InputObject im, int player){
 		if(im.isPressedA){
 			BottomBar b = this.players.get(player).bottomBar;
@@ -963,9 +967,9 @@ public class Plateau {
 			this.clearSelection(player);
 		}
 		if(!im.isPressedCTRL){
-			this.updateSelection(rectangleSelection, player, team);
+			this.updateSelection(rectangleSelection.get(player), player, team);
 		} else {
-			this.updateSelectionCTRL(rectangleSelection, player, team);
+			this.updateSelectionCTRL(rectangleSelection.get(player), player, team);
 		}
 
 		// Update the selections of the players
@@ -981,9 +985,9 @@ public class Plateau {
 		if(rectangleSelection==null || im.isPressedCTRL){
 			recX = (float)im.xMouse;
 			recY = (float)im.yMouse;
-			rectangleSelection = new Rectangle(recX,recY,0.1f,0.1f);
+			rectangleSelection.set(player,new Rectangle(recX,recY,0.1f,0.1f)) ;
 		}
-		rectangleSelection.setBounds( (float)Math.min(recX,im.xMouse), (float)Math.min(recY, im.yMouse),
+		rectangleSelection.get(player).setBounds( (float)Math.min(recX,im.xMouse), (float)Math.min(recY, im.yMouse),
 				(float)Math.abs(im.xMouse-recX)+0.1f, (float)Math.abs(im.yMouse-recY)+0.1f);
 	}
 	public void updateSelection(Rectangle select,int player, int team){
