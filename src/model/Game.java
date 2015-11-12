@@ -217,7 +217,7 @@ public class Game extends BasicGame
 		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
-			if(this.plateau.rectangleSelection !=null){
+			if(this.plateau.rectangleSelection.get(player) !=null){
 				if(player==plateau.currentPlayer.id){
 					g.setColor(Color.green);
 					g.draw(this.plateau.rectangleSelection.get(player));
