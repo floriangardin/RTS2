@@ -113,6 +113,8 @@ public class Game extends BasicGame
 	
 	//Debug paquets dropped
 	public int roundDropped=0;
+	public int roundDroppedValidate = 0;
+	public int roundDroppedMissing = 0;
 	// Menus
 	public Menu menuPause;
 	public MenuIntro menuIntro;
@@ -266,6 +268,8 @@ public class Game extends BasicGame
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)
 					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
+				System.out.println("Game line 266 : Paquets dropped missing: "+this.roundDroppedMissing);
+				System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
 				System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
