@@ -21,7 +21,6 @@ public class Player {
 	public String nickname;
 	public int groupSelection;
 	public BottomBar bottomBar;
-	public TopBar topBar;
 	public Data data;
 	public boolean isReady;
 	//Network
