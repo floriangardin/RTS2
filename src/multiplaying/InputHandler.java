@@ -8,6 +8,7 @@ import model.Player;
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
+	static int nDelay=3;
 	Game g;
 
 	public InputHandler(Game g){
@@ -39,18 +40,18 @@ public class InputHandler {
 		while(i<this.inputs.size()){
 			InputObject in = this.inputs.get(i);
 			//If right round and validated add it to player inputs to play
-			if(round==(in.round+7) && in.isValidated()  ){
+			if(round==(in.round+nDelay) && in.isValidated()  ){
 				//ADD inputs in player
 				toReturn.add(in);
 				toRemove.add(in);
 			}
 			//If right round but not validated, erase the input
-			else if(this.g.round==(in.round+7) && !in.isValidated()){
+			else if(this.g.round==(in.round+nDelay) && !in.isValidated()){
 				this.g.vroundDropped.addElement(in.id);
 				cause = 1;
 			}
 			//If too late to play this input, erase the input
-			else if(this.g.round>(in.round+7)){
+			else if(this.g.round>(in.round+nDelay)){
 				toRemove.add(in);
 			}
 
