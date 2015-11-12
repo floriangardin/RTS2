@@ -42,20 +42,20 @@ public class Data {
 	public float headQuartersSizeY = 200f;
 	// Mill
 	public int millChargeTime = 5;
-	public int millLifePoints = 100;
+	public int millLifePoints = 75;
 	public float millSight = 300f;
 	public float millSizeX = 300f;
 	public float millSizeY = 200f;
 
 	// Mine
 	public int mineChargeTime = 5;
-	public int mineLifePoints = 100;
+	public int mineLifePoints = 75;
 	public float mineSight = 300f;
 	public float mineSizeX = 300f;
 	public float mineSizeY = 150f;
 
 	// Barrack
-	public int barrackLifePoints = 200;
+	public int barrackLifePoints = 100;
 	public float barrackSight = 300f;
 	public float barrackSizeX = 400f;
 	public float barrackSizeY = 250;
