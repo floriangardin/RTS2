@@ -41,6 +41,7 @@ public class Game extends BasicGame
 	public static boolean debugValidation = false;
 	public static boolean debugReceiver = true;
 	public static boolean debugSender = true;
+	public static boolean debugTourEnCours = true;
 
 	// debugging tools
 	long timeSteps = 0;
@@ -273,7 +274,7 @@ public class Game extends BasicGame
 			if(debugTimeSteps)
 				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
-				if(Game.debugValidation)
+				if(Game.debugValidation || Game.debugTourEnCours)
 					System.out.println("=== = = =Game line 258 : now in round "+this.round);
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
