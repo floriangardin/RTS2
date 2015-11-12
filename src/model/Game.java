@@ -39,6 +39,7 @@ public class Game extends BasicGame
 	long timeSteps = 0;
 	public boolean debugPaquet = false;
 	public int round = 0;
+	public int roundDebug = 0;
 	public int idPaquetSend = 0;
 	public int nbPaquetReceived = 0;
 	public int idPaquetReceived = 0;
@@ -247,6 +248,8 @@ public class Game extends BasicGame
 				timeSteps = System.currentTimeMillis();	
 			//Update of current round
 			this.clock.setRoundFromTime();
+			this.roundDebug++;
+			System.out.println("Game line 252: rounds joués:"+roundDebug+" round actuel: "+round);
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
