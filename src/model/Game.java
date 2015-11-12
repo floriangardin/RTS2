@@ -287,12 +287,12 @@ public class Game extends BasicGame
 					System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
 					System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
 
-					System.out.println("Game ROUND DROPPED UNVALIDATED: ");
+					System.out.println("Game J'AI PAS RECU LA VALIDATION POUR JOUER MES TRUCS: ");
 					for(Integer i : this.vroundDropped){
 						System.out.print(i+",");
 					}
 					System.out.println();
-					System.out.println("Game ROUND MISSED : ");
+					System.out.println("Game J'AI PAS RECU L'INPUT DE L'AUTRE : ");
 					for(Integer i : this.vroundMissing){
 						System.out.print(i+",");
 					}
