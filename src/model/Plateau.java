@@ -183,6 +183,9 @@ public class Plateau {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
+		for(Player p: players){
+			p.bottomBar.minimap.update(g);
+		}
 	}
 
 	public GameTeam getTeamById(int team) {

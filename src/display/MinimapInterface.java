@@ -29,8 +29,10 @@ public class MinimapInterface extends Bar {
 	Vector<Case> cases;
 
 	public MinimapInterface(BottomBar parent){
+
 		this.game = parent.p.g;
 		this.p = parent.p;
+
 		this.player = parent.player;
 		this.startX = this.game.resX/4;
 		this.startY = this.game.resY/4;
@@ -42,10 +44,12 @@ public class MinimapInterface extends Bar {
 	}
 	
 	public void update(Game game){
+
 		this.game = game;
 		this.p = game.plateau;
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
+
 	}
 
 	public Graphics draw(Graphics g){
@@ -53,6 +57,7 @@ public class MinimapInterface extends Bar {
 		if(!toDraw){
 			return g;
 		}
+
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);

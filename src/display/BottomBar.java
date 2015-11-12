@@ -21,7 +21,6 @@ public class BottomBar extends Bar {
 	
 	public BottomBar(Plateau p , int resX, int resY){
 		this.p = p ;
-		
 		//this.player= p.currentPlayer;
 		try {
 			this.background = new Image("pics/menu/bottombar.png");
@@ -45,7 +44,7 @@ public class BottomBar extends Bar {
 		this.sizeY = this.p.g.relativeHeightBottomBar*resY;
 		this.x = 0;
 		this.y = (1f-this.p.g.relativeHeightBottomBar)*resY;
-
+		
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);

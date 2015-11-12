@@ -197,9 +197,7 @@ public class Map {
 	public static void initializePlateau(Game game, float maxX, float maxY){
 		game.plateau = new Plateau(maxX,maxY,game);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
-		for(Player p: game.plateau.players){
-			p.bottomBar.minimap.update(game);
-		}
+		
 	}
 	
 }
