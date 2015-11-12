@@ -777,7 +777,7 @@ public class Plateau {
 		// Handle the display (camera movement & minimap)
 
 		// camera movement
-		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection==null && !im.leftClick){
+		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || im.yMouse<Ycam+5)&&Ycam>-g.resY/2){
 				Ycam -= 20;
@@ -828,14 +828,14 @@ public class Plateau {
 			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
 			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
-					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
+					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
 				// Put camera where the click happened
 				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
 				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
 
 			}
 			if(im.rightClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
-					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
+					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
 				// Handle right click
 				if(im.isPressedMAJ){
 					updateSecondaryTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
@@ -946,7 +946,7 @@ public class Plateau {
 		}
 		// Cleaning the rectangle and buffer if mouse is released
 		if(!im.leftClick){
-			this.rectangleSelection = null;
+			this.rectangleSelection.set(player, null);
 			this.inRectangle.clear();
 		}
 		// Handling hotkeys for gestion of selection
@@ -982,7 +982,7 @@ public class Plateau {
 		if(im.isPressedA){
 			return;
 		}
-		if(rectangleSelection==null || im.isPressedCTRL){
+		if(this.rectangleSelection.get(player)==null || im.isPressedCTRL){
 			recX = (float)im.xMouse;
 			recY = (float)im.yMouse;
 			rectangleSelection.set(player,new Rectangle(recX,recY,0.1f,0.1f)) ;
