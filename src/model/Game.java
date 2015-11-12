@@ -10,7 +10,6 @@ import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
@@ -27,7 +26,6 @@ import menu.MenuMulti;
 import menu.MenuOptions;
 import multiplaying.Clock;
 import multiplaying.InputHandler;
-import multiplaying.InputObject;
 import multiplaying.InputObject;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
@@ -68,8 +66,6 @@ public class Game extends BasicGame
 	public Timer timer ;
 
 	// Bars
-	public BottomBar bottomBars;
-	public TopBar topBars;
 	public float relativeHeightBottomBar = 1f/6f;
 	public float relativeHeightTopBar = 1f/20f;
 
@@ -217,10 +213,10 @@ public class Game extends BasicGame
 		}
 		// Draw bottom bar
 		g.translate(plateau.Xcam, plateau.Ycam);
-		if(this.bottomBars!=null)
-			this.bottomBars.draw(g);
-		if(this.topBars!=null)
-			this.topBars.draw(g);
+		if(this.plateau.currentPlayer.bottomBar!=null)
+			this.plateau.currentPlayer.bottomBar.draw(g);
+		if(this.plateau.currentPlayer.topBar!=null)
+			this.plateau.currentPlayer.topBar.draw(g);
 		// Draw messages
 		Message m;
 		if(this.plateau.messages.size()>2){
@@ -229,7 +225,7 @@ public class Game extends BasicGame
 				g.setColor(m.color);
 				Font f = g.getFont();
 				float height = f.getHeight(m.message);
-				g.drawString(m.message, 20f, this.topBars.sizeY+20f+2f*height*k);
+				g.drawString(m.message, 20f, this.plateau.currentPlayer.topBar.sizeY+20f+2f*height*k);
 			}
 		}
 
@@ -335,8 +331,6 @@ public class Game extends BasicGame
 		//System.out.println(this.plateau.mapGrid);
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
-		this.bottomBars = new BottomBar(this.plateau,(int)this.resX,(int)this.resY);
-		this.topBars = new TopBar(this.plateau,(int)this.resX,(int)this.resY);
 		selection = null;
 		this.clock = new Clock(this);
 

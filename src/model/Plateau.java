@@ -176,7 +176,6 @@ public class Plateau {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f,maxX,0f,maxY);
-		this.g.bottomBars = new BottomBar(this,(int)g.resX,(int)g.resY);
 	}
 
 	public GameTeam getTeamById(int team) {
