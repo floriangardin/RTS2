@@ -294,6 +294,7 @@ public class Game extends BasicGame
 					}
 					System.out.println();
 				}
+				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.plateau.update(ims);
 				//Increment to next communication turn ( for the time being synchro with render turns)

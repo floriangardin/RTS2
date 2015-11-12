@@ -600,12 +600,12 @@ public class Plateau {
 				this.handleSelection(im, player,players.get(player).getTeam());
 			}
 			
-			if(player == this.currentPlayer.id){
-				// ong�re le d�placement de la cam�ra et la s�lection
-				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
-					this.handleView(im, player);
-				}
-			}
+//			if(player == this.currentPlayer.id){
+//				// ong�re le d�placement de la cam�ra et la s�lection
+//				if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
+//					this.handleView(im, player);
+//				}
+//			}
 			// enfin on g�re le lancement des sorts
 			//this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 			this.handleSpellsOnField(im, player, true);
@@ -798,32 +798,6 @@ public class Plateau {
 					}
 				}
 			}
-		}
-		// minimap
-		if(im.isPressedA){
-			BottomBar b = this.players.get(player).bottomBar;
-			b.minimap.toDraw = true;
-			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
-					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
-				// Put camera where the click happened
-				Xcam = (int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw)-g.resX/2f;
-				Ycam = (int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh)-g.resY/2f;
-
-			}
-			if(im.rightClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
-					b.minimap.startX+b.minimap.w && this.rectangleSelection==null){
-				// Handle right click
-				if(im.isPressedMAJ){
-					updateSecondaryTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
-				} else {				
-					updateTarget((int)Math.floor((im.xMouse-Xcam-b.minimap.startX)/b.minimap.rw),(int)Math.floor((im.yMouse-Ycam-b.minimap.startY)/b.minimap.rh),player);
-				}
-
-			}
-		}
-		else{
-			BottomBar b = this.players.get(player).bottomBar;
-			b.minimap.toDraw = false;
 		}
 		// display for the bottom bar
 		BottomBar bb = currentPlayer.bottomBar;
