@@ -46,15 +46,14 @@ public class InputHandler {
 				toRemove.add(in);
 			}
 			//If right round but not validated, erase the input
-			else if(this.g.round==(in.round+nDelay) && !in.isValidated()){
+			else if(round==(in.round+nDelay) && !in.isValidated()){
 				this.g.vroundDropped.addElement(in.id);
 				cause = 1;
 			}
 			//If too late to play this input, erase the input
-			else if(this.g.round>(in.round+nDelay)){
+			else if(round>(in.round+nDelay)){
 				toRemove.add(in);
 			}
-
 			i++;
 		}
 		
