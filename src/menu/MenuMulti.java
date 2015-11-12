@@ -146,17 +146,17 @@ public class MenuMulti extends Menu {
 		if(this.game.connexions.size()>0){
 			String s = this.game.connexions.remove(0);
 			HashMap<String, String> hashmap = Objet.preParse(s);
-			if(hashmap.containsKey("ip") && hashmap.containsKey("hostname") && hashmap.containsKey("nplayers")){
+			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
 				try {
 					OpenGames o = null;
 					for(OpenGames g : this.openGames)
-						if(g.hostName.equals(hashmap.get("hostname")))
+						if(g.hostName.equals(hashmap.get("hst")))
 							o = g;
 					if(o==null){
-						openGames.add(new OpenGames(hashmap.get("hostname"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("nplayers"))));
+						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl"))));
 						gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
 					} else {
-						o.nPlayers = Integer.parseInt(hashmap.get("nplayers"));
+						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
