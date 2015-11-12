@@ -278,7 +278,7 @@ public class Game extends BasicGame
 					System.out.println("=== = = =Game line 258 : now in round "+this.round);
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
-//				this.sendInputToAllPlayer(im.toString());
+				this.sendInputToAllPlayer(im.toString());
 ////				if(this.host && this.round%30==0){
 ////					Vector<String> plateauState = this.plateau.toStringArray(256);
 ////					System.out.println("New state to send");
