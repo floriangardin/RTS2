@@ -972,7 +972,7 @@ public class Character extends ActionObjet{
 		int id = Integer.parseInt(hs.get("id"));
 		float x = Float.parseFloat(hs.get("x"));
 		float y = Float.parseFloat(hs.get("y"));
-		int team = Integer.parseInt(hs.get("team"));
+		int team = Integer.parseInt(hs.get("tm"));
 		switch(hs.get("name")){
 		case "spearman":
 			c =  new UnitSpearman(g.plateau.getTeamById(team).data.spearman,x,y,id);	
