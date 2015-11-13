@@ -52,9 +52,9 @@ public class Game extends BasicGame
 	public int nbPaquetReceived = 0;
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
-	
+
 	//Increment de game
-	
+
 	public static float ratio = 60f/((float)Main.framerate);
 
 	//Handle inputs from you and other players
@@ -64,7 +64,7 @@ public class Game extends BasicGame
 	public static int ID_HOST = 1;
 	//Period of parse in frame
 	public static int Tparsing = 27;
-	
+
 	public int idChar = 0;
 	public int idBullet = 0;
 
@@ -262,7 +262,7 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-			
+
 			if(debugTimeSteps)
 				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
 			if(debugTimeSteps)
@@ -283,15 +283,15 @@ public class Game extends BasicGame
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
-				
+
 				//To string du plateau tous les n_turns
 				if(this.host && this.round%Game.Tparsing==0){
-					
+
 					Vector<String> plateauState = this.plateau.toStringArray(256);
 					for(String s : plateauState){
 						this.sendInputToAllPlayer(s);
 					}
-					
+
 				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
@@ -315,18 +315,16 @@ public class Game extends BasicGame
 				}
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				ims = this.inputsHandler.getInputsForRound(this.round);
-				
+
 				//Parse the plateau if informations are received.
-				if((this.round%Game.Tparsing)== 0 && this.toParse.size()>0){
-					int i = 0;
-					System.out.println("Game Line 321 : Parsing plateau");
-					while(i<this.toParse.size()){
-						this.plateau.parse(this.toParse.get(i));
-						i++;
-					}
+				int i = 0;
+				while(i<this.toParse.size()){
+					this.plateau.parse(this.toParse.get(i));
+					i++;
+
 					//Clear the parser at each global parsing
 					this.toParse.clear();
-					
+
 				}
 				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 				this.plateau.update(ims);
@@ -426,8 +424,8 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-		
-		
+
+
 
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
