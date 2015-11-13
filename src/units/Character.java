@@ -154,7 +154,7 @@ public class Character extends ActionObjet{
 		Case oldc = this.c;
 		this.c = this.p.mapGrid.getCase(x, y);
 		//Updating the case
-		if(oldc==null || c.id!=oldc.id){
+		if(c!=null && (oldc==null || c.id!=oldc.id)){
 			if(oldc!=null && oldc.characters.contains(this))
 				oldc.characters.remove(this);
 			this.c.characters.addElement(this);
