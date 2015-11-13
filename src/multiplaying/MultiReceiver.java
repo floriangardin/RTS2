@@ -73,7 +73,7 @@ public class MultiReceiver extends Thread{
 									this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 							}
 							
-							if(msg.substring(1, 2).equals("P")){
+							else if(msg.substring(1, 2).equals("P")){
 								this.g.toParse.add(msg.substring(1));
 							}
 							//If validation message
