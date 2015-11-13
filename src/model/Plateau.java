@@ -1112,7 +1112,7 @@ public class Plateau {
 		//CEMETERY
 		while(id_charac<this.cemetery.characters.size()){
 			if(this.cemetery.characters.get(id_charac).isToParse()){
-				System.out.println("vivant : toString "+this.cemetery.characters.get(id_charac).toString(false));
+				System.out.println("mort : toString "+this.cemetery.characters.get(id_charac).toString(false));
 				s+=this.cemetery.characters.get(id_charac).toString(true);
 				s+="|";
 				if(s.length()>=(sizeMessage-tailleCharac)){
