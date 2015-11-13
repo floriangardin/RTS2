@@ -1084,25 +1084,27 @@ public class Plateau {
 
 		//We want to send the content of plateau+cemetery
 		Vector<Character> toSend = new Vector<Character>();
-		
+
 
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
-			s+=this.characters.get(id_charac).toString(false);
-			s+="|";
-			if(s.length()>=(sizeMessage-tailleCharac)){
+			if(this.characters.get(id_charac).isToParse()){
+				s+=this.characters.get(id_charac).toString(false);
+				s+="|";
+				if(s.length()>=(sizeMessage-tailleCharac)){
 
-				s+="!";
+					s+="!";
 
-				//To make a copy
-				result.add(s.substring(0));
-				s="3P!";
-				s+=this.g.idPaquetSend;
-				s+="!";
+					//To make a copy
+					result.add(s.substring(0));
+					s="3P!";
+					s+=this.g.idPaquetSend;
+					s+="!";
+				}
 			}
 			id_charac++;
 		}
-		
+
 		id_charac = 0;
 		s = "3P!";
 		//IDS
@@ -1110,17 +1112,19 @@ public class Plateau {
 		s+="!";
 		//CEMETERY
 		while(id_charac<this.cemetery.characters.size()){
-			s+=this.cemetery.characters.get(id_charac).toString(true);
-			s+="|";
-			if(s.length()>=(sizeMessage-tailleCharac)){
+			if(this.characters.get(id_charac).isToParse()){
+				s+=this.cemetery.characters.get(id_charac).toString(true);
+				s+="|";
+				if(s.length()>=(sizeMessage-tailleCharac)){
 
-				s+="!";
+					s+="!";
 
-				//To make a copy
-				result.add(s.substring(0));
-				s="3P!";
-				s+=this.g.idPaquetSend;
-				s+="!";
+					//To make a copy
+					result.add(s.substring(0));
+					s="3P!";
+					s+=this.g.idPaquetSend;
+					s+="!";
+				}
 			}
 			id_charac++;
 		}
@@ -1139,7 +1143,6 @@ public class Plateau {
 			parseCharacter(u[2]);
 		}
 	}
-
 	@Deprecated
 	public String toStringEx(){
 		String s = "1!";

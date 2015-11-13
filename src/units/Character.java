@@ -26,7 +26,9 @@ import spells.Spell;
 
 public class Character extends ActionObjet{
 
-
+	//Time before parsing
+	public static int roundBeforeParse = 200;
+	public int roundAfterBorn=0;
 	// General attributes
 	public Circle sightBox;
 
@@ -267,6 +269,7 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
+		this.roundAfterBorn++;
 		//MULTI 
 		this.toKeep = false;
 
@@ -1007,7 +1010,8 @@ public class Character extends ActionObjet{
 
 	}
 
-
-
+	public boolean isToParse(){
+		return this.roundAfterBorn>Character.roundBeforeParse;
+	}
 }
 
