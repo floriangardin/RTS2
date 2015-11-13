@@ -1086,14 +1086,14 @@ public class Plateau {
 		toSend.addAll(this.characters);
 		toSend.addAll(this.cemetery.characters);
 		
-		System.out.println("Game line 1069 string initialized, now proceeding to actuel to string");
+		
 		while(id_charac<toSend.size()){
 			s+=toSend.get(id_charac).toString();
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
 				
 				s+="!";
-				System.out.println("Game line 1069 new string, string to send : "+s);
+				
 				//To make a copy
 				result.add(s.substring(0));
 				s="3P!";
@@ -1102,7 +1102,7 @@ public class Plateau {
 			}
 			id_charac++;
 		}
-		System.out.println("Game line 1069 to string completed, now returning vector of string");
+		
 		return result;
 	}
 
@@ -1111,7 +1111,6 @@ public void parse(String s){
 	//APPLY ACTION ON ALL CONCERNED OBJECTS
 	//GET ARRAY OF CHARACTERS,BUILDING,BULLET
 	//System.out.println(s);
-	System.out.println(" Game 1099 : debut du parse");
 	if(s!=null && s!=""){
 		String[] u = s.split("!");
 		//Take care of id sent
@@ -1257,18 +1256,13 @@ public void parseCharacter(String s){
 		//FIND CONCERNED CHARACTER
 		HashMap<String,String> hs = Objet.preParse(u[i]);
 		int idTest = Integer.parseInt(hs.get("id"));
-		System.out.println("PLateau line 1248 id : " +idTest );
-		for(Character c : this.characters){
-			System.out.println("Plateau line 1250 id all charac :" +c.id);
-		}
+
 		cha = this.getCharacterById(idTest);
 		if(cha==null){
-			System.out.println("Plateau line 1250 Create new charact of id:" +idTest);
+			
 			cha = Character.createNewCharacter(hs, g);
 		}
 		if(cha!=null){
-			System.out.println("Plateau line 1250 Parse charact of id:" +idTest);
-			
 			cha.parse(hs);
 			cha.toKeep = true;	
 		}

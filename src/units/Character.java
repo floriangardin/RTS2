@@ -970,7 +970,6 @@ public class Character extends ActionObjet{
 
 	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
 		Character c;
-		System.out.println("Character 972 : "+ hs.containsKey("x"));
 		int id = Integer.parseInt(hs.get("id"));
 		float x = Float.parseFloat(hs.get("x"));
 		float y = Float.parseFloat(hs.get("y"));

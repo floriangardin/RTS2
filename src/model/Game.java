@@ -286,12 +286,12 @@ public class Game extends BasicGame
 				
 				//To string du plateau tous les n_turns
 				if(this.host && this.round%Game.Tparsing==0){
-					System.out.println(" Game Line 289  New state to send");
+					
 					Vector<String> plateauState = this.plateau.toStringArray(256);
 					for(String s : plateauState){
 						this.sendInputToAllPlayer(s);
 					}
-					System.out.println("Game Line 291 : Plateau toString sent");
+					
 				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
