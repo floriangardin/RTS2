@@ -286,7 +286,7 @@ public class Game extends BasicGame
 				
 				//To string du plateau tous les n_turns
 				if(this.host && this.round%Game.Tparsing==0){
-					System.out.println("New state to send");
+					System.out.println(" Game Line 289  New state to send");
 					Vector<String> plateauState = this.plateau.toStringArray(256);
 					for(String s : plateauState){
 						this.sendInputToAllPlayer(s);
@@ -317,7 +317,7 @@ public class Game extends BasicGame
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				
 				//Parse the plateau if informations are received.
-				if((this.round%Game.Tparsing)== 0){
+				if((this.round%Game.Tparsing)== 0 && this.toParse.size()>0){
 					int i = 0;
 					System.out.println("Game Line 321 : Parsing plateau");
 					while(i<this.toParse.size()){

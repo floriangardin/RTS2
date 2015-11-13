@@ -1066,7 +1066,7 @@ public class Plateau {
 	}
 	//MULTIPLAYING
 	public Vector<String> toStringArray(int sizeMessage){
-		System.out.println("begin to string plateau");
+		System.out.println("Game line 1069 begin to string plateau");
 		// We consider a character is of length 50 maximum
 		int tailleCharac = 50;
 		int id_charac = 0;
@@ -1075,12 +1075,14 @@ public class Plateau {
 		//IDS
 		s+=this.g.idPaquetSend;
 		s+="!";
-
+		System.out.println("Game line 1069 string initialized, now proceeding to actuel to string");
 		while(id_charac<this.characters.size()){
-			s+=this.characters.get(id_charac);
+			s+=this.characters.get(id_charac).toString();
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
+				
 				s+="!";
+				System.out.println("Game line 1069 new string, string to send : "+s);
 				//To make a copy
 				result.add(s.substring(0));
 				s="3P!";
@@ -1088,6 +1090,7 @@ public class Plateau {
 				s+="!";
 			}
 		}
+		System.out.println("Game line 1069 to string completed, now returning vector of string");
 		return result;
 	}
 
