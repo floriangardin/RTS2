@@ -1087,8 +1087,8 @@ public class Plateau {
 		toSend.addAll(this.cemetery.characters);
 		
 		System.out.println("Game line 1069 string initialized, now proceeding to actuel to string");
-		while(id_charac<this.characters.size()){
-			s+=this.characters.get(id_charac).toString();
+		while(id_charac<toSend.size()){
+			s+=toSend.get(id_charac).toString();
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
 				
