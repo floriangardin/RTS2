@@ -1085,12 +1085,11 @@ public class Plateau {
 
 		//We want to send the content of plateau+cemetery
 		Vector<Character> toSend = new Vector<Character>();
-		toSend.addAll(this.characters);
-		toSend.addAll(this.cemetery.characters);
+		
 
-
-		while(id_charac<toSend.size()){
-			s+=toSend.get(id_charac).toString();
+		//CHARACTERS
+		while(id_charac<this.characters.size()){
+			s+=this.characters.get(id_charac).toString(true);
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
 
@@ -1104,7 +1103,28 @@ public class Plateau {
 			}
 			id_charac++;
 		}
+		
+		id_charac = 0;
+		s = "3P!";
+		//IDS
+		s+=this.g.idPaquetSend;
+		s+="!";
+		//CEMETERY
+		while(id_charac<this.cemetery.characters.size()){
+			s+=this.cemetery.characters.get(id_charac).toString(true);
+			s+="|";
+			if(s.length()>=(sizeMessage-tailleCharac)){
 
+				s+="!";
+
+				//To make a copy
+				result.add(s.substring(0));
+				s="3P!";
+				s+=this.g.idPaquetSend;
+				s+="!";
+			}
+			id_charac++;
+		}
 		return result;
 	}
 
@@ -1265,13 +1285,11 @@ public class Plateau {
 			int idTest = Integer.parseInt(hs.get("id"));
 
 			cha = this.getCharacterById(idTest);
-			if(cha==null){
-
+			if(cha==null && !hs.containsKey("dead")){
 				cha = Character.createNewCharacter(hs, g);
 			}
 			if(cha!=null){
 				cha.parse(hs);
-				cha.toKeep = true;	
 			}
 		}
 		//Destroy characters who didn't give any news

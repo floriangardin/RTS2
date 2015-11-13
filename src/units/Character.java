@@ -851,7 +851,7 @@ public class Character extends ActionObjet{
 
 	}
 
-	public String toString(){
+	public String toString(boolean isDead){
 		String s="";
 		s+="id:"+id+";";
 		s+="name:"+name+";";
@@ -860,6 +860,9 @@ public class Character extends ActionObjet{
 		s+="y:"+(int)y+";";
 		s+="lp:"+lifePoints+";";
 		s+="st:"+this.state;
+		if(isDead){
+			s+="dead: ;";
+		}
 		return s;
 	}
 
