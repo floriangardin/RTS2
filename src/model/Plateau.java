@@ -1089,6 +1089,7 @@ public class Plateau {
 				s+=this.g.idPaquetSend;
 				s+="!";
 			}
+			id_charac++;
 		}
 		System.out.println("Game line 1069 to string completed, now returning vector of string");
 		return result;
