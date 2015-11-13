@@ -1068,7 +1068,7 @@ public class Plateau {
 	public Vector<String> toStringArray(int sizeMessage){
 		System.out.println("Game line 1069 begin to string plateau");
 		// We consider a character is of length 50 maximum
-		int tailleCharac = 50;
+		int tailleCharac = 80;
 		int id_charac = 0;
 		Vector<String> result = new Vector<String>();
 		String s = "3P!";
