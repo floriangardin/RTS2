@@ -1088,7 +1088,7 @@ public class Plateau {
 
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
-			s+=this.characters.get(id_charac).toString(true);
+			s+=this.characters.get(id_charac).toString(false);
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
 

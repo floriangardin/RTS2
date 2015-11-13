@@ -859,7 +859,7 @@ public class Character extends ActionObjet{
 		s+="x:"+(int)x+";";
 		s+="y:"+(int)y+";";
 		s+="lp:"+lifePoints+";";
-		s+="st:"+this.state;
+		s+="st:"+this.state+";";
 		if(isDead){
 			s+="dead: ;";
 		}
