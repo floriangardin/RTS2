@@ -1214,6 +1214,11 @@ public class Plateau {
 				return cha;
 			}
 		}
+		for(Character cha : this.cemetery.characters){
+			if(id==cha.id){
+				return cha;
+			}
+		}
 		return null;
 	}
 
