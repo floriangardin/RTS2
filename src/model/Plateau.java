@@ -62,6 +62,7 @@ public class Plateau {
 
 	// ADD ALL OBJETS 
 	public Vector<Character> characters;
+	public Cemetery cemetery;
 	public Vector<Character> toAddCharacters;
 	public Vector<Character> toRemoveCharacters;
 
@@ -123,6 +124,7 @@ public class Plateau {
 
 		//CHARACTERS
 		this.characters = new Vector<Character>();
+		this.cemetery = new Cemetery(this.g);
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
 		//WEAPONS
@@ -250,6 +252,7 @@ public class Plateau {
 		if(this.selection.contains(o)){
 			this.selection.remove(o);
 		}
+		this.cemetery.add(o);
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -465,6 +468,8 @@ public class Plateau {
 		for(ActionObjet a : this.spells){
 			a.action();
 		}
+		//Update cemetery;
+		this.cemetery.update();
 	}
 
 
@@ -1075,6 +1080,12 @@ public class Plateau {
 		//IDS
 		s+=this.g.idPaquetSend;
 		s+="!";
+		
+		//We want to send the content of plateau+cemetery
+		Vector<Character> toSend = new Vector<Character>();
+		toSend.addAll(this.characters);
+		toSend.addAll(this.cemetery.characters);
+		
 		System.out.println("Game line 1069 string initialized, now proceeding to actuel to string");
 		while(id_charac<this.characters.size()){
 			s+=this.characters.get(id_charac).toString();

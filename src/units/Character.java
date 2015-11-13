@@ -38,7 +38,8 @@ public class Character extends ActionObjet{
 
 	//philippe
 	public String weapon;
-
+	//Dead since how many rounds
+	public int deadSince = 0;
 	public IAUnit ia;
 
 	public boolean moveAhead;
