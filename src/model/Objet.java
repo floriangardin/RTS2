@@ -142,6 +142,7 @@ public abstract class Objet {
 	}
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");
+		System.out.println("Objet line 145 : Hashmap creation with "+s);
 		HashMap<String,String> hs = new HashMap<String,String>();
 //		if(u.length<=1){
 //			return hs;
