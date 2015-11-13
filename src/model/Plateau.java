@@ -403,12 +403,14 @@ public class Plateau {
 		this.mapGrid.updateSurroundingChars();
 		for(Character o : characters){
 			// Handle collision between actionObjets and action objects
+			if(o.c!=null){
 			for(Character i:o.c.surroundingChars){
 				// We suppose o and i have circle collision box
 				if(i!=o && Utils.distance(i, o)<(i.size+o.size)){
 					i.collision(o);
 					o.collision(i);
 				}
+			}
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
