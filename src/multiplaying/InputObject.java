@@ -43,8 +43,8 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedB;
 	public boolean[] isPressedNumPad = new boolean[10];
 
-	public int xMouse;
-	public int yMouse;
+	public float xMouse;
+	public float yMouse;
 
 	public Vector<Integer> selection;
 
@@ -58,8 +58,8 @@ public class InputObject extends MultiObjetModel{
 		this.pressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
 		this.leftClick = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 		this.pressedLeftClick = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		this.xMouse = input.getAbsoluteMouseX()+(int)g.plateau.Xcam;
-		this.yMouse = input.getAbsoluteMouseY()+(int)g.plateau.Ycam;
+		this.xMouse = input.getAbsoluteMouseX()+g.plateau.Xcam;
+		this.yMouse = input.getAbsoluteMouseY()+g.plateau.Ycam;
 		this.isPressedESC = input.isKeyPressed(Input.KEY_ESCAPE);
 		this.isPressedMAJ = input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyPressed(Input.KEY_RSHIFT);
 		this.isPressedCTRL = input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyPressed(Input.KEY_RCONTROL);
@@ -79,8 +79,8 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 		if(isPressedA){
 			BottomBar b = player.bottomBar;
-			this.xMouse = (int) Math.floor((this.xMouse-(int)g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
-			this.yMouse = (int) Math.floor((this.yMouse-(int)g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
+			this.xMouse = (float) Math.floor((this.xMouse-(int)g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
+			this.yMouse = (float) Math.floor((this.yMouse-(int)g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
 		}
 
 		
@@ -120,8 +120,8 @@ public class InputObject extends MultiObjetModel{
 		this.id = Integer.parseInt(content.get("id"));
 		this.player = game.getPlayerById(Integer.parseInt(content.get("idP")));
 		this.round = Integer.parseInt(content.get("rnd"));
-		this.xMouse = Integer.parseInt(content.get("xM"));
-		this.yMouse = Integer.parseInt(content.get("yM"));
+		this.xMouse = Float.parseFloat(content.get("xM"));
+		this.yMouse = Float.parseFloat(content.get("yM"));
 		if(content.containsKey("rC"))
 			rightClick = true;
 		if(content.containsKey("lC"))
