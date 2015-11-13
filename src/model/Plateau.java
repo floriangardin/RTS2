@@ -1112,7 +1112,7 @@ public class Plateau {
 		s+="!";
 		//CEMETERY
 		while(id_charac<this.cemetery.characters.size()){
-			if(this.characters.get(id_charac).isToParse()){
+			if(this.cemetery.characters.get(id_charac).isToParse()){
 				s+=this.cemetery.characters.get(id_charac).toString(true);
 				s+="|";
 				if(s.length()>=(sizeMessage-tailleCharac)){
