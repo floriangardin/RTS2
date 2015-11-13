@@ -404,13 +404,13 @@ public class Plateau {
 		for(Character o : characters){
 			// Handle collision between actionObjets and action objects
 			if(o.c!=null){
-			for(Character i:o.c.surroundingChars){
-				// We suppose o and i have circle collision box
-				if(i!=o && Utils.distance(i, o)<(i.size+o.size)){
-					i.collision(o);
-					o.collision(i);
+				for(Character i:o.c.surroundingChars){
+					// We suppose o and i have circle collision box
+					if(i!=o && Utils.distance(i, o)<(i.size+o.size)){
+						i.collision(o);
+						o.collision(i);
+					}
 				}
-			}
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
@@ -1082,20 +1082,20 @@ public class Plateau {
 		//IDS
 		s+=this.g.idPaquetSend;
 		s+="!";
-		
+
 		//We want to send the content of plateau+cemetery
 		Vector<Character> toSend = new Vector<Character>();
 		toSend.addAll(this.characters);
 		toSend.addAll(this.cemetery.characters);
-		
-		
+
+
 		while(id_charac<toSend.size()){
 			s+=toSend.get(id_charac).toString();
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
-				
+
 				s+="!";
-				
+
 				//To make a copy
 				result.add(s.substring(0));
 				s="3P!";
@@ -1104,248 +1104,248 @@ public class Plateau {
 			}
 			id_charac++;
 		}
-		
+
 		return result;
 	}
 
-public void parse(String s){
+	public void parse(String s){
 
-	//APPLY ACTION ON ALL CONCERNED OBJECTS
-	//GET ARRAY OF CHARACTERS,BUILDING,BULLET
-	//System.out.println(s);
-	if(s!=null && s!=""){
-		String[] u = s.split("!");
-		//Take care of id sent
-		this.g.idPaquetReceived = Integer.parseInt(u[1]);
-		parseCharacter(u[2]);
-	}
-}
-
-@Deprecated
-public String toStringEx(){
-	String s = "1!";
-
-	//IDS
-	s+=this.g.idPaquetSend;
-	s+="!";
-	//PLAYERS
-
-	for(Player p: players){
-		s+=p;
-		s+="|";
-	}
-	//CHARACTER
-	s +="!";
-	for(Character c : this.characters){
-		s+=c;
-		s+="|";
-	}
-	//BUILDING
-	s+="!";
-	for(Building b : this.buildings){
-		s+=b;
-		s+="|";
-	}
-	//BULLETS
-	s+="!";
-	for(Bullet b : this.bullets){
-		s+=b;
-		s+="|";
-	}
-	s+=" ! ";
-	for(SpellEffect b : this.spells){
-		s+=b;
-		s+="|";
-	}
-	s+="!";
-	return s;
-}
-
-@Deprecated
-public void parseEx(String s){
-
-	//APPLY ACTION ON ALL CONCERNED OBJECTS
-	//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
-	//System.out.println(s);
-	if(s!=null && s!=""){
-		String[] u = s.split("!");
-		//Take care of id sent
-		this.g.idPaquetReceived = Integer.parseInt(u[1]);
-		//Take care of player
-		this.currentPlayer.parsePlayer(u[2]);
-		//double chrono1 = System.nanoTime();
-		parseCharacter(u[3]);
-		//System.out.println("bullets : "+(System.nanoTime()-chrono1));
-		parseBuilding(u[4]);
-		//double chrono2 = System.nanoTime();
-		parseBullet(u[5]);
-		//System.out.println("bullets : "+(System.nanoTime()-chrono2));
-		parseSpell(u[6]);
-	}
-
-}
-
-public void parseBuilding(String s){
-	String[] u = s.split("\\|");
-	//Loop over each Building
-	Building bul=null;
-	int finish = u.length;
-	if(!u[u.length-1].contains("id")){
-		finish--;
-	}
-	// For all buildings in received message
-	for(int i =0;i<finish;i++){
-		HashMap<String,String> hs = Objet.preParse(u[i]);
-		int idTest = Integer.parseInt(hs.get("id"));
-		// Find corresponding Building in plateau
-		bul = this.getBuildingById(idTest);
-
-		bul.parse(hs);
-
-	}
-
-
-}
-
-
-public Character getCharacterById(int id){
-	for(Character cha : this.characters){
-		if(id==cha.id){
-			return cha;
+		//APPLY ACTION ON ALL CONCERNED OBJECTS
+		//GET ARRAY OF CHARACTERS,BUILDING,BULLET
+		//System.out.println(s);
+		if(s!=null && s!=""){
+			String[] u = s.split("!");
+			//Take care of id sent
+			this.g.idPaquetReceived = Integer.parseInt(u[1]);
+			parseCharacter(u[2]);
 		}
 	}
-	return null;
-}
 
-public Bullet getBulletById(int id){
+	@Deprecated
+	public String toStringEx(){
+		String s = "1!";
 
-	for(Bullet cha : this.bullets){
-		if(id==cha.id){
-			return cha;
-		}
-	}
-	return null;
-}
+		//IDS
+		s+=this.g.idPaquetSend;
+		s+="!";
+		//PLAYERS
 
-public Building getBuildingById(int id){
-	for(Building cha : this.buildings){
-		if(id==cha.id){
-			return cha;
+		for(Player p: players){
+			s+=p;
+			s+="|";
 		}
+		//CHARACTER
+		s +="!";
+		for(Character c : this.characters){
+			s+=c;
+			s+="|";
+		}
+		//BUILDING
+		s+="!";
+		for(Building b : this.buildings){
+			s+=b;
+			s+="|";
+		}
+		//BULLETS
+		s+="!";
+		for(Bullet b : this.bullets){
+			s+=b;
+			s+="|";
+		}
+		s+=" ! ";
+		for(SpellEffect b : this.spells){
+			s+=b;
+			s+="|";
+		}
+		s+="!";
+		return s;
 	}
-	return null;
-}
 
-private SpellEffect getSpellEffectById(int id) {
-	for(SpellEffect cha : this.spells){
-		if(id==cha.id){
-			return cha;
-		}
-	}
-	return null;
-}
+	@Deprecated
+	public void parseEx(String s){
 
-public void parseCharacter(String s){
-	//SPLIT SELON |
-	String[] u = s.split("\\|");
-	// LOOP OVER EACH CHARACTER
-	Character cha=null;
-	int finish = u.length;
-	if(!u[u.length-1].contains("id")){
-		finish--;
-	}
-	for(int i =0;i<finish;i++){
-		//FIND CONCERNED CHARACTER
-		HashMap<String,String> hs = Objet.preParse(u[i]);
-		int idTest = Integer.parseInt(hs.get("id"));
+		//APPLY ACTION ON ALL CONCERNED OBJECTS
+		//GET ARRAY OF PLAYER,CHARACTER,BUILDING,BULLET*
+		//System.out.println(s);
+		if(s!=null && s!=""){
+			String[] u = s.split("!");
+			//Take care of id sent
+			this.g.idPaquetReceived = Integer.parseInt(u[1]);
+			//Take care of player
+			this.currentPlayer.parsePlayer(u[2]);
+			//double chrono1 = System.nanoTime();
+			parseCharacter(u[3]);
+			//System.out.println("bullets : "+(System.nanoTime()-chrono1));
+			parseBuilding(u[4]);
+			//double chrono2 = System.nanoTime();
+			parseBullet(u[5]);
+			//System.out.println("bullets : "+(System.nanoTime()-chrono2));
+			parseSpell(u[6]);
+		}
 
-		cha = this.getCharacterById(idTest);
-		if(cha==null){
-			
-			cha = Character.createNewCharacter(hs, g);
-		}
-		if(cha!=null){
-			cha.parse(hs);
-			cha.toKeep = true;	
-		}
 	}
-	//Destroy characters who didn't give any news
-	//TODO : We need to parse dead characters ..
-	// TODO : Add a cemetery, that host add in his to string
-//	for(Character c : this.characters){
-//		if(!c.toKeep){
-//			System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
-//			
-//			c.setLifePoints(-1f);
-//		}
-//		else{
-//			c.toKeep = false;
-//		}
-//	}
-}
 
-public void parseBullet(String s){
-	String[] u = s.split("\\|");
-	//Loop over each bullet
-	Bullet bul=null;
-	int finish = u.length;
-	if(!u[u.length-1].contains("id")){
-		finish--;
-	}
-	// For all bullets in received message
-	for(int i =0;i<finish;i++){
-		HashMap<String,String> hs = Objet.preParse(u[i]);
-		int idTest = Integer.parseInt(hs.get("id"));
-		// Find corresponding bullet in plateau
-		bul = this.getBulletById(idTest);
-		//Create bullet if not in plateau
-		if(bul==null){
-			bul = Bullet.createNewBullet(hs, g);
+	public void parseBuilding(String s){
+		String[] u = s.split("\\|");
+		//Loop over each Building
+		Building bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
 		}
-		bul.parse(hs);
-		bul.toKeep = true;	
-	}
-	//Destroy bullets who didn't give any news
-	for(Bullet b : this.bullets){
-		if(!b.toKeep){
-			b.setLifePoints(-1f);
-		}else{
-			b.toKeep = false;
+		// For all buildings in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding Building in plateau
+			bul = this.getBuildingById(idTest);
+
+			bul.parse(hs);
+
 		}
-	}
-}
 
 
-public void parseSpell(String s){
-	String[] u = s.split("\\|");
-	//Loop over each spells
-	SpellEffect bul=null;
-	int finish = u.length;
-	if(!u[u.length-1].contains("id")){
-		finish--;
 	}
-	// For all spellEffects in received message
-	for(int i =0;i<finish;i++){
-		HashMap<String,String> hs = Objet.preParse(u[i]);
-		int idTest = Integer.parseInt(hs.get("id"));
-		// Find corresponding spellEffect in plateau
-		bul = this.getSpellEffectById(idTest);
-		//Create spellEffect if not in plateau
-		if(bul==null){
-			bul = SpellEffect.createNewSpell(hs, g);
+
+
+	public Character getCharacterById(int id){
+		for(Character cha : this.characters){
+			if(id==cha.id){
+				return cha;
+			}
 		}
-		bul.parse(hs);
-		bul.toKeep = true;	
+		return null;
 	}
-	//Destroy spellEffects who didn't give any news
-	for(SpellEffect b : this.spells){
-		if(!b.toKeep){
-			b.setLifePoints(-1f);
-		}else{
-			b.toKeep = false;
+
+	public Bullet getBulletById(int id){
+
+		for(Bullet cha : this.bullets){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
+
+	public Building getBuildingById(int id){
+		for(Building cha : this.buildings){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
+
+	private SpellEffect getSpellEffectById(int id) {
+		for(SpellEffect cha : this.spells){
+			if(id==cha.id){
+				return cha;
+			}
+		}
+		return null;
+	}
+
+	public void parseCharacter(String s){
+		//SPLIT SELON |
+		String[] u = s.split("\\|");
+		// LOOP OVER EACH CHARACTER
+		Character cha=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		for(int i =0;i<finish;i++){
+			//FIND CONCERNED CHARACTER
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+
+			cha = this.getCharacterById(idTest);
+			if(cha==null){
+
+				cha = Character.createNewCharacter(hs, g);
+			}
+			if(cha!=null){
+				cha.parse(hs);
+				cha.toKeep = true;	
+			}
+		}
+		//Destroy characters who didn't give any news
+		//TODO : We need to parse dead characters ..
+		// TODO : Add a cemetery, that host add in his to string
+		//	for(Character c : this.characters){
+		//		if(!c.toKeep){
+		//			System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
+		//			
+		//			c.setLifePoints(-1f);
+		//		}
+		//		else{
+		//			c.toKeep = false;
+		//		}
+		//	}
+	}
+
+	public void parseBullet(String s){
+		String[] u = s.split("\\|");
+		//Loop over each bullet
+		Bullet bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all bullets in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding bullet in plateau
+			bul = this.getBulletById(idTest);
+			//Create bullet if not in plateau
+			if(bul==null){
+				bul = Bullet.createNewBullet(hs, g);
+			}
+			bul.parse(hs);
+			bul.toKeep = true;	
+		}
+		//Destroy bullets who didn't give any news
+		for(Bullet b : this.bullets){
+			if(!b.toKeep){
+				b.setLifePoints(-1f);
+			}else{
+				b.toKeep = false;
+			}
 		}
 	}
-}
+
+
+	public void parseSpell(String s){
+		String[] u = s.split("\\|");
+		//Loop over each spells
+		SpellEffect bul=null;
+		int finish = u.length;
+		if(!u[u.length-1].contains("id")){
+			finish--;
+		}
+		// For all spellEffects in received message
+		for(int i =0;i<finish;i++){
+			HashMap<String,String> hs = Objet.preParse(u[i]);
+			int idTest = Integer.parseInt(hs.get("id"));
+			// Find corresponding spellEffect in plateau
+			bul = this.getSpellEffectById(idTest);
+			//Create spellEffect if not in plateau
+			if(bul==null){
+				bul = SpellEffect.createNewSpell(hs, g);
+			}
+			bul.parse(hs);
+			bul.toKeep = true;	
+		}
+		//Destroy spellEffects who didn't give any news
+		for(SpellEffect b : this.spells){
+			if(!b.toKeep){
+				b.setLifePoints(-1f);
+			}else{
+				b.toKeep = false;
+			}
+		}
+	}
 
 
 
