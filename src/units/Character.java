@@ -882,6 +882,14 @@ public class Character extends ActionObjet{
 		}
 		if(hs.containsKey("lp")){
 			this.lifePoints=Float.parseFloat(hs.get("lp"));
+			if(this.lifePoints>0 && !this.p.characters.contains(this)){
+				this.p.characters.addElement(this);
+				this.p.cemetery.remove(this);
+			}
+			if(this.lifePoints<0 && this.p.characters.contains(this)){
+				this.p.cemetery.add(this);
+				this.p.characters.remove(this);
+			}
 		}
 		if(hs.containsKey("st")){
 			this.state=Float.parseFloat(hs.get("st"));

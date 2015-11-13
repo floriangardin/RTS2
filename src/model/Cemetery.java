@@ -25,7 +25,11 @@ public class Cemetery {
 		this.characters.clear();
 		
 	}
-
+	public void  remove(Character e) {
+		this.characters.remove(e);
+		
+	}
+	
 	public boolean contains(Object o) {
 		return this.characters.contains(o);
 	}
