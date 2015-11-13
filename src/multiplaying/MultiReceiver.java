@@ -36,7 +36,7 @@ public class MultiReceiver extends Thread{
 				if(g.isInMenu)
 					message = new byte[256];
 				else 
-					message = new byte[128];
+					message = new byte[256];
 
 				packet = new DatagramPacket(message, message.length);
 				try{

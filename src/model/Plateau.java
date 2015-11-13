@@ -1246,24 +1246,35 @@ public void parseCharacter(String s){
 		//FIND CONCERNED CHARACTER
 		HashMap<String,String> hs = Objet.preParse(u[i]);
 		int idTest = Integer.parseInt(hs.get("id"));
+		System.out.println("PLateau line 1248 id : " +idTest );
+		for(Character c : this.characters){
+			System.out.println("Plateau line 1250 id all charac :" +c.id);
+		}
 		cha = this.getCharacterById(idTest);
 		if(cha==null){
+			System.out.println("Plateau line 1250 Create new charact of id:" +idTest);
 			cha = Character.createNewCharacter(hs, g);
 		}
 		if(cha!=null){
+			System.out.println("Plateau line 1250 Parse charact of id:" +idTest);
+			
 			cha.parse(hs);
 			cha.toKeep = true;	
 		}
 	}
 	//Destroy characters who didn't give any news
-	for(Character c : this.characters){
-		if(!c.toKeep){
-			c.setLifePoints(-1f);
-		}
-		else{
-			c.toKeep = false;
-		}
-	}
+	//TODO : We need to parse dead characters ..
+	// TODO : Add a cemetery, that host add in his to string
+//	for(Character c : this.characters){
+//		if(!c.toKeep){
+//			System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
+//			
+//			c.setLifePoints(-1f);
+//		}
+//		else{
+//			c.toKeep = false;
+//		}
+//	}
 }
 
 public void parseBullet(String s){
