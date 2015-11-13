@@ -66,11 +66,16 @@ public class MultiReceiver extends Thread{
 									System.out.println("MultiReceiver line 63 input received at round "+ this.g.round);
 								}
 								//A message coming from other players is automatically validated for yourself
-								this.g.inputsHandler.addToInputs(io);
-								io.validate();
+								
+								
 								//Send the validation for other players if the round is still ok
-								if(this.g.round<io.round+InputHandler.nDelay)
+								if(this.g.round<io.round+InputHandler.nDelay){
 									this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
+									this.g.inputsHandler.addToInputs(io);
+									io.validate();
+
+								}
+									
 							}
 							
 							else if(msg.substring(1, 2).equals("P")){

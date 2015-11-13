@@ -270,8 +270,7 @@ public class Character extends ActionObjet{
 	public void action(){
 
 		this.roundAfterBorn++;
-		//MULTI 
-		this.toKeep = false;
+
 
 		this.updateChargeTime();
 
@@ -937,6 +936,7 @@ public class Character extends ActionObjet{
 		return s;
 	}
 
+	@Deprecated
 	public void parseCharacterEx(HashMap<String,String> hs){
 		if(hs.containsKey("weapon")){
 			this.weapon=hs.get("weapon");

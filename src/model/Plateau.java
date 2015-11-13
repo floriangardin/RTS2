@@ -1073,6 +1073,7 @@ public class Plateau {
 	}
 	//MULTIPLAYING
 	public Vector<String> toStringArray(int sizeMessage){
+		System.out.println("Round : "+ this.g.round);
 		// We consider a character is of length 50 maximum
 		int tailleCharac = 80;
 		int id_charac = 0;
@@ -1083,12 +1084,11 @@ public class Plateau {
 		s+="!";
 
 		//We want to send the content of plateau+cemetery
-		Vector<Character> toSend = new Vector<Character>();
-
 
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
 			if(this.characters.get(id_charac).isToParse()){
+				System.out.println("vivant : toString "+this.characters.get(id_charac).toString(false));
 				s+=this.characters.get(id_charac).toString(false);
 				s+="|";
 				if(s.length()>=(sizeMessage-tailleCharac)){
@@ -1104,7 +1104,6 @@ public class Plateau {
 			}
 			id_charac++;
 		}
-
 		id_charac = 0;
 		s = "3P!";
 		//IDS
@@ -1113,6 +1112,7 @@ public class Plateau {
 		//CEMETERY
 		while(id_charac<this.cemetery.characters.size()){
 			if(this.cemetery.characters.get(id_charac).isToParse()){
+				System.out.println("vivant : toString "+this.cemetery.characters.get(id_charac).toString(false));
 				s+=this.cemetery.characters.get(id_charac).toString(true);
 				s+="|";
 				if(s.length()>=(sizeMessage-tailleCharac)){
@@ -1132,7 +1132,7 @@ public class Plateau {
 	}
 
 	public void parse(String s){
-
+		System.out.println("parse round : "+this.g.round);
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF CHARACTERS,BUILDING,BULLET
 		//System.out.println(s);
