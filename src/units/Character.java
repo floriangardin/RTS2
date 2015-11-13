@@ -446,6 +446,10 @@ public class Character extends ActionObjet{
 			g.setColor(Color.green);
 			g.fill(new Rectangle(this.getX()-r,this.getY()-r,x,2f));
 		}
+		
+		//DEBUG
+		g.setColor(Color.black);
+		g.drawString(String.valueOf(this.id), this.getX()-r,this.getY()-r);
 		//Draw the immolation
 		if(isImmolating){
 			Image fire = this.p.g.images.explosion;
