@@ -49,6 +49,7 @@ public class Map {
 		case "empty": createMapEmpty(game);break;
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
+		case "duel very small": createMapDuelVerySmall(game);break;
 		}
 	}
 
@@ -88,6 +89,38 @@ public class Map {
 		new BuildingMill(game.plateau,game,game.plateau.maxX/5,game.plateau.maxY/2);
 		new BuildingMine(game.plateau,game,4f*game.plateau.maxX/5,game.plateau.maxY/2);
 		new BuildingUniversity(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY/2);
+		
+	}
+	
+	
+	
+	public static void createMapDuelVerySmall(Game game){
+		game.plateau.setMaxXMaxY(1000f, 1000f);
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
+		
+		// Team 1 side
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,200f,1);
+		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 300f);
+		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f+40f, 300f);
+		
+		game.plateau.getTeamById(1).gold = 10000;
+		game.plateau.getTeamById(1).food= 10000;
+		game.plateau.getTeamById(2).gold = 10000;
+		game.plateau.getTeamById(2).food = 10000;
+		
+		
+		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,1f*game.plateau.maxY/5);
+			
+		// Team 2 side
+		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY-200f,2);
+		data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f,  game.plateau.maxY-350f);
+		data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f+40f,  game.plateau.maxY-350f);
+		new BuildingMill(game.plateau,game,550f,game.plateau.maxY-200f);
+		new BuildingMine(game.plateau,game,game.plateau.maxX-550f,game.plateau.maxY-200f);
+		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,4f*game.plateau.maxY/5);
+		
+		
 		
 	}
 	
