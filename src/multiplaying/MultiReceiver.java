@@ -74,7 +74,7 @@ public class MultiReceiver extends Thread{
 							}
 							
 							if(msg.substring(1, 2).equals("P")){
-								this.g.plateau.parse(msg.substring(1));
+								this.g.toParse.add(msg.substring(1));
 							}
 							//If validation message
 							else if(msg.substring(1, 2).equals("V")){
@@ -87,7 +87,7 @@ public class MultiReceiver extends Thread{
 								String[] valMessage = rawInput.split("\\|");
 								int round = Integer.parseInt(valMessage[1]);
 								int idPlayer = Integer.parseInt(valMessage[2]);
-								// Ressources partagé le vecteur d'inputs de la mailbox..
+								// Ressources partagï¿½ le vecteur d'inputs de la mailbox..
 								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 							}
 						}

@@ -1,7 +1,21 @@
 package model;
 import java.net.InetAddress;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.Vector;
+
+import main.Main;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
+import multiplaying.Clock;
+import multiplaying.InputHandler;
+import multiplaying.InputObject;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiSender;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -14,24 +28,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
 
-import buildings.Building;
-import bullets.Bullet;
-import display.BottomBar;
-import display.Message;
-import display.TopBar;
-import main.Main;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.Clock;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
 import spells.SpellEffect;
 import units.Character;
+import buildings.Building;
+import bullets.Bullet;
+import display.Message;
 
 public class Game extends BasicGame 
 {	
@@ -59,9 +60,11 @@ public class Game extends BasicGame
 	//Handle inputs from you and other players
 	public InputHandler inputsHandler;
 
-	//ID hos
+	//ID host
 	public static int ID_HOST = 1;
-
+	//Period of parse in frame
+	public static int Tparsing = 27;
+	
 	public int idChar = 0;
 	public int idBullet = 0;
 
@@ -121,7 +124,8 @@ public class Game extends BasicGame
 	public int toRemove = 0;
 	public Vector<Integer> vroundDropped=new Vector<Integer>();
 	public Vector<Integer> vroundMissing = new Vector<Integer>();
-
+	// To parse
+	public Vector<String> toParse= new Vector<String>();
 	//Debug paquets dropped
 	public int roundDropped=0;
 	public int roundDroppedValidate = 0;
@@ -267,7 +271,7 @@ public class Game extends BasicGame
 			this.clock.setRoundFromTime();
 			this.roundDebug++;
 			if(Game.debugValidation)
-				System.out.println("Game line 252: rounds joués:"+roundDebug+" round actuel: "+round);
+				System.out.println("Game line 252: rounds jouï¿½s:"+roundDebug+" round actuel: "+round);
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(debugTimeSteps)
 				System.out.println("-- NOUVEAU TOUR --");
@@ -279,15 +283,17 @@ public class Game extends BasicGame
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
-////				if(this.host && this.round%30==0){
-////					Vector<String> plateauState = this.plateau.toStringArray(256);
-////					System.out.println("New state to send");
-////					for(String s : plateauState){
-////						this.sendInputToAllPlayer(s);
-////					}
-////					System.out.println("inputs sent");
-//				}
-				// On ajoute l'input du tour courant à l'inputhandler				
+				
+				//To string du plateau tous les n_turns
+				if(this.host && this.round%Game.Tparsing==0){
+					System.out.println("New state to send");
+					Vector<String> plateauState = this.plateau.toStringArray(256);
+					for(String s : plateauState){
+						this.sendInputToAllPlayer(s);
+					}
+					System.out.println("Game Line 291 : Plateau toString sent");
+				}
+				// On ajoute l'input du tour courant ï¿½ l'inputhandler				
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)
 					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
@@ -309,9 +315,22 @@ public class Game extends BasicGame
 				}
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				ims = this.inputsHandler.getInputsForRound(this.round);
-				if(ims.size()!=0)
-					this.plateau.update(ims);
-				//Increment to next communication turn ( for the time being synchro with render turns)
+				
+				//Parse the plateau if informations are received.
+				if((this.round%Game.Tparsing)== 0){
+					int i = 0;
+					System.out.println("Game Line 321 : Parsing plateau");
+					while(i<this.toParse.size()){
+						this.plateau.parse(this.toParse.get(i));
+						i++;
+					}
+					//Clear the parser at each global parsing
+					this.toParse.clear();
+					
+				}
+				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluiditÃ©)
+				this.plateau.update(ims);
+
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 
@@ -393,8 +412,14 @@ public class Game extends BasicGame
 			if(i!=0 && i!=plateau.currentPlayer.id){
 				toSendInputs.get(i).add(s);
 			}
-		if(Game.debugValidation)
-			System.out.println("Game line 351 : Sending inputs to all players for round "+this.round);
+		if(Game.debugValidation){
+			if(s.charAt(1)=='I')
+				System.out.println("Game line 351 : Sending inputs to all players for round "+this.round);
+			else if(s.charAt(1)=='V')
+				System.out.println("Game line 351 : Sending a validation to all players");
+			else if(s.charAt(1)=='P')
+				System.out.println("Game line 351 : Sending a plateau parse to all players");
+		}
 	}
 
 	public Game (float resX,float resY){

@@ -1066,9 +1066,9 @@ public class Plateau {
 	}
 	//MULTIPLAYING
 	public Vector<String> toStringArray(int sizeMessage){
-		// We consider a character is of length 50
+		System.out.println("begin to string plateau");
+		// We consider a character is of length 50 maximum
 		int tailleCharac = 50;
-		int n_messages = sizeMessage;
 		int id_charac = 0;
 		Vector<String> result = new Vector<String>();
 		String s = "3P!";
@@ -1076,12 +1076,11 @@ public class Plateau {
 		s+=this.g.idPaquetSend;
 		s+="!";
 
-		//CHARACTER
-		s +="!";
 		while(id_charac<this.characters.size()){
 			s+=this.characters.get(id_charac);
 			s+="|";
 			if(s.length()>=(sizeMessage-tailleCharac)){
+				s+="!";
 				//To make a copy
 				result.add(s.substring(0));
 				s="3P!";
@@ -1097,6 +1096,7 @@ public void parse(String s){
 	//APPLY ACTION ON ALL CONCERNED OBJECTS
 	//GET ARRAY OF CHARACTERS,BUILDING,BULLET
 	//System.out.println(s);
+	System.out.println(" Game 1099 : debut du parse");
 	if(s!=null && s!=""){
 		String[] u = s.split("!");
 		//Take care of id sent
