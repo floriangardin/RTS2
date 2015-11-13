@@ -154,7 +154,7 @@ public class Character extends ActionObjet{
 		Case oldc = this.c;
 		this.c = this.p.mapGrid.getCase(x, y);
 		//Updating the case
-		if(c!=null && (oldc==null || c.id!=oldc.id)){
+		if(oldc==null || c.id!=oldc.id){
 			if(oldc!=null && oldc.characters.contains(this))
 				oldc.characters.remove(this);
 			this.c.characters.addElement(this);
@@ -865,11 +865,8 @@ public class Character extends ActionObjet{
 		if(hs.containsKey("state")){
 			this.state=Float.parseFloat(hs.get("state"));
 		}
-		if(hs.containsKey("x")){
-			this.x=Float.parseFloat(hs.get("x"));
-		}
-		if(hs.containsKey("y")){
-			this.y=Float.parseFloat(hs.get("y"));
+		if(hs.containsKey("x") && hs.containsKey("y")){
+			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
 		}
 		if(hs.containsKey("lp")){
 			this.lifePoints=Float.parseFloat(hs.get("lp"));
@@ -962,8 +959,6 @@ public class Character extends ActionObjet{
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
 
-		this.parseObjet(hs);
-		this.parseActionObjet(hs);
 		this.parseCharacter(hs);
 
 	}
