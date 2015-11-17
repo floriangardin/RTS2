@@ -328,6 +328,7 @@ public class Game extends BasicGame
 				}
 				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 				this.plateau.update(ims);
+				this.plateau.updatePlateauState();
 
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
@@ -335,8 +336,14 @@ public class Game extends BasicGame
 			} else {
 				ims.add(im);
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
-				// solo mode
+				// solo mode, update du joueur courant
 				this.plateau.update(ims);
+				//Update des ordres de l'IA
+				this.plateau.updateIAOrders();
+				
+				// Maintenant l'update effectif du plateau est séparé ..
+				this.plateau.updatePlateauState();
+				//Update IA orders
 				if(debugTimeSteps)
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 

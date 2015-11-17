@@ -9,7 +9,7 @@ public class GameTeam {
 
 	public Vector<Player> players;
 	public Data data;
-	public Plateau plateau;
+	Plateau plateau;
 	public int id;
 	public int civ;
 	public String civName;

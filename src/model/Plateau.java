@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
+import multiplaying.InputObject;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -13,6 +15,12 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import pathfinding.Case;
+import pathfinding.MapGrid;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
+import IA.IAMicroFlo;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
@@ -20,12 +28,6 @@ import bullets.Bullet;
 import bullets.CollisionBullet;
 import display.BottomBar;
 import display.Message;
-import multiplaying.InputObject;
-import pathfinding.Case;
-import pathfinding.MapGrid;
-import spells.Spell;
-import spells.SpellEffect;
-import units.Character;
 
 public class Plateau {
 
@@ -118,7 +120,7 @@ public class Plateau {
 		this.players = new Vector<Player>();
 		this.players.add(new Player(this,0,"Nature",teams.get(0),2,2));
 		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1),(int) this.g.resX, (int) this.g.resY));
-		this.players.add(new Player(this,2,"IA random",teams.get(2),2,2));
+		this.players.add(new IAMicroFlo(this,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 
@@ -596,7 +598,6 @@ public class Plateau {
 		return target;
 	}
 
-
 	//TODO : Here we handle inputs from each players
 	public void update(Vector<InputObject> ims){
 		//TODO
@@ -635,7 +636,29 @@ public class Plateau {
 		} 
 		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - g.timeSteps));
+		
+		
 
+	}
+	
+	public void updateIAOrders(){
+		
+		
+		//Pour toute les IA : 
+		for(Player p : this.players){
+			if(p instanceof IAPlayer){
+				updateIAOrders((IAPlayer) p);
+			}
+		}
+	}
+	
+	public void updateIAOrders(IAPlayer p){
+		//TODO : Update IA orders for a specific player
+		p.commonUpdate();
+		p.update();
+	}
+
+	public void updatePlateauState(){
 		// 2 - For everyone
 
 		this.collision();
@@ -669,8 +692,7 @@ public class Plateau {
 		if(g.debugTimeSteps)
 			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - g.timeSteps));
 	}
-
-
+	
 	private void updateSelection(InputObject im) {
 		this.selection.get(im.player.id).clear();
 
