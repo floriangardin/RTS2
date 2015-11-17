@@ -9,7 +9,7 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
-
+import model.Objet;
 import bullets.Bullet;
 import units.Character;
 

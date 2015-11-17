@@ -8,6 +8,7 @@ import model.GameTeam;
 import model.IAPlayer;
 import model.Plateau;
 
+
 public class IAMicroFlo extends IAPlayer {
 
 	public IAMicroFlo(Plateau p, int id, String name, GameTeam gameteam,int resX, int resY) {
@@ -23,15 +24,11 @@ public class IAMicroFlo extends IAPlayer {
 		//Get ennemy units
 		Vector<Character> ennemies =  getEnnemyUnitsInSight();
 		
-		//Aim at inquisitor if possible
-		for(Character c : ennemies){
-			if(c instanceof UnitInquisitor){
-				for(Character charac : ch){
-					charac.setTarget(c);
-				}
-				break;
-			}
+		//Aim at nearest character for each charac
+		for(Character charac : ch){
+			charac.setTarget(IAUtils.nearestUnit(ennemies, charac));
 		}
+		
 		//Aim the wizard if possible
 		
 		
