@@ -6,6 +6,7 @@ import model.Checkpoint;
 import model.GameTeam;
 import model.IAPlayer;
 import model.Plateau;
+import model.Utils;
 import spells.SpellConversion;
 import units.Character;
 import units.UnitArchange;
@@ -18,6 +19,7 @@ import units.UnitSpearman;
 
 public class IAMicroFlo extends IAPlayer {
 
+	//Groups of units
 	static int SPEARMAN=0;
 	static int CROSSBOWMAN=1;
 	static int KNIGHT=2;
@@ -71,8 +73,30 @@ public class IAMicroFlo extends IAPlayer {
 					charac.spells.get(0).launch(new Checkpoint(0f,0f), charac);
 				}
 			}
+			//TODO : handle hit and run
+			//Given ennemies considering charge run away from ennemies ( stay at range)
+			//Get first and second nearest ennemy, move in orthogonal direction
+			if(charac.state<charac.chargeTime){
+				Character c1 = IAUtils.nearestUnit(ennemies, charac);
+				if(Utils.distance(c1, charac)>charac.range){
+					continue;
+				}
+				ennemies.remove(c1);
+				Character c2 = IAUtils.nearestUnit(ennemies, charac);
+				float norm = Utils.distance(c1, c2);
+				float dirX = c1.getY()-c2.getY();
+				float dirY = c2.getX()-c1.getX();
+				dirX /=norm;
+				dirY /= norm;
+				
+				charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
+			}
+
+
 		}
 	}
+
+
 	public void handleKnight(Vector<Character> ennemies){
 		Vector<Character> units = this.getUnitsGroup(KNIGHT);
 		for(Character charac : units){
@@ -102,6 +126,21 @@ public class IAMicroFlo extends IAPlayer {
 				if(charac.spells.size()>0){
 					charac.spells.get(0).launch(new Checkpoint(0f,0f), charac);
 				}
+			}
+			if(charac.state<charac.chargeTime){
+				Character c1 = IAUtils.nearestUnit(ennemies, charac);
+				if(Utils.distance(c1, charac)>charac.range){
+					continue;
+				}
+				ennemies.remove(c1);
+				Character c2 = IAUtils.nearestUnit(ennemies, charac);
+				float norm = Utils.distance(c1, c2);
+				float dirX = c1.getY()-c2.getY();
+				float dirY = c2.getX()-c1.getX();
+				dirX /=norm;
+				dirY /= norm;
+				
+				charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
 			}
 		}
 	}

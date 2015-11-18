@@ -451,13 +451,22 @@ public class Character extends ActionObjet{
 		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
+			//Draw lifepoints
 			g.setColor(Color.red);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r,2*r,2f));
+			g.fill(new Rectangle(this.getX()-r,-5f+this.getY()-r,2*r,2f));
 			float x = this.lifePoints*2f*r/this.maxLifePoints;
 			g.setColor(Color.green);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r,x,2f));
+			g.fill(new Rectangle(this.getX()-r,-5f+this.getY()-r,x,2f));
+
 		}
-		
+		//Draw state
+		if(!isImmolating && this.state<this.chargeTime){
+			g.setColor(Color.white);
+			g.fill(new Rectangle(this.getX()-r,-10f+this.getY()-r,2*r,2f));
+			float x = this.state*2f*r/this.chargeTime;
+			g.setColor(Color.gray);
+			g.fill(new Rectangle(this.getX()-r,-10f+this.getY()-r,x,2f));
+		}
 		//DEBUG
 		g.setColor(Color.black);
 		g.drawString(String.valueOf(this.id), this.getX()-r,this.getY()-r);
@@ -907,7 +916,7 @@ public class Character extends ActionObjet{
 			this.setTeam(Integer.parseInt(hs.get("tm")));
 		}
 	}
-	
+
 	@Deprecated
 	public String toStringEx(){
 		String s ="" ;
