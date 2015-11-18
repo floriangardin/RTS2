@@ -1,7 +1,5 @@
 package model;
 import java.net.InetAddress;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.Vector;
 
