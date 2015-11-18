@@ -58,6 +58,7 @@ public class MultiReceiver extends Thread{
 						}
 						HashMap<String, String> map = Objet.preParse(msg.substring(1));
 						if(map.containsKey("clk")){
+							System.out.println("mythe vaneau");
 							long clockTime = Long.parseLong(map.get("clk"));
 							if(!this.g.host){
 								this.g.clock.synchro(clockTime);
