@@ -47,7 +47,6 @@ public class InputHandler {
 			}
 			//If right round but not validated, erase the input
 			else if(round==(in.round+nDelay) && !in.isValidated()){
-				System.out.println("Round drop : "+round);
 				this.g.vroundDropped.addElement(in.id);
 				cause = 1;
 			}
@@ -69,7 +68,6 @@ public class InputHandler {
 				System.out.println("InputHandler line 60: invalid inputs for input round "+(round-nDelay));
 			this.g.roundDropped++;
 			this.g.roundDroppedValidate++;
-			return new Vector<InputObject>();
 		}
 		else{
 			if(Game.debugValidation)
@@ -77,8 +75,9 @@ public class InputHandler {
 			this.g.roundDroppedMissing++;
 			this.g.vroundMissing.addElement(this.g.round);
 			this.g.roundDropped++;
-			return new Vector<InputObject>();
 		}
+		System.out.println("Round drop : "+round);
+		return new Vector<InputObject>();
 		
 	}
 	
