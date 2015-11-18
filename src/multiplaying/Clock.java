@@ -23,7 +23,8 @@ public class Clock extends Thread{
 	
 	
 	public void run(){
-		while(true){
+		boolean b = true;
+		while(b){
 			this.getPing();
 			try {
 				if(this.game.isInMenu){
@@ -35,7 +36,7 @@ public class Clock extends Thread{
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				break;
+				b=false;
 			}
 		}
 	}
