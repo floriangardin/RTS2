@@ -30,7 +30,7 @@ public class Clock extends Thread{
 					Thread.sleep(50);
 				}
 				else{
-					Thread.sleep(5000);
+					Thread.sleep(50);
 				}
 				
 			} catch (InterruptedException e) {
@@ -58,6 +58,7 @@ public class Clock extends Thread{
 		for(long o : origins){
 			this.originTime += o;
 		}
+		System.out.println(" 61 Clock " + this.origins.size());
 		this.originTime/=this.origins.size();
 		//System.out.println("Clock line 61 : Synchro clock");
 	}
