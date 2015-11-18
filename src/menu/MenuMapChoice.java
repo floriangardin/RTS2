@@ -416,7 +416,10 @@ public class MenuMapChoice extends Menu {
 			String[] resX = hs.get("resX").split(",");
 			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clk")){
-				
+					long clockTime = Long.parseLong(hs.get("clk"));
+					if(!this.game.host){
+						this.game.clock.synchro(clockTime);
+					}
 
 			}
 			if(hs.containsKey("stT")){

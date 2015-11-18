@@ -57,13 +57,12 @@ public class MultiReceiver extends Thread{
 							this.g.addressHost = packet.getAddress();
 						}
 						HashMap<String, String> map = Objet.preParse(msg.substring(1));
-						if(map.containsKey("clk")){
-							System.out.println("mythe vaneau");
-							long clockTime = Long.parseLong(map.get("clk"));
-							if(!this.g.host){
-								this.g.clock.synchro(clockTime);
-							}
-						}
+//						if(map.containsKey("clk")){
+//							long clockTime = Long.parseLong(map.get("clk"));
+//							if(!this.g.host){
+//								this.g.clock.synchro(clockTime);
+//							}
+//						}
 						this.g.connexions.add(msg.substring(1, msg.length()));
 						break;
 					case 3:
