@@ -31,7 +31,7 @@ public class Clock extends Thread{
 					Thread.sleep(50);
 				}
 				else{
-					this.interrupt();
+					b=false;
 				}
 				
 			} catch (InterruptedException e) {
