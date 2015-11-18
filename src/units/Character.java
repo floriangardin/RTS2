@@ -19,6 +19,7 @@ import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
+import model.Player;
 import model.RidableObjet;
 import model.Utils;
 import pathfinding.Case;
@@ -140,6 +141,14 @@ public class Character extends ActionObjet{
 
 	}
 
+	public void castSpell(int number,int player){
+		if(-1!=number && number<this.spells.size() && this.spellsState.get(number)>=this.spells.get(number).chargeTime){
+			if(this.spells.get(number).needToClick){
+				this.p.isCastingSpell.set(player,true);
+				this.p.castingSpell.set(player,number);
+			} 
+		}
+	}
 	public boolean isLeader(){
 		return this.leader==this;
 	}

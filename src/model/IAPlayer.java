@@ -198,7 +198,7 @@ public class IAPlayer extends Player{
 		}
 
 		for(Character ch : c){
-			if(this.aliveUnits.contains(ch)){
+			if(this.aliveUnits.contains(ch) && !this.unitsGroups.get(group).contains(ch)){
 				this.unitsGroups.get(group).add(ch);
 			}
 		}
@@ -217,7 +217,7 @@ public class IAPlayer extends Player{
 		}
 
 		for(Building b : c){
-			if(this.myBuildings.contains(b)){
+			if(this.myBuildings.contains(b) && !this.buildingGroups.get(group).contains(b)){
 				this.buildingGroups.get(group).add(b);
 			}
 		}

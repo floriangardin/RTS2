@@ -736,6 +736,7 @@ public class Plateau {
 			hasCastSpell.set(player, true);
 			castingSpell.set(player,-1);
 		}
+		
 		if(hasCastSpell.get(player) && !im.leftClick)
 			hasCastSpell.set(player,false);
 	}
@@ -798,12 +799,7 @@ public class Plateau {
 					castingSpell.set(player,-1);
 				}
 				Character c = ((Character) this.selection.get(player).get(0));
-				if(-1!=number && number<c.spells.size() && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
-					if(c.spells.get(number).needToClick){
-						isCastingSpell.set(player,true);
-						castingSpell.set(player,number);
-					} 
-				}
+				c.castSpell(number, player);
 			}
 		}
 	}

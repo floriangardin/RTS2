@@ -31,7 +31,7 @@ public class IAUtils {
 		return liste;
 	}
 
-	public static Objet nearestUnit(Vector<Character> close, Character caller){
+	public static Character nearestUnit(Vector<Character> close, Character caller){
 		float ref_dist = 10000000f;
 		Character closest = null;
 		for(Character o : close){
