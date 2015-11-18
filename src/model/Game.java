@@ -285,14 +285,15 @@ public class Game extends BasicGame
 				this.sendInputToAllPlayer(im.toString());
 
 				//To string du plateau tous les n_turns
-				if(this.host && this.round%Game.Tparsing==0){
-
-					Vector<String> plateauState = this.plateau.toStringArray(256);
-					for(String s : plateauState){
-						this.sendInputToAllPlayer(s);
-					}
-
-				}
+//				if(this.host && this.round%Game.Tparsing==0){
+//
+//					Vector<String> plateauState = this.plateau.toStringArray(256);
+//					for(String s : plateauState){
+//						this.sendInputToAllPlayer(s);
+//					}
+//
+//				}
+				
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)
@@ -318,14 +319,14 @@ public class Game extends BasicGame
 
 				//Parse the plateau if informations are received.
 				int i = 0;
-				while(i<this.toParse.size()){
-					this.plateau.parse(this.toParse.get(i));
-					i++;
-
-					//Clear the parser at each global parsing
-					this.toParse.clear();
-
-				}
+//				while(i<this.toParse.size()){
+//					this.plateau.parse(this.toParse.get(i));
+//					i++;
+//
+//					//Clear the parser at each global parsing
+//					this.toParse.clear();
+//
+//				}
 				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 				this.plateau.update(ims);
 				this.plateau.updatePlateauState();
