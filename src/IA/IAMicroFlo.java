@@ -118,6 +118,7 @@ public class IAMicroFlo extends IAPlayer {
 			}
 		}
 	}
+	
 	public void handleInquisitor(Vector<Character> ennemies){
 		Vector<Character> units = this.getUnitsGroup(INQUISITOR);
 		for(Character charac : units){
@@ -132,6 +133,7 @@ public class IAMicroFlo extends IAPlayer {
 				if(Utils.distance(c1, charac)>charac.range){
 					continue;
 				}
+				//TODO find a better direction
 				ennemies.remove(c1);
 				Character c2 = IAUtils.nearestUnit(ennemies, charac);
 				float norm = Utils.distance(c1, c2);
@@ -139,6 +141,8 @@ public class IAMicroFlo extends IAPlayer {
 				float dirY = c2.getX()-c1.getX();
 				dirX /=norm;
 				dirY /= norm;
+				
+				//Check if this is 
 				
 				charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
 			}

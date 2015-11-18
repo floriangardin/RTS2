@@ -24,6 +24,7 @@ public class Utils {
 
 	}
 
+	
 	public static float distance(Objet a ,Objet b){
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
 
