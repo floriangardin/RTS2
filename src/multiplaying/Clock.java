@@ -30,12 +30,12 @@ public class Clock extends Thread{
 					Thread.sleep(50);
 				}
 				else{
-					Thread.sleep(50);
+					this.interrupt();
 				}
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				break;
 			}
 		}
 	}
