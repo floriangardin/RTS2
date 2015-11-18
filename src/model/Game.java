@@ -256,6 +256,7 @@ public class Game extends BasicGame
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
+		System.out.println("fps:"+ gc.getFPS());
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
