@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.HashMap;
 
 import model.Game;
+import model.Objet;
 
 public class MultiReceiver extends Thread{
 
@@ -53,6 +55,13 @@ public class MultiReceiver extends Thread{
 					case 2: 
 						if(!this.g.host){
 							this.g.addressHost = packet.getAddress();
+						}
+						HashMap<String, String> map = Objet.preParse(msg.substring(1));
+						if(map.containsKey("clk")){
+							long clockTime = Long.parseLong(map.get("clk"));
+							if(!this.g.host){
+								this.g.clock.synchro(clockTime);
+							}
 						}
 						this.g.connexions.add(msg.substring(1, msg.length()));
 						break;
