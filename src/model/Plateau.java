@@ -661,7 +661,7 @@ public class Plateau {
 	public void updatePlateauState(){
 		// 2 - For everyone
 
-		this.collision();
+		//this.collision();
 		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - g.timeSteps));
 		this.clean();
