@@ -8,7 +8,7 @@ import model.Player;
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
-	static int nDelay=2;
+	static int nDelay=3;
 	Game g;
 
 	public InputHandler(Game g){
