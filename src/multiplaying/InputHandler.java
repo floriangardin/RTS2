@@ -47,6 +47,7 @@ public class InputHandler {
 			}
 			//If right round but not validated, erase the input
 			else if(round==(in.round+nDelay) && !in.isValidated()){
+				System.out.println("Round drop : "+round);
 				this.g.vroundDropped.addElement(in.id);
 				cause = 1;
 			}

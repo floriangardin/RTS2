@@ -327,9 +327,9 @@ public class Game extends BasicGame
 //					this.toParse.clear();
 //
 //				}
-				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
-				this.plateau.update(ims);
-				this.plateau.updatePlateauState();
+//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
+//				this.plateau.update(ims);
+//				this.plateau.updatePlateauState();
 
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
