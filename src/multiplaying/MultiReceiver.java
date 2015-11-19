@@ -135,7 +135,7 @@ public class MultiReceiver extends Thread{
 								else{
 									int i = 0;
 									while(i<this.g.clockSynchro.size()){
-										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
+										String[] checksum = this.g.clockSynchro.get(i).substring(1).split("\\|");
 										if(mes[1].equals(checksum[1]) && (Long.parseLong(mes[2])-Long.parseLong((checksum[2]))>20000000L)){
 											System.out.println("112 multireceiver : Clock Desynchro ! "+(Long.parseLong(mes[2])-Long.parseLong((checksum[2]))));
 										}
