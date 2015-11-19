@@ -1091,14 +1091,14 @@ public class Plateau {
 	}
 	//MULTIPLAYING
 	public Vector<String> toStringArray(int sizeMessage){
-		System.out.println("Round : "+ this.g.round);
+		
 		// We consider a character is of length 50 maximum
 		int tailleCharac = 80;
 		int id_charac = 0;
 		Vector<String> result = new Vector<String>();
 		String s = "3P!";
 		//IDS
-		s+=this.g.idPaquetSend;
+		s+=this.g.round;
 		s+="!";
 
 		//We want to send the content of plateau+cemetery
@@ -1150,14 +1150,14 @@ public class Plateau {
 	}
 
 	public void parse(String s){
-		System.out.println("parse round : "+this.g.round);
+		
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF CHARACTERS,BUILDING,BULLET
 		//System.out.println(s);
 		if(s!=null && s!=""){
 			String[] u = s.split("!");
 			//Take care of id sent
-			this.g.idPaquetReceived = Integer.parseInt(u[1]);
+			
 			parseCharacter(u[2]);
 		}
 	}

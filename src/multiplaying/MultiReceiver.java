@@ -87,7 +87,7 @@ public class MultiReceiver extends Thread{
 							}
 
 							else if(msg.substring(1, 2).equals("P")){
-								this.g.toParse.add(msg.substring(1));
+								this.g.toParse= msg.substring(1);
 							}
 							//If validation message
 							else if(msg.substring(1, 2).equals("V")){
@@ -118,6 +118,7 @@ public class MultiReceiver extends Thread{
 										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
 										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
 											System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+											this.g.processSynchro = true;
 										}
 										i++;
 									}

@@ -123,7 +123,7 @@ public class Game extends BasicGame
 	public Vector<Integer> vroundDropped=new Vector<Integer>();
 	public Vector<Integer> vroundMissing = new Vector<Integer>();
 	// To parse
-	public Vector<String> toParse= new Vector<String>();
+	public String toParse= null;
 	//Debug paquets dropped
 	public int roundDropped=0;
 	public int roundDroppedValidate = 0;
@@ -140,6 +140,7 @@ public class Game extends BasicGame
 
 	public Vector<String> checksum = new Vector<String>();
 	public Vector<String> clockSynchro= new Vector<String>();
+	public boolean processSynchro=false;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -272,7 +273,7 @@ public class Game extends BasicGame
 			this.clock.setRoundFromTime();
 
 			//Testing clock syncrho
-			
+
 
 
 			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
@@ -319,7 +320,10 @@ public class Game extends BasicGame
 					}
 				}
 
-
+				//Si Desynchro on envoie un process de synchro
+				if(this.host && this.processSynchro){
+					this.sendInputToAllPlayer(this.plateau.toStringArray(16000).get(0));
+				}
 				//To string du plateau tous les n_turns
 				//				if(this.host && this.round%Game.Tparsing==0){
 				//
@@ -363,10 +367,23 @@ public class Game extends BasicGame
 				//
 				//				}
 				//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
-				this.plateau.update(ims);
 
-				this.plateau.updatePlateauState();
+				boolean successSynchro = false;
+				if(processSynchro){
+					//Si round+2
+					String[] u = this.toParse.split("!");
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+						this.plateau.parse(this.toParse);
+						this.processSynchro = false;
+					}
 
+				}
+				
+				if(!successSynchro){
+					this.plateau.update(ims);
+
+					this.plateau.updatePlateauState();
+				}
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 
