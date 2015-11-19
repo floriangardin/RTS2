@@ -70,26 +70,27 @@ public class Clock extends Thread{
 		Process p2;
 		long time = this.getCurrentTime();
 		try {
-			p2=Runtime.getRuntime().exec("ping -n 1 "+this.game.addressHost.getHostAddress());
+			p2=Runtime.getRuntime().exec("ping -n 5 "+this.game.addressHost.getHostAddress());
 			p2.waitFor();
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.ping = (this.getCurrentTime()-time);
+		this.ping = (this.getCurrentTime()-time)/5;
 		//System.out.println("Clock line 71 :  ping : "+this.ping);
 		
 	}
 	
 	public void setRoundFromTime(){
-		long roundDuration = (long) ((1000000000f/Main.framerate));
-		if(this.game.round == (int) (this.getCurrentTime()/roundDuration)){
-			this.game.round++;
-		}
-		else{
-			this.game.round =(int) (this.getCurrentTime()/roundDuration);	
-		}
-		
+//		long roundDuration = (long) ((1000000000f/Main.framerate));
+//		if(this.game.round == (int) (this.getCurrentTime()/roundDuration)){
+//			this.game.round++;
+//		}
+//		else{
+//			this.game.round =(int) (this.getCurrentTime()/roundDuration);	
+//		}
+//		
+		this.game.round++;
 		
 	}
 	
