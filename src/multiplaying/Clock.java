@@ -28,7 +28,7 @@ public class Clock extends Thread{
 			this.getPing();
 			try {
 				if(this.game.isInMenu){
-					Thread.sleep(50);
+					Thread.sleep(500);
 				}
 				else{
 					b=false;
