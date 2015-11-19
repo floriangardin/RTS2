@@ -54,7 +54,7 @@ public class MenuMapChoice extends Menu {
 	float sizeYPlayers;
 
 	long startGame = 0;
-	public int seconds = 3;
+	public int seconds = 6;
 
 
 	public int cooldown;
@@ -164,19 +164,23 @@ public class MenuMapChoice extends Menu {
 				//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 				//System.out.println("Current time: "+this.game.clock.getCurrentTime());
 				this.game.sounds.buzz.play();
+				if(seconds==5){
+					Map.updateMap(mapSelected, game);
+					// Create sender and receiver
+					for(Player p : this.game.plateau.players){
+						this.game.toSendInputs.add(new Vector<String>());
+						this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
+						if(p.address!=null)
+							this.game.inputSender.lastElement().start();
+					}
+					this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+				}
+				
 				seconds--;
 			} else if (startGame<=this.game.clock.getCurrentTime()) {
 
-				// Create sender and receiver
-				for(Player p : this.game.plateau.players){
-					this.game.toSendInputs.add(new Vector<String>());
-					this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
-					if(p.address!=null)
-						this.game.inputSender.lastElement().start();
-				}
-				this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+
 				this.game.inputReceiver.start();
-				Map.updateMap(mapSelected, game);
 				game.launchGame();
 			}
 			return;
