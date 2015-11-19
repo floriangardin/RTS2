@@ -291,7 +291,7 @@ public class Game extends BasicGame
 					//Compute checksum
 					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
 					
-					String checksum = "3C|"+this.round;
+					String checksum = "3C|"+this.round+"|";
 					int i = 0;
 					
 					while(i<this.plateau.characters.size()){
