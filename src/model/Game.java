@@ -297,6 +297,7 @@ public class Game extends BasicGame
 					while(i<this.plateau.characters.size()){
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).x))%10);
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).y))%10);
+						i++;
 					}
 					checksum+="|";
 					this.checksum.addElement(checksum);
