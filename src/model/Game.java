@@ -289,7 +289,17 @@ public class Game extends BasicGame
 				//Checksum 
 				if(this.plateau.characters.size()>0){
 					//Compute checksum
-					this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
+					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
+					
+					String checksum = "3C|"+this.round;
+					int i = 0;
+					
+					while(i<this.plateau.characters.size()){
+						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).x))%10);
+						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).y))%10);
+					}
+					checksum+="|";
+					this.checksum.addElement(checksum);
 					this.sendInputToAllPlayer(this.checksum.lastElement());
 					if(this.checksum.size()>5){
 						this.checksum.remove(0);
