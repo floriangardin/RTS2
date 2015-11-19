@@ -267,7 +267,8 @@ public class Game extends BasicGame
 				timeSteps = System.currentTimeMillis();	
 			//Update of current round
 			this.clock.setRoundFromTime();
-			System.out.println("line 270 : " +this.round+ " " + Long.toString(this.clock.getCurrentTime()).substring(2, 5));
+
+			//System.out.println("line 270 : " +this.round+ " " + Long.toString(this.clock.getCurrentTime()).substring(2, 5));
 			this.roundDebug++;
 			if(Game.debugValidation)
 				System.out.println("Game line 252: rounds jou�s:"+roundDebug+" round actuel: "+round);
@@ -284,15 +285,15 @@ public class Game extends BasicGame
 				this.sendInputToAllPlayer(im.toString());
 
 				//To string du plateau tous les n_turns
-//				if(this.host && this.round%Game.Tparsing==0){
-//
-//					Vector<String> plateauState = this.plateau.toStringArray(256);
-//					for(String s : plateauState){
-//						this.sendInputToAllPlayer(s);
-//					}
-//
-//				}
-				
+				//				if(this.host && this.round%Game.Tparsing==0){
+				//
+				//					Vector<String> plateauState = this.plateau.toStringArray(256);
+				//					for(String s : plateauState){
+				//						this.sendInputToAllPlayer(s);
+				//					}
+				//
+				//				}
+
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
 				if(debugTimeSteps)
@@ -317,15 +318,15 @@ public class Game extends BasicGame
 
 				//Parse the plateau if informations are received.
 				int i = 0;
-//				while(i<this.toParse.size()){
-//					this.plateau.parse(this.toParse.get(i));
-//					i++;
-//
-//					//Clear the parser at each global parsing
-//					this.toParse.clear();
-//
-//				}
-//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
+				//				while(i<this.toParse.size()){
+				//					this.plateau.parse(this.toParse.get(i));
+				//					i++;
+				//
+				//					//Clear the parser at each global parsing
+				//					this.toParse.clear();
+				//
+				//				}
+				//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 				this.plateau.update(ims);
 				this.plateau.updatePlateauState();
 
@@ -339,7 +340,7 @@ public class Game extends BasicGame
 				this.plateau.update(ims);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
-				
+
 				// Maintenant l'update effectif du plateau est séparé ..
 				this.plateau.updatePlateauState();
 				//Update IA orders
