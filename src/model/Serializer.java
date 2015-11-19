@@ -11,7 +11,7 @@ public class Serializer {
 	OutputStream box ;
 	public Serializer(Population p,MultiSender sender){
 		
-		stream = new ObjectOutputStream(p);
+	
 	}
 
 }
