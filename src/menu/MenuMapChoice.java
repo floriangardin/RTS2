@@ -419,11 +419,11 @@ public class MenuMapChoice extends Menu {
 			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clk")){
 					long clockTime = Long.parseLong(hs.get("clk"));
-					if(!pingAsked){
+					if(!this.game.host && !pingAsked){
 						this.game.clock.getPing();
 						pingAsked = true;
 					}
-					if(!this.game.host && this.game.clock.ping!=0){
+					if(!this.game.host && pingAsked){
 						this.game.clock.synchro(clockTime);
 					}
 
