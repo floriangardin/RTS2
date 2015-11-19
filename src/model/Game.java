@@ -289,7 +289,7 @@ public class Game extends BasicGame
 				//Checksum 
 				if(this.plateau.characters.size()>0){
 					//Compute checksum
-					this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+""+this.plateau.characters.get(0).y+""+this.plateau.characters.size()+"|");
+					this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
 					this.sendInputToAllPlayer(this.checksum.lastElement());
 					if(this.checksum.size()>5){
 						this.checksum.remove(0);
