@@ -370,7 +370,7 @@ public class Game extends BasicGame
 				//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 
 				boolean successSynchro = false;
-				if(processSynchro){
+				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
