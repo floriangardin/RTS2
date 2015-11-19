@@ -12,6 +12,7 @@ public abstract class BuildingProduction extends BuildingAction {
 
 	public Vector<UnitsList> productionList;
 	public Vector<Integer> queue ;
+	public float random=0f;
 
 	public void product(int unit){
 		this.changes.queue=true;
@@ -33,6 +34,10 @@ public abstract class BuildingProduction extends BuildingAction {
 	public void action(){
 		//Do the action of Barrack
 		//Product, increase state of the queue
+		this.random+=0.01f;
+		if(this.random>1f){
+			this.random=0;
+		}
 		if(this.queue.size()>0){
 			if(!this.isProducing){
 				this.isProducing = true;
@@ -42,11 +47,12 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.setCharge(this.charge+0.1f*Game.ratio);
 			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
-				float dirX = this.rallyPoint.x-this.x;
-				float dirY = this.rallyPoint.y - this.y;
+				float dirX = this.random+this.rallyPoint.x-this.x;
+				float dirY = this.random+this.rallyPoint.y - this.y;
 				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
-				float startX = (float)Math.random()+this.x + this.sizeX*dirX/norm/2;
-				float startY =(float) Math.random()+ this.y + this.sizeY*dirY/norm/2;
+				//Introduit du random
+				float startX = this.x + this.sizeX*dirX/norm/2;
+				float startY = this.y + this.sizeY*dirY/norm/2;
 				Character c = this.getGameTeam().data.create(this.productionList.get(this.queue.get(0)), startX,startY );
 				c.setTarget(this.rallyPoint);
 				this.changes.queue=true;
@@ -59,13 +65,11 @@ public abstract class BuildingProduction extends BuildingAction {
 		}
 		else if(this.isProducing){
 			this.isProducing = false;
-
 		}
 		// if reach production reset and create first unit in the queue
 		if(this.lifePoints<10f){
 			this.setTeam(this.teamCapturing);
 			this.updateImage();
-
 			this.lifePoints=this.maxLifePoints;
 		}
 	}
