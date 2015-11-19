@@ -22,6 +22,7 @@ import multiplaying.MultiSender;
 public class MenuMapChoice extends Menu {
 
 	boolean pingAsked = false;
+	boolean secondPingAsked = false;
 	
 	public Image back;
 	public Image play;
@@ -423,9 +424,10 @@ public class MenuMapChoice extends Menu {
 			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clk")){
 					long clockTime = Long.parseLong(hs.get("clk"));
-					if(!this.game.host && !pingAsked && seconds<4){
+					if((!this.game.host && !pingAsked) || (seconds<4&& ! secondPingAsked)){
 						this.game.clock.getPing();
 						pingAsked = true;
+						secondPingAsked= true;
 					}
 					if(!this.game.host && pingAsked){
 						this.game.clock.synchro(clockTime);
