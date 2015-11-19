@@ -57,12 +57,12 @@ public class MultiReceiver extends Thread{
 							this.g.addressHost = packet.getAddress();
 						}
 						HashMap<String, String> map = Objet.preParse(msg.substring(1));
-//						if(map.containsKey("clk")){
-//							long clockTime = Long.parseLong(map.get("clk"));
-//							if(!this.g.host){
-//								this.g.clock.synchro(clockTime);
-//							}
-//						}
+						//						if(map.containsKey("clk")){
+						//							long clockTime = Long.parseLong(map.get("clk"));
+						//							if(!this.g.host){
+						//								this.g.clock.synchro(clockTime);
+						//							}
+						//						}
 						this.g.connexions.add(msg.substring(1, msg.length()));
 						break;
 					case 3:
@@ -70,22 +70,22 @@ public class MultiReceiver extends Thread{
 						if(msg.length()>1){
 							if(msg.substring(1, 2).equals("I")){
 								InputObject io = new InputObject(msg.substring(2, msg.length()),g);
-								
+
 								if(Game.debugValidation){
 									System.out.println("MultiReceiver line 63 input received at round "+ this.g.round);
 								}
 								//A message coming from other players is automatically validated for yourself
-								
-								
+
+
 								//Send the validation for other players if the round is still ok
 								if(this.g.round<io.round+InputHandler.nDelay){
 									this.g.sendInputToPlayer(io.player, io.getMessageValidationToSend());
 									this.g.inputsHandler.addToInputs(io);
 									io.validate();
 								}
-									
+
 							}
-							
+
 							else if(msg.substring(1, 2).equals("P")){
 								this.g.toParse.add(msg.substring(1));
 							}
@@ -93,7 +93,7 @@ public class MultiReceiver extends Thread{
 							else if(msg.substring(1, 2).equals("V")){
 								//Get the corresponding round and player
 								String rawInput = msg.substring(1);
-								
+
 								if(Game.debugValidation){
 									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
 								}
@@ -103,18 +103,25 @@ public class MultiReceiver extends Thread{
 								// Ressources partag� le vecteur d'inputs de la mailbox..
 								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 							}
-							
+
 							else if(msg.substring(1, 2).equals("C")){
 								String[] mes = msg.substring(1).split("\\|");
-								if(this.g.checksum.equals("")){
+
+
+								if(this.g.checksum.size()==0){
 									System.out.println("Je suis en retard sur l'autre ! ");
 									break;
 								}
-								String[] checksum = this.g.checksum.substring(1).split("\\|");
-								if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
-									System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+
+								int i = 0;
+								while(i<this.g.checksum.size()){
+									String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
+									if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
+										System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+									}
+									i++;
 								}
-								
+
 							}
 						}
 						break;

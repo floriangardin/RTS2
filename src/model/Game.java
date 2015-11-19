@@ -138,7 +138,7 @@ public class Game extends BasicGame
 	public boolean isInMenu = false;
 	public int idInput;
 
-	public String checksum = "";
+	public Vector<String> checksum = new Vector<String>();
 	
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -289,8 +289,8 @@ public class Game extends BasicGame
 				//Checksum 
 				if(this.plateau.characters.size()>0){
 					//Compute checksum
-					this.checksum = "3C|"+this.round+"|"+this.plateau.characters.get(0).x+""+this.plateau.characters.get(0).y+""+this.plateau.characters.size()+"|";
-					this.sendInputToAllPlayer(this.checksum);
+					this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+""+this.plateau.characters.get(0).y+""+this.plateau.characters.size()+"|");
+					this.sendInputToAllPlayer(this.checksum.lastElement());
 				}
 
 
