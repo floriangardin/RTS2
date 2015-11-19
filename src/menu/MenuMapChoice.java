@@ -21,6 +21,8 @@ import multiplaying.MultiSender;
 
 public class MenuMapChoice extends Menu {
 
+	boolean pingAsked = false;
+	
 	public Image back;
 	public Image play;
 	public Image marbre;
@@ -417,8 +419,9 @@ public class MenuMapChoice extends Menu {
 			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clk")){
 					long clockTime = Long.parseLong(hs.get("clk"));
-					if(this.game.clock.ping==0){
+					if(!pingAsked){
 						this.game.clock.getPing();
+						pingAsked = true;
 					}
 					if(!this.game.host && this.game.clock.ping!=0){
 						this.game.clock.synchro(clockTime);
