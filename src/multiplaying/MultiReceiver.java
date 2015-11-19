@@ -110,18 +110,18 @@ public class MultiReceiver extends Thread{
 
 								if(this.g.checksum.size()==0){
 									System.out.println("Je suis en retard sur l'autre ! ");
-									break;
-								}
 
-								int i = 0;
-								while(i<this.g.checksum.size()){
-									String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
-									if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
-										System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+								}
+								else{
+									int i = 0;
+									while(i<this.g.checksum.size()){
+										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
+										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
+											System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+										}
+										i++;
 									}
-									i++;
 								}
-
 							}
 						}
 						break;
