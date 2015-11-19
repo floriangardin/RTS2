@@ -320,7 +320,7 @@ public class Game extends BasicGame
 					}
 				}
 				//Simulate a desynchro TOREMOVE
-				if((this.round%200 )== 0){
+				if(this.round!=0 && (this.round%200 )== 0){
 					this.plateau.characters.get(0).x+=3*(Math.random()-0.5);
 				}
 				
