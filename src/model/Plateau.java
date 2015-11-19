@@ -64,7 +64,7 @@ public class Plateau {
 
 	// ADD ALL OBJETS 
 	public Vector<Character> characters;
-	public Cemetery cemetery;
+	public Population population;
 	public Vector<Character> toAddCharacters;
 	public Vector<Character> toRemoveCharacters;
 
@@ -126,7 +126,7 @@ public class Plateau {
 
 		//CHARACTERS
 		this.characters = new Vector<Character>();
-		this.cemetery = new Cemetery(this.g);
+		this.population = new Population(this.g);
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
 		//WEAPONS
@@ -254,7 +254,7 @@ public class Plateau {
 		if(this.selection.contains(o)){
 			this.selection.remove(o);
 		}
-		this.cemetery.add(o);
+		this.population.add(o);
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -473,7 +473,7 @@ public class Plateau {
 			a.action();
 		}
 		//Update cemetery;
-		this.cemetery.update();
+		this.population.update();
 	}
 
 
@@ -636,14 +636,14 @@ public class Plateau {
 		} 
 		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - g.timeSteps));
-		
-		
+
+
 
 	}
-	
+
 	public void updateIAOrders(){
-		
-		
+
+
 		//Pour toute les IA : 
 		for(Player p : this.players){
 			if(p instanceof IAPlayer){
@@ -651,7 +651,7 @@ public class Plateau {
 			}
 		}
 	}
-	
+
 	public void updateIAOrders(IAPlayer p){
 		//TODO : Update IA orders for a specific player
 		p.commonUpdate();
@@ -692,7 +692,7 @@ public class Plateau {
 		if(g.debugTimeSteps)
 			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - g.timeSteps));
 	}
-	
+
 	private void updateSelection(InputObject im) {
 		this.selection.get(im.player.id).clear();
 
@@ -736,7 +736,7 @@ public class Plateau {
 			hasCastSpell.set(player, true);
 			castingSpell.set(player,-1);
 		}
-		
+
 		if(hasCastSpell.get(player) && !im.leftClick)
 			hasCastSpell.set(player,false);
 	}
@@ -1128,10 +1128,10 @@ public class Plateau {
 		s+=this.g.idPaquetSend;
 		s+="!";
 		//CEMETERY
-		while(id_charac<this.cemetery.characters.size()){
-			if(this.cemetery.characters.get(id_charac).isToParse()){
-				System.out.println("mort : toString "+this.cemetery.characters.get(id_charac).toString(true));
-				s+=this.cemetery.characters.get(id_charac).toString(true);
+		while(id_charac<this.population.characters.size()){
+			if(this.population.characters.get(id_charac).isToParse()){
+				System.out.println("mort : toString "+this.population.characters.get(id_charac).toString(true));
+				s+=this.population.characters.get(id_charac).toString(true);
 				s+="|";
 				if(s.length()>=(sizeMessage-tailleCharac)){
 
@@ -1254,7 +1254,7 @@ public class Plateau {
 				return cha;
 			}
 		}
-		for(Character cha : this.cemetery.characters){
+		for(Character cha : this.population.characters){
 			if(id==cha.id){
 				return cha;
 			}

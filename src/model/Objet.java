@@ -13,7 +13,7 @@ import bullets.Bullet;
 import pathfinding.Case;
 import units.Character;
 
-public abstract class Objet {
+public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
 	public int id;

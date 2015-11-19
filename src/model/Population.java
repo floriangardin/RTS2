@@ -2,12 +2,12 @@ package model;
 
 import java.util.Vector;
 import units.Character;
-public class Cemetery {
+public class Population {
 	Vector<Character> characters= new Vector<Character>();
 	public static int roundToKeep = 200;
 	Game game;
 	
-	public Cemetery(Game game){
+	public Population(Game game){
 		this.game = game;
 	}
 
@@ -39,7 +39,7 @@ public class Cemetery {
 		Vector<Character>  toRemove = new Vector<Character>();
 		while(i<this.characters.size()){
 			this.characters.get(i).deadSince++;
-			if(this.characters.get(i).deadSince>Cemetery.roundToKeep){
+			if(this.characters.get(i).deadSince>Population.roundToKeep){
 				toRemove.add(this.characters.get(i));
 			}
 			i++;

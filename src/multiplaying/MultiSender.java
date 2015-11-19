@@ -17,7 +17,7 @@ public class MultiSender extends Thread{
 	int port;
 	Vector<String> depot;
 	Game game;
-
+	DatagramSocket client;
 	// DEBUGGING
 	int sent = 0;
 	
@@ -26,16 +26,22 @@ public class MultiSender extends Thread{
 		this.address = address;
 		this.port = port;
 		this.game = game;
+		try {
+			client = new DatagramSocket();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void run(){
 		try {
 			@SuppressWarnings("resource")
-			DatagramSocket client = new DatagramSocket();
+			
 			byte[] message;
 			DatagramPacket packet;
 			if(Game.debugSender)
-				System.out.println("Création d'un sender - " + port);
+				System.out.println("Crï¿½ation d'un sender - " + port);
 			while(true){
 				if(this.depot.size()>0){
 					this.game.idPaquetSend++;
