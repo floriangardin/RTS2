@@ -106,6 +106,10 @@ public class MultiReceiver extends Thread{
 							
 							else if(msg.substring(1, 2).equals("C")){
 								String[] mes = msg.substring(1).split("\\|");
+								if(this.g.checksum.equals("")){
+									System.out.println("Je suis en retard sur l'autre ! ");
+									break;
+								}
 								String[] checksum = this.g.checksum.substring(1).split("\\|");
 								if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
 									System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
