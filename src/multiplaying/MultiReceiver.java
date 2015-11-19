@@ -103,7 +103,7 @@ public class MultiReceiver extends Thread{
 								// Ressources partag� le vecteur d'inputs de la mailbox..
 								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 							}
-
+							//Checksum
 							else if(msg.substring(1, 2).equals("C")){
 								String[] mes = msg.substring(1).split("\\|");
 
