@@ -1090,12 +1090,11 @@ public class Plateau {
 		this.messages.get(player).add(0, m);
 	}
 	//MULTIPLAYING
-	public Vector<String> toStringArray(int sizeMessage){
+	public String toStringArray(){
 		
 		// We consider a character is of length 50 maximum
 		int tailleCharac = 80;
 		int id_charac = 0;
-		Vector<String> result = new Vector<String>();
 		String s = "3P!";
 		//IDS
 		s+=this.g.round;
@@ -1109,44 +1108,21 @@ public class Plateau {
 				System.out.println("vivant : toString "+this.characters.get(id_charac).toString(false));
 				s+=this.characters.get(id_charac).toString(false);
 				s+="|";
-				if(s.length()>=(sizeMessage-tailleCharac)){
-
-					s+="!";
-
-					//To make a copy
-					result.add(s.substring(0));
-					s="3P!";
-					s+=this.g.idPaquetSend;
-					s+="!";
-				}
 			}
 			id_charac++;
 		}
 		id_charac = 0;
-		s = "3P!";
-		//IDS
-		s+=this.g.idPaquetSend;
-		s+="!";
 		//CEMETERY
 		while(id_charac<this.population.characters.size()){
 			if(this.population.characters.get(id_charac).isToParse()){
-				System.out.println("mort : toString "+this.population.characters.get(id_charac).toString(true));
 				s+=this.population.characters.get(id_charac).toString(true);
 				s+="|";
-				if(s.length()>=(sizeMessage-tailleCharac)){
-
-					s+="!";
-
-					//To make a copy
-					result.add(s.substring(0));
-					s="3P!";
-					s+=this.g.idPaquetSend;
-					s+="!";
-				}
 			}
 			id_charac++;
 		}
-		return result;
+		System.out.println("s : " + s);
+		s+="!";
+		return s;
 	}
 
 	public void parse(String s){

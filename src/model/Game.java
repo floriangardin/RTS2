@@ -320,9 +320,9 @@ public class Game extends BasicGame
 					}
 				}
 
-				//Si Desynchro on envoie un process de synchro
+				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro){
-					this.toParse = this.plateau.toStringArray(16000).get(0);
+					this.toParse = this.plateau.toStringArray();
 					this.sendInputToAllPlayer(this.toParse);
 				}
 				//To string du plateau tous les n_turns
