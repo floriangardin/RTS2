@@ -139,7 +139,8 @@ public class Game extends BasicGame
 	public int idInput;
 
 	public Vector<String> checksum = new Vector<String>();
-	
+	public Vector<String> clockSynchro= new Vector<String>();
+
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -270,6 +271,15 @@ public class Game extends BasicGame
 			//Update of current round
 			this.clock.setRoundFromTime();
 
+			//Testing clock syncrho
+			
+
+
+			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
+			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
+			if(this.clockSynchro.size()>5){
+				this.clockSynchro.remove(0);
+			}
 			//System.out.println("line 270 : " +this.round+ " " + Long.toString(this.clock.getCurrentTime()).substring(2, 5));
 			this.roundDebug++;
 			if(Game.debugValidation)
@@ -285,15 +295,17 @@ public class Game extends BasicGame
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
-				
-				//Checksum 
+
+
+
+				//Checksum for testing synchro
 				if(this.plateau.characters.size()>0){
 					//Compute checksum
 					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
-					
+
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
-					
+
 					while(i<this.plateau.characters.size()){
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).x))%10);
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).y))%10);
@@ -352,6 +364,7 @@ public class Game extends BasicGame
 				//				}
 				//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 				this.plateau.update(ims);
+
 				this.plateau.updatePlateauState();
 
 				if(debugTimeSteps)

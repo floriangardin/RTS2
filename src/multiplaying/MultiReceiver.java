@@ -123,6 +123,26 @@ public class MultiReceiver extends Thread{
 									}
 								}
 							}
+							
+							else if(msg.substring(1, 2).equals("H")){
+								String[] mes = msg.substring(1).split("\\|");
+
+
+								if(this.g.clockSynchro.size()==0){
+									System.out.println("Je suis en retard sur l'autre ! ");
+
+								}
+								else{
+									int i = 0;
+									while(i<this.g.clockSynchro.size()){
+										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
+										if(mes[1].equals(checksum[1]) && (Long.parseLong(mes[2])-Long.parseLong((checksum[2]))>20000000L)){
+											System.out.println("112 multireceiver : Clock Desynchro ! "+(Long.parseLong(mes[2])-Long.parseLong((checksum[2]))));
+										}
+										i++;
+									}
+								}
+							}
 						}
 						break;
 					default:
