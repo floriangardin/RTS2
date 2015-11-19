@@ -376,7 +376,9 @@ public class Game extends BasicGame
 					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						this.plateau.parse(this.toParse);
 						this.processSynchro = false;
+						successSynchro = true;
 						System.out.println("Resynchronisation ....");
+						
 					}
 				}
 				
