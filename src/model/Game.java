@@ -277,7 +277,7 @@ public class Game extends BasicGame
 
 			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
 			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
-			if(this.clockSynchro.size()>5){
+			if(this.clockSynchro.size()>20){
 				this.clockSynchro.remove(0);
 			}
 			//System.out.println("line 270 : " +this.round+ " " + Long.toString(this.clock.getCurrentTime()).substring(2, 5));
