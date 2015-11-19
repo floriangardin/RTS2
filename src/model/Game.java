@@ -319,7 +319,11 @@ public class Game extends BasicGame
 						this.checksum.remove(0);
 					}
 				}
-
+				//Simulate a desynchro TOREMOVE
+				if((this.round%200 )== 0){
+					this.plateau.characters.get(0).x+=3*(Math.random()-0.5);
+				}
+				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro){
 					this.toParse = this.plateau.toStringArray();

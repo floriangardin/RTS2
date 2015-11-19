@@ -114,17 +114,22 @@ public class MultiReceiver extends Thread{
 								}
 								else{
 									int i = 0;
+									boolean clearCheckSum = false;
 									while(i<this.g.checksum.size()){
 										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
 										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
 											System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+											clearCheckSum = true;
 											this.g.processSynchro = true;
 										}
 										i++;
 									}
+									if(clearCheckSum){
+										this.g.checksum.clear();
+									}
 								}
 							}
-							
+
 							else if(msg.substring(1, 2).equals("H")){
 								String[] mes = msg.substring(1).split("\\|");
 
