@@ -1105,7 +1105,6 @@ public class Plateau {
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
 			if(this.characters.get(id_charac).isToParse()){
-				System.out.println("vivant : toString "+this.characters.get(id_charac).toString(false));
 				s+=this.characters.get(id_charac).toString(false);
 				s+="|";
 			}
