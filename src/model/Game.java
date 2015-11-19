@@ -138,6 +138,8 @@ public class Game extends BasicGame
 	public boolean isInMenu = false;
 	public int idInput;
 
+	public String checksum = "";
+	
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -283,6 +285,14 @@ public class Game extends BasicGame
 				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
+				
+				//Checksum 
+				if(this.plateau.characters.size()>0){
+					//Compute checksum
+					this.checksum = "3C|"+this.round+"|"+this.plateau.characters.get(0).x+""+this.plateau.characters.get(0).y+""+this.plateau.characters.size()+"|";
+					this.sendInputToAllPlayer(this.checksum);
+				}
+
 
 				//To string du plateau tous les n_turns
 				//				if(this.host && this.round%Game.Tparsing==0){
