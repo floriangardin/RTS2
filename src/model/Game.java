@@ -267,7 +267,7 @@ public class Game extends BasicGame
 				timeSteps = System.currentTimeMillis();	
 			//Update of current round
 			this.clock.setRoundFromTime();
-			
+			System.out.println("line 270 : " +this.round+ " " + this.clock.getCurrentTime());
 			this.roundDebug++;
 			if(Game.debugValidation)
 				System.out.println("Game line 252: rounds jou�s:"+roundDebug+" round actuel: "+round);
