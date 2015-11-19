@@ -83,8 +83,14 @@ public class Clock extends Thread{
 	
 	public void setRoundFromTime(){
 		long roundDuration = (long) ((1000000000f/Main.framerate));
-//		this.game.round =(int) (this.getCurrentTime()/roundDuration);
-		this.game.round++;
+		if(this.game.round == (int) (this.getCurrentTime()/roundDuration)){
+			this.game.round++;
+		}
+		else{
+			this.game.round =(int) (this.getCurrentTime()/roundDuration);	
+		}
+		
+		
 	}
 	
 	public long getOrigin(){
