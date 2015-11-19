@@ -28,8 +28,8 @@ public class Main {
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setDisplayMode(resolutionX, resolutionY,false);
 			app.setTargetFrameRate(Main.framerate);
-			app.setVSync(false);
-			//app.setMaximumLogicUpdateInterval(20);
+			app.setVSync(true);
+			app.setMaximumLogicUpdateInterval(20);
 			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
 		} catch (SlickException e) {
