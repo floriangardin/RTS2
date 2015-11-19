@@ -210,7 +210,7 @@ public class MenuMapChoice extends Menu {
 				if (present1 && present2){
 					// Launch Game
 					if(startGame==0){
-						this.startGame = this.game.clock.getCurrentTime()+5000000000L;
+						this.startGame = this.game.clock.getCurrentTime()+10000000000L;
 					}
 				}
 			}
@@ -423,7 +423,7 @@ public class MenuMapChoice extends Menu {
 			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clk")){
 					long clockTime = Long.parseLong(hs.get("clk"));
-					if(!this.game.host && !pingAsked){
+					if(!this.game.host && !pingAsked && seconds<4){
 						this.game.clock.getPing();
 						pingAsked = true;
 					}
