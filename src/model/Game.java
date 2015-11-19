@@ -142,8 +142,8 @@ public class Game extends BasicGame
 		this.isInMenu = false;
 		this.menuCurrent = null;
 		app.setClearEachFrame(true);
-		this.plateau.Xcam = this.plateau.maxX/2 - this.resX/2;
-		this.plateau.Ycam = this.plateau.maxY/2 -this.resY/2;
+		this.plateau.Xcam = (int) (this.plateau.maxX/2 - this.resX/2);
+		this.plateau.Ycam = (int) (this.plateau.maxY/2 -this.resY/2);
 	}
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
@@ -365,8 +365,8 @@ public class Game extends BasicGame
 		this.musics.imperial.setVolume(options.musicVolume);
 		//this.game.newGame();
 		this.quitMenu();
-		this.plateau.Xcam = this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2;
-		this.plateau.Ycam = this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2;
+		this.plateau.Xcam =(int)( this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
+		this.plateau.Ycam = (int)(this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
 		this.startTime = System.currentTimeMillis();
 		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;

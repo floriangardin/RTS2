@@ -41,8 +41,8 @@ public class Plateau {
 	public int nPlayers;
 
 	// Camera 
-	public float Xcam;
-	public float Ycam;
+	public int Xcam;
+	public int Ycam;
 
 	// fog of war
 	public Image fog;
@@ -831,8 +831,8 @@ public class Plateau {
 					if(this.players.get(player).groupSelection == to && this.players.get(player).groups.get(to).size()>0){
 						float xmoy=this.players.get(player).groups.get(to).get(0).getX();
 						float ymoy=this.players.get(player).groups.get(to).get(0).getY();
-						this.Xcam = Math.min(maxX-g.resX/2f, Math.max(-g.resX/2f, xmoy-g.resX/2f));
-						this.Ycam = Math.min(maxY-g.resY/2f, Math.max(-g.resY/2f, ymoy-g.resY/2f));
+						this.Xcam = (int) Math.min(maxX-g.resX/2f, Math.max(-g.resX/2f, xmoy-g.resX/2f));
+						this.Ycam = (int) Math.min(maxY-g.resY/2f, Math.max(-g.resY/2f, ymoy-g.resY/2f));
 					}
 				}
 			}
@@ -864,8 +864,8 @@ public class Plateau {
 			if(im.leftClick && player==this.currentPlayer.id && (im.xMouse-Xcam)>b.minimap.startX && (im.xMouse-Xcam)<
 					b.minimap.startX+b.minimap.w && this.rectangleSelection.get(player)==null){
 				// Put camera where the click happened
-				Xcam = (im.xMouse)-g.resX/2f;
-				Ycam = (im.yMouse)-g.resY/2f;
+				Xcam = (int) ((im.xMouse)-g.resX/2f);
+				Ycam = (int) ((im.yMouse)-g.resY/2f);
 			}
 		}
 		else{
