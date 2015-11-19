@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 import model.Game;
 
 public class Main {
-	public static int framerate = 30;
+	public static int framerate = 60;
 	
 	public static void main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
