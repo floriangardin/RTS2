@@ -12,7 +12,7 @@ public class Clock extends Thread{
 	private long originTime;
 	Vector<Long> origins;
 	//ping to master clock
-	long ping;
+	public long ping;
 	
 	public Clock(Game g){
 		this.game = g;
@@ -25,10 +25,10 @@ public class Clock extends Thread{
 	public void run(){
 		boolean b = true;
 		while(b){
-			this.getPing();
+			
 			try {
 				if(this.game.isInMenu){
-					Thread.sleep(500);
+					Thread.sleep(5000);
 				}
 				else{
 					b=false;
@@ -70,13 +70,13 @@ public class Clock extends Thread{
 		Process p2;
 		long time = this.getCurrentTime();
 		try {
-			p2=Runtime.getRuntime().exec("ping -n 5 "+this.game.addressHost.getHostAddress());
+			p2=Runtime.getRuntime().exec("ping -n 10 "+this.game.addressHost.getHostAddress());
 			p2.waitFor();
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.ping = (this.getCurrentTime()-time)/5;
+		this.ping = (this.getCurrentTime()-time)/10;
 		//System.out.println("Clock line 71 :  ping : "+this.ping);
 		
 	}

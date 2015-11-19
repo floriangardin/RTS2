@@ -146,7 +146,7 @@ public class MenuMapChoice extends Menu {
 		if(startGame==0)
 			g.drawString("en attente", 0f, 0f);
 		else
-			g.drawString("début dans " + ((startGame-game.clock.getCurrentTime())/100000), 0f, 0f);
+			g.drawString("dï¿½but dans " + ((startGame-game.clock.getCurrentTime())/100000), 0f, 0f);
 
 	}
 
@@ -417,7 +417,10 @@ public class MenuMapChoice extends Menu {
 			String[] resY = hs.get("resY").split(",");
 			if(hs.containsKey("clk")){
 					long clockTime = Long.parseLong(hs.get("clk"));
-					if(!this.game.host){
+					if(this.game.clock.ping==0){
+						this.game.clock.getPing();
+					}
+					if(!this.game.host && this.game.clock.ping!=0){
 						this.game.clock.synchro(clockTime);
 					}
 
