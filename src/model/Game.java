@@ -377,6 +377,8 @@ public class Game extends BasicGame
 				//				}
 				//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
 
+				
+				//RESYNCHRO
 				boolean successSynchro = false;
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
