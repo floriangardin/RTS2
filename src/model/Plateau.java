@@ -1104,19 +1104,15 @@ public class Plateau {
 
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
-			if(this.characters.get(id_charac).isToParse()){
 				s+=this.characters.get(id_charac).toString(false);
 				s+="|";
-			}
 			id_charac++;
 		}
 		id_charac = 0;
 		//CEMETERY
 		while(id_charac<this.population.characters.size()){
-			if(this.population.characters.get(id_charac).isToParse()){
 				s+=this.population.characters.get(id_charac).toString(true);
 				s+="|";
-			}
 			id_charac++;
 		}
 		s+="!";
@@ -1284,21 +1280,22 @@ public class Plateau {
 			}
 			if(cha!=null){
 				cha.parse(hs);
+				cha.toKeep = true;
 			}
 		}
 		//Destroy characters who didn't give any news
 		//TODO : We need to parse dead characters ..
 		// TODO : Add a cemetery, that host add in his to string
-		//	for(Character c : this.characters){
-		//		if(!c.toKeep){
-		//			System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
-		//			
-		//			c.setLifePoints(-1f);
-		//		}
-		//		else{
-		//			c.toKeep = false;
-		//		}
-		//	}
+			for(Character c : this.characters){
+				if(!c.toKeep){
+					System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
+					
+					c.setLifePoints(-1f);
+				}
+				else{
+					c.toKeep = false;
+				}
+			}
 	}
 
 	public void parseBullet(String s){

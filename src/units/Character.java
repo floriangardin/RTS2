@@ -277,7 +277,7 @@ public class Character extends ActionObjet{
 	}
 
 	public void action(){
-
+		
 		this.roundAfterBorn++;
 
 
@@ -904,7 +904,7 @@ public class Character extends ActionObjet{
 		if(hs.containsKey("state")){
 			this.state=Float.parseFloat(hs.get("state"));
 		}
-		
+
 		if(hs.containsKey("tx")){
 			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
 		}
@@ -912,7 +912,7 @@ public class Character extends ActionObjet{
 			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
 			this.setTarget(target,null);
 		}
-		
+
 		if(hs.containsKey("x") && hs.containsKey("y")){
 			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
 		}
@@ -1054,8 +1054,7 @@ public class Character extends ActionObjet{
 
 	}
 
-	public boolean isToParse(){
-		return this.roundAfterBorn>Character.roundBeforeParse;
-	}
 }
+
+
 
