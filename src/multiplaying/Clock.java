@@ -91,9 +91,9 @@ public class Clock extends Thread{
 //		}
 //		
 //		
-		long roundDuration = (long) ((1000000000f/Main.framerate));
-		this.game.round = (int) (this.getCurrentTime()/roundDuration);
-//		this.game.round++;
+//		long roundDuration = (long) ((1000000000f/Main.framerate));
+//		this.game.round = (int) (this.getCurrentTime()/roundDuration);
+		this.game.round++;
 		
 	}
 	
