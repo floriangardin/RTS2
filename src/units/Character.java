@@ -4,14 +4,6 @@ package units;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
-import IA.IAUnit;
-import buildings.Building;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
@@ -19,11 +11,19 @@ import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 import model.RidableObjet;
 import model.Utils;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+
 import pathfinding.Case;
 import spells.Spell;
+import IA.IAUnit;
+import buildings.Building;
 
 public class Character extends ActionObjet{
 
@@ -884,6 +884,15 @@ public class Character extends ActionObjet{
 		s+="y:"+(int)y+";";
 		s+="lp:"+lifePoints+";";
 		s+="st:"+this.state+";";
+		if(this.target!=null){
+			if(this.target instanceof Checkpoint){
+				s+="tx:"+this.target.x+";";
+				s+="ty:"+this.target.y+";";
+			}
+			if(this.target instanceof Character){
+				s+="tid:"+this.target.id+";";
+			}
+		}
 		if(isDead){
 			s+="dead: ;";
 		}
@@ -895,6 +904,15 @@ public class Character extends ActionObjet{
 		if(hs.containsKey("state")){
 			this.state=Float.parseFloat(hs.get("state"));
 		}
+		
+		if(hs.containsKey("tx")){
+			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
+		}
+		if(hs.containsKey("tid")){
+			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+			this.setTarget(target,null);
+		}
+		
 		if(hs.containsKey("x") && hs.containsKey("y")){
 			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
 		}
