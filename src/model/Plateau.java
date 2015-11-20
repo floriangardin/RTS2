@@ -1108,13 +1108,13 @@ public class Plateau {
 				s+="|";
 			id_charac++;
 		}
-		id_charac = 0;
-		//CEMETERY
-		while(id_charac<this.population.characters.size()){
-				s+=this.population.characters.get(id_charac).toString(true);
-				s+="|";
-			id_charac++;
-		}
+//		id_charac = 0;
+//		//CEMETERY
+//		while(id_charac<this.population.characters.size()){
+//				s+=this.population.characters.get(id_charac).toString(true);
+//				s+="|";
+//			id_charac++;
+//		}
 		s+="!";
 		return s;
 	}
@@ -1223,11 +1223,11 @@ public class Plateau {
 				return cha;
 			}
 		}
-		for(Character cha : this.population.characters){
-			if(id==cha.id){
-				return cha;
-			}
-		}
+//		for(Character cha : this.population.characters){
+//			if(id==cha.id){
+//				return cha;
+//			}
+//		}
 		return null;
 	}
 

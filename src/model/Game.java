@@ -325,9 +325,9 @@ public class Game extends BasicGame
 				}
 				
 //				//Simulate a desynchro TOREMOVE
-				if(this.round!=0 && (this.round%200 )== 0){
-					this.plateau.characters.get(0).lifePoints = -1f;
-				}
+//				if(this.round!=0 && (this.round%200 )== 0){
+//					this.plateau.characters.get(0).lifePoints = -1f;
+//				}
 				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro && this.sendParse){
