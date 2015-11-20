@@ -329,7 +329,7 @@ public class Game extends BasicGame
 //				}
 				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
-				if(this.host && this.processSynchro && this.sendParse){
+				if(this.host && this.processSynchro && this.sendParse && this.round>=30){
 					this.toParse = this.plateau.toStringArray();
 					System.out.println("Sent synchro message");
 					this.sendParse = false;

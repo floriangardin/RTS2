@@ -1131,7 +1131,7 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split("!");
 			//Take care of id sent
-			
+			System.out.println(s);
 			parseCharacter(u[2]);
 		}
 	}
