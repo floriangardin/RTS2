@@ -119,10 +119,11 @@ public class MultiReceiver extends Thread{
 									boolean clearCheckSum = false;
 									while(i<this.g.checksum.size()){
 										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
-										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2])){
+										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2]) && !this.g.processSynchro){
 											System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
 											clearCheckSum = true;
 											this.g.processSynchro = true;
+											this.g.sendParse = true;
 										}
 										i++;
 									}

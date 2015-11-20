@@ -141,6 +141,7 @@ public class Game extends BasicGame
 	public Vector<String> checksum = new Vector<String>();
 	public Vector<String> clockSynchro= new Vector<String>();
 	public boolean processSynchro=false;
+	public boolean sendParse = false;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -328,9 +329,10 @@ public class Game extends BasicGame
 				}
 				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
-				if(this.host && this.processSynchro){
+				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
 					System.out.println("Sent synchro message");
+					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
 				//To string du plateau tous les n_turns
