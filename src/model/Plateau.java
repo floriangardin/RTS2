@@ -1279,8 +1279,9 @@ public class Plateau {
 			int idTest = Integer.parseInt(hs.get("id"));
 
 			cha = this.getCharacterById(idTest);
-			if(cha==null && !hs.containsKey("dead")){
+			if(cha==null){
 				cha = Character.createNewCharacter(hs, g);
+				
 			}
 			if(cha!=null){
 				cha.parse(hs);
