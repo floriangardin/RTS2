@@ -103,7 +103,7 @@ public class Map {
 		// Team 1 side
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,200f,1);
 		
-		for(int i =0;i<21;i++){
+		for(int i =0;i<22;i++){
 			data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 300f+i);
 			data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f,  game.plateau.maxY-350f+i);
 		}

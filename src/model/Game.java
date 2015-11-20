@@ -301,7 +301,7 @@ public class Game extends BasicGame
 
 
 				//Checksum for testing synchro
-				if(this.plateau.characters.size()>0){
+				if(this.plateau.characters.size()>0 && this.round>=30){
 					//Compute checksum
 					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
 
