@@ -391,6 +391,7 @@ public class Game extends BasicGame
 						this.plateau.parse(this.toParse);
 						this.processSynchro = false;
 						successSynchro = true;
+						this.checksum.clear();
 						System.out.println("Resynchronisation ....");
 						
 					}
