@@ -28,6 +28,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import spells.SpellEffect;
 import units.Character;
+import units.UnitCrossbowman;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
@@ -324,9 +325,9 @@ public class Game extends BasicGame
 				}
 				
 //				//Simulate a desynchro TOREMOVE
-				if(this.round!=0 && (this.round%200 )== 0){
-					this.plateau.characters.get(0).lifePoints = -1f;
-				}
+//				if(this.round!=0 && (this.round%200 )== 0){
+//					this.plateau.characters.addElement(new UnitCrossbowman(this.plateau, this.plateau.getTeamById(1), this.plateau.getTeamById(1).data));
+//				}
 				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro && this.sendParse){
