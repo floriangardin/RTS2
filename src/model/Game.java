@@ -302,7 +302,7 @@ public class Game extends BasicGame
 
 
 				//Checksum for testing synchro
-				if(this.round>=30){
+				if(this.round>=30 && this.round%10 == 0){
 					//Compute checksum
 					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
 
@@ -326,7 +326,7 @@ public class Game extends BasicGame
 				
 //				//Simulate a desynchro TOREMOVE
 //				if(this.round!=0 && (this.round%200 )== 0){
-//					this.plateau.characters.get(0).lifePoints = -1f;
+//					this.plateau.characters.get(0).setTarget(new Checkpoint(this.plateau,500f,500f));
 //				}
 				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
