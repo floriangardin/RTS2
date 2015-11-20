@@ -302,7 +302,7 @@ public class Game extends BasicGame
 
 
 				//Checksum for testing synchro
-				if(this.plateau.characters.size()>0 && this.round>=30){
+				if(this.round>=30){
 					//Compute checksum
 					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
 
@@ -326,7 +326,7 @@ public class Game extends BasicGame
 				
 //				//Simulate a desynchro TOREMOVE
 //				if(this.round!=0 && (this.round%200 )== 0){
-//					this.plateau.characters.addElement(new UnitCrossbowman(this.plateau, this.plateau.getTeamById(1), this.plateau.getTeamById(1).data));
+//					this.plateau.characters.get(0).lifePoints = -1f;
 //				}
 				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
