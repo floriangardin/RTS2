@@ -130,12 +130,16 @@ public class IAMicroFlo extends IAPlayer {
 			}
 			if(charac.state<charac.chargeTime){
 				Character c1 = IAUtils.nearestUnit(ennemies, charac);
+				if(c1==null){
+					continue;
+				}
 				if(Utils.distance(c1, charac)>charac.range){
 					continue;
 				}
 				//TODO find a better direction
 				ennemies.remove(c1);
 				Character c2 = IAUtils.nearestUnit(ennemies, charac);
+				
 				float norm = Utils.distance(c1, c2);
 				float dirX = c1.getY()-c2.getY();
 				float dirY = c2.getX()-c1.getX();
