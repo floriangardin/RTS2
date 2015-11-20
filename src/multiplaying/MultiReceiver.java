@@ -87,6 +87,7 @@ public class MultiReceiver extends Thread{
 							}
 
 							else if(msg.substring(1, 2).equals("P")){
+								System.out.println("Receive resynchro message");
 								this.g.toParse= msg.substring(1);
 							}
 							//If validation message

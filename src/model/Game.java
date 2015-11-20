@@ -307,18 +307,21 @@ public class Game extends BasicGame
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
 
+					//Checksum to send of plateau to test synchro
 					while(i<this.plateau.characters.size()){
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).x))%10);
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).y))%10);
 						i++;
 					}
 					checksum+="|";
+					
 					this.checksum.addElement(checksum);
 					this.sendInputToAllPlayer(this.checksum.lastElement());
 					if(this.checksum.size()>5){
 						this.checksum.remove(0);
 					}
 				}
+				
 				//Simulate a desynchro TOREMOVE
 				if(this.round!=0 && (this.round%200 )== 0){
 					this.plateau.characters.get(0).x+=3*(Math.random()-0.5);
@@ -327,6 +330,7 @@ public class Game extends BasicGame
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro){
 					this.toParse = this.plateau.toStringArray();
+					System.out.println("Sent synchro message");
 					this.sendInputToAllPlayer(this.toParse);
 				}
 				//To string du plateau tous les n_turns
@@ -378,6 +382,7 @@ public class Game extends BasicGame
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+						System.out.println("Play resynchronisation round at round" + this.round);
 						this.plateau.parse(this.toParse);
 						this.processSynchro = false;
 						successSynchro = true;

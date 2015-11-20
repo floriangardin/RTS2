@@ -1119,7 +1119,6 @@ public class Plateau {
 			}
 			id_charac++;
 		}
-		System.out.println("s : " + s);
 		s+="!";
 		return s;
 	}
@@ -1281,7 +1280,7 @@ public class Plateau {
 
 			cha = this.getCharacterById(idTest);
 			if(cha==null && !hs.containsKey("dead")){
-				//cha = Character.createNewCharacter(hs, g);
+				cha = Character.createNewCharacter(hs, g);
 			}
 			if(cha!=null){
 				cha.parse(hs);
