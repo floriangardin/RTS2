@@ -17,7 +17,7 @@ public class UnitPriest extends Character {
 		this.maxLifePoints = 60f;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
-		this.collisionBox = new Circle(0f,0f,20f);
+		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 80f;
 		this.armor = 1f;
 		this.damage = 0f;

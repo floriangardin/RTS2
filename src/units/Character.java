@@ -34,7 +34,7 @@ public class Character extends ActionObjet{
 	public Circle sightBox;
 
 	public float armor = 0f;	
-	public float size = 20f;
+	public float size;
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
@@ -93,7 +93,7 @@ public class Character extends ActionObjet{
 		if(getTeam()==2)
 			imageb = this.p.g.images.red;
 		this.image = Utils.mergeImages(imagea, imageb);
-		this.size = 20f;
+		this.size = 30f;
 		this.isHidden = false;
 		this.spells = new Vector<Spell>();
 
@@ -129,7 +129,6 @@ public class Character extends ActionObjet{
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
 		this.weapon = c.weapon;
-
 		this.group = new Vector<Character>();
 		this.group.add(this);
 
@@ -511,14 +510,13 @@ public class Character extends ActionObjet{
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		if(this.horse!=null){
-			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
 
 		} else {
-			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
 	}	
-
 
 	//// COLLISIONS
 

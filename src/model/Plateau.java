@@ -722,6 +722,14 @@ public class Plateau {
 				updateTarget(im.xMouse,im.yMouse,player);
 			}
 		}
+		if(im.isPressedF){
+			//STOP SELECTION
+				for(ActionObjet c : this.selection.get(player)){
+					if(c instanceof Character){
+						((Character) c).stop();
+					}
+				}
+		}
 	}
 
 	private void handleSpellsOnField(InputObject im, int player, boolean host) {
