@@ -41,6 +41,9 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedProd3;
 	public boolean isPressedA;
 	public boolean isPressedB;
+	public boolean isPressedF;
+	public boolean isPressedT;
+	
 	public boolean[] isPressedNumPad = new boolean[10];
 
 	public int xMouse;
@@ -77,6 +80,9 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedProd3 = input.isKeyPressed(Input.KEY_V);
 		this.isPressedA = input.isKeyDown(Input.KEY_A);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
+		this.isPressedF = input.isKeyDown(Input.KEY_F);
+		this.isPressedT = input.isKeyDown(Input.KEY_T);
+		
 		if(isPressedA){
 			BottomBar b = player.bottomBar;
 			this.xMouse = (int) Math.floor((this.xMouse-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
@@ -142,6 +148,8 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("DWN")) isPressedDOWN= true;
 		if(content.containsKey("A")) isPressedA= true;
 		if(content.containsKey("B")) isPressedB= true;
+		if(content.containsKey("F")) isPressedF= true;
+		if(content.containsKey("T")) isPressedT= true;
 
 		if(content.containsKey("P0")) isPressedProd0= true;
 		if(content.containsKey("P1")) isPressedProd1= true;
@@ -197,6 +205,8 @@ public class InputObject extends MultiObjetModel{
 		if(isPressedProd3) s+=",P3: ";
 		if(isPressedA) s+=",A: ";
 		if(isPressedB) s+=",B: ";
+		if(isPressedF) s+=",F: ";
+		if(isPressedT) s+=",T: ";
 
 		for(int i=0; i<10; i++)
 			s+=(isPressedNumPad[i] ? ","+i+": " : "");
