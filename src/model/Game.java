@@ -291,7 +291,7 @@ public class Game extends BasicGame
 					checksum+="|";
 					this.checksum.addElement(checksum);
 					this.sendInputToAllPlayer(this.checksum.lastElement());
-					if(this.checksum.size()>5){
+					if(this.checksum.size()>15){
 						this.checksum.remove(0);
 					}
 				}
