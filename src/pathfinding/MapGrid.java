@@ -480,6 +480,10 @@ public class MapGrid {
 			}
 			x = newx;
 			y = newy;
+			if(i<0 ||j<0){
+				cases.clear();
+				return cases;
+			}
 		}
 		if(grid.get(i).get(j).id==arrival.id)
 			cases.add(grid.get(i).get(j));
