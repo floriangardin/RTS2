@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 import bullets.Bullet;
 import pathfinding.Case;
@@ -29,6 +30,7 @@ public abstract class Objet implements java.io.Serializable {
 	public float sight;
 	public Case c;
 	public Shape collisionBox;
+	public Shape selectionBox;
 	public Color color;
 	public Plateau p;
 	public float lifePoints;
@@ -84,15 +86,21 @@ public abstract class Objet implements java.io.Serializable {
 		return y;
 	}
 	protected void setXY(float x, float y){
+		
 		if(this instanceof Bullet){
 			this.x = x;
 			this.y = y;
 		} else {
-			this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
-			this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
+			
+			float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
+			float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+			
+			this.x = xt;
+			this.y = yt;
 		}
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
+		
 		this.c = this.p.mapGrid.getCase(x, y);
 		this.changes.x=true;
 		this.changes.y = true;

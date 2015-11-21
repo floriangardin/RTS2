@@ -47,6 +47,7 @@ public class BuildingUniversity extends BuildingTech {
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingUniversityBlue;
 		}

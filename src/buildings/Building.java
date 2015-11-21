@@ -46,6 +46,7 @@ public class Building extends ActionObjet{
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		this.image = this.p.g.images.tent;
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);

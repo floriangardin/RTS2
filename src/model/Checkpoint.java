@@ -14,7 +14,9 @@ public class Checkpoint extends ActionObjet {
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
-		this.collisionBox = new Point(x,y);
+		
+		this.collisionBox = new Circle(x,y,3f);
+		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		try {
 			this.image = new Image("pics/cross.png");
@@ -24,7 +26,7 @@ public class Checkpoint extends ActionObjet {
 			e.printStackTrace();
 		}
 		this.printed=0f;
-		this.collisionBox = new Circle(x,y,3f);
+		
 	}
 	
 	public Checkpoint(float x, float y){

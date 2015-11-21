@@ -42,6 +42,7 @@ public class BuildingMill extends BuildingTech{
 		p.addBuilding(this);
 		this.sight = p.players.get(getTeam()).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMillBlue;
 		} else if(getTeam()==2){

@@ -37,6 +37,7 @@ public class BuildingMine extends BuildingTech{
 		p.addBuilding(this);
 		this.sight = getGameTeam().data.mineSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMineBlue;
 		} else if(getTeam()==2){

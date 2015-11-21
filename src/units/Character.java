@@ -19,6 +19,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 
 import pathfinding.Case;
 import spells.Spell;
@@ -121,6 +122,7 @@ public class Character extends ActionObjet{
 		this.lifePoints = c.maxLifePoints;
 		this.sight = c.sight;
 		this.collisionBox = new Circle(c.collisionBox.getCenterX(),c.collisionBox.getCenterY(),c.collisionBox.getBoundingCircleRadius());
+		this.selectionBox = new Rectangle(c.selectionBox.getX(),c.selectionBox.getY(),c.selectionBox.getWidth(),c.selectionBox.getHeight());
 		this.sightBox = new Circle(c.sightBox.getCenterX(),c.sightBox.getCenterY(),c.sightBox.getBoundingCircleRadius());
 		this.animations = c.animations;
 		this.setXY(x, y);
@@ -160,8 +162,11 @@ public class Character extends ActionObjet{
 		return vx*vx+vy*vy>0.01f;
 	}
 	public void setXY(float x, float y){
-		this.x = x;
-		this.y = y ;
+		float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
+		float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		this.selectionBox = this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
+		this.x = xt;
+		this.y = yt;
 		this.collisionBox.setCenterX(this.x);
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
@@ -553,7 +558,7 @@ public class Character extends ActionObjet{
 		if(this.target instanceof Checkpoint){
 			g.draw(this.target.collisionBox);
 		}
-
+		
 	}	
 
 	//// COLLISIONS
