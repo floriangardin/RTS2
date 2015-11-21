@@ -481,24 +481,21 @@ public class Character extends ActionObjet{
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
 			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-34f+this.getY()-r,2*r,4f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
+			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,r,4f));
+			float x = this.lifePoints*r/this.maxLifePoints;
 			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-34f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,x,4f));
 
 		}
 		//Draw state
 		if(!isImmolating && this.state<this.chargeTime){
 			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-30f+this.getY()-r,2*r,4f));
-			float x = this.state*2f*r/this.chargeTime;
+			g.fill(new Rectangle(this.getX()-r/2,-30f+this.getY()-r,r,4f));
+			float x = this.state*r/this.chargeTime;
 			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-30f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-30f+this.getY()-r,x,4f));
 		}
 
-		//DEBUG
-		g.setColor(Color.black);
-		g.drawString(String.valueOf(this.id), this.getX()-r,this.getY()-r);
 		//Draw the immolation
 		if(isImmolating){
 			Image fire = this.p.g.images.explosion;

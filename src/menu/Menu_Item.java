@@ -23,12 +23,26 @@ public class Menu_Item {
 	public Image toDraw;
 	public boolean selectionable = true;
 	public boolean mouseOver = false;
-	
+	public String name;
 	public Menu_Item(){
-		
+
 	}
 
-	public Menu_Item(float x, float y, Image im, Image selectedImage, Game game) {
+	public Menu_Item(float x, float y, String name,Image im, Image selectedImage, Game game) {
+		this.image = im;
+		this.name = name;
+		this.selectedImage = selectedImage;
+		this.game = game;
+		this.toDraw = this.image;
+		this.x = x;
+		this.y = y;
+		if(this.image!=null){
+			this.sizeX = this.image.getWidth();
+			this.sizeY = this.image.getHeight();
+		}
+	}
+
+	public Menu_Item(float x, float y,Image im, Image selectedImage, Game game) {
 		this.image = im;
 		this.selectedImage = selectedImage;
 		this.game = game;
@@ -52,8 +66,13 @@ public class Menu_Item {
 
 
 	public void draw(Graphics g){
-		
-		g.drawImage(this.toDraw,x, y);
+		if(this.image!=null){
+			g.drawImage(this.toDraw,x, y);
+		}
+		else{
+			g.drawString(this.name, x, y);
+		}
+
 	}
 
 

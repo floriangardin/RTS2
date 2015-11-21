@@ -37,7 +37,12 @@ public class MenuOptions extends Menu {
 
 
 	public MenuOptions(Game game){
-
+		try {
+			this.backGround = new Image("pics/fondMenu.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
@@ -98,8 +103,7 @@ public class MenuOptions extends Menu {
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.black);
-		g.fillRect(0, 0, this.game.resX, this.game.resY);
+		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}

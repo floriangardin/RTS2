@@ -3,6 +3,21 @@ import java.net.InetAddress;
 import java.util.Timer;
 import java.util.Vector;
 
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.geom.Rectangle;
+
+import buildings.Building;
+import bullets.Bullet;
+import display.Message;
 import main.Main;
 import menu.Menu;
 import menu.MenuIntro;
@@ -14,24 +29,8 @@ import multiplaying.InputHandler;
 import multiplaying.InputObject;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
-
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.geom.Rectangle;
-
 import spells.SpellEffect;
 import units.Character;
-import units.UnitCrossbowman;
-import buildings.Building;
-import bullets.Bullet;
-import display.Message;
 
 public class Game extends BasicGame 
 {	
@@ -68,7 +67,7 @@ public class Game extends BasicGame
 	public int idBullet = 0;
 
 	// Font 
-	public TrueTypeFont font;
+	public UnicodeFont font;
 	// Music and sounds
 	public Options options;
 	public Sounds sounds;
@@ -381,8 +380,11 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
-		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.BOLD,28);
-		this.font = new TrueTypeFont(fe, true);
+		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.BOLD,12);
+		this.font = new UnicodeFont(fe,28,false,false);
+		font.getEffects().add(new ColorEffect(java.awt.Color.white));
+		this.font.addAsciiGlyphs();
+		this.font.loadGlyphs();
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 		this.sounds = new Sounds();

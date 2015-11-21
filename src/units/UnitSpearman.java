@@ -29,7 +29,7 @@ public class UnitSpearman extends Character {
 		this.chargeTime = 7f;
 		this.weapon = "spear";
 		this.animStep = 24f;
-		
+
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;
 		}
@@ -148,11 +148,14 @@ public class UnitSpearman extends Character {
 			this.animation = 0;
 			this.animationValue= 0f;
 		}
-
+		
+		if(this.isImmolating){
+			this.animation = 0;
+			this.orientation = 2;
+		}
 
 
 		direction = (float)(orientation/2-1);
-
 		int imageWidth = this.image.getWidth()/5;
 		int imageHeight = this.image.getHeight()/4;
 		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
@@ -161,7 +164,6 @@ public class UnitSpearman extends Character {
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-
 		y1-=40f;
 		y2-=40f;
 		if(mouseHover){
@@ -188,24 +190,21 @@ public class UnitSpearman extends Character {
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
 			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-34f+this.getY()-r,2*r,4f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
+			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,r,4f));
+			float x = this.lifePoints*r/this.maxLifePoints;
 			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-34f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,x,4f));
 
 		}
 		//Draw state
 		if(!isImmolating && this.state<this.chargeTime){
 			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-30f+this.getY()-r,2*r,4f));
-			float x = this.state*2f*r/this.chargeTime;
+			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
+			float x = this.state*r/this.chargeTime;
 			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r,-30f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
 		}
 
-		//DEBUG
-		g.setColor(Color.black);
-		g.drawString(String.valueOf(this.id), this.getX()-r,this.getY()-r);
 		//Draw the immolation
 		if(isImmolating){
 			Image fire = this.p.g.images.explosion;

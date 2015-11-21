@@ -61,6 +61,12 @@ public class MenuMapChoice extends Menu {
 	public int cooldown;
 
 	public MenuMapChoice(Game game){
+		try {
+			this.backGround = new Image("pics/fondMenu.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.music = game.musics.menu;
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
@@ -128,8 +134,7 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.black);
-		g.fillRect(0, 0, this.game.resX, this.game.resY);
+		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 10f);
 
 		for(Menu_Item item: this.items){
@@ -145,11 +150,6 @@ public class MenuMapChoice extends Menu {
 		for(int i=1;i<this.players.size();i++){
 			players.get(i).draw(g);
 		}
-		g.setColor(Color.white);
-		if(startGame==0)
-			g.drawString("en attente", 0f, 0f);
-		else
-			g.drawString("d�but dans " + ((startGame-game.clock.getCurrentTime())/100000), 0f, 0f);
 
 	}
 

@@ -3,6 +3,7 @@ package menu;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 
@@ -12,6 +13,7 @@ import multiplaying.InputObject;
 
 public abstract class Menu {
 
+	public Image backGround ;
 	public Vector<Menu_Item> items;
 	public Vector<Menu_Item> itemsSelected;
 	public Game game;

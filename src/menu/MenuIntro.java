@@ -28,9 +28,9 @@ public class MenuIntro extends Menu {
 	public Image multiplayer;
 	public Image options;
 	public Image exit;
-
 	public Image newGameSelected;
 	public Image multiplayerSelected;
+	public Image column;
 	public Image optionsSelected;
 	public Image exitSelected;
 	public int selected = -1;
@@ -46,7 +46,7 @@ public class MenuIntro extends Menu {
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		float startY = 0.37f*this.game.resY;
-		float stepY = 0.12f*this.game.resY;
+		float stepY = 0.16f*this.game.resY;
 		float ratioReso = this.game.resX/2800f;
 		try {
 			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
@@ -58,11 +58,19 @@ public class MenuIntro extends Menu {
 			this.exit = new Image("pics/menu/exit.png").getScaledCopy(ratioReso);
 			this.exitSelected = new Image("pics/menu/exitselected.png").getScaledCopy(ratioReso);
 			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
+			this.backGround = new Image("pics/fondMenu.png");
+			this.column = new Image("pics/column.svg");
+			this.column = this.column.getScaledCopy(0.07f);
 			float startX = this.game.resX/2-this.newGame.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.newGame,this.newGameSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.multiplayer,this.multiplayerSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.options,this.optionsSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.exit,this.exitSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY,"New Game",this.newGame,this.newGameSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Multiplayer",this.multiplayer,this.multiplayerSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Options",this.options,this.optionsSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Exit",this.exit,this.exitSelected,this.game));
+			
+//			this.items.addElement(new Menu_Item(startX,startY,"New Game",null,null,this.game));
+//			this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Multiplayer",null,null,this.game));
+//			this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Options",null,null,this.game));
+//			this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Exit",null,null,this.game));
 
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -103,14 +111,19 @@ public class MenuIntro extends Menu {
 	}
 
 	public void draw(Graphics g){
-
-		g.setColor(Color.black);
-		g.fillRect(0, 0, this.game.resX, this.game.resY);
+		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+		
+//		g.drawImage(this.column,2*this.game.resX/7,3*this.game.resY/7,new Color(250,0,0,0.8f));
+//		g.drawImage(this.column,5*this.game.resX/7-this.column.getWidth(),3*this.game.resY/7,new Color(0,0,250,0.8f));
+//		
+//////				g.setColor(Color.darkGray);
+//		g.fillRect(0, 0, this.game.resX, this.game.resY);
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
 		g.drawImage(this.title, this.game.resX/2-this.title.getWidth()/2, 10f);
 		g.setColor(Color.white);
+		
 		if(multiplaying)
 			g.drawString("waiting for someone", this.game.resX/2f-g.getFont().getWidth("waiting for someone")/2f, this.game.resY-g.getFont().getHeight("waiting for someone")-2f);
 	}
