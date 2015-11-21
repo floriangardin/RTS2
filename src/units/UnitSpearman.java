@@ -21,13 +21,15 @@ public class UnitSpearman extends Character {
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
+		this.size = 40f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 100f;
 		this.armor = 4f;
 		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 7f;
 		this.weapon = "spear";
-		this.animStep = 16f;
+		this.animStep = 24f;
+		
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;
 		}
@@ -160,8 +162,8 @@ public class UnitSpearman extends Character {
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
 
-		y1-=15f;
-		y2-=15f;
+		y1-=40f;
+		y2-=40f;
 		if(mouseHover){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
