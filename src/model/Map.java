@@ -28,6 +28,7 @@ public class Map {
 		maps.add("large duel");
 		maps.add("microgestion");
 		maps.add("duel very small");
+		maps.add("cross spearman");
 		return maps;
 	}
 	
@@ -51,10 +52,36 @@ public class Map {
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
 		case "duel very small": createMapDuelVerySmall(game);break;
+		case "cross spearman": createMapCrossSpearman(game);break;
 		}
 	}
 
 	
+
+	private static void createMapCrossSpearman(Game game) {
+		game.plateau.setMaxXMaxY(800f, 600f);
+		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
+		float X = game.plateau.maxX;
+		float Y = game.plateau.maxY;
+		Data data1 = game.plateau.teams.get(1).data;
+		Data data2 = game.plateau.teams.get(2).data;
+
+		new BuildingHeadQuarters(game.plateau,game,-data1.headQuartersSizeX/2f-10f,Y/2,1);
+		new BuildingHeadQuarters(game.plateau,game,-data2.headQuartersSizeX/2f+10f,data2.headQuartersSizeY+Y/2,2);
+
+		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
+		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-2f);
+		data1.create(UnitsList.Spearman, 2*X/9, Y/2);
+		data1.create(UnitsList.Spearman, 2*X/9, Y/2+1f);
+		data1.create(UnitsList.Spearman, X/9, Y/2+2f);
+		
+		data2.create(UnitsList.Crossbowman, 7*X/9, Y/2-1f);
+		data2.create(UnitsList.Crossbowman, 7*X/9, Y/2-2f);
+		data2.create(UnitsList.Spearman, 7*X/9, Y/2);
+		data2.create(UnitsList.Spearman, 7*X/9, Y/2+1f);
+		data2.create(UnitsList.Spearman, 7*X/9, Y/2+2f);
+		
+	}
 
 	public static void createMapDuelSmall(Game game){
 		game.plateau.setMaxXMaxY(2000f, 3000f);
@@ -121,10 +148,10 @@ public class Map {
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,game.plateau.maxY-200f,2);
 
 		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5);
-		
-		
-		
+			
 	}
+	
+	
 	
 	public static void createMapEmpty(Game game){
 		game.plateau.setMaxXMaxY(800f, 600f);
