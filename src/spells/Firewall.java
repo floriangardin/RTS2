@@ -113,8 +113,8 @@ public class Firewall extends SpellEffect{
 					g.drawImage(this.image, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
 			}
 		}
-		g.setColor(Color.white);
-		g.draw(this.collisionBox);
+		//g.setColor(Color.white);
+		//g.draw(this.collisionBox);
 		return g;
 	}
 
