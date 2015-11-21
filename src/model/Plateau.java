@@ -572,7 +572,7 @@ public class Plateau {
 		//looking for the object on the target
 		for(Character i:this.characters){
 			// looking amongst other characters
-			if(i.collisionBox.contains(point)){
+			if(i.selectionBox.contains(point)){
 				target = i;
 				break;
 			}
