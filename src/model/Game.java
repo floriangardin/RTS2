@@ -294,7 +294,7 @@ public class Game extends BasicGame
 					//Je l'envoie seulement si je suis client
 					System.out.println("Sent checksum round "+this.round);
 					if(!this.host){
-						this.sendInputToAllPlayer(this.checksum.lastElement());
+						this.sendInputToAllPlayer(checksum);
 					}
 					//Je l'ajoute dans mes checksum si je suis host
 					else{
