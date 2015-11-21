@@ -47,7 +47,7 @@ public class Arrow extends CollisionBullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.g.images.arrow.getScaledCopy(1f);
+		this.image = p.g.images.arrow.getScaledCopy(2f);
 		this.image.rotate(this.angle);
 		this.sound = p.g.sounds.arrow;
 		this.sound.play(1f,this.p.g.options.soundVolume);
@@ -71,7 +71,7 @@ public class Arrow extends CollisionBullet{
 	public void collision(Building c){
 	}
 	public Graphics draw(Graphics g){
-		g.drawImage(this.image,this.getX()-5f,this.getY()-5f);
+		g.drawImage(this.image,this.getX()-5f,this.getY()-75f);
 		//g.setColor(Color.white);
 		//g.fill(this.collisionBox);
 		return g;
