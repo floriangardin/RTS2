@@ -36,7 +36,7 @@ public class Data {
 	public UnitArchange archange;
 	
 	public float damageFactor = 1f;
-	
+	public float healthFactor = 1f;
 	
 	//// BUILDINGS STATS
 	//headQuarters

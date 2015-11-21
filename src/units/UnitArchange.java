@@ -18,7 +18,7 @@ public class UnitArchange extends Character {
 		super(p, gameteam);
 		this.name = "archange";
 		this.type = UnitsList.Archange;
-		this.maxLifePoints = 200f;
+		this.maxLifePoints = 200f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);

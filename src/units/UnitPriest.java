@@ -14,7 +14,7 @@ public class UnitPriest extends Character {
 		super(p, gameteam);
 		this.name = "priest";
 		this.type = UnitsList.Priest;
-		this.maxLifePoints = 60f;
+		this.maxLifePoints = 60f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);

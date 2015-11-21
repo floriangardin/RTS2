@@ -14,7 +14,7 @@ public class UnitSpearman extends Character {
 		
 		this.name = "spearman";
 		this.type = UnitsList.Spearman;
-		this.maxLifePoints = 80f;
+		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
