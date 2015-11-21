@@ -32,7 +32,8 @@ public class Character extends ActionObjet{
 	public int roundAfterBorn=0;
 	// General attributes
 	public Circle sightBox;
-
+	
+	public float animStep = 4f;
 	public float armor = 0f;	
 	public float size;
 	public float maxVelocity = 100f;
@@ -93,6 +94,8 @@ public class Character extends ActionObjet{
 			imageb = this.p.g.images.blue;
 		if(getTeam()==2)
 			imageb = this.p.g.images.red;
+		
+		
 		this.image = Utils.mergeImages(imagea, imageb);
 		this.size = 30f;
 		this.isHidden = false;
@@ -132,6 +135,7 @@ public class Character extends ActionObjet{
 		this.weapon = c.weapon;
 		this.group = new Vector<Character>();
 		this.group.add(this);
+		this.animStep = c.animStep;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
@@ -396,7 +400,7 @@ public class Character extends ActionObjet{
 		this.setVXVY(newvx, newvy);
 
 		this.setXY(newX, newY);
-		this.animationValue+=4f/(float)this.getGameTeam().data.FRAMERATE;
+		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}

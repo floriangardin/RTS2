@@ -27,6 +27,8 @@ public class Images {
 	public Image windmill;
 	public Image windmillarms;
 	public Image grassTexture;
+	public Image spearmanBlue ;
+	public Image spearmanRed ;
 
 	//Building
 	public Image buildingBarrackBlue;
@@ -104,6 +106,8 @@ public class Images {
 			this.smoke = new Image("pics/smoke.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
+			this.spearmanBlue = new Image("pics/unit/spearman_move_1.png");
+			this.spearmanRed = new Image("pics/unit/spearman_move_2.png");
 
 
 			//Building
