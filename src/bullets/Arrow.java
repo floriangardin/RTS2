@@ -21,7 +21,7 @@ public class Arrow extends CollisionBullet{
 		this.changes = new Changes();
 		// Parameters
 		this.size = 2f;
-		float Vmax = 320f;
+		float Vmax = 400f;
 
 		this.p = p;
 		if(id==-1){

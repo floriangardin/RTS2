@@ -1,6 +1,7 @@
 package units;
 
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
 import model.GameTeam;
@@ -18,6 +19,7 @@ public class UnitPriest extends Character {
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
+		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 80f;
 		this.armor = 1f;
 		this.damage = 0f*data.damageFactor;

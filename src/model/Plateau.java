@@ -1042,7 +1042,7 @@ public class Plateau {
 			}
 			this.inRectangle.clear();
 			for(Character o: characters){
-				if((o.selectionBox.intersects(select)|| o.selectionBox.contains(select) )&& o.getTeam()==team){
+				if((o.selectionBox.intersects(select)|| o.selectionBox.contains(select) || select.contains(o.selectionBox) )&& o.getTeam()==team){
 					this.selection.get(player).add(o);
 					this.inRectangle.addElement(o);
 					if(Math.max(select.getWidth(), select.getHeight())<2f){
