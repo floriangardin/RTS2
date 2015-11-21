@@ -1045,6 +1045,10 @@ public class Plateau {
 				if((o.selectionBox.intersects(select)|| o.selectionBox.contains(select) )&& o.getTeam()==team){
 					this.selection.get(player).add(o);
 					this.inRectangle.addElement(o);
+					if(Math.max(select.getWidth(), select.getHeight())<2f){
+						break;
+					}
+					
 				}
 			}
 			if(this.selection.get(player).size()==0){
