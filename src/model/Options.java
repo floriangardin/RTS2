@@ -32,7 +32,9 @@ public class Options {
 			br.close(); 
 		}		
 		catch (Exception e){
-			System.out.println(e.toString());
+			soundVolume = 1f;
+			musicVolume = 1f;
+			nickname = "";
 		}
 	}
 }
