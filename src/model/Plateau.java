@@ -1025,7 +1025,7 @@ public class Plateau {
 					this.inRectangle.addElement(o);
 				}
 			}
-			if(this.toAddSelection.get(player).size()==0){
+			if(this.selection.get(player).size()==0){
 				for(Building o: buildings){
 					if(o.collisionBox.intersects(select) && o.getTeam()==team){
 						this.selection.get(player).add(o);
