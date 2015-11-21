@@ -107,28 +107,22 @@ public class MultiReceiver extends Thread{
 							}
 							//Checksum
 							else if(msg.substring(1, 2).equals("C")){
+								//Theoriquement je n'en reçois que si je suis host ( à deux joueurs )
 								String[] mes = msg.substring(1).split("\\|");
-
-
 								if(this.g.checksum.size()==0){
 									System.out.println("Je suis en retard sur l'autre ! ");
-
 								}
 								else{
 									int i = 0;
-									boolean clearCheckSum = false;
 									while(i<this.g.checksum.size()){
 										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
 										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2]) && !this.g.processSynchro){
 											System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
-											clearCheckSum = true;
+											//Si desynchro j'active le processus de parse
 											this.g.processSynchro = true;
 											this.g.sendParse = true;
 										}
 										i++;
-									}
-									if(clearCheckSum){
-										this.g.checksum.clear();
 									}
 								}
 							}
