@@ -46,7 +46,7 @@ public class MenuOptions extends Menu {
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
-		float startY = 0.37f*this.game.resY;
+		float startY = 0.50f*this.game.resY;
 		float stepY = 0.12f*this.game.resY;
 		float ratioReso = this.game.resX/2800f;
 		try {
