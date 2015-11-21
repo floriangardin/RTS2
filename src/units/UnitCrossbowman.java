@@ -24,18 +24,25 @@ public class UnitCrossbowman extends Character {
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
+		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 120f;
 		this.armor = 2f;
 		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 10f;
 		this.weapon ="bow";
+		this.animStep = 24f;
 
+		if(this.getGameTeam().id==1){
+			this.image = this.p.g.images.crossbowmanBlue;
+		}
+		else{
+			this.image = this.p.g.images.crossbowmanRed;
+		}
 		this.civ = 0;
 		this.range = 200f;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.spells.add(data.immolation);
 
-		this.updateImage();
 	}
 	public UnitCrossbowman(UnitCrossbowman unit, float x, float y,int id) {
 		super(unit,x,y,id);
@@ -116,7 +123,7 @@ public class UnitCrossbowman extends Character {
 	public Graphics draw(Graphics g){
 
 
-		float r = collisionBox.getBoundingCircleRadius()*1.5f;
+		float r = collisionBox.getBoundingCircleRadius()*2f;
 		float direction = 0f;
 
 
@@ -149,6 +156,8 @@ public class UnitCrossbowman extends Character {
 		float y2 = this.getY() + drawWidth;
 		y1-=40f;
 		y2-=40f;
+		x1+=5f;
+		x2+=5f;
 		if(mouseHover){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){

@@ -69,6 +69,8 @@ public class Images {
 	public Image spellConversion;
 	public Image spellInstantDeath;
 	public Image spellInstantHealth;
+	public Image crossbowmanBlue;
+	public Image crossbowmanRed;
 
 	public Images(){
 		try {
@@ -108,6 +110,8 @@ public class Images {
 			this.windmillarms = new Image("pics/windmillarms.png");
 			this.spearmanBlue = new Image("pics/unit/spearman_move_1.png");
 			this.spearmanRed = new Image("pics/unit/spearman_move_2.png");
+			this.crossbowmanBlue = new Image("pics/unit/crossbowrman_move_1.png");
+			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
 
 
 			//Building

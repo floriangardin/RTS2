@@ -645,7 +645,7 @@ public class Plateau {
 
 	private void handleMouseHover(InputObject im, int player) {
 		for(Character c : this.characters){
-			if(Utils.distance(c, im.xMouse,im.yMouse)<c.size){
+			if(c.selectionBox.contains(im.xMouse, im.yMouse)){
 				c.mouseHover = true;
 			}
 			else{
@@ -1042,14 +1042,14 @@ public class Plateau {
 			}
 			this.inRectangle.clear();
 			for(Character o: characters){
-				if(o.collisionBox.intersects(select) && o.getTeam()==team){
+				if((o.selectionBox.intersects(select)|| o.selectionBox.contains(select) )&& o.getTeam()==team){
 					this.selection.get(player).add(o);
 					this.inRectangle.addElement(o);
 				}
 			}
 			if(this.selection.get(player).size()==0){
 				for(Building o: buildings){
-					if(o.collisionBox.intersects(select) && o.getTeam()==team){
+					if(o.selectionBox.intersects(select) && o.getTeam()==team){
 						this.selection.get(player).add(o);
 						this.inRectangle.addElement(o);
 					}
@@ -1064,7 +1064,7 @@ public class Plateau {
 			this.clearSelection(player);
 			//handling the selection
 			for(Character o: characters){
-				if(o.collisionBox.intersects(select) && o.getTeam()==team){
+				if(o.selectionBox.intersects(select) && o.getTeam()==team){
 					//add character to team selection
 					this.addSelection(o, player);
 				}
@@ -1073,7 +1073,7 @@ public class Plateau {
 			if(this.toAddSelection.get(player).size()==0){
 
 				for(Building o: buildings){
-					if(o.collisionBox.intersects(select) && o.getTeam()==team){
+					if(o.selectionBox.intersects(select) && o.getTeam()==team){
 						//add character to team selection
 						this.addSelection(o, player);
 					}

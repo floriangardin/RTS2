@@ -23,12 +23,13 @@ public class UnitSpearman extends Character {
 		this.sight = 300f;
 		this.size = 40f;
 		this.collisionBox = new Circle(0f,0f,this.size);
+		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 100f;
 		this.armor = 4f;
 		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 7f;
 		this.weapon = "spear";
-		this.animStep = 24f;
+		this.animStep = 32f;
 
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;

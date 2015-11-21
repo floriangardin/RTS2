@@ -117,6 +117,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingHeadQuartersBlue;
 		}
