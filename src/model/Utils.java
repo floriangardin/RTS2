@@ -26,7 +26,15 @@ public class Utils {
 
 	
 	public static float distance(Objet a ,Objet b){
+		if(a== null || b == null){
+			return -1f;
+		}
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
+
+	}
+	
+	public static float distance(Objet a ,float x , float y){
+		return (float) Math.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
 
 	}
 

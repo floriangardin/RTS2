@@ -76,6 +76,7 @@ public class Character extends ActionObjet{
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Case> waypoints = new Vector<Case>();
 
+	public boolean mouseHover = false;
 
 
 
@@ -276,7 +277,7 @@ public class Character extends ActionObjet{
 	}
 
 	public void action(){
-		
+
 		this.roundAfterBorn++;
 
 
@@ -436,6 +437,8 @@ public class Character extends ActionObjet{
 	//// GRAPHISMS
 
 	public Graphics draw(Graphics g){
+
+
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
 		direction = (float)(orientation/2-1);
@@ -447,25 +450,48 @@ public class Character extends ActionObjet{
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		
+		y1-=15f;
+		y2-=15f;
+		if(mouseHover){
+			Color color = Color.darkGray;
+			if(this.getGameTeam().id==1){
+				color = new Color(0,0,205,0.4f);
+			}
+			else{
+				color = new Color(250,0,0,0.4f);
+			}
+
+			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+			
+			g.drawImage(i,x1,y1);
+			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+		else{
+			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
-			g.setColor(Color.red);
-			g.fill(new Rectangle(this.getX()-r,-5f+this.getY()-r,2*r,2f));
+			g.setColor(new Color(250,0,0,0.8f));
+			g.fill(new Rectangle(this.getX()-r,-34f+this.getY()-r,2*r,4f));
 			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.fill(new Rectangle(this.getX()-r,-5f+this.getY()-r,x,2f));
+			g.setColor(new Color(0,250,0,0.8f));
+			g.fill(new Rectangle(this.getX()-r,-34f+this.getY()-r,x,4f));
 
 		}
 		//Draw state
 		if(!isImmolating && this.state<this.chargeTime){
-			g.setColor(Color.white);
-			g.fill(new Rectangle(this.getX()-r,-10f+this.getY()-r,2*r,2f));
+			g.setColor(new Color(255,255,255,0.8f));
+			g.fill(new Rectangle(this.getX()-r,-30f+this.getY()-r,2*r,4f));
 			float x = this.state*2f*r/this.chargeTime;
-			g.setColor(Color.gray);
-			g.fill(new Rectangle(this.getX()-r,-10f+this.getY()-r,x,2f));
+			g.setColor(new Color(0,0,0,0.8f));
+			g.fill(new Rectangle(this.getX()-r,-30f+this.getY()-r,x,4f));
 		}
+
 		//DEBUG
 		g.setColor(Color.black);
 		g.drawString(String.valueOf(this.id), this.getX()-r,this.getY()-r);
@@ -509,13 +535,24 @@ public class Character extends ActionObjet{
 	}
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
+		g.setLineWidth(3f);
+		g.setAntiAlias(true);
 		if(this.horse!=null){
-			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.draw(this.collisionBox);
 
 		} else {
-			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.draw(this.collisionBox);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
+		//DRAW TARGET
+		g.setColor(Color.darkGray);
+		if(this.target instanceof Character){
+			g.draw(this.target.collisionBox);
+		}
+		if(this.target instanceof Checkpoint){
+			g.draw(this.target.collisionBox);
+		}
+
 	}	
 
 	//// COLLISIONS

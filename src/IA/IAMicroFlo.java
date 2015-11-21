@@ -73,25 +73,29 @@ public class IAMicroFlo extends IAPlayer {
 					charac.spells.get(0).launch(new Checkpoint(0f,0f), charac);
 				}
 			}
+			
 			//TODO : handle hit and run
 			//Given ennemies considering charge run away from ennemies ( stay at range)
 			//Get first and second nearest ennemy, move in orthogonal direction
 			if(charac.state<charac.chargeTime){
 				Character c1 = IAUtils.nearestUnit(ennemies, charac);
-				if(Utils.distance(c1, charac)>charac.range){
+				if( Utils.distance(c1, charac)==-1f || Utils.distance(c1, charac)>charac.range){
 					continue;
 				}
 				ennemies.remove(c1);
 				Character c2 = IAUtils.nearestUnit(ennemies, charac);
-				float norm = Utils.distance(c1, c2);
-				float dirX = c1.getY()-c2.getY();
-				float dirY = c2.getX()-c1.getX();
-				dirX /=norm;
-				dirY /= norm;
+				if(c2!=null){
+					float norm = Utils.distance(c1, c2);
+					float dirX = c1.getY()-c2.getY();
+					float dirY = c2.getX()-c1.getX();
+					dirX /=norm;
+					dirY /= norm;
 
-				charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
+					//Check if this is 
+
+					charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
+				}
 			}
-
 
 		}
 	}
@@ -133,7 +137,7 @@ public class IAMicroFlo extends IAPlayer {
 				if(c1==null){
 					continue;
 				}
-				if(Utils.distance(c1, charac)>charac.range){
+				if(Utils.distance(c1, charac)==-1f || Utils.distance(c1, charac)>charac.range){
 					continue;
 				}
 				//TODO find a better direction
