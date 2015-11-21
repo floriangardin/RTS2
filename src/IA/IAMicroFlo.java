@@ -88,7 +88,7 @@ public class IAMicroFlo extends IAPlayer {
 				float dirY = c2.getX()-c1.getX();
 				dirX /=norm;
 				dirY /= norm;
-				
+
 				charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
 			}
 
@@ -118,7 +118,7 @@ public class IAMicroFlo extends IAPlayer {
 			}
 		}
 	}
-	
+
 	public void handleInquisitor(Vector<Character> ennemies){
 		Vector<Character> units = this.getUnitsGroup(INQUISITOR);
 		for(Character charac : units){
@@ -139,16 +139,17 @@ public class IAMicroFlo extends IAPlayer {
 				//TODO find a better direction
 				ennemies.remove(c1);
 				Character c2 = IAUtils.nearestUnit(ennemies, charac);
-				
-				float norm = Utils.distance(c1, c2);
-				float dirX = c1.getY()-c2.getY();
-				float dirY = c2.getX()-c1.getX();
-				dirX /=norm;
-				dirY /= norm;
-				
-				//Check if this is 
-				
-				charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
+				if(c2!=null){
+					float norm = Utils.distance(c1, c2);
+					float dirX = c1.getY()-c2.getY();
+					float dirY = c2.getX()-c1.getX();
+					dirX /=norm;
+					dirY /= norm;
+
+					//Check if this is 
+
+					charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
+				}
 			}
 		}
 	}
