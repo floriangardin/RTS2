@@ -1064,7 +1064,7 @@ public class Plateau {
 			this.clearSelection(player);
 			//handling the selection
 			for(Character o: characters){
-				if(o.selectionBox.intersects(select) && o.getTeam()==team){
+				if((o.selectionBox.intersects(select)|| o.selectionBox.contains(select)) && o.getTeam()==team){
 					//add character to team selection
 					this.addSelection(o, player);
 				}
