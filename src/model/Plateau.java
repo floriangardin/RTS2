@@ -821,16 +821,16 @@ public class Plateau {
 		// camera movement
 		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
-			if((im.isPressedUP || im.yMouse<Ycam+5)&&Ycam>-g.resY/2){
+			if((im.isPressedUP || (!im.isPressedA && im.yMouse<Ycam+5))&&Ycam>-g.resY/2){
 				Ycam -= 20;
 			}
-			if((im.isPressedDOWN || im.yMouse>Ycam+g.resY-5) && Ycam<this.maxY-g.resY/2){
+			if((im.isPressedDOWN || (!im.isPressedA && im.yMouse>Ycam+g.resY-5)) && Ycam<this.maxY-g.resY/2){
 				Ycam +=20;
 			}
-			if((im.isPressedLEFT|| im.xMouse<Xcam+5) && Xcam>-g.resX/2 ){
+			if((im.isPressedLEFT|| (!im.isPressedA && im.xMouse<Xcam+5)) && Xcam>-g.resX/2 ){
 				Xcam -=20;
 			}
-			if((im.isPressedRIGHT || im.xMouse>Xcam+g.resX-5)&& Xcam<this.maxX-g.resX/2){
+			if((im.isPressedRIGHT || (!im.isPressedA && im.xMouse>Xcam+g.resX-5))&& Xcam<this.maxX-g.resX/2){
 				Xcam += 20;
 			}
 			//Displaying the selected group
@@ -1033,7 +1033,7 @@ public class Plateau {
 					this.inRectangle.addElement(o);
 				}
 			}
-			if(this.toAddSelection.get(player).size()==0){
+			if(this.selection.get(player).size()==0){
 				for(Building o: buildings){
 					if(o.collisionBox.intersects(select) && o.getTeam()==team){
 						this.selection.get(player).add(o);

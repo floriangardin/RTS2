@@ -20,7 +20,7 @@ public class UnitKnight extends Character {
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 110f;
 		this.armor = 3f;
-		this.damage = 8f;
+		this.damage = 8f*data.damageFactor;
 		this.chargeTime = 7f;
 		this.weapon = "sword";
 		

@@ -24,7 +24,7 @@ public class UnitArchange extends Character {
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 60f;
 		this.armor = 5f;
-		this.damage = 20f;
+		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 12f;
 		this.weapon = "sword";
 		this.civ = 0;

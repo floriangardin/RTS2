@@ -20,7 +20,7 @@ public class UnitSpearman extends Character {
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 80f;
 		this.armor = 4f;
-		this.damage = 10f;
+		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 7f;
 		this.weapon = "spear";
 

@@ -20,7 +20,7 @@ public class UnitPriest extends Character {
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 80f;
 		this.armor = 1f;
-		this.damage = 0f;
+		this.damage = 0f*data.damageFactor;
 		this.chargeTime = 0.2f;
 		this.weapon = "bible";
 		
