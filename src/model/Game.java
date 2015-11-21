@@ -266,49 +266,23 @@ public class Game extends BasicGame
 		if(isInMenu){
 			this.menuCurrent.update(gc.getInput());
 		} else {
-
-			if(debugTimeSteps)
-				System.out.println("fin du tour - temps total : "+(System.currentTimeMillis()-timeSteps));
-			if(debugTimeSteps)
-				timeSteps = System.currentTimeMillis();	
 			//Update of current round
 			this.clock.setRoundFromTime();
-
-			//Testing clock syncrho
-
-
 
 			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
 			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
 			if(this.clockSynchro.size()>20){
 				this.clockSynchro.remove(0);
 			}
-			//System.out.println("line 270 : " +this.round+ " " + Long.toString(this.clock.getCurrentTime()).substring(2, 5));
-			this.roundDebug++;
-			if(Game.debugValidation)
-				System.out.println("Game line 252: rounds jou�s:"+roundDebug+" round actuel: "+round);
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
-			if(debugTimeSteps)
-				System.out.println("-- NOUVEAU TOUR --");
-			if(debugTimeSteps)
-				System.out.println("calcul de l'input : "+(System.currentTimeMillis()-timeSteps));
 			if(inMultiplayer){
-				if(Game.debugValidation || Game.debugTourEnCours)
-					System.out.println("=== = = =Game line 258 : now in round "+this.round);
-				//Utils.printCurrentState(this.plateau);
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
-
-
-
 				//Checksum for testing synchro
 				if(this.round>=30){
 					//Compute checksum
-					//this.checksum.addElement("3C|"+this.round+"|"+this.plateau.characters.get(0).x+"-"+this.plateau.characters.get(0).y+"-"+this.plateau.characters.size()+"|");
-
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
-
 					//Checksum to send of plateau to test synchro
 					while(i<this.plateau.characters.size()){
 						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).x))%10);
@@ -316,23 +290,12 @@ public class Game extends BasicGame
 						i++;
 					}
 					checksum+="|";
-					
 					this.checksum.addElement(checksum);
 					this.sendInputToAllPlayer(this.checksum.lastElement());
 					if(this.checksum.size()>5){
 						this.checksum.remove(0);
 					}
 				}
-				
-//				//Simulate a desynchro TOREMOVE
-//				if(this.round!=0 && (this.round%200 )== 0){
-//					this.plateau.characters.get(0).setTarget(new Checkpoint(this.plateau,500f,500f));
-//				}
-//				
-//				if(this.round!=0 && (this.round%200 )== 0){
-//					this.plateau.characters.get(0).lifePoints = -1f;
-//				}
-				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
@@ -340,51 +303,11 @@ public class Game extends BasicGame
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
-				//To string du plateau tous les n_turns
-				//				if(this.host && this.round%Game.Tparsing==0){
-				//
-				//					Vector<String> plateauState = this.plateau.toStringArray(256);
-				//					for(String s : plateauState){
-				//						this.sendInputToAllPlayer(s);
-				//					}
-				//
-				//				}
-
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
-				if(debugTimeSteps)
-					System.out.println("update du plateau client: "+(System.currentTimeMillis()-timeSteps));
-				if(Game.debugValidation){
-					System.out.println("Game line 266 : Paquets dropped missing: "+this.roundDroppedMissing);
-					System.out.println("Game line 266 : Paquets dropped validate : "+this.roundDroppedValidate);
-					System.out.println("Game line 266 : Paquets dropped : "+this.roundDropped);
-					System.out.println("Game J'AI PAS RECU LA VALIDATION POUR JOUER MES TRUCS: ");
-					for(Integer i : this.vroundDropped){
-						System.out.print(i+",");
-					}
-					System.out.println();
-					System.out.println("Game J'AI PAS RECU L'INPUT DE L'AUTRE : ");
-					for(Integer i : this.vroundMissing){
-						System.out.print(i+",");
-					}
-					System.out.println();
-				}
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				ims = this.inputsHandler.getInputsForRound(this.round);
 
-				//Parse the plateau if informations are received.
-				int i = 0;
-				//				while(i<this.toParse.size()){
-				//					this.plateau.parse(this.toParse.get(i));
-				//					i++;
-				//
-				//					//Clear the parser at each global parsing
-				//					this.toParse.clear();
-				//
-				//				}
-				//				// On joue tout le temps les tours mais on peut annuler des inputs ( par soucis de fluidité)
-
-				
 				//RESYNCHRO
 				boolean successSynchro = false;
 				if(processSynchro && this.toParse!=null){

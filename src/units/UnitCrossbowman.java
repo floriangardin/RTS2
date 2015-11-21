@@ -21,7 +21,7 @@ public class UnitCrossbowman extends Character {
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.maxVelocity = 95f;
 		this.armor = 2f;
-		this.damage = 5f;
+		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 10f;
 		this.weapon ="bow";
 

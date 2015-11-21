@@ -20,7 +20,7 @@ public class UnitInquisitor extends Character {
 		this.collisionBox = new Circle(0f,0f,20f);
 		this.maxVelocity = 60f;
 		this.armor = 0f;
-		this.damage = 5f;
+		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 15f;
 		this.weapon = "wand";
 		this.civ = 0;

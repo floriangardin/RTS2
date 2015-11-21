@@ -26,7 +26,7 @@ public class Data {
 	public final int FRAMERATE;
 
 
-	//// UNIT STAT
+	//// UNITS
 
 	public UnitSpearman spearman;
 	public UnitKnight knight;
@@ -34,6 +34,10 @@ public class Data {
 	public UnitInquisitor inquisitor;
 	public UnitCrossbowman crossbowman;
 	public UnitArchange archange;
+	
+	public float damageFactor = 1f;
+	
+	
 	//// BUILDINGS STATS
 	//headQuarters
 	public int headQuartersLifePoints = 200;
