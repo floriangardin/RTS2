@@ -52,7 +52,7 @@ public abstract class Objet implements java.io.Serializable {
 		return this.name;
 	}
 	public int getTeam(){
-		return team;
+		return gameteam.id;
 	}
 	public GameTeam getGameTeam(){
 		return gameteam;

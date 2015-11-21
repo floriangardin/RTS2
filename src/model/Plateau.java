@@ -652,7 +652,7 @@ public class Plateau {
 				c.mouseHover = false;
 			}
 		}
-		
+
 	}
 
 	public void updateIAOrders(){
@@ -738,11 +738,11 @@ public class Plateau {
 		}
 		if(im.isPressedF){
 			//STOP SELECTION
-				for(ActionObjet c : this.selection.get(player)){
-					if(c instanceof Character){
-						((Character) c).stop();
-					}
+			for(ActionObjet c : this.selection.get(player)){
+				if(c instanceof Character){
+					((Character) c).stop();
 				}
+			}
 		}
 	}
 
@@ -1048,7 +1048,7 @@ public class Plateau {
 					if(Math.max(select.getWidth(), select.getHeight())<2f){
 						break;
 					}
-					
+
 				}
 			}
 			if(this.selection.get(player).size()==0){
@@ -1117,7 +1117,7 @@ public class Plateau {
 	}
 	//MULTIPLAYING
 	public String toStringArray(){
-		
+
 		// We consider a character is of length 50 maximum
 		int tailleCharac = 80;
 		int id_charac = 0;
@@ -1130,23 +1130,23 @@ public class Plateau {
 
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
-				s+=this.characters.get(id_charac).toString(false);
-				s+="|";
+			s+=this.characters.get(id_charac).toString(false);
+			s+="|";
 			id_charac++;
 		}
-//		id_charac = 0;
-//		//CEMETERY
-//		while(id_charac<this.population.characters.size()){
-//				s+=this.population.characters.get(id_charac).toString(true);
-//				s+="|";
-//			id_charac++;
-//		}
+		//		id_charac = 0;
+		//		//CEMETERY
+		//		while(id_charac<this.population.characters.size()){
+		//				s+=this.population.characters.get(id_charac).toString(true);
+		//				s+="|";
+		//			id_charac++;
+		//		}
 		s+="!";
 		return s;
 	}
 
 	public void parse(String s){
-		
+
 		//APPLY ACTION ON ALL CONCERNED OBJECTS
 		//GET ARRAY OF CHARACTERS,BUILDING,BULLET
 		//System.out.println(s);
@@ -1155,6 +1155,26 @@ public class Plateau {
 			//Take care of id sent
 			parseCharacter(u[2]);
 		}
+
+		// Update groups 
+
+		Vector<Character> group  = new Vector<Character>();
+
+		for(Character c : this.characters){
+			if(c.target instanceof Checkpoint){
+				group  = new Vector<Character>();
+				group.add(c);
+				for(Character d  : this.characters){
+					if(d.target instanceof Checkpoint && c.id!=d.id && c.getTeam()==d.getTeam()){
+						if(d.target.x == c.target.x && d.target.y == c.target.y ){
+							group.addElement(d);
+						}
+					}
+				}
+				c.group.addAll(group);
+			}
+		}
+
 	}
 	@Deprecated
 	public String toStringEx(){
@@ -1249,11 +1269,11 @@ public class Plateau {
 				return cha;
 			}
 		}
-//		for(Character cha : this.population.characters){
-//			if(id==cha.id){
-//				return cha;
-//			}
-//		}
+		//		for(Character cha : this.population.characters){
+		//			if(id==cha.id){
+		//				return cha;
+		//			}
+		//		}
 		return null;
 	}
 
@@ -1302,7 +1322,7 @@ public class Plateau {
 			cha = this.getCharacterById(idTest);
 			if(cha==null){
 				cha = Character.createNewCharacter(hs, g);
-				
+
 			}
 			if(cha!=null){
 				cha.parse(hs);
@@ -1312,16 +1332,16 @@ public class Plateau {
 		//Destroy characters who didn't give any news
 		//TODO : We need to parse dead characters ..
 		// TODO : Add a cemetery, that host add in his to string
-			for(Character c : this.characters){
-				if(!c.toKeep){
-					System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
-					
-					c.setLifePoints(-1f);
-				}
-				else{
-					c.toKeep = false;
-				}
+		for(Character c : this.characters){
+			if(!c.toKeep){
+				System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
+
+				c.setLifePoints(-1f);
 			}
+			else{
+				c.toKeep = false;
+			}
+		}
 	}
 
 	public void parseBullet(String s){

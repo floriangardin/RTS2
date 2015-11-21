@@ -54,6 +54,7 @@ public class Character extends ActionObjet{
 	// Group attributes
 	public Character leader;
 	public Vector<Character> group;
+	
 	public boolean someoneStopped;
 	// Equipment attributes
 	public RidableObjet horse;
