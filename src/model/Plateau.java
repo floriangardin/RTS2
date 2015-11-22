@@ -600,7 +600,8 @@ public class Plateau {
 
 	//TODO : Here we handle inputs from each players
 	public void update(Vector<InputObject> ims){
-		//TODO
+		Utils.triId(this.characters);
+		
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
 		for(InputObject im : ims){
@@ -674,7 +675,10 @@ public class Plateau {
 
 	public void updatePlateauState(){
 		// 2 - For everyone
+		//Sort by id
 
+		
+		
 		this.collision();
 		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - g.timeSteps));

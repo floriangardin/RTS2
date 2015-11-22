@@ -177,6 +177,51 @@ public class Utils {
 		}
 
 	}
+	
+	
+	
+	public static void triId(Vector<Character> liste){
+		if(liste.size()<=1)
+			return;
+		Vector<Character> liste1 = new Vector<Character>(), liste2= new Vector<Character>();
+		for(int i=0;i<liste.size();i++){
+			if(i<liste.size()/2)
+				liste1.add(liste.get(i));
+			else
+				liste2.add(liste.get(i));
+		}
+		liste.clear();
+		triId(liste1);
+		triId(liste2);
+		float y1=0f,y2=0f;
+		boolean b1=true, b2=true;
+		while(true){
+			b1 = !liste1.isEmpty();
+			b2 = !liste2.isEmpty();
+			if(!b1 && !b2)
+				break;
+			if(!b1){
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+				continue;
+			}
+			if(!b2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+				continue;
+			}
+			y1 = liste1.firstElement().id;
+			y2 = liste2.firstElement().id;
+			if(y1<y2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+			} else {
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+			}
+		}
+
+	}
 
 	public static void printCurrentState(Plateau p){
 		System.out.println("DEBUG MODE");

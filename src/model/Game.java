@@ -291,7 +291,7 @@ public class Game extends BasicGame
 					checksum+="|";
 					this.checksum.addElement(checksum);
 					this.sendInputToAllPlayer(this.checksum.lastElement());
-					if(this.checksum.size()>5){
+					if(this.checksum.size()>15){
 						this.checksum.remove(0);
 					}
 				}
@@ -302,6 +302,16 @@ public class Game extends BasicGame
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
+				
+//				if((this.round%200)==0 ){
+//					this.plateau.characters.get(0).setTarget(new Checkpoint(this.plateau,500f,500f));
+//					this.plateau.characters.get(1).setTarget(new Checkpoint(this.plateau,500f,500f));
+//					this.plateau.characters.get(0).group.addElement(this.plateau.characters.get(0));
+//					this.plateau.characters.get(0).group.addElement(this.plateau.characters.get(1));
+//					this.plateau.characters.get(1).group.addElement(this.plateau.characters.get(0));
+//					this.plateau.characters.get(1).group.addElement(this.plateau.characters.get(1));
+//				}
+				
 				// On ajoute l'input du tour courant � l'inputhandler				
 				this.inputsHandler.addToInputs(im);
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
@@ -312,12 +322,11 @@ public class Game extends BasicGame
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-2)){
 						System.out.println("Play resynchronisation round at round" + this.round);
 						this.plateau.parse(this.toParse);
 						this.processSynchro = false;
 						successSynchro = true;
-						this.checksum.clear();
 						System.out.println("Resynchronisation ....");
 						
 					}
