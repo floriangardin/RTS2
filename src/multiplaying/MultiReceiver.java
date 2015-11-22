@@ -118,6 +118,8 @@ public class MultiReceiver extends Thread{
 										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
 										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2]) && !this.g.processSynchro){
 											System.out.println("112 multireceiver : Desynchro ! "+mes[2]+" "+checksum[2]);
+											System.out.println("112 Desynchro occured round "+mes[1]);
+											System.out.println("112 And now in round "+this.g.round);
 											//Si desynchro j'active le processus de parse
 											this.g.processSynchro = true;
 											this.g.sendParse = true;
