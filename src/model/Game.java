@@ -147,6 +147,9 @@ public class Game extends BasicGame
 	public boolean updateDropped= false;
 	public boolean clockResynchro = false;
 	
+	public boolean restartProcess = false;
+	public long timeRestart;
+	
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -290,7 +293,16 @@ public class Game extends BasicGame
 			
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
-
+				
+				//Play only if restart process ok, else give up on update
+				if(restartProcess){
+					if(this.clock.getCurrentTime()>this.timeRestart){
+						this.restartProcess = false;
+					}
+					else{
+						return;
+					}
+				}
 				//Checksum for testing synchro
 				if( this.round>=30 && !this.processSynchro){
 					//Compute checksum
@@ -368,23 +380,14 @@ public class Game extends BasicGame
 				
 				if(this.dropped.size()>7 && this.round>30){
 					this.dropped.remove(0);
-//					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
-//						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
-//							if(host){
-//								if(this.updateDropped){
-//									this.round--;
-//									this.updateDropped = false;
-//									System.out.println("371 Game : Handle round Drop 1");
-//								}
-//								else{
-//									this.round= this.round+2;
-//									this.updateDropped= true;
-//									System.out.println("371 Game : Handle round Drop 2");
-//								}
-//							}
-//							this.dropped.clear();
-//						}
-//					}
+					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
+						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
+							if(host){
+								//Send restart process 
+								this.restartProcess = true;
+								//TODO : send message of resynch
+						}
+					}
 				}
 				//Handle hard desynchro
 				
