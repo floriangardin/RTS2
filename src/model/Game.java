@@ -268,17 +268,18 @@ public class Game extends BasicGame
 			//Update of current round
 			this.clock.setRoundFromTime();
 
-			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
-			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
-			if(this.clockSynchro.size()>20){
-				this.clockSynchro.remove(0);
-			}
+//			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
+//			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
+//			if(this.clockSynchro.size()>20){
+//				this.clockSynchro.remove(0);
+//			}
+			
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 				// On envoie l'input du tour courant
 				this.sendInputToAllPlayer(im.toString());
 				//Checksum for testing synchro
-				if(this.round>=30){
+				if( this.round>=30){
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -289,9 +290,18 @@ public class Game extends BasicGame
 						i++;
 					}
 					checksum+="|";
-					this.checksum.addElement(checksum);
+					
+					//Je l'envoie seulement si je suis client
 					System.out.println("Sent checksum round "+this.round);
-					this.sendInputToAllPlayer(this.checksum.lastElement());
+					if(!this.host){
+						this.sendInputToAllPlayer(this.checksum.lastElement());
+					}
+					//Je l'ajoute dans mes checksum si je suis host
+					else{
+						this.checksum.addElement(checksum);
+					}
+					
+					//J'enleve le premier élement si problème tous les 15 checksum reçu
 					if(this.checksum.size()>15){
 						this.checksum.remove(0);
 					}
@@ -323,7 +333,8 @@ public class Game extends BasicGame
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-2)){
+					//Je resynchronise au tour n+2
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						System.out.println("Play resynchronisation round at round" + this.round);
 						this.plateau.parse(this.toParse);
 						this.processSynchro = false;
