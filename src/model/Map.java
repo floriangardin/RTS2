@@ -58,7 +58,7 @@ public class Map {
 	
 
 	private static void createMapCrossSpearman(Game game) {
-		game.plateau.setMaxXMaxY(1200f, 1000f);
+		game.plateau.setMaxXMaxY(1200f, 1200f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -82,6 +82,8 @@ public class Map {
 		
 		//Bonus at center 
 		new BonusLifePoints(game.plateau, X/2, Y/2);
+		new BonusDamage(game.plateau, X/2, 0);
+		new BonusSpeed(game.plateau, X/2, 8*Y/9);
 		//Tree
 		new Tree(X/3,Y/3,game.plateau,1);
 	}

@@ -1,16 +1,16 @@
 package model;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import units.Character;
-public class BonusLifePoints extends Bonus{
+
+public class BonusSpeed extends Bonus{
 
 
-
-
-	public BonusLifePoints(Plateau p , float x , float y){
+	public BonusSpeed(Plateau p , float x , float y){
 		this.p = p;
 		this.lifePoints = 10f;
 		p.bonus.addElement(this);
@@ -21,10 +21,9 @@ public class BonusLifePoints extends Bonus{
 		this.x = x;
 		this.y = y;
 		this.setXY(x, y);
-		this.image = this.p.g.images.bonusLifePoints;
-		this.bonus = 50f;
+		this.image = this.p.g.images.bonusSpeed;
+		this.bonus = 20f;
 		this.sound = this.p.g.sounds.bonus;
-
 	}
 
 	public void action(){
@@ -36,20 +35,21 @@ public class BonusLifePoints extends Bonus{
 		else if(bonusPresent && this.state>this.animationStep){
 			this.animation=(this.animation+1)%4;
 			this.state= 0f;
-			
 		}
 	}
 
 	public void collision(Character c){
 		
 		if(this.bonusPresent){
-			c.setLifePoints(c.lifePoints+this.bonus);
+			c.maxVelocity +=this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
 			this.sound.play(1f, this.p.g.options.soundVolume);
 		}
 
 	}
+
+
 
 
 }
