@@ -36,7 +36,7 @@ public class Character extends ActionObjet{
 
 	public float animStep = 4f;
 	public float armor = 0f;	
-	public float size;
+	
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
@@ -83,7 +83,7 @@ public class Character extends ActionObjet{
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Case> waypoints = new Vector<Case>();
 
-	public boolean mouseHover = false;
+	
 
 	public Image animationAttack;
 

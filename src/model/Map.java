@@ -59,7 +59,7 @@ public class Map {
 	
 
 	private static void createMapCrossSpearman(Game game) {
-		game.plateau.setMaxXMaxY(800f, 600f);
+		game.plateau.setMaxXMaxY(1200f, 1000f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -67,7 +67,7 @@ public class Map {
 		Data data2 = game.plateau.teams.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,-data1.headQuartersSizeX/2f-10f,Y/2,1);
-		new BuildingHeadQuarters(game.plateau,game,-data2.headQuartersSizeX/2f+10f,data2.headQuartersSizeY+Y/2,2);
+		new BuildingHeadQuarters(game.plateau,game,X-data2.headQuartersSizeX/2f+10f,data2.headQuartersSizeY+Y/2,2);
 
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-2f);
@@ -81,6 +81,8 @@ public class Map {
 		data2.create(UnitsList.Spearman, 7*X/9, Y/2+1f);
 		data2.create(UnitsList.Spearman, 7*X/9, Y/2+2f);
 		
+		//Bonus at center 
+		new BonusLifePoints(game.plateau, X/2, Y/2);
 	}
 
 	public static void createMapDuelSmall(Game game){

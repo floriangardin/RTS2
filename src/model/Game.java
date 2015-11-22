@@ -202,6 +202,13 @@ public class Game extends BasicGame
 			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
 		}
+		
+		//Draw bonuses
+		for(Bonus o : plateau.bonus){
+			//o.draw(g);
+			if(o.visibleByCurrentPlayer)
+				toDrawAfter.add(o);
+		}
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){

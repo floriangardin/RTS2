@@ -17,6 +17,7 @@ import units.Character;
 public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
+	public float maxLifePoints;
 	public int id;
 	public Image[][][] animations;
 	public int mode;
@@ -111,7 +112,11 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public void setLifePoints(float lifepoints){
-		this.lifePoints= lifepoints;
+		if(lifePoints<this.maxLifePoints)
+			this.lifePoints= lifepoints;
+		else{
+			this.lifePoints = this.maxLifePoints;
+		}
 		this.changes.lifePoints = true;
 	}
 	// TOSTRING METHODS
