@@ -290,6 +290,7 @@ public class Game extends BasicGame
 					}
 					checksum+="|";
 					this.checksum.addElement(checksum);
+					System.out.println("Sent checksum round "+this.round);
 					this.sendInputToAllPlayer(this.checksum.lastElement());
 					if(this.checksum.size()>15){
 						this.checksum.remove(0);
@@ -302,7 +303,7 @@ public class Game extends BasicGame
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
-				
+//				
 //				if((this.round%200)==0 ){
 //					this.plateau.characters.get(0).setTarget(new Checkpoint(this.plateau,500f,500f));
 //					this.plateau.characters.get(1).setTarget(new Checkpoint(this.plateau,500f,500f));
