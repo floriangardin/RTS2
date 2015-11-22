@@ -37,6 +37,8 @@ public class BuildingTower extends Building{
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		this.image = this.p.g.images.tent;
+		this.imageNeutre = this.p.g.images.tent;
+		
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
