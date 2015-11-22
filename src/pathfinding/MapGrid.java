@@ -431,6 +431,9 @@ public class MapGrid {
 		//System.out.println(this.toString());
 		System.out.println("Rentrer dans veanezgruis");
 		while(grid.get(i).get(j).id!=arrival.id && grid.get(i).get(j).ok){
+			if(cases.contains(grid.get(i).get(j))){
+				return new Vector<Case>();
+			}
 			cases.add(grid.get(i).get(j));
 			//System.out.println(x+" "+y+" "+i+" "+j+" "+x2+" "+y2);
 			a = (y2-y)/(x2-x+0.0001f);
