@@ -27,7 +27,7 @@ public class Main {
 			game.app = app;
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(false);
-			app.setDisplayMode(resolutionX, resolutionY,true);
+			app.setDisplayMode(resolutionX, resolutionY,false);
 			app.setTargetFrameRate(Main.framerate);
 			app.setVSync(true);
 			//app.setMaximumLogicUpdateInterval(20);
