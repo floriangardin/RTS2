@@ -74,9 +74,7 @@ public class MenuMulti extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY,this.host,this.hostSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.join,this.joinSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(startXGames,startY,this.marbre,this.marbre,this.game));
-			this.items.lastElement().selectionable = false;
-
+			
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -137,9 +135,8 @@ public class MenuMulti extends Menu {
 		}
 		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 10f);
 		g.setColor(Color.white);
-
-		g.setColor(Color.black);
-		g.drawString("Open games: ", this.startXGames+70f, startY+50f);
+		g.drawString("Parties disponibles: ", this.startXGames+70f, startY+50f);
+		g.fillRect(this.startXGames+80f, startY+80f+this.game.font.getHeight("R"),2, sizeYGames/2f - 60f+this.game.font.getHeight("R"));
 		for(Menu_MapChoice s : this.gamesList)
 			s.draw(g);
 	}
