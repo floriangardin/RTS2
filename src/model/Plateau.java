@@ -668,10 +668,10 @@ public class Plateau {
 	private void handleMouseHover(InputObject im, int player) {
 		for(Character c : this.characters){
 			if(c.selectionBox.contains(im.xMouse, im.yMouse)){
-				c.mouseHover = true;
+				c.mouseOver = true;
 			}
 			else{
-				c.mouseHover = false;
+				c.mouseOver = false;
 			}
 		}
 

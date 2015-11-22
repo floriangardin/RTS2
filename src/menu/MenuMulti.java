@@ -157,7 +157,6 @@ public class MenuMulti extends Menu {
 						if(hashmap.containsKey("idT")){
 							String[] idTeam =hashmap.get("idT").split(",");
 							t = Integer.parseInt(idTeam[1]);
-							System.out.println("MenuMulti l 160");
 						}
 						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
 						gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
@@ -165,6 +164,7 @@ public class MenuMulti extends Menu {
 						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
 						String[] idTeam =hashmap.get("idT").split(",");
 						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
+						System.out.println("MenuMulti 168 "+o.teamFirstPlayer);
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();

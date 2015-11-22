@@ -112,7 +112,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public void setLifePoints(float lifepoints){
-		if(lifePoints<this.maxLifePoints)
+		if(lifepoints<this.maxLifePoints)
 			this.lifePoints= lifepoints;
 		else{
 			this.lifePoints = this.maxLifePoints;

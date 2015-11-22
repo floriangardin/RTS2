@@ -160,7 +160,7 @@ public class UnitCrossbowman extends Character {
 		y2-=40f;
 		x1+=5f;
 		x2+=5f;
-		if(mouseHover){
+		if(mouseOver){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
 				color = new Color(0,0,205,0.4f);

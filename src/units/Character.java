@@ -28,9 +28,7 @@ import buildings.Building;
 
 public class Character extends ActionObjet{
 
-	//Time before parsing
-	public static int roundBeforeParse = 200;
-	public int roundAfterBorn=0;
+
 	// General attributes
 	public Circle sightBox;
 
@@ -323,7 +321,7 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
-		this.roundAfterBorn++;
+		
 		this.toKeep = false;
 
 		this.updateChargeTime();
@@ -493,7 +491,7 @@ public class Character extends ActionObjet{
 
 		y1-=15f;
 		y2-=15f;
-		if(mouseHover){
+		if(mouseOver){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
 				color = new Color(0,0,205,0.4f);
