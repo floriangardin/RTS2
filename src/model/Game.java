@@ -276,8 +276,7 @@ public class Game extends BasicGame
 			
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
-				// On envoie l'input du tour courant
-				this.sendInputToAllPlayer(im.toString());
+
 				//Checksum for testing synchro
 				if( this.round>=30){
 					//Compute checksum
@@ -290,19 +289,19 @@ public class Game extends BasicGame
 						i++;
 					}
 					checksum+="|";
-					
-					//Je l'envoie seulement si je suis client
-					System.out.println("Sent checksum round "+this.round);
+
 					if(!this.host && !this.processSynchro){
 						this.sendInputToAllPlayer(checksum);
+						//Je l'envoie seulement si je suis client
+						System.out.println("Sent checksum round "+this.round);
 					}
 					//Je l'ajoute dans mes checksum si je suis host
 					else{
 						this.checksum.addElement(checksum);
 					}
 					
-					//J'enleve le premier élement si problème tous les 15 checksum reçu
-					if(this.checksum.size()>15){
+					//J'enleve le premier élement si problème tous les 5 checksum reçu
+					if(this.checksum.size()>5){
 						this.checksum.remove(0);
 					}
 				}
@@ -324,9 +323,6 @@ public class Game extends BasicGame
 //				}
 				
 				// On ajoute l'input du tour courant ï¿½ l'inputhandler				
-				this.inputsHandler.addToInputs(im);
-				this.plateau.handleView(im, this.plateau.currentPlayer.id);
-				ims = this.inputsHandler.getInputsForRound(this.round);
 
 				//RESYNCHRO
 				boolean successSynchro = false;
@@ -335,7 +331,7 @@ public class Game extends BasicGame
 					String[] u = this.toParse.split("!");
 					//Je resynchronise au tour n+2
 					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
-						System.out.println("Play resynchronisation round at round" + this.round);
+						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
 						this.processSynchro = false;
 						successSynchro = true;
@@ -343,8 +339,14 @@ public class Game extends BasicGame
 						
 					}
 				}
-				
+				//Tour normal
 				if(!successSynchro){
+					// On envoie l'input du tour courant
+					this.sendInputToAllPlayer(im.toString());
+					this.inputsHandler.addToInputs(im);
+					this.plateau.handleView(im, this.plateau.currentPlayer.id);
+					ims = this.inputsHandler.getInputsForRound(this.round);
+					
 					this.plateau.update(ims);
 
 					this.plateau.updatePlateauState();

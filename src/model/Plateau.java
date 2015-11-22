@@ -1123,7 +1123,6 @@ public class Plateau {
 	public String toStringArray(){
 
 		// We consider a character is of length 50 maximum
-		int tailleCharac = 80;
 		int id_charac = 0;
 		String s = "3P!";
 		//IDS
