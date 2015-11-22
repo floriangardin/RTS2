@@ -32,6 +32,9 @@ public class MenuOptions extends Menu {
 	public Sounds sounds;
 	public Image options;
 	public Image nickname;
+
+	public Image volume;
+	public Image curseur;
 	
 	public String nicknameString;
 
@@ -59,6 +62,8 @@ public class MenuOptions extends Menu {
 			this.music = new Image("pics/menu/musics.png").getScaledCopy(ratioReso);
 			this.sound = new Image("pics/menu/sounds.png").getScaledCopy(ratioReso);
 			this.nickname = new Image("pics/menu/nickname.png").getScaledCopy(ratioReso);
+			this.volume = new Image("pics/menu/volume.png").getScaledCopy(ratioReso);
+			this.curseur = new Image("pics/menu/curseur.png").getScaledCopy(ratioReso);
 			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
 			float startX = this.game.resX/2-this.back.getWidth()/2;
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+0*stepY,this.music,this.music,this.game));
@@ -73,6 +78,7 @@ public class MenuOptions extends Menu {
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+2*stepY,this.nickname,this.nickname,this.game));
 			this.items.get(7).selectionable = false;
 			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+2.3f*stepY,0.8f*this.game.resX/4f,0.4f*stepY));
+			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+0*stepY,"bibi",this.volume,this.curseur,this.game,0.5f));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
