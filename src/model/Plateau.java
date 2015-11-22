@@ -1309,6 +1309,13 @@ public class Plateau {
 
 	public void parseCharacter(String s){
 		//SPLIT SELON |
+		
+		for(Character c : this.characters){
+			c.setTarget(null, null);
+			c.group.clear();
+		}
+		
+		
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
@@ -1335,6 +1342,8 @@ public class Plateau {
 			cha = this.getCharacterById(idTest);
 			if(cha == null){
 				cha = Character.createNewCharacter(hs, g);
+				System.out.println("Create new character");
+				
 			}
 			if(cha!=null){
 				cha.parse(hs);
@@ -1347,6 +1356,7 @@ public class Plateau {
 		
 		for(Character c : this.characters){
 			if(!c.toKeep){
+				System.out.println("Destroyed " + c.id);
 				c.destroy();
 			}
 		}
