@@ -17,10 +17,10 @@ public class Main {
 //		double width = 600;
 //		double height = 400;
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = (int)screenSize.getWidth();		
-		int resolutionY = (int)screenSize.getHeight();
-//		int resolutionX = 800;		
-//		int resolutionY = 600;
+//		int resolutionX = (int)screenSize.getWidth();		
+//		int resolutionY = (int)screenSize.getHeight();
+		int resolutionX = 800;		
+		int resolutionY = 600;
 		try {
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
