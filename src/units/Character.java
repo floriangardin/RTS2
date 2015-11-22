@@ -147,6 +147,7 @@ public class Character extends ActionObjet{
 		this.group.add(this);
 		this.animStep = c.animStep;
 		this.attackDuration = c.attackDuration;
+		this.animationAttack = c.animationAttack;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);

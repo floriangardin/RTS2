@@ -31,7 +31,7 @@ public class UnitSpearman extends Character {
 		this.chargeTime = 7f;
 		this.weapon = "spear";
 		this.animStep = 32f;
-		
+
 
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;
@@ -160,7 +160,7 @@ public class UnitSpearman extends Character {
 			this.animation = 0;
 			this.animationValue= 0f;
 		}
-		
+
 		if(this.isImmolating){
 			this.animation = 0;
 			this.orientation = 2;
@@ -177,7 +177,7 @@ public class UnitSpearman extends Character {
 		float y2 = this.getY() + drawWidth;
 		y1-=40f;
 		y2-=40f;
-		
+
 
 		if(mouseHover){
 			Color color = Color.darkGray;
@@ -187,8 +187,14 @@ public class UnitSpearman extends Character {
 			else{
 				color = new Color(250,0,0,0.4f);
 			}
-			
-			Image i = toDraw.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			Image i;
+			if(!isAttacking){
+				i = toDraw.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			}
+			else{
+				i = toDraw.getSubImage(imageWidth*((int)(5*this.attackState/this.attackDuration)),imageHeight*(int)direction,imageWidth,imageHeight);
+			}
+
 			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 
 			g.drawImage(i,x1,y1);
@@ -196,7 +202,12 @@ public class UnitSpearman extends Character {
 			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
 		else{
-			g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			if(!isAttacking){
+				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			}
+			else{
+				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*((int)(5*this.attackState/this.attackDuration)),imageHeight*direction,imageWidth*((int)(5*this.attackState/this.attackDuration))+imageWidth,imageHeight*direction+imageHeight);
+			}
 		}
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
@@ -216,7 +227,7 @@ public class UnitSpearman extends Character {
 			g.setColor(new Color(0,0,0,0.8f));
 			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
 		}
-		
+
 		//Draw state
 		if(!isImmolating && this.attackState<this.attackDuration){
 			g.setColor(new Color(255,255,255,0.8f));
