@@ -18,6 +18,7 @@ public class UnitSpearman extends Character {
 		super(p, gameteam);
 		this.name = "spearman";
 		this.type = UnitsList.Spearman;
+		this.attackDuration = 2f;
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
@@ -31,11 +32,14 @@ public class UnitSpearman extends Character {
 		this.weapon = "spear";
 		this.animStep = 32f;
 
+
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;
+			this.animationAttack = this.p.g.images.attackSpearmanBlue;
 		}
 		else{
 			this.image = this.p.g.images.spearmanRed;
+			this.animationAttack = this.p.g.images.attackSpearmanRed;
 		}
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
@@ -52,7 +56,6 @@ public class UnitSpearman extends Character {
 		c.changes.lifePoints=true;
 		// Attack sound
 		float damage = this.damage;
-
 		if(this.p.g.sounds!=null)
 			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
 		if(c.horse!=null)
@@ -63,6 +66,7 @@ public class UnitSpearman extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		this.isAttacking = false;
 	}
 
 
@@ -130,35 +134,90 @@ public class UnitSpearman extends Character {
 
 	}
 
+	
+	public void setVXVY(float vx, float vy){
+		this.vx = vx;
+		this.vy = vy;
+		int sector = 0;
+		if(vx==0 && vy==0){
+			//Orientation toward target
+
+			if(this.target!=null){
+				vx =this.target.x-this.x;
+				vy = this.target.y-this.y;
+				if(vx>0f){
+					if(vy>vx){
+						sector = 2;
+					} else if(vy<-vx){
+						sector = 8;
+					} else {
+						sector = 4;
+					}
+				} else {
+					if(vy>-vx){
+						sector = 2;
+					} else if(vy<vx){
+						sector = 8;
+					} else {
+						sector = 6;
+					}
+				}
+				this.orientation = sector;
+			}
+			return;
+		}
+		if(vx>0f){
+			if(vy>vx){
+				sector = 2;
+			} else if(vy<-vx){
+				sector = 8;
+			} else {
+				sector = 4;
+			}
+		} else {
+			if(vy>-vx){
+				sector = 2;
+			} else if(vy<vx){
+				sector = 8;
+			} else {
+				sector = 6;
+			}
+		}
+		this.orientation = sector;
+
+
+		this.changes.orientation = true;
+
+	}
+
 
 	public Graphics draw(Graphics g){
 
 
 		float r = collisionBox.getBoundingCircleRadius()*1.5f;
 		float direction = 0f;
-
-
-		//Adapted to spearman TODO : Genericity
-		if(orientation == 4  && this.isMobile()){
-			orientation = 6;
+		//TO draw
+		Image toDraw;
+		if(isAttacking){
+			toDraw = this.animationAttack;
 		}
-		else if(orientation == 6 && this.isMobile()){
-			orientation =4;
+		else{
+			toDraw = this.image;
 		}
+
 		if(!this.isMobile()){
 			this.animation = 0;
 			this.animationValue= 0f;
 		}
-		
+
 		if(this.isImmolating){
 			this.animation = 0;
 			this.orientation = 2;
 		}
 
-
 		direction = (float)(orientation/2-1);
-		int imageWidth = this.image.getWidth()/5;
-		int imageHeight = this.image.getHeight()/4;
+		int imageWidth = toDraw.getWidth()/5;
+		int imageHeight = toDraw.getHeight()/4;
 		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
 		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
 		float x1 = this.getX() - drawWidth;
@@ -167,6 +226,8 @@ public class UnitSpearman extends Character {
 		float y2 = this.getY() + drawWidth;
 		y1-=40f;
 		y2-=40f;
+
+
 		if(mouseHover){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
@@ -175,8 +236,14 @@ public class UnitSpearman extends Character {
 			else{
 				color = new Color(250,0,0,0.4f);
 			}
+			Image i;
+			if(!isAttacking){
+				i = toDraw.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			}
+			else{
+				i = toDraw.getSubImage(imageWidth*((int)(5*this.attackState/this.attackDuration)),imageHeight*(int)direction,imageWidth,imageHeight);
+			}
 
-			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
 			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 
 			g.drawImage(i,x1,y1);
@@ -184,27 +251,40 @@ public class UnitSpearman extends Character {
 			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
 		else{
-			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			if(!isAttacking){
+				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			}
+			else{
+				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*((int)(5*this.attackState/this.attackDuration)),imageHeight*direction,imageWidth*((int)(5*this.attackState/this.attackDuration))+imageWidth,imageHeight*direction+imageHeight);
+			}
 		}
-
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
 			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,r,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
 			float x = this.lifePoints*r/this.maxLifePoints;
 			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
 
 		}
-		//Draw state
-		if(!isImmolating && this.state<this.chargeTime){
-			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
-			float x = this.state*r/this.chargeTime;
-			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
-		}
+//		//Draw state
+//		if(!isImmolating && this.state<this.chargeTime){
+//			g.setColor(new Color(255,255,255,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
+//			float x = this.state*r/this.chargeTime;
+//			g.setColor(new Color(0,0,0,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
+//		}
+//
+//		//Draw state
+//		if(!isImmolating && this.attackState<this.attackDuration){
+//			g.setColor(new Color(255,255,255,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
+//			float x = this.attackState*r/this.attackDuration;
+//			g.setColor(new Color(0,0,0,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
+//		}
 
 		//Draw the immolation
 		if(isImmolating){

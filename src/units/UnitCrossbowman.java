@@ -20,6 +20,7 @@ public class UnitCrossbowman extends Character {
 		super(p, gameteam);
 		this.name = "crossbowman";
 		this.type = UnitsList.Crossbowman;
+		this.attackDuration = 2f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
@@ -52,6 +53,7 @@ public class UnitCrossbowman extends Character {
 
 		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
+		this.isAttacking = false;
 	}
 	
 	
@@ -128,10 +130,10 @@ public class UnitCrossbowman extends Character {
 
 
 		//Adapted to spearman TODO : Genericity
-		if(orientation == 4  && this.isMobile()){
+		if(orientation == 4){
 			orientation = 6;
 		}
-		else if(orientation == 6 && this.isMobile()){
+		else if(orientation == 6){
 			orientation =4;
 		}
 		if(!this.isMobile()){
@@ -182,21 +184,12 @@ public class UnitCrossbowman extends Character {
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
 			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,r,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
 			float x = this.lifePoints*r/this.maxLifePoints;
 			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
 
 		}
-		//Draw state
-		if(!isImmolating && this.state<this.chargeTime){
-			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
-			float x = this.state*r/this.chargeTime;
-			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
-		}
-
 		//Draw the immolation
 		if(isImmolating){
 			Image fire = this.p.g.images.explosion;

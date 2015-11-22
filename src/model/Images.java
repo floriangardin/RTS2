@@ -71,6 +71,11 @@ public class Images {
 	public Image spellInstantHealth;
 	public Image crossbowmanBlue;
 	public Image crossbowmanRed;
+	public Image attackSpearmanRed;
+	public Image attackSpearmanBlue ;
+	public Image attackCrossbowmanBlue;
+	public Image attackCrossbowmanRed;
+	public Image bonusLifePoints;
 
 	public Images(){
 		try {
@@ -112,8 +117,13 @@ public class Images {
 			this.spearmanRed = new Image("pics/unit/spearman_move_2.png");
 			this.crossbowmanBlue = new Image("pics/unit/crossbowrman_move_1.png");
 			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
-
-
+			
+			//TODO put right image
+			this.attackSpearmanBlue = new Image("pics/unit/spearman_attack_1.png");
+			this.attackSpearmanRed = new Image("pics/unit/spearman_attack_2.png");
+			bonusLifePoints = new Image("pics/bonus/bonus_lifepoints.png");
+			
+			
 			//Building
 			buildingBarrackBlue = new Image("pics/Building/CaserneBleu.png");
 			buildingBarrackRed = new Image("pics/Building/CaserneRouge.png");

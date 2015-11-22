@@ -202,10 +202,17 @@ public class Game extends BasicGame
 			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
 		}
+		
+		//Draw bonuses
+		for(Bonus o : plateau.bonus){
+			//o.draw(g);
+			if(o.visibleByCurrentPlayer)
+				toDrawAfter.add(o);
+		}
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
-			o.draw(g);
+			toDrawAfter.add(o);
 		}
 		// Draw the buildings
 		for(Building e : this.plateau.buildings){
@@ -322,9 +329,9 @@ public class Game extends BasicGame
 				}
 ////				
 ////
-//				if(this.round%200 == 0){
-//					this.plateau.characters.get(0).destroy();
-//				}
+				if(this.round%200 == 0){
+					this.plateau.characters.get(0).destroy();
+				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 
 				//RESYNCHRO

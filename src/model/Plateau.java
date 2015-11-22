@@ -75,6 +75,8 @@ public class Plateau {
 	public Vector<Building> toAddBuildings;
 	public Vector<Building> toRemoveBuildings;
 
+	public Vector<Bonus> bonus;
+	
 	public Vector<NaturalObjet> naturalObjets ;
 	public Vector<NaturalObjet> toAddNaturalObjets;
 	public Vector<NaturalObjet> toRemoveNaturalObjets;
@@ -140,6 +142,10 @@ public class Plateau {
 		this.spells = new Vector<SpellEffect>();
 		this.toAddSpells = new Vector<SpellEffect>();
 		this.toRemoveSpells= new Vector<SpellEffect>();
+		
+		//BONUS 
+		this.bonus = new Vector<Bonus>();
+		
 		//ENEMYGENERATOR
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
@@ -418,6 +424,14 @@ public class Plateau {
 					}
 				}
 			}
+			
+			//Between bonus and characters 
+			for(Bonus b : this.bonus){
+				if(Utils.distance(b, o)<b.size){
+					b.collision(o);
+				}
+				
+			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
 				if(i.collisionBox.intersects(o.collisionBox)){
@@ -460,6 +474,8 @@ public class Plateau {
 					b.collision(c);
 			}
 		}
+		
+		
 
 	}
 
@@ -474,6 +490,9 @@ public class Plateau {
 			e.action();
 		}
 		for(ActionObjet a : this.spells){
+			a.action();
+		}
+		for(Bonus a : this.bonus){
 			a.action();
 		}
 	}

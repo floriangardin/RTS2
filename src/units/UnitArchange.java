@@ -127,6 +127,7 @@ public class UnitArchange extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		this.isAttacking = false;
 		
 	}
 
