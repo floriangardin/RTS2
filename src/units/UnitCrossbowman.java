@@ -20,12 +20,12 @@ public class UnitCrossbowman extends Character {
 		super(p, gameteam);
 		this.name = "crossbowman";
 		this.type = UnitsList.Crossbowman;
-		this.maxLifePoints = 60f*data.healthFactor;
+		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 140f;
+		this.maxVelocity = 120f;
 		this.armor = 2f;
 		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 10f;
