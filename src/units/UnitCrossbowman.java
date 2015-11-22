@@ -20,6 +20,7 @@ public class UnitCrossbowman extends Character {
 		super(p, gameteam);
 		this.name = "crossbowman";
 		this.type = UnitsList.Crossbowman;
+		this.attackDuration = 2f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
@@ -52,6 +53,7 @@ public class UnitCrossbowman extends Character {
 
 		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
+		this.isAttacking = false;
 	}
 	
 	
@@ -128,10 +130,10 @@ public class UnitCrossbowman extends Character {
 
 
 		//Adapted to spearman TODO : Genericity
-		if(orientation == 4  && this.isMobile()){
+		if(orientation == 4){
 			orientation = 6;
 		}
-		else if(orientation == 6 && this.isMobile()){
+		else if(orientation == 6){
 			orientation =4;
 		}
 		if(!this.isMobile()){

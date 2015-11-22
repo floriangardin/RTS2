@@ -18,6 +18,7 @@ public class UnitPriest extends Character {
 		this.maxLifePoints = 60f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
+		this.attackDuration = 2f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 80f;
@@ -51,5 +52,6 @@ public class UnitPriest extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		this.isAttacking = false;
 	}
 }

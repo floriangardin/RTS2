@@ -322,9 +322,9 @@ public class Game extends BasicGame
 				}
 ////				
 ////
-//				if(this.round%200 == 0){
-//					this.plateau.characters.get(0).destroy();
-//				}
+				if(this.round%200 == 0){
+					this.plateau.characters.get(0).destroy();
+				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 
 				//RESYNCHRO
