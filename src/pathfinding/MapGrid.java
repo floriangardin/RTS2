@@ -483,7 +483,7 @@ public class MapGrid {
 			}
 			x = newx;
 			y = newy;
-			if(i<0 ||j<0){
+			if(i<0 ||j<0 || i>=grid.size() || j>=grid.get(0).size()){
 				cases.clear();
 				return cases;
 			}
