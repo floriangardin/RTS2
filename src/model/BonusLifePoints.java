@@ -27,12 +27,9 @@ public class BonusLifePoints extends Bonus{
 		this.setXY(x, y);
 		this.image = this.p.g.images.bonusLifePoints;
 
-
 	}
 
 	public void action(){
-		System.out.println(this.state);
-		System.out.println(bonusPresent);
 		this.state+=0.1f;
 		if(!bonusPresent && this.state>timeRegen){
 			this.bonusPresent =true;
@@ -54,7 +51,6 @@ public class BonusLifePoints extends Bonus{
 		}
 
 	}
-
 
 	public Graphics draw(Graphics g){
 
