@@ -1324,17 +1324,17 @@ public class Plateau {
 		}
 		
 		//Clear all characters 
-		
-		for(Character c : this.characters){
-			c.destroy();
-			this.removeCharacter(c);
-			this.characters.remove(c);
+		while(this.characters.size()>0){
+			Character toErase = this.characters.get(0);
+			toErase.destroy();
+			this.removeCharacter(toErase);
+			this.characters.remove(toErase);
 		}
 		
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
-			int idTest = Integer.parseInt(hs.get("id"));
+
 
 			cha = Character.createNewCharacter(hs, g);
 

@@ -317,7 +317,9 @@ public class Game extends BasicGame
 				}
 ////				
 
-				
+//				if(this.round%200 == 0){
+//					this.plateau.characters.get(0).x+= 2f;
+//				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 
 				//RESYNCHRO
