@@ -288,8 +288,8 @@ public class Game extends BasicGame
 					int i = 0;
 					//Checksum to send of plateau to test synchro
 					while(i<this.plateau.characters.size()){
-						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).x))%10);
-						checksum+=Integer.toString(((int)(10*this.plateau.characters.get(i).y))%10);
+						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).x))%10);
+						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).y))%10);
 						i++;
 					}
 					checksum+="|";
@@ -308,6 +308,7 @@ public class Game extends BasicGame
 						this.checksum.remove(0);
 					}
 				}
+				
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
@@ -317,14 +318,13 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 ////				
-
+//
 //				if(this.round%200 == 0){
 //					this.plateau.characters.get(0).setXY(this.plateau.characters.get(0).x+2f, this.plateau.characters.get(0).y+2f);
 //				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 
 				//RESYNCHRO
-				boolean successSynchro = false;
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
@@ -334,13 +334,12 @@ public class Game extends BasicGame
 						this.plateau.parse(this.toParse);
 						this.checksum.clear();
 						this.processSynchro = false;
-						successSynchro = true;
 						System.out.println("Resynchronisation ....");
 						
 					}
 				}
 				//Tour normal
-				if(!successSynchro){
+				else{
 					// On envoie l'input du tour courant
 					this.sendInputToAllPlayer(im.toString());
 					this.inputsHandler.addToInputs(im);

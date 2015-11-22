@@ -1123,7 +1123,7 @@ public class Plateau {
 	//MULTIPLAYING
 	public String toStringArray(){
 
-		// We consider a character is of length 50 maximum
+		
 		int id_charac = 0;
 		String s = "3P!";
 		//IDS
@@ -1132,21 +1132,15 @@ public class Plateau {
 		s+=this.g.idChar;
 		s+="!";
 
-		//We want to send the content of plateau+cemetery
+		//We want to send the content of plateau
 
 		//CHARACTERS
 		while(id_charac<this.characters.size()){
-			s+=this.characters.get(id_charac).toString(false);
+			s+=this.characters.get(id_charac).toString();
 			s+="|";
 			id_charac++;
 		}
-		//		id_charac = 0;
-		//		//CEMETERY
-		//		while(id_charac<this.population.characters.size()){
-		//				s+=this.population.characters.get(id_charac).toString(true);
-		//				s+="|";
-		//			id_charac++;
-		//		}
+
 		s+="!";
 		return s;
 	}
@@ -1323,29 +1317,42 @@ public class Plateau {
 			finish--;
 		}
 
-		//Clear all characters 
-		while(this.characters.size()>0){
-			Character toErase = this.characters.get(0);
-			toErase.lifePoints = -1f;
-			toErase.destroy();
-			this.removeCharacter(toErase);
-			this.characters.remove(toErase);
-		}
-		this.clean();
-
+//		//Clear all characters 
+//		while(this.characters.size()>0){
+//			Character toErase = this.characters.get(0);
+//			toErase.lifePoints = -1f;
+//			toErase.destroy();
+//			this.removeCharacter(toErase);
+//			this.characters.remove(toErase);
+//		}
+		
+//		this.characters.clear();
 
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
-
-
-			cha = Character.createNewCharacter(hs, g);
-
+			int idTest= Integer.parseInt(hs.get("id"));
+			cha = this.getCharacterById(idTest);
+			if(cha == null){
+				cha = Character.createNewCharacter(hs, g);
+			}
 			if(cha!=null){
 				cha.parse(hs);
+				cha.toKeep = true;
 			}
 		}
 
+		
+		//Erase characters who didn't give any news
+		
+		for(Character c : this.characters){
+			if(!c.toKeep){
+				c.destroy();
+			}
+		}
+		//Clean plateau
+		this.clean();
+		
 		//Retrieve new id 
 
 	}
