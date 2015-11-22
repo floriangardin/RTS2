@@ -149,8 +149,9 @@ public class MultiReceiver extends Thread{
 								}
 							}
 							
-							else if(msg.substring(1, 2).equals("H")){
+							else if(msg.substring(1, 2).equals("K")){
 								String[] mes = msg.substring(1).split("\\|");
+								System.out.println("Restart process to do");
 								this.g.restartProcess = true;
 								this.g.timeRestart = Long.parseLong(mes[1]);
 							}

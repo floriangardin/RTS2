@@ -296,6 +296,7 @@ public class Game extends BasicGame
 
 				//Play only if restart process ok, else give up on update
 				if(restartProcess){
+					
 					if(this.clock.getCurrentTime()>this.timeRestart){
 						this.restartProcess = false;
 						this.timeRestart =0;
@@ -391,13 +392,12 @@ public class Game extends BasicGame
 								//Send restart process 
 								this.restartProcess = true;
 								this.timeRestart = (long) (this.clock.getCurrentTime()+1e9);
-								this.sendInputToAllPlayer("3H|"+this.timeRestart+"|");
+								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
 								//TODO : send message of resynch
 							}
 						}
 					}
 				}
-
 
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
