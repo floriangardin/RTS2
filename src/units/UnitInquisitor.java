@@ -18,6 +18,7 @@ public class UnitInquisitor extends Character {
 		this.maxLifePoints = 60f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
+		this.attackDuration = 2f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 60f;
@@ -42,6 +43,7 @@ public class UnitInquisitor extends Character {
 	public void useWeapon(){
 		new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
+		this.isAttacking = false;
 	}
 
 }
