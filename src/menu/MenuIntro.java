@@ -45,8 +45,8 @@ public class MenuIntro extends Menu {
 		this.music.setVolume(game.options.musicVolume);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		float startY = 0.37f*this.game.resY;
-		float stepY = 0.16f*this.game.resY;
+		float startY = 0.50f*this.game.resY;
+		float stepY = 0.09f*this.game.resY;
 		float ratioReso = this.game.resX/2800f;
 		try {
 			this.newGame = new Image("pics/menu/newgame.png").getScaledCopy(ratioReso);
