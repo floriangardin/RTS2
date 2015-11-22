@@ -54,8 +54,8 @@ public class MenuMulti extends Menu {
 		this.items = new Vector<Menu_Item>();
 		this.gamesList = new Vector<Menu_MapChoice>();
 		this.openGames = new  Vector<OpenGames>();
-		startY = 0.37f*this.game.resY;
-		stepY = 0.15f*this.game.resY;
+		startY = 0.39f*this.game.resY;
+		stepY = 0.10f*this.game.resY;
 		startXGames = 3f*this.game.resX/8;
 		sizeXGames = this.game.resX/2;
 		startYGames = 0.37f*this.game.resY;
@@ -71,9 +71,9 @@ public class MenuMulti extends Menu {
 			this.marbre = new Image("pics/menu/marbre.png").getScaledCopy((int)sizeXGames, (int)sizeYGames);
 			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
 			float startX = 2f*this.game.resX/8-this.host.getWidth()/2;
-			this.items.addElement(new Menu_Item(startX,startY,this.host,this.hostSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.join,this.joinSelected,this.game));
-			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+1*stepY,this.host,this.hostSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+2*stepY,this.join,this.joinSelected,this.game));
+			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.back,this.backSelected,this.game));
 			
 		} catch (SlickException e1) {
 			e1.printStackTrace();

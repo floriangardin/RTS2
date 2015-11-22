@@ -73,7 +73,7 @@ public class MenuOptions extends Menu {
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+2*stepY,this.nickname,this.nickname,this.game));
 			this.items.get(3).selectionable = false;
-			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+2.3f*stepY,0.8f*this.game.resX/4f,0.4f*stepY));
+			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+2f*stepY+this.nickname.getHeight()/2f-this.game.font.getHeight("R")-1f,0.8f*this.game.resX/4f,this.game.font.getHeight("R")*2f+2f));
 			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+0*stepY,"msuique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
 			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+1*stepY,"volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
 		} catch (SlickException e1) {
