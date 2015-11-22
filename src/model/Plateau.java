@@ -1127,6 +1127,8 @@ public class Plateau {
 		//IDS
 		s+=this.g.round;
 		s+="!";
+		s+=this.g.idChar;
+		s+="!";
 
 		//We want to send the content of plateau+cemetery
 
@@ -1155,9 +1157,11 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split("!");
 			//Take care of id sent
-			parseCharacter(u[2]);
+			parseCharacter(u[3]);
+			this.g.idChar = Integer.parseInt(u[2]);
 		}
-
+		
+		
 		// Update groups 
 
 		Vector<Character> group  = new Vector<Character>();
