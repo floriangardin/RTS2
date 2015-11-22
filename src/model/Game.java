@@ -322,9 +322,9 @@ public class Game extends BasicGame
 				}
 ////				
 ////
-//				if(this.round%200 == 0){
-//					this.plateau.characters.get(0).lifePoints= -1f;
-//				}
+				if(this.round%200 == 0){
+					this.plateau.characters.get(0).destroy();
+				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 
 				//RESYNCHRO
@@ -335,6 +335,7 @@ public class Game extends BasicGame
 					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
+						this.toParse = null;
 						this.processSynchro = false;
 						System.out.println("Resynchronisation ....");
 						

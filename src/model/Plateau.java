@@ -1309,6 +1309,13 @@ public class Plateau {
 
 	public void parseCharacter(String s){
 		//SPLIT SELON |
+		
+		for(Character c : this.characters){
+			c.setTarget(null, null);
+			c.group.clear();
+		}
+		
+		
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
