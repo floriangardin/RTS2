@@ -36,7 +36,6 @@ public class BonusLifePoints extends Bonus{
 			this.state= 0f;
 		}
 		else if(bonusPresent && this.state>this.animationStep){
-			System.out.println("Animation change ! ");
 			this.animation=(this.animation+1)%4;
 			this.state= 0f;
 		}
