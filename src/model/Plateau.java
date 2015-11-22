@@ -1332,10 +1332,6 @@ public class Plateau {
 			this.characters.remove(toErase);
 		}
 		this.clean();
-		this.selection.clear();
-		for(Player p : this.players){
-			p.selection.clear();
-		}
 
 
 		for(int i =0;i<finish;i++){
