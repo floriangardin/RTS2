@@ -305,7 +305,7 @@ public class Game extends BasicGame
 					}
 					
 					//J'enleve le premier élement si problème tous les 5 checksum reçu
-					if(this.checksum.size()>5){
+					if(this.checksum.size()>20){
 						this.checksum.remove(0);
 					}
 				}
@@ -317,14 +317,7 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 ////				
-//				if((this.round%200)==0 ){
-//					this.plateau.characters.get(0).setTarget(new Checkpoint(this.plateau,500f,500f));
-//					this.plateau.characters.get(1).setTarget(new Checkpoint(this.plateau,500f,500f));
-//					this.plateau.characters.get(0).group.addElement(this.plateau.characters.get(0));
-//					this.plateau.characters.get(0).group.addElement(this.plateau.characters.get(1));
-//					this.plateau.characters.get(1).group.addElement(this.plateau.characters.get(0));
-//					this.plateau.characters.get(1).group.addElement(this.plateau.characters.get(1));
-//				}
+
 				
 				// On ajoute l'input du tour courant ï¿½ l'inputhandler				
 
@@ -334,9 +327,10 @@ public class Game extends BasicGame
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-2)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
+						this.checksum.clear();
 						this.processSynchro = false;
 						successSynchro = true;
 						System.out.println("Resynchronisation ....");
@@ -354,9 +348,7 @@ public class Game extends BasicGame
 					if(ims.size()==0){
 						this.dropped.addElement(this.round);
 					}
-					
 					this.plateau.update(ims);
-
 					this.plateau.updatePlateauState();
 				}
 				
@@ -368,10 +360,12 @@ public class Game extends BasicGame
 								if(this.updateDropped){
 									this.round--;
 									this.updateDropped = false;
+									System.out.println("371 Game : Handle round Drop 1");
 								}
 								else{
 									this.round= this.round+2;
 									this.updateDropped= true;
+									System.out.println("371 Game : Handle round Drop 2");
 								}
 							}
 							this.dropped.clear();
