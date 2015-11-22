@@ -115,7 +115,7 @@ public class MenuMulti extends Menu {
 				this.game.getPlayerById(Game.ID_HOST).address=opengame.hostAddress;
 				game.plateau.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
 				game.plateau.currentPlayer = game.plateau.players.lastElement();
-				game.plateau.currentPlayer.setTeam(game.plateau.players.get(1).getTeam()%2+1);
+				game.plateau.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
 				try {
 					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
 				} catch (UnknownHostException e) {}
