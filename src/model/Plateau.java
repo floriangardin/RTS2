@@ -1326,7 +1326,9 @@ public class Plateau {
 		//Clear all characters 
 		
 		for(Character c : this.characters){
+			c.destroy();
 			this.removeCharacter(c);
+			this.characters.remove(c);
 		}
 		
 		for(int i =0;i<finish;i++){
