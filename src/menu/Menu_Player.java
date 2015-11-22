@@ -88,12 +88,12 @@ public class Menu_Player extends Menu_Item{
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.drawString("Player "+p.id+" : "+this.p.nickname, x, y);
 		if(isOverColor)
 			g.setColor(Color.gray);
 		else	
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 		g.fillRect(startXcolor-2f, startYcolor-2f, sizeXcolor+4f,sizeYcolor+4f);
 		switch(p.getGameTeam().id){
 		case 1 : g.setColor(Color.blue);break;
@@ -104,9 +104,9 @@ public class Menu_Player extends Menu_Item{
 		if(isOverCiv)
 			g.setColor(Color.gray);
 		else
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 		g.drawString(p.getGameTeam().civName, startXciv, startYciv);
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		if(game.inMultiplayer)
 			g.drawString(this.isReady ? "Ready":"Not Ready" ,startXready , startYready);
 	}

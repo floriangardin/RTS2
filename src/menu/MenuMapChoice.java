@@ -81,9 +81,9 @@ public class MenuMapChoice extends Menu {
 		sizeXMapChoice = game.resX*(1f/3f-1f/30f);
 		sizeYMapChoice = game.resY*39f/40f-startYMapChoice;
 
-		startXPlayers = game.resX/60f;;
+		startXPlayers = 5f*game.resX/60f;;
 		startYPlayers = startY;
-		sizeXPlayers = game.resX*(2f/3f-1f/30f);
+		sizeXPlayers = game.resX*(2f/3f)-2*startXPlayers;
 		sizeYPlayers = game.resY*0.80f-startYMapChoice;
 
 		float ratioReso = this.game.resX/2800f;
@@ -96,10 +96,10 @@ public class MenuMapChoice extends Menu {
 			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy((int)sizeXPlayers, (int)sizeYPlayers);
 			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy((int)sizeXMapChoice,(int)sizeYMapChoice);
 			float startX = this.game.resX/2-this.play.getWidth()/2;
-			this.items.addElement(new Menu_Item(startXPlayers,startYPlayers,this.marbre,this.marbre,this.game));
-			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(startXMapChoice,startYMapChoice,this.marbre2,this.marbre2,this.game));
-			this.items.lastElement().selectionable = false;
+//			this.items.addElement(new Menu_Item(startXPlayers,startYPlayers,this.marbre,this.marbre,this.game));
+//			this.items.lastElement().selectionable = false;
+//			this.items.addElement(new Menu_Item(startXMapChoice,startYMapChoice,this.marbre2,this.marbre2,this.game));
+//			this.items.lastElement().selectionable = false;
 			this.items.addElement(new Menu_Item(1f/6f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(1f/2f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.play,this.playSelected,this.game));
 			for(int i=0; i<maps.size(); i++){
@@ -115,13 +115,13 @@ public class MenuMapChoice extends Menu {
 
 	public void callItem(int i){
 		switch(i){
-		case 2:
+		case 0:
 			if(game.inMultiplayer)
 				this.game.setMenu(this.game.menuMulti);
 			else
 				this.game.setMenu(this.game.menuIntro);
 			break;
-		case 3: 
+		case 1: 
 			if(!game.inMultiplayer){
 				Map.updateMap(mapSelected, game);
 				game.launchGame();
@@ -134,17 +134,19 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void draw(Graphics g){
+		g.setDrawMode(Graphics.MODE_NORMAL);
 		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 10f);
 
 		for(Menu_Item item: this.items){
+			g.setColor(Color.white);
 			item.draw(g);
 		}
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		for(Menu_Item item: this.mapchoices){
 			item.draw(g);
 		}
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.drawString("Players :" , startXPlayers + 1f/30f*sizeXPlayers,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
 		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYMapChoice+1f/12f*sizeYMapChoice-g.getFont().getHeight("P")/2f);
 		for(int i=1;i<this.players.size();i++){
@@ -402,6 +404,7 @@ public class MenuMapChoice extends Menu {
 
 		return s;
 	}
+	
 
 	//TODO put parse in update of this menu
 	public void parse(HashMap<String,String> hs){

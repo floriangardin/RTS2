@@ -70,6 +70,7 @@ public class Menu_Item {
 			g.drawImage(this.toDraw,x, y);
 		}
 		else{
+			g.setColor(Color.white);
 			g.drawString(this.name, x, y);
 		}
 
