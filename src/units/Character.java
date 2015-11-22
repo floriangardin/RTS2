@@ -289,7 +289,7 @@ public class Character extends ActionObjet{
 	public void action(){
 
 		this.roundAfterBorn++;
-
+		this.toKeep = false;
 
 		this.updateChargeTime();
 
