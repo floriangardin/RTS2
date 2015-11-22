@@ -74,8 +74,8 @@ public class MenuOptions extends Menu {
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+2*stepY,this.nickname,this.nickname,this.game));
 			this.items.get(3).selectionable = false;
 			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+2.3f*stepY,0.8f*this.game.resX/4f,0.4f*stepY));
-			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+0*stepY,"msuique",this.volume,this.curseur,this.game,0.5f));
-			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+1*stepY,"volume",this.volume,this.curseur,this.game,0.5f));
+			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+0*stepY,"msuique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
+			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+1*stepY,"volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -128,7 +128,7 @@ public class MenuOptions extends Menu {
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 			fichierSortie.println ("musics: " + game.options.musicVolume);
 			fichierSortie.println ("sounds: " + game.options.soundVolume); 
-			this.game.options.nickname = ((Menu_TextScanner)this.items.get(8)).s;
+			this.game.options.nickname = ((Menu_TextScanner)this.items.get(4)).s;
 			fichierSortie.println ("nickname: " + game.options.nickname); 
 			fichierSortie.close();
 			Map.initializePlateau(game, 1f, 1f);
