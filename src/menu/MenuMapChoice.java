@@ -148,7 +148,7 @@ public class MenuMapChoice extends Menu {
 		}
 		g.setColor(Color.white);
 		g.drawString("Players :" , startXPlayers + 1f/30f*sizeXPlayers,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
-		g.fillRect(startXPlayers + 1f/15f*sizeXPlayers, startYPlayers+1f/6f*sizeYPlayers+g.getFont().getHeight("P")/2f+15f, 2f, sizeYPlayers-(1f/6f*sizeYPlayers+g.getFont().getHeight("P")/2f+5f));
+		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-35f/2f,2f,4f/6f*sizeYPlayers+35f/2f);
 		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYMapChoice+1f/12f*sizeYMapChoice-g.getFont().getHeight("P")/2f);
 		for(int i=1;i<this.players.size();i++){
 			players.get(i).draw(g);
