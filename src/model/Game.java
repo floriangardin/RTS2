@@ -282,7 +282,7 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 
 				//Checksum for testing synchro
-				if( this.round>=30){
+				if( this.round>=30 && !this.processSynchro){
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -318,7 +318,7 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 ////				
-//
+////
 //				if(this.round%200 == 0){
 //					this.plateau.characters.get(0).setXY(this.plateau.characters.get(0).x+2f, this.plateau.characters.get(0).y+2f);
 //				}
@@ -332,7 +332,6 @@ public class Game extends BasicGame
 					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
-						this.checksum.clear();
 						this.processSynchro = false;
 						System.out.println("Resynchronisation ....");
 						
