@@ -148,6 +148,12 @@ public class MultiReceiver extends Thread{
 									}
 								}
 							}
+							
+							else if(msg.substring(1, 2).equals("H")){
+								String[] mes = msg.substring(1).split("\\|");
+								this.g.restartProcess = true;
+								this.g.timeRestart = Long.parseLong(mes[1]);
+							}
 						}
 						break;
 					default:

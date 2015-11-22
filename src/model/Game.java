@@ -146,7 +146,10 @@ public class Game extends BasicGame
 	public Vector<Integer> dropped = new Vector<Integer>();
 	public boolean updateDropped= false;
 	public boolean clockResynchro = false;
-	
+
+	public boolean restartProcess = false;
+	public long timeRestart;
+
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -203,7 +206,7 @@ public class Game extends BasicGame
 				toDrawAfter.add(o);
 
 		}
-		
+
 		//Draw bonuses
 		for(Bonus o : plateau.bonus){
 			//o.draw(g);
@@ -282,15 +285,28 @@ public class Game extends BasicGame
 			//Update of current round
 			this.clock.setRoundFromTime();
 
-//			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
-//			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
-//			if(this.clockSynchro.size()>20){
-//				this.clockSynchro.remove(0);
-//			}
-			
+			//			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
+			//			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
+			//			if(this.clockSynchro.size()>20){
+			//				this.clockSynchro.remove(0);
+			//			}
+
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 
+				//Play only if restart process ok, else give up on update
+				if(restartProcess){
+					if(this.clock.getCurrentTime()>this.timeRestart){
+						this.restartProcess = false;
+						this.timeRestart =0;
+						this.round = 1;
+						this.checksum.clear();
+						this.dropped.clear();
+					}
+					else{
+						return;
+					}
+				}
 				//Checksum for testing synchro
 				if( this.round>=30 && !this.processSynchro){
 					//Compute checksum
@@ -315,13 +331,13 @@ public class Game extends BasicGame
 					else{
 						this.checksum.addElement(checksum);
 					}
-					
+
 					//J'enleve le premier élement si problème tous les 5 checksum reçu
 					if(this.checksum.size()>20){
 						this.checksum.remove(0);
 					}
 				}
-				
+
 				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
@@ -330,11 +346,11 @@ public class Game extends BasicGame
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
-////				
-////
-//				if(this.round%200 == 0){
-//					this.plateau.characters.get(0).destroy();
-//				}
+				////				
+				////
+				//				if(this.round%200 == 0){
+				//					this.plateau.characters.get(0).destroy();
+				//				}
 				// On ajoute l'input du tour courant ï¿½ l'inputhandler				
 
 				//RESYNCHRO
@@ -348,7 +364,7 @@ public class Game extends BasicGame
 						this.toParse = null;
 						this.processSynchro = false;
 						System.out.println("Resynchronisation ....");
-						
+
 					}
 				}
 				//Tour normal
@@ -358,41 +374,35 @@ public class Game extends BasicGame
 					this.inputsHandler.addToInputs(im);
 					this.plateau.handleView(im, this.plateau.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					
+
 					if(ims.size()==0){
 						this.dropped.addElement(this.round);
 					}
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
 				}
-				
+
+				//Handle clock desynchronisation
 				if(this.dropped.size()>7 && this.round>30){
 					this.dropped.remove(0);
-//					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
-//						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
-//							if(host){
-//								if(this.updateDropped){
-//									this.round--;
-//									this.updateDropped = false;
-//									System.out.println("371 Game : Handle round Drop 1");
-//								}
-//								else{
-//									this.round= this.round+2;
-//									this.updateDropped= true;
-//									System.out.println("371 Game : Handle round Drop 2");
-//								}
-//							}
-//							this.dropped.clear();
-//						}
-//					}
+					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
+						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
+							if(host){
+								//Send restart process 
+								this.restartProcess = true;
+								this.timeRestart = (long) (this.clock.getCurrentTime()+1e9);
+								this.sendInputToAllPlayer("3H|"+this.timeRestart+"|");
+								//TODO : send message of resynch
+							}
+						}
+					}
 				}
-				//Handle hard desynchro
-				
-				
+
+
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 
-				
+
 			} else {
 				ims.add(im);
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);

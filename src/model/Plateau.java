@@ -1158,7 +1158,9 @@ public class Plateau {
 		s+="!";
 		s+=this.g.idChar;
 		s+="!";
-
+		//Time to restart the game
+		s+=this.g.clock.getCurrentTime()+1e9;
+		s+="!";
 		//We want to send the content of plateau
 
 		//CHARACTERS
@@ -1180,8 +1182,11 @@ public class Plateau {
 		if(s!=null && s!=""){
 			String[] u = s.split("!");
 			//Take care of id sent
-			parseCharacter(u[3]);
+			parseCharacter(u[4]);
 			this.g.idChar = Integer.parseInt(u[2]);
+			//Activate restart process
+			this.g.timeRestart = Long.parseLong(u[3]);
+			this.g.restartProcess = true;
 		}
 
 		// Update groups 
