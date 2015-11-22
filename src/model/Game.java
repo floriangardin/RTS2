@@ -326,7 +326,7 @@ public class Game extends BasicGame
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-2)){
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
 						this.checksum.clear();
