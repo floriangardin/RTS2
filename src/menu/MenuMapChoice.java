@@ -76,12 +76,12 @@ public class MenuMapChoice extends Menu {
 		startY = this.game.resY*0.37f;
 		stepY = 0.12f*this.game.resY;
 
-		startXMapChoice = game.resX*(2f/3f+1f/60f);
+		startXMapChoice = game.resX*(2f/3f);
 		startYMapChoice = startY;
 		sizeXMapChoice = game.resX*(1f/3f-1f/30f);
-		sizeYMapChoice = game.resY*39f/40f-startYMapChoice;
+		sizeYMapChoice = game.resY*0.80f-startYMapChoice;
 
-		startXPlayers = 5f*game.resX/60f;;
+		startXPlayers = 1f*game.resX/5f;
 		startYPlayers = startY;
 		sizeXPlayers = game.resX*(2f/3f)-2*startXPlayers;
 		sizeYPlayers = game.resY*0.80f-startYMapChoice;
@@ -100,10 +100,10 @@ public class MenuMapChoice extends Menu {
 //			this.items.lastElement().selectionable = false;
 //			this.items.addElement(new Menu_Item(startXMapChoice,startYMapChoice,this.marbre2,this.marbre2,this.game));
 //			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(1f/6f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(1f/2f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.play,this.playSelected,this.game));
+			this.items.addElement(new Menu_Item(1f/3f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.back,this.backSelected,this.game));
+			this.items.addElement(new Menu_Item(2f/3f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.play,this.playSelected,this.game));
 			for(int i=0; i<maps.size(); i++){
-				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+2)/12f*sizeYMapChoice-35f/2,200f,30f));
+				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,200f,30f));
 			}
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -148,8 +148,9 @@ public class MenuMapChoice extends Menu {
 		}
 		g.setColor(Color.white);
 		g.drawString("Players :" , startXPlayers + 1f/30f*sizeXPlayers,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
-		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-35f/2f,2f,4f/6f*sizeYPlayers+35f/2f);
-		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYMapChoice+1f/12f*sizeYMapChoice-g.getFont().getHeight("P")/2f);
+		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-this.game.font.getHeight("P")/2f,2f,3f/6f*sizeYPlayers+this.game.font.getHeight("P")/2f);
+		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
+		g.fillRect(startXMapChoice + 1f/15f*sizeXMapChoice,startYMapChoice+1f*(3)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,2f,6f/9f*sizeYMapChoice-this.game.font.getHeight("P")/2);
 		for(int i=1;i<this.players.size();i++){
 			players.get(i).draw(g);
 		}
@@ -159,7 +160,7 @@ public class MenuMapChoice extends Menu {
 	public void update(Input i){
 		this.players.clear();
 		for(int j=0;j<this.game.plateau.players.size(); j++){
-			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-35f/2f,game));
+			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-this.game.font.getHeight("P")/2f,game));
 			this.players.get(j).update(i);
 		}
 		//Checking starting of the game

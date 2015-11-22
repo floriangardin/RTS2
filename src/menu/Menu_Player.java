@@ -41,14 +41,14 @@ public class Menu_Player extends Menu_Item{
 		this.game = game;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
-		this.startXcolor = x + 300f;
+		String s1 = "Player "+p.id+" : "+"GILLESDEBOUARD"+"   ";
+		this.startXcolor = x + this.game.font.getWidth(s1);
 		this.startYcolor = y;
-		this.sizeXcolor = 90f;
-		this.sizeYcolor = 40f;
-		this.startXciv = x+450f;
+		this.sizeXcolor = 90f*this.game.resX/1920f;
+		this.sizeYcolor = 40f*this.game.resY/1080f;
+		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("     ");
+		this.startXready = startXciv+this.game.font.getWidth("ZINAIDS   ");
 		this.startYciv = y;
-		this.sizeXciv = 200f;
-		this.sizeYciv = 60f;
 		this.startXready = x+650f;
 		this.startYready = y;
 	}
@@ -89,7 +89,8 @@ public class Menu_Player extends Menu_Item{
 
 	public void draw(Graphics g) {
 		g.setColor(Color.white);
-		g.drawString("Player "+p.id+" : "+this.p.nickname, x, y);
+		String s = "Player "+p.id+" : "+this.p.nickname+"   ";
+		g.drawString(s, x, y);
 		if(isOverColor)
 			g.setColor(Color.gray);
 		else	

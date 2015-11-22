@@ -55,7 +55,7 @@ public class Menu_TextScanner extends Menu_Item{
 
 	public void update(Input i){
 		if(isSelected){
-			if(s.length()<13){
+			if(s.length()<14){
 				for(Integer k: intToChar.keySet()){
 					if(i.isKeyPressed(k)){
 						if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT))
