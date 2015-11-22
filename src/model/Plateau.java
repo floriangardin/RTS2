@@ -5,8 +5,6 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
-import multiplaying.InputObject;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,19 +13,21 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import IA.IAMicroFlo;
+import buildings.Building;
+import buildings.BuildingAction;
+import buildings.BuildingProduction;
+import buildings.BuildingTower;
+import bullets.Bullet;
+import bullets.CollisionBullet;
+import display.BottomBar;
+import display.Message;
+import multiplaying.InputObject;
 import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;
-import IA.IAMicroFlo;
-import buildings.Building;
-import buildings.BuildingAction;
-import buildings.BuildingProduction;
-import bullets.Bullet;
-import bullets.CollisionBullet;
-import display.BottomBar;
-import display.Message;
 
 public class Plateau {
 
@@ -564,6 +564,17 @@ public class Plateau {
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
 			if(o.getTeam()!=caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
+	
+	
+	public Vector<Character> getEnnemiesInSight(BuildingTower caller){
+		Vector<Character> ennemies_in_sight = new Vector<Character>();
+		for(Character o : characters){
+			if(o.getTeam()!=caller.getTeam() && Utils.distance(o, caller)<caller.sight){
 				ennemies_in_sight.add(o);
 			}
 		}

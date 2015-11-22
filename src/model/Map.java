@@ -8,6 +8,7 @@ import buildings.BuildingHeadQuarters;
 import buildings.BuildingMill;
 import buildings.BuildingMine;
 import buildings.BuildingStable;
+import buildings.BuildingTower;
 import buildings.BuildingUniversity;
 import nature.Tree;
 import nature.Water;
@@ -58,7 +59,7 @@ public class Map {
 	
 
 	private static void createMapCrossSpearman(Game game) {
-		game.plateau.setMaxXMaxY(1200f, 1200f);
+		game.plateau.setMaxXMaxY(1400f, 1200f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
@@ -81,11 +82,13 @@ public class Map {
 		data2.create(UnitsList.Spearman, 7*X/9, Y/2+2f);
 		
 		//Bonus at center 
-		new BonusLifePoints(game.plateau, X/2, Y/2);
+		new BonusLifePoints(game.plateau, X/4, Y/2);
+		new BonusLifePoints(game.plateau, 3*X/4, Y/2);
 		new BonusDamage(game.plateau, X/2, Y/9);
 		new BonusSpeed(game.plateau, X/2, 8*Y/9);
+		new BuildingTower(game.plateau,game,X/2,Y/2);
 		//Tree
-		new Tree(X/3,Y/3,game.plateau,1);
+		//new Tree(X/3,Y/3,game.plateau,1);
 	}
 
 	public static void createMapDuelSmall(Game game){

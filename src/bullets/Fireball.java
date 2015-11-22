@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
+import model.ActionObjet;
 import model.Changes;
 import model.Checkpoint;
 import model.Plateau;
@@ -20,7 +21,7 @@ public class Fireball extends Bullet {
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
 
-	public Fireball(Plateau p,Character owner,float targetX,float targetY,float vx,float vy,float damage,int id){
+	public Fireball(Plateau p,ActionObjet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
 		//MULTI 
 		this.changes = new Changes();
 		// Parameters

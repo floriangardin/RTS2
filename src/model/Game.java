@@ -285,12 +285,6 @@ public class Game extends BasicGame
 			//Update of current round
 			this.clock.setRoundFromTime();
 
-			//			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
-			//			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
-			//			if(this.clockSynchro.size()>20){
-			//				this.clockSynchro.remove(0);
-			//			}
-
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 
