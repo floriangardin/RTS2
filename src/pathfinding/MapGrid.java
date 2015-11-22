@@ -429,7 +429,6 @@ public class MapGrid {
 		Case arrival = this.getCase(x2, y2);
 		Vector<Case> cases = new Vector<Case>();
 		//System.out.println(this.toString());
-		System.out.println("Rentrer dans veanezgruis");
 		while(grid.get(i).get(j).id!=arrival.id && grid.get(i).get(j).ok){
 			if(cases.contains(grid.get(i).get(j))){
 				return new Vector<Case>();
@@ -486,7 +485,6 @@ public class MapGrid {
 			y = newy;
 			if(i<0 ||j<0){
 				cases.clear();
-				System.out.println("Sortie de vaneau");
 				return cases;
 			}
 		}
@@ -495,7 +493,6 @@ public class MapGrid {
 		else
 			cases.clear();
 		
-		System.out.println("Sortie de vaneau");
 		return cases;
 	}
 	
