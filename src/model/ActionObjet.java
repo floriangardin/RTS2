@@ -20,7 +20,7 @@ public abstract class ActionObjet extends Objet{
 	public Objet target;
 	public Checkpoint checkpointTarget;
 	public boolean toKeep=false;
-	public boolean mouseHover = false;
+	public boolean mouseOver = false;
 	//CHANGED BOOLEAN
 
 	

@@ -201,6 +201,7 @@ public class Game extends BasicGame
 			//o.draw(g);
 			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
+
 		}
 		
 		//Draw bonuses
@@ -208,11 +209,16 @@ public class Game extends BasicGame
 			//o.draw(g);
 			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
+			else
+				toDraw.add(o);
 		}
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
-			toDrawAfter.add(o);
+			if(o.visibleByCurrentPlayer)
+				toDrawAfter.add(o);
+			else
+				toDraw.add(o);
 		}
 		// Draw the buildings
 		for(Building e : this.plateau.buildings){
