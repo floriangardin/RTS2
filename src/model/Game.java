@@ -143,6 +143,10 @@ public class Game extends BasicGame
 	public boolean processSynchro=false;
 	public boolean sendParse = false;
 
+	public Vector<Integer> dropped = new Vector<Integer>();
+	public boolean updateDropped= false;
+	public boolean clockResynchro = false;
+	
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -347,13 +351,41 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.plateau.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
 					
+					if(ims.size()==0){
+						this.dropped.addElement(this.round);
+					}
+					
 					this.plateau.update(ims);
 
 					this.plateau.updatePlateauState();
 				}
+				
+				if(this.dropped.size()>7 && this.round>30){
+					this.dropped.remove(0);
+					
+					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
+						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
+							if(host){
+								if(this.updateDropped){
+									this.round--;
+									this.updateDropped = false;
+								}
+								else{
+									this.round= this.round+2;
+									this.updateDropped= true;
+								}
+							}
+							this.dropped.clear();
+						}
+					}
+				}
+				//Handle hard desynchro
+				
+				
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 
+				
 			} else {
 				ims.add(im);
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
