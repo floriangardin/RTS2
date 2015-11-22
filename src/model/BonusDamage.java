@@ -4,16 +4,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
 
 public class BonusDamage extends Bonus{
-	public float bonus=100f;
-	public float state=0f;
-	public float timeRegen = 50f;
-	public boolean bonusPresent=false;
 
-	public float animationStep  = 1f;
 
 
 	public BonusDamage(Plateau p , float x , float y){
@@ -53,33 +49,6 @@ public class BonusDamage extends Bonus{
 			this.sound.play(1f, this.p.g.options.soundVolume);
 		}
 
-	}
-
-	public Graphics draw(Graphics g){
-
-		int imageWidth = this.image.getWidth()/5;
-
-		Color color = Color.darkGray;
-
-		color = new Color(0,0,0,0.4f);
-		Image i;
-		if(!bonusPresent){
-			i = this.image.getSubImage(0,0,imageWidth,this.image.getHeight());
-		}
-		else{
-			i = this.image.getSubImage(imageWidth*(animation+1),0,imageWidth,this.image.getHeight());
-		}
-
-		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-
-		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
-		if(mouseOver){
-			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
-		}
-
-
-
-		return g;
 	}
 
 }
