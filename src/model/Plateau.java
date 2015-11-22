@@ -674,6 +674,14 @@ public class Plateau {
 				c.mouseOver = false;
 			}
 		}
+		for(Bonus c : this.bonus){
+			if(c.collisionBox.contains(im.xMouse, im.yMouse)){
+				c.mouseOver = true;
+			}
+			else{
+				c.mouseOver = false;
+			}
+		}
 
 	}
 

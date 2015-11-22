@@ -76,6 +76,8 @@ public class Images {
 	public Image attackCrossbowmanBlue;
 	public Image attackCrossbowmanRed;
 	public Image bonusLifePoints;
+	public Image bonusDamage;
+	public Image bonusSpeed;
 
 	public Images(){
 		try {
@@ -122,6 +124,8 @@ public class Images {
 			this.attackSpearmanBlue = new Image("pics/unit/spearman_attack_1.png");
 			this.attackSpearmanRed = new Image("pics/unit/spearman_attack_2.png");
 			bonusLifePoints = new Image("pics/bonus/bonus_lifepoints.png");
+			bonusDamage = new Image("pics/bonus/bonus_damage.png");
+			bonusSpeed = new Image("pics/bonus/bonus_speed.png");
 			
 			
 			//Building
