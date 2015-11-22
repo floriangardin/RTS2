@@ -9,7 +9,7 @@ public class BonusLifePoints extends Bonus{
 
 	public float bonus=100f;
 	public float state=0f;
-	public float timeRegen = 20f;
+	public float timeRegen = 50f;
 	public boolean bonusPresent=false;
 
 	public float animationStep  = 1f;
