@@ -64,7 +64,6 @@ public class Plateau {
 
 	// ADD ALL OBJETS 
 	public Vector<Character> characters;
-	public Population population;
 	public Vector<Character> toAddCharacters;
 	public Vector<Character> toRemoveCharacters;
 
@@ -126,7 +125,7 @@ public class Plateau {
 
 		//CHARACTERS
 		this.characters = new Vector<Character>();
-		this.population = new Population(this.g);
+
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
 		//WEAPONS
@@ -249,12 +248,17 @@ public class Plateau {
 	public void addCharacterObjets(Character o){
 		toAddCharacters.addElement(o);
 	}
-	private void removeCharacter(Character o){
+	public void removeCharacter(Character o){
 		toRemoveCharacters.addElement(o);
 		if(this.selection.contains(o)){
 			this.selection.remove(o);
 		}
-		this.population.add(o);
+		for(Player p : this.players){
+			if(p.selection.contains(o)){
+				p.selection.remove(o);
+			}
+		}
+	
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -472,8 +476,6 @@ public class Plateau {
 		for(ActionObjet a : this.spells){
 			a.action();
 		}
-		//Update cemetery;
-		this.population.update();
 	}
 
 
@@ -1320,34 +1322,25 @@ public class Plateau {
 		if(!u[u.length-1].contains("id")){
 			finish--;
 		}
+		
+		//Clear all characters 
+		
+		for(Character c : this.characters){
+			this.removeCharacter(c);
+		}
+		
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
 
-			cha = this.getCharacterById(idTest);
-			if(cha==null){
-				cha = Character.createNewCharacter(hs, g);
+			cha = Character.createNewCharacter(hs, g);
 
-			}
 			if(cha!=null){
 				cha.parse(hs);
-				cha.toKeep = true;
 			}
 		}
-		//Destroy characters who didn't give any news
-		//TODO : We need to parse dead characters ..
-		// TODO : Add a cemetery, that host add in his to string
-		for(Character c : this.characters){
-			if(!c.toKeep){
-				System.out.println("Plateau line 1250 Kill charact of id:" +c.id);
-
-				c.setLifePoints(-1f);
-			}
-			else{
-				c.toKeep = false;
-			}
-		}
+		
 	}
 
 	public void parseBullet(String s){
