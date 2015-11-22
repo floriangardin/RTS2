@@ -312,13 +312,14 @@ public class Game extends BasicGame
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
 					System.out.println("Sent synchro message");
+					System.out.println(toParse);
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
 ////				
 
 //				if(this.round%200 == 0){
-//					this.plateau.characters.get(0).x+= 2f;
+//					this.plateau.characters.get(0).setXY(this.plateau.characters.get(0).x+2f, this.plateau.characters.get(0).y+2f);
 //				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 

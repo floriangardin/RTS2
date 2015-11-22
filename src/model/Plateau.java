@@ -258,7 +258,7 @@ public class Plateau {
 				p.selection.remove(o);
 			}
 		}
-	
+
 	}
 	public void addBulletObjets(Bullet o){
 		toAddBullets.addElement(o);
@@ -603,7 +603,7 @@ public class Plateau {
 	//TODO : Here we handle inputs from each players
 	public void update(Vector<InputObject> ims){
 		Utils.triId(this.characters);
-		
+
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
 		for(InputObject im : ims){
@@ -679,8 +679,8 @@ public class Plateau {
 		// 2 - For everyone
 		//Sort by id
 
-		
-		
+
+
 		this.collision();
 		if(Game.debugTimeSteps)
 			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - g.timeSteps));
@@ -1162,8 +1162,8 @@ public class Plateau {
 			parseCharacter(u[3]);
 			this.g.idChar = Integer.parseInt(u[2]);
 		}
-		
-		
+
+
 		// Update groups 
 
 		Vector<Character> group  = new Vector<Character>();
@@ -1322,15 +1322,22 @@ public class Plateau {
 		if(!u[u.length-1].contains("id")){
 			finish--;
 		}
-		
+
 		//Clear all characters 
 		while(this.characters.size()>0){
 			Character toErase = this.characters.get(0);
+			toErase.lifePoints = -1f;
 			toErase.destroy();
 			this.removeCharacter(toErase);
 			this.characters.remove(toErase);
 		}
-		
+		this.clean();
+		this.selection.clear();
+		for(Player p : this.players){
+			p.selection.clear();
+		}
+
+
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
@@ -1342,7 +1349,9 @@ public class Plateau {
 				cha.parse(hs);
 			}
 		}
-		
+
+		//Retrieve new id 
+
 	}
 
 	public void parseBullet(String s){
