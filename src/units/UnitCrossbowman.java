@@ -184,21 +184,12 @@ public class UnitCrossbowman extends Character {
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
 			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,r,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
 			float x = this.lifePoints*r/this.maxLifePoints;
 			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,x,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
 
 		}
-		//Draw state
-		if(!isImmolating && this.state<this.chargeTime){
-			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
-			float x = this.state*r/this.chargeTime;
-			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
-		}
-
 		//Draw the immolation
 		if(isImmolating){
 			Image fire = this.p.g.images.explosion;

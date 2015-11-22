@@ -134,6 +134,62 @@ public class UnitSpearman extends Character {
 
 	}
 
+	
+	public void setVXVY(float vx, float vy){
+		this.vx = vx;
+		this.vy = vy;
+		int sector = 0;
+		if(vx==0 && vy==0){
+			//Orientation toward target
+
+			if(this.target!=null){
+				vx =this.target.x-this.x;
+				vy = this.target.y-this.y;
+				if(vx>0f){
+					if(vy>vx){
+						sector = 2;
+					} else if(vy<-vx){
+						sector = 8;
+					} else {
+						sector = 4;
+					}
+				} else {
+					if(vy>-vx){
+						sector = 2;
+					} else if(vy<vx){
+						sector = 8;
+					} else {
+						sector = 6;
+					}
+				}
+				this.orientation = sector;
+			}
+			return;
+		}
+		if(vx>0f){
+			if(vy>vx){
+				sector = 2;
+			} else if(vy<-vx){
+				sector = 8;
+			} else {
+				sector = 4;
+			}
+		} else {
+			if(vy>-vx){
+				sector = 2;
+			} else if(vy<vx){
+				sector = 8;
+			} else {
+				sector = 6;
+			}
+		}
+		this.orientation = sector;
+
+
+		this.changes.orientation = true;
+
+	}
+
 
 	public Graphics draw(Graphics g){
 
@@ -149,13 +205,6 @@ public class UnitSpearman extends Character {
 			toDraw = this.image;
 		}
 
-		//Adapted to spearman TODO : Genericity
-		if(orientation == 4  ){
-			orientation = 6;
-		}
-		else if(orientation == 6){
-			orientation =4;
-		}
 		if(!this.isMobile()){
 			this.animation = 0;
 			this.animationValue= 0f;
@@ -213,29 +262,29 @@ public class UnitSpearman extends Character {
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
 			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,r,4f));
+			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
 			float x = this.lifePoints*r/this.maxLifePoints;
 			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-54f+this.getY()-r,x,4f));
-
-		}
-		//Draw state
-		if(!isImmolating && this.state<this.chargeTime){
-			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
-			float x = this.state*r/this.chargeTime;
-			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
-		}
-
-		//Draw state
-		if(!isImmolating && this.attackState<this.attackDuration){
-			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
-			float x = this.attackState*r/this.attackDuration;
-			g.setColor(new Color(0,0,0,0.8f));
 			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
+
 		}
+//		//Draw state
+//		if(!isImmolating && this.state<this.chargeTime){
+//			g.setColor(new Color(255,255,255,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,r,4f));
+//			float x = this.state*r/this.chargeTime;
+//			g.setColor(new Color(0,0,0,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-50f+this.getY()-r,x,4f));
+//		}
+//
+//		//Draw state
+//		if(!isImmolating && this.attackState<this.attackDuration){
+//			g.setColor(new Color(255,255,255,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
+//			float x = this.attackState*r/this.attackDuration;
+//			g.setColor(new Color(0,0,0,0.8f));
+//			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
+//		}
 
 		//Draw the immolation
 		if(isImmolating){

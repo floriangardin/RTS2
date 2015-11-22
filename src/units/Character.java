@@ -846,6 +846,10 @@ public class Character extends ActionObjet{
 		this.updateSetTarget();
 		Circle range = new Circle(this.getX(), this.getY(), this.range);
 		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
+			if(this.isAttacking){
+				this.attackState =0f;
+				this.isAttacking= false;
+			}
 			this.move();
 			if(!this.isMobile())
 				return;
