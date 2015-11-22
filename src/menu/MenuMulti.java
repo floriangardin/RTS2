@@ -115,7 +115,7 @@ public class MenuMulti extends Menu {
 				this.game.getPlayerById(Game.ID_HOST).address=opengame.hostAddress;
 				game.plateau.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
 				game.plateau.currentPlayer = game.plateau.players.lastElement();
-				game.plateau.currentPlayer.setTeam(game.plateau.players.get(1).getTeam()%2+1);
+				game.plateau.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
 				try {
 					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
 				} catch (UnknownHostException e) {}
@@ -153,10 +153,18 @@ public class MenuMulti extends Menu {
 						if(g.hostName.equals(hashmap.get("hst")))
 							o = g;
 					if(o==null){
-						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl"))));
+						int t = 1;
+						if(hashmap.containsKey("idT")){
+							String[] idTeam =hashmap.get("idT").split(",");
+							t = Integer.parseInt(idTeam[1]);
+							System.out.println("MenuMulti l 160");
+						}
+						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
 						gamesList.add(new Menu_MapChoice(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
 					} else {
 						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
+						String[] idTeam =hashmap.get("idT").split(",");
+						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -200,11 +208,13 @@ public class MenuMulti extends Menu {
 		String hostName;
 		InetAddress hostAddress;
 		int nPlayers;
+		int teamFirstPlayer;
 
-		public OpenGames(String hostName, InetAddress hostAddress, int nPlayers) {
+		public OpenGames(String hostName, InetAddress hostAddress, int nPlayers, int teamF) {
 			this.hostName = hostName;
 			this.nPlayers = nPlayers;
 			this.hostAddress = hostAddress;
+			this.teamFirstPlayer = teamF;
 		}
 
 	}
