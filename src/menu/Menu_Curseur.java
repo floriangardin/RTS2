@@ -24,7 +24,7 @@ public class Menu_Curseur extends Menu_Item{
 	public void draw(Graphics g){
 		if(this.image!=null && this.curseur !=null){
 			g.drawImage(this.image,x, y);
-			g.drawImage(this.curseur, x+value*this.sizeX, y);
+			g.drawImage(this.curseur, x+50f+value*(this.sizeX-100f)-curseur.getWidth()/2, y);
 		}
 		else{
 			g.drawString(this.name, x, y);
@@ -34,8 +34,8 @@ public class Menu_Curseur extends Menu_Item{
 
 
 	public void update(Input i){
-		if(this.isClicked(i)){
-			value = (i.getAbsoluteMouseX()-this.x)/(this.sizeX);
+		if(this.isClicked(i) && i.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			value = Math.min(1, Math.max(0,(i.getAbsoluteMouseX()-this.x-50f)/(this.sizeX-100f)));
 		} 
 	}
 }

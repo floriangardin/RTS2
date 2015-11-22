@@ -70,15 +70,12 @@ public class MenuOptions extends Menu {
 			this.items.get(0).selectionable = false;
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+1*stepY,this.sound,this.sound,this.game));
 			this.items.get(1).selectionable = false;
-			this.items.addElement(new Menu_Item(2*this.game.resX/4f,startY+0*stepY,this.minus,this.minusSelected,this.game));
-			this.items.addElement(new Menu_Item(2*this.game.resX/4f,startY+1*stepY,this.minus,this.minusSelected,this.game));
-			this.items.addElement(new Menu_Item(2.5f*this.game.resX/4f,startY+0*stepY,this.plus,this.plusSelected,this.game));
-			this.items.addElement(new Menu_Item(2.5f*this.game.resX/4f,startY+1*stepY,this.plus,this.plusSelected,this.game));
 			this.items.addElement(new Menu_Item(startX,startY+3*stepY,this.back,this.backSelected,this.game));
 			this.items.addElement(new Menu_Item(this.game.resX/4f,startY+2*stepY,this.nickname,this.nickname,this.game));
-			this.items.get(7).selectionable = false;
+			this.items.get(3).selectionable = false;
 			this.items.addElement(new Menu_TextScanner(game.options.nickname,2*this.game.resX/4f,startY+2.3f*stepY,0.8f*this.game.resX/4f,0.4f*stepY));
-			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+0*stepY,"bibi",this.volume,this.curseur,this.game,0.5f));
+			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+0*stepY,"msuique",this.volume,this.curseur,this.game,0.5f));
+			this.items.addElement(new Menu_Curseur(2*this.game.resX/4f,startY+1*stepY,"volume",this.volume,this.curseur,this.game,0.5f));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -88,20 +85,14 @@ public class MenuOptions extends Menu {
 
 	
 	public void callItem(int i){
-		((Menu_TextScanner) this.items.get(8)).isSelected = false;
+		((Menu_TextScanner) this.items.get(4)).isSelected = false;
 		switch(i){
-		case 2: this.game.options.musicVolume-=0.1f;
-		this.game.menuIntro.music.setVolume(game.options.musicVolume);break;
-		case 3: this.game.options.soundVolume-=0.02f;break;
-		case 4: this.game.options.musicVolume+=0.1f;
-		this.game.menuIntro.music.setVolume(game.options.musicVolume);break;
-		case 5: this.game.options.soundVolume+=0.02f;break;
-		case 6: 
+		case 2: 
 			this.game.setMenu(game.menuIntro);
 			this.updateOptions();
 			break;
-		case 8:
-			((Menu_TextScanner) this.items.get(8)).isSelected = true;
+		case 4:
+			((Menu_TextScanner) this.items.get(4)).isSelected = true;
 		default:		
 		}
 		this.game.options.musicVolume = Math.min(Math.max(this.game.options.musicVolume, 0f), 1f);
@@ -126,6 +117,9 @@ public class MenuOptions extends Menu {
 				item.update(i);
 			}			
 		}
+		this.game.options.musicVolume = ((Menu_Curseur)this.items.get(5)).value;
+		this.game.options.soundVolume = ((Menu_Curseur)this.items.get(6)).value/5f;
+		this.game.menuIntro.music.setVolume(game.options.musicVolume);
 	}
 	public void updateOptions(){
 		try {
