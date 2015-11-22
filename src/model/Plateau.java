@@ -887,7 +887,6 @@ public class Plateau {
 		if(im.isPressedA){
 			BottomBar b = this.players.get(player).bottomBar;
 			b.minimap.toDraw = true;
-			System.out.println("Plateau l886 " + b.minimap.startX + " " +b.minimap.w);
 			if(im.leftClick && player==this.currentPlayer.id){
 				// Put camera where the click happened
 				Xcam = (int) ((im.xMouse)-g.resX/2f);
