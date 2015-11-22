@@ -212,7 +212,7 @@ public class Game extends BasicGame
 		// Draw the natural Objets
 
 		for(NaturalObjet o : this.plateau.naturalObjets){
-			o.draw(g);
+			toDrawAfter.add(o);
 		}
 		// Draw the buildings
 		for(Building e : this.plateau.buildings){
