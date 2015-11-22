@@ -1335,6 +1335,8 @@ public class Plateau {
 			cha = this.getCharacterById(idTest);
 			if(cha == null){
 				cha = Character.createNewCharacter(hs, g);
+				System.out.println("Create new character");
+				
 			}
 			if(cha!=null){
 				cha.parse(hs);
@@ -1347,6 +1349,7 @@ public class Plateau {
 		
 		for(Character c : this.characters){
 			if(!c.toKeep){
+				System.out.println("Destroyed " + c.id);
 				c.destroy();
 			}
 		}

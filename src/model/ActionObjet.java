@@ -25,7 +25,7 @@ public abstract class ActionObjet extends Objet{
 
 	
 	public void destroy(){
-		this.lifePoints = -10;
+		this.lifePoints = -10f;
 		this.target = null;
 		this.x = -100f;
 		this.y = -100f;
