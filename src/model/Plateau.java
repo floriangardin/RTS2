@@ -1157,12 +1157,12 @@ public class Plateau {
 			this.g.idChar = Integer.parseInt(u[2]);
 		}
 
-
 		// Update groups 
 
 		Vector<Character> group  = new Vector<Character>();
 
 		for(Character c : this.characters){
+			c.group.clear();
 			if(c.target instanceof Checkpoint){
 				group  = new Vector<Character>();
 				group.add(c);
@@ -1353,8 +1353,6 @@ public class Plateau {
 		//Clean plateau
 		this.clean();
 		
-		//Retrieve new id 
-
 	}
 
 	public void parseBullet(String s){
