@@ -82,7 +82,7 @@ public class Map {
 		
 		//Bonus at center 
 		new BonusLifePoints(game.plateau, X/2, Y/2);
-		new BonusDamage(game.plateau, X/2, 0);
+		new BonusDamage(game.plateau, X/2, Y/9);
 		new BonusSpeed(game.plateau, X/2, 8*Y/9);
 		//Tree
 		new Tree(X/3,Y/3,game.plateau,1);
