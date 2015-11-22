@@ -288,10 +288,11 @@ public class Game extends BasicGame
 					int i = 0;
 					//Checksum to send of plateau to test synchro
 					while(i<this.plateau.characters.size()){
-						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).x))%10);
-						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).y))%10);
+						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).x))%10);
+						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).y))%10);
 						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).lifePoints))%10);
-						checksum+=Integer.toString(((int)(0.1f*this.plateau.characters.get(i).state))%10);
+						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).state))%10);
+						checksum+=Integer.toString(this.plateau.characters.get(i).id)+"-";
 						i++;
 					}
 					checksum+="|";
@@ -322,7 +323,7 @@ public class Game extends BasicGame
 ////				
 ////
 //				if(this.round%200 == 0){
-//					this.plateau.characters.get(0).setXY(this.plateau.characters.get(0).x+2f, this.plateau.characters.get(0).y+2f);
+//					this.plateau.characters.get(0).lifePoints= -1f;
 //				}
 				// On ajoute l'input du tour courant � l'inputhandler				
 
