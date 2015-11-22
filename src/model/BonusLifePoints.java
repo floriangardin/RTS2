@@ -53,17 +53,7 @@ public class BonusLifePoints extends Bonus{
 
 	public Graphics draw(Graphics g){
 
-		float r = ((Circle)collisionBox).radius;
 		int imageWidth = this.image.getWidth()/5;
-		float drawWidth = r*imageWidth/Math.min(imageWidth,this.image.getHeight());
-		float drawHeight = r*this.image.getHeight()/Math.min(imageWidth,this.image.getHeight());
-		float x1 = this.getX() - drawWidth;
-		float y1 = this.getY() + drawWidth - 2*drawHeight;
-		float x2 = this.getX() + drawWidth;
-		float y2 = this.getY() + drawWidth;
-		y1-=40f;
-		y2-=40f;
-
 
 		Color color = Color.darkGray;
 
@@ -76,11 +66,11 @@ public class BonusLifePoints extends Bonus{
 			i = this.image.getSubImage(imageWidth*(animation+1),0,imageWidth,this.image.getHeight());
 		}
 
-		i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 
-		g.drawImage(i,x1,y1);
+		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
 		if(mouseOver){
-			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
 		}
 
 
