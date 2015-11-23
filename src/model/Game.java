@@ -309,8 +309,8 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 
 				if(this.timeToSleep>0){
-					System.out.println("312 Game : Go to sleep for  "+ (int) (this.timeToSleep/1000));
-					gc.sleep((int) (this.timeToSleep/1000));
+					System.out.println("312 Game : Go to sleep for  "+ (int) (this.timeToSleep/1000000));
+					gc.sleep((int) (this.timeToSleep/1000000));
 					this.timeToSleep = 0;
 				}
 
