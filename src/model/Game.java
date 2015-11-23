@@ -311,7 +311,9 @@ public class Game extends BasicGame
 		} else {
 			//Update of current round
 			this.clock.setRoundFromTime();
-			
+			if(t!=16){
+				System.out.println("Round a trop dure :"+t);
+			}
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 
