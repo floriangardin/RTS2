@@ -29,10 +29,11 @@ public class Main {
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(false);
 			app.setDisplayMode(resolutionX, resolutionY,true);
-			app.setTargetFrameRate(Main.framerate);
-			app.setVSync(true);
-			app.setSmoothDeltas(true);
-			//app.setMaximumLogicUpdateInterval(16);
+			//app.setTargetFrameRate(Main.framerate);
+			app.setVSync(false);
+			//app.setSmoothDeltas(true);
+			app.setMinimumLogicUpdateInterval(16);
+			app.setMaximumLogicUpdateInterval(16);
 			//app.setMaximumLogicUpdateInterval(20);
 			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
