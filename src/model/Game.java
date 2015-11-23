@@ -301,6 +301,13 @@ public class Game extends BasicGame
 		} else {
 			//Update of current round
 			this.clock.setRoundFromTime();
+			long timeOfRound = this.clock.getCurrentTime();
+			if(!host){
+				this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
+				if(this.clockSynchro.size()>10){
+					this.clockSynchro.remove(0);
+				}
+			}
 
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
@@ -308,10 +315,7 @@ public class Game extends BasicGame
 				//Play only if restart process ok, else give up on update
 				if(restartProcess){
 					//Calculate time of round
-					this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
-					if(host){
-						this.sendInputToAllPlayer(clockSynchro.lastElement());
-					}
+
 					if(this.clock.getCurrentTime()>this.timeRestart){
 						this.restartProcess = false;
 						this.timeRestart =0;
@@ -404,6 +408,13 @@ public class Game extends BasicGame
 								this.restartProcess = true;
 								this.timeRestart = this.clock.getCurrentTime()+(long)(0.5*1e9);
 								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
+
+
+								if(host){
+									this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
+									this.sendInputToAllPlayer(clockSynchro.lastElement());
+								}
+
 								//TODO : send message of resynch
 							}
 						}
