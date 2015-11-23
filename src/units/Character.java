@@ -587,7 +587,8 @@ public class Character extends ActionObjet{
 		if(this.target instanceof Checkpoint){
 			g.draw(this.target.collisionBox);
 		}
-
+		g.setLineWidth(1f);
+		g.setAntiAlias(false);
 	}	
 
 	//// COLLISIONS

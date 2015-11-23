@@ -66,8 +66,8 @@ public class Map {
 		Data data1 = game.plateau.teams.get(1).data;
 		Data data2 = game.plateau.teams.get(2).data;
 
-		new BuildingHeadQuarters(game.plateau,game,-data1.headQuartersSizeX/2f-10f,Y/2,1);
-		new BuildingHeadQuarters(game.plateau,game,X-data2.headQuartersSizeX/2f+10f,data2.headQuartersSizeY+Y/2,2);
+		new BuildingHeadQuarters(game.plateau,game,0,Y/2,1);
+		new BuildingHeadQuarters(game.plateau,game,X,Y/2,2);
 
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-2f);

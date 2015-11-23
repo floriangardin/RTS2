@@ -168,29 +168,38 @@ public class Game extends BasicGame
 		g.setFont(this.font);
 		// g reprï¿½sente le pinceau
 		//g.setColor(Color.black);
-
-
+		g.translate(-plateau.Xcam,- plateau.Ycam);
+		//Draw background
+		g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
+				2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
+		
+	
 		if(isInMenu){
 			this.menuCurrent.draw(g);
 			return;
 		} 
-		g.translate(-plateau.Xcam,- plateau.Ycam);
-		int i = 0;
-		int j = 0;
-		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
-			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
-				g.drawImage(this.images.grassTexture, i,j);
-				j+=this.images.grassTexture.getHeight();
-			}
-			i+=this.images.grassTexture.getWidth();
-			j= 0;
-		}
+		
+		
+		g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
+				0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
+		
+//		int i = 0;
+//		int j = 0;
+//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
+//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
+//				g.drawImage(this.images.grassTexture, i,j);
+//				j+=this.images.grassTexture.getHeight();
+//			}
+//			i+=this.images.grassTexture.getWidth();
+//			j= 0;
+//		}
 
-		g.setColor(Color.black);
-		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
-		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
-		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
+//		g.setColor(Color.black);
+//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
+//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
 
+//		g.drawImage(this.images.background,this.plateau.maxX, 0);
+//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
 		// Draw the selection of your team 
 		for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
@@ -327,7 +336,7 @@ public class Game extends BasicGame
 						this.checksum.addElement(checksum);
 					}
 
-					//J'enleve le premier élement si problème tous les 5 checksum reçu
+					//J'enleve le premier ï¿½lement si problï¿½me tous les 5 checksum reï¿½u
 					if(this.checksum.size()>20){
 						this.checksum.remove(0);
 					}

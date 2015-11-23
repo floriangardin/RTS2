@@ -180,7 +180,7 @@ public class Plateau {
 		}
 		try {
 			//			System.out.println(this.g.resX+" "+this.g.resY);
-			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
+			this.fog = new Image((int)(this.g.resX),(int)(this.g.resY));
 			this.gf = fog.getGraphics();
 		} catch (SlickException | RuntimeException e) {
 		}
@@ -945,12 +945,12 @@ public class Plateau {
 		float resX = this.g.resX;
 		float resY = this.g.resY;
 		this.gf.setColor(new Color(255,255,255));
-		gf.fillRect(0, 0, resX, resX);
+		gf.fillRect(-this.maxX, -this.maxY, this.maxX+resX,this.maxY+ resX);
 		this.gf.setColor(new Color(50,50,50));
-		float xmin = Math.max(0,-Xcam);
-		float ymin = Math.max(0,-Ycam);
-		float xmax = Math.min(resX,maxX-Xcam);
-		float ymax = Math.min(resY,maxY-Ycam);
+		float xmin = Math.max(-this.maxX,-this.maxX-Xcam);
+		float ymin = Math.max(-this.maxY,-this.maxY-Ycam);
+		float xmax = Math.min(resX+this.maxX,2*maxX-Xcam);
+		float ymax = Math.min(resY+this.maxY,2*maxY-Ycam);
 		gf.fillRect(xmin,ymin,xmax-xmin,ymax-ymin);
 		gf.setColor(Color.white);
 		for(Objet o:visibleObjet){

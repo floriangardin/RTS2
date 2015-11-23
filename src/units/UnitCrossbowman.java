@@ -20,7 +20,7 @@ public class UnitCrossbowman extends Character {
 		super(p, gameteam);
 		this.name = "crossbowman";
 		this.type = UnitsList.Crossbowman;
-		this.attackDuration = 2f;
+		this.attackDuration = 1f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 200f;
@@ -120,7 +120,60 @@ public class UnitCrossbowman extends Character {
 		}
 
 	}
+	public void setVXVY(float vx, float vy){
+		this.vx = vx;
+		this.vy = vy;
+		int sector = 0;
+		if(vx==0 && vy==0){
+			//Orientation toward target
 
+			if(this.target!=null){
+				vx =this.target.x-this.x;
+				vy = this.target.y-this.y;
+				if(vx>0f){
+					if(vy>vx){
+						sector = 2;
+					} else if(vy<-vx){
+						sector = 8;
+					} else {
+						sector = 4;
+					}
+				} else {
+					if(vy>-vx){
+						sector = 2;
+					} else if(vy<vx){
+						sector = 8;
+					} else {
+						sector = 6;
+					}
+				}
+				this.orientation = sector;
+			}
+			return;
+		}
+		if(vx>0f){
+			if(vy>vx){
+				sector = 2;
+			} else if(vy<-vx){
+				sector = 8;
+			} else {
+				sector = 4;
+			}
+		} else {
+			if(vy>-vx){
+				sector = 2;
+			} else if(vy<vx){
+				sector = 8;
+			} else {
+				sector = 6;
+			}
+		}
+		this.orientation = sector;
+
+
+		this.changes.orientation = true;
+
+	}
 
 	public Graphics draw(Graphics g){
 
@@ -130,16 +183,8 @@ public class UnitCrossbowman extends Character {
 
 
 		//Adapted to spearman TODO : Genericity
-		if(orientation == 4){
-			orientation = 6;
-		}
-		else if(orientation == 6){
-			orientation =4;
-		}
-		if(!this.isMobile()){
-			this.animation = 0;
-			this.animationValue= 0f;
-		}
+
+
 		
 		if(this.isImmolating){
 			this.animation = 0;
