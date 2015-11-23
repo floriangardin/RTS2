@@ -149,6 +149,7 @@ public class Game extends BasicGame
 
 	public boolean restartProcess = false;
 	public long timeRestart;
+	public long timeToSleep=0 ;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -302,16 +303,23 @@ public class Game extends BasicGame
 			//Update of current round
 			this.clock.setRoundFromTime();
 			long timeOfRound = this.clock.getCurrentTime();
-			
+
 
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
-				if(!host){
-					this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
-					if(this.clockSynchro.size()>10){
-						this.clockSynchro.remove(0);
-					}
+
+				if(this.timeToSleep>0){
+					System.out.println("312 Game : Go to sleep for  "+ (int) (this.timeToSleep/1000));
+					gc.sleep((int) (this.timeToSleep/1000));
+					this.timeToSleep = 0;
 				}
+
+				//Everyone send time of round
+				this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
+				if(this.clockSynchro.size()>5){
+					this.clockSynchro.remove(0);
+				}
+
 				//Play only if restart process ok, else give up on update
 				if(restartProcess){
 					//Calculate time of round
@@ -361,7 +369,7 @@ public class Game extends BasicGame
 					}
 
 					//J'enleve le premier �lement si probl�me tous les 5 checksum re�u
-					if(this.checksum.size()>20){
+					if(this.checksum.size()>5){
 						this.checksum.remove(0);
 					}
 				}
@@ -416,10 +424,8 @@ public class Game extends BasicGame
 								this.timeRestart = this.clock.getCurrentTime()+(long)(0.05*1e9);
 								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
 
-								if(host){
-									this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
-									this.sendInputToAllPlayer(clockSynchro.lastElement());
-								}
+
+								this.sendInputToAllPlayer(clockSynchro.lastElement());
 
 								//TODO : send message of resynch
 							}
