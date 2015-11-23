@@ -997,9 +997,7 @@ public class Character extends ActionObjet{
 
 	public void parseCharacter(HashMap<String,String> hs){
 
-		if(hs.containsKey("st")){
-			this.state=Float.parseFloat(hs.get("st"));
-		}
+
 		if(hs.containsKey("as")){
 			this.attackState=Float.parseFloat(hs.get("as"));
 		}
