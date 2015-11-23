@@ -455,8 +455,8 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
-		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.BOLD,(int)(12*this.resX/1920));
-		this.font = new UnicodeFont(fe,28,false,false);
+		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(12*this.resX/1920));
+		this.font = new UnicodeFont(fe,(int)(28*this.resX/1920),false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
 		this.font.addAsciiGlyphs();
 		this.font.loadGlyphs();

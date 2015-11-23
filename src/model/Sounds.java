@@ -13,6 +13,7 @@ public class Sounds {
 	public Sound death;
 	public Sound buzz;
 	public Sound bonus;
+	public Sound order;
 	//public Sound lackRessources;
 	
 	// menu
@@ -30,6 +31,7 @@ public class Sounds {
 			menuItemSelected = new Sound("music/menuItemSelected.ogg");
 			buzz = new Sound("music/menuItemSelected.ogg");
 			bonus = new Sound("music/bonusound.ogg");
+			order = new Sound("music/yes.ogg");
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block

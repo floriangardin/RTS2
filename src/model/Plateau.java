@@ -505,9 +505,14 @@ public class Plateau {
 		if(target==null){
 			target = new Checkpoint(this,x,y);
 		}
+		int i = 0;
 		for(ActionObjet c:this.selection.get(team)){
 			if(c instanceof Character){
 				Character o = (Character) c;
+				if(i==0 && c.soundSetTarget!=null){
+					c.soundSetTarget.play(1f, this.g.options.soundVolume);
+				}
+				i++;
 				//first we deal with o's elder group
 				if(o.group!=null && o.group.size()>1){
 					for(Character c1 : o.group)

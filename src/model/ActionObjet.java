@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import buildings.Building;
@@ -21,6 +22,8 @@ public abstract class ActionObjet extends Objet{
 	public Checkpoint checkpointTarget;
 	public boolean toKeep=false;
 	public boolean mouseOver = false;
+	
+	public Sound soundSetTarget;
 	//CHANGED BOOLEAN
 
 	
