@@ -26,7 +26,7 @@ public class MultiReceiver extends Thread{
 	public MultiReceiver(Game g, int port){
 		this.g = g;
 		this.port = port;
-		this.setPriority(MAX_PRIORITY);
+		
 	}
 
 	@Override

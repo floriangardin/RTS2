@@ -59,7 +59,7 @@ public class MultiSender extends Thread{
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
-				Thread.sleep(1);
+				
 			}
 		} catch (SocketException e1) {
 			e1.printStackTrace();
