@@ -51,6 +51,8 @@ public class Game extends BasicGame
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 
+	public int deltaTime;
+	
 	//Increment de game
 
 	public static float ratio = 60f/((float)Main.framerate);
@@ -168,6 +170,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		
 		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
@@ -283,6 +286,8 @@ public class Game extends BasicGame
 		}
 
 		//DEBUG
+		
+		g.drawString(Integer.toString(deltaTime), 60f,10f);
 		if(processSynchro){
 			g.setColor(Color.green);
 			g.fillRect(10f,10f,10f,10f);
@@ -297,7 +302,7 @@ public class Game extends BasicGame
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
-		
+		this.deltaTime = t;
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -417,7 +422,6 @@ public class Game extends BasicGame
 				//Update IA orders
 				if(debugTimeSteps)
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
-
 			}
 		}
 		if(debugPaquet){
