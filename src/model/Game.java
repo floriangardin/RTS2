@@ -418,12 +418,12 @@ public class Game extends BasicGame
 					this.dropped.remove(0);
 					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
 						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
-							if(host){
-								//Send restart process 
-								this.restartProcess = true;
-								this.timeRestart = this.clock.getCurrentTime()+(long)(0.5*1e9);
-								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
-							}
+
+							//Send restart process 
+							this.restartProcess = true;
+							this.timeRestart = this.clock.getCurrentTime()+(long)(0.5*1e9);
+							//this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
+
 							this.sendInputToAllPlayer(clockSynchro.lastElement());
 						}
 					}
