@@ -55,8 +55,8 @@ public class Data {
 	public int mineChargeTime = 5;
 	public int mineLifePoints = 75;
 	public float mineSight = 300f;
-	public float mineSizeX = 300f;
-	public float mineSizeY = 150f;
+	public float mineSizeX = 350f;
+	public float mineSizeY = 200f;
 
 	// Barrack
 	public int barrackLifePoints = 100;
