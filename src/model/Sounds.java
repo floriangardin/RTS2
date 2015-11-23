@@ -47,8 +47,8 @@ public class Sounds {
 			orderCrossbowman = new Vector<Sound>();
 			attackCrossbowman = new Vector<Sound>();
 			
-			orderCrossbowman.add(new Sound("music/hello.ogg"));
-			attackCrossbowman.add(new Sound("music/hello.ogg"));
+			orderCrossbowman.add(new Sound("music/yes.ogg"));
+			attackCrossbowman.add(new Sound("music/yes.ogg"));
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
