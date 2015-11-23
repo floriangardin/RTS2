@@ -149,7 +149,8 @@ public class MultiReceiver extends Thread{
 											//Clock desynchro, resynchro if ! host
 											if(!this.g.host){
 												System.out.println("151 : multireceiver : clock origin wrong");
-												this.g.clock.originTime+=myTime-hostTime;
+												this.g.clock.getPing();
+												this.g.clock.synchro(hostTime);
 											}
 										}
 										i++;
