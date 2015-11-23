@@ -1180,7 +1180,7 @@ public class Plateau {
 		s+=this.g.idChar;
 		s+="!";
 		//Time to restart the game
-		s+=this.g.clock.getCurrentTime()+(long)(1*1e9);
+		s+=this.g.clock.getCurrentTime()+(long)(0.1*1e9);
 		s+="!";
 		//We want to send the content of plateau
 
