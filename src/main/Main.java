@@ -32,6 +32,7 @@ public class Main {
 			app.setTargetFrameRate(Main.framerate);
 			app.setVSync(true);
 			app.setSmoothDeltas(true);
+			app.setMaximumLogicUpdateInterval(16);
 			//app.setMaximumLogicUpdateInterval(20);
 			//app.setMaximumLogicUpdateInterval(16);
 			app.start();

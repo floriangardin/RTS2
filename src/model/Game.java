@@ -359,7 +359,6 @@ public class Game extends BasicGame
 
 					}
 				}
-				
 				//UPDATE IF NOT RESYNCH
 				else{
 					// On envoie l'input du tour courant
@@ -370,6 +369,9 @@ public class Game extends BasicGame
 
 					if(ims.size()==0){
 						this.dropped.addElement(this.round);
+					}
+					if(dropped.size()>5){
+						dropped.clear();
 					}
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
