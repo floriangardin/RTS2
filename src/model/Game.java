@@ -153,6 +153,7 @@ public class Game extends BasicGame
 	public long timeRestart;
 	public long delta;
 	public boolean sleep;
+	public int sleepTime;
 	
 
 	public void quitMenu(){
@@ -352,17 +353,13 @@ public class Game extends BasicGame
 				if(this.round==200){
 					System.out.println("Resync");
 					this.delta = this.clock.getCurrentTime();
-					
-					
-				}
-				if(this.round==220){
 					this.sendInputToAllPlayer("3L|"+this.delta+"|");
+					
 				}
 				
 				if(this.sleep){
-					
-					gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +(int)delta);
-					gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +(int)delta);
+					gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
+					gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
 					this.sleep= false;
 				}
 				else{

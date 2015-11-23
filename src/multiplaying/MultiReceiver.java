@@ -116,7 +116,7 @@ public class MultiReceiver extends Thread{
 								if(time<this.g.delta){
 									this.g.sleep = true;
 									long timeToSleep = (this.g.delta-time)/1000000;
-									this.g.delta = timeToSleep;
+									this.g.sleepTime =(int) timeToSleep;
 									System.out.println("Sleep for "+(timeToSleep));
 								}
 							}
