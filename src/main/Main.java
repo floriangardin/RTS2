@@ -27,8 +27,10 @@ public class Main {
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
 //			app.setDisplayMode(resolutionX, resolutionY,true);
-			app.setShowFPS(false);
+			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,true);
+			app.setAlwaysRender(false);
+			app.setClearEachFrame(false);
 			//app.setTargetFrameRate(Main.framerate);
 			app.setVSync(false);
 			//app.setSmoothDeltas(true);
