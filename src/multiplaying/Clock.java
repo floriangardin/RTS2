@@ -9,7 +9,7 @@ import model.Game;
 public class Clock extends Thread{
 	Game game;
 	boolean isMaster;
-	private long originTime;
+	public long originTime;
 	Vector<Long> origins;
 	//ping to master clock
 	public long ping;

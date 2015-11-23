@@ -5,8 +5,6 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
-import multiplaying.InputObject;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,19 +13,21 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import IA.IAMicroFlo;
+import buildings.Building;
+import buildings.BuildingAction;
+import buildings.BuildingProduction;
+import buildings.BuildingTower;
+import bullets.Bullet;
+import bullets.CollisionBullet;
+import display.BottomBar;
+import display.Message;
+import multiplaying.InputObject;
 import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;
-import IA.IAMicroFlo;
-import buildings.Building;
-import buildings.BuildingAction;
-import buildings.BuildingProduction;
-import bullets.Bullet;
-import bullets.CollisionBullet;
-import display.BottomBar;
-import display.Message;
 
 public class Plateau {
 
@@ -76,7 +76,7 @@ public class Plateau {
 	public Vector<Building> toRemoveBuildings;
 
 	public Vector<Bonus> bonus;
-	
+
 	public Vector<NaturalObjet> naturalObjets ;
 	public Vector<NaturalObjet> toAddNaturalObjets;
 	public Vector<NaturalObjet> toRemoveNaturalObjets;
@@ -142,10 +142,10 @@ public class Plateau {
 		this.spells = new Vector<SpellEffect>();
 		this.toAddSpells = new Vector<SpellEffect>();
 		this.toRemoveSpells= new Vector<SpellEffect>();
-		
+
 		//BONUS 
 		this.bonus = new Vector<Bonus>();
-		
+
 		//ENEMYGENERATOR
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
@@ -180,7 +180,7 @@ public class Plateau {
 		}
 		try {
 			//			System.out.println(this.g.resX+" "+this.g.resY);
-			this.fog = new Image((int)this.g.resX,(int)this.g.resY);
+			this.fog = new Image((int)(this.g.resX),(int)(this.g.resY));
 			this.gf = fog.getGraphics();
 		} catch (SlickException | RuntimeException e) {
 		}
@@ -308,7 +308,7 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
-				this.g.sounds.death.play(0.8f+1f*((float)Math.random()),this.g.options.soundVolume);
+				this.g.sounds.death.play(1f,this.g.options.soundVolume);
 			}
 		}
 		for(Bullet o : bullets){
@@ -424,13 +424,13 @@ public class Plateau {
 					}
 				}
 			}
-			
+
 			//Between bonus and characters 
 			for(Bonus b : this.bonus){
 				if(Utils.distance(b, o)<b.size){
 					b.collision(o);
 				}
-				
+
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
@@ -474,8 +474,8 @@ public class Plateau {
 					b.collision(c);
 			}
 		}
-		
-		
+
+
 
 	}
 
@@ -505,9 +505,19 @@ public class Plateau {
 		if(target==null){
 			target = new Checkpoint(this,x,y);
 		}
+		int i = 0;
 		for(ActionObjet c:this.selection.get(team)){
 			if(c instanceof Character){
 				Character o = (Character) c;
+				if(i==0 && c.soundSetTarget!=null && c.soundSetTarget.size()>0 && Math.random()>0.3){
+					if(target instanceof Character && c.getTeam()!=target.getTeam()){
+						Utils.getRandomSound(c.soundAttack).play(1f, this.g.options.soundVolume);
+					}
+					else{
+						Utils.getRandomSound(c.soundSetTarget).play(1f, this.g.options.soundVolume);
+					}
+				}
+				i++;
 				//first we deal with o's elder group
 				if(o.group!=null && o.group.size()>1){
 					for(Character c1 : o.group)
@@ -564,6 +574,17 @@ public class Plateau {
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for(Character o : characters){
 			if(o.getTeam()!=caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
+				ennemies_in_sight.add(o);
+			}
+		}
+		return ennemies_in_sight;
+	}
+
+
+	public Vector<Character> getEnnemiesInSight(BuildingTower caller){
+		Vector<Character> ennemies_in_sight = new Vector<Character>();
+		for(Character o : characters){
+			if(o.getTeam()!=caller.potentialTeam && Utils.distance(o, caller)<caller.sight){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -869,16 +890,16 @@ public class Plateau {
 		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || (!im.isPressedA && im.yMouse<Ycam+5))&&Ycam>-g.resY/2){
-				Ycam -= 20;
+				Ycam -= 40;
 			}
 			if((im.isPressedDOWN || (!im.isPressedA && im.yMouse>Ycam+g.resY-5)) && Ycam<this.maxY-g.resY/2){
-				Ycam +=20;
+				Ycam +=40;
 			}
 			if((im.isPressedLEFT|| (!im.isPressedA && im.xMouse<Xcam+5)) && Xcam>-g.resX/2 ){
-				Xcam -=20;
+				Xcam -=40;
 			}
 			if((im.isPressedRIGHT || (!im.isPressedA && im.xMouse>Xcam+g.resX-5))&& Xcam<this.maxX-g.resX/2){
-				Xcam += 20;
+				Xcam += 40;
 			}
 			//Displaying the selected group
 			for(int to=0; to<10; to++){
@@ -934,12 +955,12 @@ public class Plateau {
 		float resX = this.g.resX;
 		float resY = this.g.resY;
 		this.gf.setColor(new Color(255,255,255));
-		gf.fillRect(0, 0, resX, resX);
+		gf.fillRect(-this.maxX, -this.maxY, this.maxX+resX,this.maxY+ resX);
 		this.gf.setColor(new Color(50,50,50));
-		float xmin = Math.max(0,-Xcam);
-		float ymin = Math.max(0,-Ycam);
-		float xmax = Math.min(resX,maxX-Xcam);
-		float ymax = Math.min(resY,maxY-Ycam);
+		float xmin = Math.max(-this.maxX,-this.maxX-Xcam);
+		float ymin = Math.max(-this.maxY,-this.maxY-Ycam);
+		float xmax = Math.min(resX+this.maxX,2*maxX-Xcam);
+		float ymax = Math.min(resY+this.maxY,2*maxY-Ycam);
 		gf.fillRect(xmin,ymin,xmax-xmin,ymax-ymin);
 		gf.setColor(Color.white);
 		for(Objet o:visibleObjet){
@@ -1150,7 +1171,7 @@ public class Plateau {
 	//MULTIPLAYING
 	public String toStringArray(){
 
-		
+
 		int id_charac = 0;
 		String s = "3P!";
 		//IDS
@@ -1159,7 +1180,7 @@ public class Plateau {
 		s+=this.g.idChar;
 		s+="!";
 		//Time to restart the game
-		s+=this.g.clock.getCurrentTime()+1e9;
+		s+=this.g.clock.getCurrentTime()+(long)(0.5*1e9);
 		s+="!";
 		//We want to send the content of plateau
 
@@ -1341,13 +1362,13 @@ public class Plateau {
 
 	public void parseCharacter(String s){
 		//SPLIT SELON |
-		
+
 		for(Character c : this.characters){
 			c.setTarget(null, null);
 			c.group.clear();
 		}
-		
-		
+
+
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
@@ -1356,16 +1377,16 @@ public class Plateau {
 			finish--;
 		}
 
-//		//Clear all characters 
-//		while(this.characters.size()>0){
-//			Character toErase = this.characters.get(0);
-//			toErase.lifePoints = -1f;
-//			toErase.destroy();
-//			this.removeCharacter(toErase);
-//			this.characters.remove(toErase);
-//		}
-		
-//		this.characters.clear();
+		//		//Clear all characters 
+		//		while(this.characters.size()>0){
+		//			Character toErase = this.characters.get(0);
+		//			toErase.lifePoints = -1f;
+		//			toErase.destroy();
+		//			this.removeCharacter(toErase);
+		//			this.characters.remove(toErase);
+		//		}
+
+		//		this.characters.clear();
 
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
@@ -1375,7 +1396,7 @@ public class Plateau {
 			if(cha == null){
 				cha = Character.createNewCharacter(hs, g);
 				System.out.println("Create new character");
-				
+
 			}
 			if(cha!=null){
 				cha.parse(hs);
@@ -1383,9 +1404,9 @@ public class Plateau {
 			}
 		}
 
-		
+
 		//Erase characters who didn't give any news
-		
+
 		for(Character c : this.characters){
 			if(!c.toKeep){
 				System.out.println("Destroyed " + c.id);
@@ -1394,7 +1415,7 @@ public class Plateau {
 		}
 		//Clean plateau
 		this.clean();
-		
+
 	}
 
 	public void parseBullet(String s){

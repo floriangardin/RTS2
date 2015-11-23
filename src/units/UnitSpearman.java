@@ -18,7 +18,7 @@ public class UnitSpearman extends Character {
 		super(p, gameteam);
 		this.name = "spearman";
 		this.type = UnitsList.Spearman;
-		this.attackDuration = 2f;
+		this.attackDuration = 1f;
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 150f;
@@ -28,10 +28,12 @@ public class UnitSpearman extends Character {
 		this.maxVelocity = 100f;
 		this.armor = 4f;
 		this.damage = 10f*data.damageFactor;
-		this.chargeTime = 7f;
+		this.chargeTime = 4f;
 		this.weapon = "spear";
 		this.animStep = 32f;
-
+		this.soundSetTarget = this.p.g.sounds.orderSpearman;
+		this.soundAttack = this.p.g.sounds.attackSpearman;
+		this.soundDeath = this.p.g.sounds.death;
 
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;
@@ -43,7 +45,7 @@ public class UnitSpearman extends Character {
 		}
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = this.size+20f;
+		this.range = this.size+30f;
 		this.spells.add(data.immolation);
 		//this.updateImage();
 	}

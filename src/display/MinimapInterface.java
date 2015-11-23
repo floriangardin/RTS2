@@ -67,14 +67,17 @@ public class MinimapInterface extends Bar {
 
 		// Draw background 
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.fillRect(startX, startY, w, h);
+		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
 		// Draw water
+		
+		
+		
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.cyan);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
 		// Draw units on camera 
-
+		g.setAntiAlias(true);
 		for(Character c : this.p.characters){		
 			if(c.getTeam()==2){
 				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
@@ -91,6 +94,8 @@ public class MinimapInterface extends Bar {
 				}
 			}
 		}
+		
+		g.setAntiAlias(false);
 		for(Building c : this.p.buildings){
 			if(c.getTeam()==0){
 				g.setColor(Color.gray);
@@ -125,6 +130,7 @@ public class MinimapInterface extends Bar {
 				g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
 			}
 		}
+		
 //		g.setColor(Color.black);
 //		for(float f : this.game.plateau.mapGrid.Xcoord){
 //			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);

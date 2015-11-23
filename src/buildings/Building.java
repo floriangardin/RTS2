@@ -2,17 +2,19 @@ package buildings;
 
 import java.util.HashMap;
 
+import main.Main;
+import model.ActionObjet;
+import model.Checkpoint;
+import model.Game;
+import model.Objet;
+import model.Plateau;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
-import model.ActionObjet;
-import model.Checkpoint;
-import model.Game;
-import model.Objet;
-import model.Plateau;
 import technologies.Technologie;
 import units.Character;
 
@@ -69,10 +71,10 @@ public class Building extends ActionObjet{
 				this.potentialTeam = c.getTeam();
 				this.hq = this.getGameTeam().hq;
 			}
-			this.constructionPoints-=0.1f;
+			this.constructionPoints-=Main.increment;
 		}
 		else if(this.constructionPoints<this.maxLifePoints){
-			this.constructionPoints+=0.1f;
+			this.constructionPoints+=Main.increment;
 		}
 		else{
 			if(this.potentialTeam!=this.getTeam()){
@@ -100,7 +102,6 @@ public class Building extends ActionObjet{
 	}
 
 	public void drawIsSelected(Graphics g){
-
 
 		g.drawImage(this.selection_circle,this.getX()-5f-this.collisionBox.getWidth()/2,this.getY()-this.collisionBox.getHeight()/2-5f,this.getX()+this.collisionBox.getWidth()/2+5f,this.getY()+this.collisionBox.getHeight()/2+5f,0,0,this.selection_circle.getWidth(),this.selection_circle.getHeight());
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
@@ -263,7 +264,7 @@ public class Building extends ActionObjet{
 		}
 	}
 
-
+	
 	public Technologie getTechnologieById(int id){
 		Technologie tec = null;
 		for(Technologie t : this.hq.allTechs){
@@ -279,6 +280,4 @@ public class Building extends ActionObjet{
 		this.changes.charge = true;
 	}
 	
-
-
 }

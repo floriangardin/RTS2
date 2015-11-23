@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import display.Message;
+import main.Main;
 import model.Game;
 import units.Character;
 import units.UnitsList;
@@ -44,7 +45,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 
 
-			this.setCharge(this.charge+0.1f*Game.ratio);
+			this.setCharge(this.charge+Main.increment);
 			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
 				float dirX = this.random+this.rallyPoint.x-this.x;

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
@@ -170,7 +171,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 			this.animation+=2f;
 			if(animation>120f)
 				animation = 0;
-			this.setCharge(this.charge+0.1f*Game.ratio);
+			this.setCharge(this.charge+Main.increment);
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 			}

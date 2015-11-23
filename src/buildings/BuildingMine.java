@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
@@ -55,7 +56,7 @@ public class BuildingMine extends BuildingTech{
 
 	
 	public void action(){
-		this.state+=0.1f*Game.ratio;
+		this.state+=Main.increment;
 
 		
 		if(state >= chargeTime && getTeam()!=0){
@@ -73,7 +74,7 @@ public class BuildingMine extends BuildingTech{
 			this.animation+=2f*Game.ratio;
 			if(animation>120f)
 				
-			this.charge+=0.1f*Game.ratio;
+			this.charge+=Main.increment;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 

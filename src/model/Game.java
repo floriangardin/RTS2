@@ -168,29 +168,38 @@ public class Game extends BasicGame
 		g.setFont(this.font);
 		// g reprï¿½sente le pinceau
 		//g.setColor(Color.black);
+		g.translate(-plateau.Xcam,- plateau.Ycam);
+		//Draw background
+		g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
+				2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
 
 
 		if(isInMenu){
 			this.menuCurrent.draw(g);
 			return;
 		} 
-		g.translate(-plateau.Xcam,- plateau.Ycam);
-		int i = 0;
-		int j = 0;
-		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
-			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
-				g.drawImage(this.images.grassTexture, i,j);
-				j+=this.images.grassTexture.getHeight();
-			}
-			i+=this.images.grassTexture.getWidth();
-			j= 0;
-		}
 
-		g.setColor(Color.black);
-		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
-		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
-		//g.fillRect(0,0,gc.getScreenWidth(),gc.getScreenHeight());
 
+		g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
+				0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
+
+		//		int i = 0;
+		//		int j = 0;
+		//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
+		//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
+		//				g.drawImage(this.images.grassTexture, i,j);
+		//				j+=this.images.grassTexture.getHeight();
+		//			}
+		//			i+=this.images.grassTexture.getWidth();
+		//			j= 0;
+		//		}
+
+		//		g.setColor(Color.black);
+		//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
+		//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
+
+		//		g.drawImage(this.images.background,this.plateau.maxX, 0);
+		//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
 		// Draw the selection of your team 
 		for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
@@ -270,6 +279,14 @@ public class Game extends BasicGame
 			}
 		}
 
+		if(processSynchro){
+			g.setColor(Color.green);
+			g.fillRect(10f,10f,10f,10f);
+		}
+		if(restartProcess){
+			g.setColor(Color.red);
+			g.fillRect(20f,10f,10f,10f);
+		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 	}
@@ -284,25 +301,28 @@ public class Game extends BasicGame
 		} else {
 			//Update of current round
 			this.clock.setRoundFromTime();
-
-			//			this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
-			//			this.sendInputToAllPlayer(this.clockSynchro.lastElement());
-			//			if(this.clockSynchro.size()>20){
-			//				this.clockSynchro.remove(0);
-			//			}
+			long timeOfRound = this.clock.getCurrentTime();
+			if(!host){
+				this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
+				if(this.clockSynchro.size()>10){
+					this.clockSynchro.remove(0);
+				}
+			}
 
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 
 				//Play only if restart process ok, else give up on update
 				if(restartProcess){
-					
+					//Calculate time of round
+
 					if(this.clock.getCurrentTime()>this.timeRestart){
 						this.restartProcess = false;
 						this.timeRestart =0;
 						this.round = 1;
 						this.checksum.clear();
 						this.dropped.clear();
+						this.clockSynchro.clear();
 					}
 					else{
 						return;
@@ -333,7 +353,7 @@ public class Game extends BasicGame
 						this.checksum.addElement(checksum);
 					}
 
-					//J'enleve le premier élement si problème tous les 5 checksum reçu
+					//J'enleve le premier ï¿½lement si problï¿½me tous les 5 checksum reï¿½u
 					if(this.checksum.size()>20){
 						this.checksum.remove(0);
 					}
@@ -347,12 +367,7 @@ public class Game extends BasicGame
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
-				////				
-				////
-				//				if(this.round%200 == 0){
-				//					this.plateau.characters.get(0).destroy();
-				//				}
-				// On ajoute l'input du tour courant ï¿½ l'inputhandler				
+
 
 				//RESYNCHRO
 				if(processSynchro && this.toParse!=null){
@@ -384,15 +399,22 @@ public class Game extends BasicGame
 				}
 
 				//Handle clock desynchronisation
-				if(this.dropped.size()>7 && this.round>30){
+				if(this.dropped.size()>3){
 					this.dropped.remove(0);
 					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
 						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
 							if(host){
 								//Send restart process 
 								this.restartProcess = true;
-								this.timeRestart = (long) (this.clock.getCurrentTime()+1e9);
+								this.timeRestart = this.clock.getCurrentTime()+(long)(0.5*1e9);
 								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
+
+
+								if(host){
+									this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
+									this.sendInputToAllPlayer(clockSynchro.lastElement());
+								}
+
 								//TODO : send message of resynch
 							}
 						}
@@ -452,8 +474,8 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
-		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.BOLD,(int)(12*this.resX/1920));
-		this.font = new UnicodeFont(fe,28,false,false);
+		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(12*this.resX/1920));
+		this.font = new UnicodeFont(fe,(int)(28*this.resX/1920),false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
 		this.font.addAsciiGlyphs();
 		this.font.loadGlyphs();

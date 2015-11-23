@@ -483,8 +483,6 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 
-
-
 		}
 		//Handle ip
 		if(hs.containsKey("ips")){
@@ -504,6 +502,5 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 	}
-
 
 }

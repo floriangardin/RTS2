@@ -4,7 +4,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Images {
-
+	
+	public Image background;
+	public Image coastBackground;
+	public Image seaBackground;
 	public Image water, dirt;
 	public Image arrow;
 	public Image fireball;
@@ -81,6 +84,9 @@ public class Images {
 
 	public Images(){
 		try {
+			background = new Image("pics/fondMenu.png");
+			seaBackground = new Image("pics/seaBackground.png");
+			coastBackground = new Image("pics/sandBackground.jpg");
 			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
 			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
 			this.arrow = new Image("pics/arrow.png");
@@ -167,7 +173,7 @@ public class Images {
 			this.spellConversion = new Image("pics/Spell/conversion.png");
 			this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
 			this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
-			this.grassTexture = new Image("pics/TestTexture1.png");
+			this.grassTexture = new Image("pics/island.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

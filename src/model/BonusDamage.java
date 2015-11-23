@@ -1,5 +1,7 @@
 package model;
 
+import main.Main;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -29,7 +31,7 @@ public class BonusDamage extends Bonus{
 	}
 
 	public void action(){
-		this.state+=0.1f;
+		this.state+=0.1f*30/Main.framerate;
 		if(!bonusPresent && this.state>timeRegen){
 			this.bonusPresent =true;
 			this.state= 0f;

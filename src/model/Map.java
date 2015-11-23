@@ -2,12 +2,15 @@ package model;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Image;
+
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
 import buildings.BuildingHeadQuarters;
 import buildings.BuildingMill;
 import buildings.BuildingMine;
 import buildings.BuildingStable;
+import buildings.BuildingTower;
 import buildings.BuildingUniversity;
 import nature.Tree;
 import nature.Water;
@@ -16,6 +19,7 @@ import units.UnitsList;
 
 public class Map {
 
+	
 	public Map(){
 
 	}
@@ -27,7 +31,7 @@ public class Map {
 		maps.add("large duel");
 		maps.add("microgestion");
 		maps.add("duel very small");
-		maps.add("cross spearman");
+		maps.add("The Island");
 		return maps;
 	}
 	
@@ -51,22 +55,22 @@ public class Map {
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
 		case "duel very small": createMapDuelVerySmall(game);break;
-		case "cross spearman": createMapCrossSpearman(game);break;
+		case "The Island": createMapTheIsland(game);break;
 		}
 	}
 
 	
 
-	private static void createMapCrossSpearman(Game game) {
-		game.plateau.setMaxXMaxY(1200f, 1200f);
+	private static void createMapTheIsland(Game game) {
+		game.plateau.setMaxXMaxY(1400f, 1200f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
 		Data data1 = game.plateau.teams.get(1).data;
 		Data data2 = game.plateau.teams.get(2).data;
 
-		new BuildingHeadQuarters(game.plateau,game,-data1.headQuartersSizeX/2f-10f,Y/2,1);
-		new BuildingHeadQuarters(game.plateau,game,X-data2.headQuartersSizeX/2f+10f,data2.headQuartersSizeY+Y/2,2);
+		new BuildingHeadQuarters(game.plateau,game,0,Y/2,1);
+		new BuildingHeadQuarters(game.plateau,game,X,Y/2,2);
 
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-2f);
@@ -81,11 +85,13 @@ public class Map {
 		data2.create(UnitsList.Spearman, 7*X/9, Y/2+2f);
 		
 		//Bonus at center 
-		new BonusLifePoints(game.plateau, X/2, Y/2);
+		new BonusLifePoints(game.plateau, X/4, Y/2);
+		new BonusLifePoints(game.plateau, 3*X/4, Y/2);
 		new BonusDamage(game.plateau, X/2, Y/9);
 		new BonusSpeed(game.plateau, X/2, 8*Y/9);
+		new BuildingTower(game.plateau,game,X/2,Y/2);
 		//Tree
-		new Tree(X/3,Y/3,game.plateau,1);
+		//new Tree(X/3,Y/3,game.plateau,1);
 	}
 
 	public static void createMapDuelSmall(Game game){
@@ -110,9 +116,7 @@ public class Map {
 		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,4f*game.plateau.maxY/5);
 		
 		// CENTER
-		// Water
-		new Water(175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
-		new Water(game.plateau.maxX-175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
+		
 		// Stables and academy 
 		new BuildingStable(game.plateau,game,game.plateau.maxX/4-60f,2*game.plateau.maxY/6-10f);
 		new BuildingAcademy(game.plateau,game,3*game.plateau.maxX/4+60f,2*game.plateau.maxY/6);

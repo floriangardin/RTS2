@@ -4,6 +4,7 @@ package units;
 import java.util.HashMap;
 import java.util.Vector;
 
+import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
@@ -146,6 +147,9 @@ public class Character extends ActionObjet{
 		this.animStep = c.animStep;
 		this.attackDuration = c.attackDuration;
 		this.animationAttack = c.animationAttack;
+		this.soundSetTarget = c.soundSetTarget;
+		this.soundAttack = c.soundAttack;
+		this.soundDeath = c.soundDeath;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
@@ -587,7 +591,8 @@ public class Character extends ActionObjet{
 		if(this.target instanceof Checkpoint){
 			g.draw(this.target.collisionBox);
 		}
-
+		g.setLineWidth(1f);
+		g.setAntiAlias(false);
 	}	
 
 	//// COLLISIONS
@@ -901,9 +906,9 @@ public class Character extends ActionObjet{
 	public void updateChargeTime(){
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
 		if(!isAttacking && this.state<=this.chargeTime)
-			this.state+= 0.1f*Game.ratio;
+			this.state+= Main.increment;
 		if(isAttacking && this.attackState<=this.attackDuration)
-			this.attackState+= 0.1f*Game.ratio;
+			this.attackState+= Main.increment;
 
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
@@ -1129,7 +1134,6 @@ public class Character extends ActionObjet{
 		}
 
 		return c;
-
 	}
 
 }
