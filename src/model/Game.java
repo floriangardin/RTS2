@@ -149,7 +149,8 @@ public class Game extends BasicGame
 
 	public boolean restartProcess = false;
 	public long timeRestart;
-	public long timeToSleep=0 ;
+	public long updateMoyenne  ;
+	public long lastUpdate;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -280,10 +281,13 @@ public class Game extends BasicGame
 			}
 		}
 
+		//DEBUG
 		if(processSynchro){
 			g.setColor(Color.green);
 			g.fillRect(10f,10f,10f,10f);
 		}
+		g.drawString(Integer.toString(this.round), 20f, 10f);
+		g.drawString(Long.toString((long) (this.clock.getCurrentTime()/this.round/1000000)), 20f, 10f);
 		if(restartProcess){
 			g.setColor(Color.red);
 			g.fillRect(20f,10f,10f,10f);
@@ -294,6 +298,7 @@ public class Game extends BasicGame
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
+		
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
