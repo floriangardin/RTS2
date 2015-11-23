@@ -26,6 +26,7 @@ public class MultiReceiver extends Thread{
 	public MultiReceiver(Game g, int port){
 		this.g = g;
 		this.port = port;
+		
 	}
 
 	@Override
@@ -128,50 +129,12 @@ public class MultiReceiver extends Thread{
 									}
 								}
 							}
-
-							else if(msg.substring(1, 2).equals("H")){
-								String[] mes = msg.substring(1).split("\\|");
-
-
-								if(this.g.clockSynchro.size()==0){
-									System.out.println("Je suis en retard sur l'autre ! ");
-
-								}
-								else{
-									int i = 0;
-									while(i<this.g.clockSynchro.size()){
-										String[] checksum = this.g.clockSynchro.get(i).substring(1).split("\\|");
-										int myRound = Integer.parseInt(checksum[1]);
-										long myTime = Long.parseLong(checksum[2]);
-										int hostRound = Integer.parseInt(mes[1]);
-										long hostTime = Long.parseLong(mes[2]);
-										if(hostRound==myRound && myRound!=1 && Math.abs(hostTime-myTime)>(0.005*1e9)){
-											//Clock desynchro, resynchro if ! host
-											System.out.println("151 : multireceiver : clock origin wrong");
-											if(hostTime<myTime){
-												this.g.timeToSleep = myTime-hostTime;
-												System.out.println("Will go to sleep");
-											}
-								
-										}
-										i++;
-									}
-								}
-							}
-							
-							else if(msg.substring(1, 2).equals("K")){
-								String[] mes = msg.substring(1).split("\\|");
-								System.out.println("Restart process to do");
-								this.g.restartProcess = true;
-								this.g.timeRestart = Long.parseLong(mes[1]);
-							}
 						}
 						break;
 					default:
 					}
 				}
 			}
-
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {

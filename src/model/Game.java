@@ -302,48 +302,12 @@ public class Game extends BasicGame
 		} else {
 			//Update of current round
 			this.clock.setRoundFromTime();
-			long timeOfRound = this.clock.getCurrentTime();
-
-
+			
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 
-				if(this.timeToSleep>0){
-					System.out.println("312 Game : Go to sleep for  "+ (int) (this.timeToSleep/1000000));
-					gc.sleep((int) (this.timeToSleep/1000000));
-					this.timeToSleep = 0;
-				}
-
-				//Everyone send time of round
-				this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
-				if(this.clockSynchro.size()>5){
-					this.clockSynchro.remove(0);
-				}
-
-				//Play only if restart process ok, else give up on update
-				if(restartProcess){
-					//Calculate time of round
-
-					if(this.clock.getCurrentTime()>this.timeRestart){
-						this.restartProcess = false;
-						this.timeRestart =0;
-						this.round = 1;
-						this.checksum.clear();
-						this.dropped.clear();
-					}
-					else{
-						ims = this.inputsHandler.getInputsForRound(this.round);
-
-						if(ims.size()==0){
-							this.dropped.addElement(this.round);
-						}
-						this.plateau.update(ims);
-						this.plateau.updatePlateauState();
-						return;
-					}
-				}
-				//Checksum for testing synchro
-				if( this.round>=30 && !this.processSynchro){
+				//CHECKSUM
+				if(this.round>=30 && !this.processSynchro){
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -373,7 +337,7 @@ public class Game extends BasicGame
 					}
 				}
 
-				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
+				//RESYNCH
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
 					System.out.println("Sent synchro message");
@@ -382,8 +346,6 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 
-
-				//RESYNCHRO
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
@@ -397,7 +359,8 @@ public class Game extends BasicGame
 
 					}
 				}
-				//Tour normal
+				
+				//UPDATE IF NOT RESYNCH
 				else{
 					// On envoie l'input du tour courant
 					this.sendInputToAllPlayer(im.toString());
@@ -410,22 +373,6 @@ public class Game extends BasicGame
 					}
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
-				}
-
-				//Handle clock desynchronisation
-				if(this.dropped.size()>3){
-					this.dropped.remove(0);
-					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
-						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
-
-							//Send restart process 
-							this.restartProcess = true;
-							this.timeRestart = this.clock.getCurrentTime()+(long)(0.5*1e9);
-							//this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
-
-							this.sendInputToAllPlayer(clockSynchro.lastElement());
-						}
-					}
 				}
 
 				if(debugTimeSteps)
