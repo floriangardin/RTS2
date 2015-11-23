@@ -69,13 +69,13 @@ public class Clock extends Thread{
 		Process p2;
 		long time = this.getCurrentTime();
 		try {
-			p2=Runtime.getRuntime().exec("ping -n 5 "+this.game.addressHost.getHostAddress());
+			p2=Runtime.getRuntime().exec("ping -n 1 "+this.game.addressHost.getHostAddress());
 			p2.waitFor();
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.ping = (this.getCurrentTime()-time)/5;
+		this.ping = (this.getCurrentTime()-time);
 		System.out.println("Clock line 71 :  ping : "+this.ping/1000000);
 		
 	}
