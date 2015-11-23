@@ -149,8 +149,6 @@ public class Game extends BasicGame
 
 	public boolean restartProcess = false;
 	public long timeRestart;
-	public long updateMoyenne  ;
-	public long lastUpdate;
 
 	public void quitMenu(){
 		this.isInMenu = false;
