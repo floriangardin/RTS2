@@ -28,6 +28,7 @@ public class MultiSender extends Thread{
 		this.game = game;
 		try {
 			client = new DatagramSocket();
+			
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,7 +59,7 @@ public class MultiSender extends Thread{
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
-				Thread.sleep((long) 0.001);
+				Thread.sleep(1);
 			}
 		} catch (SocketException e1) {
 			e1.printStackTrace();
