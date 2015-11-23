@@ -111,6 +111,8 @@ public class MultiReceiver extends Thread{
 								String[] mes = msg.substring(1).split("\\|");
 								long time = Long.parseLong(mes[1]);
 								System.out.println("Received confirmation resync");
+								System.out.println(time);
+								System.out.println(this.g.delta);
 								if(time<this.g.delta){
 									this.g.sleep = true;
 									long timeToSleep = (this.g.delta-time)/1000000;
