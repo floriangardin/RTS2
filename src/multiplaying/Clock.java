@@ -78,7 +78,7 @@ public class Clock extends Thread{
 //		this.ping = (this.getCurrentTime()-time);
 //		System.out.println("Clock line 71 :  ping : "+this.ping/1000000);
 		
-		this.ping = 8000000;
+		this.ping = 0000000;
 		
 	}
 	
