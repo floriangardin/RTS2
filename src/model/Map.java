@@ -2,6 +2,8 @@ package model;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Image;
+
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
 import buildings.BuildingHeadQuarters;
@@ -17,6 +19,7 @@ import units.UnitsList;
 
 public class Map {
 
+	
 	public Map(){
 
 	}
@@ -28,7 +31,7 @@ public class Map {
 		maps.add("large duel");
 		maps.add("microgestion");
 		maps.add("duel very small");
-		maps.add("cross spearman");
+		maps.add("The Island");
 		return maps;
 	}
 	
@@ -52,13 +55,13 @@ public class Map {
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
 		case "duel very small": createMapDuelVerySmall(game);break;
-		case "cross spearman": createMapCrossSpearman(game);break;
+		case "The Island": createMapTheIsland(game);break;
 		}
 	}
 
 	
 
-	private static void createMapCrossSpearman(Game game) {
+	private static void createMapTheIsland(Game game) {
 		game.plateau.setMaxXMaxY(1400f, 1200f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
@@ -113,9 +116,7 @@ public class Map {
 		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,4f*game.plateau.maxY/5);
 		
 		// CENTER
-		// Water
-		new Water(175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
-		new Water(game.plateau.maxX-175f,3.0f*game.plateau.maxY/6,350f,800f,game.plateau);
+		
 		// Stables and academy 
 		new BuildingStable(game.plateau,game,game.plateau.maxX/4-60f,2*game.plateau.maxY/6-10f);
 		new BuildingAcademy(game.plateau,game,3*game.plateau.maxX/4+60f,2*game.plateau.maxY/6);
