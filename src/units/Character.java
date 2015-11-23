@@ -996,13 +996,13 @@ public class Character extends ActionObjet{
 			this.state=Float.parseFloat(hs.get("state"));
 		}
 
-		if(hs.containsKey("tx")){
-			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
-		}
-		if(hs.containsKey("tid")){
-			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
-			this.setTarget(target,null);
-		}
+//		if(hs.containsKey("tx")){
+//			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
+//		}
+//		if(hs.containsKey("tid")){
+//			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+//			this.setTarget(target,null);
+//		}
 
 		if(hs.containsKey("x") && hs.containsKey("y")){
 			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
