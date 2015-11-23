@@ -574,7 +574,7 @@ public class Plateau {
 	public Vector<Character> getEnnemiesInSight(BuildingTower caller){
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for(Character o : characters){
-			if(o.getTeam()!=caller.getTeam() && Utils.distance(o, caller)<caller.sight){
+			if(o.getTeam()!=caller.potentialTeam && Utils.distance(o, caller)<caller.sight){
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -880,16 +880,16 @@ public class Plateau {
 		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || (!im.isPressedA && im.yMouse<Ycam+5))&&Ycam>-g.resY/2){
-				Ycam -= 20;
+				Ycam -= 40;
 			}
 			if((im.isPressedDOWN || (!im.isPressedA && im.yMouse>Ycam+g.resY-5)) && Ycam<this.maxY-g.resY/2){
-				Ycam +=20;
+				Ycam +=40;
 			}
 			if((im.isPressedLEFT|| (!im.isPressedA && im.xMouse<Xcam+5)) && Xcam>-g.resX/2 ){
-				Xcam -=20;
+				Xcam -=40;
 			}
 			if((im.isPressedRIGHT || (!im.isPressedA && im.xMouse>Xcam+g.resX-5))&& Xcam<this.maxX-g.resX/2){
-				Xcam += 20;
+				Xcam += 40;
 			}
 			//Displaying the selected group
 			for(int to=0; to<10; to++){

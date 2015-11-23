@@ -28,12 +28,14 @@ public class BuildingTower extends Building{
 		this.p =p;
 		this.g =g;
 		this.setTeam(0);
-		this.lifePoints = 1f;
-		this.damage = 10f;
-		this.maxLifePoints = 100f;
+		this.damage = 20f;
+		this.maxLifePoints = 20f;
+		this.lifePoints = this.maxLifePoints;
+		this.chargeTime = 5f;
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(0,0,sizeX,sizeY);
+		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		this.image = this.p.g.images.tent;
@@ -46,9 +48,9 @@ public class BuildingTower extends Building{
 	}
 
 	public void action(){
-		if(this.canAttack)
+		if(!this.canAttack)
 			this.setCharge(this.charge+0.1f);
-		if(this.charge>this.chargeTime){
+		if(this.charge>this.chargeTime && this.getGameTeam().id!=0){
 			this.canAttack = true;
 			this.charge = 0f;
 
@@ -66,6 +68,7 @@ public class BuildingTower extends Building{
 			if(target!=null && Utils.distance(this, this.target)<this.sight){
 				new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 				this.canAttack= false;
+				this.charge = 0f;
 			}
 		}
 

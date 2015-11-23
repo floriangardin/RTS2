@@ -11,6 +11,7 @@ import model.ActionObjet;
 import model.Changes;
 import model.Checkpoint;
 import model.Plateau;
+import model.Utils;
 import units.Character;
 
 public class Fireball extends Bullet {
@@ -27,7 +28,7 @@ public class Fireball extends Bullet {
 		// Parameters
 		this.altitude = 0f;
 		this.areaEffect = 40f;
-		float Vmax = 120f;
+		float Vmax = 200f;
 		float size = 10f;
 		this.name = "fireball";
 		//
@@ -39,7 +40,7 @@ public class Fireball extends Bullet {
 		else{
 			this.id = id;
 		}
-
+		this.size = 10f;
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
@@ -69,8 +70,8 @@ public class Fireball extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-//		this.sound = p.g.sounds.fireball;
-//		this.sound.play(1f,this.p.g.options.soundVolume);
+		this.sound = p.g.sounds.fireball;
+		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 	
 	public Fireball(){}
@@ -85,7 +86,9 @@ public class Fireball extends Bullet {
 		this.animation+=1;
 		if(this.animation>=9)
 			this.animation = 0;
-		if(this.collisionBox.contains(this.getTarget().collisionBox)){
+		
+		System.out.println(Utils.distance(this, this.target));
+		if(Utils.distance(this, this.target)<this.size){
 			this.explode();
 		}
 	}
