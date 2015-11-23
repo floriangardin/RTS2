@@ -355,7 +355,7 @@ public class Game extends BasicGame
 					
 					
 				}
-				if(this.round==210){
+				if(this.round==220){
 					this.sendInputToAllPlayer("3L|"+this.delta+"|");
 				}
 				
