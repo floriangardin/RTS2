@@ -113,8 +113,9 @@ public class MultiReceiver extends Thread{
 								
 								if(time<this.g.delta){
 									this.g.sleep = true;
-									this.g.delta = (this.g.delta-time)/1000000;
-									System.out.println("Sleep for "+(this.g.delta-time)/1000000);
+									long timeToSleep = (this.g.delta-time)/1000000;
+									this.g.delta = timeToSleep;
+									System.out.println("Sleep for "+(timeToSleep));
 								}
 							}
 							//Checksum
