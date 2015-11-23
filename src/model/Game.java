@@ -423,12 +423,8 @@ public class Game extends BasicGame
 								this.restartProcess = true;
 								this.timeRestart = this.clock.getCurrentTime()+(long)(0.05*1e9);
 								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
-
-
-								this.sendInputToAllPlayer(clockSynchro.lastElement());
-
-								//TODO : send message of resynch
 							}
+							this.sendInputToAllPlayer(clockSynchro.lastElement());
 						}
 					}
 				}
