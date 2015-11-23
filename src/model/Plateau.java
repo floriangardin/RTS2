@@ -1367,8 +1367,6 @@ public class Plateau {
 			c.setTarget(null, null);
 			c.group.clear();
 		}
-
-
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
