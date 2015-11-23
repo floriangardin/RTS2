@@ -23,7 +23,12 @@ public abstract class ActionObjet extends Objet{
 	public boolean toKeep=false;
 	public boolean mouseOver = false;
 	
-	public Sound soundSetTarget;
+	
+	//SOUNDS
+	public Vector<Sound> soundSetTarget;
+	public Vector<Sound> soundAttack;
+	public Sound soundDeath;
+	
 	//CHANGED BOOLEAN
 
 	

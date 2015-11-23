@@ -32,7 +32,11 @@ public class UnitCrossbowman extends Character {
 		this.chargeTime = 10f;
 		this.weapon ="bow";
 		this.animStep = 24f;
-		this.soundSetTarget = this.p.g.sounds.order;
+		
+		this.soundSetTarget = this.p.g.sounds.orderCrossbowman;
+		this.soundAttack = this.p.g.sounds.attackCrossbowman;
+		this.soundDeath = this.p.g.sounds.death;
+		
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.crossbowmanBlue;
 		}

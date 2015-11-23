@@ -147,6 +147,8 @@ public class Character extends ActionObjet{
 		this.attackDuration = c.attackDuration;
 		this.animationAttack = c.animationAttack;
 		this.soundSetTarget = c.soundSetTarget;
+		this.soundAttack = c.soundAttack;
+		this.soundDeath = c.soundDeath;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Vector;
+
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -13,7 +15,10 @@ public class Sounds {
 	public Sound death;
 	public Sound buzz;
 	public Sound bonus;
-	public Sound order;
+	public Vector<Sound> orderSpearman;
+	public Vector<Sound> attackSpearman;
+	public Vector<Sound> orderCrossbowman;
+	public Vector<Sound> attackCrossbowman;
 	//public Sound lackRessources;
 	
 	// menu
@@ -31,7 +36,19 @@ public class Sounds {
 			menuItemSelected = new Sound("music/menuItemSelected.ogg");
 			buzz = new Sound("music/menuItemSelected.ogg");
 			bonus = new Sound("music/bonusound.ogg");
-			order = new Sound("music/yes.ogg");
+			
+			orderSpearman = new Vector<Sound>();
+			attackSpearman = new Vector<Sound>();
+			
+			orderSpearman.add(new Sound("music/yes.ogg"));
+			attackSpearman.add(new Sound("music/yes.ogg"));
+			
+			
+			orderCrossbowman = new Vector<Sound>();
+			attackCrossbowman = new Vector<Sound>();
+			
+			orderCrossbowman.add(new Sound("music/hello.ogg"));
+			attackCrossbowman.add(new Sound("music/hello.ogg"));
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block

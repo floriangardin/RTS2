@@ -4,13 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
-import model.Objet;
-import bullets.Bullet;
+import org.newdawn.slick.Sound;
+
 import units.Character;
 
 // Class for static methods
@@ -24,7 +25,15 @@ public class Utils {
 
 	}
 
-	
+	public static Sound getRandomSound (Vector<Sound> v) {
+		if(v.size()==1){
+			return v.get(0);
+		}
+		Random generator = new Random();
+		int rnd = generator.nextInt(v.size() - 1);
+		return v.get(rnd); // Cast the vector value into a String object
+	}
+
 	public static float distance(Objet a ,Objet b){
 		if(a== null || b == null){
 			return -1f;
@@ -32,7 +41,7 @@ public class Utils {
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
 
 	}
-	
+
 	public static float distance(Objet a ,float x , float y){
 		return (float) Math.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
 
@@ -177,9 +186,9 @@ public class Utils {
 		}
 
 	}
-	
-	
-	
+
+
+
 	public static void triId(Vector<Character> liste){
 		if(liste.size()<=1)
 			return;
@@ -237,27 +246,27 @@ public class Utils {
 		}
 		System.out.println("currentplayer: " + p.currentPlayer);
 		System.out.println();System.out.println("========================================");
-//		System.out.println();
-//		System.out.println("** Characters");
-//		if(p.characters==null)
-//			System.out.println("-> bug: characters est null");
-//		else{
-//			for(Character c:p.characters)
-//				if(c.target!=null)
-//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
-//				else
-//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-//		}
-//		System.out.println();
-//		System.out.println("========================================");
-//		System.out.println();
-//		System.out.println("** Bullets");
-//		if(p.bullets==null)
-//			System.out.println("-> bug: bullets est null");
-//		else{
-//			for(Bullet c:p.bullets)
-//				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-//		}
+		//		System.out.println();
+		//		System.out.println("** Characters");
+		//		if(p.characters==null)
+		//			System.out.println("-> bug: characters est null");
+		//		else{
+		//			for(Character c:p.characters)
+		//				if(c.target!=null)
+		//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
+		//				else
+		//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+		//		}
+		//		System.out.println();
+		//		System.out.println("========================================");
+		//		System.out.println();
+		//		System.out.println("** Bullets");
+		//		if(p.bullets==null)
+		//			System.out.println("-> bug: bullets est null");
+		//		else{
+		//			for(Bullet c:p.bullets)
+		//				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+		//		}
 		System.out.println();
 		//		System.out.println();
 		//		System.out.println("** Spells");

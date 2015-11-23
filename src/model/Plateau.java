@@ -76,7 +76,7 @@ public class Plateau {
 	public Vector<Building> toRemoveBuildings;
 
 	public Vector<Bonus> bonus;
-	
+
 	public Vector<NaturalObjet> naturalObjets ;
 	public Vector<NaturalObjet> toAddNaturalObjets;
 	public Vector<NaturalObjet> toRemoveNaturalObjets;
@@ -142,10 +142,10 @@ public class Plateau {
 		this.spells = new Vector<SpellEffect>();
 		this.toAddSpells = new Vector<SpellEffect>();
 		this.toRemoveSpells= new Vector<SpellEffect>();
-		
+
 		//BONUS 
 		this.bonus = new Vector<Bonus>();
-		
+
 		//ENEMYGENERATOR
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
@@ -308,7 +308,7 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
-				this.g.sounds.death.play(0.8f+1f*((float)Math.random()),this.g.options.soundVolume);
+				this.g.sounds.death.play(1f,this.g.options.soundVolume);
 			}
 		}
 		for(Bullet o : bullets){
@@ -424,13 +424,13 @@ public class Plateau {
 					}
 				}
 			}
-			
+
 			//Between bonus and characters 
 			for(Bonus b : this.bonus){
 				if(Utils.distance(b, o)<b.size){
 					b.collision(o);
 				}
-				
+
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
@@ -474,8 +474,8 @@ public class Plateau {
 					b.collision(c);
 			}
 		}
-		
-		
+
+
 
 	}
 
@@ -509,8 +509,13 @@ public class Plateau {
 		for(ActionObjet c:this.selection.get(team)){
 			if(c instanceof Character){
 				Character o = (Character) c;
-				if(i==0 && c.soundSetTarget!=null){
-					c.soundSetTarget.play(1f, this.g.options.soundVolume);
+				if(i==0 && c.soundSetTarget!=null && c.soundSetTarget.size()>0 && Math.random()>0.3){
+					if(target instanceof Character && c.getTeam()!=target.getTeam()){
+						Utils.getRandomSound(c.soundAttack).play(1f, this.g.options.soundVolume);
+					}
+					else{
+						Utils.getRandomSound(c.soundSetTarget).play(1f, this.g.options.soundVolume);
+					}
 				}
 				i++;
 				//first we deal with o's elder group
@@ -574,8 +579,8 @@ public class Plateau {
 		}
 		return ennemies_in_sight;
 	}
-	
-	
+
+
 	public Vector<Character> getEnnemiesInSight(BuildingTower caller){
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for(Character o : characters){
@@ -1166,7 +1171,7 @@ public class Plateau {
 	//MULTIPLAYING
 	public String toStringArray(){
 
-		
+
 		int id_charac = 0;
 		String s = "3P!";
 		//IDS
@@ -1357,13 +1362,13 @@ public class Plateau {
 
 	public void parseCharacter(String s){
 		//SPLIT SELON |
-		
+
 		for(Character c : this.characters){
 			c.setTarget(null, null);
 			c.group.clear();
 		}
-		
-		
+
+
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
@@ -1372,16 +1377,16 @@ public class Plateau {
 			finish--;
 		}
 
-//		//Clear all characters 
-//		while(this.characters.size()>0){
-//			Character toErase = this.characters.get(0);
-//			toErase.lifePoints = -1f;
-//			toErase.destroy();
-//			this.removeCharacter(toErase);
-//			this.characters.remove(toErase);
-//		}
-		
-//		this.characters.clear();
+		//		//Clear all characters 
+		//		while(this.characters.size()>0){
+		//			Character toErase = this.characters.get(0);
+		//			toErase.lifePoints = -1f;
+		//			toErase.destroy();
+		//			this.removeCharacter(toErase);
+		//			this.characters.remove(toErase);
+		//		}
+
+		//		this.characters.clear();
 
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
@@ -1391,7 +1396,7 @@ public class Plateau {
 			if(cha == null){
 				cha = Character.createNewCharacter(hs, g);
 				System.out.println("Create new character");
-				
+
 			}
 			if(cha!=null){
 				cha.parse(hs);
@@ -1399,9 +1404,9 @@ public class Plateau {
 			}
 		}
 
-		
+
 		//Erase characters who didn't give any news
-		
+
 		for(Character c : this.characters){
 			if(!c.toKeep){
 				System.out.println("Destroyed " + c.id);
@@ -1410,7 +1415,7 @@ public class Plateau {
 		}
 		//Clean plateau
 		this.clean();
-		
+
 	}
 
 	public void parseBullet(String s){
