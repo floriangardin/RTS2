@@ -354,7 +354,7 @@ public class Game extends BasicGame
 					System.out.println("Resync");
 					this.delta = this.clock.getCurrentTime();	
 				}
-				if(this.round==210){
+				if(this.round==202){
 					this.sendInputToAllPlayer("3L|"+this.delta+"|");
 				}
 				
