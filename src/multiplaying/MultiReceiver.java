@@ -145,7 +145,7 @@ public class MultiReceiver extends Thread{
 										long myTime = Long.parseLong(checksum[2]);
 										int hostRound = Integer.parseInt(mes[1]);
 										long hostTime = Long.parseLong(mes[2]);
-										if(hostRound==myRound && Math.abs(hostTime-myTime)>(0.005*1e9)){
+										if(hostRound==myRound && myRound!=1 && Math.abs(hostTime-myTime)>(0.005*1e9)){
 											//Clock desynchro, resynchro if ! host
 											if(!this.g.host){
 												System.out.println("151 : multireceiver : clock origin wrong");
