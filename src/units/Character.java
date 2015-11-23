@@ -977,9 +977,9 @@ public class Character extends ActionObjet{
 		s+="y:"+(int)y+";";
 		s+="lp:"+lifePoints+";";
 		s+="st:"+this.state+";";
-		s+="as:"+this.attackState;
+		s+="as:"+this.attackState+";";
 		if(this.isAttacking){
-			s+="ia: ";
+			s+="ia: ;";
 		}
 		
 		if(this.target!=null){
