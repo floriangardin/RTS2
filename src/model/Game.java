@@ -395,7 +395,7 @@ public class Game extends BasicGame
 				}
 
 				//Handle clock desynchronisation
-				if(this.dropped.size()>7 && this.round>30){
+				if(this.dropped.size()>3){
 					this.dropped.remove(0);
 					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
 						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
