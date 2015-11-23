@@ -147,16 +147,12 @@ public class MultiReceiver extends Thread{
 										long hostTime = Long.parseLong(mes[2]);
 										if(hostRound==myRound && myRound!=1 && Math.abs(hostTime-myTime)>(0.005*1e9)){
 											//Clock desynchro, resynchro if ! host
-											
+											System.out.println("151 : multireceiver : clock origin wrong");
 											if(hostTime<myTime){
 												this.g.timeToSleep = myTime-hostTime;
+												System.out.println("Will go to sleep");
 											}
-											if(!this.g.host){
-												System.out.println("151 : multireceiver : clock origin wrong");
-												//this.g.clock.originTime-=(long)1e6;
-												//this.g.clock.getPing();
-												//this.g.clock.synchro(hostTime);
-											}
+								
 										}
 										i++;
 									}

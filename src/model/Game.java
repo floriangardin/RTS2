@@ -330,7 +330,6 @@ public class Game extends BasicGame
 						this.round = 1;
 						this.checksum.clear();
 						this.dropped.clear();
-						this.clockSynchro.clear();
 					}
 					else{
 						ims = this.inputsHandler.getInputsForRound(this.round);
