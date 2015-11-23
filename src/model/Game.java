@@ -394,7 +394,7 @@ public class Game extends BasicGame
 							if(host){
 								//Send restart process 
 								this.restartProcess = true;
-								this.timeRestart = this.clock.getCurrentTime()+(long)1e9;
+								this.timeRestart = this.clock.getCurrentTime()+(long)(0.1*1e9);
 								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
 								//TODO : send message of resynch
 							}
