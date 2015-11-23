@@ -302,16 +302,16 @@ public class Game extends BasicGame
 			//Update of current round
 			this.clock.setRoundFromTime();
 			long timeOfRound = this.clock.getCurrentTime();
-			if(!host){
-				this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
-				if(this.clockSynchro.size()>10){
-					this.clockSynchro.remove(0);
-				}
-			}
+			
 
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
-
+				if(!host){
+					this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
+					if(this.clockSynchro.size()>10){
+						this.clockSynchro.remove(0);
+					}
+				}
 				//Play only if restart process ok, else give up on update
 				if(restartProcess){
 					//Calculate time of round
