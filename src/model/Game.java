@@ -349,7 +349,7 @@ public class Game extends BasicGame
 				}
 
 				//CLOCK SYNCHRO 
-				if(this.round%200==0){
+				if(this.round==200){
 					System.out.println("Resync");
 					this.delta = this.clock.getCurrentTime();
 					this.sendInputToAllPlayer("3L|"+this.delta+"|");
