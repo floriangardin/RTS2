@@ -106,6 +106,16 @@ public class MultiReceiver extends Thread{
 								// Ressources partag� le vecteur d'inputs de la mailbox..
 								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 							}
+							
+							else if(msg.substring(1,2).equals("L")){
+								String[] mes = msg.substring(1).split("\\|");
+								long time = Long.parseLong(mes[1]);
+								
+								if(time<this.g.delta){
+									this.g.sleep = true;
+									this.g.delta = (this.g.delta-time)/1000000;
+								}
+							}
 							//Checksum
 							else if(msg.substring(1, 2).equals("C")){
 								//Theoriquement je n'en re�ois que si je suis host ( � deux joueurs )

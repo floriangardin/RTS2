@@ -149,6 +149,9 @@ public class Game extends BasicGame
 
 	public boolean restartProcess = false;
 	public long timeRestart;
+	public long delta;
+	public boolean sleep;
+	
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -338,6 +341,25 @@ public class Game extends BasicGame
 					}
 				}
 
+				//CLOCK SYNCHRO 
+				if(this.round%200==0){
+					System.out.println("Resync");
+					this.delta = this.clock.getCurrentTime();
+					this.sendInputToAllPlayer("3L|"+this.delta+"|");
+					
+				}
+				
+				if(this.sleep){
+					
+					gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +(int)delta);
+					gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +(int)delta);
+					this.sleep= false;
+				}
+				else{
+					gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
+					gc.setMaximumLogicUpdateInterval((1000/Main.framerate));
+				}
+				
 				//RESYNCH
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
