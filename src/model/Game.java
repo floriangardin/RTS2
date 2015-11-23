@@ -172,34 +172,34 @@ public class Game extends BasicGame
 		//Draw background
 		g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
 				2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
-		
-	
+
+
 		if(isInMenu){
 			this.menuCurrent.draw(g);
 			return;
 		} 
-		
-		
+
+
 		g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
 				0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
-		
-//		int i = 0;
-//		int j = 0;
-//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
-//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
-//				g.drawImage(this.images.grassTexture, i,j);
-//				j+=this.images.grassTexture.getHeight();
-//			}
-//			i+=this.images.grassTexture.getWidth();
-//			j= 0;
-//		}
 
-//		g.setColor(Color.black);
-//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
-//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
+		//		int i = 0;
+		//		int j = 0;
+		//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
+		//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
+		//				g.drawImage(this.images.grassTexture, i,j);
+		//				j+=this.images.grassTexture.getHeight();
+		//			}
+		//			i+=this.images.grassTexture.getWidth();
+		//			j= 0;
+		//		}
 
-//		g.drawImage(this.images.background,this.plateau.maxX, 0);
-//		g.drawImage(this.images.background,0, this.plateau.maxY);
+		//		g.setColor(Color.black);
+		//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
+		//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
+
+		//		g.drawImage(this.images.background,this.plateau.maxX, 0);
+		//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
 		// Draw the selection of your team 
 		for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
@@ -281,11 +281,11 @@ public class Game extends BasicGame
 
 		if(processSynchro){
 			g.setColor(Color.green);
-			g.drawRect(10f,10f,10f,10f);
+			g.fillRect(10f,10f,10f,10f);
 		}
 		if(restartProcess){
 			g.setColor(Color.red);
-			g.drawRect(20f,10f,10f,10f);
+			g.fillRect(20f,10f,10f,10f);
 		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
@@ -307,13 +307,18 @@ public class Game extends BasicGame
 
 				//Play only if restart process ok, else give up on update
 				if(restartProcess){
-					
+					//Calculate time of round
+					this.clockSynchro.addElement("3H|"+this.round+"|"+this.clock.getCurrentTime()+"|");
+					if(host){
+						this.sendInputToAllPlayer(clockSynchro.lastElement());
+					}
 					if(this.clock.getCurrentTime()>this.timeRestart){
 						this.restartProcess = false;
 						this.timeRestart =0;
 						this.round = 1;
 						this.checksum.clear();
 						this.dropped.clear();
+						this.clockSynchro.clear();
 					}
 					else{
 						return;
@@ -358,12 +363,7 @@ public class Game extends BasicGame
 					this.sendParse = false;
 					this.sendInputToAllPlayer(this.toParse);
 				}
-				////				
-				////
-				//				if(this.round%200 == 0){
-				//					this.plateau.characters.get(0).destroy();
-				//				}
-				// On ajoute l'input du tour courant � l'inputhandler				
+
 
 				//RESYNCHRO
 				if(processSynchro && this.toParse!=null){
