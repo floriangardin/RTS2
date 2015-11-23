@@ -325,6 +325,13 @@ public class Game extends BasicGame
 						this.clockSynchro.clear();
 					}
 					else{
+						ims = this.inputsHandler.getInputsForRound(this.round);
+
+						if(ims.size()==0){
+							this.dropped.addElement(this.round);
+						}
+						this.plateau.update(ims);
+						this.plateau.updatePlateauState();
 						return;
 					}
 				}
