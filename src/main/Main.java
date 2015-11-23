@@ -27,7 +27,7 @@ public class Main {
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
 //			app.setDisplayMode(resolutionX, resolutionY,true);
-			//app.setShowFPS(true);
+			app.setShowFPS(false);
 			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setAlwaysRender(false);
 			app.setClearEachFrame(true);
