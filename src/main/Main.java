@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException;
 import model.Game;
 
 public class Main {
-	public static int framerate = 60;
+	public static int framerate = 30;
 	public static float increment = 0.1f*30/Main.framerate;
 	
 	public static void main(String[] args) {
@@ -32,8 +32,8 @@ public class Main {
 			//app.setTargetFrameRate(Main.framerate);
 			app.setVSync(false);
 			//app.setSmoothDeltas(true);
-			app.setMinimumLogicUpdateInterval(32);
-			app.setMaximumLogicUpdateInterval(32);
+			app.setMinimumLogicUpdateInterval(1/framerate);
+			app.setMaximumLogicUpdateInterval(1/framerate);
 			//app.setMaximumLogicUpdateInterval(20);
 			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
