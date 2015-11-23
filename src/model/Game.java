@@ -355,7 +355,7 @@ public class Game extends BasicGame
 					this.delta = this.clock.getCurrentTime();	
 				}
 				if(this.round%200==2){
-					this.sendInputToAllPlayer("3L|"+this.delta+"|");
+					this.sendInputToAllPlayer("3L|"+this.delta+"|"+this.round);
 				}
 				
 				if(this.sleep){
