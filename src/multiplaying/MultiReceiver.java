@@ -118,6 +118,9 @@ public class MultiReceiver extends Thread{
 								if(this.g.round-round<-1){
 									this.g.round++;
 								}
+								if(this.g.round-round>1){
+									this.g.round--;
+								}
 								if(time<this.g.delta){
 									this.g.sleep = true;
 									long timeToSleep = (this.g.delta-time)/1000000;
