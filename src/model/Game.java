@@ -285,7 +285,7 @@ public class Game extends BasicGame
 			g.fillRect(10f,10f,10f,10f);
 		}
 		g.drawString(Integer.toString(this.round), 20f, 10f);
-		g.drawString(Long.toString((long) (this.clock.getCurrentTime()/this.round/1000000)), 20f, 10f);
+		g.drawString(Long.toString((long) (this.clock.getCurrentTime()/this.round/1000000)), 60f, 10f);
 		if(restartProcess){
 			g.setColor(Color.red);
 			g.fillRect(20f,10f,10f,10f);
