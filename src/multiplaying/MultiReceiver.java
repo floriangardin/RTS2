@@ -107,7 +107,7 @@ public class MultiReceiver extends Thread{
 							}
 							//Checksum
 							else if(msg.substring(1, 2).equals("C")){
-								//Theoriquement je n'en reçois que si je suis host ( à deux joueurs )
+								//Theoriquement je n'en reï¿½ois que si je suis host ( ï¿½ deux joueurs )
 								String[] mes = msg.substring(1).split("\\|");
 								if(this.g.checksum.size()==0){
 									System.out.println("Je suis en retard sur l'autre ! ");
