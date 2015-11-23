@@ -279,6 +279,14 @@ public class Game extends BasicGame
 			}
 		}
 
+		if(processSynchro){
+			g.setColor(Color.green);
+			g.drawRect(10f,10f,10f,10f);
+		}
+		if(restartProcess){
+			g.setColor(Color.red);
+			g.drawRect(20f,10f,10f,10f);
+		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 	}
