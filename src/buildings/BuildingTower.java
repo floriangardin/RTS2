@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
@@ -49,7 +50,7 @@ public class BuildingTower extends Building{
 
 	public void action(){
 		if(!this.canAttack)
-			this.setCharge(this.charge+0.1f);
+			this.setCharge(this.charge+Main.increment);
 		if(this.charge>this.chargeTime && this.getGameTeam().id!=0){
 			this.canAttack = true;
 			this.charge = 0f;

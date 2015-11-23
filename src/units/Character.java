@@ -4,6 +4,7 @@ package units;
 import java.util.HashMap;
 import java.util.Vector;
 
+import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
@@ -905,9 +906,9 @@ public class Character extends ActionObjet{
 	public void updateChargeTime(){
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
 		if(!isAttacking && this.state<=this.chargeTime)
-			this.state+= 0.1f*Game.ratio;
+			this.state+= Main.increment;
 		if(isAttacking && this.attackState<=this.attackDuration)
-			this.attackState+= 0.1f*Game.ratio;
+			this.attackState+= Main.increment;
 
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
@@ -1133,7 +1134,6 @@ public class Character extends ActionObjet{
 		}
 
 		return c;
-
 	}
 
 }

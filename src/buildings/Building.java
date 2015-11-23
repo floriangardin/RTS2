@@ -2,17 +2,19 @@ package buildings;
 
 import java.util.HashMap;
 
+import main.Main;
+import model.ActionObjet;
+import model.Checkpoint;
+import model.Game;
+import model.Objet;
+import model.Plateau;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
-import model.ActionObjet;
-import model.Checkpoint;
-import model.Game;
-import model.Objet;
-import model.Plateau;
 import technologies.Technologie;
 import units.Character;
 
@@ -69,10 +71,10 @@ public class Building extends ActionObjet{
 				this.potentialTeam = c.getTeam();
 				this.hq = this.getGameTeam().hq;
 			}
-			this.constructionPoints-=0.1f;
+			this.constructionPoints-=Main.increment;
 		}
 		else if(this.constructionPoints<this.maxLifePoints){
-			this.constructionPoints+=0.1f;
+			this.constructionPoints+=Main.increment;
 		}
 		else{
 			if(this.potentialTeam!=this.getTeam()){

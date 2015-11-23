@@ -29,7 +29,7 @@ public class UnitCrossbowman extends Character {
 		this.maxVelocity = 130f;
 		this.armor = 2f;
 		this.damage = 5f*data.damageFactor;
-		this.chargeTime = 10f;
+		this.chargeTime = 5f;
 		this.weapon ="bow";
 		this.animStep = 24f;
 		
