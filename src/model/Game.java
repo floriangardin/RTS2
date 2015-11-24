@@ -320,7 +320,7 @@ public class Game extends BasicGame
 		
 		g.drawString(sb.toString(), 20f, 40f);
 		
-		g.drawString(Integer.toString((int )(this.ping/1000000)), 20f, 60f);
+		g.drawString(Float.toString((float )(this.ping/1000000)), 20f, 60f);
 	
 	}
 	// Do our logic 
