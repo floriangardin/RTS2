@@ -1,7 +1,20 @@
 package model;
 import java.net.InetAddress;
+import java.text.NumberFormat;
 import java.util.Timer;
 import java.util.Vector;
+
+import main.Main;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
+import multiplaying.Clock;
+import multiplaying.InputHandler;
+import multiplaying.InputObject;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiSender;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -15,22 +28,11 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
+import spells.SpellEffect;
+import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
-import main.Main;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.Clock;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
-import spells.SpellEffect;
-import units.Character;
 
 public class Game extends BasicGame 
 {	
@@ -299,6 +301,24 @@ public class Game extends BasicGame
 		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
+		
+		
+		Runtime runtime = Runtime.getRuntime();
+
+		NumberFormat format = NumberFormat.getInstance();
+
+		StringBuilder sb = new StringBuilder();
+		long maxMemory = runtime.maxMemory();
+		long allocatedMemory = runtime.totalMemory();
+		long freeMemory = runtime.freeMemory();
+
+		sb.append("free memory: " + format.format(freeMemory / 1024) + "<br/>");
+		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
+		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
+		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
+		
+		g.drawString(sb.toString(), 20f, 40f);
+	
 	}
 	// Do our logic 
 	@Override
