@@ -119,7 +119,7 @@ public class MultiReceiver extends Thread{
 								//Si on reçoit notre message, calcul du ping
 								if(id==this.g.plateau.currentPlayer.id){
 									System.out.println("Jvais afficher mon ping");
-									int time = Integer.parseInt(valMessage[1]);
+									long time =Long.parseLong(valMessage[1]);
 									this.g.ping = this.g.clock.getCurrentTime()-time;
 								}
 								//Sinon on le renvoie au destinataire
