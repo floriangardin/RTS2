@@ -104,8 +104,8 @@ public class Game extends BasicGame
 	public boolean host = false;
 	public long startTime;
 	public int portConnexion = 6113;
-	public int portInput = 26464;
-	public int portOutput = 26467;
+	public int portInput = 8888;
+	public int portOutput = 8889;
 	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
