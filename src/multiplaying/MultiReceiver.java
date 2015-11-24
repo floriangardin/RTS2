@@ -110,7 +110,7 @@ public class MultiReceiver extends Thread{
 							else if(msg.substring(1, 2).equals("M")){
 								//Get the corresponding round and player
 								String rawInput = msg.substring(1);
-
+								System.out.println("Ping !");
 								if(Game.debugValidation){
 									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
 								}
@@ -123,6 +123,7 @@ public class MultiReceiver extends Thread{
 								}
 								//Sinon on le renvoie au destinataire
 								else{
+									
 									this.g.sendInputToAllPlayer(msg);
 								}
 
