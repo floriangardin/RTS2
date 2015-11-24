@@ -107,6 +107,27 @@ public class MultiReceiver extends Thread{
 								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 							}
 							
+							else if(msg.substring(1, 2).equals("M")){
+								//Get the corresponding round and player
+								String rawInput = msg.substring(1);
+
+								if(Game.debugValidation){
+									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
+								}
+								String[] valMessage = rawInput.split("\\|");
+								int id = Integer.parseInt(valMessage[2]);
+								//Si on reçoit notre message, calcul du ping
+								if(id==this.g.plateau.currentPlayer.id){
+									int time = Integer.parseInt(valMessage[1]);
+									this.g.ping = this.g.clock.getCurrentTime()-time;
+								}
+								//Sinon on le renvoie au destinataire
+								else{
+									this.g.sendInputToAllPlayer(msg);
+								}
+
+							}
+							
 							else if(msg.substring(1,2).equals("L")){
 								String[] mes = msg.substring(1).split("\\|");
 								long time = Long.parseLong(mes[1]);

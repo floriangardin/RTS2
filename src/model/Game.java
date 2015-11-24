@@ -156,7 +156,7 @@ public class Game extends BasicGame
 	public long delta;
 	public boolean sleep;
 	public int sleepTime;
-	
+	public long ping;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -168,6 +168,7 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
+		
 	}
 
 	@Override
@@ -318,6 +319,8 @@ public class Game extends BasicGame
 		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
 		
 		g.drawString(sb.toString(), 20f, 40f);
+		
+		g.drawString(Integer.toString((int )(this.ping/1000000)), 20f, 60f);
 	
 	}
 	// Do our logic 
@@ -368,7 +371,13 @@ public class Game extends BasicGame
 						this.checksum.remove(0);
 					}
 				}
-
+				
+				//PING REQUEST
+				if(round%30 == 0){
+					this.sendInputToAllPlayer("3M|"+this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
+				}
+				
+				
 				//CLOCK SYNCHRO 
 				if(this.round%200==0){
 					System.out.println("Resync");
