@@ -30,9 +30,9 @@ public class IAMicroFlo extends IAPlayer {
 	
 	static int SPEARMAN=0;
 	static int CROSSBOWMAN=1;
-	static int KNIGHT=2;
-	static int INQUISITOR=3;
-	static int PRIEST=4;
+	static int KNIGHT=0;
+	static int INQUISITOR=0;
+	static int PRIEST=1;
 	static int ARCHANGE=5;
 
 	//GROUP OF BUILDING
@@ -49,6 +49,11 @@ public class IAMicroFlo extends IAPlayer {
 	
 	//OBJECTIVE ATTRIBUTE
 	Objet currentObjective ;
+	int productionBarrack;
+	int productionStable ;
+	int productionHQ;
+	int productionAcademy;
+	
 	Building toControl;
 	Building toProtect;
 
@@ -176,6 +181,15 @@ public class IAMicroFlo extends IAPlayer {
 				this.action = this.strategy.getNextAction();
 			}
 			break;
+		case Strategy.MAKE_SPEARMAN:
+				this.productionBarrack = SPEARMAN;
+				this.action = this.strategy.getNextAction();
+			break;
+		case Strategy.MAKE_CROSSBOWMAN:
+				this.productionBarrack = CROSSBOWMAN;
+				this.action = this.strategy.getNextAction();
+			
+			break;
 		default:
 			break;
 
@@ -221,14 +235,14 @@ public class IAMicroFlo extends IAPlayer {
 
 	private void handleBarrack(Vector<Character> ennemies, Vector<Building> barrack) {
 		if(barrack.size()>0){
-			if(action==Strategy.MAKE_SPEARMAN){
+			if(productionBarrack==SPEARMAN){
 				for(Building b : barrack){
 					if(getFood()>= UnitsList.Spearman.foodPrice && getGold()>= UnitsList.Spearman.goldPrice && getSpecial()>= UnitsList.Spearman.specialPrice ){
 						((BuildingBarrack) b).product(BuildingBarrack.SPEARMAN);
 					}
 				}
 			}
-			else if(action==Strategy.MAKE_CROSSBOWMAN){
+			else if(productionBarrack==CROSSBOWMAN){
 				for(Building b : barrack){
 					if(getFood()>= UnitsList.Crossbowman.foodPrice && getGold()>= UnitsList.Crossbowman.goldPrice && getSpecial()>= UnitsList.Crossbowman.specialPrice ){
 						((BuildingBarrack) b).product(BuildingBarrack.CROSSBOWMAN);
