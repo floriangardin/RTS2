@@ -31,7 +31,9 @@ public class Building extends ActionObjet{
 	public Image imageNeutre;
 	public float charge;
 	public boolean isProducing;
-
+	
+	public boolean underAttack;
+	public float underAttackRemaining=0;
 
 	public Building(){}
 
@@ -67,6 +69,9 @@ public class Building extends ActionObjet{
 			return;
 		}
 		if(this.potentialTeam!=c.getTeam()){
+			this.underAttack = true;
+			this.underAttackRemaining =20f;
+			
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
 				this.hq = this.getGameTeam().hq;

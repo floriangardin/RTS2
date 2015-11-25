@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.Sound;
 
+import model.Objet;
 import units.Character;
 
 // Class for static methods
@@ -52,7 +53,7 @@ public class Utils {
 
 	}
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
-		float ref_dist = 100000f;
+		float ref_dist = 10000000000f;
 		Objet closest = null;
 		for(Objet o : close){
 			float dist = Utils.distance_2(o,caller);
@@ -64,6 +65,21 @@ public class Utils {
 		return closest;
 
 	}
+	
+	public static Character nearestObject(Vector<Character> close, Character caller){
+		float ref_dist = 1000000000f;
+		Character closest = null;
+		for(Character o : close){
+			float dist = Utils.distance_2(o,caller);
+			if(dist < ref_dist){
+				ref_dist = dist;
+				closest = o;
+			}
+		}
+		return closest;
+
+	}
+
 
 	public static Image mergeImages(Image a, Image b){
 		if(b==null)

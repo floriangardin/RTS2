@@ -1,6 +1,5 @@
 package model;
 import java.net.InetAddress;
-import java.text.NumberFormat;
 import java.util.Timer;
 import java.util.Vector;
 
@@ -23,6 +22,7 @@ import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -54,7 +54,7 @@ public class Game extends BasicGame
 	public int idPaquetTreated = 0;
 
 	public int deltaTime;
-	
+
 	//Increment de game
 
 	public static float ratio = 60f/((float)Main.framerate);
@@ -150,14 +150,17 @@ public class Game extends BasicGame
 	public Vector<Integer> dropped = new Vector<Integer>();
 	public boolean updateDropped= false;
 	public boolean clockResynchro = false;
-
 	public boolean restartProcess = false;
-	public long timeRestart;
+	
+	
 	public long delta;
-	public boolean sleep;
-	public int sleepTime;
 	public long ping;
-
+	
+	//VAut + ou - 1 (pour resynchro à la main)
+	public int sleep;
+	public int sleepTime;
+	public int roundDelay;
+	
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -168,13 +171,13 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
-		
+
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		
+
 		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
@@ -290,7 +293,7 @@ public class Game extends BasicGame
 		}
 
 		//DEBUG
-		
+
 		g.drawString(Integer.toString(deltaTime), 60f,10f);
 		if(processSynchro){
 			g.setColor(Color.green);
@@ -302,26 +305,28 @@ public class Game extends BasicGame
 		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
-		
-		
-		Runtime runtime = Runtime.getRuntime();
 
-		NumberFormat format = NumberFormat.getInstance();
 
-		StringBuilder sb = new StringBuilder();
-		long maxMemory = runtime.maxMemory();
-		long allocatedMemory = runtime.totalMemory();
-		long freeMemory = runtime.freeMemory();
+		//		Runtime runtime = Runtime.getRuntime();
+		//
+		//		NumberFormat format = NumberFormat.getInstance();
+		//
+		//		StringBuilder sb = new StringBuilder();
+		//		long maxMemory = runtime.maxMemory();
+		//		long allocatedMemory = runtime.totalMemory();
+		//		long freeMemory = runtime.freeMemory();
+		//
+		//		sb.append("free memory: " + format.format(freeMemory / 1024) + "<br/>");
+		//		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
+		//		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
+		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
+		//		
+		//		g.drawString(sb.toString(), 20f, 40f);
 
-		sb.append("free memory: " + format.format(freeMemory / 1024) + "<br/>");
-		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
-		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
-		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
-		
-		g.drawString(sb.toString(), 20f, 40f);
-		
 		g.drawString(Float.toString((float )(this.ping/1000000)), 20f, 60f);
-	
+		g.drawString(Integer.toString(this.sleep), 80f, 60f);
+		g.drawString(Integer.toString(this.roundDelay), 120f, 60f);
+
 	}
 	// Do our logic 
 	@Override
@@ -338,11 +343,35 @@ public class Game extends BasicGame
 			if(t!=16){
 				System.out.println("Round a trop dure :"+t);
 			}
-			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
+			
+			Input in = gc.getInput();
+			
+			
+			
+			
+			InputObject im = new InputObject(this,plateau.currentPlayer,in);
+			//Handle manual resynchro
+			if(in.isKeyPressed(Input.KEY_O)){
+				this.sleepTime+=1;
+				this.sleep++;
+			}
+			if(in.isKeyPressed(Input.KEY_L)){
+				this.sleepTime-=1;
+				this.sleep--;
+			}
+			if(in.isKeyPressed(Input.KEY_P)){
+				this.round+=1;
+				this.roundDelay++;
+			}
+			if(in.isKeyPressed(Input.KEY_M)){
+				this.round-=1;
+				this.roundDelay--;
+			}
+			
 			if(inMultiplayer){
 
 				//CHECKSUM
-				if(this.round>=30 && !this.processSynchro){
+				if(this.round>=30 && this.round%100==0){
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -357,7 +386,7 @@ public class Game extends BasicGame
 					}
 					checksum+="|";
 
-					if(!this.host && !this.processSynchro){
+					if(!this.host){
 						this.sendInputToAllPlayer(checksum);
 						//Je l'envoie seulement si je suis client
 					}
@@ -371,32 +400,17 @@ public class Game extends BasicGame
 						this.checksum.remove(0);
 					}
 				}
-				
+
 				//PING REQUEST
 				if(round%30 == 0){
 					this.sendInputToAllPlayer("3M|"+this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
 				}
-				
-				
-				//CLOCK SYNCHRO 
-				if(this.round%200==0){
-					System.out.println("Resync");
-					this.delta = this.clock.getCurrentTime();	
-				}
-				if(this.round%200==2){
-					this.sendInputToAllPlayer("3L|"+this.delta+"|"+this.round+"|");
-				}
-				
-				if(this.sleep){
-					gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
-					gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
-					this.sleep= false;
-				}
-				else{
-					gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
-					gc.setMaximumLogicUpdateInterval((1000/Main.framerate));
-				}
-				
+
+				//Update framerate
+				gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
+				gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
+				sleepTime = 0;
+
 				//RESYNCH
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
@@ -410,7 +424,7 @@ public class Game extends BasicGame
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-8)){
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
 						this.toParse = null;

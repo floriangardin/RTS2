@@ -39,7 +39,7 @@ public class MultiReceiver extends Thread{
 				if(g.isInMenu)
 					message = new byte[256];
 				else 
-					message = new byte[1024];
+					message = new byte[16000];
 
 				packet = new DatagramPacket(message, message.length);
 				try{
@@ -118,7 +118,6 @@ public class MultiReceiver extends Thread{
 								int id = Integer.parseInt(valMessage[2]);
 								//Si on reçoit notre message, calcul du ping
 								if(id==this.g.plateau.currentPlayer.id){
-									System.out.println("Jvais afficher mon ping");
 									long time =Long.parseLong(valMessage[1]);
 									this.g.ping = this.g.clock.getCurrentTime()-time;
 								}
@@ -130,27 +129,6 @@ public class MultiReceiver extends Thread{
 
 							}
 							
-							else if(msg.substring(1,2).equals("L")){
-								String[] mes = msg.substring(1).split("\\|");
-								long time = Long.parseLong(mes[1]);
-								int round = Integer.parseInt(mes[2]);
-								System.out.println("Received confirmation resync");
-								System.out.println(time);
-								System.out.println(this.g.delta);
-								System.out.println("Delta round : "+(this.g.round -round));
-//								if(this.g.round-round<-1){
-//									this.g.round++;
-//								}
-//								if(this.g.round-round>1){
-//									this.g.round--;
-//								}
-								if(time<this.g.delta){
-									this.g.sleep = true;
-									long timeToSleep = (this.g.delta-time)/1000000;
-									this.g.sleepTime =(int) timeToSleep;
-									System.out.println("Sleep for "+(timeToSleep));
-								}
-							}
 							//Checksum
 							else if(msg.substring(1, 2).equals("C")){
 								//Theoriquement je n'en re�ois que si je suis host ( � deux joueurs )

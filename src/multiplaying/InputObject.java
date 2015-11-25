@@ -81,7 +81,7 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedA = input.isKeyDown(Input.KEY_A);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 		this.isPressedF = input.isKeyDown(Input.KEY_F);
-		this.isPressedT = input.isKeyDown(Input.KEY_T);
+		this.isPressedT = input.isKeyPressed(Input.KEY_T);
 		
 		if(isPressedA){
 			BottomBar b = player.bottomBar;

@@ -154,7 +154,12 @@ public class BuildingHeadQuarters extends BuildingTech {
 	}
 
 	public void action(){
-
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		// If enough faith create archange
