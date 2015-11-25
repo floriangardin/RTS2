@@ -1219,9 +1219,7 @@ public class Plateau {
 			//Take care of id sent
 			parseCharacter(u[4]);
 			this.g.idChar = Integer.parseInt(u[2]);
-			//Activate restart process
-			this.g.timeRestart = Long.parseLong(u[3]);
-			this.g.restartProcess = true;
+
 		}
 
 		// Update groups 
