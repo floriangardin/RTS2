@@ -371,7 +371,7 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 
 				//CHECKSUM
-				if(this.round>=30 && !this.processSynchro){
+				if(this.round>=30 && !this.processSynchro && this.round%100==0){
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -387,7 +387,7 @@ public class Game extends BasicGame
 					checksum+="|";
 
 					if(!this.host && !this.processSynchro){
-						//this.sendInputToAllPlayer(checksum);
+						this.sendInputToAllPlayer(checksum);
 						//Je l'envoie seulement si je suis client
 					}
 					//Je l'ajoute dans mes checksum si je suis host
@@ -424,7 +424,7 @@ public class Game extends BasicGame
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-8)){
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
 						this.toParse = null;
