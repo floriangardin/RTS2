@@ -407,14 +407,6 @@ public class Game extends BasicGame
 				}
 
 
-				//CLOCK SYNCHRO 
-				if(this.round%200==0){
-					
-					this.delta = this.clock.getCurrentTime();	
-				}
-				if(this.round%200==2){
-					this.sendInputToAllPlayer("3L|"+this.delta+"|"+this.round+"|");
-				}
 
 
 				gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
