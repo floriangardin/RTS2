@@ -61,7 +61,7 @@ public class Data {
 	// Barrack
 	public int barrackLifePoints = 100;
 	public float barrackSight = 300f;
-	public float barrackSizeX = 400f;
+	public float barrackSizeX = 450f;
 	public float barrackSizeY = 250;
 
 	//Stable

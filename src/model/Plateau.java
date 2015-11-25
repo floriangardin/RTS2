@@ -984,7 +984,7 @@ public class Plateau {
 		return obj;
 	}
 	public boolean isVisibleByPlayer(int team, Objet objet){
-		if(objet.getTeam()==team)
+		if(objet.getGameTeam()!=null && objet.getTeam()==team)
 			return true;
 		float r = objet.collisionBox.getBoundingCircleRadius();
 		for(Character c: this.characters)
@@ -1014,6 +1014,10 @@ public class Plateau {
 		for(SpellEffect b:this.spells){
 			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
 			b.visibleByCamera =this.isVisibleByCamera(b);
+		}
+		for(NaturalObjet n:this.naturalObjets){
+			n.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), n);
+			n.visibleByCamera =this.isVisibleByCamera(n);
 		}
 	}
 	// handling selection

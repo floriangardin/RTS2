@@ -14,6 +14,7 @@ import model.Objet;
 import model.Plateau;
 import model.RidableObjet;
 import model.Utils;
+import nature.Tree;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -35,7 +36,7 @@ public class Character extends ActionObjet{
 
 	public float animStep = 4f;
 	public float armor = 0f;	
-	
+
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
@@ -82,7 +83,7 @@ public class Character extends ActionObjet{
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Case> waypoints = new Vector<Case>();
 
-	
+
 
 	public Image animationAttack;
 
@@ -325,7 +326,7 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
-		
+
 		this.toKeep = false;
 
 		this.updateChargeTime();
@@ -638,9 +639,29 @@ public class Character extends ActionObjet{
 		}
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
+	// Collision with other round object inamovible
+	public void collision(Circle c) {
+		float cx = c.getCenterX();
+		float cy = c.getCenterY();
+		float x = this.x - this.vx;
+		float y = this.y - this.vy;
+		float v = (float)Math.sqrt(vx*vx+vy*vy);
+		float vx = y - cy;
+		float vy = cx - x;
+		float n = (float)Math.sqrt(vx*vx+vy*vy);
+		// get the mediatrice of both object
+		float newx = x+vx*v/n;
+		float newy = y+vy*v/n;
+		this.setXY(newx,newy);
+		//this.move(this.vx+this.x,this.vy+this.y );
+	}
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {
-		this.collisionRect((Rectangle)o.collisionBox);
+		if(o instanceof Tree){
+			this.collision((Circle)o.collisionBox);
+		} else {
+			this.collisionRect((Rectangle)o.collisionBox);
+		}
 	}
 	// Collision with EnemyGenerator
 	public void collision(Building o) {

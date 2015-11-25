@@ -91,7 +91,7 @@ public class Map {
 		new BonusSpeed(game.plateau, X/2, 8*Y/9);
 		new BuildingTower(game.plateau,game,X/2,Y/2);
 		//Tree
-		//new Tree(X/3,Y/3,game.plateau,1);
+		new Tree(X/3,Y/3,game.plateau,1);
 	}
 
 	public static void createMapDuelSmall(Game game){
@@ -127,6 +127,12 @@ public class Map {
 		new BuildingMine(game.plateau,game,4f*game.plateau.maxX/5,game.plateau.maxY/2);
 		new BuildingUniversity(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY/2);
 		
+		
+		//VEGETATION
+		new Tree(550,650,game.plateau,1);
+		new Tree(1450,550,game.plateau,2);
+		new Tree(1550,2450,game.plateau,2);
+		new Tree(450,2350,game.plateau,1);
 	}
 	
 	
