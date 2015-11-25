@@ -17,7 +17,12 @@ public class BuildingMine extends BuildingTech{
 	public int bonusProd;
 	
 	public BuildingMine(Plateau p,Game g,float x, float y){
-		
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
 		teamCapturing= 0;
 
 		this.x = x;

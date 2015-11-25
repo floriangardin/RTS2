@@ -59,7 +59,13 @@ public class BuildingMill extends BuildingTech{
 
 	
 	public void action(){
-		this.state+=0.1f*Game.ratio;
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
+		this.state+=Main.increment;
 		if(getTeam()!=0)
 			this.animation+=2f;
 		if(animation>120f)

@@ -29,7 +29,10 @@ import buildings.Building;
 
 public class Character extends ActionObjet{
 
-
+	//MODE
+	public static int MOVE=0;
+	public static int AGGRESSIVE=1;
+	
 	// General attributes
 	public Circle sightBox;
 
@@ -353,7 +356,13 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
-
+		if(mode == AGGRESSIVE){
+			Vector<Character> targets  = this.p.getEnnemiesInSight(this);
+			if(targets.size()>0){
+				this.setTarget(Utils.nearestObject(targets, this),null,MOVE);
+			}
+		}
+		
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
@@ -573,6 +582,7 @@ public class Character extends ActionObjet{
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
+		
 		g.setColor(Color.green);
 		g.setLineWidth(3f);
 		g.setAntiAlias(true);
@@ -583,8 +593,13 @@ public class Character extends ActionObjet{
 			g.draw(this.collisionBox);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
-		//DRAW TARGET
-		g.setColor(Color.darkGray);
+		if(mode==MOVE){
+			g.setColor(Color.darkGray);
+		}
+		else if(mode==AGGRESSIVE){
+			g.setColor(Color.red);
+		}
+		g.setLineWidth(2f);
 		if(this.target instanceof Character){
 			g.draw(this.target.collisionBox);
 		}
@@ -829,6 +844,25 @@ public class Character extends ActionObjet{
 			}
 		}
 	}
+	
+	public void setTarget(Objet t, Vector<Case> waypoints,int mode){
+		this.mode = mode;
+		this.target = t;
+		if(t!=null){
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+			if(waypoints==null){
+				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				if(!this.moveAhead)	
+					this.waypoints = this.computeWay();
+				else
+					this.waypoints = new Vector<Case>();
+			}else{
+				this.waypoints = new Vector<Case>();
+				for(Case cas:waypoints)
+					this.waypoints.addElement(cas);
+			}
+		}
+	}
 
 	public boolean encounters(Character c){
 		boolean b = false;
@@ -936,13 +970,13 @@ public class Character extends ActionObjet{
 		if(this.getTarget()==null){
 
 			// The character has no target, we look for a new one
-			Vector<Objet> potential_targets;
+			Vector<Character> potential_targets;
 			if(this.damage>0f) 
 				potential_targets = p.getEnnemiesInSight(this);
 			else if (this.damage<0f) 
 				potential_targets = p.getWoundedAlliesInSight(this);
 			else
-				potential_targets = new Vector<Objet>();
+				potential_targets = new Vector<Character>();
 			if(potential_targets.size()>0){
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			} else {

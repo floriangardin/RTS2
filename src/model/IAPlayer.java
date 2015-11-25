@@ -1,8 +1,23 @@
 package model;
 
 import java.util.Vector;
-import units.Character;
+
 import buildings.Building;
+import buildings.BuildingAcademy;
+import buildings.BuildingBarrack;
+import buildings.BuildingHeadQuarters;
+import buildings.BuildingMill;
+import buildings.BuildingMine;
+import buildings.BuildingStable;
+import buildings.BuildingTower;
+import buildings.BuildingUniversity;
+import units.Character;
+import units.UnitArchange;
+import units.UnitCrossbowman;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitPriest;
+import units.UnitSpearman;
 
 public class IAPlayer extends Player{
 
@@ -59,6 +74,25 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 		for(Building b : this.p.buildings){
 			if(b.getTeam()==this.getTeam())
+				result.add(b);
+		}
+		return result;
+	}
+	
+	
+	public Vector<Building> getNeutralBuildings(){
+		Vector<Building> result = new Vector<Building>();
+		for(Building b : this.p.buildings){
+			if(b.getTeam()==0)
+				result.add(b);
+		}
+		return result;
+	}
+	
+	public Vector<Building> getEnnemyBuildings(){
+		Vector<Building> result = new Vector<Building>();
+		for(Building b : this.p.buildings){
+			if(b.getTeam()!=this.getTeam() && b.getTeam()!=0)
 				result.add(b);
 		}
 		return result;
@@ -128,7 +162,226 @@ public class IAPlayer extends Player{
 	}
 
 
-
+	public void setTarget(Character assignee , Objet target,int mode){
+		assignee.setTarget(target, null, mode);
+	}
+	
+	
+	//BUILDING GETTER METHODS
+	public Building getNearestNeutralMill(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()==0){
+				result.add(b);
+			}
+		}
+		
+		return (Building) Utils.nearestObject(result, caller);
+		
+	}
+	public Building getNearestNeutralMine(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()==0){
+				result.add(b);
+			}
+		}
+		
+		return (Building) Utils.nearestObject(result, caller);
+		
+	}
+	public Building getNearestNeutralBarrack(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()==0){
+				result.add(b);
+			}
+		}
+		return (Building) Utils.nearestObject(result, caller);
+	}
+	
+	public Building getNearestMillToConquer(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
+				result.add(b);
+			}
+		}
+		
+		return (Building) Utils.nearestObject(result, caller);
+		
+	}
+	public Building getNearestMineToConquer(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
+				result.add(b);
+			}
+		}
+		
+		return (Building) Utils.nearestObject(result, caller);
+		
+	}
+	public Building getNearestBarrackToConquer(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
+				result.add(b);
+			}
+		}
+		return (Building) Utils.nearestObject(result, caller);
+	}
+	
+	public Vector<Character> getSpearman(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Character c : units){
+			if(c instanceof UnitSpearman ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<Character> getCrossbowman(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Character c : units){
+			if(c instanceof UnitCrossbowman ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Character> getKnight(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Character c : units){
+			if(c instanceof UnitKnight ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<Character> getPriest(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Character c : units){
+			if(c instanceof UnitPriest ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<Character> getInquisitor(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Character c : units){
+			if(c instanceof UnitInquisitor ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Character> getArchange(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Character c : units){
+			if(c instanceof UnitArchange ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	
+	public Vector<Building> getMill(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingMill ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<Building> getMine(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingMine ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Building> getBarrack(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingBarrack ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Building> getStable(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingStable ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Building> getAcademy(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingAcademy ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<Building> getHeadQuarters(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingHeadQuarters ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Building> getUniversity(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingUniversity ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
+	public Vector<Building> getTower(Vector<Building> units){
+		Vector<Building> result = new Vector<Building>();
+		
+		for(Building c : units){
+			if(c instanceof BuildingTower ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 *
 	 * Clear specified units group

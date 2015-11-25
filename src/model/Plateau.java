@@ -22,6 +22,7 @@ import bullets.Bullet;
 import bullets.CollisionBullet;
 import display.BottomBar;
 import display.Message;
+import main.Main;
 import multiplaying.InputObject;
 import pathfinding.Case;
 import pathfinding.MapGrid;
@@ -499,7 +500,7 @@ public class Plateau {
 
 
 	//handling the input
-	public void updateTarget(float x, float y, int team){
+	public void updateTarget(float x, float y, int team,int mode){
 		//called when right click on the mouse
 		Objet target = this.findTarget(x, y);
 		if(target==null){
@@ -539,7 +540,7 @@ public class Plateau {
 						}
 					}
 				}
-				o.setTarget(target, waypoints);
+				o.setTarget(target, waypoints,mode);
 				o.secondaryTargets.clear();
 			}
 		}
@@ -569,9 +570,10 @@ public class Plateau {
 		}
 	}
 
+
 	//calling method to the environment
-	public Vector<Objet> getEnnemiesInSight(Character caller){
-		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+	public Vector<Character> getEnnemiesInSight(Character caller){
+		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for(Character o : characters){
 			if(o.getTeam()!=caller.getTeam() && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
@@ -599,8 +601,8 @@ public class Plateau {
 		}
 		return ennemies_in_sight;
 	}
-	public Vector<Objet> getWoundedAlliesInSight(Character caller){
-		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
+	public Vector<Character> getWoundedAlliesInSight(Character caller){
+		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for(Character o : characters){
 			if(o!=caller && o.getTeam()==caller.getTeam() && o.lifePoints<o.maxLifePoints && o.collisionBox.intersects(caller.sightBox)){
 				ennemies_in_sight.add(o);
@@ -787,7 +789,7 @@ public class Plateau {
 			} else if(im.isPressedMAJ ){
 				updateSecondaryTarget(im.xMouse,im.yMouse,player);
 			} else {
-				updateTarget(im.xMouse,im.yMouse,player);
+				updateTarget(im.xMouse,im.yMouse,player,Character.MOVE);
 			}
 		}
 		if(im.isPressedF){
@@ -797,6 +799,14 @@ public class Plateau {
 					((Character) c).stop();
 				}
 			}
+		}
+		if(im.isPressedT){
+			//ZONE ATTACK
+			if(isCastingSpell.get(player)){
+				isCastingSpell.set(player,false);
+				castingSpell.set(player,-1);
+			}
+				updateTarget(im.xMouse,im.yMouse,player,Character.AGGRESSIVE);
 		}
 	}
 
@@ -890,16 +900,16 @@ public class Plateau {
 		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || (!im.isPressedA && im.yMouse<Ycam+5))&&Ycam>-g.resY/2){
-				Ycam -= 40;
+				Ycam -=(int)(40*30/Main.framerate);
 			}
 			if((im.isPressedDOWN || (!im.isPressedA && im.yMouse>Ycam+g.resY-5)) && Ycam<this.maxY-g.resY/2){
-				Ycam +=40;
+				Ycam +=(int)(40*30/Main.framerate);
 			}
 			if((im.isPressedLEFT|| (!im.isPressedA && im.xMouse<Xcam+5)) && Xcam>-g.resX/2 ){
-				Xcam -=40;
+				Xcam -=(int)(40*30/Main.framerate);
 			}
 			if((im.isPressedRIGHT || (!im.isPressedA && im.xMouse>Xcam+g.resX-5))&& Xcam<this.maxX-g.resX/2){
-				Xcam += 40;
+				Xcam += (int)(40*30/Main.framerate);
 			}
 			//Displaying the selected group
 			for(int to=0; to<10; to++){

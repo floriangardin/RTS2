@@ -49,6 +49,12 @@ public class BuildingTower extends Building{
 	}
 
 	public void action(){
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
 		if(!this.canAttack)
 			this.setCharge(this.charge+Main.increment);
 		if(this.charge>this.chargeTime && this.getGameTeam().id!=0){
