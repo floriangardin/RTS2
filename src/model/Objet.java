@@ -53,6 +53,8 @@ public abstract class Objet implements java.io.Serializable {
 		return this.name;
 	}
 	public int getTeam(){
+		if(this.gameteam==null)
+			return 0;
 		return gameteam.id;
 	}
 	public GameTeam getGameTeam(){
