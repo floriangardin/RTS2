@@ -406,12 +406,9 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer("3M|"+this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
 				}
 
-
-
-
+				//Update framerate
 				gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
 				gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
-
 				sleepTime = 0;
 
 				//RESYNCH
