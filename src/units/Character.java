@@ -998,6 +998,11 @@ public class Character extends ActionObjet{
 		s+="y:"+(int)y+";";
 		s+="lp:"+lifePoints+";";
 		s+="st:"+this.state+";";
+		s+="as:"+this.attackState+";";
+		if(this.isAttacking){
+			s+="ia: ;";
+		}
+		
 		if(this.target!=null){
 			if(this.target instanceof Checkpoint){
 				s+="tx:"+this.target.x+";";
@@ -1013,8 +1018,13 @@ public class Character extends ActionObjet{
 
 	public void parseCharacter(HashMap<String,String> hs){
 
-		if(hs.containsKey("state")){
-			this.state=Float.parseFloat(hs.get("state"));
+
+		if(hs.containsKey("as")){
+			this.attackState=Float.parseFloat(hs.get("as"));
+		}
+		
+		if(hs.containsKey("ia")){
+			this.isAttacking = true;
 		}
 
 		if(hs.containsKey("tx")){

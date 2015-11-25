@@ -26,6 +26,7 @@ public class MultiReceiver extends Thread{
 	public MultiReceiver(Game g, int port){
 		this.g = g;
 		this.port = port;
+		
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class MultiReceiver extends Thread{
 				if(g.isInMenu)
 					message = new byte[256];
 				else 
-					message = new byte[8000];
+					message = new byte[1024];
 
 				packet = new DatagramPacket(message, message.length);
 				try{
@@ -105,6 +106,51 @@ public class MultiReceiver extends Thread{
 								// Ressources partag� le vecteur d'inputs de la mailbox..
 								this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 							}
+							
+							else if(msg.substring(1, 2).equals("M")){
+								//Get the corresponding round and player
+								String rawInput = msg.substring(1);
+								System.out.println("Ping !");
+								if(Game.debugValidation){
+									System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
+								}
+								String[] valMessage = rawInput.split("\\|");
+								int id = Integer.parseInt(valMessage[2]);
+								//Si on reçoit notre message, calcul du ping
+								if(id==this.g.plateau.currentPlayer.id){
+									System.out.println("Jvais afficher mon ping");
+									long time =Long.parseLong(valMessage[1]);
+									this.g.ping = this.g.clock.getCurrentTime()-time;
+								}
+								//Sinon on le renvoie au destinataire
+								else{
+									
+									this.g.sendInputToAllPlayer(msg);
+								}
+
+							}
+							
+							else if(msg.substring(1,2).equals("L")){
+								String[] mes = msg.substring(1).split("\\|");
+								long time = Long.parseLong(mes[1]);
+								int round = Integer.parseInt(mes[2]);
+								System.out.println("Received confirmation resync");
+								System.out.println(time);
+								System.out.println(this.g.delta);
+								System.out.println("Delta round : "+(this.g.round -round));
+//								if(this.g.round-round<-1){
+//									this.g.round++;
+//								}
+//								if(this.g.round-round>1){
+//									this.g.round--;
+//								}
+								if(time<this.g.delta){
+									this.g.sleep = true;
+									long timeToSleep = (this.g.delta-time)/1000000;
+									this.g.sleepTime =(int) timeToSleep;
+									System.out.println("Sleep for "+(timeToSleep));
+								}
+							}
 							//Checksum
 							else if(msg.substring(1, 2).equals("C")){
 								//Theoriquement je n'en re�ois que si je suis host ( � deux joueurs )
@@ -128,48 +174,12 @@ public class MultiReceiver extends Thread{
 									}
 								}
 							}
-
-							else if(msg.substring(1, 2).equals("H")){
-								String[] mes = msg.substring(1).split("\\|");
-
-
-								if(this.g.clockSynchro.size()==0){
-									System.out.println("Je suis en retard sur l'autre ! ");
-
-								}
-								else{
-									int i = 0;
-									while(i<this.g.clockSynchro.size()){
-										String[] checksum = this.g.clockSynchro.get(i).substring(1).split("\\|");
-										int myRound = Integer.parseInt(checksum[1]);
-										long myTime = Long.parseLong(checksum[2]);
-										int hostRound = Integer.parseInt(mes[1]);
-										long hostTime = Long.parseLong(mes[2]);
-										if(hostRound==myRound && myRound!=1 && Math.abs(hostTime-myTime)>(0.005*1e9)){
-											//Clock desynchro, resynchro if ! host
-											if(!this.g.host){
-												System.out.println("151 : multireceiver : clock origin wrong");
-												this.g.clock.originTime+=hostTime-myTime;
-											}
-										}
-										i++;
-									}
-								}
-							}
-							
-							else if(msg.substring(1, 2).equals("K")){
-								String[] mes = msg.substring(1).split("\\|");
-								System.out.println("Restart process to do");
-								this.g.restartProcess = true;
-								this.g.timeRestart = Long.parseLong(mes[1]);
-							}
 						}
 						break;
 					default:
 					}
 				}
 			}
-
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {

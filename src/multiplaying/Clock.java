@@ -75,8 +75,10 @@ public class Clock extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.ping = (this.getCurrentTime()-time)/1;
-		//System.out.println("Clock line 71 :  ping : "+this.ping);
+		this.ping = (this.getCurrentTime()-time);
+		System.out.println("Clock line 71 :  ping : "+this.ping/1000000);
+		
+//		this.ping = -3000000;
 		
 	}
 	

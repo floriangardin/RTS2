@@ -1184,7 +1184,7 @@ public class Plateau {
 		s+=this.g.idChar;
 		s+="!";
 		//Time to restart the game
-		s+=this.g.clock.getCurrentTime()+(long)(0.5*1e9);
+		s+=this.g.clock.getCurrentTime()+(long)(0.05*1e9);
 		s+="!";
 		//We want to send the content of plateau
 
@@ -1371,8 +1371,6 @@ public class Plateau {
 			c.setTarget(null, null);
 			c.group.clear();
 		}
-
-
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;

@@ -1,7 +1,20 @@
 package model;
 import java.net.InetAddress;
+import java.text.NumberFormat;
 import java.util.Timer;
 import java.util.Vector;
+
+import main.Main;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
+import multiplaying.Clock;
+import multiplaying.InputHandler;
+import multiplaying.InputObject;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiSender;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -15,22 +28,11 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
+import spells.SpellEffect;
+import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
-import main.Main;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.Clock;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
-import spells.SpellEffect;
-import units.Character;
 
 public class Game extends BasicGame 
 {	
@@ -51,6 +53,8 @@ public class Game extends BasicGame
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 
+	public int deltaTime;
+	
 	//Increment de game
 
 	public static float ratio = 60f/((float)Main.framerate);
@@ -149,22 +153,28 @@ public class Game extends BasicGame
 
 	public boolean restartProcess = false;
 	public long timeRestart;
+	public long delta;
+	public boolean sleep;
+	public int sleepTime;
+	public long ping;
 
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
-		app.setClearEachFrame(true);
+		//app.setClearEachFrame(true);
 		this.plateau.Xcam = (int) (this.plateau.maxX/2 - this.resX/2);
 		this.plateau.Ycam = (int) (this.plateau.maxY/2 -this.resY/2);
 	}
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
+		
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		
 		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
@@ -279,6 +289,9 @@ public class Game extends BasicGame
 			}
 		}
 
+		//DEBUG
+		
+		g.drawString(Integer.toString(deltaTime), 60f,10f);
 		if(processSynchro){
 			g.setColor(Color.green);
 			g.fillRect(10f,10f,10f,10f);
@@ -289,10 +302,31 @@ public class Game extends BasicGame
 		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
+		
+		
+		Runtime runtime = Runtime.getRuntime();
+
+		NumberFormat format = NumberFormat.getInstance();
+
+		StringBuilder sb = new StringBuilder();
+		long maxMemory = runtime.maxMemory();
+		long allocatedMemory = runtime.totalMemory();
+		long freeMemory = runtime.freeMemory();
+
+		sb.append("free memory: " + format.format(freeMemory / 1024) + "<br/>");
+		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
+		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
+		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
+		
+		g.drawString(sb.toString(), 20f, 40f);
+		
+		g.drawString(Float.toString((float )(this.ping/1000000)), 20f, 60f);
+	
 	}
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
+		this.deltaTime = t;
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -301,35 +335,14 @@ public class Game extends BasicGame
 		} else {
 			//Update of current round
 			this.clock.setRoundFromTime();
-			long timeOfRound = this.clock.getCurrentTime();
-			if(!host){
-				this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
-				if(this.clockSynchro.size()>10){
-					this.clockSynchro.remove(0);
-				}
+			if(t!=16){
+				System.out.println("Round a trop dure :"+t);
 			}
-
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			if(inMultiplayer){
 
-				//Play only if restart process ok, else give up on update
-				if(restartProcess){
-					//Calculate time of round
-
-					if(this.clock.getCurrentTime()>this.timeRestart){
-						this.restartProcess = false;
-						this.timeRestart =0;
-						this.round = 1;
-						this.checksum.clear();
-						this.dropped.clear();
-						this.clockSynchro.clear();
-					}
-					else{
-						return;
-					}
-				}
-				//Checksum for testing synchro
-				if( this.round>=30 && !this.processSynchro){
+				//CHECKSUM
+				if(this.round>=30 && !this.processSynchro){
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -354,12 +367,37 @@ public class Game extends BasicGame
 					}
 
 					//J'enleve le premier �lement si probl�me tous les 5 checksum re�u
-					if(this.checksum.size()>20){
+					if(this.checksum.size()>5){
 						this.checksum.remove(0);
 					}
 				}
-
-				//Si Desynchro on envoie un process de synchro ( c'est le host qui s'en charge)
+				
+				//PING REQUEST
+				if(round%30 == 0){
+					this.sendInputToAllPlayer("3M|"+this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
+				}
+				
+				
+				//CLOCK SYNCHRO 
+				if(this.round%200==0){
+					System.out.println("Resync");
+					this.delta = this.clock.getCurrentTime();	
+				}
+				if(this.round%200==2){
+					this.sendInputToAllPlayer("3L|"+this.delta+"|"+this.round+"|");
+				}
+				
+				if(this.sleep){
+					gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
+					gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
+					this.sleep= false;
+				}
+				else{
+					gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
+					gc.setMaximumLogicUpdateInterval((1000/Main.framerate));
+				}
+				
+				//RESYNCH
 				if(this.host && this.processSynchro && this.sendParse){
 					this.toParse = this.plateau.toStringArray();
 					System.out.println("Sent synchro message");
@@ -368,13 +406,11 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 
-
-				//RESYNCHRO
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
 					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay-8)){
 						System.out.println("Play resynchronisation round at round " + this.round);
 						this.plateau.parse(this.toParse);
 						this.toParse = null;
@@ -383,7 +419,7 @@ public class Game extends BasicGame
 
 					}
 				}
-				//Tour normal
+				//UPDATE IF NOT RESYNCH
 				else{
 					// On envoie l'input du tour courant
 					this.sendInputToAllPlayer(im.toString());
@@ -394,31 +430,11 @@ public class Game extends BasicGame
 					if(ims.size()==0){
 						this.dropped.addElement(this.round);
 					}
+					if(dropped.size()>5){
+						dropped.clear();
+					}
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
-				}
-
-				//Handle clock desynchronisation
-				if(this.dropped.size()>3){
-					this.dropped.remove(0);
-					if(this.dropped.get(this.dropped.size()-1)==this.dropped.get(this.dropped.size()-2)+1){
-						if(this.dropped.get(this.dropped.size()-2)==this.dropped.get(this.dropped.size()-3)+1){
-							if(host){
-								//Send restart process 
-								this.restartProcess = true;
-								this.timeRestart = this.clock.getCurrentTime()+(long)(0.5*1e9);
-								this.sendInputToAllPlayer("3K|"+this.timeRestart+"|");
-
-
-								if(host){
-									this.clockSynchro.addElement("3H|"+this.round+"|"+timeOfRound+"|");
-									this.sendInputToAllPlayer(clockSynchro.lastElement());
-								}
-
-								//TODO : send message of resynch
-							}
-						}
-					}
 				}
 
 				if(debugTimeSteps)
@@ -438,7 +454,6 @@ public class Game extends BasicGame
 				//Update IA orders
 				if(debugTimeSteps)
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
-
 			}
 		}
 		if(debugPaquet){
