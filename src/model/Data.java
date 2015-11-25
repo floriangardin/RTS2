@@ -79,8 +79,8 @@ public class Data {
 	// University 
 	public int universityLifePoints = 200;
 	public float universitySight = 300f;
-	public float universitySizeX = 300f;
-	public float universitySizeY = 200f;
+	public float universitySizeX = 350f;
+	public float universitySizeY = 250f;
 
 
 	//// Spells
