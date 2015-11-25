@@ -21,6 +21,7 @@ import units.UnitSpearman;
 
 public class IAPlayer extends Player{
 
+	
 	private Vector<Vector<Character>> unitsGroups;
 	private Vector<Vector<Building>> buildingGroups;
 
@@ -173,6 +174,7 @@ public class IAPlayer extends Player{
 		for(Building b : buildings){
 			if(b instanceof BuildingMill && b.getTeam()==0){
 				result.add(b);
+				
 			}
 		}
 		
@@ -182,7 +184,7 @@ public class IAPlayer extends Player{
 	public Building getNearestNeutralMine(Vector<Building> buildings,Character caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b instanceof BuildingMill && b.getTeam()==0){
+			if(b instanceof BuildingMine && b.getTeam()==0){
 				result.add(b);
 			}
 		}
@@ -193,7 +195,7 @@ public class IAPlayer extends Player{
 	public Building getNearestNeutralBarrack(Vector<Building> buildings,Character caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b instanceof BuildingMill && b.getTeam()==0){
+			if(b instanceof BuildingBarrack && b.getTeam()==0){
 				result.add(b);
 			}
 		}
@@ -214,7 +216,7 @@ public class IAPlayer extends Player{
 	public Building getNearestMineToConquer(Vector<Building> buildings,Character caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
+			if(b instanceof BuildingMine && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -225,7 +227,7 @@ public class IAPlayer extends Player{
 	public Building getNearestBarrackToConquer(Vector<Building> buildings,Character caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
+			if(b instanceof BuildingBarrack && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -294,6 +296,19 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
+	
+	public int getFood(){
+		return this.getGameTeam().food;
+	}
+	
+	public int getGold(){
+		return this.getGameTeam().gold;
+	}
+	
+	public int getSpecial(){
+		return this.getGameTeam().special;
+	}
+	
 	
 	
 	public Vector<Building> getMill(Vector<Building> units){

@@ -3,9 +3,11 @@ package IA;
 import java.util.Vector;
 
 import buildings.Building;
+import buildings.BuildingBarrack;
 import model.Checkpoint;
 import model.GameTeam;
 import model.IAPlayer;
+import model.Objet;
 import model.Plateau;
 import model.Utils;
 import spells.SpellConversion;
@@ -25,7 +27,7 @@ public class IAMicroFlo extends IAPlayer {
 	Vector<Integer> priorities ;
 	int mode;
 	//Groups of units
-	static int NO_ACTION = -1;
+	
 	static int SPEARMAN=0;
 	static int CROSSBOWMAN=1;
 	static int KNIGHT=2;
@@ -46,15 +48,16 @@ public class IAMicroFlo extends IAPlayer {
 	int action;
 	
 	//OBJECTIVE ATTRIBUTE
-	Vector<Building> toControl;
-	Vector<Building> toProtect;
+	Objet currentObjective ;
+	Building toControl;
+	Building toProtect;
 
 	public IAMicroFlo(Plateau p, int id, String name, GameTeam gameteam,int resX, int resY) {
 		super(p, id, name, gameteam, resX, resY);
 		this.priorities = new Vector<Integer>();
 		this.strategy = new Strategy(Strategy.NORMAL);
-		this.toControl = new Vector<Building>();
-		this.toProtect = new Vector<Building>();
+
+		this.action = Strategy.NO_ACTION;
 	}	
 
 
@@ -69,37 +72,47 @@ public class IAMicroFlo extends IAPlayer {
 		Vector<Building> buildingToConquer = this.getEnnemyBuildings();
 		//Get ennemy units
 		Vector<Character> ennemies =  getEnnemyUnitsInSight();
-
+		
+		//Update action
+		updateAction( ennemies, myBuildings);
+		
+		
 		//Define priorities, which define objective attributes
 		switch(action){
 		case Strategy.GET_FOOD:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl.addElement(getNearestNeutralMill(neutralBuilding, this.getSpearman(aliveUnits).get(0)));
+				this.toControl=getNearestNeutralMill(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.GET_GOLD:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl.addElement(getNearestNeutralMine(neutralBuilding, this.getSpearman(aliveUnits).get(0)));
+				this.toControl=getNearestNeutralMine(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.GET_BARRACK:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl.addElement(getNearestNeutralBarrack(neutralBuilding, this.getSpearman(aliveUnits).get(0)));
+				this.toControl=getNearestNeutralBarrack(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.CONQUER_ENNEMY_BARRACK:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl.addElement(getNearestBarrackToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0)));
+				this.toControl=getNearestBarrackToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.CONQUER_ENNEMY_MILL:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl.addElement(getNearestMillToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0)));
+				this.toControl=getNearestMillToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.CONQUER_ENNEMY_MINE:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl.addElement(getNearestMineToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0)));
+				this.toControl=getNearestMineToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
 			}
 			break;
 		default:
@@ -108,18 +121,6 @@ public class IAMicroFlo extends IAPlayer {
 		}
 		
 		
-		//ACT CONSIDERING toControl
-		Building currentObjective;
-		if(toControl.size()>0){
-			currentObjective = toControl.get(0);
-		}
-		
-		
-
-
-		switch(mode){
-
-		}
 		//Selon le mode on fait des choses differentes
 		//handle type of unit separately
 		handleSpearman(ennemies,getSpearman(aliveUnits));
@@ -139,6 +140,49 @@ public class IAMicroFlo extends IAPlayer {
 	}
 
 
+	
+	public void updateAction(Vector<Character> ennemies, Vector<Building> barrack){
+		switch(action){
+		case Strategy.NO_ACTION:
+			this.action = this.strategy.getNextAction();
+			break;
+		case Strategy.GET_FOOD:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
+		case Strategy.GET_GOLD:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
+		case Strategy.GET_BARRACK:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
+		case Strategy.CONQUER_ENNEMY_BARRACK:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
+		case Strategy.CONQUER_ENNEMY_MILL:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
+		case Strategy.CONQUER_ENNEMY_MINE:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
+		default:
+			break;
+
+		
+		}
+		
+	}
 	private void handleStable(Vector<Character> ennemies, Vector<Building> stable2) {
 		// TODO Auto-generated method stub
 		
@@ -178,15 +222,22 @@ public class IAMicroFlo extends IAPlayer {
 	private void handleBarrack(Vector<Character> ennemies, Vector<Building> barrack) {
 		if(barrack.size()>0){
 			if(action==Strategy.MAKE_SPEARMAN){
-				
+				for(Building b : barrack){
+					if(getFood()>= UnitsList.Spearman.foodPrice && getGold()>= UnitsList.Spearman.goldPrice && getSpecial()>= UnitsList.Spearman.specialPrice ){
+						((BuildingBarrack) b).product(BuildingBarrack.SPEARMAN);
+					}
+				}
 			}
 			else if(action==Strategy.MAKE_CROSSBOWMAN){
-				
+				for(Building b : barrack){
+					if(getFood()>= UnitsList.Crossbowman.foodPrice && getGold()>= UnitsList.Crossbowman.goldPrice && getSpecial()>= UnitsList.Crossbowman.specialPrice ){
+						((BuildingBarrack) b).product(BuildingBarrack.CROSSBOWMAN);
+					}
+				}
 			}
 		}
 		
 	}
-
 
 	private void handleBuilding(Vector<Character> ennemies) {
 		if(this.action==Strategy.MAKE_SPEARMAN){
@@ -198,7 +249,13 @@ public class IAMicroFlo extends IAPlayer {
 
 	public void handleSpearman(Vector<Character> ennemies,Vector<Character> units){
 		for(Character charac : units){
-			charac.setTarget(IAUtils.nearestUnit(ennemies, charac));
+			Character c = IAUtils.nearestUnit(ennemies, charac);
+			if(c!=null){
+				charac.setTarget(c);
+			}
+			else{
+				charac.setTarget(currentObjective);
+			}
 			if(charac.lifePoints<0.10*charac.maxLifePoints){
 				if(charac.spells.size()>0){
 					charac.spells.get(0).launch(new Checkpoint(0f,0f), charac);
@@ -209,7 +266,13 @@ public class IAMicroFlo extends IAPlayer {
 	public void handleCrossbowman(Vector<Character> ennemies,Vector<Character> units){
 	
 		for(Character charac : units){
-			charac.setTarget(IAUtils.nearestUnit(ennemies, charac));
+			Character c = IAUtils.nearestUnit(ennemies, charac);
+			if(c!=null){
+				charac.setTarget(c);
+			}
+			else{
+				charac.setTarget(currentObjective);
+			}
 			if(charac.lifePoints<0.10*charac.maxLifePoints){
 				if(charac.spells.size()>0){
 					charac.spells.get(0).launch(new Checkpoint(0f,0f), charac);

@@ -11,7 +11,9 @@ import model.Plateau;
 import units.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
-
+	
+	public static final int SPEARMAN = 0;
+	public static final int CROSSBOWMAN = 1;
 
 	public BuildingBarrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;

@@ -8,6 +8,7 @@ public class Strategy {
 	static final int GREEDY = 1;
 	static final int AGGRESSIVE = 2;
 	
+	static final int NO_ACTION = -1;
 	//Exprime une strategie high level
 	static final int MAKE_CROSSBOWMAN=3;
 	static final int MAKE_SPEARMAN=4;
@@ -35,8 +36,20 @@ public class Strategy {
 			actions.addElement(GET_FOOD);
 			actions.addElement(MAKE_SPEARMAN);
 			actions.addElement(MAKE_CROSSBOWMAN);
-			
+			break;
 		}
+	}
+	
+	public int getNextAction(){
+		if(actions.size()>0){
+			int action = actions.get(0);
+			actions.remove(0);
+			return action;
+		}
+		
+		return NO_ACTION;
+
+		
 	}
 
 }

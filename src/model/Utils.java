@@ -53,7 +53,7 @@ public class Utils {
 
 	}
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
-		float ref_dist = 100000f;
+		float ref_dist = 10000000000f;
 		Objet closest = null;
 		for(Objet o : close){
 			float dist = Utils.distance_2(o,caller);
@@ -67,7 +67,7 @@ public class Utils {
 	}
 	
 	public static Character nearestObject(Vector<Character> close, Character caller){
-		float ref_dist = 100000f;
+		float ref_dist = 1000000000f;
 		Character closest = null;
 		for(Character o : close){
 			float dist = Utils.distance_2(o,caller);
