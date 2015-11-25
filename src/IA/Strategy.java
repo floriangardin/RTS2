@@ -36,6 +36,7 @@ public class Strategy {
 			actions.addElement(GET_FOOD);
 			actions.addElement(MAKE_SPEARMAN);
 			actions.addElement(MAKE_CROSSBOWMAN);
+			actions.addElement(CONQUER_ENNEMY_BARRACK);
 			break;
 		}
 	}

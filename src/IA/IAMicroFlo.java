@@ -104,19 +104,19 @@ public class IAMicroFlo extends IAPlayer {
 			break;
 		case Strategy.CONQUER_ENNEMY_BARRACK:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl=getNearestBarrackToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.toControl=getNearestBarrackToConquer(buildingToConquer, this.getSpearman(aliveUnits).get(0));
 				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.CONQUER_ENNEMY_MILL:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl=getNearestMillToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.toControl=getNearestMillToConquer(buildingToConquer, this.getSpearman(aliveUnits).get(0));
 				this.currentObjective = this.toControl;
 			}
 			break;
 		case Strategy.CONQUER_ENNEMY_MINE:
 			if(this.getSpearman(aliveUnits).size()>0){
-				this.toControl=getNearestMineToConquer(neutralBuilding, this.getSpearman(aliveUnits).get(0));
+				this.toControl=getNearestMineToConquer(buildingToConquer, this.getSpearman(aliveUnits).get(0));
 				this.currentObjective = this.toControl;
 			}
 			break;
