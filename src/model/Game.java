@@ -386,7 +386,7 @@ public class Game extends BasicGame
 					}
 					checksum+="|";
 
-					if(!this.host && !this.processSynchro){
+					if(!this.host){
 						this.sendInputToAllPlayer(checksum);
 						//Je l'envoie seulement si je suis client
 					}
