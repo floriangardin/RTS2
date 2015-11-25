@@ -324,8 +324,8 @@ public class Game extends BasicGame
 		//		g.drawString(sb.toString(), 20f, 40f);
 
 		g.drawString(Float.toString((float )(this.ping/1000000)), 20f, 60f);
-		g.drawString(Integer.toString(this.sleep), 40f, 60f);
-		g.drawString(Integer.toString(this.deltaTime), 60f, 60f);
+		g.drawString(Integer.toString(this.sleep), 80f, 60f);
+		g.drawString(Integer.toString(this.roundDelay), 120f, 60f);
 
 	}
 	// Do our logic 
@@ -347,7 +347,7 @@ public class Game extends BasicGame
 			Input in = gc.getInput();
 			
 			
-		
+			
 			
 			InputObject im = new InputObject(this,plateau.currentPlayer,in);
 			//Handle manual resynchro
