@@ -1392,6 +1392,11 @@ public class Plateau {
 		for(Character c : this.characters){
 			c.setTarget(null, null);
 			c.group.clear();
+			c.checkpointTarget  = null;
+			c.secondaryTargets = null;
+			c.leader = null;
+			c.moveAhead = false;
+			c.mode = Character.MOVE;
 		}
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
