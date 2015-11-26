@@ -138,6 +138,7 @@ public class MultiReceiver extends Thread{
 								}
 								else{
 									int i = 0;
+									this.g.mutexChecksum.lock();
 									while(i<this.g.checksum.size()){
 										String[] checksum = this.g.checksum.get(i).substring(1).split("\\|");
 										if(mes[1].equals(checksum[1]) && !mes[2].equals(checksum[2]) && !this.g.processSynchro){
@@ -150,6 +151,7 @@ public class MultiReceiver extends Thread{
 										}
 										i++;
 									}
+									this.g.mutexChecksum.unlock();
 								}
 							}
 						}
