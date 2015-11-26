@@ -1409,7 +1409,7 @@ public class Plateau {
 		//		}
 
 		//		this.characters.clear();
-
+		Utils.triId(this.characters);
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
@@ -1428,7 +1428,7 @@ public class Plateau {
 
 
 		//Erase characters who didn't give any news
-
+		Utils.triId(this.characters);
 		for(Character c : this.characters){
 			if(!c.toKeep){
 				System.out.println("Destroyed " + c.id);

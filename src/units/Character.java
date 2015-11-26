@@ -329,7 +329,6 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
-
 		this.toKeep = false;
 
 		this.updateChargeTime();
