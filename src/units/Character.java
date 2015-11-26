@@ -1058,7 +1058,6 @@ public class Character extends ActionObjet{
 			this.attackState=Float.parseFloat(hs.get("as"));
 		}
 		
-
 		if(hs.containsKey("vx")){
 			this.setVXVY(Float.parseFloat(hs.get("vx")),Float.parseFloat(hs.get("vy")));
 		}
