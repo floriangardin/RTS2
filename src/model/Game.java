@@ -33,7 +33,8 @@ import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
-
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
 public class Game extends BasicGame 
 {	
 	// DEBUG
@@ -44,6 +45,9 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 
+	//MUtex
+	public Lock mutexChecksum = new ReentrantLock();
+	
 	// debugging tools
 	long timeSteps = 0;
 	public int round = 0;
@@ -374,8 +378,11 @@ public class Game extends BasicGame
 			
 			if(inMultiplayer){
 
-				//CHECKSUM
+				//CHECKSUm
+				
+				
 				if(this.round>=30 && this.round%100==0){
+					
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|";
 					int i = 0;
@@ -396,12 +403,16 @@ public class Game extends BasicGame
 					}
 					//Je l'ajoute dans mes checksum si je suis host
 					else{
+						this.mutexChecksum.lock();
 						this.checksum.addElement(checksum);
+						this.mutexChecksum.unlock();
 					}
 
 					//J'enleve le premier �lement si probl�me tous les 5 checksum re�u
 					if(this.checksum.size()>5){
+						this.mutexChecksum.lock();
 						this.checksum.remove(0);
+						this.mutexChecksum.unlock();
 					}
 				}
 
