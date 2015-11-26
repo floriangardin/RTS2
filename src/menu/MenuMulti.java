@@ -153,7 +153,11 @@ public class MenuMulti extends Menu {
 			Menu_MapChoice item = this.gamesList.get(i);
 			item.update(im);
 			if(item.mouseOver && im.pressedLeftClick){
+				for(Menu_MapChoice it : this.gamesList){
+					it.isSelected = false;
+				}
 				this.gameSelected = i;
+				item.isSelected = true;
 			}
 		}			
 
