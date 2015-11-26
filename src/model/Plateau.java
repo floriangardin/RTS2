@@ -1392,8 +1392,8 @@ public class Plateau {
 		for(Character c : this.characters){
 			c.setTarget(null, null);
 			c.group.clear();
-			c.checkpointTarget  = null;
-			c.secondaryTargets = null;
+			c.checkpointTarget = null;
+			c.secondaryTargets.clear();
 			c.leader = null;
 			c.moveAhead = false;
 			c.mode = Character.MOVE;
