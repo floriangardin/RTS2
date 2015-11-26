@@ -1221,7 +1221,7 @@ public class Plateau {
 			this.g.idChar = Integer.parseInt(u[2]);
 
 		}
-
+		
 		// Update groups 
 
 		Vector<Character> group  = new Vector<Character>();

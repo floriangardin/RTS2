@@ -1032,6 +1032,8 @@ public class Character extends ActionObjet{
 		s+="lp:"+lifePoints+";";
 		s+="st:"+this.state+";";
 		s+="as:"+this.attackState+";";
+		s+="vx:"+this.vx+";";
+		s+="vy:"+this.vy+";";
 		if(this.isAttacking){
 			s+="ia: ;";
 		}
@@ -1054,6 +1056,11 @@ public class Character extends ActionObjet{
 
 		if(hs.containsKey("as")){
 			this.attackState=Float.parseFloat(hs.get("as"));
+		}
+		
+
+		if(hs.containsKey("vx")){
+			this.setVXVY(Float.parseFloat(hs.get("vx")),Float.parseFloat(hs.get("vy")));
 		}
 		
 		if(hs.containsKey("ia")){
