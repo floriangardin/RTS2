@@ -149,8 +149,12 @@ public class MenuMulti extends Menu {
 			}
 		}
 		this.updateItems(im);
-		for(Menu_MapChoice item: this.gamesList){
+		for(int i=0; i<this.gamesList.size(); i++){
+			Menu_MapChoice item = this.gamesList.get(i);
 			item.update(im);
+			if(item.mouseOver && im.pressedLeftClick){
+				this.gameSelected = i;
+			}
 		}			
 
 	} 
