@@ -20,8 +20,13 @@ public class Options {
 			BufferedReader br=new BufferedReader(ipsr);
 			String ligne;
 			String[] tab;
+			int nlignes = 0;
 			while ((ligne=br.readLine())!=null){
-				tab = ligne.split(" ");
+				nlignes++;
+				if(!ligne.contains("-")){
+					throw new Exception();
+				}
+				tab = ligne.split("-");
 				switch(tab[0]){
 				case "musics:": musicVolume = Float.parseFloat(tab[1]); break;
 				case "sounds:": soundVolume = Float.parseFloat(tab[1]); break;
@@ -30,6 +35,11 @@ public class Options {
 				}
 			}
 			br.close(); 
+			if(nlignes<=1){
+				musicVolume = 0.5f;
+				soundVolume = 0.1f;
+				nickname = "";
+			}
 		}		
 		catch (Exception e){
 			soundVolume = 1f;

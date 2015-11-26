@@ -6,6 +6,7 @@ import org.newdawn.slick.Input;
 
 import model.Game;
 import model.Player;
+import multiplaying.InputObject;
 
 public class Menu_Player extends Menu_Item{
 
@@ -41,26 +42,28 @@ public class Menu_Player extends Menu_Item{
 		this.game = game;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
-		String s1 = "Player "+p.id+" : "+"GILLESDEBOUARD"+"  ";
+		String s1 = "Player "+p.id+" : "+"WWWWWWWWWWWWWW"+" ";
 		this.startXcolor = x + this.game.font.getWidth(s1);
 		this.startYcolor = y;
 		this.sizeXcolor = 90f*this.game.resX/1920f;
 		this.sizeYcolor = 40f*this.game.resY/1080f;
-		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("  ");
-		this.startXready = startXciv+this.game.font.getWidth("ZINAIDS  ");
+		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth(" ");
+		this.startXready = startXciv+this.game.font.getWidth("ZINAIDS ");
 		this.startYciv = y;
 		this.startXready = x+650f;
 		this.startYready = y;
 	}
 
-	public void update(Input i){
+	public void update(InputObject im){
 		if(game.plateau.currentPlayer.id==p.id){
-			float xMouse = i.getAbsoluteMouseX();
-			float yMouse = i.getAbsoluteMouseY();
+			float xMouse = im.xMouse;
+			float yMouse = im.yMouse;
 			//Testing the click
 			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 				isOverColor = true;
-				
+				if(im.pressedLeftClick){
+					this.p.setTeam(this.p.getTeam()%(this.game.plateau.nPlayers-1)+1);
+				}			
 			} else {
 				isOverColor = false;
 			}
