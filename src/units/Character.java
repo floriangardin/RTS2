@@ -1053,7 +1053,9 @@ public class Character extends ActionObjet{
 
 	public void parseCharacter(HashMap<String,String> hs){
 
-
+		if(hs.containsKey("x") && hs.containsKey("y")){
+			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
+		}
 		if(hs.containsKey("as")){
 			this.attackState=Float.parseFloat(hs.get("as"));
 		}
@@ -1074,9 +1076,7 @@ public class Character extends ActionObjet{
 			this.setTarget(target,null);
 		}
 
-		if(hs.containsKey("x") && hs.containsKey("y")){
-			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
-		}
+
 		if(hs.containsKey("lp")){
 			this.lifePoints=Float.parseFloat(hs.get("lp"));
 		}

@@ -645,7 +645,10 @@ public class Plateau {
 	//TODO : Here we handle inputs from each players
 	public void update(Vector<InputObject> ims){
 		Utils.triId(this.characters);
-
+		
+		for(Player p : players){
+			Utils.triIdActionObjet(p.selection);
+		}
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
 		for(InputObject im : ims){
@@ -1397,6 +1400,7 @@ public class Plateau {
 			c.leader = null;
 			c.moveAhead = false;
 			c.mode = Character.MOVE;
+			c.waypoints.clear();
 		}
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
