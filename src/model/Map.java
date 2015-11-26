@@ -157,12 +157,12 @@ public class Map {
 		game.plateau.getTeamById(2).food = 10000;
 		
 		
-		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,1f*game.plateau.maxY/5);
+		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,1f*game.plateau.maxY/5).setTeam(1);
 			
 		// Team 2 side
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,game.plateau.maxY-200f,2);
 
-		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5);
+		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5).setTeam(2);
 			
 	}
 	
