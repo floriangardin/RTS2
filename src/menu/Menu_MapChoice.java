@@ -2,15 +2,17 @@ package menu;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
+
+import model.Game;
+import multiplaying.InputObject;
 
 public class Menu_MapChoice extends Menu_Item {
 
 	String name;
 	public boolean isSelected;
-	public boolean isOver;
 
-	public Menu_MapChoice(String name, float x, float y, float sizeX, float sizeY){
+	public Menu_MapChoice(Game game, String name, float x, float y, float sizeX, float sizeY){
+		this.game = game;
 		this.x = x;
 		this.y = y;
 		this.sizeX = sizeX;
@@ -22,22 +24,15 @@ public class Menu_MapChoice extends Menu_Item {
 		g.setColor(Color.white);
 		if(isSelected)
 			g.drawRect(x-5f, y-5f, sizeX, sizeY+10f);
-		if(isOver)
+		if(mouseOver)
 			g.setColor(Color.gray);
 		g.drawString(name, x, y);
 	}
-
-	public void update(Input i){
-		if(this.isClicked(i)){
-			if(!isOver){
-				isOver = true;
-			}
-		} else {
-			if(isOver)
-				isOver = false;
-		}
+	
+	public boolean isMouseOver(InputObject im){
+		float xMouse = im.xMouse;
+		float yMouse = im.yMouse;
+		return (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
 	}
-	
-	
 
 }

@@ -43,6 +43,7 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedB;
 	public boolean isPressedF;
 	public boolean isPressedT;
+	public int letterPressed;
 	
 	public boolean[] isPressedNumPad = new boolean[10];
 
@@ -61,8 +62,6 @@ public class InputObject extends MultiObjetModel{
 		this.pressedRightClick = input.isMousePressed(Input.MOUSE_RIGHT_BUTTON);
 		this.leftClick = input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 		this.pressedLeftClick = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		this.xMouse = input.getAbsoluteMouseX()+g.plateau.Xcam;
-		this.yMouse = input.getAbsoluteMouseY()+g.plateau.Ycam;
 		this.isPressedESC = input.isKeyPressed(Input.KEY_ESCAPE);
 		this.isPressedMAJ = input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyPressed(Input.KEY_RSHIFT);
 		this.isPressedCTRL = input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyPressed(Input.KEY_RCONTROL);
@@ -88,7 +87,15 @@ public class InputObject extends MultiObjetModel{
 			this.xMouse = (int) Math.floor((this.xMouse-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
 			this.yMouse = (int) Math.floor((this.yMouse-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
 		}
+		
+		this.xMouse = input.getAbsoluteMouseX();
+		this.yMouse = input.getAbsoluteMouseY();
 
+		if(g.isInMenu)
+			return;
+		
+		this.xMouse = input.getAbsoluteMouseX()+g.plateau.Xcam;
+		this.yMouse = input.getAbsoluteMouseY()+g.plateau.Ycam;
 		
 		// Only for current player at the creation of the input
 		BottomBar bb = g.plateau.currentPlayer.bottomBar;

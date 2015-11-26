@@ -136,6 +136,8 @@ public class Game extends BasicGame
 	public int roundDropped=0;
 	public int roundDroppedValidate = 0;
 	public int roundDroppedMissing = 0;
+	
+	
 	// Menus
 	public Menu menuPause;
 	public MenuIntro menuIntro;
@@ -145,7 +147,8 @@ public class Game extends BasicGame
 	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
 	public int idInput;
-
+	public float ratioResolution;
+	
 	public Vector<String> checksum = new Vector<String>();
 	public Vector<String> clockSynchro= new Vector<String>();
 	public boolean processSynchro=false;
@@ -340,7 +343,8 @@ public class Game extends BasicGame
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
-			this.menuCurrent.update(gc.getInput());
+			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
+			this.menuCurrent.update(im);
 		} else {
 			//Update of current round
 			this.clock.setRoundFromTime();
@@ -514,7 +518,7 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
-		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(12*this.resX/1920));
+		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(14*this.resX/1920));
 		this.font = new UnicodeFont(fe,(int)(28*this.resX/1920),false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
 		this.font.addAsciiGlyphs();
@@ -566,9 +570,7 @@ public class Game extends BasicGame
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
-
-
-
+		this.ratioResolution = this.resX/2800f;
 		connexionReceiver = new MultiReceiver(this,portConnexion);
 		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
 
