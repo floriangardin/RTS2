@@ -145,10 +145,10 @@ public class Map {
 		// Team 1 side
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,200f,1);
 		
-		for(int i =0;i<21;i++){
-			data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 300f+i);
-			data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f,  game.plateau.maxY-350f+i);
-		}
+//		for(int i =0;i<21;i++){
+//			data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 300f+i);
+//			data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f,  game.plateau.maxY-350f+i);
+//		}
 		
 		
 		game.plateau.getTeamById(1).gold = 10000;
@@ -157,12 +157,12 @@ public class Map {
 		game.plateau.getTeamById(2).food = 10000;
 		
 		
-		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,1f*game.plateau.maxY/5);
+		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,1f*game.plateau.maxY/5).setTeam(1);
 			
 		// Team 2 side
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,game.plateau.maxY-200f,2);
 
-		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5);
+		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5).setTeam(2);
 			
 	}
 	

@@ -4,20 +4,26 @@ import java.util.Vector;
 
 import model.Game;
 import model.Player;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
+
 
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
 	public static int nDelay=2;
 	Game g;
+	public Lock mutex;
 
 	public InputHandler(Game g){
 		this.inputs = new Vector<InputObject>();
 		this.g = g;
+		mutex = new ReentrantLock();
 	}
 
 	public void validate(int id,Player player){
 		// 
+		mutex.lock();
 		int idx = 0;
 		while(idx<this.inputs.size()){
 			if(player.equals(this.inputs.get(idx).player) && id==this.inputs.get(idx).id){
@@ -26,9 +32,12 @@ public class InputHandler {
 			}
 			idx++;
 		}
+		mutex.unlock();
 	}
 
 	public Vector<InputObject> getInputsForRound(int round){
+		
+		this.mutex.lock();
 		//TODO :
 		// Check if good round to apply and messages validated
 		//Good round if current round = message round +2
@@ -62,6 +71,7 @@ public class InputHandler {
 		if(toReturn.size()>=this.g.plateau.players.size()-1){
 			if(Game.debugValidation)
 				System.out.println("InputHandler line 57: inputs to play in round "+this.g.round);
+			this.mutex.unlock();
 			return toReturn;
 		} else if(cause==1) {
 			if(Game.debugValidation)
@@ -77,6 +87,7 @@ public class InputHandler {
 			this.g.roundDropped++;
 		}
 		System.out.println("Round drop : "+round);
+		this.mutex.unlock();
 		return new Vector<InputObject>();
 		
 	}
@@ -86,6 +97,8 @@ public class InputHandler {
 	}
 	
 	public void addToInputs(InputObject io){
+		mutex.lock();
 		this.inputs.addElement(io);
+		mutex.unlock();
 	}
 }

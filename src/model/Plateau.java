@@ -1343,6 +1343,20 @@ public class Plateau {
 		//		}
 		return null;
 	}
+	
+	public Character getCharacterByIdAndName(int id,String name){
+		for(Character cha : this.characters){
+			if(id==cha.id && name.equals(cha.name)){
+				return cha;
+			}
+		}
+		//		for(Character cha : this.population.characters){
+		//			if(id==cha.id){
+		//				return cha;
+		//			}
+		//		}
+		return null;
+	}
 
 	public Bullet getBulletById(int id){
 
@@ -1383,9 +1397,7 @@ public class Plateau {
 		// LOOP OVER EACH CHARACTER
 		Character cha=null;
 		int finish = u.length;
-		if(!u[u.length-1].contains("id")){
-			finish--;
-		}
+
 
 		//		//Clear all characters 
 		//		while(this.characters.size()>0){
@@ -1402,7 +1414,7 @@ public class Plateau {
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
 			int idTest= Integer.parseInt(hs.get("id"));
-			cha = this.getCharacterById(idTest);
+			cha = this.getCharacterByIdAndName(idTest,hs.get("name"));
 			if(cha == null){
 				cha = Character.createNewCharacter(hs, g);
 				System.out.println("Create new character");
