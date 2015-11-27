@@ -31,6 +31,9 @@ public class Menu_Player extends Menu_Item{
 	boolean isOverColor;
 	boolean isOverCiv;
 	boolean isReady;
+	
+	public int messageDropped = 0;
+	public boolean hasBeenUpdated = false;
 
 	Game game;
 
@@ -62,7 +65,7 @@ public class Menu_Player extends Menu_Item{
 			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 				isOverColor = true;
 				if(im.pressedLeftClick){
-					this.p.setTeam(this.p.getTeam()%(this.game.plateau.nPlayers-1)+1);
+					this.p.setTeam(this.p.getTeam()%(this.game.plateau.nTeams)+1);
 				}			
 			} else {
 				isOverColor = false;
@@ -114,4 +117,5 @@ public class Menu_Player extends Menu_Item{
 		if(game.inMultiplayer)
 			g.drawString(this.isReady ? "Ready":"Not Ready" ,startXready , startYready);
 	}
+
 }
