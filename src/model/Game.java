@@ -353,10 +353,6 @@ public class Game extends BasicGame
 			}
 			
 			Input in = gc.getInput();
-			
-			
-			
-			
 			InputObject im = new InputObject(this,plateau.currentPlayer,in);
 			//Handle manual resynchro
 			if(in.isKeyPressed(Input.KEY_O)){
@@ -384,7 +380,7 @@ public class Game extends BasicGame
 				if(this.round>=30 && this.round%100==0){
 					
 					//Compute checksum
-					String checksum = "3C|"+this.round+"|";
+					String checksum = "3C|"+this.round+"|0";
 					int i = 0;
 					//Checksum to send of plateau to test synchro
 					while(i<this.plateau.characters.size()){
