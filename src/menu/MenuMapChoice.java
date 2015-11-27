@@ -145,9 +145,8 @@ public class MenuMapChoice extends Menu {
 						mp.hasBeenUpdated = false;
 					} else {
 						mp.messageDropped++;
-						if(mp.messageDropped>5){
-							//TODO exclure un joueur
-							System.out.println("Le joueur "+mp.p.id+" est parti");
+						if(mp.messageDropped>25){
+							this.menuPlayers.set(i, null);
 						}
 					}
 				}
