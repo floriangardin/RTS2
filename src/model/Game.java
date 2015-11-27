@@ -47,7 +47,7 @@ public class Game extends BasicGame
 
 	//MUtex
 	public Lock mutexChecksum = new ReentrantLock();
-	
+
 	// debugging tools
 	long timeSteps = 0;
 	public int round = 0;
@@ -136,8 +136,8 @@ public class Game extends BasicGame
 	public int roundDropped=0;
 	public int roundDroppedValidate = 0;
 	public int roundDroppedMissing = 0;
-	
-	
+
+
 	// Menus
 	public Menu menuPause;
 	public MenuIntro menuIntro;
@@ -148,7 +148,7 @@ public class Game extends BasicGame
 	public boolean isInMenu = false;
 	public int idInput;
 	public float ratioResolution;
-	
+
 	public Vector<String> checksum = new Vector<String>();
 	public Vector<String> clockSynchro= new Vector<String>();
 	public boolean processSynchro=false;
@@ -158,16 +158,20 @@ public class Game extends BasicGame
 	public boolean updateDropped= false;
 	public boolean clockResynchro = false;
 	public boolean restartProcess = false;
-	
-	
+
+
 	public long delta;
 	public long ping;
-	
+
 	//VAut + ou - 1 (pour resynchro à la main)
 	public int sleep;
 	public int sleepTime;
 	public int roundDelay;
-	
+
+	public boolean endGame = false;
+	public boolean victory = false;
+	int victoryTime = 100;
+
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -184,7 +188,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-
+		
 		g.setFont(this.font);
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
@@ -198,8 +202,19 @@ public class Game extends BasicGame
 			this.menuCurrent.draw(g);
 			return;
 		} 
-
-
+		
+		
+		if(endGame){
+			//PRint victory
+			if(this.victory){
+				g.drawString("Alors, on se sent un peu comme Gilles ?", this.resX/2f, this.resY/2f);
+			}
+			else{
+				g.drawString("T'as perdu Roger ...", this.resX/2f, this.resY/2f);
+			}
+			
+		}
+		
 		g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
 				0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
 
@@ -313,7 +328,6 @@ public class Game extends BasicGame
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 
-
 		//		Runtime runtime = Runtime.getRuntime();
 		//
 		//		NumberFormat format = NumberFormat.getInstance();
@@ -345,13 +359,14 @@ public class Game extends BasicGame
 		if(isInMenu){
 			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
 			this.menuCurrent.update(im);
-		} else {
+		} 
+		else if(!endGame) {
 			//Update of current round
 			this.clock.setRoundFromTime();
 			if(t!=16){
 				System.out.println("Round a trop dure :"+t);
 			}
-			
+
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,plateau.currentPlayer,in);
 			//Handle manual resynchro
@@ -371,12 +386,12 @@ public class Game extends BasicGame
 				this.round-=1;
 				this.roundDelay--;
 			}
-			
+
 			if(inMultiplayer){
 
 				//CHECKSUm
 				if(this.round>=30 && this.round%30==0){
-					
+
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|0";
 					int i = 0;
@@ -479,6 +494,18 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		}
+		
+		else if(endGame){
+			//Print victory !!
+			victoryTime --;
+			if(victoryTime <0){
+				victoryTime = 100;
+				this.isInMenu = true;
+				this.setMenu(this.menuIntro);
+				//TODO FERMER LES SOCKETS
+			}
+		}
+		
 		if(debugPaquet){
 			System.out.println("tour de jeu: " + round);
 			System.out.println("nb paquets envoy�s: " + idPaquetSend);
