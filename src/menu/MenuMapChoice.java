@@ -83,6 +83,7 @@ public class MenuMapChoice extends Menu {
 		switch(i){
 		case 0:
 			// retour
+			this.game.connexionSender.interrupt();
 			if(game.inMultiplayer)
 				this.game.setMenu(this.game.menuMulti);
 			else
@@ -130,6 +131,17 @@ public class MenuMapChoice extends Menu {
 			this.checkStartGame();
 			return;
 		}
+		// handling connexions
+		if(game.inMultiplayer){
+			if(game.host){
+				this.handleSendingConnexions();
+			} else {
+				this.game.toSendConnexions.addElement("2"+this.toString());				
+			}
+			while(game.connexions.size()>0){
+				this.parse(Objet.preParse(game.connexions.remove(0)));
+			}
+		}
 		// Checking if all players are ready then launch the game
 		this.handleStartGame();
 		// Updating items
@@ -146,17 +158,7 @@ public class MenuMapChoice extends Menu {
 				this.mapSelected = i;
 			}
 		}	
-		// handling connexions
-		if(game.inMultiplayer){
-			if(game.host){
-				this.handleSendingConnexions();
-			} else {
-				this.game.toSendConnexions.addElement("2"+this.toString());				
-			}
-			while(game.connexions.size()>0){
-				this.parse(Objet.preParse(game.connexions.remove(0)));
-			}
-		}
+
 	}
 
 	public void checkStartGame(){

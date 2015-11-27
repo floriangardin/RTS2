@@ -250,13 +250,13 @@ public class MapGrid {
 			iStart++;
 		while(yStart>Ycoord.get(jStart+1))
 			jStart++;
-		while(xEnd1>Xcoord.get(iEnd1+1))
+		while((iEnd1+1)<Xcoord.size() && xEnd1>Xcoord.get(iEnd1+1))
 			iEnd1++;
-		while(yEnd1>Ycoord.get(jEnd1+1))
+		while((jEnd1+1)<Ycoord.size() && yEnd1>Ycoord.get(jEnd1+1))
 			jEnd1++;
-		while(xEnd2>Xcoord.get(iEnd2+1))
+		while((iEnd2+1)<Xcoord.size() && xEnd2>Xcoord.get(iEnd2+1))
 			iEnd2++;
-		while(yEnd2>Ycoord.get(jEnd2+1))
+		while((jEnd2+1)<Ycoord.size() && yEnd2>Ycoord.get(jEnd2+1))
 			jEnd2++;
 		
 		Vector<Point> closedList = new Vector<Point>();
