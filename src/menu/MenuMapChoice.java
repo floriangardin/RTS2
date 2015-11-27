@@ -142,6 +142,7 @@ public class MenuMapChoice extends Menu {
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){
 						mp.messageDropped=0;
+						mp.hasBeenUpdated = false;
 					} else {
 						mp.messageDropped++;
 						if(mp.messageDropped>5){
@@ -375,8 +376,8 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void parse(HashMap<String,String> hs){
-		if(game.host && hs.containsKey("idP")){
-			this.menuPlayers.get(Integer.parseInt(hs.get("idP"))).hasBeenUpdated=true;
+		if(game.host && hs.containsKey("idJ")){
+			this.menuPlayers.get(Integer.parseInt(hs.get("idJ"))).hasBeenUpdated=true;
 		}
 		if(hs.containsKey("map")){
 			if(!this.game.host){
@@ -408,12 +409,14 @@ public class MenuMapChoice extends Menu {
 			if(hs.containsKey("stT")){
 				this.startGame = Long.parseLong(hs.get("stT"));
 			}
-			//
+			// adding new player if needed
 			if(civ.length>this.game.plateau.players.size()){
 				try {
 					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}
-				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
+				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+						startXPlayers+ 1f/10f*sizeXPlayers,
+						startYPlayers+1f*(this.menuPlayers.size())/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 			}
 
 			for(int i = 0;i<civ.length;i++){
