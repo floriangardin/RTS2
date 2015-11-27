@@ -224,6 +224,18 @@ public class IAPlayer extends Player{
 		return (Building) Utils.nearestObject(result, caller);
 		
 	}
+	
+	public Building getNearestHQToConquer(Vector<Building> buildings,Character caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(Building b : buildings){
+			if(b instanceof BuildingHeadQuarters && b.getTeam()!=caller.getTeam()){
+				result.add(b);
+			}
+		}
+		
+		return (Building) Utils.nearestObject(result, caller);
+		
+	}
 	public Building getNearestBarrackToConquer(Vector<Building> buildings,Character caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){

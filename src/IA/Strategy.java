@@ -22,6 +22,7 @@ public class Strategy {
 	static final int CONQUER_ENNEMY_BARRACK = 9;
 	static final int CONQUER_ENNEMY_MILL = 10;
 	static final int CONQUER_ENNEMY_MINE = 11;
+	static final int CONQUER_ENNEMY_HQ = 12;
 
 	private Vector<Integer> actions;
 
@@ -34,9 +35,9 @@ public class Strategy {
 			actions.addElement(MAKE_SPEARMAN);
 			actions.addElement(GET_GOLD);
 			actions.addElement(GET_FOOD);
-			actions.addElement(MAKE_SPEARMAN);
 			actions.addElement(MAKE_CROSSBOWMAN);
 			actions.addElement(CONQUER_ENNEMY_BARRACK);
+			actions.addElement(CONQUER_ENNEMY_HQ);
 			break;
 		}
 	}

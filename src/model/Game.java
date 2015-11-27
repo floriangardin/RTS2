@@ -170,7 +170,7 @@ public class Game extends BasicGame
 
 	public boolean endGame = false;
 	public boolean victory = false;
-	int victoryTime = 100;
+	int victoryTime = 200;
 	boolean hasAlreadyPlay = false;
 
 	public void quitMenu(){
@@ -509,9 +509,26 @@ public class Game extends BasicGame
 		}
 
 		else if(endGame){
+			if(this.musics.imperial.playing()){
+				this.musics.imperial.stop();
+			}
+			if(victory){
+				if(!this.sounds.soundVictory.playing())
+					this.sounds.soundVictory.play(1f, this.options.musicVolume);
+			}
+			else{
+				if(!this.sounds.soundDefeat.playing())
+					this.sounds.soundDefeat.play(1f, this.options.musicVolume);
+			}
 			//Print victory !!
 			victoryTime --;
 			if(victoryTime <0){
+				if(this.sounds.soundVictory.playing()){
+					this.sounds.soundVictory.stop();
+				}
+				else{
+					this.sounds.soundDefeat.stop();
+				}
 				victoryTime = 100;
 				this.isInMenu = true;
 				this.hasAlreadyPlay = true;
