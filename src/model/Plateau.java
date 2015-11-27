@@ -511,10 +511,10 @@ public class Plateau {
 			if(c instanceof Character){
 				Character o = (Character) c;
 				if(i==0 && c.soundSetTarget!=null && c.soundSetTarget.size()>0 && Math.random()>0.3){
-					if(target instanceof Character && c.getTeam()!=target.getTeam()){
+					if(c.getTeam()==this.currentPlayer.id && target instanceof Character && c.getTeam()!=target.getTeam()){
 						Utils.getRandomSound(c.soundAttack).play(1f, this.g.options.soundVolume);
 					}
-					else{
+					else if( c.getTeam()==this.currentPlayer.id ){
 						Utils.getRandomSound(c.soundSetTarget).play(1f, this.g.options.soundVolume);
 					}
 				}
