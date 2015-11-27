@@ -93,7 +93,7 @@ public class Plateau {
 	public Vector<Rectangle> rectangleSelection;
 	public Vector<Float> recX ;
 	public Vector<Float> recY ;
-	public Vector<ActionObjet> inRectangle ;
+	public Vector<Vector<ActionObjet>> inRectangle ;
 
 	public Vector<Boolean> isCastingSpell;
 	public Vector<Boolean> hasCastSpell;
@@ -158,7 +158,7 @@ public class Plateau {
 		this.rectangleSelection = new Vector<Rectangle>();
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
-		this.inRectangle = new Vector<ActionObjet>();
+		this.inRectangle = new Vector<Vector<ActionObjet>>();
 		//MESSAGES
 		this.messages = new Vector<Vector<Message>>();
 
@@ -176,6 +176,7 @@ public class Plateau {
 			this.castingSpell.addElement(-1);
 			this.messages.addElement(new Vector<Message>());
 			this.rectangleSelection.addElement(null);
+			this.inRectangle.addElement(new Vector<ActionObjet>());
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
 		}
@@ -1061,7 +1062,7 @@ public class Plateau {
 		// Cleaning the rectangle and buffer if mouse is released
 		if(!im.leftClick){
 			this.rectangleSelection.set(player, null);
-			this.inRectangle.clear();
+			this.inRectangle.get(player).clear();
 		}
 		// Handling hotkeys for gestion of selection
 		if(im.isPressedTAB){
@@ -1106,14 +1107,14 @@ public class Plateau {
 	}
 	public void updateSelection(Rectangle select,int player, int team){
 		if(select!=null){
-			for(ActionObjet a : this.inRectangle){
+			for(ActionObjet a : this.inRectangle.get(player)){
 				this.selection.get(player).remove(a);
 			}
-			this.inRectangle.clear();
+			this.inRectangle.get(player).clear();
 			for(Character o: characters){
 				if((o.selectionBox.intersects(select)|| o.selectionBox.contains(select) || select.contains(o.selectionBox) )&& o.getTeam()==team){
 					this.selection.get(player).add(o);
-					this.inRectangle.addElement(o);
+					this.inRectangle.get(player).addElement(o);
 					if(Math.max(select.getWidth(), select.getHeight())<2f){
 						break;
 					}
@@ -1124,7 +1125,7 @@ public class Plateau {
 				for(Building o: buildings){
 					if(o.selectionBox.intersects(select) && o.getTeam()==team){
 						this.selection.get(player).add(o);
-						this.inRectangle.addElement(o);
+						this.inRectangle.get(player).addElement(o);
 					}
 				}
 			}
