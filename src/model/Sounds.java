@@ -42,6 +42,7 @@ public class Sounds {
 			
 			orderSpearman.add(new Sound("music/yes.ogg"));
 			attackSpearman.add(new Sound("music/yes.ogg"));
+			attackSpearman.add(new Sound("music/vraiment01.ogg"));
 			
 			
 			orderCrossbowman = new Vector<Sound>();
