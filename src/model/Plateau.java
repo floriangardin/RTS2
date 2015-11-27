@@ -952,8 +952,8 @@ public class Plateau {
 			b.minimap.toDraw = true;
 			if(im.leftClick && player==this.currentPlayer.id){
 				// Put camera where the click happened
-				Xcam = (int) ((im.xMouse-g.plateau.Xcam)-g.resX/2f);
-				Ycam = (int) ((im.yMouse-g.plateau.Ycam)-g.resY/2f);
+				Xcam = (int) (im.xMouse-g.resX/2f);
+				Ycam = (int) (im.yMouse-g.resY/2f);
 			}
 		}
 		else{

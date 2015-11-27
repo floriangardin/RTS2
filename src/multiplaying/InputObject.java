@@ -82,11 +82,6 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedF = input.isKeyDown(Input.KEY_F);
 		this.isPressedT = input.isKeyPressed(Input.KEY_T);
 		
-		if(isPressedA){
-			BottomBar b = player.bottomBar;
-			this.xMouse = (int) Math.floor((this.xMouse-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
-			this.yMouse = (int) Math.floor((this.yMouse-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
-		}
 		
 		this.xMouse = input.getAbsoluteMouseX();
 		this.yMouse = input.getAbsoluteMouseY();
@@ -96,6 +91,12 @@ public class InputObject extends MultiObjetModel{
 		
 		this.xMouse = input.getAbsoluteMouseX()+g.plateau.Xcam;
 		this.yMouse = input.getAbsoluteMouseY()+g.plateau.Ycam;
+		
+		if(isPressedA){
+			BottomBar b = player.bottomBar;
+			this.xMouse = (int) Math.floor((this.xMouse-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
+			this.yMouse = (int) Math.floor((this.yMouse-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
+		}
 		
 		// Only for current player at the creation of the input
 		BottomBar bb = g.plateau.currentPlayer.bottomBar;
