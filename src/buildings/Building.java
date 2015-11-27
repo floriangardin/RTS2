@@ -2,19 +2,18 @@ package buildings;
 
 import java.util.HashMap;
 
-import main.Main;
-import model.ActionObjet;
-import model.Checkpoint;
-import model.Game;
-import model.Objet;
-import model.Plateau;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
+import model.ActionObjet;
+import model.Checkpoint;
+import model.Game;
+import model.Objet;
+import model.Plateau;
 import technologies.Technologie;
 import units.Character;
 
@@ -31,7 +30,7 @@ public class Building extends ActionObjet{
 	public Image imageNeutre;
 	public float charge;
 	public boolean isProducing;
-	
+
 	public boolean underAttack;
 	public float underAttackRemaining=0;
 
@@ -71,7 +70,7 @@ public class Building extends ActionObjet{
 		if(this.potentialTeam!=c.getTeam()){
 			this.underAttack = true;
 			this.underAttackRemaining =20f;
-			
+
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
 				this.hq = this.getGameTeam().hq;
@@ -84,6 +83,15 @@ public class Building extends ActionObjet{
 		else{
 			if(this.potentialTeam!=this.getTeam()){
 				this.setTeam(this.potentialTeam);
+				if(this instanceof BuildingHeadQuarters){
+					this.p.g.endGame = true;
+					if(this.getTeam()==this.p.currentPlayer.id){
+						this.p.g.victory = true;
+					}
+					else{
+						this.p.g.victory = false;
+					}
+				}
 				this.hq = this.getGameTeam().hq;
 				if(this instanceof BuildingProduction){
 					((BuildingProduction)this).queue.clear();
@@ -269,7 +277,7 @@ public class Building extends ActionObjet{
 		}
 	}
 
-	
+
 	public Technologie getTechnologieById(int id){
 		Technologie tec = null;
 		for(Technologie t : this.hq.allTechs){
@@ -284,5 +292,5 @@ public class Building extends ActionObjet{
 		this.charge = charge;
 		this.changes.charge = true;
 	}
-	
+
 }
