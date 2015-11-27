@@ -413,7 +413,7 @@ public class MenuMapChoice extends Menu {
 				} catch (UnknownHostException e) {}
 				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
 						startXPlayers+ 1f/10f*sizeXPlayers,
-						startYPlayers+1f*(this.menuPlayers.size())/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
+						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 			}
 
 			for(int i = 0;i<civ.length;i++){
