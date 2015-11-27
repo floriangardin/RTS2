@@ -142,11 +142,11 @@ public class MenuMapChoice extends Menu {
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){
 						mp.messageDropped=0;
+						mp.hasBeenUpdated = false;
 					} else {
 						mp.messageDropped++;
-						if(mp.messageDropped>5){
-							//TODO exclure un joueur
-							System.out.println("Le joueur "+mp.p.id+" est parti");
+						if(mp.messageDropped>25){
+							this.menuPlayers.set(i, null);
 						}
 					}
 				}
@@ -291,7 +291,7 @@ public class MenuMapChoice extends Menu {
 		String thisAddress;
 		try {
 			thisAddress = InetAddress.getLocalHost().getHostAddress();
-			s+="idJ:"+this.game.plateau.currentPlayer.id+"ip:"+thisAddress+";hst:"+this.game.options.nickname+";npl:"+this.game.plateau.players.size()+";";
+			s+="idJ:"+this.game.plateau.currentPlayer.id+";ip:"+thisAddress+";hst:"+this.game.options.nickname+";npl:"+this.game.plateau.players.size()+";";
 		} catch (UnknownHostException e) {}	
 		s+="map:"+this.mapSelected+";";
 		s+="cvS:";
@@ -375,9 +375,6 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void parse(HashMap<String,String> hs){
-		if(game.host && hs.containsKey("idP")){
-			this.menuPlayers.get(Integer.parseInt(hs.get("idP"))).hasBeenUpdated=true;
-		}
 		if(hs.containsKey("map")){
 			if(!this.game.host){
 				this.mapSelected = Integer.parseInt(hs.get("map"));
@@ -408,12 +405,14 @@ public class MenuMapChoice extends Menu {
 			if(hs.containsKey("stT")){
 				this.startGame = Long.parseLong(hs.get("stT"));
 			}
-			//
+			// adding new player if needed
 			if(civ.length>this.game.plateau.players.size()){
 				try {
 					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}
-				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
+				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+						startXPlayers+ 1f/10f*sizeXPlayers,
+						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 			}
 
 			for(int i = 0;i<civ.length;i++){
@@ -447,6 +446,9 @@ public class MenuMapChoice extends Menu {
 					this.menuPlayers.get(i).isReady = isReady[i].equals("1");
 					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
 				}
+			}
+			if(game.host && hs.containsKey("idJ")){
+				this.menuPlayers.get(Integer.parseInt(hs.get("idJ"))).hasBeenUpdated=true;
 			}
 
 		}
