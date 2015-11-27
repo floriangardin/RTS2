@@ -76,6 +76,7 @@ public class MenuMulti extends Menu {
 			game.plateau.clearPlayer();
 			game.plateau.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
 			game.plateau.currentPlayer = game.plateau.players.get(1);
+			game.menuMapChoice.initializeMenuPlayer();
 			game.setMenu(game.menuMapChoice);
 			break;
 		case 1:
@@ -100,6 +101,7 @@ public class MenuMulti extends Menu {
 				try {
 					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
 				} catch (UnknownHostException e) {}
+				game.menuMapChoice.initializeMenuPlayer();
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
