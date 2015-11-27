@@ -375,9 +375,7 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 
 				//CHECKSUm
-				
-				
-				if(this.round>=30 && this.round%3==0){
+				if(this.round>=30 && this.round%30==0){
 					
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|0";
