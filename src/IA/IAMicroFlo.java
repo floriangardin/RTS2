@@ -120,6 +120,12 @@ public class IAMicroFlo extends IAPlayer {
 				this.currentObjective = this.toControl;
 			}
 			break;
+		case Strategy.CONQUER_ENNEMY_HQ:
+			if(this.getSpearman(aliveUnits).size()>0){
+				this.toControl=getNearestHQToConquer(buildingToConquer, this.getSpearman(aliveUnits).get(0));
+				this.currentObjective = this.toControl;
+			}
+			break;
 		default:
 			break;
 
@@ -181,6 +187,11 @@ public class IAMicroFlo extends IAPlayer {
 				this.action = this.strategy.getNextAction();
 			}
 			break;
+		case Strategy.CONQUER_ENNEMY_HQ:
+			if(this.currentObjective!=null && this.currentObjective.getTeam()==this.getTeam()){
+				this.action = this.strategy.getNextAction();
+			}
+			break;
 		case Strategy.MAKE_SPEARMAN:
 				this.productionBarrack = SPEARMAN;
 				this.action = this.strategy.getNextAction();
@@ -188,7 +199,6 @@ public class IAMicroFlo extends IAPlayer {
 		case Strategy.MAKE_CROSSBOWMAN:
 				this.productionBarrack = CROSSBOWMAN;
 				this.action = this.strategy.getNextAction();
-			
 			break;
 		default:
 			break;
