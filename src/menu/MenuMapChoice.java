@@ -291,7 +291,7 @@ public class MenuMapChoice extends Menu {
 		String thisAddress;
 		try {
 			thisAddress = InetAddress.getLocalHost().getHostAddress();
-			s+="idJ:"+this.game.plateau.currentPlayer.id+"ip:"+thisAddress+";hst:"+this.game.options.nickname+";npl:"+this.game.plateau.players.size()+";";
+			s+="idJ:"+this.game.plateau.currentPlayer.id+";ip:"+thisAddress+";hst:"+this.game.options.nickname+";npl:"+this.game.plateau.players.size()+";";
 		} catch (UnknownHostException e) {}	
 		s+="map:"+this.mapSelected+";";
 		s+="cvS:";
