@@ -40,9 +40,10 @@ public class MenuIntro extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 0:
-			this.game.setMenu(this.game.menuMapChoice);
 			this.game.inMultiplayer = false;
 			this.game.plateau = new Plateau(1,1,this.game);
+			game.menuMapChoice.initializeMenuPlayer();
+			this.game.setMenu(this.game.menuMapChoice);
 			break;
 		case 1:
 			this.game.setMenu(this.game.menuMulti);
