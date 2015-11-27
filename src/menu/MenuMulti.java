@@ -70,6 +70,7 @@ public class MenuMulti extends Menu {
 			game.host = true;
 			game.inMultiplayer = true;
 			game.connexionSender = new MultiSender(null, game.portConnexion, this.game.toSendConnexions,game);
+			game.connexionSender.start();
 			try {
 				game.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
