@@ -353,10 +353,6 @@ public class Game extends BasicGame
 			}
 			
 			Input in = gc.getInput();
-			
-			
-			
-			
 			InputObject im = new InputObject(this,plateau.currentPlayer,in);
 			//Handle manual resynchro
 			if(in.isKeyPressed(Input.KEY_O)){

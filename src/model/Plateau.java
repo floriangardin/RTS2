@@ -642,7 +642,6 @@ public class Plateau {
 		return target;
 	}
 
-	//TODO : Here we handle inputs from each players
 	public void update(Vector<InputObject> ims){
 		Utils.triId(this.characters);
 		
