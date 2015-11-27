@@ -171,6 +171,7 @@ public class Game extends BasicGame
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 100;
+	boolean hasAlreadyPlay = false;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -188,8 +189,37 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		
+
 		g.setFont(this.font);
+
+		if(isInMenu){
+			if(hasAlreadyPlay){
+				g.translate(+plateau.Xcam,+ plateau.Ycam);
+			}
+			g.translate(-plateau.Xcam,- plateau.Ycam);
+			this.menuCurrent.draw(g);
+			return;
+		} 
+
+
+		if(endGame){
+			
+			g.setColor(Color.black);
+			g.fillRect(0, 0, this.resX, this.resY);
+			g.setColor(Color.white);
+			//PRint victory
+			if(this.victory){
+				g.drawString("Alors, on se sent un peu comme Gilles ?", this.resX/3f, this.resY/3f);
+			}
+			else{
+				g.drawString("T'as perdu Roger ...", this.resX/3f, this.resY/3f);
+			}
+
+			return;
+
+		}
+		
+	
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
 		g.translate(-plateau.Xcam,- plateau.Ycam);
@@ -198,23 +228,6 @@ public class Game extends BasicGame
 				2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
 
 
-		if(isInMenu){
-			this.menuCurrent.draw(g);
-			return;
-		} 
-		
-		
-		if(endGame){
-			//PRint victory
-			if(this.victory){
-				g.drawString("Alors, on se sent un peu comme Gilles ?", this.resX/2f, this.resY/2f);
-			}
-			else{
-				g.drawString("T'as perdu Roger ...", this.resX/2f, this.resY/2f);
-			}
-			
-		}
-		
 		g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
 				0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
 
@@ -494,18 +507,20 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		}
-		
+
 		else if(endGame){
 			//Print victory !!
 			victoryTime --;
 			if(victoryTime <0){
 				victoryTime = 100;
 				this.isInMenu = true;
+				this.hasAlreadyPlay = true;
+				this.endGame = false;
 				this.setMenu(this.menuIntro);
 				//TODO FERMER LES SOCKETS
 			}
 		}
-		
+
 		if(debugPaquet){
 			System.out.println("tour de jeu: " + round);
 			System.out.println("nb paquets envoy�s: " + idPaquetSend);
