@@ -3,10 +3,10 @@ package units;
 public enum UnitsList {
 
 	Knight("knight",75f,50f,0f,150f),
-	Crossbowman("crossbowman",40f,20f,0f,80f),
+	Crossbowman("crossbowman",40f,20f,0f,4f),
 	Priest("priest",50f,100f,0f,100f),
 	Inquisitor("inquisitor",60f,100f,0f,180f),
-	Spearman("spearman",60f,0f,0f,100f),
+	Spearman("spearman",60f,0f,0f,4f),
 	Archange("archange",0f,0f,7f,0f),
 	Test("test",0f,0f,0f,0f);
 	

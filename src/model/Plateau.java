@@ -644,7 +644,10 @@ public class Plateau {
 
 	public void update(Vector<InputObject> ims){
 		Utils.triId(this.characters);
-
+		
+		for(Player p : players){
+			Utils.triIdActionObjet(p.selection);
+		}
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs 
 		for(InputObject im : ims){
@@ -1220,7 +1223,7 @@ public class Plateau {
 			this.g.idChar = Integer.parseInt(u[2]);
 
 		}
-
+		
 		// Update groups 
 
 		Vector<Character> group  = new Vector<Character>();
@@ -1391,6 +1394,12 @@ public class Plateau {
 		for(Character c : this.characters){
 			c.setTarget(null, null);
 			c.group.clear();
+			c.checkpointTarget = null;
+			c.secondaryTargets.clear();
+			c.leader = null;
+			c.moveAhead = false;
+			c.mode = Character.MOVE;
+			c.waypoints.clear();
 		}
 		String[] u = s.split("\\|");
 		// LOOP OVER EACH CHARACTER
@@ -1408,7 +1417,7 @@ public class Plateau {
 		//		}
 
 		//		this.characters.clear();
-
+		Utils.triId(this.characters);
 		for(int i =0;i<finish;i++){
 			//FIND CONCERNED CHARACTER
 			HashMap<String,String> hs = Objet.preParse(u[i]);
@@ -1427,7 +1436,7 @@ public class Plateau {
 
 
 		//Erase characters who didn't give any news
-
+		Utils.triId(this.characters);
 		for(Character c : this.characters){
 			if(!c.toKeep){
 				System.out.println("Destroyed " + c.id);

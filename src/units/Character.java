@@ -329,7 +329,6 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
-
 		this.toKeep = false;
 
 		this.updateChargeTime();
@@ -1033,6 +1032,8 @@ public class Character extends ActionObjet{
 		s+="lp:"+lifePoints+";";
 		s+="st:"+this.state+";";
 		s+="as:"+this.attackState+";";
+		s+="vx:"+this.vx+";";
+		s+="vy:"+this.vy+";";
 		if(this.isAttacking){
 			s+="ia: ;";
 		}
@@ -1052,9 +1053,15 @@ public class Character extends ActionObjet{
 
 	public void parseCharacter(HashMap<String,String> hs){
 
-
+		if(hs.containsKey("x") && hs.containsKey("y")){
+			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
+		}
 		if(hs.containsKey("as")){
 			this.attackState=Float.parseFloat(hs.get("as"));
+		}
+		
+		if(hs.containsKey("vx")){
+			this.setVXVY(Float.parseFloat(hs.get("vx")),Float.parseFloat(hs.get("vy")));
 		}
 		
 		if(hs.containsKey("ia")){
@@ -1069,9 +1076,7 @@ public class Character extends ActionObjet{
 			this.setTarget(target,null);
 		}
 
-		if(hs.containsKey("x") && hs.containsKey("y")){
-			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
-		}
+
 		if(hs.containsKey("lp")){
 			this.lifePoints=Float.parseFloat(hs.get("lp"));
 		}
