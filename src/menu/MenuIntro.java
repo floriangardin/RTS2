@@ -2,17 +2,10 @@ package menu;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 
-import bullets.Bullet;
 import model.Game;
-import model.Objet;
-import model.Utils;
-import multiplaying.InputObject;
+import model.Plateau;
 
 public class MenuIntro extends Menu {
 
@@ -48,6 +41,8 @@ public class MenuIntro extends Menu {
 		switch(i){
 		case 0:
 			this.game.setMenu(this.game.menuMapChoice);
+			this.game.inMultiplayer = false;
+			this.game.plateau = new Plateau(1,1,this.game);
 			break;
 		case 1:
 			this.game.setMenu(this.game.menuMulti);

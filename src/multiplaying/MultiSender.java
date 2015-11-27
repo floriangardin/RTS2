@@ -20,7 +20,7 @@ public class MultiSender extends Thread{
 	DatagramSocket client;
 	// DEBUGGING
 	int sent = 0;
-	
+
 	public MultiSender(InetAddress address, int port, Vector<String> depot, Game game){
 		this.depot = depot;
 		this.address = address;
@@ -37,7 +37,7 @@ public class MultiSender extends Thread{
 	public void run(){
 		try {
 			@SuppressWarnings("resource")
-			
+
 			byte[] message;
 			DatagramPacket packet;
 			if(Game.debugSender)
@@ -45,9 +45,9 @@ public class MultiSender extends Thread{
 			while(true){
 				if(this.depot.size()>0){
 					this.game.idPaquetSend++;
-//					if(depot.get(0).charAt(0)=='2' && game.host){
-//						address = InetAddress.getByName(depot.get(0).substring(1));
-//					}
+					//					if(depot.get(0).charAt(0)=='2' && game.host){
+					//						address = InetAddress.getByName(depot.get(0).substring(1));
+					//					}
 					message = (depot.get(0).toString()).getBytes();
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
@@ -58,18 +58,19 @@ public class MultiSender extends Thread{
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
-				Thread.sleep((long) 0.001);
+				try{
+					Thread.sleep((long) 0.001);
+				} catch (InterruptedException e) {
+					break;
+				}
 			}
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
-	
+
 	public void sendMessage(String s){
 		this.depot.addElement(s);
 	}

@@ -164,7 +164,6 @@ public class MultiReceiver extends Thread{
 		} catch (SocketException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}

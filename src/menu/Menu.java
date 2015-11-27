@@ -64,7 +64,7 @@ public abstract class Menu {
 			for(int i=0; i<this.items.size(); i++){
 				item = this.items.get(i);
 				item.update(im);
-				if(im.leftClick && item.mouseOver){
+				if(im.pressedLeftClick && item.mouseOver){
 					this.callItem(i);
 					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
 				}

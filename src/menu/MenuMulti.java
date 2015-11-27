@@ -69,6 +69,7 @@ public class MenuMulti extends Menu {
 			// Heberger
 			game.host = true;
 			game.inMultiplayer = true;
+			game.connexionSender = new MultiSender(null, game.portConnexion, this.game.toSendConnexions,game);
 			try {
 				game.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
