@@ -376,9 +376,6 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void parse(HashMap<String,String> hs){
-		if(game.host && hs.containsKey("idJ")){
-			this.menuPlayers.get(Integer.parseInt(hs.get("idJ"))).hasBeenUpdated=true;
-		}
 		if(hs.containsKey("map")){
 			if(!this.game.host){
 				this.mapSelected = Integer.parseInt(hs.get("map"));
@@ -450,6 +447,9 @@ public class MenuMapChoice extends Menu {
 					this.menuPlayers.get(i).isReady = isReady[i].equals("1");
 					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
 				}
+			}
+			if(game.host && hs.containsKey("idJ")){
+				this.menuPlayers.get(Integer.parseInt(hs.get("idJ"))).hasBeenUpdated=true;
 			}
 
 		}
