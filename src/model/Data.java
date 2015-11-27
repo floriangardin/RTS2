@@ -41,7 +41,7 @@ public class Data {
 	//// BUILDINGS STATS
 	//headQuarters
 	public int headQuartersLifePoints = 200;
-	public float headQuartersSight = 3000f;
+	public float headQuartersSight = 500f;
 	public float headQuartersSizeX = 300f;
 	public float headQuartersSizeY = 200f;
 	// Mill
@@ -60,7 +60,7 @@ public class Data {
 
 	// Barrack
 	public int barrackLifePoints = 100;
-	public float barrackSight = 3000f;
+	public float barrackSight = 500f;
 	public float barrackSizeX = 400f;
 	public float barrackSizeY = 250f;
 
