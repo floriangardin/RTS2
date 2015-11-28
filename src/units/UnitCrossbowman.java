@@ -35,7 +35,8 @@ public class UnitCrossbowman extends Character {
 		
 		this.soundSetTarget = this.p.g.sounds.orderCrossbowman;
 		this.soundAttack = this.p.g.sounds.attackCrossbowman;
-		this.soundDeath = this.p.g.sounds.death;
+		this.soundDeath = this.p.g.sounds.deathCrossbowman;
+		this.soundSelection = this.p.g.sounds.selectionCrossbowman;
 		
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.crossbowmanBlue;
