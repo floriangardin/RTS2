@@ -31,7 +31,7 @@ public class Utils {
 			return v.get(0);
 		}
 		Random generator = new Random();
-		int rnd = generator.nextInt(v.size() - 1);
+		int rnd = generator.nextInt(v.size());
 		return v.get(rnd); // Cast the vector value into a String object
 	}
 
