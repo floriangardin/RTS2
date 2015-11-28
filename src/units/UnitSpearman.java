@@ -33,7 +33,8 @@ public class UnitSpearman extends Character {
 		this.animStep = 32f;
 		this.soundSetTarget = this.p.g.sounds.orderSpearman;
 		this.soundAttack = this.p.g.sounds.attackSpearman;
-		this.soundDeath = this.p.g.sounds.death;
+		this.soundDeath = this.p.g.sounds.deathSpearman;
+		this.soundSelection = this.p.g.sounds.selectionSpearman;
 
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.spearmanBlue;
