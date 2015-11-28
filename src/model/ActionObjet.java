@@ -27,7 +27,8 @@ public abstract class ActionObjet extends Objet{
 	//SOUNDS
 	public Vector<Sound> soundSetTarget;
 	public Vector<Sound> soundAttack;
-	public Sound soundDeath;
+	public Vector<Sound> soundSelection;
+	public Vector<Sound> soundDeath;
 	
 	//CHANGED BOOLEAN
 
