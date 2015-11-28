@@ -57,6 +57,13 @@ public class Sounds {
 
 		}
 
+		attackSpearman = new Vector<Sound>();
+		deathSpearman = new Vector<Sound>();
+		selectionSpearman = new Vector<Sound>();
+		attackCrossbowman = new Vector<Sound>();
+		deathCrossbowman = new Vector<Sound>();
+		selectionCrossbowman = new Vector<Sound>();
+
 		// units sounds
 		this.getSoundByName(attackSpearman, "attaqueSpearman");
 		this.getSoundByName(deathSpearman, "mortSpearman");
@@ -66,7 +73,6 @@ public class Sounds {
 		this.getSoundByName(deathCrossbowman, "mortCrossbowman");
 		this.getSoundByName(selectionCrossbowman, "selectionCrossbowman");
 		orderCrossbowman = attackCrossbowman;
-
 	}
 
 	public Sound getByName(String weapon) {
@@ -83,7 +89,6 @@ public class Sounds {
 	}
 
 	public void getSoundByName(Vector<Sound> v, String type){
-		v = new Vector<Sound>();
 		int number = 1;
 		File f;
 		while(true){
