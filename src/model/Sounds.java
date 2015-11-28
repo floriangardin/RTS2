@@ -93,6 +93,7 @@ public class Sounds {
 			} catch (SlickException e){
 				break;
 			}
+			number++;
 		}
 	}
 
