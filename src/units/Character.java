@@ -154,6 +154,7 @@ public class Character extends ActionObjet{
 		this.soundSetTarget = c.soundSetTarget;
 		this.soundAttack = c.soundAttack;
 		this.soundDeath = c.soundDeath;
+		this.soundSelection = c.soundSelection;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
