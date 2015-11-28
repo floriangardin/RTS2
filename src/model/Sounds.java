@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Vector;
 
 import org.newdawn.slick.Music;
@@ -45,24 +47,25 @@ public class Sounds {
 			buzz = new Sound("music/menuItemSelected.ogg");
 			bonus = new Sound("music/bonusound.ogg");
 
-			// units sounds
-			this.getSoundByName(attackSpearman, "attaqueSpearman");
-			this.getSoundByName(deathSpearman, "mortSpearman");
-			this.getSoundByName(selectionSpearman, "selectionSpearman");
-			orderSpearman = attackSpearman;
-			this.getSoundByName(attackCrossbowman, "attaqueCrossbowman");
-			this.getSoundByName(deathCrossbowman, "mortCrossbowman");
-			this.getSoundByName(selectionCrossbowman, "selectionCrossbowman");
-			orderCrossbowman = attackCrossbowman;
+
 
 
 			soundDefeat = new Music("music/music_defeat.ogg");
 			soundVictory = new Music("music/music_victory.ogg");
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
+
+		// units sounds
+		this.getSoundByName(attackSpearman, "attaqueSpearman");
+		this.getSoundByName(deathSpearman, "mortSpearman");
+		this.getSoundByName(selectionSpearman, "selectionSpearman");
+		orderSpearman = attackSpearman;
+		this.getSoundByName(attackCrossbowman, "attaqueCrossbowman");
+		this.getSoundByName(deathCrossbowman, "mortCrossbowman");
+		this.getSoundByName(selectionCrossbowman, "selectionCrossbowman");
+		orderCrossbowman = attackCrossbowman;
 
 	}
 
@@ -82,15 +85,20 @@ public class Sounds {
 	public void getSoundByName(Vector<Sound> v, String type){
 		v = new Vector<Sound>();
 		int number = 1;
+		File f;
 		while(true){
 			String s = type;
 			if(number<10)
 				s+="0"+number;
 			else
 				s+=number;
-			try{
-				v.addElement(new Sound("music/soundsUnit/"+s+".ogg"));
-			} catch (SlickException e){
+			f = new File("music/soundsUnit/"+s+".ogg");
+			if(f.exists()){
+				try {
+					v.addElement(new Sound("music/soundsUnit/"+s+".ogg"));
+				} catch (SlickException e) {
+				}
+			} else {
 				break;
 			}
 			number++;
