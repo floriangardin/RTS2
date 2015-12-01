@@ -403,15 +403,10 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 
 				//CHECKSUm
-<<<<<<< HEAD
+
 				if(this.round>=30 && this.round%30==0){
 
-=======
-				
-				
-				if(this.round>=30 && this.round%100==0){
-					
->>>>>>> parent of d73829d... lock
+
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|0";
 					int i = 0;
