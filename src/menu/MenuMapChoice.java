@@ -342,6 +342,7 @@ public class MenuMapChoice extends Menu {
 		s+="clk:"+this.game.clock.getCurrentTime();
 		s+=";";
 		//Send starttime if isHost and is about to launch game
+		System.out.println("startGame: " + this.startGame);
 		if(this.startGame!=0){
 			System.out.println("le desespoir");
 			s+="stT:"+this.startGame;
