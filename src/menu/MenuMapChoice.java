@@ -486,6 +486,7 @@ public class MenuMapChoice extends Menu {
 			}
 			if(hs.containsKey("stT")){
 				this.startGame = Long.parseLong(hs.get("stT"));
+				System.out.println("MenuMapChoice line 489 : parsed Start Time");
 			}
 			//checking if changes about currentPlayer
 			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
