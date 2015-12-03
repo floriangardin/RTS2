@@ -54,6 +54,8 @@ public class IAMicroFlo extends IAPlayer {
 	int productionHQ;
 	int productionAcademy;
 	
+	//Units attributes
+	
 	Building toControl;
 	Building toProtect;
 
@@ -71,10 +73,11 @@ public class IAMicroFlo extends IAPlayer {
 		//MAKE UNITS IN CORRESPONDING GROUPS
 		makeUnitGroups();
 		//Define the mode for this round 
-		Vector<Character> aliveUnits = this.getMyAliveUnits();
-		Vector<Building> myBuildings = this.getMyBuildings();
-		Vector<Building> neutralBuilding = this.getNeutralBuildings();
-		Vector<Building> buildingToConquer = this.getEnnemyBuildings();
+		aliveUnits = this.getMyAliveUnits();
+		myBuildings = this.getMyBuildings();
+		neutralBuilding = this.getNeutralBuildings();
+		buildingToConquer = this.getEnnemyBuildings();
+		
 		//Get ennemy units
 		Vector<Character> ennemies =  getEnnemyUnitsInSight();
 		
@@ -267,10 +270,7 @@ public class IAMicroFlo extends IAPlayer {
 		if(this.action==Strategy.MAKE_SPEARMAN){
 			
 		}
-
 	}
-
-
 	public void handleSpearman(Vector<Character> ennemies,Vector<Character> units){
 		for(Character charac : units){
 			Character c = IAUtils.nearestUnit(ennemies, charac);

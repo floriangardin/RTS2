@@ -15,6 +15,7 @@ public class UnitKnight extends Character {
 		super(p, gameteam);
 		this.name = "knight";
 		this.type = UnitsList.Knight;
+		this.unitType = KNIGHT;
 		this.attackDuration = 2f;
 		this.maxLifePoints = 90f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
