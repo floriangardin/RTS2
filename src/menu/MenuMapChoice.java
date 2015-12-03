@@ -149,7 +149,7 @@ public class MenuMapChoice extends Menu {
 					} else {
 						mp.messageDropped++;
 						if(mp.messageDropped>25){
-							// disconnecting players
+							System.out.println("disconnecting player");
 							this.menuPlayers.set(i, null);
 						}
 					}
