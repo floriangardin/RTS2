@@ -440,7 +440,7 @@ public class MenuMapChoice extends Menu {
 			playerToChange.getGameTeam().civ = Integer.parseInt(hs.get("cvS"));
 		}
 		if(hs.containsKey("idT")){
-			playerToChange.getGameTeam().id = Integer.parseInt(hs.get("idT"));
+			playerToChange.setTeam(Integer.parseInt(hs.get("idT")));
 		}
 		if(hs.containsKey("nckn")){
 			playerToChange.nickname = hs.get("nckn");
