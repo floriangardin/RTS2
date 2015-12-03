@@ -138,7 +138,7 @@ public class MenuMapChoice extends Menu {
 				}
 			} else {
 				// sending to host
-				this.game.toSendConnexions.addElement("2"+this.toString());		
+				this.game.toSendConnexions.addElement("2"+this.messageToHost()());		
 				// parsing if received anything
 				while(game.connexions.size()>0){
 					this.parseForClient(Objet.preParse(game.connexions.remove(0)));
