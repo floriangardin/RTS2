@@ -122,11 +122,6 @@ public class MenuMapChoice extends Menu {
 	public void update(InputObject im){
 		// Handling current player according to input
 		this.menuPlayers.get(game.plateau.currentPlayer.id).update(im);
-		//Checking starting of the game
-		if(startGame!=0){
-			this.handleStartGame();
-			return;
-		}
 		// handling connexions
 		if(game.inMultiplayer){
 			if(game.host){
@@ -159,6 +154,11 @@ public class MenuMapChoice extends Menu {
 						}
 					}
 				}
+			}
+			//Checking starting of the game
+			if(startGame!=0){
+				this.handleStartGame();
+				return;
 			}
 		}
 		// Checking if all players are ready then launch the game
