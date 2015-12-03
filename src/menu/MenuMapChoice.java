@@ -423,7 +423,7 @@ public class MenuMapChoice extends Menu {
 						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
 		Player playerToChange = this.game.plateau.players.get(idJ);
-		if(playerToChange.address!=address){
+		if(!playerToChange.address.equals(address)){
 			System.out.println("menumpchoice line 426 : error over the ip addresses");
 			return;
 		}
