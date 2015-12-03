@@ -242,7 +242,7 @@ public class MenuMapChoice extends Menu {
 	public void handleSendingConnexions(){
 		// sending games to ingame players
 		for(Player p : this.game.plateau.players){
-			if(p.address != null){
+			if(p.address != null && p!=this.game.plateau.currentPlayer){
 				this.game.connexionSender.address = p.address;
 				//						Thread.sleep((long) 0.005);
 				this.game.toSendConnexions.addElement("2"+toString());
