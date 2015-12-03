@@ -144,7 +144,6 @@ public class MenuMulti extends Menu {
 						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
 						String[] idTeam =hashmap.get("idT").split(",");
 						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
-						System.out.println("MenuMulti 168 "+o.teamFirstPlayer);
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
