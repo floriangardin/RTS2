@@ -484,15 +484,16 @@ public class MenuMapChoice extends Menu {
 				}
 
 			}
-			if(hs.containsKey("stT")){
-				this.startGame = Long.parseLong(hs.get("stT"));
-				System.out.println("MenuMapChoice line 489 : parsed Start Time");
-			}
 			//checking if changes about currentPlayer
 			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
 				// changes among the player
 				System.out.println("MenuMapChoice line 482: error player unidentified");
 				return;
+			}
+			System.out.println("MenuMapChoice line 489 : on sait jamais");
+			if(hs.containsKey("stT")){
+				this.startGame = Long.parseLong(hs.get("stT"));
+				System.out.println("MenuMapChoice line 489 : parsed Start Time");
 			}
 			// adding new player if needed
 			if(civ.length>this.game.plateau.players.size()){
