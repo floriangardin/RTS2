@@ -488,12 +488,7 @@ public class MenuMapChoice extends Menu {
 				}
 
 			}
-			//checking if changes about currentPlayer
-			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
-				// changes among the player
-				System.out.println("MenuMapChoice line 482: error player unidentified");
-				return;
-			}
+			
 			if(hs.containsKey("stT")){
 				this.startGame = Long.parseLong(hs.get("stT"));
 				System.out.println("MenuMapChoice line 489 : parsed Start Time");
@@ -506,6 +501,12 @@ public class MenuMapChoice extends Menu {
 				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
 						startXPlayers+ 1f/10f*sizeXPlayers,
 						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
+			}
+			//checking if changes about currentPlayer
+			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
+				// changes among the player
+				System.out.println("MenuMapChoice line 482: error player unidentified");
+				return;
 			}
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
