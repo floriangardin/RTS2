@@ -96,7 +96,7 @@ public class MenuMapChoice extends Menu {
 				game.launchGame();
 				break;
 			} else {
-				this.game.plateau.currentPlayer.isReady = !this.game.plateau.currentPlayer.isReady;
+				this.game.plateau.currentPlayer.isReady = true;
 			}
 		default:		
 		}
@@ -278,6 +278,8 @@ public class MenuMapChoice extends Menu {
 					this.game.toSendConnexions.addElement("2"+toString());
 					Thread.sleep((long) 0.05);
 					//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
+				} else {
+					System.out.println("MenuMapChoice line 281: pas envoyé enculé " + cooldown);
 				}
 			} catch (UnknownHostException | InterruptedException e) {
 				e.printStackTrace();
@@ -414,13 +416,19 @@ public class MenuMapChoice extends Menu {
 		try {
 			address = InetAddress.getByName(hs.get("ip"));
 		} catch (UnknownHostException e){}
+		//cancelling if the sender is the host
+		try{
+			if(address.getHostAddress().equals(InetAddress.getLocalHost().getHostAddress())){
+				return;
+			}
+		} catch (UnknownHostException e){}
 		// checking if the player is a new player
 		if(this.game.plateau.players.size()<=idJ){
 			System.out.println("==> MenuMapChoice line 416 : new Player !!!");
-				this.game.plateau.addPlayer("???", address,1,1);
-				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
-						startXPlayers+ 1f/10f*sizeXPlayers,
-						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
+			this.game.plateau.addPlayer("???", address,1,1);
+			this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+					startXPlayers+ 1f/10f*sizeXPlayers,
+					startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
 		Player playerToChange = this.game.plateau.players.get(idJ);
 		if(!playerToChange.address.equals(address)){
