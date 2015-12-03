@@ -413,6 +413,7 @@ public class MenuMapChoice extends Menu {
 		InetAddress address = null;
 		// checking if the player is a new player
 		if(this.game.plateau.players.size()<=idJ){
+			System.out.println("==> MenuMapChoice line 416 : new Player !!!");
 			try {
 				address = InetAddress.getByName(hs.get("ip"));
 				this.game.plateau.addPlayer("???", address,1,1);
@@ -423,9 +424,10 @@ public class MenuMapChoice extends Menu {
 		}
 		Player playerToChange = this.game.plateau.players.get(idJ);
 		if(playerToChange.address!=address){
-			System.out.println("menumpchoice line 418 : error over the ip addresses");
+			System.out.println("menumpchoice line 426 : error over the ip addresses");
 			return;
 		}
+		System.out.println("==     ====== MenuMapChoice line 430 : we did it amazing !!!");
 		if(hs.containsKey("cvS")){
 			playerToChange.getGameTeam().civ = Integer.parseInt(hs.get("cvS"));
 		}
