@@ -214,7 +214,7 @@ public class MenuMapChoice extends Menu {
 			boolean toGame = true;
 			// checking if all players are ready
 			for(int j=1;j<this.menuPlayers.size(); j++){
-				if(!this.menuPlayers.get(j).isReady){
+				if(!this.menuPlayers.get(j).p.isReady){
 					toGame = false;
 				}
 			}
@@ -333,7 +333,7 @@ public class MenuMapChoice extends Menu {
 
 		s+="isR:";
 		for(Menu_Player p : this.menuPlayers){
-			s+=p.isReady;
+			s+=p.p.isReady;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -529,7 +529,7 @@ public class MenuMapChoice extends Menu {
 
 			for(int i = 0;i<isReady.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
-					this.menuPlayers.get(i).isReady = isReady[i].equals("1");
+					this.menuPlayers.get(i).p.isReady = isReady[i].equals("1");
 					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
 				}
 			}
