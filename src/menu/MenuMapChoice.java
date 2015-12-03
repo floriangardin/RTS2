@@ -150,7 +150,11 @@ public class MenuMapChoice extends Menu {
 						mp.messageDropped++;
 						if(mp.messageDropped>25){
 							System.out.println("disconnecting player");
-							this.menuPlayers.set(i, null);
+							this.menuPlayers.remove(i);
+							this.game.plateau.removePlayer(i);
+							for(int k=0; k<this.menuPlayers.size(); k++){
+								this.game.plateau.players.get(k).id = k;
+							}
 						}
 					}
 				}
