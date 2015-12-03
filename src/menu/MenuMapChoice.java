@@ -279,7 +279,6 @@ public class MenuMapChoice extends Menu {
 					Thread.sleep((long) 0.05);
 					//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 				} else {
-					System.out.println("MenuMapChoice line 281: pas envoyé enculé " + cooldown);
 				}
 			} catch (UnknownHostException | InterruptedException e) {
 				e.printStackTrace();
@@ -424,7 +423,6 @@ public class MenuMapChoice extends Menu {
 		} catch (UnknownHostException e){}
 		// checking if the player is a new player
 		if(this.game.plateau.players.size()<=idJ){
-			System.out.println("==> MenuMapChoice line 416 : new Player !!!");
 			this.game.plateau.addPlayer("???", address,1,1);
 			this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
 					startXPlayers+ 1f/10f*sizeXPlayers,
@@ -435,7 +433,6 @@ public class MenuMapChoice extends Menu {
 			System.out.println("menumpchoice line 426 : error over the ip addresses");
 			return;
 		}
-		System.out.println("==     ====== MenuMapChoice line 430 : we did it amazing !!!");
 		if(hs.containsKey("cvS")){
 			playerToChange.getGameTeam().civ = Integer.parseInt(hs.get("cvS"));
 		}
@@ -488,7 +485,7 @@ public class MenuMapChoice extends Menu {
 				this.startGame = Long.parseLong(hs.get("stT"));
 			}
 			//checking if changes about currentPlayer
-			if(ips[this.game.plateau.currentPlayer.id]!=this.game.plateau.currentPlayer.address.getHostAddress()){
+			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
 				// changes among the player
 				System.out.println("MenuMapChoice line 482: error player unidentified");
 				return;
