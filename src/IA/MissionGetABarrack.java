@@ -6,20 +6,19 @@ import java.util.Vector;
 import model.IAPlayer;
 import units.Character;
 
-public class MissionGetAMill extends Mission {
+public class MissionGetABarrack extends Mission {
 
-
-	public MissionGetAMill(IAPlayer ia){
+	public MissionGetABarrack(IAPlayer ia){
 		//This mission needs one spearman
 		this.initHashMap();
 		this.ia = ia;
 		this.group = new Vector<Character>();
 		this.type = Mission.ECO;
-		this.target = ia.getNearestNeutralMill(ia.neutralBuilding,ia.getGameTeam().hq );
+		this.target = ia.getNearestNeutralBarrack(ia.neutralBuilding,ia.getGameTeam().hq );
 	}
 	@Override
 	public boolean checkRequirement() {
-
+		
 		return false;
 	}
 
@@ -45,7 +44,6 @@ public class MissionGetAMill extends Mission {
 		this.requirement.put(Character.INQUISITOR, 0);
 		this.requirement.put(Character.PRIEST, 0);
 		this.requirement.put(Character.ARCHANGE, 0);
-
+		
 	}
-
 }

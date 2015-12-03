@@ -191,7 +191,7 @@ public class IAPlayer extends Player{
 		return (Building) Utils.nearestObject(result, caller);
 		
 	}
-	public Building getNearestNeutralMine(Vector<Building> buildings,Character caller){
+	public Building getNearestNeutralMine(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingMine && b.getTeam()==0){
@@ -202,7 +202,7 @@ public class IAPlayer extends Player{
 		return (Building) Utils.nearestObject(result, caller);
 		
 	}
-	public Building getNearestNeutralBarrack(Vector<Building> buildings,Character caller){
+	public Building getNearestNeutralBarrack(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingBarrack && b.getTeam()==0){
@@ -212,7 +212,7 @@ public class IAPlayer extends Player{
 		return (Building) Utils.nearestObject(result, caller);
 	}
 	
-	public Building getNearestMillToConquer(Vector<Building> buildings,Character caller){
+	public Building getNearestMillToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
@@ -223,7 +223,7 @@ public class IAPlayer extends Player{
 		return (Building) Utils.nearestObject(result, caller);
 		
 	}
-	public Building getNearestMineToConquer(Vector<Building> buildings,Character caller){
+	public Building getNearestMineToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingMine && b.getTeam()!=caller.getTeam()){
@@ -235,7 +235,7 @@ public class IAPlayer extends Player{
 		
 	}
 	
-	public Building getNearestHQToConquer(Vector<Building> buildings,Character caller){
+	public Building getNearestHQToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingHeadQuarters && b.getTeam()!=caller.getTeam()){
@@ -246,7 +246,7 @@ public class IAPlayer extends Player{
 		return (Building) Utils.nearestObject(result, caller);
 		
 	}
-	public Building getNearestBarrackToConquer(Vector<Building> buildings,Character caller){
+	public Building getNearestBarrackToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingBarrack && b.getTeam()!=caller.getTeam()){
