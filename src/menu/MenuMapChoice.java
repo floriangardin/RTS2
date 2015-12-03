@@ -411,16 +411,16 @@ public class MenuMapChoice extends Menu {
 			return;
 		int idJ = Integer.parseInt(hs.get("idJ"));
 		InetAddress address = null;
+		try {
+			address = InetAddress.getByName(hs.get("ip"));
+		} catch (UnknownHostException e){}
 		// checking if the player is a new player
 		if(this.game.plateau.players.size()<=idJ){
 			System.out.println("==> MenuMapChoice line 416 : new Player !!!");
-			try {
-				address = InetAddress.getByName(hs.get("ip"));
 				this.game.plateau.addPlayer("???", address,1,1);
 				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
 						startXPlayers+ 1f/10f*sizeXPlayers,
 						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
-			} catch (UnknownHostException e) {}
 		}
 		Player playerToChange = this.game.plateau.players.get(idJ);
 		if(playerToChange.address!=address){
