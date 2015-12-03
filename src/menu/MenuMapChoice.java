@@ -411,6 +411,9 @@ public class MenuMapChoice extends Menu {
 		if(!hs.containsKey("idJ"))
 			return;
 		int idJ = Integer.parseInt(hs.get("idJ"));
+		if(idJ==0 || idJ==1){
+			return;
+		}
 		InetAddress address = null;
 		try {
 			address = InetAddress.getByName(hs.get("ip"));
