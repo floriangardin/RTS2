@@ -338,13 +338,12 @@ public class MenuMapChoice extends Menu {
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		//Send time if isHost
-		if(this.game.host){
-			s+="clk:"+this.game.clock.getCurrentTime();
-			s+=";";
-		}
+		//Send time 
+		s+="clk:"+this.game.clock.getCurrentTime();
+		s+=";";
 		//Send starttime if isHost and is about to launch game
-		if(this.game.host && this.startGame!=0){
+		if(this.startGame!=0){
+			System.out.println("le desespoir");
 			s+="stT:"+this.startGame;
 			s+=";";
 		}
@@ -490,7 +489,6 @@ public class MenuMapChoice extends Menu {
 				System.out.println("MenuMapChoice line 482: error player unidentified");
 				return;
 			}
-			System.out.println("MenuMapChoice line 489 : on sait jamais");
 			if(hs.containsKey("stT")){
 				this.startGame = Long.parseLong(hs.get("stT"));
 				System.out.println("MenuMapChoice line 489 : parsed Start Time");
