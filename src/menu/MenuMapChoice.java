@@ -258,7 +258,7 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		// sending games to other ips
-		if(cooldown<=255){
+		for(int cooldown=0; cooldown<255; cooldown++){
 			if(!game.connexionSender.isAlive()){
 				game.connexionSender.start();
 			}
@@ -287,9 +287,6 @@ public class MenuMapChoice extends Menu {
 			} catch (UnknownHostException | InterruptedException e) {
 				e.printStackTrace();
 			}
-			cooldown++;
-		} else {
-			cooldown=0;				
 		}
 	}
 
