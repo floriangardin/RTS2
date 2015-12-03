@@ -140,7 +140,7 @@ public class MenuMapChoice extends Menu {
 				}		
 			}
 			// checking disconnecting players
-			Vector<Integer> toRemove = new Vector<Integer>();
+			int toRemove = -1;
 			if(game.host){
 				for(int i=2 ; i<this.menuPlayers.size(); i++){
 					Menu_Player mp = this.menuPlayers.get(i);
@@ -150,14 +150,14 @@ public class MenuMapChoice extends Menu {
 					} else {
 						mp.messageDropped++;
 						if(mp.messageDropped>25){
-							System.out.println("disconnecting player");
-							toRemove.addElement(i);
-							
+							System.out.println("disconnecting player:"+i);
+							toRemove=i;
 						}
 					}
 				}
 			}
-			for(Integer k : toRemove){
+			if(toRemove!=-1){
+				int k = toRemove;
 				this.menuPlayers.remove(k);
 				this.game.plateau.removePlayer(k);
 				for(int i=0; i<this.menuPlayers.size(); i++){
