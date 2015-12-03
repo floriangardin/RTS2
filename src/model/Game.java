@@ -403,9 +403,7 @@ public class Game extends BasicGame
 			if(inMultiplayer){
 
 				//CHECKSUm
-
 				if(this.round>=30 && this.round%30==0){
-
 
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|0";
@@ -600,7 +598,7 @@ public class Game extends BasicGame
 		// Instantiate BottomBars for all players:
 		selection = null;
 		this.clock = new Clock(this);
-
+		this.clock.start();
 	}
 
 	public void sendInputToPlayer(Player player, String s){

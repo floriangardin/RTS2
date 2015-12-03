@@ -89,9 +89,9 @@ public class Map {
 		new BonusLifePoints(game.plateau, 3*X/4, Y/2);
 		new BonusDamage(game.plateau, X/2, Y/9);
 		new BonusSpeed(game.plateau, X/2, 8*Y/9);
-		new BuildingTower(game.plateau,game,X/2,Y/2);
+		//new BuildingTower(game.plateau,game,X/2,Y/2);
 		//Tree
-		new Tree(X/3,Y/3,game.plateau,1);
+		//new Tree(X/3,Y/3,game.plateau,1);
 	}
 
 	public static void createMapDuelSmall(Game game){

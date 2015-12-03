@@ -30,7 +30,6 @@ public class Menu_Player extends Menu_Item{
 
 	boolean isOverColor;
 	boolean isOverCiv;
-	boolean isReady;
 	
 	public int messageDropped = 0;
 	public boolean hasBeenUpdated = false;
@@ -41,7 +40,6 @@ public class Menu_Player extends Menu_Item{
 		this.p = p;
 		this.x = x;
 		this.y = y;
-		this.isReady = p.isReady;
 		this.game = game;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
@@ -115,7 +113,7 @@ public class Menu_Player extends Menu_Item{
 		g.drawString(p.getGameTeam().civName, startXciv, startYciv);
 		g.setColor(Color.white);
 		if(game.inMultiplayer)
-			g.drawString(this.isReady ? "Ready":"Not Ready" ,startXready , startYready);
+			g.drawString(this.p.isReady ? "Ready":"Not Ready" ,startXready , startYready);
 	}
 
 }

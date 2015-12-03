@@ -35,8 +35,7 @@ public class Plateau {
 	public Game g;
 	public float maxX ;
 	public float maxY ;
-	
-	boolean releaseClick=false;
+
 	// Number of teams
 	public int nTeams;
 	// Number of players
@@ -312,7 +311,7 @@ public class Plateau {
 			if(!o.isAlive()){
 				this.removeCharacter(o);
 				if(o.soundDeath!=null && o.soundDeath.size()>0){
-					Utils.getRandomSound(o.soundDeath).play(1f, this.g.options.soundVolume);
+					Utils.getRandomSound(o.soundSelection).play(1f, this.g.options.soundVolume);
 				}
 			}
 		}
@@ -781,8 +780,6 @@ public class Plateau {
 				if(c.id == i)
 					this.selection.get(im.player.id).add(c);
 		}
-		
-		
 
 	}
 
@@ -1079,12 +1076,8 @@ public class Plateau {
 		}
 		//update the rectangle
 		if(im.leftClick){
-			releaseClick = false;
 			// As long as the button is pressed, the selection is updated
 			this.updateRectangle(im,player);
-		}
-		else{
-			releaseClick = false;
 		}
 		// we update the selection according to the rectangle wherever is the mouse
 		if(im.pressedLeftClick && !im.isPressedMAJ){
@@ -1096,17 +1089,8 @@ public class Plateau {
 			this.updateSelectionCTRL(rectangleSelection.get(player), player, team);
 		}
 
-		for(ActionObjet c : this.selection.get(player)){
-			if(!this.players.get(player).selection.contains(c) && Math.random()>0.5f){
-				if(c.soundSelection!=null && c.soundSelection.size()>0 && this.currentPlayer.id==player){
-					Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
-				}
-			}
-		}
 		// Update the selections of the players
 		this.players.get(player).selection.clear();
-
-		
 		for(ActionObjet c: this.selection.get(player))
 			this.players.get(player).selection.addElement(c);
 
@@ -1148,6 +1132,15 @@ public class Plateau {
 				}
 			}
 			this.players.get(player).groupSelection = -1;
+		}
+
+		//Play selection sound
+		if(player==this.currentPlayer.id && this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character ){
+			Character c = (Character) this.selection.get(player).get(0);
+			if(c.soundSelection!=null && c.soundSelection.size()>0 && Math.random()>0.3){
+				Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+			}
+
 		}
 
 
