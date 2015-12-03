@@ -476,6 +476,10 @@ public class MenuMapChoice extends Menu {
 			String[] resX = hs.get("resX").split(",");
 			String[] resY = hs.get("resY").split(",");
 			String[] ips =hs.get("ips").split(",");
+			// drop the first parsing
+			if(civ.length<this.game.plateau.players.size()){
+				return;
+			}
 			if(hs.containsKey("clk")){
 				long clockTime = Long.parseLong(hs.get("clk"));
 				if((!this.game.host && !pingAsked) || (seconds<4&& ! secondPingAsked)){
