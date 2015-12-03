@@ -529,8 +529,7 @@ public class MenuMapChoice extends Menu {
 
 			for(int i = 0;i<isReady.length;i++){
 				if(this.game.plateau.currentPlayer.id!=i){
-					this.menuPlayers.get(i).p.isReady = isReady[i].equals("1");
-					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
+					this.game.plateau.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
 				}
 			}
 			for(int i = 0;i<ips.length;i++){
