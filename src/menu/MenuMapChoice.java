@@ -263,7 +263,7 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		// sending games to other ips
-		for(int cooldown=0; cooldown<255; cooldown++){
+		for(int cooldown=0; cooldown<100; cooldown++){
 			if(!game.connexionSender.isAlive()){
 				game.connexionSender.start();
 			}
@@ -285,7 +285,7 @@ public class MenuMapChoice extends Menu {
 					this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
 					//							Thread.sleep((long) 0.005);
 					this.game.toSendConnexions.addElement("2"+toString());
-					Thread.sleep((long) 0.05);
+					Thread.sleep((long) 0.01);
 					//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 				} else {
 				}
@@ -425,7 +425,7 @@ public class MenuMapChoice extends Menu {
 		//cancelling if the sender is the host
 		try{
 			if(address.getHostAddress().equals(InetAddress.getLocalHost().getHostAddress())){
-				return;
+				
 			}
 		} catch (UnknownHostException e){}
 		// checking if the player is a new player
