@@ -598,7 +598,7 @@ public class Game extends BasicGame
 		// Instantiate BottomBars for all players:
 		selection = null;
 		this.clock = new Clock(this);
-
+		this.clock.start();
 	}
 
 	public void sendInputToPlayer(Player player, String s){
