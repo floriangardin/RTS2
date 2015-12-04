@@ -51,6 +51,7 @@ public class MenuMapChoice extends Menu {
 	public int seconds = 6;
 
 	public int cooldown;
+	public int messageDropped;
 
 	public MenuMapChoice(Game game){
 		super(game);
@@ -133,11 +134,17 @@ public class MenuMapChoice extends Menu {
 				}
 			} else {
 				// sending to host
-				this.game.toSendConnexions.addElement("2"+this.messageToHost());		
+				this.game.toSendConnexions.addElement("2"+this.messageToHost());	
+				messageDropped++;	
 				// parsing if received anything
 				while(game.connexions.size()>0){
+					messageDropped=0;
 					this.parseForClient(Objet.preParse(game.connexions.remove(0)));
 				}		
+				//checking if game still exists
+				if(messageDropped>25){
+					this.callItem(0);
+				}
 			}
 			// checking disconnecting players
 			int toRemove = -1;
