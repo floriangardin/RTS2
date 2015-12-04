@@ -55,7 +55,6 @@ public class Menu_Player extends Menu_Item{
 		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth(" ");
 		this.startXready = startXciv+this.game.font.getWidth("Zinaids ");
 		this.startYciv = y;
-		this.startXready = x+650f;
 		this.startYready = y;
 	}
 
