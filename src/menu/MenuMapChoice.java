@@ -158,7 +158,6 @@ public class MenuMapChoice extends Menu {
 			}
 			if(toRemove!=-1){
 				int k = toRemove;
-				this.menuPlayers.remove(k);
 				this.game.plateau.removePlayer(k);
 				for(int i=0; i<this.menuPlayers.size(); i++){
 					this.game.plateau.players.get(i).id = i;
@@ -520,6 +519,7 @@ public class MenuMapChoice extends Menu {
 					if(p.address.getHostAddress().equals(this.game.plateau.currentPlayer.address.getHostAddress())){
 						this.game.plateau.currentPlayer = p;
 					}
+					this.initializeMenuPlayer();
 				}
 				System.out.println("MenuMapChoice line 529: un joueur a été déconnecté");
 				return;
