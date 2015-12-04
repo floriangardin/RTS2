@@ -23,7 +23,7 @@ public class Menu_MapChoice extends Menu_Item {
 	public void draw(Graphics g){
 		g.setColor(Color.white);
 		if(isSelected)
-			g.drawRect(x-5f, y-5f, sizeX, sizeY+10f);
+			g.drawRect(x-5f, y-5f, sizeX, sizeY);
 		if(mouseOver)
 			g.setColor(Color.gray);
 		g.drawString(name, x, y);

@@ -175,17 +175,19 @@ public class MenuMapChoice extends Menu {
 		// Updating items
 		this.updateItems(im);
 		// Updating map choices
-		for(int i=0; i<this.mapchoices.size(); i++){
-			Menu_MapChoice item = this.mapchoices.get(i);
-			item.update(im);
-			if(im.pressedLeftClick && item.mouseOver){
-				for(Menu_MapChoice mp : this.mapchoices){
-					mp.isSelected = false;
+		if(this.game.host){
+			for(int i=0; i<this.mapchoices.size(); i++){
+				Menu_MapChoice item = this.mapchoices.get(i);
+				item.update(im);
+				if(im.pressedLeftClick && item.mouseOver){
+					for(Menu_MapChoice mp : this.mapchoices){
+						mp.isSelected = false;
+					}
+					item.isSelected = true;
+					this.mapSelected = i;
 				}
-				item.isSelected = true;
-				this.mapSelected = i;
-			}
-		}	
+			}	
+		}
 
 	}
 	public void handleStartGame(){
@@ -520,7 +522,7 @@ public class MenuMapChoice extends Menu {
 				}
 				System.out.println("MenuMapChoice line 529: un joueur a été déconnecté");
 				return;
-				
+
 			}
 			///////////
 			// parsing

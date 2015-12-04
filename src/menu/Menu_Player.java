@@ -53,7 +53,7 @@ public class Menu_Player extends Menu_Item{
 		this.sizeXcolor = 90f*this.game.resX/1920f;
 		this.sizeYcolor = 40f*this.game.resY/1080f;
 		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth(" ");
-		this.startXready = startXciv+this.game.font.getWidth("Zinaids ");
+		this.startXready = startXciv+this.game.font.getWidth("Zinaids      ");
 		this.startYciv = y;
 		this.startYready = y;
 	}

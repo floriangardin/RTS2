@@ -67,6 +67,7 @@ public class MenuMulti extends Menu {
 		switch(i){
 		case 0:
 			// Heberger
+			this.openGames.clear();
 			game.host = true;
 			game.inMultiplayer = true;
 			game.connexionSender = new MultiSender(null, game.portConnexion, this.game.toSendConnexions,game);
@@ -82,6 +83,7 @@ public class MenuMulti extends Menu {
 			break;
 		case 1:
 			// Rejoindre
+			this.openGames.clear();
 			if(gameSelected!=-1){
 				game.host = false;
 				game.inMultiplayer = true;
@@ -117,7 +119,7 @@ public class MenuMulti extends Menu {
 		this.drawItems(g);
 		g.setColor(Color.white);
 		g.drawString("Parties disponibles: ", this.startXGames+70f, startY+50f);
-		g.fillRect(this.startXGames+80f, startY+80f+this.game.font.getHeight("R"),2, sizeYGames/2f - 60f+this.game.font.getHeight("R"));
+		g.fillRect(this.startXGames+40f, startY+80f+this.game.font.getHeight("R"),2, sizeYGames/2f - 60f+this.game.font.getHeight("R"));
 		for(Menu_MapChoice s : this.gamesList)
 			s.draw(g);
 	}
@@ -139,17 +141,26 @@ public class MenuMulti extends Menu {
 							t = Integer.parseInt(idTeam[1]);
 						}
 						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
-						gamesList.add(new Menu_MapChoice(game, ""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), 200f, 40f));
+						gamesList.add(new Menu_MapChoice(game, ""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), sizeXGames/2f, 40f));
 					} else {
 						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
 						String[] idTeam =hashmap.get("idT").split(",");
 						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
+						o.messageDropped=0;
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+		Vector<OpenGames> toRemove= new Vector<OpenGames>();
+		for(OpenGames o:this.openGames){
+			o.messageDropped++;
+			if(o.messageDropped>25){
+				toRemove.add(o);
+			}
+		}
+		this.openGames.removeAll(toRemove);
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_MapChoice item = this.gamesList.get(i);
@@ -171,12 +182,14 @@ public class MenuMulti extends Menu {
 		InetAddress hostAddress;
 		int nPlayers;
 		int teamFirstPlayer;
+		int messageDropped;
 
 		public OpenGames(String hostName, InetAddress hostAddress, int nPlayers, int teamF) {
 			this.hostName = hostName;
 			this.nPlayers = nPlayers;
 			this.hostAddress = hostAddress;
 			this.teamFirstPlayer = teamF;
+			this.messageDropped = 0;
 		}
 
 	}
