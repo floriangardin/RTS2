@@ -83,7 +83,6 @@ public class MenuMulti extends Menu {
 			break;
 		case 1:
 			// Rejoindre
-			this.openGames.clear();
 			if(gameSelected!=-1){
 				game.host = false;
 				game.inMultiplayer = true;
@@ -104,6 +103,7 @@ public class MenuMulti extends Menu {
 					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
 				} catch (UnknownHostException e) {}
 				game.menuMapChoice.initializeMenuPlayer();
+				this.openGames.clear();
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
