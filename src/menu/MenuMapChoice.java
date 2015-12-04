@@ -163,7 +163,7 @@ public class MenuMapChoice extends Menu {
 				for(int i=0; i<this.menuPlayers.size(); i++){
 					this.game.plateau.players.get(i).id = i;
 				}
-				this.updatePositionMenuPlayers();
+				this.initializeMenuPlayer();
 			}
 			//Checking starting of the game
 			if(startGame!=0){
@@ -189,15 +189,6 @@ public class MenuMapChoice extends Menu {
 		}	
 
 	}
-
-	private void updatePositionMenuPlayers() {
-		for(int i=1; i<this.menuPlayers.size(); i++){
-			this.menuPlayers.get(i).updatePosition(startXPlayers+ 1f/10f*sizeXPlayers,
-					startYPlayers+1f*(i+2)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f);
-		}		
-	}
-
-
 	public void handleStartGame(){
 		/**
 		 * function that checks if the game is about to start
@@ -438,7 +429,8 @@ public class MenuMapChoice extends Menu {
 			}
 		} catch (UnknownHostException e){}
 		// checking if the player is a new player
-		if(this.game.plateau.players.size()<=idJ){
+		while(this.game.plateau.players.size()<=idJ){
+			System.out.println("MenuMapChoice line 442 : new player added");
 			this.game.plateau.addPlayer("???", address,1,1);
 			this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
 					startXPlayers+ 1f/10f*sizeXPlayers,
