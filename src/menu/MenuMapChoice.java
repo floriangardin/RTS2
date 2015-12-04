@@ -193,7 +193,7 @@ public class MenuMapChoice extends Menu {
 	private void updatePositionMenuPlayers() {
 		for(int i=1; i<this.menuPlayers.size(); i++){
 			this.menuPlayers.get(i).updatePosition(startXPlayers+ 1f/10f*sizeXPlayers,
-					startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f);
+					startYPlayers+1f*(i+2)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f);
 		}		
 	}
 
