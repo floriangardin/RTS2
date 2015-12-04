@@ -153,14 +153,18 @@ public class MenuMulti extends Menu {
 				}
 			}
 		}
-		Vector<OpenGames> toRemove= new Vector<OpenGames>();
-		for(OpenGames o:this.openGames){
+		Vector<Integer> toRemove= new Vector<Integer>();
+		for(int i=0; i<this.openGames.size(); i++){
+			OpenGames o = this.openGames.get(i);
 			o.messageDropped++;
 			if(o.messageDropped>25){
-				toRemove.add(o);
+				toRemove.add(i);
 			}
 		}
-		this.openGames.removeAll(toRemove);
+		for(Integer i : toRemove){
+			this.openGames.remove(i);
+			this.gamesList.remove(i);
+		}
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_MapChoice item = this.gamesList.get(i);
