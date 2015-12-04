@@ -162,9 +162,12 @@ public class MenuMulti extends Menu {
 			}
 		}
 		for(Integer i : toRemove){
-			this.openGames.remove(i);
-			this.gamesList.remove(i);
+			System.out.print("partie effacée : " + i+"  size : ");
+			this.openGames.removeElementAt(i);
+			this.gamesList.removeElementAt(i);
+			System.out.println(this.openGames.size());
 		}
+		System.out.println();
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_MapChoice item = this.gamesList.get(i);
