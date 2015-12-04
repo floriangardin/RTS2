@@ -81,6 +81,8 @@ public class Images {
 	public Image bonusLifePoints;
 	public Image bonusDamage;
 	public Image bonusSpeed;
+	public Image inquisitorBlue;
+	public Image inquisitorRed;
 
 	public Images(){
 		try {
@@ -125,6 +127,8 @@ public class Images {
 			this.spearmanRed = new Image("pics/unit/spearman_move_2.png");
 			this.crossbowmanBlue = new Image("pics/unit/crossbowrman_move_1.png");
 			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
+			this.inquisitorBlue = new Image("pics/unit/inquisitor_move_1.png");
+			this.inquisitorRed = new Image("pics/unit/inquisitor_move_2.png");
 			
 			//TODO put right image
 			this.attackSpearmanBlue = new Image("pics/unit/spearman_attack_1.png");
