@@ -147,6 +147,7 @@ public class MenuMulti extends Menu {
 						String[] idTeam =hashmap.get("idT").split(",");
 						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
 						o.messageDropped=0;
+						System.out.println("vaneau");
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
