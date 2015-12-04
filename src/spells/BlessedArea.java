@@ -2,13 +2,15 @@ package spells;
 
 import java.util.Vector;
 
+import main.Main;
+import model.Checkpoint;
+import model.Plateau;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
-import model.Checkpoint;
-import model.Plateau;
 import units.Character;
 
 public class BlessedArea extends SpellEffect{
@@ -65,7 +67,7 @@ public class BlessedArea extends SpellEffect{
 		this.changes.x = true;
 		this.changes.y = true;
 		
-		this.remainingTime-=1f;
+		this.remainingTime-=10f*Main.increment;
 		Vector<Character> toDelete = new Vector<Character>();
 		if(this.remainingTime<=0f){
 			this.lifePoints = -1f;
@@ -90,7 +92,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-		this.animationState +=1f;
+		this.animationState +=1f*Main.increment;
 		if(this.animationState>animationMax)
 			animationState = 0f;
 		float x,y,r,currentAnimation;

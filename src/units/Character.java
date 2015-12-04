@@ -962,7 +962,7 @@ public class Character extends ActionObjet{
 					this.animation= 0;
 				}
 			}
-			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration && this.mode!=TAKE_BUILDING){
+			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration-2*Main.increment && this.mode!=TAKE_BUILDING){
 				this.useWeapon();
 				this.attackState = 0f;
 			}
@@ -980,6 +980,9 @@ public class Character extends ActionObjet{
 			this.state+= Main.increment;
 		if(isAttacking && this.attackState<=this.attackDuration)
 			this.attackState+= Main.increment;
+		if(this.attackState>=this.attackDuration){
+			this.attackState-=2*Main.increment;
+		}
 
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
