@@ -26,11 +26,22 @@ import org.newdawn.slick.geom.Transform;
 import pathfinding.Case;
 import spells.Spell;
 import IA.IAUnit;
+import IA.Mission;
 import buildings.Building;
 
 public class Character extends ActionObjet{
-
+	
+	//UNITS TYPE
+	public static int SPEARMAN = 0;
+	public static int CROSSBOWMAN = 1;
+	public static int KNIGHT = 2;
+	public static int INQUISITOR = 3;
+	public static int PRIEST = 4;
+	public static int ARCHANGE = 5;
+	public int unitType;
+	
 	//MODE
+	public Mission mission;
 	public static int MOVE=0;
 	public static int AGGRESSIVE=1;
 	

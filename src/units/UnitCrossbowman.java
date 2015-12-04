@@ -20,6 +20,7 @@ public class UnitCrossbowman extends Character {
 		super(p, gameteam);
 		this.name = "crossbowman";
 		this.type = UnitsList.Crossbowman;
+		this.unitType = CROSSBOWMAN;
 		this.attackDuration = 1f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;

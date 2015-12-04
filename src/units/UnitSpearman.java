@@ -18,6 +18,7 @@ public class UnitSpearman extends Character {
 		super(p, gameteam);
 		this.name = "spearman";
 		this.type = UnitsList.Spearman;
+		this.unitType = SPEARMAN;
 		this.attackDuration = 1f;
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;

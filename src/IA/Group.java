@@ -37,6 +37,12 @@ public class Group {
 		this.group.clear();
 	}
 	
+	public int getNumberWished(){
+		return number_wished;
+	}
+	public void setNumberWished(int n){
+		number_wished = n;
+	}
 	
 	
 }
