@@ -422,12 +422,14 @@ public class MenuMapChoice extends Menu {
 		try {
 			address = InetAddress.getByName(hs.get("ip"));
 		} catch (UnknownHostException e){}
-		//cancelling if the sender is the host
-		try{
-			if(address.getHostAddress().equals(InetAddress.getLocalHost().getHostAddress())){
-
+		// if player already there but id is wrong do nothing
+		for(Player p: this.game.plateau.players){
+			if(p.address.equals(address)){
+				if(p.id!=idJ){
+					return;
+				}
 			}
-		} catch (UnknownHostException e){}
+		}
 		// checking if the player is a new player
 		while(this.game.plateau.players.size()<=idJ){
 			System.out.println("MenuMapChoice line 442 : new player added");
@@ -493,6 +495,7 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 			if(toStop){
+				System.out.println("MenuMapChoice line 496: return due to missing player");
 				return;
 			}
 			// checking if there is a missing player
