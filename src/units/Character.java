@@ -962,7 +962,7 @@ public class Character extends ActionObjet{
 					this.animation= 0;
 				}
 			}
-			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration){
+			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration && this.mode!=TAKE_BUILDING){
 				this.useWeapon();
 				this.attackState = 0f;
 			}
