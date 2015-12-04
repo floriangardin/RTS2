@@ -159,7 +159,7 @@ public class MenuMapChoice extends Menu {
 			if(toRemove!=-1){
 				int k = toRemove;
 				this.game.plateau.removePlayer(k);
-				for(int i=0; i<this.menuPlayers.size(); i++){
+				for(int i=0; i<this.game.plateau.players.size(); i++){
 					this.game.plateau.players.get(i).id = i;
 				}
 				this.initializeMenuPlayer();
@@ -488,14 +488,11 @@ public class MenuMapChoice extends Menu {
 			try {
 				localhost = InetAddress.getLocalHost().getHostAddress();
 			} catch (UnknownHostException e1) {}
-			System.out.print("ip presentes: ");
 			for(int i=0; i<ips.length; i++){
-				System.out.print(ips[i]+" ");
 				if(ips[i].equals(localhost)){
 					toStop = false;
 				}
 			}
-			System.out.println("__ "+localhost);
 			if(toStop){
 				System.out.println("MenuMapChoice line 496: return due to missing player");
 				return;
