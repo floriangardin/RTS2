@@ -495,9 +495,6 @@ public class MenuMapChoice extends Menu {
 			if(toStop){
 				return;
 			}
-			if(civ.length<this.game.plateau.players.size()){
-				return;
-			}
 			// checking if there is a missing player
 			if(civ.length<this.game.plateau.players.size()){
 				// we reparse all informations and set again the currentPlayer to the right location
