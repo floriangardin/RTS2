@@ -30,7 +30,7 @@ public class Menu_Player extends Menu_Item{
 
 	boolean isOverColor;
 	boolean isOverCiv;
-	
+
 	public int messageDropped = 0;
 	public boolean hasBeenUpdated = false;
 
@@ -38,12 +38,16 @@ public class Menu_Player extends Menu_Item{
 
 	public Menu_Player(Player p, float x, float y, Game game){
 		this.p = p;
+		this.game = game;
+		this.updatePosition(x, y);
+	}
+
+	public void updatePosition(float x, float y){
 		this.x = x;
 		this.y = y;
-		this.game = game;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
-		String s1 = "Player "+p.id+" : "+"WWWWWWWWWWWWWW"+" ";
+		String s1 = "Player "+p.id+" : "+"WWWWWWWW"+" ";
 		this.startXcolor = x + this.game.font.getWidth(s1);
 		this.startYcolor = y;
 		this.sizeXcolor = 90f*this.game.resX/1920f;

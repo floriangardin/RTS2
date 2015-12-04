@@ -248,6 +248,9 @@ public class Plateau {
 	// functions that handle buffers
 
 	public void clearPlayer(){
+		/**
+		 * function that remove all players but the nature (player 0)
+		 */
 		while(players.size()>1){
 			removePlayer(players.size()-1);
 		}
