@@ -13,7 +13,7 @@ public class Main {
 	public static int framerate = 60;
 	public static float increment = 0.1f*30/Main.framerate;
 
-	public static boolean pleinEcran = false;
+	public static boolean pleinEcran = true;
 	
 	public static void main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -35,6 +35,7 @@ public class Main {
 			app.setShowFPS(false);
 			app.setDisplayMode(resolutionX, resolutionY,pleinEcran);
 			app.setAlwaysRender(false);
+			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
 			//app.setTargetFrameRate(Main.framerate);
 			app.setVSync(false);

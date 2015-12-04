@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import bullets.Fireball;
 import model.Data;
 import model.GameTeam;
+import model.Objet;
 import model.Plateau;
 import model.Player;
 
@@ -33,6 +34,7 @@ public class UnitInquisitor extends Character {
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 200f;
+		this.animStep = 24f;
 	
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.inquisitorBlue;
@@ -111,6 +113,70 @@ public class UnitInquisitor extends Character {
 		this.changes.orientation = true;
 
 	}
+	
+	public void moveToward(Objet o){
+		if(o==null && this.checkpointTarget==null){
+			return;
+		}
+		float newvx, newvy;
+		newvx = o.getX()-this.getX();
+		newvy = o.getY()-this.getY();
+		//Creating the norm of the acceleration and the new velocities among x and y
+		float maxVNorm = this.maxVelocity/((float)this.getGameTeam().data.FRAMERATE);
+		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+
+		//Checking if the point is not too close of the target
+		if((this.group.size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
+			// 1st possible call of stop: the target is near
+			this.stop();
+			return;
+		}
+		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		if(vNorm>maxVNorm){
+			//if the velocity is too large it is reduced to the maxVelocity value
+			newvx = newvx*maxVNorm/vNorm;
+			newvy = newvy*maxVNorm/vNorm;
+		}
+		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		float newX,newY;
+		newX = this.getX()+newvx;
+		newY = this.getY()+newvy;
+		//if the new coordinates are beyond the map's limits, it must be reassigned
+		if(newX<this.collisionBox.getBoundingCircleRadius()){
+			newX = this.collisionBox.getBoundingCircleRadius();
+			newvx = Math.max(newvx,0f);
+		}
+		if(newY<this.collisionBox.getBoundingCircleRadius()){
+			newY = this.collisionBox.getBoundingCircleRadius();
+			newvy = Math.max(newvy, 0f);
+		}
+		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
+			newvx = Math.min(0f, newvx);
+		}
+		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
+			newvy = Math.min(0f, newvy);
+		}
+
+		//eventually we reassign the position and velocity variables
+		this.setVXVY(newvx, newvy);
+
+		this.setXY(newX, newY);
+
+
+
+		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
+		if(this.animationValue>=4f){
+			this.animationValue = 0f;
+			this.animation = (this.animation+1)%5;
+			if(this.animation == 0){
+				this.animation = 1;
+			}
+
+		}
+
+	}
 
 	public Graphics draw(Graphics g){
 
@@ -120,14 +186,11 @@ public class UnitInquisitor extends Character {
 
 
 		//Adapted to spearman TODO : Genericity
-
-
 		
 		if(this.isImmolating){
 			this.animation = 0;
 			this.orientation = 2;
 		}
-
 
 		direction = (float)(orientation/2-1);
 		int imageWidth = this.image.getWidth()/5;
