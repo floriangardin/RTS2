@@ -147,7 +147,6 @@ public class MenuMulti extends Menu {
 						String[] idTeam =hashmap.get("idT").split(",");
 						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
 						o.messageDropped=0;
-						System.out.println("vaneau");
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -163,10 +162,12 @@ public class MenuMulti extends Menu {
 			}
 		}
 		for(Integer i : toRemove){
-			System.out.println("partie effacée : " + i);
+			System.out.print("partie effacée : " + i+"  size : ");
 			this.openGames.remove(i);
 			this.gamesList.remove(i);
+			System.out.println(this.openGames.size());
 		}
+		System.out.println();
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_MapChoice item = this.gamesList.get(i);

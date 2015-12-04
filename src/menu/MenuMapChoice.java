@@ -286,7 +286,7 @@ public class MenuMapChoice extends Menu {
 					this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
 					//							Thread.sleep((long) 0.005);
 					this.game.toSendConnexions.addElement("2"+toString());
-					Thread.sleep((long) 0.01);
+					Thread.sleep((long) 0.001);
 					//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 				} else {
 				}
