@@ -60,7 +60,7 @@ public class MenuOptions extends Menu {
 		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+1*stepY,"son",this.game,false));
 		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"retour",this.game,true));
 		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+2*stepY,"pseudo",this.game,false));
-		this.textscanner = new Menu_TextScanner(game.options.nickname,2*this.game.resX/3f,startY+2f*stepY,0.8f*this.game.resX/4f,this.game.font.getHeight("R")*2f+2f);
+		this.textscanner = new Menu_TextScanner(game.options.nickname,2*this.game.resX/3f,startY+2f*stepY,this.game.font.getWidth("Gilles de Bouard "),this.game.font.getHeight("R")*2f+2f, this.game);
 		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+0*stepY,"musique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
 		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+1*stepY,"volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
 		//		}

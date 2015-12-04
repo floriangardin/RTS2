@@ -47,12 +47,12 @@ public class Menu_Player extends Menu_Item{
 		this.y = y;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
-		String s1 = "Player "+p.id+" : "+"WWWWWWWW"+" ";
+		String s1 = "Player  "+p.id+" :  "+"Gilles de Bouard   ";
 		this.startXcolor = x + this.game.font.getWidth(s1);
 		this.startYcolor = y;
 		this.sizeXcolor = 90f*this.game.resX/1920f;
 		this.sizeYcolor = 40f*this.game.resY/1080f;
-		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth(" ");
+		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("  ");
 		this.startXready = startXciv+this.game.font.getWidth("Zinaids      ");
 		this.startYciv = y;
 		this.startYready = y;
