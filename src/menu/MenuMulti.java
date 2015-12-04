@@ -162,6 +162,7 @@ public class MenuMulti extends Menu {
 			}
 		}
 		for(Integer i : toRemove){
+			System.out.println("partie effacée : " + i);
 			this.openGames.remove(i);
 			this.gamesList.remove(i);
 		}
