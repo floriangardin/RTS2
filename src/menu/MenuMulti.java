@@ -68,6 +68,7 @@ public class MenuMulti extends Menu {
 		case 0:
 			// Heberger
 			this.openGames.clear();
+			this.gamesList.clear();
 			game.host = true;
 			game.inMultiplayer = true;
 			game.connexionSender = new MultiSender(null, game.portConnexion, this.game.toSendConnexions,game);
@@ -104,12 +105,15 @@ public class MenuMulti extends Menu {
 				} catch (UnknownHostException e) {}
 				game.menuMapChoice.initializeMenuPlayer();
 				this.openGames.clear();
+				this.gamesList.clear();
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
 		case 2:
 			// Retour 
 			this.game.setMenu(this.game.menuIntro);
+			this.openGames.clear();
+			this.gamesList.clear();
 			break;
 		default:		
 		}

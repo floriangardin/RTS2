@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import model.Game;
 import multiplaying.InputObject;
 
 public class Menu_TextScanner extends Menu_Item{
@@ -19,7 +20,8 @@ public class Menu_TextScanner extends Menu_Item{
 	public boolean keyDown;
 	public int idKeyDown;
 
-	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY){
+	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY, Game g){
+		this.game = g;
 		if(s!=null)
 			this.s = s;
 		else 
@@ -59,7 +61,7 @@ public class Menu_TextScanner extends Menu_Item{
 
 	public void update(Input i, InputObject im){
 		if(isSelected){
-			if(s.length()<14){
+			if(this.game.font.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
 					if(i.isKeyDown(k)){
@@ -111,14 +113,14 @@ public class Menu_TextScanner extends Menu_Item{
 			g.setColor(Color.yellow);
 		else
 			g.setColor(Color.white);
-		g.drawRect(x-sizeX/2f, y-sizeY/2f, sizeX, sizeY);
+		g.drawRect(x-sizeX/2f-10f, y-sizeY/2f, sizeX+20f, sizeY);
 		g.setColor(Color.white);
 		float height = g.getFont().getHeight("Hg");
 		if(s!=null){
 			if(animation>30){
-				g.drawString(s+"|", x-sizeX/2.3f, y-height/2);
+				g.drawString(s+"|", x-sizeX/2f, y-height/2);
 			} else {
-				g.drawString(s, x-sizeX/2.3f, y-height/2);				
+				g.drawString(s, x-sizeX/2f, y-height/2);				
 			}
 		}
 	}
