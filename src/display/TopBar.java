@@ -55,12 +55,14 @@ public class TopBar extends Bar {
 		// Draw subcomponents :
 
 		// Draw Ressources
-		g.drawImage(this.imageFood, 5*this.sizeX/8,(this.sizeY-24)/2);
-		g.drawString(": "+this.p.currentPlayer.getGameTeam().food, 5.2f*this.sizeX/8,(this.sizeY-28)/2);
-		g.drawImage(this.imageGold, 6*this.sizeX/8,(this.sizeY-24)/2);
-		g.drawString(": "+this.p.currentPlayer.getGameTeam().gold, 6.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawImage(this.imageFood, 4*this.sizeX/8,(this.sizeY-24)/2);
+		g.drawString(": "+this.p.currentPlayer.getGameTeam().food, 4.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawImage(this.imageGold, 5*this.sizeX/8,(this.sizeY-24)/2);
+		g.drawString(": "+this.p.currentPlayer.getGameTeam().gold, 5.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawImage(this.imageSpecial, 6*this.sizeX/8,(this.sizeY-32)/2);
+		g.drawString(": "+this.p.currentPlayer.getGameTeam().special, 6.2f*this.sizeX/8,(this.sizeY-28)/2);
 		g.drawImage(this.imageSpecial, 7*this.sizeX/8,(this.sizeY-32)/2);
-		g.drawString(": "+this.p.currentPlayer.getGameTeam().special, 7.2f*this.sizeX/8,(this.sizeY-28)/2);
+		g.drawString(": "+this.p.currentPlayer.getGameTeam().pop+"/"+this.p.currentPlayer.getGameTeam().maxPop, 7.2f*this.sizeX/8,(this.sizeY-28)/2);
 		// Draw separation 
 
 		return g;

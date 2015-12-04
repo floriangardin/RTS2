@@ -99,16 +99,18 @@ public class Map {
 		Data data1 = game.plateau.teams.get(1).data;
 		Data data2 = game.plateau.teams.get(2).data;
 		
+		int team1 = 1;
+		int team2 = 2;
 		// Team 1 side
-		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,200f,1);
-		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 300f);
-		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f+40f, 300f);
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,200f,team1);
+		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 310f);
+		data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f+40f, 310f);
 		new BuildingMill(game.plateau,game,550f,200f);
 		new BuildingMine(game.plateau,game,game.plateau.maxX-550f,200f);
 		new BuildingBarrack(game.plateau,game,game.plateau.maxX/2,1f*game.plateau.maxY/5);
 			
 		// Team 2 side
-		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY-200f,2);
+		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,game.plateau.maxX/2,game.plateau.maxY-200f,team2);
 		data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f,  game.plateau.maxY-350f);
 		data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f+40f,  game.plateau.maxY-350f);
 		new BuildingMill(game.plateau,game,550f,game.plateau.maxY-200f);

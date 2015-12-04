@@ -91,7 +91,7 @@ public class MenuMapChoice extends Menu {
 				this.game.setMenu(this.game.menuIntro);
 			break;
 		case 1: 
-			// démarrer
+			// dï¿½marrer
 			if(!game.inMultiplayer){
 				Map.updateMap(mapSelected, game);
 				game.launchGame();
@@ -182,7 +182,7 @@ public class MenuMapChoice extends Menu {
 		// Updating items
 		this.updateItems(im);
 		// Updating map choices
-		if(this.game.host){
+		if(this.game.host || !this.game.inMultiplayer){
 			for(int i=0; i<this.mapchoices.size(); i++){
 				Menu_MapChoice item = this.mapchoices.get(i);
 				item.update(im);
@@ -527,7 +527,7 @@ public class MenuMapChoice extends Menu {
 					}
 					this.initializeMenuPlayer();
 				}
-				System.out.println("MenuMapChoice line 529: un joueur a été déconnecté");
+				System.out.println("MenuMapChoice line 529: un joueur a ï¿½tï¿½ dï¿½connectï¿½");
 				return;
 
 			}

@@ -41,13 +41,14 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 	}
 	
-	public void product(int unit){
+	public boolean product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
 			if(this.productionList.get(unit).tech.foodPrice<=this.getGameTeam().food
 					&& this.productionList.get(unit).tech.goldPrice<=this.getGameTeam().gold){
 				this.queue=this.productionList.get(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
+				return true;
 			} else {
 				if(this.productionList.get(unit).tech.foodPrice>this.getGameTeam().food)
 					this.p.addMessage(Message.getById("food"),p.currentPlayer.id);
@@ -55,6 +56,7 @@ public abstract class BuildingTech extends BuildingAction {
 					this.p.addMessage(Message.getById("gold"), p.currentPlayer.id);
 			}
 		}
+		return false;
 	}
 	
 	public void techTerminate(Technologie q){

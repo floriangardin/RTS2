@@ -44,6 +44,7 @@ public class Character extends ActionObjet{
 	public Mission mission;
 	public static int MOVE=0;
 	public static int AGGRESSIVE=1;
+	public static int TAKE_BUILDING=2;
 	
 	// General attributes
 	public Circle sightBox;
@@ -166,6 +167,7 @@ public class Character extends ActionObjet{
 		this.soundAttack = c.soundAttack;
 		this.soundDeath = c.soundDeath;
 		this.soundSelection = c.soundSelection;
+		this.getGameTeam().pop++;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
@@ -610,6 +612,9 @@ public class Character extends ActionObjet{
 		}
 		else if(mode==AGGRESSIVE){
 			g.setColor(Color.red);
+		}
+		else if(mode==TAKE_BUILDING){
+			g.setColor(Color.green);
 		}
 		g.setLineWidth(2f);
 		if(this.target instanceof Character){

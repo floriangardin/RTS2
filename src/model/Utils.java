@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.Sound;
 
+import buildings.BuildingProduction;
 import model.Objet;
 import units.Character;
 
@@ -65,7 +66,7 @@ public class Utils {
 		return closest;
 
 	}
-	
+
 	public static Character nearestObject(Vector<Character> close, Character caller){
 		float ref_dist = 1000000000f;
 		Character closest = null;
@@ -247,7 +248,7 @@ public class Utils {
 		}
 
 	}
-	
+
 
 	public static void triIdActionObjet(Vector<ActionObjet> liste){
 		if(liste.size()<=1)
@@ -398,6 +399,47 @@ public class Utils {
 			y1 = liste1.firstElement().name;
 			y2 = liste2.firstElement().name;
 			if(y1.compareTo(y2)>=0){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+			} else {
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+			}
+		}
+	}
+	public static void sortByQueue(Vector<BuildingProduction> liste){
+		if(liste.size()<=1)
+			return;
+		Vector<BuildingProduction> liste1 = new Vector<BuildingProduction>(), liste2= new Vector<BuildingProduction>();
+		for(int i=0;i<liste.size();i++){
+			if(i<liste.size()/2)
+				liste1.add(liste.get(i));
+			else
+				liste2.add(liste.get(i));
+		}
+		liste.clear();
+		sortByQueue(liste1);
+		sortByQueue(liste2);
+		int y1=0, y2=0;
+		boolean b1=true, b2=true;
+		while(true){
+			b1 = !liste1.isEmpty();
+			b2 = !liste2.isEmpty();
+			if(!b1 && !b2)
+				break;
+			if(!b1){
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+				continue;
+			}
+			if(!b2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+				continue;
+			}
+			y1 = liste1.firstElement().queue.size();
+			y2 = liste2.firstElement().queue.size();
+			if(y1<=y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
 			} else {

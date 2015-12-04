@@ -164,21 +164,21 @@ public class MapGrid {
 			// voisin de droite
 			for(int k=0;k<8;k++){
 				switch(k){
-				case 0: //à droite
+				case 0: //ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j;break;
-				case 1: //à gauche
+				case 1: //ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j;break;
 				case 2: //en bas
 					iTrav = u.i; jTrav = u.j+1;break;
 				case 3: //en haut
 					iTrav = u.i; jTrav = u.j-1;break;
-				case 4: //en bas à droite
+				case 4: //en bas ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j+1;break;
-				case 5: //en bas à gauche
+				case 5: //en bas ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j+1;break;
-				case 6: //en haut à droite
+				case 6: //en haut ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j-1;break;
-				case 7: //en haut à gauche
+				case 7: //en haut ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
 				if(iTrav==iEnd && jTrav==jEnd){
@@ -276,21 +276,21 @@ public class MapGrid {
 			// voisin de droite
 			for(int k=0;k<8;k++){
 				switch(k){
-				case 0: //à droite
+				case 0: //ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j;break;
-				case 1: //à gauche
+				case 1: //ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j;break;
 				case 2: //en bas
 					iTrav = u.i; jTrav = u.j+1;break;
 				case 3: //en haut
 					iTrav = u.i; jTrav = u.j-1;break;
-				case 4: //en bas à droite
+				case 4: //en bas ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j+1;break;
-				case 5: //en bas à gauche
+				case 5: //en bas ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j+1;break;
-				case 6: //en haut à droite
+				case 6: //en haut ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j-1;break;
-				case 7: //en haut à gauche
+				case 7: //en haut ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
 				if(iTrav>=iEnd1 && jTrav>=jEnd1 && iTrav<=iEnd2 && jTrav<=jEnd2){

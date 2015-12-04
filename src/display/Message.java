@@ -23,6 +23,7 @@ public class Message {
 		case "faith" : return new Message("Not enough faith", 75, Color.white);
 		case "research" : return new Message("Research complete", 75, Color.white);
 		case "mana" : return new Message("Not enough mana", 75, Color.white);
+		case "pop" : return new Message("Not enough room", 75, Color.white);
 		case "building" : return new Message("Cannot convert this building", 75, Color.white);
 		default : return null;
 		}

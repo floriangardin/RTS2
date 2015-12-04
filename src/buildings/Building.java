@@ -67,7 +67,7 @@ public class Building extends ActionObjet{
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.potentialTeam!=c.getTeam()){
+		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING){
 			this.underAttack = true;
 			this.underAttackRemaining =20f;
 
@@ -77,12 +77,14 @@ public class Building extends ActionObjet{
 			}
 			this.constructionPoints-=Main.increment;
 		}
-		else if(this.constructionPoints<this.maxLifePoints){
+		else if(this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING){
 			this.constructionPoints+=Main.increment;
 		}
 		else{
-			if(this.potentialTeam!=this.getTeam()){
+			if(this.potentialTeam!=this.getTeam() && (this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop){
+				this.getGameTeam().pop-=2;
 				this.setTeam(this.potentialTeam);
+				this.getGameTeam().pop+=2;
 				if(this instanceof BuildingHeadQuarters){
 					this.p.g.endGame = true;
 					if(this.getTeam()==this.p.currentPlayer.id){
@@ -115,10 +117,9 @@ public class Building extends ActionObjet{
 	}
 
 	public void drawIsSelected(Graphics g){
-
 		g.drawImage(this.selection_circle,this.getX()-5f-this.collisionBox.getWidth()/2,this.getY()-this.collisionBox.getHeight()/2-5f,this.getX()+this.collisionBox.getWidth()/2+5f,this.getY()+this.collisionBox.getHeight()/2+5f,0,0,this.selection_circle.getWidth(),this.selection_circle.getHeight());
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-
+		
 	}	
 
 	public void updateImage(){

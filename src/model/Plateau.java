@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
-import IA.IAMicroFlo;
+import IA.IABasic;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
@@ -122,7 +122,7 @@ public class Plateau {
 		this.players = new Vector<Player>();
 		this.players.add(new Player(this,0,"Nature",teams.get(0),2,2));
 		this.players.add(new Player(this,1,this.g.options.nickname,teams.get(1),(int) this.g.resX, (int) this.g.resY));
-		this.players.add(new IAMicroFlo(this,2,"IA random",teams.get(2),2,2));
+		this.players.add(new IABasic(this,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 
@@ -313,6 +313,7 @@ public class Plateau {
 		for(Character o : characters){
 			if(!o.isAlive()){
 				this.removeCharacter(o);
+				o.getGameTeam().pop--;
 				if(o.soundDeath!=null && o.soundDeath.size()>0){
 					Utils.getRandomSound(o.soundSelection).play(1f, this.g.options.soundVolume);
 				}
@@ -816,6 +817,14 @@ public class Plateau {
 			}
 			updateTarget(im.xMouse,im.yMouse,player,Character.AGGRESSIVE);
 		}
+		if(im.isPressedE){
+			//ZONE ATTACK
+			if(isCastingSpell.get(player)){
+				isCastingSpell.set(player,false);
+				castingSpell.set(player,-1);
+			}
+			updateTarget(im.xMouse,im.yMouse,player,Character.TAKE_BUILDING);
+		}
 	}
 
 	private void handleSpellsOnField(InputObject im, int player, boolean host) {
@@ -1066,6 +1075,16 @@ public class Plateau {
 		}
 		// Cleaning the rectangle and buffer if mouse is released
 		if(!im.leftClick){
+			if(this.rectangleSelection.get(player)!=null){
+				//Play selection sound
+				if(player==this.currentPlayer.id && this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character){
+					Character c = (Character) this.selection.get(player).get(0);
+					if(c.soundSelection!=null && c.soundSelection.size()>0 && Math.random()>0.3){
+						Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+					}
+
+				}
+			}
 			this.rectangleSelection.set(player, null);
 			this.inRectangle.get(player).clear();
 		}
@@ -1137,14 +1156,7 @@ public class Plateau {
 			this.players.get(player).groupSelection = -1;
 		}
 
-		//Play selection sound
-		if(player==this.currentPlayer.id && this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof Character ){
-			Character c = (Character) this.selection.get(player).get(0);
-			if(c.soundSelection!=null && c.soundSelection.size()>0 && Math.random()>0.3){
-				Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
-			}
 
-		}
 
 
 	}

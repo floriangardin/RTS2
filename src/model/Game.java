@@ -259,7 +259,7 @@ public class Game extends BasicGame
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			if(o.visibleByCurrentPlayer)
+			//if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
 
 		}
@@ -289,6 +289,7 @@ public class Game extends BasicGame
 		// determine visible objets
 		for(Objet o: toDraw)
 			o.draw(g);
+		// draw fog of war
 		plateau.drawFogOfWar(g);
 		for(Objet o: toDrawAfter)
 			o.draw(g);

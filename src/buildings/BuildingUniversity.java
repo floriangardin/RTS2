@@ -75,15 +75,17 @@ public class BuildingUniversity extends BuildingTech {
 		}
 	}
 
-	public void product(int unit){
+	public boolean product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
 			if(this.productionList.get(unit).tech.foodPrice<=this.getGameTeam().food
 					&& this.productionList.get(unit).tech.goldPrice<=this.getGameTeam().gold){
 				this.queue=this.productionList.get(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
+				return true;
 			}
 		}
+		return false;
 	}
 	public void action(){
 		if(underAttackRemaining>0f){

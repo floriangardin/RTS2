@@ -1,7 +1,16 @@
 package model;
 
+import java.util.HashMap;
 import java.util.Vector;
 
+import units.Character;
+import units.UnitArchange;
+import units.UnitCrossbowman;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitPriest;
+import units.UnitSpearman;
+import IA.Mission;
 import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
@@ -11,17 +20,10 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
-import units.Character;
-import units.UnitArchange;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitPriest;
-import units.UnitSpearman;
 
 public class IAPlayer extends Player{
 
-	
+
 	private Vector<Vector<Character>> unitsGroups;
 	private Vector<Vector<Building>> buildingGroups;
 
@@ -33,6 +35,9 @@ public class IAPlayer extends Player{
 	public Vector<Building> buildingToConquer;
 	public Vector<Character> ennemiesInSight;
 
+	public Vector<Mission> missions;
+	public Vector<Mission> pastMissions;
+
 	//Minimal class to get an IA running
 	//An IA which extends this IA can't have access to plateau, an IA should be then programmed in IA package
 
@@ -40,8 +45,8 @@ public class IAPlayer extends Player{
 
 	public IAPlayer(Plateau p, int id, String name, GameTeam gameteam,int resX, int resY) {
 		super(p, id, name, gameteam, resX, resY);
-		
-		
+
+
 		unitsGroups = new Vector<Vector<Character>>();
 		buildingGroups = new Vector<Vector<Building>>();
 		for(int i=0;i<10;i++){
@@ -54,12 +59,13 @@ public class IAPlayer extends Player{
 		neutralBuilding = new Vector<Building>();
 		buildingToConquer = new Vector<Building>();
 		ennemiesInSight = new Vector<Character>();
-		
+		this.missions = new Vector<Mission>();
+		this.pastMissions = new Vector<Mission>();
 	}
 
-	
-	
-	
+
+
+
 	/*
 	 * OVERRIDE THIS METHOD IN AN INHERITHED CLASS IN PACKAGE IA IF YOU WANT TO CREATE AN IA
 	 */
@@ -67,11 +73,11 @@ public class IAPlayer extends Player{
 		//OVERRIDE THIS METHOD IN AN INHERITHED CLASS IN PACKAGE IA IF YOU WANT TO CREATE AN IA
 
 	}
-	
-	
-	
+
+
+
 	//INTERN METHODS
-	
+
 	public Vector<Character> getMyAliveUnits(){
 		Vector<Character> result = new Vector<Character>();
 		for(Character c : this.p.characters){
@@ -89,8 +95,8 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
-	
+
+
 	public Vector<Building> getNeutralBuildings(){
 		Vector<Building> result = new Vector<Building>();
 		for(Building b : this.p.buildings){
@@ -99,7 +105,7 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	public Vector<Building> getEnnemyBuildings(){
 		Vector<Building> result = new Vector<Building>();
 		for(Building b : this.p.buildings){
@@ -120,12 +126,49 @@ public class IAPlayer extends Player{
 
 	public void commonUpdate(){
 		//Main method which is called every iteration on the plateau and common to all 
+		//Define the mode for this round 
+		aliveUnits = getMyAliveUnits();
+		myBuildings = getMyBuildings();
+		neutralBuilding = getNeutralBuildings();
+		buildingToConquer = getEnnemyBuildings();
+		ennemiesInSight =  getEnnemyUnitsInSight();
 		this.updateSelection();
 		//Update the units groups and building groups ( To remove death ...)
 		this.updateGroups();
+		this.action();
+
+
 	}
 
 
+	public void action(){
+		Vector<Mission> toRemove = new Vector<Mission>();
+		for(Mission m : missions){
+			boolean finished = m.action();
+			if(finished){
+				toRemove.add(m);
+				this.pastMissions.addElement(m);
+			}
+		}
+		missions.removeAll(toRemove);
+	}
+
+	public void abortAllMission(){
+		Vector<Mission> toRemove = new Vector<Mission>();
+		for(Mission m : missions){
+			toRemove.add(m);
+			m.abortMission();
+			this.pastMissions.addElement(m);
+		}
+		missions.removeAllElements();
+	}
+	
+	public void abortMission(Mission m){
+		m.abortMission();
+		this.pastMissions.addElement(m);
+		this.missions.remove(m);
+		this.pastMissions.addElement(m);
+	}
 
 	public void updateGroups(){
 		for(int i = 0;i<10;i++){
@@ -134,9 +177,16 @@ public class IAPlayer extends Player{
 		for(int i = 0;i<10;i++){
 			makeBuildingsGroup(getBuildingsGroup(i),i);
 		}
-		
+
 	}
-	
+
+	public void product(){
+
+	}
+	public void updateMission(){
+
+	}
+
 	public void updateSelection(){
 
 		//Clean Units groups 
@@ -148,10 +198,10 @@ public class IAPlayer extends Player{
 			while(j<unitsGroups.get(i).size()){
 				if(!aliveUnits.contains(unitsGroups.get(i).get(j))){
 					unitsGroups.get(i).remove(j);
-				
+
 				}
 				j++;
-				
+
 			}
 			i++;
 			j=0;
@@ -176,20 +226,20 @@ public class IAPlayer extends Player{
 	public void setTarget(Character assignee , Objet target,int mode){
 		assignee.setTarget(target, null, mode);
 	}
-	
-	
+
+
 	//BUILDING GETTER METHODS
 	public Building getNearestNeutralMill(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
 			if(b instanceof BuildingMill && b.getTeam()==0){
 				result.add(b);
-				
+
 			}
 		}
-		
+
 		return (Building) Utils.nearestObject(result, caller);
-		
+
 	}
 	public Building getNearestNeutralMine(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
@@ -198,9 +248,9 @@ public class IAPlayer extends Player{
 				result.add(b);
 			}
 		}
-		
+
 		return (Building) Utils.nearestObject(result, caller);
-		
+
 	}
 	public Building getNearestNeutralBarrack(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
@@ -211,7 +261,7 @@ public class IAPlayer extends Player{
 		}
 		return (Building) Utils.nearestObject(result, caller);
 	}
-	
+
 	public Building getNearestMillToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
@@ -219,9 +269,9 @@ public class IAPlayer extends Player{
 				result.add(b);
 			}
 		}
-		
+
 		return (Building) Utils.nearestObject(result, caller);
-		
+
 	}
 	public Building getNearestMineToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
@@ -230,11 +280,11 @@ public class IAPlayer extends Player{
 				result.add(b);
 			}
 		}
-		
+
 		return (Building) Utils.nearestObject(result, caller);
-		
+
 	}
-	
+
 	public Building getNearestHQToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
@@ -242,9 +292,9 @@ public class IAPlayer extends Player{
 				result.add(b);
 			}
 		}
-		
+
 		return (Building) Utils.nearestObject(result, caller);
-		
+
 	}
 	public Building getNearestBarrackToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
@@ -255,10 +305,10 @@ public class IAPlayer extends Player{
 		}
 		return (Building) Utils.nearestObject(result, caller);
 	}
-	
+
 	public Vector<Character> getSpearman(Vector<Character> units){
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Character c : units){
 			if(c instanceof UnitSpearman ){
 				result.add(c);
@@ -266,9 +316,20 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
+
+	public Vector<Character> getIdleSpearman(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+
+		for(Character c : units){
+			if(c instanceof UnitSpearman && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
 	public Vector<Character> getCrossbowman(Vector<Character> units){
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Character c : units){
 			if(c instanceof UnitCrossbowman ){
 				result.add(c);
@@ -276,10 +337,21 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
+	public Vector<Character> getIdleCrossbowman(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+
+		for(Character c : units){
+			if(c instanceof UnitCrossbowman && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
 	public Vector<Character> getKnight(Vector<Character> units){
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Character c : units){
 			if(c instanceof UnitKnight ){
 				result.add(c);
@@ -287,9 +359,22 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
+
+	public Vector<Character> getIdleKnight(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+
+		for(Character c : units){
+			if(c instanceof UnitKnight  && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+
 	public Vector<Character> getPriest(Vector<Character> units){
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Character c : units){
 			if(c instanceof UnitPriest ){
 				result.add(c);
@@ -297,9 +382,21 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
+
+	public Vector<Character> getIdlePriest(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+
+		for(Character c : units){
+			if(c instanceof UnitPriest && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
 	public Vector<Character> getInquisitor(Vector<Character> units){
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Character c : units){
 			if(c instanceof UnitInquisitor ){
 				result.add(c);
@@ -307,10 +404,22 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
+	public Vector<Character> getIdleInquisitor(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+
+		for(Character c : units){
+			if(c instanceof UnitInquisitor  && c.mission==null  ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+
 	public Vector<Character> getArchange(Vector<Character> units){
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Character c : units){
 			if(c instanceof UnitArchange ){
 				result.add(c);
@@ -318,24 +427,53 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
+	public Vector<Character> getIdleArchange(Vector<Character> units){
+		Vector<Character> result = new Vector<Character>();
+
+		for(Character c : units){
+			if(c instanceof UnitArchange && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
 	public int getFood(){
 		return this.getGameTeam().food;
 	}
-	
+
 	public int getGold(){
 		return this.getGameTeam().gold;
 	}
-	
+
 	public int getSpecial(){
 		return this.getGameTeam().special;
 	}
-	
-	
-	
+
+
+	public HashMap<Integer,Integer> initHashMap(){
+		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
+		r.put(Character.SPEARMAN, 0);
+		r.put(Character.CROSSBOWMAN, 0);
+		r.put(Character.KNIGHT, 0);
+		r.put(Character.INQUISITOR, 0);
+		r.put(Character.ARCHANGE, 0);
+		return r;
+	}
+	public HashMap<Integer,Integer> initHashMap(int s,int c, int k , int i , int a){
+		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
+		r.put(Character.SPEARMAN, s);
+		r.put(Character.CROSSBOWMAN, c);
+		r.put(Character.KNIGHT, k);
+		r.put(Character.INQUISITOR, i);
+		r.put(Character.ARCHANGE, a);
+		return r;
+	}
+
 	public Vector<Building> getMill(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingMill ){
 				result.add(c);
@@ -345,7 +483,7 @@ public class IAPlayer extends Player{
 	}
 	public Vector<Building> getMine(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingMine ){
 				result.add(c);
@@ -353,10 +491,10 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	public Vector<Building> getBarrack(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingBarrack ){
 				result.add(c);
@@ -364,10 +502,10 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	public Vector<Building> getStable(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingStable ){
 				result.add(c);
@@ -375,10 +513,10 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	public Vector<Building> getAcademy(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingAcademy ){
 				result.add(c);
@@ -388,7 +526,7 @@ public class IAPlayer extends Player{
 	}
 	public Vector<Building> getHeadQuarters(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingHeadQuarters ){
 				result.add(c);
@@ -396,10 +534,10 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	public Vector<Building> getUniversity(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingUniversity ){
 				result.add(c);
@@ -407,10 +545,10 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	public Vector<Building> getTower(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();
-		
+
 		for(Building c : units){
 			if(c instanceof BuildingTower ){
 				result.add(c);
@@ -418,7 +556,7 @@ public class IAPlayer extends Player{
 		}
 		return result;
 	}
-	
+
 	/**
 	 *
 	 * Clear specified units group
@@ -474,7 +612,7 @@ public class IAPlayer extends Player{
 		this.clearBuildingsGroup(group);
 		addInBuildingGroup(c,group);
 	}
-	
+
 	/**
 	 *
 	 *  Add units in specified group if possible
@@ -493,7 +631,7 @@ public class IAPlayer extends Player{
 			}
 		}
 	}
-	
+
 	/**
 	 *
 	 * Add buildings in specified group if possible

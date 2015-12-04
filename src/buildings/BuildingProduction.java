@@ -2,11 +2,12 @@ package buildings;
 import java.util.HashMap;
 import java.util.Vector;
 
-import display.Message;
 import main.Main;
 import model.Game;
+import model.IAPlayer;
 import units.Character;
 import units.UnitsList;
+import display.Message;
 
 public abstract class BuildingProduction extends BuildingAction {
 
@@ -15,21 +16,29 @@ public abstract class BuildingProduction extends BuildingAction {
 	public Vector<Integer> queue ;
 	public float random=0f;
 
-	public void product(int unit){
+	public boolean product(int unit){
 		this.changes.queue=true;
 		if(this.queue.size()<5 && unit<this.productionList.size()){
 			if(this.productionList.get(unit).foodPrice<=this.getGameTeam().food
-					&& this.productionList.get(unit).goldPrice<=this.getGameTeam().gold){
+					&& this.productionList.get(unit).goldPrice<=this.getGameTeam().gold && this.getGameTeam().pop<this.getGameTeam().maxPop){
 				this.queue.add(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
+				return true;
 			}else {
+				if(this.p.players.get(this.getTeam()) instanceof IAPlayer){
+					return false;
+				}
 				if(this.productionList.get(unit).foodPrice>this.getGameTeam().food)
-					this.p.addMessage(Message.getById("food"), p.currentPlayer.id);
-				else
-					this.p.addMessage(Message.getById("gold"), p.currentPlayer.id);
+					this.p.addMessage(Message.getById("food"), this.getTeam());
+				else if(this.productionList.get(unit).foodPrice>this.getGameTeam().food)
+					this.p.addMessage(Message.getById("gold"), this.getTeam());
+				else{
+					this.p.addMessage(Message.getById("pop"), this.getTeam());
+				}
 			}
 		}
+		return false;
 	}
 
 	public void action(){
@@ -39,7 +48,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		else{
 			this.underAttack = false;
 		}
-		
+
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		this.random+=0.01f;
@@ -128,7 +137,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 		}
 	}
-	
+
 	public void parse(HashMap<String,String> hs){
 		this.parseObjet(hs);
 		this.parseActionObjet(hs);
