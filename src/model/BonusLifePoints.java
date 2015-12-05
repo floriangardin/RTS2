@@ -12,12 +12,19 @@ public class BonusLifePoints extends Bonus{
 
 	public BonusLifePoints(Plateau p , float x , float y){
 		this.p = p;
-		this.lifePoints = 10f;
+		this.g = p.g;
 		p.bonus.addElement(this);
+		this.maxLifePoints = 20f;
+		this.potentialTeam = 0;
+		this.lifePoints = 1f;
+		this.constructionPoints=0f;
+		this.setTeam(0);
 		this.sight = 200f;
-		this.size = 30f;
+		this.size = 100f;
 		this.collisionBox = new Circle(x,y,this.size);
-		this.selectionBox = new Circle(x,y,this.size+50f);
+		this.selectionBox = this.collisionBox;
+		this.hitBoxSize = 30f;
+		this.hitBox = new Circle(x,y,this.hitBoxSize);
 		this.x = x;
 		this.y = y;
 		this.setXY(x, y);
@@ -41,12 +48,14 @@ public class BonusLifePoints extends Bonus{
 	}
 
 	public void collision(Character c){
-		
-		if(this.bonusPresent && c.lifePoints<c.maxLifePoints){
+		if(this.bonusPresent && c.getTeam()==this.getTeam()){
 			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;
 			this.sound.play(1f, this.p.g.options.soundVolume);
+			this.setTeam(0);
+			this.potentialTeam = 0;
+			this.constructionPoints=0f;
 		}
 
 	}

@@ -81,7 +81,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Graphics draw(Graphics g){
 		return g;}
 	protected void collision(Objet o){}
-	public void collision(Character c){}
+	public abstract void collision(Character c);
 	public float getX(){
 		return x;
 	}

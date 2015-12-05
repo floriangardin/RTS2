@@ -2,18 +2,20 @@ package buildings;
 
 import java.util.HashMap;
 
+import main.Main;
+import model.ActionObjet;
+import model.Bonus;
+import model.Checkpoint;
+import model.Game;
+import model.Objet;
+import model.Plateau;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
-import main.Main;
-import model.ActionObjet;
-import model.Checkpoint;
-import model.Game;
-import model.Objet;
-import model.Plateau;
 import technologies.Technologie;
 import units.Character;
 
@@ -57,6 +59,9 @@ public class Building extends ActionObjet{
 	}
 
 	public void collisionWeapon(Character c){
+		if(this instanceof Bonus && !((Bonus)this).bonusPresent){
+			return;
+		}
 		if( c.weapon== "bow" || c.weapon== "wand" || c.weapon=="bible")
 			return;
 		if(this instanceof BuildingStable && c.getGameTeam().hq.age<2){
@@ -84,10 +89,14 @@ public class Building extends ActionObjet{
 			this.constructionPoints+=Main.increment;
 		}
 		else if(c.mode==Character.TAKE_BUILDING){
-			if(this.potentialTeam!=this.getTeam() && (((this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters))){
-				this.getGameTeam().pop-=2;
+			if(this.potentialTeam!=this.getTeam()  && (((this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters))){
+				if(!(this instanceof Bonus)){
+					this.getGameTeam().pop-=2;
+				}
 				this.setTeam(this.potentialTeam);
-				this.getGameTeam().pop+=2;
+				if(!(this instanceof Bonus)){
+					this.getGameTeam().pop+=2;
+				}
 				if(this instanceof BuildingHeadQuarters){
 					this.p.g.endGame = true;
 					if(this.getTeam()==this.p.currentPlayer.getTeam()){
@@ -295,6 +304,12 @@ public class Building extends ActionObjet{
 	public void setCharge(float charge){
 		this.charge = charge;
 		this.changes.charge = true;
+	}
+
+	@Override
+	public void collision(Character c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

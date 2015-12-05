@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import units.Character;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -67,5 +68,10 @@ public class Tree extends NaturalObjet {
 		//g.setColor(this.color);
 		//g.fill(this.collisionBox);
 		return g;
+	}
+	@Override
+	public void collision(Character c) {
+		// TODO Auto-generated method stub
+		
 	}
 }

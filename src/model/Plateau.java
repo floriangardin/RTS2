@@ -419,13 +419,15 @@ public class Plateau {
 					}
 				}
 			}
-
+			Circle range = new Circle(o.x,o.y,o.range);
 			//Between bonus and characters 
 			for(Bonus b : this.bonus){
-				if(Utils.distance(b, o)<b.size){
+				if(Utils.distance(b, o)<b.hitBoxSize){
 					b.collision(o);
 				}
-
+				if(Utils.distance(b, o)<(b.size+range.radius)){
+					b.collisionWeapon(o);
+				}
 			}
 			// between Characters and Natural objects
 			for(NaturalObjet i: naturalObjets){
@@ -439,8 +441,9 @@ public class Plateau {
 					i.collision(o);
 				}
 			}
+
 			// Between characters and buildings
-			Circle range = new Circle(o.x,o.y,o.range);
+			
 			for(Building e:buildings){
 				if(e.collisionBox.intersects(range)){
 					e.collisionWeapon(o);
@@ -632,6 +635,15 @@ public class Plateau {
 		}
 		if(target==null){
 			for(Building i: this.buildings){
+				// looking amongst natural object
+				if(i.collisionBox.contains(point)){
+					target = i;
+					break;
+				}
+			}
+		}
+		if(target==null){
+			for(Bonus i: this.bonus){
 				// looking amongst natural object
 				if(i.collisionBox.contains(point)){
 					target = i;
@@ -1030,6 +1042,10 @@ public class Plateau {
 		for(NaturalObjet n:this.naturalObjets){
 			n.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), n);
 			n.visibleByCamera =this.isVisibleByCamera(n);
+		}
+		for(Bonus b:this.bonus){
+			b.visibleByCurrentPlayer = this.isVisibleByPlayer(this.currentPlayer.getTeam(), b);
+			b.visibleByCamera =this.isVisibleByCamera(b);
 		}
 	}
 	// handling selection

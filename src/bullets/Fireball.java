@@ -154,5 +154,11 @@ public class Fireball extends Bullet {
 		return s;
 		
 	}
+
+	@Override
+	public void collision(Character c) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
