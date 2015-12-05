@@ -11,7 +11,9 @@ import model.Plateau;
 import units.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
-
+	
+	public static final int SPEARMAN = 0;
+	public static final int CROSSBOWMAN = 1;
 
 	public BuildingBarrack(Plateau plateau, Game g, float f, float h) {
 		teamCapturing= 0;
@@ -34,6 +36,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingBarrackBlue;
 		} else if(getTeam()==2){

@@ -9,7 +9,7 @@ public class GameTeam {
 
 	public Vector<Player> players;
 	public Data data;
-	public Plateau plateau;
+	Plateau plateau;
 	public int id;
 	public int civ;
 	public String civName;
@@ -18,6 +18,9 @@ public class GameTeam {
 	public int special;
 	public int pop;
 	public BuildingHeadQuarters hq ;
+	public int maxPop;
+
+	
 	
 	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
 		this.players = players;
@@ -31,6 +34,7 @@ public class GameTeam {
 		case 2 : civName = "Japs";break;
 		default:
 		}
+		this.maxPop = 12;
 	}
 	
 	

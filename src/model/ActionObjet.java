@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import buildings.Building;
@@ -13,19 +14,27 @@ import pathfinding.Case;
 
 
 public abstract class ActionObjet extends Objet{
-	public float maxLifePoints;
+	public float size;
 	public int animation = 0;
 	public float vx;
 	public float vy;
 	public Objet target;
 	public Checkpoint checkpointTarget;
-	public boolean toKeep=true;
+	public boolean toKeep=false;
+	public boolean mouseOver = false;
+	
+	
+	//SOUNDS
+	public Vector<Sound> soundSetTarget;
+	public Vector<Sound> soundAttack;
+	public Vector<Sound> soundSelection;
+	public Vector<Sound> soundDeath;
 	
 	//CHANGED BOOLEAN
 
 	
 	public void destroy(){
-		this.lifePoints = -10;
+		this.lifePoints = -10f;
 		this.target = null;
 		this.x = -100f;
 		this.y = -100f;

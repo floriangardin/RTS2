@@ -164,21 +164,21 @@ public class MapGrid {
 			// voisin de droite
 			for(int k=0;k<8;k++){
 				switch(k){
-				case 0: //à droite
+				case 0: //ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j;break;
-				case 1: //à gauche
+				case 1: //ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j;break;
 				case 2: //en bas
 					iTrav = u.i; jTrav = u.j+1;break;
 				case 3: //en haut
 					iTrav = u.i; jTrav = u.j-1;break;
-				case 4: //en bas à droite
+				case 4: //en bas ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j+1;break;
-				case 5: //en bas à gauche
+				case 5: //en bas ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j+1;break;
-				case 6: //en haut à droite
+				case 6: //en haut ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j-1;break;
-				case 7: //en haut à gauche
+				case 7: //en haut ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
 				if(iTrav==iEnd && jTrav==jEnd){
@@ -250,13 +250,13 @@ public class MapGrid {
 			iStart++;
 		while(yStart>Ycoord.get(jStart+1))
 			jStart++;
-		while(xEnd1>Xcoord.get(iEnd1+1))
+		while((iEnd1+1)<Xcoord.size() && xEnd1>Xcoord.get(iEnd1+1))
 			iEnd1++;
-		while(yEnd1>Ycoord.get(jEnd1+1))
+		while((jEnd1+1)<Ycoord.size() && yEnd1>Ycoord.get(jEnd1+1))
 			jEnd1++;
-		while(xEnd2>Xcoord.get(iEnd2+1))
+		while((iEnd2+1)<Xcoord.size() && xEnd2>Xcoord.get(iEnd2+1))
 			iEnd2++;
-		while(yEnd2>Ycoord.get(jEnd2+1))
+		while((jEnd2+1)<Ycoord.size() && yEnd2>Ycoord.get(jEnd2+1))
 			jEnd2++;
 		
 		Vector<Point> closedList = new Vector<Point>();
@@ -276,21 +276,21 @@ public class MapGrid {
 			// voisin de droite
 			for(int k=0;k<8;k++){
 				switch(k){
-				case 0: //à droite
+				case 0: //ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j;break;
-				case 1: //à gauche
+				case 1: //ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j;break;
 				case 2: //en bas
 					iTrav = u.i; jTrav = u.j+1;break;
 				case 3: //en haut
 					iTrav = u.i; jTrav = u.j-1;break;
-				case 4: //en bas à droite
+				case 4: //en bas ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j+1;break;
-				case 5: //en bas à gauche
+				case 5: //en bas ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j+1;break;
-				case 6: //en haut à droite
+				case 6: //en haut ï¿½ droite
 					iTrav = u.i+1; jTrav = u.j-1;break;
-				case 7: //en haut à gauche
+				case 7: //en haut ï¿½ gauche
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
 				if(iTrav>=iEnd1 && jTrav>=jEnd1 && iTrav<=iEnd2 && jTrav<=jEnd2){
@@ -415,9 +415,9 @@ public class MapGrid {
 			return new Vector<Case>();
 		boolean ok = true;
 		if(x1<minX || x1>=maxX || y1<minY||y1>=maxY)
-			return null;
+			return new Vector<Case>();
 		if(x2<minX || x2>=maxX || y2<minY||y2>=maxY)
-			return null;
+			return new Vector<Case>();
 		int i=0, j=0;
 		float x = x1, y = y1;
 		while(x>Xcoord.get(i+1))
@@ -430,6 +430,9 @@ public class MapGrid {
 		Vector<Case> cases = new Vector<Case>();
 		//System.out.println(this.toString());
 		while(grid.get(i).get(j).id!=arrival.id && grid.get(i).get(j).ok){
+			if(cases.contains(grid.get(i).get(j))){
+				return new Vector<Case>();
+			}
 			cases.add(grid.get(i).get(j));
 			//System.out.println(x+" "+y+" "+i+" "+j+" "+x2+" "+y2);
 			a = (y2-y)/(x2-x+0.0001f);
@@ -480,11 +483,16 @@ public class MapGrid {
 			}
 			x = newx;
 			y = newy;
+			if(i<0 ||j<0 || i>=grid.size() || j>=grid.get(0).size()){
+				cases.clear();
+				return cases;
+			}
 		}
 		if(grid.get(i).get(j).id==arrival.id)
 			cases.add(grid.get(i).get(j));
 		else
 			cases.clear();
+		
 		return cases;
 	}
 	

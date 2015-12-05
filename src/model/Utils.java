@@ -4,13 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Random;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.Sound;
 
-import bullets.Bullet;
+import buildings.BuildingProduction;
+import model.Objet;
 import units.Character;
 
 // Class for static methods
@@ -24,8 +27,25 @@ public class Utils {
 
 	}
 
+	public static Sound getRandomSound (Vector<Sound> v) {
+		if(v.size()==1){
+			return v.get(0);
+		}
+		Random generator = new Random();
+		int rnd = generator.nextInt(v.size());
+		return v.get(rnd); // Cast the vector value into a String object
+	}
+
 	public static float distance(Objet a ,Objet b){
+		if(a== null || b == null){
+			return -1f;
+		}
 		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
+
+	}
+
+	public static float distance(Objet a ,float x , float y){
+		return (float) Math.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
 
 	}
 
@@ -34,7 +54,7 @@ public class Utils {
 
 	}
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
-		float ref_dist = 100000f;
+		float ref_dist = 10000000000f;
 		Objet closest = null;
 		for(Objet o : close){
 			float dist = Utils.distance_2(o,caller);
@@ -46,6 +66,21 @@ public class Utils {
 		return closest;
 
 	}
+
+	public static Character nearestObject(Vector<Character> close, Character caller){
+		float ref_dist = 1000000000f;
+		Character closest = null;
+		for(Character o : close){
+			float dist = Utils.distance_2(o,caller);
+			if(dist < ref_dist){
+				ref_dist = dist;
+				closest = o;
+			}
+		}
+		return closest;
+
+	}
+
 
 	public static Image mergeImages(Image a, Image b){
 		if(b==null)
@@ -169,6 +204,95 @@ public class Utils {
 
 	}
 
+
+
+	public static void triId(Vector<Character> liste){
+		if(liste.size()<=1)
+			return;
+		Vector<Character> liste1 = new Vector<Character>(), liste2= new Vector<Character>();
+		for(int i=0;i<liste.size();i++){
+			if(i<liste.size()/2)
+				liste1.add(liste.get(i));
+			else
+				liste2.add(liste.get(i));
+		}
+		liste.clear();
+		triId(liste1);
+		triId(liste2);
+		float y1=0f,y2=0f;
+		boolean b1=true, b2=true;
+		while(true){
+			b1 = !liste1.isEmpty();
+			b2 = !liste2.isEmpty();
+			if(!b1 && !b2)
+				break;
+			if(!b1){
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+				continue;
+			}
+			if(!b2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+				continue;
+			}
+			y1 = liste1.firstElement().id;
+			y2 = liste2.firstElement().id;
+			if(y1<y2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+			} else {
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+			}
+		}
+
+	}
+
+
+	public static void triIdActionObjet(Vector<ActionObjet> liste){
+		if(liste.size()<=1)
+			return;
+		Vector<ActionObjet> liste1 = new Vector<ActionObjet>(), liste2= new Vector<ActionObjet>();
+		for(int i=0;i<liste.size();i++){
+			if(i<liste.size()/2)
+				liste1.add(liste.get(i));
+			else
+				liste2.add(liste.get(i));
+		}
+		liste.clear();
+		triIdActionObjet(liste1);
+		triIdActionObjet(liste2);
+		float y1=0f,y2=0f;
+		boolean b1=true, b2=true;
+		while(true){
+			b1 = !liste1.isEmpty();
+			b2 = !liste2.isEmpty();
+			if(!b1 && !b2)
+				break;
+			if(!b1){
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+				continue;
+			}
+			if(!b2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+				continue;
+			}
+			y1 = liste1.firstElement().id;
+			y2 = liste2.firstElement().id;
+			if(y1<y2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+			} else {
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+			}
+		}
+
+	}
+
 	public static void printCurrentState(Plateau p){
 		System.out.println("DEBUG MODE");
 		System.out.println();
@@ -183,27 +307,27 @@ public class Utils {
 		}
 		System.out.println("currentplayer: " + p.currentPlayer);
 		System.out.println();System.out.println("========================================");
-//		System.out.println();
-//		System.out.println("** Characters");
-//		if(p.characters==null)
-//			System.out.println("-> bug: characters est null");
-//		else{
-//			for(Character c:p.characters)
-//				if(c.target!=null)
-//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
-//				else
-//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-//		}
-//		System.out.println();
-//		System.out.println("========================================");
-//		System.out.println();
-//		System.out.println("** Bullets");
-//		if(p.bullets==null)
-//			System.out.println("-> bug: bullets est null");
-//		else{
-//			for(Bullet c:p.bullets)
-//				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-//		}
+		//		System.out.println();
+		//		System.out.println("** Characters");
+		//		if(p.characters==null)
+		//			System.out.println("-> bug: characters est null");
+		//		else{
+		//			for(Character c:p.characters)
+		//				if(c.target!=null)
+		//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
+		//				else
+		//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+		//		}
+		//		System.out.println();
+		//		System.out.println("========================================");
+		//		System.out.println();
+		//		System.out.println("** Bullets");
+		//		if(p.bullets==null)
+		//			System.out.println("-> bug: bullets est null");
+		//		else{
+		//			for(Bullet c:p.bullets)
+		//				System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+		//		}
 		System.out.println();
 		//		System.out.println();
 		//		System.out.println("** Spells");
@@ -275,6 +399,47 @@ public class Utils {
 			y1 = liste1.firstElement().name;
 			y2 = liste2.firstElement().name;
 			if(y1.compareTo(y2)>=0){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+			} else {
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+			}
+		}
+	}
+	public static void sortByQueue(Vector<BuildingProduction> liste){
+		if(liste.size()<=1)
+			return;
+		Vector<BuildingProduction> liste1 = new Vector<BuildingProduction>(), liste2= new Vector<BuildingProduction>();
+		for(int i=0;i<liste.size();i++){
+			if(i<liste.size()/2)
+				liste1.add(liste.get(i));
+			else
+				liste2.add(liste.get(i));
+		}
+		liste.clear();
+		sortByQueue(liste1);
+		sortByQueue(liste2);
+		int y1=0, y2=0;
+		boolean b1=true, b2=true;
+		while(true){
+			b1 = !liste1.isEmpty();
+			b2 = !liste2.isEmpty();
+			if(!b1 && !b2)
+				break;
+			if(!b1){
+				liste.add(liste2.firstElement());
+				liste2.remove(0);
+				continue;
+			}
+			if(!b2){
+				liste.add(liste1.firstElement());
+				liste1.remove(0);
+				continue;
+			}
+			y1 = liste1.firstElement().queue.size();
+			y2 = liste2.firstElement().queue.size();
+			if(y1<=y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
 			} else {

@@ -1,6 +1,7 @@
 package units;
 
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
 import model.GameTeam;
@@ -14,13 +15,16 @@ public class UnitKnight extends Character {
 		super(p, gameteam);
 		this.name = "knight";
 		this.type = UnitsList.Knight;
-		this.maxLifePoints = 90f;
+		this.unitType = KNIGHT;
+		this.attackDuration = 2f;
+		this.maxLifePoints = 90f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
+		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 110f;
 		this.armor = 3f;
-		this.damage = 8f;
+		this.damage = 8f*data.damageFactor;
 		this.chargeTime = 7f;
 		this.weapon = "sword";
 		
@@ -53,6 +57,8 @@ public class UnitKnight extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		this.isAttacking = false;
+		c.isAttacked();
 	}
 
 }

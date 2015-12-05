@@ -9,18 +9,18 @@ import model.Player;
 
 public class BottomBar extends Bar {
 
+	public int resX,resY;
 	public SelectionInterface selection ;
 	public DescriptionInterface description;
 	public DisplayInterface display;
 	public MinimapInterface minimap;
 	public ActionInterface action;
 	public PathInterface path;
-
+	public TopBar topBar;
 
 	
 	public BottomBar(Plateau p , int resX, int resY){
 		this.p = p ;
-		this.p.currentPlayer.bottomBar = this;
 		//this.player= p.currentPlayer;
 		try {
 			this.background = new Image("pics/menu/bottombar.png");
@@ -35,17 +35,23 @@ public class BottomBar extends Bar {
 	}
 
 	public void update(int resX, int resY){
+		/**
+		 * Tres fortement utile et bienvenue
+		 */
+		this.resX = resX;
+		this.resY = resY;
 		this.sizeX = resX;
 		this.sizeY = this.p.g.relativeHeightBottomBar*resY;
 		this.x = 0;
 		this.y = (1f-this.p.g.relativeHeightBottomBar)*resY;
-
+		
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
 		this.minimap = new MinimapInterface(this);
 		this.action = new ActionInterface(this);
 		this.path = new PathInterface(this);
+		this.topBar = new TopBar(this.p,resX,resY);
 	}
 
 	public Graphics draw(Graphics g){

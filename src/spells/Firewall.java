@@ -1,13 +1,13 @@
 package spells;
 
-import org.newdawn.slick.Color;
+import main.Main;
+import model.Objet;
+import model.Plateau;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Polygon;
 
-import model.Checkpoint;
-import model.Objet;
-import model.Plateau;
 import units.Character;
 
 public class Firewall extends SpellEffect{
@@ -21,7 +21,7 @@ public class Firewall extends SpellEffect{
 	public float[] animationState = new float[nbFire];
 	public float[] animationX = new float[nbFire];
 	public float[] animationY = new float[nbFire];
-	public float animationMax=120f;
+	public float animationMax=1000f;
 	public float x2,y2;
 
 	public Firewall(Plateau p, Character launcher, Objet t,int id){
@@ -74,18 +74,15 @@ public class Firewall extends SpellEffect{
 	}
 
 	public void action(){
-		//MULTI
-		this.changes.x = true;
-		this.changes.y = true;
 		
-		this.remainingTime-=1f;
+		this.remainingTime-=10f*Main.increment;
 		if(this.remainingTime<=0f)
 			this.lifePoints = -1f;
 	}
 
 	public Graphics draw(Graphics g){
 		int j = (int)(Math.random()*nbFire*5);
-		if(j<nbFire){
+		if(j<nbFire && Math.random()>0.7){
 			if(this.animationState[j]==0f)
 				this.animationState[j]=1f;
 		}
@@ -113,8 +110,8 @@ public class Firewall extends SpellEffect{
 					g.drawImage(this.image, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
 			}
 		}
-		g.setColor(Color.white);
-		g.draw(this.collisionBox);
+		//g.setColor(Color.white);
+		//g.draw(this.collisionBox);
 		return g;
 	}
 

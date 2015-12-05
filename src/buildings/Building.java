@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
@@ -30,6 +31,8 @@ public class Building extends ActionObjet{
 	public float charge;
 	public boolean isProducing;
 
+	public boolean underAttack;
+	public float underAttackRemaining=0;
 
 	public Building(){}
 
@@ -46,6 +49,7 @@ public class Building extends ActionObjet{
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		this.image = this.p.g.images.tent;
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
@@ -63,19 +67,33 @@ public class Building extends ActionObjet{
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.potentialTeam!=c.getTeam()){
+		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING){
+			this.underAttack = true;
+			this.underAttackRemaining =20f;
+
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
 				this.hq = this.getGameTeam().hq;
 			}
-			this.constructionPoints-=0.1f;
+			this.constructionPoints-=Main.increment;
 		}
-		else if(this.constructionPoints<this.maxLifePoints){
-			this.constructionPoints+=0.1f;
+		else if(this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING){
+			this.constructionPoints+=Main.increment;
 		}
-		else{
-			if(this.potentialTeam!=this.getTeam()){
+		else if(c.mode==Character.TAKE_BUILDING){
+			if(this.potentialTeam!=this.getTeam() && (this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop){
+				this.getGameTeam().pop-=2;
 				this.setTeam(this.potentialTeam);
+				this.getGameTeam().pop+=2;
+				if(this instanceof BuildingHeadQuarters){
+					this.p.g.endGame = true;
+					if(this.getTeam()==this.p.currentPlayer.id){
+						this.p.g.victory = true;
+					}
+					else{
+						this.p.g.victory = false;
+					}
+				}
 				this.hq = this.getGameTeam().hq;
 				if(this instanceof BuildingProduction){
 					((BuildingProduction)this).queue.clear();
@@ -99,11 +117,9 @@ public class Building extends ActionObjet{
 	}
 
 	public void drawIsSelected(Graphics g){
-
-
 		g.drawImage(this.selection_circle,this.getX()-5f-this.collisionBox.getWidth()/2,this.getY()-this.collisionBox.getHeight()/2-5f,this.getX()+this.collisionBox.getWidth()/2+5f,this.getY()+this.collisionBox.getHeight()/2+5f,0,0,this.selection_circle.getWidth(),this.selection_circle.getHeight());
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-
+		
 	}	
 
 	public void updateImage(){
@@ -175,9 +191,9 @@ public class Building extends ActionObjet{
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters)
-			g.drawImage(this.image, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
+			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
 		else
-			g.drawImage(this.imageNeutre, this.x-this.sizeX/2, this.y-this.sizeY, this.x+this.sizeX/2f, this.y+this.sizeY/2f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
+			g.drawImage(this.imageNeutre, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/1.8f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
 		if(visibleByCurrentPlayer)
 			this.drawAnimation(g);
 		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
@@ -277,7 +293,5 @@ public class Building extends ActionObjet{
 		this.charge = charge;
 		this.changes.charge = true;
 	}
-	
-
 
 }

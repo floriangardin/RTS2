@@ -6,6 +6,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import model.Game;
+import multiplaying.InputObject;
+
 public class Menu_TextScanner extends Menu_Item{
 
 	public String s;
@@ -14,8 +17,11 @@ public class Menu_TextScanner extends Menu_Item{
 	public int animation = 0;
 	public int cooldown = 0;
 	public int back = 0;
+	public boolean keyDown;
+	public int idKeyDown;
 
-	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY){
+	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY, Game g){
+		this.game = g;
 		if(s!=null)
 			this.s = s;
 		else 
@@ -53,21 +59,31 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(Input.KEY_SPACE,' ');
 	}
 
-	public void update(Input i){
+	public void update(Input i, InputObject im){
 		if(isSelected){
-			if(s.length()<13){
+			if(this.game.font.getWidth(s)<this.sizeX){
+				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
-					if(i.isKeyPressed(k)){
-						if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT))
-							s+=intToChar.get(k);
-						else
-							s+=(intToChar.get(k)).toLowerCase((intToChar.get(k)));
+					if(i.isKeyDown(k)){
+						if(!keyDown || idKeyDown!=k){
+							this.keyDown = true;
+							this.idKeyDown = k;
+							if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT))
+								s+=intToChar.get(k);
+							else
+								s+=Character.toLowerCase((intToChar.get(k)));
+						}
+						break;
 					}
+					l--;
+				}
+				if(l==0){
+					this.keyDown = false;
 				}
 			}
 			if(i.isKeyDown(Input.KEY_BACK) && s.length()>0){
 				if(cooldown<=0){
-				s=s.substring(0,s.length()-1);
+					s=s.substring(0,s.length()-1);
 					back++;
 					cooldown = Math.max(25-back*5,5);
 				} else {
@@ -77,8 +93,9 @@ public class Menu_TextScanner extends Menu_Item{
 				back = 0;
 				cooldown = 0;
 			}
-			if(i.isKeyPressed(Input.KEY_RETURN))
+			if(im.isPressedENTER){
 				isSelected = false;
+			}
 			animation +=1;
 			if(animation>60)
 				animation = 0;
@@ -96,14 +113,14 @@ public class Menu_TextScanner extends Menu_Item{
 			g.setColor(Color.yellow);
 		else
 			g.setColor(Color.white);
-		g.drawRect(x, y, sizeX, sizeY);
+		g.drawRect(x-sizeX/2f-10f, y-sizeY/2f, sizeX+20f, sizeY);
 		g.setColor(Color.white);
-		float height = g.getFont().getHeight(s);
+		float height = g.getFont().getHeight("Hg");
 		if(s!=null){
 			if(animation>30){
-				g.drawString(s+"|", x+15f, y+sizeY/2-height/2);
+				g.drawString(s+"|", x-sizeX/2f, y-height/2);
 			} else {
-				g.drawString(s, x+15f, y+sizeY/2-height/2);				
+				g.drawString(s, x-sizeX/2f, y-height/2);				
 			}
 		}
 	}

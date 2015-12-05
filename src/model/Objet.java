@@ -8,14 +8,16 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 import bullets.Bullet;
 import pathfinding.Case;
 import units.Character;
 
-public abstract class Objet {
+public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
+	public float maxLifePoints;
 	public int id;
 	public Image[][][] animations;
 	public int mode;
@@ -29,6 +31,7 @@ public abstract class Objet {
 	public float sight;
 	public Case c;
 	public Shape collisionBox;
+	public Shape selectionBox;
 	public Color color;
 	public Plateau p;
 	public float lifePoints;
@@ -50,7 +53,9 @@ public abstract class Objet {
 		return this.name;
 	}
 	public int getTeam(){
-		return team;
+		if(this.gameteam==null)
+			return 0;
+		return gameteam.id;
 	}
 	public GameTeam getGameTeam(){
 		return gameteam;
@@ -84,15 +89,21 @@ public abstract class Objet {
 		return y;
 	}
 	protected void setXY(float x, float y){
+		
 		if(this instanceof Bullet){
 			this.x = x;
 			this.y = y;
 		} else {
-			this.x = Math.min(this.p.maxX-1f, Math.max(1f, x));
-			this.y = Math.min(this.p.maxY-1f, Math.max(1f, y));
+			
+			float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
+			float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+			
+			this.x = xt;
+			this.y = yt;
 		}
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
+		
 		this.c = this.p.mapGrid.getCase(x, y);
 		this.changes.x=true;
 		this.changes.y = true;
@@ -103,7 +114,11 @@ public abstract class Objet {
 	}
 	
 	public void setLifePoints(float lifepoints){
-		this.lifePoints= lifepoints;
+		if(lifepoints<this.maxLifePoints)
+			this.lifePoints= lifepoints;
+		else{
+			this.lifePoints = this.maxLifePoints;
+		}
 		this.changes.lifePoints = true;
 	}
 	// TOSTRING METHODS
@@ -143,9 +158,9 @@ public abstract class Objet {
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");
 		HashMap<String,String> hs = new HashMap<String,String>();
-		if(u.length<=1){
-			return hs;
-		}
+//		if(u.length<=1){
+//			return hs;
+//		}
 		for(int i=0;i<u.length;i++){
 			String[] r = u[i].split("\\:");
 			if(r.length>1){

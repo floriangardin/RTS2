@@ -1,6 +1,7 @@
 package units;
 
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
 import model.GameTeam;
@@ -14,13 +15,16 @@ public class UnitPriest extends Character {
 		super(p, gameteam);
 		this.name = "priest";
 		this.type = UnitsList.Priest;
-		this.maxLifePoints = 60f;
+		this.unitType = PRIEST;
+		this.maxLifePoints = 60f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
-		this.collisionBox = new Circle(0f,0f,20f);
+		this.attackDuration = 2f;
+		this.collisionBox = new Circle(0f,0f,this.size);
+		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 80f;
 		this.armor = 1f;
-		this.damage = 0f;
+		this.damage = 0f*data.damageFactor;
 		this.chargeTime = 0.2f;
 		this.weapon = "bible";
 		
@@ -37,6 +41,14 @@ public class UnitPriest extends Character {
 		super(unit,x,y,id);
 	}
 
+	public void action(){
+		if(this.mode==TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
+		mainAction();
+	}
+	
+	
 	public void useWeapon(){
 		Character c = (Character) this.target;
 		c.changes.lifePoints=true;
@@ -49,5 +61,6 @@ public class UnitPriest extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		this.isAttacking = false;
 	}
 }

@@ -29,8 +29,10 @@ public class MinimapInterface extends Bar {
 	Vector<Case> cases;
 
 	public MinimapInterface(BottomBar parent){
+
 		this.game = parent.p.g;
 		this.p = parent.p;
+
 		this.player = parent.player;
 		this.startX = this.game.resX/4;
 		this.startY = this.game.resY/4;
@@ -40,12 +42,22 @@ public class MinimapInterface extends Bar {
 		rh = h/this.p.maxY;
 		this.toDraw = false;
 	}
+	
+	public void update(Game game){
+
+		this.game = game;
+		this.p = game.plateau;
+		rw = w/this.p.maxX;
+		rh = h/this.p.maxY;
+
+	}
 
 	public Graphics draw(Graphics g){
 		// Draw the minimap 
 		if(!toDraw){
 			return g;
 		}
+
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);
@@ -55,14 +67,17 @@ public class MinimapInterface extends Bar {
 
 		// Draw background 
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.fillRect(startX, startY, w, h);
+		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
 		// Draw water
+		
+		
+		
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.cyan);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
 		// Draw units on camera 
-
+		g.setAntiAlias(true);
 		for(Character c : this.p.characters){		
 			if(c.getTeam()==2){
 				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
@@ -79,6 +94,8 @@ public class MinimapInterface extends Bar {
 				}
 			}
 		}
+		
+		g.setAntiAlias(false);
 		for(Building c : this.p.buildings){
 			if(c.getTeam()==0){
 				g.setColor(Color.gray);
@@ -113,6 +130,7 @@ public class MinimapInterface extends Bar {
 				g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
 			}
 		}
+		
 //		g.setColor(Color.black);
 //		for(float f : this.game.plateau.mapGrid.Xcoord){
 //			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);
@@ -147,13 +165,13 @@ public class MinimapInterface extends Bar {
 		return g;
 	}
 
-	public void createRandomLine(){
-		x1 = (float)(Math.random()*game.plateau.maxX);
-		x2 = (float)(Math.random()*game.plateau.maxX);
-		y1 = (float)(Math.random()*game.plateau.maxY);
-		y2 = (float)(Math.random()*game.plateau.maxY);
-		cases = game.plateau.mapGrid.isLineOk(x1, y1, x2, y2);
-		isPossibleLine = (cases.size()>0);
-		isVisibleLine = true;
-	}
+//	public void createRandomLine(){
+//		x1 = (float)(Math.random()*game.plateau.maxX);
+//		x2 = (float)(Math.random()*game.plateau.maxX);
+//		y1 = (float)(Math.random()*game.plateau.maxY);
+//		y2 = (float)(Math.random()*game.plateau.maxY);
+//		cases = game.plateau.mapGrid.isLineOk(x1, y1, x2, y2);
+//		isPossibleLine = (cases.size()>0);
+//		isVisibleLine = true;
+//	}
 }

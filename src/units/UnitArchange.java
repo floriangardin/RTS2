@@ -18,13 +18,15 @@ public class UnitArchange extends Character {
 		super(p, gameteam);
 		this.name = "archange";
 		this.type = UnitsList.Archange;
-		this.maxLifePoints = 200f;
+		this.unitType = ARCHANGE;
+		this.maxLifePoints = 200f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
-		this.collisionBox = new Circle(0f,0f,20f);
+		this.collisionBox = new Circle(0f,0f,this.size);
+		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 60f;
 		this.armor = 5f;
-		this.damage = 20f;
+		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 12f;
 		this.weapon = "sword";
 		this.civ = 0;
@@ -104,10 +106,10 @@ public class UnitArchange extends Character {
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		if(this.horse!=null){
-			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
 
 		} else {
-			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
 	}
@@ -126,6 +128,8 @@ public class UnitArchange extends Character {
 		}
 		// Reset the state
 		this.state = 0f;
+		c.isAttacked();
+		this.isAttacking = false;
 		
 	}
 

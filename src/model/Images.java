@@ -4,7 +4,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Images {
-
+	
+	public Image background;
+	public Image coastBackground;
+	public Image seaBackground;
 	public Image water, dirt;
 	public Image arrow;
 	public Image fireball;
@@ -27,10 +30,14 @@ public class Images {
 	public Image windmill;
 	public Image windmillarms;
 	public Image grassTexture;
-	
+
 	//Units
 	public Image spearman_move;
 	
+
+	public Image spearmanBlue ;
+	public Image spearmanRed ;
+
 
 	//Building
 	public Image buildingBarrackBlue;
@@ -71,9 +78,23 @@ public class Images {
 	public Image spellConversion;
 	public Image spellInstantDeath;
 	public Image spellInstantHealth;
+	public Image crossbowmanBlue;
+	public Image crossbowmanRed;
+	public Image attackSpearmanRed;
+	public Image attackSpearmanBlue ;
+	public Image attackCrossbowmanBlue;
+	public Image attackCrossbowmanRed;
+	public Image bonusLifePoints;
+	public Image bonusDamage;
+	public Image bonusSpeed;
+	public Image inquisitorBlue;
+	public Image inquisitorRed;
 
 	public Images(){
 		try {
+			background = new Image("pics/fondMenu.png");
+			seaBackground = new Image("pics/seaBackground.png");
+			coastBackground = new Image("pics/sandBackground.jpg");
 			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
 			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
 			this.arrow = new Image("pics/arrow.png");
@@ -108,9 +129,26 @@ public class Images {
 			this.smoke = new Image("pics/smoke.png");
 			this.windmill = new Image("pics/windmill.png");
 			this.windmillarms = new Image("pics/windmillarms.png");
+
 			
 			//Units
 			this.spearman_move = new Image("pics/spearman_move.png");
+
+
+			this.spearmanBlue = new Image("pics/unit/spearman_move_1.png");
+			this.spearmanRed = new Image("pics/unit/spearman_move_2.png");
+			this.crossbowmanBlue = new Image("pics/unit/crossbowrman_move_1.png");
+			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
+			this.inquisitorBlue = new Image("pics/unit/inquisitor_move_1.png");
+			this.inquisitorRed = new Image("pics/unit/inquisitor_move_2.png");
+			
+			//TODO put right image
+			this.attackSpearmanBlue = new Image("pics/unit/spearman_attack_1.png");
+			this.attackSpearmanRed = new Image("pics/unit/spearman_attack_2.png");
+			bonusLifePoints = new Image("pics/bonus/bonus_lifepoints.png");
+			bonusDamage = new Image("pics/bonus/bonus_damage.png");
+			bonusSpeed = new Image("pics/bonus/bonus_speed.png");
+			
 
 			//Building
 			buildingBarrackBlue = new Image("pics/Building/CaserneBleu.png");
@@ -151,7 +189,7 @@ public class Images {
 			this.spellConversion = new Image("pics/Spell/conversion.png");
 			this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
 			this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
-			this.grassTexture = new Image("pics/TestTexture1.png");
+			this.grassTexture = new Image("pics/island.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

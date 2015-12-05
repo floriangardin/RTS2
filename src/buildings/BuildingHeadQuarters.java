@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
@@ -117,6 +118,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingHeadQuartersBlue;
 		}
@@ -152,7 +154,12 @@ public class BuildingHeadQuarters extends BuildingTech {
 	}
 
 	public void action(){
-
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		// If enough faith create archange
@@ -169,7 +176,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 			this.animation+=2f;
 			if(animation>120f)
 				animation = 0;
-			this.setCharge(this.charge+0.1f);
+			this.setCharge(this.charge+Main.increment);
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 			}

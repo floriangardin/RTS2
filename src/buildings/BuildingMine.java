@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
@@ -16,7 +17,12 @@ public class BuildingMine extends BuildingTech{
 	public int bonusProd;
 	
 	public BuildingMine(Plateau p,Game g,float x, float y){
-		
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
 		teamCapturing= 0;
 
 		this.x = x;
@@ -37,6 +43,7 @@ public class BuildingMine extends BuildingTech{
 		p.addBuilding(this);
 		this.sight = getGameTeam().data.mineSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMineBlue;
 		} else if(getTeam()==2){
@@ -54,11 +61,11 @@ public class BuildingMine extends BuildingTech{
 
 	
 	public void action(){
-		this.state+=0.1f;
+		this.state+=Main.increment;
 
 		
 		if(state >= chargeTime && getTeam()!=0){
-			getGameTeam().gold+=1+getGameTeam().data.bonusGold;
+			getGameTeam().gold+=3+getGameTeam().data.bonusGold;
 			state = 0;
 		}
 		
@@ -69,10 +76,10 @@ public class BuildingMine extends BuildingTech{
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
-			this.animation+=2f;
+			this.animation+=2f*Game.ratio;
 			if(animation>120f)
 				
-			this.charge+=0.1f;
+			this.charge+=Main.increment;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 

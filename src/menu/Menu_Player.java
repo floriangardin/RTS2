@@ -6,6 +6,7 @@ import org.newdawn.slick.Input;
 
 import model.Game;
 import model.Player;
+import multiplaying.InputObject;
 
 public class Menu_Player extends Menu_Item{
 
@@ -29,38 +30,44 @@ public class Menu_Player extends Menu_Item{
 
 	boolean isOverColor;
 	boolean isOverCiv;
-	boolean isReady;
+
+	public int messageDropped = 0;
+	public boolean hasBeenUpdated = false;
 
 	Game game;
 
 	public Menu_Player(Player p, float x, float y, Game game){
 		this.p = p;
+		this.game = game;
+		this.updatePosition(x, y);
+	}
+
+	public void updatePosition(float x, float y){
 		this.x = x;
 		this.y = y;
-		this.isReady = p.isReady;
-		this.game = game;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
-		this.startXcolor = x + 300f;
+		String s1 = "Player  "+p.id+" :  "+"Gilles de Bouard   ";
+		this.startXcolor = x + this.game.font.getWidth(s1);
 		this.startYcolor = y;
-		this.sizeXcolor = 90f;
-		this.sizeYcolor = 40f;
-		this.startXciv = x+450f;
+		this.sizeXcolor = 90f*this.game.resX/1920f;
+		this.sizeYcolor = 40f*this.game.resY/1080f;
+		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("  ");
+		this.startXready = startXciv+this.game.font.getWidth("Zinaids      ");
 		this.startYciv = y;
-		this.sizeXciv = 200f;
-		this.sizeYciv = 60f;
-		this.startXready = x+650f;
 		this.startYready = y;
 	}
 
-	public void update(Input i){
+	public void update(InputObject im){
 		if(game.plateau.currentPlayer.id==p.id){
-			float xMouse = i.getAbsoluteMouseX();
-			float yMouse = i.getAbsoluteMouseY();
+			float xMouse = im.xMouse;
+			float yMouse = im.yMouse;
 			//Testing the click
 			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 				isOverColor = true;
-				
+				if(im.pressedLeftClick){
+					this.p.setTeam(this.p.getTeam()%(this.game.plateau.nTeams)+1);
+				}			
 			} else {
 				isOverColor = false;
 			}
@@ -88,12 +95,13 @@ public class Menu_Player extends Menu_Item{
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(Color.black);
-		g.drawString("Player "+p.id+" : "+this.p.nickname, x, y);
+		g.setColor(Color.white);
+		String s = "Player "+p.id+" : "+this.p.nickname+"   ";
+		g.drawString(s, x, y);
 		if(isOverColor)
 			g.setColor(Color.gray);
 		else	
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 		g.fillRect(startXcolor-2f, startYcolor-2f, sizeXcolor+4f,sizeYcolor+4f);
 		switch(p.getGameTeam().id){
 		case 1 : g.setColor(Color.blue);break;
@@ -104,10 +112,11 @@ public class Menu_Player extends Menu_Item{
 		if(isOverCiv)
 			g.setColor(Color.gray);
 		else
-			g.setColor(Color.black);
+			g.setColor(Color.white);
 		g.drawString(p.getGameTeam().civName, startXciv, startYciv);
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		if(game.inMultiplayer)
-			g.drawString(this.isReady ? "Ready":"Not Ready" ,startXready , startYready);
+			g.drawString(this.p.isReady ? "Ready":"Not Ready" ,startXready , startYready);
 	}
+
 }

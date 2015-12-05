@@ -13,7 +13,7 @@ import units.Character;
 public abstract class Bullet extends ActionObjet {
 	public float damage;
 	public float areaEffect;
-	public Character owner;
+	public ActionObjet owner;
 	public float size;
 		
 	public void collision(Building c){

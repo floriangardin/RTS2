@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
@@ -47,6 +48,7 @@ public class BuildingUniversity extends BuildingTech {
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingUniversityBlue;
 		}
@@ -73,21 +75,29 @@ public class BuildingUniversity extends BuildingTech {
 		}
 	}
 
-	public void product(int unit){
+	public boolean product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
 			if(this.productionList.get(unit).tech.foodPrice<=this.getGameTeam().food
 					&& this.productionList.get(unit).tech.goldPrice<=this.getGameTeam().gold){
 				this.queue=this.productionList.get(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
+				return true;
 			}
 		}
+		return false;
 	}
 	public void action(){
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue!=null){
-			this.setCharge(this.charge+0.1f);
+			this.setCharge(this.charge+Main.increment);
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 			}

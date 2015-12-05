@@ -6,6 +6,6 @@ public abstract class BuildingAction extends Building {
 
 	
 	
-	public void product(int i){};
-	public void removeProd() {}
+	public abstract boolean product(int i);
+	public abstract void removeProd() ;
 }

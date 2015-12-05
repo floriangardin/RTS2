@@ -16,26 +16,22 @@ import model.Game;
 import model.Map;
 import model.Objet;
 import model.Player;
+import multiplaying.InputObject;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
 
 public class MenuMapChoice extends Menu {
 
-	public Image back;
-	public Image play;
-	public Image marbre;
-	public Image marbre2;
-	Image title;
+	boolean pingAsked = false;
+	boolean secondPingAsked = false;
 
-	public Image playSelected;
-	public Image backSelected;
 	public int selected = -1;
 	public int mapSelected = 0;
 	public Vector<String> maps = Map.maps();
 
 	public Vector<Menu_MapChoice> mapchoices;
 
-	public Vector<Menu_Player> players;
+	public Vector<Menu_Player> menuPlayers;
 
 
 	float startY;
@@ -51,66 +47,51 @@ public class MenuMapChoice extends Menu {
 	float sizeXPlayers;
 	float sizeYPlayers;
 
-
+	long startGame = 0;
+	public int seconds = 6;
 
 	public int cooldown;
+	public int messageDropped;
 
 	public MenuMapChoice(Game game){
-		this.music = game.musics.menu;
-		this.game = game;
+		super(game);
+
 		this.items = new Vector<Menu_Item>();
 		this.mapchoices = new Vector<Menu_MapChoice>();
-		this.players = new Vector<Menu_Player>();
+		this.menuPlayers = new Vector<Menu_Player>();
 
 		startY = this.game.resY*0.37f;
 		stepY = 0.12f*this.game.resY;
 
-		startXMapChoice = game.resX*(2f/3f+1f/60f);
+		startXMapChoice = game.resX*(2f/3f);
 		startYMapChoice = startY;
 		sizeXMapChoice = game.resX*(1f/3f-1f/30f);
-		sizeYMapChoice = game.resY*39f/40f-startYMapChoice;
+		sizeYMapChoice = game.resY*0.80f-startYMapChoice;
 
-		startXPlayers = game.resX/60f;;
+		startXPlayers = 1f*game.resX/5f;
 		startYPlayers = startY;
-		sizeXPlayers = game.resX*(2f/3f-1f/30f);
+		sizeXPlayers = game.resX*(2f/3f)-2*startXPlayers;
 		sizeYPlayers = game.resY*0.80f-startYMapChoice;
-
-		float ratioReso = this.game.resX/2800f;
-		try {
-			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
-			this.play = new Image("pics/menu/play.png").getScaledCopy(ratioReso);
-			this.playSelected = new Image("pics/menu/playselected.png").getScaledCopy(ratioReso);
-			this.back= new Image("pics/menu/back.png").getScaledCopy(ratioReso);
-			this.backSelected= new Image("pics/menu/backselected.png").getScaledCopy(ratioReso);
-			this.marbre= new Image("pics/menu/marbre.png").getScaledCopy((int)sizeXPlayers, (int)sizeYPlayers);
-			this.marbre2= new Image("pics/menu/marbre2.png").getScaledCopy((int)sizeXMapChoice,(int)sizeYMapChoice);
-			float startX = this.game.resX/2-this.play.getWidth()/2;
-			this.items.addElement(new Menu_Item(startXPlayers,startYPlayers,this.marbre,this.marbre,this.game));
-			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(startXMapChoice,startYMapChoice,this.marbre2,this.marbre2,this.game));
-			this.items.lastElement().selectionable = false;
-			this.items.addElement(new Menu_Item(1f/6f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.back,this.backSelected,this.game));
-			this.items.addElement(new Menu_Item(1f/2f*this.game.resX-this.back.getWidth()/2f,this.game.resY*0.9f-this.back.getHeight()/2f,this.play,this.playSelected,this.game));
-			for(int i=0; i<maps.size(); i++){
-				this.mapchoices.addElement(new Menu_MapChoice(maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+2)/12f*sizeYMapChoice-35f/2,200f,30f));
-			}
-		} catch (SlickException e1) {
-			e1.printStackTrace();
+		this.items.addElement(new Menu_Item(1f/3f*this.game.resX,this.game.resY*0.9f,"retour",this.game,true));
+		this.items.addElement(new Menu_Item(2f/3f*this.game.resX,this.game.resY*0.9f,"demarrer",this.game,true));
+		for(int i=0; i<maps.size(); i++){
+			this.mapchoices.addElement(new Menu_MapChoice(game, maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,200f,30f));
 		}
-		//		}
-		this.sounds = game.sounds;
 	}
 
 
 	public void callItem(int i){
 		switch(i){
-		case 2:
+		case 0:
+			// retour
+			this.game.connexionSender.interrupt();
 			if(game.inMultiplayer)
 				this.game.setMenu(this.game.menuMulti);
 			else
 				this.game.setMenu(this.game.menuIntro);
 			break;
-		case 3: 
+		case 1: 
+			// d�marrer
 			if(!game.inMultiplayer){
 				Map.updateMap(mapSelected, game);
 				game.launchGame();
@@ -123,38 +104,134 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void draw(Graphics g){
-		g.setColor(Color.black);
-		g.fillRect(0, 0, this.game.resX, this.game.resY);
-		g.drawImage(this.title, this.game.resX/2f-this.title.getWidth()/2, 10f);
-
-		for(Menu_Item item: this.items){
-			item.draw(g);
-		}
-		g.setColor(Color.black);
+		this.drawItems(g);
+		g.setColor(Color.white);
 		for(Menu_Item item: this.mapchoices){
 			item.draw(g);
 		}
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.drawString("Players :" , startXPlayers + 1f/30f*sizeXPlayers,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
-		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYMapChoice+1f/12f*sizeYMapChoice-g.getFont().getHeight("P")/2f);
-		for(int i=1;i<this.players.size();i++){
-			players.get(i).draw(g);
+		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-this.game.font.getHeight("P")/2f,2f,3f/6f*sizeYPlayers+this.game.font.getHeight("P")/2f);
+		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
+		g.fillRect(startXMapChoice + 1f/15f*sizeXMapChoice,startYMapChoice+1f*(3)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,2f,6f/9f*sizeYMapChoice-this.game.font.getHeight("P")/2);
+		for(int i=1;i<this.menuPlayers.size();i++){
+			menuPlayers.get(i).draw(g);
 		}
 
 	}
 
-	public void update(Input i){
-		this.players.clear();
-		for(int j=0;j<this.game.plateau.players.size(); j++){
-			this.players.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-35f/2f,game));
-			this.players.get(j).update(i);
-		}
-		//Checking if all players are ready then launch the game
+	public void update(InputObject im){
+		// Handling current player according to input
+		this.menuPlayers.get(game.plateau.currentPlayer.id).update(im);
+		// handling connexions
 		if(game.inMultiplayer){
+			if(game.host){
+				// sending to all players
+				this.handleSendingConnexions();
+				// parsing if received anything
+				while(game.connexions.size()>0){
+					this.parseForHost(Objet.preParse(game.connexions.remove(0)));
+				}
+			} else {
+				// sending to host
+				this.game.toSendConnexions.addElement("2"+this.messageToHost());	
+				messageDropped++;	
+				// parsing if received anything
+				while(game.connexions.size()>0){
+					messageDropped=0;
+					this.parseForClient(Objet.preParse(game.connexions.remove(0)));
+				}		
+				//checking if game still exists
+				if(messageDropped>25){
+					this.callItem(0);
+				}
+			}
+			// checking disconnecting players
+			int toRemove = -1;
+			if(game.host){
+				for(int i=2 ; i<this.menuPlayers.size(); i++){
+					Menu_Player mp = this.menuPlayers.get(i);
+					if(mp!=null && mp.hasBeenUpdated){
+						mp.messageDropped=0;
+						mp.hasBeenUpdated = false;
+					} else {
+						mp.messageDropped++;
+						if(mp.messageDropped>25){
+							System.out.println("disconnecting player:"+i);
+							toRemove=i;
+						}
+					}
+				}
+			}
+			if(toRemove!=-1){
+				int k = toRemove;
+				this.game.plateau.removePlayer(k);
+				for(int i=0; i<this.game.plateau.players.size(); i++){
+					this.game.plateau.players.get(i).id = i;
+				}
+				this.initializeMenuPlayer();
+			}
+			//Checking starting of the game
+			if(startGame!=0){
+				this.handleStartGame();
+				return;
+			}
+		}
+		// Checking if all players are ready then launch the game
+		this.checkStartGame();
+		// Updating items
+		this.updateItems(im);
+		// Updating map choices
+		if(this.game.host || !this.game.inMultiplayer){
+			for(int i=0; i<this.mapchoices.size(); i++){
+				Menu_MapChoice item = this.mapchoices.get(i);
+				item.update(im);
+				if(im.pressedLeftClick && item.mouseOver){
+					for(Menu_MapChoice mp : this.mapchoices){
+						mp.isSelected = false;
+					}
+					item.isSelected = true;
+					this.mapSelected = i;
+				}
+			}	
+		}
+
+	}
+	public void handleStartGame(){
+		/**
+		 * function that checks if the game is about to start
+		 * ie. if the startTime has been defined
+		 * 
+		 * then play sounds each seconds then launches the game
+		 */
+		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
+			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
+			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
+			this.game.sounds.buzz.play();
+			if(seconds==5){
+				Map.updateMap(mapSelected, game);
+				// Create sender and receiver
+				for(Player p : this.game.plateau.players){
+					this.game.toSendInputs.add(new Vector<String>());
+					this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
+					if(p.address!=null)
+						this.game.inputSender.lastElement().start();
+				}
+				this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
+			}
+
+			seconds--;
+		} else if (startGame<=this.game.clock.getCurrentTime()) {
+			this.game.inputReceiver.start();
+			game.launchGame();
+		}
+	}
+	public void checkStartGame(){
+		if(game.inMultiplayer && game.host){
 			boolean toGame = true;
 			// checking if all players are ready
-			for(int j=1;j<this.players.size(); j++){
-				if(!this.players.get(j).isReady){
+			for(int j=1;j<this.menuPlayers.size(); j++){
+				if(!this.menuPlayers.get(j).p.isReady){
 					toGame = false;
 				}
 			}
@@ -162,7 +239,6 @@ public class MenuMapChoice extends Menu {
 			boolean present1 = false;
 			boolean present2 = false;
 			if(toGame){
-				//  check previous condition
 				for(Player p : this.game.plateau.players){
 					if(p.getTeam()==1){
 						present1 = true;
@@ -173,126 +249,64 @@ public class MenuMapChoice extends Menu {
 				}
 				if (present1 && present2){
 					// Launch Game
-
-					// Create sender and receiver
-					if(!game.host){
-						this.game.inputSender = new MultiSender(game.addressHost, this.game.portInput, this.game.toSendInputs,this.game);
-						this.game.outputReceiver = new MultiReceiver(this.game, this.game.portOutput);
-						this.game.outputReceiver.start();
-						this.game.inputSender.start();
-					} else {
-						this.game.outputSender = new Vector<MultiSender>();
-						for(Player p: this.game.plateau.players){
-							if(p.id != this.game.plateau.currentPlayer.id && p.getTeam()!=0){
-								this.game.toSendOutputs.add(new Vector<String>());
-								this.game.outputSender.add(new MultiSender(p.address, this.game.portOutput, this.game.toSendOutputs.lastElement(),this.game));
-								this.game.outputSender.lastElement().start();
-							}
-						}
-						this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
-						this.game.inputReceiver.start();
-					}
-					Map.updateMap(mapSelected, game);
-					game.launchGame();
-				}
-			}
-
-		}
-		if(i!=null){
-			if(i.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				this.callItems(i);
-				this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
-			}
-			for(Menu_Item item: this.items){
-				item.update(i);
-			}	
-			for(Menu_MapChoice item: this.mapchoices){
-				item.update(i);
-			}	
-		}
-		if(game.inMultiplayer){
-			if(game.host){
-				// sending games
-				for(Player p : this.game.plateau.players){
-					if(p.address != null){
-						this.game.connexionSender.address = p.address;
-						//						Thread.sleep((long) 0.005);
-						this.game.toSendConnexions.addElement("2"+toString());
-						try {
-							Thread.sleep((long) 0.005);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+					if(startGame==0){
+						this.startGame = this.game.clock.getCurrentTime()+10000000000L;
 					}
 				}
-				if(cooldown<=255){
-					if(!game.connexionSender.isAlive()){
-						game.connexionSender.start();
-					}
-					String s="";
-					try {
-						s = InetAddress.getLocalHost().getHostAddress();
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					}
-					String[] tab = s.split("\\.");
-					s = "";
-					for(int k=0; k<tab.length-1;k++){
-						s += tab[k]+".";
-					}
-					String thisAddress;
-					try {
-						thisAddress = InetAddress.getLocalHost().getHostAddress();
-
-						if(!thisAddress.equals(s+""+cooldown)){
-							this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-							//							Thread.sleep((long) 0.005);
-							this.game.toSendConnexions.addElement("2"+toString());
-							Thread.sleep((long) 0.005);
-							//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
-						}
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					cooldown++;
+			}
+		}
+	}
+	public void handleSendingConnexions(){
+		// sending games to ingame players
+		for(Player p : this.game.plateau.players){
+			if(p.address != null && p!=this.game.plateau.currentPlayer){
+				this.game.connexionSender.address = p.address;
+				//						Thread.sleep((long) 0.005);
+				this.game.toSendConnexions.addElement("2"+toString());
+				try {
+					Thread.sleep((long) 0.05);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		// sending games to other ips
+		for(int cooldown=0; cooldown<100; cooldown++){
+			if(!game.connexionSender.isAlive()){
+				game.connexionSender.start();
+			}
+			String s="";
+			try {
+				s = InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+			String[] tab = s.split("\\.");
+			s = "";
+			for(int k=0; k<tab.length-1;k++){
+				s += tab[k]+".";
+			}
+			String thisAddress;
+			try {
+				thisAddress = InetAddress.getLocalHost().getHostAddress();
+				if(!thisAddress.equals(s+""+cooldown)){
+					this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
+					//							Thread.sleep((long) 0.005);
+					this.game.toSendConnexions.addElement("2"+toString());
+					Thread.sleep((long) 0.001);
+					//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
 				} else {
-					cooldown=0;				
 				}
+			} catch (UnknownHostException | InterruptedException e) {
+				e.printStackTrace();
 			}
-			while(game.connexions.size()>0){
-				this.parse(Objet.preParse(game.connexions.remove(0)));
-			}
-			if(!game.host)
-				this.game.toSendConnexions.addElement("2"+this.toString());
 		}
 	}
 
-	public void callItems(Input i){
-		for(int j=0; j<items.size(); j++){
-			if(items.get(j).isClicked(i))
-				callItem(j);
-		}
-		for(int j=0; j<players.size(); j++){
-			if(j==game.plateau.currentPlayer.id){
-				players.get(j).callItem(i);
-			}
-		}
-		int toselect = -1;
-		if(game.host || !game.inMultiplayer){
-			for(int j=0; j<mapchoices.size(); j++){
-				if(mapchoices.get(j).isClicked(i))
-					toselect = j;
-			}
-			if(toselect!=-1){
-				for(int j=0; j<mapchoices.size(); j++){
-					mapchoices.get(j).isSelected = j==toselect;
-					if(mapchoices.get(j).isSelected)
-						mapSelected = j;
-				}
-			}
+	public void initializeMenuPlayer(){
+		this.menuPlayers.clear();
+		for(int j=0;j<this.game.plateau.players.size(); j++){
+			this.menuPlayers.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
 	}
 
@@ -301,13 +315,13 @@ public class MenuMapChoice extends Menu {
 		String thisAddress;
 		try {
 			thisAddress = InetAddress.getLocalHost().getHostAddress();
-			s+="ip:"+thisAddress+";hostname:"+this.game.options.nickname+";nplayers:"+this.game.plateau.players.size()+";";
+			s+="idJ:"+this.game.plateau.currentPlayer.id+";ip:"+thisAddress+";";
+			if(this.game.host)
+				s+="hst:"+this.game.options.nickname+";npl:"+this.game.plateau.players.size()+";map:"+this.mapSelected+";";
 		} catch (UnknownHostException e) {}	
-		s+="idExp:"+this.game.plateau.currentPlayer.id+";";
-		s+="map:"+this.mapSelected+";";
-		s+="civSelected:";
+		s+="cvS:";
 		//Civ for all players
-		for(Menu_Player p : this.players){
+		for(Menu_Player p : this.menuPlayers){
 			s+=p.p.getGameTeam().civ;
 			s+=",";
 		}
@@ -315,84 +329,256 @@ public class MenuMapChoice extends Menu {
 		s+= ";";
 
 		//id for all players
-		s+="idTeam:";
-		for(Menu_Player p : this.players){
+		s+="idT:";
+		for(Menu_Player p : this.menuPlayers){
 			s+=p.p.getGameTeam().id;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
-		s+="nickname:";
+		s+="nckn:";
 		//Nickname
-		for(Menu_Player p : this.players){
+		for(Menu_Player p : this.menuPlayers){
 			s+=p.p.nickname;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
 
-		s+="isReady:";
-		for(Menu_Player p : this.players){
-			s+=p.isReady?"1":"0";
+		s+="isR:";
+		for(Menu_Player p : this.menuPlayers){
+			s+=p.p.isReady;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+		//Send time 
+		s+="clk:"+this.game.clock.getCurrentTime();
+		s+=";";
+		//Send starttime if isHost and is about to launch game
+		if(this.startGame!=0){
+			s+="stT:"+this.startGame;
+			s+=";";
+		}
+
+		//Send all ip for everyone
+		s+="ips:";
+		for(Menu_Player p : this.menuPlayers){
+			if(p.p.address==null){
+				s+="!";
+			}
+			else{
+				s+=p.p.address.getHostAddress();
+			}
+
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
 		s+= ";";
 
+		//RESOLUTION
+		s+="resX:";
+		for(Menu_Player p : this.menuPlayers){
+			s+=p.p.bottomBar.resX;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+
+		s+="resY:";
+		for(Menu_Player p : this.menuPlayers){
+			s+=p.p.bottomBar.resY;
+			s+=",";
+		}
+		s = s.substring(0,s.length()-1);
+		s+= ";";
+
+
 		return s;
 	}
 
-	//TODO put parse in update of this menu
-	public void parse(HashMap<String,String> hs){
-		if(hs.containsKey("map")){
-			if(!this.game.host){
-				this.mapSelected = Integer.parseInt(hs.get("map"));
-				for(int j = 0; j<mapchoices.size(); j++){
-					mapchoices.get(j).isSelected = j==this.mapSelected;
-				}
-			}
-		}
-		if(hs.containsKey("civSelected")){
-			String[] civ =hs.get("civSelected").split(",");
-			String[] nickname =hs.get("nickname").split(",");
-			String[] idTeam =hs.get("idTeam").split(",");
-			String[] isReady =hs.get("isReady").split(",");
-
-			if(civ.length>this.game.plateau.players.size()){
-				try {
-					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")));
-				} catch (UnknownHostException e) {}
-				this.players.add(new Menu_Player(this.game.plateau.players.lastElement(),startXPlayers, startYPlayers,game));
-			}
-
-			for(int i = 0;i<civ.length;i++){
-				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
-				}
-			}
-
-			for(int i = 0;i<nickname.length;i++){
-				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).p.nickname =  nickname[i];
-				}
-			}
-
-			for(int i = 0;i<idTeam.length;i++){
-				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
-				}
-
-			}
-
-			for(int i = 0;i<isReady.length;i++){
-				if(this.game.plateau.currentPlayer.id!=i){
-					this.players.get(i).isReady = isReady[i].equals("1");
-					this.game.plateau.players.get(i).isReady = isReady[i].equals("1");
-				}
-			}
-
-		}
+	public String messageToHost(){
+		String s ="";
+		String thisAddress;
+		Player current = this.game.plateau.currentPlayer;
+		try {
+			thisAddress = InetAddress.getLocalHost().getHostAddress();
+			s+="idJ:"+this.game.plateau.currentPlayer.id+";ip:"+thisAddress+";";
+		} catch (UnknownHostException e) {}
+		// civ
+		s+="cvS:"+current.getGameTeam().civ+";";
+		// id team
+		s+="idT:"+current.getGameTeam().id+";";
+		// nickname
+		s+="nckn:"+current.nickname+";";
+		// is ready
+		s+="isR:"+current.isReady+";";
+		// resX and resY
+		s+="resX:"+current.bottomBar.resX+";";
+		s+="resY:"+current.bottomBar.resY+";";
+		return s;
 	}
 
+	public void parseForHost(HashMap<String,String> hs){
+		if(!hs.containsKey("idJ"))
+			return;
+		int idJ = Integer.parseInt(hs.get("idJ"));
+		if(idJ==0 || idJ==1){
+			return;
+		}
+		InetAddress address = null;
+		try {
+			address = InetAddress.getByName(hs.get("ip"));
+		} catch (UnknownHostException e){}
+		// if player already there but id is wrong do nothing
+		for(Player p: this.game.plateau.players){
+			if(p.address!=null && p.address.equals(address)){
+				if(p.id!=idJ){
+					return;
+				}
+			}
+		}
+		// checking if the player is a new player
+		while(this.game.plateau.players.size()<=idJ){
+			System.out.println("MenuMapChoice line 442 : new player added");
+			this.game.plateau.addPlayer("???", address,1,1);
+			this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+					startXPlayers+ 1f/10f*sizeXPlayers,
+					startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
+		}
+		Player playerToChange = this.game.plateau.players.get(idJ);
+		if(!playerToChange.address.equals(address)){
+			System.out.println("menumpchoice line 426 : error over the ip addresses");
+			return;
+		}
+		if(hs.containsKey("cvS")){
+			playerToChange.getGameTeam().civ = Integer.parseInt(hs.get("cvS"));
+		}
+		if(hs.containsKey("idT")){
+			playerToChange.setTeam(Integer.parseInt(hs.get("idT")));
+		}
+		if(hs.containsKey("nckn")){
+			playerToChange.nickname = hs.get("nckn");
+		}
+		if(hs.containsKey("isR")){
+			playerToChange.isReady = Boolean.parseBoolean(hs.get("isR"));
+		}
+		if(hs.containsKey("resX")){
+			playerToChange.bottomBar.resX = Integer.parseInt(hs.get("resX"));
+		}
+		if(hs.containsKey("resY")){
+			playerToChange.bottomBar.resY = Integer.parseInt(hs.get("resY"));
+		}
+		this.menuPlayers.get(idJ).hasBeenUpdated = true;
+	}
+
+	public void parseForClient(HashMap<String,String> hs){
+		if(hs.containsKey("map")){
+			this.mapSelected = Integer.parseInt(hs.get("map"));
+			for(int j = 0; j<mapchoices.size(); j++){
+				mapchoices.get(j).isSelected = j==this.mapSelected;
+			}
+		}
+		if(hs.containsKey("cvS")){
+			///////////
+			// initializing
+			///////////
+			String[] civ =hs.get("cvS").split(",");
+			String[] nickname =hs.get("nckn").split(",");
+			String[] idTeam =hs.get("idT").split(",");
+			String[] isReady =hs.get("isR").split(",");
+			String[] resX = hs.get("resX").split(",");
+			String[] resY = hs.get("resY").split(",");
+			String[] ips =hs.get("ips").split(",");
+			// drop the parsings without the player
+			// (this is the first parsing where the host doesn't know yet that the player is here
+			boolean toStop = true;
+			String localhost = "";
+			try {
+				localhost = InetAddress.getLocalHost().getHostAddress();
+			} catch (UnknownHostException e1) {}
+			for(int i=0; i<ips.length; i++){
+				if(ips[i].equals(localhost)){
+					toStop = false;
+				}
+			}
+			if(toStop){
+				System.out.println("MenuMapChoice line 496: return due to missing player");
+				return;
+			}
+			// checking if there is a missing player
+			if(civ.length<this.game.plateau.players.size()){
+				// we reparse all informations and set again the currentPlayer to the right location
+				this.game.plateau.clearPlayer();
+				Player p;
+				for(int i = 1;i<civ.length;i++){
+					this.game.plateau.addPlayer("philippe", null, 1, 1);
+					p = this.game.plateau.players.get(i);
+					p.getGameTeam().civ =  Integer.parseInt(civ[i]);
+					p.nickname =  nickname[i];
+					p.setTeam(Integer.parseInt(idTeam[i]));
+					p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
+					p.isReady = Boolean.parseBoolean(isReady[i]);
+					try {
+						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
+					} catch (UnknownHostException e) {}
+					if(p.address.getHostAddress().equals(this.game.plateau.currentPlayer.address.getHostAddress())){
+						this.game.plateau.currentPlayer = p;
+					}
+					this.initializeMenuPlayer();
+				}
+				System.out.println("MenuMapChoice line 529: un joueur a �t� d�connect�");
+				return;
+
+			}
+			///////////
+			// parsing
+			///////////
+			if(hs.containsKey("clk")){
+				long clockTime = Long.parseLong(hs.get("clk"));
+				if((!this.game.host && !pingAsked) || (seconds<4&& ! secondPingAsked)){
+					this.game.clock.getPing();
+					pingAsked = true;
+					secondPingAsked= true;
+				}
+				if(!this.game.host && pingAsked){
+					this.game.clock.synchro(clockTime);
+				}
+
+			}
+			// checking the start time
+			if(hs.containsKey("stT")){
+				this.startGame = Long.parseLong(hs.get("stT"));
+				System.out.println("MenuMapChoice line 489 : parsed Start Time");
+			}
+			// adding new player if needed
+			if(civ.length>this.game.plateau.players.size()){
+				try {
+					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
+				} catch (UnknownHostException e) {}
+				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+						startXPlayers+ 1f/10f*sizeXPlayers,
+						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
+			}
+			//checking if changes about currentPlayer
+			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
+				// changes among the player
+				System.out.println("MenuMapChoice line 482: error player unidentified");
+				return;
+			}
+			for(int i = 0;i<civ.length;i++){
+				if(this.game.plateau.currentPlayer.id!=i){
+					this.menuPlayers.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
+					this.menuPlayers.get(i).p.nickname =  nickname[i];
+					this.menuPlayers.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
+					this.menuPlayers.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
+					this.game.plateau.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
+					try {
+						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
+					} catch (UnknownHostException e) {}
+				}
+			}
+		}
+	}
 
 }

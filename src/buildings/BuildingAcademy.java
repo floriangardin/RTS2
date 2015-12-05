@@ -31,6 +31,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.x = f;
 		this.y = h;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		p.addBuilding(this);
 		if(this.getTeam()==1){
 			this.image = this.p.g.images.buildingAcademyBlue;

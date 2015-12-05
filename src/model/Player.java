@@ -3,13 +3,17 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
+import multiplaying.InputObject;
 import display.BottomBar;
 import display.TopBar;
 
 public class Player {
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
-	public Plateau p;
+	Plateau p;
+	
+	//FLO INPUTS TO BE APPLIED ON THIS ROUND
+	public Vector<InputObject> inputs;
 	
 	public int id;
 	private GameTeam gameteam;
@@ -17,12 +21,20 @@ public class Player {
 	public String nickname;
 	public int groupSelection;
 	public BottomBar bottomBar;
-	public TopBar topBar;
 	public Data data;
 	public boolean isReady;
+	//Network
 	public InetAddress address;
 	
-	public Player(Plateau p ,int id,String name, GameTeam gameteam) {
+	
+	public Player(Plateau p ,int id,String name, GameTeam gameteam,int resX,int resY) {
+		this.initialize(p, id, name, gameteam);
+		this.bottomBar = new BottomBar(this.p,resX,resY);
+	}
+	
+	
+	
+	public void initialize(Plateau p, int id , String name , GameTeam gameteam){
 		this.id = id;
 		this.nickname = name;
 		this.p = p;
@@ -34,8 +46,8 @@ public class Player {
 		this.gameteam = gameteam;
 		this.team = gameteam.id;
 		this.data = gameteam.data;
+		this.inputs = new Vector<InputObject>();
 	}
-	
 	public int getTeam(){
 		return team;
 	}
@@ -105,7 +117,14 @@ public class Player {
 			}
 		}
 	}
+	
+	public void addToPlay(InputObject in){
+		this.inputs.addElement(in);
+	}
 
+	public boolean equals(Player p){
+		return this.id==p.id;
+	}
 
 	
 }

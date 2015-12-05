@@ -3,6 +3,7 @@ package model;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
 public class Checkpoint extends ActionObjet {
@@ -13,7 +14,9 @@ public class Checkpoint extends ActionObjet {
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
-		this.collisionBox = new Point(x,y);
+		
+		this.collisionBox = new Circle(x,y,3f);
+		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		try {
 			this.image = new Image("pics/cross.png");
@@ -23,13 +26,14 @@ public class Checkpoint extends ActionObjet {
 			e.printStackTrace();
 		}
 		this.printed=0f;
+		
 	}
 	
 	public Checkpoint(float x, float y){
 		this.x= x;
 		this.y=y;
 		this.lifePoints = 1f;
-		this.collisionBox = new Point(x,y);
+		this.collisionBox = new Circle(x,y,3f);
 	}
 	
 	public void action(){

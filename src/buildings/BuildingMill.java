@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
@@ -42,6 +43,7 @@ public class BuildingMill extends BuildingTech{
 		p.addBuilding(this);
 		this.sight = p.players.get(getTeam()).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMillBlue;
 		} else if(getTeam()==2){
@@ -57,14 +59,20 @@ public class BuildingMill extends BuildingTech{
 
 	
 	public void action(){
-		this.state+=0.1f;
+		if(underAttackRemaining>0f){
+			this.underAttackRemaining-=Main.increment;
+		}
+		else{
+			this.underAttack = false;
+		}
+		this.state+=Main.increment;
 		if(getTeam()!=0)
 			this.animation+=2f;
 		if(animation>120f)
 			
 		
 		if(state >= chargeTime && getTeam()!=0){
-			this.getGameTeam().food+=2+this.getGameTeam().data.bonusFood;
+			this.getGameTeam().food+=4+this.getGameTeam().data.bonusFood;
 			state = 0;
 		}
 		
@@ -78,7 +86,7 @@ public class BuildingMill extends BuildingTech{
 			this.animation+=2f;
 			if(animation>120f)
 				
-			this.charge+=0.1f;
+			this.charge+=Main.increment;
 			if(this.charge>=this.queue.tech.prodTime){
 				this.techTerminate(this.queue);
 

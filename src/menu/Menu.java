@@ -2,69 +2,84 @@ package menu;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import model.Game;
-import model.Sounds;
-import multiplaying.InputModel;
+import multiplaying.InputObject;
 
 public abstract class Menu {
 
+	public Image backGround ;
 	public Vector<Menu_Item> items;
-	public Vector<Menu_Item> itemsSelected;
 	public Game game;
-	public Sounds sounds;
-	public Music music;
-	public void callItems(Input i){
-		for(int j=0; j<items.size(); j++){
-			if(items.get(j).isClicked(i))
-				callItem(j);
-		}
-	}
-	public void callItems(InputModel im){
-		for(int j=0; j<items.size(); j++){
-			if(items.get(j).isClicked(im))
-				callItem(j);
+	public Image title;
+
+	public Menu(Game g){
+		this.game = g;
+		this.items = new Vector<Menu_Item>();
+		try {
+			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
+			this.backGround = new Image("pics/fondMenu.png").getScaledCopy(0.35f*this.game.resY/650);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	public void callItem(int i){
+		/**
+		 * function called when clicked on the item i
+		 */
 
-	}
-
-	public Vector<Menu_Item> createHorizontalCentered(int i, float sizeX, float sizeY){
-		Vector<Menu_Item> items = new Vector<Menu_Item>();
-		float unitY = sizeY/(9f+3f*i);
-		for(int j=0;j<i;j++){
-			//items.add(new Menu_Item(sizeX/3f,5*unitY+3f*j*unitY,sizeX/3f,2*unitY,""));
-		}
-		return items;
 	}
 
 	public void draw(Graphics g){
-		int i = 0;
-		int j = 0;
-		while(i<this.game.resX+this.game.images.grassTexture.getWidth()){
-			while(j<this.game.resY+this.game.images.grassTexture.getHeight()){
-				g.drawImage(this.game.images.grassTexture, i,j);
-				j+=this.game.images.grassTexture.getHeight();
-			}
-			i+=this.game.images.grassTexture.getWidth();
-			j= 0;
+		/**
+		 * render function
+		 */
+		this.drawItems(g);
+	}
+
+
+	public void update(InputObject im){
+		/**
+		 * function called on each game loop
+		 */
+		if(!game.musics.menu.playing()){
+			game.musics.menu.play();
+			game.musics.menu.setVolume(game.options.musicVolume);
 		}
-		//g.translate(-game.Xcam,-game.Ycam);
-		for(int k=0; k<this.items.size(); k++){
-			this.items.get(k).draw(g);
+		this.updateItems(im);
+	}
+
+	public void updateItems(InputObject im){
+		// Checking each item : 
+		// if mouse is click we apply the effect
+		// if mouse is over we call the related function
+		if(im!=null){
+			Menu_Item item;
+			for(int i=0; i<this.items.size(); i++){
+				item = this.items.get(i);
+				item.update(im);
+				if(im.pressedLeftClick && item.mouseOver){
+					this.callItem(i);
+					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
+				}
+			}			
 		}
 	}
 
-	
-	public void update(Input i){
-		
-	}
-	public void update(InputModel im){
-		
+	public void drawItems(Graphics g){
+		// draw background
+		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+		// draw items
+		for(Menu_Item item: this.items){
+			item.draw(g);
+		}
+		// draw title
+		g.drawImage(this.title, this.game.resX/2-this.title.getWidth()/2, 10f);
 	}
 }

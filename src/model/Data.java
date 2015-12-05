@@ -26,7 +26,7 @@ public class Data {
 	public final int FRAMERATE;
 
 
-	//// UNIT STAT
+	//// UNITS
 
 	public UnitSpearman spearman;
 	public UnitKnight knight;
@@ -34,37 +34,41 @@ public class Data {
 	public UnitInquisitor inquisitor;
 	public UnitCrossbowman crossbowman;
 	public UnitArchange archange;
+	
+	public float damageFactor = 1f;
+	public float healthFactor = 1.5f;
+	
 	//// BUILDINGS STATS
 	//headQuarters
-	public int headQuartersLifePoints = 200;
-	public float headQuartersSight = 300f;
+	public int headQuartersLifePoints = 30;
+	public float headQuartersSight = 500f;
 	public float headQuartersSizeX = 300f;
 	public float headQuartersSizeY = 200f;
 	// Mill
 	public int millChargeTime = 5;
-	public int millLifePoints = 100;
+	public int millLifePoints = 75;
 	public float millSight = 300f;
 	public float millSizeX = 300f;
 	public float millSizeY = 200f;
 
 	// Mine
 	public int mineChargeTime = 5;
-	public int mineLifePoints = 100;
+	public int mineLifePoints = 75;
 	public float mineSight = 300f;
 	public float mineSizeX = 300f;
-	public float mineSizeY = 150f;
+	public float mineSizeY = 200f;
 
 	// Barrack
-	public int barrackLifePoints = 200;
-	public float barrackSight = 300f;
+	public int barrackLifePoints = 100;
+	public float barrackSight = 500f;
 	public float barrackSizeX = 400f;
-	public float barrackSizeY = 250;
+	public float barrackSizeY = 250f;
 
 	//Stable
 	public int stableLifePoints = 200;
 	public float stableSight = 300f;
-	public float stableSizeX = 450f;
-	public float stableSizeY = 250f;
+	public float stableSizeX = 400f;
+	public float stableSizeY = 220f;
 
 	// Academy 
 	public int academyLifePoints = 200;
@@ -75,8 +79,8 @@ public class Data {
 	// University 
 	public int universityLifePoints = 200;
 	public float universitySight = 300f;
-	public float universitySizeX = 300f;
-	public float universitySizeY = 200f;
+	public float universitySizeX = 350f;
+	public float universitySizeY = 250f;
 
 
 	//// Spells

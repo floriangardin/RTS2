@@ -4,6 +4,7 @@ package units;
 import java.util.HashMap;
 import java.util.Vector;
 
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,6 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import IA.IAUnit;
 import buildings.Building;
+
 import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
@@ -22,33 +24,73 @@ import model.Objet;
 import model.Plateau;
 import model.RidableObjet;
 import model.Utils;
+import nature.Tree;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
+
 import pathfinding.Case;
 import spells.Spell;
+import IA.IAUnit;
+import IA.Mission;
+import buildings.Building;
 
 public class Character extends ActionObjet{
 
+	//Isattackec
+	public boolean isAttacked;
+	public float timerAttacked = 0f;
+	public float timerMaxValueAttacked = 10f;
+	
+	//UNITS TYPE
+	public static int SPEARMAN = 0;
+	public static int CROSSBOWMAN = 1;
+	public static int KNIGHT = 2;
+	public static int INQUISITOR = 3;
+	public static int PRIEST = 4;
+	public static int ARCHANGE = 5;
+	public int unitType;
+
+	//MODE
+	public Mission mission;
+	public static int MOVE=0;
+	public static int AGGRESSIVE=1;
+	public static int TAKE_BUILDING=2;
+	public static int NORMAL  = 3;
+	public static int HOLD_POSITION = 4;
 
 	// General attributes
 	public Circle sightBox;
 
+	public float animStep = 4f;
 	public float armor = 0f;	
-	public float size = 20f;
+
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
 
 	//philippe
 	public String weapon;
-
+	//Dead since how many rounds
+	public int deadSince = 0;
 	public IAUnit ia;
 
 	public boolean moveAhead;
 	public float state;
+	public float attackDuration = 10f;
+	public boolean isAttacking  = false;
+	public float attackState = 0f;
+
 	public float chargeTime;
 
 	// Group attributes
 	public Character leader;
 	public Vector<Character> group;
+
 	public boolean someoneStopped;
 	// Equipment attributes
 	public RidableObjet horse;
@@ -75,6 +117,10 @@ public class Character extends ActionObjet{
 
 
 
+	public Image animationAttack;
+
+
+
 
 	// Constructor for data ( not adding in plateau not giving location)
 	public Character(Plateau p, GameTeam gameteam){
@@ -89,8 +135,10 @@ public class Character extends ActionObjet{
 			imageb = this.p.g.images.blue;
 		if(getTeam()==2)
 			imageb = this.p.g.images.red;
+
+
 		this.image = Utils.mergeImages(imagea, imageb);
-		this.size = 20f;
+		this.size = 30f;
 		this.isHidden = false;
 		this.spells = new Vector<Spell>();
 
@@ -114,6 +162,7 @@ public class Character extends ActionObjet{
 		this.lifePoints = c.maxLifePoints;
 		this.sight = c.sight;
 		this.collisionBox = new Circle(c.collisionBox.getCenterX(),c.collisionBox.getCenterY(),c.collisionBox.getBoundingCircleRadius());
+		this.selectionBox = new Rectangle(c.selectionBox.getX(),c.selectionBox.getY(),c.selectionBox.getWidth(),c.selectionBox.getHeight());
 		this.sightBox = new Circle(c.sightBox.getCenterX(),c.sightBox.getCenterY(),c.sightBox.getBoundingCircleRadius());
 		this.animations = c.animations;
 		this.setXY(x, y);
@@ -126,9 +175,17 @@ public class Character extends ActionObjet{
 		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
 		this.weapon = c.weapon;
-
 		this.group = new Vector<Character>();
 		this.group.add(this);
+		this.animStep = c.animStep;
+		this.attackDuration = c.attackDuration;
+		this.animationAttack = c.animationAttack;
+		this.soundSetTarget = c.soundSetTarget;
+		this.soundAttack = c.soundAttack;
+		this.soundDeath = c.soundDeath;
+		this.soundSelection = c.soundSelection;
+		this.getGameTeam().pop++;
+		this.mode = NORMAL;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
@@ -138,6 +195,14 @@ public class Character extends ActionObjet{
 
 	}
 
+	public void castSpell(int number,int player){
+		if(-1!=number && number<this.spells.size() && this.spellsState.get(number)>=this.spells.get(number).chargeTime){
+			if(this.spells.get(number).needToClick){
+				this.p.isCastingSpell.set(player,true);
+				this.p.castingSpell.set(player,number);
+			} 
+		}
+	}
 	public boolean isLeader(){
 		return this.leader==this;
 	}
@@ -145,8 +210,11 @@ public class Character extends ActionObjet{
 		return vx*vx+vy*vy>0.01f;
 	}
 	public void setXY(float x, float y){
-		this.x = x;
-		this.y = y ;
+		float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
+		float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		this.selectionBox = this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
+		this.x = xt;
+		this.y = yt;
 		this.collisionBox.setCenterX(this.x);
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
@@ -154,6 +222,9 @@ public class Character extends ActionObjet{
 		Case oldc = this.c;
 		this.c = this.p.mapGrid.getCase(x, y);
 		//Updating the case
+		if(c==null){
+			return;
+		}
 		if(oldc==null || c.id!=oldc.id){
 			if(oldc!=null && oldc.characters.contains(this))
 				oldc.characters.remove(this);
@@ -167,6 +238,30 @@ public class Character extends ActionObjet{
 		this.vy = vy;
 		int sector = 0;
 		if(vx==0 && vy==0){
+			//Orientation toward target
+
+			if(this.target!=null){
+				vx =this.target.x-this.x;
+				vy = this.target.y-this.y;
+				if(vx>0f){
+					if(vy>vx){
+						sector = 2;
+					} else if(vy<-vx){
+						sector = 8;
+					} else {
+						sector = 6;
+					}
+				} else {
+					if(vy>-vx){
+						sector = 2;
+					} else if(vy<vx){
+						sector = 8;
+					} else {
+						sector = 4;
+					}
+				}
+				this.orientation = sector;
+			}
 			return;
 		}
 		if(vx>0f){
@@ -187,6 +282,8 @@ public class Character extends ActionObjet{
 			}
 		}
 		this.orientation = sector;
+
+
 		this.changes.orientation = true;
 
 	}
@@ -267,7 +364,10 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
-		//MULTI 
+		mainAction();
+	}
+
+	public void mainAction(){
 		this.toKeep = false;
 
 		this.updateChargeTime();
@@ -276,30 +376,20 @@ public class Character extends ActionObjet{
 			this.updateImmolation();
 			return;
 		}
-		if(this.ia==null){
-			// IA script�e
-			this.actionIAScript();
-		} else {
-			// IA sp�cifique
-			Vector<Character> enemies = new Vector<Character>();
-			for(Character c: this.p.characters)
-				if(c.getTeam()!=this.getTeam())
-					enemies.add(c);
-			this.moveToward(this.ia.moveInBattle(enemies));
-			this.updateSetTarget();
-			Circle range = new Circle(this.getX(), this.getY(), this.range);
-			if(!(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox)))){
-				if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
-					this.useWeapon();
-				}
-			}
-		}
-
+		
+		this.actionIAScript();
 		this.updateAnimation();
 	}
+
 	// Movement method
 	// the character move toward its target
 	public void move(){
+		if(mode == AGGRESSIVE){
+			Vector<Character> targets  = this.p.getEnnemiesInSight(this);
+			if(targets.size()>0){
+				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL);
+			}
+		}
 
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
@@ -315,13 +405,13 @@ public class Character extends ActionObjet{
 				this.waypoints.remove(0);
 				this.move();
 			} else if(this.waypoints.size()>1 && this.c==this.waypoints.get(1)){
-				this.waypoints.remove(0);
 				this.waypoints.remove(1);
+				this.waypoints.remove(0);
 				this.move();
 			} else if(this.waypoints.size()>2 && this.c==this.waypoints.get(2)){
-				this.waypoints.remove(0);
-				this.waypoints.remove(1);
 				this.waypoints.remove(2);
+				this.waypoints.remove(1);
+				this.waypoints.remove(0);
 				this.move();
 			} else {
 				this.moveToward(this.waypoints.get(0));
@@ -385,12 +475,10 @@ public class Character extends ActionObjet{
 		this.setVXVY(newvx, newvy);
 
 		this.setXY(newX, newY);
-		//TODO animation
-		if(this.weapon == "spear"){
-			this.animationValue+=(vNorm/5f)%4f;
-		} else {
-			this.animationValue+=4f/(float)this.getGameTeam().data.FRAMERATE;
-		}
+
+
+		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
+
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
@@ -414,6 +502,9 @@ public class Character extends ActionObjet{
 	}
 	public void stop(){
 		this.checkpointTarget = null;
+		if(this.mode!=TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
 		if(this.getTarget() instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
 				this.setTarget(null);
@@ -432,6 +523,8 @@ public class Character extends ActionObjet{
 	//// GRAPHISMS
 
 	public Graphics draw(Graphics g){
+
+
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
 		direction = (float)(orientation/2-1);
@@ -446,15 +539,48 @@ public class Character extends ActionObjet{
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+
+		y1-=15f;
+		y2-=15f;
+		if(mouseOver){
+			Color color = Color.darkGray;
+			if(this.getGameTeam().id==1){
+				color = new Color(0,0,205,0.4f);
+			}
+			else{
+				color = new Color(250,0,0,0.4f);
+			}
+
+			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+
+			g.drawImage(i,x1,y1);
+			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+		else{
+			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
-			g.setColor(Color.red);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r,2*r,2f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r,x,2f));
+			//Draw lifepoints
+			g.setColor(new Color(250,0,0,0.8f));
+			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,r,4f));
+			float x = this.lifePoints*r/this.maxLifePoints;
+			g.setColor(new Color(0,250,0,0.8f));
+			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,x,4f));
+
 		}
+		//Draw state
+		if(!isImmolating && this.state<this.chargeTime){
+			g.setColor(new Color(255,255,255,0.8f));
+			g.fill(new Rectangle(this.getX()-r/2,-30f+this.getY()-r,r,4f));
+			float x = this.state*r/this.chargeTime;
+			g.setColor(new Color(0,0,0,0.8f));
+			g.fill(new Rectangle(this.getX()-r/2,-30f+this.getY()-r,x,4f));
+		}
+
 		//Draw the immolation
 		if(isImmolating){
 			Image fire = this.p.g.images.explosion;
@@ -494,16 +620,45 @@ public class Character extends ActionObjet{
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
+
 		g.setColor(Color.green);
+		g.setLineWidth(3f);
+		g.setAntiAlias(true);
 		if(this.horse!=null){
-			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.draw(this.collisionBox);
 
 		} else {
-			g.drawImage(this.selection_circle,-14f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+			g.draw(this.collisionBox);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
-	}	
+		if(mode==MOVE || mode==NORMAL){
+			g.setColor(Color.darkGray);
+		}
+		else if(mode==AGGRESSIVE){
+			g.setColor(Color.red);
+		}
+		else if(mode==TAKE_BUILDING){
+			g.setColor(Color.green);
+		}
+		g.setLineWidth(2f);
+		if(this.target instanceof Character){
+			g.setColor(Color.darkGray);
+			g.draw(this.target.collisionBox);
+		}
+		if(this.target instanceof Checkpoint){
+			g.draw(this.target.collisionBox);
+		}
+		//Draw the building which is being conquered
+		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
+			g.setLineWidth(5f);
+			g.setColor(Color.yellow);
+			Building target = (Building) this.target;
+			g.draw(target.collisionBox);
+		}
 
+		g.setLineWidth(1f);
+		g.setAntiAlias(false);
+	}	
 
 	//// COLLISIONS
 
@@ -548,9 +703,29 @@ public class Character extends ActionObjet{
 		}
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
+	// Collision with other round object inamovible
+	public void collision(Circle c) {
+		float cx = c.getCenterX();
+		float cy = c.getCenterY();
+		float x = this.x - this.vx;
+		float y = this.y - this.vy;
+		float v = (float)Math.sqrt(vx*vx+vy*vy);
+		float vx = y - cy;
+		float vy = cx - x;
+		float n = (float)Math.sqrt(vx*vx+vy*vy);
+		// get the mediatrice of both object
+		float newx = x+vx*v/n;
+		float newy = y+vy*v/n;
+		this.setXY(newx,newy);
+		//this.move(this.vx+this.x,this.vy+this.y );
+	}
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o) {
-		this.collisionRect((Rectangle)o.collisionBox);
+		if(o instanceof Tree){
+			this.collision((Circle)o.collisionBox);
+		} else {
+			this.collisionRect((Rectangle)o.collisionBox);
+		}
 	}
 	// Collision with EnemyGenerator
 	public void collision(Building o) {
@@ -740,6 +915,25 @@ public class Character extends ActionObjet{
 		}
 	}
 
+	public void setTarget(Objet t, Vector<Case> waypoints,int mode){
+		this.mode = mode;
+		this.target = t;
+		if(t!=null){
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+			if(waypoints==null){
+				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				if(!this.moveAhead)	
+					this.waypoints = this.computeWay();
+				else
+					this.waypoints = new Vector<Case>();
+			}else{
+				this.waypoints = new Vector<Case>();
+				for(Case cas:waypoints)
+					this.waypoints.addElement(cas);
+			}
+		}
+	}
+
 	public boolean encounters(Character c){
 		boolean b = false;
 		if(c.horse!=null && this.name=="Spearman"){
@@ -759,7 +953,12 @@ public class Character extends ActionObjet{
 		this.updateSetTarget();
 		Circle range = new Circle(this.getX(), this.getY(), this.range);
 		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
-			this.move();
+			if(this.isAttacking){
+				this.attackState =0f;
+				this.isAttacking= false;
+			}
+			if(this.mode!=Character.HOLD_POSITION)
+				this.move();
 			if(!this.isMobile())
 				return;
 			if(this.group!=null){
@@ -787,25 +986,47 @@ public class Character extends ActionObjet{
 			}else{
 				//System.out.println("stop2 " +(this.getTarget() instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
 			}
-			this.stop();
+			if(!isAttacking)
+				this.stop();
 			if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
-				this.useWeapon();
+				if(!this.isAttacking){
+					this.stop();
+					this.attackState = 0f;
+					this.isAttacking = true;
+					this.animation= 0;
+				}
 			}
+			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration-2*Main.increment && this.mode!=TAKE_BUILDING){
+				this.useWeapon();
+				this.attackState = 0f;
+			}
+
 		}
+
+
 	}
+
+
 
 	public void updateChargeTime(){
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
-		if(this.state<=this.chargeTime)
-			this.state+= 0.1f;
+		if(!isAttacking && this.state<=this.chargeTime)
+			this.state+= Main.increment;
+		if(isAttacking && this.attackState<=this.attackDuration)
+			this.attackState+= Main.increment;
+		if(this.attackState>=this.attackDuration){
+			this.attackState-=2*Main.increment;
+		}
 
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
 		}
+		this.timerAttacked-=Main.increment;
+		if(this.timerAttacked<0f){
+			this.timerAttacked=0f;
+			this.isAttacked = false;
+		}
 
-		//MULTI
-		this.changes.state = true;
-		this.changes.chargeTime=true;
 	}
 	public void updateImmolation(){
 		this.lifePoints=this.maxLifePoints;
@@ -828,13 +1049,13 @@ public class Character extends ActionObjet{
 		if(this.getTarget()==null){
 
 			// The character has no target, we look for a new one
-			Vector<Objet> potential_targets;
+			Vector<Character> potential_targets;
 			if(this.damage>0f) 
 				potential_targets = p.getEnnemiesInSight(this);
 			else if (this.damage<0f) 
 				potential_targets = p.getWoundedAlliesInSight(this);
 			else
-				potential_targets = new Vector<Objet>();
+				potential_targets = new Vector<Character>();
 			if(potential_targets.size()>0){
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			} else {
@@ -853,7 +1074,7 @@ public class Character extends ActionObjet{
 		}
 	}
 	public void updateAnimation(){
-		if(this.vx>0 ||this.vy>0){
+		if(this.vx>0 ||this.vy>0 || this.isAttacking){
 			this.incrementf+=4f/(float)this.getGameTeam().data.FRAMERATE;
 		}
 
@@ -861,6 +1082,73 @@ public class Character extends ActionObjet{
 	}
 
 	public String toString(){
+		String s="";
+		s+="id:"+id+";";
+		s+="name:"+name+";";
+		s+="tm:"+this.getTeam()+";";
+		s+="x:"+(int)x+";";
+		s+="y:"+(int)y+";";
+		s+="lp:"+lifePoints+";";
+		s+="st:"+this.state+";";
+		s+="as:"+this.attackState+";";
+		s+="vx:"+this.vx+";";
+		s+="vy:"+this.vy+";";
+		if(this.isAttacking){
+			s+="ia: ;";
+		}
+
+		if(this.target!=null){
+			if(this.target instanceof Checkpoint){
+				s+="tx:"+this.target.x+";";
+				s+="ty:"+this.target.y+";";
+			}
+			if(this.target instanceof Character){
+				s+="tid:"+this.target.id+";";
+			}
+		}
+
+		return s;
+	}
+
+	public void parseCharacter(HashMap<String,String> hs){
+
+		if(hs.containsKey("x") && hs.containsKey("y")){
+			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
+		}
+		if(hs.containsKey("as")){
+			this.attackState=Float.parseFloat(hs.get("as"));
+		}
+
+		if(hs.containsKey("vx")){
+			this.setVXVY(Float.parseFloat(hs.get("vx")),Float.parseFloat(hs.get("vy")));
+		}
+
+		if(hs.containsKey("ia")){
+			this.isAttacking = true;
+		}
+
+		if(hs.containsKey("tx")){
+			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
+		}
+		if(hs.containsKey("tid")){
+			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+			this.setTarget(target,null);
+		}
+
+
+		if(hs.containsKey("lp")){
+			this.lifePoints=Float.parseFloat(hs.get("lp"));
+		}
+		if(hs.containsKey("st")){
+			this.state=Float.parseFloat(hs.get("st"));
+		}
+		if(hs.containsKey("tm")){
+			this.setTeam(Integer.parseInt(hs.get("tm")));
+		}
+	}
+
+	@Deprecated
+	public String toStringEx(){
 		String s ="" ;
 		s+=toStringObjet();
 		s+= toStringActionObjet();
@@ -904,7 +1192,8 @@ public class Character extends ActionObjet{
 		return s;
 	}
 
-	public void parseCharacter(HashMap<String,String> hs){
+	@Deprecated
+	public void parseCharacterEx(HashMap<String,String> hs){
 		if(hs.containsKey("weapon")){
 			this.weapon=hs.get("weapon");
 		}
@@ -939,8 +1228,6 @@ public class Character extends ActionObjet{
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
 
-		this.parseObjet(hs);
-		this.parseActionObjet(hs);
 		this.parseCharacter(hs);
 
 	}
@@ -950,7 +1237,7 @@ public class Character extends ActionObjet{
 		int id = Integer.parseInt(hs.get("id"));
 		float x = Float.parseFloat(hs.get("x"));
 		float y = Float.parseFloat(hs.get("y"));
-		int team = Integer.parseInt(hs.get("team"));
+		int team = Integer.parseInt(hs.get("tm"));
 		switch(hs.get("name")){
 		case "spearman":
 			c =  new UnitSpearman(g.plateau.getTeamById(team).data.spearman,x,y,id);	
@@ -976,10 +1263,13 @@ public class Character extends ActionObjet{
 		}
 
 		return c;
-
+	}
+	public void isAttacked() {
+		this.isAttacked=true;
+		this.timerAttacked = this.timerMaxValueAttacked;
 	}
 
-
-
 }
+
+
 
