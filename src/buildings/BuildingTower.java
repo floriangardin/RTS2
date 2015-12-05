@@ -104,9 +104,10 @@ public class BuildingTower extends Building{
 	
 	public void drawAnimation(Graphics g){
 		if(getTeam()==1){
-			//g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
-			
 			g.drawImage(this.animationBleu, this.x-(this.sizeX/1.8f)/3, this.y-this.sizeY,this.x+(this.sizeX/1.8f)/3, this.y-this.sizeY+this.sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
+		}
+		if(getTeam()==2){
+			g.drawImage(this.animationRouge, this.x-(this.sizeX/1.8f)/3, this.y-this.sizeY,this.x+(this.sizeX/1.8f)/3, this.y-this.sizeY+this.sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
 		}
 	}
 }
