@@ -60,7 +60,6 @@ public class Map {
 	}
 
 	
-
 	private static void createMapTheIsland(Game game) {
 		game.plateau.setMaxXMaxY(1400f, 1200f);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);

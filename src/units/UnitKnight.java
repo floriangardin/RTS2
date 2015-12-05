@@ -26,7 +26,7 @@ public class UnitKnight extends Character {
 		this.sight = 300f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 110f;
+		this.maxVelocity = 150f;
 		this.armor = 3f;
 		this.damage = 8f*data.damageFactor;
 		this.chargeTime = 7f;
