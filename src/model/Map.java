@@ -109,16 +109,16 @@ public class Map {
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,X/2,200f,team1);
 		data1.create(UnitsList.Spearman, X/2+3f-40f,team1h.y+team1h.sizeY+20f);
 		data1.create(UnitsList.Spearman, X/2+3f+40f, team1h.y+team1h.sizeY+20f);
-		new BuildingMill(game.plateau,game,X/6,Y/15);
-		new BuildingMine(game.plateau,game,5*X/6,Y/15);
+		new BuildingMill(game.plateau,game,3*X/10,Y/15);
+		new BuildingMine(game.plateau,game,7*X/10,Y/15);
 		new BuildingBarrack(game.plateau,game,X/2,1f*Y/5);
 			
 		// Team 2 side
 		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,X/2,Y-200f,team2);
 		data2.create(UnitsList.Spearman, X/2+3f-40f,  team2h.y-team2h.sizeY-20f);
 		data2.create(UnitsList.Spearman, X/2+3f+40f,  team2h.y-team2h.sizeY-20f);
-		new BuildingMill(game.plateau,game,X/6,14*Y/15);
-		new BuildingMine(game.plateau,game,5*X/6,14*Y/15);
+		new BuildingMill(game.plateau,game,3*X/10,14*Y/15);
+		new BuildingMine(game.plateau,game,7*X/10,14*Y/15);
 		new BuildingBarrack(game.plateau,game,X/2,4f*Y/5);
 		
 		// CENTER
@@ -135,7 +135,11 @@ public class Map {
 		new BuildingMine(game.plateau,game,4f*X/5,Y/2);
 		new BuildingUniversity(game.plateau,game,X/2,Y/2);
 		
-		
+		//TOWERS
+		new BuildingTower(game.plateau,game,4*X/10,200f);
+		new BuildingTower(game.plateau,game,6*X/10,200f);
+		new BuildingTower(game.plateau,game,4*X/10,Y-200f);
+		new BuildingTower(game.plateau,game,6*X/10,Y-200f);
 		//VEGETATION
 		new Tree(2*X/6,Y/6,game.plateau,1);
 		new Tree(4*X/6,Y/6,game.plateau,2);
