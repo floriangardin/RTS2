@@ -195,14 +195,7 @@ public class Character extends ActionObjet{
 
 	}
 
-	public void castSpell(int number,int player){
-		if(-1!=number && number<this.spells.size() && this.spellsState.get(number)>=this.spells.get(number).chargeTime){
-			if(this.spells.get(number).needToClick){
-				this.p.isCastingSpell.set(player,true);
-				this.p.castingSpell.set(player,number);
-			} 
-		}
-	}
+
 	public boolean isLeader(){
 		return this.leader==this;
 	}
@@ -390,7 +383,6 @@ public class Character extends ActionObjet{
 				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL);
 			}
 		}
-
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
@@ -419,10 +411,8 @@ public class Character extends ActionObjet{
 		} else {
 			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
 		}
-
 	}
 	// Moving toward method method
-	// 
 	public void moveToward(Case c){
 		moveToward(new Checkpoint(c.x+c.sizeX/2f,c.y+c.sizeY/2f));
 	}
@@ -476,7 +466,6 @@ public class Character extends ActionObjet{
 
 		this.setXY(newX, newY);
 
-
 		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
 
 		if(this.animationValue>=4f){
@@ -497,7 +486,6 @@ public class Character extends ActionObjet{
 				this.changes.animation=true;
 			}	
 		}
-
 
 	}
 	public void stop(){

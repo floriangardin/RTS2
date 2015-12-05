@@ -67,21 +67,24 @@ public class Building extends ActionObjet{
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING){
+		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			this.underAttack = true;
 			this.underAttackRemaining =20f;
 
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
+				if(!(this instanceof BuildingHeadQuarters)){
+					this.setTeam(0);
+				}
 				this.hq = this.getGameTeam().hq;
 			}
 			this.constructionPoints-=Main.increment;
 		}
-		else if(this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING){
+		else if(this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING && c.target==this){
 			this.constructionPoints+=Main.increment;
 		}
 		else if(c.mode==Character.TAKE_BUILDING){
-			if(this.potentialTeam!=this.getTeam() && (this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop){
+			if(this.potentialTeam!=this.getTeam() && (((this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters))){
 				this.getGameTeam().pop-=2;
 				this.setTeam(this.potentialTeam);
 				this.getGameTeam().pop+=2;

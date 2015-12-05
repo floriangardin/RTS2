@@ -95,9 +95,7 @@ public class Plateau {
 	public Vector<Float> recY ;
 	public Vector<Vector<ActionObjet>> inRectangle ;
 
-	public Vector<Boolean> isCastingSpell;
-	public Vector<Boolean> hasCastSpell;
-	public Vector<Integer> castingSpell;
+
 
 	public Vector<Vector<Message>> messages;
 
@@ -162,18 +160,12 @@ public class Plateau {
 		//MESSAGES
 		this.messages = new Vector<Vector<Message>>();
 
-		//CASTING SPELLS
-		this.isCastingSpell = new Vector<Boolean>();
-		this.hasCastSpell = new Vector<Boolean>();
-		this.castingSpell = new Vector<Integer>();
+
 
 		for(int i =0; i<nPlayers;i++){
 			this.selection.addElement(new Vector<ActionObjet>());
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
 			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
-			this.isCastingSpell.addElement(false);
-			this.hasCastSpell.addElement(false);
-			this.castingSpell.addElement(-1);
 			this.messages.addElement(new Vector<Message>());
 			this.rectangleSelection.addElement(null);
 			this.inRectangle.addElement(new Vector<ActionObjet>());
@@ -217,9 +209,7 @@ public class Plateau {
 		this.selection.addElement(new Vector<ActionObjet>());
 		this.toAddSelection.addElement(new Vector<ActionObjet>());
 		this.toRemoveSelection.addElement(new Vector<ActionObjet>());
-		this.isCastingSpell.addElement(false);
-		this.hasCastSpell.addElement(false);
-		this.castingSpell.addElement(-1);
+
 		this.messages.addElement(new Vector<Message>());
 		this.rectangleSelection.addElement(null);
 		this.recX.addElement(0f);
@@ -237,9 +227,6 @@ public class Plateau {
 		this.selection.remove(indice);
 		this.toAddSelection.remove(indice);
 		this.toRemoveSelection.remove(indice);
-		this.isCastingSpell.remove(indice);
-		this.hasCastSpell.remove(indice);
-		this.castingSpell.remove(indice);
 		this.messages.remove(indice);
 		this.rectangleSelection.remove(indice);
 		this.recX.remove(indice);
@@ -689,10 +676,10 @@ public class Plateau {
 			this.handleRightClick(im,player);
 			// handling only the current player
 			//Handle minimap
-			if(!this.isCastingSpell.get(player) && !this.hasCastSpell.get(player)){
-				this.handleMinimap(im, player);
-				this.handleSelection(im, player,players.get(player).getTeam());
-			}
+
+			this.handleMinimap(im, player);
+			this.handleSelection(im, player,players.get(player).getTeam());
+
 
 			//			if(player == this.currentPlayer.id){
 			//				// ong�re le d�placement de la cam�ra et la s�lection
@@ -702,7 +689,7 @@ public class Plateau {
 			//			}
 			// enfin on g�re le lancement des sorts
 			//this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
-			this.handleSpellsOnField(im, player, true);
+			
 
 		} 
 		if(Game.debugTimeSteps)
@@ -807,9 +794,7 @@ public class Plateau {
 			//RALLY POINT
 			if(this.selection.get(player).size()>0 && this.selection.get(player).get(0) instanceof BuildingProduction){
 				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,im.yMouse);
-			} else if(isCastingSpell.get(player)){
-				isCastingSpell.set(player,false);
-				castingSpell.set(player,-1);
+			
 			} else if(im.isPressedMAJ ){
 				updateSecondaryTarget(im.xMouse,im.yMouse,player);
 			} else {
@@ -826,46 +811,30 @@ public class Plateau {
 			}
 		}
 		if(im.isPressedT){
-			//ZONE ATTACK
-			if(isCastingSpell.get(player)){
-				isCastingSpell.set(player,false);
-				castingSpell.set(player,-1);
-			}
+	
 			updateTarget(im.xMouse,im.yMouse,player,Character.AGGRESSIVE);
 		}
 		if(im.isPressedE){
 			//ZONE ATTACK
-			if(isCastingSpell.get(player)){
-				isCastingSpell.set(player,false);
-				castingSpell.set(player,-1);
-			}
+			
 			updateTarget(im.xMouse,im.yMouse,player,Character.TAKE_BUILDING);
 		}
 		if(im.isPressedH){
 			//ZONE ATTACK
-			if(isCastingSpell.get(player)){
-				isCastingSpell.set(player,false);
-				castingSpell.set(player,-1);
-			}
 			updateTarget(im.xMouse,im.yMouse,player,Character.HOLD_POSITION);
 		}
 	}
 
-	private void handleSpellsOnField(InputObject im, int player, boolean host) {
-		if(im.pressedLeftClick && isCastingSpell.get(player)){
-			if(host && this.selection.get(player).size()>0){
-				Character c = (Character)this.selection.get(player).get(0); 
-				Spell spell = c.spells.get(castingSpell.get(player));
-				spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.selection.get(player).get(0));
-				c.spellsState.set(castingSpell.get(player),0f);
+	private void handleSpellsOnField(InputObject im,int id_spell, int player, boolean host) {
+		if(this.selection.get(player).size()>0){
+			Character c = (Character)this.selection.get(player).get(0);
+			if(id_spell>=c.spells.size()){
+				return;
 			}
-			isCastingSpell.set(player,false);
-			hasCastSpell.set(player, true);
-			castingSpell.set(player,-1);
+			Spell spell = c.spells.get(id_spell);
+			spell.launch(new Checkpoint(im.xMouse,im.yMouse),(Character)this.selection.get(player).get(0));
+			c.spellsState.set(id_spell,0f);
 		}
-
-		if(hasCastSpell.get(player) && !im.leftClick)
-			hasCastSpell.set(player,false);
 	}
 
 
@@ -894,10 +863,6 @@ public class Plateau {
 					number = 2;
 				if(im.isPressedProd3)
 					number = 3;
-				if(im.isPressedESC){
-					isCastingSpell.set(player,false);
-					castingSpell.set(player,-1);
-				}
 				Character c = ((Character) this.selection.get(player).get(0));
 				if(-1!=number && number<c.spells.size() && c.spellsState.get(number)>=c.spells.get(number).chargeTime){
 					if(!c.spells.get(number).needToClick){
@@ -921,12 +886,8 @@ public class Plateau {
 					number = 2;
 				if(im.isPressedProd3)
 					number = 3;
-				if(im.isPressedESC){
-					isCastingSpell.set(player,false);
-					castingSpell.set(player,-1);
-				}
 				Character c = ((Character) this.selection.get(player).get(0));
-				c.castSpell(number, player);
+				this.handleSpellsOnField(im, number,player, true);
 			}
 		}
 	}
@@ -938,7 +899,7 @@ public class Plateau {
 		// Handle the display (camera movement & minimap)
 
 		// camera movement
-		if(!isCastingSpell.get(player) && player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
+		if(player==this.currentPlayer.id && this.rectangleSelection.get(player)==null && !im.leftClick){
 			// Move camera according to inputs :
 			if((im.isPressedUP || (!im.isPressedA && im.yMouse<Ycam+5))&&Ycam>-g.resY/2){
 				Ycam -=(int)(40*30/Main.framerate);
@@ -1076,10 +1037,6 @@ public class Plateau {
 		// Handling groups of units
 		for(int to=0; to<10; to++){
 			if(im.isPressedNumPad[to]){
-				if(isCastingSpell.get(player)){
-					isCastingSpell.set(player, false);
-					castingSpell.set(player,-1);
-				}
 				if(im.isPressedCTRL){
 					// Creating a new group made of the selection
 					this.players.get(player).groups.get(to).clear();
@@ -1184,7 +1141,7 @@ public class Plateau {
 
 
 	}
-	
+
 	public void updateSelectionCTRL(Rectangle select,int player, int team){
 		if(select!=null){
 			this.clearSelection(player);

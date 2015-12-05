@@ -89,6 +89,8 @@ public class Images {
 	public Image bonusSpeed;
 	public Image inquisitorBlue;
 	public Image inquisitorRed;
+	public Image knightBlue;
+	public Image knightRed;
 
 	public Images(){
 		try {
@@ -141,6 +143,8 @@ public class Images {
 			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
 			this.inquisitorBlue = new Image("pics/unit/inquisitor_move_1.png");
 			this.inquisitorRed = new Image("pics/unit/inquisitor_move_2.png");
+			this.knightBlue = new Image("pics/unit/knight_move_1.png");
+			this.knightRed = new Image("pics/unit/knight_move_2.png");
 			
 			//TODO put right image
 			this.attackSpearmanBlue = new Image("pics/unit/spearman_attack_1.png");
