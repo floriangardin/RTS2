@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import main.Main;
 import model.Game;
 import model.Map;
 import model.Objet;
@@ -142,7 +143,7 @@ public class MenuMapChoice extends Menu {
 					this.parseForClient(Objet.preParse(game.connexions.remove(0)));
 				}		
 				//checking if game still exists
-				if(messageDropped>25){
+				if(this.startGame!=0 && messageDropped>1f*Main.framerate){
 					this.callItem(0);
 				}
 			}
@@ -309,6 +310,7 @@ public class MenuMapChoice extends Menu {
 			this.menuPlayers.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
 	}
+	
 
 	public String toString(){
 		String s = "";
