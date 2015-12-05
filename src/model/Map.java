@@ -26,7 +26,6 @@ public class Map {
 	
 	public static Vector<String> maps(){
 		Vector<String> maps = new Vector<String>();
-		maps.add("empty");
 		maps.add("small duel");
 		maps.add("large duel");
 		maps.add("microgestion");
@@ -51,7 +50,6 @@ public class Map {
 	public static void updateMap(String name, Game game){
 		switch(name){
 		case "small duel": createMapDuelSmall(game);break;
-		case "empty": createMapEmpty(game);break;
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
 		case "duel very small": createMapDuelVerySmall(game);break;
@@ -182,30 +180,7 @@ public class Map {
 		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5).setTeam(2);
 			
 	}
-	
-	
-	
-	public static void createMapEmpty(Game game){
-		game.plateau.setMaxXMaxY(800f, 600f);
-		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
-		float X = game.plateau.maxX;
-		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.teams.get(1).data;
-		Data data2 = game.plateau.teams.get(2).data;
 
-		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,1);
-		new BuildingHeadQuarters(game.plateau,game,-30*X,-30*Y,2);
-		
-		for(int i = 0;i<1;i++){
-			data1.create(UnitsList.Crossbowman, 2*X/9+i - 1f, Y/2);
-		}
-			
-		for(int i = 0;i<1;i++){
-			data2.create(UnitsList.Crossbowman, 7*X/9+i - 1f, Y/2);
-		}
-		
-
-	}
 	
 	
 	public static void createMapDuelLarge(Game game){
