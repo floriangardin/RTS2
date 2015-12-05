@@ -63,6 +63,8 @@ public class Images {
 	public Image buildingTowerNeutral;
 	public Image buildingTowerBlue;
 	public Image buildingTowerRed;
+	public Image buildingTowerBlueAnimation;
+	public Image buildingTowerRedAnimation;
 
 	//Icones
 	public Image iconeSpearman;
@@ -182,6 +184,8 @@ public class Images {
 			buildingTowerNeutral = new Image("pics/Building/TourNeutre.png");
 			buildingTowerBlue = new Image("pics/Building/TourBleu.png");
 			buildingTowerRed = new Image("pics/Building/TourRouge.png");
+			buildingTowerBlueAnimation = new Image("pics/Building/TourBleu_Animation.png");
+			buildingTowerRedAnimation = new Image("pics/Building/TourRouge_Animation.png");
 
 			//Icones
 			this.iconeBowman = new Image("pics/iconBow.png");
