@@ -62,7 +62,7 @@ public abstract class ActionObjet extends Objet{
 
 	}
 	public Vector<Case> computeWay(){
-		if(this.getTarget() instanceof Building){
+		if(this.getTarget() instanceof Building && !(this.getTarget() instanceof Bonus)){
 			Building b = (Building)this.getTarget();
 			return this.p.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
 		} else {

@@ -6,6 +6,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
+import units.Character;
+
 public class Checkpoint extends ActionObjet {
 	float printed;
 	public Checkpoint(Plateau p , float x, float y){
@@ -49,5 +51,11 @@ public class Checkpoint extends ActionObjet {
 			g.drawImage(this.image,this.x-8f,this.y-8f);
 		}
 		return g;
+	}
+
+	@Override
+	public void collision(Character c) {
+		// TODO Auto-generated method stub
+		
 	}
 }

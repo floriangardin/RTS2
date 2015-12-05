@@ -884,9 +884,12 @@ public class Character extends ActionObjet{
 
 	//// UPDATE FUNCTIONS
 
-
 	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
+		if(this.mode == TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
+		
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null){

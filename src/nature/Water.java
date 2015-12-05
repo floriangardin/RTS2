@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
+import units.Character;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -39,5 +40,11 @@ public class Water extends NaturalObjet {
 		g.setColor(Color.green);
 		
 		return g;
+	}
+
+	@Override
+	public void collision(Character c) {
+		// TODO Auto-generated method stub
+		
 	}
 }

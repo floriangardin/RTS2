@@ -33,6 +33,12 @@ public class Horse extends RidableObjet{
 	public void draw(Objet o){
 		//TODO: draw according to orientation of owner
 	}
+
+	@Override
+	public void collision(Character c) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

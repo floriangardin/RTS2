@@ -2,14 +2,16 @@ package display;
 
 import java.util.Vector;
 
+import model.Bonus;
+import model.Game;
+import model.NaturalObjet;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import buildings.Building;
-import model.Game;
-import model.NaturalObjet;
 import pathfinding.Case;
 import units.Character;
+import buildings.Building;
 
 public class MinimapInterface extends Bar {
 	// Minimap caract
@@ -95,6 +97,29 @@ public class MinimapInterface extends Bar {
 			}
 		}
 		
+		for(Bonus c : this.p.bonus){
+			if(c.getTeam()==0){
+				g.setColor(Color.gray);
+
+			}
+			if(c.getTeam()==2){
+				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+					g.setColor(Color.red);
+				} else {
+					g.setColor(Color.gray);
+
+				}
+			}
+			else if(c.getTeam()==1){
+				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+					g.setColor(Color.blue);
+				} else {
+					g.setColor(Color.gray);
+
+				}
+			}
+			g.fillOval(startX+rw*(c.x-c.size/2f), startY+rh*(c.y-c.size/2f), rw*c.size, rh*c.size);
+		}
 		g.setAntiAlias(false);
 		for(Building c : this.p.buildings){
 			if(c.getTeam()==0){
