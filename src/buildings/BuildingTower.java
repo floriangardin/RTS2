@@ -79,6 +79,9 @@ public class BuildingTower extends Building{
 		if(this.animation>120f)
 			this.animation = 1;
 		
+		if(this.target!=null && this.target.getTeam()==this.getTeam()){
+			this.target = null;
+		}
 		if(canAttack){
 			if(target==null || this.target.lifePoints<0f){
 				Vector<Character> target= this.p.getEnnemiesInSight(this);
