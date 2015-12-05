@@ -551,7 +551,6 @@ public class MenuMapChoice extends Menu {
 			// checking the start time
 			if(hs.containsKey("stT")){
 				this.startGame = Long.parseLong(hs.get("stT"));
-				System.out.println("MenuMapChoice line 489 : parsed Start Time");
 			}
 			// adding new player if needed
 			if(civ.length>this.game.plateau.players.size()){
