@@ -537,7 +537,7 @@ public class Game extends BasicGame
 						nRound++;
 					}
 					boolean stopCauseAntiDrop = false;
-					
+
 					for(InputObject o : ims){
 						if(!o.toPlay){
 							System.out.println("Anti drop : "+round);
@@ -548,8 +548,10 @@ public class Game extends BasicGame
 						if(ims.size()==0){
 							System.out.println("Round drop : "+round);
 						}
-						this.plateau.update(ims);
-						this.plateau.updatePlateauState();
+						else{
+							this.plateau.update(ims);
+							this.plateau.updatePlateauState();
+						}
 					}
 				}
 
