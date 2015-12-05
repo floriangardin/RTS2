@@ -548,9 +548,6 @@ public class Game extends BasicGame
 						if(ims.size()==0){
 							System.out.println("Round drop : "+round);
 						}
-						else{
-							System.out.println("Play round : "+round);
-						}
 						this.plateau.update(ims);
 						this.plateau.updatePlateauState();
 					}
