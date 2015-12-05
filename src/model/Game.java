@@ -640,6 +640,7 @@ public class Game extends BasicGame
 		this.clock = new Clock(this);
 		this.clock.start();
 	}
+	
 
 	public void sendInputToPlayer(Player player, String s){
 		this.toSendInputs.get(player.id).add(s);
