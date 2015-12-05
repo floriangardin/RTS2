@@ -38,6 +38,7 @@ public abstract class Mission {
 	public void abortMission(){
 		removeAllFromMission(group);
 	}
+
 	public void candidateToMission(){
 		for(Character c : ia.aliveUnits){
 			if(c.mission==null){
@@ -84,6 +85,18 @@ public abstract class Mission {
 			}
 		}
 		removeAllFromMission(toRemove);
+	}
+	public void pauseMission() {
+		for(Character c : group){
+			c.mission = null;
+		}
+		
+	}
+	public void resumeMission() {
+		for(Character c : group){
+			c.mission = this;
+		}
+		
 	}
 
 }

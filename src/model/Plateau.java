@@ -517,6 +517,20 @@ public class Plateau {
 		for(ActionObjet c:this.selection.get(team)){
 			if(c instanceof Character){
 				Character o = (Character) c;
+				if(mode==Character.HOLD_POSITION){
+					o.setTarget(null);
+					o.stop();
+					o.secondaryTargets.clear();
+					o.mode= Character.HOLD_POSITION;
+					if(o.group!=null && o.group.size()>1){
+						for(Character c1 : o.group)
+							if(c1!=o)
+								c1.group.remove(o);
+					}
+					// Then we create its new group
+					o.group = new Vector<Character>();
+					continue;
+				}
 				if(i==0 && c.soundSetTarget!=null && c.soundSetTarget.size()>0 && Math.random()>0.3){
 					if(c.getTeam()==this.currentPlayer.id && target instanceof Character && c.getTeam()!=target.getTeam()){
 						Utils.getRandomSound(c.soundAttack).play(1f, this.g.options.soundVolume);
@@ -547,6 +561,7 @@ public class Plateau {
 						}
 					}
 				}
+
 				o.setTarget(target, waypoints,mode);
 				o.secondaryTargets.clear();
 			}
@@ -806,6 +821,7 @@ public class Plateau {
 			for(ActionObjet c : this.selection.get(player)){
 				if(c instanceof Character){
 					((Character) c).stop();
+					((Character) c).mode = Character.NORMAL;
 				}
 			}
 		}
@@ -824,6 +840,14 @@ public class Plateau {
 				castingSpell.set(player,-1);
 			}
 			updateTarget(im.xMouse,im.yMouse,player,Character.TAKE_BUILDING);
+		}
+		if(im.isPressedH){
+			//ZONE ATTACK
+			if(isCastingSpell.get(player)){
+				isCastingSpell.set(player,false);
+				castingSpell.set(player,-1);
+			}
+			updateTarget(im.xMouse,im.yMouse,player,Character.HOLD_POSITION);
 		}
 	}
 

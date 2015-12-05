@@ -259,7 +259,7 @@ public class Game extends BasicGame
 		// Draw the Action Objets
 		for(Character o : plateau.characters){
 			//o.draw(g);
-			//if(o.visibleByCurrentPlayer)
+			if(o.visibleByCurrentPlayer)
 				toDrawAfter.add(o);
 
 		}
@@ -284,6 +284,18 @@ public class Game extends BasicGame
 			else
 				toDraw.add(e);
 		}
+		for(SpellEffect e : this.plateau.spells){
+			if(e.visibleByCurrentPlayer)
+				toDrawAfter.add(e);
+			else
+				toDraw.add(e);
+		}
+		for(Bullet b : this.plateau.bullets){
+			if(b.visibleByCurrentPlayer)
+				toDrawAfter.add(b);
+			else
+				toDraw.add(b);
+		}
 		Utils.triY(toDraw);
 		Utils.triY(toDrawAfter);
 		// determine visible objets
@@ -293,14 +305,6 @@ public class Game extends BasicGame
 		plateau.drawFogOfWar(g);
 		for(Objet o: toDrawAfter)
 			o.draw(g);
-		for(Bullet o : plateau.bullets){
-			if(o.visibleByCurrentPlayer)
-				o.draw(g);
-		}
-		for(SpellEffect a: plateau.spells){
-			if(a.visibleByCurrentPlayer)
-				a.draw(g);
-		}
 		// Draw the selection :
 		for(int player=1; player<3; player++){
 			if(this.plateau.rectangleSelection.get(player) !=null){

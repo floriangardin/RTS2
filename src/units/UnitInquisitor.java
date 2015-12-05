@@ -26,10 +26,10 @@ public class UnitInquisitor extends Character {
 		this.attackDuration = 2f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 60f;
+		this.maxVelocity = 80f;
 		this.armor = 0f;
-		this.damage = 5f*data.damageFactor;
-		this.chargeTime = 15f;
+		this.damage = 10f*data.damageFactor;
+		this.chargeTime = 8f;
 		this.weapon = "wand";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
@@ -52,6 +52,14 @@ public class UnitInquisitor extends Character {
 	public UnitInquisitor(UnitInquisitor spearman, float x, float y,int id) {
 		super(spearman,x,y,id);	
 	}
+	
+	public void action(){
+		if(this.mode==TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
+		mainAction();
+	}
+	
 	
 	public void useWeapon(){
 		new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
@@ -181,7 +189,7 @@ public class UnitInquisitor extends Character {
 	public Graphics draw(Graphics g){
 
 
-		float r = collisionBox.getBoundingCircleRadius()*2f;
+		float r = collisionBox.getBoundingCircleRadius()*1.8f;
 		float direction = 0f;
 
 

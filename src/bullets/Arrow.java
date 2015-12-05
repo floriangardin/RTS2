@@ -70,6 +70,7 @@ public class Arrow extends CollisionBullet{
 			if(c.armor<=damage){
 				c.setLifePoints(c.lifePoints+c.armor-damage);
 			}
+			c.isAttacked();
 			this.setLifePoints(-1f);
 		}
 

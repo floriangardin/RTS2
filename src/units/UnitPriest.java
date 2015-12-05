@@ -41,6 +41,14 @@ public class UnitPriest extends Character {
 		super(unit,x,y,id);
 	}
 
+	public void action(){
+		if(this.mode==TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
+		mainAction();
+	}
+	
+	
 	public void useWeapon(){
 		Character c = (Character) this.target;
 		c.changes.lifePoints=true;

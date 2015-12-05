@@ -58,6 +58,7 @@ public class UnitKnight extends Character {
 		// Reset the state
 		this.state = 0f;
 		this.isAttacking = false;
+		c.isAttacked();
 	}
 
 }

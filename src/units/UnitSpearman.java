@@ -60,7 +60,7 @@ public class UnitSpearman extends Character {
 			return ;
 		}
 		Character c = (Character) this.target;
-		c.changes.lifePoints=true;
+		c.isAttacked();
 		// Attack sound
 		float damage = this.damage;
 		if(this.p.g.sounds!=null)

@@ -30,6 +30,11 @@ import IA.Mission;
 import buildings.Building;
 
 public class Character extends ActionObjet{
+
+	//Isattackec
+	public boolean isAttacked;
+	public float timerAttacked = 0f;
+	public float timerMaxValueAttacked = 10f;
 	
 	//UNITS TYPE
 	public static int SPEARMAN = 0;
@@ -39,13 +44,15 @@ public class Character extends ActionObjet{
 	public static int PRIEST = 4;
 	public static int ARCHANGE = 5;
 	public int unitType;
-	
+
 	//MODE
 	public Mission mission;
 	public static int MOVE=0;
 	public static int AGGRESSIVE=1;
 	public static int TAKE_BUILDING=2;
-	
+	public static int NORMAL  = 3;
+	public static int HOLD_POSITION = 4;
+
 	// General attributes
 	public Circle sightBox;
 
@@ -168,6 +175,7 @@ public class Character extends ActionObjet{
 		this.soundDeath = c.soundDeath;
 		this.soundSelection = c.soundSelection;
 		this.getGameTeam().pop++;
+		this.mode = NORMAL;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
@@ -343,6 +351,10 @@ public class Character extends ActionObjet{
 
 	public void action(){
 
+		mainAction();
+	}
+
+	public void mainAction(){
 		this.toKeep = false;
 
 		this.updateChargeTime();
@@ -351,21 +363,10 @@ public class Character extends ActionObjet{
 			this.updateImmolation();
 			return;
 		}
-		if(this.ia==null){
-			// IA script�e
-			this.actionIAScript();
-		} else {
-			// IA sp�cifique
-			Vector<Character> enemies = new Vector<Character>();
-			for(Character c: this.p.characters)
-				if(c.getTeam()!=this.getTeam())
-					enemies.add(c);
-			this.moveToward(this.ia.moveInBattle(enemies));
-			this.updateSetTarget();
-		}
+		
+		this.actionIAScript();
 		this.updateAnimation();
 	}
-
 
 	// Movement method
 	// the character move toward its target
@@ -373,10 +374,10 @@ public class Character extends ActionObjet{
 		if(mode == AGGRESSIVE){
 			Vector<Character> targets  = this.p.getEnnemiesInSight(this);
 			if(targets.size()>0){
-				this.setTarget(Utils.nearestObject(targets, this),null,MOVE);
+				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL);
 			}
 		}
-		
+
 		if(this.getTarget()==null && this.checkpointTarget==null){
 			return;
 		}
@@ -484,6 +485,9 @@ public class Character extends ActionObjet{
 	}
 	public void stop(){
 		this.checkpointTarget = null;
+		if(this.mode!=TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
 		if(this.getTarget() instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
 				this.setTarget(null);
@@ -596,7 +600,7 @@ public class Character extends ActionObjet{
 		return g;
 	}
 	public void drawIsSelected(Graphics g){
-		
+
 		g.setColor(Color.green);
 		g.setLineWidth(3f);
 		g.setAntiAlias(true);
@@ -607,7 +611,7 @@ public class Character extends ActionObjet{
 			g.draw(this.collisionBox);
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
-		if(mode==MOVE){
+		if(mode==MOVE || mode==NORMAL){
 			g.setColor(Color.darkGray);
 		}
 		else if(mode==AGGRESSIVE){
@@ -618,11 +622,20 @@ public class Character extends ActionObjet{
 		}
 		g.setLineWidth(2f);
 		if(this.target instanceof Character){
+			g.setColor(Color.darkGray);
 			g.draw(this.target.collisionBox);
 		}
 		if(this.target instanceof Checkpoint){
 			g.draw(this.target.collisionBox);
 		}
+		//Draw the building which is being conquered
+		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
+			g.setLineWidth(5f);
+			g.setColor(Color.yellow);
+			Building target = (Building) this.target;
+			g.draw(target.collisionBox);
+		}
+
 		g.setLineWidth(1f);
 		g.setAntiAlias(false);
 	}	
@@ -881,7 +894,7 @@ public class Character extends ActionObjet{
 			}
 		}
 	}
-	
+
 	public void setTarget(Objet t, Vector<Case> waypoints,int mode){
 		this.mode = mode;
 		this.target = t;
@@ -924,7 +937,8 @@ public class Character extends ActionObjet{
 				this.attackState =0f;
 				this.isAttacking= false;
 			}
-			this.move();
+			if(this.mode!=Character.HOLD_POSITION)
+				this.move();
 			if(!this.isMobile())
 				return;
 			if(this.group!=null){
@@ -986,6 +1000,11 @@ public class Character extends ActionObjet{
 
 		for(int i=0; i<this.spells.size(); i++){
 			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
+		}
+		this.timerAttacked-=Main.increment;
+		if(this.timerAttacked<0f){
+			this.timerAttacked=0f;
+			this.isAttacked = false;
 		}
 
 	}
@@ -1057,7 +1076,7 @@ public class Character extends ActionObjet{
 		if(this.isAttacking){
 			s+="ia: ;";
 		}
-		
+
 		if(this.target!=null){
 			if(this.target instanceof Checkpoint){
 				s+="tx:"+this.target.x+";";
@@ -1079,11 +1098,11 @@ public class Character extends ActionObjet{
 		if(hs.containsKey("as")){
 			this.attackState=Float.parseFloat(hs.get("as"));
 		}
-		
+
 		if(hs.containsKey("vx")){
 			this.setVXVY(Float.parseFloat(hs.get("vx")),Float.parseFloat(hs.get("vy")));
 		}
-		
+
 		if(hs.containsKey("ia")){
 			this.isAttacking = true;
 		}
@@ -1224,6 +1243,10 @@ public class Character extends ActionObjet{
 		}
 
 		return c;
+	}
+	public void isAttacked() {
+		this.isAttacked=true;
+		this.timerAttacked = this.timerMaxValueAttacked;
 	}
 
 }

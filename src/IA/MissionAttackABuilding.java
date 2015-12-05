@@ -1,16 +1,18 @@
 package IA;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import model.IAPlayer;
+import model.Objet;
 import units.Character;
 import buildings.Building;
 
-public class MissionGetABuilding extends Mission {
+public class MissionAttackABuilding extends Mission {
 
+	public Character ennemy;
+	
 
-	public MissionGetABuilding(IAPlayer ia,Building target){
+	public MissionAttackABuilding(IAPlayer ia,Building target){
 		initialize(ia);
 		this.target = target;
 	}
@@ -27,6 +29,14 @@ public class MissionGetABuilding extends Mission {
 		return this.target.getTeam()==this.ia.getTeam();
 	}
 
+	public boolean action(){
+		cleanGroup();
+		if(isFinished()){
+			removeAllFromMission(this.group);
+			return true;
+		}
+		return false;
+	}
 	
 	public void assignToMission(Character c){
 
@@ -43,7 +53,7 @@ public class MissionGetABuilding extends Mission {
 		this.ia = ia;
 		this.ia.missions.addElement(this);
 		this.group = new Vector<Character>();
-		this.type = Mission.ECO;
+		this.type = Mission.OFFENSIVE;
 		
 	}
 	
@@ -59,8 +69,4 @@ public class MissionGetABuilding extends Mission {
 		return this.group.size()==0 ;
 		
 	}
-
 }
-
-
-

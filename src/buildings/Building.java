@@ -80,7 +80,7 @@ public class Building extends ActionObjet{
 		else if(this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING){
 			this.constructionPoints+=Main.increment;
 		}
-		else{
+		else if(c.mode==Character.TAKE_BUILDING){
 			if(this.potentialTeam!=this.getTeam() && (this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop){
 				this.getGameTeam().pop-=2;
 				this.setTeam(this.potentialTeam);

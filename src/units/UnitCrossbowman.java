@@ -55,6 +55,13 @@ public class UnitCrossbowman extends Character {
 		super(unit,x,y,id);
 	}
 
+	public void action(){
+		if(this.mode==TAKE_BUILDING){
+			this.mode = NORMAL;
+		}
+		mainAction();
+	}
+	
 	public void useWeapon(){
 		if(! (this.target instanceof Character)){
 			return ;
@@ -62,6 +69,7 @@ public class UnitCrossbowman extends Character {
 		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
 		this.isAttacking = false;
+		
 	}
 	
 	

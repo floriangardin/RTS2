@@ -40,7 +40,7 @@ public class Data {
 	
 	//// BUILDINGS STATS
 	//headQuarters
-	public int headQuartersLifePoints = 10;
+	public int headQuartersLifePoints = 30;
 	public float headQuartersSight = 500f;
 	public float headQuartersSizeX = 300f;
 	public float headQuartersSizeY = 200f;

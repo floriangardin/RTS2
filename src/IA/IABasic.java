@@ -83,9 +83,10 @@ public class IABasic extends IAPlayer {
 		if(aliveUnits.size()>5){
 			abortAllMission();
 			//Guerre
-			Mission m = new MissionGetABuilding(this,this.getNearestHQToConquer(neutralBuilding,this.getGameTeam().hq));
+			Mission m = new MissionGetABuilding(this,this.getNearestHQToConquer(buildingToConquer,this.getGameTeam().hq));
 			m.assignAllToMission(aliveUnits);
 		}
+		//EMERGENCY MISSIONS
 	}
 
 	@Deprecated

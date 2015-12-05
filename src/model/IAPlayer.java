@@ -37,6 +37,7 @@ public class IAPlayer extends Player{
 
 	public Vector<Mission> missions;
 	public Vector<Mission> pastMissions;
+	public Vector<Mission> pausedMissions;
 
 	//Minimal class to get an IA running
 	//An IA which extends this IA can't have access to plateau, an IA should be then programmed in IA package
@@ -61,6 +62,7 @@ public class IAPlayer extends Player{
 		ennemiesInSight = new Vector<Character>();
 		this.missions = new Vector<Mission>();
 		this.pastMissions = new Vector<Mission>();
+		this.pausedMissions = new Vector<Mission>();
 	}
 
 
@@ -169,7 +171,19 @@ public class IAPlayer extends Player{
 		this.missions.remove(m);
 		this.pastMissions.addElement(m);
 	}
-
+	
+	public void pauseMission(Mission m){
+		this.pausedMissions.addElement(m);
+		m.pauseMission();
+		this.missions.remove(m);
+	}
+	
+	public void resumeMission(Mission m){
+		this.pausedMissions.remove(m);
+		m.resumeMission();
+		this.missions.add(m);
+	}
+	
 	public void updateGroups(){
 		for(int i = 0;i<10;i++){
 			makeUnitGroup(getUnitsGroup(i),i);
@@ -292,7 +306,6 @@ public class IAPlayer extends Player{
 				result.add(b);
 			}
 		}
-
 		return (Building) Utils.nearestObject(result, caller);
 
 	}

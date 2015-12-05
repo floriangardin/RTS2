@@ -65,7 +65,7 @@ public class BuildingMine extends BuildingTech{
 
 		
 		if(state >= chargeTime && getTeam()!=0){
-			getGameTeam().gold+=1+getGameTeam().data.bonusGold;
+			getGameTeam().gold+=3+getGameTeam().data.bonusGold;
 			state = 0;
 		}
 		
