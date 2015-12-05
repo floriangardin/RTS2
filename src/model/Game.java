@@ -490,7 +490,7 @@ public class Game extends BasicGame
 				
 				
 				//RESYNCHRO ROUND
-				if((this.round%30)==0){
+				if(host && (this.round%30)==0){
 					this.resynchroRound=true;
 				}
 				
