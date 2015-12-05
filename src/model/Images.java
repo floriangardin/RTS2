@@ -180,8 +180,8 @@ public class Images {
 			buildingUniversityBlue = new Image("pics/Building/UniversityBlue.png");
 			buildingUniversityRed = new Image("pics/Building/UniversityRed.png");
 			buildingTowerNeutral = new Image("pics/Building/TourNeutre.png");
-			buildingTowerBlue = new Image("pics/Building/TourBlue.png");
-			buildingTowerRed = new Image("pics/Building/TourRed.png");
+			buildingTowerBlue = new Image("pics/Building/TourBleu.png");
+			buildingTowerRed = new Image("pics/Building/TourRouge.png");
 
 			//Icones
 			this.iconeBowman = new Image("pics/iconBow.png");
