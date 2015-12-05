@@ -78,6 +78,7 @@ public class Map {
 		data1.create(UnitsList.Spearman, 2*X/9, Y/2+1f);
 		data1.create(UnitsList.Spearman, X/9, Y/2+2f);
 		data1.create(UnitsList.Inquisitor, X/9, Y/2+3f);
+		data1.create(UnitsList.Knight, X/9, Y/2+4f);
 //		
 		data2.create(UnitsList.Crossbowman, 7*X/9, Y/2-1f);
 		data2.create(UnitsList.Crossbowman, 7*X/9, Y/2-2f);
@@ -85,6 +86,7 @@ public class Map {
 		data2.create(UnitsList.Spearman, 7*X/9, Y/2+1f);
 		data2.create(UnitsList.Spearman, 7*X/9, Y/2+2f);
 		data2.create(UnitsList.Inquisitor, 7*X/9, Y/2+3f);
+		data2.create(UnitsList.Knight, 7*X/9, Y/2+4f);
 		
 		//Bonus at center 
 		new BonusLifePoints(game.plateau, X/4, Y/2);
