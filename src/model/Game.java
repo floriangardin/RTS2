@@ -174,16 +174,17 @@ public class Game extends BasicGame
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 200;
-	
+
 
 	boolean hasAlreadyPlay = false;
-	
+
 	//RESYNCHRO ROUND
 	public boolean resynchroRound = false;
 	public float nDrop = 0f;
 	public float nRound = 0f;
 	public int multi = 1;
 	public int roundToTest = 0;
+	public boolean antiDrop = false;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -215,7 +216,7 @@ public class Game extends BasicGame
 
 
 		if(endGame){
-			
+
 			g.setColor(Color.black);
 			g.fillRect(0, 0, this.resX, this.resY);
 			g.setColor(Color.white);
@@ -230,8 +231,8 @@ public class Game extends BasicGame
 			return;
 
 		}
-		
-	
+
+
 		// g repr�sente le pinceau
 		//g.setColor(Color.black);
 		g.translate(-plateau.Xcam,- plateau.Ycam);
@@ -387,7 +388,7 @@ public class Game extends BasicGame
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
-			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput());
+			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput(),!antiDrop);
 			this.menuCurrent.update(im);
 		} 
 		else if(!endGame) {
@@ -398,7 +399,7 @@ public class Game extends BasicGame
 			}
 
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,plateau.currentPlayer,in);
+			InputObject im = new InputObject(this,plateau.currentPlayer,in,!antiDrop);
 			//Handle manual resynchro
 			if(in.isKeyPressed(Input.KEY_O)){
 				this.sleepTime+=1;
@@ -474,18 +475,19 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 
-				
+
 				//RESYNCHRO ROUND
 				if(host && (this.round%30)==0){
 					this.resynchroRound=true;
 				}
-				
+
 				if(nRound>10){
 					resynchroRound = false;
 					float ratio = nDrop/nRound;
 					nRound = 0f;
 					nDrop = 0f;
 					if(ratio>0.1){
+						antiDrop = true;
 						System.out.println("Resynchro round");
 						if(multi==-1){
 							multi=1;
@@ -504,8 +506,11 @@ public class Game extends BasicGame
 							this.roundDelay=0;
 						}
 					}
+					else{
+						antiDrop = false;
+					}
 				}
-				
+
 				if(processSynchro && this.toParse!=null){
 					//Si round+2
 					String[] u = this.toParse.split("!");
@@ -530,8 +535,17 @@ public class Game extends BasicGame
 						}
 						nRound++;
 					}
-					this.plateau.update(ims);
-					this.plateau.updatePlateauState();
+					boolean stopCauseAntiDrop = false;
+					for(InputObject o : ims){
+						if(!o.toPlay){
+							stopCauseAntiDrop = true;
+						}
+					}
+
+					if(!stopCauseAntiDrop){
+						this.plateau.update(ims);
+						this.plateau.updatePlateauState();
+					}
 				}
 
 				if(debugTimeSteps)
@@ -580,7 +594,7 @@ public class Game extends BasicGame
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
 				this.setMenu(this.menuIntro);
-			
+
 			}
 		}
 
@@ -646,7 +660,7 @@ public class Game extends BasicGame
 		this.clock = new Clock(this);
 		this.clock.start();
 	}
-	
+
 
 	public void sendInputToPlayer(Player player, String s){
 		this.toSendInputs.get(player.id).add(s);

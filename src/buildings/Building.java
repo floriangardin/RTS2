@@ -315,7 +315,7 @@ public class Building extends ActionObjet{
 
 	public void setCharge(float charge){
 		this.charge = charge;
-		this.changes.charge = true;
+		
 	}
 
 	@Override

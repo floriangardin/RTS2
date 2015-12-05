@@ -47,7 +47,7 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedR;
 	public boolean isPressedH;
 	public int letterPressed;
-	
+	public boolean toPlay ;
 	public boolean[] isPressedNumPad = new boolean[10];
 
 	public int xMouse;
@@ -56,7 +56,7 @@ public class InputObject extends MultiObjetModel{
 	public Vector<Integer> selection;
 
 
-	public InputObject (Game g, Player player, Input input){
+	public InputObject (Game g, Player player, Input input,boolean toPlay){
 		this.id= g.idInput;
 		g.idInput ++;
 		this.player = player;
@@ -87,8 +87,8 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedE = input.isKeyPressed(Input.KEY_E);
 		this.isPressedR = input.isKeyPressed(Input.KEY_R);
 		this.isPressedH = input.isKeyPressed(Input.KEY_H);
-		
-		
+		this.toPlay = toPlay;
+	
 		this.xMouse = input.getAbsoluteMouseX();
 		this.yMouse = input.getAbsoluteMouseY();
 
@@ -172,6 +172,7 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("P1")) isPressedProd1= true;
 		if(content.containsKey("P2")) isPressedProd2= true;
 		if(content.containsKey("P3")) isPressedProd3= true;
+		if(content.containsKey("toPlay")) isPressedProd3= true;
 
 		for(int i=0; i<10; i++){
 			if(content.containsKey(i+"")) isPressedNumPad[i] = true;
@@ -227,7 +228,7 @@ public class InputObject extends MultiObjetModel{
 		if(isPressedE) s+=",E: ";
 		if(isPressedR) s+=",R: ";
 		if(isPressedH) s+=",H: ";
-
+		if(toPlay) s+=",toPlay: ";
 		for(int i=0; i<10; i++)
 			s+=(isPressedNumPad[i] ? ","+i+": " : "");
 		s+=",";
