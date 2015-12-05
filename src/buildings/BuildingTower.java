@@ -52,7 +52,7 @@ public class BuildingTower extends Building{
 		} else {
 			this.image = this.p.g.images.buildingTowerNeutral;
 		}
-		this.sight = 300f;
+		this.sight = 500f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
 		canAttack = false;
