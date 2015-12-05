@@ -3,6 +3,7 @@ package buildings;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
@@ -20,6 +21,9 @@ public class BuildingTower extends Building{
 	public boolean canAttack;
 	public Character target;
 	public float damage;
+
+	public Image animationBleu;
+	public Image animationRouge;
 
 	public BuildingTower(Plateau p,Game g,float x, float y){
 		p.addBuilding(this);
@@ -52,6 +56,8 @@ public class BuildingTower extends Building{
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
 		canAttack = false;
+		this.animationBleu = this.p.g.images.buildingTowerBlueAnimation;
+		this.animationRouge = this.p.g.images.buildingTowerRedAnimation;
 	}
 
 	public void action(){
