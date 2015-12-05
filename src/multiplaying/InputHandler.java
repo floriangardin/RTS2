@@ -86,7 +86,7 @@ public class InputHandler {
 			this.g.vroundMissing.addElement(this.g.round);
 			this.g.roundDropped++;
 		}
-		System.out.println("Round drop : "+round);
+		
 		this.mutex.unlock();
 		return new Vector<InputObject>();
 		

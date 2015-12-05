@@ -544,12 +544,12 @@ public class Game extends BasicGame
 							stopCauseAntiDrop = true;
 						}
 					}
-					if(ims.size()==0){
-						stopCauseAntiDrop = true;
-					}
 					if(!stopCauseAntiDrop){
 						if(ims.size()==0){
 							System.out.println("Round drop : "+round);
+						}
+						else{
+							System.out.println("Play round : "+round);
 						}
 						this.plateau.update(ims);
 						this.plateau.updatePlateauState();
