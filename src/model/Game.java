@@ -524,7 +524,7 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.plateau.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
 					if(resynchroRound){
-						if(ims.size()==0){
+						if(ims.size()==0 && !processSynchro){
 							nDrop++;
 						}
 						nRound++;
