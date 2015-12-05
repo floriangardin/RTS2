@@ -197,7 +197,7 @@ public class Building extends ActionObjet{
 			}
 		}
 
-		else if(this instanceof BuildingUniversity){
+		else if(this instanceof BuildingTower){
 			this.imageNeutre = this.p.g.images.buildingTowerNeutral;
 			if(getTeam()==1){
 				this.image = this.p.g.images.buildingTowerBlue;
