@@ -485,7 +485,7 @@ public class Game extends BasicGame
 					float ratio = nDrop/nRound;
 					nRound = 0f;
 					nDrop = 0f;
-					if(ratio>0.5){
+					if(ratio>0.1){
 						System.out.println("Resynchro round");
 						if(multi==-1){
 							multi=1;
@@ -501,6 +501,7 @@ public class Game extends BasicGame
 							this.round-=this.roundDelay;
 							roundToTest = 0;
 							multi = 1;
+							this.roundDelay=0;
 						}
 					}
 				}
