@@ -419,8 +419,8 @@ public class Game extends BasicGame
 
 			if(inMultiplayer){
 
-				//CHECKSUm
-				if(this.round>=30 && this.round%30==0){
+				//CHECKSUM
+				if(this.round>=30 && this.round%20==0){
 
 					//Compute checksum
 					String checksum = "3C|"+this.round+"|0";
@@ -431,7 +431,7 @@ public class Game extends BasicGame
 						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).y))%10);
 						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).lifePoints))%10);
 						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).state))%10);
-						checksum+=Integer.toString(this.plateau.characters.get(i).id)+"-";
+						checksum+=Integer.toString(this.plateau.characters.get(i).id%10)+"-";
 						i++;
 					}
 					checksum+="|";
@@ -456,7 +456,7 @@ public class Game extends BasicGame
 				}
 
 				//PING REQUEST
-				if(round%30 == 0){
+				if(round%40 == 0){
 					this.sendInputToAllPlayer("3M|"+this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
 				}
 
@@ -499,7 +499,7 @@ public class Game extends BasicGame
 					float ratio = nDrop/nRound;
 					nRound = 0f;
 					nDrop = 0f;
-					if(ratio>0.8){
+					if(ratio>0.5){
 						System.out.println("Resynchro round");
 						if(multi==-1){
 							multi=1;
@@ -577,7 +577,7 @@ public class Game extends BasicGame
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
 				this.setMenu(this.menuIntro);
-				//TODO FERMER LES SOCKETS
+			
 			}
 		}
 
