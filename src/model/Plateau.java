@@ -302,7 +302,7 @@ public class Plateau {
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
 				if(o.soundDeath!=null && o.soundDeath.size()>0){
-					Utils.getRandomSound(o.soundSelection).play(1f, this.g.options.soundVolume);
+					Utils.getRandomSound(o.soundDeath).play(1f, this.g.options.soundVolume);
 				}
 			}
 		}

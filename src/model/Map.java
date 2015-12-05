@@ -111,6 +111,8 @@ public class Map {
 		data1.create(UnitsList.Spearman, X/2+3f+40f, team1h.y+team1h.sizeY+20f);
 		new BuildingMill(game.plateau,game,3*X/10,Y/15);
 		new BuildingMine(game.plateau,game,7*X/10,Y/15);
+		new BuildingMill(game.plateau,game,1*X/10,Y/15);
+		new BuildingMine(game.plateau,game,9*X/10,Y/15);
 		new BuildingBarrack(game.plateau,game,X/2,1f*Y/5);
 			
 		// Team 2 side
@@ -119,6 +121,10 @@ public class Map {
 		data2.create(UnitsList.Spearman, X/2+3f+40f,  team2h.y-team2h.sizeY-20f);
 		new BuildingMill(game.plateau,game,3*X/10,14*Y/15);
 		new BuildingMine(game.plateau,game,7*X/10,14*Y/15);
+		
+		new BuildingMill(game.plateau,game,X/10,14*Y/15);
+		new BuildingMine(game.plateau,game,9*X/10,14*Y/15);
+		
 		new BuildingBarrack(game.plateau,game,X/2,4f*Y/5);
 		
 		// CENTER
