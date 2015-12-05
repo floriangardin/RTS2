@@ -159,7 +159,7 @@ public class MenuMapChoice extends Menu {
 						mp.messageDropped++;
 						if(mp.messageDropped>1f*Main.framerate){
 							System.out.println("disconnecting player:"+i);
-							toRemove=i;
+							//toRemove=i;
 						}
 					}
 				}
