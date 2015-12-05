@@ -326,7 +326,6 @@ public class Plateau {
 				this.removeSpell(o);
 			}
 		}
-
 		// Update selection and groups
 		Vector<ActionObjet> toDelete = new Vector<ActionObjet>();
 		for(int i=0;i<nPlayers;i++){

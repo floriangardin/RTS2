@@ -39,6 +39,7 @@ public class Data {
 	public float healthFactor = 1.5f;
 	
 	//// BUILDINGS STATS
+	public boolean explosionWhenImmolate= false;
 	//headQuarters
 	public int headQuartersLifePoints = 30;
 	public float headQuartersSight = 500f;

@@ -1,11 +1,10 @@
 package technologies;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-
 import model.GameTeam;
 import model.Plateau;
-import model.Player;
+import units.Character;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 public class DualistExplosion extends Technologie {
 
@@ -28,6 +27,11 @@ public class DualistExplosion extends Technologie {
 		// Age passing does nothing
 		// Then update
 		//TODO change effect
+		this.gameteam.data.explosionWhenImmolate= true;
+		
+		for(Character c : this.p.characters){
+			c.explosionWhenImmolate = true;
+		}
 
 		
 	}
