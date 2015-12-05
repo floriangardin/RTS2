@@ -509,6 +509,7 @@ public class Game extends BasicGame
 							multi=-1;
 						}
 						this.round+=multi*roundToTest;
+						this.roundDelay+=multi*roundToTest;
 					}
 				}
 				
