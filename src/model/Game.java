@@ -174,7 +174,16 @@ public class Game extends BasicGame
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 200;
+	
+
 	boolean hasAlreadyPlay = false;
+	
+	//RESYNCHRO ROUND
+	public boolean resynchroRound = false;
+	public float nDrop = 0f;
+	public float nRound = 0f;
+	public int multi = 1;
+	public int roundToTest = 0;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -478,6 +487,30 @@ public class Game extends BasicGame
 
 					}
 				}
+				
+				
+				//RESYNCHRO ROUND
+				if((this.round%30)==0){
+					this.resynchroRound=true;
+				}
+				if(nRound>10){
+					resynchroRound = false;
+					float ratio = nDrop/nRound;
+					nRound = 0f;
+					nDrop = 0f;
+					if(ratio>0.8){
+						if(multi==-1){
+							multi=1;
+							roundToTest++;
+						}
+						if(multi==1){
+							roundToTest++;
+							multi=-1;
+						}
+						this.round+=multi*roundToTest;
+					}
+				}
+				
 				//UPDATE IF NOT RESYNCH
 				else{
 					// On envoie l'input du tour courant
@@ -485,12 +518,12 @@ public class Game extends BasicGame
 					this.inputsHandler.addToInputs(im);
 					this.plateau.handleView(im, this.plateau.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
-
-					if(ims.size()==0){
-						this.dropped.addElement(this.round);
-					}
-					if(dropped.size()>5){
-						dropped.clear();
+					if(resynchroRound){
+						if(ims.size()==0){
+							nDrop++;
+							
+						}
+						nRound++;
 					}
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();

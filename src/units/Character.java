@@ -41,6 +41,8 @@ import buildings.Building;
 
 public class Character extends ActionObjet{
 
+	
+	public boolean explosionWhenImmolate = false;
 	//Isattackec
 	public boolean isAttacked;
 	public float timerAttacked = 0f;
@@ -186,6 +188,7 @@ public class Character extends ActionObjet{
 		this.soundSelection = c.soundSelection;
 		this.getGameTeam().pop++;
 		this.mode = NORMAL;
+		this.explosionWhenImmolate = c.explosionWhenImmolate;
 
 		for(Spell s:c.spells){
 			this.spells.addElement(s);
@@ -1023,6 +1026,14 @@ public class Character extends ActionObjet{
 		this.lifePoints=this.maxLifePoints;
 		this.remainingTime-=1f;
 		if(this.remainingTime<=0f){
+			//Test if explosion
+			if(this.explosionWhenImmolate){
+				for(Character c : p.characters){
+					if(Utils.distance(c, this)<100f && c!=this){
+						c.setLifePoints(c.lifePoints-20f);
+					}
+				}
+			}
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 		}

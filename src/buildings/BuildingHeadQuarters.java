@@ -62,7 +62,8 @@ public class BuildingHeadQuarters extends BuildingTech {
 			
 			// EXPLOSION TECH
 			DualistExplosion ex = new DualistExplosion(this.p,this.getGameTeam());
-			ex.techRequired=d3;
+			this.allTechs.addElement(ex);
+			ex.techRequired=d2;
 			
 			// SHIELD TECH
 			DualistShield2 s2 = new DualistShield2(this.p,this.getGameTeam());

@@ -27,7 +27,7 @@ public class UnitPriest extends Character {
 		this.damage = 0f*data.damageFactor;
 		this.chargeTime = 0.2f;
 		this.weapon = "bible";
-		
+		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 70f;

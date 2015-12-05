@@ -131,7 +131,7 @@ public class Building extends ActionObjet{
 	public void drawIsSelected(Graphics g){
 		g.drawImage(this.selection_circle,this.getX()-5f-this.collisionBox.getWidth()/2,this.getY()-this.collisionBox.getHeight()/2-5f,this.getX()+this.collisionBox.getWidth()/2+5f,this.getY()+this.collisionBox.getHeight()/2+5f,0,0,this.selection_circle.getWidth(),this.selection_circle.getHeight());
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-		
+
 	}	
 
 	public void updateImage(){
@@ -195,6 +195,18 @@ public class Building extends ActionObjet{
 			} else {
 				this.image = this.p.g.images.buildingUniversityNeutral;
 			}
+		}
+
+		else if(this instanceof BuildingTower){
+			this.imageNeutre = this.p.g.images.buildingTowerNeutral;
+			if(getTeam()==1){
+				this.image = this.p.g.images.buildingTowerBlue;
+			} else if(getTeam()==2){
+				this.image = this.p.g.images.buildingTowerRed;
+			} else {
+				this.image = this.p.g.images.buildingTowerNeutral;
+			}
+
 		}
 	}
 
@@ -309,7 +321,7 @@ public class Building extends ActionObjet{
 	@Override
 	public void collision(Character c) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

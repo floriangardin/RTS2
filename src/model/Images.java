@@ -60,6 +60,9 @@ public class Images {
 	public Image buildingUniversityNeutral;
 	public Image buildingUniversityBlue;
 	public Image buildingUniversityRed;
+	public Image buildingTowerNeutral;
+	public Image buildingTowerBlue;
+	public Image buildingTowerRed;
 
 	//Icones
 	public Image iconeSpearman;
@@ -91,6 +94,7 @@ public class Images {
 	public Image inquisitorRed;
 	public Image knightBlue;
 	public Image knightRed;
+
 
 	public Images(){
 		try {
@@ -175,6 +179,9 @@ public class Images {
 			buildingUniversityNeutral = new Image("pics/Building/UniversityNeutral.png");
 			buildingUniversityBlue = new Image("pics/Building/UniversityBlue.png");
 			buildingUniversityRed = new Image("pics/Building/UniversityRed.png");
+			buildingTowerNeutral = new Image("pics/Building/TourNeutre.png");
+			buildingTowerBlue = new Image("pics/Building/TourBleu.png");
+			buildingTowerRed = new Image("pics/Building/TourRouge.png");
 
 			//Icones
 			this.iconeBowman = new Image("pics/iconBow.png");

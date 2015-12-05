@@ -31,6 +31,7 @@ public class BuildingTower extends Building{
 		this.setTeam(0);
 		this.damage = 20f;
 		this.maxLifePoints = 20f;
+		this.name = "tower";
 		this.lifePoints = this.maxLifePoints;
 		this.chargeTime = 5f;
 		this.sizeX = 220f; 
@@ -39,9 +40,13 @@ public class BuildingTower extends Building{
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
-		this.image = this.p.g.images.tent;
-		this.imageNeutre = this.p.g.images.tent;
-		
+		if(getTeam()==1){
+			this.image = this.p.g.images.buildingTowerBlue;
+		} else if(getTeam()==2){
+			this.image = this.p.g.images.buildingTowerRed;
+		} else {
+			this.image = this.p.g.images.buildingTowerNeutral;
+		}
 		this.sight = 300f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
