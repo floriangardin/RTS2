@@ -2,6 +2,7 @@ package buildings;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
@@ -88,5 +89,12 @@ public class BuildingTower extends Building{
 
 	public Character getTarget(){
 		return this.target;
+	}
+
+	
+	public void drawAnimation(Graphics g){
+		if(getTeam()!=0){
+			g.drawImage(this.p.g.images.smoke, this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+		}
 	}
 }
