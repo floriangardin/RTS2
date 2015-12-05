@@ -474,20 +474,6 @@ public class Game extends BasicGame
 					this.sendInputToAllPlayer(this.toParse);
 				}
 
-				if(processSynchro && this.toParse!=null){
-					//Si round+2
-					String[] u = this.toParse.split("!");
-					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
-						System.out.println("Play resynchronisation round at round " + this.round);
-						this.plateau.parse(this.toParse);
-						this.toParse = null;
-						this.processSynchro = false;
-						System.out.println("Resynchronisation ....");
-
-					}
-				}
-				
 				
 				//RESYNCHRO ROUND
 				if(host && (this.round%30)==0){
@@ -514,8 +500,19 @@ public class Game extends BasicGame
 					}
 				}
 				
-				//UPDATE IF NOT RESYNCH
-				else{
+				if(processSynchro && this.toParse!=null){
+					//Si round+2
+					String[] u = this.toParse.split("!");
+					//Je resynchronise au tour n+2
+					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+						System.out.println("Play resynchronisation round at round " + this.round);
+						this.plateau.parse(this.toParse);
+						this.toParse = null;
+						this.processSynchro = false;
+						System.out.println("Resynchronisation ....");
+
+					}
+				}else{//UPDATE IF NOT RESYNCH
 					// On envoie l'input du tour courant
 					this.sendInputToAllPlayer(im.toString());
 					this.inputsHandler.addToInputs(im);
