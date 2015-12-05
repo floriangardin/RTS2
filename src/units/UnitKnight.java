@@ -24,6 +24,7 @@ public class UnitKnight extends Character {
 		this.maxLifePoints = 90f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f;
+		this.size = 60f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 160f;
@@ -31,7 +32,6 @@ public class UnitKnight extends Character {
 		this.damage = 8f*data.damageFactor;
 		this.chargeTime = 7f;
 		this.weapon = "sword";
-		
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+20f;
@@ -196,29 +196,20 @@ public class UnitKnight extends Character {
 			}
 		}
 		this.orientation = sector;
-
-
 		this.changes.orientation = true;
-
 	}
 
 
 	public Graphics draw(Graphics g){
 
-
-		float r = collisionBox.getBoundingCircleRadius()*2f;
+		float r = collisionBox.getBoundingCircleRadius()*1.3f;
 		float direction = 0f;
-
-
 		//Adapted to spearman TODO : Genericity
-
-
 		
 		if(this.isImmolating){
 			this.animation = 0;
 			this.orientation = 2;
 		}
-
 
 		direction = (float)(orientation/2-1);
 		int imageWidth = this.image.getWidth()/5;
