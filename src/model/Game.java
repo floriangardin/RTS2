@@ -505,7 +505,7 @@ public class Game extends BasicGame
 							multi=1;
 							roundToTest++;
 						}
-						if(multi==1){
+						else if(multi==1){
 							roundToTest++;
 							multi=-1;
 						}
