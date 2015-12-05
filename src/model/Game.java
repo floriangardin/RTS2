@@ -497,6 +497,11 @@ public class Game extends BasicGame
 						}
 						this.round+=multi*roundToTest;
 						this.roundDelay+=multi*roundToTest;
+						if(roundToTest>=40){
+							this.round-=this.roundDelay;
+							roundToTest = 0;
+							multi = 1;
+						}
 					}
 				}
 				
