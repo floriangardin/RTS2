@@ -165,8 +165,8 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("F")) isPressedF= true;
 		if(content.containsKey("T")) isPressedT= true;
 		if(content.containsKey("E")) isPressedE= true;
-		if(content.containsKey("R")) isPressedE= true;
-		if(content.containsKey("H")) isPressedE= true;
+		if(content.containsKey("R")) isPressedR= true;
+		if(content.containsKey("H")) isPressedH= true;
 
 		if(content.containsKey("P0")) isPressedProd0= true;
 		if(content.containsKey("P1")) isPressedProd1= true;
