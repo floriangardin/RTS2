@@ -33,6 +33,7 @@ import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
+
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Lock;
 public class Game extends BasicGame 
@@ -536,13 +537,20 @@ public class Game extends BasicGame
 						nRound++;
 					}
 					boolean stopCauseAntiDrop = false;
+					
 					for(InputObject o : ims){
 						if(!o.toPlay){
+							System.out.println("Anti drop : "+round);
 							stopCauseAntiDrop = true;
 						}
 					}
-
+					if(ims.size()==0){
+						stopCauseAntiDrop = true;
+					}
 					if(!stopCauseAntiDrop){
+						if(ims.size()==0){
+							System.out.println("Round drop : "+round);
+						}
 						this.plateau.update(ims);
 						this.plateau.updatePlateauState();
 					}
