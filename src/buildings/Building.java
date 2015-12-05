@@ -90,7 +90,7 @@ public class Building extends ActionObjet{
 				this.getGameTeam().pop+=2;
 				if(this instanceof BuildingHeadQuarters){
 					this.p.g.endGame = true;
-					if(this.getTeam()==this.p.currentPlayer.id){
+					if(this.getTeam()==this.p.currentPlayer.getTeam()){
 						this.p.g.victory = true;
 					}
 					else{
