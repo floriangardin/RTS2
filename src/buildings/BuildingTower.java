@@ -31,6 +31,7 @@ public class BuildingTower extends Building{
 		this.setTeam(0);
 		this.damage = 20f;
 		this.maxLifePoints = 20f;
+		this.name = "tower";
 		this.lifePoints = this.maxLifePoints;
 		this.chargeTime = 5f;
 		this.sizeX = 220f; 
