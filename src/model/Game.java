@@ -493,6 +493,7 @@ public class Game extends BasicGame
 				if((this.round%30)==0){
 					this.resynchroRound=true;
 				}
+				
 				if(nRound>10){
 					resynchroRound = false;
 					float ratio = nDrop/nRound;
