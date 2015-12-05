@@ -522,7 +522,6 @@ public class Game extends BasicGame
 					if(resynchroRound){
 						if(ims.size()==0){
 							nDrop++;
-							
 						}
 						nRound++;
 					}
