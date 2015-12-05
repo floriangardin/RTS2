@@ -74,7 +74,11 @@ public class BuildingTower extends Building{
 			this.charge = 0f;
 
 		}
-
+		if(getTeam()!=0)
+			this.animation+=2f;
+		if(this.animation>120f)
+			this.animation = 1;
+		
 		if(canAttack){
 			if(target==null || this.target.lifePoints<0f){
 				Vector<Character> target= this.p.getEnnemiesInSight(this);
@@ -99,8 +103,10 @@ public class BuildingTower extends Building{
 
 	
 	public void drawAnimation(Graphics g){
-		if(getTeam()!=0){
-			g.drawImage(this.p.g.images.smoke, this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+		if(getTeam()==1){
+			//g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
+			
+			g.drawImage(this.animationBleu, this.x-(this.sizeX/1.8f)/3, this.y-this.sizeY,this.x+(this.sizeX/1.8f)/3, this.y-this.sizeY+this.sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
 		}
 	}
 }

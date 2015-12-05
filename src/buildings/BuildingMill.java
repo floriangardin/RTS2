@@ -69,7 +69,7 @@ public class BuildingMill extends BuildingTech{
 		if(getTeam()!=0)
 			this.animation+=2f;
 		if(animation>120f)
-			
+			animation = 0;
 		
 		if(state >= chargeTime && getTeam()!=0){
 			this.getGameTeam().food+=4+this.getGameTeam().data.bonusFood;
