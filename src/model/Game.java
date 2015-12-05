@@ -500,6 +500,7 @@ public class Game extends BasicGame
 					nRound = 0f;
 					nDrop = 0f;
 					if(ratio>0.8){
+						System.out.println("Resynchro round");
 						if(multi==-1){
 							multi=1;
 							roundToTest++;
