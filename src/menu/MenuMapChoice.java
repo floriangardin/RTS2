@@ -144,7 +144,7 @@ public class MenuMapChoice extends Menu {
 				}		
 				//checking if game still exists
 				if(this.startGame!=0 && messageDropped>1f*Main.framerate){
-					this.callItem(0);
+					//this.callItem(0);
 				}
 			}
 			// checking disconnecting players
