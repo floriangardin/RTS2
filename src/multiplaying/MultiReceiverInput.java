@@ -10,7 +10,7 @@ public class MultiReceiverInput extends MultiReceiver {
 	}
 	@Override
 	public void action(String msg) {
-		System.out.println(msg);
+		//System.out.println(msg);
 		InputObject io = new InputObject(msg,g);
 		if(Game.debugValidation){
 			System.out.println("MultiReceiver line 63 input received at round "+ this.g.round);
