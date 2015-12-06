@@ -56,9 +56,7 @@ public class Player {
 	}
 	public void setTeam(int team){
 		this.team = team;
-		for(GameTeam g : this.p.g.teams)
-			if(g.id == team)
-				this.gameteam = g;
+		this.gameteam = this.p.g.teams.get(team);
 	}
 	
 	
