@@ -728,7 +728,7 @@ public class Game extends BasicGame
 			this.toParse = this.plateau.toStringArray();
 			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
-			this.sendInputToAllPlayer(this.toParse);
+			this.toSendResynchro.add(this.toParse);
 		}
 	}
 	private void handleAntidrop() {
