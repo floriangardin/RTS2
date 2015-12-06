@@ -284,6 +284,7 @@ public class Game extends BasicGame
 		this.players.add(new IABasic(this.plateau,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
+		this.plateau.initializePlateau(this);
 	}
 
 	@Override

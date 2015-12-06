@@ -76,6 +76,7 @@ public class MenuMulti extends Menu {
 			try {
 				game.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
+			game.initializePlayers();
 			game.clearPlayer();
 			game.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
 			game.currentPlayer = game.players.get(1);
@@ -89,6 +90,7 @@ public class MenuMulti extends Menu {
 				this.game.menuMapChoice.seconds = 6;
 				game.host = false;
 				game.inMultiplayer = true;
+				game.initializePlayers();
 				game.clearPlayer();
 				OpenGames opengame = openGames.get(gameSelected);
 				game.toSendConnexion.clear();
