@@ -14,12 +14,15 @@ public class MultiReceiverPing extends MultiReceiver{
 		String[] valMessage = msg.split("\\|");
 		int id = Integer.parseInt(valMessage[1]);
 		if(g.host){
-			g.pingSender.changeAddress(g.getPlayerById(id).address);
-			g.toSendPing.add(msg);
+			if(id<g.players.size()){
+				g.pingSender.changeAddress(g.getPlayerById(id).address);
+				g.toSendPing.add(msg);
+			}
 		} else {
 			long time =Long.parseLong(valMessage[0]);
 			this.g.clock.updatePing(time);
 		}
 	}
+
 
 }
