@@ -513,7 +513,7 @@ public class MenuMapChoice extends Menu {
 	public void parseForClient(HashMap<String,String> hs){
 		if(hs.containsKey("map")){
 			if(this.mapSelected!=Integer.parseInt(hs.get("map"))){
-				Map.updateMap(mapSelected, game);
+				Map.updateMap(Integer.parseInt(hs.get("map")), game);
 				System.out.println("changement de map");
 			}
 			this.mapSelected = Integer.parseInt(hs.get("map"));
