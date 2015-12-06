@@ -18,6 +18,7 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
+import IA.IABasic;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
@@ -30,7 +31,6 @@ import menu.MenuOptions;
 import multiplaying.Clock;
 import multiplaying.InputHandler;
 import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
 import multiplaying.MultiReceiverChat;
 import multiplaying.MultiReceiverChecksum;
 import multiplaying.MultiReceiverChecksum.Checksum;
@@ -105,6 +105,20 @@ public class Game extends BasicGame
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
+
+
+	////////////////////////
+	/// PLAYERS && TEAMS ///
+	////////////////////////
+
+	// Number of teams
+	public int nTeams =2;
+	// Number of players
+	public int nPlayers;
+	// teams and players
+	public Vector<Player> players = new Vector<Player>();
+	public Player currentPlayer;
+	public Vector<GameTeam> teams = new Vector<GameTeam>();
 
 
 	/////////////////////////////
@@ -212,7 +226,64 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
+	}
 
+	public void addPlayer(String name, InetAddress address,int resX,int resY){
+		this.players.addElement(new Player(this.plateau,players.size(),name,teams.get(1),resX,resY));
+		this.players.lastElement().address = address;
+		nPlayers+=1;
+
+		// adding components in plateau
+		this.plateau.selection.addElement(new Vector<ActionObjet>());
+		this.plateau.toAddSelection.addElement(new Vector<ActionObjet>());
+		this.plateau.toRemoveSelection.addElement(new Vector<ActionObjet>());
+
+		this.plateau.messages.addElement(new Vector<Message>());
+		this.plateau.rectangleSelection.addElement(null);
+		this.plateau.recX.addElement(0f);
+		this.plateau.recY.addElement(0f);
+
+	}
+
+	public void removePlayer(int indice){
+		if(indice==0 || indice>players.size())
+			return;
+		players.remove(indice);
+		nPlayers -= 1;
+
+		// deleting component from plateau
+		this.plateau.selection.remove(indice);
+		this.plateau.toAddSelection.remove(indice);
+		this.plateau.toRemoveSelection.remove(indice);
+		this.plateau.messages.remove(indice);
+		this.plateau.rectangleSelection.remove(indice);
+		this.plateau.recX.remove(indice);
+		this.plateau.recY.remove(indice);
+	}
+	// functions that handle buffers
+
+	public void clearPlayer(){
+		/**
+		 * function that remove all players but the nature (player 0)
+		 */
+		while(players.size()>1){
+			removePlayer(players.size()-1);
+		}
+	}
+
+	public void initializePlayers(){
+		//UPDATING GAME
+		this.teams.clear();
+		this.players.clear();
+		this.teams.addElement(new GameTeam(players,this.plateau,0,0));
+		this.teams.addElement(new GameTeam(players,this.plateau,1,0));
+		this.teams.addElement(new GameTeam(players,this.plateau,2,0));
+		this.players = new Vector<Player>();
+		this.players.add(new Player(this.plateau,0,"Nature",teams.get(0),2,2));
+		this.players.add(new Player(this.plateau,1,this.options.nickname,teams.get(1),(int) this.resX, (int) this.resY));
+		this.players.add(new IABasic(this.plateau,2,"IA random",teams.get(2),2,2));
+		this.currentPlayer = players.get(1);
+		this.nPlayers = players.size();
 	}
 
 	@Override
@@ -272,7 +343,7 @@ public class Game extends BasicGame
 			//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
 			// Draw the selection of your team 
-			for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
+			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
 				o.drawIsSelected(g);
 			}
 			//Creation of the drawing Vector
@@ -330,7 +401,7 @@ public class Game extends BasicGame
 			// Draw the selection :
 			for(int player=1; player<3; player++){
 				if(this.plateau.rectangleSelection.get(player) !=null){
-					if(player==plateau.currentPlayer.id){
+					if(player==currentPlayer.id){
 						g.setColor(Color.green);
 						g.draw(this.plateau.rectangleSelection.get(player));
 					}
@@ -338,19 +409,19 @@ public class Game extends BasicGame
 			}
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
-			if(this.plateau.currentPlayer.bottomBar!=null)
-				this.plateau.currentPlayer.bottomBar.draw(g);
-			if(this.plateau.currentPlayer.bottomBar.topBar!=null)
-				this.plateau.currentPlayer.bottomBar.topBar.draw(g);
+			if(this.currentPlayer.bottomBar!=null)
+				this.currentPlayer.bottomBar.draw(g);
+			if(this.currentPlayer.bottomBar.topBar!=null)
+				this.currentPlayer.bottomBar.topBar.draw(g);
 			// Draw messages
 			Message m;
 			if(this.plateau.messages.size()>2){
-				for(int k=0; k<this.plateau.messages.get(plateau.currentPlayer.id).size();k++){
-					m = this.plateau.messages.get(plateau.currentPlayer.id).get(k);
+				for(int k=0; k<this.plateau.messages.get(currentPlayer.id).size();k++){
+					m = this.plateau.messages.get(currentPlayer.id).get(k);
 					g.setColor(m.color);
 					Font f = g.getFont();
 					float height = f.getHeight(m.message);
-					g.drawString(m.message, 20f, this.plateau.currentPlayer.bottomBar.topBar.sizeY+20f+2f*height*k);
+					g.drawString(m.message, 20f, this.currentPlayer.bottomBar.topBar.sizeY+20f+2f*height*k);
 				}
 			}
 		}
@@ -381,25 +452,26 @@ public class Game extends BasicGame
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
-//		Thread[] tarray = new Thread[Thread.activeCount()];
-//		Thread.enumerate(tarray);
-//		System.out.println("threads présents : "+tarray.length);
-//		for(int i=0; i<tarray.length; i++){
-//			System.out.println(tarray[i].getName());
-//		}
-//		System.out.println();
+		//		Thread[] tarray = new Thread[Thread.activeCount()];
+		//		Thread.enumerate(tarray);
+		//		System.out.println("threads présents : "+tarray.length);
+		//		for(int i=0; i<tarray.length; i++){
+		//			System.out.println(tarray[i].getName());
+		//		}
+		//		System.out.println();
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
-			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput(),!antidropProcess && !processSynchro);
+			InputObject im = new InputObject(this,currentPlayer,gc.getInput(),!antidropProcess && !processSynchro);
 			this.menuCurrent.update(im);
 		} else if(!endGame) {
+			Utils.printCurrentState(plateau);
 			//Update of current round
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,plateau.currentPlayer,in,!antidropProcess);
+			InputObject im = new InputObject(this,currentPlayer,in,!antidropProcess);
 			//Handle manual resynchro
 			this.manuelAntidrop(in);
 
@@ -429,7 +501,7 @@ public class Game extends BasicGame
 					// On envoie l'input du tour courant
 					this.sendInputToAllPlayer(im.toString());
 					this.inputsHandler.addToInputs(im);
-					this.plateau.handleView(im, this.plateau.currentPlayer.id);
+					this.plateau.handleView(im, this.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
 					if(ims.size()==0 && !processSynchro){
 						nDrop++;
@@ -457,7 +529,7 @@ public class Game extends BasicGame
 				/////////////////////
 
 				ims.add(im);
-				this.plateau.handleView(im, this.plateau.currentPlayer.id);
+				this.plateau.handleView(im, this.currentPlayer.id);
 				// solo mode, update du joueur courant
 				this.plateau.update(ims);
 				//Update des ordres de l'IA
@@ -525,8 +597,8 @@ public class Game extends BasicGame
 		this.musics.imperial.setVolume(options.musicVolume);
 		//this.game.newGame();
 		this.quitMenu();
-		this.plateau.Xcam =(int)( this.plateau.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
-		this.plateau.Ycam = (int)(this.plateau.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
+		this.plateau.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
+		this.plateau.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
 		this.startTime = System.currentTimeMillis();
 		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;
@@ -536,7 +608,7 @@ public class Game extends BasicGame
 
 
 	public Player getPlayerById(int id){
-		return this.plateau.players.get(id);
+		return this.players.get(id);
 
 	}
 	@Override
@@ -648,7 +720,7 @@ public class Game extends BasicGame
 	}
 	private void handlePing() {
 		if(!host && round%40 == 0){
-			this.toSendPing.add(this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
+			this.toSendPing.add(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 		}
 	}
 	private void handleSendingResynchroParse() {
@@ -702,7 +774,7 @@ public class Game extends BasicGame
 		}
 	}
 	public void pingRequest() {
-		this.toSendPing.addElement(this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
+		this.toSendPing.addElement(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 	}
 
 

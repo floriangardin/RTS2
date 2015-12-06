@@ -3,6 +3,7 @@ package multiplaying;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.HashMap;
 
@@ -50,8 +51,8 @@ public abstract class MultiReceiver extends Thread{
 				}
 				String msg = new String(packet.getData());
 				this.g.nbPaquetReceived++;
-				if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
-				if(msg.length()>0 && !msg.substring(0,1).equals(""+g.plateau.currentPlayer.id)){
+				if(msg.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
+					if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
 					this.action(msg.substring(1));
 				}
 				Thread.sleep(1);

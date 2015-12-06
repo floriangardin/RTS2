@@ -82,14 +82,14 @@ public class MinimapInterface extends Bar {
 		g.setAntiAlias(true);
 		for(Character c : this.p.characters){		
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Color.red);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Color.blue);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
@@ -103,7 +103,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Color.red);
 				} else {
 					g.setColor(Color.gray);
@@ -111,7 +111,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Color.blue);
 				} else {
 					g.setColor(Color.gray);
@@ -127,7 +127,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Color.red);
 				} else {
 					g.setColor(Color.gray);
@@ -135,7 +135,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Color.blue);
 				} else {
 					g.setColor(Color.gray);
@@ -144,7 +144,7 @@ public class MinimapInterface extends Bar {
 			}
 			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
 			
-			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(this.p.currentPlayer.getTeam(), c)){
+			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 				float ratio = c.constructionPoints/c.maxLifePoints;
 				if(c.potentialTeam==1){
 					g.setColor(Color.blue);

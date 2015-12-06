@@ -62,7 +62,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	public void setTeam(int i){
 		this.team = i;
-		for(GameTeam t : this.p.teams){
+		for(GameTeam t : this.p.g.teams){
 			if(t.id==i){
 				this.gameteam = t;
 			}

@@ -105,7 +105,7 @@ public class InputObject extends MultiObjetModel{
 		}
 		
 		// Only for current player at the creation of the input
-		BottomBar bb = g.plateau.currentPlayer.bottomBar;
+		BottomBar bb = g.currentPlayer.bottomBar;
 		float relativeXMouse = input.getAbsoluteMouseX();
 		float relativeYMouse = input.getAbsoluteMouseY();
 		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
@@ -125,7 +125,7 @@ public class InputObject extends MultiObjetModel{
 			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
 		}
 		this.validated = new Vector<Boolean>();
-		for(Player p:g.plateau.players)
+		for(Player p:g.players)
 			validated.add(false);
 	}
 
@@ -186,7 +186,7 @@ public class InputObject extends MultiObjetModel{
 //			}
 //		}
 		this.validated = new Vector<Boolean>();
-		for(Player p:game.plateau.players)
+		for(Player p:game.players)
 			validated.add(false);
 		if(Game.debugValidation)
 			System.out.println("InputObject line 157 : New input from "+this.player.id+" coming from round "+this.round);

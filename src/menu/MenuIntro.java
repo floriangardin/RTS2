@@ -42,7 +42,7 @@ public class MenuIntro extends Menu {
 		switch(i){
 		case 0:
 			this.game.inMultiplayer = false;
-			this.game.plateau = new Plateau(1,1,this.game);
+			this.game.initializePlayers();
 			game.menuMapChoice.initializeMenuPlayer();
 			this.game.setMenu(this.game.menuMapChoice);
 			break;

@@ -102,7 +102,7 @@ public class MenuMapChoice extends Menu {
 				Map.updateMap(mapSelected, game);
 				game.launchGame();
 			} else {
-				this.game.plateau.currentPlayer.isReady = true;
+				this.game.currentPlayer.isReady = true;
 			}
 			break;
 		default:		
@@ -128,7 +128,7 @@ public class MenuMapChoice extends Menu {
 
 	public void update(InputObject im){
 		// Handling current player according to input
-		this.menuPlayers.get(game.plateau.currentPlayer.id).update(im);
+		this.menuPlayers.get(game.currentPlayer.id).update(im);
 		// handling connexions
 		if(game.inMultiplayer){
 			if(game.host){
@@ -179,9 +179,9 @@ public class MenuMapChoice extends Menu {
 //			}
 //			if(toRemove!=-1){
 //				int k = toRemove;
-//				this.game.plateau.removePlayer(k);
-//				for(int i=0; i<this.game.plateau.players.size(); i++){
-//					this.game.plateau.players.get(i).id = i;
+//				this.game.removePlayer(k);
+//				for(int i=0; i<this.game.players.size(); i++){
+//					this.game.players.get(i).id = i;
 //				}
 //				this.initializeMenuPlayer();
 //			}
@@ -317,7 +317,7 @@ public class MenuMapChoice extends Menu {
 			boolean present1 = false;
 			boolean present2 = false;
 			if(toGame){
-				for(Player p : this.game.plateau.players){
+				for(Player p : this.game.players){
 					if(p.getTeam()==1){
 						present1 = true;
 					}
@@ -342,8 +342,8 @@ public class MenuMapChoice extends Menu {
 
 	public void initializeMenuPlayer(){
 		this.menuPlayers.clear();
-		for(int j=0;j<this.game.plateau.players.size(); j++){
-			this.menuPlayers.addElement(new Menu_Player(game.plateau.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
+		for(int j=0;j<this.game.players.size(); j++){
+			this.menuPlayers.addElement(new Menu_Player(game.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
 	}
 	
@@ -353,9 +353,9 @@ public class MenuMapChoice extends Menu {
 		String thisAddress;
 		try {
 			thisAddress = InetAddress.getLocalHost().getHostAddress();
-			s+="idJ:"+this.game.plateau.currentPlayer.id+";ip:"+thisAddress+";";
+			s+="idJ:"+this.game.currentPlayer.id+";ip:"+thisAddress+";";
 			if(this.game.host)
-				s+="hst:"+this.game.options.nickname+";npl:"+this.game.plateau.players.size()+";map:"+this.mapSelected+";";
+				s+="hst:"+this.game.options.nickname+";npl:"+this.game.players.size()+";map:"+this.mapSelected+";";
 		} catch (UnknownHostException e) {}	
 		s+="cvS:";
 		//Civ for all players
@@ -438,10 +438,10 @@ public class MenuMapChoice extends Menu {
 	public String messageToHost(){
 		String s ="";
 		String thisAddress;
-		Player current = this.game.plateau.currentPlayer;
+		Player current = this.game.currentPlayer;
 		try {
 			thisAddress = InetAddress.getLocalHost().getHostAddress();
-			s+="idJ:"+this.game.plateau.currentPlayer.id+";ip:"+thisAddress+";";
+			s+="idJ:"+this.game.currentPlayer.id+";ip:"+thisAddress+";";
 		} catch (UnknownHostException e) {}
 		// civ
 		s+="cvS:"+current.getGameTeam().civ+";";
@@ -469,7 +469,7 @@ public class MenuMapChoice extends Menu {
 			address = InetAddress.getByName(hs.get("ip"));
 		} catch (UnknownHostException e){}
 		// if player already there but id is wrong do nothing
-		for(Player p: this.game.plateau.players){
+		for(Player p: this.game.players){
 			if(p.address!=null && p.address.equals(address)){
 				if(p.id!=idJ){
 					return;
@@ -477,14 +477,14 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		// checking if the player is a new player
-		while(this.game.plateau.players.size()<=idJ){
+		while(this.game.players.size()<=idJ){
 			System.out.println("MenuMapChoice line 442 : new player added");
-			this.game.plateau.addPlayer("???", address,1,1);
-			this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+			this.game.addPlayer("???", address,1,1);
+			this.menuPlayers.add(new Menu_Player(this.game.players.lastElement(),
 					startXPlayers+ 1f/10f*sizeXPlayers,
 					startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
-		Player playerToChange = this.game.plateau.players.get(idJ);
+		Player playerToChange = this.game.players.get(idJ);
 		if(!playerToChange.address.equals(address)){
 			System.out.println("menumpchoice line 426 : error over the ip addresses");
 			return;
@@ -548,13 +548,13 @@ public class MenuMapChoice extends Menu {
 				return;
 			}
 			// checking if there is a missing player
-			if(civ.length<this.game.plateau.players.size()){
+			if(civ.length<this.game.players.size()){
 				// we reparse all informations and set again the currentPlayer to the right location
-				this.game.plateau.clearPlayer();
+				this.game.clearPlayer();
 				Player p;
 				for(int i = 1;i<civ.length;i++){
-					this.game.plateau.addPlayer("philippe", null, 1, 1);
-					p = this.game.plateau.players.get(i);
+					this.game.addPlayer("philippe", null, 1, 1);
+					p = this.game.players.get(i);
 					p.getGameTeam().civ =  Integer.parseInt(civ[i]);
 					p.nickname =  nickname[i];
 					p.setTeam(Integer.parseInt(idTeam[i]));
@@ -563,8 +563,8 @@ public class MenuMapChoice extends Menu {
 					try {
 						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
 					} catch (UnknownHostException e) {}
-					if(p.address.getHostAddress().equals(this.game.plateau.currentPlayer.address.getHostAddress())){
-						this.game.plateau.currentPlayer = p;
+					if(p.address.getHostAddress().equals(this.game.currentPlayer.address.getHostAddress())){
+						this.game.currentPlayer = p;
 					}
 					this.initializeMenuPlayer();
 				}
@@ -584,27 +584,27 @@ public class MenuMapChoice extends Menu {
 				this.startGame = Long.parseLong(hs.get("stT"));
 			}
 			// adding new player if needed
-			if(civ.length>this.game.plateau.players.size()){
+			if(civ.length>this.game.players.size()){
 				try {
-					this.game.plateau.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
+					this.game.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}
-				this.menuPlayers.add(new Menu_Player(this.game.plateau.players.lastElement(),
+				this.menuPlayers.add(new Menu_Player(this.game.players.lastElement(),
 						startXPlayers+ 1f/10f*sizeXPlayers,
 						startYPlayers+1f*(this.menuPlayers.size()+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 			}
 			//checking if changes about currentPlayer
-			if(!ips[this.game.plateau.currentPlayer.id].equals(this.game.plateau.currentPlayer.address.getHostAddress())){
+			if(!ips[this.game.currentPlayer.id].equals(this.game.currentPlayer.address.getHostAddress())){
 				// changes among the player
 				System.out.println("MenuMapChoice line 482: error player unidentified");
 				return;
 			}
 			for(int i = 0;i<civ.length;i++){
-				if(this.game.plateau.currentPlayer.id!=i){
+				if(this.game.currentPlayer.id!=i){
 					this.menuPlayers.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
 					this.menuPlayers.get(i).p.nickname =  nickname[i];
 					this.menuPlayers.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
 					this.menuPlayers.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
-					this.game.plateau.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
+					this.game.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
 					try {
 						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
 					} catch (UnknownHostException e) {}

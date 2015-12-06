@@ -1242,23 +1242,23 @@ public class Character extends ActionObjet{
 		int team = Integer.parseInt(hs.get("tm"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.plateau.getTeamById(team).data.spearman,x,y,id);	
+			c =  new UnitSpearman(g.teams.get(team).data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.plateau.getTeamById(team).data.knight,x,y,id);	
+			c = new UnitKnight(g.teams.get(team).data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.plateau.getTeamById(team).data.priest,x,y,id);
+			c =  new UnitPriest(g.teams.get(team).data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.plateau.getTeamById(team).data.crossbowman,x,y,id);
+			c =  new UnitCrossbowman(g.teams.get(team).data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.plateau.getTeamById(team).data.inquisitor,x,y,id);
+			c =  new UnitInquisitor(g.teams.get(team).data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.plateau.getTeamById(team).data.archange,x,y,id);
+			c = new UnitArchange(g.teams.get(team).data.archange,x,y,id);
 			break;
 		default:
 			c = null;

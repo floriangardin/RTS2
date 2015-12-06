@@ -89,7 +89,7 @@ public class Building extends ActionObjet{
 			this.constructionPoints+=Main.increment;
 		}
 		else if(c.mode==Character.TAKE_BUILDING && this.constructionPoints>=this.maxLifePoints){
-			if(this.potentialTeam!=this.getTeam()  && (((this.g.plateau.teams.get(potentialTeam).pop+1)<this.g.plateau.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters))){
+			if(this.potentialTeam!=this.getTeam()  && (((this.g.teams.get(potentialTeam).pop+1)<this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters))){
 				if(!(this instanceof Bonus)){
 					this.getGameTeam().pop-=2;
 				}
@@ -99,7 +99,7 @@ public class Building extends ActionObjet{
 				}
 				if(this instanceof BuildingHeadQuarters){
 					this.p.g.endGame = true;
-					if(this.getTeam()==this.p.currentPlayer.getTeam()){
+					if(this.getTeam()==this.p.g.currentPlayer.getTeam()){
 						this.p.g.victory = true;
 					}
 					else{
@@ -295,7 +295,7 @@ public class Building extends ActionObjet{
 		}
 		if(hs.containsKey("potentialTeam")){
 			this.potentialTeam = Integer.parseInt(hs.get("potentialTeam"));
-			this.hq = this.p.getTeamById(potentialTeam).hq;
+			this.hq = this.p.g.teams.get(potentialTeam).hq;
 		}
 		if(hs.containsKey("constructionPoints")){
 			this.sizeX = Float.parseFloat(hs.get("sizeX"));

@@ -63,7 +63,7 @@ public class InputHandler {
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
 		boolean toPlay;
-		for(int k=1; k<this.g.plateau.players.size(); k++){
+		for(int k=1; k<this.g.players.size(); k++){
 			toPlay = false;
 			for(InputObject io : toReturn){
 				if(io.player.id==k){

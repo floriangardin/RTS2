@@ -75,8 +75,8 @@ public class ActionInterface extends Bar {
 
 
 		// Draw Production/Effect Bar
-		if(this.p.currentPlayer.selection.size()>0 && this.p.currentPlayer.selection.get(0) instanceof BuildingProduction){
-			BuildingProduction b =(BuildingProduction) this.p.currentPlayer.selection.get(0);
+		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingProduction){
+			BuildingProduction b =(BuildingProduction) this.p.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<UnitsList> ul = b.productionList;
 			int limit = Math.min(4, ul.size());
@@ -96,8 +96,8 @@ public class ActionInterface extends Bar {
 				}
 			}
 		}
-		if(this.p.currentPlayer.selection.size()>0 && this.p.currentPlayer.selection.get(0) instanceof BuildingTech){
-			BuildingTech b =(BuildingTech) this.p.currentPlayer.selection.get(0);
+		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingTech){
+			BuildingTech b =(BuildingTech) this.p.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
 			int limit = Math.min(4, ul.size());
@@ -118,8 +118,8 @@ public class ActionInterface extends Bar {
 				}
 			}
 		}
-		if(this.p.currentPlayer.selection.size()>0 && this.p.currentPlayer.selection.get(0) instanceof Character){
-			Character b =(Character) this.p.currentPlayer.selection.get(0);
+		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof Character){
+			Character b =(Character) this.p.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Spell> ul = b.spells;
 			int limit = Math.min(4, ul.size());

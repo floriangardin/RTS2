@@ -70,7 +70,7 @@ public class MultiSender extends Thread{
 					//					if(depot.get(0).charAt(0)=='2' && game.host){
 					//						address = InetAddress.getByName(depot.get(0).substring(1));
 					//					}
-					message = (game.plateau.currentPlayer.id+depot.get(0)).getBytes();
+					message = (game.currentPlayer.id+depot.get(0)).getBytes();
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
 					client.send(packet);

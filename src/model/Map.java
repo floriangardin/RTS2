@@ -3,7 +3,10 @@ package model;
 import java.util.Vector;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
+import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
 import buildings.BuildingHeadQuarters;
@@ -12,9 +15,13 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
+import bullets.Bullet;
+import display.Message;
 import nature.Tree;
 import nature.Water;
 import pathfinding.MapGrid;
+import spells.SpellEffect;
+import units.Character;
 import units.UnitsList;
 
 public class Map {
@@ -44,7 +51,12 @@ public class Map {
 		updateMap(name, game);
 	}
 	public static void updateMap(int id, Game game){
-		createMap(Map.maps().get(id),game);
+		changeMap(Map.maps().get(id),game);
+	}
+	
+	public static void changeMap(String name, Game game){
+		game.plateau.initializePlateau(game);
+		updateMap(name, game);
 	}
 	
 	public static void updateMap(String name, Game game){
@@ -63,8 +75,8 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.teams.get(1).data;
-		Data data2 = game.plateau.teams.get(2).data;
+		Data data1 = game.teams.get(1).data;
+		Data data2 = game.teams.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,0,Y/2,1);
 		new BuildingHeadQuarters(game.plateau,game,X,Y/2,2);
@@ -97,8 +109,8 @@ public class Map {
 
 	public static void createMapDuelSmall(Game game){
 		game.plateau.setMaxXMaxY(3000f, 3000f);
-		Data data1 = game.plateau.teams.get(1).data;
-		Data data2 = game.plateau.teams.get(2).data;
+		Data data1 = game.teams.get(1).data;
+		Data data2 = game.teams.get(2).data;
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
 		int team1 = 1;
@@ -155,8 +167,8 @@ public class Map {
 	
 	public static void createMapDuelVerySmall(Game game){
 		game.plateau.setMaxXMaxY(1000f, 1300f);
-		Data data1 = game.plateau.teams.get(1).data;
-		Data data2 = game.plateau.teams.get(2).data;
+		Data data1 = game.teams.get(1).data;
+		Data data2 = game.teams.get(2).data;
 		
 		// Team 1 side
 		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,200f,1);
@@ -167,10 +179,10 @@ public class Map {
 //		}
 		
 		
-		game.plateau.getTeamById(1).gold = 10000;
-		game.plateau.getTeamById(1).food= 10000;
-		game.plateau.getTeamById(2).gold = 10000;
-		game.plateau.getTeamById(2).food = 10000;
+		game.teams.get(1).gold = 10000;
+		game.teams.get(1).food= 10000;
+		game.teams.get(2).gold = 10000;
+		game.teams.get(2).food = 10000;
 		
 		
 		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,1f*game.plateau.maxY/5).setTeam(1);
@@ -188,8 +200,8 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.teams.get(1).data;
-		Data data2 = game.plateau.teams.get(2).data;
+		Data data1 = game.teams.get(1).data;
+		Data data2 = game.teams.get(2).data;
 		//HQ
 		new BuildingHeadQuarters(game.plateau,game,3*X/18,Y/2,1);
 		new BuildingHeadQuarters(game.plateau,game,15*X/18,Y/2,2);
@@ -246,8 +258,8 @@ public class Map {
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
-		Data data1 = game.plateau.teams.get(1).data;
-		Data data2 = game.plateau.teams.get(2).data;
+		Data data1 = game.teams.get(1).data;
+		Data data2 = game.teams.get(2).data;
 
 		new BuildingHeadQuarters(game.plateau,game,-data1.headQuartersSizeX/2f-10f,Y/2,1);
 		new BuildingHeadQuarters(game.plateau,game,-data2.headQuartersSizeX/2f+10f,data2.headQuartersSizeY+Y/2,2);
@@ -269,7 +281,6 @@ public class Map {
 	public static void initializePlateau(Game game, float maxX, float maxY){
 		game.plateau = new Plateau(maxX,maxY,game);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
-		
 	}
 	
 }

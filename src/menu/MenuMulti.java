@@ -76,9 +76,9 @@ public class MenuMulti extends Menu {
 			try {
 				game.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
-			game.plateau.clearPlayer();
-			game.plateau.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
-			game.plateau.currentPlayer = game.plateau.players.get(1);
+			game.clearPlayer();
+			game.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
+			game.currentPlayer = game.players.get(1);
 			game.menuMapChoice.initializeMenuPlayer();
 			game.menuMapChoice.initializeNetwork();
 			game.setMenu(game.menuMapChoice);
@@ -89,21 +89,21 @@ public class MenuMulti extends Menu {
 				this.game.menuMapChoice.seconds = 6;
 				game.host = false;
 				game.inMultiplayer = true;
-				game.plateau.clearPlayer();
+				game.clearPlayer();
 				OpenGames opengame = openGames.get(gameSelected);
 				game.toSendConnexion.clear();
 				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexion, game);
 				this.game.connexionSender.start();
 				this.game.addressHost = opengame.hostAddress;
 				for(int j=1; j<opengame.nPlayers; j++){
-					game.plateau.addPlayer("unknown",null,1,1);
+					game.addPlayer("unknown",null,1,1);
 				}
 				this.game.getPlayerById(1).address=opengame.hostAddress;
-				game.plateau.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
-				game.plateau.currentPlayer = game.plateau.players.lastElement();
-				game.plateau.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
+				game.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
+				game.currentPlayer = game.players.lastElement();
+				game.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
 				try {
-					this.game.plateau.currentPlayer.address = InetAddress.getLocalHost();
+					this.game.currentPlayer.address = InetAddress.getLocalHost();
 				} catch (UnknownHostException e) {}
 				game.menuMapChoice.initializeMenuPlayer();
 				this.openGames.clear();

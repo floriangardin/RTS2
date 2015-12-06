@@ -299,26 +299,26 @@ public class Utils {
 		System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Players");
-		if(p.players==null)
+		if(p.g.players==null)
 			System.out.println("-> bug: players est null");
 		else{
-			for(Player c:p.players)
+			for(Player c:p.g.players)
 				System.out.println(c.toString());
 		}
-		System.out.println("currentplayer: " + p.currentPlayer);
+		System.out.println("currentplayer: " + p.g.currentPlayer);
 		System.out.println();System.out.println("========================================");
-		//		System.out.println();
-		//		System.out.println("** Characters");
-		//		if(p.characters==null)
-		//			System.out.println("-> bug: characters est null");
-		//		else{
-		//			for(Character c:p.characters)
-		//				if(c.target!=null)
-		//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
-		//				else
-		//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
-		//		}
-		//		System.out.println();
+		System.out.println();
+		System.out.println("** Characters");
+		if(p.characters==null)
+			System.out.println("-> bug: characters est null");
+		else{
+			for(Character c:p.characters)
+				if(c.target!=null)
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
+				else
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+		}
+		System.out.println();
 		//		System.out.println("========================================");
 		//		System.out.println();
 		//		System.out.println("** Bullets");

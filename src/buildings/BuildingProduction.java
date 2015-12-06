@@ -26,7 +26,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
 				return true;
 			}else {
-				if(this.p.players.get(this.getTeam()) instanceof IAPlayer){
+				if(this.p.g.players.get(this.getTeam()) instanceof IAPlayer){
 					return false;
 				}
 				if(this.productionList.get(unit).foodPrice>this.getGameTeam().food)

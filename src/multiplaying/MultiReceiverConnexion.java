@@ -18,6 +18,7 @@ public class MultiReceiverConnexion extends MultiReceiver{
 		}
 		//HashMap<String, String> map = Objet.preParse(msg.substring(1));
 		this.g.receivedConnexion.add(msg);
+		System.out.println("vaneau " + msg);
 	}
 
 }

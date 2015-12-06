@@ -57,28 +57,28 @@ public class TopBar extends Bar {
 		// Draw subcomponents :
 
 		String food = ":";
-		if(this.p.currentPlayer.getGameTeam().food<10)
+		if(this.p.g.currentPlayer.getGameTeam().food<10)
 			food+="0";
-		if(this.p.currentPlayer.getGameTeam().food<100)
+		if(this.p.g.currentPlayer.getGameTeam().food<100)
 			food+="0";
-		if(this.p.currentPlayer.getGameTeam().food<1000)
+		if(this.p.g.currentPlayer.getGameTeam().food<1000)
 			food+="0";
 		String gold = ":";
-		if(this.p.currentPlayer.getGameTeam().gold<10)
+		if(this.p.g.currentPlayer.getGameTeam().gold<10)
 			gold+="0";
-		if(this.p.currentPlayer.getGameTeam().gold<100)
+		if(this.p.g.currentPlayer.getGameTeam().gold<100)
 			gold+="0";
-		if(this.p.currentPlayer.getGameTeam().gold<1000)
+		if(this.p.g.currentPlayer.getGameTeam().gold<1000)
 			gold+="0";
 		String special = ":";
-		if(this.p.currentPlayer.getGameTeam().special<10)
+		if(this.p.g.currentPlayer.getGameTeam().special<10)
 			special+="0";
-		if(this.p.currentPlayer.getGameTeam().special<100)
+		if(this.p.g.currentPlayer.getGameTeam().special<100)
 			special+="0";
-		if(this.p.currentPlayer.getGameTeam().special<1000)
+		if(this.p.g.currentPlayer.getGameTeam().special<1000)
 			special+="0";
 		String pop = ":";
-		if(this.p.currentPlayer.getGameTeam().pop<10)
+		if(this.p.g.currentPlayer.getGameTeam().pop<10)
 			pop+="0";
 		float sizefood = this.p.g.font.getWidth(food);
 		float sizegold = this.p.g.font.getWidth(gold);
@@ -89,16 +89,16 @@ public class TopBar extends Bar {
 		// Draw Ressources
 		g.drawImage(this.imageFood, 11.2f*this.sizeX/16,(this.sizeY-24)/2);
 		g.drawString(":", 11.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.currentPlayer.getGameTeam().food, 11.5f*this.sizeX/16+sizefood,(this.sizeY-28)/2);
+		g.drawString(""+this.p.g.currentPlayer.getGameTeam().food, 11.5f*this.sizeX/16+sizefood,(this.sizeY-28)/2);
 		g.drawImage(this.imageGold, 12.2f*this.sizeX/16,(this.sizeY-24)/2);
 		g.drawString(":", 12.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.currentPlayer.getGameTeam().gold, 12.5f*this.sizeX/16+sizegold,(this.sizeY-28)/2);
+		g.drawString(""+this.p.g.currentPlayer.getGameTeam().gold, 12.5f*this.sizeX/16+sizegold,(this.sizeY-28)/2);
 		g.drawImage(this.imageSpecial, 13.2f*this.sizeX/16,(this.sizeY-32)/2);
 		g.drawString(":", 13.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.currentPlayer.getGameTeam().special, 13.5f*this.sizeX/16+sizespecial,(this.sizeY-28)/2);
+		g.drawString(""+this.p.g.currentPlayer.getGameTeam().special, 13.5f*this.sizeX/16+sizespecial,(this.sizeY-28)/2);
 		g.drawImage(this.imagePop, 14.2f*this.sizeX/16,(this.sizeY-32)/2);
 		g.drawString(":", 14.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.currentPlayer.getGameTeam().pop+"/"+this.p.currentPlayer.getGameTeam().maxPop, 14.5f*this.sizeX/16+sizepop,(this.sizeY-28)/2);
+		g.drawString(""+this.p.g.currentPlayer.getGameTeam().pop+"/"+this.p.g.currentPlayer.getGameTeam().maxPop, 14.5f*this.sizeX/16+sizepop,(this.sizeY-28)/2);
 		// Draw separation 
 
 		return g;

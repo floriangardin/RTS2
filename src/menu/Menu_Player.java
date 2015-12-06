@@ -59,14 +59,14 @@ public class Menu_Player extends Menu_Item{
 	}
 
 	public void update(InputObject im){
-		if(game.plateau.currentPlayer.id==p.id){
+		if(game.currentPlayer.id==p.id){
 			float xMouse = im.xMouse;
 			float yMouse = im.yMouse;
 			//Testing the click
 			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 				isOverColor = true;
 				if(im.pressedLeftClick){
-					this.p.setTeam(this.p.getTeam()%(this.game.plateau.nTeams)+1);
+					this.p.setTeam(this.p.getTeam()%(this.game.nTeams)+1);
 				}			
 			} else {
 				isOverColor = false;
@@ -84,7 +84,7 @@ public class Menu_Player extends Menu_Item{
 		float yMouse = i.getAbsoluteMouseY();
 		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 			int newTeam = p.getTeam() + 1;
-			if(newTeam>=this.game.plateau.teams.size())
+			if(newTeam>=this.game.teams.size())
 				newTeam = 1;
 			p.setTeam(newTeam);
 		} 
