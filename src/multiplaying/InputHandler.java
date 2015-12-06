@@ -72,6 +72,7 @@ public class InputHandler {
 			}
 			if(!toPlay){
 				this.mutex.unlock();
+				System.out.println("Round drop "+this.g.round);
 				return new Vector<InputObject>();				
 			}
 		}
