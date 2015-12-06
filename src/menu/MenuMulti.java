@@ -80,7 +80,7 @@ public class MenuMulti extends Menu {
 			game.plateau.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
 			game.plateau.currentPlayer = game.plateau.players.get(1);
 			game.menuMapChoice.initializeMenuPlayer();
-			game.menuMapChoice.initializeNetwork();
+			//game.menuMapChoice.initializeNetwork();
 			game.setMenu(game.menuMapChoice);
 			break;
 		case 1:
