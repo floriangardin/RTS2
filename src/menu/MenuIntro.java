@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 
 import model.Game;
 import model.Plateau;
+import multiplaying.MultiReceiverConnexion;
 
 public class MenuIntro extends Menu {
 
@@ -46,6 +47,8 @@ public class MenuIntro extends Menu {
 			this.game.setMenu(this.game.menuMapChoice);
 			break;
 		case 1:
+			this.game.connexionReceiver = new MultiReceiverConnexion(this.game);
+			this.game.connexionReceiver.start();
 			this.game.setMenu(this.game.menuMulti);
 			break;
 		case 2:

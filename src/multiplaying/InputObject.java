@@ -194,7 +194,7 @@ public class InputObject extends MultiObjetModel{
 
 	public String toString(){
 		//Add header with type message, round , player;
-		String s = "3I";
+		String s = "";
 		s+="idP:" +player.id+ ",rnd:"+round+",xM:"+xMouse+",yM:"+yMouse;
 		s+=",id:"+this.id;
 		if(rightClick)
@@ -259,7 +259,7 @@ public class InputObject extends MultiObjetModel{
 
 	public String getMessageValidationToSend() {
 		
-		return "3V|"+this.id+"|"+this.player.id+"|";
+		return ""+this.id+"|"+this.player.id+"|";
 	}
 
 	public boolean isValidated() {

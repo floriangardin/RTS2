@@ -2,18 +2,8 @@ package model;
 import java.net.InetAddress;
 import java.util.Timer;
 import java.util.Vector;
-
-import main.Main;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.Clock;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -28,26 +18,42 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
-import spells.SpellEffect;
-import units.Character;
 import buildings.Building;
 import bullets.Bullet;
 import display.Message;
-
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.Lock;
+import main.Main;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuOptions;
+import multiplaying.Clock;
+import multiplaying.InputHandler;
+import multiplaying.InputObject;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiReceiverChat;
+import multiplaying.MultiReceiverChecksum;
+import multiplaying.MultiReceiverChecksum.Checksum;
+import multiplaying.MultiReceiverConnexion;
+import multiplaying.MultiReceiverInput;
+import multiplaying.MultiReceiverPing;
+import multiplaying.MultiReceiverResynchro;
+import multiplaying.MultiReceiverValidation;
+import multiplaying.MultiSender;
+import spells.SpellEffect;
+import units.Character;
 public class Game extends BasicGame 
 {	
 	// DEBUG
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
-	public static boolean debugReceiver = false;
+	public static boolean debugReceiver = true;
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 
-	//MUtex
-	public Lock mutexChecksum = new ReentrantLock();
+	public static boolean showUpdateLogicInterval = true;
+
 
 	// debugging tools
 	long timeSteps = 0;
@@ -61,25 +67,18 @@ public class Game extends BasicGame
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 
-	public int deltaTime;
 
 	//Increment de game
 
 	public static float ratio = 60f/((float)Main.framerate);
 
-	//Handle inputs from you and other players
-	public InputHandler inputsHandler;
-
-	//ID host
-	public static int ID_HOST = 1;
-	//Period of parse in frame
-	public static int Tparsing = 27;
 
 	public int idChar = 0;
 	public int idBullet = 0;
 
 	// Font 
 	public UnicodeFont font;
+
 	// Music and sounds
 	public Options options;
 	public Sounds sounds;
@@ -107,39 +106,74 @@ public class Game extends BasicGame
 	public AppGameContainer app;
 
 
-	// Network and multiplaying
+	/////////////////////////////
+	/// NETWORK & MULTIPLAYING///
+	/////////////////////////////
+
 	//Clock
 	public Clock clock;
 	public boolean inMultiplayer;
 	public boolean host = false;
 	public long startTime;
-	public int portConnexion = 6113;
-	public int portInput = 8888;
-	public int portOutput = 8889;
-	public int portChat = 2347;
 	// Host and client
 	public InetAddress addressHost;
-	//public Vector<InputObject> inputs = new Vector<InputObject>();
-	public Vector<Vector<String>> toSendInputs = new Vector<Vector<String>>();
-	public Vector<String> toSendConnexions = new Vector<String>();
-	public Vector<String> connexions = new Vector<String>();
-	public int timeValue;
-	// Sender and Receiver
-	public MultiReceiver inputReceiver;
-	public Vector<MultiSender> inputSender = new Vector<MultiSender>();
-	public MultiReceiver connexionReceiver;
+
+	// ports
+	public int portConnexion = 8887;
+	public int portValidation = 8888;
+	public int portInput = 8889;
+	public int portPing = 8890;
+	public int portResynchro = 8891;
+	public int portChecksum = 8892;
+	public int portChat = 8893;
+	// depots for senders
+	public Vector<String> toSendInput = new Vector<String>();
+	public Vector<String> toSendConnexion = new Vector<String>();
+	public Vector<String> toSendValidation = new Vector<String>();
+	public Vector<String> toSendPing = new Vector<String>();
+	public Vector<String> toSendResynchro = new Vector<String>();
+	public Vector<String> toSendChecksum = new Vector<String>();
+	public Vector<String> toSendChat = new Vector<String>();
+	// depots for receivers
+	public Vector<String> receivedConnexion = new Vector<String>();
+	public Vector<String> receivedValidation = new Vector<String>();
+	public Vector<String> receivedInputs = new Vector<String>();
+	public Vector<String> receivedPing = new Vector<String>();
+	public Vector<String> receivedResynchro = new Vector<String>();
+	public Vector<Checksum> receivedChecksum = new Vector<Checksum>();
+	public Vector<String> receivedChat = new Vector<String>();
+	// Senders
 	public MultiSender connexionSender;
-	//Debugging network
-	public int toAdd = 0;
-	public int toRemove = 0;
-	public Vector<Integer> vroundDropped=new Vector<Integer>();
-	public Vector<Integer> vroundMissing = new Vector<Integer>();
-	// To parse
+	public MultiSender validationSender;
+	public MultiSender inputSender;
+	public MultiSender pingSender;
+	public MultiSender resynchroSender;
+	public MultiSender checksumSender;
+	public MultiSender chatSender;
+	// Receivers
+	public MultiReceiverConnexion connexionReceiver;
+	public MultiReceiverValidation validationReceiver;
+	public MultiReceiverInput inputReceiver;
+	public MultiReceiverPing pingReceiver;
+	public MultiReceiverResynchro resynchroReceiver;
+	public MultiReceiverChecksum checksumReceiver;
+	public MultiReceiverChat chatReceiver;
+
+
+	// Handling multiplaying
+	public InputHandler inputsHandler;
 	public String toParse= null;
-	//Debug paquets dropped
-	public int roundDropped=0;
-	public int roundDroppedValidate = 0;
-	public int roundDroppedMissing = 0;
+	public boolean processSynchro;
+	public Vector<Checksum> checksum = new Vector<Checksum>();
+	private boolean sendParse;
+	// Mutex
+	public Lock mutexChecksum = new ReentrantLock();
+	// antidrop
+	public boolean antidropProcess = false;
+	public float nDrop = 0f;
+	public float nRound = 0f;
+	public int multi = 1;
+	public int roundToTest = 0;
 
 
 	// Menus
@@ -153,25 +187,12 @@ public class Game extends BasicGame
 	public int idInput;
 	public float ratioResolution;
 
-	public Vector<String> checksum = new Vector<String>();
-	public Vector<String> clockSynchro= new Vector<String>();
-	public boolean processSynchro=false;
-	public boolean sendParse = false;
-
-	public Vector<Integer> dropped = new Vector<Integer>();
-	public boolean updateDropped= false;
-	public boolean clockResynchro = false;
-	public boolean restartProcess = false;
-
-
-	public long delta;
-	public long ping;
 
 	//VAut + ou - 1 (pour resynchro Ã  la main)
 	public int sleep;
-	public int sleepTime;
 	public int roundDelay;
 
+	// victory
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 200;
@@ -179,13 +200,6 @@ public class Game extends BasicGame
 
 	boolean hasAlreadyPlay = false;
 
-	//RESYNCHRO ROUND
-	public boolean resynchroRound = false;
-	public float nDrop = 0f;
-	public float nRound = 0f;
-	public int multi = 1;
-	public int roundToTest = 0;
-	public boolean antiDrop = false;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -212,11 +226,7 @@ public class Game extends BasicGame
 			}
 			g.translate(-plateau.Xcam,- plateau.Ycam);
 			this.menuCurrent.draw(g);
-			return;
-		} 
-
-
-		if(endGame){
+		} else if(endGame){
 
 			g.setColor(Color.black);
 			g.fillRect(0, 0, this.resX, this.resY);
@@ -228,134 +238,124 @@ public class Game extends BasicGame
 			else{
 				g.drawString("T'as perdu Roger ...", this.resX/3f, this.resY/3f);
 			}
-
-			return;
-
-		}
+		} else {
 
 
-		// g reprï¿½sente le pinceau
-		//g.setColor(Color.black);
-		g.translate(-plateau.Xcam,- plateau.Ycam);
-		//Draw background
-		g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
-				2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
+			// g reprï¿½sente le pinceau
+			//g.setColor(Color.black);
+			g.translate(-plateau.Xcam,- plateau.Ycam);
+			//Draw background
+			g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
+					2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
 
 
-		g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
-				0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
+			g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
+					0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
 
-		//		int i = 0;
-		//		int j = 0;
-		//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
-		//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
-		//				g.drawImage(this.images.grassTexture, i,j);
-		//				j+=this.images.grassTexture.getHeight();
-		//			}
-		//			i+=this.images.grassTexture.getWidth();
-		//			j= 0;
-		//		}
+			//		int i = 0;
+			//		int j = 0;
+			//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
+			//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
+			//				g.drawImage(this.images.grassTexture, i,j);
+			//				j+=this.images.grassTexture.getHeight();
+			//			}
+			//			i+=this.images.grassTexture.getWidth();
+			//			j= 0;
+			//		}
 
-		//		g.setColor(Color.black);
-		//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
-		//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
+			//		g.setColor(Color.black);
+			//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
+			//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
 
-		//		g.drawImage(this.images.background,this.plateau.maxX, 0);
-		//		g.drawImage(this.images.background,0, this.plateau.maxY);
+			//		g.drawImage(this.images.background,this.plateau.maxX, 0);
+			//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
-		// Draw the selection of your team 
-		for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
-			o.drawIsSelected(g);
-		}
-		//Creation of the drawing Vector
-		Vector<Objet> toDraw = new Vector<Objet>();
-		Vector<Objet> toDrawAfter = new Vector<Objet>();
-		// Draw the Action Objets
-		for(Character o : plateau.characters){
-			//o.draw(g);
-			if(o.visibleByCurrentPlayer)
-				toDrawAfter.add(o);
+			// Draw the selection of your team 
+			for(ActionObjet o: plateau.selection.get(plateau.currentPlayer.id)){
+				o.drawIsSelected(g);
+			}
+			//Creation of the drawing Vector
+			Vector<Objet> toDraw = new Vector<Objet>();
+			Vector<Objet> toDrawAfter = new Vector<Objet>();
+			// Draw the Action Objets
+			for(Character o : plateau.characters){
+				//o.draw(g);
+				if(o.visibleByCurrentPlayer)
+					toDrawAfter.add(o);
 
-		}
+			}
 
-		//Draw bonuses
-		for(Bonus o : plateau.bonus){
-			//o.draw(g);
-			o.draw(g);
-		}
-		// Draw the natural Objets
+			//Draw bonuses
+			for(Bonus o : plateau.bonus){
+				//o.draw(g);
+				o.draw(g);
+			}
+			// Draw the natural Objets
 
-		for(NaturalObjet o : this.plateau.naturalObjets){
-			if(o.visibleByCurrentPlayer)
-				toDrawAfter.add(o);
-			else
-				toDraw.add(o);
-		}
-		// Draw the buildings
-		for(Building e : this.plateau.buildings){
-			if(e.visibleByCurrentPlayer)
-				toDrawAfter.add(e);
-			else
-				toDraw.add(e);
-		}
-		for(SpellEffect e : this.plateau.spells){
-			if(e.visibleByCurrentPlayer)
-				toDrawAfter.add(e);
-			else
-				toDraw.add(e);
-		}
-		for(Bullet b : this.plateau.bullets){
-			if(b.visibleByCurrentPlayer)
-				toDrawAfter.add(b);
-			else
-				toDraw.add(b);
-		}
-		Utils.triY(toDraw);
-		Utils.triY(toDrawAfter);
-		// determine visible objets
-		for(Objet o: toDraw)
-			o.draw(g);
-		// draw fog of war
-		plateau.drawFogOfWar(g);
-		for(Objet o: toDrawAfter)
-			o.draw(g);
-		// Draw the selection :
-		for(int player=1; player<3; player++){
-			if(this.plateau.rectangleSelection.get(player) !=null){
-				if(player==plateau.currentPlayer.id){
-					g.setColor(Color.green);
-					g.draw(this.plateau.rectangleSelection.get(player));
+			for(NaturalObjet o : this.plateau.naturalObjets){
+				if(o.visibleByCurrentPlayer)
+					toDrawAfter.add(o);
+				else
+					toDraw.add(o);
+			}
+			// Draw the buildings
+			for(Building e : this.plateau.buildings){
+				if(e.visibleByCurrentPlayer)
+					toDrawAfter.add(e);
+				else
+					toDraw.add(e);
+			}
+			for(SpellEffect e : this.plateau.spells){
+				if(e.visibleByCurrentPlayer)
+					toDrawAfter.add(e);
+				else
+					toDraw.add(e);
+			}
+			for(Bullet b : this.plateau.bullets){
+				if(b.visibleByCurrentPlayer)
+					toDrawAfter.add(b);
+				else
+					toDraw.add(b);
+			}
+			Utils.triY(toDraw);
+			Utils.triY(toDrawAfter);
+			// determine visible objets
+			for(Objet o: toDraw)
+				o.draw(g);
+			// draw fog of war
+			plateau.drawFogOfWar(g);
+			for(Objet o: toDrawAfter)
+				o.draw(g);
+			// Draw the selection :
+			for(int player=1; player<3; player++){
+				if(this.plateau.rectangleSelection.get(player) !=null){
+					if(player==plateau.currentPlayer.id){
+						g.setColor(Color.green);
+						g.draw(this.plateau.rectangleSelection.get(player));
+					}
+				}
+			}
+			// Draw bottom bar
+			g.translate(plateau.Xcam, plateau.Ycam);
+			if(this.plateau.currentPlayer.bottomBar!=null)
+				this.plateau.currentPlayer.bottomBar.draw(g);
+			if(this.plateau.currentPlayer.bottomBar.topBar!=null)
+				this.plateau.currentPlayer.bottomBar.topBar.draw(g);
+			// Draw messages
+			Message m;
+			if(this.plateau.messages.size()>2){
+				for(int k=0; k<this.plateau.messages.get(plateau.currentPlayer.id).size();k++){
+					m = this.plateau.messages.get(plateau.currentPlayer.id).get(k);
+					g.setColor(m.color);
+					Font f = g.getFont();
+					float height = f.getHeight(m.message);
+					g.drawString(m.message, 20f, this.plateau.currentPlayer.bottomBar.topBar.sizeY+20f+2f*height*k);
 				}
 			}
 		}
-		// Draw bottom bar
-		g.translate(plateau.Xcam, plateau.Ycam);
-		if(this.plateau.currentPlayer.bottomBar!=null)
-			this.plateau.currentPlayer.bottomBar.draw(g);
-		if(this.plateau.currentPlayer.bottomBar.topBar!=null)
-			this.plateau.currentPlayer.bottomBar.topBar.draw(g);
-		// Draw messages
-		Message m;
-		if(this.plateau.messages.size()>2){
-			for(int k=0; k<this.plateau.messages.get(plateau.currentPlayer.id).size();k++){
-				m = this.plateau.messages.get(plateau.currentPlayer.id).get(k);
-				g.setColor(m.color);
-				Font f = g.getFont();
-				float height = f.getHeight(m.message);
-				g.drawString(m.message, 20f, this.plateau.currentPlayer.bottomBar.topBar.sizeY+20f+2f*height*k);
-			}
-		}
-
-		//DEBUG
-
-		g.drawString(Integer.toString(deltaTime), 60f,10f);
 		if(processSynchro){
 			g.setColor(Color.green);
 			g.fillRect(10f,10f,10f,10f);
-		}
-		if(restartProcess){
-			g.setColor(Color.red);
-			g.fillRect(20f,10f,10f,10f);
 		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
@@ -376,190 +376,78 @@ public class Game extends BasicGame
 		//		
 		//		g.drawString(sb.toString(), 20f, 40f);
 
-		g.drawString(Float.toString((float )(this.ping/1000000)), 20f, 60f);
-		g.drawString(Integer.toString(this.sleep), 80f, 60f);
-		g.drawString(Integer.toString(this.roundDelay), 120f, 60f);
-
 	}
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
-		this.deltaTime = t;
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
-			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput(),!antiDrop);
+			InputObject im = new InputObject(this,plateau.currentPlayer,gc.getInput(),!antidropProcess && !processSynchro);
 			this.menuCurrent.update(im);
-		} 
-		else if(!endGame) {
+		} else if(!endGame) {
 			//Update of current round
 			this.clock.setRoundFromTime();
-			if(t!=16){
-				System.out.println("Round a trop dure :"+t);
-			}
-
+			// getting inputs
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,plateau.currentPlayer,in,!antiDrop);
+			InputObject im = new InputObject(this,plateau.currentPlayer,in,!antidropProcess);
 			//Handle manual resynchro
-			if(in.isKeyPressed(Input.KEY_O)){
-				this.sleepTime+=1;
-				this.sleep++;
-			}
-			if(in.isKeyPressed(Input.KEY_L)){
-				this.sleepTime-=1;
-				this.sleep--;
-			}
-			if(in.isKeyPressed(Input.KEY_P)){
-				this.round+=1;
-				this.roundDelay++;
-			}
-			if(in.isKeyPressed(Input.KEY_M)){
-				this.round-=1;
-				this.roundDelay--;
-			}
+			this.manuelAntidrop(in);
 
 			if(inMultiplayer){
 
-				//CHECKSUM
-				if(this.round>=30 && this.round%20==0){
+				////////////////////
+				/// MULTIPLAYING ///
+				////////////////////
 
-					//Compute checksum
-					String checksum = "3C|"+this.round+"|0";
-					int i = 0;
-					//Checksum to send of plateau to test synchro
-					while(i<this.plateau.characters.size()){
-						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).x))%10);
-						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).y))%10);
-						checksum+=Integer.toString(((int)(this.plateau.characters.get(i).lifePoints))%10);
-						checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).state))%10);
-						checksum+=Integer.toString(this.plateau.characters.get(i).id%10)+"-";
-						i++;
-					}
-					checksum+="|";
+				// Checksum
+				this.handleChecksum();
 
-					if(!this.host){
-						this.sendInputToAllPlayer(checksum);
-						//Je l'envoie seulement si je suis client
-					}
-					//Je l'ajoute dans mes checksum si je suis host
-					else{
-						this.mutexChecksum.lock();
-						this.checksum.addElement(checksum);
-						this.mutexChecksum.unlock();
-					}
+				// Ping
+				this.handlePing();
 
-					//J'enleve le premier ï¿½lement si problï¿½me tous les 5 checksum reï¿½u
-					if(this.checksum.size()>5){
-						this.mutexChecksum.lock();
-						this.checksum.remove(0);
-						this.mutexChecksum.unlock();
-					}
-				}
+				// Send Resynchro
+				this.handleSendingResynchroParse();
 
-				//PING REQUEST
-				if(round%40 == 0){
-					this.sendInputToAllPlayer("3M|"+this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
-				}
-
-				//Update framerate
-				gc.setMinimumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
-				gc.setMaximumLogicUpdateInterval((1000/Main.framerate) +sleepTime);
-				sleepTime = 0;
-
-				//RESYNCH
-				if(this.host && this.processSynchro && this.sendParse){
-					this.toParse = this.plateau.toStringArray();
-					System.out.println("Sent synchro message");
-					System.out.println(toParse);
-					this.sendParse = false;
-					this.sendInputToAllPlayer(this.toParse);
-				}
-
-
-				//RESYNCHRO ROUND
-				if(host && (this.round%30)==0){
-					this.resynchroRound=true;
-				}
-
-				if(nRound>10){
-					resynchroRound = false;
-					float ratio = nDrop/nRound;
-					nRound = 0f;
-					nDrop = 0f;
-					if(ratio>0.1){
-						antiDrop = true;
-						System.out.println("Resynchro round");
-						if(multi==-1){
-							multi=1;
-							roundToTest++;
-						}
-						else if(multi==1){
-							roundToTest++;
-							multi=-1;
-						}
-						this.round+=multi*roundToTest;
-						this.roundDelay+=multi*roundToTest;
-						if(roundToTest>=40){
-							this.round-=this.roundDelay;
-							roundToTest = 0;
-							multi = 1;
-							this.roundDelay=0;
-						}
-					}
-					else{
-						antiDrop = false;
-					}
-				}
+				// Antidrop
+				this.handleAntidrop();
 
 				if(processSynchro && this.toParse!=null){
-					//Si round+2
-					String[] u = this.toParse.split("!");
-					//Je resynchronise au tour n+2
-					if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
-						System.out.println("Play resynchronisation round at round " + this.round);
-						this.plateau.parse(this.toParse);
-						this.toParse = null;
-						this.processSynchro = false;
-						System.out.println("Resynchronisation ....");
-
-					}
-				}else{//UPDATE IF NOT RESYNCH
+					// Resynchro
+					this.handleResynchro();
+				}else{
+					//UPDATE NORMAL
 					// On envoie l'input du tour courant
 					this.sendInputToAllPlayer(im.toString());
 					this.inputsHandler.addToInputs(im);
 					this.plateau.handleView(im, this.plateau.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					if(resynchroRound){
-						if(ims.size()==0 && !processSynchro){
-							nDrop++;
-						}
-						nRound++;
+					if(ims.size()==0 && !processSynchro){
+						nDrop++;
 					}
-					boolean stopCauseAntiDrop = false;
-
+					boolean toPlay = true;
 					for(InputObject o : ims){
 						if(!o.toPlay){
 							System.out.println("Anti drop : "+round);
-							stopCauseAntiDrop = true;
+							toPlay = false;
 						}
 					}
-					if(!stopCauseAntiDrop){
-						if(ims.size()==0){
-							System.out.println("Round drop : "+round);
-						}
-						else{
-							this.plateau.update(ims);
-							this.plateau.updatePlateauState();
-						}
+					if(toPlay){
+						this.plateau.update(ims);
+						this.plateau.updatePlateauState();
 					}
 				}
 
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 
-
 			} else {
+
+				/////////////////////
+				/// SINGLE PLAYER ///
+				/////////////////////
+
 				ims.add(im);
 				this.plateau.handleView(im, this.plateau.currentPlayer.id);
 				// solo mode, update du joueur courant
@@ -573,9 +461,7 @@ public class Game extends BasicGame
 				if(debugTimeSteps)
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
-		}
-
-		else if(endGame){
+		} else if(endGame){
 			if(this.musics.imperial.playing()){
 				this.musics.imperial.stop();
 			}
@@ -600,6 +486,11 @@ public class Game extends BasicGame
 				this.isInMenu = true;
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
+				if(inMultiplayer){
+					this.menuMapChoice.shutdownNetwork();
+					this.connexionReceiver.shutdown();
+					this.connexionSender.shutdown();
+				}
 				this.setMenu(this.menuIntro);
 
 			}
@@ -614,6 +505,11 @@ public class Game extends BasicGame
 		}
 
 	}
+
+
+
+
+
 
 	public void launchGame(){
 
@@ -669,22 +565,8 @@ public class Game extends BasicGame
 	}
 
 
-	public void sendInputToPlayer(Player player, String s){
-		this.toSendInputs.get(player.id).add(s);
-	}
 	public void sendInputToAllPlayer(String s){
-		for(int i=0; i<this.toSendInputs.size();i++)
-			if(i!=0 && i!=plateau.currentPlayer.id){
-				toSendInputs.get(i).add(s);
-			}
-		if(Game.debugValidation){
-			if(s.charAt(1)=='I')
-				System.out.println("Game line 351 : Sending inputs to all players for round "+this.round);
-			else if(s.charAt(1)=='V')
-				System.out.println("Game line 351 : Sending a validation to all players");
-			else if(s.charAt(1)=='P')
-				System.out.println("Game line 351 : Sending a plateau parse to all players");
-		}
+		this.toSendInput.add(s);
 	}
 
 	public Game (float resX,float resY){
@@ -692,9 +574,130 @@ public class Game extends BasicGame
 		this.resX = resX;
 		this.resY = resY;
 		this.ratioResolution = this.resX/2800f;
-		connexionReceiver = new MultiReceiver(this,portConnexion);
-		connexionSender = new MultiSender(null, portConnexion, this.toSendConnexions,this);
-
 	}
+
+
+	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
+	// DANGER
+
+	private void manuelAntidrop(Input in) {
+		if(in.isKeyPressed(Input.KEY_P)){
+			this.round+=1;
+			this.roundDelay++;
+		}
+		if(in.isKeyPressed(Input.KEY_M)){
+			this.round-=1;
+			this.roundDelay--;
+		}
+	}
+	private void handleChecksum() {
+		// If host and client send checksum
+		if(!processSynchro && this.round>=30 && this.round%20==0){
+			//Compute checksum
+			String checksum = this.round+"|0";
+			int i = 0;
+			while(i<this.plateau.characters.size()){
+				checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).x))%10);
+				checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).y))%10);
+				checksum+=Integer.toString(((int)(this.plateau.characters.get(i).lifePoints))%10);
+				checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).state))%10);
+				checksum+=Integer.toString(this.plateau.characters.get(i).id%10)+"-";
+				i++;
+			}
+			checksum+="|";
+			if(!this.host){
+				// si client on envoie checksum
+				this.toSendChecksum.add(checksum);
+			} else {
+				// on l'ajoute dans mes checksum si je suis host
+				this.checksum.addElement(new Checksum(checksum));
+			}
+		}
+		// handling checksum comparison
+		if(this.host && !this.processSynchro){
+			boolean [] tab;
+			this.mutexChecksum.lock();
+			Vector<Checksum> toRemove = new Vector<Checksum>();
+			for(Checksum c: this.receivedChecksum){
+				for(Checksum c1 : this.checksum){
+					tab = c.comparison(c1);
+					if(tab[0]){
+						toRemove.add(c);
+						if(tab[1]){
+							this.processSynchro = true;
+							this.sendParse = true;					
+						}
+					}
+				}
+			}
+			this.receivedChecksum.removeAll(toRemove);
+			if(this.checksum.size()>2)
+				this.checksum.remove(0);
+			if(this.receivedChecksum.size()>2){
+				this.receivedChecksum.remove(0);
+			}
+			this.mutexChecksum.unlock();
+		}
+	}
+	private void handlePing() {
+		if(!host && round%40 == 0){
+			this.toSendPing.add(this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
+		}
+	}
+	private void handleSendingResynchroParse() {
+		if(this.host && this.processSynchro && this.sendParse){
+			this.toParse = this.plateau.toStringArray();
+			System.out.println("Game line 698: Sent synchro message");
+			this.sendParse = false;
+			this.sendInputToAllPlayer(this.toParse);
+		}
+	}
+	private void handleAntidrop() {
+		if(host && (this.round%7)==0){
+			nDrop = 0f;
+			if(nDrop>=2){
+				if(antidropProcess==false){
+					this.antidropProcess=true;					
+				}
+				// on tente une nouvelle valeur pour le décalage
+				if(multi==-1){
+					multi=1;
+					roundToTest++;
+				}
+				else if(multi==1){
+					roundToTest++;
+					multi=-1;
+				}
+				this.round+=multi*roundToTest;
+				this.roundDelay+=multi*roundToTest;
+				if(roundToTest>=8){
+					// si on a été trop loin on revient à zéro
+					this.round-=this.roundDelay;
+					roundToTest = 0;
+					multi = 1;
+					this.roundDelay=0;
+				}
+			} else {
+				antidropProcess = false;
+			}
+		}
+	}
+	private void handleResynchro() {
+		//Si round+2
+		String[] u = this.toParse.split("!");
+		//Je resynchronise au tour n+2
+		if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+			System.out.println("Play resynchronisation round at round " + this.round);
+			this.plateau.parse(this.toParse);
+			this.toParse = null;
+			this.processSynchro = false;
+			System.out.println("Resynchronisation ....");
+		}
+	}
+	public void pingRequest() {
+		this.toSendPing.addElement(this.clock.getCurrentTime()+"|"+this.plateau.currentPlayer.id+"|");
+	}
+
+
 
 }

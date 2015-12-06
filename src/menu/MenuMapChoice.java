@@ -1,6 +1,7 @@
 package menu;
 
 
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -8,9 +9,6 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 
 import main.Main;
 import model.Game;
@@ -18,7 +16,12 @@ import model.Map;
 import model.Objet;
 import model.Player;
 import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
+import multiplaying.MultiReceiverChat;
+import multiplaying.MultiReceiverChecksum;
+import multiplaying.MultiReceiverInput;
+import multiplaying.MultiReceiverPing;
+import multiplaying.MultiReceiverResynchro;
+import multiplaying.MultiReceiverValidation;
 import multiplaying.MultiSender;
 
 public class MenuMapChoice extends Menu {
@@ -53,6 +56,9 @@ public class MenuMapChoice extends Menu {
 
 	public int cooldown;
 	public int messageDropped;
+	public int roundForPingRequest;
+	
+	public String messageToClient;
 
 	public MenuMapChoice(Game game){
 		super(game);
@@ -85,21 +91,23 @@ public class MenuMapChoice extends Menu {
 		switch(i){
 		case 0:
 			// retour
-			this.game.connexionSender.interrupt();
-			if(game.inMultiplayer)
+			if(game.inMultiplayer){
+				this.game.connexionSender.shutdown();
+				this.shutdownNetwork();
 				this.game.setMenu(this.game.menuMulti);
-			else
+			}else{
 				this.game.setMenu(this.game.menuIntro);
+			}
 			break;
 		case 1: 
-			// d�marrer
+			// demarrer
 			if(!game.inMultiplayer){
 				Map.updateMap(mapSelected, game);
 				game.launchGame();
-				break;
 			} else {
 				this.game.plateau.currentPlayer.isReady = true;
 			}
+			break;
 		default:		
 		}
 	}
@@ -114,7 +122,7 @@ public class MenuMapChoice extends Menu {
 		g.drawString("Players :" , startXPlayers + 1f/30f*sizeXPlayers,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
 		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-this.game.font.getHeight("P")/2f,2f,3f/6f*sizeYPlayers+this.game.font.getHeight("P")/2f);
 		g.drawString("Map :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
-		g.fillRect(startXMapChoice + 1f/15f*sizeXMapChoice,startYMapChoice+1f*(3)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,2f,6f/9f*sizeYMapChoice-this.game.font.getHeight("P")/2);
+		g.fillRect(startXMapChoice + 1f/15f*sizeXMapChoice,startYMapChoice+1f*(3f)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,2f,6f/9f*sizeYMapChoice-this.game.font.getHeight("P")/2);
 		for(int i=1;i<this.menuPlayers.size();i++){
 			menuPlayers.get(i).draw(g);
 		}
@@ -128,28 +136,36 @@ public class MenuMapChoice extends Menu {
 		if(game.inMultiplayer){
 			if(game.host){
 				// sending to all players
+				this.messageToClient = this.messageToClient();
 				this.handleSendingConnexions();
 				// parsing if received anything
-				while(game.connexions.size()>0){
-					this.parseForHost(Objet.preParse(game.connexions.remove(0)));
+				while(game.receivedConnexion.size()>0){
+					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
 				// sending to host
-				this.game.toSendConnexions.addElement("2"+this.messageToHost());	
+				this.game.toSendConnexion.addElement(this.messageToHost());	
 				messageDropped++;	
 				// parsing if received anything
-				while(game.connexions.size()>0){
+				while(game.receivedConnexion.size()>0){
 					messageDropped=0;
-					this.parseForClient(Objet.preParse(game.connexions.remove(0)));
+					this.parseForClient(Objet.preParse(game.receivedConnexion.remove(0)));
 				}		
 				//checking if game still exists
 				if(this.startGame!=0 && messageDropped>1f*Main.framerate){
 					//this.callItem(0);
 				}
+				// requete de ping
+				if(roundForPingRequest==0){
+					this.game.pingRequest();
+				}else {
+					roundForPingRequest++;
+					roundForPingRequest%=10;
+				}
 			}
-			// checking disconnecting players
-			int toRemove = -1;
-			if(game.host){
+// 			// checking disconnecting players
+//			int toRemove = -1;
+//			if(game.host){
 //				for(int i=2 ; i<this.menuPlayers.size(); i++){
 //					Menu_Player mp = this.menuPlayers.get(i);
 //					if(mp!=null && mp.hasBeenUpdated){
@@ -163,15 +179,16 @@ public class MenuMapChoice extends Menu {
 //						}
 //					}
 //				}
-			}
-			if(toRemove!=-1){
-				int k = toRemove;
-				this.game.plateau.removePlayer(k);
-				for(int i=0; i<this.game.plateau.players.size(); i++){
-					this.game.plateau.players.get(i).id = i;
-				}
-				this.initializeMenuPlayer();
-			}
+//			}
+//			if(toRemove!=-1){
+//				int k = toRemove;
+//				this.game.plateau.removePlayer(k);
+//				for(int i=0; i<this.game.plateau.players.size(); i++){
+//					this.game.plateau.players.get(i).id = i;
+//				}
+//				this.initializeMenuPlayer();
+//			}
+			
 			//Checking starting of the game
 			if(startGame!=0){
 				this.handleStartGame();
@@ -194,6 +211,7 @@ public class MenuMapChoice extends Menu {
 					item.isSelected = true;
 					this.mapSelected = i;
 				}
+				Map.updateMap(mapSelected, game);
 			}	
 		}
 
@@ -203,30 +221,79 @@ public class MenuMapChoice extends Menu {
 		 * function that checks if the game is about to start
 		 * ie. if the startTime has been defined
 		 * 
-		 * then play sounds each seconds then launches the game
+		 * then plays sounds each seconds then launches the game
 		 */
 		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
 			this.game.sounds.buzz.play();
-			if(seconds==5){
-				Map.updateMap(mapSelected, game);
-				// Create sender and receiver
-				for(Player p : this.game.plateau.players){
-					this.game.toSendInputs.add(new Vector<String>());
-					this.game.inputSender.add(new MultiSender(p.address, this.game.portInput, this.game.toSendInputs.lastElement(),this.game));
-					if(p.address!=null)
-						this.game.inputSender.lastElement().start();
-				}
-				this.game.inputReceiver = new MultiReceiver(this.game, this.game.portInput);
-			}
-
 			seconds--;
 		} else if (startGame<=this.game.clock.getCurrentTime()) {
-			this.game.inputReceiver.start();
 			game.launchGame();
 		}
 	}
+	
+	public void initializeNetwork() {
+		// initializing toSend depots
+		this.game.toSendInput.clear();
+		this.game.toSendValidation.clear();
+		this.game.toSendChecksum.clear();
+		this.game.toSendPing.clear();
+		this.game.toSendResynchro.clear();
+		this.game.toSendChat.clear();
+		// initializing received depots
+		this.game.receivedInputs.clear();
+		this.game.receivedValidation.clear();
+		this.game.receivedChecksum.clear();
+		this.game.receivedPing.clear();
+		this.game.receivedResynchro.clear();
+		this.game.receivedChat.clear();
+		
+		// intializing senders
+		this.game.validationSender = new MultiSender(null,this.game.portValidation, this.game.toSendValidation,this.game);
+		this.game.inputSender = new MultiSender(this.game.portInput, this.game.toSendInput,this.game);
+		this.game.resynchroSender = new MultiSender(this.game.portResynchro, this.game.toSendResynchro, this.game);
+		this.game.pingSender = new MultiSender(this.game.addressHost, this.game.portPing, this.game.toSendPing, this.game);
+		this.game.checksumSender = new MultiSender(this.game.addressHost, this.game.portChecksum, this.game.toSendChecksum, this.game);
+		this.game.chatSender = new MultiSender(this.game.portChat,this.game.toSendChat, this.game);
+		this.game.inputSender.start();
+		this.game.resynchroSender.start();
+		this.game.pingSender.start();
+		this.game.checksumSender.start();
+		this.game.chatSender.start();
+		this.game.inputSender.start();
+		
+		// initializing receivers
+		this.game.inputReceiver = new MultiReceiverInput(this.game);
+		this.game.validationReceiver = new MultiReceiverValidation(this.game);
+		this.game.resynchroReceiver = new MultiReceiverResynchro(this.game);
+		this.game.pingReceiver = new MultiReceiverPing(this.game);
+		this.game.checksumReceiver = new MultiReceiverChecksum(this.game);
+		this.game.chatReceiver = new MultiReceiverChat(this.game);
+		this.game.inputReceiver.start();
+		this.game.resynchroReceiver.start();
+		this.game.pingReceiver.start();
+		this.game.checksumReceiver.start();
+		this.game.chatReceiver.start();
+		this.game.inputReceiver.start();
+	}
+
+	public void shutdownNetwork(){
+		this.game.inputReceiver.shutdown();
+		this.game.resynchroReceiver.shutdown();
+		this.game.pingReceiver.shutdown();
+		this.game.checksumReceiver.shutdown();
+		this.game.chatReceiver.shutdown();
+		this.game.inputReceiver.shutdown();
+		this.game.inputSender.shutdown();
+		this.game.resynchroSender.shutdown();
+		this.game.pingSender.shutdown();
+		this.game.checksumSender.shutdown();
+		this.game.chatSender.shutdown();
+		this.game.inputSender.shutdown();
+		
+	}
+	
 	public void checkStartGame(){
 		if(game.inMultiplayer && game.host){
 			boolean toGame = true;
@@ -251,57 +318,16 @@ public class MenuMapChoice extends Menu {
 				if (present1 && present2){
 					// Launch Game
 					if(startGame==0){
+						this.seconds = 6;
 						this.startGame = this.game.clock.getCurrentTime()+10000000000L;
 					}
 				}
 			}
 		}
 	}
+
 	public void handleSendingConnexions(){
-		// sending games to ingame players
-		for(Player p : this.game.plateau.players){
-			if(p.address != null && p!=this.game.plateau.currentPlayer){
-				this.game.connexionSender.address = p.address;
-				//						Thread.sleep((long) 0.005);
-				this.game.toSendConnexions.addElement("2"+toString());
-				try {
-					Thread.sleep((long) 0.05);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		// sending games to other ips
-		for(int cooldown=0; cooldown<100; cooldown++){
-			if(!game.connexionSender.isAlive()){
-				game.connexionSender.start();
-			}
-			String s="";
-			try {
-				s = InetAddress.getLocalHost().getHostAddress();
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-			}
-			String[] tab = s.split("\\.");
-			s = "";
-			for(int k=0; k<tab.length-1;k++){
-				s += tab[k]+".";
-			}
-			String thisAddress;
-			try {
-				thisAddress = InetAddress.getLocalHost().getHostAddress();
-				if(!thisAddress.equals(s+""+cooldown)){
-					this.game.connexionSender.address = InetAddress.getByName(s+""+cooldown);
-					//							Thread.sleep((long) 0.005);
-					this.game.toSendConnexions.addElement("2"+toString());
-					Thread.sleep((long) 0.001);
-					//							this.game.connexionSender.address = InetAddress.getByName(s+""+((cooldown+1)%255));
-				} else {
-				}
-			} catch (UnknownHostException | InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		this.game.toSendConnexion.addElement(messageToClient);
 	}
 
 	public void initializeMenuPlayer(){
@@ -312,7 +338,7 @@ public class MenuMapChoice extends Menu {
 	}
 	
 
-	public String toString(){
+	public String messageToClient(){
 		String s = "";
 		String thisAddress;
 		try {
@@ -476,6 +502,9 @@ public class MenuMapChoice extends Menu {
 
 	public void parseForClient(HashMap<String,String> hs){
 		if(hs.containsKey("map")){
+			if(this.mapSelected!=Integer.parseInt(hs.get("map"))){
+				Map.updateMap(mapSelected, game);
+			}
 			this.mapSelected = Integer.parseInt(hs.get("map"));
 			for(int j = 0; j<mapchoices.size(); j++){
 				mapchoices.get(j).isSelected = j==this.mapSelected;
@@ -538,15 +567,7 @@ public class MenuMapChoice extends Menu {
 			///////////
 			if(hs.containsKey("clk")){
 				long clockTime = Long.parseLong(hs.get("clk"));
-				if((!this.game.host && !pingAsked) || (seconds<4&& ! secondPingAsked)){
-					this.game.clock.getPing();
-					pingAsked = true;
-					secondPingAsked= true;
-				}
-				if(!this.game.host && pingAsked){
-					this.game.clock.synchro(clockTime);
-				}
-
+				this.game.clock.synchro(clockTime);
 			}
 			// checking the start time
 			if(hs.containsKey("stT")){

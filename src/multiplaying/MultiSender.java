@@ -5,9 +5,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Vector;
 
 import org.newdawn.slick.GameContainer;
+
+import com.sun.jmx.snmp.InetAddressAcl;
 
 import model.Game;
 
@@ -21,34 +24,43 @@ public class MultiSender extends Thread{
 	// DEBUGGING
 	int sent = 0;
 
-	public MultiSender(InetAddress address, int port, Vector<String> depot, Game game){
+	public MultiSender(InetAddress addressToSend, int port, Vector<String> depot, Game game){
 		this.depot = depot;
-		this.address = address;
+		this.address = addressToSend;
 		this.port = port;
 		this.game = game;
+	}
+
+
+	public MultiSender(int port, Vector<String> depot, Game game){
+		this.depot = depot;
+		String address;
 		try {
+			address = InetAddress.getLocalHost().getHostAddress();
+			String[] tab = address.split("\\.");
+			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
+			this.port = port;
+			this.game = game;
+			this.address = InetAddress.getByName(address);
 			client = new DatagramSocket();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (SocketException | UnknownHostException e) {
+			System.out.println("Erreur dans la creation d'un multisender");
 		}
 	}
 
 	public void run(){
 		try {
-			@SuppressWarnings("resource")
-
 			byte[] message;
 			DatagramPacket packet;
 			if(Game.debugSender)
-				System.out.println("Cr�ation d'un sender - " + port);
-			while(true){
+				System.out.println("Creation d'un sender - " + port);
+			while(!client.isClosed()){
 				if(this.depot.size()>0){
 					this.game.idPaquetSend++;
 					//					if(depot.get(0).charAt(0)=='2' && game.host){
 					//						address = InetAddress.getByName(depot.get(0).substring(1));
 					//					}
-					message = (depot.get(0).toString()).getBytes();
+					message = (game.plateau.currentPlayer.id+depot.get(0)).getBytes();
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
 					client.send(packet);
@@ -58,11 +70,6 @@ public class MultiSender extends Thread{
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
 					this.depot.remove(0);
 				}
-				try{
-					Thread.sleep((long) 0.001);
-				} catch (InterruptedException e) {
-					break;
-				}
 			}
 		} catch (SocketException e1) {
 			e1.printStackTrace();
@@ -71,7 +78,17 @@ public class MultiSender extends Thread{
 		} 
 	}
 
-	public void sendMessage(String s){
-		this.depot.addElement(s);
+	public void shutdown(){
+		client.close();
+	}
+	public void changeAddress(String a){
+		try {
+			this.address = InetAddress.getByName(a);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+	public void changeAddress(InetAddress a){
+		this.address = a;
 	}
 }

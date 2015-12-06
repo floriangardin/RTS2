@@ -12,7 +12,8 @@ public class Clock extends Thread{
 	public long originTime;
 	Vector<Long> origins;
 	//ping to master clock
-	public long ping;
+	public Vector<Long> pings = new Vector<Long>();
+	private long ping;
 	
 	public Clock(Game g){
 		this.game = g;
@@ -47,7 +48,13 @@ public class Clock extends Thread{
 	
 	public void updatePing(long messageTime){
 		//Get origin time for each player (== delay/2)
-		this.ping = this.getCurrentTime()-messageTime ;
+		this.pings.addElement(this.getCurrentTime()-messageTime);
+		if(this.pings.size()>10)
+			this.pings.remove(0);
+		this.ping = 0;
+		for(Long l:this.pings)
+			this.ping+=l;
+		this.ping /= this.pings.size();
 	}
 	
 	public void synchro(long masterClockTime){
@@ -63,23 +70,8 @@ public class Clock extends Thread{
 		//System.out.println("Clock line 61 : Synchro clock");
 	}
 	
-	public void	getPing(){
-		
-		//Send a time request for master
-		Process p2;
-		long time = this.getCurrentTime();
-		try {
-			p2=Runtime.getRuntime().exec("ping -n 1 "+this.game.addressHost.getHostAddress());
-			p2.waitFor();
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.ping = (this.getCurrentTime()-time);
-		System.out.println("Clock line 71 :  ping : "+this.ping/1000000);
-		
-//		this.ping = -3000000;
-		
+	public long	getPing(){
+		return this.ping;
 	}
 	
 	public void setRoundFromTime(){

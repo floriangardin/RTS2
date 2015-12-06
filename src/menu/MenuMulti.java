@@ -71,7 +71,7 @@ public class MenuMulti extends Menu {
 			this.gamesList.clear();
 			game.host = true;
 			game.inMultiplayer = true;
-			game.connexionSender = new MultiSender(null, game.portConnexion, this.game.toSendConnexions,game);
+			game.connexionSender = new MultiSender(game.portConnexion, this.game.toSendConnexion,game);
 			game.connexionSender.start();
 			try {
 				game.addressHost = InetAddress.getLocalHost();
@@ -80,23 +80,25 @@ public class MenuMulti extends Menu {
 			game.plateau.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
 			game.plateau.currentPlayer = game.plateau.players.get(1);
 			game.menuMapChoice.initializeMenuPlayer();
+			game.menuMapChoice.initializeNetwork();
 			game.setMenu(game.menuMapChoice);
 			break;
 		case 1:
 			// Rejoindre
 			if(gameSelected!=-1){
+				this.game.menuMapChoice.seconds = 6;
 				game.host = false;
 				game.inMultiplayer = true;
 				game.plateau.clearPlayer();
-				game.toSendConnexions.clear();
 				OpenGames opengame = openGames.get(gameSelected);
-				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexions, game);
+				game.toSendConnexion.clear();
+				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexion, game);
 				this.game.connexionSender.start();
 				this.game.addressHost = opengame.hostAddress;
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.plateau.addPlayer("unknown",null,1,1);
 				}
-				this.game.getPlayerById(Game.ID_HOST).address=opengame.hostAddress;
+				this.game.getPlayerById(1).address=opengame.hostAddress;
 				game.plateau.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
 				game.plateau.currentPlayer = game.plateau.players.lastElement();
 				game.plateau.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
@@ -106,12 +108,14 @@ public class MenuMulti extends Menu {
 				game.menuMapChoice.initializeMenuPlayer();
 				this.openGames.clear();
 				this.gamesList.clear();
+				game.menuMapChoice.initializeNetwork();
 				game.setMenu(game.menuMapChoice);
 			}
 			break;
 		case 2:
 			// Retour 
 			this.game.setMenu(this.game.menuIntro);
+			this.game.connexionReceiver.shutdown();
 			this.openGames.clear();
 			this.gamesList.clear();
 			break;
@@ -129,8 +133,8 @@ public class MenuMulti extends Menu {
 	}
 
 	public void update(InputObject im){
-		while(this.game.connexions.size()>0){
-			String s = this.game.connexions.remove(0);
+		while(this.game.receivedConnexion.size()>0){
+			String s = this.game.receivedConnexion.remove(0);
 			HashMap<String, String> hashmap = Objet.preParse(s);
 			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
 				try {
