@@ -454,7 +454,7 @@ public class Game extends BasicGame
 		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
 		//		
 				g.drawString("Ping : "+Float.toString(this.clock.getPing()/1000000f), 20f, 40f);
-				g.drawString("delay : "+Float.toString(this.roundDelay), 70f, 40f);
+				g.drawString("delay : "+Float.toString(this.roundDelay), 110f, 40f);
 
 	}
 	// Do our logic 
