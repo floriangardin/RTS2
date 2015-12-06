@@ -428,7 +428,13 @@ public class Game extends BasicGame
 		}
 		if(processSynchro){
 			g.setColor(Color.green);
-			g.fillRect(10f,10f,10f,10f);
+			g.drawString("Resynchro", 30f, 10f);
+			g.fillRect(10f,10f,15f,15f);
+		}
+		if(antidropProcess){
+			g.setColor(Color.blue);
+			g.drawString("AntiDrop", 30f, 30f);
+			g.fillRect(10f,30f,15f,15f);
 		}
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
