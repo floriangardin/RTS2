@@ -16,8 +16,8 @@ public class MultiReceiverConnexion extends MultiReceiver{
 		if(!this.g.host){
 			this.g.addressHost = packet.getAddress();
 		}
-		HashMap<String, String> map = Objet.preParse(msg.substring(1));
-		this.g.receivedConnexion.add(msg.substring(1, msg.length()));
+		//HashMap<String, String> map = Objet.preParse(msg.substring(1));
+		this.g.receivedConnexion.add(msg);
 	}
 
 }
