@@ -514,6 +514,7 @@ public class MenuMapChoice extends Menu {
 		if(hs.containsKey("map")){
 			if(this.mapSelected!=Integer.parseInt(hs.get("map"))){
 				Map.updateMap(mapSelected, game);
+				System.out.println("changement de map");
 			}
 			this.mapSelected = Integer.parseInt(hs.get("map"));
 			for(int j = 0; j<mapchoices.size(); j++){
