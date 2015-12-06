@@ -733,7 +733,6 @@ public class Game extends BasicGame
 	}
 	private void handleAntidrop() {
 		if(host && (this.round%7)==0){
-			nDrop = 0f;
 			if(nDrop>=2){
 				if(antidropProcess==false){
 					this.antidropProcess=true;					
@@ -759,6 +758,7 @@ public class Game extends BasicGame
 			} else {
 				antidropProcess = false;
 			}
+			nDrop = 0f;
 		}
 	}
 	private void handleResynchro() {

@@ -131,8 +131,8 @@ public class InputObject extends MultiObjetModel{
 
 	public InputObject(String im, Game game){
 		HashMap<String,String> content = new HashMap<String, String>(); 
-		//System.out.println("InputObjet line 112: " + im);
 		String[] vaneau = im.split(",");
+		//System.out.println("InputObjet line 112: " + im);
 		selection = new Vector<Integer>();
 		for(int i=0; i<vaneau.length-1; i++){
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
