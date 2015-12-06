@@ -99,7 +99,6 @@ public class MenuMapChoice extends Menu {
 		case 1: 
 			// demarrer
 			if(!game.inMultiplayer){
-				Map.updateMap(mapSelected, game);
 				game.launchGame();
 			} else {
 				this.game.currentPlayer.isReady = true;
@@ -514,7 +513,6 @@ public class MenuMapChoice extends Menu {
 		if(hs.containsKey("map")){
 			if(this.mapSelected!=Integer.parseInt(hs.get("map"))){
 				Map.updateMap(Integer.parseInt(hs.get("map")), game);
-				System.out.println("changement de map");
 			}
 			this.mapSelected = Integer.parseInt(hs.get("map"));
 			for(int j = 0; j<mapchoices.size(); j++){

@@ -93,6 +93,7 @@ public class MenuMulti extends Menu {
 				game.host = false;
 				game.inMultiplayer = true;
 				game.initializePlayers();
+				Map.updateMap(0, game);
 				game.clearPlayer();
 				OpenGames opengame = openGames.get(gameSelected);
 				game.toSendConnexion.clear();
