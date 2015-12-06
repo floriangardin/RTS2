@@ -17,8 +17,8 @@ public class MultiReceiverValidation extends MultiReceiver {
 			System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
 		}
 		String[] valMessage = rawInput.split("\\|");
-		int round = Integer.parseInt(valMessage[1]);
-		int idPlayer = Integer.parseInt(valMessage[2]);
+		int round = Integer.parseInt(valMessage[0]);
+		int idPlayer = Integer.parseInt(valMessage[1]);
 		// Ressources partag� le vecteur d'inputs de la mailbox..
 		this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
 
