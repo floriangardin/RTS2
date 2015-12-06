@@ -34,6 +34,7 @@ public abstract class MultiReceiver extends Thread{
 	public void run(){
 		try{
 			this.server = new DatagramSocket(port);
+			this.server.setBroadcast(true);
 			if(Game.debugReceiver)
 				System.out.println("Creation d'un receiver - " + port);
 			while(!server.isClosed()){
@@ -49,8 +50,8 @@ public abstract class MultiReceiver extends Thread{
 				}
 				String msg = new String(packet.getData());
 				this.g.nbPaquetReceived++;
+				if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
 				if(msg.length()>0 && !msg.substring(0,1).equals(""+g.plateau.currentPlayer.id)){
-					if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
 					this.action(msg.substring(1));
 				}
 				Thread.sleep(1);
