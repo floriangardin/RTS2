@@ -150,19 +150,19 @@ public class MenuMapChoice extends Menu {
 			// checking disconnecting players
 			int toRemove = -1;
 			if(game.host){
-				for(int i=2 ; i<this.menuPlayers.size(); i++){
-					Menu_Player mp = this.menuPlayers.get(i);
-					if(mp!=null && mp.hasBeenUpdated){
-						mp.messageDropped=0;
-						mp.hasBeenUpdated = false;
-					} else {
-						mp.messageDropped++;
-						if(mp.messageDropped>1f*Main.framerate){
-							System.out.println("disconnecting player:"+i);
-							//toRemove=i;
-						}
-					}
-				}
+//				for(int i=2 ; i<this.menuPlayers.size(); i++){
+//					Menu_Player mp = this.menuPlayers.get(i);
+//					if(mp!=null && mp.hasBeenUpdated){
+//						mp.messageDropped=0;
+//						mp.hasBeenUpdated = false;
+//					} else {
+//						mp.messageDropped++;
+//						if(mp.messageDropped>1f*Main.framerate){
+//							System.out.println("disconnecting player:"+i);
+//							//toRemove=i;
+//						}
+//					}
+//				}
 			}
 			if(toRemove!=-1){
 				int k = toRemove;
