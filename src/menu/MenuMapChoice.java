@@ -1,7 +1,6 @@
 package menu;
 
 
-import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -26,8 +25,6 @@ import multiplaying.MultiSender;
 
 public class MenuMapChoice extends Menu {
 
-	boolean pingAsked = false;
-	boolean secondPingAsked = false;
 
 	public int selected = -1;
 	public int mapSelected = 0;
@@ -210,11 +207,10 @@ public class MenuMapChoice extends Menu {
 					}
 					item.isSelected = true;
 					this.mapSelected = i;
+					Map.updateMap(mapSelected, game);
 				}
-				Map.updateMap(mapSelected, game);
 			}	
 		}
-
 	}
 	public void handleStartGame(){
 		/**
@@ -261,7 +257,7 @@ public class MenuMapChoice extends Menu {
 		this.game.pingSender.start();
 		this.game.checksumSender.start();
 		this.game.chatSender.start();
-		this.game.inputSender.start();
+		this.game.validationSender.start();
 		
 		// initializing receivers
 		this.game.inputReceiver = new MultiReceiverInput(this.game);
@@ -275,7 +271,7 @@ public class MenuMapChoice extends Menu {
 		this.game.pingReceiver.start();
 		this.game.checksumReceiver.start();
 		this.game.chatReceiver.start();
-		this.game.inputReceiver.start();
+		this.game.validationReceiver.start();
 	}
 
 	public void shutdownNetwork(){
@@ -284,13 +280,13 @@ public class MenuMapChoice extends Menu {
 		this.game.pingReceiver.shutdown();
 		this.game.checksumReceiver.shutdown();
 		this.game.chatReceiver.shutdown();
-		this.game.inputReceiver.shutdown();
+		this.game.validationReceiver.shutdown();
 		this.game.inputSender.shutdown();
 		this.game.resynchroSender.shutdown();
 		this.game.pingSender.shutdown();
 		this.game.checksumSender.shutdown();
 		this.game.chatSender.shutdown();
-		this.game.inputSender.shutdown();
+		this.game.validationSender.shutdown();
 		
 	}
 	

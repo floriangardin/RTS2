@@ -44,7 +44,7 @@ public class Map {
 		updateMap(name, game);
 	}
 	public static void updateMap(int id, Game game){
-		updateMap(Map.maps().get(id),game);
+		createMap(Map.maps().get(id),game);
 	}
 	
 	public static void updateMap(String name, Game game){

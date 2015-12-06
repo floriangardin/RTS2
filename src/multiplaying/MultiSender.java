@@ -29,6 +29,12 @@ public class MultiSender extends Thread{
 		this.address = addressToSend;
 		this.port = port;
 		this.game = game;
+		try {
+			client = new DatagramSocket();
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		this.setName("MultiSender "+port);
 	}
 
 
@@ -46,6 +52,7 @@ public class MultiSender extends Thread{
 		} catch (SocketException | UnknownHostException e) {
 			System.out.println("Erreur dans la creation d'un multisender");
 		}
+		this.setName("MultiSender "+port);
 	}
 
 	public void run(){
@@ -55,6 +62,9 @@ public class MultiSender extends Thread{
 			if(Game.debugSender)
 				System.out.println("Creation d'un sender - " + port);
 			while(!client.isClosed()){
+				if(Game.debugThread){
+					System.out.println(this.getName());
+				}
 				if(this.depot.size()>0){
 					this.game.idPaquetSend++;
 					//					if(depot.get(0).charAt(0)=='2' && game.host){
@@ -72,9 +82,7 @@ public class MultiSender extends Thread{
 				}
 			}
 		} catch (SocketException e1) {
-			e1.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
 		} 
 	}
 

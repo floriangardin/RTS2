@@ -10,7 +10,6 @@ import model.Game;
 import model.Objet;
 
 public abstract class MultiReceiver extends Thread{
-
 	Game g;
 	int port;
 	public int received = 0;
@@ -26,6 +25,7 @@ public abstract class MultiReceiver extends Thread{
 	public MultiReceiver(Game g, int port){
 		this.g = g;
 		this.port = port;
+		this.setName("MultiReceiver "+port);
 	}
 	
 	public abstract void action(String msg);
@@ -37,6 +37,9 @@ public abstract class MultiReceiver extends Thread{
 			if(Game.debugReceiver)
 				System.out.println("Creation d'un receiver - " + port);
 			while(!server.isClosed()){
+				if(Game.debugThread){
+					System.out.println(this.getName());
+				}
 				message = new byte[4000];
 				packet = new DatagramPacket(message, message.length);
 				try{

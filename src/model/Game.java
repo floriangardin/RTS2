@@ -51,6 +51,7 @@ public class Game extends BasicGame
 	public static boolean debugReceiver = true;
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
+	public static boolean debugThread = false;
 
 	public static boolean showUpdateLogicInterval = true;
 
@@ -551,7 +552,6 @@ public class Game extends BasicGame
 		this.menuMulti = new MenuMulti(this);
 		this.menuMapChoice = new MenuMapChoice(this);
 		this.setMenu(menuIntro);
-		this.connexionReceiver.start();
 		Map.initializePlateau(this, 1f, 1f);
 
 		//FLO INPUTS
