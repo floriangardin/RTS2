@@ -15,8 +15,7 @@ public class MultiReceiverPing extends MultiReceiver{
 		int id = Integer.parseInt(valMessage[1]);
 		if(g.host){
 			if(id<g.players.size()){
-				g.pingSender.changeAddress(g.getPlayerById(id).address);
-				g.toSendPing.add(msg);
+				g.sendPing(msg);
 			}
 		} else {
 			long time =Long.parseLong(valMessage[0]);

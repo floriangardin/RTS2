@@ -72,8 +72,10 @@ public class MenuMulti extends Menu {
 			this.gamesList.clear();
 			game.host = true;
 			game.inMultiplayer = true;
-			game.connexionSender = new MultiSender(game.portConnexion, this.game.toSendConnexion,game);
-			game.connexionSender.start();
+			// initializing sender
+			this.game.sender = new MultiSender(this.game.toSend,this.game);
+			this.game.sender.setPriority(1);
+			this.game.sender.start();
 			try {
 				game.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
@@ -96,9 +98,11 @@ public class MenuMulti extends Menu {
 				Map.updateMap(0, game);
 				game.clearPlayer();
 				OpenGames opengame = openGames.get(gameSelected);
-				game.toSendConnexion.clear();
-				this.game.connexionSender = new MultiSender(opengame.hostAddress, this.game.portConnexion, this.game.toSendConnexion, game);
-				this.game.connexionSender.start();
+				// initializing sender
+				this.game.sender = new MultiSender(this.game.toSend,this.game);
+				this.game.sender.setPriority(1);
+				this.game.sender.start();
+				
 				this.game.addressHost = opengame.hostAddress;
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.addPlayer("unknown",null,1,1);

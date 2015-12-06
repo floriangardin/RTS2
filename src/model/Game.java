@@ -1,5 +1,6 @@
 package model;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.locks.Lock;
@@ -31,6 +32,7 @@ import menu.MenuOptions;
 import multiplaying.Clock;
 import multiplaying.InputHandler;
 import multiplaying.InputObject;
+import multiplaying.MultiMessage;
 import multiplaying.MultiReceiverChat;
 import multiplaying.MultiReceiverChecksum;
 import multiplaying.MultiReceiverChecksum.Checksum;
@@ -132,6 +134,8 @@ public class Game extends BasicGame
 	public long startTime;
 	// Host and client
 	public InetAddress addressHost;
+	public InetAddress addressBroadcast;
+	public InetAddress addressLocal;
 
 	// ports
 	public int portConnexion = 8887;
@@ -142,13 +146,7 @@ public class Game extends BasicGame
 	public int portChecksum = 8892;
 	public int portChat = 8893;
 	// depots for senders
-	public Vector<String> toSendInput = new Vector<String>();
-	public Vector<String> toSendConnexion = new Vector<String>();
-	public Vector<String> toSendValidation = new Vector<String>();
-	public Vector<String> toSendPing = new Vector<String>();
-	public Vector<String> toSendResynchro = new Vector<String>();
-	public Vector<String> toSendChecksum = new Vector<String>();
-	public Vector<String> toSendChat = new Vector<String>();
+	public Vector<MultiMessage> toSend = new Vector<MultiMessage>();
 	// depots for receivers
 	public Vector<String> receivedConnexion = new Vector<String>();
 	public Vector<String> receivedValidation = new Vector<String>();
@@ -158,13 +156,7 @@ public class Game extends BasicGame
 	public Vector<Checksum> receivedChecksum = new Vector<Checksum>();
 	public Vector<String> receivedChat = new Vector<String>();
 	// Senders
-	public MultiSender connexionSender;
-	public MultiSender validationSender;
-	public MultiSender inputSender;
-	public MultiSender pingSender;
-	public MultiSender resynchroSender;
-	public MultiSender checksumSender;
-	public MultiSender chatSender;
+	public MultiSender sender;
 	// Receivers
 	public MultiReceiverConnexion connexionReceiver;
 	public MultiReceiverValidation validationReceiver;
@@ -506,7 +498,7 @@ public class Game extends BasicGame
 				}else{
 					//UPDATE NORMAL
 					// On envoie l'input du tour courant
-					this.sendInputToAllPlayer(im.toString());
+					this.sendInput(im.toString());
 					this.inputsHandler.addToInputs(im);
 					this.plateau.handleView(im, this.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
@@ -576,7 +568,7 @@ public class Game extends BasicGame
 				if(inMultiplayer){
 					this.menuMapChoice.shutdownNetwork();
 					this.connexionReceiver.shutdown();
-					this.connexionSender.shutdown();
+					this.sender.shutdown();
 				}
 				this.setMenu(this.menuIntro);
 
@@ -646,15 +638,21 @@ public class Game extends BasicGame
 		//			Map.createMapEmpty(this);
 		// Instantiate BottomBars for all players:
 		selection = null;
+		try {
+			this.addressLocal = InetAddress.getLocalHost();
+			String address = addressLocal.getHostAddress();
+			String[] tab = address.split("\\.");
+			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
+			this.addressBroadcast = InetAddress.getByName(address);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
 		this.clock = new Clock(this);
 		this.clock.start();
 	}
 
 
-	public void sendInputToAllPlayer(String s){
-		this.toSendInput.add(s);
-	}
-
+	
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
@@ -665,7 +663,36 @@ public class Game extends BasicGame
 
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
-
+	public void sendConnexion(String message){
+		if(host)
+			this.toSend.add(new MultiMessage(message,portConnexion,this.addressBroadcast));
+		else
+			this.toSend.add(new MultiMessage(message,portConnexion,this.addressHost));
+	}
+	public void sendInput(String s){
+		this.toSend.add(new MultiMessage(s,portInput,this.addressBroadcast));
+	}
+	public void sendValidation(String s, int player){
+		this.toSend.addElement(new MultiMessage(s,portValidation,this.players.get(player).address));
+	}
+	public void sendResynchro(String s){
+		this.toSend.addElement(new MultiMessage(s,portResynchro,this.addressBroadcast));
+	}
+	public void sendPing(String s){
+		if(host){
+			String[] tab = s.split("\\|");
+			this.toSend.addElement(new MultiMessage(s, portPing, this.players.get(Integer.parseInt(tab[1])).address));
+		} else {
+			this.toSend.addElement(new MultiMessage(s,portPing,this.addressHost));
+		}
+	}
+	public void sendChecksum(String s){
+		this.toSend.addElement(new MultiMessage(s,portChecksum,this.addressHost));
+	}
+	public void sendChat(String s){
+		this.toSend.addElement(new MultiMessage(s,portChat,this.addressBroadcast));
+	}
+	
 	private void manuelAntidrop(Input in) {
 		if(in.isKeyPressed(Input.KEY_P)){
 			this.round+=1;
@@ -693,7 +720,7 @@ public class Game extends BasicGame
 			checksum+="|";
 			if(!this.host){
 				// si client on envoie checksum
-				this.toSendChecksum.add(checksum);
+				this.sendChecksum(checksum);
 			} else {
 				// on l'ajoute dans mes checksum si je suis host
 				this.checksum.addElement(new Checksum(checksum));
@@ -727,7 +754,7 @@ public class Game extends BasicGame
 	}
 	private void handlePing() {
 		if(!host && round%40 == 0){
-			this.toSendPing.add(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
+			this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 		}
 	}
 	private void handleSendingResynchroParse() {
@@ -735,7 +762,7 @@ public class Game extends BasicGame
 			this.toParse = this.plateau.toStringArray();
 			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
-			this.toSendResynchro.add(this.toParse);
+			this.sendResynchro(this.toParse);
 		}
 	}
 	private void handleAntidrop() {
@@ -781,7 +808,7 @@ public class Game extends BasicGame
 		}
 	}
 	public void pingRequest() {
-		this.toSendPing.addElement(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
+		this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 	}
 
 

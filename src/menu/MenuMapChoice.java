@@ -89,7 +89,7 @@ public class MenuMapChoice extends Menu {
 		case 0:
 			// retour
 			if(game.inMultiplayer){
-				this.game.connexionSender.shutdown();
+				this.game.sender.shutdown();
 				this.shutdownNetwork();
 				this.game.setMenu(this.game.menuMulti);
 			}else{
@@ -133,14 +133,14 @@ public class MenuMapChoice extends Menu {
 			if(game.host){
 				// sending to all players
 				this.messageToClient = this.messageToClient();
-				this.handleSendingConnexions();
+				this.game.sendConnexion(messageToClient);
 				// parsing if received anything
 				while(game.receivedConnexion.size()>0){
 					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
 				// sending to host
-				this.game.toSendConnexion.addElement(this.messageToHost());	
+				this.game.sendConnexion(this.messageToHost());	
 				messageDropped++;	
 				// parsing if received anything
 				while(game.receivedConnexion.size()>0){
@@ -230,12 +230,7 @@ public class MenuMapChoice extends Menu {
 	
 	public void initializeNetwork() {
 		// initializing toSend depots
-		this.game.toSendInput.clear();
-		this.game.toSendValidation.clear();
-		this.game.toSendChecksum.clear();
-		this.game.toSendPing.clear();
-		this.game.toSendResynchro.clear();
-		this.game.toSendChat.clear();
+		this.game.toSend.clear();
 		// initializing received depots
 		this.game.receivedInputs.clear();
 		this.game.receivedValidation.clear();
@@ -246,25 +241,6 @@ public class MenuMapChoice extends Menu {
 		
 		Thread.currentThread().setPriority(10);
 		
-		// intializing senders
-		this.game.validationSender = new MultiSender(null,this.game.portValidation, this.game.toSendValidation,this.game);
-		this.game.inputSender = new MultiSender(this.game.portInput, this.game.toSendInput,this.game);
-		this.game.resynchroSender = new MultiSender(this.game.portResynchro, this.game.toSendResynchro, this.game);
-		this.game.pingSender = new MultiSender(this.game.addressHost, this.game.portPing, this.game.toSendPing, this.game);
-		this.game.checksumSender = new MultiSender(this.game.addressHost, this.game.portChecksum, this.game.toSendChecksum, this.game);
-		this.game.chatSender = new MultiSender(this.game.portChat,this.game.toSendChat, this.game);
-		this.game.inputSender.setPriority(1);
-		this.game.resynchroSender.setPriority(1);
-		this.game.pingSender.setPriority(1);
-		this.game.checksumSender.setPriority(1);
-		this.game.chatSender.setPriority(1);
-		this.game.validationSender.setPriority(1);
-		this.game.inputSender.start();
-		this.game.resynchroSender.start();
-		this.game.pingSender.start();
-		this.game.checksumSender.start();
-		this.game.chatSender.start();
-		this.game.validationSender.start();
 		
 		// initializing receivers
 		this.game.inputReceiver = new MultiReceiverInput(this.game);
@@ -283,7 +259,7 @@ public class MenuMapChoice extends Menu {
 		this.game.resynchroReceiver.start();
 		this.game.pingReceiver.start();
 		this.game.checksumReceiver.start();
-		this.game.chatReceiver.start();
+		//this.game.chatReceiver.start();
 		this.game.validationReceiver.start();
 	}
 
@@ -292,15 +268,8 @@ public class MenuMapChoice extends Menu {
 		this.game.resynchroReceiver.shutdown();
 		this.game.pingReceiver.shutdown();
 		this.game.checksumReceiver.shutdown();
-		this.game.chatReceiver.shutdown();
-		this.game.validationReceiver.shutdown();
-		this.game.inputSender.shutdown();
-		this.game.resynchroSender.shutdown();
-		this.game.pingSender.shutdown();
-		this.game.checksumSender.shutdown();
-		this.game.chatSender.shutdown();
-		this.game.validationSender.shutdown();
-		
+		//this.game.chatReceiver.shutdown();
+		this.game.validationReceiver.shutdown();	
 	}
 	
 	public void checkStartGame(){
@@ -335,9 +304,6 @@ public class MenuMapChoice extends Menu {
 		}
 	}
 
-	public void handleSendingConnexions(){
-		this.game.toSendConnexion.addElement(messageToClient);
-	}
 
 	public void initializeMenuPlayer(){
 		this.menuPlayers.clear();
