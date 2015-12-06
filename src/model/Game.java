@@ -597,6 +597,11 @@ public class Game extends BasicGame
 		this.musics.imperial.setVolume(options.musicVolume);
 		//this.game.newGame();
 		this.quitMenu();
+		System.out.println(this.plateau);
+		System.out.println(this.currentPlayer);
+		System.out.println(this.currentPlayer.getGameTeam());
+		System.out.println(this.currentPlayer.getGameTeam().hq);
+		System.out.println(this.currentPlayer.getGameTeam().hq.getX());
 		this.plateau.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
 		this.plateau.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
 		this.startTime = System.currentTimeMillis();
