@@ -53,8 +53,9 @@ public abstract class MultiReceiver extends Thread{
 					if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
 					this.action(msg.substring(1));
 				}
+				Thread.sleep(1);
 			}
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 		} 
 	}
 	
