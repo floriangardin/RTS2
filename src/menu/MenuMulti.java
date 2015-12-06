@@ -12,6 +12,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import model.Game;
+import model.Map;
 import model.Objet;
 import multiplaying.InputObject;
 import multiplaying.MultiSender;
@@ -77,6 +78,7 @@ public class MenuMulti extends Menu {
 				game.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
 			game.initializePlayers();
+			Map.updateMap(0, game);
 			game.clearPlayer();
 			game.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
 			game.currentPlayer = game.players.get(1);
