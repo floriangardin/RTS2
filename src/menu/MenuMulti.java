@@ -135,6 +135,7 @@ public class MenuMulti extends Menu {
 	public void update(InputObject im){
 		while(this.game.receivedConnexion.size()>0){
 			String s = this.game.receivedConnexion.remove(0);
+			System.out.println("ouais: "+s);
 			HashMap<String, String> hashmap = Objet.preParse(s);
 			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
 				try {
