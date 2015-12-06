@@ -40,7 +40,7 @@ public class Main {
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
 			//app.setTargetFrameRate(Main.framerate);
-			app.setVSync(false);
+			app.setVSync(true);
 			//app.setSmoothDeltas(true);
 			app.setMinimumLogicUpdateInterval(1000/framerate);
 			app.setMaximumLogicUpdateInterval(1000/framerate);
