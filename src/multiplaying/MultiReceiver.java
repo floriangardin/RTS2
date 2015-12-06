@@ -48,9 +48,9 @@ public abstract class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-				if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg);
 				this.g.nbPaquetReceived++;
 				if(msg.length()>0 && !msg.substring(0,1).equals(""+g.plateau.currentPlayer.id)){
+					if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
 					this.action(msg.substring(1));
 				}
 			}
