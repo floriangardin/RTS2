@@ -455,7 +455,7 @@ public class Game extends BasicGame
 	public void update(GameContainer gc, int t) throws SlickException {	
 		//		Thread[] tarray = new Thread[Thread.activeCount()];
 		//		Thread.enumerate(tarray);
-		//		System.out.println("threads présents : "+tarray.length);
+		//		System.out.println("threads prï¿½sents : "+tarray.length);
 		//		for(int i=0; i<tarray.length; i++){
 		//			System.out.println(tarray[i].getName());
 		//		}
@@ -738,7 +738,7 @@ public class Game extends BasicGame
 				if(antidropProcess==false){
 					this.antidropProcess=true;					
 				}
-				// on tente une nouvelle valeur pour le décalage
+				// on tente une nouvelle valeur pour le dï¿½calage
 				if(multi==-1){
 					multi=1;
 					roundToTest++;
@@ -750,7 +750,7 @@ public class Game extends BasicGame
 				this.round+=multi*roundToTest;
 				this.roundDelay+=multi*roundToTest;
 				if(roundToTest>=8){
-					// si on a été trop loin on revient à zéro
+					// si on a ï¿½tï¿½ trop loin on revient ï¿½ zï¿½ro
 					this.round-=this.roundDelay;
 					roundToTest = 0;
 					multi = 1;
@@ -765,7 +765,7 @@ public class Game extends BasicGame
 		//Si round+2
 		String[] u = this.toParse.split("!");
 		//Je resynchronise au tour n+2
-		if(Integer.parseInt(u[1])==(this.round-InputHandler.nDelay)){
+		if(Integer.parseInt(u[0])==(this.round-InputHandler.nDelay)){
 			System.out.println("Play resynchronisation round at round " + this.round);
 			this.plateau.parse(this.toParse);
 			this.toParse = null;
