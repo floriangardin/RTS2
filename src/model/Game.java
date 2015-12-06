@@ -381,6 +381,13 @@ public class Game extends BasicGame
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException {	
+		Thread[] tarray = new Thread[Thread.activeCount()];
+		Thread.enumerate(tarray);
+		System.out.println("threads présents : "+tarray.length);
+		for(int i=0; i<tarray.length; i++){
+			System.out.println(tarray[i].getName());
+		}
+		System.out.println();
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
