@@ -781,9 +781,8 @@ public class Character extends ActionObjet{
 			}
 		}
 		float cornerThreshold = 5f;
-		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
-			//System.out.println("dans un coin");
-			return;
+//		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
+//			//System.out.println("dans un coin");
 //			if(this.getTarget()==null)
 //				return;
 //			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
@@ -809,8 +808,8 @@ public class Character extends ActionObjet{
 //					break;
 //				}
 //				return;
+//			}
 //		}
-		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
