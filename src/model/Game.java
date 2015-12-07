@@ -474,7 +474,7 @@ public class Game extends BasicGame
 				this.handleSendingResynchroParse();
 
 
-				if(processSynchro && this.toParse!=null){
+				if(processSynchro){
 					// Resynchro
 					this.handleResynchro();
 				}else{
@@ -792,6 +792,10 @@ public class Game extends BasicGame
 	}
 	private void handleResynchro() {
 		//Si round+2
+		if(toParse==null){
+			this.processSynchro = false;
+			return;
+		}
 		String[] u = this.toParse.split("!");
 		//Je resynchronise au tour n+2
 		if(Integer.parseInt(u[0])==(this.round-InputHandler.nDelay)){
@@ -801,7 +805,7 @@ public class Game extends BasicGame
 			this.processSynchro = false;
 			System.out.println("Resynchronisation ....");
 		}
-		else if(Integer.parseInt(u[0])>(this.round-InputHandler.nDelay)){
+		else if(this.toParse==null || Integer.parseInt(u[0])>(this.round-InputHandler.nDelay)){
 			this.processSynchro = false;
 			this.toParse = null;
 		}
