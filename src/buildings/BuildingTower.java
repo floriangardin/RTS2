@@ -83,7 +83,7 @@ public class BuildingTower extends Building{
 			this.target = null;
 		}
 		if(canAttack){
-			if(target==null || this.target.lifePoints<0f){
+			if(target==null || this.target.lifePoints<0f ||Utils.distance(this, this.target)>sight){
 				Vector<Character> target= this.p.getEnnemiesInSight(this);
 				if(target.size()>0){
 					this.target = target.get(0);
