@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import main.Main;
-import model.Game;
+import model.Bonus;
 import model.IAPlayer;
 import multiplaying.ChatMessage;
 import units.Character;
@@ -44,17 +44,15 @@ public abstract class BuildingProduction extends BuildingAction {
 		return false;
 	}
 
-	public void setTeam(int i){
-		this.team = i;
-		this.gameteam = this.p.g.teams.get(i);
-		this.updateImage();
+	public void setTeamExtra(int i){
+
 		if(this.queue!=null){
 			this.queue.clear();
 		}
-		
+
 		this.setCharge(0f);
 	}
-	
+
 	public void action(){
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;

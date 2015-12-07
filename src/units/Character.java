@@ -1095,6 +1095,7 @@ public class Character extends ActionObjet{
 		s+="as:"+this.attackState+";";
 		s+="vx:"+this.vx+";";
 		s+="vy:"+this.vy+";";
+		s+="mode:"+this.mode+";";
 		if(this.isAttacking){
 			s+="ia: ;";
 		}
@@ -1136,7 +1137,10 @@ public class Character extends ActionObjet{
 			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
 			this.setTarget(target,null);
 		}
-
+		
+		if(hs.containsKey("mode")){
+			this.mode = Integer.parseInt(hs.get("mode"));
+		}
 
 		if(hs.containsKey("lp")){
 			this.lifePoints=Float.parseFloat(hs.get("lp"));

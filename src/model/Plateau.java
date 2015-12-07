@@ -1330,7 +1330,6 @@ public class Plateau {
 			c.secondaryTargets.clear();
 			c.leader = null;
 			c.moveAhead = false;
-			c.mode = Character.MOVE;
 			c.waypoints.clear();
 		}
 		String[] u = s.split("\\|");

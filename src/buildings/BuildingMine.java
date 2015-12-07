@@ -59,7 +59,7 @@ public class BuildingMine extends BuildingTech{
 	
 	
 
-	
+
 	public void action(){
 		this.state+=Main.increment;
 

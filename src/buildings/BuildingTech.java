@@ -109,15 +109,19 @@ public abstract class BuildingTech extends BuildingAction {
 		return s;
 	}
 
-	public void setTeam(int i){
-		this.team = i;
-		this.gameteam = this.p.g.teams.get(i);
-		this.updateImage();
+	public void setTeamExtra(int i){
+
 		if(this.queue!=null){
 			this.queue=null;
 		}
-
 		this.setCharge(0f);
+		updateProductionList();
+		if(this instanceof BuildingMine){
+			((BuildingMine) this).bonusProd = 0;
+		}
+		if(this instanceof BuildingMill){
+			((BuildingMill) this).bonusProd = 0;
+		}
 	}
 
 	public void parseBuildingTech(HashMap<String, String> hs) {

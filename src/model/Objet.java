@@ -36,7 +36,6 @@ public abstract class Objet implements java.io.Serializable {
 	public Plateau p;
 	public float lifePoints;
 	public String name;
-	protected int team;
 	protected GameTeam gameteam;
 
 	// visibility boolean 
@@ -61,11 +60,11 @@ public abstract class Objet implements java.io.Serializable {
 		return gameteam;
 	}
 	public void setTeam(int i){
-		this.team = i;
+		
 		this.gameteam = this.p.g.teams.get(i);
 	}
 	public void setTeam(GameTeam g){
-		this.team = g.id;
+
 		this.gameteam = g;
 	}
 	protected void destroy(){
@@ -123,7 +122,7 @@ public abstract class Objet implements java.io.Serializable {
 		s+="id:"+id+";";
 		s+="name:"+name+";";
 		if(changes.team){
-			s+="team:"+team+";";
+			s+="team:"+gameteam.id+";";
 			changes.team = true;
 		}
 		if(changes.x){

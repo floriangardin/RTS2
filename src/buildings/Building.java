@@ -9,6 +9,7 @@ import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import model.Plateau;
+import multiplaying.ChatMessage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -85,45 +86,27 @@ public class Building extends ActionObjet{
 			}
 			this.constructionPoints-=Main.increment;
 		}
-		else if(this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING && c.target==this){
+		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING && c.target==this){
 			this.constructionPoints+=Main.increment;
 		}
-		else if(c.mode==Character.TAKE_BUILDING && this.constructionPoints>=this.maxLifePoints){
-			if(this.potentialTeam!=this.getTeam()  && (((this.g.teams.get(potentialTeam).pop+1)<this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters))){
-				if(!(this instanceof Bonus)){
-					this.getGameTeam().pop-=2;
-				}
-				this.setTeam(this.potentialTeam);
-				if(!(this instanceof Bonus)){
-					this.getGameTeam().pop+=2;
-				}
-				if(this instanceof BuildingHeadQuarters){
-					this.p.g.endGame = true;
-					if(this.getTeam()==this.p.g.currentPlayer.getTeam()){
-						this.p.g.victory = true;
+		if(this.constructionPoints>=this.maxLifePoints && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
+			if(this.potentialTeam!=this.getTeam()  ){
+				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters)){
+					
+					if(this instanceof BuildingHeadQuarters){
+						this.p.g.endGame = true;
+						if(this.getTeam()==this.p.g.currentPlayer.getTeam()){
+							this.p.g.victory = true;
+						}
+						else{
+							this.p.g.victory = false;
+						}
 					}
-					else{
-						this.p.g.victory = false;
-					}
+					this.setTeam(this.potentialTeam);
+				}else{
+					this.g.sendMessage(ChatMessage.getById("pop"));
 				}
-				this.hq = this.getGameTeam().hq;
-				if(this instanceof BuildingProduction){
-					((BuildingProduction)this).queue.clear();
-					((BuildingProduction)this).charge = 0f;					
-				}
-				if(this instanceof BuildingTech){
-					((BuildingTech)this).queue=null;
-					((BuildingTech)this).charge = 0f;
-					this.hq = this.getGameTeam().hq;
-					((BuildingTech)this).updateProductionList();
-				}
-				if(this instanceof BuildingMine){
-					((BuildingMine) this).bonusProd = 0;
-				}
-				if(this instanceof BuildingMill){
-					((BuildingMill) this).bonusProd = 0;
-				}
-				this.updateImage();
+				
 			}
 		}
 	}
@@ -323,9 +306,19 @@ public class Building extends ActionObjet{
 		return tec;
 	}
 
+	public void setTeamExtra(){
+		
+	}
 	public void setTeam(int i){
-		this.team = i;
+		this.hq = null;
+		if(!(this instanceof Bonus) && this.gameteam!=null){
+			this.getGameTeam().pop-=2;
+		}
 		this.gameteam = this.p.g.teams.get(i);
+		if(!(this instanceof Bonus)  && this.gameteam!=null){
+			this.hq = this.getGameTeam().hq;
+			this.getGameTeam().pop+=2;
+		}
 		this.updateImage();
 	}
 	
