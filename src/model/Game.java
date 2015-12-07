@@ -605,8 +605,8 @@ public class Game extends BasicGame
 		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,25);
 		this.font = new UnicodeFont(fe,25,false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
-		//this.font.addAsciiGlyphs();
-		this.font.addNeheGlyphs();
+		this.font.addAsciiGlyphs();
+		//this.font.addNeheGlyphs();
 		//this.font.addGlyphs(0, 256);
 		this.font.loadGlyphs();
 		if(gc!=null)
