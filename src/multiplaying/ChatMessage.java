@@ -12,22 +12,22 @@ public class ChatMessage {
 	public int idPlayer;
 
 	public static int basicTime = Main.framerate*2;
+	public static int multiTime = Main.framerate*7;
 
 	public ChatMessage(String message, int idPlayer) {
 		this.message = message;
-		this.remainingTime = basicTime;
 		this.idPlayer = idPlayer;
 		switch(idPlayer){
-		case 0: this.color = Color.white;break;
-		case 1: this.color = Color.blue; break;
-		case 2: this.color = Color.red; break;
+		case 0: this.color = Color.white; this.remainingTime = basicTime; break;
+		case 1: this.color = Color.blue; this.remainingTime = multiTime; break;
+		case 2: this.color = Color.red; this.remainingTime = multiTime; break;
 		}
 	}
 
 	public ChatMessage(String message){
 		String[] tab = message.split("\\|");
 		this.message = tab[1];
-		this.remainingTime = basicTime;
+		this.remainingTime = multiTime;
 		this.idPlayer = Integer.parseInt(tab[0]);
 		switch(idPlayer){
 		case 0: this.color = Color.white;break;
