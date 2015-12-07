@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Image;
 
 import model.Game;
+import model.Map;
 import model.Plateau;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
@@ -45,6 +46,7 @@ public class MenuIntro extends Menu {
 			this.game.inMultiplayer = false;
 			this.game.initializePlayers();
 			game.menuMapChoice.initializeMenuPlayer();
+			Map.updateMap(0, game);
 			this.game.setMenu(this.game.menuMapChoice);
 			break;
 		case 1:

@@ -310,7 +310,7 @@ public class Building extends ActionObjet{
 		
 	}
 	public void setTeam(int i){
-		this.hq = null;
+		
 		if(!(this instanceof Bonus) && this.gameteam!=null){
 			this.getGameTeam().pop-=2;
 		}
@@ -319,6 +319,7 @@ public class Building extends ActionObjet{
 			this.hq = this.getGameTeam().hq;
 			this.getGameTeam().pop+=2;
 		}
+		this.setTeamExtra();
 		this.updateImage();
 	}
 	

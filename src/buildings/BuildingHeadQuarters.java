@@ -37,9 +37,10 @@ public class BuildingHeadQuarters extends BuildingTech {
 		// Init ProductionList
 		this.hq = this;
 		this.p = plateau ;
-		this.setTeam(team);
 		this.productionList = new Vector<Technologie>();
 		this.allTechs = new Vector<Technologie>();
+		this.gameteam = g.teams.get(team);
+		
 		this.getGameTeam().hq = this;
 		if(getGameTeam().civ==0){
 			// AGING

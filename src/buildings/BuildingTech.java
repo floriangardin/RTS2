@@ -16,7 +16,7 @@ public abstract class BuildingTech extends BuildingAction {
 		if(this.hq==null){
 			return;
 		}
-		this.productionList.clear();
+		this.productionList= new Vector<Technologie>();
 		for(Technologie t:this.hq.allTechs){
 			boolean ok = true;
 			if(t.techRequired!=null){
@@ -110,7 +110,10 @@ public abstract class BuildingTech extends BuildingAction {
 	}
 
 	public void setTeamExtra(){
-
+		if(this instanceof BuildingHeadQuarters){
+			this.getGameTeam().hq = hq;
+			this.hq =(BuildingHeadQuarters) this;
+		}
 		if(this.queue!=null){
 			this.queue=null;
 		}
