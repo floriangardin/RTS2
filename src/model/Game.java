@@ -188,13 +188,13 @@ public class Game extends BasicGame
 	//////////////////////////
 	/// VICTORY AND DEFEAT ///
 	//////////////////////////
-	
+
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 200;
 	boolean hasAlreadyPlay = false;
-	
-	
+
+
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -394,7 +394,7 @@ public class Game extends BasicGame
 				this.currentPlayer.bottomBar.draw(g);
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
-			
+
 		}
 		if(processSynchro){
 			g.setColor(Color.green);
@@ -482,7 +482,9 @@ public class Game extends BasicGame
 					// On envoie l'input du tour courant
 					this.sendInput(im.toString());
 					this.inputsHandler.addToInputs(im);
-					this.plateau.handleView(im, this.currentPlayer.id);
+					if(!chatHandler.typingMessage){
+						this.plateau.handleView(im, this.currentPlayer.id);
+					}
 					ims = this.inputsHandler.getInputsForRound(this.round);
 					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 						// Antidrop
@@ -514,7 +516,9 @@ public class Game extends BasicGame
 				/////////////////////
 
 				ims.add(im);
-				this.plateau.handleView(im, this.currentPlayer.id);
+				if(!chatHandler.typingMessage){
+					this.plateau.handleView(im, this.currentPlayer.id);
+				}
 				// solo mode, update du joueur courant
 				this.plateau.update(ims);
 				//Update des ordres de l'IA
