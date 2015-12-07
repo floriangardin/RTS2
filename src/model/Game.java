@@ -128,7 +128,6 @@ public class Game extends BasicGame
 	public long startTime;
 	// Host and client
 	public InetAddress addressHost;
-	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
 
 	// ports
@@ -624,10 +623,6 @@ public class Game extends BasicGame
 		selection = null;
 		try {
 			this.addressLocal = InetAddress.getLocalHost();
-			String address = addressLocal.getHostAddress();
-			String[] tab = address.split("\\.");
-			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
-			this.addressBroadcast = InetAddress.getByName(address);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -648,22 +643,26 @@ public class Game extends BasicGame
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
 	public void sendConnexion(String message){
-		if(host)
-			this.toSend.add(new MultiMessage(message,0,this.addressBroadcast));
-		else
+		if(host){
+			for(int i=1; i<this.nPlayers; i++){
+				this.toSend.add(new MultiMessage(message,0,this.players.get(i).address));
+			}
+		} else {
 			this.toSend.add(new MultiMessage(message,0,this.addressHost));
+		}
 	}
 	public void sendInput(String s){
-		if(host)
-			this.toSend.add(new MultiMessage(s,1,this.players.get(2).address));
-		else
-			this.toSend.add(new MultiMessage(s,1,this.players.get(1).address));
+		for(int i=1; i<this.nPlayers; i++){
+			this.toSend.add(new MultiMessage(s,1,this.players.get(i).address));
+		}
 	}
 	public void sendValidation(String s, int player){
 		this.toSend.addElement(new MultiMessage(s,2,this.players.get(player).address));
 	}
 	public void sendResynchro(String s){
-		this.toSend.addElement(new MultiMessage(s,3,this.addressBroadcast));
+		for(int i=1; i<this.nPlayers; i++){
+			this.toSend.add(new MultiMessage(s,3,this.players.get(i).address));
+		}
 	}
 	public void sendPing(String s){
 		if(host){
@@ -674,10 +673,12 @@ public class Game extends BasicGame
 		}
 	}
 	public void sendChecksum(String s){
-		//this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
+		this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
 	}
 	public void sendChat(String s){
-		this.toSend.addElement(new MultiMessage(s,6,this.addressBroadcast));
+		for(int i=1; i<this.nPlayers; i++){
+			this.toSend.add(new MultiMessage(s,6,this.players.get(i).address));
+		}
 	}
 
 	private void manuelAntidrop(Input in) {
