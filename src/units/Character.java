@@ -41,13 +41,13 @@ import buildings.Building;
 
 public class Character extends ActionObjet{
 
-	
+
 	public boolean explosionWhenImmolate = false;
 	//Isattackec
 	public boolean isAttacked;
 	public float timerAttacked = 0f;
 	public float timerMaxValueAttacked = 10f;
-	
+
 	//UNITS TYPE
 	public static int SPEARMAN = 0;
 	public static int CROSSBOWMAN = 1;
@@ -326,8 +326,8 @@ public class Character extends ActionObjet{
 			if(this.weapon == "spear"){
 				this.image = this.p.g.images.spearman_move;
 				return;
-//				imageb = this.p.g.images.sword;
-//				imaged = this.p.g.images.heavyArmor;
+				//				imageb = this.p.g.images.sword;
+				//				imaged = this.p.g.images.heavyArmor;
 			}
 			if(this.weapon == "bow"){
 				imageb = this.p.g.images.bow;
@@ -372,7 +372,7 @@ public class Character extends ActionObjet{
 			this.updateImmolation();
 			return;
 		}
-		
+
 		this.actionIAScript();
 		this.updateAnimation();
 	}
@@ -783,32 +783,33 @@ public class Character extends ActionObjet{
 		float cornerThreshold = 5f;
 		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
 			//System.out.println("dans un coin");
-			//			if(this.getTarget()==null)
-			//				return;
-			//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
-			//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
-			//				switch(sector){
-			//				case 1: 
-			//				case 3:
-			//					if(this.getY()>o.getCenterY())
-			//
-			//						this.setXY(this.getX(), this.getY()+30f);
-			//					else
-			//						this.setXY(this.getX(), this.getY()-30f);
-			//
-			//					break;
-			//				case 2:
-			//				case 4:
-			//					if(this.getX()>o.getCenterX())
-			//
-			//						this.setXY(this.getX()+30f, this.getY());
-			//					else
-			//						this.setXY(this.getX()-30f, this.getY());
-			//
-			//					break;
-			//				}
-			//				return;
-			//			}
+			return;
+//			if(this.getTarget()==null)
+//				return;
+//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
+//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
+//				switch(sector){
+//				case 1: 
+//				case 3:
+//					if(this.getY()>o.getCenterY())
+//
+//						this.setXY(this.getX(), this.getY()+30f);
+//					else
+//						this.setXY(this.getX(), this.getY()-30f);
+//
+//					break;
+//				case 2:
+//				case 4:
+//					if(this.getX()>o.getCenterX())
+//
+//						this.setXY(this.getX()+30f, this.getY());
+//					else
+//						this.setXY(this.getX()-30f, this.getY());
+//
+//					break;
+//				}
+//				return;
+			}
 		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
@@ -892,7 +893,7 @@ public class Character extends ActionObjet{
 		if(this.mode == TAKE_BUILDING){
 			this.mode = NORMAL;
 		}
-		
+
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null){
@@ -1137,7 +1138,7 @@ public class Character extends ActionObjet{
 			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
 			this.setTarget(target,null);
 		}
-		
+
 		if(hs.containsKey("mode")){
 			System.out.println("Character 1142 : mode before "+this.mode);
 			this.mode = Integer.parseInt(hs.get("mode"));
