@@ -126,10 +126,8 @@ public class Menu_TextScanner extends Menu_Item{
 							this.idKeyDown = k;
 							if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT)){
 								s+=intToChar.get(k);
-								System.out.println(intToChar.get(k));
 							}else{
 								s+=intToCharMin.get(k);
-								System.out.println(intToCharMin.get(k));
 							}
 						}
 						break;
