@@ -5,9 +5,9 @@ import java.util.Vector;
 import main.Main;
 import model.Game;
 import model.IAPlayer;
+import multiplaying.ChatMessage;
 import units.Character;
 import units.UnitsList;
-import display.Message;
 
 public abstract class BuildingProduction extends BuildingAction {
 
@@ -29,12 +29,15 @@ public abstract class BuildingProduction extends BuildingAction {
 				if(this.p.g.players.get(this.getTeam()) instanceof IAPlayer){
 					return false;
 				}
-				if(this.productionList.get(unit).foodPrice>this.getGameTeam().food)
-					this.p.addMessage(Message.getById("food"), this.getTeam());
-				else if(this.productionList.get(unit).foodPrice>this.getGameTeam().food)
-					this.p.addMessage(Message.getById("gold"), this.getTeam());
-				else{
-					this.p.addMessage(Message.getById("pop"), this.getTeam());
+				// Messages
+				if(this.getTeam()==this.g.currentPlayer.getTeam()){
+					if(this.productionList.get(unit).foodPrice>this.getGameTeam().food){
+						this.g.sendMessage(ChatMessage.getById("food"));
+					} else if(this.productionList.get(unit).goldPrice>this.getGameTeam().gold){
+						this.g.sendMessage(ChatMessage.getById("gold"));
+					} else {
+						this.g.sendMessage(ChatMessage.getById("pop"));
+					}
 				}
 			}
 		}

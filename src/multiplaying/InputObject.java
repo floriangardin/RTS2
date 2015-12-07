@@ -270,5 +270,25 @@ public class InputObject extends MultiObjetModel{
 		}
 		return n>=this.validated.size()-2;
 	}
+	
+	public void eraseLetter(){
+		this.isPressedUP = false;
+		this.isPressedLEFT = false;
+		this.isPressedRIGHT = false;
+		this.isPressedDOWN = false;
+		this.isPressedProd0 = false;
+		this.isPressedProd1 = false;
+		this.isPressedProd2 = false;
+		this.isPressedProd3 = false;
+		this.isPressedA = false;
+		this.isPressedB = false;
+		this.isPressedF = false;
+		this.isPressedT = false;
+		this.isPressedE = false;
+		this.isPressedR = false;
+		this.isPressedH = false;
+		for(int i=0; i<10; i++)
+			this.isPressedNumPad[i]=false;
+	}
 
 }

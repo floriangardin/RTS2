@@ -13,6 +13,7 @@ public class Menu_TextScanner extends Menu_Item{
 
 	public String s;
 	public HashMap<Integer, Character> intToChar = new HashMap<Integer, Character>();
+	public HashMap<Integer, Character> intToCharMin = new HashMap<Integer, Character>();
 	public boolean isSelected = false;
 	public int animation = 0;
 	public int cooldown = 0;
@@ -56,11 +57,66 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(Input.KEY_X,'X');
 		intToChar.put(Input.KEY_Y,'Y');
 		intToChar.put(Input.KEY_Z,'Z');
+		intToChar.put(51, '?');
+		intToChar.put(52, '.');
+		intToChar.put(53, '/');
+		intToChar.put(41, '§');
+		intToChar.put(Input.KEY_0, '0');
+		intToChar.put(Input.KEY_1, '1');
+		intToChar.put(Input.KEY_2, '2');
+		intToChar.put(Input.KEY_3, '3');
+		intToChar.put(Input.KEY_4, '4');
+		intToChar.put(Input.KEY_5, '5');
+		intToChar.put(Input.KEY_6, '6');
+		intToChar.put(Input.KEY_7, '7');
+		intToChar.put(Input.KEY_8, '8');
+		intToChar.put(Input.KEY_9, '9');
 		intToChar.put(Input.KEY_SPACE,' ');
+		intToCharMin.put(Input.KEY_SPACE,' ');
+		intToCharMin.put(Input.KEY_A,'a');
+		intToCharMin.put(Input.KEY_B,'b');
+		intToCharMin.put(Input.KEY_C,'c');
+		intToCharMin.put(Input.KEY_D,'d');
+		intToCharMin.put(Input.KEY_E,'e');
+		intToCharMin.put(Input.KEY_F,'f');
+		intToCharMin.put(Input.KEY_G,'g');
+		intToCharMin.put(Input.KEY_H,'h');
+		intToCharMin.put(Input.KEY_I,'i');
+		intToCharMin.put(Input.KEY_J,'j');
+		intToCharMin.put(Input.KEY_K,'k');
+		intToCharMin.put(Input.KEY_L,'l');
+		intToCharMin.put(Input.KEY_M,'m');
+		intToCharMin.put(Input.KEY_N,'n');
+		intToCharMin.put(Input.KEY_O,'o');
+		intToCharMin.put(Input.KEY_P,'p');
+		intToCharMin.put(Input.KEY_Q,'q');
+		intToCharMin.put(Input.KEY_R,'r');
+		intToCharMin.put(Input.KEY_S,'s');
+		intToCharMin.put(Input.KEY_T,'t');
+		intToCharMin.put(Input.KEY_U,'u');
+		intToCharMin.put(Input.KEY_V,'v');
+		intToCharMin.put(Input.KEY_W,'w');
+		intToCharMin.put(Input.KEY_X,'x');
+		intToCharMin.put(Input.KEY_Y,'y');
+		intToCharMin.put(Input.KEY_Z,'z');
+		intToCharMin.put(Input.KEY_0, 'à');
+		intToCharMin.put(Input.KEY_1, '&');
+		intToCharMin.put(Input.KEY_2, 'é');
+		intToCharMin.put(Input.KEY_3, '"');
+		intToCharMin.put(Input.KEY_4, '\'');
+		intToCharMin.put(Input.KEY_5, '(');
+		intToCharMin.put(Input.KEY_6, '-');
+		intToCharMin.put(Input.KEY_7, 'è');
+		intToCharMin.put(Input.KEY_8, '_');
+		intToCharMin.put(Input.KEY_9, 'ç');
+		intToCharMin.put(51, ',');
+		intToCharMin.put(52, ';');
+		intToCharMin.put(53, ':');
+		intToCharMin.put(41, '!');
 	}
 
 	public void update(Input i, InputObject im){
-		if(isSelected){
+		if(!game.isInMenu || isSelected){
 			if(this.game.font.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
@@ -71,7 +127,7 @@ public class Menu_TextScanner extends Menu_Item{
 							if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT))
 								s+=intToChar.get(k);
 							else
-								s+=Character.toLowerCase((intToChar.get(k)));
+								s+=intToCharMin.get(k);
 						}
 						break;
 					}
@@ -109,6 +165,10 @@ public class Menu_TextScanner extends Menu_Item{
 	}
 
 	public void draw(Graphics g){
+		if(!game.isInMenu){
+			g.setColor(Color.black);
+			g.fillRect(x-sizeX/2f-10f, y-sizeY/2f, sizeX+20f, sizeY);
+		}
 		if(isSelected)
 			g.setColor(Color.yellow);
 		else

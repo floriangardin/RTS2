@@ -3,15 +3,15 @@ package buildings;
 import java.util.HashMap;
 import java.util.Vector;
 
-import display.Message;
+import multiplaying.ChatMessage;
 import technologies.Technologie;
 
 public abstract class BuildingTech extends BuildingAction {
 	public Vector<Technologie> productionList;
 	public Technologie queue;
 	public Technologie lastTechDiscovered;
-	
-	
+
+
 	public void updateProductionList(){
 		if(this.hq==null){
 			return;
@@ -31,7 +31,7 @@ public abstract class BuildingTech extends BuildingAction {
 			}
 		}
 	}
-	
+
 	public void removeProd() {
 		if(this.queue!=null){
 			this.getGameTeam().food += queue.tech.foodPrice;
@@ -40,7 +40,7 @@ public abstract class BuildingTech extends BuildingAction {
 			this.setCharge(0f);
 		}
 	}
-	
+
 	public boolean product(int unit){
 		if(this.queue==null && unit<this.productionList.size()){
 			if(this.productionList.get(unit).tech.foodPrice<=this.getGameTeam().food
@@ -50,20 +50,27 @@ public abstract class BuildingTech extends BuildingAction {
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
 				return true;
 			} else {
-				if(this.productionList.get(unit).tech.foodPrice>this.getGameTeam().food)
-					this.p.addMessage(Message.getById("food"),p.g.currentPlayer.id);
-				else
-					this.p.addMessage(Message.getById("gold"), p.g.currentPlayer.id);
+				// Messages
+				if(this.getTeam()==this.g.currentPlayer.getTeam()){
+					if(this.productionList.get(unit).tech.foodPrice>this.getGameTeam().food){
+						this.g.sendMessage(ChatMessage.getById("food"));
+					} else {
+						this.g.sendMessage(ChatMessage.getById("gold"));
+					}
+				}
 			}
 		}
 		return false;
 	}
-	
+
 	public void techTerminate(Technologie q){
 		if(q==null){
 			return;
 		}
-		this.p.addMessage(Message.getById("research"), p.g.currentPlayer.id);
+		// Message research complete
+		if(this.getTeam()==this.g.currentPlayer.getTeam()){
+			this.g.sendMessage(ChatMessage.getById("research"));
+		}
 		this.setCharge(0f);
 		this.hq.techsDiscovered.addElement(q);
 		this.productionList.removeElement(q);
@@ -76,18 +83,18 @@ public abstract class BuildingTech extends BuildingAction {
 		q.applyEffect();
 		this.queue=null;
 		this.isProducing =false;
-		
+
 		this.updateProductionList();
 		this.changes.isFinished = true;
 		this.lastTechDiscovered = q;
 	}
-	
+
 	public int getIndexOfQueue(){
 		if(productionList.contains(queue))
 			return productionList.indexOf(queue);
 		return -1;
 	}
-	
+
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
 		if(changes.queue && this.queue!=null){
@@ -105,7 +112,7 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 		return s;
 	}
-	
+
 	public void parseBuildingTech(HashMap<String, String> hs) {
 		if(hs.containsKey("queue")){
 			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("queue")));

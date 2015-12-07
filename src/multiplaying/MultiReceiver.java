@@ -131,7 +131,7 @@ public class MultiReceiver extends Thread{
 		this.g.mutexChecksum.unlock();		
 	}
 	public void actionChat(String message){
-
+		this.g.chatHandler.messages.add(new ChatMessage(message));
 	}
 
 	public static class Checksum {

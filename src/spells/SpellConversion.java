@@ -1,10 +1,10 @@
 package spells;
 
-import display.Message;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import model.Player;
+import multiplaying.ChatMessage;
 import units.Character;
 
 public class SpellConversion extends Spell{
@@ -30,7 +30,10 @@ public class SpellConversion extends Spell{
 				((Character)t).changeTeam(launcher.getTeam());
 				launcher.getGameTeam().special-=this.faithCost;
 			} else {
-				p.addMessage(Message.getById("faith"), p.g.currentPlayer.id);
+				// Messages
+				if(this.gameteam.id==this.p.g.currentPlayer.getTeam()){
+						this.p.g.sendMessage(ChatMessage.getById("faith"));
+				}
 			}
 		}
 	}

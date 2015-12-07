@@ -1,6 +1,5 @@
 package model;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -12,7 +11,6 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
-import IA.IABasic;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;
@@ -20,9 +18,9 @@ import buildings.BuildingTower;
 import bullets.Bullet;
 import bullets.CollisionBullet;
 import display.BottomBar;
-import display.Message;
 import main.Main;
 import multiplaying.InputObject;
+import multiplaying.ChatMessage;
 import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Spell;
@@ -81,7 +79,6 @@ public class Plateau {
 	public Vector<Float> recY;
 	public Vector<Vector<ActionObjet>> inRectangle;
 
-	public Vector<Vector<Message>> messages;
 
 	public MapGrid mapGrid;
 
@@ -138,14 +135,11 @@ public class Plateau {
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<Vector<ActionObjet>>();
-		// MESSAGES
-		this.messages = new Vector<Vector<Message>>();
 		
 		for(int i =0; i<g.nPlayers;i++){
 			this.selection.addElement(new Vector<ActionObjet>());
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
 			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
-			this.messages.addElement(new Vector<Message>());
 			this.rectangleSelection.addElement(null);
 			this.inRectangle.addElement(new Vector<ActionObjet>());
 			this.recX.addElement(0f);
@@ -700,16 +694,6 @@ public class Plateau {
 		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin visibility : " + (System.currentTimeMillis() - g.timeSteps));
 
-		// 4 - Update of the messages
-		Vector<Message> toDelete = new Vector<Message>();
-		toDelete.clear();
-		for (Message m : this.messages.get(g.currentPlayer.id)) {
-			m.remainingTime -= 1f;
-			if (m.remainingTime <= 0f)
-				toDelete.add(m);
-		}
-		for (Message m : toDelete)
-			this.messages.get(g.currentPlayer.id).remove(m);
 		if (g.debugTimeSteps)
 			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - g.timeSteps));
 	}
@@ -1149,12 +1133,6 @@ public class Plateau {
 		this.selection.get(player).clear();
 	}
 
-	// handling messages
-	public void addMessage(Message m, int player) {
-		if (this.messages.get(player).size() > 19)
-			return;
-		this.messages.get(player).add(0, m);
-	}
 
 	// MULTIPLAYING
 	public String toStringArray() {

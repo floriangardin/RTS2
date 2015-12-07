@@ -16,7 +16,7 @@ import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
 import bullets.Bullet;
-import display.Message;
+import multiplaying.ChatMessage;
 import nature.Tree;
 import nature.Water;
 import pathfinding.MapGrid;

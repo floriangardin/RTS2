@@ -9,7 +9,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -22,13 +21,14 @@ import org.newdawn.slick.geom.Rectangle;
 import IA.IABasic;
 import buildings.Building;
 import bullets.Bullet;
-import display.Message;
 import main.Main;
 import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
+import multiplaying.ChatHandler;
+import multiplaying.ChatMessage;
 import multiplaying.Clock;
 import multiplaying.InputHandler;
 import multiplaying.InputObject;
@@ -39,8 +39,11 @@ import multiplaying.MultiSender;
 import spells.SpellEffect;
 import units.Character;
 public class Game extends BasicGame 
-{	
-	// DEBUG
+{
+	/////////////
+	/// DEBUG ///
+	/////////////
+
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
@@ -130,8 +133,7 @@ public class Game extends BasicGame
 	public InetAddress addressHost;
 	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
-
-	// ports
+	// port
 	public int port = 8887;
 	// depots for senders
 	public Vector<MultiMessage> toSend = new Vector<MultiMessage>();
@@ -147,15 +149,14 @@ public class Game extends BasicGame
 	public MultiSender sender;
 	// Receiver
 	public MultiReceiver receiver;
-
-
+	// Chat
+	public ChatHandler chatHandler;
 	// Handling multiplaying
 	public InputHandler inputsHandler;
 	public String toParse= null;
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
 	private boolean sendParse;
-	// Mutex
 	public Lock mutexChecksum = new ReentrantLock();
 	// antidrop
 	public boolean antidropProcess = false;
@@ -164,8 +165,14 @@ public class Game extends BasicGame
 	public int multi = 1;
 	public int roundToTest = 0;
 	public int timeOutAntiDrop = 0;
+	public int sleep;
+	public int roundDelay;
 
-	// Menus
+
+	/////////////
+	/// MENUS ///
+	/////////////
+
 	public Menu menuPause;
 	public MenuIntro menuIntro;
 	public MenuOptions menuOptions;
@@ -177,16 +184,14 @@ public class Game extends BasicGame
 	public float ratioResolution;
 
 
-	//VAut + ou - 1 (pour resynchro à la main)
-	public int sleep;
-	public int roundDelay;
 
-	// victory
+	//////////////////////////
+	/// VICTORY AND DEFEAT ///
+	//////////////////////////
+	
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 200;
-
-
 	boolean hasAlreadyPlay = false;
 	
 	
@@ -213,7 +218,6 @@ public class Game extends BasicGame
 		this.plateau.toAddSelection.addElement(new Vector<ActionObjet>());
 		this.plateau.toRemoveSelection.addElement(new Vector<ActionObjet>());
 
-		this.plateau.messages.addElement(new Vector<Message>());
 		this.plateau.rectangleSelection.addElement(null);
 		this.plateau.recX.addElement(0f);
 		this.plateau.recY.addElement(0f);
@@ -231,7 +235,6 @@ public class Game extends BasicGame
 		this.plateau.selection.remove(indice);
 		this.plateau.toAddSelection.remove(indice);
 		this.plateau.toRemoveSelection.remove(indice);
-		this.plateau.messages.remove(indice);
 		this.plateau.rectangleSelection.remove(indice);
 		this.plateau.recX.remove(indice);
 		this.plateau.recY.remove(indice);
@@ -391,17 +394,7 @@ public class Game extends BasicGame
 				this.currentPlayer.bottomBar.draw(g);
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
-			// Draw messages
-			Message m;
-			if(this.plateau.messages.size()>2){
-				for(int k=0; k<this.plateau.messages.get(currentPlayer.id).size();k++){
-					m = this.plateau.messages.get(currentPlayer.id).get(k);
-					g.setColor(m.color);
-					Font f = g.getFont();
-					float height = f.getHeight(m.message);
-					g.drawString(m.message, 20f, this.currentPlayer.bottomBar.topBar.sizeY+20f+2f*height*k);
-				}
-			}
+			
 		}
 		if(processSynchro){
 			g.setColor(Color.green);
@@ -413,6 +406,7 @@ public class Game extends BasicGame
 			g.drawString("AntiDrop", 30f, 140f);
 			g.fillRect(10f,140f,15f,15f);
 		}
+		this.chatHandler.draw(g);
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 
@@ -452,13 +446,17 @@ public class Game extends BasicGame
 			this.menuCurrent.update(im);
 		} else if(!endGame) {
 			//Update of current round
-
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,!antidropProcess);
+			if(this.chatHandler.typingMessage){
+				im.eraseLetter();
+			} else {
+				this.manuelAntidrop(in);
+			}
+			this.chatHandler.action(in,im);
 			//Handle manual resynchro
-			this.manuelAntidrop(in);
 
 			if(inMultiplayer){
 
@@ -636,6 +634,7 @@ public class Game extends BasicGame
 		}
 		this.clock = new Clock(this);
 		this.clock.start();
+		chatHandler = new ChatHandler(this);
 	}
 
 
@@ -800,7 +799,12 @@ public class Game extends BasicGame
 	public void pingRequest() {
 		this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 	}
-
+	public void sendMessage(ChatMessage m){
+		if(m.idPlayer==currentPlayer.id){
+			this.sendChat(m.toString());
+		}
+		this.chatHandler.messages.addElement(m);
+	}
 
 
 }
