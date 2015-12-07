@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Lock;
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
-	public static int nDelay=3;
+	public static int nDelay=5;
 	Game g;
 	public Lock mutex;
 
