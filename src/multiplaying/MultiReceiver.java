@@ -62,9 +62,9 @@ public class MultiReceiver extends Thread{
 					}
 					this.action(msg.substring(1));
 				}
-				Thread.sleep(1);
+				//Thread.sleep(1);
 			}
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 		} 
 	}
 

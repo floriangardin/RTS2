@@ -61,12 +61,7 @@ public class MultiSender extends Thread{
 					if(Game.debugSender)
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + multimessage.message);
 				}
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
 			}
 		} catch (SocketException e1) {
 		} catch (IOException e) {
