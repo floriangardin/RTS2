@@ -128,6 +128,7 @@ public class Game extends BasicGame
 	public long startTime;
 	// Host and client
 	public InetAddress addressHost;
+	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
 
 	// ports
@@ -465,16 +466,16 @@ public class Game extends BasicGame
 				////////////////////
 
 				// Checksum
-								this.handleChecksum();
+				//				this.handleChecksum();
 				//
 				//				// Ping
-								this.handlePing();
+				//				this.handlePing();
 				//
 				//				// Send Resynchro
-								this.handleSendingResynchroParse();
+				//				this.handleSendingResynchroParse();
 
 				// Antidrop
-				this.handleAntidrop();
+				//this.handleAntidrop();
 
 				if(processSynchro && this.toParse!=null){
 					// Resynchro
@@ -623,6 +624,10 @@ public class Game extends BasicGame
 		selection = null;
 		try {
 			this.addressLocal = InetAddress.getLocalHost();
+			String address = addressLocal.getHostAddress();
+			String[] tab = address.split("\\.");
+			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
+			this.addressBroadcast = InetAddress.getByName(address);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
