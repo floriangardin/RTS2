@@ -27,7 +27,7 @@ public class InputHandler {
 		int idx = 0;
 		while(idx<this.inputs.size()){
 			if(player==this.inputs.get(idx).player.id && round==this.inputs.get(idx).round){
-				System.out.println("Input handler line 30 :Validation reussiz for  round "+round+ " "+player);
+				//System.out.println("Input handler line 30 :Validation reussiz for  round "+round+ " "+player);
 				this.inputs.get(idx).validate(g.getPlayerById(val));
 				break;
 			}
