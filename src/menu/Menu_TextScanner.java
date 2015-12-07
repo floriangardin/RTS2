@@ -101,14 +101,14 @@ public class Menu_TextScanner extends Menu_Item{
 		intToCharMin.put(Input.KEY_Z,'z');
 		intToCharMin.put(Input.KEY_0, 'à');
 		intToCharMin.put(Input.KEY_1, '&');
-		intToCharMin.put(Input.KEY_2, '�');
+		intToCharMin.put(Input.KEY_2, 'é');
 		intToCharMin.put(Input.KEY_3, '"');
 		intToCharMin.put(Input.KEY_4, '\'');
 		intToCharMin.put(Input.KEY_5, '(');
 		intToCharMin.put(Input.KEY_6, '-');
-		intToCharMin.put(Input.KEY_7, '�');
+		intToCharMin.put(Input.KEY_7, 'è');
 		intToCharMin.put(Input.KEY_8, '_');
-		intToCharMin.put(Input.KEY_9, '�');
+		intToCharMin.put(Input.KEY_9, 'ç');
 		intToCharMin.put(51, ',');
 		intToCharMin.put(52, ';');
 		intToCharMin.put(53, ':');
