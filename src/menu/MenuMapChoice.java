@@ -117,6 +117,7 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void update(InputObject im){
+		System.out.println(this.game.clock.getCurrentTime());
 		// Handling current player according to input
 		this.menuPlayers.get(game.currentPlayer.id).update(im);
 		// handling connexions
