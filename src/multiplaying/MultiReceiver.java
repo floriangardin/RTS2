@@ -50,7 +50,7 @@ public class MultiReceiver extends Thread{
 				this.g.nbPaquetReceived++;
 				if(msg.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
 					if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(1));
-					switch(msg.substring(0,50)){
+					switch(msg.substring(0,1)){
 					case "0":this.actionConnexion(msg.substring(1)); break;
 					case "1":this.actionInput(msg.substring(1)); break;
 					case "2":this.actionValidation(msg.substring(1)); break;
