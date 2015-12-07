@@ -1106,7 +1106,7 @@ public class Character extends ActionObjet{
 				s+="tx:"+this.target.x+";";
 				s+="ty:"+this.target.y+";";
 			}
-			if(this.target instanceof Character){
+			if(this.target instanceof Character || this.target instanceof Building){
 				s+="tid:"+this.target.id+";";
 			}
 		}
@@ -1135,7 +1135,10 @@ public class Character extends ActionObjet{
 			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
 		}
 		if(hs.containsKey("tid")){
-			Character target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+			ActionObjet target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+			if(target==null){
+				target = p.getBuildingById(Integer.parseInt(hs.get("tid")));
+			}
 			this.setTarget(target,null);
 		}
 
