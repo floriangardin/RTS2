@@ -201,7 +201,7 @@ public class Building extends ActionObjet{
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
 		// Construction points
-		if(mouseOver && this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
+		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
 			g.setColor(new Color(255,255,255,1f));
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
 			g.fill(new Rectangle(this.getX()-sizeX/2,this.getY()+sizeY/2-10f,sizeX,14f));
