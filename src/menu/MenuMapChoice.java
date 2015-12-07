@@ -19,7 +19,7 @@ import multiplaying.InputObject;
 public class MenuMapChoice extends Menu {
 
 
-	public int selected = -1;
+	public int selected = 0;
 	public int mapSelected = 0;
 	public Vector<String> maps = Map.maps();
 

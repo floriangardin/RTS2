@@ -49,7 +49,7 @@ public class MultiSender extends Thread{
 					//					if(depot.get(0).charAt(0)=='2' && game.host){
 					//						address = InetAddress.getByName(depot.get(0).substring(1));
 					//					}
-					multimessage = depot.get(0);
+					multimessage = depot.remove(0);
 					this.address = multimessage.address;
 					message = (multimessage.type+multimessage.message).getBytes();
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
@@ -58,8 +58,8 @@ public class MultiSender extends Thread{
 					sent++;
 					//System.out.println("sent :" + sent);
 					if(Game.debugSender)
-						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + this.depot.get(0));
-					this.depot.remove(0);
+						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + multimessage);
+
 				}
 			}
 		} catch (SocketException e1) {
