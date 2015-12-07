@@ -117,7 +117,8 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void update(InputObject im){
-		System.out.println(this.game.clock.getCurrentTime());
+		System.out.println("origin : "+this.game.clock.originTime/1000000);
+		System.out.println("current time : "+ this.game.clock.getCurrentTime()/1000000);
 		// Handling current player according to input
 		this.menuPlayers.get(game.currentPlayer.id).update(im);
 		// handling connexions
@@ -135,9 +136,10 @@ public class MenuMapChoice extends Menu {
 				this.game.sendConnexion(this.messageToHost());	
 				messageDropped++;	
 				// parsing if received anything
-				while(game.receivedConnexion.size()>0){
+				if(game.receivedConnexion.size()>0){
 					messageDropped=0;
-					this.parseForClient(Objet.preParse(game.receivedConnexion.remove(0)));
+					this.parseForClient(Objet.preParse(game.receivedConnexion.lastElement()));
+					game.receivedConnexion.clear(); 
 				}		
 				//checking if game still exists
 				if(this.startGame!=0 && messageDropped>1f*Main.framerate){
