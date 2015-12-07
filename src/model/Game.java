@@ -764,7 +764,7 @@ public class Game extends BasicGame
 				}
 				this.round+=multi*roundToTest;
 				this.roundDelay+=multi*roundToTest;
-				if(roundToTest>=8){
+				if(roundToTest>=18){
 					// si on a �t� trop loin on revient � z�ro
 					this.round-=this.roundDelay;
 					roundToTest = 0;
