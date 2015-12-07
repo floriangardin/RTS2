@@ -661,6 +661,13 @@ public class Plateau {
 				c.mouseOver = false;
 			}
 		}
+		for (Building c : this.buildings) {
+			if (c.selectionBox.contains(im.xMouse, im.yMouse)) {
+				c.mouseOver = true;
+			} else {
+				c.mouseOver = false;
+			}
+		}
 
 	}
 
