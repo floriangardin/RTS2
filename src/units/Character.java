@@ -1141,10 +1141,8 @@ public class Character extends ActionObjet{
 			this.setTarget(target,null);
 		}
 
-		if(hs.containsKey("mode")){
-			System.out.println("Character 1142 : mode before "+this.mode);
+		if(hs.containsKey("mode")){	
 			this.mode = Integer.parseInt(hs.get("mode"));
-			System.out.println("Character 1142 : mode after "+this.mode);
 		}
 
 		if(hs.containsKey("lp")){
