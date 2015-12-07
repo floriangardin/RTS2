@@ -46,9 +46,9 @@ public class Game extends BasicGame
 
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
-	public static boolean debugValidation = true;
+	public static boolean debugValidation = false;
 	public static boolean debugReceiver = true;
-	public static boolean debugSender = false;
+	public static boolean debugSender = true;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
 
@@ -134,7 +134,7 @@ public class Game extends BasicGame
 	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
 	// port
-	public int port = 8892;
+	public int port = 2301;
 	// depots for senders
 	public Vector<MultiMessage> toSend = new Vector<MultiMessage>();
 	// depots for receivers
