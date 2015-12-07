@@ -95,7 +95,7 @@ public class MultiReceiver extends Thread{
 	public void actionValidation(String msg){
 		//Get the corresponding round and player
 		String rawInput = msg.substring(1);
-
+		
 		if(Game.debugValidation){
 			System.out.println("MultiReceiver line 69 validation received for round "+ this.g.round);	
 		}
