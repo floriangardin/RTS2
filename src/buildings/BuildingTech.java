@@ -97,20 +97,27 @@ public abstract class BuildingTech extends BuildingAction {
 
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
-		if(changes.queue && this.queue!=null){
-			s+="queue:"+this.queue.id+";";
-			changes.queue=true;
-		}
-		if(changes.charge){
-			s+="charge:"+this.charge+";";
-			changes.charge=true;
-		}
+		
+		s+="queue:"+this.queue.id+";";
+		s+="charge:"+this.charge+";";
+
 		if(this.changes.isFinished && this.lastTechDiscovered!=null){
 			s+="isFinished:"+"1"+";";
 			s+="lastTechDiscovered:"+this.lastTechDiscovered.id+";";
 			this.changes.isFinished = true;
 		}
 		return s;
+	}
+
+	public void setTeam(int i){
+		this.team = i;
+		this.gameteam = this.p.g.teams.get(i);
+		this.updateImage();
+		if(this.queue!=null){
+			this.queue=null;
+		}
+
+		this.setCharge(0f);
 	}
 
 	public void parseBuildingTech(HashMap<String, String> hs) {

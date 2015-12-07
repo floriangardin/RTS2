@@ -214,6 +214,25 @@ public class Building extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
+		
+		g.setAntiAlias(false);
+		g.setLineWidth(25f);
+		// Construction points
+		if(mouseOver && this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
+			g.setColor(new Color(255,255,255,1f));
+			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
+			g.fill(new Rectangle(this.getX()-sizeX/2,this.getY()+sizeY/2-10f,sizeX,14f));
+			float x = this.constructionPoints/this.maxLifePoints;
+			if(this.potentialTeam==1)
+				g.setColor(new Color(0,0,255,1f));
+			else
+				g.setColor(new Color(255,0,0,1f));
+			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
+			g.fill(new Rectangle(this.getX()-sizeX/2,this.getY()+sizeY/2-10f,x*sizeX,14f));
+		}
+		g.setAntiAlias(false);
+		g.setLineWidth(3f);
+		
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters)
 			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
 		else
@@ -230,17 +249,8 @@ public class Building extends ActionObjet{
 			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
 
 		}
-		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
-			g.setColor(Color.white);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,2*r,4f));
-			float x = this.constructionPoints*2f*r/this.maxLifePoints;
-			if(this.potentialTeam==1)
-				g.setColor(Color.blue);
-			else
-				g.setColor(Color.red);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,x,4f));
-		}
+		
+
 		return g;
 	}
 
@@ -313,6 +323,12 @@ public class Building extends ActionObjet{
 		return tec;
 	}
 
+	public void setTeam(int i){
+		this.team = i;
+		this.gameteam = this.p.g.teams.get(i);
+		this.updateImage();
+	}
+	
 	public void setCharge(float charge){
 		this.charge = charge;
 		

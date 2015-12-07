@@ -36,8 +36,8 @@ public abstract class Objet implements java.io.Serializable {
 	public Plateau p;
 	public float lifePoints;
 	public String name;
-	private int team;
-	private GameTeam gameteam;
+	protected int team;
+	protected GameTeam gameteam;
 
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
