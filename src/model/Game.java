@@ -718,7 +718,7 @@ public class Game extends BasicGame
 			}
 		}
 		// handling checksum comparison
-		if(this.host && !this.processSynchro){
+		if(this.host && !this.processSynchro && !antidropProcess){
 			boolean [] tab;
 			this.mutexChecksum.lock();
 			Vector<Checksum> toRemove = new Vector<Checksum>();
@@ -730,6 +730,7 @@ public class Game extends BasicGame
 						if(tab[1]){
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
 							System.out.println(c.checksum + " "+c1.checksum);
+							
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
@@ -751,7 +752,7 @@ public class Game extends BasicGame
 		}
 	}
 	private void handleSendingResynchroParse() {
-		if(this.host && this.processSynchro && this.sendParse){
+		if(this.host && this.processSynchro && this.sendParse && !antidropProcess){
 			this.toParse = this.plateau.toStringArray();
 			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
@@ -759,6 +760,9 @@ public class Game extends BasicGame
 		}
 	}
 	private void handleAntidrop() {
+		if(processSynchro){
+			return;
+		}
 		if(host && (this.round%7)==0){
 			if(nDrop>=2){
 				if(antidropProcess==false){
