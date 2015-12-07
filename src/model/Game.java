@@ -163,7 +163,7 @@ public class Game extends BasicGame
 	public float nRound = 0f;
 	public int multi = 1;
 	public int roundToTest = 0;
-
+	public int timeOutAntiDrop = 0;
 
 	// Menus
 	public Menu menuPause;
@@ -188,7 +188,8 @@ public class Game extends BasicGame
 
 
 	boolean hasAlreadyPlay = false;
-
+	
+	
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -485,9 +486,12 @@ public class Game extends BasicGame
 					this.inputsHandler.addToInputs(im);
 					this.plateau.handleView(im, this.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					if(ims.size()==0 && !processSynchro){
+					if(ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 						// Antidrop
 						this.handleAntidrop();
+					}
+					if(timeOutAntiDrop>0){
+						timeOutAntiDrop--;
 					}
 					boolean toPlay = true;
 					for(InputObject o : ims){
@@ -778,6 +782,7 @@ public class Game extends BasicGame
 			multi = 1;
 			this.roundDelay=0;
 		}
+		timeOutAntiDrop =5;
 
 	}
 	private void handleResynchro() {
