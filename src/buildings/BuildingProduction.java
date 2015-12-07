@@ -74,7 +74,7 @@ public abstract class BuildingProduction extends BuildingAction {
 
 
 			this.setCharge(this.charge+Main.increment);
-			if(this.charge>=this.productionList.get(this.queue.get(0)).time){
+			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
 				float dirX = this.random+this.rallyPoint.x-this.x;
 				float dirY = this.random+this.rallyPoint.y - this.y;
