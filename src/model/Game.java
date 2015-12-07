@@ -216,6 +216,7 @@ public class Game extends BasicGame
 		this.plateau.rectangleSelection.addElement(null);
 		this.plateau.recX.addElement(0f);
 		this.plateau.recY.addElement(0f);
+		this.plateau.inRectangle.addElement(new Vector<ActionObjet>());
 
 	}
 
