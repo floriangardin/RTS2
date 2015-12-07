@@ -449,6 +449,7 @@ public class Game extends BasicGame
 			this.menuCurrent.update(im);
 		} else if(!endGame) {
 			//Update of current round
+			Utils.printCurrentState(this.plateau);
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
