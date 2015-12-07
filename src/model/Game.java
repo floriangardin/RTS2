@@ -216,6 +216,7 @@ public class Game extends BasicGame
 		this.plateau.rectangleSelection.addElement(null);
 		this.plateau.recX.addElement(0f);
 		this.plateau.recY.addElement(0f);
+		this.plateau.inRectangle.addElement(new Vector<ActionObjet>());
 
 	}
 
@@ -233,6 +234,7 @@ public class Game extends BasicGame
 		this.plateau.rectangleSelection.remove(indice);
 		this.plateau.recX.remove(indice);
 		this.plateau.recY.remove(indice);
+		this.plateau.inRectangle.remove(indice);
 	}
 	// functions that handle buffers
 
