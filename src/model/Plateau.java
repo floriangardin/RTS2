@@ -154,7 +154,9 @@ public class Plateau {
 		
 		this.g.idChar = 0;
 		this.g.idBullet = 0;
-		
+		for(GameTeam t : g.teams){
+			t.pop = 0;
+		}
 	}
 
 	public void setMaxXMaxY(float MaxX, float MaxY) {
