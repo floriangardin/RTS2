@@ -21,12 +21,12 @@ public class InputHandler {
 		mutex = new ReentrantLock();
 	}
 
-	public void validate(int id,Player player){
+	public void validate(int round,Player player){
 		// 
 		mutex.lock();
 		int idx = 0;
 		while(idx<this.inputs.size()){
-			if(player.equals(this.inputs.get(idx).player) && id==this.inputs.get(idx).id){
+			if(player.equals(this.inputs.get(idx).player) && round==this.inputs.get(idx).round){
 				this.inputs.get(idx).validate(player);
 				break;
 			}
