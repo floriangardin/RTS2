@@ -526,5 +526,12 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 	}
+	
+	public void initialize(){
+		this.seconds = 6;
+		this.startGame = 0;
+		this.mapSelected = 0;
+		this.selected = 0;
+	}
 
 }

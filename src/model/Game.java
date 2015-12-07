@@ -206,6 +206,9 @@ public class Game extends BasicGame
 	public void setMenu(Menu m){
 		this.menuCurrent = m;
 		this.isInMenu = true;
+		if(m instanceof MenuMapChoice){
+			((MenuMapChoice)m).initialize();
+		}
 	}
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
@@ -450,12 +453,12 @@ public class Game extends BasicGame
 			// getting inputs
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,!antidropProcess);
+			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
 				im.eraseLetter();
 			} else {
 				this.manuelAntidrop(in);
 			}
-			this.chatHandler.action(in,im);
 			//Handle manual resynchro
 
 			if(inMultiplayer){
