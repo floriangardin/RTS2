@@ -486,10 +486,10 @@ public class Game extends BasicGame
 						this.plateau.handleView(im, this.currentPlayer.id);
 					}
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
-						// Antidrop
-						this.handleAntidrop();
-					}
+//					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
+//						// Antidrop
+//						this.handleAntidrop();
+//					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
 					}
