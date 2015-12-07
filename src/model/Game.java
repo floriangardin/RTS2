@@ -486,9 +486,9 @@ public class Game extends BasicGame
 					this.inputsHandler.addToInputs(im);
 					this.plateau.handleView(im, this.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					if(ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
+					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 						// Antidrop
-//						this.handleAntidrop();
+						this.handleAntidrop();
 					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
@@ -600,10 +600,12 @@ public class Game extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
-		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(28*this.resX/1920));
-		this.font = new UnicodeFont(fe,(int)(28*this.resX/1920),false,false);
+		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,25);
+		this.font = new UnicodeFont(fe,25,false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
-		this.font.addAsciiGlyphs();
+		//this.font.addAsciiGlyphs();
+		this.font.addNeheGlyphs();
+		//this.font.addGlyphs(0, 256);
 		this.font.loadGlyphs();
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
