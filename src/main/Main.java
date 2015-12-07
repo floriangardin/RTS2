@@ -16,7 +16,6 @@ public class Main {
 	public static boolean pleinEcran = true;
 	
 	public static void main(String[] args) {
-		System.setProperty( "file.encoding", "UTF-8" );
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 

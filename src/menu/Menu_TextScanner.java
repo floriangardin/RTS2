@@ -60,7 +60,7 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(51, '?');
 		intToChar.put(52, '.');
 		intToChar.put(53, '/');
-		intToChar.put(41, '�');
+		intToChar.put(41, '§');
 		intToChar.put(Input.KEY_0, '0');
 		intToChar.put(Input.KEY_1, '1');
 		intToChar.put(Input.KEY_2, '2');
@@ -124,10 +124,13 @@ public class Menu_TextScanner extends Menu_Item{
 						if(!keyDown || idKeyDown!=k){
 							this.keyDown = true;
 							this.idKeyDown = k;
-							if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT))
+							if(i.isKeyDown(Input.KEY_LSHIFT)||i.isKeyDown(Input.KEY_RSHIFT)){
 								s+=intToChar.get(k);
-							else
+								System.out.println(intToChar.get(k));
+							}else{
 								s+=intToCharMin.get(k);
+								System.out.println(intToCharMin.get(k));
+							}
 						}
 						break;
 					}
@@ -170,9 +173,9 @@ public class Menu_TextScanner extends Menu_Item{
 			g.fillRect(x-sizeX/2f-10f, y-sizeY/2f, sizeX+20f, sizeY);
 		}
 		if(isSelected)
-			g.setColor(Color.yellow);
-		else
 			g.setColor(Color.white);
+		else
+			g.setColor(Color.gray);
 		g.drawRect(x-sizeX/2f-10f, y-sizeY/2f, sizeX+20f, sizeY);
 		g.setColor(Color.white);
 		float height = g.getFont().getHeight("Hg");
