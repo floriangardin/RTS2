@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 
+
 import model.Game;
 
 public class MultiSender extends Thread{
@@ -60,6 +61,7 @@ public class MultiSender extends Thread{
 					if(Game.debugSender)
 						System.out.println("port : " + port + " address: "+this.address.getHostAddress()+" message sent: " + multimessage.message);
 				}
+				
 			}
 		} catch (SocketException e1) {
 		} catch (IOException e) {
