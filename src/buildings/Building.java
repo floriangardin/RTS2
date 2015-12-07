@@ -313,6 +313,12 @@ public class Building extends ActionObjet{
 		return tec;
 	}
 
+	public void setTeam(int i){
+		this.team = i;
+		this.gameteam = this.p.g.teams.get(i);
+		this.updateImage();
+	}
+	
 	public void setCharge(float charge){
 		this.charge = charge;
 		

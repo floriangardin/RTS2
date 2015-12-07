@@ -41,6 +41,17 @@ public abstract class BuildingProduction extends BuildingAction {
 		return false;
 	}
 
+	public void setTeam(int i){
+		this.team = i;
+		this.gameteam = this.p.g.teams.get(i);
+		this.updateImage();
+		if(this.queue!=null){
+			this.queue.clear();
+		}
+		
+		this.setCharge(0f);
+	}
+	
 	public void action(){
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
@@ -97,7 +108,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.getGameTeam().gold += this.productionList.get(queue.get(this.queue.size()-1)).goldPrice;
 			this.queue.remove(this.queue.size()-1);
 			if(this.queue.size()==0){
-				this.setCharge(this.charge+0.1f*Game.ratio);
+				this.setCharge(0f);
 			}
 		}
 
