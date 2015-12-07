@@ -488,7 +488,7 @@ public class Game extends BasicGame
 					ims = this.inputsHandler.getInputsForRound(this.round);
 					if(ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 						// Antidrop
-						this.handleAntidrop();
+//						this.handleAntidrop();
 					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
