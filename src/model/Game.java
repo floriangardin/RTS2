@@ -805,7 +805,7 @@ public class Game extends BasicGame
 			this.processSynchro = false;
 			System.out.println("Resynchronisation ....");
 		}
-		else if(this.toParse==null || Integer.parseInt(u[0])>(this.round-InputHandler.nDelay)){
+		else if(this.toParse==null || Integer.parseInt(u[0])<(this.round-InputHandler.nDelay)){
 			this.processSynchro = false;
 			this.toParse = null;
 		}
