@@ -30,11 +30,11 @@ public class ChatHandler {
 	}
 	
 	public void action(Input in, InputObject im){
-		for(int i=1; i<256; i++){
-			if(in.isKeyDown(i)){
-				System.out.println(i);
-			}
-		}
+//		for(int i=1; i<256; i++){
+//			if(in.isKeyDown(i)){
+//				System.out.println(i);
+//			}
+//		}
 		Vector<ChatMessage> toRemove = new Vector<ChatMessage>();
 		mutex.lock();
 		ChatMessage m;
