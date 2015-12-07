@@ -718,6 +718,7 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
+							System.out.println("Game line 719 : Probleme synchro round "+this.round);
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
