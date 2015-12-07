@@ -466,16 +466,14 @@ public class Game extends BasicGame
 				////////////////////
 
 				// Checksum
-								this.handleChecksum();
+				this.handleChecksum();
 				//
 				//				// Ping
-								this.handlePing();
+				this.handlePing();
 				//
 				//				// Send Resynchro
-								this.handleSendingResynchroParse();
+				this.handleSendingResynchroParse();
 
-				// Antidrop
-				//this.handleAntidrop();
 
 				if(processSynchro && this.toParse!=null){
 					// Resynchro
@@ -488,7 +486,8 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.currentPlayer.id);
 					ims = this.inputsHandler.getInputsForRound(this.round);
 					if(ims.size()==0 && !processSynchro){
-						nDrop++;
+						// Antidrop
+						this.handleAntidrop();
 					}
 					boolean toPlay = true;
 					for(InputObject o : ims){
@@ -730,7 +729,7 @@ public class Game extends BasicGame
 						if(tab[1]){
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
 							System.out.println(c.checksum + " "+c1.checksum);
-							
+
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
@@ -760,37 +759,26 @@ public class Game extends BasicGame
 		}
 	}
 	private void handleAntidrop() {
-		if(processSynchro){
-			return;
+
+		// on tente une nouvelle valeur pour le d�calage
+		if(multi==-1){
+			multi=1;
+			roundToTest++;
 		}
-		if(host && (this.round%7)==0){
-			if(nDrop>=2){
-				if(antidropProcess==false){
-					this.antidropProcess=true;					
-				}
-				// on tente une nouvelle valeur pour le d�calage
-				if(multi==-1){
-					multi=1;
-					roundToTest++;
-				}
-				else if(multi==1){
-					roundToTest++;
-					multi=-1;
-				}
-				this.round+=multi*roundToTest;
-				this.roundDelay+=multi*roundToTest;
-				if(roundToTest>=18){
-					// si on a �t� trop loin on revient � z�ro
-					this.round-=this.roundDelay;
-					roundToTest = 0;
-					multi = 1;
-					this.roundDelay=0;
-				}
-			} else {
-				antidropProcess = false;
-			}
-			nDrop = 0f;
+		else if(multi==1){
+			roundToTest++;
+			multi=-1;
 		}
+		this.round+=multi*roundToTest;
+		this.roundDelay+=multi*roundToTest;
+		if(roundToTest>=18){
+			// si on a �t� trop loin on revient � z�ro
+			this.round-=this.roundDelay;
+			roundToTest = 0;
+			multi = 1;
+			this.roundDelay=0;
+		}
+
 	}
 	private void handleResynchro() {
 		//Si round+2
