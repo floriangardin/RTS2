@@ -80,7 +80,7 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedProd1 = input.isKeyPressed(Input.KEY_X);
 		this.isPressedProd2 = input.isKeyPressed(Input.KEY_C);
 		this.isPressedProd3 = input.isKeyPressed(Input.KEY_V);
-		this.isPressedA = input.isKeyDown(Input.KEY_A);
+		this.isPressedA = input.isKeyDown(Input.KEY_SPACE);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 		this.isPressedF = input.isKeyDown(Input.KEY_F);
 		this.isPressedT = input.isKeyPressed(Input.KEY_T);
