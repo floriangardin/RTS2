@@ -429,8 +429,8 @@ public class Game extends BasicGame
 		//		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
 		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
 		//		
-				g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, 40f);
-				g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, 40f);
+		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, 40f);
+		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, 40f);
 
 	}
 	// Do our logic 
@@ -451,7 +451,7 @@ public class Game extends BasicGame
 			this.menuCurrent.update(im);
 		} else if(!endGame) {
 			//Update of current round
-		
+
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
@@ -466,13 +466,13 @@ public class Game extends BasicGame
 				////////////////////
 
 				// Checksum
-//				this.handleChecksum();
-//
-//				// Ping
-//				this.handlePing();
-//
-//				// Send Resynchro
-//				this.handleSendingResynchroParse();
+				//				this.handleChecksum();
+				//
+				//				// Ping
+				//				this.handlePing();
+				//
+				//				// Send Resynchro
+				//				this.handleSendingResynchroParse();
 
 				// Antidrop
 				//this.handleAntidrop();
@@ -636,7 +636,7 @@ public class Game extends BasicGame
 	}
 
 
-	
+
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
@@ -654,7 +654,10 @@ public class Game extends BasicGame
 			this.toSend.add(new MultiMessage(message,0,this.addressHost));
 	}
 	public void sendInput(String s){
-		this.toSend.add(new MultiMessage(s,1,this.addressBroadcast));
+		if(host)
+			this.toSend.add(new MultiMessage(s,1,this.players.get(2).address));
+		else
+			this.toSend.add(new MultiMessage(s,1,this.players.get(1).address));
 	}
 	public void sendValidation(String s, int player){
 		this.toSend.addElement(new MultiMessage(s,2,this.players.get(player).address));
@@ -676,7 +679,7 @@ public class Game extends BasicGame
 	public void sendChat(String s){
 		this.toSend.addElement(new MultiMessage(s,6,this.addressBroadcast));
 	}
-	
+
 	private void manuelAntidrop(Input in) {
 		if(in.isKeyPressed(Input.KEY_P)){
 			this.round+=1;
