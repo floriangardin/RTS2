@@ -809,7 +809,7 @@ public class Character extends ActionObjet{
 //					break;
 //				}
 //				return;
-			}
+//		}
 		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
