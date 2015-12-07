@@ -87,7 +87,7 @@ public class MultiReceiver extends Thread{
 		}
 		//Send the validation for other players if the round is still ok
 		if(this.g.round<io.round+InputHandler.nDelay){
-			this.g.sendValidation(io.getMessageValidationToSend(), io.player.id);
+			this.g.sendValidation(io.getMessageValidationToSend(g), io.player.id);
 			this.g.inputsHandler.addToInputs(io);
 			io.validate();
 		}
@@ -100,11 +100,12 @@ public class MultiReceiver extends Thread{
 		String[] valMessage = rawInput.split("\\|");
 		int round = Integer.parseInt(valMessage[0]);
 		int idPlayer = Integer.parseInt(valMessage[1]);
+		int idValidator = Integer.parseInt(valMessage[2]);
 		if(Game.debugValidation){
 			System.out.println("MultiReceiver line 69 validation received for round "+ round);	
 		}
 		// Ressources partag� le vecteur d'inputs de la mailbox..
-		this.g.inputsHandler.validate(round, g.getPlayerById(idPlayer));
+		this.g.inputsHandler.validate(round, idPlayer,idValidator);
 	}
 	public void actionResynchro(String msg){
 		System.out.println("Receive resynchro message");

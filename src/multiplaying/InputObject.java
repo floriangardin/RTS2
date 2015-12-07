@@ -257,9 +257,9 @@ public class InputObject extends MultiObjetModel{
 		}
 	}
 
-	public String getMessageValidationToSend() {
+	public String getMessageValidationToSend(Game g) {
 		
-		return ""+this.round+"|"+this.player.id+"|";
+		return ""+this.round+"|"+this.player.id+"|"+g.currentPlayer.id+"|";
 	}
 
 	public boolean isValidated() {
