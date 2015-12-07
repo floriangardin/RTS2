@@ -442,7 +442,7 @@ public class Game extends BasicGame
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
-			InputObject im = new InputObject(this,currentPlayer,gc.getInput(),!antidropProcess && !processSynchro);
+			InputObject im = new InputObject(this,currentPlayer,gc.getInput(),timeOutAntiDrop==0 && !processSynchro);
 			this.menuCurrent.update(im);
 		} else if(!endGame) {
 			//Update of current round
@@ -486,7 +486,7 @@ public class Game extends BasicGame
 						this.plateau.handleView(im, this.currentPlayer.id);
 					}
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
+					if(ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 						// Antidrop
 						this.handleAntidrop();
 					}
