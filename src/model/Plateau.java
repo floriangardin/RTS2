@@ -151,6 +151,10 @@ public class Plateau {
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
 		}
+		
+		this.g.idChar = 0;
+		this.g.idBullet = 0;
+		
 	}
 
 	public void setMaxXMaxY(float MaxX, float MaxY) {
