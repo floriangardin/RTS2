@@ -44,7 +44,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		return false;
 	}
 
-	public void setTeamExtra(int i){
+	public void setTeamExtra(){
 
 		if(this.queue!=null){
 			this.queue.clear();

@@ -109,7 +109,7 @@ public abstract class BuildingTech extends BuildingAction {
 		return s;
 	}
 
-	public void setTeamExtra(int i){
+	public void setTeamExtra(){
 
 		if(this.queue!=null){
 			this.queue=null;

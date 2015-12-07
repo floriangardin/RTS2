@@ -214,7 +214,7 @@ public class Building extends ActionObjet{
 			g.fill(new Rectangle(this.getX()-sizeX/2,this.getY()+sizeY/2-10f,x*sizeX,14f));
 		}
 		g.setAntiAlias(false);
-		g.setLineWidth(3f);
+		g.setLineWidth(2f);
 		
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters)
 			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
