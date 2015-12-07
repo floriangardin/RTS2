@@ -671,7 +671,7 @@ public class Game extends BasicGame
 		}
 	}
 	public void sendChecksum(String s){
-		this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
+		//this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
 	}
 	public void sendChat(String s){
 		this.toSend.addElement(new MultiMessage(s,6,this.addressBroadcast));
