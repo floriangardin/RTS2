@@ -45,7 +45,7 @@ public class Game extends BasicGame
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
 	public static boolean debugReceiver = true;
-	public static boolean debugSender = false;
+	public static boolean debugSender = true;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
 
