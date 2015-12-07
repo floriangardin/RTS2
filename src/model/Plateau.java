@@ -987,6 +987,7 @@ public class Plateau {
 		}
 	}
 
+	
 	// handling selection
 	public void handleSelection(InputObject im, int player, int team) {
 		// Handling groups of units
