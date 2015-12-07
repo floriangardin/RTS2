@@ -8,9 +8,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Vector;
 
-import org.newdawn.slick.GameContainer;
-
-import com.sun.jmx.snmp.InetAddressAcl;
 
 import model.Game;
 
@@ -24,10 +21,10 @@ public class MultiSender extends Thread{
 	// DEBUGGING
 	int sent = 0;
 
-	public MultiSender(Vector<MultiMessage> depot, Game game){
-		this.depot = depot;
+	public MultiSender(Game game){
 		try {
 			this.game = game;
+			this.depot = game.toSend;
 			client = new DatagramSocket();
 		} catch (SocketException  e) {
 			System.out.println("Erreur dans la creation d'un multisender");
@@ -42,6 +39,7 @@ public class MultiSender extends Thread{
 			if(Game.debugSender)
 				System.out.println("Creation d'un sender - " + port);
 			MultiMessage multimessage;
+			this.port = game.port;
 			while(!client.isClosed()){
 				if(Game.debugThread){
 					System.out.println(this.getName());
@@ -53,8 +51,7 @@ public class MultiSender extends Thread{
 					//					}
 					multimessage = depot.get(0);
 					this.address = multimessage.address;
-					this.port = multimessage.port;
-					message = (game.currentPlayer.id+multimessage.message).getBytes();
+					message = (multimessage.type+multimessage.message).getBytes();
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
 					client.send(packet);

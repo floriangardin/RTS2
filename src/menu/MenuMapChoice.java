@@ -15,13 +15,6 @@ import model.Map;
 import model.Objet;
 import model.Player;
 import multiplaying.InputObject;
-import multiplaying.MultiReceiverChat;
-import multiplaying.MultiReceiverChecksum;
-import multiplaying.MultiReceiverInput;
-import multiplaying.MultiReceiverPing;
-import multiplaying.MultiReceiverResynchro;
-import multiplaying.MultiReceiverValidation;
-import multiplaying.MultiSender;
 
 public class MenuMapChoice extends Menu {
 
@@ -89,8 +82,6 @@ public class MenuMapChoice extends Menu {
 		case 0:
 			// retour
 			if(game.inMultiplayer){
-				this.game.sender.shutdown();
-				this.shutdownNetwork();
 				this.game.setMenu(this.game.menuMulti);
 			}else{
 				this.game.setMenu(this.game.menuIntro);
@@ -228,50 +219,7 @@ public class MenuMapChoice extends Menu {
 		}
 	}
 	
-	public void initializeNetwork() {
-		// initializing toSend depots
-		this.game.toSend.clear();
-		// initializing received depots
-		this.game.receivedInputs.clear();
-		this.game.receivedValidation.clear();
-		this.game.receivedChecksum.clear();
-		this.game.receivedPing.clear();
-		this.game.receivedResynchro.clear();
-		this.game.receivedChat.clear();
-		
-		Thread.currentThread().setPriority(10);
-		
-		
-		// initializing receivers
-		this.game.inputReceiver = new MultiReceiverInput(this.game);
-		this.game.validationReceiver = new MultiReceiverValidation(this.game);
-		this.game.resynchroReceiver = new MultiReceiverResynchro(this.game);
-		this.game.pingReceiver = new MultiReceiverPing(this.game);
-		this.game.checksumReceiver = new MultiReceiverChecksum(this.game);
-		this.game.chatReceiver = new MultiReceiverChat(this.game);
-		this.game.inputReceiver.setPriority(1);
-		this.game.resynchroReceiver.setPriority(1);
-		this.game.pingReceiver.setPriority(1);
-		this.game.checksumReceiver.setPriority(1);
-		this.game.chatReceiver.setPriority(1);
-		this.game.validationReceiver.setPriority(1);
-		this.game.inputReceiver.start();
-		this.game.resynchroReceiver.start();
-		this.game.pingReceiver.start();
-		this.game.checksumReceiver.start();
-		//this.game.chatReceiver.start();
-		this.game.validationReceiver.start();
-	}
 
-	public void shutdownNetwork(){
-		this.game.inputReceiver.shutdown();
-		this.game.resynchroReceiver.shutdown();
-		this.game.pingReceiver.shutdown();
-		this.game.checksumReceiver.shutdown();
-		//this.game.chatReceiver.shutdown();
-		this.game.validationReceiver.shutdown();	
-	}
-	
 	public void checkStartGame(){
 		if(game.inMultiplayer && game.host){
 			boolean toGame = true;

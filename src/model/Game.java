@@ -33,14 +33,8 @@ import multiplaying.Clock;
 import multiplaying.InputHandler;
 import multiplaying.InputObject;
 import multiplaying.MultiMessage;
-import multiplaying.MultiReceiverChat;
-import multiplaying.MultiReceiverChecksum;
-import multiplaying.MultiReceiverChecksum.Checksum;
-import multiplaying.MultiReceiverConnexion;
-import multiplaying.MultiReceiverInput;
-import multiplaying.MultiReceiverPing;
-import multiplaying.MultiReceiverResynchro;
-import multiplaying.MultiReceiverValidation;
+import multiplaying.MultiReceiver;
+import multiplaying.MultiReceiver.Checksum;
 import multiplaying.MultiSender;
 import spells.SpellEffect;
 import units.Character;
@@ -138,13 +132,7 @@ public class Game extends BasicGame
 	public InetAddress addressLocal;
 
 	// ports
-	public int portConnexion = 8887;
-	public int portValidation = 8888;
-	public int portInput = 8889;
-	public int portPing = 8890;
-	public int portResynchro = 8891;
-	public int portChecksum = 8892;
-	public int portChat = 8893;
+	public int port = 8887;
 	// depots for senders
 	public Vector<MultiMessage> toSend = new Vector<MultiMessage>();
 	// depots for receivers
@@ -155,16 +143,10 @@ public class Game extends BasicGame
 	public Vector<String> receivedResynchro = new Vector<String>();
 	public Vector<Checksum> receivedChecksum = new Vector<Checksum>();
 	public Vector<String> receivedChat = new Vector<String>();
-	// Senders
+	// Sender
 	public MultiSender sender;
-	// Receivers
-	public MultiReceiverConnexion connexionReceiver;
-	public MultiReceiverValidation validationReceiver;
-	public MultiReceiverInput inputReceiver;
-	public MultiReceiverPing pingReceiver;
-	public MultiReceiverResynchro resynchroReceiver;
-	public MultiReceiverChecksum checksumReceiver;
-	public MultiReceiverChat chatReceiver;
+	// Receiver
+	public MultiReceiver receiver;
 
 
 	// Handling multiplaying
@@ -566,8 +548,7 @@ public class Game extends BasicGame
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
 				if(inMultiplayer){
-					this.menuMapChoice.shutdownNetwork();
-					this.connexionReceiver.shutdown();
+					this.receiver.shutdown();
 					this.sender.shutdown();
 				}
 				this.setMenu(this.menuIntro);
@@ -665,32 +646,32 @@ public class Game extends BasicGame
 	// DANGER
 	public void sendConnexion(String message){
 		if(host)
-			this.toSend.add(new MultiMessage(message,portConnexion,this.addressBroadcast));
+			this.toSend.add(new MultiMessage(message,0,this.addressBroadcast));
 		else
-			this.toSend.add(new MultiMessage(message,portConnexion,this.addressHost));
+			this.toSend.add(new MultiMessage(message,0,this.addressHost));
 	}
 	public void sendInput(String s){
-		this.toSend.add(new MultiMessage(s,portInput,this.addressBroadcast));
+		this.toSend.add(new MultiMessage(s,1,this.addressBroadcast));
 	}
 	public void sendValidation(String s, int player){
-		this.toSend.addElement(new MultiMessage(s,portValidation,this.players.get(player).address));
+		this.toSend.addElement(new MultiMessage(s,2,this.players.get(player).address));
 	}
 	public void sendResynchro(String s){
-		this.toSend.addElement(new MultiMessage(s,portResynchro,this.addressBroadcast));
+		this.toSend.addElement(new MultiMessage(s,3,this.addressBroadcast));
 	}
 	public void sendPing(String s){
 		if(host){
 			String[] tab = s.split("\\|");
-			this.toSend.addElement(new MultiMessage(s, portPing, this.players.get(Integer.parseInt(tab[1])).address));
+			this.toSend.addElement(new MultiMessage(s, 4, this.players.get(Integer.parseInt(tab[1])).address));
 		} else {
-			this.toSend.addElement(new MultiMessage(s,portPing,this.addressHost));
+			this.toSend.addElement(new MultiMessage(s, 4,this.addressHost));
 		}
 	}
 	public void sendChecksum(String s){
-		this.toSend.addElement(new MultiMessage(s,portChecksum,this.addressHost));
+		this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
 	}
 	public void sendChat(String s){
-		this.toSend.addElement(new MultiMessage(s,portChat,this.addressBroadcast));
+		this.toSend.addElement(new MultiMessage(s,6,this.addressBroadcast));
 	}
 	
 	private void manuelAntidrop(Input in) {
