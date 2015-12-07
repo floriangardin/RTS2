@@ -465,16 +465,16 @@ public class Game extends BasicGame
 				////////////////////
 
 				// Checksum
-				//				this.handleChecksum();
+								this.handleChecksum();
 				//
 				//				// Ping
-				//				this.handlePing();
+								this.handlePing();
 				//
 				//				// Send Resynchro
-				//				this.handleSendingResynchroParse();
+								this.handleSendingResynchroParse();
 
 				// Antidrop
-				//this.handleAntidrop();
+				this.handleAntidrop();
 
 				if(processSynchro && this.toParse!=null){
 					// Resynchro
