@@ -475,7 +475,7 @@ public class Game extends BasicGame
 								this.handleSendingResynchroParse();
 
 				// Antidrop
-				this.handleAntidrop();
+				//this.handleAntidrop();
 
 				if(processSynchro && this.toParse!=null){
 					// Resynchro
