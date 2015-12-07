@@ -47,14 +47,14 @@ public class Data {
 	public float headQuartersSizeY = 200f;
 	// Mill
 	public int millChargeTime = 5;
-	public int millLifePoints = 75;
+	public int millLifePoints = 50;
 	public float millSight = 300f;
 	public float millSizeX = 300f;
 	public float millSizeY = 200f;
 
 	// Mine
 	public int mineChargeTime = 5;
-	public int mineLifePoints = 75;
+	public int mineLifePoints = 50;
 	public float mineSight = 300f;
 	public float mineSizeX = 300f;
 	public float mineSizeY = 200f;
@@ -66,19 +66,19 @@ public class Data {
 	public float barrackSizeY = 250f;
 
 	//Stable
-	public int stableLifePoints = 200;
+	public int stableLifePoints = 50;
 	public float stableSight = 300f;
 	public float stableSizeX = 400f;
 	public float stableSizeY = 220f;
 
 	// Academy 
-	public int academyLifePoints = 200;
+	public int academyLifePoints = 50;
 	public float academySight = 300f;
 	public float academySizeX = 300f;
 	public float academySizeY = 200f;
 
 	// University 
-	public int universityLifePoints = 200;
+	public int universityLifePoints = 50;
 	public float universitySight = 300f;
 	public float universitySizeX = 350f;
 	public float universitySizeY = 250f;
