@@ -134,7 +134,7 @@ public class Game extends BasicGame
 	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
 	// port
-	public int port = 8887;
+	public int port = 8890;
 	// depots for senders
 	public Vector<MultiMessage> toSend = new Vector<MultiMessage>();
 	// depots for receivers
