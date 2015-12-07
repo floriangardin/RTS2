@@ -649,9 +649,7 @@ public class Game extends BasicGame
 	// DANGER
 	public void sendConnexion(String message){
 		if(host){
-			for(int i=1; i<this.nPlayers; i++){
-				this.toSend.add(new MultiMessage(message,0,this.players.get(i).address));
-			}
+			this.toSend.add(new MultiMessage(message,0,this.addressBroadcast));
 		} else {
 			this.toSend.add(new MultiMessage(message,0,this.addressHost));
 		}
