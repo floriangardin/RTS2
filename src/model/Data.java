@@ -60,7 +60,7 @@ public class Data {
 	public float mineSizeY = 200f;
 
 	// Barrack
-	public int barrackLifePoints = 100;
+	public int barrackLifePoints = 50;
 	public float barrackSight = 500f;
 	public float barrackSizeX = 400f;
 	public float barrackSizeY = 250f;
