@@ -65,6 +65,7 @@ public class Character extends ActionObjet{
 	public static int TAKE_BUILDING=2;
 	public static int NORMAL  = 3;
 	public static int HOLD_POSITION = 4;
+	public static int DESTROY_BUILDING = 5;
 
 	// General attributes
 	public Circle sightBox;

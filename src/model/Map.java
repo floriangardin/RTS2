@@ -61,7 +61,6 @@ public class Map {
 		case "small duel": createMapDuelSmall(game);break;
 		case "large duel": createMapDuelLarge(game);break;
 		case "microgestion": createMapMicro(game);break;
-		case "duel very small": createMapDuelVerySmall(game);break;
 		case "The Island": createMapTheIsland(game);break;
 		}
 	}

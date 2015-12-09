@@ -52,6 +52,7 @@ public class BuildingMill extends BuildingTech{
 
 	
 	public void action(){
+		giveUpProcess();
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}

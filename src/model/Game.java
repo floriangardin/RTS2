@@ -408,10 +408,10 @@ public class Game extends BasicGame
 			}
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
-			if(this.currentPlayer.bottomBar!=null)
-				this.currentPlayer.bottomBar.draw(g);
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
+			if(this.currentPlayer.bottomBar!=null)
+				this.currentPlayer.bottomBar.draw(g);
 
 		}
 		if(processSynchro){

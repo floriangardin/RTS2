@@ -13,6 +13,7 @@ public class SpellFirewall extends Spell{
 	
 	public SpellFirewall(Plateau p, GameTeam gameteam){
 		this.chargeTime = 450f;
+		this.p = p;
 		this.name = "Firewall";
 		this.icon = p.g.images.spellFirewall;
 		this.range = 200f;

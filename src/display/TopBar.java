@@ -50,10 +50,15 @@ public class TopBar extends Bar {
 		// Draw image according to size
 		float u = x;
 		float v = y;
+		g.setColor(Color.white);
+		g.fillRect(0, -3f,sizeX, sizeY+6f);
+		g.setColor(Color.black);
+		g.fillRect(0, 0, sizeX, sizeY);
+		//g.fillRect(3*sizeX/5, sizeY, 2*sizeX/5, -3f);
+		
 
 		g.setColor(Color.white);
-		g.drawString(model.Utils.gameTime(this.p.g.startTime), this.sizeX/6, (this.sizeY-28)/2);
-
+		g.drawString(model.Utils.gameTime(this.p.g.startTime), this.sizeX/3, (this.sizeY-28)/2);
 		// Draw subcomponents :
 
 		String food = ":";

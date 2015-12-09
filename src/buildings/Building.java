@@ -34,10 +34,11 @@ public class Building extends ActionObjet{
 	public Image imageNeutre;
 	public float charge;
 	public boolean isProducing;
-
+	public boolean giveUpProcess = false;
 	public boolean underAttack;
 	public float underAttackRemaining=0;
-
+	
+	
 	public Vector<Circle> corners=new Vector<Circle>();
 	
 	public Building(){}
@@ -55,8 +56,6 @@ public class Building extends ActionObjet{
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		
-		
 		this.selectionBox = this.collisionBox;
 		this.image = this.p.g.images.tent;
 		this.sight = 300f;
@@ -84,6 +83,15 @@ public class Building extends ActionObjet{
 		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 	}
 	
+	
+	public void giveUpProcess(){
+		if(giveUpProcess){
+			constructionPoints-=Main.increment;
+			if(constructionPoints<=0f){
+				this.setTeam(0);
+			}
+		}
+	}
 	public void collisionWeapon(Character c){
 		if(this instanceof Bonus && !((Bonus)this).bonusPresent){
 			return;
@@ -114,6 +122,7 @@ public class Building extends ActionObjet{
 		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING && c.target==this){
 			this.constructionPoints+=Main.increment;
 		}
+		
 		if(this.constructionPoints>=this.maxLifePoints && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
 				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters)){
@@ -364,6 +373,7 @@ public class Building extends ActionObjet{
 		}
 		this.setTeamExtra();
 		this.updateImage();
+		this.giveUpProcess = false;
 	}
 	
 	public void setCharge(float charge){
