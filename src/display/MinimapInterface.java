@@ -60,13 +60,11 @@ public class MinimapInterface extends Bar {
 
 	public Graphics draw(Graphics g){
 		
-		g.drawString("Ping : "+Integer.toString((int)(this.game.clock.getPing()/1000000f)), 20f, 40f);
-		g.drawString("delay : "+Integer.toString(this.game.roundDelay), 110f, 40f);
+		
 		// Draw the minimap 
 		if(!toDraw){
 			return g;
 		}
-
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);
@@ -76,12 +74,13 @@ public class MinimapInterface extends Bar {
 
 		// Draw background
 		g.setColor(new Color(31,31,31,0.6f).darker().darker());
-		g.fillRect(0, 0, this.game.resX, this.game.resY);
+		g.fillRect(0, this.game.resY*this.game.relativeHeightBottomBar, this.game.resX, this.game.resY);
 		g.setColor(new Color(0,119,190));
 		g.fillRoundRect(startX-20f,startY-20f,w+40f,h+40f,10);
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
 		// Draw water
+		drawPing(g);
 		
 		//draw grid
 		if(todrawGrid){
@@ -116,6 +115,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 		}
+		
 		
 		for(Bonus c : this.p.bonus){
 			if(c.getTeam()==0){
@@ -208,6 +208,11 @@ public class MinimapInterface extends Bar {
 
 		g.drawRect(hlx,hly,brx-hlx,bry-hly );
 		return g;
+	}
+
+	private void drawPing(Graphics g) {
+		g.drawString("Ping : "+Integer.toString((int)(this.game.clock.getPing()/1000000f)), 20f, 40f);
+		g.drawString("delay : "+Integer.toString(this.game.roundDelay), 110f, 40f);
 	}
 
 //	public void createRandomLine(){
