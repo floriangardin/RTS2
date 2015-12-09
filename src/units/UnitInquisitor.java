@@ -214,13 +214,7 @@ public class UnitInquisitor extends Character {
 		x1+=5f;
 		x2+=5f;
 		if(mouseOver){
-			Color color = Color.darkGray;
-			if(this.getGameTeam().id==1){
-				color = new Color(0,0,205,0.4f);
-			}
-			else{
-				color = new Color(250,0,0,0.4f);
-			}
+			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
 
 			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
 			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));

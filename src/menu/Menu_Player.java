@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import model.Colors;
 import model.Game;
 import model.Player;
 import multiplaying.InputObject;
@@ -104,9 +105,9 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.white);
 		g.fillRect(startXcolor-2f, startYcolor-2f, sizeXcolor+4f,sizeYcolor+4f);
 		switch(p.getGameTeam().id){
-		case 1 : g.setColor(Color.blue);break;
-		case 2 : g.setColor(Color.red);break;
-		default : g.setColor(Color.black);
+		case 1 : g.setColor(Colors.team1);break;
+		case 2 : g.setColor(Colors.team2);break;
+		default : g.setColor(Colors.team0);
 		}
 		g.fillRect(startXcolor+2f, startYcolor+2f, sizeXcolor-4f,sizeYcolor-4f);
 		if(isOverCiv)

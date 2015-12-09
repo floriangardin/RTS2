@@ -2,6 +2,8 @@ package buildings;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
@@ -18,6 +20,7 @@ public class BuildingUniversity extends BuildingTech {
 	public BuildingUniversity(Plateau plateau, Game g, float f, float h) {
 		// Init ProductionList
 		this.p = plateau ;
+		this.g = g;
 		this.setTeam(0);
 		this.productionList = new Vector<Technologie>();
 		if(this.getGameTeam().civ==0){
@@ -38,6 +41,8 @@ public class BuildingUniversity extends BuildingTech {
 		this.sight = getGameTeam().data.universitySight;
 		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
+		this.soundSelection = new Vector<Sound>();
+		this.soundSelection.addElement(this.g.sounds.universitySound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;
 		this.lifePoints = this.maxLifePoints;
@@ -48,6 +53,10 @@ public class BuildingUniversity extends BuildingTech {
 		this.y = h;
 		p.addBuilding(this);
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
+		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 		this.selectionBox = this.collisionBox;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingUniversityBlue;

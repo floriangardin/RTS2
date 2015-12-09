@@ -2,8 +2,11 @@ package buildings;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
+
 import main.Main;
-import model.Bonus;
+import model.Colors;
 import model.IAPlayer;
 import multiplaying.ChatMessage;
 import units.Character;
@@ -32,11 +35,11 @@ public abstract class BuildingProduction extends BuildingAction {
 				// Messages
 				if(this.getTeam()==this.g.currentPlayer.getTeam()){
 					if(this.productionList.get(unit).foodPrice>this.getGameTeam().food){
-						this.g.sendMessage(ChatMessage.getById("food"));
+						this.g.sendMessage(ChatMessage.getById("food",g));
 					} else if(this.productionList.get(unit).goldPrice>this.getGameTeam().gold){
-						this.g.sendMessage(ChatMessage.getById("gold"));
+						this.g.sendMessage(ChatMessage.getById("gold",this.g));
 					} else {
-						this.g.sendMessage(ChatMessage.getById("pop"));
+						this.g.sendMessage(ChatMessage.getById("pop",g));
 					}
 				}
 			}
@@ -101,6 +104,19 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.updateImage();
 			this.lifePoints=this.maxLifePoints;
 		}
+	}
+	
+	public Graphics drawRallyPoint(Graphics g){
+		
+		g.setColor(Colors.team0);
+		g.setAntiAlias(true);
+		g.setLineWidth(2f);
+		g.fill(new Circle(this.rallyPoint.x,this.rallyPoint.y,3f));
+		g.draw(new Circle(this.rallyPoint.x,this.rallyPoint.y,10f));
+		g.setAntiAlias(false);
+		g.setLineWidth(1f);
+		
+		return g;
 	}
 
 	public void removeProd() {

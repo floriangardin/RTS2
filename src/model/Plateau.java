@@ -377,7 +377,17 @@ public class Plateau {
 					e.collisionWeapon(o);
 				}
 				if (e.collisionBox.intersects(o.collisionBox)) {
+					boolean doCollision = true;
+					for(Circle c : e.corners){
+						if(Utils.distance(new Checkpoint(this,c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
+							doCollision = false;
+						}
+					}
+					if(doCollision)
 					o.collision(e);
+				}
+				else{
+					
 				}
 			}
 			// Between spells and characters
@@ -480,7 +490,9 @@ public class Plateau {
 						}
 					}
 				}
-
+				if(target instanceof Building){
+					mode = Character.TAKE_BUILDING;
+				}
 				o.setTarget(target, waypoints, mode);
 				o.secondaryTargets.clear();
 			}
@@ -725,7 +737,7 @@ public class Plateau {
 			// RALLY POINT
 			if (this.selection.get(player).size() > 0
 					&& this.selection.get(player).get(0) instanceof BuildingProduction) {
-				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.xMouse,
+				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(this,im.xMouse,
 						im.yMouse);
 
 			} else if (im.isPressedMAJ) {
@@ -759,13 +771,16 @@ public class Plateau {
 	}
 
 	private void handleSpellsOnField(InputObject im, int id_spell, int player, boolean host) {
+		if(id_spell<0){
+			return;
+		}
 		if (this.selection.get(player).size() > 0) {
 			Character c = (Character) this.selection.get(player).get(0);
 			if (id_spell >= c.spells.size()) {
 				return;
 			}
 			Spell spell = c.spells.get(id_spell);
-			spell.launch(new Checkpoint(im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
+			spell.launch(new Checkpoint(this,im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
 			c.spellsState.set(id_spell, 0f);
 		}
 	}
@@ -991,12 +1006,19 @@ public class Plateau {
 						this.g.players.get(player).groups.get(to).add(c);
 				} else if (im.isPressedMAJ) {
 					// Adding the current selection to the group
+					
 					for (ActionObjet c : this.selection.get(player))
 						this.g.players.get(player).groups.get(to).add(c);
 				} else {
 					this.selection.get(player).clear();
-					for (ActionObjet c : this.g.players.get(player).groups.get(to))
+					int i = 0;
+					for (ActionObjet c : this.g.players.get(player).groups.get(to)){
 						this.selection.get(player).add(c);
+						if(c.soundSelection!=null && c.soundSelection.size()>0 && i==0){
+							Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+						}
+						i++;
+					}
 				}
 				this.g.players.get(player).groupSelection = to;
 			}
@@ -1009,6 +1031,14 @@ public class Plateau {
 						&& this.selection.get(player).get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(player).get(0);
 					if (c.soundSelection != null && c.soundSelection.size() > 0 && Math.random() > 0.3) {
+						Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+					}
+
+				}
+				if (player == this.g.currentPlayer.id && this.selection.get(player).size() > 0
+						&& this.selection.get(player).get(0) instanceof Building) {
+					Building c = (Building) this.selection.get(player).get(0);
+					if (c.soundSelection != null && c.soundSelection.size() > 0) {
 						Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
 					}
 

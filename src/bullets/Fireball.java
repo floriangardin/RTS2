@@ -52,7 +52,7 @@ public class Fireball extends Bullet {
 		this.lifePoints = 30f;
 		this.owner = owner;
 		this.setTeam(owner.getTeam());
-		this.setTarget(new Checkpoint(targetX,targetY));
+		this.setTarget(new Checkpoint(p,targetX,targetY));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
 		this.vx = vx;

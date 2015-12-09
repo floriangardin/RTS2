@@ -36,7 +36,7 @@ public class SpellFirewall extends Spell{
 			float norm = (float) Math.sqrt(ux*ux+uy*uy);
 			ux = ux*this.range/norm;
 			uy = uy*this.range/norm;
-			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
+			return new Checkpoint(p,launcher.getX()+ux,launcher.getY()+uy);
 		} else {
 			return target;
 		}

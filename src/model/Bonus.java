@@ -25,7 +25,7 @@ public abstract class Bonus  extends Building{
 
 		int imageWidth = this.image.getWidth()/5;
 		float r =((Circle) this.collisionBox).radius;
-		Color color = Color.darkGray;
+		Color color = Colors.team0;
 
 		color = new Color(0,0,0,0.4f);
 		Image i;
@@ -55,9 +55,9 @@ public abstract class Bonus  extends Building{
 			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,2*r,6f));
 			float x = this.constructionPoints*2f*r/this.maxLifePoints;
 			if(this.potentialTeam==1)
-				g.setColor(Color.blue);
+				g.setColor(Colors.team1);
 			else
-				g.setColor(Color.red);
+				g.setColor(Colors.team2);
 			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,x,6f));
 		}
 		return g;

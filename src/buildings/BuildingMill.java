@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
@@ -34,7 +36,8 @@ public class BuildingMill extends BuildingTech{
 		this.type = 1;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";
-		
+		this.soundSelection = new Vector<Sound>();
+		this.soundSelection.addElement(this.g.sounds.millSound);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.millChargeTime;
 		this.lifePoints = getGameTeam().data.millLifePoints;
@@ -43,6 +46,10 @@ public class BuildingMill extends BuildingTech{
 		p.addBuilding(this);
 		this.sight = p.g.players.get(getTeam()).data.millSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
+		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMillBlue;

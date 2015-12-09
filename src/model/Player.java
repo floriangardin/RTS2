@@ -10,7 +10,7 @@ import display.TopBar;
 public class Player {
 	public Vector<ActionObjet> selection;
 	public Vector<Vector<ActionObjet>> groups;
-	Plateau p;
+	public Plateau p;
 	
 	//FLO INPUTS TO BE APPLIED ON THIS ROUND
 	public Vector<InputObject> inputs;

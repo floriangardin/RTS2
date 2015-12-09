@@ -56,7 +56,7 @@ public abstract class ActionObjet extends Objet{
 	public void setTarget(Objet t, Vector<Case> waypoints){
 		this.target = t;
 		if(t!=null)
-			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+			this.checkpointTarget = new Checkpoint(p,t.getX(),t.getY());
 	}
 	public void drawIsSelected(Graphics g) {
 

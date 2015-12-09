@@ -2,12 +2,12 @@ package buildings;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.GameTeam;
 import model.Plateau;
 import technologies.DualistAge2;
 import technologies.DualistAge3;
@@ -37,9 +37,12 @@ public class BuildingHeadQuarters extends BuildingTech {
 		// Init ProductionList
 		this.hq = this;
 		this.p = plateau ;
+		this.g = g;
 		this.productionList = new Vector<Technologie>();
 		this.allTechs = new Vector<Technologie>();
 		this.gameteam = g.teams.get(team);
+		this.soundSelection = new Vector<Sound>();
+		this.soundSelection.addElement(this.g.sounds.headQuartersSound);
 		
 		this.getGameTeam().hq = this;
 		if(getGameTeam().civ==0){
@@ -116,7 +119,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 5;
 		this.lifePoints = this.maxLifePoints;
-		this.g = g;
+		
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);

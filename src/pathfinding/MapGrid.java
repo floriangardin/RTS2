@@ -96,19 +96,20 @@ public class MapGrid {
 	}
 
 	public void insertNewRec(float X, float Y, float sizeX, float sizeY){
-		insertNewX(X-sizeX/2f);
-		insertNewX(X+sizeX/2f);
-		insertNewY(Y-sizeY/2f);
-		insertNewY(Y+sizeY/2f);
+		float delta = 50f;
+		insertNewX(X-sizeX/2f-delta);
+		insertNewX(X+sizeX/2f+delta);
+		insertNewY(Y-sizeY/2f-delta);
+		insertNewY(Y+sizeY/2f+delta);
 		updateIndices();
 		//		int imin = (X-sizeX/2f<0 ? 0: Xcoord.indexOf(X-sizeX/2f));
 		//		int imax = (X+sizeX/2f>maxX ? grid.size()-1 : Xcoord.indexOf(X+sizeX/2f));
 		//		int jmin = (Y-sizeY/2f<0 ? 0: Ycoord.indexOf(Y-sizeY/2f));
 		//		int jmax = (Y+sizeY/2f>maxY ? grid.get(0).size()-1 : Ycoord.indexOf(Y+sizeY/2f));
-		int imin = (Xcoord.indexOf(X-sizeX/2f));
-		int imax = (Xcoord.indexOf(X+sizeX/2f));
-		int jmin = (Ycoord.indexOf(Y-sizeY/2f));
-		int jmax = (Ycoord.indexOf(Y+sizeY/2f));
+		int imin = (Xcoord.indexOf(X-sizeX/2f-delta));
+		int imax = (Xcoord.indexOf(X+sizeX/2f+delta));
+		int jmin = (Ycoord.indexOf(Y-sizeY/2f-delta));
+		int jmax = (Ycoord.indexOf(Y+sizeY/2f+delta));
 		for(int i = imin;i<imax;i++ )
 			for(int j = jmin; j<jmax; j++)
 				if(i>=0 && i<grid.size() && j>=0 && j<grid.get(0).size())

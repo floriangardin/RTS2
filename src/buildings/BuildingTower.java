@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
@@ -42,8 +44,14 @@ public class BuildingTower extends Building{
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(0,0,sizeX,sizeY);
+		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
+		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.selectionBox = this.collisionBox;
+		this.soundSelection = new Vector<Sound>();
+		this.soundSelection.addElement(this.g.sounds.towerSound);
 		this.setXY(x, y);
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingTowerBlue;

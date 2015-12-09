@@ -2,6 +2,8 @@ package model;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
+
 import buildings.BuildingHeadQuarters;
 import main.Main;
 
@@ -19,13 +21,22 @@ public class GameTeam {
 	public int pop;
 	public BuildingHeadQuarters hq ;
 	public int maxPop;
-
+	public Color color;
 	
 	
 	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
 		this.players = players;
 		this.id = id;
 		this.data = new Data(plateau,this,Main.framerate);
+		if(id==0){
+			color = Colors.team0;
+		}
+		else if(id==1){
+			color = Colors.team1;
+		}
+		else if(id==2){
+			color = Colors.team2;
+		}
 		this.plateau = plateau;
 		this.civ = civ;
 		switch(civ){

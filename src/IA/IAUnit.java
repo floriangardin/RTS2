@@ -30,7 +30,8 @@ public class IAUnit {
 	public Checkpoint moveInBattle(Vector<Character> enemies){
 		this.computeEnnemies(enemies);
 		this.computeDirection();
-		return this.computeVector();
+		//return this.computeVector();
+		return null;
 	}
 	
 	// Initializing the matrix
@@ -75,14 +76,14 @@ public class IAUnit {
 		}
 //		System.out.println();
 	}
-	public Checkpoint computeVector(){
-		Checkpoint p = new Checkpoint(unit.x, unit.y);
-		Checkpoint v = new Checkpoint(directions[2]-directions[1],directions[0]-directions[3]);
-		float vNorm = (float)Math.sqrt(v.getX()*v.getX()+v.getY()*v.getY());
-		p.x=(p.getX()+10f*v.getX()/vNorm);
-		p.y=(p.getY()+10f*v.getY()/vNorm);
-		return p;
-	}
+//	public Checkpoint computeVector(){
+//		Checkpoint p = new Checkpoint(unit.x, unit.y);
+//		Checkpoint v = new Checkpoint(directions[2]-directions[1],directions[0]-directions[3]);
+//		float vNorm = (float)Math.sqrt(v.getX()*v.getX()+v.getY()*v.getY());
+//		p.x=(p.getX()+10f*v.getX()/vNorm);
+//		p.y=(p.getY()+10f*v.getY()/vNorm);
+//		return p;
+//	}
 
 	// Handling the features
 	public void cleanFeatures(){
