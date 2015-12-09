@@ -59,6 +59,9 @@ public class MinimapInterface extends Bar {
 	}
 
 	public Graphics draw(Graphics g){
+		
+		g.drawString("Ping : "+Integer.toString((int)(this.game.clock.getPing()/1000000f)), 20f, 40f);
+		g.drawString("delay : "+Integer.toString(this.game.roundDelay), 110f, 40f);
 		// Draw the minimap 
 		if(!toDraw){
 			return g;
