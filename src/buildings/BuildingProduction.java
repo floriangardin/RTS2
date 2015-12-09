@@ -57,18 +57,13 @@ public abstract class BuildingProduction extends BuildingAction {
 	}
 	
 	public void setCharge(float charge){
-		if(this.queue!=null && this.queue.size()>0 && charge>this.productionList.get(this.queue.get(0)).time){
+		if(this.queue!=null && this.queue.size()>0 && charge>(this.productionList.get(this.queue.get(0)).time)){
+			this.charge = (this.productionList.get(this.queue.get(0)).time);
 			return;
 		}
 		this.charge = charge;
 	}
 	
-	public void setCharge(float charge,boolean force){
-		if(!force && this.queue!=null && this.queue.size()>0 && charge>this.productionList.get(this.queue.get(0)).time){
-			return;
-		}
-		this.charge = charge;
-	}
 	public void action(){
 		giveUpProcess();
 		if(underAttackRemaining>0f){
@@ -92,7 +87,7 @@ public abstract class BuildingProduction extends BuildingAction {
 
 			this.setCharge(this.charge+Main.increment);
 			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.productionList.get(this.queue.get(0)).time){
-				this.setCharge(0f,true);
+				this.setCharge(0f);
 				float dirX = this.random+this.rallyPoint.x-this.x;
 				float dirY = this.random+this.rallyPoint.y - this.y;
 				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
