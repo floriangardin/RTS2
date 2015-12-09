@@ -43,45 +43,45 @@ public class Data {
 	//headQuarters
 	public int headQuartersLifePoints = 30;
 	public float headQuartersSight = 500f;
-	public float headQuartersSizeX = 300f;
-	public float headQuartersSizeY = 200f;
+	public float headQuartersSizeX = 3f*Map.stepGrid;
+	public float headQuartersSizeY = 2f*Map.stepGrid;
 	// Mill
 	public int millChargeTime = 5;
 	public int millLifePoints = 50;
 	public float millSight = 300f;
-	public float millSizeX = 300f;
-	public float millSizeY = 200f;
+	public float millSizeX = 3f*Map.stepGrid;
+	public float millSizeY = 2f*Map.stepGrid;
 
 	// Mine
 	public int mineChargeTime = 5;
 	public int mineLifePoints = 50;
 	public float mineSight = 300f;
-	public float mineSizeX = 300f;
-	public float mineSizeY = 200f;
+	public float mineSizeX = 3f*Map.stepGrid;
+	public float mineSizeY = 2f*Map.stepGrid;
 
 	// Barrack
 	public int barrackLifePoints = 50;
 	public float barrackSight = 500f;
-	public float barrackSizeX = 400f;
-	public float barrackSizeY = 250f;
+	public float barrackSizeX = 5f*Map.stepGrid;
+	public float barrackSizeY = 3f*Map.stepGrid;
 
 	//Stable
 	public int stableLifePoints = 50;
 	public float stableSight = 300f;
-	public float stableSizeX = 400f;
-	public float stableSizeY = 220f;
+	public float stableSizeX = 4f*Map.stepGrid;
+	public float stableSizeY = 3f*Map.stepGrid;
 
 	// Academy 
 	public int academyLifePoints = 50;
 	public float academySight = 300f;
-	public float academySizeX = 300f;
-	public float academySizeY = 200f;
+	public float academySizeX = 4f*Map.stepGrid;
+	public float academySizeY = 3f*Map.stepGrid;
 
 	// University 
 	public int universityLifePoints = 50;
 	public float universitySight = 300f;
-	public float universitySizeX = 350f;
-	public float universitySizeY = 250f;
+	public float universitySizeX = 3f*Map.stepGrid;
+	public float universitySizeY = 3f*Map.stepGrid;
 
 
 	//// Spells

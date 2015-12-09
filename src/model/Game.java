@@ -19,6 +19,7 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
 import IA.IABasic;
+import buildings.Bonus;
 import buildings.Building;
 import bullets.Bullet;
 import main.Main;

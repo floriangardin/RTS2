@@ -2,9 +2,9 @@ package display;
 
 import java.util.Vector;
 
-import model.Bonus;
 import model.Colors;
 import model.Game;
+import model.Map;
 import model.NaturalObjet;
 
 import org.newdawn.slick.Color;
@@ -12,6 +12,7 @@ import org.newdawn.slick.Graphics;
 
 import pathfinding.Case;
 import units.Character;
+import buildings.Bonus;
 import buildings.Building;
 
 public class MinimapInterface extends Bar {
@@ -24,6 +25,8 @@ public class MinimapInterface extends Bar {
 	public float rh;
 	public Game game;
 	public boolean toDraw;
+	
+	public static boolean todrawGrid = true;
 
 	
 	// Extra params __ Debug
@@ -77,7 +80,16 @@ public class MinimapInterface extends Bar {
 		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
 		// Draw water
 		
-		
+		//draw grid
+		if(todrawGrid){
+			g.setColor(Color.gray);
+			for(int i =0; i<this.game.plateau.maxX/Map.stepGrid; i++){
+				g.drawLine(i*Map.stepGrid*rw+startX, startY, i*Map.stepGrid*rw+startX, startY+h);
+			}
+			for(int i =0; i<this.game.plateau.maxY/Map.stepGrid; i++){
+				g.drawLine(startX, i*Map.stepGrid*rh+startY, startX+w, i*Map.stepGrid*rh+startY);
+			}
+		}
 		
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.cyan);

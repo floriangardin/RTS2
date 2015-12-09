@@ -96,7 +96,7 @@ public class MapGrid {
 	}
 
 	public void insertNewRec(float X, float Y, float sizeX, float sizeY){
-		float delta = 50f;
+		float delta = 0f;
 		insertNewX(X-sizeX/2f-delta);
 		insertNewX(X+sizeX/2f+delta);
 		insertNewY(Y-sizeY/2f-delta);

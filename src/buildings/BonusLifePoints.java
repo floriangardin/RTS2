@@ -1,9 +1,13 @@
-package model;
+package buildings;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
+import com.sun.javafx.css.CssError.StylesheetParsingError;
+
+import model.Map;
+import model.Plateau;
 import units.Character;
 public class BonusLifePoints extends Bonus{
 
@@ -11,26 +15,9 @@ public class BonusLifePoints extends Bonus{
 
 
 	public BonusLifePoints(Plateau p , float x , float y){
-		this.p = p;
-		this.g = p.g;
-		p.bonus.addElement(this);
-		this.maxLifePoints = 20f;
-		this.potentialTeam = 0;
-		this.lifePoints = 1f;
-		this.constructionPoints=0f;
-		this.setTeam(0);
-		this.sight = 200f;
-		this.size = 100f;
-		this.collisionBox = new Circle(x,y,this.size);
-		this.selectionBox = this.collisionBox;
-		this.hitBoxSize = 30f;
-		this.hitBox = new Circle(x,y,this.hitBoxSize);
-		this.x = x;
-		this.y = y;
-		this.setXY(x, y);
+		this.initialize(p, x, y);
 		this.image = this.p.g.images.bonusLifePoints;
 		this.bonus = 50f;
-		this.sound = this.p.g.sounds.bonus;
 
 	}
 

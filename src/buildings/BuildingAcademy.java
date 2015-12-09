@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import units.UnitsList;
 
@@ -28,15 +29,8 @@ public class BuildingAcademy extends BuildingProduction {
 		type= 4;
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.academySound);
-		this.lifePoints = this.maxLifePoints;
 		this.g = g;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
-		this.x = f;
-		this.y = h;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.selectionBox = this.collisionBox;
-		p.addBuilding(this);
+		this.initialize(f, h);
 		if(this.getTeam()==1){
 			this.image = this.p.g.images.buildingAcademyBlue;
 		} else if(this.getTeam()==2){
@@ -49,7 +43,6 @@ public class BuildingAcademy extends BuildingProduction {
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Inquisitor);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.updateImage();
 	}
 
 	

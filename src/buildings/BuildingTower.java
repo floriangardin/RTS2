@@ -12,6 +12,7 @@ import bullets.Fireball;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import model.Utils;
 import units.Character;
@@ -27,32 +28,20 @@ public class BuildingTower extends Building{
 	public Image animationBleu;
 	public Image animationRouge;
 
-	public BuildingTower(Plateau p,Game g,float x, float y){
-		p.addBuilding(this);
-		this.constructionPoints = 0f;
+	public BuildingTower(Plateau p,Game g,float f, float h){
 		teamCapturing = 0;
-		this.x = x;
-		this.y = y;
 		this.p =p;
 		this.g =g;
 		this.setTeam(0);
 		this.damage = 20f;
 		this.maxLifePoints = 20f;
+		this.sizeX = 2f*Map.stepGrid;
+		this.sizeY = 2f*Map.stepGrid;
 		this.name = "tower";
-		this.lifePoints = this.maxLifePoints;
 		this.chargeTime = 5f;
-		this.sizeX = 220f; 
-		this.sizeY = 220f;
-		this.collisionBox= new Rectangle(0,0,sizeX,sizeY);
-		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
-		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
-		this.selectionBox = this.collisionBox;
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.towerSound);
-		this.setXY(x, y);
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingTowerBlue;
 		} else if(getTeam()==2){
@@ -62,7 +51,7 @@ public class BuildingTower extends Building{
 		}
 		this.sight = 550f;
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.updateImage();
+		this.initialize(f, h);
 		canAttack = false;
 		this.animationBleu = this.p.g.images.buildingTowerBlueAnimation;
 		this.animationRouge = this.p.g.images.buildingTowerRedAnimation;

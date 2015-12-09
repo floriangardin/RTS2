@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 
+import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingAction;
 import buildings.BuildingProduction;

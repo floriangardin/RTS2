@@ -1,4 +1,4 @@
-package model;
+package buildings;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -7,9 +7,11 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-import buildings.Building;
+import model.Colors;
+import model.Map;
+import model.Plateau;
 
-public abstract class Bonus  extends Building{
+public abstract class Bonus extends Building{
 
 	public float bonus=5f;
 	public Sound soundTaken;
@@ -21,6 +23,28 @@ public abstract class Bonus  extends Building{
 
 	public float animationStep  = 1f;
 
+	public void initialize(Plateau p , float x , float y){
+		this.p = p;
+		this.g = p.g;
+		this.lifePoints = 10f;
+		this.maxLifePoints = 20f;
+		this.lifePoints = 1f;
+		this.constructionPoints=0f;
+		this.setTeam(0);
+		p.bonus.addElement(this);
+		this.sight = 200f;
+		this.size = 100f;
+		this.collisionBox = new Circle(x,y,this.size);
+		this.selectionBox = this.collisionBox;
+		this.hitBoxSize = 30f;
+		this.hitBox = new Circle(x,y,this.hitBoxSize);
+		this.x = x*Map.stepGrid;
+		this.y = y*Map.stepGrid;
+		this.setXY(x, y);
+		this.sound = this.p.g.sounds.bonus;
+
+	}
+	
 	public Graphics draw(Graphics g){
 
 		int imageWidth = this.image.getWidth()/5;

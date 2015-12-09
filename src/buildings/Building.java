@@ -11,10 +11,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.ActionObjet;
-import model.Bonus;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
+import model.Map;
 import model.Objet;
 import model.Plateau;
 import multiplaying.ChatMessage;
@@ -64,6 +64,26 @@ public class Building extends ActionObjet{
 		this.updateImage();
 	}
 
+	public void initialize(float f, float h){
+		this.x = f*Map.stepGrid+sizeX/2f;
+		this.y = h*Map.stepGrid+sizeY/2f;
+		p.addBuilding(this);
+		this.lifePoints = this.maxLifePoints;
+		this.id = p.g.idChar;
+		p.g.idChar+=1;
+		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.selectionBox = this.collisionBox;
+		this.setXY(x, y);
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.constructionPoints = this.maxLifePoints;
+		this.potentialTeam = this.getTeam();
+		this.updateImage();
+		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
+		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
+	}
+	
 	public void collisionWeapon(Character c){
 		if(this instanceof Bonus && !((Bonus)this).bonusPresent){
 			return;

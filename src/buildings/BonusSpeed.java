@@ -1,35 +1,16 @@
-package model;
+package buildings;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
 
+import model.Plateau;
 import units.Character;
 
 public class BonusSpeed extends Bonus{
 
 
 	public BonusSpeed(Plateau p , float x , float y){
-		this.p = p;
-		this.g = p.g;
-		this.maxLifePoints = 20f;
-		this.lifePoints = 1f;
-		this.constructionPoints=0f;
-		this.setTeam(0);
-		p.bonus.addElement(this);
-		this.sight = 200f;
-		this.size = 100f;
-		this.collisionBox = new Circle(x,y,this.size);
-		this.selectionBox = this.collisionBox;
-		this.hitBoxSize = 30f;
-		this.hitBox = new Circle(x,y,this.hitBoxSize);
-		this.x = x;
-		this.y = y;
-		this.setXY(x, y);
+		this.initialize(p, x, y);
 		this.image = this.p.g.images.bonusSpeed;
 		this.bonus = 20f;
-		this.sound = this.p.g.sounds.bonus;
 	}
 
 	public void action(){

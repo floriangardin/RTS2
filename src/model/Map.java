@@ -2,11 +2,9 @@ package model;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-
-import buildings.Building;
+import buildings.BonusDamage;
+import buildings.BonusLifePoints;
+import buildings.BonusSpeed;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
 import buildings.BuildingHeadQuarters;
@@ -15,18 +13,18 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
-import bullets.Bullet;
-import multiplaying.ChatMessage;
 import nature.Tree;
 import nature.Water;
 import pathfinding.MapGrid;
-import spells.SpellEffect;
-import units.Character;
 import units.UnitsList;
 
 public class Map {
-
 	
+	public static float stepGrid = 100f;
+
+	public static float sizeX;
+	public static float sizeY;
+		
 	public Map(){
 
 	}
@@ -36,8 +34,7 @@ public class Map {
 		maps.add("small duel");
 		maps.add("large duel");
 		maps.add("microgestion");
-		maps.add("duel very small");
-		maps.add("The Island");
+		maps.add("the island");
 		return maps;
 	}
 	
@@ -71,15 +68,17 @@ public class Map {
 
 	
 	private static void createMapTheIsland(Game game) {
-		game.plateau.setMaxXMaxY(1400f, 1200f);
+		sizeX = 14;
+		sizeY = 12;
+		game.plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
 		float X = game.plateau.maxX;
 		float Y = game.plateau.maxY;
 		Data data1 = game.teams.get(1).data;
 		Data data2 = game.teams.get(2).data;
 
-		new BuildingHeadQuarters(game.plateau,game,0,Y/2,1);
-		new BuildingHeadQuarters(game.plateau,game,X,Y/2,2);
+		new BuildingHeadQuarters(game.plateau,game,0,6,1);
+		new BuildingHeadQuarters(game.plateau,game,14,6,2);
 
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-1f);
 		data1.create(UnitsList.Crossbowman, 2*X/9, Y/2-2f);
@@ -108,7 +107,9 @@ public class Map {
 	}
 
 	public static void createMapDuelSmall(Game game){
-		game.plateau.setMaxXMaxY(3000f, 3000f);
+		sizeX = 31;
+		sizeY = 31;
+		game.plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
 		Data data1 = game.teams.get(1).data;
 		Data data2 = game.teams.get(2).data;
 		float X = game.plateau.maxX;
@@ -116,83 +117,50 @@ public class Map {
 		int team1 = 1;
 		int team2 = 2;
 		// Team 1 side
-		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,X/2,200f,team1);
+		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,14,1,team1);
 		data1.create(UnitsList.Spearman, X/2+3f-40f,team1h.y+team1h.sizeY+20f);
 		data1.create(UnitsList.Spearman, X/2+3f+40f, team1h.y+team1h.sizeY+20f);
-		new BuildingMill(game.plateau,game,3*X/10,Y/15);
-		new BuildingMine(game.plateau,game,7*X/10,Y/15);
-		new BuildingMill(game.plateau,game,1*X/10,Y/15);
-		new BuildingMine(game.plateau,game,9*X/10,Y/15);
-		new BuildingBarrack(game.plateau,game,X/2,1f*Y/5);
+		new BuildingMill(game.plateau,game,9,1);
+		new BuildingMine(game.plateau,game,19,1);
+		new BuildingMill(game.plateau,game,3,1);
+		new BuildingMine(game.plateau,game,25,1);
+		new BuildingBarrack(game.plateau,game,13,5);
+		new BuildingTower(game.plateau,game,12,0);
+		new BuildingTower(game.plateau,game,17,0);
 			
 		// Team 2 side
-		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,X/2,Y-200f,team2);
+		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,14,28,team2);
 		data2.create(UnitsList.Spearman, X/2+3f-40f,  team2h.y-team2h.sizeY-20f);
 		data2.create(UnitsList.Spearman, X/2+3f+40f,  team2h.y-team2h.sizeY-20f);
-		new BuildingMill(game.plateau,game,3*X/10,14*Y/15);
-		new BuildingMine(game.plateau,game,7*X/10,14*Y/15);
-		
-		new BuildingMill(game.plateau,game,X/10,14*Y/15);
-		new BuildingMine(game.plateau,game,9*X/10,14*Y/15);
-		
-		new BuildingBarrack(game.plateau,game,X/2,4f*Y/5);
+		new BuildingMill(game.plateau,game,3,28);
+		new BuildingMine(game.plateau,game,19,28);
+		new BuildingMill(game.plateau,game,9,28);
+		new BuildingMine(game.plateau,game,25,28);
+		new BuildingBarrack(game.plateau,game,13,23);
+		new BuildingTower(game.plateau,game,12,29);
+		new BuildingTower(game.plateau,game,17,29);
 		
 		// CENTER
-		new BonusLifePoints(game.plateau, X/2, 2*Y/6);
-		new BonusLifePoints(game.plateau, X/2, 4*Y/6);
+		new BonusLifePoints(game.plateau, X/2, 2f*Y/6);
+		new BonusLifePoints(game.plateau, X/2, 4f*Y/6);
 		
 		// Stables and academy 
-		new BuildingStable(game.plateau,game,X/4,2*Y/6);
-		new BuildingAcademy(game.plateau,game,3*X/4,2*Y/6);
-		new BuildingStable(game.plateau,game,X/4, 4*Y/6);
-		new BuildingAcademy(game.plateau,game,3f*X/4, 4*Y/6);
+		new BuildingStable(game.plateau,game,4,8);
+		new BuildingAcademy(game.plateau,game,23,8);
+		new BuildingStable(game.plateau,game,23, 20);
+		new BuildingAcademy(game.plateau,game,4, 20);
 		// Barrack in the middle
-		new BuildingMill(game.plateau,game,X/5,Y/2);
-		new BuildingMine(game.plateau,game,4f*X/5,Y/2);
-		new BuildingUniversity(game.plateau,game,X/2,Y/2);
+		new BuildingMill(game.plateau,game,2,15);
+		new BuildingMine(game.plateau,game,26,15);
+		new BuildingUniversity(game.plateau,game,14,14);
 		
 		//TOWERS
-		new BuildingTower(game.plateau,game,4*X/10,200f);
-		new BuildingTower(game.plateau,game,6*X/10,200f);
-		new BuildingTower(game.plateau,game,4*X/10,Y-200f);
-		new BuildingTower(game.plateau,game,6*X/10,Y-200f);
 		//VEGETATION
 		new Tree(2*X/6,Y/6,game.plateau,1);
 		new Tree(4*X/6,Y/6,game.plateau,2);
 		new Tree(4*X/6,5*Y/6,game.plateau,2);
 		new Tree(2*X/6,5*Y/6,game.plateau,1);
 	}
-	
-	
-	
-	public static void createMapDuelVerySmall(Game game){
-		game.plateau.setMaxXMaxY(1000f, 1300f);
-		Data data1 = game.teams.get(1).data;
-		Data data2 = game.teams.get(2).data;
-		
-		// Team 1 side
-		BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,200f,1);
-		
-//		for(int i =0;i<21;i++){
-//			data1.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f, 300f+i);
-//			data2.create(UnitsList.Spearman, game.plateau.maxX/2+3f-40f,  game.plateau.maxY-350f+i);
-//		}
-		
-		
-		game.teams.get(1).gold = 10000;
-		game.teams.get(1).food= 10000;
-		game.teams.get(2).gold = 10000;
-		game.teams.get(2).food = 10000;
-		
-		
-		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,1f*game.plateau.maxY/5).setTeam(1);
-		// Team 2 side
-		BuildingHeadQuarters team2h = new BuildingHeadQuarters(game.plateau,game,-200f+game.plateau.maxX/2,game.plateau.maxY-200f,2);
-
-		new BuildingBarrack(game.plateau,game,200f+game.plateau.maxX/2,4f*game.plateau.maxY/5).setTeam(2);
-			
-	}
-
 	
 	
 	public static void createMapDuelLarge(Game game){

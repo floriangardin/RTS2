@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import technologies.DualistAge2;
 import technologies.DualistAge3;
@@ -113,17 +114,11 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.sight = this.getGameTeam().data.headQuartersSight;
 		maxLifePoints = getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
-		this.x = f;
-		this.y = h;
-		p.addBuilding(this);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 5;
-		this.lifePoints = this.maxLifePoints;
+
+		this.initialize(f,h);
 		
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.selectionBox = this.collisionBox;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingHeadQuartersBlue;
 		}
@@ -136,10 +131,6 @@ public class BuildingHeadQuarters extends BuildingTech {
 		// List of potential production 
 		this.techsDiscovered = new Vector<Technologie>();
 		this.updateProductionList();
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.constructionPoints = this.maxLifePoints;
-		this.potentialTeam = this.getTeam();
-		this.updateImage();
 		
 
 	}

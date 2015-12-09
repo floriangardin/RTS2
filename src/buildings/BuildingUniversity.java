@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import model.Player;
 import technologies.Technologie;
@@ -45,19 +46,8 @@ public class BuildingUniversity extends BuildingTech {
 		this.soundSelection.addElement(this.g.sounds.universitySound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;
-		this.lifePoints = this.maxLifePoints;
 		this.g = g;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
-		this.x = f;
-		this.y = h;
-		p.addBuilding(this);
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
-		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
-		this.selectionBox = this.collisionBox;
+		this.initialize(f, h);
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingUniversityBlue;
 		}

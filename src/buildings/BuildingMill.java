@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import technologies.Technologie;
 
@@ -21,18 +22,11 @@ public class BuildingMill extends BuildingTech{
 	public Image millarms;
 	public int bonusProd;
 	
-	public BuildingMill(Plateau p,Game g,float x, float y){
-		
-
-
-		this.x = x;
-		this.y = y;
+	public BuildingMill(Plateau p,Game g,float f, float h){
 		
 		this.p =p;
 		this.setTeam(0);
 		this.g =g;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
 		this.type = 1;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";
@@ -43,14 +37,8 @@ public class BuildingMill extends BuildingTech{
 		this.lifePoints = getGameTeam().data.millLifePoints;
 		this.sizeX = getGameTeam().data.millSizeX; 
 		this.sizeY = getGameTeam().data.millSizeY;
-		p.addBuilding(this);
 		this.sight = p.g.players.get(getTeam()).data.millSight;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
-		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
-		this.selectionBox = this.collisionBox;
+		this.initialize(f, h);
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMillBlue;
 		} else if(getTeam()==2){
@@ -58,10 +46,8 @@ public class BuildingMill extends BuildingTech{
 		} else {
 			this.image = this.p.g.images.buildingMillNeutral;
 		}
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
-		this.updateImage();
 	}
 
 	

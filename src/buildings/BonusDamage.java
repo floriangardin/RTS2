@@ -1,39 +1,18 @@
-package model;
+package buildings;
 
 import main.Main;
+import model.Plateau;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
 
 public class BonusDamage extends Bonus{
 
-
-
+	
 	public BonusDamage(Plateau p , float x , float y){
-		this.p = p;
-		this.g = p.g;
-		this.lifePoints = 10f;
-		this.maxLifePoints = 20f;
-		this.lifePoints = 1f;
-		this.constructionPoints=0f;
-		this.setTeam(0);
-		p.bonus.addElement(this);
-		this.sight = 200f;
-		this.size = 100f;
-		this.collisionBox = new Circle(x,y,this.size);
-		this.selectionBox = this.collisionBox;
-		this.hitBoxSize = 30f;
-		this.hitBox = new Circle(x,y,this.hitBoxSize);
-		this.x = x;
-		this.y = y;
-		this.setXY(x, y);
+		this.initialize(p, x, y);
+		this.bonus = 5f;
 		this.image = this.p.g.images.bonusDamage;
-		this.sound = this.p.g.sounds.bonus;
 
 	}
 
@@ -52,7 +31,7 @@ public class BonusDamage extends Bonus{
 	public void collision(Character c){
 		
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
-			c.damage +=5f;
+			c.damage += this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
 			this.sound.play(1f, this.p.g.options.soundVolume);

@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import technologies.Technologie;
 
@@ -18,7 +19,7 @@ public class BuildingMine extends BuildingTech{
 	public float state;
 	public int bonusProd;
 	
-	public BuildingMine(Plateau p,Game g,float x, float y){
+	public BuildingMine(Plateau p,Game g,float f, float h){
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}
@@ -27,13 +28,11 @@ public class BuildingMine extends BuildingTech{
 		}
 		teamCapturing= 0;
 
-		this.x = x;
-		this.y = y;
+		this.x = x*Map.stepGrid;
+		this.y = y*Map.stepGrid;
 		this.p =p;
 		this.setTeam(0);
 		this.g =g;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
 		this.type = 0;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mine";
@@ -44,14 +43,8 @@ public class BuildingMine extends BuildingTech{
 		this.lifePoints = getGameTeam().data.mineLifePoints;
 		this.sizeX = getGameTeam().data.mineSizeX;
 		this.sizeY = getGameTeam().data.mineSizeY;
-		p.addBuilding(this);
 		this.sight = getGameTeam().data.mineSight;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
-		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
-		this.selectionBox = this.collisionBox;
+		this.initialize(f, h);
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMineBlue;
 		} else if(getTeam()==2){
@@ -59,10 +52,8 @@ public class BuildingMine extends BuildingTech{
 		} else {
 			this.image = this.p.g.images.buildingMineNeutral;
 		}
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
-		this.updateImage();
 	}
 	
 	

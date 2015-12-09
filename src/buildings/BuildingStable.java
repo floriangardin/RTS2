@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import units.UnitsList;
 
@@ -30,19 +31,7 @@ public class BuildingStable extends BuildingProduction{
 		this.soundSelection.addElement(this.g.sounds.stableSound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 2;
-		this.lifePoints = this.maxLifePoints;
-		
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
-		this.x = f;
-		this.y = h;
-		p.addBuilding(this);
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
-		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
-		this.selectionBox = this.collisionBox;
+		this.initialize(f, h);
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingStableBlue;
 		} else if(getTeam()==2){

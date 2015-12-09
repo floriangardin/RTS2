@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
+import model.Map;
 import model.Plateau;
 import units.UnitsList;
 
@@ -33,19 +34,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.soundSelection.addElement(this.g.sounds.barrackSound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
-		this.lifePoints = this.maxLifePoints;
 		this.g = g;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
-		this.x = f;
-		this.y = h;
-		p.addBuilding(this);
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
-		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
-		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
-		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingBarrackBlue;
 		} else if(getTeam()==2){
@@ -53,13 +42,13 @@ public class BuildingBarrack extends BuildingProduction{
 		} else {
 			this.image = this.p.g.images.buildingBarrackNeutral;
 		}
+		this.initialize(f, h);
 		// List of potential production (Spearman)
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionList.addElement(UnitsList.Crossbowman);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.updateImage();
 	}
 
 	

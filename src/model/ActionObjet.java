@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
+import buildings.Bonus;
 import buildings.Building;
 import pathfinding.Case;
 
