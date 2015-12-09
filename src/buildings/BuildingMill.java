@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
@@ -34,7 +35,8 @@ public class BuildingMill extends BuildingTech{
 		this.type = 1;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";
-		
+		this.soundSelection = new Vector<Sound>();
+		this.soundSelection.addElement(this.g.sounds.millSound);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.millChargeTime;
 		this.lifePoints = getGameTeam().data.millLifePoints;

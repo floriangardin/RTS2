@@ -17,6 +17,7 @@ import buildings.Building;
 import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
+import model.Colors;
 import model.Game;
 import model.GameTeam;
 import model.NaturalObjet;
@@ -417,7 +418,7 @@ public class Character extends ActionObjet{
 	}
 	// Moving toward method method
 	public void moveToward(Case c){
-		moveToward(new Checkpoint(c.x+c.sizeX/2f,c.y+c.sizeY/2f));
+		moveToward(new Checkpoint(this.p,c.x+c.sizeX/2f,c.y+c.sizeY/2f));
 	}
 	public void moveToward(Objet o){
 		if(o==null && this.checkpointTarget==null){
@@ -612,8 +613,8 @@ public class Character extends ActionObjet{
 	}
 	public void drawIsSelected(Graphics g){
 
-		g.setColor(Color.green);
-		g.setLineWidth(3f);
+		g.setColor(Colors.selection);
+		g.setLineWidth(2f);
 		g.setAntiAlias(true);
 		if(this.horse!=null){
 			g.draw(this.collisionBox);
@@ -623,26 +624,27 @@ public class Character extends ActionObjet{
 			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 		}
 		if(mode==MOVE || mode==NORMAL){
-			g.setColor(Color.darkGray);
+			g.setColor(Colors.team0);
 		}
 		else if(mode==AGGRESSIVE){
-			g.setColor(Color.red);
+			g.setColor(Colors.aggressive);
 		}
 		else if(mode==TAKE_BUILDING){
-			g.setColor(Color.green);
+			g.setColor(Colors.buildingTaking);
 		}
 		g.setLineWidth(2f);
 		if(this.target instanceof Character){
-			g.setColor(Color.darkGray);
+			g.setColor(Colors.aggressive);
 			g.draw(this.target.collisionBox);
 		}
 		if(this.target instanceof Checkpoint){
-			g.draw(this.target.collisionBox);
+			
+			this.target.draw(g);
 		}
 		//Draw the building which is being conquered
 		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
-			g.setLineWidth(5f);
-			g.setColor(Color.yellow);
+			g.setLineWidth(2f);
+			g.setColor(Colors.buildingTaking);
 			Building target = (Building) this.target;
 			g.draw(target.collisionBox);
 		}
@@ -894,7 +896,7 @@ public class Character extends ActionObjet{
 		}
 
 		if(t!=null){
-			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+			this.checkpointTarget = new Checkpoint(this.p,t.getX(),t.getY());
 			if(waypoints==null){
 				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
@@ -913,7 +915,7 @@ public class Character extends ActionObjet{
 		this.mode = mode;
 		this.target = t;
 		if(t!=null){
-			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+			this.checkpointTarget = new Checkpoint(this.p,t.getX(),t.getY());
 			if(waypoints==null){
 				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
@@ -1071,7 +1073,7 @@ public class Character extends ActionObjet{
 
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
-				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
+				this.setTarget(new Checkpoint(this.p,this.getTarget().x,this.getTarget().y),null);
 			}
 		}
 	}

@@ -26,6 +26,29 @@ public class Sounds {
 	public Vector<Sound> attackCrossbowman;
 	public Vector<Sound> deathCrossbowman;
 	public Vector<Sound> selectionCrossbowman;
+	
+	
+	//Messages
+	public Sound chatMessage;
+	public Sound buildingTaken;
+	public Sound barrackSound;
+	public Sound headQuartersSound;
+	public Sound millSound;
+	public Sound mineSound;
+	public Sound stableSound;
+	public Sound academySound;
+	public Sound universitySound;
+	public Sound towerSound;
+	
+	
+	public Sound messageWrong;
+	public Sound noRoomSound;
+	public Sound noRessourcesSound;
+	public Sound unitCreated;
+	public Sound techDiscovered;
+	public Sound underAttack;
+	
+	
 	//public Sound lackRessources;
 
 	// menu
@@ -34,6 +57,7 @@ public class Sounds {
 
 	public Music soundDefeat;
 	public Music soundVictory;
+	
 
 	public Sounds(){
 
@@ -52,6 +76,21 @@ public class Sounds {
 
 			soundDefeat = new Music("music/music_defeat.ogg");
 			soundVictory = new Music("music/music_victory.ogg");
+			
+			//BUILDING
+			this.headQuartersSound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.stableSound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.barrackSound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.academySound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.universitySound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.millSound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.mineSound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			this.towerSound = new Sound("music/soundsBuildings/selectionHeadQuarters.ogg");
+			
+			//MESSAGES
+			this.messageWrong = new Sound("music/messages/messageWrong.ogg");
+			this.techDiscovered = new Sound("music/messages/techDiscovered.ogg");
+			
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 

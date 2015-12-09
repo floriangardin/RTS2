@@ -3,6 +3,7 @@ package buildings;
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
@@ -19,6 +20,7 @@ public class BuildingBarrack extends BuildingProduction{
 		teamCapturing= 0;
 		//this.animation=-1f;
 		this.p = plateau ;
+		this.g = g;
 		this.setTeam(0);
 		maxLifePoints = this.getGameTeam().data.barrackLifePoints;
 		//maxLifePoints = 10f;
@@ -26,6 +28,8 @@ public class BuildingBarrack extends BuildingProduction{
 		this.sizeY = this.getGameTeam().data.barrackSizeY;
 		this.sight = this.getGameTeam().data.barrackSight;
 		this.name = "barrack";
+		this.soundSelection = new Vector<Sound>();
+		this.soundSelection.addElement(this.g.sounds.barrackSound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
 		this.lifePoints = this.maxLifePoints;

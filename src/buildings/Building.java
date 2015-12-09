@@ -6,6 +6,7 @@ import main.Main;
 import model.ActionObjet;
 import model.Bonus;
 import model.Checkpoint;
+import model.Colors;
 import model.Game;
 import model.Objet;
 import model.Plateau;
@@ -93,6 +94,8 @@ public class Building extends ActionObjet{
 			if(this.potentialTeam!=this.getTeam()  ){
 				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters)){
 					
+					
+					this.setTeam(this.potentialTeam);
 					if(this instanceof BuildingHeadQuarters){
 						this.p.g.endGame = true;
 						if(this.getTeam()==this.p.g.currentPlayer.getTeam()){
@@ -102,7 +105,6 @@ public class Building extends ActionObjet{
 							this.p.g.victory = false;
 						}
 					}
-					this.setTeam(this.potentialTeam);
 				}else{
 					this.g.sendMessage(ChatMessage.getById("pop"));
 				}
@@ -112,7 +114,11 @@ public class Building extends ActionObjet{
 	}
 
 	public void drawIsSelected(Graphics g){
-		g.drawImage(this.selection_circle,this.getX()-5f-this.collisionBox.getWidth()/2,this.getY()-this.collisionBox.getHeight()/2-5f,this.getX()+this.collisionBox.getWidth()/2+5f,this.getY()+this.collisionBox.getHeight()/2+5f,0,0,this.selection_circle.getWidth(),this.selection_circle.getHeight());
+		g.setColor(Colors.selection);
+		g.setLineWidth(2f);
+		g.draw(this.collisionBox);
+		
+		this.drawRallyPoint(g);
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 
 	}	
@@ -198,45 +204,60 @@ public class Building extends ActionObjet{
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 		
+
+		
+//		//TEST
+//		Image i = this.image;
+//		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
+//		if(mouseOver){
+//			i.drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY,i.getWidth(),i.getHeight(),color);
+//			g.setColor(new Color(250,0,0,0.8f));
+//		}
+//		//
+		
+		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters){
+			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
+			if(mouseOver){
+				Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.1f);
+				this.image.drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY, 2f*sizeX/1.8f,1.5f*sizeY, color);
+			}
+		}
+			else
+			g.drawImage(this.imageNeutre, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/1.8f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
+		if(visibleByCurrentPlayer)
+			this.drawAnimation(g);
+		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
+		
+		
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
 		// Construction points
 		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
 			g.setColor(new Color(255,255,255,1f));
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
-			g.fill(new Rectangle(this.getX()-sizeX/2,this.getY()+sizeY/2-10f,sizeX,14f));
+			g.fill(new Rectangle(this.getX()-sizeX/4,this.getY()-3*this.sizeY/4,sizeX/2,10f));
 			float x = this.constructionPoints/this.maxLifePoints;
 			if(this.potentialTeam==1)
-				g.setColor(new Color(0,0,255,1f));
-			else
-				g.setColor(new Color(255,0,0,1f));
+				g.setColor(Colors.team1);
+			else if(this.potentialTeam==2)
+				g.setColor(Colors.team2);
+			else if(this.potentialTeam==0){
+				g.setColor(Colors.team0);
+			}
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
-			g.fill(new Rectangle(this.getX()-sizeX/2,this.getY()+sizeY/2-10f,x*sizeX,14f));
+			g.fill(new Rectangle(this.getX()-sizeX/4,this.getY()-3*this.sizeY/4,x*sizeX/2,10f));
 		}
 		g.setAntiAlias(false);
 		g.setLineWidth(2f);
 		
-		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters)
-			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
-		else
-			g.drawImage(this.imageNeutre, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/1.8f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
-		if(visibleByCurrentPlayer)
-			this.drawAnimation(g);
-		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
-		if(this.lifePoints<this.maxLifePoints){
-			// Lifepoints
-			g.setColor(Color.red);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()+r,this.getY()-r-30f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.draw(new Line(this.getX()-r,this.getY()-r-30f,this.getX()-r+x,this.getY()-r-30f));
-
-		}
 		
-
 		return g;
 	}
 
+	
+	public Graphics drawRallyPoint(Graphics g){
+		return g;
+	}
 	public void drawAnimation(Graphics g){
 
 	}

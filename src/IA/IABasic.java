@@ -102,7 +102,7 @@ public class IABasic extends IAPlayer {
 			}
 			if(charac.lifePoints<0.10*charac.maxLifePoints){
 				if(charac.spells.size()>0){
-					charac.spells.get(0).launch(new Checkpoint(0f,0f), charac);
+					charac.spells.get(0).launch(new Checkpoint(p,0f,0f), charac);
 				}
 			}
 
@@ -125,7 +125,7 @@ public class IABasic extends IAPlayer {
 
 					//Check if this is 
 
-					charac.setTarget(new Checkpoint(charac.getX()+10f*dirX,charac.getY()+10f*dirY));
+					charac.setTarget(new Checkpoint(p,charac.getX()+10f*dirX,charac.getY()+10f*dirY));
 				}
 			}
 
