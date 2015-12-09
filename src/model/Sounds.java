@@ -26,7 +26,7 @@ public class Sounds {
 	public Vector<Sound> attackCrossbowman;
 	public Vector<Sound> deathCrossbowman;
 	public Vector<Sound> selectionCrossbowman;
-	
+	public Sound fire;
 	
 	//Messages
 	public Sound chatMessage;
@@ -58,6 +58,7 @@ public class Sounds {
 	public Music soundDefeat;
 	public Music soundVictory;
 	
+	
 
 	public Sounds(){
 
@@ -70,7 +71,7 @@ public class Sounds {
 			menuItemSelected = new Sound("music/menuItemSelected.ogg");
 			buzz = new Sound("music/menuItemSelected.ogg");
 			bonus = new Sound("music/bonusound.ogg");
-
+			fire = new Sound("music/fire.ogg");
 
 
 

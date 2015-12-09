@@ -516,7 +516,7 @@ public class Character extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 
-
+		
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
 		direction = (float)(orientation/2-1);
@@ -604,8 +604,11 @@ public class Character extends ActionObjet{
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,3*r,r);
 			else if(this.remainingTime>=10f)
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=5f)
+			else if(this.remainingTime>=5f){
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
+				
+
+			}
 			else 
 				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
 		}
@@ -638,7 +641,7 @@ public class Character extends ActionObjet{
 			g.draw(this.target.collisionBox);
 		}
 		if(this.target instanceof Checkpoint){
-			
+
 			this.target.draw(g);
 		}
 		//Draw the building which is being conquered
@@ -783,35 +786,35 @@ public class Character extends ActionObjet{
 			}
 		}
 		float cornerThreshold = 5f;
-//		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
-//			//System.out.println("dans un coin");
-//			if(this.getTarget()==null)
-//				return;
-//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
-//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
-//				switch(sector){
-//				case 1: 
-//				case 3:
-//					if(this.getY()>o.getCenterY())
-//
-//						this.setXY(this.getX(), this.getY()+30f);
-//					else
-//						this.setXY(this.getX(), this.getY()-30f);
-//
-//					break;
-//				case 2:
-//				case 4:
-//					if(this.getX()>o.getCenterX())
-//
-//						this.setXY(this.getX()+30f, this.getY());
-//					else
-//						this.setXY(this.getX()-30f, this.getY());
-//
-//					break;
-//				}
-//				return;
-//			}
-//		}
+		//		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
+		//			//System.out.println("dans un coin");
+		//			if(this.getTarget()==null)
+		//				return;
+		//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
+		//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
+		//				switch(sector){
+		//				case 1: 
+		//				case 3:
+		//					if(this.getY()>o.getCenterY())
+		//
+		//						this.setXY(this.getX(), this.getY()+30f);
+		//					else
+		//						this.setXY(this.getX(), this.getY()-30f);
+		//
+		//					break;
+		//				case 2:
+		//				case 4:
+		//					if(this.getX()>o.getCenterX())
+		//
+		//						this.setXY(this.getX()+30f, this.getY());
+		//					else
+		//						this.setXY(this.getX()-30f, this.getY());
+		//
+		//					break;
+		//				}
+		//				return;
+		//			}
+		//		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
@@ -1036,6 +1039,8 @@ public class Character extends ActionObjet{
 					}
 				}
 			}
+			if(p.g.sounds.fire.playing())
+				p.g.sounds.fire.stop();
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 		}

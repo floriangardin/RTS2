@@ -94,7 +94,6 @@ public class Building extends ActionObjet{
 			if(this.potentialTeam!=this.getTeam()  ){
 				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters)){
 					
-					
 					this.setTeam(this.potentialTeam);
 					if(this instanceof BuildingHeadQuarters){
 						this.p.g.endGame = true;
