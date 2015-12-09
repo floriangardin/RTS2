@@ -55,7 +55,13 @@ public abstract class BuildingProduction extends BuildingAction {
 
 		this.setCharge(0f);
 	}
-
+	
+	public void setCharge(float charge){
+		if(charge>=this.productionList.get(this.queue.get(0)).time){
+			return;
+		}
+		this.charge = charge;
+	}
 	public void action(){
 		giveUpProcess();
 		if(underAttackRemaining>0f){

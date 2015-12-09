@@ -25,8 +25,8 @@ public class BuildingMill extends BuildingTech{
 	public BuildingMill(Plateau p,Game g,float f, float h){
 		
 		this.p =p;
-		this.setTeam(0);
 		this.g =g;
+		this.setTeam(0);
 		this.type = 1;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mill";

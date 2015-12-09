@@ -20,8 +20,8 @@ public class BuildingStable extends BuildingProduction{
 		teamCapturing= 0;
 		
 		this.p = plateau ;
-		this.setTeam(0);
 		this.g = g;
+		this.setTeam(0);
 		maxLifePoints = getGameTeam().data.stableLifePoints;
 		this.sizeX = this.getGameTeam().data.stableSizeX; 
 		this.sizeY = this.getGameTeam().data.stableSizeY;

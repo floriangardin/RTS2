@@ -54,7 +54,7 @@ public class Sounds {
 	// menu
 	public Sound menuMouseOverItem;
 	public Sound menuItemSelected;
-
+	
 	public Music soundDefeat;
 	public Music soundVictory;
 	
@@ -91,7 +91,7 @@ public class Sounds {
 			//MESSAGES
 			this.messageWrong = new Sound("music/messages/messageWrong.ogg");
 			this.techDiscovered = new Sound("music/messages/techDiscovered.ogg");
-			
+			this.buildingTaken = new Sound("music/messages/techDiscovered.ogg");
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 

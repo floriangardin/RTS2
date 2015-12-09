@@ -31,8 +31,8 @@ public class BuildingMine extends BuildingTech{
 		this.x = x*Map.stepGrid;
 		this.y = y*Map.stepGrid;
 		this.p =p;
-		this.setTeam(0);
 		this.g =g;
+		this.setTeam(0);
 		this.type = 0;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mine";

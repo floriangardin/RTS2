@@ -43,6 +43,9 @@ public class ChatMessage {
 		case "food" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough food", 0);
+		case "building taken":
+			g.sounds.buildingTaken.play(1f,g.options.soundVolume );
+			return new ChatMessage("Building Taken", 0);
 		case "gold" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough gold", 0);
