@@ -328,18 +328,18 @@ public class Game extends BasicGame
 			//		g.drawImage(this.images.background,this.plateau.maxX, 0);
 			//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
-			MapGrid mapGrid = this.plateau.mapGrid;
-			g.setColor(Color.black);
-			for(Float x : mapGrid.Xcoord){
-				if(x>this.plateau.Xcam && x<this.plateau.Xcam+this.resX){
-					g.drawLine(x, plateau.Ycam, x, plateau.Ycam+resY);
-				}
-			}
-			for(Float y : mapGrid.Ycoord){
-				if(y>this.plateau.Ycam && y<this.plateau.Ycam+this.resY){
-					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
-				}
-			}
+//			MapGrid mapGrid = this.plateau.mapGrid;
+//			g.setColor(Color.black);
+//			for(Float x : mapGrid.Xcoord){
+//				if(x>this.plateau.Xcam && x<this.plateau.Xcam+this.resX){
+//					g.drawLine(x, plateau.Ycam, x, plateau.Ycam+resY);
+//				}
+//			}
+//			for(Float y : mapGrid.Ycoord){
+//				if(y>this.plateau.Ycam && y<this.plateau.Ycam+this.resY){
+//					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
+//				}
+//			}
 			
 			// Draw the selection of your team 
 			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){

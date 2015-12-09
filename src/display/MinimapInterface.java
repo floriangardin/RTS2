@@ -74,7 +74,7 @@ public class MinimapInterface extends Bar {
 
 		// Draw background
 		g.setColor(new Color(31,31,31,0.6f).darker().darker());
-		g.fillRect(0, this.game.resY*this.game.relativeHeightBottomBar, this.game.resX, this.game.resY);
+		g.fillRect(0, 0, this.game.resX, this.game.resY);
 		g.setColor(new Color(0,119,190));
 		g.fillRoundRect(startX-20f,startY-20f,w+40f,h+40f,10);
 		g.setColor(new Color(0.1f,0.4f,0.1f));
