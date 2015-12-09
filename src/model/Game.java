@@ -36,6 +36,7 @@ import multiplaying.MultiMessage;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiReceiver.Checksum;
 import multiplaying.MultiSender;
+import pathfinding.MapGrid;
 import spells.SpellEffect;
 import units.Character;
 public class Game extends BasicGame 
@@ -51,6 +52,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = true;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
+	public boolean displayMapGrid = false;
 
 	public static boolean showUpdateLogicInterval = true;
 
@@ -275,7 +277,6 @@ public class Game extends BasicGame
 	{
 
 		g.setFont(this.font);
-
 		if(isInMenu){
 			if(hasAlreadyPlay){
 				g.translate(+plateau.Xcam,+ plateau.Ycam);
@@ -296,7 +297,7 @@ public class Game extends BasicGame
 			}
 		} else {
 
-
+			
 			// g repr�sente le pinceau
 			//g.setColor(Color.black);
 			g.translate(-plateau.Xcam,- plateau.Ycam);
@@ -326,6 +327,19 @@ public class Game extends BasicGame
 			//		g.drawImage(this.images.background,this.plateau.maxX, 0);
 			//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
+			MapGrid mapGrid = this.plateau.mapGrid;
+			g.setColor(Color.black);
+			for(Float x : mapGrid.Xcoord){
+				if(x>this.plateau.Xcam && x<this.plateau.Xcam+this.resX){
+					g.drawLine(x, plateau.Ycam, x, plateau.Ycam+resY);
+				}
+			}
+			for(Float y : mapGrid.Ycoord){
+				if(y>this.plateau.Ycam && y<this.plateau.Ycam+this.resY){
+					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
+				}
+			}
+			
 			// Draw the selection of your team 
 			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
 				o.drawIsSelected(g);
@@ -452,6 +466,9 @@ public class Game extends BasicGame
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
+			if(in.isKeyPressed(Input.KEY_RALT)){
+				this.displayMapGrid = !this.displayMapGrid;
+			}
 			InputObject im = new InputObject(this,currentPlayer,in,!antidropProcess);
 			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
