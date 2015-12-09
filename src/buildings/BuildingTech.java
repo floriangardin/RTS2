@@ -32,9 +32,7 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 	}
 	public void setCharge(float charge){
-		if(charge>=this.queue.tech.prodTime){
-			return;
-		}
+
 		this.charge = charge;
 	}
 	public void removeProd() {

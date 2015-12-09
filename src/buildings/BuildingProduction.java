@@ -57,7 +57,14 @@ public abstract class BuildingProduction extends BuildingAction {
 	}
 	
 	public void setCharge(float charge){
-		if(charge>=this.productionList.get(this.queue.get(0)).time){
+		if(this.queue!=null && this.queue.size()>0 && charge>this.productionList.get(this.queue.get(0)).time){
+			return;
+		}
+		this.charge = charge;
+	}
+	
+	public void setCharge(float charge,boolean force){
+		if(!force && this.queue!=null && this.queue.size()>0 && charge>this.productionList.get(this.queue.get(0)).time){
 			return;
 		}
 		this.charge = charge;
@@ -85,7 +92,7 @@ public abstract class BuildingProduction extends BuildingAction {
 
 			this.setCharge(this.charge+Main.increment);
 			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.productionList.get(this.queue.get(0)).time){
-				this.setCharge(0f);
+				this.setCharge(0f,true);
 				float dirX = this.random+this.rallyPoint.x-this.x;
 				float dirY = this.random+this.rallyPoint.y - this.y;
 				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
@@ -94,11 +101,9 @@ public abstract class BuildingProduction extends BuildingAction {
 				float startY = this.y + this.sizeY*dirY/norm/2;
 				Character c = this.getGameTeam().data.create(this.productionList.get(this.queue.get(0)), startX,startY );
 				c.setTarget(this.rallyPoint);
-				this.changes.queue=true;
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;
-
 				}
 			}
 		}
