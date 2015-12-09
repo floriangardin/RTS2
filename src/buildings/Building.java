@@ -74,7 +74,7 @@ public class Building extends ActionObjet{
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.constructionPoints = this.maxLifePoints;
+		this.constructionPoints = 0f;
 		this.potentialTeam = this.getTeam();
 		this.updateImage();
 		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));

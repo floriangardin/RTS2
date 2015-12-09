@@ -118,7 +118,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 		type= 5;
 
 		this.initialize(f,h);
-		
+		this.constructionPoints = this.maxLifePoints;
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingHeadQuartersBlue;
 		}
