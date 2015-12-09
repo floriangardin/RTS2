@@ -1,6 +1,13 @@
 package buildings;
 
 import java.util.HashMap;
+import java.util.Vector;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.ActionObjet;
@@ -11,13 +18,6 @@ import model.Game;
 import model.Objet;
 import model.Plateau;
 import multiplaying.ChatMessage;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Rectangle;
-
 import technologies.Technologie;
 import units.Character;
 
@@ -38,6 +38,8 @@ public class Building extends ActionObjet{
 	public boolean underAttack;
 	public float underAttackRemaining=0;
 
+	public Vector<Circle> corners=new Vector<Circle>();
+	
 	public Building(){}
 
 	public Building(Plateau p,Game g,float x, float y){
@@ -53,6 +55,8 @@ public class Building extends ActionObjet{
 		this.sizeX = 220f; 
 		this.sizeY = 220f;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
+		
+		
 		this.selectionBox = this.collisionBox;
 		this.image = this.p.g.images.tent;
 		this.sight = 300f;
@@ -118,6 +122,10 @@ public class Building extends ActionObjet{
 		g.draw(this.collisionBox);
 		
 		this.drawRallyPoint(g);
+		
+		for(Circle c : corners){
+			g.draw(c);
+		}
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 
 	}	

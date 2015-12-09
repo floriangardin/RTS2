@@ -377,7 +377,17 @@ public class Plateau {
 					e.collisionWeapon(o);
 				}
 				if (e.collisionBox.intersects(o.collisionBox)) {
+					boolean doCollision = true;
+					for(Circle c : e.corners){
+						if(Utils.distance(new Checkpoint(this,c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
+							doCollision = false;
+						}
+					}
+					if(doCollision)
 					o.collision(e);
+				}
+				else{
+					
 				}
 			}
 			// Between spells and characters

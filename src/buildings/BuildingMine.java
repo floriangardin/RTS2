@@ -3,6 +3,7 @@ package buildings;
 import java.util.Vector;
 
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
@@ -46,6 +47,10 @@ public class BuildingMine extends BuildingTech{
 		p.addBuilding(this);
 		this.sight = getGameTeam().data.mineSight;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		corners.add(new Circle(x-sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y-sizeY/2f,20f));
+		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
+		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 		this.selectionBox = this.collisionBox;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingMineBlue;
