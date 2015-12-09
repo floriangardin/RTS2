@@ -120,12 +120,7 @@ public class Building extends ActionObjet{
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f);
 		g.draw(this.collisionBox);
-		
 		this.drawRallyPoint(g);
-		
-		for(Circle c : corners){
-			g.draw(c);
-		}
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 
 	}	
