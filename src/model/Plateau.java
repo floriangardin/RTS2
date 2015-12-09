@@ -440,6 +440,10 @@ public class Plateau {
 		}
 		int i = 0;
 		for (ActionObjet c : this.selection.get(team)) {
+			if(c instanceof Building && mode==Character.DESTROY_BUILDING){
+				((Building) c).giveUpProcess = true;
+				continue;
+			}
 			if (c instanceof Character) {
 				Character o = (Character) c;
 				if (mode == Character.HOLD_POSITION) {
@@ -493,6 +497,7 @@ public class Plateau {
 				if(target instanceof Building){
 					mode = Character.TAKE_BUILDING;
 				}
+				
 				o.setTarget(target, waypoints, mode);
 				o.secondaryTargets.clear();
 			}
@@ -767,6 +772,10 @@ public class Plateau {
 		if (im.isPressedH) {
 			// ZONE ATTACK
 			updateTarget(im.xMouse, im.yMouse, player, Character.HOLD_POSITION);
+		}
+		if (im.isPressedSuppr) {
+			// ZONE ATTACK
+			updateTarget(im.xMouse, im.yMouse, player, Character.DESTROY_BUILDING);
 		}
 	}
 

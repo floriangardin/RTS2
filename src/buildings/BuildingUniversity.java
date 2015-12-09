@@ -97,6 +97,7 @@ public class BuildingUniversity extends BuildingTech {
 		return false;
 	}
 	public void action(){
+		giveUpProcess();
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}

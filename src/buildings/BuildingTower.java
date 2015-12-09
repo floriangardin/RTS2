@@ -69,6 +69,7 @@ public class BuildingTower extends Building{
 	}
 
 	public void action(){
+		giveUpProcess();
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}
