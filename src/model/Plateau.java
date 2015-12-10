@@ -625,6 +625,18 @@ public class Plateau {
 			// pour tous les inputs pass�s en argument on fait le traitement
 			int player = im.player.id;
 			// si on est client on ne g�re que son input
+			
+			//handle victory
+			if(im.isPressedPause){
+				this.g.endGame = true;
+				if(player==this.g.currentPlayer.id){
+					this.g.victory = true;
+				}
+				else{
+					this.g.victory = false;
+				}
+				return;
+			}
 
 			// on g�re la s�lection des sorts (type firewall/ blessed area)
 			this.handleSpellCasting(im, player);
