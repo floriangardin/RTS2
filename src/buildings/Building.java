@@ -43,25 +43,7 @@ public class Building extends ActionObjet{
 	
 	public Building(){}
 
-	public Building(Plateau p,Game g,float x, float y){
-		p.addBuilding(this);
-		this.constructionPoints = 0f;
-		teamCapturing = 0;
-		this.x = x;
-		this.y = y;
-		this.p =p;
-		this.g =g;
-		this.setTeam(0);
-		this.lifePoints = 1f;
-		this.sizeX = 220f; 
-		this.sizeY = 220f;
-		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY,sizeX,sizeY);
-		this.selectionBox = this.collisionBox;
-		this.image = this.p.g.images.tent;
-		this.sight = 300f;
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.updateImage();
-	}
+
 
 	public void initialize(float f, float h){
 		this.x = f*Map.stepGrid+sizeX/2f;
@@ -125,7 +107,7 @@ public class Building extends ActionObjet{
 		
 		if(this.constructionPoints>=this.maxLifePoints && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
-				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||(this instanceof BuildingHeadQuarters)){
+				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (this instanceof BuildingHeadQuarters)){
 					
 					this.setTeam(this.potentialTeam);
 					if(this instanceof BuildingHeadQuarters){
@@ -366,6 +348,10 @@ public class Building extends ActionObjet{
 		if(!(this instanceof Bonus) && this.gameteam!=null){
 			this.getGameTeam().pop-=2;
 		}
+		if(this.g.currentPlayer!=null && i==this.g.currentPlayer.id){
+			this.g.sendMessage(ChatMessage.getById("building taken",this.g));
+			
+		}
 		this.gameteam = this.p.g.teams.get(i);
 		if(!(this instanceof Bonus)  && this.gameteam!=null){
 			this.hq = this.getGameTeam().hq;
@@ -376,10 +362,7 @@ public class Building extends ActionObjet{
 		this.giveUpProcess = false;
 	}
 	
-	public void setCharge(float charge){
-		this.charge = charge;
-		
-	}
+
 
 	@Override
 	public void collision(Character c) {

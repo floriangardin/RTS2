@@ -56,7 +56,10 @@ public class BuildingTower extends Building{
 		this.animationBleu = this.p.g.images.buildingTowerBlueAnimation;
 		this.animationRouge = this.p.g.images.buildingTowerRedAnimation;
 	}
-
+	public void setCharge(float charge){
+		
+		this.charge = charge;
+	}
 	public void action(){
 		giveUpProcess();
 		if(underAttackRemaining>0f){
