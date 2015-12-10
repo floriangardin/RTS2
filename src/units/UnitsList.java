@@ -26,13 +26,13 @@ public enum UnitsList {
 	
 	public static UnitsList switchName(String name){
 		switch(name){
-		case "knight" : return Knight;
-		case "crossbowman" : return Crossbowman;
-		case "spearman" : return Spearman;
-		case "priest" : return Priest;
-		case "inquisitor" : return Inquisitor;
-		case "archange" : return Archange;
-		case "test" : return Test;
+		case "Knight" : return Knight;
+		case "Crossbowman" : return Crossbowman;
+		case "Spearman" : return Spearman;
+		case "Priest" : return Priest;
+		case "Inquisitor" : return Inquisitor;
+		case "Archange" : return Archange;
+		case "Test" : return Test;
 		default: return null;
 		}
 	}

@@ -19,7 +19,7 @@ public class BuildingMine extends BuildingTech{
 	public float state;
 	public int bonusProd;
 	
-	public BuildingMine(Plateau p,Game g,float f, float h){
+	public BuildingMine(Plateau p,Game g,float f, float h, int team){
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}
@@ -32,10 +32,10 @@ public class BuildingMine extends BuildingTech{
 		this.y = y*Map.stepGrid;
 		this.p =p;
 		this.g =g;
-		this.setTeam(0);
 		this.type = 0;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.name= "mine";
+		this.setTeam(team);
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.mineSound);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;

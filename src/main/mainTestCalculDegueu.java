@@ -9,9 +9,10 @@ import model.Utils;
 public class mainTestCalculDegueu {
 	
 	public static void main(String[] args) throws SlickException {
-		boolean b = true;
-		String s = "" +b;
-		System.out.println(Boolean.parseBoolean(s));
-
+		String s = " r e  t";
+		String[] tab = s.split(" ");
+		for(int i=0; i<tab.length; i++){
+			System.out.println(tab[i]);
+		}
 	}
 }

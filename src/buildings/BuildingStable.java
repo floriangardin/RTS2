@@ -16,12 +16,12 @@ import units.UnitsList;
 public class BuildingStable extends BuildingProduction{
 
 
-	public BuildingStable(Plateau plateau, Game g, float f, float h) {
+	public BuildingStable(Plateau plateau, Game g, float f, float h, int team) {
 		teamCapturing= 0;
 		
 		this.p = plateau ;
 		this.g = g;
-		this.setTeam(0);
+		this.setTeam(team);
 		maxLifePoints = getGameTeam().data.stableLifePoints;
 		this.sizeX = this.getGameTeam().data.stableSizeX; 
 		this.sizeY = this.getGameTeam().data.stableSizeY;

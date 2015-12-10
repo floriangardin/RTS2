@@ -18,12 +18,12 @@ public class BuildingUniversity extends BuildingTech {
 
 	public Player player;
 	
-	public BuildingUniversity(Plateau plateau, Game g, float f, float h) {
+	public BuildingUniversity(Plateau plateau, Game g, float f, float h, int team) {
 		// Init ProductionList
 		this.p = plateau ;
 		this.g = g;
-		this.setTeam(0);
 		this.productionList = new Vector<Technologie>();
+		this.setTeam(team);
 		if(this.getGameTeam().civ==0){
 			this.productionList = new Vector<Technologie>();
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
@@ -42,12 +42,12 @@ public class BuildingUniversity extends BuildingTech {
 		this.sight = getGameTeam().data.universitySight;
 		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
+		this.initialize(f, h);
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.universitySound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 6;
 		this.g = g;
-		this.initialize(f, h);
 		if(this.getTeam() == 1){
 			this.image = this.p.g.images.buildingUniversityBlue;
 		}

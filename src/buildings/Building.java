@@ -37,10 +37,10 @@ public class Building extends ActionObjet{
 	public boolean giveUpProcess = false;
 	public boolean underAttack;
 	public float underAttackRemaining=0;
-	
-	
+
+
 	public Vector<Circle> corners=new Vector<Circle>();
-	
+
 	public Building(){}
 
 
@@ -64,8 +64,8 @@ public class Building extends ActionObjet{
 		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
 		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 	}
-	
-	
+
+
 	public void giveUpProcess(){
 		if(giveUpProcess){
 			constructionPoints-=Main.increment;
@@ -104,11 +104,11 @@ public class Building extends ActionObjet{
 		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.maxLifePoints && c.mode==Character.TAKE_BUILDING && c.target==this){
 			this.constructionPoints+=Main.increment;
 		}
-		
+
 		if(this.constructionPoints>=this.maxLifePoints && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
 				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (this instanceof BuildingHeadQuarters)){
-					
+
 					this.setTeam(this.potentialTeam);
 					if(this instanceof BuildingHeadQuarters){
 						this.p.g.endGame = true;
@@ -122,7 +122,7 @@ public class Building extends ActionObjet{
 				}else{
 					this.g.sendMessage(ChatMessage.getById("pop"));
 				}
-				
+
 			}
 		}
 	}
@@ -216,18 +216,18 @@ public class Building extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
-		
 
-		
-//		//TEST
-//		Image i = this.image;
-//		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
-//		if(mouseOver){
-//			i.drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY,i.getWidth(),i.getHeight(),color);
-//			g.setColor(new Color(250,0,0,0.8f));
-//		}
-//		//
-		
+
+
+		//		//TEST
+		//		Image i = this.image;
+		//		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
+		//		if(mouseOver){
+		//			i.drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY,i.getWidth(),i.getHeight(),color);
+		//			g.setColor(new Color(250,0,0,0.8f));
+		//		}
+		//		//
+
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters){
 			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
 			if(mouseOver){
@@ -235,13 +235,13 @@ public class Building extends ActionObjet{
 				this.image.drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY, 2f*sizeX/1.8f,1.5f*sizeY, color);
 			}
 		}
-			else
+		else
 			g.drawImage(this.imageNeutre, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/1.8f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
 		if(visibleByCurrentPlayer)
 			this.drawAnimation(g);
 		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
-		
-		
+
+
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
 		// Construction points
@@ -262,12 +262,12 @@ public class Building extends ActionObjet{
 		}
 		g.setAntiAlias(false);
 		g.setLineWidth(2f);
-		
-		
+
+
 		return g;
 	}
 
-	
+
 	public Graphics drawRallyPoint(Graphics g){
 		return g;
 	}
@@ -341,16 +341,16 @@ public class Building extends ActionObjet{
 	}
 
 	public void setTeamExtra(){
-		
+
 	}
 	public void setTeam(int i){
-		
+
 		if(!(this instanceof Bonus) && this.gameteam!=null){
 			this.getGameTeam().pop-=2;
 		}
 		if(this.g.currentPlayer!=null && i==this.g.currentPlayer.id){
 			this.g.sendMessage(ChatMessage.getById("building taken",this.g));
-			
+
 		}
 		this.gameteam = this.p.g.teams.get(i);
 		if(!(this instanceof Bonus)  && this.gameteam!=null){
@@ -361,7 +361,7 @@ public class Building extends ActionObjet{
 		this.updateImage();
 		this.giveUpProcess = false;
 	}
-	
+
 
 
 	@Override

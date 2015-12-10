@@ -28,13 +28,13 @@ public class BuildingTower extends Building{
 	public Image animationBleu;
 	public Image animationRouge;
 
-	public BuildingTower(Plateau p,Game g,float f, float h){
+	public BuildingTower(Plateau p,Game g,float f, float h, int team){
 		teamCapturing = 0;
 		this.p =p;
 		this.g =g;
-		this.setTeam(0);
 		this.damage = 20f;
 		this.maxLifePoints = 20f;
+		this.setTeam(team);
 		this.sizeX = 2f*Map.stepGrid;
 		this.sizeY = 2f*Map.stepGrid;
 		this.name = "tower";
@@ -50,8 +50,8 @@ public class BuildingTower extends Building{
 			this.image = this.p.g.images.buildingTowerNeutral;
 		}
 		this.sight = 550f;
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.initialize(f, h);
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		canAttack = false;
 		this.animationBleu = this.p.g.images.buildingTowerBlueAnimation;
 		this.animationRouge = this.p.g.images.buildingTowerRedAnimation;

@@ -18,12 +18,12 @@ public class BuildingBarrack extends BuildingProduction{
 	public static final int SPEARMAN = 0;
 	public static final int CROSSBOWMAN = 1;
 
-	public BuildingBarrack(Plateau plateau, Game g, float f, float h) {
+	public BuildingBarrack(Plateau plateau, Game g, float f, float h, int team) {
 		teamCapturing= 0;
 		//this.animation=-1f;
 		this.p = plateau ;
 		this.g = g;
-		this.setTeam(0);
+		this.setTeam(team);
 		maxLifePoints = this.getGameTeam().data.barrackLifePoints;
 		//maxLifePoints = 10f;
 		this.sizeX = this.getGameTeam().data.barrackSizeX; 
@@ -34,6 +34,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.soundSelection.addElement(this.g.sounds.barrackSound);
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 3;
+		this.initialize(f, h);
 		this.g = g;
 		if(getTeam()==1){
 			this.image = this.p.g.images.buildingBarrackBlue;
@@ -42,7 +43,6 @@ public class BuildingBarrack extends BuildingProduction{
 		} else {
 			this.image = this.p.g.images.buildingBarrackNeutral;
 		}
-		this.initialize(f, h);
 		// List of potential production (Spearman)
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();

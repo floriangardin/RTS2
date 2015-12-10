@@ -38,9 +38,7 @@ public abstract class Bonus extends Building{
 		this.selectionBox = this.collisionBox;
 		this.hitBoxSize = 30f;
 		this.hitBox = new Circle(x,y,this.hitBoxSize);
-		this.x = x*Map.stepGrid;
-		this.y = y*Map.stepGrid;
-		this.setXY(x, y);
+		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
 		this.sound = this.p.g.sounds.bonus;
 
 	}

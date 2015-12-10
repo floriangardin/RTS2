@@ -14,23 +14,23 @@ import units.UnitsList;
 public class BuildingAcademy extends BuildingProduction {
 
 	
-	public BuildingAcademy(Plateau plateau, Game g, float f, float h) {
+	public BuildingAcademy(Plateau plateau, Game g, float f, float h, int team) {
 		teamCapturing= 0;
 		//this.animation=-1f;
 		this.p = plateau ;
 		this.g = g;
-		this.setTeam(0);
+		this.setTeam(team);
 		maxLifePoints = this.getGameTeam().data.academyLifePoints;
 		this.sizeX = this.getGameTeam().data.academySizeX; 
 		this.sizeY = this.getGameTeam().data.academySizeY;
 		this.sight = this.getGameTeam().data.academySight;
+		this.initialize(f, h);
 		this.name = "academy";
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		type= 4;
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.academySound);
 		this.g = g;
-		this.initialize(f, h);
 		if(this.getTeam()==1){
 			this.image = this.p.g.images.buildingAcademyBlue;
 		} else if(this.getTeam()==2){
