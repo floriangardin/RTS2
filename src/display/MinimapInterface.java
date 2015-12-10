@@ -94,7 +94,7 @@ public class MinimapInterface extends Bar {
 		}
 		
 		for(NaturalObjet q : p.naturalObjets){
-			g.setColor(Color.cyan);
+			g.setColor(Color.green);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
 		// Draw units on camera 

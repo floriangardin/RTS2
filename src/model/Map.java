@@ -155,10 +155,10 @@ public class Map {
 		
 		//TOWERS
 		//VEGETATION
-		new Tree(2*X/6,Y/6,game.plateau,1);
-		new Tree(4*X/6,Y/6,game.plateau,2);
-		new Tree(4*X/6,5*Y/6,game.plateau,2);
-		new Tree(2*X/6,5*Y/6,game.plateau,1);
+		new Tree(10,5,game.plateau,1);
+		new Tree(20,5,game.plateau,2);
+		new Tree(20,25,game.plateau,2);
+		new Tree(10,25,game.plateau,1);
 	}
 	
 	

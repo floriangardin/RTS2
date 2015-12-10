@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
+import model.Map;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -21,11 +22,13 @@ public class Tree extends NaturalObjet {
 	public Tree(float x, float y, Plateau p, int type) {
 		this.type = type;
 		this.collisionBox = new Circle(x-sizeX/2,y-sizeY/2,size);
+		this.sizeX = 1*Map.stepGrid;
+		this.sizeY = 1*Map.stepGrid;
 		this.color = Color.gray;
 		this.p = p;
-		p.addNaturalObjets(this);
 		this.lifePoints = 1.0f;
-		this.setXY(x, y);
+		this.setXY(x*Map.stepGrid+sizeX/2f, y*Map.stepGrid+sizeY/2f);
+		p.addNaturalObjets(this);
 		switch(type){
 		case 1:
 			this.image = this.p.g.images.tree01;
@@ -42,19 +45,7 @@ public class Tree extends NaturalObjet {
 		default:
 		}
 	}
-	public Tree(float x, float y, int type,Plateau p) {
-		float size = 25.0f;
-		this.collisionBox = new Rectangle(x-size/2,y-size/2,size,size);
-		this.color = Color.gray;
-		this.lifePoints = 1.0f;
-		this.setXY(x, y);
-		String s = "Tree0"+String.valueOf(type);
-		try {
-			this.image = new Image("pics/"+s+".png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 	public void collision(Objet o){
 	}
