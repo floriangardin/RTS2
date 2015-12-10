@@ -629,7 +629,7 @@ public class Plateau {
 			//handle victory
 			if(im.isPressedPause){
 				this.g.endGame = true;
-				if(player==this.g.currentPlayer.id){
+				if(player!=this.g.currentPlayer.id){
 					this.g.victory = true;
 				}
 				else{
