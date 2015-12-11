@@ -1,5 +1,8 @@
 package mapeditor;
 
+import java.io.File;
+import java.util.Vector;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -31,6 +34,8 @@ public class EditingBar {
 	public boolean nameEnter;
 	public String name;
 	public Menu_TextScanner textScanner;
+	
+	public Vector<String> mapNames;
 
 	public EditingBar(MapEditor editor){
 		this.editor = editor;
@@ -40,7 +45,16 @@ public class EditingBar {
 		this.sizeY = editor.game.resY/20f;
 		this.spaceY = this.sizeY/3;
 		name = "";
+		mapNames = new Vector<String>();
+		File repertoire = new File("ressources/");
+		File[] files=repertoire.listFiles();
+		for(int i=0; i<files.length; i++){
+			if(files[i].getName().endsWith(".rtsmap")){
+				mapNames.add(files[i].getName().substring(0, files[i].getName().length()-7));
+			}
+		}
 		this.textScanner = new Menu_TextScanner(name, 3f, sizeY+3f, sizeX/6f-30f, sizeY-6f, editor.game);
+		this.textScanner.autocompletion = mapNames;
 		try {
 			this.iconExit = new Image("pics/icons/iconExit.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 			this.iconNewFile = new Image("pics/icons/iconNewFile.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);

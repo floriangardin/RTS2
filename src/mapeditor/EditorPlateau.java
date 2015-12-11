@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -29,8 +30,11 @@ public class EditorPlateau {
 	
 	public String name;
 
-	public int Xcam;
-	public int Ycam;
+	public float Xcam;
+	public float Ycam;
+	
+	public float ACCX = 0;
+	public float ACCY = 0;
 	
 	public float stepGrid;
 
@@ -58,20 +62,60 @@ public class EditorPlateau {
 
 	public void update(InputObject im, Input in){
 		if(in.isKeyPressed(Input.KEY_ADD)){
-			this.updateScale(this.stepGrid-10f);
+			this.updateScale(this.stepGrid+10f);
 		}
 		if(in.isKeyPressed(Input.KEY_SUBTRACT)){
-			this.updateScale(this.stepGrid+10f);
+			this.updateScale(this.stepGrid-10f);
+		}
+		if(in.isKeyDown(Input.KEY_UP)){
+			this.Ycam+=5+ACCY;
+			ACCY=Math.max(3f, ACCY+0.2f);
+		} else if(in.isKeyDown(Input.KEY_DOWN)){
+			this.Ycam-=5+ACCY;
+			ACCY=Math.max(3f, ACCY+0.2f);
+		} else {
+			ACCY = 0;
+		}
+		if(in.isKeyDown(Input.KEY_LEFT)){
+			this.Xcam+=5+ACCX;
+			ACCX=Math.max(3f, ACCX+0.2f);
+		} else if(in.isKeyDown(Input.KEY_RIGHT)){
+			this.Xcam-=5+ACCX;
+			ACCX=Math.max(3f, ACCX+0.2f);
+		} else {
+			ACCX = 0;
+		}
+		if(in.isKeyDown(Input.KEY_LCONTROL)&&in.isKeyPressed(Input.KEY_N)){
+			// ouvrir
+			this.editor.editingBar.callItem(0);
+		}
+		if(in.isKeyDown(Input.KEY_LCONTROL)&&in.isKeyPressed(Input.KEY_O)){
+			// ouvrir
+			this.editor.editingBar.callItem(1);
+		}
+		if(in.isKeyDown(Input.KEY_LCONTROL)&&im.isPressedDOWN){
+			// ouvrir
+			this.editor.editingBar.callItem(2);
 		}
 	} 
 
 	public void draw(Graphics g){
-		g.drawImage(this.seaBackground, -this.maxX*Map.stepGrid, -this.maxY*Map.stepGrid,
-				2*this.maxX*Map.stepGrid, 2*this.maxY*Map.stepGrid, 0, 0, this.seaBackground.getWidth(),this.seaBackground.getHeight());
+		g.translate(Xcam, Ycam);
+		g.drawImage(this.seaBackground, -this.maxX*stepGrid, -this.maxY*stepGrid,
+				2*this.maxX*stepGrid, 2*this.maxY*stepGrid, 0, 0, this.seaBackground.getWidth(),this.seaBackground.getHeight());
 
-		g.drawImage(this.grassTexture,0, 0, this.maxX*Map.stepGrid, this.maxY*Map.stepGrid,
+		g.drawImage(this.grassTexture,0, 0, this.maxX*stepGrid, this.maxY*stepGrid,
 				0, 0, this.grassTexture.getWidth(),  this.grassTexture.getHeight());
 
+		// affichage de la grille
+		g.setColor(Color.gray);
+		for(int i=0; i<maxX; i++){
+			g.drawLine(i*stepGrid, 0, i*stepGrid, maxY*stepGrid);
+		}
+		for(int i=0; i<maxY; i++){
+			g.drawLine(0, i*stepGrid, maxX*stepGrid, i*stepGrid);
+		}
+		
 		//Creation of the drawing Vector
 		Vector<EditorObject> toDraw = new Vector<EditorObject>();
 		for(EditorObject o : units){
@@ -92,11 +136,12 @@ public class EditorPlateau {
 
 		for(EditorObject o: toDraw)
 			o.draw(g);
+		g.translate(-Xcam, -Ycam);
 
 	}
 	
 	public void updateScale(float newScale){
-		this.stepGrid = newScale;
+		this.stepGrid = Math.min(200f, Math.max(20f, newScale));
 		for(EditorObject o : units){
 			o.image = o.image.getScaledCopy(stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;

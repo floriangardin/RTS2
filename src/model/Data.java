@@ -88,8 +88,8 @@ public class Data {
 	public int towerLifePoints = 50;
 	public float towerSight = 600f;
 	public float towerChargeTime = 5f;
-	public float towerSizeX = 3f*Map.stepGrid;
-	public float towerSizeY = 3f*Map.stepGrid;
+	public float towerSizeX = 2f*Map.stepGrid;
+	public float towerSizeY = 2f*Map.stepGrid;
 
 
 	//// Spells

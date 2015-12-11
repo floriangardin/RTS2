@@ -43,7 +43,7 @@ public class EditorObject {
 	}
 	
 	public void draw(Graphics gc){
-		gc.drawImage(this.image,x*stepGrid-this.image.getWidth()/2f,y*stepGrid-this.image.getHeight());
+		gc.drawImage(this.image,x*stepGrid,y*stepGrid);
 	}
 
 	public void draw(Graphics gc, float x, float y){

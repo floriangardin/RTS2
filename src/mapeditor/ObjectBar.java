@@ -118,7 +118,7 @@ public class ObjectBar {
 		buildingsRed.add(new EditorObject("Academy", 2, 1,this.editor.game.images.buildingAcademyRed,0,0,this));
 		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.buildingUniversityRed,0,0,this));
 		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.buildingTowerRed,0,0,this));
-		buildingsBlue.add(new EditorObject("HeadQuarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this));
+		buildingsRed.add(new EditorObject("HeadQuarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this));
 		
 		// others
 		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.bonusLifePoints,0,0,this));

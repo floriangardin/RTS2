@@ -1,6 +1,7 @@
 package menu;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -20,6 +21,9 @@ public class Menu_TextScanner extends Menu_Item{
 	public int back = 0;
 	public boolean keyDown;
 	public int idKeyDown;
+
+	public Vector<String> autocompletion = new Vector<String>();
+	public Vector<String> autocompletionTEMP = new Vector<String>();
 
 	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY, Game g){
 		this.game = g;
@@ -118,6 +122,21 @@ public class Menu_TextScanner extends Menu_Item{
 	}
 
 	public void update(Input i, InputObject im){
+		if(im.isPressedTAB){
+			// autocompletion
+			// mise à jour de la liste de nom
+			//TODO améliorer le système d'autocompéltion
+			autocompletionTEMP.clear();
+			for(String s : this.autocompletion){
+				if(s.startsWith(this.s)){
+					autocompletionTEMP.add(s);
+				}
+			}
+			if(autocompletionTEMP.size()>0){
+				this.s = autocompletionTEMP.firstElement();
+			}
+			return;
+		}
 		if(!game.isInMenu || isSelected){
 			if(this.game.font.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
