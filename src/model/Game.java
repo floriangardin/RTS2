@@ -23,6 +23,7 @@ import buildings.Bonus;
 import buildings.Building;
 import bullets.Bullet;
 import main.Main;
+import mapeditor.MapEditor;
 import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
@@ -37,7 +38,6 @@ import multiplaying.MultiMessage;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiReceiver.Checksum;
 import multiplaying.MultiSender;
-import pathfinding.MapGrid;
 import spells.SpellEffect;
 import units.Character;
 public class Game extends BasicGame 
@@ -185,6 +185,10 @@ public class Game extends BasicGame
 	public boolean isInMenu = false;
 	public int idInput;
 	public float ratioResolution;
+	
+	//editor
+	public boolean inEditor;
+	public MapEditor editor;
 
 
 
@@ -284,7 +288,9 @@ public class Game extends BasicGame
 			}
 			g.translate(-plateau.Xcam,- plateau.Ycam);
 			this.menuCurrent.draw(g);
-		} else if(endGame){
+		} else if (inEditor){
+			this.editor.draw(g);
+		} else if (endGame){
 
 			g.setColor(Color.black);
 			g.fillRect(0, 0, this.resX, this.resY);
@@ -462,7 +468,14 @@ public class Game extends BasicGame
 		if(isInMenu){
 			InputObject im = new InputObject(this,currentPlayer,gc.getInput(),timeOutAntiDrop==0 && !processSynchro);
 			this.menuCurrent.update(im);
+		} else if(inEditor) {
+			// Map Editor
+			Input in = gc.getInput();
+			InputObject im = new InputObject(this,currentPlayer,in,timeOutAntiDrop==0 && !processSynchro);
+			this.editor.update(im,in);
+			
 		} else if(!endGame) {
+		
 			//Update of current round
 			this.clock.setRoundFromTime();
 			// getting inputs
@@ -641,6 +654,8 @@ public class Game extends BasicGame
 		this.menuOptions = new MenuOptions(this);
 		this.menuMulti = new MenuMulti(this);
 		this.menuMapChoice = new MenuMapChoice(this);
+		
+		this.editor = new MapEditor(this);
 		this.setMenu(menuIntro);
 		Map.initializePlateau(this, 1f, 1f);
 

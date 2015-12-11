@@ -13,7 +13,7 @@ import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.Sound;
 
 import buildings.BuildingProduction;
-import model.Objet;
+import mapeditor.EditorObject;
 import units.Character;
 
 // Class for static methods
@@ -203,8 +203,8 @@ public class Utils {
 		}
 
 	}
-
-
+	
+	
 
 	public static void triId(Vector<Character> liste){
 		if(liste.size()<=1)

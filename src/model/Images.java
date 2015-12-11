@@ -37,6 +37,14 @@ public class Images {
 
 	public Image spearmanBlue ;
 	public Image spearmanRed ;
+	public Image crossbowmanBlue;
+	public Image crossbowmanRed;
+	public Image inquisitorBlue;
+	public Image inquisitorRed;
+	public Image priestBlue;
+	public Image priestRed;
+	public Image knightBlue;
+	public Image knightRed;
 
 
 	//Building
@@ -83,8 +91,6 @@ public class Images {
 	public Image spellConversion;
 	public Image spellInstantDeath;
 	public Image spellInstantHealth;
-	public Image crossbowmanBlue;
-	public Image crossbowmanRed;
 	public Image attackSpearmanRed;
 	public Image attackSpearmanBlue ;
 	public Image attackCrossbowmanBlue;
@@ -92,10 +98,6 @@ public class Images {
 	public Image bonusLifePoints;
 	public Image bonusDamage;
 	public Image bonusSpeed;
-	public Image inquisitorBlue;
-	public Image inquisitorRed;
-	public Image knightBlue;
-	public Image knightRed;
 
 
 	public Images(){
@@ -149,6 +151,8 @@ public class Images {
 			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
 			this.inquisitorBlue = new Image("pics/unit/inquisitor_move_1.png");
 			this.inquisitorRed = new Image("pics/unit/inquisitor_move_2.png");
+			this.priestBlue = new Image("pics/unit/inquisitor_move_1.png");
+			this.priestRed = new Image("pics/unit/inquisitor_move_2.png");
 			this.knightBlue = new Image("pics/unit/knight_move_1.png");
 			this.knightRed = new Image("pics/unit/knight_move_2.png");
 			

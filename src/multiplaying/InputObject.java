@@ -99,7 +99,7 @@ public class InputObject extends MultiObjetModel{
 		this.xMouse = input.getAbsoluteMouseX();
 		this.yMouse = input.getAbsoluteMouseY();
 
-		if(g.isInMenu)
+		if(g.isInMenu || g.inEditor)
 			return;
 		
 		this.xMouse = input.getAbsoluteMouseX()+g.plateau.Xcam;

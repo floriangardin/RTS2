@@ -1,5 +1,6 @@
 package model;
 
+import main.Main;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;
 import spells.SpellFirewall;
@@ -82,6 +83,13 @@ public class Data {
 	public float universitySight = 300f;
 	public float universitySizeX = 3f*Map.stepGrid;
 	public float universitySizeY = 3f*Map.stepGrid;
+	
+	// Tower
+	public int towerLifePoints = 50;
+	public float towerSight = 600f;
+	public float towerChargeTime = 5f;
+	public float towerSizeX = 3f*Map.stepGrid;
+	public float towerSizeY = 3f*Map.stepGrid;
 
 
 	//// Spells
@@ -129,6 +137,12 @@ public class Data {
 		this.inquisitor = new UnitInquisitor(p,gameteam,this);
 		this.archange = new UnitArchange(p,gameteam,this);
 		//this.test = new UnitTest(p,player,this);
+	}
+	
+	public Data(){
+		this.ACC = 40f;
+		this.FROT = 1f;
+		this.FRAMERATE = Main.framerate;
 	}
 
 	public Character create(UnitsList which,float x, float y){

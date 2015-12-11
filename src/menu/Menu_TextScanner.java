@@ -61,6 +61,7 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(52, ".");
 		intToChar.put(53, "/");
 		intToChar.put(41, "§");
+		intToChar.put(26, "°");
 		intToChar.put(Input.KEY_0, "0");
 		intToChar.put(Input.KEY_1, "1");
 		intToChar.put(Input.KEY_2, "2");
@@ -113,6 +114,7 @@ public class Menu_TextScanner extends Menu_Item{
 		intToCharMin.put(52, ";");
 		intToCharMin.put(53, ":");
 		intToCharMin.put(41, "!");
+		intToCharMin.put(26, ")");
 	}
 
 	public void update(Input i, InputObject im){
@@ -185,6 +187,23 @@ public class Menu_TextScanner extends Menu_Item{
 			}
 		}
 	}
-
+	public void draw(Graphics g, int i){
+		//dessiner depuis le coin haut gauche
+		if(!game.isInMenu){
+			g.setColor(Color.black);
+			g.fillRect(x, y, sizeX+20f, sizeY);
+		}
+		g.setColor(Color.white);
+		g.drawRect(x, y, sizeX+20f, sizeY);
+		g.setColor(Color.white);
+		float height = g.getFont().getHeight("Hg");
+		if(s!=null){
+			if(animation>30){
+				g.drawString(s+"|", x+10f, y-height/2+sizeY/2);
+			} else {
+				g.drawString(s, x+10f, y-height/2+sizeY/2);				
+			}
+		}
+	}
 
 }

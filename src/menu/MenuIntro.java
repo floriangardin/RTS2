@@ -34,8 +34,9 @@ public class MenuIntro extends Menu {
 		// handling items
 		this.items.addElement(new Menu_Item(startX,startY,"unjoueur",this.game,true));
 		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"multijoueur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"options",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"quitter",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"editeur",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"options",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"quitter",this.game,true));
 
 		//		}
 	}
@@ -57,9 +58,13 @@ public class MenuIntro extends Menu {
 			this.game.setMenu(this.game.menuMulti);
 			break;
 		case 2:
+			this.game.inEditor = true;
+			this.game.isInMenu = false;
+			break;
+		case 3:
 			this.game.setMenu(this.game.menuOptions);
 			break;
-		case 3: 
+		case 4: 
 			this.game.app.exit();
 			break;
 		default:		

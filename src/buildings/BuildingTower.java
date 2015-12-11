@@ -33,12 +33,13 @@ public class BuildingTower extends Building{
 		this.p =p;
 		this.g =g;
 		this.damage = 20f;
-		this.maxLifePoints = 20f;
 		this.setTeam(team);
-		this.sizeX = 2f*Map.stepGrid;
-		this.sizeY = 2f*Map.stepGrid;
+		this.maxLifePoints = this.gameteam.data.towerLifePoints;
+		this.sizeX = this.gameteam.data.towerSizeX;
+		this.sizeY = this.gameteam.data.towerSizeY;
 		this.name = "tower";
-		this.chargeTime = 5f;
+		this.chargeTime = this.gameteam.data.towerChargeTime;
+		this.sight = this.gameteam.data.towerSight;
 		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.towerSound);
@@ -49,7 +50,6 @@ public class BuildingTower extends Building{
 		} else {
 			this.image = this.p.g.images.buildingTowerNeutral;
 		}
-		this.sight = 550f;
 		this.initialize(f, h);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		canAttack = false;
