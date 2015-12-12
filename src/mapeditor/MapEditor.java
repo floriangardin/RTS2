@@ -16,6 +16,12 @@ public class MapEditor {
 	public ObjectBar objectBar;
 	public EditorPlateau plateau;
 	
+	public boolean optionGridOn = true;
+	public boolean optionCollisionOn = true;
+	
+	public EditorObject draggedObject = null;
+	public float tempX, tempY;
+	
 	public MapEditor(Game g){
 		this.game = g;
 		this.editingBar = new EditingBar(this);
@@ -34,6 +40,11 @@ public class MapEditor {
 	}
 	
 	public void update(InputObject im, Input i){
+		if(im.xMouse>Math.min(this.objectBar.startX,game.resX-10f)){
+			this.objectBar.startX = Math.max(4*game.resX/5, this.objectBar.startX-35f);
+		} else {
+			this.objectBar.startX = Math.min(game.resX, this.objectBar.startX+35f);
+		}
 		this.editingBar.update(im,i);
 		this.objectBar.update(im);
 		if(this.plateau!=null){

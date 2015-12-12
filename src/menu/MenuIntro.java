@@ -59,6 +59,7 @@ public class MenuIntro extends Menu {
 			break;
 		case 2:
 			this.game.inEditor = true;
+			this.game.editor.plateau = null;
 			this.game.isInMenu = false;
 			break;
 		case 3:

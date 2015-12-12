@@ -170,8 +170,8 @@ public class Map {
 					if(param){
 						String[] tab = ligne.split(" ");
 						switch(tab[1]){
-						case "sizeX" : sizeX = Integer.parseInt(tab[2]); break;
-						case "sizeY" : sizeY = Integer.parseInt(tab[2]); break;
+						case "sizeX" : sizeX = (int)Float.parseFloat(tab[2]); break;
+						case "sizeY" : sizeY = (int)Float.parseFloat(tab[2]); break;
 						default:
 						}
 					} else if(currentVector!=null){
@@ -191,7 +191,7 @@ public class Map {
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				BuildingHeadQuarters team1h = new BuildingHeadQuarters(game.plateau,game,Integer.parseInt(tab[1]),Integer.parseInt(tab[2]),Integer.parseInt(tab[0]));
+				new BuildingHeadQuarters(game.plateau,game,Float.parseFloat(tab[1]),Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[0]));
 			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
@@ -200,17 +200,17 @@ public class Map {
 				String[] tab = buildings.get(i).split(" ");
 				switch(tab[0]){
 				// usual buildings
-				case "Mill" : new BuildingMill(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
-				case "Mine" : new BuildingMine(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
-				case "Barrack" : new BuildingBarrack(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
-				case "Stable" : new BuildingStable(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
-				case "Academy" : new BuildingAcademy(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
-				case "University" : new BuildingUniversity(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
-				case "Tower" : new BuildingTower(game.plateau,game,Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),Integer.parseInt(tab[1])); break;
+				case "Mill" : new BuildingMill(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "Mine" : new BuildingMine(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "Barrack" : new BuildingBarrack(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "Stable" : new BuildingStable(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "Academy" : new BuildingAcademy(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "University" : new BuildingUniversity(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "Tower" : new BuildingTower(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				// bonus
-				case "BonusLifePoints" : new BonusLifePoints(game.plateau, Integer.parseInt(tab[1]),Integer.parseInt(tab[2]));
-				case "BonusDamage" : new BonusDamage(game.plateau, Integer.parseInt(tab[1]),Integer.parseInt(tab[2]));
-				case "BonusSpeed" : new BonusSpeed(game.plateau, Integer.parseInt(tab[1]),Integer.parseInt(tab[2]));
+				case "BonusLifePoints" : new BonusLifePoints(game.plateau, Float.parseFloat(tab[1]),Float.parseFloat(tab[2]));
+				case "BonusDamage" : new BonusDamage(game.plateau, Float.parseFloat(tab[1]),Float.parseFloat(tab[2]));
+				case "BonusSpeed" : new BonusSpeed(game.plateau, Float.parseFloat(tab[1]),Float.parseFloat(tab[2]));
 				default : 
 				}
 			}
@@ -231,7 +231,7 @@ public class Map {
 			for(int i=0; i<naturalObjects.size(); i++){
 				String[] tab = naturalObjects.get(i).split(" ");
 				switch(tab[0]){
-				case "Tree": new Tree(Integer.parseInt(tab[2]),Integer.parseInt(tab[3]),game.plateau,Integer.parseInt(tab[1]));break;
+				case "Tree": new Tree(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),game.plateau,(int)Float.parseFloat(tab[1]));break;
 				}
 			}
 

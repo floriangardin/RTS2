@@ -532,6 +532,7 @@ public class MenuMapChoice extends Menu {
 		this.startGame = 0;
 		this.mapSelected = 0;
 		this.selected = 0;
+		maps = Map.maps();
 	}
 
 }

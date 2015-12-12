@@ -12,7 +12,7 @@ import multiplaying.InputObject;
 
 public class Menu_TextScanner extends Menu_Item{
 
-	public String s;
+	public String s = "";
 	public HashMap<Integer, String> intToChar = new HashMap<Integer, String>();
 	public HashMap<Integer, String> intToCharMin = new HashMap<Integer, String>();
 	public boolean isSelected = false;
@@ -76,6 +76,16 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(Input.KEY_7, "7");
 		intToChar.put(Input.KEY_8, "8");
 		intToChar.put(Input.KEY_9, "9");
+		intToChar.put(Input.KEY_NUMPAD0, "0");
+		intToChar.put(Input.KEY_NUMPAD1, "1");
+		intToChar.put(Input.KEY_NUMPAD2, "2");
+		intToChar.put(Input.KEY_NUMPAD3, "3");
+		intToChar.put(Input.KEY_NUMPAD4, "4");
+		intToChar.put(Input.KEY_NUMPAD5, "5");
+		intToChar.put(Input.KEY_NUMPAD6, "6");
+		intToChar.put(Input.KEY_NUMPAD7, "7");
+		intToChar.put(Input.KEY_NUMPAD8, "8");
+		intToChar.put(Input.KEY_NUMPAD9, "9");
 		intToChar.put(Input.KEY_SPACE," ");
 		intToCharMin.put(Input.KEY_SPACE," ");
 		intToCharMin.put(Input.KEY_A,"a");
@@ -114,6 +124,16 @@ public class Menu_TextScanner extends Menu_Item{
 		intToCharMin.put(Input.KEY_7, "è");
 		intToCharMin.put(Input.KEY_8, "_");
 		intToCharMin.put(Input.KEY_9, "ç");
+		intToCharMin.put(Input.KEY_NUMPAD0, "0");
+		intToCharMin.put(Input.KEY_NUMPAD1, "1");
+		intToCharMin.put(Input.KEY_NUMPAD2, "2");
+		intToCharMin.put(Input.KEY_NUMPAD3, "3");
+		intToCharMin.put(Input.KEY_NUMPAD4, "4");
+		intToCharMin.put(Input.KEY_NUMPAD5, "5");
+		intToCharMin.put(Input.KEY_NUMPAD6, "6");
+		intToCharMin.put(Input.KEY_NUMPAD7, "7");
+		intToCharMin.put(Input.KEY_NUMPAD8, "8");
+		intToCharMin.put(Input.KEY_NUMPAD9, "9");
 		intToCharMin.put(51, ",");
 		intToCharMin.put(52, ";");
 		intToCharMin.put(53, ":");
@@ -137,7 +157,7 @@ public class Menu_TextScanner extends Menu_Item{
 			}
 			return;
 		}
-		if(!game.isInMenu || isSelected){
+		if((!game.isInMenu && !game.inEditor) || isSelected){
 			if(this.game.font.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
@@ -212,7 +232,10 @@ public class Menu_TextScanner extends Menu_Item{
 			g.setColor(Color.black);
 			g.fillRect(x, y, sizeX+20f, sizeY);
 		}
-		g.setColor(Color.white);
+		if(isSelected)
+			g.setColor(Color.white);
+		else
+			g.setColor(Color.gray);
 		g.drawRect(x, y, sizeX+20f, sizeY);
 		g.setColor(Color.white);
 		float height = g.getFont().getHeight("Hg");
