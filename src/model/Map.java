@@ -24,7 +24,7 @@ import units.UnitsList;
 
 public class Map {
 
-	public static float stepGrid = 100f;
+	public static float stepGrid = 100f*Game.ratioSpace;
 
 	public static float sizeX;
 	public static float sizeY;

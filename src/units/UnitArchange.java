@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import model.Player;
@@ -21,17 +22,17 @@ public class UnitArchange extends Character {
 		this.unitType = ARCHANGE;
 		this.maxLifePoints = 200f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 300f;
+		this.sight = 300f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 60f;
+		this.maxVelocity = 60f*Game.ratioSpace;
 		this.armor = 5f;
 		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 12f;
 		this.weapon = "sword";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = this.size+20f;
+		this.range = this.size+20f*Game.ratioSpace;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		this.spells.add(data.instantDeath);
 		this.spells.add(data.instantHealth);

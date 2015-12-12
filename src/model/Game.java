@@ -53,6 +53,10 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
+	
+	public static boolean deplacementGroupIntelligent = true;
+	public static boolean debugGroup = false;
+
 	public boolean displayMapGrid = false;
 
 	public static boolean showUpdateLogicInterval = true;
@@ -74,6 +78,8 @@ public class Game extends BasicGame
 	//Increment de game
 
 	public static float ratio = 60f/((float)Main.framerate);
+	
+	public static float ratioSpace = 1f;
 
 
 	public int idChar = 0;
@@ -185,7 +191,7 @@ public class Game extends BasicGame
 	public boolean isInMenu = false;
 	public int idInput;
 	public float ratioResolution;
-	
+
 	//editor
 	public boolean inEditor;
 	public MapEditor editor;
@@ -304,7 +310,7 @@ public class Game extends BasicGame
 			}
 		} else {
 
-			
+
 			// g repr�sente le pinceau
 			//g.setColor(Color.black);
 			g.translate(-plateau.Xcam,- plateau.Ycam);
@@ -334,22 +340,30 @@ public class Game extends BasicGame
 			//		g.drawImage(this.images.background,this.plateau.maxX, 0);
 			//		g.drawImage(this.images.background,0, this.plateau.maxY);
 
-//			MapGrid mapGrid = this.plateau.mapGrid;
-//			g.setColor(Color.black);
-//			for(Float x : mapGrid.Xcoord){
-//				if(x>this.plateau.Xcam && x<this.plateau.Xcam+this.resX){
-//					g.drawLine(x, plateau.Ycam, x, plateau.Ycam+resY);
-//				}
-//			}
-//			for(Float y : mapGrid.Ycoord){
-//				if(y>this.plateau.Ycam && y<this.plateau.Ycam+this.resY){
-//					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
-//				}
-//			}
-			
+			//			MapGrid mapGrid = this.plateau.mapGrid;
+			//			g.setColor(Color.black);
+			//			for(Float x : mapGrid.Xcoord){
+			//				if(x>this.plateau.Xcam && x<this.plateau.Xcam+this.resX){
+			//					g.drawLine(x, plateau.Ycam, x, plateau.Ycam+resY);
+			//				}
+			//			}
+			//			for(Float y : mapGrid.Ycoord){
+			//				if(y>this.plateau.Ycam && y<this.plateau.Ycam+this.resY){
+			//					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
+			//				}
+			//			}
+
 			// Draw the selection of your team 
 			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
 				o.drawIsSelected(g);
+				if(Game.debugGroup){
+					if(o instanceof Character && ((Character) o).group!=null){
+						for(Character c : ((Character)o).group){
+							g.setColor(Color.white);
+							g.fillRect(c.getX()-50f, c.getY()-50f, 100f, 100f);
+						}
+					}
+				}
 			}
 			//Creation of the drawing Vector
 			Vector<Objet> toDraw = new Vector<Objet>();
@@ -448,7 +462,7 @@ public class Game extends BasicGame
 		//		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
 		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
 		//		
-		
+
 
 
 	}
@@ -473,9 +487,9 @@ public class Game extends BasicGame
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,timeOutAntiDrop==0 && !processSynchro);
 			this.editor.update(im,in);
-			
+
 		} else if(!endGame) {
-		
+
 			//Update of current round
 			this.clock.setRoundFromTime();
 			// getting inputs
@@ -520,10 +534,10 @@ public class Game extends BasicGame
 						this.plateau.handleView(im, this.currentPlayer.id);
 					}
 					ims = this.inputsHandler.getInputsForRound(this.round);
-//					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
-//						// Antidrop
-//						this.handleAntidrop();
-//					}
+					//					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
+					//						// Antidrop
+					//						this.handleAntidrop();
+					//					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
 					}
@@ -654,7 +668,7 @@ public class Game extends BasicGame
 		this.menuOptions = new MenuOptions(this);
 		this.menuMulti = new MenuMulti(this);
 		this.menuMapChoice = new MenuMapChoice(this);
-		
+
 		this.editor = new MapEditor(this);
 		this.setMenu(menuIntro);
 		Map.initializePlateau(this, 1f, 1f);

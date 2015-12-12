@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -22,18 +23,18 @@ public class UnitInquisitor extends Character {
 		this.unitType = INQUISITOR;
 		this.maxLifePoints = 60f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 300f;
+		this.sight = 300f*Game.ratioSpace;
 		this.attackDuration = 2f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 80f;
+		this.maxVelocity = 80f*Game.ratioSpace;
 		this.armor = 0f;
 		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 8f;
 		this.weapon = "wand";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = 200f;
+		this.range = 200f*Game.ratioSpace;
 		this.animStep = 24f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		if(this.getGameTeam().id==1){

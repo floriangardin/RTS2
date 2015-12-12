@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -22,11 +23,11 @@ public class UnitSpearman extends Character {
 		this.attackDuration = 1f;
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 500f;
-		this.size = 40f;
+		this.sight = 500f*Game.ratioSpace;
+		this.size = 40f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 100f;
+		this.maxVelocity = 100f*Game.ratioSpace;
 		this.armor = 4f;
 		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 4f;

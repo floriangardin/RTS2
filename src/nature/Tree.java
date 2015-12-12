@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
+import model.Game;
 import model.Map;
 import model.NaturalObjet;
 import model.Objet;
@@ -31,16 +32,16 @@ public class Tree extends NaturalObjet {
 		p.addNaturalObjets(this);
 		switch(type){
 		case 1:
-			this.image = this.p.g.images.tree01;
+			this.image = this.p.g.images.tree01.getScaledCopy(2*sizeX/p.g.images.tree01.getWidth());
 			break;
 		case 2:
-			this.image = this.p.g.images.tree02;
+			this.image = this.p.g.images.tree02.getScaledCopy(2*sizeX/p.g.images.tree01.getWidth());
 			break;
 		case 3:
-			this.image = this.p.g.images.tree03;
+			this.image = this.p.g.images.tree03.getScaledCopy(2*sizeX/p.g.images.tree01.getWidth());
 			break;
 		case 4:
-			this.image = this.p.g.images.tree04;
+			this.image = this.p.g.images.tree04.getScaledCopy(2*sizeX/p.g.images.tree01.getWidth());
 			break;
 		default:
 		}

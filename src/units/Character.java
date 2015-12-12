@@ -142,7 +142,7 @@ public class Character extends ActionObjet{
 
 
 		this.image = Utils.mergeImages(imagea, imageb);
-		this.size = 30f;
+		this.size = 30f*Game.ratioSpace;
 		this.isHidden = false;
 		this.spells = new Vector<Spell>();
 
@@ -430,6 +430,13 @@ public class Character extends ActionObjet{
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.maxVelocity/(Main.framerate);
+		System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
+		if(Game.deplacementGroupIntelligent && this.group!=null){
+			System.out.println("héhé");
+			for(Character c : this.group){
+				maxVNorm = Math.min(maxVNorm, c.maxVelocity/(Main.framerate));
+			}
+		}
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
@@ -965,7 +972,7 @@ public class Character extends ActionObjet{
 				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*this.size){
+				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*1*this.size){
 					for(Character c: this.group){
 						if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
@@ -977,6 +984,15 @@ public class Character extends ActionObjet{
 					if(nextToStop && oneHasArrived){
 						this.stop();
 						return;
+					}
+				}
+				// avoiding problem if two members of the group are close to the target
+				if(Utils.distance(this, this.getTarget())<2*this.size){
+					for(Character c:this.group){
+						if(Utils.distance(c, c.getTarget())<2*c.size){
+							this.stop();
+							c.stop();
+						}
 					}
 				}
 			}

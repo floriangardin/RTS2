@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Arrow;
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -24,10 +25,10 @@ public class UnitCrossbowman extends Character {
 		this.attackDuration = 1f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 500f;
+		this.sight = 500f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 130f;
+		this.maxVelocity = 130f*Game.ratioSpace;
 		this.armor = 2f;
 		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 5f;
