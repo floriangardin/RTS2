@@ -533,7 +533,6 @@ public class Character extends ActionObjet{
 	
 	public Graphics draw(Graphics g){
 
-		
 		float r = collisionBox.getBoundingCircleRadius();
 		float direction = 0f;
 		direction = (float)(orientation/2-1);
@@ -548,7 +547,6 @@ public class Character extends ActionObjet{
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-
 		y1-=15f;
 		y2-=15f;
 		if(mouseOver){

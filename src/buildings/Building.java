@@ -246,9 +246,9 @@ public class Building extends ActionObjet{
 		g.setLineWidth(25f);
 		// Construction points
 		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
-			g.setColor(new Color(255,255,255,1f));
+			g.setColor(new Color(0,0,0));
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
-			g.fill(new Rectangle(this.getX()-sizeX/4,this.getY()-3*this.sizeY/4,sizeX/2,10f));
+			g.fill(new Rectangle(-1f+this.getX()-sizeX/4,-1f+this.getY()-3*this.sizeY/4,sizeX/2+2f,12f));
 			float x = this.constructionPoints/this.maxLifePoints;
 			if(this.potentialTeam==1)
 				g.setColor(Colors.team1);
