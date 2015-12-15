@@ -91,7 +91,6 @@ public abstract class BuildingTech extends BuildingAction {
 		this.isProducing =false;
 
 		this.updateProductionList();
-		this.changes.isFinished = true;
 		this.lastTechDiscovered = q;
 	}
 
@@ -102,18 +101,38 @@ public abstract class BuildingTech extends BuildingAction {
 	}
 
 	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
+		String s = toStringBuilding();
 		
-		s+="queue:"+this.queue.id+";";
-		s+="charge:"+this.charge+";";
-
-		if(this.changes.isFinished && this.lastTechDiscovered!=null){
-			s+="isFinished:"+"1"+";";
-			s+="lastTechDiscovered:"+this.lastTechDiscovered.id+";";
-			this.changes.isFinished = true;
+		s+="qE:"+this.queue.id+";";
+		s+="chrg:"+this.charge+";";
+		//TODO : il faut aussi parser les tech
+		if(this.lastTechDiscovered!=null){
+			s+="lTD:"+this.lastTechDiscovered.id+";";
 		}
 		return s;
 	}
+	
+	public void parseBuildingTech(HashMap<String, String> hs) {
+		if(hs.containsKey("qE")){
+			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("qE")));
+		}
+		else{
+			this.queue = null;
+		}
+		if(hs.containsKey("chrg")){
+			this.setCharge(Float.parseFloat(hs.get("chrg")));
+		}
+		if(hs.containsKey("lTD") && this.hq.allTechs.contains(this.getTechnologieById(Integer.parseInt(hs.get("lTD"))))){
+			this.techTerminate(this.getTechnologieById(Integer.parseInt(hs.get("lTD"))));
+		}
+	}
+	
+	public void parse(HashMap<String,String> hs){
+		this.parseBuilding(hs);
+		this.parseBuildingTech(hs);
+	}
+	
+	
 
 	public void setTeamExtra(){
 		if(this instanceof BuildingHeadQuarters){
@@ -133,24 +152,5 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 	}
 
-	public void parseBuildingTech(HashMap<String, String> hs) {
-		if(hs.containsKey("queue")){
-			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("queue")));
-		}
-		else{
-			this.queue = null;
-		}
-		if(hs.containsKey("charge")){
-			this.setCharge(Float.parseFloat(hs.get("charge")));
-		}
-		if(hs.containsKey("isFinished") && hs.get("isFinished").equals("1") ){
-			this.techTerminate(this.getTechnologieById(Integer.parseInt(hs.get("lastTechDiscovered"))));
-		}
-	}
-	public void parse(HashMap<String,String> hs){
-		this.parseObjet(hs);
-		this.parseActionObjet(hs);
-		this.parseBuilding(hs);
-		this.parseBuildingTech(hs);
-	}
+
 }

@@ -139,9 +139,9 @@ public abstract class BuildingProduction extends BuildingAction {
 	}
 
 	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringBuilding();
-		if(changes.queue && this.queue!=null){
-			s+="queue:";
+		String s = toStringBuilding();
+		if( this.queue!=null){
+			s+="qE:";
 			for(int c : this.queue){
 				s+=""+c+",";
 			}
@@ -149,22 +149,20 @@ public abstract class BuildingProduction extends BuildingAction {
 				s=s.substring(0, s.length()-1);
 			}
 			s+=";";
-			changes.queue=true;
 		}
 		if(changes.charge){
-			s+="charge:"+this.charge+";";
-			changes.charge=false;
+			s+="chrg:"+this.charge+";";
 		}
 		return s;
 	}
 
 	public void parseBuildingProduction(HashMap<String, String> hs) {
-		if(hs.containsKey("charge")){
-			this.setCharge(Float.parseFloat(hs.get("charge")));
+		if(hs.containsKey("chrg")){
+			this.setCharge(Float.parseFloat(hs.get("chrg")));
 		}
-		if(hs.containsKey("queue")){
+		if(hs.containsKey("qE")){
 			this.queue.clear();
-			String[] r = hs.get("queue").split(",");
+			String[] r = hs.get("qE").split(",");
 			if(!r[0].equals("")){
 				for(int i = 0;i<r.length;i++){
 					this.queue.addElement(Integer.parseInt(r[i]));
@@ -174,11 +172,8 @@ public abstract class BuildingProduction extends BuildingAction {
 	}
 
 	public void parse(HashMap<String,String> hs){
-		this.parseObjet(hs);
-		this.parseActionObjet(hs);
 		this.parseBuilding(hs);
 		this.parseBuildingProduction(hs);
 	}
-
 
 }

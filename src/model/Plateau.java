@@ -1216,6 +1216,14 @@ public class Plateau {
 		}
 
 		s += "!";
+		int id_building = 0;
+		while (id_building < this.buildings.size()) {
+			s += this.buildings.get(id_building).toString();
+			s += "|";
+			id_building++;
+		}
+
+		s += "!";
 		return s;
 	}
 
@@ -1228,6 +1236,7 @@ public class Plateau {
 			String[] u = s.split("!");
 			// Take care of id sent
 			parseCharacter(u[3]);
+			parseBuilding(u[4]);
 			this.g.idChar = Integer.parseInt(u[1]);
 
 		}
@@ -1294,24 +1303,19 @@ public class Plateau {
 		return s;
 	}
 
-
 	public void parseBuilding(String s) {
 		String[] u = s.split("\\|");
 		// Loop over each Building
 		Building bul = null;
 		int finish = u.length;
-		if (!u[u.length - 1].contains("id")) {
-			finish--;
-		}
 		// For all buildings in received message
 		for (int i = 0; i < finish; i++) {
 			HashMap<String, String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
 			// Find corresponding Building in plateau
 			bul = this.getBuildingById(idTest);
-
+			//Parse this building
 			bul.parse(hs);
-
 		}
 
 	}

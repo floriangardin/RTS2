@@ -262,11 +262,8 @@ public class Building extends ActionObjet{
 		}
 		g.setAntiAlias(false);
 		g.setLineWidth(2f);
-
-
 		return g;
 	}
-
 
 	public Graphics drawRallyPoint(Graphics g){
 		return g;
@@ -277,55 +274,30 @@ public class Building extends ActionObjet{
 
 	public String toStringBuilding(){
 		String s = "";
-
-		if(changes.sizeX){
-			s+="sizeX:"+sizeX+";";
-			changes.sizeX = true;
-		}
-		if(changes.sizeY){
-			s+="sizeY:"+sizeY+";";
-			changes.sizeY = true;
-		}
-		if(changes.potentialTeam){
-			s+="potentialTeam:"+potentialTeam+";";
-			changes.potentialTeam = true;
-		}
-		if(changes.constructionPoints){
-			s+="constructionPoints:"+constructionPoints+";";
-			changes.constructionPoints= true;
-		}
-		if(changes.rallyPoint){
-			if(this.rallyPoint!=null){
-				s+="rallyPointX:"+this.rallyPoint.x+";";
-				s+="rallyPointY:"+this.rallyPoint.y+";";
-			}
-			changes.rallyPoint = true;
+		s+="id:"+id+";";
+		s+="tm:"+getTeam()+";";
+		s+="pT:"+potentialTeam+";";
+		s+="cP:"+constructionPoints+";";
+		if(this.rallyPoint!=null){
+			s+="rX:"+(int)this.rallyPoint.x+";";
+			s+="rY:"+(int)this.rallyPoint.y+";";
 		}
 		return s;
 	}
 
 	public void parseBuilding(HashMap<String, String> hs) {
-		if(hs.containsKey("sizeX")){
-			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		if(hs.containsKey("rX") && hs.containsKey("rY") ){
+			this.rallyPoint = new Checkpoint(p, Integer.parseInt(hs.get("rX")),Integer.parseInt(hs.get("rY")));
 		}
-		if(hs.containsKey("sizeY")){
-			this.sizeX = Float.parseFloat(hs.get("sizeX"));
+		if(hs.containsKey("cP")){
+			this.constructionPoints = Float.parseFloat(hs.get("cP"));
 		}
-		if(hs.containsKey("rallyPointX")){
-			this.rallyPoint.x = Float.parseFloat(hs.get("rallyPointX"));
+		if(hs.containsKey("tm")){
+			this.setTeam(Integer.parseInt(hs.get("tm")));
 		}
-		if(hs.containsKey("rallyPointY")){
-			this.rallyPoint.y = Float.parseFloat(hs.get("rallyPointY"));
-		}
-		if(hs.containsKey("constructionPoints")){
-			this.constructionPoints = Float.parseFloat(hs.get("constructionPoints"));
-		}
-		if(hs.containsKey("potentialTeam")){
-			this.potentialTeam = Integer.parseInt(hs.get("potentialTeam"));
+		if(hs.containsKey("pT")){
+			this.potentialTeam = Integer.parseInt(hs.get("pT"));
 			this.hq = this.p.g.teams.get(potentialTeam).hq;
-		}
-		if(hs.containsKey("constructionPoints")){
-			this.sizeX = Float.parseFloat(hs.get("sizeX"));
 		}
 	}
 
@@ -348,7 +320,7 @@ public class Building extends ActionObjet{
 		if(!(this instanceof Bonus) && this.gameteam!=null){
 			this.getGameTeam().pop-=2;
 		}
-		if(this.g.currentPlayer!=null && i==this.g.currentPlayer.id){
+		if(this.g.currentPlayer!=null && i==this.g.currentPlayer.id && !(this instanceof BuildingHeadQuarters)){
 			this.g.sendMessage(ChatMessage.getById("building taken",this.g));
 
 		}
@@ -361,8 +333,6 @@ public class Building extends ActionObjet{
 		this.updateImage();
 		this.giveUpProcess = false;
 	}
-
-
 
 	@Override
 	public void collision(Character c) {

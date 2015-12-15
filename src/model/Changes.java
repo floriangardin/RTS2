@@ -38,7 +38,7 @@ public class Changes {
 	public boolean idTech=true;
 	public boolean charge=true;
 	public boolean prod=true;
-	public boolean isFinished=true;
+	
 	
 	//BUILDING PROD
 	public boolean ownerId= true;
