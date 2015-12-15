@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Colors;
+import model.Game;
 import model.Map;
 import model.Plateau;
 
@@ -33,7 +34,7 @@ public abstract class Bonus extends Building{
 		this.setTeam(0);
 		p.bonus.addElement(this);
 		this.sight = 200f;
-		this.size = 100f;
+		this.size = 100f*Game.ratioSpace;
 		this.collisionBox = new Circle(x,y,this.size);
 		this.selectionBox = this.collisionBox;
 		this.hitBoxSize = 30f;
@@ -59,7 +60,7 @@ public abstract class Bonus extends Building{
 		}
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-
+		
 		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
 		if(mouseOver){
 			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);

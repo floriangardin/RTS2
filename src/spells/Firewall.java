@@ -1,6 +1,7 @@
 package spells;
 
 import main.Main;
+import model.Game;
 import model.Objet;
 import model.Plateau;
 
@@ -42,7 +43,7 @@ public class Firewall extends SpellEffect{
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		image = p.g.images.explosion;
+		image = p.g.images.explosion.getScaledCopy(Game.ratioSpace);
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();

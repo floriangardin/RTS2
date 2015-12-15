@@ -6,6 +6,7 @@ import org.newdawn.slick.geom.Circle;
 
 import com.sun.javafx.css.CssError.StylesheetParsingError;
 
+import model.Game;
 import model.Map;
 import model.Plateau;
 import units.Character;
@@ -16,7 +17,7 @@ public class BonusLifePoints extends Bonus{
 
 	public BonusLifePoints(Plateau p , float x , float y){
 		this.initialize(p, x, y);
-		this.image = this.p.g.images.bonusLifePoints;
+		this.image = this.p.g.images.bonusLifePoints.getScaledCopy(Game.ratioSpace);
 		this.bonus = 50f;
 
 	}

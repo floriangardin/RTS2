@@ -91,7 +91,11 @@ public class Data {
 	public float towerSizeX = 2f*Map.stepGrid;
 	public float towerSizeY = 2f*Map.stepGrid;
 
-
+	//Bonus
+	public int bonusLifePoints = 50;
+	public float bonusSight = 100f;
+	public float bonusChargeTime = 100f;
+	
 	//// Spells
 
 	public SpellFirewall firewall;

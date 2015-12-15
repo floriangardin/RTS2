@@ -133,12 +133,12 @@ public class Character extends ActionObjet{
 		this.setTeam(gameteam);
 		this.name = "character";
 		this.selection_circle = this.p.g.images.selection_circle;
-		Image imagea = this.p.g.images.corps;
-		Image imageb = this.p.g.images.corps;
+		Image imagea = this.p.g.images.corps.getScaledCopy(Game.ratioSpace);
+		Image imageb = this.p.g.images.corps.getScaledCopy(Game.ratioSpace);;
 		if(getTeam()==1)
-			imageb = this.p.g.images.blue;
+			imageb = this.p.g.images.blue.getScaledCopy(Game.ratioSpace);;
 		if(getTeam()==2)
-			imageb = this.p.g.images.red;
+			imageb = this.p.g.images.red.getScaledCopy(Game.ratioSpace);;
 
 
 		this.image = Utils.mergeImages(imagea, imageb);
@@ -590,49 +590,52 @@ public class Character extends ActionObjet{
 
 		//Draw the immolation
 		if(isImmolating){
-			Image fire = this.p.g.images.explosion;
-			r = fire.getWidth()/5f;
-			x = this.getX();
-			y = this.getY();
-			if(this.remainingTime>=65f){
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,0f,0f,r,r);
-			}
-			else if(this.remainingTime>=55f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,r,0f,2*r,r);
-			else if(this.remainingTime>=45f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,2*r,0f,3*r,r);
-			else if(this.remainingTime>=40f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=35f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
-			else if(this.remainingTime>=40f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=35f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,3*r,r);
-			else if(this.remainingTime>=30f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=25f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
-			else if(this.remainingTime>=20f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=15f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,3*r,r);
-			else if(this.remainingTime>=10f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=5f){
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
-				
-
-			}
-			else 
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
+			drawImmolation(g, r);
 		}
 		return g;
 	}
+	
+	protected void drawImmolation(Graphics g,float r) {
+		Image fire = this.p.g.images.explosion.getScaledCopy(Game.ratioSpace);
+		r = fire.getWidth()/5f;
+		x = this.getX();
+		y = this.getY();
+		if(this.remainingTime>=65f){
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,0f,0f,r,r);
+		}
+		else if(this.remainingTime>=55f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,r,0f,2*r,r);
+		else if(this.remainingTime>=45f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,2*r,0f,3*r,r);
+		else if(this.remainingTime>=40f*Game.ratioSpace)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+		else if(this.remainingTime>=35f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,5*r,r);
+		else if(this.remainingTime>=40f*Game.ratioSpace)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+		else if(this.remainingTime>=35f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,3*r,r);
+		else if(this.remainingTime>=30f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+		else if(this.remainingTime>=25f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,5*r,r);
+		else if(this.remainingTime>=20f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+		else if(this.remainingTime>=15f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,3*r,r);
+		else if(this.remainingTime>=10f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+		else if(this.remainingTime>=5f)
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,5*r,r);
+		else 
+			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+		
+	}
+	
 	public void drawIsSelected(Graphics g){
 
 		g.setColor(Colors.selection);
-		g.setLineWidth(2f);
+		g.setLineWidth(2f*Game.ratioSpace);
 		g.setAntiAlias(true);
 		if(this.horse!=null){
 			g.draw(this.collisionBox);
@@ -661,13 +664,13 @@ public class Character extends ActionObjet{
 		}
 		//Draw the building which is being conquered
 		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
-			g.setLineWidth(2f);
+			g.setLineWidth(2f*Game.ratioSpace);
 			g.setColor(Colors.buildingTaking);
 			Building target = (Building) this.target;
 			g.draw(target.collisionBox);
 		}
 
-		g.setLineWidth(1f);
+		g.setLineWidth(1f*Game.ratioSpace);
 		g.setAntiAlias(false);
 	}	
 

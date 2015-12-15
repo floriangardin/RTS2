@@ -10,6 +10,7 @@ import main.Main;
 import model.ActionObjet;
 import model.Changes;
 import model.Checkpoint;
+import model.Game;
 import model.Plateau;
 import model.Utils;
 import units.Character;
@@ -27,9 +28,9 @@ public class Fireball extends Bullet {
 		this.changes = new Changes();
 		// Parameters
 		this.altitude = 0f;
-		this.areaEffect = 40f;
-		float Vmax = 200f;
-		float size = 10f;
+		this.areaEffect = 40f*Game.ratioSpace;
+		float Vmax = 300f*Game.ratioSpace;
+		float size = 10f*Game.ratioSpace;
 		this.name = "fireball";
 		//
 		this.p = p;
@@ -40,14 +41,14 @@ public class Fireball extends Bullet {
 		else{
 			this.id = id;
 		}
-		this.size = 10f;
+		this.size = 10f*Game.ratioSpace;
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
-		this.image = (this.p.g.images.fireball).getSubImage(0, 150, 75, 75);
-		this.image1 = (this.p.g.images.fireball).getSubImage(75, 150, 75, 75);
-		this.image2 = (this.p.g.images.fireball).getSubImage(150, 150, 75, 75);
-		this.boom = this.p.g.images.explosion;
+		this.image = (this.p.g.images.fireball).getSubImage(0, 150, 75, 75).getScaledCopy(Game.ratioSpace);
+		this.image1 = (this.p.g.images.fireball).getSubImage(75, 150, 75, 75).getScaledCopy(Game.ratioSpace);
+		this.image2 = (this.p.g.images.fireball).getSubImage(150, 150, 75, 75).getScaledCopy(Game.ratioSpace);
+		this.boom = this.p.g.images.explosion.getScaledCopy(Game.ratioSpace);
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
@@ -121,23 +122,23 @@ public class Fireball extends Bullet {
 		if(this.explosion){
 			float r = this.boom.getWidth()/5f;
 			if(lifePoints>=24f)
-				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,0f,0f,r,r);
+				g.drawImage(this.boom, this.getX()-40f*Game.ratioSpace, this.getY()-40f*Game.ratioSpace, this.getX()+40f*Game.ratioSpace, this.getY()+40f*Game.ratioSpace,0f,0f,r,r);
 			else if(lifePoints>=18f)
-				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,r,0f,2*r,r);
+				g.drawImage(this.boom, this.getX()-40f*Game.ratioSpace, this.getY()-40f*Game.ratioSpace, this.getX()+40f*Game.ratioSpace, this.getY()+40f*Game.ratioSpace,r,0f,2*r,r);
 			else if(lifePoints>=12f)
-				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,2*r,0f,3*r,r);
+				g.drawImage(this.boom, this.getX()-40f*Game.ratioSpace, this.getY()-40f*Game.ratioSpace, this.getX()+40f*Game.ratioSpace, this.getY()+40f*Game.ratioSpace,2*r,0f,3*r,r);
 			else if(lifePoints>=6f)
-				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,3*r,0f,4*r,r);
+				g.drawImage(this.boom, this.getX()-40f*Game.ratioSpace, this.getY()-40f*Game.ratioSpace, this.getX()+40f*Game.ratioSpace, this.getY()+40f*Game.ratioSpace,3*r,0f,4*r,r);
 			else 
-				g.drawImage(this.boom, this.getX()-40f, this.getY()-40f, this.getX()+40f, this.getY()+40f,4*r,0f,5*r,r);
+				g.drawImage(this.boom, this.getX()-40f*Game.ratioSpace, this.getY()-40f*Game.ratioSpace, this.getX()+40f*Game.ratioSpace, this.getY()+40f*Game.ratioSpace,4*r,0f,5*r,r);
 
 		} else {
 			if(animation<3)	
-				g.drawImage(this.image, this.getX()-28f, this.getY()-28f, this.getX()+28f, this.getY()+28f,0f,0f,this.image.getWidth(),this.image.getHeight());
+				g.drawImage(this.image, this.getX()-28*Game.ratioSpace, this.getY()-28*Game.ratioSpace, this.getX()+28*Game.ratioSpace, this.getY()+28*Game.ratioSpace,0f,0f,this.image.getWidth(),this.image.getHeight());
 			else if(animation<6)	
-				g.drawImage(this.image1, this.getX()-28f, this.getY()-28f, this.getX()+28f, this.getY()+28f,0f,0f,this.image.getWidth(),this.image.getHeight());
+				g.drawImage(this.image1, this.getX()-28*Game.ratioSpace, this.getY()-28*Game.ratioSpace, this.getX()+28*Game.ratioSpace, this.getY()+28*Game.ratioSpace,0f,0f,this.image.getWidth(),this.image.getHeight());
 			else	
-				g.drawImage(this.image2, this.getX()-28f, this.getY()-28f, this.getX()+28f, this.getY()+28f,0f,0f,this.image.getWidth(),this.image.getHeight());
+				g.drawImage(this.image2, this.getX()-28*Game.ratioSpace, this.getY()-28*Game.ratioSpace, this.getX()+28*Game.ratioSpace, this.getY()+28*Game.ratioSpace,0f,0f,this.image.getWidth(),this.image.getHeight());
 		}
 		//g.setColor(Color.black);
 		//g.fill(new Circle(this.collisionBox.getCenterX(),this.collisionBox.getCenterY(),this.collisionBox.getBoundingCircleRadius()));

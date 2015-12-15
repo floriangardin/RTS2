@@ -1,6 +1,7 @@
 package buildings;
 
 
+import model.Game;
 import model.Plateau;
 import units.Character;
 
@@ -9,7 +10,7 @@ public class BonusSpeed extends Bonus{
 
 	public BonusSpeed(Plateau p , float x , float y){
 		this.initialize(p, x, y);
-		this.image = this.p.g.images.bonusSpeed;
+		this.image = this.p.g.images.bonusSpeed.getScaledCopy(Game.ratioSpace);
 		this.bonus = 20f;
 	}
 

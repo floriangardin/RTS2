@@ -12,7 +12,6 @@ import model.GameTeam;
 import model.Horse;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 
 public class UnitKnight extends Character {
 
@@ -222,10 +221,10 @@ public class UnitKnight extends Character {
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		y1-=40f;
-		y2-=40f;
-		x1+=5f;
-		x2+=5f;
+		y1-=40f*Game.ratioSpace;
+		y2-=40f*Game.ratioSpace;
+		x1+=5f*Game.ratioSpace;
+		x2+=5f*Game.ratioSpace;
 		if(mouseOver){
 			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
 
@@ -247,39 +246,7 @@ public class UnitKnight extends Character {
 		}
 		//Draw the immolation
 		if(isImmolating){
-			Image fire = this.p.g.images.explosion;
-			r = fire.getWidth()/5f;
-			x = this.getX();
-			y = this.getY();
-			if(this.remainingTime>=65f){
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,0f,0f,r,r);
-			}
-			else if(this.remainingTime>=55f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,r,0f,2*r,r);
-			else if(this.remainingTime>=45f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,2*r,0f,3*r,r);
-			else if(this.remainingTime>=40f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=35f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
-			else if(this.remainingTime>=40f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=35f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,3*r,r);
-			else if(this.remainingTime>=30f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=25f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
-			else if(this.remainingTime>=20f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=15f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,3*r,r);
-			else if(this.remainingTime>=10f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
-			else if(this.remainingTime>=5f)
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,4*r,0f,5*r,r);
-			else 
-				g.drawImage(fire, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
+			drawImmolation(g,r);
 		}
 		return g;
 	

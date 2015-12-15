@@ -1,6 +1,7 @@
 package buildings;
 
 import main.Main;
+import model.Game;
 import model.Plateau;
 
 
@@ -12,7 +13,7 @@ public class BonusDamage extends Bonus{
 	public BonusDamage(Plateau p , float x , float y){
 		this.initialize(p, x, y);
 		this.bonus = 5f;
-		this.image = this.p.g.images.bonusDamage;
+		this.image = this.p.g.images.bonusDamage.getScaledCopy(Game.ratioSpace);
 
 	}
 
