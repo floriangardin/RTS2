@@ -23,7 +23,7 @@ public class UnitSpearman extends Character {
 		this.attackDuration = 1f;
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 500f*Game.ratioSpace;
+		this.sight = 400f*Game.ratioSpace;
 		this.size = 40f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);

@@ -1,13 +1,5 @@
 package buildings;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-
-import com.sun.javafx.css.CssError.StylesheetParsingError;
-
 import model.Game;
-import model.Map;
 import model.Plateau;
 import units.Character;
 public class BonusLifePoints extends Bonus{

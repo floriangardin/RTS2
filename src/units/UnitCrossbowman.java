@@ -25,7 +25,7 @@ public class UnitCrossbowman extends Character {
 		this.attackDuration = 1f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 500f*Game.ratioSpace;
+		this.sight = 400f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 130f*Game.ratioSpace;
@@ -48,7 +48,7 @@ public class UnitCrossbowman extends Character {
 			this.image = this.p.g.images.crossbowmanRed;
 		}
 		this.civ = 0;
-		this.range = 200f*Game.ratioSpace;
+		this.range = 300f*Game.ratioSpace;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.spells.add(data.immolation);
 

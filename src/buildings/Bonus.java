@@ -33,19 +33,18 @@ public abstract class Bonus extends Building{
 		this.constructionPoints=0f;
 		this.setTeam(0);
 		p.bonus.addElement(this);
-		this.sight = 200f;
+		this.sight = 200f*Game.ratioSpace;
 		this.size = 100f*Game.ratioSpace;
-		this.collisionBox = new Circle(x,y,this.size);
+		this.collisionBox = new Circle(x*Game.ratioSpace,y*Game.ratioSpace,this.size);
 		this.selectionBox = this.collisionBox;
-		this.hitBoxSize = 30f;
-		this.hitBox = new Circle(x,y,this.hitBoxSize);
+		this.hitBoxSize = 30f*Game.ratioSpace;
+		this.hitBox = new Circle(x*Game.ratioSpace,y*Game.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
 		this.sound = this.p.g.sounds.bonus;
 
 	}
 	
 	public Graphics draw(Graphics g){
-
 		int imageWidth = this.image.getWidth()/5;
 		float r =((Circle) this.collisionBox).radius;
 		Color color = Colors.team0;
@@ -60,7 +59,6 @@ public abstract class Bonus extends Building{
 		}
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-		
 		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
 		if(mouseOver){
 			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
@@ -74,14 +72,21 @@ public abstract class Bonus extends Building{
 		}
 		// Construction points
 		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
-			g.setColor(Color.white);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,2*r,6f));
-			float x = this.constructionPoints*2f*r/this.maxLifePoints;
+//			System.out.println("Bonus taking");
+//			System.out.println(size+ " "+this.getX()+" "+this.getY() );
+			g.setColor(new Color(0,0,0));
+			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
+			g.fill(new Rectangle(-1f+this.getX()-size/4,-1f+this.getY()-3*this.size/4,size/2+2f,12f));
+			float x = this.constructionPoints/this.maxLifePoints;
 			if(this.potentialTeam==1)
 				g.setColor(Colors.team1);
-			else
+			else if(this.potentialTeam==2)
 				g.setColor(Colors.team2);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r-50f,x,6f));
+			else if(this.potentialTeam==0){
+				g.setColor(Colors.team0);
+			}
+			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
+			g.fill(new Rectangle(this.getX()-size/4,this.getY()-3*this.size/4,x*size/2,10f));
 		}
 		return g;
 	}
