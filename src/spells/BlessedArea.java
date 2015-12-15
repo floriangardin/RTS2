@@ -2,15 +2,14 @@ package spells;
 
 import java.util.Vector;
 
-import main.Main;
-import model.Checkpoint;
-import model.Plateau;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
+import model.Checkpoint;
+import model.Plateau;
 import units.Character;
 
 public class BlessedArea extends SpellEffect{

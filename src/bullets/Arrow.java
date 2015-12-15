@@ -22,7 +22,7 @@ public class Arrow extends CollisionBullet{
 		this.changes = new Changes();
 		// Parameters
 		this.size = 2f*Game.ratioSpace;
-		float Vmax = 800f*Game.ratioSpace;
+		float Vmax = 600f*Game.ratioSpace;
 
 		this.p = p;
 		if(id==-1){

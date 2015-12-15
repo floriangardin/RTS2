@@ -24,7 +24,7 @@ public class UnitKnight extends Character {
 		this.maxLifePoints = 90f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f*Game.ratioSpace;
-		this.size = 60f*Game.ratioSpace;
+		this.size = 40f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
 		this.maxVelocity = 160f*Game.ratioSpace;
@@ -203,7 +203,7 @@ public class UnitKnight extends Character {
 
 	public Graphics draw(Graphics g){
 
-		float r = collisionBox.getBoundingCircleRadius()*1.3f;
+		float r = collisionBox.getBoundingCircleRadius()*1.9f;
 		float direction = 0f;
 		//Adapted to spearman TODO : Genericity
 		

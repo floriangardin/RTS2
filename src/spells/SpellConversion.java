@@ -1,5 +1,6 @@
 package spells;
 
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -16,7 +17,7 @@ public class SpellConversion extends Spell{
 		this.faithCost = 2f;
 		this.name = "Conversion";
 		this.icon = p.g.images.spellConversion;
-		this.range = 50f;
+		this.range = 50f*Game.ratioSpace;
 		this.damage = 0f;
 		this.gameteam = gameteam;
 		this.needToClick=true;

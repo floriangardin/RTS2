@@ -1,6 +1,7 @@
 package spells;
 
 import model.Checkpoint;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -16,9 +17,9 @@ public class SpellFirewall extends Spell{
 		this.p = p;
 		this.name = "Firewall";
 		this.icon = p.g.images.spellFirewall;
-		this.range = 200f;
+		this.range = 200f*Game.ratioSpace;
 		this.damage = 1f;
-		this.remainingTime = 250f;
+		this.remainingTime = 120f;
 		this.gameteam = gameteam;
 		this.needToClick=true;
 	}
@@ -28,6 +29,7 @@ public class SpellFirewall extends Spell{
 		Firewall f = new Firewall(launcher.p,launcher,t,-1);
 		f.damage = this.damage;
 		f.remainingTime = this.remainingTime;
+		launcher.stop();
 	}
 	
 	public Objet realTarget(Objet target, Character launcher){

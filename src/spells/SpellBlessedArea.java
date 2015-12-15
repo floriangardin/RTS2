@@ -1,6 +1,7 @@
 package spells;
 
 import model.Checkpoint;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -17,7 +18,7 @@ public class SpellBlessedArea extends Spell{
 		this.chargeTime = 450f;
 		this.name = "Blessed Area";
 		this.icon = p.g.images.spellBlessedArea;
-		this.range = 200f;
+		this.range = 200f*Game.ratioSpace;
 		this.remainingTime = 250f;
 		this.effect= 0.75f;
 		this.gameteam = gameteam;
@@ -30,6 +31,7 @@ public class SpellBlessedArea extends Spell{
 		ba.remainingTime = this.remainingTime;
 		ba.effect = this.effect;
 		ba.size = this.size;
+		launcher.stop();
 	}
 	
 	public Objet realTarget(Objet target, Character launcher){
