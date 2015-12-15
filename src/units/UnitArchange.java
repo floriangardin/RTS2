@@ -61,11 +61,7 @@ public class UnitArchange extends Character {
 		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
-			g.setColor(Color.red);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r,2*r,2f));
-			float x = this.lifePoints*2f*r/this.maxLifePoints;
-			g.setColor(Color.green);
-			g.fill(new Rectangle(this.getX()-r,this.getY()-r,x,2f));
+			drawLifePoints(g,r);
 		}
 		//Draw the immolation
 		if(isImmolating){

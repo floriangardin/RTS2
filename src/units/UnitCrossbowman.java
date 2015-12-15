@@ -238,13 +238,7 @@ public class UnitCrossbowman extends Character {
 
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
-			//Draw lifepoints
-			g.setColor(new Color(250,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,r,4f));
-			float x = this.lifePoints*r/this.maxLifePoints;
-			g.setColor(new Color(0,250,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x,4f));
-
+			drawLifePoints(g,r);
 		}
 		//Draw the immolation
 		if(isImmolating){

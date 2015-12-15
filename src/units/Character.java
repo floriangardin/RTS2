@@ -521,7 +521,16 @@ public class Character extends ActionObjet{
 
 
 	//// GRAPHISMS
-
+	public void drawLifePoints(Graphics g,float r){
+		//Draw lifepoints
+		
+		g.setColor(Color.black);
+		g.fill(new Rectangle(this.getX()-r/2-1f,-47f+this.getY()-r,r+2f,8f));
+		float x = this.lifePoints/this.maxLifePoints;
+		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
+		g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x*r,6f));
+	}
+	
 	public Graphics draw(Graphics g){
 
 		
@@ -565,10 +574,10 @@ public class Character extends ActionObjet{
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			//Draw lifepoints
-			g.setColor(new Color(250,0,0,0.8f));
+			g.setColor(new Color(0,0,0));
 			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,r,4f));
 			float x = this.lifePoints*r/this.maxLifePoints;
-			g.setColor(new Color(0,250,0,0.8f));
+			g.setColor(new Color(255*(1-x),255*x,0));
 			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,x,4f));
 
 		}
