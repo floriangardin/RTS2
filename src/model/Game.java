@@ -53,7 +53,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
-	
+
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
 
@@ -78,7 +78,7 @@ public class Game extends BasicGame
 	//Increment de game
 
 	public static float ratio = 60f/((float)Main.framerate);
-	
+
 	public static float ratioSpace = 0.8f;
 
 	public int idChar = 0;
@@ -416,7 +416,7 @@ public class Game extends BasicGame
 			plateau.drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
-			
+
 			// Draw the selection :
 			if(plateau.cosmetic.selection!=null){
 				g.setColor(Colors.selection);
@@ -445,7 +445,8 @@ public class Game extends BasicGame
 		this.chatHandler.draw(g);
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
-
+		
+		this.drawPing(g);
 		//		Runtime runtime = Runtime.getRuntime();
 		//
 		//		NumberFormat format = NumberFormat.getInstance();
@@ -460,7 +461,6 @@ public class Game extends BasicGame
 		//		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
 		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
 		//		
-
 
 
 	}
@@ -626,6 +626,10 @@ public class Game extends BasicGame
 
 
 
+	private void drawPing(Graphics g) {
+		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, 40f);
+		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, 40f);
+	}
 
 	public void launchGame(){
 

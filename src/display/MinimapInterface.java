@@ -79,9 +79,6 @@ public class MinimapInterface extends Bar {
 		g.fillRoundRect(startX-20f,startY-20f,w+40f,h+40f,10);
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
-		// Draw water
-		drawPing(g);
-		
 		//draw grid
 		if(todrawGrid){
 			g.setColor(Color.gray);
@@ -210,10 +207,7 @@ public class MinimapInterface extends Bar {
 		return g;
 	}
 
-	private void drawPing(Graphics g) {
-		g.drawString("Ping : "+Integer.toString((int)(this.game.clock.getPing()/1000000f)), 20f, 40f);
-		g.drawString("delay : "+Integer.toString(this.game.roundDelay), 110f, 40f);
-	}
+	
 
 //	public void createRandomLine(){
 //		x1 = (float)(Math.random()*game.plateau.maxX);
