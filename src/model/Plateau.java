@@ -82,6 +82,9 @@ public class Plateau {
 
 
 	public MapGrid mapGrid;
+	
+	//Cosmetic
+	public Cosmetic cosmetic;
 
 	public Plateau(float maxX, float maxY, Game g) {
 
@@ -90,7 +93,7 @@ public class Plateau {
 		// GENERAL
 		this.maxX = maxX;
 		this.maxY = maxY;
-
+		
 		initializePlateau(g);
 
 		try {
@@ -103,6 +106,8 @@ public class Plateau {
 	}
 
 	public void initializePlateau(Game g) {
+		//COSMETIC
+		this.cosmetic = new Cosmetic();
 		// CHARACTERS
 		this.characters = new Vector<Character>();
 
@@ -432,6 +437,44 @@ public class Plateau {
 		}
 	}
 
+	//Handling cosmetic for current player in lan game
+	public void updateCosmetic(InputObject im){
+		//SELECTION RECTANGLE
+		if (im.leftClick) {
+			
+		
+		if (im.isPressedA) {
+			return;
+		}
+		if (this.cosmetic.selection == null || im.isPressedCTRL) {
+			cosmetic.recX= (float) im.xMouse;
+			cosmetic.recY= (float) im.yMouse;
+			cosmetic.selection=  new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
+		}
+		cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.xMouse),
+				(float) Math.min(cosmetic.recY, im.yMouse), (float) Math.abs(im.xMouse - cosmetic.recX) + 0.1f,
+				(float) Math.abs(im.yMouse - cosmetic.recY) + 0.1f);
+		}else{
+			cosmetic.selection = null;
+		}
+		//Selection character
+		
+		//RIGHT CLICK HERE
+		//TODO
+	}
+	private void updateRectangle(InputObject im, int player) {
+		if (im.isPressedA) {
+			return;
+		}
+		if (this.rectangleSelection.get(player) == null || im.isPressedCTRL) {
+			recX.set(player, (float) im.xMouse);
+			recY.set(player, (float) im.yMouse);
+			rectangleSelection.set(player, new Rectangle(recX.get(player), recX.get(player), 0.1f, 0.1f));
+		}
+		rectangleSelection.get(player).setBounds((float) Math.min(recX.get(player), im.xMouse),
+				(float) Math.min(recY.get(player), im.yMouse), (float) Math.abs(im.xMouse - recX.get(player)) + 0.1f,
+				(float) Math.abs(im.yMouse - recY.get(player)) + 0.1f);
+	}
 	// handling the input
 	public void updateTarget(float x, float y, int team, int mode) {
 		// called when right click on the mouse
@@ -1101,19 +1144,7 @@ public class Plateau {
 
 	}
 
-	private void updateRectangle(InputObject im, int player) {
-		if (im.isPressedA) {
-			return;
-		}
-		if (this.rectangleSelection.get(player) == null || im.isPressedCTRL) {
-			recX.set(player, (float) im.xMouse);
-			recY.set(player, (float) im.yMouse);
-			rectangleSelection.set(player, new Rectangle(recX.get(player), recX.get(player), 0.1f, 0.1f));
-		}
-		rectangleSelection.get(player).setBounds((float) Math.min(recX.get(player), im.xMouse),
-				(float) Math.min(recY.get(player), im.yMouse), (float) Math.abs(im.xMouse - recX.get(player)) + 0.1f,
-				(float) Math.abs(im.yMouse - recY.get(player)) + 0.1f);
-	}
+	
 
 	public void updateSelection(Rectangle select, int player, int team) {
 		if (select != null) {

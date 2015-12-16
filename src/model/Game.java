@@ -416,17 +416,16 @@ public class Game extends BasicGame
 			plateau.drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
+			
 			// Draw the selection :
-			for(int player=1; player<3; player++){
-				if(this.plateau.rectangleSelection.get(player) !=null){
-					if(player==currentPlayer.id){
-						g.setColor(Colors.selection);
-						g.draw(this.plateau.rectangleSelection.get(player));
-					}
-				}
+			if(plateau.cosmetic.selection!=null){
+				g.setColor(Colors.selection);
+				this.plateau.cosmetic.draw(g);
 			}
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
+
+
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
 			if(this.currentPlayer.bottomBar!=null)
@@ -549,6 +548,7 @@ public class Game extends BasicGame
 					}
 					if(toPlay){
 						this.plateau.update(ims);
+						this.plateau.updateCosmetic(im);
 						this.plateau.updatePlateauState();
 					}
 				}
@@ -568,6 +568,7 @@ public class Game extends BasicGame
 				}
 				// solo mode, update du joueur courant
 				this.plateau.update(ims);
+				this.plateau.updateCosmetic(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
 
