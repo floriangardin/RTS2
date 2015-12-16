@@ -798,8 +798,14 @@ public class Plateau {
 			// RALLY POINT
 			if (this.selection.get(player).size() > 0
 					&& this.selection.get(player).get(0) instanceof BuildingProduction) {
+				Objet target = findTarget(im.xMouse, im.yMouse);
+				if(target instanceof Building || target instanceof Character){
+					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = target;
+				}
+				if(target==null){
 				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(this,im.xMouse,
 						im.yMouse);
+				}
 
 			} else if (im.isPressedMAJ) {
 				updateSecondaryTarget(im.xMouse, im.yMouse, player);

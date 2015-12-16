@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 import main.Main;
+import model.Checkpoint;
 import model.Colors;
 import model.IAPlayer;
 import multiplaying.ChatMessage;
@@ -95,7 +96,19 @@ public abstract class BuildingProduction extends BuildingAction {
 				float startX = this.x + this.sizeX*dirX/norm/2;
 				float startY = this.y + this.sizeY*dirY/norm/2;
 				Character c = this.getGameTeam().data.create(this.productionList.get(this.queue.get(0)), startX,startY );
-				c.setTarget(this.rallyPoint);
+				if(rallyPoint!=null){
+					if(rallyPoint instanceof Checkpoint){
+						c.setTarget(new Checkpoint(p,this.rallyPoint.x,this.rallyPoint.y));
+					}
+					else if(rallyPoint instanceof Character){
+						c.setTarget(rallyPoint,null,Character.AGGRESSIVE);
+					}
+					else if(rallyPoint instanceof Building){
+						c.setTarget(rallyPoint,null,Character.TAKE_BUILDING);
+					}
+					
+				}
+				
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;
