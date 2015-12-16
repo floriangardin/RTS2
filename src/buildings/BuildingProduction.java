@@ -109,9 +109,7 @@ public abstract class BuildingProduction extends BuildingAction {
 					else if(rallyPoint instanceof Building){
 						c.setTarget(rallyPoint,null,Character.TAKE_BUILDING);
 					}
-					
 				}
-				
 				this.queue.remove(0);
 				if(this.queue.size()==0){
 					this.isProducing =false;

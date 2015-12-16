@@ -102,8 +102,8 @@ public abstract class BuildingTech extends BuildingAction {
 
 	public String toString(){
 		String s = toStringBuilding();
-		
-		s+="qE:"+this.queue.id+";";
+		if(this.queue!=null)
+			s+="qE:"+this.queue.id+";";
 		s+="chrg:"+this.charge+";";
 		//TODO : il faut aussi parser les tech
 		if(this.lastTechDiscovered!=null){
