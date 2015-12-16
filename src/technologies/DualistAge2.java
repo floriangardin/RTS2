@@ -30,7 +30,7 @@ public class DualistAge2 extends Technologie {
 		// Age passing does nothing
 		// Then update
 		this.gameteam.hq.age = 2;
-		this.gameteam.maxPop= 18;
+		this.gameteam.maxPop= 24;
 		for(Building b : this.p.buildings){
 			if(b instanceof BuildingTech && b.getTeam()==gameteam.id){
 				((BuildingTech) b).updateProductionList();

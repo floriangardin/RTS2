@@ -45,7 +45,9 @@ public class GameTeam {
 		case 2 : civName = "Japs";break;
 		default:
 		}
-		this.maxPop = 12;
+		this.maxPop = 15;
+		this.gold = 50;
+		this.food = 100;
 	}
 	
 	
