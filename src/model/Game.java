@@ -305,7 +305,7 @@ public class Game extends BasicGame
 				g.drawString("Alors, on se sent un peu comme Gilles ?", this.resX/3f, this.resY/3f);
 			}
 			else{
-				g.drawString("T'as perdu Flo, t'es vraiment une merde ...", this.resX/3f, this.resY/3f);
+				g.drawString("T'as perdu "+this.options.nickname+", t'es vraiment une merde ...", this.resX/3f, this.resY/3f);
 			}
 		} else {
 
