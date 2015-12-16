@@ -96,6 +96,9 @@ public abstract class BuildingProduction extends BuildingAction {
 				float startX = this.x + this.sizeX*dirX/norm/2;
 				float startY = this.y + this.sizeY*dirY/norm/2;
 				Character c = this.getGameTeam().data.create(this.productionList.get(this.queue.get(0)), startX,startY );
+				if(rallyPoint!=null && rallyPoint.lifePoints<=0){
+					resetRallyPoint();
+				}
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
 						c.setTarget(new Checkpoint(p,this.rallyPoint.x,this.rallyPoint.y));

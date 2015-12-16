@@ -806,7 +806,6 @@ public class Plateau {
 				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(this,im.xMouse,
 						im.yMouse);
 				}
-
 			} else if (im.isPressedMAJ) {
 				updateSecondaryTarget(im.xMouse, im.yMouse, player);
 			} else {

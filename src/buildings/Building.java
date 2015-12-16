@@ -55,7 +55,7 @@ public class Building extends ActionObjet{
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		resetRallyPoint();
 		this.constructionPoints = 0f;
 		this.potentialTeam = this.getTeam();
 		this.updateImage();
@@ -64,7 +64,10 @@ public class Building extends ActionObjet{
 		corners.add(new Circle(x+sizeX/2f,y+sizeY/2f,20f));
 		corners.add(new Circle(x-sizeX/2f,y+sizeY/2f,20f));
 	}
-
+	
+	public void resetRallyPoint(){
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+	}
 
 	public void giveUpProcess(){
 		if(giveUpProcess){
