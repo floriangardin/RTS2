@@ -211,6 +211,8 @@ public class Game extends BasicGame
 	int victoryTime = 200;
 	boolean hasAlreadyPlay = false;
 
+	int nombreDrop = 0;
+	int nombrePlayed = 0;
 
 
 	public void quitMenu(){
@@ -524,7 +526,7 @@ public class Game extends BasicGame
 				//				// Send Resynchro
 				this.handleSendingResynchroParse();
 
-
+				
 				if(!antidropProcess2 && processSynchro){
 					// Resynchro
 					this.handleResynchro();
@@ -553,13 +555,18 @@ public class Game extends BasicGame
 				if(nPlayed>4){
 					antidropProcess2 = false;
 				}
+				if(ims.size()>0){
+					nombrePlayed++;
+				}
+				else{
+					nombreDrop++;
+				}
 				if(true || ims.size()>0){
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
 				}
 				this.plateau.updateCosmetic(im);
-
-
+				System.out.println("n drop, played ,r-d : " +nombreDrop+ " "+nombrePlayed+" "+(this.round-nombreDrop));
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
 

@@ -1296,7 +1296,6 @@ public class Plateau {
 		// Update groups
 
 		Vector<Character> group = new Vector<Character>();
-
 		for (Character c : this.characters) {
 			c.group.clear();
 			if (c.target instanceof Checkpoint) {
@@ -1312,47 +1311,6 @@ public class Plateau {
 				c.group.addAll(group);
 			}
 		}
-
-	}
-
-	@Deprecated
-	public String toStringEx() {
-		String s = "1!";
-
-		// IDS
-		s += this.g.idPaquetSend;
-		s += "!";
-		// PLAYERS
-
-		for (Player p : g.players) {
-			s += p;
-			s += "|";
-		}
-		// CHARACTER
-		s += "!";
-		for (Character c : this.characters) {
-			s += c;
-			s += "|";
-		}
-		// BUILDING
-		s += "!";
-		for (Building b : this.buildings) {
-			s += b;
-			s += "|";
-		}
-		// BULLETS
-		s += "!";
-		for (Bullet b : this.bullets) {
-			s += b;
-			s += "|";
-		}
-		s += " ! ";
-		for (SpellEffect b : this.spells) {
-			s += b;
-			s += "|";
-		}
-		s += "!";
-		return s;
 	}
 
 	public void parseBuilding(String s) {
