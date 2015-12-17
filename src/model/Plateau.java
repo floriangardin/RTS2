@@ -1265,7 +1265,6 @@ public class Plateau {
 			for(ActionObjet o: this.selection.get(i)){
 				s+=o.id+";";
 			}
-			s=s.substring(0, s.length()-1);
 			s+="|";
 		}
 		s+="!";
@@ -1282,6 +1281,7 @@ public class Plateau {
 			// Take care of id sent
 			parseCharacter(u[3]);
 			parseBuilding(u[4]);
+			parseSelection(u[5]);
 			
 			//PARSE SELECTION
 			this.g.idChar = Integer.parseInt(u[1]);
