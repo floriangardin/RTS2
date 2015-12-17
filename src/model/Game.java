@@ -546,7 +546,7 @@ public class Game extends BasicGame
 					else{
 						antidropProcess = false;
 					}
-					if(ims.size()>=0){
+					if(ims.size()>0){
 						System.out.println("j'ai joué le tour:" + round);
 						this.plateau.update(ims);
 						this.plateau.updateCosmetic(im);
