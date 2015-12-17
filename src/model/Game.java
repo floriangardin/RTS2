@@ -18,7 +18,7 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
-import IA.IABasic;
+import battleIA.IAFlo;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingProduction;
@@ -281,7 +281,7 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(this.plateau,0,"Nature",teams.get(0),2,2));
 		this.players.add(new Player(this.plateau,1,this.options.nickname,teams.get(1),(int) this.resX, (int) this.resY));
-		this.players.add(new IABasic(this.plateau,2,"IA random",teams.get(2),2,2));
+//		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);

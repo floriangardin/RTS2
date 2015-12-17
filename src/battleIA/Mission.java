@@ -1,4 +1,4 @@
-package IA;
+package battleIA;
 
 import java.util.HashMap;
 import java.util.Vector;

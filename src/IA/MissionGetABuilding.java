@@ -3,6 +3,7 @@ package IA;
 import java.util.HashMap;
 import java.util.Vector;
 
+import battleIA.Mission;
 import model.IAPlayer;
 import units.Character;
 import buildings.Building;

@@ -3,6 +3,7 @@ package model;
 import java.util.HashMap;
 import java.util.Vector;
 
+import battleIA.Mission;
 import units.Character;
 import units.UnitArchange;
 import units.UnitCrossbowman;
@@ -10,7 +11,6 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
-import IA.Mission;
 import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
