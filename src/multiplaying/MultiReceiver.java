@@ -136,11 +136,13 @@ public class MultiReceiver extends Thread{
 		// HANDLE ANTI-DROP 
 		String[] u = msg.split("\\|");
 		int round = Integer.parseInt(u[0]); 
-		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
+		
 		if(g.host){
 		long ping =Long.parseLong( u[u.length-2]);
 		this.g.clock.ping = ping;
 		}
+		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
+		System.out.println("Et le ping .. " +g.clock.ping);
 		//Calcul du delta
 		int delta =(int) (this.g.clock.ping*Main.framerate/(2e9));
 		int deltaMesure = this.g.round - round ;
