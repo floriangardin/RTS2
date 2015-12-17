@@ -18,7 +18,7 @@ import technologies.Technologie;
 public class BuildingMill extends BuildingTech{
 	
 	public int chargeTime;
-	public float state;
+	
 	public Image millarms;
 	public int bonusProd;
 	

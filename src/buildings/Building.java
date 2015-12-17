@@ -37,7 +37,7 @@ public class Building extends ActionObjet{
 	public boolean giveUpProcess = false;
 	public boolean underAttack;
 	public float underAttackRemaining=0;
-
+	public float state;
 
 	public Vector<Circle> corners=new Vector<Circle>();
 
@@ -220,8 +220,6 @@ public class Building extends ActionObjet{
 	public Graphics draw(Graphics g){
 		float r = collisionBox.getBoundingCircleRadius();
 
-
-
 		//		//TEST
 		//		Image i = this.image;
 		//		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
@@ -289,6 +287,7 @@ public class Building extends ActionObjet{
 		s+="pT:"+potentialTeam+";";
 		s+="cP:"+constructionPoints+";";
 		s+="chrg:"+charge+";";
+		s+="sta:"+state+";";
 		if(this.rallyPoint!=null){
 			s+="rX:"+(int)this.rallyPoint.x+";";
 			s+="rY:"+(int)this.rallyPoint.y+";";
@@ -305,6 +304,9 @@ public class Building extends ActionObjet{
 		}
 		if(hs.containsKey("chrg")){
 			this.setCharge(Float.parseFloat(hs.get("chrg")));
+		}
+		if(hs.containsKey("sta")){
+			this.state = Float.parseFloat(hs.get("sta"));
 		}
 		if(hs.containsKey("tm")){
 			if(this.getTeam()!=Integer.parseInt(hs.get("tm"))){
