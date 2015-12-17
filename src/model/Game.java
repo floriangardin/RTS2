@@ -537,8 +537,7 @@ public class Game extends BasicGame
 					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 						// Antidrop
 						this.handleAntidrop();
-					}
-					else if(host){
+					} else if(host){
 						nDrop= 0;
 					}
 					if(timeOutAntiDrop>0){
@@ -547,14 +546,7 @@ public class Game extends BasicGame
 					else{
 						antidropProcess = false;
 					}
-					boolean toPlay = true;
-					for(InputObject o : ims){
-						if(!o.toPlay){
-							System.out.println("Anti drop : "+round);
-							toPlay = false;
-						}
-					}
-					if(toPlay){
+					if(ims.size()>=0){
 						this.plateau.update(ims);
 						this.plateau.updateCosmetic(im);
 						this.plateau.updatePlateauState();
