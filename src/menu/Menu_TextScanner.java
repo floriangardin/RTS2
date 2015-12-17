@@ -142,6 +142,8 @@ public class Menu_TextScanner extends Menu_Item{
 	}
 
 	public void update(Input i, InputObject im){
+		if(s==null)
+			s = "";
 		if(im.isPressedTAB){
 			// autocompletion
 			// mise à jour de la liste de nom
