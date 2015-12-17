@@ -520,24 +520,24 @@ public final class IAfunctions {
 	}
 
 
-	public HashMap<Integer,Integer> initHashMap(){
-		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
-		r.put(UnitIA.SPEARMAN, 0);
-		r.put(UnitIA.CROSSBOWMAN, 0);
-		r.put(UnitIA.KNIGHT, 0);
-		r.put(UnitIA.INQUISITOR, 0);
-		r.put(UnitIA.ARCHANGE, 0);
-		return r;
-	}
-	public HashMap<Integer,Integer> initHashMap(int s,int c, int k , int i , int a){
-		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
-		r.put(UnitIA.SPEARMAN, s);
-		r.put(UnitIA.CROSSBOWMAN, c);
-		r.put(UnitIA.KNIGHT, k);
-		r.put(UnitIA.INQUISITOR, i);
-		r.put(UnitIA.ARCHANGE, a);
-		return r;
-	}
+//	public HashMap<Integer,Integer> initHashMap(){
+//		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
+//		r.put(UnitIA.SPEARMAN, 0);
+//		r.put(UnitIA.CROSSBOWMAN, 0);
+//		r.put(UnitIA.KNIGHT, 0);
+//		r.put(UnitIA.INQUISITOR, 0);
+//		r.put(UnitIA.ARCHANGE, 0);
+//		return r;
+//	}
+//	public HashMap<Integer,Integer> initHashMap(int s,int c, int k , int i , int a){
+//		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
+//		r.put(UnitIA.SPEARMAN, s);
+//		r.put(UnitIA.CROSSBOWMAN, c);
+//		r.put(UnitIA.KNIGHT, k);
+//		r.put(UnitIA.INQUISITOR, i);
+//		r.put(UnitIA.ARCHANGE, a);
+//		return r;
+//	}
 
 
 
