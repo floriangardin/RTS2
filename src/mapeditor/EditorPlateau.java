@@ -73,6 +73,8 @@ public class EditorPlateau {
 		this.units = new Vector<EditorObject>();
 		this.buildings = new Vector<EditorObject>();
 		this.nature = new Vector<EditorObject>();
+		this.headquartersBlue = new Vector<EditorObject>();
+		this.headquartersRed = new Vector<EditorObject>();
 	}
 
 	public void update(InputObject im, Input in){
@@ -372,7 +374,7 @@ public class EditorPlateau {
 			headquartersBlue.get(0).image = headquartersBlue.get(0).image.getScaledCopy(3*stepGrid/headquartersBlue.get(0).image.getWidth());
 			headquartersBlue.get(0).stepGrid = newScale;
 		}
-		if(headquartersRed!=null){
+		if(headquartersRed.size()>0){
 			headquartersRed.get(0).image = headquartersRed.get(0).image.getScaledCopy(3*stepGrid/headquartersRed.get(0).image.getWidth());
 			headquartersRed.get(0).stepGrid = newScale;
 		}
