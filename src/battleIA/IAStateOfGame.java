@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import buildings.Building;
 import buildings.BuildingsList;
+import model.Objet;
 import model.Plateau;
 import units.Character;
 import units.UnitsList;
@@ -30,14 +31,17 @@ public class IAStateOfGame {
 	}
 	
 	
-	public class UnitIA{
+	public class ObjetIA{
 		public int id;
 		public float x;
 		public float y;
 		public int team;
+		public float lifepoints;
+		public float maxLifePoints;		
+	}
+	
+	public class UnitIA extends ObjetIA{
 		public UnitsList type;
-		public float maxLifePoints;
-		public float lifePoints;
 		public float velocity;
 		public float attackState;
 		public int idTarget;
@@ -59,12 +63,8 @@ public class IAStateOfGame {
 		}
 	}
 	
-	public class BuildingIA{
-		public int id;
+	public class BuildingIA extends ObjetIA{
 		public BuildingsList type;
-		public float lifepoints;
-		public float maxLifePoints;
-		public int team;
 		
 		public BuildingIA(Building b){
 			this.id = b.id;

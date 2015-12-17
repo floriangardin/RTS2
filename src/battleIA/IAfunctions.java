@@ -3,7 +3,8 @@ package battleIA;
 import java.util.HashMap;
 import java.util.Vector;
 
-import units.Character;
+import battleIA.IAStateOfGame.BuildingIA;
+import battleIA.IAStateOfGame.UnitIA;
 import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
@@ -13,11 +14,12 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
+import buildings.BuildingsList;
 import model.Checkpoint;
 import model.Objet;
 import model.Plateau;
 import model.Utils;
-import battleIA.IAStateOfGame.*;
+import units.Character;
 import units.UnitArchange;
 import units.UnitCrossbowman;
 import units.UnitInquisitor;
@@ -436,12 +438,19 @@ public final class IAfunctions {
 	}
 
 
-	public void setTarget(UnitIA assignee , Objet target,int mode){
-		assignee.setTarget(target, null, mode);
-	}
-
 
 	//BUILDING GETTER METHODS
+	private BuildingIA getNearestBuildingByTypeAndTeam(BuildingsList type, int team, Objet caller){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+		for(BuildingIA b : plateau.buildings){
+			if(b.type == type && b.team==team){
+				result.add(b);
+			}
+		}
+
+		return Utils.nearestObject(result, caller);
+	}
+	
 	public BuildingIA getNearestNeutralMill(Vector<BuildingIA> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(BuildingIA b : buildings){
