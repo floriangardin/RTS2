@@ -762,6 +762,7 @@ public class Game extends BasicGame
 	}
 
 	private void manuelAntidrop(Input in,GameContainer gc) {
+		delaySleep = 0 ;
 		if(in.isKeyPressed(Input.KEY_P)){
 			this.round+=1;
 			this.roundDelay++;
@@ -778,6 +779,7 @@ public class Game extends BasicGame
 		}
 		//UPDATE ROUND DURATION
 		gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
+		gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
 	}
 	private void handleChecksum() {
 		// If host and client send checksum
