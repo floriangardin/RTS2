@@ -145,9 +145,6 @@ public class MultiReceiver extends Thread{
 		if((deltaMesure-delta)>1){
 			g.antidrop = true;
 		}
-
-		
-		
 	}
 	public void actionChat(String message){
 		this.g.chatHandler.messages.add(new ChatMessage(message));

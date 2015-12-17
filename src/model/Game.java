@@ -711,7 +711,10 @@ public class Game extends BasicGame
 		}
 	}
 	public void sendChecksum(String s){
-		this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
+		if(host)
+			this.toSend.addElement(new MultiMessage(s,5,this.addressBroadcast));
+		else
+			this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
 	}
 	public void sendChat(String s){
 		for(int i=1; i<this.nPlayers; i++){
