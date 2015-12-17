@@ -430,9 +430,9 @@ public class Character extends ActionObjet{
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.maxVelocity/(Main.framerate);
-		System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
+		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
 		if(Game.deplacementGroupIntelligent && this.group!=null){
-			System.out.println("héhé");
+			//System.out.println("héhé");
 			for(Character c : this.group){
 				maxVNorm = Math.min(maxVNorm, c.maxVelocity/(Main.framerate));
 			}
