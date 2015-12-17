@@ -885,6 +885,7 @@ public class Game extends BasicGame
 			this.processSynchro = false;
 			this.toParse = null;
 		}
+		timeOutAntiDrop = 10;
 	}
 	public void pingRequest() {
 		this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
