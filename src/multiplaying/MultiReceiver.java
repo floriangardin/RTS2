@@ -127,6 +127,7 @@ public class MultiReceiver extends Thread{
 		}
 	}
 	public void actionChecksum(String msg){
+		
 		if(g.host){
 			this.g.mutexChecksum.lock();
 			this.g.receivedChecksum.addElement(new Checksum(msg));
@@ -134,14 +135,14 @@ public class MultiReceiver extends Thread{
 		}
 		// HANDLE ANTI-DROP 
 		String[] u = msg.split("\\|");
-		System.out.println("Je regarde mon checksum");
 		int round = Integer.parseInt(u[0]); 
+		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
 		if(g.host){
 		long ping =Long.parseLong( u[u.length-2]);
 		this.g.clock.ping = ping;
 		}
 		//Calcul du delta
-		int delta =(int) (this.g.clock.ping*Main.framerate/(1e9));
+		int delta =(int) (this.g.clock.ping*Main.framerate/(2e9));
 		int deltaMesure = this.g.round - round ;
 		if((deltaMesure-delta)>1){
 			g.antidrop = true;

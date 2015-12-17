@@ -711,6 +711,7 @@ public class Game extends BasicGame
 		}
 	}
 	public void sendChecksum(String s){
+		System.out.println("J'envoie checksum du round  "+round );
 		if(host)
 			this.toSend.addElement(new MultiMessage(s,5,this.addressBroadcast));
 		else
