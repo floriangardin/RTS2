@@ -23,6 +23,7 @@ public class SpellBlessedArea extends Spell{
 		this.effect= 0.75f;
 		this.gameteam = gameteam;
 		this.needToClick=true;
+		this.p = p;
 	}
 
 	public void launch(Objet target, Character launcher){
