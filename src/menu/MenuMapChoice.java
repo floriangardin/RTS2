@@ -489,7 +489,7 @@ public class MenuMapChoice extends Menu {
 			///////////
 			// parsing
 			///////////
-			if(hs.containsKey("clk")){
+			if(hs.containsKey("clk") && roundForPingRequest==0){
 				long clockTime = Long.parseLong(hs.get("clk"));
 				this.game.clock.synchro(clockTime);
 			}
