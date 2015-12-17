@@ -179,7 +179,7 @@ public class Game extends BasicGame
 	public int timeOutAntiDrop = 0;
 	public int sleep;
 	public int roundDelay;
-	
+
 
 
 	/////////////
@@ -281,7 +281,7 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(this.plateau,0,"Nature",teams.get(0),2,2));
 		this.players.add(new Player(this.plateau,1,this.options.nickname,teams.get(1),(int) this.resX, (int) this.resY));
-//		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
+		//		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
@@ -529,37 +529,36 @@ public class Game extends BasicGame
 					// Resynchro
 					this.handleResynchro();
 					System.out.println("Game line 528 : héhé resynchro "+this.round);
-					
-				}else{
-					//UPDATE NORMAL
-					// On envoie l'input du tour courant
-					this.sendInput(im.toString());
-					this.inputsHandler.addToInputs(im);
-					if(!chatHandler.typingMessage){
-						this.plateau.handleView(im, this.currentPlayer.id);
-					}
-					ims = this.inputsHandler.getInputsForRound(this.round);
-					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
-						// Antidrop
-						this.handleAntidrop();
-					} else if(host){
-						nDrop= 0;
-						nPlayed++;
-					}
-					if(timeOutAntiDrop>0){
-						timeOutAntiDrop--;
-					} else{
-						antidropProcess = false;
-					}
-					if(nPlayed>4){
-						antidropProcess2 = false;
-					}
-					if(true || ims.size()>0){
-						this.plateau.update(ims);
-						this.plateau.updatePlateauState();
-					}
-					this.plateau.updateCosmetic(im);
 				}
+				//UPDATE NORMAL
+				// On envoie l'input du tour courant
+				this.sendInput(im.toString());
+				this.inputsHandler.addToInputs(im);
+				if(!chatHandler.typingMessage){
+					this.plateau.handleView(im, this.currentPlayer.id);
+				}
+				ims = this.inputsHandler.getInputsForRound(this.round);
+				if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
+					// Antidrop
+					this.handleAntidrop();
+				} else if(host){
+					nDrop= 0;
+					nPlayed++;
+				}
+				if(timeOutAntiDrop>0){
+					timeOutAntiDrop--;
+				} else{
+					antidropProcess = false;
+				}
+				if(nPlayed>4){
+					antidropProcess2 = false;
+				}
+				if(true || ims.size()>0){
+					this.plateau.update(ims);
+					this.plateau.updatePlateauState();
+				}
+				this.plateau.updateCosmetic(im);
+
 
 				if(debugTimeSteps)
 					System.out.println("update du plateau serveur: "+(System.currentTimeMillis()-timeSteps));
@@ -787,7 +786,7 @@ public class Game extends BasicGame
 				if(this.plateau.buildings.get(i) instanceof BuildingProduction){
 					BuildingProduction p =(BuildingProduction) this.plateau.buildings.get(i);
 					if(p.queue!=null && p.queue.size()>0){
-						
+
 						checksum+=Integer.toString(p.queue.size());
 					}
 
@@ -825,7 +824,7 @@ public class Game extends BasicGame
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
 							System.out.println(c.checksum);
 							System.out.println(c1.checksum);
-							
+
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
@@ -864,7 +863,7 @@ public class Game extends BasicGame
 			}
 			antidropProcess = true;
 			antidropProcess2 = true;
-			
+
 			// on tente une nouvelle valeur pour le dï¿½calage
 			roundDelay--;
 			round--;
@@ -875,7 +874,7 @@ public class Game extends BasicGame
 			System.out.println("Antidrop  nouveau delay  : "+roundDelay);
 			timeOutAntiDrop = 3+InputHandler.nDelay;
 		}
-		
+
 
 	}
 	private void handleResynchro() {
@@ -898,7 +897,7 @@ public class Game extends BasicGame
 			this.processSynchro = false;
 			this.toParse = null;
 		}
-		
+
 	}
 	public void pingRequest() {
 		this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");

@@ -107,12 +107,6 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.remove(0);
 			}
 		}
-		// if reach production reset and create first unit in the queue
-		if(this.lifePoints<10f){
-			this.setTeam(this.teamCapturing);
-			this.updateImage();
-			this.lifePoints=this.maxLifePoints;
-		}
 	}
 	
 	public Graphics drawRallyPoint(Graphics g){
