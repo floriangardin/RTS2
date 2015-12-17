@@ -854,6 +854,7 @@ public class Game extends BasicGame
 				return;
 			}
 			antidropProcess = true;
+			
 			// on tente une nouvelle valeur pour le d�calage
 			roundDelay--;
 			round--;
@@ -861,6 +862,7 @@ public class Game extends BasicGame
 				roundDelay+=10;
 				round+=10;
 			}
+			System.out.println("Antidrop  nouveau delay  : "+roundDelay);
 			timeOutAntiDrop = 3+InputHandler.nDelay;
 		}
 		
