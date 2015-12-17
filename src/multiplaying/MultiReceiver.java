@@ -5,6 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import main.Main;
 import model.Game;
 
 public class MultiReceiver extends Thread{
@@ -128,7 +129,23 @@ public class MultiReceiver extends Thread{
 	public void actionChecksum(String msg){
 		this.g.mutexChecksum.lock();
 		this.g.receivedChecksum.addElement(new Checksum(msg));
-		this.g.mutexChecksum.unlock();		
+		this.g.mutexChecksum.unlock();
+		// HANDLE ANTI-DROP 
+		String[] u = msg.split("|");
+		int round = Integer.parseInt(u[0]); 
+		if(g.host){
+		long ping =Long.parseLong( u[u.length-1]);
+		this.g.clock.ping = ping;
+		}
+		//Calcul du delta
+		int delta =(int) (this.g.clock.ping*Main.framerate/(1e9));
+		int deltaMesure = this.g.round - round ;
+		if((deltaMesure-delta)>1){
+			g.antidrop = true;
+		}
+
+		
+		
 	}
 	public void actionChat(String message){
 		this.g.chatHandler.messages.add(new ChatMessage(message));

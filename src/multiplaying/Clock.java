@@ -13,7 +13,7 @@ public class Clock extends Thread{
 	Vector<Long> origins;
 	//ping to master clock
 	public Vector<Long> pings = new Vector<Long>();
-	private long ping;
+	public long ping;
 	
 	public Clock(Game g){
 		this.game = g;
