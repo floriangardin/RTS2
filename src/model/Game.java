@@ -585,8 +585,9 @@ public class Game extends BasicGame
 	
 	
 	private void drawPing(Graphics g) {
-		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, 40f);
-		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, 40f);
+		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
+		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
+		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, y);
 	}
 	
 	public void launchGame(){
@@ -820,6 +821,7 @@ public class Game extends BasicGame
 			//UPDATE ROUND DURATION
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
 			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
+			System.out.println("antidrop !!! round: "+this.round);
 		}else{
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
 			gc.setMaximumLogicUpdateInterval((1000/Main.framerate));	
