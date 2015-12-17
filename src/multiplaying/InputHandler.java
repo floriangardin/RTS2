@@ -48,7 +48,7 @@ public class InputHandler {
 		while(i<this.inputs.size()){
 			InputObject in = this.inputs.get(i);
 			//If right round and validated add it to player inputs to play
-			if(round==(in.round+nDelay) && in.isValidated()  ){
+			if(round==(in.round+nDelay) && in.isValidated()  && in.toPlay){
 				//ADD inputs in player
 				toReturn.add(in);
 				toRemove.add(in);
