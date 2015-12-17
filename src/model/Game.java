@@ -170,13 +170,16 @@ public class Game extends BasicGame
 	public Lock mutexChecksum = new ReentrantLock();
 	// antidrop
 	public boolean antidropProcess = false;
+	public boolean antidropProcess2 = false;
 	public int nDrop = 0;
+	public int nPlayed = 0;
 	public int nRound = 0;
 	public int multi = 1;
 	public int roundToTest = 0;
 	public int timeOutAntiDrop = 0;
 	public int sleep;
 	public int roundDelay;
+	
 
 
 	/////////////
@@ -497,7 +500,7 @@ public class Game extends BasicGame
 			if(in.isKeyPressed(Input.KEY_RALT)){
 				this.displayMapGrid = !this.displayMapGrid;
 			}
-			InputObject im = new InputObject(this,currentPlayer,in,!antidropProcess);
+			InputObject im = new InputObject(this,currentPlayer,in,!antidropProcess2);
 			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
 				im.eraseLetter();
@@ -541,11 +544,15 @@ public class Game extends BasicGame
 						this.handleAntidrop();
 					} else if(host){
 						nDrop= 0;
+						nPlayed++;
 					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
 					} else{
 						antidropProcess = false;
+					}
+					if(nPlayed>4){
+						antidropProcess2 = false;
 					}
 					if(true || ims.size()>0){
 						this.plateau.update(ims);
@@ -805,7 +812,7 @@ public class Game extends BasicGame
 			}
 		}
 		// handling checksum comparison
-		if(this.host && !this.processSynchro && !antidropProcess){
+		if(this.host && !this.processSynchro && !antidropProcess2){
 			boolean [] tab;
 			this.mutexChecksum.lock();
 			Vector<Checksum> toRemove = new Vector<Checksum>();
@@ -818,7 +825,7 @@ public class Game extends BasicGame
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
 							System.out.println(c.checksum);
 							System.out.println(c1.checksum);
-
+							
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
@@ -849,12 +856,14 @@ public class Game extends BasicGame
 	}
 	private void handleAntidrop() {
 		nDrop++;
+		nPlayed = 0;
 		if(nDrop==4){
 			if(timeOutAntiDrop>0){
 				nDrop = 0;
 				return;
 			}
 			antidropProcess = true;
+			antidropProcess2 = true;
 			
 			// on tente une nouvelle valeur pour le d�calage
 			roundDelay--;
