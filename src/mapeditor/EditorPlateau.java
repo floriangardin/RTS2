@@ -41,18 +41,19 @@ public class EditorPlateau {
 	public Vector<EditorObject> units;
 	public Vector<EditorObject> buildings;
 	public Vector<EditorObject> nature;
+	public Vector<EditorObject> headquartersBlue;
+	public Vector<EditorObject> headquartersRed;
 
 	public boolean[][] collision;
 
 	public Image seaBackground;
 	public Image grassTexture;
 
-	public EditorObject headquartersBlue;
-	public EditorObject headquartersRed;
 
 	public int Xclicked, Yclicked;
 	public EditorObject mouseOverObject;
 	public Vector<EditorObject> depotFromMouseOverObject;
+	public boolean objetFromObjetBar = false;
 
 	public Vector<EditorAction> actions = new Vector<EditorAction>();
 	public boolean downZ, downY;
@@ -160,18 +161,22 @@ public class EditorPlateau {
 					//suppression de l'objet
 					editor.draggedObject.x = editor.tempX;
 					editor.draggedObject.y = editor.tempY;
-					if(editor.draggedObject.name.equals("Headquarters")){
-						this.setCollision(editor.draggedObject, true);
-					} else {
-						this.addAction(EditorAction.getSuppression(editor.plateau,editor.draggedObject, depotFromMouseOverObject));
-						editor.draggedObject = null;
-						this.actions.firstElement().performed = true;
-					}
+					this.addAction(EditorAction.getSuppression(editor.plateau,editor.draggedObject, depotFromMouseOverObject));
+					editor.draggedObject = null;
+					this.actions.firstElement().performed = true;
+
 				} else if(!getCollision(editor.draggedObject)){
 					if(depotFromMouseOverObject!=null)
 						depotFromMouseOverObject.add(editor.draggedObject);
 					this.setCollision(editor.draggedObject, true);
-					this.addAction(EditorAction.getDeplacement(editor.plateau,editor.draggedObject, editor.tempX, editor.tempY, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
+					if(this.objetFromObjetBar){
+						// ajout de l'objet
+						this.addAction(EditorAction.getCreation(editor.plateau,editor.draggedObject, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
+						this.objetFromObjetBar = false;
+					} else {
+						// déplacement de l'objet
+						this.addAction(EditorAction.getDeplacement(editor.plateau,editor.draggedObject, editor.tempX, editor.tempY, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
+					}
 					editor.draggedObject = null;
 					this.actions.firstElement().performed = true;
 				} else {
@@ -220,17 +225,17 @@ public class EditorPlateau {
 				g.drawRect(o.x*stepGrid-1f,o.y*stepGrid-1f,o.sizeX*stepGrid+1f,o.sizeY*stepGrid+1f);
 			}
 			// hq bleu
-			if(headquartersBlue!=null){
+			if(headquartersBlue.size()>0){
 				g.setColor(Color.blue);
-				EditorObject o = headquartersBlue;
+				EditorObject o = headquartersBlue.get(0);
 				if(o==this.mouseOverObject)
 					g.setColor(Color.green);
 				g.drawRect(o.x*stepGrid-1f,o.y*stepGrid-1f,o.sizeX*stepGrid+1f,o.sizeY*stepGrid+1f);
 			}
 			// hq rouge
-			if(headquartersRed!=null){
+			if(headquartersRed.size()>0){
 				g.setColor(Color.red);
-				EditorObject o = headquartersRed;
+				EditorObject o = headquartersRed.get(0);
 				if(o==this.mouseOverObject)
 					g.setColor(Color.green);
 				g.drawRect(o.x*stepGrid-1f,o.y*stepGrid-1f,o.sizeX*stepGrid+1f,o.sizeY*stepGrid+1f);
@@ -258,10 +263,10 @@ public class EditorPlateau {
 		for(EditorObject o : nature){
 			toDraw.add(o);
 		}
-		if(headquartersBlue!=null)
-			toDraw.add(headquartersBlue);
-		if(headquartersRed!=null)
-			toDraw.add(headquartersRed);
+		if(headquartersBlue.size()>0)
+			toDraw.add(headquartersBlue.get(0));
+		if(headquartersRed.size()>0)
+			toDraw.add(headquartersRed.get(0));
 
 
 		triY(toDraw);
@@ -307,17 +312,15 @@ public class EditorPlateau {
 				return o;
 			}
 		}
-		EditorObject o = headquartersBlue;
-		if(o!=null){
+		for(EditorObject o : this.headquartersBlue){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
-				this.depotFromMouseOverObject = null;
+				this.depotFromMouseOverObject = headquartersBlue;
 				return o;
 			}
 		}
-		o = headquartersRed;
-		if(o!=null){
+		for(EditorObject o : this.headquartersRed){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
-				this.depotFromMouseOverObject = null;
+				this.depotFromMouseOverObject = headquartersRed;
 				return o;
 			}
 		}
@@ -365,13 +368,13 @@ public class EditorPlateau {
 			o.image = o.image.getScaledCopy(2*stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;
 		}
-		if(headquartersBlue!=null){
-			headquartersBlue.image = headquartersBlue.image.getScaledCopy(3*stepGrid/headquartersBlue.image.getWidth());
-			headquartersBlue.stepGrid = newScale;
+		if(headquartersBlue.size()>0){
+			headquartersBlue.get(0).image = headquartersBlue.get(0).image.getScaledCopy(3*stepGrid/headquartersBlue.get(0).image.getWidth());
+			headquartersBlue.get(0).stepGrid = newScale;
 		}
 		if(headquartersRed!=null){
-			headquartersRed.image = headquartersRed.image.getScaledCopy(3*stepGrid/headquartersRed.image.getWidth());
-			headquartersRed.stepGrid = newScale;
+			headquartersRed.get(0).image = headquartersRed.get(0).image.getScaledCopy(3*stepGrid/headquartersRed.get(0).image.getWidth());
+			headquartersRed.get(0).stepGrid = newScale;
 		}
 		if(editor.draggedObject!=null){
 			EditorObject o = editor.draggedObject;
@@ -506,11 +509,11 @@ public class EditorPlateau {
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
 				if(tab[0].equals("1")){
-					headquartersBlue = new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.buildingHeadQuartersBlue,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid));
-					this.setCollision(headquartersBlue, true);
+					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.buildingHeadQuartersBlue,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+					this.setCollision(headquartersBlue.get(0), true);
 				} else {
-					headquartersRed = new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.buildingHeadQuartersRed,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid));
-					this.setCollision(headquartersRed, true);
+					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.buildingHeadQuartersRed,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+					this.setCollision(headquartersRed.get(0), true);
 				}
 			}
 			// Buildings

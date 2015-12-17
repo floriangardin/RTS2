@@ -302,6 +302,7 @@ public class ObjectBar {
 							case 2: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.buildings; break;
 							case 3: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.nature; break;
 							}
+							editor.plateau.objetFromObjetBar = true;
 						}
 						overObject = i;
 
