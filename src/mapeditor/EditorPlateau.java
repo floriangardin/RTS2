@@ -396,6 +396,7 @@ public class EditorPlateau {
 				case "Academy" : sizeX = data.academySizeX/Map.stepGrid; break; 
 				case "University" : sizeX = data.universitySizeX/Map.stepGrid;break; 
 				case "Tower" : sizeX = data.towerSizeX/Map.stepGrid; break; 
+				case "Headquarters" : sizeX = data.headQuartersSizeX/Map.stepGrid; break;
 				}
 				o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
 				o.stepGrid = newScale;
@@ -667,6 +668,7 @@ public class EditorPlateau {
 		}
 		catch (Exception e){
 			System.out.println(e.toString());
+			e.printStackTrace();
 		}	
 	}
 
