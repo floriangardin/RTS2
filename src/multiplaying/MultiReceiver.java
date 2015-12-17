@@ -134,6 +134,7 @@ public class MultiReceiver extends Thread{
 		}
 		// HANDLE ANTI-DROP 
 		String[] u = msg.split("\\|");
+		System.out.println("Je regarde mon checksum");
 		int round = Integer.parseInt(u[0]); 
 		if(g.host){
 		long ping =Long.parseLong( u[u.length-2]);
