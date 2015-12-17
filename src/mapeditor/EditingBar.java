@@ -144,6 +144,7 @@ public class EditingBar {
 			if(maxX != 0 && maxY!=0){
 				this.editor.plateau = new EditorPlateau(this.editor, maxX, maxY);
 			}
+			this.textScanner.s = "";
 			break;
 		case 1: // Open File
 			this.editor.plateau = new EditorPlateau(this.editor, 1, 1);

@@ -70,18 +70,18 @@ public class ObjectBar {
 		unitsDualistsNeutral = new Vector<EditorObject>();
 		unitsKitanosNeutral = new Vector<EditorObject>();
 		unitsZinaidsNeutral = new Vector<EditorObject>();
-		
+
 		buildingsBlue = new Vector<EditorObject>();
 		buildingsRed = new Vector<EditorObject>();
 		buildingsNeutral = new Vector<EditorObject>();
-		
+
 		others = new Vector<EditorObject>();
 		nature = new Vector<EditorObject>();
-		
+
 		this.objects = unitsDualistsNeutral;
 
 		Data data = new Data();
-		
+
 		// dualists
 		// blue
 		unitsDualistsBlue.add(new EditorObject("Spearman", 1, 0,this.editor.game.images.spearmanBlue,0,0,this,1,1));
@@ -95,7 +95,7 @@ public class ObjectBar {
 		unitsDualistsRed.add(new EditorObject("Knight", 2, 0,this.editor.game.images.knightRed,0,0,this,1,1));
 		unitsDualistsRed.add(new EditorObject("Inquisitor", 2,0, this.editor.game.images.inquisitorRed,0,0,this,1,1));
 		unitsDualistsRed.add(new EditorObject("Archange", 2,0, this.editor.game.images.archangeRed,0,0,this,1,1));
-		
+
 		// buildings
 		// neutral
 		buildingsNeutral.add(new EditorObject("Mill", 0, 1,this.editor.game.images.buildingMillNeutral,0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
@@ -123,16 +123,16 @@ public class ObjectBar {
 		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.buildingUniversityRed,0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.buildingTowerRed,0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("HeadQuarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
-		
+
 		// others
 		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.bonusLifePoints,0,0,this,1,1));
 		others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.bonusDamage,0,0,this,1,1));
 		others.add(new EditorObject("BonusSpeed", 0, 2,this.editor.game.images.bonusSpeed,0,0,this,1,1));
-		
+
 		// nature
 		nature.add(new EditorObject("Tree", 0, 3,this.editor.game.images.tree01, 0, 0,this,1,1));
 		nature.add(new EditorObject("Tree", 1, 3,this.editor.game.images.tree02, 0, 0,this,1,1));
-		
+
 	}
 
 	public void draw(Graphics gc){
@@ -290,9 +290,21 @@ public class ObjectBar {
 						if(im.pressedLeftClick){
 							EditorObject e = this.objects.get(overObject);
 							editor.draggedObject = new EditorObject(e.name,e.team,e.clas,e.image,e.x,e.y,e.sizeX,e.sizeY);
+							switch(this.selectedClass){
+							case 0: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.units; break;
+							case 1:
+								if(e.name=="headquarters"){
+									this.editor.plateau.depotFromMouseOverObject = null;
+								} else {
+									this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.buildings; 
+								}
+								break;
+							case 2: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.buildings; break;
+							case 3: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.nature; break;
+							}
 						}
 						overObject = i;
-						
+
 					}
 				}
 			} else {
@@ -305,7 +317,7 @@ public class ObjectBar {
 			overObject = -1;
 		}
 	}
-	
+
 	public void updateObjects(){
 		switch(selectedClass){
 		case 0: 
@@ -344,5 +356,5 @@ public class ObjectBar {
 		}
 	}
 
-	
+
 }
