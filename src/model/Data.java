@@ -38,7 +38,7 @@ public class Data {
 	
 	public float damageFactor = 1f;
 	public float healthFactor = 1.5f;
-	public float speedFactor = 1.5f;
+	public float speedFactor = 1.3f;
 	
 	//// BUILDINGS STATS
 	public boolean explosionWhenImmolate= false;
