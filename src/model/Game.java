@@ -542,16 +542,14 @@ public class Game extends BasicGame
 					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
-					}
-					else{
+					} else{
 						antidropProcess = false;
 					}
-					if(ims.size()>0){
-						System.out.println("j'ai joué le tour:" + round);
+					if(true || ims.size()>0){
 						this.plateau.update(ims);
-						this.plateau.updateCosmetic(im);
 						this.plateau.updatePlateauState();
 					}
+					this.plateau.updateCosmetic(im);
 				}
 
 				if(debugTimeSteps)
