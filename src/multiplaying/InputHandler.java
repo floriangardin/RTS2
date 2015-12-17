@@ -5,6 +5,9 @@ import java.util.Vector;
 import model.Game;
 import model.Player;
 import java.util.concurrent.locks.ReentrantLock;
+
+import org.newdawn.slick.Color;
+
 import java.util.concurrent.locks.Lock;
 
 
@@ -74,6 +77,8 @@ public class InputHandler {
 			if(!toPlay){
 				this.mutex.unlock();
 				System.out.println("Round drop "+this.g.round);
+				g.app.getGraphics().setColor(Color.red);;
+				g.app.getGraphics().drawString("ROUND DROP",g.resX/2,g.resY/2);
 				return new Vector<InputObject>();				
 			}
 		}
