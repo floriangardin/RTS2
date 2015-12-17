@@ -766,7 +766,7 @@ public class Game extends BasicGame
 			checksum+=this.clock.getPing()+"|";
 			
 				// si client on envoie checksum
-				this.sendChecksum(checksum);
+			this.sendChecksum(checksum);
 			if(host){
 				this.checksum.addElement(new Checksum(checksum));
 			}
