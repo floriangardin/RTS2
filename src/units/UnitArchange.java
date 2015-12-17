@@ -25,7 +25,7 @@ public class UnitArchange extends Character {
 		this.sight = 300f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 60f*Game.ratioSpace;
+		this.maxVelocity = 60f*Game.ratioSpace*data.speedFactor;
 		this.armor = 5f;
 		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 12f;

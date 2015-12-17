@@ -43,7 +43,7 @@ public class BuildingStable extends BuildingProduction{
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Knight);
-		this.productionList.addElement(UnitsList.Priest);
+		//this.productionList.addElement(UnitsList.Priest);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		this.updateImage();
 	}
