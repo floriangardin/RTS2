@@ -278,7 +278,7 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(this.plateau,0,"Nature",teams.get(0),2,2));
 		this.players.add(new Player(this.plateau,1,this.options.nickname,teams.get(1),(int) this.resX, (int) this.resY));
-		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
+//		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
@@ -762,7 +762,7 @@ public class Game extends BasicGame
 		// If host and client send checksum
 		if(!processSynchro && this.round>=30 && this.round%20==0){
 			//Compute checksum
-			String checksum = this.round+"|0";
+			String checksum = this.round+"|C";
 			int i = 0;
 			while(i<this.plateau.characters.size()){
 				checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).x))%10);
@@ -773,6 +773,7 @@ public class Game extends BasicGame
 				i++;
 			}
 			i=0;
+			checksum+="B";
 			while(i<this.plateau.buildings.size()){
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).charge))%10);
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).constructionPoints))%10);
@@ -810,7 +811,7 @@ public class Game extends BasicGame
 						toRemove.add(c);
 						if(tab[1]){
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
-							System.out.println(c.checksum + " "+c1.checksum);
+							System.out.println("Checksum : " +c.checksum + " "+c1.checksum);
 
 							this.processSynchro = true;
 							this.sendParse = true;					

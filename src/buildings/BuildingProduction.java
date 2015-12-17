@@ -21,7 +21,6 @@ public abstract class BuildingProduction extends BuildingAction {
 	public float random=0f;
 
 	public boolean product(int unit){
-		this.changes.queue=true;
 		if(this.queue.size()<5 && unit<this.productionList.size()){
 			if(this.productionList.get(unit).foodPrice<=this.getGameTeam().food
 					&& this.productionList.get(unit).goldPrice<=this.getGameTeam().gold && this.getGameTeam().pop<this.getGameTeam().maxPop){
@@ -81,11 +80,6 @@ public abstract class BuildingProduction extends BuildingAction {
 			this.random=0;
 		}
 		if(this.queue.size()>0){
-			if(!this.isProducing){
-				this.isProducing = true;
-			}
-
-
 			this.setCharge(this.charge+Main.increment);
 			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.productionList.get(this.queue.get(0)).time){
 				this.setCharge(0f);
@@ -111,13 +105,7 @@ public abstract class BuildingProduction extends BuildingAction {
 					}
 				}
 				this.queue.remove(0);
-				if(this.queue.size()==0){
-					this.isProducing =false;
-				}
 			}
-		}
-		else if(this.isProducing){
-			this.isProducing = false;
 		}
 		// if reach production reset and create first unit in the queue
 		if(this.lifePoints<10f){
@@ -164,9 +152,7 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 			s+=";";
 		}
-		if(changes.charge){
-			s+="chrg:"+this.charge+";";
-		}
+		s+="chrg:"+this.charge+";";
 		return s;
 	}
 

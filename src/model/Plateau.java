@@ -780,7 +780,6 @@ public class Plateau {
 
 	private void updateSelection(InputObject im) {
 		this.selection.get(im.player.id).clear();
-
 		for (Integer i : im.selection) {
 			for (Character c : this.characters)
 				if (c.id == i) {

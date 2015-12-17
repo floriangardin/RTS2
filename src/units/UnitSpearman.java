@@ -193,10 +193,6 @@ public class UnitSpearman extends Character {
 			}
 		}
 		this.orientation = sector;
-
-
-		this.changes.orientation = true;
-
 	}
 
 

@@ -43,7 +43,6 @@ public abstract class Objet implements java.io.Serializable {
 	public boolean visibleByCamera;
 	public Image image;
 	//MULTIPLAYING BOOLEANS
-	public Changes changes=new Changes();
 
 	public void setName(String s){
 		this.name = s;
@@ -100,8 +99,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.collisionBox.setCenterY(y);
 		
 		this.c = this.p.mapGrid.getCase(x, y);
-		this.changes.x=true;
-		this.changes.y = true;
+
 	}
 
 	public boolean isAlive(){
@@ -114,38 +112,10 @@ public abstract class Objet implements java.io.Serializable {
 		else{
 			this.lifePoints = this.maxLifePoints;
 		}
-		this.changes.lifePoints = true;
 	}
 	// TOSTRING METHODS
 	public String toStringObjet(){
-		String s="";
-		s+="id:"+id+";";
-		s+="name:"+name+";";
-		if(changes.team){
-			s+="team:"+gameteam.id+";";
-			changes.team = true;
-		}
-		if(changes.x){
-			s+="x:"+x+";";
-			changes.x = false;
-		}
-		if(changes.y){
-			s+="y:"+y+";";
-			changes.y = false;
-		}
-		if(changes.orientation){
-			s+="orientation:"+orientation+";";
-			changes.orientation = false;
-		}
-		if(changes.lifePoints){
-			s+="lifePoints:"+lifePoints+";";
-			changes.lifePoints = true;
-		}
-		if(changes.sight){
-			s+="sight:"+sight+";";
-			changes.sight = false;
-		}
-		return s;
+		return "";
 	}
 	public String toString(){
 		return this.toStringObjet();

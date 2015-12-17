@@ -296,11 +296,15 @@ public class Building extends ActionObjet{
 			this.constructionPoints = Float.parseFloat(hs.get("cP"));
 		}
 		if(hs.containsKey("tm")){
-			this.setTeam(Integer.parseInt(hs.get("tm")));
+			if(this.getTeam()!=Integer.parseInt(hs.get("tm"))){
+				this.setTeam(Integer.parseInt(hs.get("tm")));
+			}
 		}
 		if(hs.containsKey("pT")){
-			this.potentialTeam = Integer.parseInt(hs.get("pT"));
-			this.hq = this.p.g.teams.get(potentialTeam).hq;
+			if(this.potentialTeam!=Integer.parseInt(hs.get("pT"))){
+				this.potentialTeam = Integer.parseInt(hs.get("pT"));
+				this.hq = this.p.g.teams.get(potentialTeam).hq;
+			}
 		}
 	}
 

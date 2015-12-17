@@ -10,8 +10,7 @@ import units.UnitsList;
 
 public class IAStateOfGame {
 	
-	public Vector<UnitIA> units1;
-	public Vector<UnitIA> units2;
+	public Vector<UnitIA> units;
 	public Vector<BuildingIA> buildings;
 	
 	public float sizeX;
@@ -20,15 +19,10 @@ public class IAStateOfGame {
 	public IAStateOfGame(Plateau p){
 		this.sizeX = p.maxX;
 		this.sizeY = p.maxY;
-		this.units1 = new Vector<UnitIA>();
-		this.units2 = new Vector<UnitIA>();
+		this.units = new Vector<UnitIA>();
 		this.buildings = new Vector<BuildingIA>();
 		for(Character c : p.characters){
-			switch(c.getTeam()){
-			case 1 : units1.add(new UnitIA(c));break;
-			case 2 : units2.add(new UnitIA(c)); break;
-			default:
-			}
+			units.add(new UnitIA(c));
 		}
 		for(Building b : p.buildings){
 			buildings.add(new BuildingIA(b));
@@ -40,6 +34,7 @@ public class IAStateOfGame {
 		public int id;
 		public float x;
 		public float y;
+		public int team;
 		public UnitsList type;
 		public float maxLifePoints;
 		public float lifePoints;
@@ -51,6 +46,7 @@ public class IAStateOfGame {
 			this.id = c.id;
 			this.x = c.getX();
 			this.y = c.getY();
+			this.team = c.getTeam();
 			this.type = UnitsList.switchName(c.name);
 			this.maxLifePoints = c.maxLifePoints;
 			this.velocity = c.maxVelocity;

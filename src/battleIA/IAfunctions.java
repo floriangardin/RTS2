@@ -26,18 +26,19 @@ import units.UnitPriest;
 import units.UnitSpearman;
 
 public final class IAfunctions {
-	
-	public int currentTeam;
-	public Plateau p;
-	
+
+	private int currentTeam;
+	private Plateau p;
+	public IAStateOfGame plateau;
+
 	public IAfunctions(Plateau p, int currentTeam){
 		this.p = p;
 		this.currentTeam = currentTeam;
 	}
-	
+
 	// field to be used
-	private Vector<Vector<UnitIA>> unitsGroups;
-	private Vector<Vector<BuildingIA>> buildingGroups;
+	public Vector<Vector<UnitIA>> unitsGroups;
+	public Vector<Vector<BuildingIA>> buildingGroups;
 
 	public Vector<UnitIA> aliveUnits;
 	public Vector<BuildingIA> myBuildings;
@@ -84,10 +85,10 @@ public final class IAfunctions {
 		} else {
 			ally.setTarget(enemy);
 			// TODO : set mode ? 
-//			ally.mode = 0;
+			//			ally.mode = 0;
 		}
 	}
-	
+
 	public void setHoldPositionOrder(int idAlliedPlayer) throws IAException{
 		/**
 		 * function that orders the UnitIA with id 'idAlliedPlayer'
@@ -95,8 +96,8 @@ public final class IAfunctions {
 		 * 
 		 * Throw IAException if idAlliedPlayer is not an allied player
 		 */
-		UnitIA ally = null;
-		for(UnitIA c : this.p.characters){
+		Character ally = null;
+		for(Character c : this.p.characters){
 			if(c.id == idAlliedPlayer){
 				if(c.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -110,7 +111,7 @@ public final class IAfunctions {
 		} else {
 			ally.setTarget(null);
 			ally.stop();
-			ally.mode = UnitIA.HOLD_POSITION;
+			ally.mode = Character.HOLD_POSITION;
 		}
 	}
 
@@ -123,8 +124,8 @@ public final class IAfunctions {
 		 * Throw IAException if idAlliedPlayer is not an allied 
 		 * player or location out of the map
 		 */
-		UnitIA ally = null;
-		for(UnitIA c : this.p.characters){
+		Character ally = null;
+		for(Character c : this.p.characters){
 			if(c.id == idAlliedPlayer){
 				if(c.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -138,7 +139,7 @@ public final class IAfunctions {
 		} else {
 			ally.setTarget(null);
 			ally.stop();
-			ally.mode = UnitIA.HOLD_POSITION;
+			ally.mode = Character.HOLD_POSITION;
 		}
 	}
 
@@ -152,8 +153,8 @@ public final class IAfunctions {
 		 * Throw IAException if idAlliedPlayer is not an allied 
 		 * player or location out of the map
 		 */
-		UnitIA ally = null;
-		for(UnitIA c : this.p.characters){
+		Character ally = null;
+		for(Character c : this.p.characters){
 			if(c.id == idAlliedPlayer){
 				if(c.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -168,7 +169,7 @@ public final class IAfunctions {
 			throw new IAException(currentTeam, "Vous ne pouvez pas donner l'ordre d'aller en dehors du plateau");
 		} else {
 			ally.setTarget(new Checkpoint(p, xToGo,yToGo));
-			ally.mode = UnitIA.AGGRESSIVE;
+			ally.mode = Character.AGGRESSIVE;
 		}
 	}
 
@@ -185,8 +186,8 @@ public final class IAfunctions {
 		 * Throw IAException if idAlliedPlayer is not an allied player
 		 * if idBuildingToTake is not an existing building
 		 */
-		UnitIA ally = null;
-		for(UnitIA c : this.p.characters){
+		Character ally = null;
+		for(Character c : this.p.characters){
 			if(c.id == idAlliedPlayer){
 				if(c.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -195,8 +196,8 @@ public final class IAfunctions {
 				}
 			}
 		}
-		BuildingIA buildingToTake = null;
-		for(BuildingIA b : this.p.buildings){
+		Building buildingToTake = null;
+		for(Building b : this.p.buildings){
 			if(b.id == idAlliedPlayer){
 				if(b.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -223,8 +224,8 @@ public final class IAfunctions {
 		 * 
 		 * Throw IAException if idAlliedPlayer is not an allied player
 		 */
-		UnitIA ally = null;
-		for(UnitIA c : this.p.characters){
+		Character ally = null;
+		for(Character c : this.p.characters){
 			if(c.id == idAlliedPlayer){
 				if(c.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -233,8 +234,8 @@ public final class IAfunctions {
 				}
 			}
 		}
-		BuildingIA buildingToTake = null;
-		for(BuildingIA b : this.p.buildings){
+		Building buildingToTake = null;
+		for(Building b : this.p.buildings){
 			if(b instanceof BuildingHeadQuarters && b.getTeam()!=currentTeam){
 				buildingToTake = b;
 			}
@@ -249,7 +250,7 @@ public final class IAfunctions {
 			ally.setTarget(buildingToTake);
 		}
 	}
-	
+
 	public void setDefendHeadQuarterOrder(int idAlliedPlayer)  throws IAException{
 		/**
 		 * function that orders the UnitIA with id 'idAlliedPlayer'
@@ -259,8 +260,8 @@ public final class IAfunctions {
 		 * 
 		 * Throw IAException if idAlliedPlayer is not an allied player
 		 */
-		UnitIA ally = null;
-		for(UnitIA c : this.p.characters){
+		Character ally = null;
+		for(Character c : this.p.characters){
 			if(c.id == idAlliedPlayer){
 				if(c.getTeam() != currentTeam){
 					throw new IAException(currentTeam, "Vous avez donné un ordre à une unité ennemie");
@@ -269,8 +270,8 @@ public final class IAfunctions {
 				}
 			}
 		}
-		BuildingIA buildingToTake = null;
-		for(BuildingIA b : this.p.buildings){
+		Building buildingToTake = null;
+		for(Building b : this.p.buildings){
 			if(b instanceof BuildingHeadQuarters && b.getTeam()==currentTeam){
 				buildingToTake = b;
 			}
@@ -285,612 +286,617 @@ public final class IAfunctions {
 			ally.setTarget(buildingToTake);
 		}
 	}
-	
+
 	//INTERN METHODS
 
-		public Vector<UnitIA> getMyAliveUnits(){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-			for(UnitIA c : this.p.characters){
-				if(c.getTeam()==this.getTeam())
-					result.add(c);
-			}
-			return result;
+	//units
+	public Vector<UnitIA> getUnits(){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+		for(UnitIA c : this.plateau.units){
+			if(c.team==this.currentTeam)
+				result.add(c);
 		}
-
-		public Vector<BuildingIA> getMyBuildings(){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-			for(BuildingIA b : this.p.buildings){
-				if(b.getTeam()==this.getTeam())
-					result.add(b);
-			}
-			return result;
+		return result;
+	}
+	public Vector<UnitIA> getMyAliveUnits(){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+		for(UnitIA c : this.plateau.units){
+			if(c.team==this.currentTeam)
+				result.add(c);
 		}
-
-
-		public Vector<BuildingIA> getNeutralBuildings(){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-			for(BuildingIA b : this.p.buildings){
-				if(b.getTeam()==0)
-					result.add(b);
-			}
-			return result;
+		return result;
+	}
+	public Vector<UnitIA> getEnnemyUnitsInSight(){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+		for(UnitIA c : this.p.characters){
+			if(c.getTeam()!=this.getTeam() && this.p.isVisibleByPlayer(this.getTeam(), c))
+				result.add(c);
 		}
-
-		public Vector<BuildingIA> getEnnemyBuildings(){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-			for(BuildingIA b : this.p.buildings){
-				if(b.getTeam()!=this.getTeam() && b.getTeam()!=0)
-					result.add(b);
-			}
-			return result;
+		return result;
+	}
+	
+	// buildings
+	private Vector<BuildingIA> getBuildingsFromTeam(int team, boolean ally){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+		for(BuildingIA b : this.plateau.buildings){
+			if((ally && b.team==team) || (!ally && b.team!=team))
+				result.add(b);
 		}
+		return result;
+	}
 
-		public Vector<UnitIA> getEnnemyUnitsInSight(){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-			for(UnitIA c : this.p.characters){
-				if(c.getTeam()!=this.getTeam() && this.p.isVisibleByPlayer(this.getTeam(), c))
-					result.add(c);
-			}
-			return result;
-		}
-
-		public void commonUpdate(){
-			//Main method which is called every iteration on the plateau and common to all 
-			//Define the mode for this round 
-			aliveUnits = getMyAliveUnits();
-			myBuildings = getMyBuildings();
-			neutralBuilding = getNeutralBuildings();
-			buildingToConquer = getEnnemyBuildings();
-			ennemiesInSight =  getEnnemyUnitsInSight();
-			this.updateSelection();
-			//Update the units groups and building groups ( To remove death ...)
-			this.updateGroups();
-			this.action();
+	public Vector<BuildingIA> getMyBuildings(){
+		return getBuildingsFromTeam(this.currentTeam, true);
+	}
 
 
-		}
+	public Vector<BuildingIA> getNeutralBuildings(){
+		return getBuildingsFromTeam(0, true);
+	}
+
+	public Vector<BuildingIA> getEnnemyBuildings(){
+		return getBuildingsFromTeam(this.currentTeam, false);
+	}
+
+	
+
+	public void commonUpdate(){
+		//Main method which is called every iteration on the plateau and common to all 
+		//Define the mode for this round 
+		aliveUnits = getMyAliveUnits();
+		myBuildings = getMyBuildings();
+		neutralBuilding = getNeutralBuildings();
+		buildingToConquer = getEnnemyBuildings();
+		ennemiesInSight =  getEnnemyUnitsInSight();
+		this.updateSelection();
+		//Update the units groups and building groups ( To remove death ...)
+		this.updateGroups();
+		this.action();
 
 
-		public void action(){
-			Vector<Mission> toRemove = new Vector<Mission>();
-			for(Mission m : missions){
-				boolean finished = m.action();
-				if(finished){
-					toRemove.add(m);
-					this.pastMissions.addElement(m);
-				}
-			}
-			missions.removeAll(toRemove);
-		}
+	}
 
-		public void abortAllMission(){
-			Vector<Mission> toRemove = new Vector<Mission>();
-			for(Mission m : missions){
+
+	public void action(){
+		Vector<Mission> toRemove = new Vector<Mission>();
+		for(Mission m : missions){
+			boolean finished = m.action();
+			if(finished){
 				toRemove.add(m);
-				m.abortMission();
 				this.pastMissions.addElement(m);
 			}
-			missions.removeAllElements();
 		}
-		
-		public void abortMission(Mission m){
+		missions.removeAll(toRemove);
+	}
+
+	public void abortAllMission(){
+		Vector<Mission> toRemove = new Vector<Mission>();
+		for(Mission m : missions){
+			toRemove.add(m);
 			m.abortMission();
 			this.pastMissions.addElement(m);
-			this.missions.remove(m);
-			this.pastMissions.addElement(m);
 		}
-		
-		public void pauseMission(Mission m){
-			this.pausedMissions.addElement(m);
-			m.pauseMission();
-			this.missions.remove(m);
-		}
-		
-		public void resumeMission(Mission m){
-			this.pausedMissions.remove(m);
-			m.resumeMission();
-			this.missions.add(m);
-		}
-		
-		public void updateGroups(){
-			for(int i = 0;i<10;i++){
-				makeUnitGroup(getUnitsGroup(i),i);
-			}
-			for(int i = 0;i<10;i++){
-				makeBuildingsGroup(getBuildingsGroup(i),i);
-			}
+		missions.removeAllElements();
+	}
 
+	public void abortMission(Mission m){
+		m.abortMission();
+		this.pastMissions.addElement(m);
+		this.missions.remove(m);
+		this.pastMissions.addElement(m);
+	}
+
+	public void pauseMission(Mission m){
+		this.pausedMissions.addElement(m);
+		m.pauseMission();
+		this.missions.remove(m);
+	}
+
+	public void resumeMission(Mission m){
+		this.pausedMissions.remove(m);
+		m.resumeMission();
+		this.missions.add(m);
+	}
+
+	public void updateGroups(){
+		for(int i = 0;i<10;i++){
+			makeUnitGroup(getUnitsGroup(i),i);
 		}
-
-		public void product(){
-
-		}
-		public void updateMission(){
-
+		for(int i = 0;i<10;i++){
+			makeBuildingsGroup(getBuildingsGroup(i),i);
 		}
 
-		public void updateSelection(){
+	}
 
-			//Clean Units groups 
-			this.aliveUnits = this.getMyAliveUnits();
-			this.myBuildings = this.getMyBuildings();
-			int i = 0;
-			int j = 0;
-			while(i<unitsGroups.size()){
-				while(j<unitsGroups.get(i).size()){
-					if(!aliveUnits.contains(unitsGroups.get(i).get(j))){
-						unitsGroups.get(i).remove(j);
+	public void product(){
 
-					}
-					j++;
+	}
+	public void updateMission(){
+
+	}
+
+	public void updateSelection(){
+
+		//Clean Units groups 
+		this.aliveUnits = this.getMyAliveUnits();
+		this.myBuildings = this.getMyBuildings();
+		int i = 0;
+		int j = 0;
+		while(i<unitsGroups.size()){
+			while(j<unitsGroups.get(i).size()){
+				if(!aliveUnits.contains(unitsGroups.get(i).get(j))){
+					unitsGroups.get(i).remove(j);
 
 				}
-				i++;
-				j=0;
-			}
+				j++;
 
-			//Clean building groups
-			i = 0;
-			j = 0;
-			while(i<buildingGroups.size()){
-				while(j<buildingGroups.get(i).size()){
-					if(!myBuildings.contains(buildingGroups.get(i).get(j))){
-						buildingGroups.get(i).remove(j);
-					}
-					j++;
+			}
+			i++;
+			j=0;
+		}
+
+		//Clean building groups
+		i = 0;
+		j = 0;
+		while(i<buildingGroups.size()){
+			while(j<buildingGroups.get(i).size()){
+				if(!myBuildings.contains(buildingGroups.get(i).get(j))){
+					buildingGroups.get(i).remove(j);
 				}
-				i++;
-				j=0;
+				j++;
+			}
+			i++;
+			j=0;
+		}
+	}
+
+
+	public void setTarget(UnitIA assignee , Objet target,int mode){
+		assignee.setTarget(target, null, mode);
+	}
+
+
+	//BUILDING GETTER METHODS
+	public BuildingIA getNearestNeutralMill(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()==0){
+				result.add(b);
+
 			}
 		}
 
+		return (BuildingIA) Utils.nearestObject(result, caller);
 
-		public void setTarget(UnitIA assignee , Objet target,int mode){
-			assignee.setTarget(target, null, mode);
-		}
-
-
-		//BUILDING GETTER METHODS
-		public BuildingIA getNearestNeutralMill(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingMill && b.getTeam()==0){
-					result.add(b);
-
-				}
-			}
-
-			return (BuildingIA) Utils.nearestObject(result, caller);
-
-		}
-		public BuildingIA getNearestNeutralMine(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingMine && b.getTeam()==0){
-					result.add(b);
-				}
-			}
-
-			return (BuildingIA) Utils.nearestObject(result, caller);
-
-		}
-		public BuildingIA getNearestNeutralBarrack(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingBarrack && b.getTeam()==0){
-					result.add(b);
-				}
-			}
-			return (BuildingIA) Utils.nearestObject(result, caller);
-		}
-
-		public BuildingIA getNearestMillToConquer(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
-					result.add(b);
-				}
-			}
-
-			return (BuildingIA) Utils.nearestObject(result, caller);
-
-		}
-		public BuildingIA getNearestMineToConquer(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingMine && b.getTeam()!=caller.getTeam()){
-					result.add(b);
-				}
-			}
-
-			return (BuildingIA) Utils.nearestObject(result, caller);
-
-		}
-
-		public BuildingIA getNearestHQToConquer(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingHeadQuarters && b.getTeam()!=caller.getTeam()){
-					result.add(b);
-				}
-			}
-			return (BuildingIA) Utils.nearestObject(result, caller);
-
-		}
-		public BuildingIA getNearestBarrackToConquer(Vector<BuildingIA> buildings,Objet caller){
-			Vector<Objet> result = new Vector<Objet>();
-			for(BuildingIA b : buildings){
-				if(b instanceof BuildingBarrack && b.getTeam()!=caller.getTeam()){
-					result.add(b);
-				}
-			}
-			return (BuildingIA) Utils.nearestObject(result, caller);
-		}
-
-		public Vector<UnitIA> getSpearman(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitSpearman ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getIdleSpearman(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitSpearman && c.mission==null ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-		public Vector<UnitIA> getCrossbowman(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitCrossbowman ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getIdleCrossbowman(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitCrossbowman && c.mission==null ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getKnight(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitKnight ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getIdleKnight(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitKnight  && c.mission==null ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-
-		public Vector<UnitIA> getPriest(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitPriest ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getIdlePriest(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitPriest && c.mission==null ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getInquisitor(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitInquisitor ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getIdleInquisitor(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitInquisitor  && c.mission==null  ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-
-		public Vector<UnitIA> getArchange(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitArchange ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<UnitIA> getIdleArchange(Vector<UnitIA> units){
-			Vector<UnitIA> result = new Vector<UnitIA>();
-
-			for(UnitIA c : units){
-				if(c instanceof UnitArchange && c.mission==null ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public int getFood(){
-			return this.getGameTeam().food;
-		}
-
-		public int getGold(){
-			return this.getGameTeam().gold;
-		}
-
-		public int getSpecial(){
-			return this.getGameTeam().special;
-		}
-
-
-		public HashMap<Integer,Integer> initHashMap(){
-			HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
-			r.put(UnitIA.SPEARMAN, 0);
-			r.put(UnitIA.CROSSBOWMAN, 0);
-			r.put(UnitIA.KNIGHT, 0);
-			r.put(UnitIA.INQUISITOR, 0);
-			r.put(UnitIA.ARCHANGE, 0);
-			return r;
-		}
-		public HashMap<Integer,Integer> initHashMap(int s,int c, int k , int i , int a){
-			HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
-			r.put(UnitIA.SPEARMAN, s);
-			r.put(UnitIA.CROSSBOWMAN, c);
-			r.put(UnitIA.KNIGHT, k);
-			r.put(UnitIA.INQUISITOR, i);
-			r.put(UnitIA.ARCHANGE, a);
-			return r;
-		}
-
-		public Vector<BuildingIA> getMill(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingMill ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-		public Vector<BuildingIA> getMine(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingMine ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<BuildingIA> getBarrack(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingBarrack ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<BuildingIA> getStable(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingStable ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<BuildingIA> getAcademy(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingAcademy ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-		public Vector<BuildingIA> getHeadQuarters(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingHeadQuarters ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<BuildingIA> getUniversity(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingUniversity ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		public Vector<BuildingIA> getTower(Vector<BuildingIA> units){
-			Vector<BuildingIA> result = new Vector<BuildingIA>();
-
-			for(BuildingIA c : units){
-				if(c instanceof BuildingTower ){
-					result.add(c);
-				}
-			}
-			return result;
-		}
-
-		/**
-		 *
-		 * Clear specified units group
-		 *
-		 * @param  c  the vector of wanted selection
-		 * @param  group  the vector of wanted selection
-		 */
-		public void clearUnitGroup(int group){
-			if(group>=10){
-				return;
-			}
-			for(int i = 0;i<this.unitsGroups.size();i++){
-				this.unitsGroups.get(group).clear();
+	}
+	public BuildingIA getNearestNeutralMine(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingMine && b.getTeam()==0){
+				result.add(b);
 			}
 		}
 
-		/**
-		 *
-		 * Clear specified buildings group
-		 *
-		 * @param  c  the vector of wanted selection
-		 * @param  group  the vector of wanted selection
-		 */
-		public void clearBuildingsGroup(int group){
-			if(group>=10){
-				return;
+		return (BuildingIA) Utils.nearestObject(result, caller);
+
+	}
+	public BuildingIA getNearestNeutralBarrack(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingBarrack && b.getTeam()==0){
+				result.add(b);
 			}
-			for(int i = 0;i<this.buildingGroups.size();i++){
-				this.buildingGroups.get(group).clear();
+		}
+		return (BuildingIA) Utils.nearestObject(result, caller);
+	}
+
+	public BuildingIA getNearestMillToConquer(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
+				result.add(b);
 			}
 		}
 
-		/**
-		 *
-		 * Make specific unit group with specified unit
-		 *
-		 * @param  c  the vector of wanted selection
-		 * @param  group  the vector of wanted selection
-		 */
-		public void makeUnitGroup(Vector<UnitIA> c,int group){
-			this.clearUnitGroup(group);
-			addInUnitGroup(c,group);
-		}
+		return (BuildingIA) Utils.nearestObject(result, caller);
 
-		/**
-		 *
-		 * Make specific building group with specified buildings
-		 *
-		 * @param  c  the vector of wanted selection
-		 * @param  group  the vector of wanted selection
-		 */
-		public void makeBuildingsGroup(Vector<BuildingIA> c,int group){
-			this.clearBuildingsGroup(group);
-			addInBuildingGroup(c,group);
-		}
-
-		/**
-		 *
-		 *  Add units in specified group if possible
-		 *
-		 * @param  c  the vector of wanted selection
-		 * @param  group  the vector of wanted selection
-		 */
-		public void addInUnitGroup(Vector<UnitIA> c,int group){
-			if(group>=10){
-				return;
-			}
-
-			for(UnitIA ch : c){
-				if(this.aliveUnits.contains(ch) && !this.unitsGroups.get(group).contains(ch)){
-					this.unitsGroups.get(group).add(ch);
-				}
+	}
+	public BuildingIA getNearestMineToConquer(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingMine && b.getTeam()!=caller.getTeam()){
+				result.add(b);
 			}
 		}
 
-		/**
-		 *
-		 * Add buildings in specified group if possible
-		 *
-		 * @param  c  the vector of wanted selection
-		 * @param  group  the vector of wanted selection
-		 */
-		public void addInBuildingGroup(Vector<BuildingIA> c,int group){
-			if(group>=10){
-				return;
-			}
+		return (BuildingIA) Utils.nearestObject(result, caller);
 
-			for(BuildingIA b : c){
-				if(this.myBuildings.contains(b) && !this.buildingGroups.get(group).contains(b)){
-					this.buildingGroups.get(group).add(b);
-				}
-			}
+	}
 
-		}
-
-		public Vector<UnitIA> getUnitsGroup(int i){
-
-			if(i<10){
-				return this.unitsGroups.get(i);
-			}
-			else{
-				return new Vector<UnitIA>();
+	public BuildingIA getNearestHQToConquer(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingHeadQuarters && b.getTeam()!=caller.getTeam()){
+				result.add(b);
 			}
 		}
+		return (BuildingIA) Utils.nearestObject(result, caller);
 
-		public Vector<BuildingIA> getBuildingsGroup(int i){
-			if(i<10){
-				return this.buildingGroups.get(i);
-			}
-			else{
-				return new Vector<BuildingIA>();
+	}
+	public BuildingIA getNearestBarrackToConquer(Vector<BuildingIA> buildings,Objet caller){
+		Vector<Objet> result = new Vector<Objet>();
+		for(BuildingIA b : buildings){
+			if(b instanceof BuildingBarrack && b.getTeam()!=caller.getTeam()){
+				result.add(b);
 			}
 		}
-	
-	
+		return (BuildingIA) Utils.nearestObject(result, caller);
+	}
+
+	public Vector<UnitIA> getSpearman(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitSpearman ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getIdleSpearman(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitSpearman && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<UnitIA> getCrossbowman(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitCrossbowman ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getIdleCrossbowman(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitCrossbowman && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getKnight(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitKnight ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getIdleKnight(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitKnight  && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+
+	public Vector<UnitIA> getPriest(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitPriest ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getIdlePriest(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitPriest && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getInquisitor(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitInquisitor ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getIdleInquisitor(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitInquisitor  && c.mission==null  ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+
+	public Vector<UnitIA> getArchange(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitArchange ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<UnitIA> getIdleArchange(Vector<UnitIA> units){
+		Vector<UnitIA> result = new Vector<UnitIA>();
+
+		for(UnitIA c : units){
+			if(c instanceof UnitArchange && c.mission==null ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public int getFood(){
+		return this.getGameTeam().food;
+	}
+
+	public int getGold(){
+		return this.getGameTeam().gold;
+	}
+
+	public int getSpecial(){
+		return this.getGameTeam().special;
+	}
+
+
+	public HashMap<Integer,Integer> initHashMap(){
+		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
+		r.put(UnitIA.SPEARMAN, 0);
+		r.put(UnitIA.CROSSBOWMAN, 0);
+		r.put(UnitIA.KNIGHT, 0);
+		r.put(UnitIA.INQUISITOR, 0);
+		r.put(UnitIA.ARCHANGE, 0);
+		return r;
+	}
+	public HashMap<Integer,Integer> initHashMap(int s,int c, int k , int i , int a){
+		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
+		r.put(UnitIA.SPEARMAN, s);
+		r.put(UnitIA.CROSSBOWMAN, c);
+		r.put(UnitIA.KNIGHT, k);
+		r.put(UnitIA.INQUISITOR, i);
+		r.put(UnitIA.ARCHANGE, a);
+		return r;
+	}
+
+	public Vector<BuildingIA> getMill(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingMill ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<BuildingIA> getMine(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingMine ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<BuildingIA> getBarrack(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingBarrack ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<BuildingIA> getStable(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingStable ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<BuildingIA> getAcademy(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingAcademy ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+	public Vector<BuildingIA> getHeadQuarters(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingHeadQuarters ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<BuildingIA> getUniversity(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingUniversity ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	public Vector<BuildingIA> getTower(Vector<BuildingIA> units){
+		Vector<BuildingIA> result = new Vector<BuildingIA>();
+
+		for(BuildingIA c : units){
+			if(c instanceof BuildingTower ){
+				result.add(c);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 *
+	 * Clear specified units group
+	 *
+	 * @param  c  the vector of wanted selection
+	 * @param  group  the vector of wanted selection
+	 */
+	public void clearUnitGroup(int group){
+		if(group>=10){
+			return;
+		}
+		for(int i = 0;i<this.unitsGroups.size();i++){
+			this.unitsGroups.get(group).clear();
+		}
+	}
+
+	/**
+	 *
+	 * Clear specified buildings group
+	 *
+	 * @param  c  the vector of wanted selection
+	 * @param  group  the vector of wanted selection
+	 */
+	public void clearBuildingsGroup(int group){
+		if(group>=10){
+			return;
+		}
+		for(int i = 0;i<this.buildingGroups.size();i++){
+			this.buildingGroups.get(group).clear();
+		}
+	}
+
+	/**
+	 *
+	 * Make specific unit group with specified unit
+	 *
+	 * @param  c  the vector of wanted selection
+	 * @param  group  the vector of wanted selection
+	 */
+	public void makeUnitGroup(Vector<UnitIA> c,int group){
+		this.clearUnitGroup(group);
+		addInUnitGroup(c,group);
+	}
+
+	/**
+	 *
+	 * Make specific building group with specified buildings
+	 *
+	 * @param  c  the vector of wanted selection
+	 * @param  group  the vector of wanted selection
+	 */
+	public void makeBuildingsGroup(Vector<BuildingIA> c,int group){
+		this.clearBuildingsGroup(group);
+		addInBuildingGroup(c,group);
+	}
+
+	/**
+	 *
+	 *  Add units in specified group if possible
+	 *
+	 * @param  c  the vector of wanted selection
+	 * @param  group  the vector of wanted selection
+	 */
+	public void addInUnitGroup(Vector<UnitIA> c,int group){
+		if(group>=10){
+			return;
+		}
+
+		for(UnitIA ch : c){
+			if(this.aliveUnits.contains(ch) && !this.unitsGroups.get(group).contains(ch)){
+				this.unitsGroups.get(group).add(ch);
+			}
+		}
+	}
+
+	/**
+	 *
+	 * Add buildings in specified group if possible
+	 *
+	 * @param  c  the vector of wanted selection
+	 * @param  group  the vector of wanted selection
+	 */
+	public void addInBuildingGroup(Vector<BuildingIA> c,int group){
+		if(group>=10){
+			return;
+		}
+
+		for(BuildingIA b : c){
+			if(this.myBuildings.contains(b) && !this.buildingGroups.get(group).contains(b)){
+				this.buildingGroups.get(group).add(b);
+			}
+		}
+
+	}
+
+	public Vector<UnitIA> getUnitsGroup(int i){
+
+		if(i<10){
+			return this.unitsGroups.get(i);
+		}
+		else{
+			return new Vector<UnitIA>();
+		}
+	}
+
+	public Vector<BuildingIA> getBuildingsGroup(int i){
+		if(i<10){
+			return this.buildingGroups.get(i);
+		}
+		else{
+			return new Vector<BuildingIA>();
+		}
+	}
+
+
 }

@@ -188,9 +188,6 @@ public class UnitCrossbowman extends Character {
 		}
 		this.orientation = sector;
 
-
-		this.changes.orientation = true;
-
 	}
 
 	public Graphics draw(Graphics g){
