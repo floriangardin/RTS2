@@ -134,7 +134,7 @@ public class MultiReceiver extends Thread{
 		String[] u = msg.split("\\|");
 		int round = Integer.parseInt(u[0]); 
 		if(g.host){
-		long ping =Long.parseLong( u[u.length-1]);
+		long ping =Long.parseLong( u[u.length-2]);
 		this.g.clock.ping = ping;
 		}
 		//Calcul du delta
