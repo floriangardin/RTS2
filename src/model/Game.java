@@ -213,6 +213,7 @@ public class Game extends BasicGame
 
 	int nombreDrop = 0;
 	int nombrePlayed = 0;
+	int delaySleep = 0;
 
 
 	public void quitMenu(){
@@ -507,7 +508,7 @@ public class Game extends BasicGame
 			if(this.chatHandler.typingMessage){
 				im.eraseLetter();
 			} else {
-				this.manuelAntidrop(in);
+				this.manuelAntidrop(in,gc);
 			}
 			//Handle manual resynchro
 
@@ -760,7 +761,7 @@ public class Game extends BasicGame
 		}
 	}
 
-	private void manuelAntidrop(Input in) {
+	private void manuelAntidrop(Input in,GameContainer gc) {
 		if(in.isKeyPressed(Input.KEY_P)){
 			this.round+=1;
 			this.roundDelay++;
@@ -769,6 +770,14 @@ public class Game extends BasicGame
 			this.round-=1;
 			this.roundDelay--;
 		}
+		if(in.isKeyPressed(Input.KEY_O)){
+			this.delaySleep=8;
+		}
+		if(in.isKeyPressed(Input.KEY_L)){
+			this.delaySleep = -8;
+		}
+		//UPDATE ROUND DURATION
+		gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
 	}
 	private void handleChecksum() {
 		// If host and client send checksum
