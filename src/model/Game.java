@@ -779,15 +779,20 @@ public class Game extends BasicGame
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).constructionPoints))%10);
 				if(this.plateau.buildings.get(i) instanceof BuildingProduction){
 					BuildingProduction p =(BuildingProduction) this.plateau.buildings.get(i);
-					if(p.queue!=null && p.queue.size()>0)
+					if(p.queue!=null && p.queue.size()>0){
+						checksum+="pr";
 						checksum+=Integer.toString(p.queue.size());
+					}
+						
 				}
 				else if(this.plateau.buildings.get(i) instanceof BuildingTech){
 					BuildingTech p =(BuildingTech) this.plateau.buildings.get(i);
+					checksum+="bt";
 					if(p.queue!=null){
 						checksum+="q";
 					}
 				}
+				checksum+="-";
 				i++;
 			}
 			checksum+="|";
@@ -811,7 +816,8 @@ public class Game extends BasicGame
 						toRemove.add(c);
 						if(tab[1]){
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
-							System.out.println("Checksum : " +c.checksum + " "+c1.checksum);
+							System.out.println(c.checksum);
+							System.out.println(c1.checksum);
 
 							this.processSynchro = true;
 							this.sendParse = true;					
