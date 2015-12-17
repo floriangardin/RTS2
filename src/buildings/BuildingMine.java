@@ -55,6 +55,7 @@ public class BuildingMine extends BuildingTech{
 		this.updateProductionList();
 	}
 	
+	
 	public void action(){
 		giveUpProcess();
 		this.state+=Main.increment;
