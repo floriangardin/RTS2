@@ -857,7 +857,7 @@ public class Game extends BasicGame
 	private void handleAntidrop() {
 		nDrop++;
 		nPlayed = 0;
-		if(nDrop==4){
+		if(nDrop==2){
 			if(timeOutAntiDrop>0){
 				nDrop = 0;
 				return;
