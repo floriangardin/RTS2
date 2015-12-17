@@ -311,6 +311,9 @@ public class Building extends ActionObjet{
 		}
 	}
 
+	public void parse(HashMap<String, String> hs){
+		parseBuilding(hs);
+	}
 
 	public Technologie getTechnologieById(int id){
 		Technologie tec = null;
