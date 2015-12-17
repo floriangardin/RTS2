@@ -492,137 +492,37 @@ public final class IAfunctions {
 		return null;
 	}
 	
-	public Vector<UnitIA> getSpearman(Vector<UnitIA> units){
+	// about Units
+	public Vector<UnitIA> getUnitsByTypeAndTeam(UnitsList type, int team, boolean ally){
 		Vector<UnitIA> result = new Vector<UnitIA>();
 		for(UnitIA c : plateau.units){
-			if(c.type == UnitsList.Spearman ){
+			if(c.type == type && ((ally && c.team == team) || (!ally && c.team != team && c.team !=0))){
 				result.add(c);
 			}
 		}
 		return result;
 	}
-
-	public Vector<UnitIA> getIdleSpearman(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitSpearman && c.mission==null ){
-				result.add(c);
-			}
-		}
-		return result;
+	
+	public Vector<UnitIA> getAllySpearmen(){
+		return getUnitsByTypeAndTeam(UnitsList.Spearman, this.currentTeam, true);
 	}
-	public Vector<UnitIA> getCrossbowman(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitCrossbowman ){
-				result.add(c);
-			}
-		}
-		return result;
+	public Vector<UnitIA> getCrossbowman(){
+		return getUnitsByTypeAndTeam(UnitsList.Crossbowman, this.currentTeam, true);
+	}
+	public Vector<UnitIA> getKnight(){
+		return getUnitsByTypeAndTeam(UnitsList.Knight, this.currentTeam, true);
+	}
+	public Vector<UnitIA> getPriest(){
+		return getUnitsByTypeAndTeam(UnitsList.Priest, this.currentTeam, true);
+	}
+	public Vector<UnitIA> getInquisitor(){
+		return getUnitsByTypeAndTeam(UnitsList.Inquisitor, this.currentTeam, true);
+	}
+	public Vector<UnitIA> getArchange(){
+		return getUnitsByTypeAndTeam(UnitsList.Archange, this.currentTeam, true);
 	}
 
-	public Vector<UnitIA> getIdleCrossbowman(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitCrossbowman && c.mission==null ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<UnitIA> getKnight(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitKnight ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<UnitIA> getIdleKnight(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitKnight  && c.mission==null ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-
-	public Vector<UnitIA> getPriest(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitPriest ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<UnitIA> getIdlePriest(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitPriest && c.mission==null ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<UnitIA> getInquisitor(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitInquisitor ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<UnitIA> getIdleInquisitor(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitInquisitor  && c.mission==null  ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-
-	public Vector<UnitIA> getArchange(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitArchange ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<UnitIA> getIdleArchange(Vector<UnitIA> units){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitArchange && c.mission==null ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
+	
 
 	public int getFood(){
 		return this.getGameTeam().food;
