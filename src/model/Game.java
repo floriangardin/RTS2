@@ -480,12 +480,12 @@ public class Game extends BasicGame
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
 		if(isInMenu){
-			InputObject im = new InputObject(this,currentPlayer,gc.getInput(),timeOutAntiDrop==0 && !processSynchro);
+			InputObject im = new InputObject(this,currentPlayer,gc.getInput(),!processSynchro);
 			this.menuCurrent.update(im);
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,currentPlayer,in,timeOutAntiDrop==0 && !processSynchro);
+			InputObject im = new InputObject(this,currentPlayer,in,!processSynchro);
 			this.editor.update(im,in);
 
 		} else if(!endGame) {
@@ -866,7 +866,7 @@ public class Game extends BasicGame
 			round--;
 			if(roundDelay<-10){
 				roundDelay = 10;
-				round+=20;
+				round+=21;
 			}
 			timeOutAntiDrop = 3+InputHandler.nDelay;
 		}
