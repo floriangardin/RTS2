@@ -880,11 +880,13 @@ public class Game extends BasicGame
 			this.toParse = null;
 			this.processSynchro = false;
 			System.out.println("Resynchronisation ....");
+			timeOutAntiDrop = 10;
 		}
 		else if(this.toParse==null || Integer.parseInt(u[0])<(this.round-InputHandler.nDelay)){
 			this.processSynchro = false;
 			this.toParse = null;
 		}
+		
 	}
 	public void pingRequest() {
 		this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
