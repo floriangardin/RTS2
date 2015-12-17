@@ -16,7 +16,6 @@ import technologies.Technologie;
 public class BuildingMine extends BuildingTech{
 	
 	public int chargeTime;
-	public float state;
 	public int bonusProd;
 	
 	public BuildingMine(Plateau p,Game g,float f, float h, int team){
@@ -56,9 +55,6 @@ public class BuildingMine extends BuildingTech{
 		this.updateProductionList();
 	}
 	
-	
-
-
 	public void action(){
 		giveUpProcess();
 		this.state+=Main.increment;
