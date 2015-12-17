@@ -170,7 +170,8 @@ public class Game extends BasicGame
 	private boolean sendParse;
 	public Lock mutexChecksum = new ReentrantLock();
 	// antidrop
-	
+	public boolean toDrawDrop = false;
+	public boolean toDrawAntiDrop = false;
 	public int roundDelay;
 	
 	
@@ -435,6 +436,16 @@ public class Game extends BasicGame
 			g.drawString("Resynchro", 30f, 90f);
 			g.fillRect(10f,90f,15f,15f);
 		}
+		if(toDrawDrop){
+			g.setColor(Color.red);
+			g.drawString("Round Drop", 30f,  90f);
+			g.fillRect(10f,90f,15f,15f);
+		}
+		if(toDrawAntiDrop){
+			g.setColor(Color.blue);
+			g.drawString("AntiDrop done", 30f,  90f);
+			g.fillRect(10f,90f,15f,15f);
+		}
 		this.chatHandler.draw(g);
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
@@ -498,6 +509,9 @@ public class Game extends BasicGame
 			//Handle manual resynchro
 			
 			if(inMultiplayer){
+				this.toDrawAntiDrop = false;
+				this.toDrawDrop = false;
+				
 				this.handleChecksum();
 				this.handlePing();
 				this.handleSendingResynchroParse();
@@ -822,6 +836,7 @@ public class Game extends BasicGame
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
 			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
 			System.out.println("antidrop !!! round: "+this.round);
+			this.toDrawAntiDrop = true;
 		}else{
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
 			gc.setMaximumLogicUpdateInterval((1000/Main.framerate));	
