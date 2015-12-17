@@ -1,29 +1,16 @@
 package battleIA;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import IA.IAUtils;
 import IA.MissionGetABuilding;
-import model.Checkpoint;
-import model.GameTeam;
-import model.IAPlayer;
-import model.Objet;
-import model.Plateau;
-import model.Utils;
-import spells.SpellConversion;
-import units.Character;
-import units.UnitArchange;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitPriest;
-import units.UnitSpearman;
-import units.UnitsList;
+import battleIA.IAStateOfGame.BuildingIA;
 import buildings.Building;
 import buildings.BuildingBarrack;
 import buildings.BuildingProduction;
-import buildings.BuildingTech;
+import model.Checkpoint;
+import model.Utils;
+import units.Character;
 
 
 public class IAFlo extends IAsuperclass {
@@ -31,7 +18,10 @@ public class IAFlo extends IAsuperclass {
 	public IAFlo(int team) {
 		super(team);
 	}	
-	
+
+	public Vector<Mission> missions;
+	public Vector<Mission> pastMissions;
+	public Vector<Mission> pausedMissions;
 
 
 
@@ -41,17 +31,55 @@ public class IAFlo extends IAsuperclass {
 		//Product if possible
 		product();
 	}
+	
+
+	public void action(){
+		Vector<Mission> toRemove = new Vector<Mission>();
+		for(Mission m : missions){
+			boolean finished = m.action();
+			if(finished){
+				toRemove.add(m);
+				this.pastMissions.addElement(m);
+			}
+		}
+		missions.removeAll(toRemove);
+	}
+
+	public void abortAllMission(){
+		Vector<Mission> toRemove = new Vector<Mission>();
+		for(Mission m : missions){
+			toRemove.add(m);
+			m.abortMission();
+			this.pastMissions.addElement(m);
+		}
+		missions.removeAllElements();
+	}
+
+	public void abortMission(Mission m){
+		m.abortMission();
+		this.pastMissions.addElement(m);
+		this.missions.remove(m);
+		this.pastMissions.addElement(m);
+	}
+
+	public void pauseMission(Mission m){
+		this.pausedMissions.addElement(m);
+		m.pauseMission();
+		this.missions.remove(m);
+	}
+
+	public void resumeMission(Mission m){
+		this.pausedMissions.remove(m);
+		m.resumeMission();
+		this.missions.add(m);
+	}
+
 
 	public void product(){
 		//Production in barrack if possible
-		Vector<Building> barracks = getBarrack(myBuildings);
-		Vector<BuildingProduction> d = new Vector<BuildingProduction>();
-		for(Building b : barracks){
-			d.add((BuildingProduction) b);
-		}
-		//Sort by queue size
+		Vector<BuildingIA> barracks = functions.getAllyBarracks();
 		if(barracks.size()>0){
-			for(BuildingProduction b : d){
+			for(BuildingIA b : barracks){
 				if(b.queue.size()==0){
 					//Product in function of composition
 					int n_spearman = getSpearman(aliveUnits).size() ;

@@ -65,6 +65,7 @@ public class IAStateOfGame {
 	
 	public class BuildingIA extends ObjetIA{
 		public BuildingsList type;
+		public Vector<Integer> queue;
 		
 		public BuildingIA(Building b){
 			this.id = b.id;
