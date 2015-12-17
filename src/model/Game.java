@@ -784,7 +784,7 @@ public class Game extends BasicGame
 				else if(this.plateau.buildings.get(i) instanceof BuildingTech){
 					BuildingTech p =(BuildingTech) this.plateau.buildings.get(i);
 					if(p.queue!=null){
-						checksum+="1";
+						checksum+="q";
 					}
 				}
 				i++;
