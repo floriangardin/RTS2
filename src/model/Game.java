@@ -848,7 +848,7 @@ public class Game extends BasicGame
 	}
 	private void handleAntidrop() {
 		nDrop++;
-		if(nDrop==3){
+		if(nDrop==4){
 			if(timeOutAntiDrop>0){
 				nDrop = 0;
 				return;
@@ -857,9 +857,9 @@ public class Game extends BasicGame
 			// on tente une nouvelle valeur pour le d�calage
 			roundDelay--;
 			round--;
-			if(roundDelay<-10){
-				roundDelay = 10;
-				round+=21;
+			if(roundDelay<-8){
+				roundDelay+=10;
+				round+=10;
 			}
 			timeOutAntiDrop = 3+InputHandler.nDelay;
 		}
