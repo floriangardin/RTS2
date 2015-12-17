@@ -170,8 +170,8 @@ public class Game extends BasicGame
 	public Lock mutexChecksum = new ReentrantLock();
 	// antidrop
 	public boolean antidropProcess = false;
-	public float nDrop = 0f;
-	public float nRound = 0f;
+	public int nDrop = 0;
+	public int nRound = 0;
 	public int multi = 1;
 	public int roundToTest = 0;
 	public int timeOutAntiDrop = 0;
@@ -447,7 +447,7 @@ public class Game extends BasicGame
 		this.chatHandler.draw(g);
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
-		
+
 		this.drawPing(g);
 		//		Runtime runtime = Runtime.getRuntime();
 		//
@@ -534,12 +534,18 @@ public class Game extends BasicGame
 						this.plateau.handleView(im, this.currentPlayer.id);
 					}
 					ims = this.inputsHandler.getInputsForRound(this.round);
-					//					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
-					//						// Antidrop
-					//						this.handleAntidrop();
-					//					}
+					if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
+						// Antidrop
+						this.handleAntidrop();
+					}
+					else if(host){
+						nDrop= 0;
+					}
 					if(timeOutAntiDrop>0){
 						timeOutAntiDrop--;
+					}
+					else{
+						antidropProcess = false;
 					}
 					boolean toPlay = true;
 					for(InputObject o : ims){
@@ -783,7 +789,7 @@ public class Game extends BasicGame
 						checksum+="pr";
 						checksum+=Integer.toString(p.queue.size());
 					}
-						
+
 				}
 				else if(this.plateau.buildings.get(i) instanceof BuildingTech){
 					BuildingTech p =(BuildingTech) this.plateau.buildings.get(i);
@@ -848,26 +854,23 @@ public class Game extends BasicGame
 		}
 	}
 	private void handleAntidrop() {
-
-		// on tente une nouvelle valeur pour le d�calage
-		if(multi==-1){
-			multi=1;
-			roundToTest++;
+		nDrop++;
+		if(nDrop==3){
+			if(timeOutAntiDrop>0){
+				nDrop = 0;
+				return;
+			}
+			antidropProcess = true;
+			// on tente une nouvelle valeur pour le d�calage
+			roundDelay--;
+			round--;
+			if(roundDelay<-10){
+				roundDelay = 10;
+				round+=20;
+			}
+			timeOutAntiDrop = 3+InputHandler.nDelay;
 		}
-		else if(multi==1){
-			roundToTest++;
-			multi=-1;
-		}
-		this.round+=multi*roundToTest;
-		this.roundDelay+=multi*roundToTest;
-		if(roundToTest>=18){
-			// si on a �t� trop loin on revient � z�ro
-			this.round-=this.roundDelay;
-			roundToTest = 0;
-			multi = 1;
-			this.roundDelay=0;
-		}
-		timeOutAntiDrop =5;
+		
 
 	}
 	private void handleResynchro() {
