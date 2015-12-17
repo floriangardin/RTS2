@@ -131,7 +131,7 @@ public class MultiReceiver extends Thread{
 		this.g.receivedChecksum.addElement(new Checksum(msg));
 		this.g.mutexChecksum.unlock();
 		// HANDLE ANTI-DROP 
-		String[] u = msg.split("|");
+		String[] u = msg.split("\\|");
 		int round = Integer.parseInt(u[0]); 
 		if(g.host){
 		long ping =Long.parseLong( u[u.length-1]);
