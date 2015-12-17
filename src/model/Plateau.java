@@ -1373,6 +1373,9 @@ public class Plateau {
 		//Loop over each player
 		for(int i = 0; i<this.g.players.size();i++){
 			this.selection.get(i).clear();
+			if(u[i].equals("")){
+				continue;
+			}
 			String[] ids = u[i].split(";");
 			for(int j=0; j<ids.length;j++){
 				this.selection.get(i).add(getById(Integer.parseInt(ids[j])));
