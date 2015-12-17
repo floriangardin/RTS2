@@ -67,7 +67,7 @@ public class InputHandler {
 		for(int k=1; k<this.g.players.size(); k++){
 			toPlay = false;
 			for(InputObject io : toReturn){
-				if(io.player.id==k){
+				if(io.player.id==k && io.toPlay){
 					toPlay = true;
 				}
 			}
