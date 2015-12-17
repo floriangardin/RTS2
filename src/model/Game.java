@@ -869,8 +869,8 @@ public class Game extends BasicGame
 			roundDelay--;
 			round--;
 			if(roundDelay<-8){
-				roundDelay+=10;
-				round+=10;
+				roundDelay+=16;
+				round+=16;
 			}
 			System.out.println("Antidrop  nouveau delay  : "+roundDelay);
 			timeOutAntiDrop = 3+InputHandler.nDelay;
