@@ -51,6 +51,20 @@ public final class IAfunctions {
 	public Vector<Mission> missions;
 	public Vector<Mission> pastMissions;
 	public Vector<Mission> pausedMissions;
+	
+	public void update(){
+		//Main method which is called every iteration on the plateau and common to all 
+		//Define the mode for this round 
+		aliveUnits = getMyAliveUnits();
+		myBuildings = getMyBuildings();
+		neutralBuilding = getNeutralBuildings();
+		buildingToConquer = getEnnemyBuildings();
+		ennemiesInSight =  getEnnemyUnitsInSight();
+		this.updateSelection();
+		//Update the units groups and building groups ( To remove death ...)
+		this.updateGroups();
+	}
+	
 
 	public void setAttackOrder(int idAlliedPlayer, int idTarget) throws IAException{
 		/**
@@ -290,29 +304,19 @@ public final class IAfunctions {
 	//INTERN METHODS
 
 	//units
-	public Vector<UnitIA> getUnits(){
+	private Vector<UnitIA> getUnitsFromTeam(int team, boolean ally){
 		Vector<UnitIA> result = new Vector<UnitIA>();
 		for(UnitIA c : this.plateau.units){
-			if(c.team==this.currentTeam)
+			if((ally && c.team==team) || (!ally && c.team!=team))
 				result.add(c);
 		}
 		return result;
 	}
 	public Vector<UnitIA> getMyAliveUnits(){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-		for(UnitIA c : this.plateau.units){
-			if(c.team==this.currentTeam)
-				result.add(c);
-		}
-		return result;
+		return getUnitsFromTeam(this.currentTeam, true);
 	}
 	public Vector<UnitIA> getEnnemyUnitsInSight(){
-		Vector<UnitIA> result = new Vector<UnitIA>();
-		for(UnitIA c : this.p.characters){
-			if(c.getTeam()!=this.getTeam() && this.p.isVisibleByPlayer(this.getTeam(), c))
-				result.add(c);
-		}
-		return result;
+		return getUnitsFromTeam(this.currentTeam, false);
 	}
 	
 	// buildings
@@ -324,38 +328,19 @@ public final class IAfunctions {
 		}
 		return result;
 	}
-
 	public Vector<BuildingIA> getMyBuildings(){
 		return getBuildingsFromTeam(this.currentTeam, true);
 	}
-
-
 	public Vector<BuildingIA> getNeutralBuildings(){
 		return getBuildingsFromTeam(0, true);
 	}
-
 	public Vector<BuildingIA> getEnnemyBuildings(){
 		return getBuildingsFromTeam(this.currentTeam, false);
 	}
 
 	
 
-	public void commonUpdate(){
-		//Main method which is called every iteration on the plateau and common to all 
-		//Define the mode for this round 
-		aliveUnits = getMyAliveUnits();
-		myBuildings = getMyBuildings();
-		neutralBuilding = getNeutralBuildings();
-		buildingToConquer = getEnnemyBuildings();
-		ennemiesInSight =  getEnnemyUnitsInSight();
-		this.updateSelection();
-		//Update the units groups and building groups ( To remove death ...)
-		this.updateGroups();
-		this.action();
-
-
-	}
-
+	
 
 	public void action(){
 		Vector<Mission> toRemove = new Vector<Mission>();

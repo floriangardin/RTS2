@@ -19,6 +19,8 @@ public class IAsuperclass {
 		 * method to call during the main loop of the game
 		 */
 		this.plateau = plateau;
+		this.functions.plateau = plateau;
+		this.functions.update();
 		this.update();
 	}
 
