@@ -48,7 +48,11 @@ public class Clock extends Thread{
 	
 	public void updatePing(long messageTime){
 		//Get origin time for each player (== delay/2)
-		this.pings.addElement(this.getCurrentTime()-messageTime);
+		long calculatedPing = this.getCurrentTime()-messageTime;
+		if(calculatedPing>40*1e6 || calculatedPing<0 ){
+			return;
+		}
+		this.pings.addElement(calculatedPing);
 		if(this.pings.size()>100)
 			this.pings.removeElementAt(0);
 		this.ping = 0;
