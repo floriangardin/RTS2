@@ -969,11 +969,7 @@ public class Character extends ActionObjet{
 	public void actionIAScript(){
 		this.updateSetTarget();
 		Circle range = new Circle(this.getX(), this.getY(), this.range);
-		if(this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
-			if(this.isAttacking){
-				this.attackState =0f;
-				this.isAttacking= false;
-			}
+		if(!isAttacking && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
 			if(this.mode!=Character.HOLD_POSITION)
 				this.move();
 			if(!this.isMobile())
@@ -1008,7 +1004,7 @@ public class Character extends ActionObjet{
 			}
 		}else{
 			if(this.getTarget()==null){
-				//System.out.println("stop2 " +(this.getTarget()!=null));
+				return;
 			}else{
 				//System.out.println("stop2 " +(this.getTarget() instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
 			}
@@ -1025,6 +1021,7 @@ public class Character extends ActionObjet{
 			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration-2*Main.increment && this.mode!=TAKE_BUILDING){
 				this.useWeapon();
 				this.attackState = 0f;
+				this.isAttacking= false;
 			}
 
 		}
