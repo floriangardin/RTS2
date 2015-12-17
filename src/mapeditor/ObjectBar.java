@@ -113,7 +113,7 @@ public class ObjectBar {
 		buildingsBlue.add(new EditorObject("Academy", 1, 1,this.editor.game.images.buildingAcademyBlue,0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
 		buildingsBlue.add(new EditorObject("University", 1, 1,this.editor.game.images.buildingUniversityBlue,0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
 		buildingsBlue.add(new EditorObject("Tower", 1, 1,this.editor.game.images.buildingTowerBlue,0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("HeadQuarters", 1, 1,this.editor.game.images.buildingHeadQuartersBlue,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Headquarters", 1, 1,this.editor.game.images.buildingHeadQuartersBlue,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 		// red
 		buildingsRed.add(new EditorObject("Mill", 2, 1,this.editor.game.images.buildingMillRed,0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("Mine", 2, 1,this.editor.game.images.buildingMineRed,0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
@@ -122,7 +122,7 @@ public class ObjectBar {
 		buildingsRed.add(new EditorObject("Academy", 2, 1,this.editor.game.images.buildingAcademyRed,0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.buildingUniversityRed,0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.buildingTowerRed,0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("HeadQuarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 
 		// others
 		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.bonusLifePoints,0,0,this,1,1));
@@ -293,7 +293,7 @@ public class ObjectBar {
 							switch(this.selectedClass){
 							case 0: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.units; break;
 							case 1:
-								if(e.name=="headquarters"){
+								if(e.name.equals("Headquarters")){
 									if(e.team==1)
 										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersBlue;
 									else
