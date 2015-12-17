@@ -525,6 +525,8 @@ public class Game extends BasicGame
 				if(processSynchro){
 					// Resynchro
 					this.handleResynchro();
+					System.out.println("Game line 528 : héhé resynchro "+this.round);
+					
 				}else{
 					//UPDATE NORMAL
 					// On envoie l'input du tour courant
