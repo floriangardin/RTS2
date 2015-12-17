@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import IA.IAUnit;
+import battleIA.Mission;
 import buildings.Building;
 
 import main.Main;
@@ -37,7 +38,6 @@ import org.newdawn.slick.geom.Transform;
 import pathfinding.Case;
 import spells.Spell;
 import IA.IAUnit;
-import IA.Mission;
 import buildings.Building;
 
 public class Character extends ActionObjet{

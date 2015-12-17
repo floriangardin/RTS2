@@ -2,6 +2,7 @@ package IA;
 
 import java.util.Vector;
 
+import battleIA.Mission;
 import model.IAPlayer;
 import model.Objet;
 import units.Character;

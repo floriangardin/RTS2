@@ -1,8 +1,10 @@
-package IA;
+package battleIA;
 
 import java.util.HashMap;
 import java.util.Vector;
 
+import IA.IAUtils;
+import IA.MissionGetABuilding;
 import model.Checkpoint;
 import model.GameTeam;
 import model.IAPlayer;
@@ -24,11 +26,13 @@ import buildings.BuildingProduction;
 import buildings.BuildingTech;
 
 
-public class IABasic extends IAPlayer {
-
-	public IABasic(Plateau p, int id, String name, GameTeam gameteam,int resX, int resY) {
-		super(p, id, name, gameteam, resX, resY);
+public class IAFlo extends IAsuperclass {
+	
+	public IAFlo(int team) {
+		super(team);
 	}	
+	
+
 
 
 	public void update(){
