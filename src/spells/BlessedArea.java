@@ -62,9 +62,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void action(){
-		//MULTI
-		this.changes.x = true;
-		this.changes.y = true;
+
 		
 		this.remainingTime-=10f*Main.increment;
 		Vector<Character> toDelete = new Vector<Character>();

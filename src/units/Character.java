@@ -137,14 +137,14 @@ public class Character extends ActionObjet{
 		Image imageb = this.p.g.images.corps.getScaledCopy(Game.ratioSpace);;
 		if(getTeam()==1)
 			imageb = this.p.g.images.blue.getScaledCopy(Game.ratioSpace);;
-		if(getTeam()==2)
-			imageb = this.p.g.images.red.getScaledCopy(Game.ratioSpace);;
+			if(getTeam()==2)
+				imageb = this.p.g.images.red.getScaledCopy(Game.ratioSpace);;
 
 
-		this.image = Utils.mergeImages(imagea, imageb);
-		this.size = 30f*Game.ratioSpace;
-		this.isHidden = false;
-		this.spells = new Vector<Spell>();
+				this.image = Utils.mergeImages(imagea, imageb);
+				this.size = 30f*Game.ratioSpace;
+				this.isHidden = false;
+				this.spells = new Vector<Spell>();
 
 	}
 	// Copy constructor , to really create an unit
@@ -228,8 +228,7 @@ public class Character extends ActionObjet{
 				oldc.characters.remove(this);
 			this.c.characters.addElement(this);
 		}
-		this.changes.x=true;
-		this.changes.y = true;
+
 	}
 	public void setVXVY(float vx, float vy){
 		this.vx = vx;
@@ -280,9 +279,6 @@ public class Character extends ActionObjet{
 			}
 		}
 		this.orientation = sector;
-
-
-		this.changes.orientation = true;
 
 	}
 
@@ -487,15 +483,15 @@ public class Character extends ActionObjet{
 		if(animationValue!=0f){
 			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f)){
 				animation = 1;
-				this.changes.animation=true;
+
 			}	
 			else if(this.animationValue>=1f && this.animationValue<2f){
 				animation = 0;
-				this.changes.animation=true;
+
 			}	
 			else{
 				animation = 2;
-				this.changes.animation=true;
+
 			}	
 		}
 
@@ -523,14 +519,14 @@ public class Character extends ActionObjet{
 	//// GRAPHISMS
 	public void drawLifePoints(Graphics g,float r){
 		//Draw lifepoints
-		
+
 		g.setColor(Color.black);
 		g.fill(new Rectangle(this.getX()-r/2-1f,-47f+this.getY()-r,r+2f,8f));
 		float x = this.lifePoints/this.maxLifePoints;
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
 		g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x*r,6f));
 	}
-	
+
 	public Graphics draw(Graphics g){
 
 		float r = collisionBox.getBoundingCircleRadius();
@@ -594,7 +590,7 @@ public class Character extends ActionObjet{
 		}
 		return g;
 	}
-	
+
 	protected void drawImmolation(Graphics g,float r) {
 		Image fire = this.p.g.images.explosion.getScaledCopy(Game.ratioSpace);
 		r = fire.getWidth()/5f;
@@ -629,9 +625,9 @@ public class Character extends ActionObjet{
 			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,5*r,r);
 		else 
 			g.drawImage(fire, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
-		
+
 	}
-	
+
 	public void drawIsSelected(Graphics g){
 
 		g.setColor(Colors.selection);
@@ -1068,8 +1064,7 @@ public class Character extends ActionObjet{
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 		}
-		this.changes.isImmolating=true;
-		this.changes.remainingTime = true;
+
 	}
 	public void updateSetTarget(){
 
@@ -1192,43 +1187,35 @@ public class Character extends ActionObjet{
 		String s ="" ;
 		s+=toStringObjet();
 		s+= toStringActionObjet();
-		if(changes.weapon){
-			s+="weapon:"+weapon+";";
-			changes.weapon = false;
+
+		s+="weapon:"+weapon+";";
+
+
+		s+="chargeTime:"+chargeTime+";";
+
+		s+="state:"+state+";";
+
+
+		s+="spellState:";
+		for(float i : this.spellsState){
+			s+=i+",";			
 		}
-		if(changes.chargeTime){
-			s+="chargeTime:"+chargeTime+";";
-			changes.chargeTime = false;
-		}
-		if(changes.state){
-			s+="state:"+state+";";
-			changes.state = false;
+		if(this.spellsState.size()>0){
+			s=s.substring(0, s.length()-1);
 		}
 
-		if(this.changes.spellState){
-			s+="spellState:";
-			for(float i : this.spellsState){
-				s+=i+",";			
-			}
-			if(this.spellsState.size()>0){
-				s=s.substring(0, s.length()-1);
-			}
-			this.changes.spellState=true;
-			s+=";";
-		}
+		s+=";";
 
-		if(changes.animation){
+
+	
 			s+="animation:"+animation+";";
-			changes.animation=false;
-		}
-		if(changes.isImmolating){
+
+		
 			s+="isImmolating:"+(isImmolating?1:0)+";";
-			changes.isImmolating = false;
-		}
-		if(changes.remainingTime){
+
+		
 			s+="remainingTime:"+remainingTime+";";
-			changes.remainingTime = false;
-		}
+
 		return s;
 	}
 

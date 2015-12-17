@@ -23,17 +23,17 @@ public abstract class ActionObjet extends Objet{
 	public Checkpoint checkpointTarget;
 	public boolean toKeep=false;
 	public boolean mouseOver = false;
-	
-	
+
+
 	//SOUNDS
 	public Vector<Sound> soundSetTarget;
 	public Vector<Sound> soundAttack;
 	public Vector<Sound> soundSelection;
 	public Vector<Sound> soundDeath;
-	
+
 	//CHANGED BOOLEAN
 
-	
+
 	public void destroy(){
 		this.lifePoints = -10f;
 		this.target = null;
@@ -74,13 +74,13 @@ public abstract class ActionObjet extends Objet{
 
 	public String toStringActionObjet(){
 		String s = "";
-		if(changes.maxLifePoints){
-			s+="maxLifePoints:"+maxLifePoints+";";
-			changes.maxLifePoints = false;
-		}
+
+		s+="maxLifePoints:"+maxLifePoints+";";
+
+
 		return s;
 	}
-	
+
 	public void parseActionObjet(HashMap<String,String> hs){
 		if(hs.containsKey("maxLifePoints")){
 			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));

@@ -118,9 +118,6 @@ public class UnitInquisitor extends Character {
 		}
 		this.orientation = sector;
 
-
-		this.changes.orientation = true;
-
 	}
 	
 	public void moveToward(Objet o){

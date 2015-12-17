@@ -7,7 +7,6 @@ import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
 import main.Main;
-import model.Changes;
 import model.Game;
 import model.Plateau;
 import units.Character;
@@ -19,7 +18,7 @@ public class Arrow extends CollisionBullet{
 	
 	public Arrow(Plateau p,Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
-		this.changes = new Changes();
+	
 		// Parameters
 		this.size = 2f*Game.ratioSpace;
 		float Vmax = 600f*Game.ratioSpace;

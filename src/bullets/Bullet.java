@@ -15,22 +15,18 @@ public abstract class Bullet extends ActionObjet {
 	public float areaEffect;
 	public ActionObjet owner;
 	public float size;
-		
+
 	public void collision(Building c){
-		
+
 	}
 
 	public String toStringBullet(){
 		String s = "";
-		if(changes.ownerId){
-			s+="ownerid:"+owner.id+";";
-			changes.ownerId = true;
-		}
-		if(changes.ownerV){
-			s+="vxtarget:"+(this.vx)+";";
-			s+="vytarget:"+(this.vy)+";";
-			changes.ownerV =true;
-		}
+
+		s+="ownerid:"+owner.id+";";
+		s+="vxtarget:"+(this.vx)+";";
+		s+="vytarget:"+(this.vy)+";";
+
 		return s;
 	}
 	public String toString(){
@@ -47,7 +43,7 @@ public abstract class Bullet extends ActionObjet {
 		this.parseObjet(hs);
 		this.parseActionObjet(hs);
 	}
-	
+
 	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){
 		Bullet c=null;
 		//Get back the owner 
@@ -55,7 +51,7 @@ public abstract class Bullet extends ActionObjet {
 		float vx = Float.parseFloat(hs.get("vxtarget"));
 		float vy = Float.parseFloat(hs.get("vytarget"));
 
-			
+
 		switch(hs.get("name")){
 		case "arrow":
 			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
@@ -71,6 +67,6 @@ public abstract class Bullet extends ActionObjet {
 			c = null;
 		}
 		return c;
-		
+
 	}
 }
