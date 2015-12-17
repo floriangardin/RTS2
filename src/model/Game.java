@@ -543,7 +543,7 @@ public class Game extends BasicGame
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				if(host && ims.size()==0 && !processSynchro && timeOutAntiDrop==0){
 					// Antidrop
-					this.handleAntidrop();
+					//this.handleAntidrop();
 				} else if(host){
 					nDrop= 0;
 					nPlayed++;
