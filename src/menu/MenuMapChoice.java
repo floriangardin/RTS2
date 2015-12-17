@@ -148,7 +148,7 @@ public class MenuMapChoice extends Menu {
 					this.game.pingRequest();
 				}else {
 					roundForPingRequest++;
-					roundForPingRequest%=10;
+					roundForPingRequest%=40;
 				}
 			}
 // 			// checking disconnecting players
