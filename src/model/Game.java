@@ -772,12 +772,13 @@ public class Game extends BasicGame
 			i=0;
 			checksum+="B";
 			while(i<this.plateau.buildings.size()){
+				checksum+=this.plateau.buildings.get(i).name;
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).charge))%10);
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).constructionPoints))%10);
 				if(this.plateau.buildings.get(i) instanceof BuildingProduction){
 					BuildingProduction p =(BuildingProduction) this.plateau.buildings.get(i);
 					if(p.queue!=null && p.queue.size()>0){
-						checksum+="pr";
+						
 						checksum+=Integer.toString(p.queue.size());
 					}
 
