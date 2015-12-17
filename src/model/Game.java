@@ -525,7 +525,7 @@ public class Game extends BasicGame
 				this.handleSendingResynchroParse();
 
 
-				if(processSynchro){
+				if(!antidropProcess2 && processSynchro){
 					// Resynchro
 					this.handleResynchro();
 					System.out.println("Game line 528 : héhé resynchro "+this.round);
