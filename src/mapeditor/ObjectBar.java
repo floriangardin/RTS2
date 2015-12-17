@@ -294,7 +294,10 @@ public class ObjectBar {
 							case 0: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.units; break;
 							case 1:
 								if(e.name=="headquarters"){
-									this.editor.plateau.depotFromMouseOverObject = null;
+									if(e.team==1)
+										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersBlue;
+									else
+										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersRed;
 								} else {
 									this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.buildings; 
 								}
