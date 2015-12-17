@@ -1353,9 +1353,7 @@ public class Plateau {
 			//Parse this building
 			bul.parse(hs);
 		}
-
 	}
-
 	public Character getCharacterById(int id) {
 		for (Character cha : this.characters) {
 			if (id == cha.id) {
