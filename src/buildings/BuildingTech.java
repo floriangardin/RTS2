@@ -104,7 +104,6 @@ public abstract class BuildingTech extends BuildingAction {
 		String s = toStringBuilding();
 		if(this.queue!=null)
 			s+="qE:"+this.queue.id+";";
-		s+="chrg:"+this.charge+";";
 		//TODO : il faut aussi parser les tech
 		if(this.lastTechDiscovered!=null){
 			s+="lTD:"+this.lastTechDiscovered.id+";";
@@ -118,9 +117,6 @@ public abstract class BuildingTech extends BuildingAction {
 		}
 		else{
 			this.queue = null;
-		}
-		if(hs.containsKey("chrg")){
-			this.setCharge(Float.parseFloat(hs.get("chrg")));
 		}
 		if(hs.containsKey("lTD") && this.hq.allTechs.contains(this.getTechnologieById(Integer.parseInt(hs.get("lTD"))))){
 			this.techTerminate(this.getTechnologieById(Integer.parseInt(hs.get("lTD"))));

@@ -152,14 +152,10 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 			s+=";";
 		}
-		s+="chrg:"+this.charge+";";
 		return s;
 	}
 
 	public void parseBuildingProduction(HashMap<String, String> hs) {
-		if(hs.containsKey("chrg")){
-			this.setCharge(Float.parseFloat(hs.get("chrg")));
-		}
 		if(hs.containsKey("qE")){
 			this.queue.clear();
 			String[] r = hs.get("qE").split(",");

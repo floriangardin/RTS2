@@ -278,12 +278,17 @@ public class Building extends ActionObjet{
 	public String toString(){
 		return toStringBuilding();
 	}
+	
+	public void setCharge(float charge){
+		this.charge= charge;
+	}
 	public String toStringBuilding(){
 		String s = "";
 		s+="id:"+id+";";
 		s+="tm:"+getTeam()+";";
 		s+="pT:"+potentialTeam+";";
 		s+="cP:"+constructionPoints+";";
+		s+="chrg:"+charge+";";
 		if(this.rallyPoint!=null){
 			s+="rX:"+(int)this.rallyPoint.x+";";
 			s+="rY:"+(int)this.rallyPoint.y+";";
@@ -297,6 +302,9 @@ public class Building extends ActionObjet{
 		}
 		if(hs.containsKey("cP")){
 			this.constructionPoints = Float.parseFloat(hs.get("cP"));
+		}
+		if(hs.containsKey("chrg")){
+			this.setCharge(Float.parseFloat(hs.get("chrg")));
 		}
 		if(hs.containsKey("tm")){
 			if(this.getTeam()!=Integer.parseInt(hs.get("tm"))){
