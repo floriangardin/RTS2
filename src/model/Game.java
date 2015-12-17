@@ -21,6 +21,8 @@ import org.newdawn.slick.geom.Rectangle;
 import IA.IABasic;
 import buildings.Bonus;
 import buildings.Building;
+import buildings.BuildingProduction;
+import buildings.BuildingTech;
 import bullets.Bullet;
 import main.Main;
 import mapeditor.MapEditor;
@@ -768,6 +770,23 @@ public class Game extends BasicGame
 				checksum+=Integer.toString(((int)(this.plateau.characters.get(i).lifePoints))%10);
 				checksum+=Integer.toString(((int)(10f*this.plateau.characters.get(i).state))%10);
 				checksum+=Integer.toString(this.plateau.characters.get(i).id%10)+"-";
+				i++;
+			}
+			i=0;
+			while(i<this.plateau.buildings.size()){
+				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).charge))%10);
+				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).constructionPoints))%10);
+				if(this.plateau.buildings.get(i) instanceof BuildingProduction){
+					BuildingProduction p =(BuildingProduction) this.plateau.buildings.get(i);
+					if(p.queue!=null && p.queue.size()>0)
+						checksum+=Integer.toString(p.queue.size());
+				}
+				else if(this.plateau.buildings.get(i) instanceof BuildingTech){
+					BuildingTech p =(BuildingTech) this.plateau.buildings.get(i);
+					if(p.queue!=null){
+						checksum+="1";
+					}
+				}
 				i++;
 			}
 			checksum+="|";
