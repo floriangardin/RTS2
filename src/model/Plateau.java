@@ -82,7 +82,7 @@ public class Plateau {
 
 
 	public MapGrid mapGrid;
-	
+
 	//Cosmetic
 	public Cosmetic cosmetic;
 
@@ -93,7 +93,7 @@ public class Plateau {
 		// GENERAL
 		this.maxX = maxX;
 		this.maxY = maxY;
-		
+
 		initializePlateau(g);
 
 		try {
@@ -141,7 +141,7 @@ public class Plateau {
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
 		this.inRectangle = new Vector<Vector<ActionObjet>>();
-		
+
 		for(int i =0; i<g.nPlayers;i++){
 			this.selection.addElement(new Vector<ActionObjet>());
 			this.toAddSelection.addElement(new Vector<ActionObjet>());
@@ -151,7 +151,7 @@ public class Plateau {
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
 		}
-		
+
 		this.g.idChar = 0;
 		this.g.idBullet = 0;
 		for(GameTeam t : g.teams){
@@ -390,10 +390,10 @@ public class Plateau {
 						}
 					}
 					if(doCollision)
-					o.collision(e);
+						o.collision(e);
 				}
 				else{
-					
+
 				}
 			}
 			// Between spells and characters
@@ -441,24 +441,24 @@ public class Plateau {
 	public void updateCosmetic(InputObject im){
 		//SELECTION RECTANGLE
 		if (im.leftClick) {
-			
-		
-		if (im.isPressedA) {
-			return;
-		}
-		if (this.cosmetic.selection == null || im.isPressedCTRL) {
-			cosmetic.recX= (float) im.xMouse;
-			cosmetic.recY= (float) im.yMouse;
-			cosmetic.selection=  new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
-		}
-		cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.xMouse),
-				(float) Math.min(cosmetic.recY, im.yMouse), (float) Math.abs(im.xMouse - cosmetic.recX) + 0.1f,
-				(float) Math.abs(im.yMouse - cosmetic.recY) + 0.1f);
+
+
+			if (im.isPressedA) {
+				return;
+			}
+			if (this.cosmetic.selection == null || im.isPressedCTRL) {
+				cosmetic.recX= (float) im.xMouse;
+				cosmetic.recY= (float) im.yMouse;
+				cosmetic.selection=  new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
+			}
+			cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.xMouse),
+					(float) Math.min(cosmetic.recY, im.yMouse), (float) Math.abs(im.xMouse - cosmetic.recX) + 0.1f,
+					(float) Math.abs(im.yMouse - cosmetic.recY) + 0.1f);
 		}else{
 			cosmetic.selection = null;
 		}
 		//Selection character
-		
+
 		//RIGHT CLICK HERE
 		//TODO
 	}
@@ -541,7 +541,7 @@ public class Plateau {
 				if(target instanceof Building){
 					mode = Character.TAKE_BUILDING;
 				}
-				
+
 				o.setTarget(target, waypoints, mode);
 				o.secondaryTargets.clear();
 			}
@@ -668,7 +668,7 @@ public class Plateau {
 			// pour tous les inputs pass�s en argument on fait le traitement
 			int player = im.player.id;
 			// si on est client on ne g�re que son input
-			
+
 			//handle victory
 			if(im.isPressedPause){
 				this.g.endGame = true;
@@ -802,8 +802,8 @@ public class Plateau {
 					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = target;
 				}
 				if(target==null){
-				((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(this,im.xMouse,
-						im.yMouse);
+					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(this,im.xMouse,
+							im.yMouse);
 				}
 			} else if (im.isPressedMAJ) {
 				updateSecondaryTarget(im.xMouse, im.yMouse, player);
@@ -869,23 +869,23 @@ public class Plateau {
 					((BuildingAction) this.selection.get(player).get(0)).removeProd();
 			} else
 				if (this.selection.get(player).size() > 0 && this.selection.get(player).get(0) instanceof Character) {
-				int number = -1;
-				if (im.isPressedProd0)
-					number = 0;
-				if (im.isPressedProd1)
-					number = 1;
-				if (im.isPressedProd2)
-					number = 2;
-				if (im.isPressedProd3)
-					number = 3;
-				Character c = ((Character) this.selection.get(player).get(0));
-				if (-1 != number && number < c.spells.size()
-						&& c.spellsState.get(number) >= c.spells.get(number).chargeTime) {
-					if (!c.spells.get(number).needToClick) {
-						c.spells.get(number).launch(c, c);
+					int number = -1;
+					if (im.isPressedProd0)
+						number = 0;
+					if (im.isPressedProd1)
+						number = 1;
+					if (im.isPressedProd2)
+						number = 2;
+					if (im.isPressedProd3)
+						number = 3;
+					Character c = ((Character) this.selection.get(player).get(0));
+					if (-1 != number && number < c.spells.size()
+							&& c.spellsState.get(number) >= c.spells.get(number).chargeTime) {
+						if (!c.spells.get(number).needToClick) {
+							c.spells.get(number).launch(c, c);
+						}
 					}
 				}
-			}
 		}
 
 	}
@@ -1062,7 +1062,7 @@ public class Plateau {
 		}
 	}
 
-	
+
 	// handling selection
 	public void handleSelection(InputObject im, int player, int team) {
 		// Handling groups of units
@@ -1075,7 +1075,7 @@ public class Plateau {
 						this.g.players.get(player).groups.get(to).add(c);
 				} else if (im.isPressedMAJ) {
 					// Adding the current selection to the group
-					
+
 					for (ActionObjet c : this.selection.get(player))
 						this.g.players.get(player).groups.get(to).add(c);
 				} else {
@@ -1148,7 +1148,7 @@ public class Plateau {
 
 	}
 
-	
+
 
 	public void updateSelection(Rectangle select, int player, int team) {
 		if (select != null) {
@@ -1259,11 +1259,16 @@ public class Plateau {
 		}
 
 		s += "!";
-		
+
 		//SELECTION
 		for(int i = 0;i<this.g.players.size();i++){
-			for(ActionObjet o: this.selection.get(i)){
-				s+=o.id+";";
+			if(this.selection.get(i).size()==0){
+				s+="-1;";
+			}
+			else{
+				for(ActionObjet o: this.selection.get(i)){
+					s+=o.id+";";
+				}
 			}
 			s+="|";
 		}
@@ -1282,7 +1287,7 @@ public class Plateau {
 			parseCharacter(u[3]);
 			parseBuilding(u[4]);
 			parseSelection(u[5]);
-			
+
 			//PARSE SELECTION
 			this.g.idChar = Integer.parseInt(u[1]);
 
@@ -1366,19 +1371,22 @@ public class Plateau {
 			bul.parse(hs);
 		}
 	}
-	
+
 	public void parseSelection(String s){
+		System.out.println(s);
 		String[] u = s.split("\\|");
-		
 		//Loop over each player
 		for(int i = 0; i<this.g.players.size();i++){
 			this.selection.get(i).clear();
 			if(u[i].equals("")){
-				continue;
+				continue;	
 			}
 			String[] ids = u[i].split(";");
 			for(int j=0; j<ids.length;j++){
-				this.selection.get(i).add(getById(Integer.parseInt(ids[j])));
+				int id = Integer.parseInt(ids[j]);
+				if(id!=-1){
+					this.selection.get(i).add(getById(id));
+				}
 			}
 		}
 	}
