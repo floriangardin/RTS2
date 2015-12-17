@@ -1344,6 +1344,7 @@ public class Plateau {
 		Building bul = null;
 		int finish = u.length;
 		// For all buildings in received message
+		System.out.println(s);
 		for (int i = 0; i < finish; i++) {
 			HashMap<String, String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
