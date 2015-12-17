@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import battleIA.IAStateOfGame.BuildingIA;
+import battleIA.IAStateOfGame.ObjetIA;
 import battleIA.IAStateOfGame.UnitIA;
 import buildings.Building;
 import buildings.BuildingAcademy;
@@ -26,6 +27,7 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
+import units.UnitsList;
 
 public final class IAfunctions {
 
@@ -440,98 +442,60 @@ public final class IAfunctions {
 
 
 	//BUILDING GETTER METHODS
-	private BuildingIA getNearestBuildingByTypeAndTeam(BuildingsList type, int team, Objet caller){
-		Vector<BuildingIA> result = new Vector<BuildingIA>();
-		for(BuildingIA b : plateau.buildings){
-			if(b.type == type && b.team==team){
-				result.add(b);
+	private ObjetIA getNearestObjet(Vector<ObjetIA> objets, ObjetIA caller){
+		float ref_dist = 10000000000f;
+		ObjetIA closest = null;
+		for(ObjetIA o : objets){
+			float dist = (o.x-caller.x)*(o.x-caller.x)+(o.y-caller.y)*(o.y-caller.y);
+			if(dist < ref_dist){
+				ref_dist = dist;
+				closest = o;
 			}
 		}
-
-		return Utils.nearestObject(result, caller);
+		return closest;
 	}
 	
-	public BuildingIA getNearestNeutralMill(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingMill && b.getTeam()==0){
-				result.add(b);
-
-			}
-		}
-
-		return (BuildingIA) Utils.nearestObject(result, caller);
-
-	}
-	public BuildingIA getNearestNeutralMine(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingMine && b.getTeam()==0){
+	private BuildingIA getNearestBuildingByTypeAndTeam(BuildingsList type, int team, boolean ally, ObjetIA caller){
+		Vector<ObjetIA> result = new Vector<ObjetIA>();
+		for(BuildingIA b : plateau.buildings){
+			if(b.type == type && ((ally && b.team==team) || (!ally && b.team!=team && b.team!=0))){
 				result.add(b);
 			}
 		}
-
-		return (BuildingIA) Utils.nearestObject(result, caller);
-
+		return (BuildingIA) getNearestObjet(result, caller);
 	}
-	public BuildingIA getNearestNeutralBarrack(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingBarrack && b.getTeam()==0){
-				result.add(b);
+	
+	public BuildingIA getNearestNeutralMill(ObjetIA caller){
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Mill, 0, true, caller);
+	}
+	public BuildingIA getNearestNeutralMine(ObjetIA caller){
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Mine, 0, true, caller);
+	}
+	public BuildingIA getNearestNeutralBarrack(ObjetIA caller){
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Barrack, 0, true, caller);
+	}
+	public BuildingIA getNearestEnemyMill(ObjetIA caller){
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Mill, 0, false, caller);
+	}
+	public BuildingIA getNearestEnemyMine(ObjetIA caller){
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Mine, 0, false, caller);
+	}
+	public BuildingIA getNearestEnemyBarrack(ObjetIA caller){
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Barrack, 0, false, caller);
+	}
+	public BuildingIA getEnemyHQ(){
+		for(BuildingIA b: this.plateau.buildings){
+			if(b.type == BuildingsList.Headquarters && b.team != this.currentTeam){
+				return b;
 			}
 		}
-		return (BuildingIA) Utils.nearestObject(result, caller);
+		return null;
 	}
-
-	public BuildingIA getNearestMillToConquer(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingMill && b.getTeam()!=caller.getTeam()){
-				result.add(b);
-			}
-		}
-
-		return (BuildingIA) Utils.nearestObject(result, caller);
-
-	}
-	public BuildingIA getNearestMineToConquer(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingMine && b.getTeam()!=caller.getTeam()){
-				result.add(b);
-			}
-		}
-
-		return (BuildingIA) Utils.nearestObject(result, caller);
-
-	}
-
-	public BuildingIA getNearestHQToConquer(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingHeadQuarters && b.getTeam()!=caller.getTeam()){
-				result.add(b);
-			}
-		}
-		return (BuildingIA) Utils.nearestObject(result, caller);
-
-	}
-	public BuildingIA getNearestBarrackToConquer(Vector<BuildingIA> buildings,Objet caller){
-		Vector<Objet> result = new Vector<Objet>();
-		for(BuildingIA b : buildings){
-			if(b instanceof BuildingBarrack && b.getTeam()!=caller.getTeam()){
-				result.add(b);
-			}
-		}
-		return (BuildingIA) Utils.nearestObject(result, caller);
-	}
-
+	
 	public Vector<UnitIA> getSpearman(Vector<UnitIA> units){
 		Vector<UnitIA> result = new Vector<UnitIA>();
-
-		for(UnitIA c : units){
-			if(c instanceof UnitSpearman ){
+		for(UnitIA c : plateau.units){
+			if(c.type == UnitsList.Spearman ){
 				result.add(c);
 			}
 		}
