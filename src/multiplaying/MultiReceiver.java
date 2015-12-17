@@ -142,7 +142,7 @@ public class MultiReceiver extends Thread{
 		//Calcul du delta
 		int delta =(int) (this.g.clock.ping*Main.framerate/(1e9));
 		int deltaMesure = this.g.round - round ;
-		if((deltaMesure-delta)>1){
+		if((deltaMesure-delta)<-1){
 			g.antidrop = true;
 		}
 
