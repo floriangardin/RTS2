@@ -127,9 +127,11 @@ public class MultiReceiver extends Thread{
 		}
 	}
 	public void actionChecksum(String msg){
-		this.g.mutexChecksum.lock();
-		this.g.receivedChecksum.addElement(new Checksum(msg));
-		this.g.mutexChecksum.unlock();
+		if(g.host){
+			this.g.mutexChecksum.lock();
+			this.g.receivedChecksum.addElement(new Checksum(msg));
+			this.g.mutexChecksum.unlock();
+		}
 		// HANDLE ANTI-DROP 
 		String[] u = msg.split("\\|");
 		int round = Integer.parseInt(u[0]); 

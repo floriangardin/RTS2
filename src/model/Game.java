@@ -764,11 +764,10 @@ public class Game extends BasicGame
 			}
 			checksum+="|";
 			checksum+=this.clock.getPing()+"|";
-			if(!this.host){
+			
 				// si client on envoie checksum
 				this.sendChecksum(checksum);
-			} else {
-				// on l'ajoute dans mes checksum si je suis host
+			if(host){
 				this.checksum.addElement(new Checksum(checksum));
 			}
 		}
