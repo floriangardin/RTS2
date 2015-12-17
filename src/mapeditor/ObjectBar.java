@@ -293,14 +293,14 @@ public class ObjectBar {
 							switch(this.selectedClass){
 							case 0: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.units; break;
 							case 1:
-								if(e.name=="headquarters"){
-									if(e.team==1)
-										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersBlue;
-									else
-										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersRed;
-								} else {
+//								if(e.name=="headquarters"){
+//									if(e.team==1)
+//										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersBlue;
+//									else
+//										this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.headquartersRed;
+//								} else {
 									this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.buildings; 
-								}
+//								}
 								break;
 							case 2: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.buildings; break;
 							case 3: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.nature; break;
