@@ -28,7 +28,7 @@ public class UnitCrossbowman extends Character {
 		this.sight = 400f*Game.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 130f*Game.ratioSpace;
+		this.maxVelocity = 130f*Game.ratioSpace*data.speedFactor;
 		this.armor = 2f;
 		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 5f;

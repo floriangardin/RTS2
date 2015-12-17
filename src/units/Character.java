@@ -1190,11 +1190,9 @@ public class Character extends ActionObjet{
 
 		s+="weapon:"+weapon+";";
 
-
 		s+="chargeTime:"+chargeTime+";";
 
 		s+="state:"+state+";";
-
 
 		s+="spellState:";
 		for(float i : this.spellsState){
