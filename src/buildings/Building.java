@@ -274,7 +274,10 @@ public class Building extends ActionObjet{
 	public void drawAnimation(Graphics g){
 
 	}
-
+	
+	public String toString(){
+		return toStringBuilding();
+	}
 	public String toStringBuilding(){
 		String s = "";
 		s+="id:"+id+";";
@@ -308,6 +311,9 @@ public class Building extends ActionObjet{
 		}
 	}
 
+	public void parse(HashMap<String, String> hs){
+		parseBuilding(hs);
+	}
 
 	public Technologie getTechnologieById(int id){
 		Technologie tec = null;
