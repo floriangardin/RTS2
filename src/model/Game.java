@@ -817,7 +817,7 @@ public class Game extends BasicGame
 	}
 	private void handleAntidrop(GameContainer gc) {
 		//TODO
-		if(antidrop && this.clock.ping<40){
+		if(antidrop){
 			//UPDATE ROUND DURATION
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
 			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
