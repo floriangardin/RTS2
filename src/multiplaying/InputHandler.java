@@ -51,20 +51,15 @@ public class InputHandler {
 		while(i<this.inputs.size()){
 			InputObject in = this.inputs.get(i);
 			//If right round and validated add it to player inputs to play
-			if(round==(in.round+nDelay))
-				System.out.println("cc: bon timing " + in.player.id + " " + in.isValidated() + " "+in.toPlay);
 			if(round==(in.round+nDelay) && in.isValidated()  && in.toPlay){
 				//ADD inputs in player
-				System.out.println("aa : bon input " + in.player);
 				toReturn.add(in);
 				toRemove.add(in);
 			} else if (round==(in.round+nDelay) && !in.isValidated()){
 				//If right round but not validated, erase the input
-				System.out.println("ee : input non validé" + in.player);
 				toRemove.add(in);
 			} else if (round>(in.round+nDelay)){
 				//If too late to play this input, erase the input
-				System.out.println("bb : input a effacer car trop tard" + in.player);
 				toRemove.add(in);
 			}
 			i++;
@@ -96,7 +91,6 @@ public class InputHandler {
 	
 	public void addToInputs(InputObject io){
 		mutex.lock();
-		System.out.println(" ---- on ajoute l'input " +io.player+" "+io.round);
 		this.inputs.addElement(io);
 		mutex.unlock();
 	}

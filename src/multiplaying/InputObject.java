@@ -181,8 +181,7 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("P1")) isPressedProd1= true;
 		if(content.containsKey("P2")) isPressedProd2= true;
 		if(content.containsKey("P3")) isPressedProd3= true;
-		//if(content.containsKey("toPlay")) 
-			toPlay= true;
+		toPlay= true;
 
 		for(int i=0; i<10; i++){
 			if(content.containsKey(i+"")) isPressedNumPad[i] = true;
