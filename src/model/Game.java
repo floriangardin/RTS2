@@ -527,7 +527,9 @@ public class Game extends BasicGame
 				}
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.handleAntidrop(gc);
-				this.plateau.update(ims);
+				if(ims.size()>0){
+					this.plateau.update(ims);
+				}
 				this.plateau.updatePlateauState();
 				this.plateau.updateCosmetic(im);
 
