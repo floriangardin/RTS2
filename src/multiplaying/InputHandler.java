@@ -94,6 +94,7 @@ public class InputHandler {
 	
 	public void addToInputs(InputObject io){
 		mutex.lock();
+		System.out.println(" ---- on ajoute l'input " +io.player+" "+io.round);
 		this.inputs.addElement(io);
 		mutex.unlock();
 	}
