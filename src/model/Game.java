@@ -480,6 +480,7 @@ public class Game extends BasicGame
 		//			System.out.println(tarray[i].getName());
 		//		}
 		//		System.out.println();
+		toSendThisTurn="";
 		if(t!=16)
 			System.out.println("Le round "+round+" a dure "+t);
 		Vector<InputObject> ims = new Vector<InputObject>();
@@ -518,7 +519,7 @@ public class Game extends BasicGame
 			//Handle manual resynchro
 
 			if(inMultiplayer){
-				toSendThisTurn="";
+				
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn+="1"+im.toString()+"%";
