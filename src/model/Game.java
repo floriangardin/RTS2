@@ -208,7 +208,6 @@ public class Game extends BasicGame
 	int nombrePlayed = 0;
 	int delaySleep = 0;
 	static int delaySleepAntiDrop = 8;
-
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;

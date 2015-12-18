@@ -114,7 +114,6 @@ public class MultiReceiver extends Thread{
 		this.g.toParse= msg;
 	}
 	public void actionPing(String msg){
-		System.out.println("Ping !");
 		String[] valMessage = msg.split("\\|");
 		int id = Integer.parseInt(valMessage[1]);
 		if(g.host){
