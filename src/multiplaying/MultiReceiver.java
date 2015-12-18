@@ -44,6 +44,7 @@ public class MultiReceiver extends Thread{
 				packet = new DatagramPacket(message, message.length);
 				try{
 					server.receive(packet);
+					System.out.println("-------------- réception d'un message : " + (System.nanoTime()/1e6));
 				} catch(java.net.SocketException e){
 					break;
 				}
