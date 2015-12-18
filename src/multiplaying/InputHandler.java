@@ -53,13 +53,16 @@ public class InputHandler {
 			//If right round and validated add it to player inputs to play
 			if(round==(in.round+nDelay) && in.isValidated()  && in.toPlay){
 				//ADD inputs in player
+				System.out.println("aa : bon input " + in.player);
 				toReturn.add(in);
 				toRemove.add(in);
 			} else if (round==(in.round+nDelay) && !in.isValidated()){
 				//If right round but not validated, erase the input
+				System.out.println("ee : input non validé" + in.player);
 				toRemove.add(in);
 			} else if (round>(in.round+nDelay)){
 				//If too late to play this input, erase the input
+				System.out.println("bb : input a effacer car trop tard" + in.player);
 				toRemove.add(in);
 			}
 			i++;
@@ -76,7 +79,7 @@ public class InputHandler {
 			}
 			if(!toPlay){
 				this.mutex.unlock();
-				System.out.println("Round drop "+this.g.round);
+				System.out.println("Round drop "+this.g.round+" à cause du joueur "+k);
 				this.g.toDrawDrop = true;
 				return new Vector<InputObject>();				
 			}
