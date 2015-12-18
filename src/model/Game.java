@@ -294,7 +294,9 @@ public class Game extends BasicGame
 			}
 			g.translate(-plateau.Xcam,- plateau.Ycam);
 			this.menuCurrent.draw(g);
-			this.chatHandler.draw(g);
+			if(inMultiplayer && menuCurrent instanceof MenuMapChoice){
+				this.chatHandler.draw(g);
+			}
 		} else if (inEditor){
 			this.editor.draw(g);
 		} else if (endGame){
@@ -486,7 +488,9 @@ public class Game extends BasicGame
 		if(isInMenu){
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,true);
-			this.chatHandler.action(in,im);
+			if(inMultiplayer && menuCurrent instanceof MenuMapChoice){
+				this.chatHandler.action(in,im);
+			}
 			this.menuCurrent.update(im);
 		} else if(inEditor) {
 			// Map Editor
