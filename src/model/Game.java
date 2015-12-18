@@ -48,7 +48,7 @@ public class Game extends BasicGame
 	/////////////
 	/// DEBUG ///
 	/////////////
-	
+
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
@@ -56,71 +56,71 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
-	
+
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
-	
+
 	public boolean displayMapGrid = false;
-	
+
 	public static boolean showUpdateLogicInterval = true;
-	
-	
+
+
 	// debugging tools
 	long timeSteps = 0;
 	public int nbGameTurn = 0;
-	
+
 	public int round = 0;
 	public int roundDebug = 0;
-	
+
 	public int idPaquetSend = 0;
 	public int nbPaquetReceived = 0;
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
-	
-	
+
+
 	//Increment de game
-	
+
 	public static float ratio = 60f/((float)Main.framerate);
-	
+
 	public static float ratioSpace = 0.8f;
-	
+
 	public int idChar = 0;
 	public int idBullet = 0;
-	
+
 	// Font 
 	public UnicodeFont font;
-	
+
 	// Music and sounds
 	public Options options;
 	public Sounds sounds;
 	public Images images;
 	public Musics musics;
-	
+
 	// Timer
 	public Timer timer ;
-	
+
 	// Bars
 	public float relativeHeightBottomBar = 1f/6f;
 	public float relativeHeightTopBar = 1f/20f;
-	
+
 	// Selection
 	public Rectangle selection;
 	public boolean new_selection;
 	public Vector<Objet> objets_selection= new Vector<Objet>();
-	
+
 	// Resolution : 
 	public float resX;
 	public float resY;
-	
+
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
-	
-	
+
+
 	////////////////////////
 	/// PLAYERS && TEAMS ///
 	////////////////////////
-	
+
 	// Number of teams
 	public int nTeams =2;
 	// Number of players
@@ -129,12 +129,12 @@ public class Game extends BasicGame
 	public Vector<Player> players = new Vector<Player>();
 	public Player currentPlayer;
 	public Vector<GameTeam> teams = new Vector<GameTeam>();
-	
-	
+
+
 	/////////////////////////////
 	/// NETWORK & MULTIPLAYING///
 	/////////////////////////////
-	
+
 	//Clock
 	public Clock clock;
 	public boolean inMultiplayer;
@@ -173,13 +173,13 @@ public class Game extends BasicGame
 	public boolean toDrawDrop = false;
 	public boolean toDrawAntiDrop = false;
 	public int roundDelay;
-	
-	
-	
+
+
+
 	/////////////
 	/// MENUS ///
 	/////////////
-	
+
 	public Menu menuPause;
 	public MenuIntro menuIntro;
 	public MenuOptions menuOptions;
@@ -189,26 +189,26 @@ public class Game extends BasicGame
 	public boolean isInMenu = false;
 	public int idInput;
 	public float ratioResolution;
-	
+
 	//editor
 	public boolean inEditor;
 	public MapEditor editor;
-	
+
 	//////////////////////////
 	/// VICTORY AND DEFEAT ///
 	//////////////////////////
-	
+
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 200;
 	boolean hasAlreadyPlay = false;
-	
+
 	public boolean antidrop;
 	int nombreDrop = 0;
 	int nombrePlayed = 0;
 	int delaySleep = 0;
 	static int delaySleepAntiDrop = 8;
-	
+
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -223,30 +223,30 @@ public class Game extends BasicGame
 			((MenuMapChoice)m).initialize();
 		}
 	}
-	
+
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
 		this.players.addElement(new Player(this.plateau,players.size(),name,teams.get(1),resX,resY));
 		this.players.lastElement().address = address;
 		nPlayers+=1;
-		
+
 		// adding components in plateau
 		this.plateau.selection.addElement(new Vector<ActionObjet>());
 		this.plateau.toAddSelection.addElement(new Vector<ActionObjet>());
 		this.plateau.toRemoveSelection.addElement(new Vector<ActionObjet>());
-		
+
 		this.plateau.rectangleSelection.addElement(null);
 		this.plateau.recX.addElement(0f);
 		this.plateau.recY.addElement(0f);
 		this.plateau.inRectangle.addElement(new Vector<ActionObjet>());
-		
+
 	}
-	
+
 	public void removePlayer(int indice){
 		if(indice==0 || indice>players.size())
 			return;
 		players.remove(indice);
 		nPlayers -= 1;
-		
+
 		// deleting component from plateau
 		this.plateau.selection.remove(indice);
 		this.plateau.toAddSelection.remove(indice);
@@ -257,7 +257,7 @@ public class Game extends BasicGame
 		this.plateau.inRectangle.remove(indice);
 	}
 	// functions that handle buffers
-	
+
 	public void clearPlayer(){
 		/**
 		 * function that remove all players but the nature (player 0)
@@ -266,7 +266,7 @@ public class Game extends BasicGame
 			removePlayer(players.size()-1);
 		}
 	}
-	
+
 	public void initializePlayers(){
 		//UPDATING GAME
 		this.teams.clear();
@@ -282,11 +282,11 @@ public class Game extends BasicGame
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
 	}
-	
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		
+
 		g.setFont(this.font);
 		if(isInMenu){
 			if(hasAlreadyPlay){
@@ -297,7 +297,7 @@ public class Game extends BasicGame
 		} else if (inEditor){
 			this.editor.draw(g);
 		} else if (endGame){
-			
+
 			g.setColor(Color.black);
 			g.fillRect(0, 0, this.resX, this.resY);
 			g.setColor(Color.white);
@@ -315,11 +315,11 @@ public class Game extends BasicGame
 			//Draw background
 			g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
 					2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
-			
-			
+
+
 			g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
 					0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
-			
+
 			//		int i = 0;
 			//		int j = 0;
 			//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
@@ -330,14 +330,14 @@ public class Game extends BasicGame
 			//			i+=this.images.grassTexture.getWidth();
 			//			j= 0;
 			//		}
-			
+
 			//		g.setColor(Color.black);
 			//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
 			//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
-			
+
 			//		g.drawImage(this.images.background,this.plateau.maxX, 0);
 			//		g.drawImage(this.images.background,0, this.plateau.maxY);
-			
+
 			//			MapGrid mapGrid = this.plateau.mapGrid;
 			//			g.setColor(Color.black);
 			//			for(Float x : mapGrid.Xcoord){
@@ -350,7 +350,7 @@ public class Game extends BasicGame
 			//					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
 			//				}
 			//			}
-			
+
 			// Draw the selection of your team 
 			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
 				o.drawIsSelected(g);
@@ -371,16 +371,16 @@ public class Game extends BasicGame
 				//o.draw(g);
 				if(o.visibleByCurrentPlayer)
 					toDrawAfter.add(o);
-				
+
 			}
-			
+
 			//Draw bonuses
 			for(Bonus o : plateau.bonus){
 				//o.draw(g);
 				o.draw(g);
 			}
 			// Draw the natural Objets
-			
+
 			for(NaturalObjet o : this.plateau.naturalObjets){
 				if(o.visibleByCurrentPlayer)
 					toDrawAfter.add(o);
@@ -415,7 +415,7 @@ public class Game extends BasicGame
 			plateau.drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
-			
+
 			// Draw the selection :
 			if(plateau.cosmetic.selection!=null){
 				g.setColor(Colors.selection);
@@ -423,13 +423,13 @@ public class Game extends BasicGame
 			}
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
-			
-			
+
+
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
 			if(this.currentPlayer.bottomBar!=null)
 				this.currentPlayer.bottomBar.draw(g);
-			
+
 		}
 		if(processSynchro){
 			g.setColor(Color.green);
@@ -449,7 +449,7 @@ public class Game extends BasicGame
 		this.chatHandler.draw(g);
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
-		
+
 		this.drawPing(g);
 		//		Runtime runtime = Runtime.getRuntime();
 		//
@@ -465,8 +465,8 @@ public class Game extends BasicGame
 		//		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
 		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
 		//		
-		
-		
+
+
 	}
 	// Do our logic 
 	@Override
@@ -489,9 +489,9 @@ public class Game extends BasicGame
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,!processSynchro);
 			this.editor.update(im,in);
-			
+
 		} else if(!endGame) {
-			
+
 			//Update of current round
 			this.clock.setRoundFromTime();
 			// getting inputs
@@ -507,16 +507,16 @@ public class Game extends BasicGame
 				this.manuelAntidrop(in,gc);
 			}
 			//Handle manual resynchro
-			
+
 			if(inMultiplayer){
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
-				
+
 				this.handleChecksum();
 				this.handlePing();
 				this.handleSendingResynchroParse();
 				this.handleResynchro();
-				
+
 				this.sendInput(im.toString());
 				this.inputsHandler.addToInputs(im);
 				if(!chatHandler.typingMessage){
@@ -524,16 +524,18 @@ public class Game extends BasicGame
 				}
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				this.handleAntidrop(gc);
-				this.plateau.update(ims);
+				if(ims.size()>0){
+					this.plateau.update(ims);
+				}
 				this.plateau.updatePlateauState();
 				this.plateau.updateCosmetic(im);
-				
+
 			} else {
-				
+
 				/////////////////////
 				/// SINGLE PLAYER ///
 				/////////////////////
-				
+
 				ims.add(im);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
@@ -543,7 +545,7 @@ public class Game extends BasicGame
 				this.plateau.updateCosmetic(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
-				
+
 				// Maintenant l'update effectif du plateau est séparé ..
 				this.plateau.updatePlateauState();
 				//Update IA orders
@@ -580,10 +582,10 @@ public class Game extends BasicGame
 					this.sender.shutdown();
 				}
 				this.setMenu(this.menuIntro);
-				
+
 			}
 		}
-		
+
 		if(debugPaquet){
 			System.out.println("tour de jeu: " + round);
 			System.out.println("nb paquets envoy�s: " + idPaquetSend);
@@ -591,21 +593,21 @@ public class Game extends BasicGame
 			System.out.println("-- difference: " + (idPaquetSend - idPaquetReceived));
 			System.out.println("nb paquets trait�s: " + idPaquetTreated);
 		}
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	private void drawPing(Graphics g) {
 		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
 		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
 		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, y);
 	}
-	
+
 	public void launchGame(){
-		
+
 		this.musics.imperial.loop();
 		this.musics.imperial.setVolume(options.musicVolume);
 		//this.game.newGame();
@@ -618,11 +620,11 @@ public class Game extends BasicGame
 		this.idPaquetTreated = 0;
 		this.round = 0;
 	}
-	
-	
+
+
 	public Player getPlayerById(int id){
 		return this.players.get(id);
-		
+
 	}
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
@@ -640,16 +642,16 @@ public class Game extends BasicGame
 		this.options = new Options();
 		this.images = new Images();
 		this.musics = new Musics();
-		
+
 		this.menuIntro = new MenuIntro(this);
 		this.menuOptions = new MenuOptions(this);
 		this.menuMulti = new MenuMulti(this);
 		this.menuMapChoice = new MenuMapChoice(this);
-		
+
 		this.editor = new MapEditor(this);
 		this.setMenu(menuIntro);
 		Map.initializePlateau(this, 1f, 1f);
-		
+
 		//FLO INPUTS
 		this.inputsHandler = new InputHandler(this);
 		//System.out.println(this.plateau.mapGrid);
@@ -669,17 +671,17 @@ public class Game extends BasicGame
 		this.clock.start();
 		chatHandler = new ChatHandler(this);
 	}
-	
-	
-	
+
+
+
 	public Game (float resX,float resY){
 		super("Ultra Mythe RTS 3.0");
 		this.resX = resX;
 		this.resY = resY;
 		this.ratioResolution = this.resX/2800f;
 	}
-	
-	
+
+
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
 	public void sendConnexion(String message){
@@ -722,7 +724,7 @@ public class Game extends BasicGame
 			this.toSend.add(new MultiMessage(s,6,this.players.get(i).address));
 		}
 	}
-	
+
 	private void manuelAntidrop(Input in,GameContainer gc) {
 		delaySleep = 0 ;
 		if(in.isKeyPressed(Input.KEY_P)){
@@ -766,10 +768,10 @@ public class Game extends BasicGame
 				if(this.plateau.buildings.get(i) instanceof BuildingProduction){
 					BuildingProduction p =(BuildingProduction) this.plateau.buildings.get(i);
 					if(p.queue!=null && p.queue.size()>0){
-						
+
 						checksum+=Integer.toString(p.queue.size());
 					}
-					
+
 				}
 				else if(this.plateau.buildings.get(i) instanceof BuildingTech){
 					BuildingTech p =(BuildingTech) this.plateau.buildings.get(i);
@@ -783,8 +785,8 @@ public class Game extends BasicGame
 			}
 			checksum+="|";
 			checksum+=this.clock.getPing()+"|";
-			
-				// si client on envoie checksum
+
+			// si client on envoie checksum
 			this.sendChecksum(checksum);
 			if(host){
 				this.checksum.addElement(new Checksum(checksum));
@@ -804,7 +806,7 @@ public class Game extends BasicGame
 							System.out.println("Game line 719 : Probleme synchro round "+this.round);
 							System.out.println(c.checksum);
 							System.out.println(c1.checksum);
-							
+
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
@@ -861,7 +863,7 @@ public class Game extends BasicGame
 				this.plateau.parse(this.toParse);
 				this.toParse = null;
 				this.processSynchro = false;
-				
+
 			}
 			else if(this.toParse==null || Integer.parseInt(u[0])<(this.round-InputHandler.nDelay)){
 				this.processSynchro = false;
@@ -878,6 +880,6 @@ public class Game extends BasicGame
 		}
 		this.chatHandler.messages.addElement(m);
 	}
-	
-	
+
+
 }
