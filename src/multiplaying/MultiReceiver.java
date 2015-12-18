@@ -122,13 +122,14 @@ public class MultiReceiver extends Thread{
 	public void actionPing(String msg){
 		String[] valMessage = msg.split("\\|");
 		int id = Integer.parseInt(valMessage[1]);
-		if(g.host){
+		
+		if(id==g.currentPlayer.id) {
+			long time =Long.parseLong(valMessage[0]);
+			this.g.clock.updatePing(time);
+		}else if(g.host){
 			if(id<g.players.size()){
 				g.toSendThisTurn+="4"+(msg)+"%";
 			}
-		} else if(id==g.currentPlayer.id) {
-			long time =Long.parseLong(valMessage[0]);
-			this.g.clock.updatePing(time);
 		}
 	}
 	public void actionChecksum(String msg){
