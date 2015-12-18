@@ -126,7 +126,7 @@ public class MultiReceiver extends Thread{
 			if(id<g.players.size()){
 				g.toSendThisTurn+="4"+(msg)+"%";
 			}
-		} else {
+		} else if(id==g.currentPlayer.id) {
 			long time =Long.parseLong(valMessage[0]);
 			this.g.clock.updatePing(time);
 		}

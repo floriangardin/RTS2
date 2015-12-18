@@ -208,6 +208,9 @@ public class Game extends BasicGame
 	int nombrePlayed = 0;
 	int delaySleep = 0;
 	static int delaySleepAntiDrop = 8;
+
+	public boolean pingPeak=false;
+
 	public void quitMenu(){
 		this.isInMenu = false;
 		this.menuCurrent = null;
@@ -518,7 +521,7 @@ public class Game extends BasicGame
 			//Handle manual resynchro
 
 			if(inMultiplayer){
-				
+
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn+="1"+im.toString()+"%";
@@ -802,9 +805,7 @@ public class Game extends BasicGame
 		}
 	}
 	private void handlePing() {
-		if(!host && round%40 == 0){
-			toSendThisTurn+="4"+this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|%";
-		}
+		toSendThisTurn+="4"+this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|%";
 	}
 	private void handleSendingResynchroParse() {
 		if(this.host && this.processSynchro && this.sendParse){
