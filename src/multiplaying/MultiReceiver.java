@@ -104,8 +104,6 @@ public class MultiReceiver extends Thread{
 	public void actionValidation(String msg){
 		//Get the corresponding round and player
 		String rawInput = msg;
-
-
 		String[] valMessage = rawInput.split("\\|");
 		int round = Integer.parseInt(valMessage[0]);
 		int idPlayer = Integer.parseInt(valMessage[1]);
