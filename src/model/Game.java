@@ -481,7 +481,8 @@ public class Game extends BasicGame
 		//			System.out.println(tarray[i].getName());
 		//		}
 		//		System.out.println();
-		System.out.println("Le round "+round+" a dure "+t);
+		if(t!=16)
+			System.out.println("Le round "+round+" a dure "+t);
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -531,7 +532,7 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
 				ims = this.inputsHandler.getInputsForRound(this.round);
-				//this.handleAntidrop(gc);
+				this.handleAntidrop(gc);
 				if(ims.size()>0){
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
