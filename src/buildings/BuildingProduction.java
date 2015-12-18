@@ -144,8 +144,10 @@ public abstract class BuildingProduction extends BuildingAction {
 			if(this.queue.size()>0){
 				s=s.substring(0, s.length()-1);
 			}
+			
 			s+=";";
 		}
+		s+="rnD:"+random+";";
 		return s;
 	}
 
@@ -158,6 +160,9 @@ public abstract class BuildingProduction extends BuildingAction {
 					this.queue.addElement(Integer.parseInt(r[i]));
 				}
 			}
+		}
+		if(hs.containsKey("rnD")){
+			this.random = Float.parseFloat(hs.get("rnD"));
 		}
 	}
 
