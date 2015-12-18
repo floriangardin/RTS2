@@ -56,6 +56,9 @@ public class MultiSender extends Thread{
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
 					client.send(packet);
+					if(multimessage.type==5){
+						System.out.println("envoi du checksum effectif: "+System.nanoTime());
+					}
 					sent++;
 					//System.out.println("sent :" + sent);
 					if(Game.debugSender)
