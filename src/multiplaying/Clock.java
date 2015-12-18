@@ -49,7 +49,7 @@ public class Clock extends Thread{
 	public void updatePing(long messageTime){
 		//Get origin time for each player (== delay/2)
 		long calculatedPing = this.getCurrentTime()-messageTime;
-		if((calculatedPing>40*1e6 && !game.isInMenu )|| calculatedPing<0 ){
+		if((calculatedPing>40*1e6 && game.isInMenu )|| calculatedPing<0 ){
 			System.out.println("Ping de batard : "+calculatedPing);
 			return;
 		}
