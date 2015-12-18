@@ -492,6 +492,7 @@ public class Game extends BasicGame
 				this.chatHandler.action(in,im);
 			}
 			this.menuCurrent.update(im);
+			this.send();
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();

@@ -126,7 +126,7 @@ public class MultiReceiver extends Thread{
 		int id = Integer.parseInt(valMessage[1]);
 		if(g.host){
 			if(id<g.players.size()){
-				g.sendPing(msg);
+				g.toSendThisTurn+="4"+(msg)+"%";
 			}
 		} else {
 			long time =Long.parseLong(valMessage[0]);
