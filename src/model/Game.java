@@ -531,7 +531,7 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
 				ims = this.inputsHandler.getInputsForRound(this.round);
-				//this.handleAntidrop(gc);
+				this.handleAntidrop(gc);
 				if(ims.size()>0){
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
