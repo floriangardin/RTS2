@@ -207,7 +207,7 @@ public class Game extends BasicGame
 	int nombreDrop = 0;
 	int nombrePlayed = 0;
 	int delaySleep = 0;
-	static int delaySleepAntiDrop = 8;
+	static int delaySleepAntiDrop = 9;
 
 	public boolean pingPeak=false;
 
@@ -817,10 +817,10 @@ public class Game extends BasicGame
 	}
 	private void handleAntidrop(GameContainer gc) {
 		//TODO
-		if(antidrop){
+		if(antidrop && this.clock.ping<40){
 			//UPDATE ROUND DURATION
-			//gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
-			//gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
+			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
+			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
 			System.out.println("antidrop !!! round: "+this.round);
 			this.toDrawAntiDrop = true;
 		}else{

@@ -45,7 +45,7 @@ public class MultiReceiver extends Thread{
 				try{
 					server.receive(packet);
 					int a = (int)(System.nanoTime()/1e6);
-					System.out.println("-------------- réception d'un message : " + a);
+					//System.out.println("-------------- réception d'un message : " + a);
 				} catch(java.net.SocketException e){
 					break;
 				}
