@@ -316,6 +316,9 @@ public class Building extends ActionObjet{
 		if(hs.containsKey("pT")){
 			if(this.potentialTeam!=Integer.parseInt(hs.get("pT"))){
 				this.potentialTeam = Integer.parseInt(hs.get("pT"));
+				if(potentialTeam!=getTeam()){
+					this.setTeam(0);
+				}
 				this.hq = this.p.g.teams.get(potentialTeam).hq;
 			}
 		}
