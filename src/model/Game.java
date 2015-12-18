@@ -175,7 +175,7 @@ public class Game extends BasicGame
 	public int roundDelay;
 
 
-	public String toSendThisTurn;
+	public String toSendThisTurn = "";
 	/////////////
 	/// MENUS ///
 	/////////////
@@ -480,7 +480,6 @@ public class Game extends BasicGame
 		//			System.out.println(tarray[i].getName());
 		//		}
 		//		System.out.println();
-		toSendThisTurn="";
 		if(t!=16)
 			System.out.println("Le round "+round+" a dure "+t);
 		Vector<InputObject> ims = new Vector<InputObject>();
@@ -701,6 +700,7 @@ public class Game extends BasicGame
 		for(int i=1; i<this.nPlayers; i++){
 			this.toSend.add(new MultiMessage(toSendThisTurn,this.players.get(i).address));
 		}
+		toSendThisTurn="";
 	}
 
 
