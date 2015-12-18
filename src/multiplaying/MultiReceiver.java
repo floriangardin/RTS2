@@ -48,7 +48,7 @@ public class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-
+				
 				//Split submessages
 				String[] tab = msg.split("\\%");
 				String temp;
