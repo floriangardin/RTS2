@@ -837,8 +837,8 @@ public class Game extends BasicGame
 		//TODO
 		if(antidrop){
 			//UPDATE ROUND DURATION
-			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
-			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
+//			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
+//			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
 			System.out.println("antidrop !!! round: "+this.round);
 			this.toDrawAntiDrop = true;
 		}else{
