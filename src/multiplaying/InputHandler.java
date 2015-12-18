@@ -51,6 +51,8 @@ public class InputHandler {
 		while(i<this.inputs.size()){
 			InputObject in = this.inputs.get(i);
 			//If right round and validated add it to player inputs to play
+			if(round==(in.round+nDelay))
+				System.out.println("cc: bon timing " + in.player.id + " " + in.isValidated() + " "+in.toPlay);
 			if(round==(in.round+nDelay) && in.isValidated()  && in.toPlay){
 				//ADD inputs in player
 				System.out.println("aa : bon input " + in.player);

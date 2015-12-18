@@ -99,6 +99,7 @@ public class MultiReceiver extends Thread{
 			this.g.toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
 			this.g.inputsHandler.addToInputs(io);
 			io.validate();
+			System.out.println(io.isValidated());
 		}
 	}
 	public void actionValidation(String msg){
