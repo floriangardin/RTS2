@@ -1415,7 +1415,7 @@ public class Plateau {
 
 	public void parseCharacter(String s) {
 		// SPLIT SELON |
-
+		System.out.println("characters : "+s);
 		for (Character c : this.characters) {
 			c.setTarget(null, null);
 			c.group.clear();
