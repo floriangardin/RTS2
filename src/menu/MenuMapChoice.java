@@ -47,7 +47,7 @@ public class MenuMapChoice extends Menu {
 	public int cooldown;
 	public int messageDropped;
 	public int roundForPingRequest;
-	
+
 	public String messageToClient;
 
 	public MenuMapChoice(Game game){
@@ -83,6 +83,7 @@ public class MenuMapChoice extends Menu {
 			// retour
 			if(game.inMultiplayer){
 				this.game.setMenu(this.game.menuMulti);
+				this.game.chatHandler.messages.clear();
 			}else{
 				this.game.setMenu(this.game.menuIntro);
 			}
@@ -151,32 +152,32 @@ public class MenuMapChoice extends Menu {
 					roundForPingRequest%=40;
 				}
 			}
-// 			// checking disconnecting players
-//			int toRemove = -1;
-//			if(game.host){
-//				for(int i=2 ; i<this.menuPlayers.size(); i++){
-//					Menu_Player mp = this.menuPlayers.get(i);
-//					if(mp!=null && mp.hasBeenUpdated){
-//						mp.messageDropped=0;
-//						mp.hasBeenUpdated = false;
-//					} else {
-//						mp.messageDropped++;
-//						if(mp.messageDropped>1f*Main.framerate){
-//							System.out.println("disconnecting player:"+i);
-//							//toRemove=i;
-//						}
-//					}
-//				}
-//			}
-//			if(toRemove!=-1){
-//				int k = toRemove;
-//				this.game.removePlayer(k);
-//				for(int i=0; i<this.game.players.size(); i++){
-//					this.game.players.get(i).id = i;
-//				}
-//				this.initializeMenuPlayer();
-//			}
-			
+			// 			// checking disconnecting players
+			//			int toRemove = -1;
+			//			if(game.host){
+			//				for(int i=2 ; i<this.menuPlayers.size(); i++){
+			//					Menu_Player mp = this.menuPlayers.get(i);
+			//					if(mp!=null && mp.hasBeenUpdated){
+			//						mp.messageDropped=0;
+			//						mp.hasBeenUpdated = false;
+			//					} else {
+			//						mp.messageDropped++;
+			//						if(mp.messageDropped>1f*Main.framerate){
+			//							System.out.println("disconnecting player:"+i);
+			//							//toRemove=i;
+			//						}
+			//					}
+			//				}
+			//			}
+			//			if(toRemove!=-1){
+			//				int k = toRemove;
+			//				this.game.removePlayer(k);
+			//				for(int i=0; i<this.game.players.size(); i++){
+			//					this.game.players.get(i).id = i;
+			//				}
+			//				this.initializeMenuPlayer();
+			//			}
+
 			//Checking starting of the game
 			if(startGame!=0){
 				this.handleStartGame();
@@ -219,7 +220,7 @@ public class MenuMapChoice extends Menu {
 			game.launchGame();
 		}
 	}
-	
+
 
 	public void checkStartGame(){
 		if(game.inMultiplayer && game.host){
@@ -260,7 +261,7 @@ public class MenuMapChoice extends Menu {
 			this.menuPlayers.addElement(new Menu_Player(game.players.get(j),startXPlayers+ 1f/10f*sizeXPlayers,startYPlayers+1f*(j+1)/6f*sizeYPlayers-this.game.font.getHeight("Pg")/2f,game));
 		}
 	}
-	
+
 
 	public String messageToClient(){
 		String s = "";
@@ -526,11 +527,17 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 	}
-	
+
 	public void initialize(){
-		this.seconds = 6;
+		this.seconds = 3;
 		this.startGame = 0;
 		this.mapSelected = 0;
+		for(Menu_MapChoice mp : this.mapchoices){
+			mp.isSelected = false;
+		}
+		if(this.mapchoices.size()>0){
+			this.mapchoices.get(0).isSelected = true;
+		}
 		this.selected = 0;
 		maps = Map.maps();
 	}
