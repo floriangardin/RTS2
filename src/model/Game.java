@@ -175,7 +175,7 @@ public class Game extends BasicGame
 	public int roundDelay;
 
 
-
+	public String toSendThisTurn;
 	/////////////
 	/// MENUS ///
 	/////////////
@@ -517,15 +517,15 @@ public class Game extends BasicGame
 			//Handle manual resynchro
 
 			if(inMultiplayer){
+				toSendThisTurn="";
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
-
+				this.toSendThisTurn+="1"+im.toString()+"%";
 				this.handleChecksum();
 				this.handlePing();
 				this.handleSendingResynchroParse();
 				this.handleResynchro();
-
-				this.sendInput(im.toString());
+				this.send();
 				this.inputsHandler.addToInputs(im);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
@@ -603,10 +603,6 @@ public class Game extends BasicGame
 		}
 
 	}
-
-
-
-
 
 	private void drawPing(Graphics g) {
 		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
@@ -694,44 +690,17 @@ public class Game extends BasicGame
 	// DANGER
 	public void sendConnexion(String message){
 		if(host){
-			this.toSend.add(new MultiMessage(message,0,this.addressBroadcast));
+			this.toSend.add(new MultiMessage("0"+message,this.addressBroadcast));
 		} else {
-			this.toSend.add(new MultiMessage(message,0,this.addressHost));
+			this.toSend.add(new MultiMessage("0"+message,this.addressHost));
 		}
 	}
-	public void sendInput(String s){
+	public void send(){
 		for(int i=1; i<this.nPlayers; i++){
-			this.toSend.add(new MultiMessage(s,1,this.players.get(i).address));
+			this.toSend.add(new MultiMessage(toSendThisTurn,this.players.get(i).address));
 		}
 	}
-	public void sendValidation(String s, int player){
-		this.toSend.addElement(new MultiMessage(s,2,this.players.get(player).address));
-	}
-	public void sendResynchro(String s){
-		for(int i=1; i<this.nPlayers; i++){
-			this.toSend.add(new MultiMessage(s,3,this.players.get(i).address));
-		}
-	}
-	public void sendPing(String s){
-		if(host){
-			String[] tab = s.split("\\|");
-			this.toSend.addElement(new MultiMessage(s, 4, this.players.get(Integer.parseInt(tab[1])).address));
-		} else {
-			this.toSend.addElement(new MultiMessage(s, 4,this.addressHost));
-		}
-	}
-	public void sendChecksum(String s){
-		System.out.println("J'envoie checksum du round  "+round +" au temps "+System.nanoTime());
-		if(host)
-			this.toSend.addElement(new MultiMessage(s,5,this.addressBroadcast));
-		else
-			this.toSend.addElement(new MultiMessage(s,5,this.addressHost));
-	}
-	public void sendChat(String s){
-		for(int i=1; i<this.nPlayers; i++){
-			this.toSend.add(new MultiMessage(s,6,this.players.get(i).address));
-		}
-	}
+
 
 	private void manuelAntidrop(Input in,GameContainer gc) {
 		delaySleep = 0 ;
@@ -793,9 +762,8 @@ public class Game extends BasicGame
 			}
 			checksum+="|";
 			checksum+=this.clock.getPing()+"|";
-
 			// si client on envoie checksum
-			this.sendChecksum(checksum);
+			toSendThisTurn+="5"+checksum+"%";
 			if(host){
 				this.checksum.addElement(new Checksum(checksum));
 			}
@@ -832,7 +800,7 @@ public class Game extends BasicGame
 	}
 	private void handlePing() {
 		if(!host && round%40 == 0){
-			this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
+			toSendThisTurn+="4"+this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|%";
 		}
 	}
 	private void handleSendingResynchroParse() {
@@ -840,7 +808,7 @@ public class Game extends BasicGame
 			this.toParse = this.plateau.toStringArray();
 			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
-			this.sendResynchro(this.toParse);
+			this.toSendThisTurn+="3"+this.toParse+"%";
 		}
 	}
 	private void handleAntidrop(GameContainer gc) {
@@ -880,11 +848,11 @@ public class Game extends BasicGame
 		}
 	}
 	public void pingRequest() {
-		this.sendPing(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
+		this.toSendThisTurn+="4"+this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|"+"%";
 	}
 	public void sendMessage(ChatMessage m){
 		if(m.idPlayer==currentPlayer.id){
-			this.sendChat(m.toString());
+			this.toSendThisTurn+="6"+m.toString()+"%";
 		}
 		this.chatHandler.messages.addElement(m);
 	}

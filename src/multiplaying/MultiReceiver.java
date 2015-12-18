@@ -48,20 +48,28 @@ public class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-				this.g.nbPaquetReceived++;
-				if(msg.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
-					if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + msg.substring(0,1));
-					switch(msg.substring(0,1)){
-					case "0":this.actionConnexion(msg.substring(1)); break;
-					case "1":this.actionInput(msg.substring(1)); break;
-					case "2":this.actionValidation(msg.substring(1)); break;
-					case "3":this.actionResynchro(msg.substring(1)); break;
-					case "4":this.actionPing(msg.substring(1)); break;
-					case "5":this.actionChecksum(msg.substring(1)); break;
-					case "6":this.actionChat(msg.substring(1)); break;
-					default:
+
+				//Split submessages
+				String[] tab = msg.split("\\%");
+				String temp;
+				
+				for(int i =0; i<tab.length;i++){
+					temp = tab[i];
+					this.g.nbPaquetReceived++;
+					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
+						if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp.substring(0,1));
+						switch(temp.substring(0,1)){
+						case "0":this.actionConnexion(temp.substring(1)); break;
+						case "1":this.actionInput(temp.substring(1)); break;
+						case "2":this.actionValidation(temp.substring(1)); break;
+						case "3":this.actionResynchro(temp.substring(1)); break;
+						case "4":this.actionPing(temp.substring(1)); break;
+						case "5":this.actionChecksum(temp.substring(1)); break;
+						case "6":this.actionChat(temp.substring(1)); break;
+						default:
+						}
+						this.action(msg.substring(1));
 					}
-					this.action(msg.substring(1));
 				}
 				Thread.sleep(0);
 			}
@@ -88,7 +96,7 @@ public class MultiReceiver extends Thread{
 		}
 		//Send the validation for other players if the round is still ok
 		if(this.g.round<io.round+InputHandler.nDelay){
-			this.g.sendValidation(io.getMessageValidationToSend(g), io.player.id);
+			this.g.toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
 			this.g.inputsHandler.addToInputs(io);
 			io.validate();
 		}
@@ -96,7 +104,7 @@ public class MultiReceiver extends Thread{
 	public void actionValidation(String msg){
 		//Get the corresponding round and player
 		String rawInput = msg;
-		
+
 
 		String[] valMessage = rawInput.split("\\|");
 		int round = Integer.parseInt(valMessage[0]);
@@ -126,7 +134,7 @@ public class MultiReceiver extends Thread{
 		}
 	}
 	public void actionChecksum(String msg){
-		
+
 		if(g.host){
 			this.g.mutexChecksum.lock();
 			this.g.receivedChecksum.addElement(new Checksum(msg));
@@ -135,10 +143,10 @@ public class MultiReceiver extends Thread{
 		// HANDLE ANTI-DROP 
 		String[] u = msg.split("\\|");
 		int round = Integer.parseInt(u[0]); 
-		
+
 		if(g.host){
-		long ping =Long.parseLong( u[u.length-2]);
-		this.g.clock.ping = ping;
+			long ping =Long.parseLong( u[u.length-2]);
+			this.g.clock.ping = ping;
 		}
 		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
 		System.out.println("Et le ping .. " +g.clock.ping);

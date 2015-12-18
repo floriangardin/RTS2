@@ -5,7 +5,6 @@ import java.net.InetAddress;
 public class MultiMessage {
 
 	public String message;
-	public int type;
 	public InetAddress address;
 	
 	/**
@@ -19,9 +18,8 @@ public class MultiMessage {
 	 * 
 	 */
 	
-	public MultiMessage(String message, int type, InetAddress address) {
+	public MultiMessage(String message, InetAddress address) {
 		this.message = message;
-		this.type = type;
 		this.address = address;
 	}
 	

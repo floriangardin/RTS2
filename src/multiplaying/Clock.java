@@ -14,6 +14,7 @@ public class Clock extends Thread{
 	//ping to master clock
 	public Vector<Long> pings = new Vector<Long>();
 	public long ping;
+	public long lastPing;
 	
 	public Clock(Game g){
 		this.game = g;
@@ -53,6 +54,7 @@ public class Clock extends Thread{
 			System.out.println("Ping de batard : "+calculatedPing);
 			return;
 		}
+
 		this.pings.addElement(calculatedPing);
 		if(this.pings.size()>8)
 			this.pings.removeElementAt(0);
