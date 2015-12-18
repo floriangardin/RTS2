@@ -528,7 +528,6 @@ public class Game extends BasicGame
 				this.handleSendingResynchroParse();
 				this.handleResynchro();
 				this.send();
-				this.inputsHandler.addToInputs(im);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
