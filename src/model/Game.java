@@ -763,7 +763,7 @@ public class Game extends BasicGame
 				i++;
 			}
 			checksum+="|";
-			checksum+=this.clock.getPing()+"|";
+			checksum+=this.clock.getPing()+"| ";
 			// si client on envoie checksum
 			toSendThisTurn+="5"+checksum+"%";
 			if(host){
