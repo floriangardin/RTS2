@@ -48,7 +48,7 @@ public class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-				
+				if(Game.debugReceiver) System.out.println(msg);
 				//Split submessages
 				String[] tab = msg.split("\\%");
 				String temp;
@@ -57,7 +57,7 @@ public class MultiReceiver extends Thread{
 					temp = tab[i];
 					this.g.nbPaquetReceived++;
 					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
-						if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp.substring(0,1));
+						if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
 						switch(temp.substring(0,1)){
 						case "0":this.actionConnexion(temp.substring(1)); break;
 						case "1":this.actionInput(temp.substring(1)); break;
