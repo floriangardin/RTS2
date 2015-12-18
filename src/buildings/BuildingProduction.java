@@ -144,7 +144,6 @@ public abstract class BuildingProduction extends BuildingAction {
 			if(this.queue.size()>0){
 				s=s.substring(0, s.length()-1);
 			}
-			
 			s+=";";
 		}
 		s+="rnD:"+random+";";
@@ -152,8 +151,8 @@ public abstract class BuildingProduction extends BuildingAction {
 	}
 
 	public void parseBuildingProduction(HashMap<String, String> hs) {
+		this.queue.clear();
 		if(hs.containsKey("qE")){
-			this.queue.clear();
 			String[] r = hs.get("qE").split(",");
 			if(!r[0].equals("")){
 				for(int i = 0;i<r.length;i++){
