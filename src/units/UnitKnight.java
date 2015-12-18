@@ -30,7 +30,7 @@ public class UnitKnight extends Character {
 		this.maxVelocity = 160f*Game.ratioSpace*data.speedFactor;
 		this.armor = 3f;
 		this.damage = 8f*data.damageFactor;
-		this.chargeTime = 7f;
+		this.chargeTime = 4f;
 		this.weapon = "sword";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
