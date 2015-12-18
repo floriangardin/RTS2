@@ -42,7 +42,7 @@ public class MenuMapChoice extends Menu {
 	float sizeYPlayers;
 
 	long startGame = 0;
-	public int seconds = 6;
+	public int seconds = 3;
 
 	public int cooldown;
 	public int messageDropped;
@@ -246,7 +246,6 @@ public class MenuMapChoice extends Menu {
 				if (present1 && present2){
 					// Launch Game
 					if(startGame==0){
-						this.seconds = 6;
 						this.startGame = this.game.clock.getCurrentTime()+10000000000L;
 					}
 				}
