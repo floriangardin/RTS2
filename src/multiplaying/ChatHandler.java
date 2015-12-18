@@ -26,6 +26,7 @@ public class ChatHandler {
 		this.messages = new Vector<ChatMessage>();
 		this.mutex = new ReentrantLock();
 		this.textScanner = new Menu_TextScanner("", game.resX/2f, game.resY-2f*game.font.getHeight("Pg"), game.resX/3f, game.font.getHeight("Pg"), game);
+		this.textScanner.isSelected = true;
 		this.startY = game.resY/3f;
 	}
 	
