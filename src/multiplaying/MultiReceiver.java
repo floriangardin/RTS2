@@ -152,7 +152,7 @@ public class MultiReceiver extends Thread{
 		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
 		System.out.println("Et le ping .. " +g.clock.ping);
 		//Calcul du delta
-		int delta =(int) (this.g.clock.ping*Main.framerate/(2e9));
+		int delta =(int) (this.g.clock.ping*Main.framerate/(2e6));
 		int deltaMesure = this.g.round - round ;
 		if((deltaMesure-delta)>1){
 			g.antidrop = true;
