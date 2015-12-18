@@ -529,8 +529,8 @@ public class Game extends BasicGame
 				this.handleAntidrop(gc);
 				if(ims.size()>0){
 					this.plateau.update(ims);
+					this.plateau.updatePlateauState();
 				}
-				this.plateau.updatePlateauState();
 				this.plateau.updateCosmetic(im);
 
 			} else {
