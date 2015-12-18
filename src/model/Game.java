@@ -522,6 +522,7 @@ public class Game extends BasicGame
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn+="1"+im.toString()+"%";
+				this.inputsHandler.addToInputs(im);
 				this.handleChecksum();
 				this.handlePing();
 				this.handleSendingResynchroParse();
