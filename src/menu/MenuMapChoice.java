@@ -211,7 +211,7 @@ public class MenuMapChoice extends Menu {
 		 * 
 		 * then plays sounds each seconds then launches the game
 		 */
-		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
+		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*500000000L){
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
 			this.game.sounds.buzz.play();
