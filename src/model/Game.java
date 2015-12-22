@@ -454,8 +454,10 @@ public class Game extends BasicGame
 		this.chatHandler.draw(g);
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
-
-		this.drawPing(g);
+		if(!inEditor){
+			g.setColor(Color.white);
+			this.drawPing(g);
+		}
 		//		Runtime runtime = Runtime.getRuntime();
 		//
 		//		NumberFormat format = NumberFormat.getInstance();

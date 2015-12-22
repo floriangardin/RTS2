@@ -20,6 +20,7 @@ public class MapEditor {
 	public boolean optionCollisionOn = true;
 	
 	public EditorObject draggedObject = null;
+	public float decX, decY;
 	public float tempX, tempY;
 	
 	public MapEditor(Game g){

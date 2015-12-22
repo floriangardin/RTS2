@@ -1,39 +1,39 @@
-##################
-# Map Duel mid   #
-##################
+###########################
+# Map Bataille #
+###########################
 
-### RTS ULTRA MYTHE 
-### v3.1 - 10/12/2015
-### Comments using '#'
 
-## Parameters
+#Creator: Welcome
+# date: 21/12/2015
+
 & sizeX 14
 & sizeY 13
+
 
 ##############
 = headquarters
 ##############
 
-1 0 6 
-2 14 6
+1 0.0 10.0
+2 11.0 1.0
+
+##############
+= buildings
+##############
+
 
 #######
 = units
 #######
 
-## Team1
-Crossbowman 1 4 6.5
-Crossbowman 1 4 5.5
-Crossbowman 1 4 7.5
+Crossbowman 1 4.0 10.0
+Crossbowman 1 4.0 8.0
+Crossbowman 1 2.0 8.0
+Crossbowman 2 9.0 2.0
+Crossbowman 2 9.0 4.0
+Crossbowman 2 11.0 4.0
 
-## Team1
-Crossbowman 2 12 6.5
-Crossbowman 2 12 5.5
-Crossbowman 2 12 7.5
-
-
-
-
-
-
+###########
+= naturalObjects
+###########
 

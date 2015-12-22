@@ -125,9 +125,9 @@ public class ObjectBar {
 		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 
 		// others
-		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.bonusLifePoints,0,0,this,1,1));
-		others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.bonusDamage,0,0,this,1,1));
-		others.add(new EditorObject("BonusSpeed", 0, 2,this.editor.game.images.bonusSpeed,0,0,this,1,1));
+		//others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.bonusLifePoints,0,0,this,1,1));
+		//others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.bonusDamage,0,0,this,1,1));
+		//others.add(new EditorObject("BonusSpeed", 0, 2,this.editor.game.images.bonusSpeed,0,0,this,1,1));
 
 		// nature
 		nature.add(new EditorObject("Tree", 0, 3,this.editor.game.images.tree01, 0, 0,this,1,1));
@@ -289,7 +289,7 @@ public class ObjectBar {
 						}
 						if(im.pressedLeftClick){
 							EditorObject e = this.objects.get(overObject);
-							editor.draggedObject = new EditorObject(e.name,e.team,e.clas,e.image,e.x,e.y,e.sizeX,e.sizeY);
+							editor.draggedObject = EditorObject.createFromObjectBar(e);
 							switch(this.selectedClass){
 							case 0: this.editor.plateau.depotFromMouseOverObject = this.editor.plateau.units; break;
 							case 1:

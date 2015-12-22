@@ -1,43 +1,43 @@
-##################
-# Map The Island #
-##################
+###########################
+# Map Escarmouche #
+###########################
 
-### RTS ULTRA MYTHE 
-### v3.1 - 10/12/2015
-### Comments using '#'
 
-## Parameters
+#Creator: Welcome
+# date: 21/12/2015
+
 & sizeX 14
 & sizeY 12
+
 
 ##############
 = headquarters
 ##############
 
-1 0 6 
-2 14 6
+1 0.0 9.0
+2 11.0 0.0
+
+##############
+= buildings
+##############
+
 
 #######
 = units
 #######
 
-## Team1
-Spearman 1 5 6
-Spearman 1 5 5
-Spearman 1 5 7
-Crossbowman 1 4 6.5
-Crossbowman 1 4 5.5
+Crossbowman 1 2.0 8.0
+Crossbowman 1 3.0 9.0
+Spearman 1 4.0 9.0
+Spearman 1 4.0 7.0
+Spearman 1 2.0 7.0
+Spearman 2 9.0 3.0
+Spearman 2 9.0 1.0
+Spearman 2 11.0 3.0
+Crossbowman 2 10.0 1.0
+Crossbowman 2 11.0 2.0
 
-## Team1
-Spearman 2 11 6
-Spearman 2 11 5
-Spearman 2 11 7
-Crossbowman 2 12 6.5
-Crossbowman 2 12 5.5
-
-
-
-
-
-
+###########
+= naturalObjects
+###########
 

@@ -1,10 +1,11 @@
 ###########################
-# Map Duel Moyen 2 #
+# Map Apocalypse #
+# ancienne duel moyen
 ###########################
 
 
-#Creator: Philippe
-# date: 17/12/2015
+#Creator: Welcome
+# date: 21/12/2015
 
 & sizeX 31
 & sizeY 31
@@ -47,16 +48,16 @@ Barrack 0 2.0 14.0
 = units
 #######
 
-Spearman 1 16.2 4.8
-Spearman 1 15.8 4.8
-Spearman 2 16.2 26.2
-Spearman 2 15.8 26.2
+Spearman 1 14.0 5.0
+Spearman 1 16.0 5.0
+Spearman 2 14.0 25.0
+Spearman 2 16.0 25.0
 
 ###########
 = naturalObjects
 ###########
 
 Tree 1 10.0 7.0
-Tree 2 20.0 7.0
 Tree 1 10.0 23.0
 Tree 2 20.0 23.0
+Tree 2 20.0 7.0

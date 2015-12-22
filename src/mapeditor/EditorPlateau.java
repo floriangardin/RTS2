@@ -154,8 +154,8 @@ public class EditorPlateau {
 				}
 			} else {
 				// déplacer l'objet
-				editor.draggedObject.x = (int)((Xcam+im.xMouse-editor.draggedObject.sizeX/2f)/stepGrid);
-				editor.draggedObject.y = (int)((Ycam+im.yMouse-editor.draggedObject.sizeY/2f)/stepGrid);
+				editor.draggedObject.x = (int)((Xcam+im.xMouse-editor.decX-editor.draggedObject.sizeX/2f)/stepGrid);
+				editor.draggedObject.y = (int)((Ycam+im.yMouse-editor.decY-editor.draggedObject.sizeY/2f)/stepGrid);
 			}
 		} else{
 			if(editor.draggedObject!=null){
@@ -213,14 +213,22 @@ public class EditorPlateau {
 			for(int i=0; i<=maxY; i++){
 				g.drawLine(0, i*stepGrid, maxX*stepGrid, i*stepGrid);
 			}
-			for(EditorObject o : this.buildings){
+			Vector<EditorObject> all = new Vector<EditorObject>();
+			all.addAll(this.buildings);
+			all.addAll(this.units);
+			all.addAll(this.nature);
+			for(EditorObject o : all){
 				if(o.name.startsWith("Bonus"))
 					continue;
-				switch(o.team){
-				case 0 : g.setColor(Color.white);break;
-				case 1 : g.setColor(Color.blue);break;
-				case 2 : g.setColor(Color.red);break;
-				default:
+				if(o.clas!=3){
+					switch(o.team){
+					case 0 : g.setColor(Color.white);break;
+					case 1 : g.setColor(Color.blue);break;
+					case 2 : g.setColor(Color.red);break;
+					default:
+					}
+				} else {
+					g.setColor(Color.white);
 				}
 				if(o==this.mouseOverObject)
 					g.setColor(Color.green);
@@ -277,17 +285,19 @@ public class EditorPlateau {
 			o.draw(g);
 
 		if(editor.draggedObject!=null){
-			boolean b = getCollision(editor.draggedObject);
-			if(b)
-				g.setColor(new Color(200,0,0,75));
-			else
-				g.setColor(new Color(0,200,0,75));
-			g.fillRect(editor.draggedObject.x*stepGrid, editor.draggedObject.y*stepGrid, editor.draggedObject.sizeX*stepGrid, editor.draggedObject.sizeY*stepGrid);
-			if(b)
-				g.setColor(Color.red);
-			else
-				g.setColor(Color.green);
-			g.drawRect(editor.draggedObject.x*stepGrid, editor.draggedObject.y*stepGrid, editor.draggedObject.sizeX*stepGrid, editor.draggedObject.sizeY*stepGrid);
+			if(editor.draggedObject.clas!=0){
+				boolean b = getCollision(editor.draggedObject);
+				if(b)
+					g.setColor(new Color(200,0,0,75));
+				else
+					g.setColor(new Color(0,200,0,75));
+				g.fillRect(editor.draggedObject.x*stepGrid, editor.draggedObject.y*stepGrid, editor.draggedObject.sizeX*stepGrid, editor.draggedObject.sizeY*stepGrid);
+				if(b)
+					g.setColor(Color.red);
+				else
+					g.setColor(Color.green);
+				g.drawRect(editor.draggedObject.x*stepGrid, editor.draggedObject.y*stepGrid, editor.draggedObject.sizeX*stepGrid, editor.draggedObject.sizeY*stepGrid);
+			}
 			editor.draggedObject.draw(g);
 		}
 
@@ -299,34 +309,49 @@ public class EditorPlateau {
 		for(EditorObject o : this.buildings){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
 				this.depotFromMouseOverObject = buildings;
+				this.computeDec(x, y, o);
 				return o;
 			}
 		}
 		for(EditorObject o : this.units){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
 				this.depotFromMouseOverObject = units;
+				this.computeDec(x, y, o);
 				return o;
 			}
 		}
 		for(EditorObject o : this.nature){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
 				this.depotFromMouseOverObject = nature;
+				this.computeDec(x, y, o);
 				return o;
 			}
 		}
 		for(EditorObject o : this.headquartersBlue){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
 				this.depotFromMouseOverObject = headquartersBlue;
+				this.computeDec(x, y, o);
 				return o;
 			}
 		}
 		for(EditorObject o : this.headquartersRed){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
 				this.depotFromMouseOverObject = headquartersRed;
+				this.computeDec(x, y, o);
 				return o;
 			}
 		}
 		return null;
+	}
+
+	public void computeDec(float x, float y, EditorObject o){
+		if(this.objetFromObjetBar){
+			editor.decX = 0;
+			editor.decY = 0;
+		}else {
+			editor.decX = ((int)((x-o.x*stepGrid)/stepGrid))*stepGrid;
+			editor.decY = ((int)((y-o.y*stepGrid)/stepGrid))*stepGrid;
+		}
 	}
 
 	public void addAction(EditorAction e){
@@ -572,25 +597,26 @@ public class EditorPlateau {
 				String[] tab = units.get(i).split(" ");
 				if(tab[1].equals("1")){
 					switch(tab[0]){
-					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.spearmanBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.crossbowmanBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.knightBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.priestBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.inquisitorBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.archangeBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
+					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.spearmanBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.crossbowmanBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.knightBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.priestBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.inquisitorBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.archangeBlue, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
 					}
 				} else if(tab[1].equals("2")){
 					switch(tab[0]){
-					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.spearmanRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.crossbowmanRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.knightRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.priestRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.inquisitorRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
-					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.archangeRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),0,0));break;
+					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.spearmanRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.crossbowmanRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.knightRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.priestRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.inquisitorRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.archangeRed, Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
 					}
 				} else {
 
 				}
+				this.setCollision(this.units.lastElement(), true);
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){
@@ -605,7 +631,7 @@ public class EditorPlateau {
 			}
 			this.updateScale(50f);
 		} catch (Exception e){
-			System.out.print("erreur");
+			System.out.print("erreur dans le chargement de la map... Enculé!");
 			e.printStackTrace();
 		}
 	}
