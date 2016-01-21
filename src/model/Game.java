@@ -96,6 +96,7 @@ public class Game extends BasicGame
 	public Sounds sounds;
 	public Images images;
 	public Musics musics;
+	public Taunt taunts;
 
 	// Timer
 	public Timer timer ;
@@ -670,6 +671,7 @@ public class Game extends BasicGame
 		this.options = new Options();
 		this.images = new Images();
 		this.musics = new Musics();
+		this.taunts = new Taunt();
 
 		this.menuIntro = new MenuIntro(this);
 		this.menuOptions = new MenuOptions(this);

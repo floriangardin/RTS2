@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import org.newdawn.slick.Sound;
+
 import main.Main;
 import model.Game;
 
@@ -160,7 +162,11 @@ public class MultiReceiver extends Thread{
 	}
 	public void actionChat(String message){
 		this.g.chatHandler.messages.add(new ChatMessage(message));
+		if(message.charAt(0)=='/'){
+			this.g.taunts.playTaunt(message.substring(1).toLowerCase());
+		}
 	}
+	
 
 	public static class Checksum {
 		public int round;
