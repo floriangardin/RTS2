@@ -76,7 +76,7 @@ public class InputHandler {
 			}
 			if(!toPlay){
 				this.mutex.unlock();
-				System.out.println("Round drop "+this.g.round+" à cause du joueur "+k);
+//				System.out.println("Round drop "+this.g.round+" à cause du joueur "+k);
 				this.g.toDrawDrop = true;
 				return new Vector<InputObject>();				
 			}

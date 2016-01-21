@@ -56,6 +56,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
+	public static boolean debugDisplayDebug = false;
 
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
@@ -308,10 +309,10 @@ public class Game extends BasicGame
 			g.setColor(Color.white);
 			//PRint victory
 			if(this.victory){
-				g.drawString("Alors, on se sent un peu comme Gilles ?", this.resX/3f, this.resY/3f);
+				g.drawString("Vous Avez Gagné !", this.resX/3f, this.resY/3f);
 			}
 			else{
-				g.drawString("T'as perdu "+this.options.nickname+", t'es vraiment une merde ...", this.resX/3f, this.resY/3f);
+				g.drawString("Vous Avez Perdu...", this.resX/3f, this.resY/3f);
 			}
 		} else {
 			// g reprï¿½sente le pinceau
@@ -436,24 +437,26 @@ public class Game extends BasicGame
 				this.currentPlayer.bottomBar.draw(g);
 
 		}
-		if(processSynchro){
-			g.setColor(Color.green);
-			g.drawString("Resynchro", 30f, 90f);
-			g.fillRect(10f,90f,15f,15f);
-		}
-		if(toDrawDrop){
-			g.setColor(Color.red);
-			g.drawString("Round Drop", 30f,  90f);
-			g.fillRect(10f,90f,15f,15f);
-		}
-		if(toDrawAntiDrop){
-			g.setColor(Color.blue);
-			g.drawString("AntiDrop done", 30f,  90f);
-			g.fillRect(10f,90f,15f,15f);
+		if(Game.debugDisplayDebug){
+			if(processSynchro){
+				g.setColor(Color.green);
+				g.drawString("Resynchro", 30f, 90f);
+				g.fillRect(10f,90f,15f,15f);
+			}
+			if(toDrawDrop){
+				g.setColor(Color.red);
+				g.drawString("Round Drop", 30f,  90f);
+				g.fillRect(10f,90f,15f,15f);
+			}
+			if(toDrawAntiDrop){
+				g.setColor(Color.blue);
+				g.drawString("AntiDrop done", 30f,  90f);
+				g.fillRect(10f,90f,15f,15f);
+			}
 		}
 		this.chatHandler.draw(g);
-		if(debugTimeSteps)
-			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
+		//		if(debugTimeSteps)
+		//			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 		if(!inEditor){
 			g.setColor(Color.white);
 			this.drawPing(g);
@@ -485,8 +488,8 @@ public class Game extends BasicGame
 		//			System.out.println(tarray[i].getName());
 		//		}
 		//		System.out.println();
-		if(t!=16)
-			System.out.println("Le round "+round+" a dure "+t);
+		//		if(t!=16)
+		//			System.out.println("Le round "+round+" a dure "+t);
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -787,12 +790,12 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
-							System.out.println("Game line 719 : Probleme synchro round "+this.round);
-							System.out.println(c.checksum);
-							System.out.println(c1.checksum);
-
-							this.processSynchro = true;
-							this.sendParse = true;					
+							//							System.out.println("Game line 719 : Probleme synchro round "+this.round);
+							//							System.out.println(c.checksum);
+							//							System.out.println(c1.checksum);
+							//
+							//							this.processSynchro = true;
+							//							this.sendParse = true;					
 						}
 					}
 				}
@@ -812,7 +815,7 @@ public class Game extends BasicGame
 	private void handleSendingResynchroParse() {
 		if(this.host && this.processSynchro && this.sendParse){
 			this.toParse = this.plateau.toStringArray();
-			System.out.println("Game line 698: Sent synchro message");
+			//			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
 			this.toSendThisTurn+="3"+this.toParse+"%";
 		}
@@ -823,7 +826,7 @@ public class Game extends BasicGame
 			//UPDATE ROUND DURATION
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
 			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
-			System.out.println("antidrop !!! round: "+this.round);
+			//			System.out.println("antidrop !!! round: "+this.round);
 			this.toDrawAntiDrop = true;
 		}else{
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
@@ -841,7 +844,7 @@ public class Game extends BasicGame
 			String[] u = this.toParse.split("!");
 			//Je resynchronise au tour n+2
 			if(Integer.parseInt(u[0])==(this.round-InputHandler.nDelay)){
-				System.out.println("Play resynchronisation round at round " + this.round);
+				//				System.out.println("Play resynchronisation round at round " + this.round);
 				this.plateau.parse(this.toParse);
 				this.toParse = null;
 				this.processSynchro = false;
