@@ -14,7 +14,6 @@ public class Taunt {
 	public HashMap<String, Sound> taunts;
 
 	public boolean isPlaying = false;
-	public Sound currentlyPlaying;
 
 	public Game game;
 
