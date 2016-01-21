@@ -3,7 +3,6 @@ package IA;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import model.GameSimu;
 import units.Character;
 
 public class GeneticAlgorithm {

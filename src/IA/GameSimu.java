@@ -1,4 +1,4 @@
-package model;
+package IA;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -6,9 +6,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import IA.FightSimulator;
-import IA.Simulator;
 import menu.MenuIntro;
+import model.Game;
+import model.Images;
+import model.Musics;
+import model.Options;
+import model.Sounds;
 
 public class GameSimu extends Game	{
 	

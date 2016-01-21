@@ -1,4 +1,4 @@
-package main;
+package IAProject;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
@@ -7,12 +7,13 @@ import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import main.Main;
 import model.Game;
 
-public class Main {
-	public static int framerate = 60;
+public class MainSimuProject {
+	public static int framerate = 1000;
 	public static float increment = 0.1f*30/Main.framerate;
-	public static boolean pleinEcran = true;
+	public static boolean pleinEcran = false;
 	
 	public static void main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -24,11 +25,11 @@ public class Main {
 			resolutionX = (int)screenSize.getWidth();		
 			resolutionY = (int)screenSize.getHeight();
 		} else {
-			resolutionX = 1200;		
-			resolutionY = 800;
+			resolutionX = 120;		
+			resolutionY = 80;
 		}
 		try {
-			Game game = new Game(resolutionX,resolutionY);
+			Game game = new GameSimuProject(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
 
