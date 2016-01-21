@@ -142,7 +142,7 @@ public class MenuMapChoice extends Menu {
 				}		
 				//checking if game still exists
 				if(this.startGame!=0 && messageDropped>1f*Main.framerate){
-					//this.callItem(0);
+					this.callItem(0);
 				}
 				// requete de ping
 				if(roundForPingRequest==0){
@@ -152,32 +152,31 @@ public class MenuMapChoice extends Menu {
 					roundForPingRequest%=40;
 				}
 			}
-			// 			// checking disconnecting players
-			//			int toRemove = -1;
-			//			if(game.host){
-			//				for(int i=2 ; i<this.menuPlayers.size(); i++){
-			//					Menu_Player mp = this.menuPlayers.get(i);
-			//					if(mp!=null && mp.hasBeenUpdated){
-			//						mp.messageDropped=0;
-			//						mp.hasBeenUpdated = false;
-			//					} else {
-			//						mp.messageDropped++;
-			//						if(mp.messageDropped>1f*Main.framerate){
-			//							System.out.println("disconnecting player:"+i);
-			//							//toRemove=i;
-			//						}
-			//					}
-			//				}
-			//			}
-			//			if(toRemove!=-1){
-			//				int k = toRemove;
-			//				this.game.removePlayer(k);
-			//				for(int i=0; i<this.game.players.size(); i++){
-			//					this.game.players.get(i).id = i;
-			//				}
-			//				this.initializeMenuPlayer();
-			//			}
-
+			// checking disconnecting players
+			int toRemove = -1;
+			if(game.host){
+				for(int i=2 ; i<this.menuPlayers.size(); i++){
+					Menu_Player mp = this.menuPlayers.get(i);
+					if(mp!=null && mp.hasBeenUpdated){
+						mp.messageDropped=0;
+						mp.hasBeenUpdated = false;
+					} else {
+						mp.messageDropped++;
+						if(mp.messageDropped>1f*Main.framerate){
+							//System.out.println("disconnecting player:"+i);
+							toRemove=i;
+						}
+					}
+				}
+			}
+			if(toRemove!=-1){
+				int k = toRemove;
+				this.game.removePlayer(k);
+				for(int i=0; i<this.game.players.size(); i++){
+					this.game.players.get(i).id = i;
+				}
+				this.initializeMenuPlayer();
+			}
 			//Checking starting of the game
 			if(startGame!=0){
 				this.handleStartGame();
@@ -392,7 +391,7 @@ public class MenuMapChoice extends Menu {
 		}
 		// checking if the player is a new player
 		while(this.game.players.size()<=idJ){
-//			System.out.println("MenuMapChoice line 442 : new player added");
+			//			System.out.println("MenuMapChoice line 442 : new player added");
 			this.game.addPlayer("???", address,1,1);
 			this.menuPlayers.add(new Menu_Player(this.game.players.lastElement(),
 					startXPlayers+ 1f/10f*sizeXPlayers,
@@ -400,7 +399,7 @@ public class MenuMapChoice extends Menu {
 		}
 		Player playerToChange = this.game.players.get(idJ);
 		if(!playerToChange.address.equals(address)){
-//			System.out.println("menumpchoice line 426 : error over the ip addresses");
+			//			System.out.println("menumpchoice line 426 : error over the ip addresses");
 			return;
 		}
 		if(hs.containsKey("cvS")){
@@ -458,7 +457,7 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 			if(toStop){
-//				System.out.println("MenuMapChoice line 496: return due to missing player");
+				//				System.out.println("MenuMapChoice line 496: return due to missing player");
 				return;
 			}
 			// checking if there is a missing player
@@ -482,7 +481,7 @@ public class MenuMapChoice extends Menu {
 					}
 					this.initializeMenuPlayer();
 				}
-//				System.out.println("MenuMapChoice line 529: un joueur a �t� d�connect�");
+				//				System.out.println("MenuMapChoice line 529: un joueur a �t� d�connect�");
 				return;
 
 			}
@@ -509,7 +508,7 @@ public class MenuMapChoice extends Menu {
 			//checking if changes about currentPlayer
 			if(!ips[this.game.currentPlayer.id].equals(this.game.currentPlayer.address.getHostAddress())){
 				// changes among the player
-//				System.out.println("MenuMapChoice line 482: error player unidentified");
+				//				System.out.println("MenuMapChoice line 482: error player unidentified");
 				return;
 			}
 			for(int i = 0;i<civ.length;i++){
