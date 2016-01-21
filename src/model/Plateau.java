@@ -1319,7 +1319,7 @@ public class Plateau {
 		Building bul = null;
 		int finish = u.length;
 		// For all buildings in received message
-		System.out.println(s);
+//		System.out.println(s);
 		for (int i = 0; i < finish; i++) {
 			HashMap<String, String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
@@ -1331,7 +1331,7 @@ public class Plateau {
 	}
 
 	public void parseSelection(String s){
-		System.out.println(s);
+//		System.out.println(s);
 		String[] u = s.split("\\|");
 		//Loop over each player
 		for(int i = 0; i<this.g.players.size();i++){
@@ -1415,7 +1415,7 @@ public class Plateau {
 
 	public void parseCharacter(String s) {
 		// SPLIT SELON |
-		System.out.println("characters : "+s);
+//		System.out.println("characters : "+s);
 		for (Character c : this.characters) {
 			c.setTarget(null, null);
 			c.group.clear();
@@ -1448,7 +1448,7 @@ public class Plateau {
 			cha = this.getCharacterByIdAndName(idTest, hs.get("name"));
 			if (cha == null) {
 				cha = Character.createNewCharacter(hs, g);
-				System.out.println("Create new character");
+//				System.out.println("Create new character");
 
 			}
 			if (cha != null) {
@@ -1461,7 +1461,7 @@ public class Plateau {
 		Utils.triId(this.characters);
 		for (Character c : this.characters) {
 			if (!c.toKeep) {
-				System.out.println("Destroyed " + c.id);
+//				System.out.println("Destroyed " + c.id);
 				c.destroy();
 			}
 		}

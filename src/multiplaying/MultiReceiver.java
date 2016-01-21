@@ -117,7 +117,7 @@ public class MultiReceiver extends Thread{
 		this.g.inputsHandler.validate(round, idPlayer,idValidator);
 	}
 	public void actionResynchro(String msg){
-		System.out.println("Receive resynchro message");
+//		System.out.println("Receive resynchro message");
 		this.g.processSynchro = true;
 		this.g.toParse= msg;
 	}
@@ -149,8 +149,8 @@ public class MultiReceiver extends Thread{
 			long ping =Long.parseLong( u[u.length-2]);
 			this.g.clock.ping = ping;
 		}
-		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
-		System.out.println("Et le ping .. " +g.clock.ping);
+//		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
+//		System.out.println("Et le ping .. " +g.clock.ping);
 		//Calcul du delta
 		int delta =(int) (this.g.clock.ping*Main.framerate/(2e9));
 		int deltaMesure = this.g.round - round ;
