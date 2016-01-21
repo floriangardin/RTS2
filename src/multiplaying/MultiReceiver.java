@@ -42,7 +42,7 @@ public class MultiReceiver extends Thread{
 				if(Game.debugThread){
 					System.out.println(this.getName());
 				}
-				message = new byte[4000];
+				message = new byte[10000];
 				packet = new DatagramPacket(message, message.length);
 				try{
 					server.receive(packet);
