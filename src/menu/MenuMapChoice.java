@@ -213,7 +213,7 @@ public class MenuMapChoice extends Menu {
 		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*500000000L){
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
-			this.game.sounds.buzz.play();
+			this.game.sounds.menuItemSelected.play();
 			seconds--;
 		} else if (startGame<=this.game.clock.getCurrentTime()) {
 			game.launchGame();
