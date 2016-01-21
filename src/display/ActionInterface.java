@@ -59,7 +59,6 @@ public class ActionInterface extends Bar {
 			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
 			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
 			this.imageSpecial = new Image("pics/arrow.png");
-			this.background = new Image("pics/menu/bottombar.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

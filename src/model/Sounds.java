@@ -66,10 +66,8 @@ public class Sounds {
 			sword=new Sound("music/sword.ogg");
 			arrow=new Sound("music/arrow.ogg");
 			fireball= new Sound("music/fireball.ogg");
-			death=new Sound("music/death.ogg");
 			menuMouseOverItem = new Sound("music/menuMouseOverItem.ogg");
 			menuItemSelected = new Sound("music/menuItemSelected.ogg");
-			buzz = new Sound("music/menuItemSelected.ogg");
 			bonus = new Sound("music/bonusound.ogg");
 			fire = new Sound("music/fire.ogg");
 

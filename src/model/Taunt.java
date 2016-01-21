@@ -26,6 +26,7 @@ public class Taunt {
 			for(int i=0; i<files.length; i++){
 				if(files[i].getName().endsWith(".ogg")){
 					taunts.put(files[i].getName().substring(0, files[i].getName().length()-4),new Sound("music/taunt/"+files[i].getName()));
+					//System.out.println("taunt créé : " + files[i].getName());
 				}	
 			} 
 		} catch (SlickException e) {
@@ -34,10 +35,11 @@ public class Taunt {
 	}
 
 	public void playTaunt(String s){
+		System.out.println("taunt demandé: " + s);
 		if(taunts.containsKey(s)){
 			this.game.musics.imperial.setVolume(0.05f);
 			this.game.musics.multi.setVolume(0.05f);
-			taunts.get(s).play(1f, game.options.soundVolume);
+			taunts.get(s).play(1f, game.options.musicVolume);
 			game.taunts.isPlaying = true;
 		}
 	}

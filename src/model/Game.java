@@ -521,6 +521,7 @@ public class Game extends BasicGame
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
+		this.taunts.update();
 		if(isInMenu){
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,true);
@@ -691,7 +692,7 @@ public class Game extends BasicGame
 		this.options = new Options();
 		this.images = new Images();
 		this.musics = new Musics();
-		this.taunts = new Taunt();
+		this.taunts = new Taunt(this);
 
 		this.menuIntro = new MenuIntro(this);
 		this.menuOptions = new MenuOptions(this);
@@ -901,6 +902,9 @@ public class Game extends BasicGame
 			this.toSendThisTurn+="6"+m.toString()+"%";
 		}
 		this.chatHandler.messages.addElement(m);
+		if(m.message.charAt(0)=='/'){
+			this.taunts.playTaunt(m.message.substring(1).toLowerCase());
+		}
 	}
 
 

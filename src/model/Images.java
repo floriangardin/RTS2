@@ -104,8 +104,6 @@ public class Images {
 		try {
 			background = new Image("pics/fondMenu.png");
 			seaBackground = new Image("pics/seaBackground.png");
-			coastBackground = new Image("pics/sandBackground.jpg");
-			this.selection_circle = new Image("pics/ring.svg").getScaledCopy(1f/20f);
 			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
 			this.arrow = new Image("pics/arrow.png");
 			this.fireball = new Image("pics/fireball.png");
@@ -128,17 +126,12 @@ public class Images {
 			this.tree02 = new Image("pics/tree02.png");
 			this.tree03 = new Image("pics/tree03.png");
 			this.tree04 = new Image("pics/tree04.png");
-			this.tent = new Image("pics/tent.png");
-			this.dirt = new Image("pics/dirt.png");
-			this.water = new Image("pics/water.jpg");
 			this.cursor = new Image("pics/cursor.png");
 			this.fog = new Image("pics/fog.png");
 			this.fountain = new Image("pics/fountain.png");
 			this.fire = new Image("pics/fire.png");
 			this.blessedArea = new Image("pics/blessedArea.png");
 			this.smoke = new Image("pics/smoke.png");
-			this.windmill = new Image("pics/windmill.png");
-			this.windmillarms = new Image("pics/windmillarms.png");
 
 			
 			//Units

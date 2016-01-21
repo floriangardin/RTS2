@@ -20,15 +20,7 @@ public class BottomBar extends Bar {
 
 	
 	public BottomBar(Plateau p , int resX, int resY){
-		this.p = p ;
-		//this.player= p.currentPlayer;
-		try {
-			this.background = new Image("pics/menu/bottombar.png");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		this.p = p ;	
 		this.update(resX, resY);
 
 

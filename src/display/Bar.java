@@ -14,7 +14,6 @@ public abstract class Bar {
 	public float y;
 	public Player player;
 	public Plateau p;
-	public Image background;
 
 	public Graphics draw(Graphics g){
 		return g;
