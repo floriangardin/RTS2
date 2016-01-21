@@ -462,8 +462,8 @@ public class Game extends BasicGame
 		if(debugTimeSteps)
 			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 		if(!inEditor){
-			g.setColor(Color.white);
-			this.drawPing(g);
+			//g.setColor(Color.white);
+			//this.drawPing(g);
 		}
 		//		Runtime runtime = Runtime.getRuntime();
 		//
