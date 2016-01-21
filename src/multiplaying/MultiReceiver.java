@@ -161,9 +161,10 @@ public class MultiReceiver extends Thread{
 		}
 	}
 	public void actionChat(String message){
-		this.g.chatHandler.messages.add(new ChatMessage(message));
-		if(message.charAt(0)=='/'){
-			this.g.taunts.playTaunt(message.substring(1).toLowerCase());
+		ChatMessage cm = new ChatMessage(message);
+		this.g.chatHandler.messages.add(cm);
+		if(cm.message.charAt(0)=='/'){
+			this.g.taunts.playTaunt(cm.message.substring(1).toLowerCase());
 		}
 	}
 	
