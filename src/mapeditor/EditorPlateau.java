@@ -566,9 +566,9 @@ public class EditorPlateau {
 					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.buildingUniversityNeutral,(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
 					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.buildingTowerNeutral,(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
 					// bonus
-					case "BonusLifePoints" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.bonusLifePoints,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),1,1));break;
-					case "BonusDamage" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.bonusDamage,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),1,1));break;
-					case "BonusSpeed" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.bonusSpeed,(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),1,1));break;
+					case "BonusLifePoints" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.bonusLifePoints,(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
+					case "BonusDamage" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.bonusDamage,(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
+					case "BonusSpeed" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.bonusSpeed,(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
 					default : 
 					}
 				} else if(tab[1].equals("1")){

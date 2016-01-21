@@ -1,11 +1,10 @@
 ###########################
 # Map Apocalypse #
-# ancienne duel moyen
 ###########################
 
 
 #Creator: Welcome
-# date: 21/12/2015
+# date: 21/01/2016
 
 & sizeX 31
 & sizeY 31
@@ -52,6 +51,8 @@ Spearman 1 14.0 5.0
 Spearman 1 16.0 5.0
 Spearman 2 14.0 25.0
 Spearman 2 16.0 25.0
+Crossbowman 2 15.0 20.0
+Crossbowman 1 15.0 10.0
 
 ###########
 = naturalObjects

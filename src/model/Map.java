@@ -149,9 +149,9 @@ public class Map {
 				case "University" : new BuildingUniversity(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				case "Tower" : new BuildingTower(game.plateau,game,Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				// bonus
-				case "BonusLifePoints" : new BonusLifePoints(game.plateau, Float.parseFloat(tab[1]),Float.parseFloat(tab[2]));break;
-				case "BonusDamage" : new BonusDamage(game.plateau, Float.parseFloat(tab[1]),Float.parseFloat(tab[2]));break;
-				case "BonusSpeed" : new BonusSpeed(game.plateau, Float.parseFloat(tab[1]),Float.parseFloat(tab[2]));break;
+				case "BonusLifePoints" : new BonusLifePoints(game.plateau, Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
+				case "BonusDamage" : new BonusDamage(game.plateau, Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
+				case "BonusSpeed" : new BonusSpeed(game.plateau, Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
 				default : 
 				}
 			}

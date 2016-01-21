@@ -1,0 +1,79 @@
+###########################
+# Map Face à face #
+###########################
+
+
+#Creator: Welcome
+# date: 21/01/2016
+
+& sizeX 30
+& sizeY 40
+
+
+##############
+= headquarters
+##############
+
+1 14.0 16.0
+2 14.0 22.0
+
+##############
+= buildings
+##############
+
+Tower 0 18.0 13.0
+Tower 0 11.0 13.0
+Tower 0 18.0 25.0
+Tower 0 11.0 25.0
+Barrack 0 21.0 23.0
+Barrack 0 5.0 23.0
+Mill 0 11.0 28.0
+Mill 0 11.0 31.0
+Mill 0 11.0 34.0
+Mine 0 17.0 28.0
+Mine 0 17.0 31.0
+Mine 0 17.0 34.0
+University 0 14.0 37.0
+Academy 0 22.0 28.0
+Academy 0 5.0 28.0
+Stable 0 5.0 32.0
+Stable 0 22.0 32.0
+Barrack 0 21.0 14.0
+Barrack 0 5.0 14.0
+Mill 0 17.0 10.0
+Mill 0 17.0 7.0
+Mill 0 17.0 4.0
+Mine 0 11.0 10.0
+Mine 0 11.0 7.0
+Mine 0 11.0 4.0
+Academy 0 22.0 9.0
+Academy 0 5.0 9.0
+Stable 0 22.0 5.0
+Stable 0 5.0 5.0
+University 0 14.0 0.0
+Tower 0 22.0 36.0
+Tower 0 7.0 36.0
+Tower 0 22.0 2.0
+Tower 0 7.0 2.0
+BonusLifePoints 0 5.0 19.0
+BonusDamage 0 25.0 19.0
+BonusLifePoints 0 21.0 19.0
+BonusSpeed 0 9.0 19.0
+
+#######
+= units
+#######
+
+Spearman 1 14.0 14.0
+Spearman 1 16.0 14.0
+Crossbowman 1 14.0 13.0
+Crossbowman 1 16.0 13.0
+Spearman 2 14.0 25.0
+Spearman 2 16.0 25.0
+Crossbowman 2 14.0 26.0
+Crossbowman 2 16.0 26.0
+
+###########
+= naturalObjects
+###########
+
