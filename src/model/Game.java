@@ -809,8 +809,8 @@ public class Game extends BasicGame
 							//							System.out.println(c.checksum);
 							//							System.out.println(c1.checksum);
 							//
-							//							this.processSynchro = true;
-							//							this.sendParse = true;					
+							this.processSynchro = true;
+							this.sendParse = true;					
 						}
 					}
 				}
