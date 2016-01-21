@@ -523,7 +523,7 @@ public class Game extends BasicGame
 			if(this.chatHandler.typingMessage){
 				im.eraseLetter();
 			} else {
-				this.manuelAntidrop(in,gc);
+				//this.manuelAntidrop(in,gc);
 			}
 			//Handle manual resynchro
 			if(replay==null){
