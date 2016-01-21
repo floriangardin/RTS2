@@ -211,6 +211,13 @@ public class Game extends BasicGame
 	static int delaySleepAntiDrop = 9;
 
 	public boolean pingPeak=false;
+	
+	
+	//////////////////////////
+	///       REPLAYS     ///
+	////////////////////////
+	
+	public Replay replay = null;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -524,7 +531,9 @@ public class Game extends BasicGame
 				this.manuelAntidrop(in,gc);
 			}
 			//Handle manual resynchro
-
+			if(replay==null){
+				replay = new Replay(2,"apocalypse",0,this);
+			}
 			if(inMultiplayer){
 
 				this.toDrawAntiDrop = false;
@@ -562,7 +571,10 @@ public class Game extends BasicGame
 				this.plateau.updateCosmetic(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
-
+				//Update replay
+				if(replay!=null){
+					replay.addInReplay(ims);
+				}
 				// Maintenant l'update effectif du plateau est séparé ..
 				this.plateau.updatePlateauState();
 				//Update IA orders
@@ -570,6 +582,9 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
+			
+			//Write replay
+			replay.write("test");
 			if(this.musics.imperial.playing()){
 				this.musics.imperial.stop();
 			}
