@@ -362,16 +362,22 @@ public class EditorPlateau {
 	}
 
 	public void zoomPlus(){
-		stepGrid = Math.min(200f, stepGrid+10f);
+		float stepGrid = Math.min(200f, this.stepGrid+10f);
 		updateScale(stepGrid);
 	}
 	public void zoomMoins(){
-		stepGrid = Math.max(20f, stepGrid-10f);
+		float stepGrid = Math.max(20f, this.stepGrid-10f);
 		updateScale(stepGrid);
 	}
 
 	public void updateScale(float newScale){
-		this.stepGrid = Math.min(200f, Math.max(20f, newScale));
+		float oldScale = this.stepGrid;
+		float scale = Math.min(200f, Math.max(20f, newScale));
+		float midX = (this.Xcam + this.editor.game.resX/2)/oldScale;
+		this.Xcam = midX*scale-this.editor.game.resX/2;
+		float midY = (this.Ycam + this.editor.game.resY/2)/oldScale;
+		this.Ycam = midY*scale-this.editor.game.resY/2;
+		this.stepGrid = scale;
 		for(EditorObject o : units){
 			o.image = o.image.getScaledCopy(stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Vector;
 
+import IAProject.GameSimuProject.ArmyCompo;
 import buildings.BonusDamage;
 import buildings.BonusLifePoints;
 import buildings.BonusSpeed;
@@ -53,8 +54,8 @@ public class Map {
 		initializePlateau(game, 2000f, 3000f);
 		updateMap(name, game);
 	}
-	
-	
+
+
 	public static void updateMap(int id, Game game){
 		changeMap(Map.maps().get(id),game);
 	}
@@ -68,66 +69,6 @@ public class Map {
 		loadMap(name,game);
 	}
 
-
-//	public static void createMapDuelLarge(Game game){
-//				game.plateau.setMaxXMaxY(5000f, 2500f);
-//				game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
-//				float X = game.plateau.maxX;
-//				float Y = game.plateau.maxY;
-//				Data data1 = game.teams.get(1).data;
-//				Data data2 = game.teams.get(2).data;
-//				//HQ
-//				new BuildingHeadQuarters(game.plateau,game,3*X/18,Y/2,1);
-//				new BuildingHeadQuarters(game.plateau,game,15*X/18,Y/2,2);
-//				new BuildingMill(game.plateau,game,X/18,3*Y/5);
-//				new BuildingMill(game.plateau,game,17*X/18,3*Y/5);
-//		
-//				new BuildingMill(game.plateau,game,X/18,2*Y/5);
-//				new BuildingMill(game.plateau,game,17*X/18,2*Y/5);
-//		
-//				new BuildingMill(game.plateau,game,7*X/18,3*Y/5);
-//				new BuildingMill(game.plateau,game,11*X/18,2*Y/5);
-//		
-//				new BuildingMine(game.plateau,game,7*X/18,2*Y/5);
-//				new BuildingMine(game.plateau,game,11*X/18,3*Y/5);
-//		
-//				new BuildingMine(game.plateau,game,X/18,4*Y/5);
-//				new BuildingMine(game.plateau,game,17*X/18,4*Y/5);
-//		
-//				new BuildingMine(game.plateau,game,X/18,1*Y/5);
-//				new BuildingMine(game.plateau,game,17*X/18,1*Y/5);
-//		
-//				new BuildingBarrack(game.plateau,game,3*X/18,1*Y/5);
-//		
-//				new BuildingBarrack(game.plateau,game,15*X/18,1*Y/5);
-//		
-//				new BuildingBarrack(game.plateau,game,3*X/18,4*Y/5);
-//				new BuildingBarrack(game.plateau,game,15*X/18,4*Y/5);
-//		
-//				new BuildingUniversity(game.plateau,game,X/9,10*Y/11);
-//				new BuildingUniversity(game.plateau,game,8*X/9,Y/11);
-//		
-//				new BuildingStable(game.plateau,game,X/2,Y/6);
-//				new BuildingStable(game.plateau,game,X/2,5*Y/6);
-//		
-//				new BuildingAcademy(game.plateau,game,X/2,Y/2);
-//		
-//				//for(int c =0; c<50; c++)
-//				data1.create(UnitsList.Spearman, X/9, Y/2);
-//		
-//				//data1.player.create(UnitsList.Spearman, X/9 + 2f, Y/2);
-//				data2.create(UnitsList.Spearman, 8*X/9 - 1f, Y/2);
-//		
-//				// Water
-//		
-//		
-//				new Water(5f*X/18,2f*Y/3,X/9,2f*Y/3,game.plateau);
-//				new Water(13f*X/18,1f*Y/3,X/9,2f*Y/3,game.plateau);
-//		
-//				// Player 2 side
-//	}
-
-	
 	public static void initializePlateau(Game game, float maxX, float maxY){
 		game.plateau = new Plateau(maxX,maxY,game);
 		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
@@ -241,4 +182,38 @@ public class Map {
 		}
 	}
 
+	public static void createMapMicro(Game game, ArmyCompo a){
+		// Création de la map
+		game.plateau.setMaxXMaxY(5*stepGrid, 5*stepGrid);
+		Data data1 = game.teams.get(1).data;
+		Data data2 = game.teams.get(2).data;
+		// Headquarters
+		new BuildingHeadQuarters(game.plateau,game,-5,-3,1);
+		new BuildingHeadQuarters(game.plateau,game,7,-3,2);
+
+		// Units
+		Data data;
+		Vector<Integer> army;
+		float x,y;
+		for(int team=1; team<3; team++){
+			if(team==1){
+				army = a.army1;
+				data = data1;
+			} else {
+				army = a.army2;
+				data = data2;
+			}
+			for(Integer i : army){
+				x = (float)((team*team)-0.1f+0.2f*Math.random());
+				y = (float)(1+3*Math.random());
+				switch(i){
+				case 0 : data.create(UnitsList.Spearman, x*Map.stepGrid, y*Map.stepGrid);break;
+				case 1 : data.create(UnitsList.Crossbowman, x*Map.stepGrid, y*Map.stepGrid);break;
+				case 2 : data.create(UnitsList.Knight, x*Map.stepGrid, y*Map.stepGrid);break;
+				case 3 : data.create(UnitsList.Inquisitor, x*Map.stepGrid, y*Map.stepGrid);break;
+				default:
+				}
+			}
+		}
+	}
 }

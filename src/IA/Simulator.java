@@ -1,7 +1,5 @@
 package IA;
 
-import model.GameSimu;
-
 public class Simulator {
 
 	public GameSimu game;

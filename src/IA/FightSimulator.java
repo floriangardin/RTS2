@@ -3,8 +3,6 @@ package IA;
 import java.io.File;
 import java.io.FileWriter;
 
-import model.GameSimu;
-
 public class FightSimulator extends Simulator{
 
 	public int simulationNumber;

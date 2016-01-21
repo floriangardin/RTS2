@@ -3,8 +3,6 @@ package IA;
 import java.io.File;
 import java.io.FileWriter;
 
-import model.GameSimu;
-
 public class MicroSimulator extends Simulator{
 
 	public GeneticAlgorithm gen;
