@@ -41,6 +41,12 @@ public class MapEditor {
 	}
 	
 	public void update(InputObject im, Input i){
+		if(this.game.musics.menu.playing()){
+			this.game.musics.menu.stop();
+		}
+		if(!this.game.musics.editor.playing()){
+			this.game.musics.editor.loop(1f,this.game.options.musicVolume);
+		}
 		if(im.xMouse>Math.min(this.objectBar.startX,game.resX-10f)){
 			this.objectBar.startX = Math.max(4*game.resX/5, this.objectBar.startX-35f);
 		} else {

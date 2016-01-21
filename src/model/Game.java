@@ -227,8 +227,28 @@ public class Game extends BasicGame
 		this.plateau.Ycam = (int) (this.plateau.maxY/2 -this.resY/2);
 	}
 	public void setMenu(Menu m){
+		
+		if(this.menuCurrent instanceof MenuIntro && this.musics.menu.playing()  ){
+			this.musics.menu.stop();
+		}
+		
+		if(this.menuCurrent instanceof MenuMulti && this.musics.multi.playing() && !(m instanceof MenuMapChoice)){
+			this.musics.multi.stop();
+		}
+		
+		if(this.musics.editor.playing()){
+			this.musics.editor.stop();
+		}
+		
 		this.menuCurrent = m;
 		this.isInMenu = true;
+		
+		if(!this.musics.multi.playing()&&(m instanceof MenuMulti || m instanceof MenuMapChoice)){
+			this.musics.multi.loop(1f, this.options.musicVolume);
+		}
+		if(m instanceof MenuIntro){
+			this.musics.menu.loop(1f, this.options.musicVolume);
+		}
 		if(m instanceof MenuMapChoice){
 			((MenuMapChoice)m).initialize();
 		}
