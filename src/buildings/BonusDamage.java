@@ -30,7 +30,6 @@ public class BonusDamage extends Bonus{
 	}
 
 	public void collision(Character c){
-		
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
 			c.damage += this.bonus;
 			this.bonusPresent =false;
