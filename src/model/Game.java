@@ -19,7 +19,6 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 
-import battleIA.IAFlo;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingProduction;
@@ -27,6 +26,7 @@ import buildings.BuildingTech;
 import bullets.Bullet;
 import main.Main;
 import mapeditor.MapEditor;
+import menu.Credits;
 import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
@@ -187,6 +187,7 @@ public class Game extends BasicGame
 	public MenuOptions menuOptions;
 	public MenuMulti menuMulti;
 	public MenuMapChoice menuMapChoice;
+	public Credits credits;
 	public Menu menuCurrent = null;
 	public boolean isInMenu = false;
 	public int idInput;
@@ -229,7 +230,7 @@ public class Game extends BasicGame
 	}
 	public void setMenu(Menu m){
 		
-		if(this.menuCurrent instanceof MenuIntro && this.musics.menu.playing()  ){
+		if(!(m instanceof MenuOptions) && this.menuCurrent instanceof MenuIntro && this.musics.menu.playing()  ){
 			this.musics.menu.stop();
 		}
 		
@@ -247,8 +248,11 @@ public class Game extends BasicGame
 		if(!this.musics.multi.playing()&&(m instanceof MenuMulti || m instanceof MenuMapChoice)){
 			this.musics.multi.loop(1f, this.options.musicVolume);
 		}
-		if(m instanceof MenuIntro){
+		if(m instanceof MenuIntro && !this.musics.menu.playing()){
 			this.musics.menu.loop(1f, this.options.musicVolume);
+		}
+		if(m instanceof Credits){
+			this.musics.editor.loop(1f, this.options.musicVolume);
 		}
 		if(m instanceof MenuMapChoice){
 			((MenuMapChoice)m).initialize();
@@ -698,6 +702,7 @@ public class Game extends BasicGame
 		this.menuOptions = new MenuOptions(this);
 		this.menuMulti = new MenuMulti(this);
 		this.menuMapChoice = new MenuMapChoice(this);
+		this.credits = new Credits(this);
 
 		this.editor = new MapEditor(this);
 		this.setMenu(menuIntro);

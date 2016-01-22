@@ -35,7 +35,6 @@ public class Taunt {
 	}
 
 	public void playTaunt(String s){
-		System.out.println("taunt demandé: " + s);
 		if(taunts.containsKey(s)){
 			this.game.musics.imperial.setVolume(0.05f);
 			this.game.musics.multi.setVolume(0.05f);

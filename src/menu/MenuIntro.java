@@ -27,7 +27,7 @@ public class MenuIntro extends Menu {
 		super(game);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
-		float startY = 0.50f*this.game.resY;
+		float startY = 0.45f*this.game.resY;
 		float stepY = 0.09f*this.game.resY;
 		float startX = this.game.resX/2;
 		
@@ -36,7 +36,8 @@ public class MenuIntro extends Menu {
 		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"multijoueur",this.game,true));
 		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"editeur",this.game,true));
 		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"options",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"quitter",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"credits",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"quitter",this.game,true));
 
 		//		}
 	}
@@ -65,7 +66,11 @@ public class MenuIntro extends Menu {
 		case 3:
 			this.game.setMenu(this.game.menuOptions);
 			break;
-		case 4: 
+		case 4:
+			this.game.credits.initialize();
+			this.game.setMenu(this.game.credits);
+			break;
+		case 5: 
 			this.game.app.exit();
 			break;
 		default:		
