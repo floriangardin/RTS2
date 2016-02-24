@@ -12,7 +12,7 @@ public class Options {
 	public String nickname;
 	
 	public Options(){
-		String fichier ="././options.txt";
+		String fichier ="././options.opts";
 		//lecture du fichier texte	
 		try{
 			InputStream ips=new FileInputStream(fichier); 

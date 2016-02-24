@@ -92,7 +92,7 @@ public class MenuOptions extends Menu {
 	
 	public void updateOptions(){
 		try {
-			FileWriter fw = new FileWriter ("././options.txt");
+			FileWriter fw = new FileWriter ("././options.opts");
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 			fichierSortie.println ("musics:-" + game.options.musicVolume);
