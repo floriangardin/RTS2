@@ -17,7 +17,7 @@ public class Main {
 	public static void main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-
+		System.out.println(LWJGLUtil.getPlatformName());
 		int resolutionX;
 		int resolutionY;
 		if(pleinEcran){
