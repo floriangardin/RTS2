@@ -32,6 +32,8 @@ public class EditingBar {
 	public Image iconExit;
 	public Image iconGridOn;
 	public Image iconGridOff;
+	public Image iconCamOn;
+	public Image iconCamOff;
 	public Image iconCollisionOn;
 	public Image iconCollisionOff;
 	public Image iconZoomPlus;
@@ -76,6 +78,8 @@ public class EditingBar {
 			this.iconOpenFile = new Image("pics/icons/iconOpenFile.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 			this.iconSaveFile = new Image("pics/icons/iconSaveFile.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 			this.iconGridOff = new Image("pics/icons/iconGridOff.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+			this.iconCamOn = new Image("pics/icons/iconCameraOn.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+			this.iconCamOff = new Image("pics/icons/iconCameraOff.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 			this.iconCollisionOff = new Image("pics/icons/iconCollisionOff.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 			this.iconGridOn = new Image("pics/icons/iconGridOn.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 			this.iconCollisionOn = new Image("pics/icons/iconCollisionOn.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
@@ -113,18 +117,22 @@ public class EditingBar {
 	}
 	public void callItemBis(int i){
 		switch(i){
-		case 0: 
+		case 0:
+			// switch cam
+			editor.optionCam = !editor.optionCam;
+			break;
+		case 1: 
 			// switch grid
 			editor.optionGridOn = !editor.optionGridOn;
 			break;
-		case 1:
+		case 2:
 			// switch collision
 			editor.optionCollisionOn = !editor.optionCollisionOn;
 			break;
-		case 2:
+		case 3:
 			editor.plateau.zoomPlus();
 			break;
-		case 3: 
+		case 4: 
 			//exit
 			editor.plateau.zoomMoins();
 			break;
@@ -186,9 +194,9 @@ public class EditingBar {
 		}
 		// item de droite
 		if(im.yMouse>=0 && im.yMouse<=sizeY){
-			if(im.xMouse>editor.objectBar.startX-(sizeY+spaceY)*(4)){
-				for(int i=0; i<4; i++){
-					if(im.xMouse>=editor.objectBar.startX-(sizeY+spaceY)*(4)+(sizeY+spaceY)*i && im.xMouse<editor.objectBar.startX-(sizeY+spaceY)*(4)+(sizeY+spaceY)*(i+1)){
+			if(im.xMouse>editor.objectBar.startX-(sizeY+spaceY)*(5)){
+				for(int i=0; i<5; i++){
+					if(im.xMouse>=editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*i && im.xMouse<editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*(i+1)){
 						if(this.mouseOverBis!=i){
 							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
 						}
@@ -266,7 +274,11 @@ public class EditingBar {
 		if(editor.optionGridOn)
 			gc.drawImage(this.iconGridOn, this.editor.objectBar.startX-4*sizeY-3*spaceY, 1);
 		else
-			gc.drawImage(this.iconGridOff, this.editor.objectBar.startX-4*sizeY-3*spaceY, 1);
+			gc.drawImage(this.iconGridOff, this.editor.objectBar.startX-4*sizeY-3*spaceY, 1);		
+		if(editor.optionCam)
+			gc.drawImage(this.iconCamOn, this.editor.objectBar.startX-5*sizeY-4*spaceY, 1);
+		else
+			gc.drawImage(this.iconCamOff, this.editor.objectBar.startX-5*sizeY-4*spaceY, 1);
 		if(mouseOver!=-1){
 			gc.setColor(Color.white);
 			gc.drawRect(mouseOver*(sizeY+spaceY), 0, sizeY, sizeY);
@@ -282,26 +294,32 @@ public class EditingBar {
 		}
 		if(mouseOverBis!=-1){
 			gc.setColor(Color.white);
-			gc.drawRect(mouseOverBis*(sizeY+spaceY)+this.editor.objectBar.startX-4*sizeY-3*spaceY, 0, sizeY, sizeY);
+			gc.drawRect(mouseOverBis*(sizeY+spaceY)+this.editor.objectBar.startX-5*sizeY-4*spaceY, 0, sizeY, sizeY);
 			String s = "";
 			switch(mouseOverBis){
 			case 0: 
+				if(editor.optionCam)
+					s = "Masquer les caméras";
+				else
+					s = "Montrer les caméras"; 
+				break;
+			case 1: 
 				if(editor.optionGridOn)
 					s = "Désactiver Grille";
 				else
 					s = "Activer Grille"; 
 				break;
-			case 1:
+			case 2:
 				if(editor.optionCollisionOn)
 					s = "Désactiver Collision";
 				else
 					s = "Activer Collision"; 
 				break;
-			case 2: s = "Zoom plus"; break;
-			case 3: s= "Zoom moins"; break;
+			case 3: s = "Zoom plus"; break;
+			case 4: s= "Zoom moins"; break;
 			default: 
 			}
-			gc.drawString(s, editor.objectBar.startX-(sizeY+spaceY)*(4.2f)-editor.game.font.getWidth(s), sizeY/2f-editor.game.font.getHeight("Ry")/2f);
+			gc.drawString(s, editor.objectBar.startX-(sizeY+spaceY)*(5.2f)-editor.game.font.getWidth(s), sizeY/2f-editor.game.font.getHeight("Ry")/2f);
 		}
 		gc.setColor(Color.white);
 		gc.drawString("RTS Ultra Mythe Editor", (editor.objectBar.startX)/2-editor.game.font.getWidth("RTS Ultra Mythe Editor")/2f,sizeY/2f-editor.game.font.getHeight("Ry")/2f);

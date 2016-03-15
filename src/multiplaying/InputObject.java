@@ -30,10 +30,16 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedDOT;
 	public boolean isPressedENTER;
 	public boolean isPressedTAB;
+
 	public boolean isPressedLEFT;
 	public boolean isPressedRIGHT;
 	public boolean isPressedUP;
 	public boolean isPressedDOWN;
+	
+	public boolean isPressedQ;
+	public boolean isPressedD;
+	public boolean isPressedS;
+	public boolean isPressedZ;
 
 	public boolean isPressedProd0;
 	public boolean isPressedProd1;
@@ -77,14 +83,22 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedDOT = input.isKeyPressed(Input.KEY_COMMA);
 		this.isPressedENTER = input.isKeyPressed(Input.KEY_RETURN);
 		this.isPressedTAB = input.isKeyPressed(Input.KEY_TAB);
-		this.isPressedUP = input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_Z);
-		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT)|| input.isKeyDown(Input.KEY_Q);
-		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT)|| input.isKeyDown(Input.KEY_D);
-		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN)|| input.isKeyDown(Input.KEY_S);
+		
+		this.isPressedUP = input.isKeyDown(Input.KEY_UP);
+		this.isPressedLEFT = input.isKeyDown(Input.KEY_LEFT);
+		this.isPressedRIGHT = input.isKeyDown(Input.KEY_RIGHT);
+		this.isPressedDOWN = input.isKeyDown(Input.KEY_DOWN);
+		
+		this.isPressedZ = input.isKeyDown(Input.KEY_Z);
+		this.isPressedQ = input.isKeyDown(Input.KEY_Q);
+		this.isPressedD = input.isKeyDown(Input.KEY_D);
+		this.isPressedS = input.isKeyDown(Input.KEY_S);
+		
 		this.isPressedProd0 = input.isKeyPressed(Input.KEY_W);
 		this.isPressedProd1 = input.isKeyPressed(Input.KEY_X);
 		this.isPressedProd2 = input.isKeyPressed(Input.KEY_C);
 		this.isPressedProd3 = input.isKeyPressed(Input.KEY_V);
+		
 		this.isPressedA = input.isKeyDown(Input.KEY_SPACE)||input.isKeyDown(Input.KEY_LMENU);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 		this.isPressedF = input.isKeyDown(Input.KEY_F);

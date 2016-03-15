@@ -1,5 +1,6 @@
 package mapeditor;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -39,6 +40,9 @@ public class EditorObject {
 		default:
 		}
 	}
+	public EditorObject(String name, float x, float y){
+		this.initialize(name, 0, 9, null, x, y, 1, 1);
+	}
 	public static EditorObject createFromObjectBar(EditorObject e){
 		EditorObject o = new EditorObject();
 		o.initialize(e.name,e.team,e.clas,e.image,e.x,e.y,e.sizeX,e.sizeY);
@@ -56,7 +60,24 @@ public class EditorObject {
 	}
 	
 	public void draw(Graphics gc){
-		if(this.sizeX==1 && this.sizeY==1){
+		if(this.name.contains("cam")){
+			gc.setColor(Color.white);
+			switch(this.name){
+			case "Zcam" : 	gc.drawRect(x*stepGrid, y*stepGrid, stepGrid, stepGrid);
+			gc.drawString("Z", x*stepGrid+stepGrid/4, y*stepGrid+stepGrid/4);
+			break;
+			case "Scam" : 	gc.drawRect(x*stepGrid, y*stepGrid, stepGrid, stepGrid);
+			gc.drawString("S", x*stepGrid+stepGrid/4, y*stepGrid+stepGrid/4);
+			break;
+			case "Qcam" : 	gc.drawRect(x*stepGrid, y*stepGrid, stepGrid, stepGrid);
+			gc.drawString("Q", x*stepGrid+stepGrid/4, y*stepGrid+stepGrid/4);
+			break;
+			case "Dcam" : 	gc.drawRect(x*stepGrid, y*stepGrid, stepGrid, stepGrid);
+			gc.drawString("D", x*stepGrid+stepGrid/4, y*stepGrid+stepGrid/4);
+			break;
+			}
+		}
+		else if(this.sizeX==1 && this.sizeY==1){
 			gc.drawImage(this.image,x*stepGrid+stepGrid/2f-this.image.getWidth()/2f,y*stepGrid-this.image.getHeight()+this.sizeY*stepGrid);			
 		} else {
 			gc.drawImage(this.image,x*stepGrid,y*stepGrid-this.image.getHeight()+this.sizeY*stepGrid);

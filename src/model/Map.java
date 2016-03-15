@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Vector;
 
+import org.newdawn.slick.geom.Point;
+
 import IAProject.GameSimuProject.ArmyCompo;
 import buildings.BonusDamage;
 import buildings.BonusLifePoints;
@@ -88,6 +90,7 @@ public class Map {
 			Vector<String> currentVector = null;
 			String ligne;
 			int sizeX = 0, sizeY = 0;
+			Point Zcam = new Point(0,0), Scam = new Point(0,0), Qcam = new Point(0,0), Dcam = new Point(0,0);
 			boolean param;
 			while ((ligne=br.readLine())!=null){
 				param = false;
@@ -113,6 +116,10 @@ public class Map {
 						switch(tab[1]){
 						case "sizeX" : sizeX = (int)Float.parseFloat(tab[2]); break;
 						case "sizeY" : sizeY = (int)Float.parseFloat(tab[2]); break;
+						case "Zcam" : Zcam = new Point(Float.parseFloat(tab[2])*stepGrid,Float.parseFloat(tab[3])*stepGrid); break;
+						case "Scam" : Scam = new Point(Float.parseFloat(tab[2])*stepGrid,Float.parseFloat(tab[3])*stepGrid); break;
+						case "Qcam" : Qcam = new Point(Float.parseFloat(tab[2])*stepGrid,Float.parseFloat(tab[3])*stepGrid); break;
+						case "Dcam" : Dcam = new Point(Float.parseFloat(tab[2])*stepGrid,Float.parseFloat(tab[3])*stepGrid); break;
 						default:
 						}
 					} else if(currentVector!=null){
@@ -125,6 +132,10 @@ public class Map {
 			br.close(); 
 			// Création de la map
 			game.plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
+			game.plateau.Zcam = Zcam;
+			game.plateau.Scam = Scam;
+			game.plateau.Qcam = Qcam;
+			game.plateau.Dcam = Dcam;
 			Data data1 = game.teams.get(1).data;
 			Data data2 = game.teams.get(2).data;
 			// Headquarters

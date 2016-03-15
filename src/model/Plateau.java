@@ -37,6 +37,13 @@ public class Plateau {
 	// Camera
 	public int Xcam;
 	public int Ycam;
+	// preset cameras
+	public Point Zcam;
+	public Point Scam;
+	public Point Qcam;
+	public Point Dcam;
+	public boolean slidingCam = false;
+	public Point objectiveCam = new Point(0,0);
 
 	// fog of war
 	public Image fog;
@@ -647,7 +654,7 @@ public class Plateau {
 		if (target == null) {
 			for (NaturalObjet i : naturalObjets) {
 				// looking amongst natural object
-				if (i.collisionBox.contains(point)) {
+				if (Math.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<4*i.collisionBox.getBoundingCircleRadius()) {
 					target = i;
 					break;
 				}
@@ -916,20 +923,34 @@ public class Plateau {
 
 		// camera movement
 		if (player == this.g.currentPlayer.id && this.rectangleSelection.get(player) == null && !im.leftClick) {
+			// Handling sliding
+			if(this.slidingCam==true){
+				int deltaX = (int) (this.objectiveCam.getX()-this.Xcam);
+				int deltaY = (int) (this.objectiveCam.getY()-this.Ycam);
+				this.Xcam += deltaX/5;
+				this.Ycam += deltaY/5;
+				if(deltaX<1){
+					this.slidingCam = false;
+				}
+			}
 			// Move camera according to inputs :
 			if ((im.isPressedUP || (!im.isPressedA && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
 				Ycam -= (int) (40 * 30 / Main.framerate);
+				this.slidingCam = false;
 			}
 			if ((im.isPressedDOWN || (!im.isPressedA && im.yMouse > Ycam + g.resY - 5))
 					&& Ycam < this.maxY - g.resY / 2) {
 				Ycam += (int) (40 * 30 / Main.framerate);
+				this.slidingCam = false;
 			}
 			if ((im.isPressedLEFT || (!im.isPressedA && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
 				Xcam -= (int) (40 * 30 / Main.framerate);
+				this.slidingCam = false;
 			}
 			if ((im.isPressedRIGHT || (!im.isPressedA && im.xMouse > Xcam + g.resX - 5))
 					&& Xcam < this.maxX - g.resX / 2) {
 				Xcam += (int) (40 * 30 / Main.framerate);
+				this.slidingCam = false;
 			}
 			// Displaying the selected group
 			for (int to = 0; to < 10; to++) {
@@ -940,8 +961,26 @@ public class Plateau {
 						float ymoy = this.g.players.get(player).groups.get(to).get(0).getY();
 						this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
 						this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
+						this.slidingCam = false;
 					}
 				}
+			}
+			// Displaying selected area
+			if(im.isPressedZ){
+				this.slidingCam = true;
+				this.objectiveCam = new Point(this.Zcam.getX()-this.g.resX/2,this.Zcam.getY()-this.g.resY/2);
+			}
+			if(im.isPressedQ){
+				this.slidingCam = true;
+				this.objectiveCam = new Point(this.Qcam.getX()-this.g.resX/2,this.Qcam.getY()-this.g.resY/2);
+			}
+			if(im.isPressedS){
+				this.slidingCam = true;
+				this.objectiveCam = new Point(this.Scam.getX()-this.g.resX/2,this.Scam.getY()-this.g.resY/2);
+			}
+			if(im.isPressedD){
+				this.slidingCam = true;
+				this.objectiveCam = new Point(this.Dcam.getX()-this.g.resX/2,this.Dcam.getY()-this.g.resY/2);
 			}
 		}
 		// display for the bottom bar
@@ -1127,6 +1166,7 @@ public class Plateau {
 		}
 		// update the rectangle
 		if (im.leftClick) {
+			this.slidingCam = false;
 			// As long as the button is pressed, the selection is updated
 			this.updateRectangle(im, player);
 		}

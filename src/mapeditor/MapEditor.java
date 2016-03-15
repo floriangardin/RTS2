@@ -18,6 +18,7 @@ public class MapEditor {
 	
 	public boolean optionGridOn = true;
 	public boolean optionCollisionOn = true;
+	public boolean optionCam = true;
 	
 	public EditorObject draggedObject = null;
 	public float decX, decY;

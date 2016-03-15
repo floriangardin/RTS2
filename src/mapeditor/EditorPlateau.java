@@ -13,6 +13,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Point;
 
 import model.Data;
 import model.Map;
@@ -27,6 +28,11 @@ public class EditorPlateau {
 
 	public float sizeX;
 	public float sizeY;
+
+	public EditorObject Zcam = new EditorObject("Zcam", 1, 0);
+	public EditorObject Qcam = new EditorObject("Qcam", 0, 1);
+	public EditorObject Scam = new EditorObject("Scam", 1, 1);
+	public EditorObject Dcam = new EditorObject("Dcam", 2, 1);
 
 	public String name;
 
@@ -43,6 +49,7 @@ public class EditorPlateau {
 	public Vector<EditorObject> nature;
 	public Vector<EditorObject> headquartersBlue;
 	public Vector<EditorObject> headquartersRed;
+	public Vector<EditorObject> cams;
 
 	public boolean[][] collision;
 
@@ -75,6 +82,11 @@ public class EditorPlateau {
 		this.nature = new Vector<EditorObject>();
 		this.headquartersBlue = new Vector<EditorObject>();
 		this.headquartersRed = new Vector<EditorObject>();
+		this.cams = new Vector<EditorObject>();
+		this.cams.add(Zcam);
+		this.cams.add(Scam);
+		this.cams.add(Qcam);
+		this.cams.add(Dcam);
 	}
 
 	public void update(InputObject im, Input in){
@@ -150,7 +162,8 @@ public class EditorPlateau {
 						depotFromMouseOverObject.remove(mouseOverObject);
 					editor.tempX = mouseOverObject.x;
 					editor.tempY = mouseOverObject.y;
-					this.setCollision(mouseOverObject, false);
+					if(!editor.optionCam)
+						this.setCollision(mouseOverObject, false);
 				}
 			} else {
 				// déplacer l'objet
@@ -159,7 +172,7 @@ public class EditorPlateau {
 			}
 		} else{
 			if(editor.draggedObject!=null){
-				if(editor.objectBar.startX<editor.game.resX){
+				if(editor.objectBar.startX<editor.game.resX && !editor.optionCam){
 					//suppression de l'objet
 					editor.draggedObject.x = editor.tempX;
 					editor.draggedObject.y = editor.tempY;
@@ -167,11 +180,12 @@ public class EditorPlateau {
 					editor.draggedObject = null;
 					this.actions.firstElement().performed = true;
 
-				} else if(!getCollision(editor.draggedObject)){
+				} else if(!getCollision(editor.draggedObject) || editor.optionCam){
 					if(depotFromMouseOverObject!=null)
 						depotFromMouseOverObject.add(editor.draggedObject);
-					this.setCollision(editor.draggedObject, true);
-					if(this.objetFromObjetBar){
+					if(!editor.optionCam)
+						this.setCollision(editor.draggedObject, true);
+					if(this.objetFromObjetBar && !editor.optionCam){
 						// ajout de l'objet
 						this.addAction(EditorAction.getCreation(editor.plateau,editor.draggedObject, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
 						this.objetFromObjetBar = false;
@@ -261,7 +275,6 @@ public class EditorPlateau {
 				}
 			}
 		}
-
 		//Creation of the drawing Vector
 		Vector<EditorObject> toDraw = new Vector<EditorObject>();
 		for(EditorObject o : units){
@@ -284,8 +297,13 @@ public class EditorPlateau {
 		for(EditorObject o: toDraw)
 			o.draw(g);
 
+		if(editor.optionCam){
+			for(EditorObject o : this.cams){
+				o.draw(g);
+			}
+		}
 		if(editor.draggedObject!=null){
-			if(editor.draggedObject.clas!=0){
+			if(editor.draggedObject.clas!=0 && editor.draggedObject.clas!=9){
 				boolean b = getCollision(editor.draggedObject);
 				if(b)
 					g.setColor(new Color(200,0,0,75));
@@ -306,6 +324,33 @@ public class EditorPlateau {
 	}
 
 	public EditorObject getObjectAt(int x, int y){
+		if(editor.optionCam){
+			EditorObject o = Zcam;
+			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
+				this.depotFromMouseOverObject = cams;
+				this.computeDec(x, y, o);
+				return o;
+			}
+			o = Scam;
+			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
+				this.depotFromMouseOverObject = cams;
+				this.computeDec(x, y, o);
+				return o;
+			}
+			o = Qcam;
+			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
+				this.depotFromMouseOverObject = cams;
+				this.computeDec(x, y, o);
+				return o;
+			}
+			o = Dcam;
+			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
+				this.depotFromMouseOverObject = cams;
+				this.computeDec(x, y, o);
+				return o;
+			}
+			return null;
+		}
 		for(EditorObject o : this.buildings){
 			if(o.x*stepGrid<x && x<(o.x+o.sizeX)*stepGrid && o.y*stepGrid<y && y<(o.y+o.sizeY)*stepGrid ){
 				this.depotFromMouseOverObject = buildings;
@@ -525,6 +570,14 @@ public class EditorPlateau {
 						case "sizeY" : maxY = (int)Float.parseFloat(tab[2]); 
 						collision = new boolean[maxX][maxY];
 						break;
+						case "Zcam" : Zcam = new EditorObject(tab[1],(int)(Float.parseFloat(tab[2])),(int)(Float.parseFloat(tab[3])));
+						break;
+						case "Qcam" : Qcam = new EditorObject(tab[1],(int)(Float.parseFloat(tab[2])),(int)(Float.parseFloat(tab[3])));
+						break;
+						case "Scam" : Scam = new EditorObject(tab[1],(int)(Float.parseFloat(tab[2])),(int)(Float.parseFloat(tab[3])));
+						break;
+						case "Dcam" : Dcam = new EditorObject(tab[1],(int)(Float.parseFloat(tab[2])),(int)(Float.parseFloat(tab[3])));
+						break;
 						default:
 						}
 					} else if(currentVector!=null){
@@ -537,6 +590,11 @@ public class EditorPlateau {
 			br.close(); 
 			// Création de la map
 			Data data = new Data();
+			this.cams = new Vector<EditorObject>();
+			this.cams.add(Zcam);
+			this.cams.add(Qcam);
+			this.cams.add(Scam);
+			this.cams.add(Dcam);
 			// Headquarters
 			for(int i=0;i<headquarters.size(); i++){
 				// format:
@@ -663,6 +721,10 @@ public class EditorPlateau {
 			fichierSortie.println ();
 			fichierSortie.println ("& sizeX "+maxX);
 			fichierSortie.println ("& sizeY "+maxY);
+			fichierSortie.println ("& Zcam "+(Zcam.x+1/2)+" "+(Zcam.y+1/2));
+			fichierSortie.println ("& Qcam "+(Qcam.x+1/2)+" "+(Qcam.y+1/2));
+			fichierSortie.println ("& Scam "+(Scam.x+1/2)+" "+(Scam.y+1/2));
+			fichierSortie.println ("& Dcam "+(Dcam.x+1/2)+" "+(Dcam.y+1/2));
 			fichierSortie.println ();
 			fichierSortie.println ();
 			fichierSortie.println ("##############");

@@ -3,11 +3,15 @@
 ###########################
 
 
-#Creator: Welcome
-# date: 21/01/2016
+#Creator: /philippe
+# date: 15/03/2016
 
 & sizeX 31
 & sizeY 31
+& Zcam 15.0 8.0
+& Qcam 7.0 15.0
+& Scam 15.0 22.0
+& Dcam 23.0 15.0
 
 
 ##############

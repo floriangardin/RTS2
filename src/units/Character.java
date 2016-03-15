@@ -378,6 +378,15 @@ public class Character extends ActionObjet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
+		// rustine debug mode : collision with trees
+		if(this.getTarget()!=null){
+			if( this.getTarget() instanceof Tree){
+				if(Utils.distance(this, this.getTarget())<(this.getTarget().collisionBox.getBoundingCircleRadius()+this.collisionBox.getBoundingCircleRadius()+2f)){
+					this.stop();
+					return;
+				}
+			}
+		}
 		if(mode == AGGRESSIVE){
 			Vector<Character> targets  = this.p.getEnnemiesInSight(this);
 			if(targets.size()>0){
@@ -1205,14 +1214,14 @@ public class Character extends ActionObjet{
 		s+=";";
 
 
-	
-			s+="animation:"+animation+";";
 
-		
-			s+="isImmolating:"+(isImmolating?1:0)+";";
+		s+="animation:"+animation+";";
 
-		
-			s+="remainingTime:"+remainingTime+";";
+
+		s+="isImmolating:"+(isImmolating?1:0)+";";
+
+
+		s+="remainingTime:"+remainingTime+";";
 
 		return s;
 	}
