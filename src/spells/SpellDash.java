@@ -29,7 +29,7 @@ public class SpellDash extends Spell{
 	public void launch(Objet target, Character launcher){
 		if(launcher instanceof UnitSpearman){
 			UnitSpearman unit = (UnitSpearman) launcher;
-			unit.target = target;
+			unit.setTarget(target);
 			unit.inDash = this.remainingTime;
 			unit.bonusAttack = true;
 		}
