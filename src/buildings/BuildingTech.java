@@ -39,8 +39,10 @@ public abstract class BuildingTech extends BuildingAction {
 		if(this.queue!=null){
 			this.getGameTeam().food += queue.tech.foodPrice;
 			this.getGameTeam().gold += queue.tech.goldPrice;
+			this.hq.allTechs.addElement(this.queue);
 			this.queue=null;
 			this.setCharge(0f);
+			this.hq.updateAllProductionList();
 		}
 	}
 
@@ -51,6 +53,8 @@ public abstract class BuildingTech extends BuildingAction {
 				this.queue=this.productionList.get(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
+				this.hq.allTechs.remove(this.productionList.get(unit));
+				this.hq.updateAllProductionList();
 				return true;
 			} else {
 				// Messages

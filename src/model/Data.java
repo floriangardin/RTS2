@@ -3,10 +3,13 @@ package model;
 import main.Main;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;
+import spells.SpellDash;
+import spells.SpellFence;
 import spells.SpellFirewall;
 import spells.SpellImmolation;
 import spells.SpellInstantDeath;
 import spells.SpellInstantHealth;
+import spells.SpellManualArrow;
 import units.Character;
 import units.UnitArchange;
 import units.UnitCrossbowman;
@@ -105,7 +108,9 @@ public class Data {
 	public SpellConversion conversion;
 	public SpellInstantHealth instantHealth;
 	public SpellInstantDeath instantDeath ;
-
+	public SpellManualArrow manualArrow;
+	public SpellDash spellDash;
+	public SpellFence fence;
 	//// Special
 
 	public float gainedFaithByImmolation = 1f;
@@ -129,11 +134,14 @@ public class Data {
 		this.FRAMERATE = framerate;
 		// Init spells
 		this.firewall = new SpellFirewall(p,gameteam);
+		this.manualArrow = new SpellManualArrow(p,gameteam);
 		this.blessedArea = new SpellBlessedArea(p,gameteam);
 		this.immolation = new SpellImmolation(p,gameteam);
 		this.conversion = new SpellConversion(p,gameteam);
 		this.instantDeath = new SpellInstantDeath(p,gameteam);
 		this.instantHealth = new SpellInstantHealth(p,gameteam);
+		this.spellDash = new SpellDash(p,gameteam);
+		this.fence = new SpellFence(p, gameteam);
 		// Init unit 
 		this.spearman = new UnitSpearman(p,gameteam,this);
 		this.crossbowman = new UnitCrossbowman(p,gameteam,this);

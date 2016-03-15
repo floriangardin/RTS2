@@ -87,7 +87,7 @@ public class BlessedArea extends SpellEffect{
 			this.targeted.remove(c);
 		}
 	}
-
+	
 	public Graphics draw(Graphics g){
 		this.animationState +=1f*Main.increment;
 		if(this.animationState>animationMax)

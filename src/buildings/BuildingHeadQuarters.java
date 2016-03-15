@@ -34,6 +34,8 @@ public class BuildingHeadQuarters extends BuildingTech {
 	boolean isProducing;
 	public Vector<Technologie> techsDiscovered;
 	public Vector<Technologie> allTechs;
+	
+	
 	public BuildingHeadQuarters(Plateau plateau, Game g, float f, float h, int team) {
 		// Init ProductionList
 		this.hq = this;
@@ -62,8 +64,10 @@ public class BuildingHeadQuarters extends BuildingTech {
 			// RESSOURCES BONUS
 			DualistBonusFood d4 = new DualistBonusFood(this.p,this.getGameTeam());
 			this.allTechs.addElement(d4);
+
 			DualistBonusGold bg = new DualistBonusGold(this.p,this.getGameTeam());
 			this.allTechs.addElement(bg);
+
 			
 			// EXPLOSION TECH
 			DualistExplosion ex = new DualistExplosion(this.p,this.getGameTeam());
@@ -187,6 +191,13 @@ public class BuildingHeadQuarters extends BuildingTech {
 	}
 	
 
+	public void updateAllProductionList(){
+		for(Building b : this.p.buildings){
+			if(b instanceof BuildingTech && b.getTeam()==this.getTeam()){
+				((BuildingTech)b).updateProductionList();
+			}
+		}
+	}
 	
 	
 
