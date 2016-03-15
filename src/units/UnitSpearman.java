@@ -19,7 +19,7 @@ public class UnitSpearman extends Character {
 	public float inDash=0f;
 	public boolean bonusAttack;
 	public float bonusSpeed =200f;
-	public float bonusDamage = 50f;
+	public float bonusDamage = 10f;
 	public UnitSpearman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "spearman";

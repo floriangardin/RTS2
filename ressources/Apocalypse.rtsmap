@@ -3,15 +3,15 @@
 ###########################
 
 
-#Creator: /philippe
+#Creator: bouard
 # date: 15/03/2016
 
 & sizeX 31
 & sizeY 31
-& Zcam 15.0 8.0
-& Qcam 7.0 15.0
-& Scam 15.0 22.0
-& Dcam 23.0 15.0
+& Zcam 15.0 7.0
+& Qcam 9.0 15.0
+& Scam 15.0 23.0
+& Dcam 21.0 15.0
 
 
 ##############
@@ -51,8 +51,8 @@ Barrack 0 2.0 14.0
 = units
 #######
 
-Inquisitor 1 14.0 5.0
-Knight 1 16.0 5.0
+Spearman 1 14.0 5.0
+Spearman 1 16.0 5.0
 Spearman 2 14.0 25.0
 Spearman 2 16.0 25.0
 Crossbowman 2 15.0 20.0

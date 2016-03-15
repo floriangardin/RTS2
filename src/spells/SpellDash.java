@@ -17,7 +17,7 @@ public class SpellDash extends Spell{
 	public SpellDash(Plateau p, GameTeam gameteam){
 		this.chargeTime = 500f;
 		this.p = p;
-		this.name = "Manual Arrow";
+		this.name = "Dash";
 		this.icon = p.g.images.iconeSpearman;
 		this.range = 200f*Game.ratioSpace;
 		this.damage = 1f;
