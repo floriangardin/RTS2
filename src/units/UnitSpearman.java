@@ -14,7 +14,12 @@ import model.Plateau;
 import model.Player;
 
 public class UnitSpearman extends Character {
-
+	
+	
+	public float inDash=0f;
+	public boolean bonusAttack;
+	public float bonusSpeed =200f;
+	public float bonusDamage = 50f;
 	public UnitSpearman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "spearman";
@@ -51,6 +56,7 @@ public class UnitSpearman extends Character {
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+30f*Game.ratioSpace;
 		this.spells.add(data.immolation);
+		this.spells.add(data.spellDash);
 		//this.updateImage();
 	}
 	public UnitSpearman(UnitSpearman unit, float x, float y,int id) {
@@ -64,7 +70,9 @@ public class UnitSpearman extends Character {
 		Character c = (Character) this.target;
 		c.isAttacked();
 		// Attack sound
-		float damage = this.damage;
+		float bonus = bonusAttack ? bonusDamage : 0f;
+		bonusAttack = false;
+		float damage = this.damage+bonus;
 		if(this.p.g.sounds!=null)
 			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
 		if(c.horse!=null)
@@ -87,7 +95,8 @@ public class UnitSpearman extends Character {
 		newvx = o.getX()-this.getX();
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
-		float maxVNorm = this.maxVelocity/((float)this.getGameTeam().data.FRAMERATE);
+		float velocity = this.maxVelocity+ (this.inDash>0f ? bonusSpeed : 0);
+		float maxVNorm = velocity/((float)this.getGameTeam().data.FRAMERATE);
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target

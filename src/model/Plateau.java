@@ -13,20 +13,28 @@ import org.newdawn.slick.geom.Rectangle;
 
 import buildings.Bonus;
 import buildings.Building;
+import buildings.BuildingAcademy;
 import buildings.BuildingAction;
+import buildings.BuildingBarrack;
+import buildings.BuildingHeadQuarters;
 import buildings.BuildingProduction;
+import buildings.BuildingStable;
 import buildings.BuildingTower;
 import bullets.Bullet;
 import bullets.CollisionBullet;
 import display.BottomBar;
 import main.Main;
 import multiplaying.InputObject;
-import multiplaying.ChatMessage;
 import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;
+import units.UnitCrossbowman;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitPriest;
+import units.UnitSpearman;
 
 public class Plateau {
 
@@ -689,7 +697,7 @@ public class Plateau {
 			}
 
 			// on g�re la s�lection des sorts (type firewall/ blessed area)
-			this.handleSpellCasting(im, player);
+			//this.handleSpellCasting(im, player);
 			// on g�re c�t� serveur l'action bar et le click droit
 			if (im.player == this.g.currentPlayer) {
 				this.handleMouseHover(im, player);
@@ -850,19 +858,37 @@ public class Plateau {
 		if(id_spell<0){
 			return;
 		}
+		//Cas de l'immolation
+		if(id_spell==4){
+			Character c = (Character) this.selection.get(player).get(0);
+			Spell spell = c.spells.get(0);
+			if(spell.name.equals("Immolation")){
+				spell.launch(new Checkpoint(this,im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
+				c.spellsState.set(0, 0f);
+				System.out.println("I");
+			}
+			return;
+		}
 		if (this.selection.get(player).size() > 0) {
 			Character c = (Character) this.selection.get(player).get(0);
 			if (id_spell >= c.spells.size()) {
 				return;
 			}
 			Spell spell = c.spells.get(id_spell);
+			if(spell.name.equals("Immolation")){
+				System.out.println("I0");
+				return;
+				
+			}
+			System.out.println("aieaie");
 			spell.launch(new Checkpoint(this,im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
 			c.spellsState.set(id_spell, 0f);
 		}
 	}
 
 	private void handleActionBar(InputObject im, int player) {
-		if (im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC) {
+		boolean imo = false;
+		if (im.isPressedImmolation || im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC) {
 			if (this.selection.get(player).size() > 0 && this.selection.get(player).get(0) instanceof BuildingAction) {
 				if (im.isPressedProd0)
 					((BuildingAction) this.selection.get(player).get(0)).product(0);
@@ -885,11 +911,25 @@ public class Plateau {
 						number = 2;
 					if (im.isPressedProd3)
 						number = 3;
+					if (im.isPressedImmolation){
+						number = 0;
+						imo = true;
+					}
+						
 					Character c = ((Character) this.selection.get(player).get(0));
 					if (-1 != number && number < c.spells.size()
 							&& c.spellsState.get(number) >= c.spells.get(number).chargeTime) {
 						if (!c.spells.get(number).needToClick) {
-							c.spells.get(number).launch(c, c);
+							Spell s = c.spells.get(number);
+							if(s.name.equals("Immolation")){
+								if(imo){
+									s.launch(new Checkpoint(this,im.xMouse,im.yMouse), c);
+								}
+							}else{
+								s.launch(new Checkpoint(this,im.xMouse,im.yMouse), c);
+								c.spellsState.set(number, 0f);
+							}
+							
 						}
 					}
 				}
@@ -898,7 +938,7 @@ public class Plateau {
 	}
 
 	private void handleSpellCasting(InputObject im, int player) {
-		if (im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC) {
+		if (im.isPressedImmolation || im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC) {
 			if (this.selection.get(player).size() > 0 && this.selection.get(player).get(0) instanceof Character) {
 				int number = -1;
 				if (im.isPressedProd0)
@@ -909,7 +949,9 @@ public class Plateau {
 					number = 2;
 				if (im.isPressedProd3)
 					number = 3;
-				Character c = ((Character) this.selection.get(player).get(0));
+				if (im.isPressedImmolation)
+					number = 4;
+				
 				this.handleSpellsOnField(im, number, player, true);
 			}
 		}
@@ -986,6 +1028,132 @@ public class Plateau {
 				this.slidingCam = true;
 				this.objectiveCam = new Point(this.Dcam.getX()-this.g.resX/2,this.Dcam.getY()-this.g.resY/2);
 			}
+//			for (int to = 0; to < 10; to++) {
+//				if (im.isPressedNumPad[to]) {
+//					if (this.g.players.get(player).groupSelection == to
+//							&& this.g.players.get(player).groups.get(to).size() > 0) {
+//						float xmoy = this.g.players.get(player).groups.get(to).get(0).getX();
+//						float ymoy = this.g.players.get(player).groups.get(to).get(0).getY();
+//						this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
+//						this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
+//					}
+//				}
+//			}
+			// Selection des batiments
+			Vector<Objet> visible = getInCamObjets(this.g.players.get(player).getTeam());
+			if(im.isPressedF1 || im.isPressedF2 || im.isPressedF3 || im.isPressedF4){
+				if(im.isPressedF1){
+					//Barrack
+					for(Objet o : visible){
+						if(o instanceof BuildingBarrack &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+							Vector<ActionObjet> sel = new Vector<ActionObjet>();
+							sel.addElement((ActionObjet)o);
+							this.selection.set(player,sel);
+							break;
+						}else if(o instanceof BuildingBarrack && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+							this.buildings.remove((BuildingBarrack)o);
+							this.buildings.addElement((BuildingBarrack)o);
+						}
+					}
+				}
+				else if(im.isPressedF2){
+					// Stable
+					for(Objet o : visible){
+						if(o instanceof BuildingStable &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+							Vector<ActionObjet> sel = new Vector<ActionObjet>();
+							sel.addElement((ActionObjet)o);
+							this.selection.set(player,sel);
+							break;
+						}else if(o instanceof BuildingStable && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+							this.buildings.remove((BuildingStable)o);
+							this.buildings.addElement((BuildingStable)o);
+						}
+					}
+				}
+				else if(im.isPressedF3){
+					// Academy
+					//Barrack
+					for(Objet o : visible){
+						if(o instanceof BuildingAcademy &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+							Vector<ActionObjet> sel = new Vector<ActionObjet>();
+							sel.addElement((ActionObjet)o);
+							this.selection.set(player,sel);
+							break;
+						}else if(o instanceof BuildingAcademy && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+							this.buildings.remove((BuildingAcademy)o);
+							this.buildings.addElement((BuildingAcademy)o);
+						}
+					}
+				}
+				else if(im.isPressedF4){
+					//Headquarter
+					//Barrack
+					for(Objet o : visible){
+						if(o instanceof BuildingHeadQuarters &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+							Vector<ActionObjet> sel = new Vector<ActionObjet>();
+							sel.addElement((ActionObjet)o);
+							this.selection.set(player,sel);
+							break;
+						}else if(o instanceof BuildingHeadQuarters && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+							this.buildings.remove((BuildingHeadQuarters)o);
+							this.buildings.addElement((BuildingHeadQuarters)o);
+						}
+					}
+				}
+			}
+			
+			if(im.isPressedNumPad[0] || im.isPressedNumPad[1] || im.isPressedNumPad[4] || im.isPressedNumPad[2] || im.isPressedNumPad[3]){
+				if(im.isPressedNumPad[0]){
+					//Lancier
+					this.selection.set(player, new Vector<ActionObjet>());
+					for(Objet o : visible){
+						
+						if(o instanceof UnitSpearman){
+							this.selection.get(player).add((ActionObjet)o);
+						}
+					}
+				}
+				else if(im.isPressedNumPad[1]){
+					//Lancier
+					this.selection.set(player, new Vector<ActionObjet>());
+					for(Objet o : visible){
+						if(o instanceof UnitCrossbowman){
+							this.selection.get(player).add((ActionObjet)o);
+						}
+					}
+				}
+				else if(im.isPressedNumPad[2]){
+					//Lancier
+					this.selection.set(player, new Vector<ActionObjet>());
+					for(Objet o : visible){
+
+						if(o instanceof UnitKnight){
+
+							this.selection.get(player).add((ActionObjet)o);
+						}
+					}
+				}
+				else if(im.isPressedNumPad[3]){
+					//Lancier
+					this.selection.set(player, new Vector<ActionObjet>());
+					for(Objet o : visible){
+						if(o instanceof UnitInquisitor){
+							this.selection.get(player).add((ActionObjet)o);
+						}
+					}
+				}
+				else if(im.isPressedNumPad[4]){
+					//Lancier
+					this.selection.set(player, new Vector<ActionObjet>());
+					for(Objet o : visible){
+						if(o instanceof UnitPriest){
+							this.selection.get(player).add((ActionObjet)o);
+						}
+					}
+				}
+				
+			}
+			
 		}
 		// display for the bottom bar
 		BottomBar bb = g.currentPlayer.bottomBar;
@@ -1109,32 +1277,32 @@ public class Plateau {
 	// handling selection
 	public void handleSelection(InputObject im, int player, int team) {
 		// Handling groups of units
-		for (int to = 0; to < 10; to++) {
-			if (im.isPressedNumPad[to]) {
-				if (im.isPressedCTRL) {
-					// Creating a new group made of the selection
-					this.g.players.get(player).groups.get(to).clear();
-					for (ActionObjet c : this.selection.get(player))
-						this.g.players.get(player).groups.get(to).add(c);
-				} else if (im.isPressedMAJ) {
-					// Adding the current selection to the group
-
-					for (ActionObjet c : this.selection.get(player))
-						this.g.players.get(player).groups.get(to).add(c);
-				} else {
-					this.selection.get(player).clear();
-					int i = 0;
-					for (ActionObjet c : this.g.players.get(player).groups.get(to)){
-						this.selection.get(player).add(c);
-						if(c.soundSelection!=null && c.soundSelection.size()>0 && i==0){
-							Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
-						}
-						i++;
-					}
-				}
-				this.g.players.get(player).groupSelection = to;
-			}
-		}
+//		for (int to = 0; to < 10; to++) {
+//			if (im.isPressedNumPad[to]) {
+//				if (im.isPressedCTRL) {
+//					// Creating a new group made of the selection
+//					this.g.players.get(player).groups.get(to).clear();
+//					for (ActionObjet c : this.selection.get(player))
+//						this.g.players.get(player).groups.get(to).add(c);
+//				} else if (im.isPressedMAJ) {
+//					// Adding the current selection to the group
+//
+//					for (ActionObjet c : this.selection.get(player))
+//						this.g.players.get(player).groups.get(to).add(c);
+//				} else {
+//					this.selection.get(player).clear();
+//					int i = 0;
+//					for (ActionObjet c : this.g.players.get(player).groups.get(to)){
+//						this.selection.get(player).add(c);
+//						if(c.soundSelection!=null && c.soundSelection.size()>0 && i==0){
+//							Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+//						}
+//						i++;
+//					}
+//				}
+//				this.g.players.get(player).groupSelection = to;
+//			}
+//		}
 		// Cleaning the rectangle and buffer if mouse is released
 		if (!im.leftClick) {
 			if (this.rectangleSelection.get(player) != null) {

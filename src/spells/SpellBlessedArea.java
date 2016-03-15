@@ -22,7 +22,7 @@ public class SpellBlessedArea extends Spell{
 		this.remainingTime = 250f;
 		this.effect= 0.75f;
 		this.gameteam = gameteam;
-		this.needToClick=true;
+		this.needToClick=false;
 		this.p = p;
 	}
 

@@ -17,6 +17,7 @@ import model.Player;
 
 public class UnitCrossbowman extends Character {
 
+	int bonusArrow = 0;
 	public UnitCrossbowman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "crossbowman";
@@ -51,6 +52,7 @@ public class UnitCrossbowman extends Character {
 		this.range = 300f*Game.ratioSpace;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.spells.add(data.immolation);
+		this.spells.add(data.manualArrow);
 
 	}
 	public UnitCrossbowman(UnitCrossbowman unit, float x, float y,int id) {
@@ -74,6 +76,10 @@ public class UnitCrossbowman extends Character {
 		
 	}
 	
+	public void useWeapon(Objet target){
+		new Arrow(this.p,this,target.getX()-this.getX(),target.getY()-this.getY(),this.damage+bonusArrow,-1);
+		this.state = 0f;
+	}
 	
 	public void moveToward(Objet o){
 		if(o==null && this.checkpointTarget==null){

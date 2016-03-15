@@ -37,6 +37,7 @@ public class UnitKnight extends Character {
 		this.range = this.size+20f*Game.ratioSpace;
 		this.horse = new Horse(p,this);
 		this.spells.add(data.immolation);
+		this.spells.add(data.fence);
 		this.animStep = 32f;
 		this.soundSetTarget = this.p.g.sounds.orderSpearman;
 		this.soundAttack = this.p.g.sounds.attackSpearman;

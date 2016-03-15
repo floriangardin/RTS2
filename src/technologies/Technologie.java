@@ -18,10 +18,7 @@ public abstract class Technologie {
 	public String name;
 	public int id;
 	public void applyEffect(){
-		
-
 	}
-	
 	
 	
 	public static Technologie technologie(int i,Plateau p , GameTeam gameteam){
@@ -42,5 +39,9 @@ public abstract class Technologie {
 		case 13: return new DualistEagleView(p,gameteam);
 		default : return null;
 		}
+	}
+	
+	public boolean equals(Object o){
+		return o instanceof Technologie && ((Technologie)o).id==this.id;
 	}
 }

@@ -363,7 +363,14 @@ public class Character extends ActionObjet{
 
 	public void mainAction(){
 		this.toKeep = false;
+		
+		if(this instanceof UnitSpearman){
+			UnitSpearman unit = (UnitSpearman)this;
+			if(unit.inDash>0f){
+				unit.inDash-=Main.increment;
+			}
 
+		}
 		this.updateChargeTime();
 
 		if(this.isImmolating){

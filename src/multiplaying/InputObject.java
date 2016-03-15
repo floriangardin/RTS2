@@ -54,6 +54,11 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedH;
 	public boolean isPressedSuppr;
 	public boolean isPressedPause;
+	public boolean isPressedImmolation;
+	public boolean isPressedF1 ;
+	public boolean isPressedF2;
+	public boolean isPressedF3;
+	public boolean isPressedF4;
 	
 	public int letterPressed;
 	
@@ -106,8 +111,16 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedE = input.isKeyPressed(Input.KEY_E);
 		this.isPressedR = input.isKeyPressed(Input.KEY_R);
 		this.isPressedH = input.isKeyPressed(Input.KEY_H);
+		this.isPressedF1 = input.isKeyPressed(Input.KEY_F1);
+		this.isPressedF2 = input.isKeyPressed(Input.KEY_F2);
+		this.isPressedF3 = input.isKeyPressed(Input.KEY_F3);
+		this.isPressedF4 = input.isKeyPressed(Input.KEY_F4);
+		
+		
+		
 		this.isPressedSuppr = input.isKeyPressed(Input.KEY_U);
 		this.isPressedPause = input.isKeyPressed(Input.KEY_F10);
+		this.isPressedImmolation = input.isKeyPressed(Input.KEY_I);
 		this.toPlay = toPlay;
 	
 		this.xMouse = input.getAbsoluteMouseX();
@@ -195,6 +208,12 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("P1")) isPressedProd1= true;
 		if(content.containsKey("P2")) isPressedProd2= true;
 		if(content.containsKey("P3")) isPressedProd3= true;
+		if(content.containsKey("IMO")) isPressedImmolation = true;
+		
+		if(content.containsKey("F1")) isPressedF1 = true;
+		if(content.containsKey("F2")) isPressedF2 = true;
+		if(content.containsKey("F3")) isPressedF3 = true;
+		if(content.containsKey("F4")) isPressedF4 = true;
 		toPlay= true;
 
 		for(int i=0; i<10; i++){
@@ -253,6 +272,11 @@ public class InputObject extends MultiObjetModel{
 		if(isPressedH) s+=",H: ";
 		if(isPressedSuppr) s+=",U: ";
 		if(isPressedPause) s+=",pause: ";
+		if(isPressedImmolation) s+=",IMO: ";
+		if(isPressedF1) s+=",F1: ";
+		if(isPressedF2) s+=",F2: ";
+		if(isPressedF3) s+=",F3: ";
+		if(isPressedF4) s+=",F4: ";
 		
 		if(toPlay) s+=",toPlay: ";
 		for(int i=0; i<10; i++)
