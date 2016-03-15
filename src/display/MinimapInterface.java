@@ -6,6 +6,7 @@ import model.Colors;
 import model.Game;
 import model.Map;
 import model.NaturalObjet;
+import model.Utils;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -17,8 +18,8 @@ import buildings.Building;
 
 public class MinimapInterface extends Bar {
 	// Minimap caract
-	public float startX;
-	public float startY;
+	public float startX, startX2;
+	public float startY, startY2;
 	public float w;
 	public float h;
 	public float rw;
@@ -40,10 +41,21 @@ public class MinimapInterface extends Bar {
 		this.p = parent.p;
 
 		this.player = parent.player;
-		this.startX = this.game.resX/4;
-		this.startY = this.game.resY/4;
-		this.w = this.game.resX/2;
-		this.h = this.game.resY/2;
+		this.startX2 = parent.p.g.resX*(1-parent.ratioMinimapX)+3;
+		this.startY2 = parent.p.g.resY-parent.ratioMinimapX*parent.p.g.resX+3;
+		this.sizeX = parent.p.g.resX*parent.ratioMinimapX-6;
+		this.sizeY = sizeX;
+		if(this.p.maxX>this.p.maxY){
+			this.w = this.sizeX;
+			this.h = this.w*this.p.maxY/this.p.maxX;
+			this.startX = this.startX2;
+			this.startY = this.startY2 + (this.sizeY-h)/2;
+		} else {
+			this.h = this.sizeY;			
+			this.w = this.h*this.p.maxX/this.p.maxY;
+			this.startX = this.startX2 + (this.sizeX-w)/2;
+			this.startY = this.startY2;
+		}
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
 		this.toDraw = false;
@@ -53,18 +65,25 @@ public class MinimapInterface extends Bar {
 
 		this.game = game;
 		this.p = game.plateau;
+		if(this.p.maxX>this.p.maxY){
+			this.w = this.sizeX;
+			this.h = this.w*this.p.maxY/this.p.maxX;
+			this.startX = this.startX2;
+			this.startY = this.startY2 + (this.sizeY-h)/2;
+		} else {
+			this.h = this.sizeY;			
+			this.w = this.h*this.p.maxX/this.p.maxY;
+			this.startX = this.startX2 + (this.sizeX-w)/2;
+			this.startY = this.startY2;
+		}
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
-
 	}
 
 	public Graphics draw(Graphics g){
-		
-		
-		// Draw the minimap 
-		if(!toDraw){
-			return g;
-		}
+		Utils.drawNiceRect(g, startX2-3, startY2-3, sizeX+9, sizeY+9);
+		g.setColor(Color.black);
+		g.fillRect(this.startX2, this.startY2, this.sizeX, this.sizeY);
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);
@@ -73,23 +92,8 @@ public class MinimapInterface extends Bar {
 		// Find the bottom right corner
 
 		// Draw background
-		g.setColor(new Color(31,31,31,0.6f).darker().darker());
-		g.fillRect(0, 0, this.game.resX, this.game.resY);
-		g.setColor(new Color(0,119,190));
-		g.fillRoundRect(startX-20f,startY-20f,w+40f,h+40f,10);
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
-		//draw grid
-		if(todrawGrid){
-			g.setColor(Color.gray);
-			for(int i =0; i<this.game.plateau.maxX/Map.stepGrid; i++){
-				g.drawLine(i*Map.stepGrid*rw+startX, startY, i*Map.stepGrid*rw+startX, startY+h);
-			}
-			for(int i =0; i<this.game.plateau.maxY/Map.stepGrid; i++){
-				g.drawLine(startX, i*Map.stepGrid*rh+startY, startX+w, i*Map.stepGrid*rh+startY);
-			}
-		}
-		
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.green);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
@@ -173,33 +177,6 @@ public class MinimapInterface extends Bar {
 			}
 		}
 		
-//		g.setColor(Color.black);
-//		for(float f : this.game.plateau.mapGrid.Xcoord){
-//			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);
-//		}
-//		for(float f : this.game.plateau.mapGrid.Ycoord){
-//			g.drawLine(startX, startY+rh*f, startX+w, startY+rh*f);
-//		}
-//		if(this.p.currentPlayer.selection!=null && this.p.currentPlayer.selection.size()>0){
-//			if(this.p.currentPlayer.selection.get(0) instanceof Character){
-//				
-//				Character roger = (Character) this.p.currentPlayer.selection.get(0);
-//				g.setColor(Color.red);
-//				g.drawString(this.p.mapGrid.maxX+" "+this.p.mapGrid.maxY, 0, 20);
-//				g.setColor(Color.cyan);
-//				g.drawRect(roger.c.x*rw+startX, roger.c.y*rh+startY, roger.c.sizeX*rw, roger.c.sizeY*rh);
-//			}
-//		}
-//		if(isVisibleLine){
-//			if(isPossibleLine)
-//				g.setColor(Color.green);
-//			else
-//				g.setColor(Color.red);
-//			g.drawLine(startX+rw*x1, startY+rh*y1, startX+rw*x2, startY+rh*y2);
-//			for(Case c: cases){
-//				g.drawRect(startX+rw*c.x, startY+rh*c.y, rw*c.sizeX, rh*c.sizeY);
-//			}
-//		}
 		// Draw rect of camera 
 		g.setColor(Color.white);
 

@@ -18,12 +18,15 @@ public class BottomBar extends Bar {
 	public PathInterface path;
 	public TopBar topBar;
 
+	public float ratioMinimapX = 1/5f;
+	public float ratioSelectionX = 1/8f;
+	public float ratioBarVertX = 1/32f;
+	
+
 	
 	public BottomBar(Plateau p , int resX, int resY){
 		this.p = p ;	
 		this.update(resX, resY);
-
-
 	}
 
 	public void update(int resX, int resY){
@@ -54,6 +57,8 @@ public class BottomBar extends Bar {
 
 		//g.drawImage(this.background,x,y-6f);
 
+		// ACTIONS, Spells  and production
+		action.draw(g);
 		
 		// Draw subcomponents :
 		selection.draw(g);
@@ -63,8 +68,6 @@ public class BottomBar extends Bar {
 		// MINIMAP CENTERED :
 		minimap.draw(g);
 		
-		// ACTIONS, Spells  and production
-		action.draw(g);
 		
 		// Draw path 
 		

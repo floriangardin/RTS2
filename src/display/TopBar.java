@@ -66,14 +66,14 @@ public class TopBar extends Bar {
 		s = ""+this.p.g.currentPlayer.getGameTeam().food;
 		g.setColor(Color.white);
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, 10);
+		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, ratioSizeGoldY*rY/2f-this.imageFood.getHeight()/2);
 		
 		// gold
 		Utils.drawNiceRect(g,(1+ratioSizeTimerX)*rX/2-4,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+this.p.g.currentPlayer.getGameTeam().gold;
 		g.setColor(Color.white);
 		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, 10);
+		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, ratioSizeGoldY*rY/2f-this.imageGold.getHeight()/2);
 		
 		// timer
 		Utils.drawNiceRect(g,(1-ratioSizeTimerX)*rX/2,-3,ratioSizeTimerX*rX,ratioSizeTimerY*rY);

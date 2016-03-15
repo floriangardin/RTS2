@@ -978,24 +978,20 @@ public class Plateau {
 			if ((im.isPressedUP || (!im.isPressedA && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
 				Ycam -= (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
-				System.out.println("philippe 3");
 			}
 			if ((im.isPressedDOWN || (!im.isPressedA && im.yMouse > Ycam + g.resY - 5))
 					&& Ycam < this.maxY - g.resY / 2) {
 				Ycam += (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
-				System.out.println("philippe 3");
 			}
 			if ((im.isPressedLEFT || (!im.isPressedA && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
 				Xcam -= (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
-				System.out.println("philippe 3");
 			}
 			if ((im.isPressedRIGHT || (!im.isPressedA && im.xMouse > Xcam + g.resX - 5))
 					&& Xcam < this.maxX - g.resX / 2) {
 				Xcam += (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
-				System.out.println("philippe 3");
 			}
 			// Displaying the selected group
 			for (int to = 0; to < 10; to++) {
@@ -1007,7 +1003,6 @@ public class Plateau {
 						this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
 						this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
 						this.slidingCam = false;
-						System.out.println("philippe 4");
 					}
 				}
 			}
@@ -1339,7 +1334,6 @@ public class Plateau {
 		// update the rectangle
 		if (im.leftClick) {
 			this.slidingCam = false;
-			System.out.println("philippe 1");
 			// As long as the button is pressed, the selection is updated
 			this.updateRectangle(im, player);
 		}
