@@ -94,7 +94,7 @@ public class Character extends ActionObjet{
 	// Group attributes
 	public Character leader;
 	public Vector<Character> group;
-
+	public float frozen = 0f;
 	public boolean someoneStopped;
 	// Equipment attributes
 	public RidableObjet horse;
@@ -371,6 +371,10 @@ public class Character extends ActionObjet{
 			}
 
 		}
+		if(this.frozen>0f){
+			this.frozen-=Main.increment;
+			return;
+		}
 		this.updateChargeTime();
 
 		if(this.isImmolating){
@@ -542,6 +546,7 @@ public class Character extends ActionObjet{
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
 		g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x*r,6f));
 	}
+	
 
 	public Graphics draw(Graphics g){
 
@@ -570,6 +575,19 @@ public class Character extends ActionObjet{
 				color = new Color(250,0,0,0.4f);
 			}
 
+			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+
+			g.drawImage(i,x1,y1);
+			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+		else{
+			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+		if(frozen>0f){
+			Color color = Color.darkGray;
+			color = new Color(100,150,255,0.4f);
 			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
 			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 

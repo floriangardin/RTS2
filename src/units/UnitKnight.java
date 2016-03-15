@@ -237,7 +237,19 @@ public class UnitKnight extends Character {
 		else{
 			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
+		if(frozen>0f){
+			Color color = Color.darkGray;
+			color = new Color(100,150,255,0.4f);
+			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 
+			g.drawImage(i,x1,y1);
+			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
+		else{
+			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+		}
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			drawLifePoints(g,r);
