@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import model.Plateau;
 import model.Player;
+import model.Utils;
 
 public class TopBar extends Bar {
 	
@@ -15,6 +16,13 @@ public class TopBar extends Bar {
 	Image imageFood;
 	Image imageSpecial;
 	Image imagePop;
+	Image imageTimer;
+
+	public float ratioSizeGoldX = 1/13f;
+	public float ratioSizeTimerX = 1/12f;
+	public float ratioSizeGoldY = 1/22f;
+	public float ratioSizeTimerY = 1/16f;
+	
 	public TopBar(Plateau p , int resX, int resY){
 		
 		this.p = p ;
@@ -25,6 +33,13 @@ public class TopBar extends Bar {
 			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
 			this.imageSpecial = new Image("pics/faith.png");
 			this.imagePop = new Image("pics/pop.png").getScaledCopy(32, 32);
+			
+//			this.imageFood = new Image("pics/interface/topBarBouffe.png");
+//			this.imageFood = this.imageFood.getScaledCopy((p.g.resX/7)/(this.imageFood.getWidth()));
+//			this.imageGold = new Image("pics/interface/topBarOr.png");
+//			this.imageGold = this.imageGold.getScaledCopy((p.g.resX/7)/(this.imageGold.getWidth()));
+//			this.imageTimer = new Image("pics/interface/topBarTime.png");
+//			this.imageTimer = this.imageTimer.getScaledCopy((p.g.resX/7)/(this.imageTimer.getWidth()));
 			//this.background = new Image("pics/menu/bottombar.png").getSubImage(0,626-(int)sizeY,1680,(int) sizeY);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
@@ -42,14 +57,43 @@ public class TopBar extends Bar {
 	}
 	
 	public Graphics draw(Graphics g){
+		String s;
+		float rX = this.p.g.resX;
+		float rY = this.p.g.resY;
+		
+		// food
+		Utils.drawNiceRect(g,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		s = ""+this.p.g.currentPlayer.getGameTeam().food;
+		g.setColor(Color.white);
+		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, 10);
+		
+		// gold
+		Utils.drawNiceRect(g,(1+ratioSizeTimerX)*rX/2-4,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		s = ""+this.p.g.currentPlayer.getGameTeam().gold;
+		g.setColor(Color.white);
+		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, 10);
+		
+		// timer
+		Utils.drawNiceRect(g,(1-ratioSizeTimerX)*rX/2,-3,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
+		s = ""+model.Utils.gameTime(this.p.g.startTime);
+		g.setColor(Color.white);
+		g.drawString(s, rX/2-this.p.g.font.getWidth(s)/2, ratioSizeTimerY*rY/2f-20);
+		
+		
+//		g.drawImage(this.imageTimer, 3*this.p.g.resX/7, 0);
+//		g.drawImage(this.imageFood, 4*this.p.g.resX/7, 0);
+//		g.setColor(Color.white);
+//		s = ""+this.p.g.currentPlayer.getGameTeam().food;
+//		g.drawString(s, 4.8f*this.p.g.resX/7-this.p.g.font.getWidth(s), this.imageGold.getHeight()/2f-this.p.g.font.getHeight(s)/2f);
+//		s = model.Utils.gameTime(this.p.g.startTime);
+//		g.drawString(s, this.p.g.resX/2-this.p.g.font.getWidth(s)/2, this.imageTimer.getHeight()/2f-this.p.g.font.getHeight(s)/2f);
+		return g;
+	}
+	
+	public Graphics draw2(Graphics g){
 		// Draw Background :
-		//g.translate(Xcam, Ycam);
-		float xt =x ;
-		float yt = y;
-
-		// Draw image according to size
-		float u = x;
-		float v = y;
 		g.setColor(Color.white);
 		g.fillRect(0, -3f,sizeX, sizeY+6f);
 		g.setColor(Color.black);

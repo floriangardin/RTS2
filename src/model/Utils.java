@@ -8,12 +8,12 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.Sound;
 
 import buildings.BuildingProduction;
-import mapeditor.EditorObject;
 import units.Character;
 
 // Class for static methods
@@ -522,4 +522,14 @@ public class Utils {
 		}
 		return matrix;
 	}
+
+	public static void drawNiceRect(Graphics g, float x, float y, float sizeX, float sizeY){
+		g.setColor(Color.black);
+		g.fillRect(x,y,sizeX,sizeY);
+		g.setColor(Color.white);
+		g.fillRect(x+1, y+1, sizeX-2, sizeY-2);
+		g.setColor(Color.black);
+		g.fillRect(x+2, y+2, sizeX-4, sizeY-4);
+	}
+	
 }
