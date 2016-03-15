@@ -19,16 +19,10 @@ public class Fence extends SpellEffect{
 	public float remainingTime;
 	public float damage;
 	public Image image;
-	public int nbFire=15;
 	public Character owner;
-	public float[] animationState = new float[nbFire];
-	public float[] animationX = new float[nbFire];
-	public float[] animationY = new float[nbFire];
-	public float animationMax=1000f;
-	public float x2,y2;
-
+	public boolean active = false;
 	public Fence(Plateau p, Character launcher, Objet t,int id){
-		
+
 		if(id==-1){
 			this.id = p.g.idChar;
 			p.g.idChar+=1;
@@ -36,13 +30,12 @@ public class Fence extends SpellEffect{
 		else{
 			this.id =id;
 		}
-		
+
 		this.type = 1;
 
 		this.x = t.getX();
 		this.y = t.getY();
-		float width = 5f*Game.ratioSpace;
-		
+
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
@@ -50,22 +43,23 @@ public class Fence extends SpellEffect{
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);
-		this.createAnimation(t, launcher);
+		this.p.g.sounds.iceStart.play(1f,this.p.g.options.soundVolume);
 	}
 
-	
-	
-	public void createAnimation(Objet o1, Objet o2){
-		float x1 = o1.getX(),x2=o2.getX(),y1=o1.getY(),y2=o2.getY();
-		for(int i=0;i<nbFire;i++){
-			animationX[i] = x1+1f*i*(x2-x1)/nbFire;
-			animationY[i] = y1+1f*i*(y2-y1)/nbFire;
-		}
-	}
+
+
+
 
 	public void action(){
-		
+
 		this.remainingTime-=Main.increment;
+		if(remainingTime<1f){
+			if(!active){
+				this.p.g.sounds.iceActive.play(1f,this.p.g.options.soundVolume);
+				this.p.g.sounds.iceStart.stop();
+			}
+			this.active = true;
+		}
 		if(this.remainingTime<=0f)
 			this.lifePoints = -1f;
 	}
@@ -73,11 +67,14 @@ public class Fence extends SpellEffect{
 	public Graphics draw(Graphics g){
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
-		
 		g.draw(collisionBox);
-		
+		if(!(this.remainingTime>2f)){
+			g.setColor(new Color(60,100,250,0.2f));
+			g.fill(collisionBox);
+		}
+
 		g.setAntiAlias(false);
-		
+
 		//g.setColor(Color.white);
 		//g.draw(this.collisionBox);
 		return g;
@@ -85,16 +82,15 @@ public class Fence extends SpellEffect{
 
 	public void collision(Character c){
 		// Si on est suffisamment dedans on reste bloqué
-		if(Utils.distance(c, this)>=this.radius*1f/4f){
-			c.stop();
-			c.target =null;
+		if(active){
+			c.frozen = 10f;
 		}
 	}
-	
+
 	public String toString(){
 		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
-		s+="x2:"+this.x2+";";
-		s+="y2:"+this.y2+";";
+		s+="x:"+this.x+";";
+		s+="y:"+this.y+";";
 		s+="idLauncher:"+this.owner.id+";";
 		return s;
 	}

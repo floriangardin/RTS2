@@ -28,6 +28,9 @@ public class Sounds {
 	public Vector<Sound> selectionCrossbowman;
 	public Sound fire;
 	
+	public Sound iceStart;
+	public Sound iceActive;
+	
 	//Messages
 	public Sound chatMessage;
 	public Sound buildingTaken;
@@ -90,6 +93,9 @@ public class Sounds {
 			this.messageWrong = new Sound("music/messages/messageWrong.ogg");
 			this.techDiscovered = new Sound("music/messages/techDiscovered.ogg");
 			this.buildingTaken = new Sound("music/messages/techDiscovered.ogg");
+			
+			this.iceStart = new Sound("music/frozenActive.ogg");
+			this.iceActive = new Sound("music/frozen.ogg");
 			//lackRessources = new Sound("music/lackRessources.ogg");
 		} catch (SlickException e) {
 
