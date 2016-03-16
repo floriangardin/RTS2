@@ -513,6 +513,8 @@ public class Game extends BasicGame
 
 
 	}
+	
+	
 	// Do our logic 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException{	
@@ -760,6 +762,9 @@ public class Game extends BasicGame
 		}
 	}
 	public void send(){
+		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
+		if(this.menuMapChoice.seconds<2)
+			return;
 		for(int i=1; i<this.nPlayers; i++){
 			if(i!=currentPlayer.id)
 				this.toSend.add(new MultiMessage(toSendThisTurn,this.players.get(i).address));
