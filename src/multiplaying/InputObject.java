@@ -132,7 +132,6 @@ public class InputObject extends MultiObjetModel{
 			this.isOnMiniMap = this.xMouse>(1-player.bottomBar.ratioMinimapX)*g.resX && this.yMouse>(g.resY-player.bottomBar.ratioMinimapX*g.resX);
 			this.isOnMiniMap = this.isOnMiniMap && g.plateau.rectangleSelection.get(g.currentPlayer.id)==null;
 		}
-		System.out.println(isOnMiniMap);
 		if(g.isInMenu || g.inEditor)
 			return;
 		

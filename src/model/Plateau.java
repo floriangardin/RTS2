@@ -670,6 +670,9 @@ public class Plateau {
 		return target;
 	}
 
+	
+	
+	
 	public void update(Vector<InputObject> ims) {
 		Utils.triId(this.characters);
 
@@ -726,6 +729,10 @@ public class Plateau {
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - g.timeSteps));
 
 	}
+
+	
+	
+	
 
 	private void handleMouseHover(InputObject im, int player) {
 		for (Character c : this.characters) {
@@ -928,7 +935,13 @@ public class Plateau {
 								s.launch(new Checkpoint(this,im.xMouse,im.yMouse), c);
 								c.spellsState.set(number, 0f);
 							}
-
+							// switching selection
+							int compteur = 0;
+							while(this.selection.get(player).size()>compteur && this.selection.get(player).get(compteur).getClass()==c.getClass()){
+								compteur++;
+							}
+							this.selection.get(player).insertElementAt(c, compteur);
+							this.selection.get(player).remove(0);
 						}
 					}
 				}
@@ -963,7 +976,7 @@ public class Plateau {
 		// Handle the display (camera movement & minimap)
 
 		// camera movement
-		if (player == this.g.currentPlayer.id && this.rectangleSelection.get(player) == null && !im.leftClick) {
+		if (player == this.g.currentPlayer.id && this.rectangleSelection.get(player) == null && (!im.leftClick || im.isOnMiniMap)) {
 			// Handling sliding
 			if(this.slidingCam==true){
 				int deltaX = (int) (this.objectiveCam.getX()-this.Xcam);
@@ -975,20 +988,20 @@ public class Plateau {
 			}
 //			boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
 			// Move camera according to inputs :
-			if ((im.isPressedUP || (!im.isOnMiniMap && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
+			if ((im.isPressedUP || ((im.isPressedZ && !im.isPressedMAJ) ||!im.isOnMiniMap && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
 				Ycam -= (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			if ((im.isPressedDOWN || (!im.isOnMiniMap && im.yMouse > Ycam + g.resY - 5))
+			if ((im.isPressedDOWN || (im.isPressedS && !im.isPressedMAJ) || (!im.isOnMiniMap && im.yMouse > Ycam + g.resY - 5))
 					&& Ycam < this.maxY - g.resY / 2) {
 				Ycam += (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			if ((im.isPressedLEFT || (!im.isOnMiniMap && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
+			if ((im.isPressedLEFT || (im.isPressedQ && !im.isPressedMAJ) ||(!im.isOnMiniMap && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
 				Xcam -= (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			if ((im.isPressedRIGHT || (!im.isOnMiniMap && im.xMouse > Xcam + g.resX - 5))
+			if ((im.isPressedRIGHT || (im.isPressedD && !im.isPressedMAJ) ||(!im.isOnMiniMap && im.xMouse > Xcam + g.resX - 5))
 					&& Xcam < this.maxX - g.resX / 2) {
 				Xcam += (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
@@ -1007,19 +1020,19 @@ public class Plateau {
 				}
 			}
 			// Displaying selected area
-			if(im.isPressedZ){
+			if(im.isPressedZ && im.isPressedMAJ){
 				this.slidingCam = true;
 				this.objectiveCam = new Point(this.Zcam.getX()-this.g.resX/2,this.Zcam.getY()-this.g.resY/2);
 			}
-			if(im.isPressedQ){
+			if(im.isPressedQ && im.isPressedMAJ){
 				this.slidingCam = true;
 				this.objectiveCam = new Point(this.Qcam.getX()-this.g.resX/2,this.Qcam.getY()-this.g.resY/2);
 			}
-			if(im.isPressedS){
+			if(im.isPressedS && im.isPressedMAJ){
 				this.slidingCam = true;
 				this.objectiveCam = new Point(this.Scam.getX()-this.g.resX/2,this.Scam.getY()-this.g.resY/2);
 			}
-			if(im.isPressedD){
+			if(im.isPressedD && im.isPressedMAJ){
 				this.slidingCam = true;
 				this.objectiveCam = new Point(this.Dcam.getX()-this.g.resX/2,this.Dcam.getY()-this.g.resY/2);
 			}
@@ -1155,7 +1168,6 @@ public class Plateau {
 						}
 					}
 				}
-
 			}
 
 		}
@@ -1184,8 +1196,9 @@ public class Plateau {
 		BottomBar b = this.g.players.get(player).bottomBar;
 		if (im.leftClick && player == this.g.currentPlayer.id && im.isOnMiniMap) {
 			// Put camera where the click happened
-			Xcam = (int) (im.xMouse - g.resX / 2f);
-			Ycam = (int) (im.yMouse - g.resY / 2f);
+			this.objectiveCam = new Point((int) (im.xMouse - g.resX / 2f),(int) (im.yMouse - g.resY / 2f));
+			slidingCam = true;
+//			System.out.println(slidingCam);
 		}
 	}
 
@@ -1338,7 +1351,6 @@ public class Plateau {
 		}
 		// update the rectangle
 		if (im.leftClick) {
-			this.slidingCam = false;
 			// As long as the button is pressed, the selection is updated
 			this.updateRectangle(im, player);
 		}
@@ -1386,6 +1398,14 @@ public class Plateau {
 						this.inRectangle.get(player).addElement(o);
 					}
 				}
+			} else {
+				Vector<Character> chars = new Vector<Character>();
+				for(ActionObjet o : this.selection.get(player))
+					chars.add((Character) o);
+				Utils.triId(chars);
+				this.selection.get(player).clear();
+				for(Character c : chars)
+					this.selection.get(player).add(c);
 			}
 			this.g.players.get(player).groupSelection = -1;
 		}

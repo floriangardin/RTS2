@@ -72,7 +72,7 @@ public class ActionInterface extends Bar {
 		// Draw Separation (1/3 1/3 1/3) : 
 
 		float ratio =1f/prodIconNb;
-		Utils.drawNiceRect(g, x-4, y-5, sizeX+4, sizeY+9);
+		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, x-4, y-5, sizeX+4, sizeY+9);
 		g.setColor(Color.darkGray);
 		for(int i=0; i<5; i++){
 			g.setColor(Color.darkGray);

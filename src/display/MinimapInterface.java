@@ -81,7 +81,7 @@ public class MinimapInterface extends Bar {
 	}
 
 	public Graphics draw(Graphics g){
-		Utils.drawNiceRect(g, startX2-3, startY2-3, sizeX+9, sizeY+9);
+		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color,startX2-3, startY2-3, sizeX+9, sizeY+9);
 		g.setColor(Color.black);
 		g.fillRect(this.startX2, this.startY2, this.sizeX, this.sizeY);
 		// Find the high left corner

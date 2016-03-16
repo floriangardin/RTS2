@@ -523,13 +523,17 @@ public class Utils {
 		return matrix;
 	}
 
-	public static void drawNiceRect(Graphics g, float x, float y, float sizeX, float sizeY){
+	public static void drawNiceRect(Graphics g, Color c, float x, float y, float sizeX, float sizeY){
+		g.setColor(Color.black);
+		g.fillRect(x-6, y-6, sizeX+12, sizeY+12);
+		g.setColor(Color.white);
+		g.fillRect(x-4, y-4, sizeX+8, sizeY+8);
+		g.setColor(c);
+		g.fillRect(x-3, y-3, sizeX+6, sizeY+6);
+		g.setColor(Color.white);
+		g.fillRect(x-1, y-1, sizeX+2, sizeY+2);
 		g.setColor(Color.black);
 		g.fillRect(x,y,sizeX,sizeY);
-		g.setColor(Color.white);
-		g.fillRect(x+1, y+1, sizeX-2, sizeY-2);
-		g.setColor(Color.black);
-		g.fillRect(x+2, y+2, sizeX-4, sizeY-4);
 	}
 	
 }
