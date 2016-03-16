@@ -100,7 +100,7 @@ public class Test {
 			}
 		}
 		if(!ok){
-			throw new FatalGillesError("pas d'input dans le message \n      message : "+message);
+			throw new FatalGillesError("pas d'input dans le message \n      message : "+message+"\n au round : " Game.g.round);
 		}
 	}
 }
