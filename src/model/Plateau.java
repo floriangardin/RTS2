@@ -1035,7 +1035,12 @@ public class Plateau {
 			//				}
 			//			}
 			// Selection des batiments
-			Vector<Objet> visible = getInCamObjets(this.g.players.get(player).getTeam());
+			Vector<Building> visible = new Vector<Building>();
+			for(Building b : this.buildings){
+				if(b.getTeam()==this.g.players.get(player).getTeam()){
+					visible.addElement(b);
+				}
+			}
 			if(im.isPressedF1 || im.isPressedF2 || im.isPressedF3 || im.isPressedF4){
 				if(im.isPressedF1){
 					//Barrack
@@ -1096,13 +1101,17 @@ public class Plateau {
 					}
 				}
 			}
-
+			Vector<Character> visible2 = new Vector<Character>();
+			for(Character b : this.characters){
+				if(b.getTeam()==this.g.players.get(player).getTeam()){
+					visible2.addElement(b);
+				}
+			}
 			if(im.isPressedNumPad[0] || im.isPressedNumPad[1] || im.isPressedNumPad[4] || im.isPressedNumPad[2] || im.isPressedNumPad[3]){
 				if(im.isPressedNumPad[0]){
 					//Lancier
 					this.selection.set(player, new Vector<ActionObjet>());
-					for(Objet o : visible){
-
+					for(Objet o : visible2){
 						if(o instanceof UnitSpearman){
 							this.selection.get(player).add((ActionObjet)o);
 						}
@@ -1111,7 +1120,7 @@ public class Plateau {
 				else if(im.isPressedNumPad[1]){
 					//Lancier
 					this.selection.set(player, new Vector<ActionObjet>());
-					for(Objet o : visible){
+					for(Objet o : visible2){
 						if(o instanceof UnitCrossbowman){
 							this.selection.get(player).add((ActionObjet)o);
 						}
@@ -1120,7 +1129,7 @@ public class Plateau {
 				else if(im.isPressedNumPad[2]){
 					//Lancier
 					this.selection.set(player, new Vector<ActionObjet>());
-					for(Objet o : visible){
+					for(Objet o : visible2){
 
 						if(o instanceof UnitKnight){
 
@@ -1131,7 +1140,7 @@ public class Plateau {
 				else if(im.isPressedNumPad[3]){
 					//Lancier
 					this.selection.set(player, new Vector<ActionObjet>());
-					for(Objet o : visible){
+					for(Objet o : visible2){
 						if(o instanceof UnitInquisitor){
 							this.selection.get(player).add((ActionObjet)o);
 						}
@@ -1140,8 +1149,8 @@ public class Plateau {
 				else if(im.isPressedNumPad[4]){
 					//Lancier
 					this.selection.set(player, new Vector<ActionObjet>());
-					for(Objet o : visible){
-						if(o instanceof UnitPriest){
+					for(Objet o : visible2){
+						if(o instanceof Character){
 							this.selection.get(player).add((ActionObjet)o);
 						}
 					}
