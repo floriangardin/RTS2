@@ -131,16 +131,18 @@ public class MenuMapChoice extends Menu {
 		// handling connexions
 		if(game.inMultiplayer){
 			if(game.host){
-				// sending to all players
+				// sending to all players only if the game isn't about to start
 				this.messageToClient = this.messageToClient();
-				this.game.sendConnexion(messageToClient);
+				if(this.startGame!=0 && this.seconds>2)
+					this.game.sendConnexion(messageToClient);
 				// parsing if received anything
 				while(game.receivedConnexion.size()>0){
 					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
-				// sending to host
-				this.game.sendConnexion(this.messageToHost());	
+				// sending to host only if the game isn't about to start
+				if(this.startGame!=0 && this.seconds>2)
+					this.game.sendConnexion(this.messageToHost());	
 				messageDropped++;	
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
@@ -149,7 +151,7 @@ public class MenuMapChoice extends Menu {
 					game.receivedConnexion.clear();
 				}		
 				//checking if game still exists
-				if(this.startGame!=0 && messageDropped>2f*Main.framerate){
+				if(this.startGame!=0 && messageDropped>2f*Main.framerate && this.startGame!=0 && this.seconds>2){
 					this.callItem(0);
 				}
 				// requete de ping
@@ -162,7 +164,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// checking disconnecting players
 			int toRemove = -1;
-			if(game.host){
+			if(game.host && this.startGame!=0 && this.seconds>2){
 				for(int i=2 ; i<this.menuPlayers.size(); i++){
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){
