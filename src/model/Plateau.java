@@ -1404,7 +1404,6 @@ public class Plateau {
 					if(o instanceof Character){
 						chars.add((Character) o);
 					}
-					
 				}
 					
 				Utils.triId(chars);
