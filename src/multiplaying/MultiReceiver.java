@@ -116,7 +116,7 @@ public class MultiReceiver extends Thread{
 		int ordre = 0;
 		for(int i =0; i<tab.length;i++){
 			temp = tab[i];
-			if(temp.length()>0 && temp.substring(0,1)=="1"){
+			if(temp.length()>0 && temp.substring(0,1).equals("1")){
 				ordre = Integer.parseInt(temp.substring(1).split(",")[1].substring(4));
 				break;
 			}

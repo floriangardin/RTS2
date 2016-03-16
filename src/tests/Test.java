@@ -94,8 +94,9 @@ public class Test {
 		String[] tab = message.split("\\%");
 		boolean ok = false;
 		for(int i =0; i<tab.length;i++){
-			if(tab[i].length()>0 && tab[i].substring(0,1)=="1"){
+			if(tab[i].length()>0 && tab[i].substring(0,1).equals("1")){
 				ok = true;
+				break;
 			}
 		}
 		if(!ok){
