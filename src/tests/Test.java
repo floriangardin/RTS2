@@ -1,6 +1,5 @@
 package tests;
 
-import java.net.InetAddress;
 import java.util.Vector;
 
 import main.Main;
@@ -100,7 +99,7 @@ public class Test {
 			}
 		}
 		if(!ok){
-			throw new FatalGillesError("pas d'input dans le message \n      message : "+message+"\n au round : " Game.g.round);
+			throw new FatalGillesError("pas d'input dans le message \n      message : "+message+"\n au round : "+ Game.g.round);
 		}
 	}
 }
