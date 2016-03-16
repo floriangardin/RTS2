@@ -10,6 +10,8 @@ import model.Game;
 
 import org.newdawn.slick.SlickException;
 
+import tests.Test;
+
 public class MultiReceiver extends Thread{
 	public Game g;
 	int port;
@@ -22,7 +24,8 @@ public class MultiReceiver extends Thread{
 	public int tempsReception = 0;
 	public float moyenneReception = 0;
 	public int nbReception = 0;
-	
+	public int dernierRoundRecu = 0;
+
 	public static boolean debugReception = false;
 
 	// DEBUGGING
@@ -67,12 +70,20 @@ public class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-				//if(Game.debugReceiver) 
+				if(Game.debugReceiver) 
 					System.out.println(msg.substring(0, 200));
 				//Split submessages
 				String[] tab = msg.split("\\%");
 				String temp;
-				
+
+				// TODO : check if input in message
+				if(Game.tests && !this.g.isInMenu){
+					Test.testIfInputInMessage(msg);
+					int round = getRoundFromMessage(msg);
+					Test.testOrderedMessages(round);
+					Test.testNombreMessagesRecus(round);
+				}
+
 				for(int i =0; i<tab.length;i++){
 					temp = tab[i];
 					this.g.nbPaquetReceived++;
@@ -97,6 +108,20 @@ public class MultiReceiver extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+	}
+
+	public int getRoundFromMessage(String msg){
+		String[] tab = msg.split("\\%");
+		String temp;
+		int ordre = 0;
+		for(int i =0; i<tab.length;i++){
+			temp = tab[i];
+			if(temp.length()>0 && temp.substring(0,1)=="1"){
+				ordre = Integer.parseInt(temp.substring(1).split(",")[1].substring(4));
+				break;
+			}
+		}
+		return ordre;
 	}
 
 	public void shutdown(){
@@ -137,14 +162,14 @@ public class MultiReceiver extends Thread{
 		this.g.inputsHandler.validate(round, idPlayer,idValidator);
 	}
 	public void actionResynchro(String msg){
-//		System.out.println("Receive resynchro message");
+		//		System.out.println("Receive resynchro message");
 		this.g.processSynchro = true;
 		this.g.toParse= msg;
 	}
 	public void actionPing(String msg){
 		String[] valMessage = msg.split("\\|");
 		int id = Integer.parseInt(valMessage[1]);
-		
+
 		if(id==g.currentPlayer.id) {
 			long time =Long.parseLong(valMessage[0]);
 			this.g.clock.updatePing(time);
@@ -169,8 +194,8 @@ public class MultiReceiver extends Thread{
 			long ping =Long.parseLong( u[u.length-2]);
 			this.g.clock.ping = ping;
 		}
-//		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
-//		System.out.println("Et le ping .. " +g.clock.ping);
+		//		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
+		//		System.out.println("Et le ping .. " +g.clock.ping);
 		//Calcul du delta
 		int delta =(int) (this.g.clock.ping*Main.framerate/(2e9));
 		int deltaMesure = this.g.round - round ;
@@ -185,7 +210,7 @@ public class MultiReceiver extends Thread{
 			this.g.taunts.playTaunt(cm.message.substring(1).toLowerCase());
 		}
 	}
-	
+
 
 	public static class Checksum {
 		public int round;

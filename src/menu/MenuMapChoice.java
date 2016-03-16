@@ -118,7 +118,7 @@ public class MenuMapChoice extends Menu {
 			// drawing countdown to launch game
 			g.setColor(Color.white);
 			int sec = (int) ((startGame-this.game.clock.getCurrentTime())/1000000000L);
-			String s = "Début de la partie dans "+sec+" s.";
+			String s = "Début de la partie dans "+(sec+1)+" s.";
 			String s1 = "Début de la partie dans 5 s.";
 			g.drawString(s,game.resX-game.font.getWidth(s1)-15f,game.resY-game.font.getHeight(s1)-15f);
 		}
