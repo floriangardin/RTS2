@@ -50,7 +50,7 @@ public class Test {
 		 * Teste si le dépot d'envoi du Multi Sender n'est pas saturé
 		 * appelé au début de l'update de Game 
 		 */
-		int maximalAutorise = 10;
+		int maximalAutorise = 3;
 		if(!ms.game.isInMenu && ms.depot.size()>maximalAutorise)
 			throw new FatalGillesError("sender saturé  -  round : "+ms.game.round+" \ntaille: "+ms.depot.size()+"\nmaximal autorise : " + maximalAutorise);
 	}
