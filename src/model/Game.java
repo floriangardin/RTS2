@@ -493,6 +493,7 @@ public class Game extends BasicGame
 		if(!inEditor){
 			g.setColor(Color.white);
 			this.drawPing(g);
+			
 		}
 		//		Runtime runtime = Runtime.getRuntime();
 		//
@@ -668,6 +669,7 @@ public class Game extends BasicGame
 	private void drawPing(Graphics g) {
 		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
 		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
+		g.drawString("Current Time  : "+Integer.toString((int)(this.clock.getCurrentTime()/1000000000f)), 20f, y+20f);
 		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, y);
 	}
 
