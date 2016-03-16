@@ -763,7 +763,7 @@ public class Game extends BasicGame
 	}
 	public void send(){
 		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
-		if(this.menuMapChoice.seconds<2 || !this.isInMenu)
+		if(this.menuMapChoice.seconds<2 && this.isInMenu)
 			return;
 		for(int i=1; i<this.nPlayers; i++){
 			if(i!=currentPlayer.id)
