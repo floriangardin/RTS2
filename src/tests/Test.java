@@ -106,15 +106,12 @@ public class Test {
 		}
 	}
 	public static void testReveilSender(long time) throws FatalGillesError{
-		if(Game.g.isInMenu)
-			return;
-		if(reveilSender==0L){
-			reveilSender = time;
+		reveilSender = time;
+		if(Game.g.isInMenu || Game.g.round<10){
 			return;
 		}
 		if(Math.abs(reveilSender - time)>10000L){
 			throw new FatalGillesError("Sender en panne de réveil");
 		}
-		reveilSender = time;
 	}
 }
