@@ -228,8 +228,6 @@ public class Game extends BasicGame
 		this.isInMenu = false;
 		this.menuCurrent = null;
 		//app.setClearEachFrame(true);
-		this.plateau.Xcam = (int) (this.plateau.maxX/2 - this.resX/2);
-		this.plateau.Ycam = (int) (this.plateau.maxY/2 -this.resY/2);
 	}
 	public void setMenu(Menu m){
 		
