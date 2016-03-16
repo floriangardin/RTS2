@@ -69,7 +69,7 @@ public class Clock extends Thread{
 		if(this.origins.size()>=100){
 			this.origins.removeElementAt(0);
 		}
-		this.origins.addElement(System.nanoTime()-masterClockTime-this.ping);
+		this.origins.addElement(System.nanoTime()-(masterClockTime+this.ping/2));
 		this.originTime =0;
 		for(long o : origins){
 			this.originTime += o;

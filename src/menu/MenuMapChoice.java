@@ -122,7 +122,7 @@ public class MenuMapChoice extends Menu {
 			String s1 = "Début de la partie dans 5 s.";
 			g.drawString(s,game.resX-game.font.getWidth(s1)-15f,game.resY-game.font.getHeight(s1)-15f);
 		}
-			
+
 	}
 
 	public void update(InputObject im){
@@ -159,12 +159,12 @@ public class MenuMapChoice extends Menu {
 					this.game.pingRequest();
 				}else {
 					roundForPingRequest++;
-					roundForPingRequest%=40;
+					roundForPingRequest%=Main.framerate;
 				}
 			}
 			// checking disconnecting players
 			int toRemove = -1;
-			if(game.host && this.startGame!=0 && this.seconds>2){
+			if(game.host && this.startGame!=0){
 				for(int i=2 ; i<this.menuPlayers.size(); i++){
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){
@@ -213,6 +213,9 @@ public class MenuMapChoice extends Menu {
 			}	
 		}
 	}
+
+
+
 	public void handleStartGame(){
 		/**
 		 * function that checks if the game is about to start
@@ -495,17 +498,6 @@ public class MenuMapChoice extends Menu {
 				return;
 
 			}
-			///////////
-			// parsing
-			///////////
-			if(hs.containsKey("clk") && roundForPingRequest==0){
-				long clockTime = Long.parseLong(hs.get("clk"));
-				this.game.clock.synchro(clockTime);
-			}
-			// checking the start time
-			if(hs.containsKey("stT")){
-				this.startGame = Long.parseLong(hs.get("stT"));
-			}
 			// adding new player if needed
 			if(civ.length>this.game.players.size()){
 				try {
@@ -534,6 +526,18 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 		}
+		///////////
+		// parsing startTime
+		///////////
+		if(hs.containsKey("clk")){
+			long clockTime = Long.parseLong(hs.get("clk"));
+			this.game.clock.synchro(clockTime);
+		}
+		// checking the start time
+		if(hs.containsKey("stT")){
+			this.startGame = Long.parseLong(hs.get("stT"));
+		}
+		
 	}
 
 	public void initialize(){
