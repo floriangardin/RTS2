@@ -19,6 +19,11 @@ public class MultiReceiver extends Thread{
 	byte[] message;
 	DatagramPacket packet;
 
+	public static int tempsReception = 0;
+	public static float moyenneReception = 0;
+	public static int nbReception = 0;
+	
+	public static boolean debugReception = true;
 
 	// DEBUGGING
 
@@ -47,6 +52,14 @@ public class MultiReceiver extends Thread{
 				try{
 					server.receive(packet);
 					int a = (int)(System.nanoTime()/1e6);
+					nbReception+=1;
+					if(nbReception==1){
+						tempsReception = (int) System.currentTimeMillis();
+					}else{
+						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
+					}
+					if(debugReception)
+						System.out.println("reception du message: "+ tempsReception);
 					//System.out.println("-------------- réception d'un message : " + a);
 				} catch(java.net.SocketException e){
 					break;
