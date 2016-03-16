@@ -65,6 +65,8 @@ public class MultiReceiver extends Thread{
 						}
 						if(debugReception)
 							System.out.println("reception du message: "+ tempsReception);
+						if(!Game.g.isInMenu)
+							System.out.println("reception du message: "+ tempsReception);
 						tempsReception = (int) System.currentTimeMillis();
 					}
 					//System.out.println("-------------- réception d'un message : " + a);
