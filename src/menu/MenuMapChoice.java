@@ -157,6 +157,7 @@ public class MenuMapChoice extends Menu {
 				// requete de ping
 				if(roundForPingRequest==0){
 					this.game.pingRequest();
+					roundForPingRequest++;
 				}else {
 					roundForPingRequest++;
 					roundForPingRequest%=Main.framerate;
