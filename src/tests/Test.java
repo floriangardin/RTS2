@@ -34,7 +34,7 @@ public class Test {
 			throw new FatalGillesError("sender saturé");
 	}
 	public static void testDelayReceiver(MultiReceiver mr) throws FatalGillesError{
-		if(System.currentTimeMillis()-mr.tempsReception>(Main.nDelay*1000f/Main.framerate) && mr.nbReception>10){
+		if(!mr.g.isInMenu && System.currentTimeMillis()-mr.tempsReception>(Main.nDelay*1000f/Main.framerate) && mr.nbReception>10){
 			throw new FatalGillesError("délai d'attente dépassé");
 		}
 	}

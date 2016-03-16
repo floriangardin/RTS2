@@ -11,7 +11,7 @@ import model.Game;
 import org.newdawn.slick.SlickException;
 
 public class MultiReceiver extends Thread{
-	Game g;
+	public Game g;
 	int port;
 	public int received = 0;
 
