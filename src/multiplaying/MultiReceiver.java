@@ -23,7 +23,7 @@ public class MultiReceiver extends Thread{
 	public float moyenneReception = 0;
 	public int nbReception = 0;
 	
-	public static boolean debugReception = true;
+	public static boolean debugReception = false;
 
 	// DEBUGGING
 
