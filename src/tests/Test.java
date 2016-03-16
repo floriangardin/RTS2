@@ -30,9 +30,9 @@ public class Test {
 		}
 	}
 	public static void testSizeSender(MultiSender ms) throws FatalGillesError{
-		int maximalAutorise = 2;
-		if(ms.depot.size()>maximalAutorise)
-			throw new FatalGillesError("sender saturé \ntaille: "+ms.depot.size()+"\nmaximal autorise : " + maximalAutorise);
+		int maximalAutorise = 3;
+		if(!ms.game.isInMenu && ms.depot.size()>maximalAutorise)
+			throw new FatalGillesError("sender saturé  -  round : "+ms.game.round+" \ntaille: "+ms.depot.size()+"\nmaximal autorise : " + maximalAutorise);
 	}
 	public static void testDelayReceiver(MultiReceiver mr) throws FatalGillesError{
 		int a = (int) (System.currentTimeMillis()-mr.tempsReception);

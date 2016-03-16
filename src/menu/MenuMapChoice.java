@@ -114,7 +114,15 @@ public class MenuMapChoice extends Menu {
 		for(int i=1;i<this.menuPlayers.size();i++){
 			menuPlayers.get(i).draw(g);
 		}
-
+		if(startGame!=0){
+			// drawing countdown to launch game
+			g.setColor(Color.white);
+			int sec = (int) ((startGame-this.game.clock.getCurrentTime())/1000000000L);
+			String s = "Début de la partie dans "+sec+" s.";
+			String s1 = "Début de la partie dans 5 s.";
+			g.drawString(s,game.resX-game.font.getWidth(s1)-15f,game.resY-game.font.getHeight(s1)-15f);
+		}
+			
 	}
 
 	public void update(InputObject im){
@@ -141,7 +149,7 @@ public class MenuMapChoice extends Menu {
 					game.receivedConnexion.clear();
 				}		
 				//checking if game still exists
-				if(this.startGame!=0 && messageDropped>1f*Main.framerate){
+				if(this.startGame!=0 && messageDropped>2f*Main.framerate){
 					this.callItem(0);
 				}
 				// requete de ping
@@ -162,7 +170,7 @@ public class MenuMapChoice extends Menu {
 						mp.hasBeenUpdated = false;
 					} else {
 						mp.messageDropped++;
-						if(mp.messageDropped>1f*Main.framerate){
+						if(mp.messageDropped>2f*Main.framerate){
 							//System.out.println("disconnecting player:"+i);
 							toRemove=i;
 						}
@@ -210,7 +218,7 @@ public class MenuMapChoice extends Menu {
 		 * 
 		 * then plays sounds each seconds then launches the game
 		 */
-		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*500000000L){
+		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
 			this.game.sounds.menuItemSelected.play();
@@ -245,7 +253,7 @@ public class MenuMapChoice extends Menu {
 				if (present1 && present2){
 					// Launch Game
 					if(startGame==0){
-						this.startGame = this.game.clock.getCurrentTime()+10000000000L;
+						this.startGame = this.game.clock.getCurrentTime()+5000000000L;
 					}
 				}
 			}

@@ -21,7 +21,7 @@ public class MultiSender extends Thread{
 	public InetAddress address;
 	int port;
 	public Vector<MultiMessage> depot;
-	Game game;
+	public Game game;
 	DatagramSocket client;
 	// DEBUGGING
 	int sent = 0;
