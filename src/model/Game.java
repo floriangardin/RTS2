@@ -56,7 +56,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
-	public static boolean debugDisplayDebug = false;
+	public static boolean debugDisplayDebug = true;
 
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
@@ -488,8 +488,8 @@ public class Game extends BasicGame
 		//		if(debugTimeSteps)
 		//			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
 		if(!inEditor){
-			//g.setColor(Color.white);
-			//this.drawPing(g);
+			g.setColor(Color.white);
+			this.drawPing(g);
 		}
 		//		Runtime runtime = Runtime.getRuntime();
 		//
