@@ -13,7 +13,7 @@ public class Main {
 	// A REGLER \\
 	public static float ratioSpace = 0.7f;
 	public static int framerate = 60;
-	public static int nDelay=10;
+	public static int nDelay=15;
 	///////\\\\\\\\\
 	
 	public static float increment = 0.1f*30/Main.framerate;

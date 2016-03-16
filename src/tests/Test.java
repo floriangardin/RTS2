@@ -13,6 +13,7 @@ public class Test {
 	
 	public static int dernierRoundRecu = 0;
 	public static int nbMessageRecu = 0;
+	public static long reveilSender = 0L;
 	
 	public static void testRoundCorrect(Game g, Vector<InputObject> ims) throws FatalGillesError{
 		/**
@@ -103,5 +104,17 @@ public class Test {
 		if(!ok){
 			throw new FatalGillesError("pas d'input dans le message \n      message : "+message+"\n au round : "+ Game.g.round);
 		}
+	}
+	public static void testReveilSender(long time) throws FatalGillesError{
+		if(Game.g.isInMenu)
+			return;
+		if(reveilSender==0L){
+			reveilSender = time;
+			return;
+		}
+		if(Math.abs(reveilSender - time)>10000L){
+			throw new FatalGillesError("Sender en panne de réveil");
+		}
+		reveilSender = time;
 	}
 }

@@ -49,8 +49,10 @@ public class MultiSender extends Thread{
 				if(Game.debugThread){
 					System.out.println(this.getName());
 				}
-				if( Game.tests)
+				if( Game.tests){
 					Test.testDelayReceiver(this.game.receiver);
+					Test.testReveilSender(System.nanoTime());
+				}
 				if(this.depot.size()>0){
 					this.game.idPaquetSend++;
 					//					if(depot.get(0).charAt(0)=='2' && game.host){
