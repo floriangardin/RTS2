@@ -56,15 +56,17 @@ public class MultiReceiver extends Thread{
 				try{
 					server.receive(packet);
 					int a = (int)(System.nanoTime()/1e6);
-					nbReception+=1;
-					if(nbReception==1){
+					if(!Game.g.isInMenu){
+						nbReception+=1;
+						if(nbReception==1){
+							tempsReception = (int) System.currentTimeMillis();
+						}else{
+							tempsReception = (int) (System.currentTimeMillis()-tempsReception);
+						}
+						if(debugReception)
+							System.out.println("reception du message: "+ tempsReception);
 						tempsReception = (int) System.currentTimeMillis();
-					}else{
-						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
 					}
-					if(debugReception)
-						System.out.println("reception du message: "+ tempsReception);
-					tempsReception = (int) System.currentTimeMillis();
 					//System.out.println("-------------- réception d'un message : " + a);
 				} catch(java.net.SocketException e){
 					break;
