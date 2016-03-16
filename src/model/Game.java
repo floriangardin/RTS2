@@ -52,7 +52,7 @@ public class Game extends BasicGame
 	/////////////
 	
 	public static boolean tests = true;
-
+	public static Game g;
 	public static boolean debugInputs = false;
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
@@ -746,6 +746,7 @@ public class Game extends BasicGame
 		this.resX = resX;
 		this.resY = resY;
 		this.ratioResolution = this.resX/2800f;
+		Game.g = this;
 	}
 
 
