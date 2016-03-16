@@ -1,7 +1,6 @@
 package spells;
 
 import main.Main;
-import model.Game;
 import model.Objet;
 import model.Plateau;
 
@@ -38,12 +37,12 @@ public class Firewall extends SpellEffect{
 		this.y = launcher.getY();
 		this.x2 = t.getX();
 		this.y2 = t.getY();
-		float width = 15f*Game.ratioSpace;
+		float width = 15f*Main.ratioSpace;
 		
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		image = p.g.images.explosion.getScaledCopy(Game.ratioSpace);
+		image = p.g.images.explosion.getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();
@@ -100,15 +99,15 @@ public class Firewall extends SpellEffect{
 				x = this.animationX[i];
 				y = this.animationY[i];
 				if(this.animationState[i]>=this.animationMax*4f/5f)
-					g.drawImage(this.image, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,0f,0f,r,r);
+					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,0f,0f,r,r);
 				else if(this.animationState[i]>=this.animationMax*3f/5f)
-					g.drawImage(this.image, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,r,0f,2*r,r);
+					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,r,0f,2*r,r);
 				else if(this.animationState[i]>=this.animationMax*2f/5f)
-					g.drawImage(this.image, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,2*r,0f,3*r,r);
+					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,2*r,0f,3*r,r);
 				else if(this.animationState[i]>=this.animationMax*1f/5f)
-					g.drawImage(this.image, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,3*r,0f,4*r,r);
+					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
 				else 
-					g.drawImage(this.image, x-40f*Game.ratioSpace, y-40f*Game.ratioSpace, x+40f*Game.ratioSpace, y+40f*Game.ratioSpace,4*r,0f,5*r,r);
+					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,5*r,r);
 			}
 		}
 		//g.setColor(Color.white);

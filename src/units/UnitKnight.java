@@ -6,8 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Data;
-import model.Game;
 import model.GameTeam;
 import model.Horse;
 import model.Objet;
@@ -23,18 +23,18 @@ public class UnitKnight extends Character {
 		this.attackDuration = 2f;
 		this.maxLifePoints = 90f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 400f*Game.ratioSpace;
-		this.size = 40f*Game.ratioSpace;
+		this.sight = 400f*Main.ratioSpace;
+		this.size = 40f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 160f*Game.ratioSpace*data.speedFactor;
+		this.maxVelocity = 160f*Main.ratioSpace*data.speedFactor;
 		this.armor = 3f;
 		this.damage = 8f*data.damageFactor;
 		this.chargeTime = 4f;
 		this.weapon = "sword";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = this.size+20f*Game.ratioSpace;
+		this.range = this.size+20f*Main.ratioSpace;
 		this.horse = new Horse(p,this);
 		this.spells.add(data.immolation);
 		this.spells.add(data.fence);
@@ -220,10 +220,10 @@ public class UnitKnight extends Character {
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		y1-=40f*Game.ratioSpace;
-		y2-=40f*Game.ratioSpace;
-		x1+=5f*Game.ratioSpace;
-		x2+=5f*Game.ratioSpace;
+		y1-=40f*Main.ratioSpace;
+		y2-=40f*Main.ratioSpace;
+		x1+=5f*Main.ratioSpace;
+		x2+=5f*Main.ratioSpace;
 		if(mouseOver){
 			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
 

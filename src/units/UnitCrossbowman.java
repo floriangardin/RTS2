@@ -7,8 +7,8 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Arrow;
+import main.Main;
 import model.Data;
-import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -26,10 +26,10 @@ public class UnitCrossbowman extends Character {
 		this.attackDuration = 1f;
 		this.maxLifePoints = 40f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 400f*Game.ratioSpace;
+		this.sight = 400f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 130f*Game.ratioSpace*data.speedFactor;
+		this.maxVelocity = 130f*Main.ratioSpace*data.speedFactor;
 		this.armor = 2f;
 		this.damage = 5f*data.damageFactor;
 		this.chargeTime = 5f;
@@ -49,7 +49,7 @@ public class UnitCrossbowman extends Character {
 			this.image = this.p.g.images.crossbowmanRed;
 		}
 		this.civ = 0;
-		this.range = 300f*Game.ratioSpace;
+		this.range = 300f*Main.ratioSpace;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.spells.add(data.immolation);
 		this.spells.add(data.manualArrow);
@@ -222,10 +222,10 @@ public class UnitCrossbowman extends Character {
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		y1-=40f*Game.ratioSpace;
-		y2-=40f*Game.ratioSpace;
-		x1+=5f*Game.ratioSpace;
-		x2+=5f*Game.ratioSpace;
+		y1-=40f*Main.ratioSpace;
+		y2-=40f*Main.ratioSpace;
+		x1+=5f*Main.ratioSpace;
+		x2+=5f*Main.ratioSpace;
 		if(mouseOver){
 			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
 			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);

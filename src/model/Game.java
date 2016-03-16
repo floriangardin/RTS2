@@ -83,8 +83,6 @@ public class Game extends BasicGame
 
 	public static float ratio = 60f/((float)Main.framerate);
 
-	public static float ratioSpace = 0.8f;
-
 	public int idChar = 0;
 	public int idBullet = 0;
 

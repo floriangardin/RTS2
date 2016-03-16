@@ -7,8 +7,8 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
+import main.Main;
 import model.Data;
-import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -23,18 +23,18 @@ public class UnitInquisitor extends Character {
 		this.unitType = INQUISITOR;
 		this.maxLifePoints = 60f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 300f*Game.ratioSpace;
+		this.sight = 300f*Main.ratioSpace;
 		this.attackDuration = 2f;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 90f*Game.ratioSpace*data.speedFactor;
+		this.maxVelocity = 90f*Main.ratioSpace*data.speedFactor;
 		this.armor = 0f;
 		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 8f;
 		this.weapon = "wand";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = 200f*Game.ratioSpace;
+		this.range = 200f*Main.ratioSpace;
 		this.animStep = 24f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		if(this.getGameTeam().id==1){
@@ -207,10 +207,10 @@ public class UnitInquisitor extends Character {
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		y1-=40f*Game.ratioSpace;
-		y2-=40f*Game.ratioSpace;
-		x1+=5f*Game.ratioSpace;
-		x2+=5f*Game.ratioSpace;
+		y1-=40f*Main.ratioSpace;
+		y2-=40f*Main.ratioSpace;
+		x1+=5f*Main.ratioSpace;
+		x2+=5f*Main.ratioSpace;
 		if(mouseOver){
 			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
 

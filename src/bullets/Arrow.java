@@ -7,7 +7,6 @@ import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
 import main.Main;
-import model.Game;
 import model.Plateau;
 import units.Character;
 
@@ -20,8 +19,8 @@ public class Arrow extends CollisionBullet{
 		//MULTI 
 	
 		// Parameters
-		this.size = 2f*Game.ratioSpace;
-		float Vmax = 600f*Game.ratioSpace;
+		this.size = 2f*Main.ratioSpace;
+		float Vmax = 600f*Main.ratioSpace;
 
 		this.p = p;
 		if(id==-1){
@@ -50,10 +49,10 @@ public class Arrow extends CollisionBullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.g.images.arrow.getScaledCopy(2f*Game.ratioSpace);
+		this.image = p.g.images.arrow.getScaledCopy(2f*Main.ratioSpace);
 		this.image.rotate(this.angle);
 		
-		this.shadow = p.g.images.arrow.getScaledCopy(2f*Game.ratioSpace);
+		this.shadow = p.g.images.arrow.getScaledCopy(2f*Main.ratioSpace);
 		this.shadow.rotate(this.angle);
 	
 		this.sound = p.g.sounds.arrow;
@@ -79,9 +78,9 @@ public class Arrow extends CollisionBullet{
 	public void collision(Building c){
 	}
 	public Graphics draw(Graphics g){
-		g.drawImage(this.image,this.getX()-5f*Game.ratioSpace,this.getY()-75f*Game.ratioSpace);
+		g.drawImage(this.image,this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
 
-		shadow.drawFlash(this.getX()-5f*Game.ratioSpace,this.getY()-5f*Game.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
+		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
 		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);
 		//g.setColor(Color.white);
 		//		g.setColor(new Color(5,5,5,0.2f));

@@ -1,7 +1,7 @@
 package spells;
 
+import main.Main;
 import model.Checkpoint;
-import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -19,7 +19,7 @@ public class SpellDash extends Spell{
 		this.p = p;
 		this.name = "Dash";
 		this.icon = p.g.images.iconeSpearman;
-		this.range = 200f*Game.ratioSpace;
+		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 1f;
 		this.gameteam = gameteam;

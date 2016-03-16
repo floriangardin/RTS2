@@ -21,13 +21,14 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
+import main.Main;
 import nature.Tree;
 import pathfinding.MapGrid;
 import units.UnitsList;
 
 public class Map {
 
-	public static float stepGrid = 100f*Game.ratioSpace;
+	public static float stepGrid = 100f*Main.ratioSpace;
 
 	public static float sizeX;
 	public static float sizeY;

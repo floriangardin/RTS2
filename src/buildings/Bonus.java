@@ -7,8 +7,8 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Colors;
-import model.Game;
 import model.Map;
 import model.Plateau;
 
@@ -33,12 +33,12 @@ public abstract class Bonus extends Building{
 		this.constructionPoints=0f;
 		this.setTeam(0);
 		p.bonus.addElement(this);
-		this.sight = 200f*Game.ratioSpace;
-		this.size = 100f*Game.ratioSpace;
-		this.collisionBox = new Circle(x*Game.ratioSpace,y*Game.ratioSpace,this.size);
+		this.sight = 200f*Main.ratioSpace;
+		this.size = 100f*Main.ratioSpace;
+		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.size);
 		this.selectionBox = this.collisionBox;
-		this.hitBoxSize = 30f*Game.ratioSpace;
-		this.hitBox = new Circle(x*Game.ratioSpace,y*Game.ratioSpace,this.hitBoxSize);
+		this.hitBoxSize = 30f*Main.ratioSpace;
+		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
 		this.sound = this.p.g.sounds.bonus;
 

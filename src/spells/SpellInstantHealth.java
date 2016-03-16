@@ -1,6 +1,6 @@
 package spells;
 
-import model.Game;
+import main.Main;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -16,10 +16,10 @@ public class SpellInstantHealth extends Spell{
 	public SpellInstantHealth(Plateau p, GameTeam gameteam){
 		this.p = p;
 		this.chargeTime = 450f;
-		this.width = 15f*Game.ratioSpace;
+		this.width = 15f*Main.ratioSpace;
 		this.name = "Instant Health";
 		this.icon = p.g.images.spellInstantHealth;
-		this.range = 200f*Game.ratioSpace;
+		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 250f;
 		this.gameteam = gameteam;

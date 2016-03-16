@@ -6,8 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import main.Main;
 import model.Data;
-import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -28,11 +28,11 @@ public class UnitSpearman extends Character {
 		this.attackDuration = 1f;
 		this.maxLifePoints = 80f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
-		this.sight = 400f*Game.ratioSpace;
-		this.size = 40f*Game.ratioSpace;
+		this.sight = 400f*Main.ratioSpace;
+		this.size = 40f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,this.size);
 		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
-		this.maxVelocity = 100f*Game.ratioSpace*data.speedFactor;
+		this.maxVelocity = 100f*Main.ratioSpace*data.speedFactor;
 		this.armor = 4f;
 		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 4f;
@@ -54,7 +54,7 @@ public class UnitSpearman extends Character {
 		}
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = this.size+30f*Game.ratioSpace;
+		this.range = this.size+30f*Main.ratioSpace;
 		this.spells.add(data.immolation);
 		this.spells.add(data.spellDash);
 		//this.updateImage();
@@ -238,8 +238,8 @@ public class UnitSpearman extends Character {
 		float y1 = this.getY() + drawWidth - 2*drawHeight;
 		float x2 = this.getX() + drawWidth;
 		float y2 = this.getY() + drawWidth;
-		y1-=40f*Game.ratioSpace;
-		y2-=40f*Game.ratioSpace;
+		y1-=40f*Main.ratioSpace;
+		y2-=40f*Main.ratioSpace;
 
 
 		if(mouseOver){

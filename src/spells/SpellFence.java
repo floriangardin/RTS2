@@ -1,7 +1,7 @@
 package spells;
 
+import main.Main;
 import model.Checkpoint;
-import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -17,7 +17,7 @@ public class SpellFence extends Spell{
 		this.p = p;
 		this.name = "Fence";
 		this.icon = p.g.images.spellFirewall;
-		this.range = 400f*Game.ratioSpace;
+		this.range = 400f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 10f;
 		this.gameteam = gameteam;

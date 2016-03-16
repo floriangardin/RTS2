@@ -1,7 +1,6 @@
 package spells;
 
 import main.Main;
-import model.Game;
 import model.Objet;
 import model.Plateau;
 import model.Utils;
@@ -39,7 +38,7 @@ public class Fence extends SpellEffect{
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		image = p.g.images.explosion.getScaledCopy(Game.ratioSpace);
+		image = p.g.images.explosion.getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);
