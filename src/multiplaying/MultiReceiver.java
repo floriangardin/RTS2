@@ -5,10 +5,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import org.newdawn.slick.Sound;
-
 import main.Main;
 import model.Game;
+
+import org.newdawn.slick.SlickException;
 
 public class MultiReceiver extends Thread{
 	Game g;
@@ -19,9 +19,9 @@ public class MultiReceiver extends Thread{
 	byte[] message;
 	DatagramPacket packet;
 
-	public static int tempsReception = 0;
-	public static float moyenneReception = 0;
-	public static int nbReception = 0;
+	public int tempsReception = 0;
+	public float moyenneReception = 0;
+	public int nbReception = 0;
 	
 	public static boolean debugReception = true;
 
@@ -44,6 +44,7 @@ public class MultiReceiver extends Thread{
 			if(Game.debugReceiver)
 				System.out.println("Creation d'un receiver - " + port);
 			while(!server.isClosed()){
+				this.server.setBroadcast(g.isInMenu);
 				if(Game.debugThread){
 					System.out.println(this.getName());
 				}
@@ -66,7 +67,8 @@ public class MultiReceiver extends Thread{
 					break;
 				}
 				String msg = new String(packet.getData());
-				if(Game.debugReceiver) System.out.println(msg.substring(0, 200));
+				//if(Game.debugReceiver) 
+					System.out.println(msg.substring(0, 200));
 				//Split submessages
 				String[] tab = msg.split("\\%");
 				String temp;
@@ -91,7 +93,9 @@ public class MultiReceiver extends Thread{
 				}
 				Thread.sleep(0);
 			}
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException | InterruptedException | SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 	}
 
@@ -106,7 +110,7 @@ public class MultiReceiver extends Thread{
 		//HashMap<String, String> map = Objet.preParse(msg.substring(1));
 		this.g.receivedConnexion.add(message);		
 	}
-	public void actionInput(String message){
+	public void actionInput(String message) throws SlickException{
 		//System.out.println(msg);
 		InputObject io = new InputObject(message,g);
 		if(Game.debugValidation){

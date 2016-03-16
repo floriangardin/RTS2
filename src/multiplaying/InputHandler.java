@@ -4,6 +4,9 @@ import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.newdawn.slick.SlickException;
+
+import tests.Test;
 import main.Main;
 import model.Game;
 
@@ -40,7 +43,7 @@ public class InputHandler {
 		
 		this.mutex.lock();
 		// Check if good round to apply and messages validated
-		//Good round if current round = message round +2
+		//Good round if current round = message round +delay
 		//If good round but not validated remove the message
 		Vector<InputObject> toReturn = new Vector<InputObject>();
 		Vector<InputObject> toRemove = new Vector<InputObject>();
@@ -86,9 +89,10 @@ public class InputHandler {
 		return this.inputs;
 	}
 	
-	public void addToInputs(InputObject io){
+	public void addToInputs(InputObject io) throws SlickException{
 		mutex.lock();
 		this.inputs.addElement(io);
+		if(Game.tests) Test.testRoundInputHandler(this, g);
 		mutex.unlock();
 	}
 }

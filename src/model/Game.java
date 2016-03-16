@@ -42,13 +42,18 @@ import multiplaying.MultiReceiver;
 import multiplaying.MultiReceiver.Checksum;
 import multiplaying.MultiSender;
 import spells.SpellEffect;
+import tests.FatalGillesError;
+import tests.Test;
 import units.Character;
 public class Game extends BasicGame 
 {
 	/////////////
 	/// DEBUG ///
 	/////////////
+	
+	public static boolean tests = true;
 
+	public static boolean debugInputs = true;
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
@@ -510,7 +515,7 @@ public class Game extends BasicGame
 	}
 	// Do our logic 
 	@Override
-	public void update(GameContainer gc, int t) throws SlickException {	
+	public void update(GameContainer gc, int t) throws SlickException{	
 		//		Thread[] tarray = new Thread[Thread.activeCount()];
 		//		Thread.enumerate(tarray);
 		//		System.out.println("threads pr�sents : "+tarray.length);
@@ -544,9 +549,9 @@ public class Game extends BasicGame
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
-			if(in.isKeyPressed(Input.KEY_RALT)){
-				this.displayMapGrid = !this.displayMapGrid;
-			}
+//			if(in.isKeyPressed(Input.KEY_RALT)){
+//				this.displayMapGrid = !this.displayMapGrid;
+//			}
 			InputObject im = new InputObject(this,currentPlayer,in,true);
 			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
@@ -554,12 +559,16 @@ public class Game extends BasicGame
 			} else {
 				//this.manuelAntidrop(in,gc);
 			}
-			//Handle manual resynchro
-			if(replay==null){
-				replay = new Replay(2,"apocalypse",0,this);
-			}
+//			if(replay==null){
+//				replay = new Replay(2,"apocalypse",0,this);
+//			}
 			if(inMultiplayer){
 
+				////////////////////
+				/// MULTI PLAYER ///
+				////////////////////
+
+				if(tests) Test.testSizeSender(sender);
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn+="1"+im.toString()+"%";
@@ -573,7 +582,11 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
 				ims = this.inputsHandler.getInputsForRound(this.round);
+				if(debugInputs )
+					System.out.println(round+ " : " + ims.size());
 				this.handleAntidrop(gc);
+				if(tests) Test.testRoundCorrect(this, ims);
+					
 				if(ims.size()>0){
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();

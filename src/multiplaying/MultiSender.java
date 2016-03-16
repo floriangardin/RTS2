@@ -10,13 +10,17 @@ import java.util.Vector;
 
 
 
+
+
+import tests.FatalGillesError;
+import tests.Test;
 import model.Game;
 
 public class MultiSender extends Thread{
 
 	public InetAddress address;
 	int port;
-	Vector<MultiMessage> depot;
+	public Vector<MultiMessage> depot;
 	Game game;
 	DatagramSocket client;
 	// DEBUGGING
@@ -45,6 +49,8 @@ public class MultiSender extends Thread{
 				if(Game.debugThread){
 					System.out.println(this.getName());
 				}
+				if( Game.tests)
+					Test.testDelayReceiver(this.game.receiver);
 				if(this.depot.size()>0){
 					this.game.idPaquetSend++;
 					//					if(depot.get(0).charAt(0)=='2' && game.host){
@@ -68,8 +74,9 @@ public class MultiSender extends Thread{
 					e.printStackTrace();
 				}
 			}
-		} catch (SocketException e1) {
-		} catch (IOException e) {
+		} catch (IOException | FatalGillesError e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} 
 	}
 
