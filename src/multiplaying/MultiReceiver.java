@@ -65,8 +65,6 @@ public class MultiReceiver extends Thread{
 						}
 						if(debugReception)
 							System.out.println("reception du message: "+ tempsReception);
-						if(!Game.g.isInMenu)
-							System.out.println("reception du message: "+ tempsReception);
 						tempsReception = (int) System.currentTimeMillis();
 					}
 					//System.out.println("-------------- réception d'un message : " + a);
@@ -86,6 +84,7 @@ public class MultiReceiver extends Thread{
 					int round = getRoundFromMessage(msg);
 					Test.testOrderedMessages(round);
 					Test.testNombreMessagesRecus(round);
+					System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
 				}
 
 				for(int i =0; i<tab.length;i++){
