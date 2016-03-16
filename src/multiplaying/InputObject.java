@@ -70,6 +70,7 @@ public class InputObject extends MultiObjetModel{
 	public int yMouse;
 
 	public Vector<Integer> selection;
+	public boolean isOnMiniMap;
 
 
 	public InputObject (Game g, Player player, Input input,boolean toPlay){
@@ -125,17 +126,26 @@ public class InputObject extends MultiObjetModel{
 	
 		this.xMouse = input.getAbsoluteMouseX();
 		this.yMouse = input.getAbsoluteMouseY();
-
+		
+		this.isOnMiniMap = false;
+		if(player !=null && player.bottomBar!=null){
+			this.isOnMiniMap = this.xMouse>(1-player.bottomBar.ratioMinimapX)*g.resX && this.yMouse>(g.resY-player.bottomBar.ratioMinimapX*g.resX);
+			this.isOnMiniMap = this.isOnMiniMap && g.plateau.rectangleSelection.get(g.currentPlayer.id)==null;
+		}
+		System.out.println(isOnMiniMap);
 		if(g.isInMenu || g.inEditor)
 			return;
 		
 		this.xMouse = input.getAbsoluteMouseX()+g.plateau.Xcam;
 		this.yMouse = input.getAbsoluteMouseY()+g.plateau.Ycam;
 		
-		if(isPressedA){
+		if(isOnMiniMap){
+//			System.out.println("miniMap");
 			BottomBar b = player.bottomBar;
 			this.xMouse = (int) Math.floor((this.xMouse-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
 			this.yMouse = (int) Math.floor((this.yMouse-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
+		} else {
+//			System.out.println("pas MiniMap");
 		}
 		
 		// Only for current player at the creation of the input

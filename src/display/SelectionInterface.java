@@ -64,7 +64,7 @@ public class SelectionInterface extends Bar {
 						g.setColor(Color.gray);
 						g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 						g.setColor(parent.p.g.currentPlayer.getGameTeam().color);
-						g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*3*sizeY/(4*b.productionList.get(q).time), sizeX/8f,3*sizeY/4-20f-b.charge*3*sizeY/(4*b.productionList.get(q).time));
+						g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.productionList.get(q).time, sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.productionList.get(q).time);
 					}
 					else{
 						g.drawImage(icone,this.x+this.sizeX+2+(sVB)*(compteur-1), parent.p.g.resY-sVB+3f, this.x+this.sizeX+(sVB)*(compteur), parent.p.g.resY-1,0f,0f,512f,512f);
