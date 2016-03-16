@@ -151,7 +151,7 @@ public class MenuMapChoice extends Menu {
 					game.receivedConnexion.clear();
 				}		
 				//checking if game still exists
-				if(this.startGame==0 && messageDropped>2f*Main.framerate){
+				if(this.startGame==0 && messageDropped>2f*Main.framerate && seconds>2){
 					this.callItem(0);
 				}
 				// requete de ping
@@ -160,12 +160,12 @@ public class MenuMapChoice extends Menu {
 					roundForPingRequest++;
 				}else {
 					roundForPingRequest++;
-					roundForPingRequest%=Main.framerate;
+					roundForPingRequest%=Main.framerate/2;
 				}
 			}
 			// checking disconnecting players
 			int toRemove = -1;
-			if(game.host && this.startGame!=0){
+			if(game.host && this.startGame!=0 && seconds>3){
 				for(int i=2 ; i<this.menuPlayers.size(); i++){
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){
