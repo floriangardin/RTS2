@@ -90,6 +90,8 @@ public class Test {
 		 * Teste si le message contient bien un input
 		 * appelé à la réception de chaque message en jeu
 		 */
+		if(Game.g.round<5)
+			return:
 		String[] tab = message.split("\\%");
 		boolean ok = false;
 		for(int i =0; i<tab.length;i++){
