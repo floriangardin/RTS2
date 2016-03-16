@@ -91,7 +91,7 @@ public class Test {
 		 * appelé à la réception de chaque message en jeu
 		 */
 		if(Game.g.round<5)
-			return:
+			return;
 		String[] tab = message.split("\\%");
 		boolean ok = false;
 		for(int i =0; i<tab.length;i++){
