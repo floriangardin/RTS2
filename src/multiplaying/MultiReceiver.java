@@ -99,7 +99,7 @@ public class MultiReceiver extends Thread{
 			System.out.println("MultiReceiver line 63 input received at round "+ this.g.round);
 		}
 		//Send the validation for other players if the round is still ok
-		if(this.g.round<io.round+InputHandler.nDelay){
+		if(this.g.round<io.round+Main.nDelay){
 			this.g.toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
 			this.g.inputsHandler.addToInputs(io);
 			io.validate();

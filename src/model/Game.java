@@ -886,14 +886,14 @@ public class Game extends BasicGame
 			}
 			String[] u = this.toParse.split("!");
 			//Je resynchronise au tour n+2
-			if(Integer.parseInt(u[0])==(this.round-InputHandler.nDelay)){
+			if(Integer.parseInt(u[0])==(this.round-Main.nDelay)){
 				//				System.out.println("Play resynchronisation round at round " + this.round);
 				this.plateau.parse(this.toParse);
 				this.toParse = null;
 				this.processSynchro = false;
 
 			}
-			else if(this.toParse==null || Integer.parseInt(u[0])<(this.round-InputHandler.nDelay)){
+			else if(this.toParse==null || Integer.parseInt(u[0])<(this.round-Main.nDelay)){
 				this.processSynchro = false;
 				this.toParse = null;
 			}

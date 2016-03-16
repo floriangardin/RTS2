@@ -11,6 +11,7 @@ import model.Game;
 
 public class Main {
 	public static int framerate = 30;
+	public static int nDelay=4;
 	public static float increment = 0.1f*30/Main.framerate;
 	public static boolean pleinEcran = true;
 	

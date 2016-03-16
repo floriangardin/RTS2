@@ -1,20 +1,17 @@
 package multiplaying;
 
 import java.util.Vector;
-
-import model.Game;
-import model.Player;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.newdawn.slick.Color;
-
-import java.util.concurrent.locks.Lock;
+import main.Main;
+import model.Game;
 
 
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
-	public static int nDelay=4;
+	
 	Game g;
 	public Lock mutex;
 
@@ -51,14 +48,14 @@ public class InputHandler {
 		while(i<this.inputs.size()){
 			InputObject in = this.inputs.get(i);
 			//If right round and validated add it to player inputs to play
-			if(round==(in.round+nDelay) && in.isValidated()  && in.toPlay){
+			if(round==(in.round+Main.nDelay) && in.isValidated()  && in.toPlay){
 				//ADD inputs in player
 				toReturn.add(in);
 				toRemove.add(in);
-			} else if (round==(in.round+nDelay) && !in.isValidated()){
+			} else if (round==(in.round+Main.nDelay) && !in.isValidated()){
 				//If right round but not validated, erase the input
 				toRemove.add(in);
-			} else if (round>(in.round+nDelay)){
+			} else if (round>(in.round+Main.nDelay)){
 				//If too late to play this input, erase the input
 				toRemove.add(in);
 			}
