@@ -30,12 +30,14 @@ public class Test {
 		}
 	}
 	public static void testSizeSender(MultiSender ms) throws FatalGillesError{
-		if(ms.depot.size()>2)
-			throw new FatalGillesError("sender saturé");
+		int maximalAutorise = 2;
+		if(ms.depot.size()>maximalAutorise)
+			throw new FatalGillesError("sender saturé \ntaille: "+ms.depot.size()+"\nmaximal autorise : " + maximalAutorise);
 	}
 	public static void testDelayReceiver(MultiReceiver mr) throws FatalGillesError{
-		if(!mr.g.isInMenu && System.currentTimeMillis()-mr.tempsReception>(Main.nDelay*1000f/Main.framerate) && mr.nbReception>10){
-			throw new FatalGillesError("délai d'attente dépassé");
+		int a = (int) (System.currentTimeMillis()-mr.tempsReception);
+		if(!mr.g.isInMenu && a>(Main.nDelay*1000f/Main.framerate) && mr.nbReception>10){
+			throw new FatalGillesError("délai d'attente dépassé : \n   attente : "+a+"\n maximum autorisé : "+Main.nDelay*1000f/Main.framerate);
 		}
 	}
 }
