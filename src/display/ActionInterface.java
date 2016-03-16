@@ -135,19 +135,22 @@ public class ActionInterface extends Bar {
 			Vector<Float> state = b.spellsState;
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.setColor(this.p.g.currentPlayer.getGameTeam().color);
+				if(state.get(i)==ul.get(i).chargeTime){
+					g.setColor(Color.white);
+				} else {
+					g.setColor(this.p.g.currentPlayer.getGameTeam().color);
+				}
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
 				g.drawImage(ul.get(i).icon, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
 				Color c = this.p.g.currentPlayer.getGameTeam().color;
 				c.a = 0.8f;
 				g.setColor(c);
-				System.out.println(i+ " " +ul.get(i).chargeTime+" "+state.get(i));
 				if(state.get(i)>10){
 					float diffY = (int)((-5f+this.sizeX)*(state.get(i))/ul.get(i).chargeTime);
 					g.fillRect(this.x+2f, this.y+2f + ratio*i*this.sizeY+diffY, this.x-5f+this.sizeX, -5f+this.sizeX-diffY);
 				}
 				g.setColor(Color.white);
-				
+
 				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
 					if(ul.get(i).chargeTime>0)

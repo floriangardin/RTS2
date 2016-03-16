@@ -458,7 +458,7 @@ public class Plateau {
 		if (im.leftClick) {
 
 
-			if (im.isPressedA) {
+			if (im.isOnMiniMap && cosmetic.selection==null) {
 				return;
 			}
 			if (this.cosmetic.selection == null || im.isPressedCTRL) {
@@ -478,9 +478,8 @@ public class Plateau {
 		//TODO
 	}
 	private void updateRectangle(InputObject im, int player) {
-		if (im.isPressedA) {
+		if(im.isOnMiniMap && this.rectangleSelection.get(player)==null)
 			return;
-		}
 		if (this.rectangleSelection.get(player) == null || im.isPressedCTRL) {
 			recX.set(player, (float) im.xMouse);
 			recY.set(player, (float) im.yMouse);
@@ -878,7 +877,7 @@ public class Plateau {
 			if(spell.name.equals("Immolation")){
 				System.out.println("I0");
 				return;
-				
+
 			}
 			System.out.println("aieaie");
 			spell.launch(new Checkpoint(this,im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
@@ -915,7 +914,7 @@ public class Plateau {
 						number = 0;
 						imo = true;
 					}
-						
+
 					Character c = ((Character) this.selection.get(player).get(0));
 					if (-1 != number && number < c.spells.size()
 							&& c.spellsState.get(number) >= c.spells.get(number).chargeTime) {
@@ -929,7 +928,7 @@ public class Plateau {
 								s.launch(new Checkpoint(this,im.xMouse,im.yMouse), c);
 								c.spellsState.set(number, 0f);
 							}
-							
+
 						}
 					}
 				}
@@ -951,7 +950,7 @@ public class Plateau {
 					number = 3;
 				if (im.isPressedImmolation)
 					number = 4;
-				
+
 				this.handleSpellsOnField(im, number, player, true);
 			}
 		}
@@ -974,21 +973,22 @@ public class Plateau {
 				if(Math.abs(deltaX)<2)
 					this.slidingCam = false;
 			}
+//			boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
 			// Move camera according to inputs :
-			if ((im.isPressedUP || (!im.isPressedA && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
+			if ((im.isPressedUP || (!im.isOnMiniMap && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
 				Ycam -= (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			if ((im.isPressedDOWN || (!im.isPressedA && im.yMouse > Ycam + g.resY - 5))
+			if ((im.isPressedDOWN || (!im.isOnMiniMap && im.yMouse > Ycam + g.resY - 5))
 					&& Ycam < this.maxY - g.resY / 2) {
 				Ycam += (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			if ((im.isPressedLEFT || (!im.isPressedA && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
+			if ((im.isPressedLEFT || (!im.isOnMiniMap && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
 				Xcam -= (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			if ((im.isPressedRIGHT || (!im.isPressedA && im.xMouse > Xcam + g.resX - 5))
+			if ((im.isPressedRIGHT || (!im.isOnMiniMap && im.xMouse > Xcam + g.resX - 5))
 					&& Xcam < this.maxX - g.resX / 2) {
 				Xcam += (int) (40 * 30 / Main.framerate);
 				this.slidingCam = false;
@@ -1023,17 +1023,17 @@ public class Plateau {
 				this.slidingCam = true;
 				this.objectiveCam = new Point(this.Dcam.getX()-this.g.resX/2,this.Dcam.getY()-this.g.resY/2);
 			}
-//			for (int to = 0; to < 10; to++) {
-//				if (im.isPressedNumPad[to]) {
-//					if (this.g.players.get(player).groupSelection == to
-//							&& this.g.players.get(player).groups.get(to).size() > 0) {
-//						float xmoy = this.g.players.get(player).groups.get(to).get(0).getX();
-//						float ymoy = this.g.players.get(player).groups.get(to).get(0).getY();
-//						this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
-//						this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
-//					}
-//				}
-//			}
+			//			for (int to = 0; to < 10; to++) {
+			//				if (im.isPressedNumPad[to]) {
+			//					if (this.g.players.get(player).groupSelection == to
+			//							&& this.g.players.get(player).groups.get(to).size() > 0) {
+			//						float xmoy = this.g.players.get(player).groups.get(to).get(0).getX();
+			//						float ymoy = this.g.players.get(player).groups.get(to).get(0).getY();
+			//						this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
+			//						this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
+			//					}
+			//				}
+			//			}
 			// Selection des batiments
 			Vector<Building> visible = new Vector<Building>();
 			for(Building b : this.buildings){
@@ -1112,7 +1112,6 @@ public class Plateau {
 					//Lancier
 					this.selection.set(player, new Vector<ActionObjet>());
 					for(Objet o : visible2){
-						
 						if(o instanceof UnitSpearman){
 							this.selection.get(player).add((ActionObjet)o);
 						}
@@ -1156,7 +1155,9 @@ public class Plateau {
 						}
 					}
 				}
+
 			}
+
 		}
 		// display for the bottom bar
 		BottomBar bb = g.currentPlayer.bottomBar;
@@ -1180,17 +1181,11 @@ public class Plateau {
 	}
 
 	public void handleMinimap(InputObject im, int player) {
-		if (im.isPressedA) {
-			BottomBar b = this.g.players.get(player).bottomBar;
-			b.minimap.toDraw = true;
-			if (im.leftClick && player == this.g.currentPlayer.id) {
-				// Put camera where the click happened
-				Xcam = (int) (im.xMouse - g.resX / 2f);
-				Ycam = (int) (im.yMouse - g.resY / 2f);
-			}
-		} else {
-			BottomBar b = this.g.players.get(player).bottomBar;
-			b.minimap.toDraw = false;
+		BottomBar b = this.g.players.get(player).bottomBar;
+		if (im.leftClick && player == this.g.currentPlayer.id && im.isOnMiniMap) {
+			// Put camera where the click happened
+			Xcam = (int) (im.xMouse - g.resX / 2f);
+			Ycam = (int) (im.yMouse - g.resY / 2f);
 		}
 	}
 
@@ -1280,33 +1275,35 @@ public class Plateau {
 	// handling selection
 	public void handleSelection(InputObject im, int player, int team) {
 		// Handling groups of units
-//		for (int to = 0; to < 10; to++) {
-//			if (im.isPressedNumPad[to]) {
-//				if (im.isPressedCTRL) {
-//					// Creating a new group made of the selection
-//					this.g.players.get(player).groups.get(to).clear();
-//					for (ActionObjet c : this.selection.get(player))
-//						this.g.players.get(player).groups.get(to).add(c);
-//				} else if (im.isPressedMAJ) {
-//					// Adding the current selection to the group
-//
-//					for (ActionObjet c : this.selection.get(player))
-//						this.g.players.get(player).groups.get(to).add(c);
-//				} else {
-//					this.selection.get(player).clear();
-//					int i = 0;
-//					for (ActionObjet c : this.g.players.get(player).groups.get(to)){
-//						this.selection.get(player).add(c);
-//						if(c.soundSelection!=null && c.soundSelection.size()>0 && i==0){
-//							Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
-//						}
-//						i++;
-//					}
-//				}
-//				this.g.players.get(player).groupSelection = to;
-//			}
-//		}
+		//		for (int to = 0; to < 10; to++) {
+		//			if (im.isPressedNumPad[to]) {
+		//				if (im.isPressedCTRL) {
+		//					// Creating a new group made of the selection
+		//					this.g.players.get(player).groups.get(to).clear();
+		//					for (ActionObjet c : this.selection.get(player))
+		//						this.g.players.get(player).groups.get(to).add(c);
+		//				} else if (im.isPressedMAJ) {
+		//					// Adding the current selection to the group
+		//
+		//					for (ActionObjet c : this.selection.get(player))
+		//						this.g.players.get(player).groups.get(to).add(c);
+		//				} else {
+		//					this.selection.get(player).clear();
+		//					int i = 0;
+		//					for (ActionObjet c : this.g.players.get(player).groups.get(to)){
+		//						this.selection.get(player).add(c);
+		//						if(c.soundSelection!=null && c.soundSelection.size()>0 && i==0){
+		//							Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+		//						}
+		//						i++;
+		//					}
+		//				}
+		//				this.g.players.get(player).groupSelection = to;
+		//			}
+		//		}
 		// Cleaning the rectangle and buffer if mouse is released
+//		boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
+		
 		if (!im.leftClick) {
 			if (this.rectangleSelection.get(player) != null) {
 				// Play selection sound
@@ -1347,22 +1344,22 @@ public class Plateau {
 		}
 		// we update the selection according to the rectangle wherever is the
 		// mouse
-		if (im.pressedLeftClick && !im.isPressedMAJ) {
-			this.clearSelection(player);
+		if(!im.isOnMiniMap){
+			if (im.pressedLeftClick && !im.isPressedMAJ) {
+				this.clearSelection(player);
+			}
 		}
 		if (!im.isPressedCTRL) {
 			this.updateSelection(rectangleSelection.get(player), player, team);
 		} else {
 			this.updateSelectionCTRL(rectangleSelection.get(player), player, team);
 		}
-
 		// Update the selections of the players
 		this.g.players.get(player).selection.clear();
 		for (ActionObjet c : this.selection.get(player))
 			this.g.players.get(player).selection.addElement(c);
 
 	}
-
 
 
 	public void updateSelection(Rectangle select, int player, int team) {
@@ -1534,7 +1531,7 @@ public class Plateau {
 		Building bul = null;
 		int finish = u.length;
 		// For all buildings in received message
-//		System.out.println(s);
+		//		System.out.println(s);
 		for (int i = 0; i < finish; i++) {
 			HashMap<String, String> hs = Objet.preParse(u[i]);
 			int idTest = Integer.parseInt(hs.get("id"));
@@ -1546,7 +1543,7 @@ public class Plateau {
 	}
 
 	public void parseSelection(String s){
-//		System.out.println(s);
+		//		System.out.println(s);
 		String[] u = s.split("\\|");
 		//Loop over each player
 		for(int i = 0; i<this.g.players.size();i++){
@@ -1630,7 +1627,7 @@ public class Plateau {
 
 	public void parseCharacter(String s) {
 		// SPLIT SELON |
-//		System.out.println("characters : "+s);
+		//		System.out.println("characters : "+s);
 		for (Character c : this.characters) {
 			c.setTarget(null, null);
 			c.group.clear();
@@ -1663,7 +1660,7 @@ public class Plateau {
 			cha = this.getCharacterByIdAndName(idTest, hs.get("name"));
 			if (cha == null) {
 				cha = Character.createNewCharacter(hs, g);
-//				System.out.println("Create new character");
+				//				System.out.println("Create new character");
 
 			}
 			if (cha != null) {
@@ -1676,7 +1673,7 @@ public class Plateau {
 		Utils.triId(this.characters);
 		for (Character c : this.characters) {
 			if (!c.toKeep) {
-//				System.out.println("Destroyed " + c.id);
+				//				System.out.println("Destroyed " + c.id);
 				c.destroy();
 			}
 		}

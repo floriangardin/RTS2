@@ -18,7 +18,7 @@ public class BottomBar extends Bar {
 	public PathInterface path;
 	public TopBar topBar;
 
-	public float ratioMinimapX = 1/5f;
+	public float ratioMinimapX = 1/6f;
 	public float ratioSelectionX = 1/8f;
 	public float ratioBarVertX = 1/32f;
 	
