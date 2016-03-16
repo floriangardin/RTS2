@@ -42,7 +42,7 @@ public class MenuMapChoice extends Menu {
 	float sizeYPlayers;
 
 	long startGame = 0;
-	public int seconds = 3;
+	public int seconds = 4;
 
 	public int cooldown;
 	public int messageDropped;
@@ -218,7 +218,7 @@ public class MenuMapChoice extends Menu {
 		 * 
 		 * then plays sounds each seconds then launches the game
 		 */
-		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L){
+		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L && seconds!=0){
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
 			this.game.sounds.menuItemSelected.play();

@@ -30,7 +30,7 @@ public class Test {
 		}
 	}
 	public static void testSizeSender(MultiSender ms) throws FatalGillesError{
-		int maximalAutorise = 3;
+		int maximalAutorise = 10;
 		if(!ms.game.isInMenu && ms.depot.size()>maximalAutorise)
 			throw new FatalGillesError("sender saturé  -  round : "+ms.game.round+" \ntaille: "+ms.depot.size()+"\nmaximal autorise : " + maximalAutorise);
 	}

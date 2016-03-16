@@ -53,7 +53,7 @@ public class Game extends BasicGame
 	
 	public static boolean tests = true;
 
-	public static boolean debugInputs = true;
+	public static boolean debugInputs = false;
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
