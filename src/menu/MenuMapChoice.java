@@ -133,7 +133,7 @@ public class MenuMapChoice extends Menu {
 			if(game.host){
 				// sending to all players only if the game isn't about to start
 				this.messageToClient = this.messageToClient();
-				if(this.startGame==0 && this.seconds>2)
+				if(this.startGame==0 || this.seconds>2)
 					this.game.sendConnexion(messageToClient);
 				// parsing if received anything
 				while(game.receivedConnexion.size()>0){
@@ -141,7 +141,7 @@ public class MenuMapChoice extends Menu {
 				}
 			} else {
 				// sending to host only if the game isn't about to start
-				if(this.startGame==0 && this.seconds>2)
+				if(this.startGame==0 || this.seconds>2)
 					this.game.sendConnexion(this.messageToHost());	
 				messageDropped++;	
 				// parsing if received anything
@@ -151,7 +151,7 @@ public class MenuMapChoice extends Menu {
 					game.receivedConnexion.clear();
 				}		
 				//checking if game still exists
-				if(this.startGame==0 && messageDropped>2f*Main.framerate && this.startGame!=0 && this.seconds>2){
+				if(this.startGame==0 && messageDropped>2f*Main.framerate){
 					this.callItem(0);
 				}
 				// requete de ping
