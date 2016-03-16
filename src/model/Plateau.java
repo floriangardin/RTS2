@@ -1400,8 +1400,13 @@ public class Plateau {
 				}
 			} else {
 				Vector<Character> chars = new Vector<Character>();
-				for(ActionObjet o : this.selection.get(player))
-					chars.add((Character) o);
+				for(ActionObjet o : this.selection.get(player)){
+					if(o instanceof Character){
+						chars.add((Character) o);
+					}
+					
+				}
+					
 				Utils.triId(chars);
 				this.selection.get(player).clear();
 				for(Character c : chars)
