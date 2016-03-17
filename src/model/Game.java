@@ -670,8 +670,8 @@ public class Game extends BasicGame
 				this.inputsHandler.addToInputs(im);
 				this.handleChecksum();
 				this.handlePing();
-				//this.handleSendingResynchroParse();
-				//this.handleResynchro();
+				this.handleSendingResynchroParse();
+				this.handleResynchro();
 				this.send();
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
