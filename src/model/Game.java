@@ -592,7 +592,6 @@ public class Game extends BasicGame
 				allLoaded = true;
 			}
 			waitLoading = false;
-			System.out.println(lastThing+" "+t+" ms.");
 			return;
 		} else if(!allLoaded) {
 			return;
