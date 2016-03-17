@@ -237,6 +237,7 @@ public class Game extends BasicGame
 	public static int nbLoadedThing = 0;
 	public boolean thingsLoaded = false;
 	public boolean plateauLoaded = false;
+	public boolean allLoaded = false;
 	public Image loadingSpearman;
 	public Image loadingTitle;
 	public Image loadingBackground;
@@ -584,9 +585,14 @@ public class Game extends BasicGame
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			if(LoadingList.get().getRemainingResources()==0){
+				allLoaded = true;
+			}
 			waitLoading = false;
 			return;
-		} else if(!plateauLoaded){
+		} else if(!allLoaded) {
+			return;
+		} else if (!plateauLoaded){
 			this.handleEndLoading();
 			plateauLoaded=true;
 			return;
