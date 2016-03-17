@@ -92,9 +92,10 @@ public class ChatHandler {
 			InetAddress ia = null;
 			try {
 				ia = InetAddress.getByName(textScanner.s);
-				if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null && ia.isReachable(10000)){
+				if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null){
 					Game.g.menuMapChoice.addressesInvites.addElement(ia);
 					this.messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
+					textScanner.s="";
 					return;
 				}
 			} catch (IOException e) {

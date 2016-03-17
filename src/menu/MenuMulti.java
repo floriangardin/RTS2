@@ -93,7 +93,7 @@ public class MenuMulti extends Menu {
 				Map.updateMap(0, game);
 				game.clearPlayer();
 				OpenGames opengame = openGames.get(gameSelected);
-				
+
 				this.game.addressHost = opengame.hostAddress;
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.addPlayer("unknown",null,1,1);
@@ -129,6 +129,10 @@ public class MenuMulti extends Menu {
 		g.fillRect(this.startXGames+40f, startY+80f+this.game.font.getHeight("R"),2, sizeYGames/2f - 60f+this.game.font.getHeight("R"));
 		for(Menu_MapChoice s : this.gamesList)
 			s.draw(g);
+		// drawing local ip
+		g.setColor(Color.white);
+		g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
+
 	}
 
 	public void update(InputObject im){
