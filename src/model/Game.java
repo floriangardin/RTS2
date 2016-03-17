@@ -632,7 +632,7 @@ public class Game extends BasicGame
 				this.chatHandler.action(in,im);
 			}
 			this.menuCurrent.update(im);
-			this.send();
+			//this.send();
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();
@@ -885,7 +885,7 @@ public class Game extends BasicGame
 			this.toSend.add(new MultiMessage("0"+message,this.addressHost));
 		}
 	}
-	public void send(){
+	private void send(){
 		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
 		if(this.menuMapChoice.seconds<2 && this.isInMenu){
 			toSendThisTurn="";
