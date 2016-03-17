@@ -43,17 +43,19 @@ public class MultiReceiver extends Thread{
 	public void run(){
 		try{
 			this.server = new DatagramSocket(port);
-			this.server.setSoTimeout(2);
+			this.server.setSoTimeout(1);
 			this.server.setBroadcast(true);
 			if(Game.debugReceiver)
 				System.out.println("Creation d'un receiver - " + port);
+			
+			message = new byte[10000];
+			packet = new DatagramPacket(message, message.length);
 			while(!server.isClosed()){
 				this.server.setBroadcast(g.isInMenu);
 				if(Game.debugThread){
 					System.out.println(this.getName());
 				}
-				message = new byte[10000];
-				packet = new DatagramPacket(message, message.length);
+
 				// On récupère un message
 				while(true){
 					try{
@@ -77,10 +79,10 @@ public class MultiReceiver extends Thread{
 					} catch(java.net.SocketException e){
 						break;
 					}catch( java.net.SocketTimeoutException e){
-						if(!Game.g.isInMenu){
-							System.out.println("Multi receiver : SOCKET timeout");
-						}
-						Thread.sleep(0);
+//						if(!Game.g.isInMenu){
+//							System.out.println("Multi receiver : SOCKET timeout");
+//						}
+						Thread.sleep(2);
 					}
 				}
 				String msg = new String(packet.getData());
@@ -161,6 +163,8 @@ public class MultiReceiver extends Thread{
 			this.g.toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
 			this.g.inputsHandler.addToInputs(io);
 			io.validate();
+		}else{
+			System.out.println("Multi Receiver line 167 : Message reçu trop tard");
 		}
 	}
 	public void actionValidation(String msg){
