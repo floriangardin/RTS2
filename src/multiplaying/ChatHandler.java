@@ -94,6 +94,7 @@ public class ChatHandler {
 				ia = InetAddress.getByName(textScanner.s);
 				if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null && ia.isReachable(10000)){
 					Game.g.menuMapChoice.addressesInvites.addElement(ia);
+					this.messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
 					return;
 				}
 			} catch (IOException e) {
