@@ -114,4 +114,17 @@ public class Test {
 			throw new FatalGillesError("Sender en panne de réveil");
 		}
 	}
+	public static void testSendEmptyMessages(String message) throws FatalGillesError{
+		if(message.length()==0)
+			throw new FatalGillesError("tentative d'envoi de message vide");
+	}
+	public static void testReceiveEmptyMessage(String message) throws FatalGillesError{
+		boolean b = true;
+		for(int i=0; i<message.length()-1; i++){
+			b = b && message.charAt(i) == message.charAt(i+1);
+		}
+		if(b)
+			throw new FatalGillesError("reception d'un message vide");
+	}
+	
 }

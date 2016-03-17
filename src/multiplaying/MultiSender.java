@@ -60,6 +60,8 @@ public class MultiSender extends Thread{
 					//					}
 					multimessage = depot.remove(0);
 					this.address = multimessage.address;
+					if(Game.tests)
+						Test.testSendEmptyMessages(multimessage.message);
 					message = (multimessage.message).getBytes();
 					packet = new DatagramPacket(message, message.length, this.address, this.port);
 					packet.setData(message);
