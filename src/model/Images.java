@@ -32,7 +32,7 @@ public class Images {
 					// on load l'image
 					s = s.substring(0, s.length()-4);
 					im = new Image(name+s+".png");
-					this.images.put(s,im);
+					this.images.put(s.toLowerCase(),im);
 //					f = Images.class.getField(s);
 //					f.set(this, im);
 					//this.images.put(s, new Image(name+s+".png"));
@@ -60,8 +60,8 @@ public class Images {
 	}
 
 	public Image get(String name){
-		if(this.images.containsKey(name)){
-			return this.images.get(name);
+		if(this.images.containsKey(name.toLowerCase())){
+			return this.images.get(name.toLowerCase());
 		} else {
 			System.out.println("Error : trying to load an non-existing image : "+name);
 			try {
