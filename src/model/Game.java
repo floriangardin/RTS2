@@ -354,7 +354,8 @@ public class Game extends BasicGame
 				g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/40+4);
 				g.setColor(Color.black);
 				g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/40);
-				g.setColor(Color.blue);
+				float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
+				g.setColor(new Color(1f-x,0f,x));
 				g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/40);
 				g.setColor(Color.white);
 				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, 8*resY/10+resY/160);
@@ -715,7 +716,7 @@ public class Game extends BasicGame
 		} else if(endGame){
 
 			//Write replay
-			replay.write("test");
+			//replay.write("test");
 			if(this.musics.imperial.playing()){
 				this.musics.imperial.stop();
 			}
