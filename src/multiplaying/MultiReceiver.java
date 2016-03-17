@@ -77,6 +77,9 @@ public class MultiReceiver extends Thread{
 					} catch(java.net.SocketException e){
 						break;
 					}catch( java.net.SocketTimeoutException e){
+						if(!Game.g.isInMenu){
+							System.out.println("Multi receiver : SOCKET timeout");
+						}
 						Thread.sleep(0);
 					}
 				}
