@@ -856,7 +856,8 @@ public class Game extends BasicGame
 		g.clock.start();
 		g.chatHandler = new ChatHandler(g);
 
-		LoadingList.setDeferredLoading(false);
+		//TODO : to change to false
+		LoadingList.setDeferredLoading(true);
 		//g.setMenu(g.menuIntro);
 	}
 
@@ -1005,7 +1006,6 @@ public class Game extends BasicGame
 		}
 	}
 	private void handleAntidrop(GameContainer gc) {
-		//TODO
 		if(antidrop){
 			//UPDATE ROUND DURATION
 			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
