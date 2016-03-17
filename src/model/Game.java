@@ -245,7 +245,7 @@ public class Game extends BasicGame
 	public int animationLoadingSpearman=0;
 	private String lastThing;
 	private boolean waitLoading;
-
+	private DeferredResource nextResource;
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -578,7 +578,7 @@ public class Game extends BasicGame
 				waitLoading = true;
 				return;
 			}
-			DeferredResource nextResource = LoadingList.get().getNext(); 
+			nextResource = LoadingList.get().getNext(); 
 			try {
 				nextResource.load();
 				lastThing = nextResource.getDescription();
