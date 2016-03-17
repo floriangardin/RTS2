@@ -588,7 +588,7 @@ public class Game extends BasicGame
 			if(toGoTitle>0)
 				toGoTitle+=0.02f;
 			else
-				toGoTitle+=0.005f;
+				toGoTitle+=0.002f;
 			return;
 		} else if(!thingsLoaded){	
 			this.setMenu(menuIntro);
