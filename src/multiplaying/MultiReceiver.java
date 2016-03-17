@@ -54,27 +54,31 @@ public class MultiReceiver extends Thread{
 				}
 				message = new byte[10000];
 				packet = new DatagramPacket(message, message.length);
-				try{
-					server.receive(packet);
-					int a = (int)(System.nanoTime()/1e6);
-					if(!Game.g.isInMenu){
-						nbReception+=1;
-						if(nbReception==1){
+				// On récupère un message
+				while(true){
+					try{
+						server.receive(packet);
+						int a = (int)(System.nanoTime()/1e6);
+						if(!Game.g.isInMenu){
+							nbReception+=1;
+							if(nbReception==1){
+								tempsReception = (int) System.currentTimeMillis();
+							}else{
+								tempsReception = (int) (System.currentTimeMillis()-tempsReception);
+							}
+							if(debugReception)
+								System.out.println("reception du message: "+ tempsReception);
 							tempsReception = (int) System.currentTimeMillis();
-						}else{
-							tempsReception = (int) (System.currentTimeMillis()-tempsReception);
 						}
-						if(debugReception)
-							System.out.println("reception du message: "+ tempsReception);
-						tempsReception = (int) System.currentTimeMillis();
+						
+						// On a recu un message, on break pour traiter le message
+						break;
+						//System.out.println("-------------- réception d'un message : " + a);
+					} catch(java.net.SocketException e){
+						break;
+					}catch( java.net.SocketTimeoutException e){
+						Thread.sleep(0);
 					}
-					//System.out.println("-------------- réception d'un message : " + a);
-				} catch(java.net.SocketException e){
-					break;
-				}catch( java.net.SocketTimeoutException e){
-					System.out.println("Multi Receiver : Socket Timeout");
-					continue;
-					
 				}
 				String msg = new String(packet.getData());
 				if(Game.debugReceiver) 
