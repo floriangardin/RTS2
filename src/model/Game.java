@@ -356,24 +356,29 @@ public class Game extends BasicGame
 			g.fillRect(0, 0, resX, resY);
 			float toGoTitle2 = Math.max(0f,toGoTitle);
 			if(lastThing!=null && toGoTitle2==0f){
+				int startBarX = (int) (resX/10);
+				int startBarY = (int) (18*resY/20);
+				int sizeBarX = (int) (resX - 2*startBarX);
+				int sizeBarY = (int)(resY/40);
 				g.setColor(Color.white);
-				g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/40+4);
+				g.fillRect(startBarX-2, startBarY-2,sizeBarX+4, sizeBarY+4);
 				g.setColor(Color.black);
-				g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/40);
+				g.fillRect(startBarX, startBarY,sizeBarX, sizeBarY);
 				float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
 				g.setColor(new Color(1f-x,0f,x));
-				g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/40);
+				g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
 				g.setColor(Color.white);
-				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, 8*resY/10+resY/160);
-				this.animationLoadingSpearman=2;
-				this.animationLoadingSpearman=this.animationLoadingSpearman%4;
+				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, startBarY+sizeBarY/2-font.getHeight("H")/2);
+				this.animationLoadingSpearman++;
+				this.animationLoadingSpearman=this.animationLoadingSpearman%(Main.framerate/2);
 				int height = this.loadingSpearman.getHeight()/4;
 				int width = this.loadingSpearman.getWidth()/5;
-				int w = animationLoadingSpearman+1;
-				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX/3,6*resY/10);
-				g.setColor(Color.white);
-				String s = "Chargement...";
-				g.drawString(s, resX/2,6*resY/10+height/2-font.getHeight(s)/2);
+				int w = animationLoadingSpearman*8/Main.framerate+1;
+				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX-startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
+				g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
+//				g.setColor(Color.white);
+//				String s = "Chargement...";
+//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
 			}
 			Image temp = this.loadingBackground;
 			temp.setAlpha(toGoTitle2);
@@ -547,15 +552,15 @@ public class Game extends BasicGame
 				g.drawString("AntiDrop done", 30f,  90f);
 				g.fillRect(10f,90f,15f,15f);
 			}
+			if(!inEditor){
+				g.setColor(Color.white);
+				this.drawPing(g);
+				
+			}
 		}
 		this.chatHandler.draw(g);
 		//		if(debugTimeSteps)
 		//			System.out.println("fin du render : "+(System.currentTimeMillis()-timeSteps));
-		if(!inEditor){
-			g.setColor(Color.white);
-			this.drawPing(g);
-
-		}
 		//		Runtime runtime = Runtime.getRuntime();
 		//
 		//		NumberFormat format = NumberFormat.getInstance();
