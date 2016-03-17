@@ -241,7 +241,7 @@ public class Game extends BasicGame
 	public Image loadingSpearman;
 	public Image loadingTitle;
 	public Image loadingBackground;
-	public float toGoTitle = -1f;
+	public float toGoTitle = -0f;
 	public int animationLoadingSpearman=0;
 	private String lastThing;
 	private boolean waitLoading;
@@ -574,6 +574,11 @@ public class Game extends BasicGame
 		if (LoadingList.get().getRemainingResources() > 0) { 
 			if(waitLoading == false){
 				waitLoading = true;
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				return;
 			}
 			nextResource = LoadingList.get().getNext(); 
@@ -829,6 +834,8 @@ public class Game extends BasicGame
 
 	public void handleEndLoading(){
 		Map.initializePlateau(g, 1f, 1f);
+		app.setMinimumLogicUpdateInterval(1000/Main.framerate);
+		app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 
 		//FLO INPUTS
 		g.inputsHandler = new InputHandler(g);
