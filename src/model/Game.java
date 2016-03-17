@@ -1,6 +1,5 @@
 
 package model;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -65,7 +64,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
-	public static boolean debugDisplayDebug = true;
+	public static boolean debugDisplayDebug = false;
 
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
