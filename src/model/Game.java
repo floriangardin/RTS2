@@ -42,6 +42,7 @@ import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
 import spells.SpellEffect;
+import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
 import buildings.Bonus;
@@ -891,8 +892,15 @@ public class Game extends BasicGame
 			return;
 		}
 		for(int i=1; i<this.nPlayers; i++){
-			if(i!=currentPlayer.id)
+			if(i!=currentPlayer.id){
+				if(tests)
+					try {
+						Test.testSendEmptyMessages(toSendThisTurn);
+					} catch (FatalGillesError e) {
+						e.printStackTrace();
+					}
 				this.toSend.add(new MultiMessage(toSendThisTurn,this.players.get(i).address));
+			}
 		}
 		toSendThisTurn="";
 	}
