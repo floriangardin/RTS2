@@ -22,7 +22,7 @@ public class MenuMapChoice extends Menu {
 	public int selected = 0;
 	public int mapSelected = 0;
 	public Vector<String> maps = Map.maps();
-	
+
 	public Vector<InetAddress> addressesInvites = new Vector<InetAddress>();
 
 	public Vector<Menu_MapChoice> mapchoices;
@@ -119,7 +119,7 @@ public class MenuMapChoice extends Menu {
 		// drawing local ip
 		g.setColor(Color.white);
 		g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
-		
+
 		if(startGame!=0){
 			// drawing countdown to launch game
 			g.setColor(Color.white);
@@ -482,7 +482,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// checking if there is a missing player
 			if(civ.length<this.game.players.size()){
-				System.out.println("MMC line 485: missing player");
+				//System.out.println("MMC line 485: missing player");
 				// we reparse all informations and set again the currentPlayer to the right location
 				this.game.clearPlayer();
 				Player p;
@@ -508,7 +508,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// adding new player if needed
 			if(civ.length>this.game.players.size()){
-				System.out.println("MMC line 511: new player");
+				//System.out.println("MMC line 511: new player");
 				try {
 					this.game.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}
@@ -527,7 +527,9 @@ public class MenuMapChoice extends Menu {
 					this.menuPlayers.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
 					this.menuPlayers.get(i).p.nickname =  nickname[i];
 					this.menuPlayers.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
-					this.menuPlayers.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
+					if(this.menuPlayers.get(i).p.bottomBar.resX!=(int) Float.parseFloat(resX[i]) || this.menuPlayers.get(i).p.bottomBar.resY!=(int) Float.parseFloat(resY[i])){
+						this.menuPlayers.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
+					}
 					this.game.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
 					try {
 						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
@@ -546,7 +548,7 @@ public class MenuMapChoice extends Menu {
 		if(hs.containsKey("stT")){
 			this.startGame = Long.parseLong(hs.get("stT"));
 		}
-		
+
 	}
 
 	public void initialize(){
