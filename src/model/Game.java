@@ -669,7 +669,7 @@ public class Game extends BasicGame
 				this.toSendThisTurn+="1"+im.toString()+"%";
 				this.inputsHandler.addToInputs(im);
 				this.handleChecksum();
-				//this.handlePing();
+				this.handlePing();
 				//this.handleSendingResynchroParse();
 				//this.handleResynchro();
 				this.send();
