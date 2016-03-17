@@ -243,6 +243,7 @@ public class Game extends BasicGame
 	public float toGoTitle = -1f;
 	public int animationLoadingSpearman=0;
 	private String lastThing;
+	private boolean waitLoading;
 
 
 	public void quitMenu(){
@@ -572,6 +573,10 @@ public class Game extends BasicGame
 	public void update(GameContainer gc, int t) throws SlickException{
 		// Initializing engine
 		if (LoadingList.get().getRemainingResources() > 0) { 
+			if(waitLoading == false){
+				waitLoading = true;
+				return;
+			}
 			DeferredResource nextResource = LoadingList.get().getNext(); 
 			try {
 				nextResource.load();
@@ -579,6 +584,7 @@ public class Game extends BasicGame
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			waitLoading = false;
 			return;
 		} else if(!plateauLoaded){
 			this.handleEndLoading();
