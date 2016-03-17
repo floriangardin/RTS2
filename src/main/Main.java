@@ -36,7 +36,7 @@ public class Main {
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-
+			app.setIcon("pics/danger/gillesIcon.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,pleinEcran);
