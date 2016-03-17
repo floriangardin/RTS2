@@ -345,8 +345,6 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		g.setColor(Color.black);
-		g.fillRect(0, 0, resX, resY);
 		if(!thingsLoaded){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, resX, resY);
@@ -589,6 +587,7 @@ public class Game extends BasicGame
 				allLoaded = true;
 			}
 			waitLoading = false;
+			System.out.println(lastThing+" "+t+" ms.");
 			return;
 		} else if(!allLoaded) {
 			return;
