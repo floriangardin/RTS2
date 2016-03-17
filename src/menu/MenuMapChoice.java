@@ -171,7 +171,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// checking disconnecting players
 			int toRemove = -1;
-			if(game.host && this.startGame!=0 && seconds>3){
+			if(game.host && this.startGame==0 && seconds>2){
 				for(int i=2 ; i<this.menuPlayers.size(); i++){
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){

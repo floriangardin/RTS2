@@ -30,6 +30,12 @@ public class Images {
 	public Image windmill;
 	public Image windmillarms;
 	public Image grassTexture;
+	
+	// topbar
+	public Image imageGold;
+	public Image imageFood;
+	public Image imageSpecial;
+	public Image imagePop;
 
 	//Units
 	public Image spearman_move;
@@ -136,6 +142,12 @@ public class Images {
 			this.fire = new Image("pics/fire.png");
 			this.blessedArea = new Image("pics/blessedArea.png");
 			this.smoke = new Image("pics/smoke.png");
+			
+			//top bar
+			this.imageGold = new Image("pics/ressources.png");
+			this.imageFood = new Image("pics/ressources.png");
+			this.imageSpecial = new Image("pics/faith.png");
+			this.imagePop = new Image("pics/pop.png");
 
 			
 			//Units

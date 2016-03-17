@@ -1,13 +1,12 @@
 package display;
 
+import model.Game;
+import model.Plateau;
+import model.Utils;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-
-import model.Plateau;
-import model.Player;
-import model.Utils;
 
 public class TopBar extends Bar {
 
@@ -27,25 +26,11 @@ public class TopBar extends Bar {
 
 		this.p = p ;
 		this.update(resX, resY);
-		try {
-			int taille = 24;
-			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
-			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
-			this.imageSpecial = new Image("pics/faith.png");
-			this.imagePop = new Image("pics/pop.png").getScaledCopy(32, 32);
-
-			//			this.imageFood = new Image("pics/interface/topBarBouffe.png");
-			//			this.imageFood = this.imageFood.getScaledCopy((p.g.resX/7)/(this.imageFood.getWidth()));
-			//			this.imageGold = new Image("pics/interface/topBarOr.png");
-			//			this.imageGold = this.imageGold.getScaledCopy((p.g.resX/7)/(this.imageGold.getWidth()));
-			//			this.imageTimer = new Image("pics/interface/topBarTime.png");
-			//			this.imageTimer = this.imageTimer.getScaledCopy((p.g.resX/7)/(this.imageTimer.getWidth()));
-			//this.background = new Image("pics/menu/bottombar.png").getSubImage(0,626-(int)sizeY,1680,(int) sizeY);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		int taille = 24;
+		this.imageGold = Game.g.images.imageGold.getSubImage(7*taille ,15*taille ,taille, taille);
+		this.imageFood = Game.g.images.imageGold.getSubImage(7*taille, taille, taille, taille);
+		this.imageSpecial = Game.g.images.imageSpecial;
+		this.imagePop = Game.g.images.imagePop.getScaledCopy(32, 32);
 	}
 
 	public void update(int resX, int resY){
