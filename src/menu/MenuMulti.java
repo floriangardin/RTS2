@@ -58,9 +58,9 @@ public class MenuMulti extends Menu {
 		sizeXGames = this.game.resX/2;
 		startYGames = 0.37f*this.game.resY;
 		sizeYGames = this.game.resY*(0.95f-0.37f);
-		this.items.addElement(new Menu_Item(startX,startY+1*stepY,"heberger",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"rejoindre",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"retour",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Heberger",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Rejoindre",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",this.game,true));
 
 	}
 

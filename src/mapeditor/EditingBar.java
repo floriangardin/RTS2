@@ -3,14 +3,14 @@ package mapeditor;
 import java.io.File;
 import java.util.Vector;
 
+import menu.Menu_TextScanner;
+import model.Game;
+import multiplaying.InputObject;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-
-import menu.Menu_TextScanner;
-import multiplaying.InputObject;
 
 public class EditingBar {
 
@@ -72,22 +72,19 @@ public class EditingBar {
 		this.textScanner.autocompletion = mapNames;
 		this.scannerSizeX = new Menu_TextScanner(sizeXs, sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f, editor.game);
 		this.scannerSizeY = new Menu_TextScanner(sizeYs, 4*sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f, editor.game);
-		try {
-			this.iconExit = new Image("pics/icons/iconExit.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconNewFile = new Image("pics/icons/iconNewFile.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconOpenFile = new Image("pics/icons/iconOpenFile.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconSaveFile = new Image("pics/icons/iconSaveFile.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconGridOff = new Image("pics/icons/iconGridOff.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconCamOn = new Image("pics/icons/iconCameraOn.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconCamOff = new Image("pics/icons/iconCameraOff.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconCollisionOff = new Image("pics/icons/iconCollisionOff.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconGridOn = new Image("pics/icons/iconGridOn.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconCollisionOn = new Image("pics/icons/iconCollisionOn.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconZoomPlus = new Image("pics/icons/iconZoomPlus.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-			this.iconZoomMoins = new Image("pics/icons/iconZoomMoins.png").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		} catch (SlickException e) {
+		this.iconExit = Game.g.images.get("iconExit").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconNewFile = Game.g.images.get("iconNewFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconOpenFile = Game.g.images.get("iconOpenFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconSaveFile = Game.g.images.get("iconSaveFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconGridOff = Game.g.images.get("iconGridOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCamOn = Game.g.images.get("iconCamOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCamOff = Game.g.images.get("iconCamOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCollisionOff = Game.g.images.get("iconCollisionOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconGridOn = Game.g.images.get("iconGridOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCollisionOn = Game.g.images.get("iconCollisionOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconZoomPlus = Game.g.images.get("iconZoomPlus").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconZoomMoins = Game.g.images.get("iconZoomMoins").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 
-		}
 	}
 
 	public void callItem(int i){
@@ -168,7 +165,7 @@ public class EditingBar {
 		default:
 		}
 	}
-	
+
 
 	public void update(InputObject im, Input in){
 		// items de gauche

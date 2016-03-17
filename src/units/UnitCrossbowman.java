@@ -43,10 +43,10 @@ public class UnitCrossbowman extends Character {
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		
 		if(this.getGameTeam().id==1){
-			this.image = this.p.g.images.crossbowmanBlue;
+			this.image = this.p.g.images.get("crossbowmanBlue");
 		}
 		else{
-			this.image = this.p.g.images.crossbowmanRed;
+			this.image = this.p.g.images.get("crossbowmanRed");
 		}
 		this.civ = 0;
 		this.range = 300f*Main.ratioSpace;

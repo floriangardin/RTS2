@@ -2,13 +2,9 @@ package nature;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
-import model.Game;
 import model.Map;
 import model.NaturalObjet;
 import model.Objet;
@@ -32,16 +28,16 @@ public class Tree extends NaturalObjet {
 		p.addNaturalObjets(this);
 		switch(type){
 		case 1:
-			this.image = this.p.g.images.tree01.getScaledCopy(2.5f*sizeX/p.g.images.tree01.getWidth());
+			this.image = this.p.g.images.get("tree01").getScaledCopy(2.5f*sizeX/p.g.images.get("tree01").getWidth());
 			break;
 		case 2:
-			this.image = this.p.g.images.tree02.getScaledCopy(2.5f*sizeX/p.g.images.tree01.getWidth());
+			this.image = this.p.g.images.get("tree02").getScaledCopy(2.5f*sizeX/p.g.images.get("tree01").getWidth());
 			break;
 		case 3:
-			this.image = this.p.g.images.tree03.getScaledCopy(2.5f*sizeX/p.g.images.tree01.getWidth());
+			this.image = this.p.g.images.get("tree03").getScaledCopy(2.5f*sizeX/p.g.images.get("tree01").getWidth());
 			break;
 		case 4:
-			this.image = this.p.g.images.tree04.getScaledCopy(2.5f*sizeX/p.g.images.tree01.getWidth());
+			this.image = this.p.g.images.get("tree04").getScaledCopy(2.5f*sizeX/p.g.images.get("tree01").getWidth());
 			break;
 		default:
 		}

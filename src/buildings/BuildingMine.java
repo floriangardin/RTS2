@@ -32,7 +32,7 @@ public class BuildingMine extends BuildingTech{
 		this.p =p;
 		this.g =g;
 		this.type = 0;
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		this.name= "mine";
 		this.setTeam(team);
 		this.soundSelection = new Vector<Sound>();
@@ -45,11 +45,11 @@ public class BuildingMine extends BuildingTech{
 		this.sight = getGameTeam().data.mineSight;
 		this.initialize(f, h);
 		if(getTeam()==1){
-			this.image = this.p.g.images.buildingMineBlue;
+			this.image = this.p.g.images.get("buildingMineBlue");
 		} else if(getTeam()==2){
-			this.image = this.p.g.images.buildingMineRed;
+			this.image = this.p.g.images.get("buildingMineRed");
 		} else {
-			this.image = this.p.g.images.buildingMineNeutral;
+			this.image = this.p.g.images.get("buildingMineNeutral");
 		}
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();

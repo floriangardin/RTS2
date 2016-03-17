@@ -141,75 +141,75 @@ public class Building extends ActionObjet{
 
 	public void updateImage(){
 		if(this instanceof BuildingBarrack){
-			this.imageNeutre = this.p.g.images.buildingBarrackNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingBarrackNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingBarrackBlue;
+				this.image = this.p.g.images.get("buildingBarrackBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingBarrackRed;
+				this.image = this.p.g.images.get("buildingBarrackRed");
 			} else {
-				this.image = this.p.g.images.buildingBarrackNeutral;
+				this.image = this.p.g.images.get("buildingBarrackNeutral");
 			}
 		}
 
 		else if(this instanceof BuildingStable){
-			this.imageNeutre = this.p.g.images.buildingStableNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingStableNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingStableBlue;
+				this.image = this.p.g.images.get("buildingStableBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingStableRed;
+				this.image = this.p.g.images.get("buildingStableRed");
 			} else {
-				this.image = this.p.g.images.buildingStableNeutral;
+				this.image = this.p.g.images.get("buildingStableNeutral");
 			}
 		}
 		else if(this instanceof BuildingAcademy){
-			this.imageNeutre = this.p.g.images.buildingAcademyNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingAcademyNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingAcademyBlue;
+				this.image = this.p.g.images.get("buildingAcademyBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingAcademyRed;
+				this.image = this.p.g.images.get("buildingAcademyRed");
 			} else {
-				this.image = this.p.g.images.buildingAcademyNeutral;
+				this.image = this.p.g.images.get("buildingAcademyNeutral");
 			}
 		}
 		else if(this instanceof BuildingMill){
-			this.imageNeutre = this.p.g.images.buildingMillNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingMillNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingMillBlue;
+				this.image = this.p.g.images.get("buildingMillBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingMillRed;
+				this.image = this.p.g.images.get("buildingMillRed");
 			} else {
-				this.image = this.p.g.images.buildingMillNeutral;
+				this.image = this.p.g.images.get("buildingMillNeutral");
 			}
 		}
 		else if(this instanceof BuildingMine){
-			this.imageNeutre = this.p.g.images.buildingMineNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingMineNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingMineBlue;
+				this.image = this.p.g.images.get("buildingMineBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingMineRed;
+				this.image = this.p.g.images.get("buildingMineRed");
 			} else {
-				this.image = this.p.g.images.buildingMineNeutral;
+				this.image = this.p.g.images.get("buildingMineNeutral");
 			}
 		}
 		else if(this instanceof BuildingUniversity){
-			this.imageNeutre = this.p.g.images.buildingUniversityNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingUniversityNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingUniversityBlue;
+				this.image = this.p.g.images.get("buildingUniversityBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingUniversityRed;
+				this.image = this.p.g.images.get("buildingUniversityRed");
 			} else {
-				this.image = this.p.g.images.buildingUniversityNeutral;
+				this.image = this.p.g.images.get("buildingUniversityNeutral");
 			}
 		}
 
 		else if(this instanceof BuildingTower){
-			this.imageNeutre = this.p.g.images.buildingTowerNeutral;
+			this.imageNeutre = this.p.g.images.get("buildingTowerNeutral");
 			if(getTeam()==1){
-				this.image = this.p.g.images.buildingTowerBlue;
+				this.image = this.p.g.images.get("buildingTowerBlue");
 			} else if(getTeam()==2){
-				this.image = this.p.g.images.buildingTowerRed;
+				this.image = this.p.g.images.get("buildingTowerRed");
 			} else {
-				this.image = this.p.g.images.buildingTowerNeutral;
+				this.image = this.p.g.images.get("buildingTowerNeutral");
 			}
 
 		}

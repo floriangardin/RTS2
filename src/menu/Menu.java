@@ -20,8 +20,8 @@ public abstract class Menu {
 	public Menu(Game g){
 		this.game = g;
 		this.items = new Vector<Menu_Item>();
-		this.title = game.images.title.getScaledCopy(0.35f*this.game.resY/650);
-		this.backGround = game.images.backGround.getScaledCopy(0.35f*this.game.resY/650);
+		this.title = game.images.get("menuTitle01").getScaledCopy(0.35f*this.game.resY/650);
+		this.backGround = game.images.get("backgroundMenu").getScaledCopy(0.35f*this.game.resY/650);
 
 	}
 

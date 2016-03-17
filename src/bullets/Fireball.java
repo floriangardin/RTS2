@@ -42,10 +42,10 @@ public class Fireball extends Bullet {
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
-		this.image = (this.p.g.images.fireball).getSubImage(0, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-		this.image1 = (this.p.g.images.fireball).getSubImage(75, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-		this.image2 = (this.p.g.images.fireball).getSubImage(150, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-		this.boom = this.p.g.images.explosion.getScaledCopy(Main.ratioSpace);
+		this.image = (this.p.g.images.get("fireball")).getSubImage(0, 150, 75, 75).getScaledCopy(Main.ratioSpace);
+		this.image1 = (this.p.g.images.get("fireball")).getSubImage(75, 150, 75, 75).getScaledCopy(Main.ratioSpace);
+		this.image2 = (this.p.g.images.get("fireball")).getSubImage(150, 150, 75, 75).getScaledCopy(Main.ratioSpace);
+		this.boom = this.p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;

@@ -57,7 +57,7 @@ public class SelectionInterface extends Bar {
 			int compteur = 0;
 			if(b.queue.size()>0){
 				for(int q : b.queue){
-					Image icone = this.parent.p.g.images.getIconByName(b.productionList.get(q).name);
+					Image icone = this.parent.p.g.images.get("icon"+b.productionList.get(q).name);
 					if(compteur ==0){
 						//Show icons
 						//Show production bar

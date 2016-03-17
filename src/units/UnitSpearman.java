@@ -45,12 +45,12 @@ public class UnitSpearman extends Character {
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 
 		if(this.getGameTeam().id==1){
-			this.image = this.p.g.images.spearmanBlue;
-			this.animationAttack = this.p.g.images.attackSpearmanBlue;
+			this.image = this.p.g.images.get("spearmanBlue");
+			this.animationAttack = this.p.g.images.get("attackSpearmanBlue");
 		}
 		else{
-			this.image = this.p.g.images.spearmanRed;
-			this.animationAttack = this.p.g.images.attackSpearmanRed;
+			this.image = this.p.g.images.get("spearmanRed");
+			this.animationAttack = this.p.g.images.get("attackSpearmanRed");
 		}
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);

@@ -32,12 +32,12 @@ public class MenuIntro extends Menu {
 		float startX = this.game.resX/2;
 		
 		// handling items
-		this.items.addElement(new Menu_Item(startX,startY,"unjoueur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"multijoueur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"editeur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"options",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"credits",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"quitter",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY,"Unjoueur",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"Multijoueur",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"Editeur",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"Options",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"Credits",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"Quitter",this.game,true));
 
 		//		}
 	}

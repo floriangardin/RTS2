@@ -118,19 +118,19 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.sight = this.getGameTeam().data.headQuartersSight;
 		maxLifePoints = getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 5;
 
 		this.initialize(f,h);
 		this.constructionPoints = this.maxLifePoints;
 		if(this.getTeam() == 1){
-			this.image = this.p.g.images.buildingHeadQuartersBlue;
+			this.image = this.p.g.images.get("buildingHeadQuartersBlue");
 		}
 		else if(this.getTeam() == 2){
-			this.image = this.p.g.images.buildingHeadQuartersRed;
+			this.image = this.p.g.images.get("buildingHeadQuartersRed");
 		}
 		else {
-			this.image = this.p.g.images.tent;
+			this.image = this.p.g.images.get("tent");
 		}
 		// List of potential production 
 		this.techsDiscovered = new Vector<Technologie>();

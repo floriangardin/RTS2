@@ -16,7 +16,7 @@ public class SpellConversion extends Spell{
 		this.chargeTime = 200f;
 		this.faithCost = 2f;
 		this.name = "Conversion";
-		this.icon = p.g.images.spellConversion;
+		this.icon = p.g.images.get("spellConversion");
 		this.range = 50f*Main.ratioSpace;
 		this.damage = 0f;
 		this.gameteam = gameteam;

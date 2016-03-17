@@ -42,7 +42,7 @@ public class Firewall extends SpellEffect{
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		image = p.g.images.explosion.getScaledCopy(Main.ratioSpace);
+		image = p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();

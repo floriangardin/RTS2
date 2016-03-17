@@ -38,10 +38,10 @@ public class UnitInquisitor extends Character {
 		this.animStep = 24f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		if(this.getGameTeam().id==1){
-			this.image = this.p.g.images.inquisitorBlue;
+			this.image = this.p.g.images.get("inquisitorBlue");
 		}
 		else{
-			this.image = this.p.g.images.inquisitorRed;
+			this.image = this.p.g.images.get("inquisitorRed");
 		}
 		
 		this.spells.add(data.immolation);

@@ -26,17 +26,17 @@ public class BuildingAcademy extends BuildingProduction {
 		this.sight = this.getGameTeam().data.academySight;
 		this.initialize(f, h);
 		this.name = "academy";
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 4;
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.academySound);
 		this.g = g;
 		if(this.getTeam()==1){
-			this.image = this.p.g.images.buildingAcademyBlue;
+			this.image = this.p.g.images.get("buildingAcademyBlue");
 		} else if(this.getTeam()==2){
-			this.image = this.p.g.images.buildingAcademyRed;
+			this.image = this.p.g.images.get("buildingAcademyRed");
 		} else {
-			this.image = this.p.g.images.buildingAcademyNeutral;
+			this.image = this.p.g.images.get("buildingAcademyNeutral");
 		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();

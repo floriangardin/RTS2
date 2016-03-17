@@ -57,15 +57,11 @@ public class ActionInterface extends Bar {
 		toDrawDescription[4] = false;
 
 		this.buildingToShow = null;
-		try {
-			int taille = 24;
-			this.imageGold = new Image("pics/ressources.png").getSubImage(7*taille ,15*taille ,taille, taille);
-			this.imageFood = new Image("pics/ressources.png").getSubImage(7*taille, taille, taille, taille);
-			this.imageSpecial = new Image("pics/arrow.png");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		int taille = 24;
+		this.imageGold = Game.g.images.get("imageGold").getSubImage(7*taille ,15*taille ,taille, taille);
+		this.imageFood = Game.g.images.get("imageFood").getSubImage(7*taille, taille, taille, taille);
+		this.imageSpecial = Game.g.images.get("imageSpecial");
+
 	}
 	public Graphics draw(Graphics g){
 		// Draw the potential actions
@@ -89,7 +85,7 @@ public class ActionInterface extends Bar {
 			int limit = Math.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(this.p.g.images.getIconByName(ul.get(i).name), this.x+2f, this.y+2f + i*this.sizeX, this.x-5f+this.sizeX, this.y+2f+(i+1)*(sizeX-5), 0, 0, 512,512);
+				g.drawImage(this.p.g.images.get("icon"+ul.get(i).name), this.x+2f, this.y+2f + i*this.sizeX, this.x-5f+this.sizeX, this.y+2f+(i+1)*(sizeX-5), 0, 0, 512,512);
 				g.setColor(Color.white);
 				g.setColor(this.p.g.currentPlayer.getGameTeam().color);
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);

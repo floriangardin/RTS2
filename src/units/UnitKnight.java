@@ -45,12 +45,12 @@ public class UnitKnight extends Character {
 		this.soundSelection = this.p.g.sounds.selectionSpearman;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		if(this.getGameTeam().id==1){
-			this.image = this.p.g.images.knightBlue;
-			//this.animationAttack = this.p.g.images.attackSpearmanBlue;
+			this.image = this.p.g.images.get("knightBlue");
+			//this.animationAttack = this.p.g.images.get("attackSpearmanBlue;
 		}
 		else{
-			this.image = this.p.g.images.knightRed;
-			//this.animationAttack = this.p.g.images.attackSpearmanRed;
+			this.image = this.p.g.images.get("knightRed");
+			//this.animationAttack = this.p.g.images.get("attackSpearmanRed;
 		}
 		
 	}

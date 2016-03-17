@@ -40,7 +40,7 @@ public class BlessedArea extends SpellEffect{
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		this.image = p.g.images.blessedArea;
+		this.image = p.g.images.get("blessedArea");
 		owner = launcher;
 		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
 		this.x = t.getX();

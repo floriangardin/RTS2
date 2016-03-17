@@ -93,7 +93,7 @@ public class MinimapInterface extends Bar {
 
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.drawImage(this.p.g.images.grassTexture,startX, startY, startX+w, startY+h,0,0,this.p.g.images.grassTexture.getWidth(),this.p.g.images.grassTexture.getHeight());
+		g.drawImage(this.p.g.images.get("islandTexture"),startX, startY, startX+w, startY+h,0,0,this.p.g.images.get("islandTexture").getWidth(),this.p.g.images.get("islandTexture").getHeight());
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.green);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);

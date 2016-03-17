@@ -18,7 +18,7 @@ public class SpellDash extends Spell{
 		this.chargeTime = 500f;
 		this.p = p;
 		this.name = "Dash";
-		this.icon = p.g.images.iconeSpearman;
+		this.icon = p.g.images.get("iconSpearman");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 1f;

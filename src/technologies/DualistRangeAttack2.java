@@ -1,11 +1,8 @@
 package technologies;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import model.GameTeam;
 import model.Plateau;
-import model.Player;
 import units.Character;
 import units.UnitCrossbowman;
 import units.UnitInquisitor;
@@ -15,15 +12,7 @@ public class DualistRangeAttack2 extends Technologie {
 	public DualistRangeAttack2(Plateau p, GameTeam gameteam) {
 		this.id = 9;
 		this.tech = Technologies.DualistRangeAttack2;
-		this.name = tech.name;
-		this.p = p;
-		this.gameteam = gameteam;
-		this.data = this.gameteam.data;
-		try {
-			this.icon = new Image("pics/tech/rangeAttack2.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.initialize(p, gameteam,tech);
 	}
 	
 	public void applyEffect(){

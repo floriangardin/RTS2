@@ -27,10 +27,10 @@ public class TopBar extends Bar {
 		this.p = p ;
 		this.update(resX, resY);
 		int taille = 24;
-		this.imageGold = Game.g.images.imageGold.getSubImage(7*taille ,15*taille ,taille, taille);
-		this.imageFood = Game.g.images.imageGold.getSubImage(7*taille, taille, taille, taille);
-		this.imageSpecial = Game.g.images.imageSpecial;
-		this.imagePop = Game.g.images.imagePop.getScaledCopy(32, 32);
+		this.imageGold = Game.g.images.get("imageGold").getSubImage(7*taille ,15*taille ,taille, taille);
+		this.imageFood = Game.g.images.get("imageGold").getSubImage(7*taille, taille, taille, taille);
+		this.imageSpecial = Game.g.images.get("imageSpecial");
+		this.imagePop = Game.g.images.get("imagePop").getScaledCopy(32, 32);
 	}
 
 	public void update(int resX, int resY){

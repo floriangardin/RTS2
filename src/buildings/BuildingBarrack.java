@@ -32,16 +32,16 @@ public class BuildingBarrack extends BuildingProduction{
 		this.name = "barrack";
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.barrackSound);
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 3;
 		this.initialize(f, h);
 		this.g = g;
 		if(getTeam()==1){
-			this.image = this.p.g.images.buildingBarrackBlue;
+			this.image = this.p.g.images.get("buildingBarrackBlue");
 		} else if(getTeam()==2){
-			this.image = this.p.g.images.buildingBarrackRed;
+			this.image = this.p.g.images.get("buildingBarrackRed");
 		} else {
-			this.image = this.p.g.images.buildingBarrackNeutral;
+			this.image = this.p.g.images.get("buildingBarrackNeutral");
 		}
 		// List of potential production (Spearman)
 		this.queue = new Vector<Integer>();

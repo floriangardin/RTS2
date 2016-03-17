@@ -1,11 +1,8 @@
 package technologies;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import model.GameTeam;
 import model.Plateau;
-import model.Player;
 import units.Character;
 import units.UnitKnight;
 import units.UnitSpearman;
@@ -15,15 +12,7 @@ public class DualistContact3 extends Technologie {
 	public DualistContact3(Plateau p, GameTeam gameteam) {
 		this.id = 11;
 		this.tech = Technologies.DualistContactAttack3;
-		this.name = tech.name;
-		this.p = p;
-		this.gameteam = gameteam;
-		this.data = this.gameteam.data;
-		try {
-			this.icon = new Image("pics/tech/contact3.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.initialize(p, gameteam, tech);
 	}
 	
 	public void applyEffect(){

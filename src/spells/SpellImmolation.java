@@ -15,7 +15,7 @@ public class SpellImmolation extends Spell{
 	public SpellImmolation(Plateau p, GameTeam gameteam){
 		this.chargeTime = 0f;
 		this.name = "Immolation";
-		this.icon = p.g.images.spellImmolation;
+		this.icon = p.g.images.get("spellImmolation");
 		this.range = 0f;
 		this.damage = 0f;
 		this.remainingTime = 75f;

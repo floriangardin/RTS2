@@ -1,11 +1,8 @@
 package technologies;
 
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import model.GameTeam;
 import model.Plateau;
-import model.Player;
 import units.Character;
 
 public class DualistEagleView extends Technologie {
@@ -13,16 +10,7 @@ public class DualistEagleView extends Technologie {
 	public DualistEagleView(Plateau p, GameTeam gameteam) {
 		this.id = 13;
 		this.tech = Technologies.EagleView;
-		this.name = "Eagle View";
-		this.p = p;
-		this.gameteam = gameteam;
-		this.data = this.gameteam.data;
-
-		try {
-			this.icon = new Image("pics/tech/eagleView.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.initialize(p, gameteam,tech);
 	}
 
 	public void applyEffect(){

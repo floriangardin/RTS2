@@ -28,7 +28,7 @@ public class BuildingMill extends BuildingTech{
 		this.g =g;
 		this.setTeam(team);
 		this.type = 1;
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		this.name= "mill";
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.millSound);
@@ -40,11 +40,11 @@ public class BuildingMill extends BuildingTech{
 		this.sight = p.g.players.get(getTeam()).data.millSight;
 		this.initialize(f, h);
 		if(getTeam()==1){
-			this.image = this.p.g.images.buildingMillBlue;
+			this.image = this.p.g.images.get("buildingMillBlue");
 		} else if(getTeam()==2){
-			this.image = this.p.g.images.buildingMillRed;
+			this.image = this.p.g.images.get("buildingMillRed");
 		} else {
-			this.image = this.p.g.images.buildingMillNeutral;
+			this.image = this.p.g.images.get("buildingMillNeutral");
 		}
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
@@ -97,7 +97,7 @@ public class BuildingMill extends BuildingTech{
 	
 	public void drawAnimation(Graphics g){
 		if(getTeam()!=0){
-			g.drawImage(this.p.g.images.smoke, this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+			g.drawImage(this.p.g.images.get("smoke"), this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
 		}
 	}
 }

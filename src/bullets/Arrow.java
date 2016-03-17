@@ -49,10 +49,10 @@ public class Arrow extends CollisionBullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.g.images.arrow.getScaledCopy(2f*Main.ratioSpace);
+		this.image = p.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
 		this.image.rotate(this.angle);
 		
-		this.shadow = p.g.images.arrow.getScaledCopy(2f*Main.ratioSpace);
+		this.shadow = p.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
 		this.shadow.rotate(this.angle);
 	
 		this.sound = p.g.sounds.arrow;

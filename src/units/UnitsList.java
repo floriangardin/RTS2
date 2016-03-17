@@ -2,12 +2,12 @@ package units;
 
 public enum UnitsList {
 
-	Knight("knight",100f,50f,0f,80f),
-	Crossbowman("crossbowman",50f,50f,0f,60f),
-	Priest("priest",50f,100f,0f,60f),
-	Inquisitor("inquisitor",60f,100f,0f,80f),
-	Spearman("spearman",100f,0f,0f,60f),
-	Archange("archange",0f,0f,5f,0f),
+	Knight("Knight",100f,50f,0f,80f),
+	Crossbowman("Crossbowman",50f,50f,0f,60f),
+	Priest("Priest",50f,100f,0f,60f),
+	Inquisitor("Inquisitor",60f,100f,0f,80f),
+	Spearman("Spearman",100f,0f,0f,60f),
+	Archange("Archange",0f,0f,5f,0f),
 	Test("test",0f,0f,0f,0f);
 	
 	public String name = "";

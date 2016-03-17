@@ -9,7 +9,7 @@ public class BonusLifePoints extends Bonus{
 
 	public BonusLifePoints(Plateau p , float x , float y){
 		this.initialize(p, x, y);
-		this.image = this.p.g.images.bonusLifePoints.getScaledCopy(Main.ratioSpace);
+		this.image = this.p.g.images.get("bonusLifePoints").getScaledCopy(Main.ratioSpace);
 		this.bonus = 50f;
 
 	}

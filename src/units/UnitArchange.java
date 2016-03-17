@@ -37,9 +37,9 @@ public class UnitArchange extends Character {
 		this.spells.add(data.instantDeath);
 		this.spells.add(data.instantHealth);
 		if(this.getTeam()==1)
-			this.image = this.p.g.images.archangeBlue;
+			this.image = this.p.g.images.get("archangeBlue");
 		else
-			this.image = this.p.g.images.archangeRed;
+			this.image = this.p.g.images.get("archangeRed");
 	}
 
 	public UnitArchange(UnitArchange archange, float x, float y,int id) {

@@ -40,21 +40,21 @@ public class BuildingTower extends Building{
 		this.name = "tower";
 		this.chargeTime = this.gameteam.data.towerChargeTime;
 		this.sight = this.gameteam.data.towerSight;
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.towerSound);
 		if(getTeam()==1){
-			this.image = this.p.g.images.buildingTowerBlue;
+			this.image = this.p.g.images.get("buildingTowerBlue");
 		} else if(getTeam()==2){
-			this.image = this.p.g.images.buildingTowerRed;
+			this.image = this.p.g.images.get("buildingTowerRed");
 		} else {
-			this.image = this.p.g.images.buildingTowerNeutral;
+			this.image = this.p.g.images.get("buildingTowerNeutral");
 		}
 		this.initialize(f, h);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		canAttack = false;
-		this.animationBleu = this.p.g.images.buildingTowerBlueAnimation;
-		this.animationRouge = this.p.g.images.buildingTowerRedAnimation;
+		this.animationBleu = this.p.g.images.get("buildingTowerBlueAnimation");
+		this.animationRouge = this.p.g.images.get("buildingTowerRedAnimation");
 	}
 
 	public void action(){

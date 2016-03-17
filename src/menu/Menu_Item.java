@@ -1,13 +1,12 @@
 package menu;
 
+import model.Game;
+import model.Images;
+import multiplaying.InputObject;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-
-import model.Game;
-import multiplaying.InputObject;
 
 public class Menu_Item {
 
@@ -41,26 +40,21 @@ public class Menu_Item {
 			this.sizeY = this.image.getHeight();
 		}
 	}
-	
+
 	public Menu_Item(float x, float y, String name, Game game, boolean selectionnable){
 		this.game = game;
 		this.x = x;
 		this.y = y;
 		this.selectionable = selectionnable;
-		try {
-			this.image = new Image("pics/menu/"+name+".png").getScaledCopy(game.ratioResolution);
-			if(selectionnable){
-				this.selectedImage = new Image("pics/menu/"+name+"selected.png").getScaledCopy(game.ratioResolution);
-			}
-		} catch (SlickException e) {
-			System.out.println("Error Menu_Item line 63 : image manquante");
-		}
+		this.image = Game.g.images.get("menu"+name).getScaledCopy(game.ratioResolution);
+		if(selectionnable)
+			this.selectedImage = Game.g.images.get("menu"+name+"selected").getScaledCopy(game.ratioResolution);
 		this.toDraw = this.image;
 		this.sizeX = this.image.getWidth();
 		this.sizeY = this.image.getHeight();
 	}
 
-	
+
 	public boolean isMouseOver(InputObject im){
 		float xMouse = im.xMouse;
 		float yMouse = im.yMouse;

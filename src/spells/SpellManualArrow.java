@@ -17,7 +17,7 @@ public class SpellManualArrow extends Spell{
 		this.chargeTime = 100f;
 		this.p = p;
 		this.name = "Manual Arrow";
-		this.icon = p.g.images.iconeBowman;
+		this.icon = p.g.images.get("iconCrossbowman");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 60f;

@@ -11,15 +11,7 @@ public class DualistExplosion extends Technologie {
 	public DualistExplosion(Plateau p, GameTeam gameteam) {
 		this.id = 12;
 		this.tech = Technologies.DualistExplosion;
-		this.name = tech.name;
-		this.p = p;
-		this.gameteam = gameteam;
-		this.data = this.gameteam.data;
-		try {
-			this.icon = new Image("pics/tech/explosion.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.initialize(p, gameteam, tech);
 	}
 	
 	public void applyEffect(){

@@ -16,7 +16,7 @@ public class SpellFirewall extends Spell{
 		this.chargeTime = 450f;
 		this.p = p;
 		this.name = "Firewall";
-		this.icon = p.g.images.spellFirewall;
+		this.icon = p.g.images.get("spellFirewall");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 120f;

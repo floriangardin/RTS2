@@ -407,21 +407,21 @@ public class Game extends BasicGame
 			//g.setColor(Color.black);
 			g.translate(-plateau.Xcam,- plateau.Ycam);
 			//Draw background
-			g.drawImage(this.images.seaBackground, -this.plateau.maxX, -this.plateau.maxY,
-					2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.seaBackground.getWidth(),this.images.seaBackground.getHeight());
+			g.drawImage(this.images.get("seaBackground"), -this.plateau.maxX, -this.plateau.maxY,
+					2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.get("seaBackground").getWidth(),this.images.get("seaBackground").getHeight());
 
 
-			g.drawImage(this.images.grassTexture,0, 0, this.plateau.maxX, this.plateau.maxY,
-					0, 0, this.images.grassTexture.getWidth(),  this.images.grassTexture.getHeight());
+			g.drawImage(this.images.get("islandTexture"),0, 0, this.plateau.maxX, this.plateau.maxY,
+					0, 0, this.images.get("islandTexture").getWidth(),  this.images.get("islandTexture").getHeight());
 
 			//		int i = 0;
 			//		int j = 0;
-			//		while(i<this.plateau.maxX+this.images.grassTexture.getWidth()){
-			//			while(j<this.plateau.maxY+this.images.grassTexture.getHeight()){
-			//				g.drawImage(this.images.grassTexture, i,j);
-			//				j+=this.images.grassTexture.getHeight();
+			//		while(i<this.plateau.maxX+this.images.get("grassTexture.getWidth()){
+			//			while(j<this.plateau.maxY+this.images.get("grassTexture.getHeight()){
+			//				g.drawImage(this.images.get("grassTexture, i,j);
+			//				j+=this.images.get("grassTexture.getHeight();
 			//			}
-			//			i+=this.images.grassTexture.getWidth();
+			//			i+=this.images.get("grassTexture.getWidth();
 			//			j= 0;
 			//		}
 
@@ -429,8 +429,8 @@ public class Game extends BasicGame
 			//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
 			//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
 
-			//		g.drawImage(this.images.background,this.plateau.maxX, 0);
-			//		g.drawImage(this.images.background,0, this.plateau.maxY);
+			//		g.drawImage(this.images.get("background"),this.plateau.maxX, 0);
+			//		g.drawImage(this.images.get("background"),0, this.plateau.maxY);
 
 			//			MapGrid mapGrid = this.plateau.mapGrid;
 			//			g.setColor(Color.black);
@@ -808,9 +808,9 @@ public class Game extends BasicGame
 		Plateau.fog = new Image((int) (resX), (int) (resY));
 		Plateau.gf = Plateau.fog.getGraphics();
 
-		this.loadingSpearman = new Image("pics/unit/spearman_move_1.png");
-		this.loadingTitle = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.resY/650);
-		this.loadingBackground = new Image("pics/fondMenu.png").getScaledCopy(0.35f*this.resY/650);
+		this.loadingSpearman = new Image("pics/unit/spearmanBlue.png");
+		this.loadingTitle = new Image("pics/menu/menuTitle01.png").getScaledCopy(0.35f*this.resY/650);
+		this.loadingBackground = new Image("pics/backgroundMenu.png").getScaledCopy(0.35f*this.resY/650);
 
 		LoadingList.setDeferredLoading(true);
 

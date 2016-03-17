@@ -37,32 +37,27 @@ public class MenuOptions extends Menu {
 	public Image curseur;
 
 	public String nicknameString;
-	
+
 	public Menu_TextScanner textscanner;
 
 
 	public MenuOptions(Game game){
 		super(game);
-		try {
-			this.volume = new Image("pics/menu/volume.png").getScaledCopy(game.ratioResolution);
-			this.curseur = new Image("pics/menu/curseur.png").getScaledCopy(game.ratioResolution);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.volume = Game.g.images.get("menuVolume").getScaledCopy(game.ratioResolution);
+		this.curseur = Game.g.images.get("menuCurseur").getScaledCopy(game.ratioResolution);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 0.50f*this.game.resY;
 		float stepY = 0.12f*this.game.resY;
 		float startX = this.game.resX/2;
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+0*stepY,"musique",this.game,false));
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+1*stepY,"son",this.game,false));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"retour",this.game,true));
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+2*stepY,"pseudo",this.game,false));
+		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+0*stepY,"Musique",this.game,false));
+		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+1*stepY,"Son",this.game,false));
+		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",this.game,true));
+		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+2*stepY,"Pseudo",this.game,false));
 		this.textscanner = new Menu_TextScanner(game.options.nickname,2*this.game.resX/3f,startY+2f*stepY,this.game.font.getWidth("Gilles de Bouard "),this.game.font.getHeight("R")*2f+2f, this.game);
-		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+0*stepY,"musique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
-		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+1*stepY,"volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
+		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
+		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
 		//		}
 	}
 
@@ -89,7 +84,7 @@ public class MenuOptions extends Menu {
 		this.game.options.soundVolume = ((Menu_Curseur)this.items.get(5)).value/5f;
 		this.game.musics.menu.setVolume(game.options.musicVolume);
 	}
-	
+
 	public void updateOptions(){
 		try {
 			FileWriter fw = new FileWriter ("././options.opts");
@@ -106,7 +101,7 @@ public class MenuOptions extends Menu {
 			System.out.println(e.toString());
 		}	
 	}
-	
+
 	public void draw(Graphics g){
 		this.drawItems(g);
 		this.textscanner.draw(g);

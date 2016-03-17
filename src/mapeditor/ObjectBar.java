@@ -84,54 +84,52 @@ public class ObjectBar {
 
 		// dualists
 		// blue
-		unitsDualistsBlue.add(new EditorObject("Spearman", 1, 0,this.editor.game.images.spearmanBlue,0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Crossbowman", 1, 0,this.editor.game.images.crossbowmanBlue,0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Knight", 1, 0,this.editor.game.images.knightBlue,0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Inquisitor", 1, 0,this.editor.game.images.inquisitorBlue,0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Archange", 1, 0,this.editor.game.images.archangeBlue,0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Spearman", 1, 0,this.editor.game.images.get("spearmanBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Crossbowman", 1, 0,this.editor.game.images.get("crossbowmanBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Knight", 1, 0,this.editor.game.images.get("knightBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Inquisitor", 1, 0,this.editor.game.images.get("inquisitorBlue"),0,0,this,1,1));
 		// red
-		unitsDualistsRed.add(new EditorObject("Spearman", 2,0, this.editor.game.images.spearmanRed,0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Crossbowman", 2, 0,this.editor.game.images.crossbowmanRed,0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Knight", 2, 0,this.editor.game.images.knightRed,0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Inquisitor", 2,0, this.editor.game.images.inquisitorRed,0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Archange", 2,0, this.editor.game.images.archangeRed,0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Spearman", 2,0, this.editor.game.images.get("spearmanRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Crossbowman", 2, 0,this.editor.game.images.get("crossbowmanRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Knight", 2, 0,this.editor.game.images.get("knightRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Inquisitor", 2,0, this.editor.game.images.get("inquisitorRed"),0,0,this,1,1));
 
 		// buildings
 		// neutral
-		buildingsNeutral.add(new EditorObject("Mill", 0, 1,this.editor.game.images.buildingMillNeutral,0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Mine", 0, 1,this.editor.game.images.buildingMineNeutral,0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Barrack", 0,1, this.editor.game.images.buildingBarrackNeutral,0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Stable", 0, 1,this.editor.game.images.buildingStableNeutral,0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Academy", 0, 1,this.editor.game.images.buildingAcademyNeutral,0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("University", 0, 1,this.editor.game.images.buildingUniversityNeutral,0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Tower", 0, 1,this.editor.game.images.buildingTowerNeutral,0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("Mill", 0, 1,this.editor.game.images.get("buildingMillNeutral"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("Mine", 0, 1,this.editor.game.images.get("buildingMineNeutral"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("Barrack", 0,1, this.editor.game.images.get("buildingBarrackNeutral"),0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("Stable", 0, 1,this.editor.game.images.get("buildingStableNeutral"),0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("Academy", 0, 1,this.editor.game.images.get("buildingAcademyNeutral"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("University", 0, 1,this.editor.game.images.get("buildingUniversityNeutral"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
+		buildingsNeutral.add(new EditorObject("Tower", 0, 1,this.editor.game.images.get("buildingTowerNeutral"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
 		// blue
-		buildingsBlue.add(new EditorObject("Mill", 1, 1,this.editor.game.images.buildingMillBlue,0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Mine", 1, 1,this.editor.game.images.buildingMineBlue,0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Barrack", 1, 1,this.editor.game.images.buildingBarrackBlue,0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Stable", 1, 1,this.editor.game.images.buildingStableBlue,0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Academy", 1, 1,this.editor.game.images.buildingAcademyBlue,0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("University", 1, 1,this.editor.game.images.buildingUniversityBlue,0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Tower", 1, 1,this.editor.game.images.buildingTowerBlue,0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Headquarters", 1, 1,this.editor.game.images.buildingHeadQuartersBlue,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Mill", 1, 1,this.editor.game.images.get("buildingMillBlue"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Mine", 1, 1,this.editor.game.images.get("buildingMineBlue"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Barrack", 1, 1,this.editor.game.images.get("buildingBarrackBlue"),0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Stable", 1, 1,this.editor.game.images.get("buildingStableBlue"),0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Academy", 1, 1,this.editor.game.images.get("buildingAcademyBlue"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("University", 1, 1,this.editor.game.images.get("buildingUniversityBlue"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Tower", 1, 1,this.editor.game.images.get("buildingTowerBlue"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Headquarters", 1, 1,this.editor.game.images.get("buildingHeadQuartersBlue"),0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 		// red
-		buildingsRed.add(new EditorObject("Mill", 2, 1,this.editor.game.images.buildingMillRed,0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Mine", 2, 1,this.editor.game.images.buildingMineRed,0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Barrack", 2, 1,this.editor.game.images.buildingBarrackRed,0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Stable", 2, 1,this.editor.game.images.buildingStableRed,0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Academy", 2, 1,this.editor.game.images.buildingAcademyRed,0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.buildingUniversityRed,0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.buildingTowerRed,0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.buildingHeadQuartersRed,0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Mill", 2, 1,this.editor.game.images.get("buildingMillRed"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Mine", 2, 1,this.editor.game.images.get("buildingMineRed"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Barrack", 2, 1,this.editor.game.images.get("buildingBarrackRed"),0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Stable", 2, 1,this.editor.game.images.get("buildingStableRed"),0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Academy", 2, 1,this.editor.game.images.get("buildingAcademyRed"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.get("buildingUniversityRed"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.get("buildingTowerRed"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.get("buildingHeadQuartersRed"),0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 
 		// others
-		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.bonusLifePoints,0,0,this,1,1));
-		others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.bonusDamage,0,0,this,1,1));
-		others.add(new EditorObject("BonusSpeed", 0, 2,this.editor.game.images.bonusSpeed,0,0,this,1,1));
+		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.get("bonusLifePoints"),0,0,this,1,1));
+		others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.get("bonusDamage"),0,0,this,1,1));
+		others.add(new EditorObject("BonusSpeed", 0, 2,this.editor.game.images.get("bonusSpeed"),0,0,this,1,1));
 
 		// nature
-		nature.add(new EditorObject("Tree", 0, 3,this.editor.game.images.tree01, 0, 0,this,1,1));
-		nature.add(new EditorObject("Tree", 1, 3,this.editor.game.images.tree02, 0, 0,this,1,1));
+		nature.add(new EditorObject("Tree", 0, 3,this.editor.game.images.get("tree01"), 0, 0,this,1,1));
+		nature.add(new EditorObject("Tree", 1, 3,this.editor.game.images.get("tree02"), 0, 0,this,1,1));
 
 	}
 

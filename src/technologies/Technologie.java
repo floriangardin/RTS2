@@ -3,6 +3,7 @@ package technologies;
 import org.newdawn.slick.Image;
 
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 
@@ -16,6 +17,7 @@ public abstract class Technologie {
 	public Technologie techRequired;
 	public Image icon;
 	public String name;
+	public String iconName;
 	public int id;
 	public void applyEffect(){
 	}
@@ -43,5 +45,14 @@ public abstract class Technologie {
 	
 	public boolean equals(Object o){
 		return o instanceof Technologie && ((Technologie)o).id==this.id;
+	}
+	
+	public void initialize(Plateau p, GameTeam gameteam, Technologies tech){
+		this.name = tech.name;
+		this.iconName  = tech.nameIcon;
+		this.p = p;
+		this.gameteam = gameteam;
+		this.data = this.gameteam.data;
+		this.icon = Game.g.images.get(iconName);		
 	}
 }

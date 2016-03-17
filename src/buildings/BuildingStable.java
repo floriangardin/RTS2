@@ -29,15 +29,15 @@ public class BuildingStable extends BuildingProduction{
 		this.name = "stable";
 		this.soundSelection = new Vector<Sound>();
 		this.soundSelection.addElement(this.g.sounds.stableSound);
-		this.selection_circle = this.p.g.images.selection_rectangle.getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 2;
 		this.initialize(f, h);
 		if(getTeam()==1){
-			this.image = this.p.g.images.buildingStableBlue;
+			this.image = this.p.g.images.get("buildingStableBlue");
 		} else if(getTeam()==2){
-			this.image = this.p.g.images.buildingStableRed;
+			this.image = this.p.g.images.get("buildingStableRed");
 		} else {
-			this.image = this.p.g.images.buildingStableNeutral;
+			this.image = this.p.g.images.get("buildingStableNeutral");
 		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();

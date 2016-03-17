@@ -1,246 +1,76 @@
 package model;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
+
+import tests.FatalGillesError;
+
 
 public class Images {
-	
-	public Image background;
-	public Image coastBackground;
-	public Image seaBackground;
-	public Image water, dirt;
-	public Image arrow;
-	public Image fireball;
-	public Image explosion;
-	public Image bible, sword, magicwand, bow;
-	public Image blue, red, corps;
-	public Image archangeBlue, archangeRed;
-	public Image horseBlue, horseRed;
-	public Image lightArmor, mediumArmor, heavyArmor;
-	public Image tree01, tree02, tree03, tree04;
-	public Image tent;
-	public Image cursor;
-	public Image selection_circle;
-	public Image selection_rectangle;
-	public Image fog;
-	public Image fire;
-	public Image blessedArea;
-	public Image fountain;
-	public Image smoke;
-	public Image windmill;
-	public Image windmillarms;
-	public Image grassTexture;
-	
-	// topbar
-	public Image imageGold;
-	public Image imageFood;
-	public Image imageSpecial;
-	public Image imagePop;
 
-	//Units
-	public Image spearman_move;
-	
-
-	public Image spearmanBlue ;
-	public Image spearmanRed ;
-	public Image crossbowmanBlue;
-	public Image crossbowmanRed;
-	public Image inquisitorBlue;
-	public Image inquisitorRed;
-	public Image priestBlue;
-	public Image priestRed;
-	public Image knightBlue;
-	public Image knightRed;
-
-
-	//Building
-	public Image buildingBarrackBlue;
-	public Image buildingBarrackRed;
-	public Image buildingBarrackNeutral;
-	public Image buildingStableBlue;
-	public Image buildingStableRed;
-	public Image buildingStableNeutral;
-	public Image buildingAcademyBlue;
-	public Image buildingAcademyRed;
-	public Image buildingAcademyNeutral;
-	public Image buildingMillBlue;
-	public Image buildingMillRed;
-	public Image buildingMillNeutral;
-	public Image buildingMineBlue;
-	public Image buildingMineRed;
-	public Image buildingMineNeutral;
-	public Image buildingHeadQuartersBlue;
-	public Image buildingHeadQuartersRed;
-	public Image buildingUniversityNeutral;
-	public Image buildingUniversityBlue;
-	public Image buildingUniversityRed;
-	public Image buildingTowerNeutral;
-	public Image buildingTowerBlue;
-	public Image buildingTowerRed;
-	public Image buildingTowerBlueAnimation;
-	public Image buildingTowerRedAnimation;
-
-	//Icones
-	public Image iconeSpearman;
-	public Image iconeBowman;
-	public Image iconePriest;
-	public Image iconeWizard;
-	public Image iconeKnight;
-
-	//Tech
-	public Image techEagleView;
-
-	//Spell
-	public Image spellFirewall;
-	public Image spellBlessedArea;
-	public Image spellImmolation;
-	public Image spellConversion;
-	public Image spellInstantDeath;
-	public Image spellInstantHealth;
-	public Image attackSpearmanRed;
-	public Image attackSpearmanBlue ;
-	public Image attackCrossbowmanBlue;
-	public Image attackCrossbowmanRed;
-	public Image bonusLifePoints;
-	public Image bonusDamage;
-	public Image bonusSpeed;
-	public Image backGround;
-	public Image title;
-
+	public HashMap<String, Image> images;
 
 	public Images(){
+			this.images = new HashMap<String, Image>();
+			this.loadRepertoire("pics/");
+	}
+
+	public void loadRepertoire(String name){
+		File repertoire = new File(name);
+		File[] files=repertoire.listFiles();
+		String s;
+		Image im;
 		try {
-			this.title = new Image("pics/menu/title01.png");
-			this.backGround = new Image("pics/fondMenu.png");
-			this.background = new Image("pics/fondMenu.png");
-			this.seaBackground = new Image("pics/seaBackground.png");
-			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
-			this.arrow = new Image("pics/arrow.png");
-			this.fireball = new Image("pics/fireball.png");
-			this.explosion = new Image("pics/explosion.png");
-			this.bible = new Image("pics/bible.png");
-			this.sword = new Image("pics/sword.png");
-			this.bow = new Image("pics/bow.png");
-			this.magicwand = new Image("pics/magicwand.png");
-			this.lightArmor = new Image("pics/lightArmor.png");
-			this.mediumArmor = new Image("pics/mediumArmor.png");
-			this.heavyArmor = new Image("pics/heavyArmor.png");
-			this.corps = new Image("pics/corps.png");
-			this.red = new Image("pics/red.png");
-			this.blue = new Image("pics/blue.png");
-			this.archangeBlue = new Image("pics/archangeBlue.png");
-			this.archangeRed = new Image("pics/archangeRed.png");
-			this.horseRed = new Image("pics/horseRed.png");
-			this.horseBlue = new Image("pics/horseBlue.png");
-			this.tree01 = new Image("pics/tree01.png");
-			this.tree02 = new Image("pics/tree02.png");
-			this.tree03 = new Image("pics/tree03.png");
-			this.tree04 = new Image("pics/tree04.png");
-			this.cursor = new Image("pics/cursor.png");
-			this.fog = new Image("pics/fog.png");
-			this.fountain = new Image("pics/fountain.png");
-			this.fire = new Image("pics/fire.png");
-			this.blessedArea = new Image("pics/blessedArea.png");
-			this.smoke = new Image("pics/smoke.png");
-			
-			//top bar
-			this.imageGold = new Image("pics/ressources.png");
-			this.imageFood = new Image("pics/ressources.png");
-			this.imageSpecial = new Image("pics/faith.png");
-			this.imagePop = new Image("pics/pop.png");
-
-			
-			//Units
-			this.spearman_move = new Image("pics/spearman_move.png");
-
-
-			this.spearmanBlue = new Image("pics/unit/spearman_move_1.png");
-			this.spearmanRed = new Image("pics/unit/spearman_move_2.png");
-			this.crossbowmanBlue = new Image("pics/unit/crossbowrman_move_1.png");
-			this.crossbowmanRed = new Image("pics/unit/crossbowrman_move_2.png");
-			this.inquisitorBlue = new Image("pics/unit/inquisitor_move_1.png");
-			this.inquisitorRed = new Image("pics/unit/inquisitor_move_2.png");
-			this.priestBlue = new Image("pics/unit/inquisitor_move_1.png");
-			this.priestRed = new Image("pics/unit/inquisitor_move_2.png");
-			this.knightBlue = new Image("pics/unit/knight_move_1.png");
-			this.knightRed = new Image("pics/unit/knight_move_2.png");
-			
-			//TODO put right image
-			this.attackSpearmanBlue = new Image("pics/unit/spearman_attack_1.png");
-			this.attackSpearmanRed = new Image("pics/unit/spearman_attack_2.png");
-			bonusLifePoints = new Image("pics/bonus/bonus_lifepoints.png");
-			bonusDamage = new Image("pics/bonus/bonus_damage.png");
-			bonusSpeed = new Image("pics/bonus/bonus_speed.png");
-			
-
-			//Building
-			buildingBarrackBlue = new Image("pics/Building/CaserneBleu.png");
-			buildingBarrackRed = new Image("pics/Building/CaserneRouge.png");
-			buildingBarrackNeutral = new Image("pics/Building/CaserneNeutre.png");
-			buildingStableBlue = new Image("pics/Building/EcurieBleu.png");
-			buildingStableRed = new Image("pics/Building/EcurieRouge.png");
-			buildingStableNeutral = new Image("pics/Building/EcurieNeutre.png");
-			buildingAcademyBlue = new Image("pics/Building/AcademyBlue.png");
-			buildingAcademyRed = new Image("pics/Building/AcademyRed.png");
-			buildingAcademyNeutral = new Image("pics/Building/AcademyNeutral.png");
-			buildingMillBlue = new Image("pics/Building/FermeBleu.png");
-			buildingMillRed = new Image("pics/Building/FermeRouge.png");
-			buildingMillNeutral = new Image("pics/Building/FermeNeutre.png");
-			buildingMineBlue = new Image("pics/Building/MineBleu.png");
-			buildingMineRed = new Image("pics/Building/MineRouge.png");
-			buildingMineNeutral = new Image("pics/Building/MineNeutre.png");
-			buildingHeadQuartersBlue = new Image("pics/Building/HeadQuartersBlue.png");
-			buildingHeadQuartersRed = new Image("pics/Building/HeadQuartersRed.png");
-			buildingUniversityNeutral = new Image("pics/Building/UniversityNeutral.png");
-			buildingUniversityBlue = new Image("pics/Building/UniversityBlue.png");
-			buildingUniversityRed = new Image("pics/Building/UniversityRed.png");
-			buildingTowerNeutral = new Image("pics/Building/TourNeutre.png");
-			buildingTowerBlue = new Image("pics/Building/TourBleu.png");
-			buildingTowerRed = new Image("pics/Building/TourRouge.png");
-			buildingTowerBlueAnimation = new Image("pics/Building/TourBleu_Animation.png");
-			buildingTowerRedAnimation = new Image("pics/Building/TourRouge_Animation.png");
-
-			//Icones
-			this.iconeBowman = new Image("pics/iconBow.png");
-			this.iconeSpearman = new Image("pics/iconSpear.png");
-			this.iconeKnight = new Image("pics/iconHorse.png");
-			this.iconePriest = new Image("pics/iconBible.png");
-			this.iconeWizard = new Image("pics/iconFireball.png");
-
-			//Icones Techs
-			this.techEagleView = new Image("pics/Tech/EagleView.png");
-
-			//Icone spell
-			this.spellFirewall = new Image("pics/Spell/firewall.png");
-			this.spellBlessedArea = new Image("pics/Spell/blessedArea.png");
-			this.spellImmolation = new Image("pics/Spell/immolation.png");
-			this.spellConversion = new Image("pics/Spell/conversion.png");
-			this.spellInstantDeath = new Image("pics/Spell/instantDeath.png");
-			this.spellInstantHealth = new Image("pics/Spell/instantHealth.png");
-			this.grassTexture = new Image("pics/island.png");
-		} catch (SlickException e) {
+			for(int i=0; i<files.length; i++){
+				s = files[i].getName();
+				if(s.contains(".png")){
+					// on load l'image
+					s = s.substring(0, s.length()-4);
+					im = new Image(name+s+".png");
+					this.images.put(s,im);
+//					f = Images.class.getField(s);
+//					f.set(this, im);
+					//this.images.put(s, new Image(name+s+".png"));
+				} else if(s.contains(".jpg")){
+					// on load l'image
+					s = s.substring(0, s.length()-4);
+					im = new Image(name+s+".jpg");
+					this.images.put(s,im);
+					//this.images.put(s, new Image(name+s+".jpg"));
+				} else if(s.contains(".svg")){
+					// on load l'image
+					s = s.substring(0, s.length()-4);
+					im = new Image(name+s+".svg");
+					this.images.put(s,im);
+					//this.images.put(s, new Image(name+s+".svg"));
+				} else if (!s.contains(".") && !s.equals("danger")){
+					// nouveau répertoire
+					this.loadRepertoire(name+s+"/");
+					
+				}
+			} 
+		} catch (SlickException | SecurityException | IllegalArgumentException  e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	public Image getIconByName(String name){
-		switch(name){
-		case "spearman": return this.iconeSpearman;
-		case "crossbowman": return this.iconeBowman;
-		case "knight": return this.iconeKnight;
-		case "priest": return this.iconePriest;
-		case "inquisitor": return this.iconeWizard;
-		default: return null;
+	public Image get(String name){
+		if(this.images.containsKey(name)){
+			return this.images.get(name);
+		} else {
+			System.out.println("Error : trying to load an non-existing image : "+name);
+			try {
+				throw new FatalGillesError("non-existing image : "+name);
+			} catch (FatalGillesError e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
-	}
-
-	public Image getIconeTech(String name){
-		switch(name){
-		case "EagleView": return this.techEagleView;
-		default: return null;
-		}
-
 	}
 
 }

@@ -132,13 +132,12 @@ public class Character extends ActionObjet{
 		this.animations = new Image[1][4][4];
 		this.setTeam(gameteam);
 		this.name = "character";
-		this.selection_circle = this.p.g.images.selection_circle;
-		Image imagea = this.p.g.images.corps.getScaledCopy(Main.ratioSpace);
-		Image imageb = this.p.g.images.corps.getScaledCopy(Main.ratioSpace);;
+		Image imagea = this.p.g.images.get("corps").getScaledCopy(Main.ratioSpace);
+		Image imageb = this.p.g.images.get("corps").getScaledCopy(Main.ratioSpace);;
 		if(getTeam()==1)
-			imageb = this.p.g.images.blue.getScaledCopy(Main.ratioSpace);;
+			imageb = this.p.g.images.get("blue").getScaledCopy(Main.ratioSpace);;
 			if(getTeam()==2)
-				imageb = this.p.g.images.red.getScaledCopy(Main.ratioSpace);;
+				imageb = this.p.g.images.get("red").getScaledCopy(Main.ratioSpace);;
 
 
 				this.image = Utils.mergeImages(imagea, imageb);
@@ -176,7 +175,6 @@ public class Character extends ActionObjet{
 		this.chargeTime = c.chargeTime;
 		this.isHidden = c.isHidden;
 		this.image = c.image;
-		this.selection_circle = c.selection_circle;
 		this.horse = c.horse;
 		this.weapon = c.weapon;
 		this.group = new Vector<Character>();
@@ -299,42 +297,42 @@ public class Character extends ActionObjet{
 
 	public void updateImage(){
 		//Handling the team
-		Image imagea = this.p.g.images.corps;
+		Image imagea = this.p.g.images.get("corps");
 		if(imagea==null)
 			return;
-		Image imageb = this.p.g.images.corps;
-		Image imagec = this.p.g.images.corps;
+		Image imageb = this.p.g.images.get("corps");
+		Image imagec = this.p.g.images.get("corps");
 		Image imaged = null;
 		if(getTeam()==1){
-			imageb = this.p.g.images.blue;
-			imagec = this.p.g.images.horseBlue;
+			imageb = this.p.g.images.get("blue");
+			imagec = this.p.g.images.get("horseBlue");
 		}
 		if(getTeam()==2){
-			imageb = this.p.g.images.red;
-			imagec = this.p.g.images.horseRed;
+			imageb = this.p.g.images.get("red");
+			imagec = this.p.g.images.get("horseRed");
 		}
 		this.image = Utils.mergeImages(imagea, imageb);
 		//Handling the weapon
 
 		if(this.weapon!=null){
 			if(this.weapon == "sword"){
-				imageb = this.p.g.images.sword;
-				imaged = this.p.g.images.mediumArmor;
+				imageb = this.p.g.images.get("sword");
+				imaged = this.p.g.images.get("mediumArmor");
 			}
 			if(this.weapon == "spear"){
-				this.image = this.p.g.images.spearman_move;
+				this.image = this.p.g.images.get("spearman_move");
 				return;
-				//				imageb = this.p.g.images.sword;
-				//				imaged = this.p.g.images.heavyArmor;
+				//				imageb = this.p.g.images.get("sword;
+				//				imaged = this.p.g.images.get("heavyArmor;
 			}
 			if(this.weapon == "bow"){
-				imageb = this.p.g.images.bow;
-				imaged = this.p.g.images.lightArmor;
+				imageb = this.p.g.images.get("bow");
+				imaged = this.p.g.images.get("lightArmor");
 			}
 			if(this.weapon == "bible")
-				imageb = this.p.g.images.bible;
+				imageb = this.p.g.images.get("bible");
 			if(this.weapon == "wand")
-				imageb = this.p.g.images.magicwand;
+				imageb = this.p.g.images.get("magicwand");
 			this.image = Utils.mergeImages(this.image, imageb);
 			this.image = Utils.mergeImages(this.image, imaged);
 		}
@@ -626,7 +624,7 @@ public class Character extends ActionObjet{
 	}
 
 	protected void drawImmolation(Graphics g,float r) {
-		Image fire = this.p.g.images.explosion.getScaledCopy(Main.ratioSpace);
+		Image fire = this.p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		r = fire.getWidth()/5f;
 		x = this.getX();
 		y = this.getY();
