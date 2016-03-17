@@ -2,6 +2,8 @@
 package model;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Timer;
@@ -157,7 +159,7 @@ public class Game extends BasicGame
 	// port
 	public int port = 2301;
 	// depots for senders
-	public Vector<MultiMessage> toSend = new Vector<MultiMessage>();
+	DatagramSocket client;
 	// depots for receivers
 	public Vector<String> receivedConnexion = new Vector<String>();
 	public Vector<String> receivedValidation = new Vector<String>();
@@ -167,7 +169,7 @@ public class Game extends BasicGame
 	public Vector<Checksum> receivedChecksum = new Vector<Checksum>();
 	public Vector<String> receivedChat = new Vector<String>();
 	// Sender
-	public MultiSender sender;
+	// public MultiSender sender;
 	// Receiver
 	public MultiReceiver receiver;
 	// Chat
@@ -664,7 +666,6 @@ public class Game extends BasicGame
 				/// MULTI PLAYER ///
 				////////////////////
 				//toSendThisTurn = "";
-				if(tests) Test.testSizeSender(sender);
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn+="1"+im.toString()+"%";
@@ -673,7 +674,7 @@ public class Game extends BasicGame
 				this.handlePing();
 				this.handleSendingResynchroParse();
 				this.handleResynchro();
-				this.send();
+				this.send(toSendThisTurn);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
@@ -744,7 +745,6 @@ public class Game extends BasicGame
 				this.endGame = false;
 				if(inMultiplayer){
 					this.receiver.shutdown();
-					this.sender.shutdown();
 				}
 				this.setMenu(this.menuIntro);
 
@@ -827,7 +827,7 @@ public class Game extends BasicGame
 		g.menuMapChoice = new MenuMapChoice(g);
 		g.credits = new Credits(g);
 		g.editor = new MapEditor(g);
-		
+
 
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 
@@ -875,34 +875,47 @@ public class Game extends BasicGame
 
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
-	public void sendConnexion(String message){
-		if(host){
-			this.toSend.add(new MultiMessage("0"+message,this.addressBroadcast));
-			for(InetAddress ia : this.menuMapChoice.addressesInvites){
-				this.toSend.add(new MultiMessage("0"+message,ia));
+	public void send(String message) throws FatalGillesError{
+		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
+		if(this.isInMenu){
+			// on gère les connexions de menumapchoice
+			if(host){
+				this.send(new MultiMessage("0"+message,this.addressBroadcast));
+				for(InetAddress ia : this.menuMapChoice.addressesInvites){
+					this.send(new MultiMessage("0"+message,ia));
+				}
+			} else {
+				this.send(new MultiMessage("0"+message,this.addressHost));
 			}
 		} else {
-			this.toSend.add(new MultiMessage("0"+message,this.addressHost));
-		}
-	}
-	private void send(){
-		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
-		if(this.menuMapChoice.seconds<2 && this.isInMenu){
-			toSendThisTurn="";
-			return;
-		}
-		for(int i=1; i<this.nPlayers; i++){
-			if(i!=currentPlayer.id){
-				if(tests)
-					try {
-						Test.testSendEmptyMessages(toSendThisTurn);
-					} catch (FatalGillesError e) {
-						e.printStackTrace();
-					}
-				this.toSend.add(new MultiMessage(toSendThisTurn,this.players.get(i).address));
+			// on est inGame et on gère les communications habituelles
+			for(int i=1; i<this.nPlayers; i++){
+				if(i!=currentPlayer.id){
+					MultiMessage multimessage = new MultiMessage(toSendThisTurn,this.players.get(i).address);
+					this.send(multimessage);
+				}
 			}
 		}
 		toSendThisTurn="";
+	}
+	
+	private void send(MultiMessage m) throws FatalGillesError{
+		if( Game.tests){
+			Test.testSendEmptyMessages(m.message);
+			Test.testDelayReceiver(receiver);
+		}
+		idPaquetSend++;
+		InetAddress address = m.address;
+		byte[] message = (m.message).getBytes();
+		DatagramPacket packet = new DatagramPacket(message, message.length, address, this.port);
+		packet.setData(message);
+		try {
+			client.send(packet);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(Game.debugSender)
+			System.out.println("port : " + port + " address: "+m.address.getHostAddress()+" message sent: " + m.message);
 	}
 
 

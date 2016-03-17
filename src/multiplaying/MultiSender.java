@@ -29,7 +29,6 @@ public class MultiSender extends Thread{
 	public MultiSender(Game game){
 		try {
 			this.game = game;
-			this.depot = game.toSend;
 			client = new DatagramSocket();
 		} catch (SocketException  e) {
 			System.out.println("Erreur dans la creation d'un multisender");

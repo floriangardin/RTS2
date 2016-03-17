@@ -109,7 +109,7 @@ public class Test {
 		if(Game.g.isInMenu){
 			return;
 		}
-		if(reveilSender!=0L && Math.abs(reveilSender - time)>10000L){
+		if(reveilSender!=0L && Math.abs(reveilSender - time)>16000L){
 			throw new FatalGillesError("Sender en panne de réveil");
 		}
 		reveilSender = time;

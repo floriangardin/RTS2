@@ -9,6 +9,7 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import tests.FatalGillesError;
 import main.Main;
 import model.Game;
 import model.Map;
@@ -139,16 +140,26 @@ public class MenuMapChoice extends Menu {
 			if(game.host){
 				// sending to all players only if the game isn't about to start
 				this.messageToClient = this.messageToClient();
-				if(this.startGame==0 || this.seconds>2)
-					this.game.sendConnexion(messageToClient);
+				if(this.startGame==0 || this.seconds>2){
+					try {
+						this.game.send(messageToClient);
+					} catch (FatalGillesError e) {
+						e.printStackTrace();
+					}
+				}
 				// parsing if received anything
 				while(game.receivedConnexion.size()>0){
 					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
 				// sending to host only if the game isn't about to start
-				if(this.startGame==0 || this.seconds>2)
-					this.game.sendConnexion(this.messageToHost());	
+				if(this.startGame==0 || this.seconds>2){
+					try {
+						this.game.send(this.messageToHost());	
+					} catch (FatalGillesError e) {
+						e.printStackTrace();
+					}
+				}
 				messageDropped++;	
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
