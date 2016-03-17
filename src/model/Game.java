@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.Vector;
@@ -850,7 +851,8 @@ public class Game extends BasicGame
 			String[] tab = address.split("\\.");
 			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
 			g.addressBroadcast = InetAddress.getByName(address);
-		} catch (UnknownHostException e) {
+			g.client = new DatagramSocket();
+		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
 		}
 		g.clock = new Clock(g);
