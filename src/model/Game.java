@@ -881,6 +881,7 @@ public class Game extends BasicGame
 		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
 		if(this.isInMenu){
 			// on gère les connexions de menumapchoice
+			
 			if(host){
 				this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
@@ -889,7 +890,8 @@ public class Game extends BasicGame
 			} else {
 				this.send(new MultiMessage("0"+message,this.addressHost));
 			}
-		} else {
+		} 
+		if(toSendThisTurn.length()>0) {
 			// on est inGame et on gère les communications habituelles
 			for(int i=1; i<this.nPlayers; i++){
 				if(i!=currentPlayer.id){

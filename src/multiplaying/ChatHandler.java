@@ -93,6 +93,8 @@ public class ChatHandler {
 			try {
 				ia = InetAddress.getByName(textScanner.s);
 			} catch (IOException e) {
+				this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
+				textScanner.s="";
 			}
 			if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null){
 				Game.g.menuMapChoice.addressesInvites.addElement(ia);
@@ -100,8 +102,6 @@ public class ChatHandler {
 				textScanner.s="";
 				return;
 			}
-			this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
-			textScanner.s="";
 		}
 	}
 
