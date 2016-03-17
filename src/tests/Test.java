@@ -122,6 +122,8 @@ public class Test {
 		boolean b = true;
 		for(int i=0; i<message.length()-1; i++){
 			b = b && message.charAt(i) == message.charAt(i+1);
+			if(!b)
+				break;
 		}
 		if(b)
 			throw new FatalGillesError("reception d'un message vide");

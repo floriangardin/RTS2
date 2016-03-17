@@ -55,7 +55,7 @@ public class Game extends BasicGame
 	/// DEBUG ///
 	/////////////
 
-	public static boolean tests = false;
+	public static boolean tests = true;
 	public static Game g;
 	public static boolean debugInputs = false;
 	public static boolean debugTimeSteps = false;
