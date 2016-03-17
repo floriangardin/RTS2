@@ -663,7 +663,7 @@ public class Game extends BasicGame
 				////////////////////
 				/// MULTI PLAYER ///
 				////////////////////
-				toSendThisTurn = "";
+				//toSendThisTurn = "";
 				if(tests) Test.testSizeSender(sender);
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
