@@ -43,6 +43,7 @@ public class MultiReceiver extends Thread{
 	public void run(){
 		try{
 			this.server = new DatagramSocket(port);
+			this.server.setSoTimeout(2);
 			this.server.setBroadcast(true);
 			if(Game.debugReceiver)
 				System.out.println("Creation d'un receiver - " + port);
@@ -70,6 +71,8 @@ public class MultiReceiver extends Thread{
 					//System.out.println("-------------- réception d'un message : " + a);
 				} catch(java.net.SocketException e){
 					break;
+				}catch( java.net.SocketTimeoutException e){
+					continue;
 				}
 				String msg = new String(packet.getData());
 				if(Game.debugReceiver) 
