@@ -48,8 +48,7 @@ public class MultiReceiver extends Thread{
 			if(Game.debugReceiver)
 				System.out.println("Creation d'un receiver - " + port);
 			
-			message = new byte[10000];
-			packet = new DatagramPacket(message, message.length);
+			
 			while(!server.isClosed()){
 				this.server.setBroadcast(g.isInMenu);
 				if(Game.debugThread){
@@ -59,6 +58,8 @@ public class MultiReceiver extends Thread{
 				// On récupère un message
 				while(true){
 					try{
+						message = new byte[10000];
+						packet = new DatagramPacket(message, message.length);
 						server.receive(packet);
 						int a = (int)(System.nanoTime()/1e6);
 						if(!Game.g.isInMenu){
