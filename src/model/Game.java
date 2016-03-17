@@ -351,13 +351,13 @@ public class Game extends BasicGame
 			float toGoTitle2 = Math.max(0f,toGoTitle);
 			if(lastThing!=null && toGoTitle2==0f){
 				g.setColor(Color.white);
-				g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/20+4);
+				g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/40+4);
 				g.setColor(Color.black);
-				g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/20);
+				g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/40);
 				g.setColor(Color.blue);
-				g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/20);
+				g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/40);
 				g.setColor(Color.white);
-				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, 8*resY/10+resY/80);
+				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, 8*resY/10+resY/160);
 				this.animationLoadingSpearman=2;
 				this.animationLoadingSpearman=this.animationLoadingSpearman%4;
 				int height = this.loadingSpearman.getHeight()/4;
@@ -586,9 +586,9 @@ public class Game extends BasicGame
 			return;
 		} else if(toGoTitle<1f) {
 			if(toGoTitle>0)
-				toGoTitle+=0.02f;
+				toGoTitle+=0.05f;
 			else
-				toGoTitle+=0.002f;
+				toGoTitle+=0.005f;
 			return;
 		} else if(!thingsLoaded){	
 			this.setMenu(menuIntro);
@@ -789,6 +789,8 @@ public class Game extends BasicGame
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 
+		Plateau.fog = new Image((int) (resX), (int) (resY));
+		Plateau.gf = Plateau.fog.getGraphics();
 
 		this.loadingSpearman = new Image("pics/unit/spearman_move_1.png");
 		this.loadingTitle = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.resY/650);
@@ -808,8 +810,9 @@ public class Game extends BasicGame
 		g.menuMapChoice = new MenuMapChoice(g);
 		g.credits = new Credits(g);
 		g.editor = new MapEditor(g);
+		
 
-		this.nbLoadedThing = LoadingList.get().getRemainingResources();
+		nbLoadedThing = LoadingList.get().getRemainingResources();
 
 	}
 
@@ -852,7 +855,10 @@ public class Game extends BasicGame
 	// DANGER
 	public void sendConnexion(String message){
 		if(host){
-			this.toSend.add(new MultiMessage("0"+message,this.addressBroadcast));
+			//this.toSend.add(new MultiMessage("0"+message,this.addressBroadcast));
+			for(InetAddress ia : this.menuMapChoice.addressesInvites){
+				this.toSend.add(new MultiMessage("0"+message,ia));
+			}
 		} else {
 			this.toSend.add(new MultiMessage("0"+message,this.addressHost));
 		}

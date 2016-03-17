@@ -54,8 +54,8 @@ public class Plateau {
 	public Point objectiveCam = new Point(0,0);
 
 	// fog of war
-	public Image fog;
-	public Graphics gf;
+	public static Image fog;
+	public static Graphics gf;
 
 	// about the output of the string
 	public String currentString;
@@ -111,12 +111,7 @@ public class Plateau {
 
 		initializePlateau(g);
 
-		try {
-			// System.out.println(this.g.resX+" "+this.g.resY);
-			this.fog = new Image((int) (this.g.resX), (int) (this.g.resY));
-			this.gf = fog.getGraphics();
-		} catch (SlickException | RuntimeException e) {
-		}
+		
 
 	}
 
@@ -795,23 +790,11 @@ public class Plateau {
 		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin visibility : " + (System.currentTimeMillis() - g.timeSteps));
 
-		if (g.debugTimeSteps)
+		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - g.timeSteps));
 	}
 
-	private void updateSelection(InputObject im) {
-		this.selection.get(im.player.id).clear();
-		for (Integer i : im.selection) {
-			for (Character c : this.characters)
-				if (c.id == i) {
-					this.selection.get(im.player.id).add(c);
-				}
-			for (Building c : this.buildings)
-				if (c.id == i)
-					this.selection.get(im.player.id).add(c);
-		}
 
-	}
 
 	private void handleRightClick(InputObject im, int player) {
 		if (im.pressedRightClick) {
@@ -857,38 +840,6 @@ public class Plateau {
 		if (im.isPressedSuppr) {
 			// ZONE ATTACK
 			updateTarget(im.xMouse, im.yMouse, player, Character.DESTROY_BUILDING);
-		}
-	}
-
-	private void handleSpellsOnField(InputObject im, int id_spell, int player, boolean host) {
-		if(id_spell<0){
-			return;
-		}
-		//Cas de l'immolation
-		if(id_spell==4){
-			Character c = (Character) this.selection.get(player).get(0);
-			Spell spell = c.spells.get(0);
-			if(spell.name.equals("Immolation")){
-				spell.launch(new Checkpoint(this,im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
-				c.spellsState.set(0, 0f);
-				System.out.println("I");
-			}
-			return;
-		}
-		if (this.selection.get(player).size() > 0) {
-			Character c = (Character) this.selection.get(player).get(0);
-			if (id_spell >= c.spells.size()) {
-				return;
-			}
-			Spell spell = c.spells.get(id_spell);
-			if(spell.name.equals("Immolation")){
-				System.out.println("I0");
-				return;
-
-			}
-			System.out.println("aieaie");
-			spell.launch(new Checkpoint(this,im.xMouse, im.yMouse), (Character) this.selection.get(player).get(0));
-			c.spellsState.set(id_spell, 0f);
 		}
 	}
 
@@ -948,26 +899,18 @@ public class Plateau {
 		}
 
 	}
-
-	private void handleSpellCasting(InputObject im, int player) {
-		if (im.isPressedImmolation || im.isPressedProd0 || im.isPressedProd1 || im.isPressedProd2 || im.isPressedProd3 || im.isPressedESC) {
-			if (this.selection.get(player).size() > 0 && this.selection.get(player).get(0) instanceof Character) {
-				int number = -1;
-				if (im.isPressedProd0)
-					number = 0;
-				if (im.isPressedProd1)
-					number = 1;
-				if (im.isPressedProd2)
-					number = 2;
-				if (im.isPressedProd3)
-					number = 3;
-				if (im.isPressedImmolation)
-					number = 4;
-
-				this.handleSpellsOnField(im, number, player, true);
-			}
-		}
-	}
+//					number = 1;
+//				if (im.isPressedProd2)
+//					number = 2;
+//				if (im.isPressedProd3)
+//					number = 3;
+//				if (im.isPressedImmolation)
+//					number = 4;
+//
+//				this.handleSpellsOnField(im, number, player, true);
+//			}
+//		}
+//	}
 
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
 
@@ -1192,8 +1135,7 @@ public class Plateau {
 		}
 	}
 
-	public void handleMinimap(InputObject im, int player) {
-		BottomBar b = this.g.players.get(player).bottomBar;
+	private void handleMinimap(InputObject im, int player) {
 		if (im.leftClick && player == this.g.currentPlayer.id && im.isOnMiniMap) {
 			// Put camera where the click happened
 			this.objectiveCam = new Point((int) (im.xMouse - g.resX / 2f),(int) (im.yMouse - g.resY / 2f));
@@ -1208,9 +1150,9 @@ public class Plateau {
 		visibleObjet = this.getInCamObjets(this.g.currentPlayer.getTeam());
 		float resX = this.g.resX;
 		float resY = this.g.resY;
-		this.gf.setColor(new Color(255, 255, 255));
+		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-this.maxX, -this.maxY, this.maxX + resX, this.maxY + resX);
-		this.gf.setColor(new Color(50, 50, 50));
+		gf.setColor(new Color(50, 50, 50));
 		float xmin = Math.max(-this.maxX, -this.maxX - Xcam);
 		float ymin = Math.max(-this.maxY, -this.maxY - Ycam);
 		float xmax = Math.min(resX + this.maxX, 2 * maxX - Xcam);

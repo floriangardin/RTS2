@@ -22,6 +22,8 @@ public class MenuMapChoice extends Menu {
 	public int selected = 0;
 	public int mapSelected = 0;
 	public Vector<String> maps = Map.maps();
+	
+	public Vector<InetAddress> addressesInvites = new Vector<InetAddress>();
 
 	public Vector<Menu_MapChoice> mapchoices;
 
@@ -114,6 +116,10 @@ public class MenuMapChoice extends Menu {
 		for(int i=1;i<this.menuPlayers.size();i++){
 			menuPlayers.get(i).draw(g);
 		}
+		// drawing local ip
+		g.setColor(Color.white);
+		g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
+		
 		if(startGame!=0){
 			// drawing countdown to launch game
 			g.setColor(Color.white);

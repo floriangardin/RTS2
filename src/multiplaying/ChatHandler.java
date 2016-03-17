@@ -1,5 +1,7 @@
 package multiplaying;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -19,7 +21,7 @@ public class ChatHandler {
 	public boolean typingMessage;
 	public Menu_TextScanner textScanner;
 	public float startY;
-	
+
 
 	public ChatHandler(Game game){
 		this.game = game;
@@ -29,13 +31,13 @@ public class ChatHandler {
 		this.textScanner.isSelected = true;
 		this.startY = game.resY/3f;
 	}
-	
+
 	public void action(Input in, InputObject im){
-//		for(int i=1; i<256; i++){
-//			if(in.isKeyDown(i)){
-//				System.out.println(i);
-//			}
-//		}
+		//		for(int i=1; i<256; i++){
+		//			if(in.isKeyDown(i)){
+		//				System.out.println(i);
+		//			}
+		//		}
 		Vector<ChatMessage> toRemove = new Vector<ChatMessage>();
 		mutex.lock();
 		ChatMessage m;
@@ -83,9 +85,20 @@ public class ChatHandler {
 			textScanner.draw(g);
 		}
 	}
-	
+
 	public void sendTypedMessage(){
 		if(textScanner.s.length()>0){
+			// checking if not adding an ip n menumapchoice
+			InetAddress ia = null;
+			try {
+				ia = InetAddress.getByName(textScanner.s);
+				if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null && ia.isReachable(10000)){
+					Game.g.menuMapChoice.addressesInvites.addElement(ia);
+					return;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
 			textScanner.s="";
 		}
