@@ -72,7 +72,9 @@ public class MultiReceiver extends Thread{
 				} catch(java.net.SocketException e){
 					break;
 				}catch( java.net.SocketTimeoutException e){
+					System.out.println("Multi Receiver : Socket Timeout");
 					continue;
+					
 				}
 				String msg = new String(packet.getData());
 				if(Game.debugReceiver) 
