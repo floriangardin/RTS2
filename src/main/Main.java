@@ -38,7 +38,7 @@ public class Main {
 			game.app = app;
 			app.setIcon("pics/danger/iconeJeu.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);
-			app.setShowFPS(true);
+			app.setShowFPS(false);
 			app.setDisplayMode(resolutionX, resolutionY,pleinEcran);
 			app.setAlwaysRender(false);
 			app.setUpdateOnlyWhenVisible(false);

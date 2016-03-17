@@ -59,7 +59,7 @@ public class Game extends BasicGame
 	/// DEBUG ///
 	/////////////
 
-	public static boolean tests = true;
+	public static boolean tests = false;
 	public static Game g;
 	public static boolean debugInputs = false;
 	public static boolean debugTimeSteps = false;
@@ -69,7 +69,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
-	public static boolean debugDisplayDebug = true;
+	public static boolean debugDisplayDebug = false;
 
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
