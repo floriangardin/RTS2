@@ -65,7 +65,7 @@ public class Game extends BasicGame
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
-	public static boolean debugReceiver = true;
+	public static boolean debugReceiver = false;
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
@@ -785,8 +785,8 @@ public class Game extends BasicGame
 					tempsReception = (int) System.currentTimeMillis();
 				}
 				String msg = new String(packet.getData());
-				if(Game.debugReceiver) 
-					System.out.println(msg.substring(0, 200));
+//				if(Game.debugReceiver) 
+//					System.out.println(msg.substring(0, 200));
 				//Split submessages
 				String[] tab = msg.split("\\%");
 				String temp;
