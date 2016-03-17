@@ -236,8 +236,11 @@ public class Game extends BasicGame
 
 	public static int nbLoadedThing = 0;
 	public boolean thingsLoaded = false;
-	public boolean loading = false;
+	public boolean plateauLoaded = false;
 	public Image loadingSpearman;
+	public Image loadingTitle;
+	public Image loadingBackground;
+	public float toGoTitle = -1f;
 	public int animationLoadingSpearman=0;
 	private String lastThing;
 
@@ -345,27 +348,33 @@ public class Game extends BasicGame
 		if(!thingsLoaded){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, resX, resY);
-			g.setColor(Color.white);
-			g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/20+4);
-			g.setColor(Color.black);
-			g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/20);
-			g.setColor(Color.blue);
-			g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/20);
-			g.setColor(Color.white);
-			if(lastThing!=null)
+			float toGoTitle2 = Math.max(0f,toGoTitle);
+			if(lastThing!=null && toGoTitle2==0f){
+				g.setColor(Color.white);
+				g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/20+4);
+				g.setColor(Color.black);
+				g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/20);
+				g.setColor(Color.blue);
+				g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/20);
+				g.setColor(Color.white);
 				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, 8*resY/10+resY/80);
-			this.animationLoadingSpearman=2;
-			this.animationLoadingSpearman=this.animationLoadingSpearman%4;
-			int height = this.loadingSpearman.getHeight()/4;
-			int width = this.loadingSpearman.getWidth()/5;
-			int w = animationLoadingSpearman+1;
-			g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX/3,6*resY/10);
-			g.setColor(Color.white);
-			String s = "Chargement";
-			for(int i=0; i<(animationLoadingSpearman);i++){
-				s+=".";
+				this.animationLoadingSpearman=2;
+				this.animationLoadingSpearman=this.animationLoadingSpearman%4;
+				int height = this.loadingSpearman.getHeight()/4;
+				int width = this.loadingSpearman.getWidth()/5;
+				int w = animationLoadingSpearman+1;
+				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX/3,6*resY/10);
+				g.setColor(Color.white);
+				String s = "Chargement...";
+				g.drawString(s, resX/2,6*resY/10+height/2-font.getHeight(s)/2);
 			}
-			g.drawString(s, resX/2,6*resY/10+height/2-font.getHeight(s)/2);
+			Image temp = this.loadingBackground;
+			temp.setAlpha(toGoTitle2);
+			g.drawImage(temp, 0,0,resX,resY,0,0,temp.getWidth(),temp.getHeight()-60f);
+			temp = this.loadingTitle.getScaledCopy(0.5f+toGoTitle2/2f);
+			float xTitle = (this.resX/2-temp.getWidth()/2) ;
+			float yTitle = toGoTitle2*(10f) + (1f-toGoTitle2)*(resY/3);
+			g.drawImage(temp, xTitle, yTitle);
 			return;
 		}
 		g.setFont(this.font);
@@ -571,8 +580,20 @@ public class Game extends BasicGame
 				e.printStackTrace();
 			}
 			return;
-		} else if(!thingsLoaded) {
-			this.handleEndLoading();			
+		} else if(!plateauLoaded){
+			this.handleEndLoading();
+			plateauLoaded=true;
+			return;
+		} else if(toGoTitle<1f) {
+			if(toGoTitle>0)
+				toGoTitle+=0.02f;
+			else
+				toGoTitle+=0.005f;
+			return;
+		} else if(!thingsLoaded){	
+			this.setMenu(menuIntro);
+			g.thingsLoaded = true;
+			return;
 		}
 		//		Thread[] tarray = new Thread[Thread.activeCount()];
 		//		Thread.enumerate(tarray);
@@ -752,8 +773,8 @@ public class Game extends BasicGame
 	}
 
 
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
@@ -768,11 +789,13 @@ public class Game extends BasicGame
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 
-		
+
 		this.loadingSpearman = new Image("pics/unit/spearman_move_1.png");
-		
+		this.loadingTitle = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.resY/650);
+		this.loadingBackground = new Image("pics/fondMenu.png").getScaledCopy(0.35f*this.resY/650);
+
 		LoadingList.setDeferredLoading(true);
-		
+
 		g.sounds = new Sounds();
 		g.options = new Options();
 		g.images = new Images();
@@ -787,11 +810,10 @@ public class Game extends BasicGame
 		g.editor = new MapEditor(g);
 
 		this.nbLoadedThing = LoadingList.get().getRemainingResources();
-		
+
 	}
-	
+
 	public void handleEndLoading(){
-		g.setMenu(g.menuIntro);
 		Map.initializePlateau(g, 1f, 1f);
 
 		//FLO INPUTS
@@ -812,7 +834,7 @@ public class Game extends BasicGame
 		g.clock = new Clock(g);
 		g.clock.start();
 		g.chatHandler = new ChatHandler(g);
-		g.thingsLoaded = true;
+		//g.setMenu(g.menuIntro);
 	}
 
 

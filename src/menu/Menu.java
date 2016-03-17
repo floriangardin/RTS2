@@ -20,13 +20,9 @@ public abstract class Menu {
 	public Menu(Game g){
 		this.game = g;
 		this.items = new Vector<Menu_Item>();
-		try {
-			this.title = new Image("pics/menu/title01.png").getScaledCopy(0.35f*this.game.resY/650);
-			this.backGround = new Image("pics/fondMenu.png").getScaledCopy(0.35f*this.game.resY/650);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.title = game.images.title.getScaledCopy(0.35f*this.game.resY/650);
+		this.backGround = game.images.backGround.getScaledCopy(0.35f*this.game.resY/650);
+
 	}
 
 	public void callItem(int i){

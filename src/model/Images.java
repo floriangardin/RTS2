@@ -98,10 +98,14 @@ public class Images {
 	public Image bonusLifePoints;
 	public Image bonusDamage;
 	public Image bonusSpeed;
+	public Image backGround;
+	public Image title;
 
 
 	public Images(){
 		try {
+			this.title = new Image("pics/menu/title01.png");
+			this.backGround = new Image("pics/fondMenu.png");
 			this.background = new Image("pics/fondMenu.png");
 			this.seaBackground = new Image("pics/seaBackground.png");
 			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
