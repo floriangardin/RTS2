@@ -482,6 +482,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// checking if there is a missing player
 			if(civ.length<this.game.players.size()){
+				System.out.println("MMC line 485: missing player");
 				// we reparse all informations and set again the currentPlayer to the right location
 				this.game.clearPlayer();
 				Player p;
@@ -507,6 +508,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// adding new player if needed
 			if(civ.length>this.game.players.size()){
+				System.out.println("MMC line 511: new player");
 				try {
 					this.game.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}

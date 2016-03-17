@@ -1,5 +1,6 @@
 
 package model;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -854,6 +855,8 @@ public class Game extends BasicGame
 		g.clock = new Clock(g);
 		g.clock.start();
 		g.chatHandler = new ChatHandler(g);
+
+		LoadingList.setDeferredLoading(false);
 		//g.setMenu(g.menuIntro);
 	}
 
