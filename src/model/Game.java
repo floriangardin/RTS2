@@ -1,5 +1,7 @@
 
 package model;
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Timer;
@@ -7,23 +9,6 @@ import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.geom.Rectangle;
-
-import buildings.Bonus;
-import buildings.Building;
-import buildings.BuildingProduction;
-import buildings.BuildingTech;
-import bullets.Bullet;
 import main.Main;
 import mapeditor.MapEditor;
 import menu.Credits;
@@ -41,16 +26,35 @@ import multiplaying.MultiMessage;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiReceiver.Checksum;
 import multiplaying.MultiSender;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.loading.DeferredResource;
+import org.newdawn.slick.loading.LoadingList;
+
 import spells.SpellEffect;
-import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
+import buildings.Bonus;
+import buildings.Building;
+import buildings.BuildingProduction;
+import buildings.BuildingTech;
+import bullets.Bullet;
 public class Game extends BasicGame 
 {
 	/////////////
 	/// DEBUG ///
 	/////////////
-	
+
 	public static boolean tests = true;
 	public static Game g;
 	public static boolean debugInputs = false;
@@ -216,13 +220,27 @@ public class Game extends BasicGame
 	static int delaySleepAntiDrop = 9;
 
 	public boolean pingPeak=false;
-	
-	
+
+
 	//////////////////////////
 	///       REPLAYS     ///
 	////////////////////////
-	
+
 	public Replay replay = null;
+
+
+
+	//////////////////////////////
+	// INITIALIZING GAME ENGINE //
+	//////////////////////////////
+
+	public static int nbLoadedThing = 0;
+	public boolean thingsLoaded = false;
+	public boolean loading = false;
+	public Image loadingSpearman;
+	public int animationLoadingSpearman=0;
+	private String lastThing;
+
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -230,22 +248,22 @@ public class Game extends BasicGame
 		//app.setClearEachFrame(true);
 	}
 	public void setMenu(Menu m){
-		
+
 		if(!(m instanceof MenuOptions) && this.menuCurrent instanceof MenuIntro && this.musics.menu.playing()  ){
 			this.musics.menu.stop();
 		}
-		
+
 		if(this.menuCurrent instanceof MenuMulti && this.musics.multi.playing() && !(m instanceof MenuMapChoice)){
 			this.musics.multi.stop();
 		}
-		
+
 		if(this.musics.editor.playing()){
 			this.musics.editor.stop();
 		}
-		
+
 		this.menuCurrent = m;
 		this.isInMenu = true;
-		
+
 		if(!this.musics.multi.playing()&&(m instanceof MenuMulti || m instanceof MenuMapChoice)){
 			this.musics.multi.loop(1f, this.options.musicVolume);
 		}
@@ -322,7 +340,34 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-
+		g.setColor(Color.black);
+		g.fillRect(0, 0, resX, resY);
+		if(!thingsLoaded){
+			g.setColor(Color.black);
+			g.fillRect(0, 0, resX, resY);
+			g.setColor(Color.white);
+			g.fillRect(resX/6-2, 8*resY/10-2,2*resX/3+4, resY/20+4);
+			g.setColor(Color.black);
+			g.fillRect(resX/6, 8*resY/10,2*resX/3, resY/20);
+			g.setColor(Color.blue);
+			g.fillRect(resX/6, 8*resY/10,2*resX/3*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, resY/20);
+			g.setColor(Color.white);
+			if(lastThing!=null)
+				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, 8*resY/10+resY/80);
+			this.animationLoadingSpearman=2;
+			this.animationLoadingSpearman=this.animationLoadingSpearman%4;
+			int height = this.loadingSpearman.getHeight()/4;
+			int width = this.loadingSpearman.getWidth()/5;
+			int w = animationLoadingSpearman+1;
+			g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX/3,6*resY/10);
+			g.setColor(Color.white);
+			String s = "Chargement";
+			for(int i=0; i<(animationLoadingSpearman);i++){
+				s+=".";
+			}
+			g.drawString(s, resX/2,6*resY/10+height/2-font.getHeight(s)/2);
+			return;
+		}
 		g.setFont(this.font);
 		if(isInMenu){
 			if(hasAlreadyPlay){
@@ -493,7 +538,7 @@ public class Game extends BasicGame
 		if(!inEditor){
 			g.setColor(Color.white);
 			this.drawPing(g);
-			
+
 		}
 		//		Runtime runtime = Runtime.getRuntime();
 		//
@@ -512,11 +557,23 @@ public class Game extends BasicGame
 
 
 	}
-	
-	
+
 	// Do our logic 
 	@Override
-	public void update(GameContainer gc, int t) throws SlickException{	
+	public void update(GameContainer gc, int t) throws SlickException{
+		// Initializing engine
+		if (LoadingList.get().getRemainingResources() > 0) { 
+			DeferredResource nextResource = LoadingList.get().getNext(); 
+			try {
+				nextResource.load();
+				lastThing = nextResource.getDescription();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return;
+		} else if(!thingsLoaded) {
+			this.handleEndLoading();			
+		}
 		//		Thread[] tarray = new Thread[Thread.activeCount()];
 		//		Thread.enumerate(tarray);
 		//		System.out.println("threads pr�sents : "+tarray.length);
@@ -550,9 +607,9 @@ public class Game extends BasicGame
 			this.clock.setRoundFromTime();
 			// getting inputs
 			Input in = gc.getInput();
-//			if(in.isKeyPressed(Input.KEY_RALT)){
-//				this.displayMapGrid = !this.displayMapGrid;
-//			}
+			//			if(in.isKeyPressed(Input.KEY_RALT)){
+			//				this.displayMapGrid = !this.displayMapGrid;
+			//			}
 			InputObject im = new InputObject(this,currentPlayer,in,true);
 			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
@@ -560,9 +617,9 @@ public class Game extends BasicGame
 			} else {
 				//this.manuelAntidrop(in,gc);
 			}
-//			if(replay==null){
-//				replay = new Replay(2,"apocalypse",0,this);
-//			}
+			//			if(replay==null){
+			//				replay = new Replay(2,"apocalypse",0,this);
+			//			}
 			if(inMultiplayer){
 
 				////////////////////
@@ -587,7 +644,7 @@ public class Game extends BasicGame
 					System.out.println(round+ " : " + ims.size());
 				this.handleAntidrop(gc);
 				if(tests) Test.testRoundCorrect(this, ims);
-					
+
 				if(ims.size()>0){
 					this.plateau.update(ims);
 					this.plateau.updatePlateauState();
@@ -620,7 +677,7 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
-			
+
 			//Write replay
 			replay.write("test");
 			if(this.musics.imperial.playing()){
@@ -693,6 +750,11 @@ public class Game extends BasicGame
 		return this.players.get(id);
 
 	}
+
+
+	
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
 		Image cursor = new Image("pics/cursor.png");
@@ -705,40 +767,52 @@ public class Game extends BasicGame
 		this.font.loadGlyphs();
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
-		this.sounds = new Sounds();
-		this.options = new Options();
-		this.images = new Images();
-		this.musics = new Musics();
-		this.taunts = new Taunt(this);
 
-		this.menuIntro = new MenuIntro(this);
-		this.menuOptions = new MenuOptions(this);
-		this.menuMulti = new MenuMulti(this);
-		this.menuMapChoice = new MenuMapChoice(this);
-		this.credits = new Credits(this);
+		
+		this.loadingSpearman = new Image("pics/unit/spearman_move_1.png");
+		
+		LoadingList.setDeferredLoading(true);
+		
+		g.sounds = new Sounds();
+		g.options = new Options();
+		g.images = new Images();
+		g.musics = new Musics();
+		g.taunts = new Taunt(g);
 
-		this.editor = new MapEditor(this);
-		this.setMenu(menuIntro);
-		Map.initializePlateau(this, 1f, 1f);
+		g.menuIntro = new MenuIntro(g);
+		g.menuOptions = new MenuOptions(g);
+		g.menuMulti = new MenuMulti(g);
+		g.menuMapChoice = new MenuMapChoice(g);
+		g.credits = new Credits(g);
+		g.editor = new MapEditor(g);
+
+		this.nbLoadedThing = LoadingList.get().getRemainingResources();
+		
+	}
+	
+	public void handleEndLoading(){
+		g.setMenu(g.menuIntro);
+		Map.initializePlateau(g, 1f, 1f);
 
 		//FLO INPUTS
-		this.inputsHandler = new InputHandler(this);
-		//System.out.println(this.plateau.mapGrid);
-		//			Map.createMapEmpty(this);
+		g.inputsHandler = new InputHandler(g);
+		//System.out.println(g.plateau.mapGrid);
+		//			Map.createMapEmpty(g);
 		// Instantiate BottomBars for all players:
-		selection = null;
+		g.selection = null;
 		try {
-			this.addressLocal = InetAddress.getLocalHost();
-			String address = addressLocal.getHostAddress();
+			g.addressLocal = InetAddress.getLocalHost();
+			String address = g.addressLocal.getHostAddress();
 			String[] tab = address.split("\\.");
 			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
-			this.addressBroadcast = InetAddress.getByName(address);
+			g.addressBroadcast = InetAddress.getByName(address);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-		this.clock = new Clock(this);
-		this.clock.start();
-		chatHandler = new ChatHandler(this);
+		g.clock = new Clock(g);
+		g.clock.start();
+		g.chatHandler = new ChatHandler(g);
+		g.thingsLoaded = true;
 	}
 
 
@@ -775,26 +849,26 @@ public class Game extends BasicGame
 	}
 
 
-//	private void manuelAntidrop(Input in,GameContainer gc) {
-//		delaySleep = 0 ;
-//		if(in.isKeyPressed(Input.KEY_P)){
-//			this.round+=1;
-//			this.roundDelay++;
-//		}
-//		if(in.isKeyPressed(Input.KEY_M)){
-//			this.round-=1;
-//			this.roundDelay--;
-//		}
-//		if(in.isKeyPressed(Input.KEY_O)){
-//			this.delaySleep=8;
-//		}
-//		if(in.isKeyPressed(Input.KEY_L)){
-//			this.delaySleep = -8;
-//		}
-//		//UPDATE ROUND DURATION
-//		gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
-//		gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
-//	}
+	//	private void manuelAntidrop(Input in,GameContainer gc) {
+	//		delaySleep = 0 ;
+	//		if(in.isKeyPressed(Input.KEY_P)){
+	//			this.round+=1;
+	//			this.roundDelay++;
+	//		}
+	//		if(in.isKeyPressed(Input.KEY_M)){
+	//			this.round-=1;
+	//			this.roundDelay--;
+	//		}
+	//		if(in.isKeyPressed(Input.KEY_O)){
+	//			this.delaySleep=8;
+	//		}
+	//		if(in.isKeyPressed(Input.KEY_L)){
+	//			this.delaySleep = -8;
+	//		}
+	//		//UPDATE ROUND DURATION
+	//		gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
+	//		gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
+	//	}
 	private void handleChecksum() {
 		// If host and client send checksum
 		if(!processSynchro && this.round>=30 && this.round%20==0){

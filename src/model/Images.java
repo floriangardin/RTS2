@@ -102,8 +102,8 @@ public class Images {
 
 	public Images(){
 		try {
-			background = new Image("pics/fondMenu.png");
-			seaBackground = new Image("pics/seaBackground.png");
+			this.background = new Image("pics/fondMenu.png");
+			this.seaBackground = new Image("pics/seaBackground.png");
 			this.selection_rectangle = new Image("pics/rectSelect.png").getScaledCopy(1f/20f);
 			this.arrow = new Image("pics/arrow.png");
 			this.fireball = new Image("pics/fireball.png");
