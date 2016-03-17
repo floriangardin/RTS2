@@ -160,7 +160,9 @@ public class Game extends BasicGame
 	// port
 	public int port = 2301;
 	// depots for senders
+	DatagramSocket server;
 	DatagramSocket client;
+	int nbReception, tempsReception;
 	// depots for receivers
 	public Vector<String> receivedConnexion = new Vector<String>();
 	public Vector<String> receivedValidation = new Vector<String>();
@@ -172,7 +174,7 @@ public class Game extends BasicGame
 	// Sender
 	// public MultiSender sender;
 	// Receiver
-	public MultiReceiver receiver;
+	// public MultiReceiver receiver;
 	// Chat
 	public ChatHandler chatHandler;
 	// Handling multiplaying
@@ -615,6 +617,10 @@ public class Game extends BasicGame
 			g.thingsLoaded = true;
 			return;
 		}
+		
+		// Handling multiReceiver
+		this.handleMultiReceiver();
+
 		//		Thread[] tarray = new Thread[Thread.activeCount()];
 		//		Thread.enumerate(tarray);
 		//		System.out.println("threads prï¿½sents : "+tarray.length);
@@ -744,9 +750,6 @@ public class Game extends BasicGame
 				this.isInMenu = true;
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
-				if(inMultiplayer){
-					this.receiver.shutdown();
-				}
 				this.setMenu(this.menuIntro);
 
 			}
@@ -761,7 +764,166 @@ public class Game extends BasicGame
 		}
 
 	}
+	
+	
+	// FONCTIONS AUXILIAIRES RECEIVER
+	private void handleMultiReceiver() throws SlickException {
+		while(true){
+			byte[] message = new byte[10000];
+			DatagramPacket packet = new DatagramPacket(message, message.length);
+			try{
+				server.receive(packet);
+				if(!Game.g.isInMenu){
+					nbReception+=1;
+					if(nbReception==1){
+						tempsReception = (int) System.currentTimeMillis();
+					}else{
+						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
+					}
+					if(debugReceiver)
+						System.out.println("reception du message: "+ tempsReception);
+					tempsReception = (int) System.currentTimeMillis();
+				}
+				String msg = new String(packet.getData());
+				if(Game.debugReceiver) 
+					System.out.println(msg.substring(0, 200));
+				//Split submessages
+				String[] tab = msg.split("\\%");
+				String temp;
 
+				// TODO : check if input in message
+				if(Game.tests && !isInMenu){
+					Test.testIfInputInMessage(msg);
+					int round = getRoundFromMessage(msg);
+					Test.testOrderedMessages(round);
+					Test.testNombreMessagesRecus(round);
+					//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
+				}
+
+				for(int i =0; i<tab.length;i++){
+					temp = tab[i];
+					nbPaquetReceived++;
+					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
+						//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
+						switch(temp.substring(0,1)){
+						case "0":this.actionConnexion(temp.substring(1), packet); break;
+						case "1":this.actionInput(temp.substring(1)); break;
+						case "2":this.actionValidation(temp.substring(1)); break;
+						case "3":this.actionResynchro(temp.substring(1)); break;
+						case "4":this.actionPing(temp.substring(1)); break;
+						case "5":this.actionChecksum(temp.substring(1)); break;
+						case "6":this.actionChat(temp.substring(1)); break;
+						default:
+						}
+					}
+				}
+			} catch( IOException e){
+				// Si le message met trop de temps à arriver, on quitte la boucle
+				break;
+			}
+		}
+		
+	}
+	public int getRoundFromMessage(String msg){
+		String[] tab = msg.split("\\%");
+		String temp;
+		int ordre = 0;
+		for(int i =0; i<tab.length;i++){
+			temp = tab[i];
+			if(temp.length()>0 && temp.substring(0,1).equals("1")){
+				ordre = Integer.parseInt(temp.substring(1).split(",")[1].substring(4));
+				break;
+			}
+		}
+		return ordre;
+	}
+	public void actionConnexion(String message, DatagramPacket packet){
+		if(!host){
+			addressHost = packet.getAddress();
+		}
+		//HashMap<String, String> map = Objet.preParse(msg.substring(1));
+		receivedConnexion.add(message);		
+	}
+	public void actionInput(String message) throws SlickException{
+		//System.out.println(msg);
+		InputObject io = new InputObject(message,g);
+		if(Game.debugValidation){
+			System.out.println("MultiReceiver line 63 input received at round "+ round);
+		}
+		//Send the validation for other players if the round is still ok
+		if(round<io.round+Main.nDelay){
+			toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
+			inputsHandler.addToInputs(io);
+			io.validate();
+		}else{
+			System.out.println("Multi Receiver line 167 : Message reçu trop tard");
+		}
+	}
+	public void actionValidation(String msg){
+		//Get the corresponding round and player
+		String rawInput = msg;
+		String[] valMessage = rawInput.split("\\|");
+		int round = Integer.parseInt(valMessage[0]);
+		int idPlayer = Integer.parseInt(valMessage[1]);
+		int idValidator = Integer.parseInt(valMessage[2]);
+		if(Game.debugValidation){
+			System.out.println("MultiReceiver line 69 validation received for round "+ round);	
+		}
+		// Ressources partagï¿½ le vecteur d'inputs de la mailbox..
+		inputsHandler.validate(round, idPlayer,idValidator);
+	}
+	public void actionResynchro(String msg){
+		//		System.out.println("Receive resynchro message");
+		processSynchro = true;
+		toParse= msg;
+	}
+	public void actionPing(String msg){
+		String[] valMessage = msg.split("\\|");
+		int id = Integer.parseInt(valMessage[1]);
+
+		if(id==g.currentPlayer.id) {
+			long time =Long.parseLong(valMessage[0]);
+			clock.updatePing(time);
+		}else if(g.host){
+			if(id<g.players.size()){
+				g.toSendThisTurn+="4"+(msg)+"%";
+			}
+		}
+	}
+	public void actionChecksum(String msg){
+		if(host){
+			mutexChecksum.lock();
+			receivedChecksum.addElement(new Checksum(msg));
+			mutexChecksum.unlock();
+		}
+		// HANDLE ANTI-DROP 
+		String[] u = msg.split("\\|");
+		int round = Integer.parseInt(u[0]); 
+
+		if(host){
+			long ping =Long.parseLong( u[u.length-2]);
+			clock.ping = ping;
+		}
+		//		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
+		//		System.out.println("Et le ping .. " +g.clock.ping);
+		//Calcul du delta
+		int delta =(int) (clock.ping*Main.framerate/(2e9));
+		int deltaMesure = round - round ;
+		if((deltaMesure-delta)>1){
+			g.antidrop = true;
+		}
+	}
+	public void actionChat(String message){
+		ChatMessage cm = new ChatMessage(message);
+		chatHandler.messages.add(cm);
+		if(cm.message.charAt(0)=='/'){
+			taunts.playTaunt(cm.message.substring(1).toLowerCase());
+		}
+	}
+
+
+
+	
 	private void drawPing(Graphics g) {
 		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
 		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
@@ -850,8 +1012,11 @@ public class Game extends BasicGame
 			String address = g.addressLocal.getHostAddress();
 			String[] tab = address.split("\\.");
 			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
-			g.addressBroadcast = InetAddress.getByName(address);
-			g.client = new DatagramSocket();
+			addressBroadcast = InetAddress.getByName(address);
+			client = new DatagramSocket();
+			server = new DatagramSocket(port);
+			server.setSoTimeout(1);
+			server.setBroadcast(true);
 		} catch (UnknownHostException | SocketException e) {
 			e.printStackTrace();
 		}
@@ -881,7 +1046,7 @@ public class Game extends BasicGame
 		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
 		if(this.isInMenu){
 			// on gère les connexions de menumapchoice
-			
+
 			if(host){
 				this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
@@ -902,11 +1067,10 @@ public class Game extends BasicGame
 		}
 		toSendThisTurn="";
 	}
-	
+
 	private void send(MultiMessage m) throws FatalGillesError{
 		if( Game.tests){
 			Test.testSendEmptyMessages(m.message);
-			Test.testDelayReceiver(receiver);
 		}
 		idPaquetSend++;
 		InetAddress address = m.address;

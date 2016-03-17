@@ -49,7 +49,6 @@ public class MultiSender extends Thread{
 					System.out.println(this.getName());
 				}
 				if( Game.tests){
-					Test.testDelayReceiver(this.game.receiver);
 					Test.testReveilSender(System.nanoTime());
 				}
 				if(this.depot.size()>0){

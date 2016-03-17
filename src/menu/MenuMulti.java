@@ -114,7 +114,6 @@ public class MenuMulti extends Menu {
 		case 2:
 			// Retour 
 			this.game.setMenu(this.game.menuIntro);
-			this.game.receiver.shutdown();
 			this.openGames.clear();
 			this.gamesList.clear();
 			break;

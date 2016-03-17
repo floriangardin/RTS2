@@ -52,8 +52,6 @@ public class MenuIntro extends Menu {
 			this.game.setMenu(this.game.menuMapChoice);
 			break;
 		case 1:
-			this.game.receiver = new MultiReceiver(this.game);
-			this.game.receiver.start();
 			this.game.setMenu(this.game.menuMulti);
 			break;
 		case 2:
