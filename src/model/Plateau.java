@@ -75,7 +75,8 @@ public class Plateau {
 	public Vector<Building> toAddBuildings;
 	public Vector<Building> toRemoveBuildings;
 
-	public Vector<Checkpoint> checkpoints; 
+	public Vector<Checkpoint> checkpoints;
+	public Vector<Checkpoint> markersBuilding; 
 	public Vector<Bonus> bonus;
 
 	public Vector<NaturalObjet> naturalObjets;
@@ -145,6 +146,7 @@ public class Plateau {
 		this.toRemoveBuildings = new Vector<Building>();
 		//temporary Checkpoints ( markers )
 		this.checkpoints = new Vector<Checkpoint>();
+		this.markersBuilding = new Vector<Checkpoint>();
 		// SELECTION
 		this.selection = new Vector<Vector<ActionObjet>>();
 		this.toAddSelection = new Vector<Vector<ActionObjet>>();
@@ -273,6 +275,13 @@ public class Plateau {
 				this.removeSpell(o);
 			}
 		}
+		Vector<Checkpoint> toremove = new Vector<Checkpoint>();
+		for (Checkpoint o : checkpoints) {
+			if (!o.isAlive()) {
+				toremove.add(o);
+			}
+		}
+		checkpoints.removeAll(toremove);
 		// Update selection and groups
 		Vector<ActionObjet> toDelete = new Vector<ActionObjet>();
 		for (int i = 0; i < g.nPlayers; i++) {
@@ -433,6 +442,9 @@ public class Plateau {
 
 	public void action() {
 		for (Checkpoint a : this.checkpoints) {
+			a.action();
+		}
+		for (Checkpoint a : this.markersBuilding) {
 			a.action();
 		}
 		for (Character o : this.characters) {

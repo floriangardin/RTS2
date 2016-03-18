@@ -5,46 +5,48 @@ import main.Main;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 
-import units.Character;
+import buildings.Building;
 
-public class Checkpoint extends ActionObjet {
-	float printed;
-	int mode;
-	public Color color;
-	public float maxDuration=10f;
-	public float state;
-	float maxRadius = 20f;
-	int lastRoundUpdate =0;
-	Circle drawShape;
-	Circle drawShape2;
-	public boolean toDraw=false;
-	public boolean alwaysDraw = false;
-	
-	public Checkpoint(Plateau p , float x, float y){
+public class MarkerBuilding extends Checkpoint{
+
+	public Rectangle drawShape;
+	public Rectangle drawShape2;
+	float maxWidth ;
+	float maxHeight ;
+	float delta = 20f;
+	public MarkerBuilding(Plateau p, float x, float y,Building b) {
+		super(p, x, y);
 		this.lifePoints=1f;
 		this.p = p;
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
-		color = Colors.team2;
+		this.alwaysDraw = toDraw;
+		this.p.markersBuilding.addElement(this);
+		this.maxRadius = 200f;
 		this.collisionBox = new Circle(x,y,3f);
-		this.drawShape = new Circle(x,y,maxRadius);
+		maxWidth = ((Rectangle)b.collisionBox).getWidth()+delta;
+		maxHeight = ((Rectangle)b.collisionBox).getHeight()+delta;
+		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-		if(!(this instanceof MarkerBuilding))
-			this.p.checkpoints.addElement(this);
-		this.drawShape2 = new Circle(x,y,0);
+		this.p.checkpoints.addElement(this);
+		this.drawShape2 = new Rectangle(x,y,maxWidth-delta,maxHeight-delta);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
-		
+		this.state = this.maxDuration+1f;
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		this.printed=0f;
 		
 	}
+
 	
-	public Checkpoint(Plateau p , float x, float y,boolean toDraw,Color color){
+	public MarkerBuilding(Plateau p , float x, float y,boolean toDraw,Color color,Building b){
+		super(p, x, y);
+		this.p.markersBuilding.addElement(this);
 		this.lifePoints=1f;
 		this.p = p;
 		//p.addEquipmentObjets(this);
@@ -52,33 +54,28 @@ public class Checkpoint extends ActionObjet {
 		this.y = y;
 		this.alwaysDraw = toDraw;
 		this.color = color;
+		this.maxRadius = 200f;
 		this.collisionBox = new Circle(x,y,3f);
-		this.drawShape = new Circle(x,y,maxRadius);
+		maxWidth = ((Rectangle)b.collisionBox).getWidth()+delta;
+		maxHeight = ((Rectangle)b.collisionBox).getHeight()+delta;
+		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
 		this.p.checkpoints.addElement(this);
-		this.drawShape2 = new Circle(x,y,1f);
+		this.drawShape2 = new Rectangle(x,y,maxWidth-delta,maxHeight-delta);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
-		
+		this.state = this.maxDuration+1f;
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		this.printed=0f;
 		
 	}
 	
-
-	
 	public void action(){
-
-		toDraw = false;
-
-		if(state<=maxDuration){
-			state+=3f*Main.increment;
-		}
+		this.toDraw = this.state<this.maxDuration;
 		
 	}
-	
 	public Graphics draw(Graphics g){
 		if(!toDraw && !alwaysDraw){
 			return g;
@@ -86,7 +83,9 @@ public class Checkpoint extends ActionObjet {
 		if(this.lastRoundUpdate==this.p.g.round){
 			return g;
 		}
-
+		if(state<=maxDuration){
+			state+=3f*Main.increment;
+		}
 		g.setAntiAlias(true);
 		g.setColor(Colors.team0);
 		if(state<=maxDuration){
@@ -96,12 +95,14 @@ public class Checkpoint extends ActionObjet {
 				
 			}
 			g.setLineWidth(2f);
-			drawShape.setRadius(maxRadius*(1-2*state/maxDuration));
+			drawShape.setWidth(maxWidth-(delta*state/maxDuration));
+			drawShape.setHeight(maxHeight-(delta*state/maxDuration));
 			drawShape.setCenterX(x);
 			drawShape.setCenterY(y);
 			
+			drawShape2.setWidth(maxWidth-delta+(delta*state/maxDuration));
+			drawShape2.setHeight(maxHeight-delta+(delta*state/maxDuration));
 			
-			drawShape2.setRadius((maxRadius)*(state/maxDuration));
 			drawShape2.setCenterX(x);
 			drawShape2.setCenterY(y);
 			g.fill(new Circle(x,y,2f));
@@ -113,11 +114,5 @@ public class Checkpoint extends ActionObjet {
 		}
 		g.setAntiAlias(false);
 		return g;
-	}
-
-	@Override
-	public void collision(Character c) {
-		// TODO Auto-generated method stub
-		
 	}
 }
