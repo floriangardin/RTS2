@@ -8,6 +8,7 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
@@ -65,6 +66,7 @@ public class BuildingMill extends BuildingTech{
 		
 		if(state >= chargeTime && getTeam()!=0){
 			this.getGameTeam().food+=7+this.getGameTeam().data.bonusFood;
+			Game.g.addDisplayRessources(new DisplayRessources(7+this.getGameTeam().data.bonusFood, "food", this.x, this.y));
 			state = 0;
 		}
 		

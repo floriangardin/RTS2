@@ -59,6 +59,7 @@ import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
 import bullets.Bullet;
+import display.DisplayRessources;
 public class Game extends BasicGame 
 {
 	/////////////
@@ -251,6 +252,7 @@ public class Game extends BasicGame
 	public boolean thingsLoaded = false;
 	public boolean plateauLoaded = false;
 	public boolean allLoaded = false;
+	private boolean special = false;
 	public Image loadingSpearman;
 	public Image loadingTitle;
 	public Image loadingBackground;
@@ -259,6 +261,7 @@ public class Game extends BasicGame
 	private String lastThing;
 	private boolean waitLoading;
 	private DeferredResource nextResource;
+	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -375,12 +378,19 @@ public class Game extends BasicGame
 				g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
 				g.setColor(Color.white);
 				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, startBarY+sizeBarY/2-font.getHeight("H")/2);
-				this.animationLoadingSpearman++;
-				this.animationLoadingSpearman=this.animationLoadingSpearman%(Main.framerate/2);
-				int height = this.loadingSpearman.getHeight()/4;
-				int width = this.loadingSpearman.getWidth()/5;
-				int w = animationLoadingSpearman*8/Main.framerate+1;
-				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX-startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
+				int xanimation = startBarX + sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
+				if(special){
+					int height = this.loadingSpearman.getHeight();
+					int width = this.loadingSpearman.getWidth();
+					g.drawImage(this.loadingSpearman,xanimation-width/2,startBarY-sizeBarY-height);					
+				} else {
+					this.animationLoadingSpearman++;
+					this.animationLoadingSpearman=this.animationLoadingSpearman%(Main.framerate/2);
+					int height = this.loadingSpearman.getHeight()/4;
+					int width = this.loadingSpearman.getWidth()/5;
+					int w = animationLoadingSpearman*8/Main.framerate+1;
+					g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),xanimation-width/2,startBarY-sizeBarY-height);
+				}				
 				//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
 //				g.setColor(Color.white);
 //				String s = "Chargement...";
@@ -508,9 +518,22 @@ public class Game extends BasicGame
 				g.setColor(Colors.selection);
 				this.plateau.cosmetic.draw(g);
 			}
+
+			// Draw and handle display ressources
+			Vector<DisplayRessources> toRemove = new Vector<DisplayRessources>();
+			for(DisplayRessources dr : this.displayRessources ){
+				dr.update();
+				if(dr.isDead())
+					toRemove.add(dr);
+				else
+					dr.draw(g);
+			}
+			this.displayRessources.removeAll(toRemove);
+			toRemove.clear();
+			
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
-
+			
 
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
@@ -901,7 +924,9 @@ public class Game extends BasicGame
 	}
 
 
-
+	public void addDisplayRessources(DisplayRessources dr){
+		this.displayRessources.addElement(dr);
+	}
 	
 	private void drawPing(Graphics g) {
 		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
@@ -952,7 +977,19 @@ public class Game extends BasicGame
 		Plateau.fog = new Image((int) (resX), (int) (resY));
 		Plateau.gf = Plateau.fog.getGraphics();
 
-		this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");
+		float rdm = (float) Math.random();
+		if(rdm<0.25f){
+			this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");			
+		} else if (rdm<0.5f){
+			this.loadingSpearman = new Image("ressources/images/unit/crossbowmanBlue.png");			
+		} else if (rdm<0.75f){
+			this.loadingSpearman = new Image("ressources/images/unit/knightBlue.png");			
+		} else if (rdm<0.99f){
+			this.loadingSpearman = new Image("ressources/images/unit/inquisitorBlue.png");			
+		} else {
+			this.loadingSpearman = new Image("ressources/images/danger/gilles.png");					
+			this.special = true;
+		}
 		this.loadingTitle = new Image("ressources/images/menu/menuTitle01.png").getScaledCopy(0.35f*this.resY/650);
 		this.loadingBackground = new Image("ressources/images/backgroundMenu.png").getScaledCopy(0.35f*this.resY/650);
 

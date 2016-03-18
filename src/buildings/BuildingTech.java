@@ -3,6 +3,7 @@ package buildings;
 import java.util.HashMap;
 import java.util.Vector;
 
+import display.DisplayRessources;
 import multiplaying.ChatMessage;
 import technologies.Technologie;
 
@@ -53,6 +54,8 @@ public abstract class BuildingTech extends BuildingAction {
 				this.queue=this.productionList.get(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).tech.goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).tech.foodPrice;
+				this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).tech.goldPrice,"gold",this.x,this.y));
+				this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).tech.foodPrice,"food",this.x,this.y));
 				this.hq.allTechs.remove(this.productionList.get(unit));
 				this.hq.updateAllProductionList();
 				return true;

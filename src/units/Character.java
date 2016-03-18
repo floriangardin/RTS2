@@ -14,7 +14,7 @@ import org.newdawn.slick.geom.Rectangle;
 import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
-
+import display.DisplayRessources;
 import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
@@ -1096,6 +1096,7 @@ public class Character extends ActionObjet{
 				p.g.sounds.get("fire").stop();
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
+			Game.g.addDisplayRessources(new DisplayRessources(this.getGameTeam().data.gainedFaithByImmolation,"faith",this.x,this.y));
 		}
 
 	}

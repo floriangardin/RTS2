@@ -6,6 +6,7 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
@@ -61,6 +62,7 @@ public class BuildingMine extends BuildingTech{
 		
 		if(state >= chargeTime && getTeam()!=0){
 			getGameTeam().gold+=6+getGameTeam().data.bonusGold;
+			Game.g.addDisplayRessources(new DisplayRessources(6+getGameTeam().data.bonusGold, "gold", this.x, this.y));
 			state = 0;
 		}
 		

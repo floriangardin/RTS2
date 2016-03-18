@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
+import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
 import model.Colors;
@@ -27,6 +28,8 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.add(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
+				this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
+				this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
 				return true;
 			}else {
 				if(this.p.g.players.get(this.getTeam()) instanceof IAPlayer){

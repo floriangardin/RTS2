@@ -2,6 +2,7 @@ package spells;
 
 import java.util.Vector;
 
+import display.DisplayRessources;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
