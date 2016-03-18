@@ -254,7 +254,10 @@ public class Game extends BasicGame
 	public boolean plateauLoaded = false;
 	public boolean allLoaded = false;
 	private boolean special = false;
+	private boolean rate = false;
+	private int gillesPasse = -1;
 	public Image loadingSpearman;
+	public Image loadingGilles;
 	public Image loadingTitle;
 	public Image loadingBackground;
 	public float toGoTitle = -0f;
@@ -609,6 +612,19 @@ public class Game extends BasicGame
 				//				System.out.println(nextResource.getDescription());
 				nextResource.load();
 				lastThing = nextResource.getDescription();
+				if(nextResource.getDescription().contains("gilles") ){
+					gillesPasse+=3;
+				}
+				if(gillesPasse>0)
+					gillesPasse--;
+				if(gc.getInput().isKeyPressed(Input.KEY_SPACE) && !this.rate){
+					if(gillesPasse>0 ){
+						this.loadingSpearman = this.loadingGilles;
+						this.special = true;
+					} else {
+						this.rate = true;
+					}
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -1006,6 +1022,7 @@ public class Game extends BasicGame
 			this.loadingSpearman = new Image("ressources/images/danger/gilles.png");					
 			this.special = true;
 		}
+		this.loadingGilles = new Image("ressources/images/danger/gilles.png");
 		this.loadingTitle = new Image("ressources/images/menu/menuTitle01.png").getScaledCopy(0.35f*this.resY/650);
 		this.loadingBackground = new Image("ressources/images/backgroundMenu.png").getScaledCopy(0.35f*this.resY/650);
 
