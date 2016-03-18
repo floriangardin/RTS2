@@ -48,7 +48,7 @@ public class Images {
 					im = new Image(name+s+".svg");
 					this.images.put(s,im);
 					//this.images.put(s, new Image(name+s+".svg"));
-				} else if (!s.contains(".") && !s.equals("danger")){
+				} else if (!s.contains(".")){
 					// nouveau répertoire
 					this.loadRepertoire(name+s+"/");
 					
@@ -70,6 +70,13 @@ public class Images {
 				e.printStackTrace();
 			}
 			return null;
+		}
+	}
+
+	public void activateGdBMode() {
+		Image GdB = this.images.get("gilles");
+		for(String s : this.images.keySet()){
+			this.images.put(s,GdB);
 		}
 	}
 
