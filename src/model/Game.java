@@ -980,14 +980,14 @@ public class Game extends BasicGame
 		Plateau.fog = new Image((int) (resX), (int) (resY));
 		Plateau.gf = Plateau.fog.getGraphics();
 
-		float rdm = (float) Math.random();
-		if(rdm<0.25f){
+		double rdm = Math.random();
+		if(rdm<0.25){
 			this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");			
-		} else if (rdm<0.5f){
+		} else if (rdm<0.5){
 			this.loadingSpearman = new Image("ressources/images/unit/crossbowmanBlue.png");			
-		} else if (rdm<0.75f){
+		} else if (rdm<0.75){
 			this.loadingSpearman = new Image("ressources/images/unit/knightBlue.png");			
-		} else if (rdm<0.99f){
+		} else if (rdm<0.99){
 			this.loadingSpearman = new Image("ressources/images/unit/inquisitorBlue.png");			
 		} else {
 			this.loadingSpearman = new Image("ressources/images/danger/gilles.png");					
