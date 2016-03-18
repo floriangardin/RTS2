@@ -66,7 +66,9 @@ public class BuildingMill extends BuildingTech{
 		
 		if(state >= chargeTime && getTeam()!=0){
 			this.getGameTeam().food+=7+this.getGameTeam().data.bonusFood;
-			Game.g.addDisplayRessources(new DisplayRessources(7+this.getGameTeam().data.bonusFood, "food", this.x, this.y));
+			if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
+				Game.g.addDisplayRessources(new DisplayRessources(7+this.getGameTeam().data.bonusFood, "food", this.x, this.y));
+			}
 			state = 0;
 		}
 		

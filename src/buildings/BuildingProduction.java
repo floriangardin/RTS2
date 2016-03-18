@@ -9,6 +9,7 @@ import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
 import model.Colors;
+import model.Game;
 import model.IAPlayer;
 import multiplaying.ChatMessage;
 import units.Character;
@@ -28,8 +29,10 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.add(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
-				this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
-				this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
+				if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
+					this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
+					this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
+				}
 				return true;
 			}else {
 				if(this.p.g.players.get(this.getTeam()) instanceof IAPlayer){
@@ -58,7 +61,7 @@ public abstract class BuildingProduction extends BuildingAction {
 
 		this.setCharge(0f);
 	}
-	
+
 	public void setCharge(float charge){
 		if(this.queue!=null && this.queue.size()>0 && charge>(this.productionList.get(this.queue.get(0)).time)){
 			this.charge = (this.productionList.get(this.queue.get(0)).time);
@@ -66,7 +69,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		}
 		this.charge = charge;
 	}
-	
+
 	public void action(){
 		giveUpProcess();
 		if(underAttackRemaining>0f){
@@ -111,9 +114,9 @@ public abstract class BuildingProduction extends BuildingAction {
 			}
 		}
 	}
-	
+
 	public Graphics drawRallyPoint(Graphics g){
-		
+
 		g.setColor(Colors.team0);
 		g.setAntiAlias(true);
 		g.setLineWidth(2f);
@@ -121,7 +124,7 @@ public abstract class BuildingProduction extends BuildingAction {
 		g.draw(new Circle(this.rallyPoint.x,this.rallyPoint.y,10f));
 		g.setAntiAlias(false);
 		g.setLineWidth(1f);
-		
+
 		return g;
 	}
 
