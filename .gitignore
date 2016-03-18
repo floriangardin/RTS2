@@ -1,4 +1,4 @@
+options.opts
 *.class
 bin/
 data/
-options.opts
