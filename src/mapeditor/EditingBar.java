@@ -157,7 +157,7 @@ public class EditingBar {
 			textScanner.s= "";
 			break;
 		case 2: // Save File
-			if(this.editor.plateau.headquartersBlue!=null && this.editor.plateau.headquartersRed!=null){
+			if(this.editor.plateau!=null && this.editor.plateau.headquartersBlue!=null && this.editor.plateau.headquartersRed!=null){
 				this.editor.plateau.saveTo(textScanner.s);
 				textScanner.s = "";
 			}
