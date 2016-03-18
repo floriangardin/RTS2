@@ -770,9 +770,9 @@ public class Game extends BasicGame
 
 	// FONCTIONS AUXILIAIRES RECEIVER
 	private void handleMultiReceiver() throws SlickException {
-		int i = 0;
+		int gilles = 0;
 		while(true){
-			i++;
+			gilles++;
 			byte[] message = new byte[10000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			try{
@@ -826,7 +826,7 @@ public class Game extends BasicGame
 				break;
 			}
 		}
-		System.out.println(i + " messages reçus ce tour");
+		System.out.println(gilles + " messages reçus ce tour");
 
 	}
 	public int getRoundFromMessage(String msg){
