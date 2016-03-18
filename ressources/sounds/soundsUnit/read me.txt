@@ -1,0 +1,29 @@
+==================================
+== ATTENTION REPERTOIRE SPECIAL ==
+==================================
+
+Ne doit contenir que les fichiers audio propres aux unités
+Le nom du fichier doit être décomposé comme suit
+
+""+ nomEvenement +"_"+ nomUnité+""+int
+
+les évènements possibles sont : 
+-'attack'
+-'death'
+-'selection'
+
+les noms d'unités sont : 
+-'Crossbowman'
+-'Spearman'
+-'Knight'
+-'Inquisitor'
+-'Priest'
+-'Archange'
+
+exemple de nom:
+
+'attack_Crossbowman02'
+ou
+'death_Spearman03'
+
+==> à priori le numéro n'est pas important 

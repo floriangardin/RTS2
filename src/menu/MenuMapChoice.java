@@ -12,10 +12,10 @@ import org.newdawn.slick.Graphics;
 import tests.FatalGillesError;
 import main.Main;
 import model.Game;
-import model.Map;
 import model.Objet;
 import model.Player;
 import multiplaying.InputObject;
+import ressources.Map;
 
 public class MenuMapChoice extends Menu {
 
@@ -244,7 +244,7 @@ public class MenuMapChoice extends Menu {
 		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L && seconds!=0){
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
-			this.game.sounds.menuItemSelected.play();
+			this.game.sounds.get("menuItemSelected").play();
 			seconds--;
 		} else if (startGame<=this.game.clock.getCurrentTime()) {
 			game.launchGame();

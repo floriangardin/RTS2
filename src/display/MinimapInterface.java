@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import model.Colors;
 import model.Game;
-import model.Map;
 import model.NaturalObjet;
 import model.Utils;
 
@@ -12,6 +11,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import pathfinding.Case;
+import ressources.Map;
 import units.Character;
 import buildings.Bonus;
 import buildings.Building;

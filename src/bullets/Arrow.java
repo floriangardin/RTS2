@@ -55,7 +55,7 @@ public class Arrow extends CollisionBullet{
 		this.shadow = p.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
 		this.shadow.rotate(this.angle);
 	
-		this.sound = p.g.sounds.arrow;
+		this.sound = p.g.sounds.get("arrow");
 		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 

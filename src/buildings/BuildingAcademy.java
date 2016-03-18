@@ -7,8 +7,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
+import ressources.Map;
 import units.UnitsList;
 
 public class BuildingAcademy extends BuildingProduction {
@@ -28,8 +28,6 @@ public class BuildingAcademy extends BuildingProduction {
 		this.name = "academy";
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 4;
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.academySound);
 		this.g = g;
 		if(this.getTeam()==1){
 			this.image = this.p.g.images.get("buildingAcademyBlue");

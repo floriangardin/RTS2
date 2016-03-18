@@ -38,10 +38,6 @@ public class UnitSpearman extends Character {
 		this.chargeTime = 4f;
 		this.weapon = "spear";
 		this.animStep = 32f;
-		this.soundSetTarget = this.p.g.sounds.orderSpearman;
-		this.soundAttack = this.p.g.sounds.attackSpearman;
-		this.soundDeath = this.p.g.sounds.deathSpearman;
-		this.soundSelection = this.p.g.sounds.selectionSpearman;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 
 		if(this.getGameTeam().id==1){
@@ -74,7 +70,7 @@ public class UnitSpearman extends Character {
 		bonusAttack = false;
 		float damage = this.damage+bonus;
 		if(this.p.g.sounds!=null)
-			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
+			this.p.g.sounds.get(this.weapon).play(1f,this.p.g.options.soundVolume);
 		if(c.horse!=null)
 			damage = damage*this.getGameTeam().data.bonusSpearHorse;
 

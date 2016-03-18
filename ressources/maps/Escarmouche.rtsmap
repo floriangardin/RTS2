@@ -1,0 +1,47 @@
+###########################
+# Map Escarmouche #
+###########################
+
+
+#Creator: Welcome
+# date: 21/12/2015
+
+& sizeX 14
+& sizeY 12
+& Zcam 7.0 6.0
+& Qcam 7.0 7.0
+& Scam 6.0 6.0
+& Dcam 6.0 7.0
+
+
+##############
+= headquarters
+##############
+
+1 0.0 9.0
+2 11.0 0.0
+
+##############
+= buildings
+##############
+
+
+#######
+= units
+#######
+
+Crossbowman 1 2.0 8.0
+Crossbowman 1 3.0 9.0
+Spearman 1 4.0 9.0
+Spearman 1 4.0 7.0
+Spearman 1 2.0 7.0
+Spearman 2 9.0 3.0
+Spearman 2 9.0 1.0
+Spearman 2 11.0 3.0
+Crossbowman 2 10.0 1.0
+Crossbowman 2 11.0 2.0
+
+###########
+= naturalObjects
+###########
+

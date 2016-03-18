@@ -182,10 +182,6 @@ public class Character extends ActionObjet{
 		this.animStep = c.animStep;
 		this.attackDuration = c.attackDuration;
 		this.animationAttack = c.animationAttack;
-		this.soundSetTarget = c.soundSetTarget;
-		this.soundAttack = c.soundAttack;
-		this.soundDeath = c.soundDeath;
-		this.soundSelection = c.soundSelection;
 		this.getGameTeam().pop++;
 		this.mode = NORMAL;
 		this.explosionWhenImmolate = c.explosionWhenImmolate;
@@ -1096,8 +1092,8 @@ public class Character extends ActionObjet{
 					}
 				}
 			}
-			if(p.g.sounds.fire.playing())
-				p.g.sounds.fire.stop();
+			if(p.g.sounds.get("fire").playing())
+				p.g.sounds.get("fire").stop();
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 		}

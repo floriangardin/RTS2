@@ -12,10 +12,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import model.Game;
-import model.Map;
 import model.Objet;
 import multiplaying.InputObject;
 import multiplaying.MultiSender;
+import ressources.Map;
 
 public class MenuMulti extends Menu {
 

@@ -4,7 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import model.Map;
+import ressources.Map;
 
 public class EditorObject {
 	public String name;

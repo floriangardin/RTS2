@@ -44,9 +44,9 @@ public abstract class Menu {
 		/**
 		 * function called on each game loop
 		 */
-		if(!game.musics.menu.playing()){
-			game.musics.menu.play();
-			game.musics.menu.setVolume(game.options.musicVolume);
+		if(!game.musics.get("themeMenu").playing()){
+			game.musics.get("themeMenu").play();
+			game.musics.get("themeMenu").setVolume(game.options.musicVolume);
 		}
 		this.updateItems(im);
 	}
@@ -62,7 +62,7 @@ public abstract class Menu {
 				item.update(im);
 				if(im.pressedLeftClick && item.mouseOver){
 					this.callItem(i);
-					this.game.sounds.menuItemSelected.play(1f,game.options.soundVolume);
+					this.game.sounds.get("menuItemSelected").play(1f,game.options.soundVolume);
 				}
 			}			
 		}

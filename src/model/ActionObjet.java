@@ -25,15 +25,6 @@ public abstract class ActionObjet extends Objet{
 	public boolean mouseOver = false;
 
 
-	//SOUNDS
-	public Vector<Sound> soundSetTarget;
-	public Vector<Sound> soundAttack;
-	public Vector<Sound> soundSelection;
-	public Vector<Sound> soundDeath;
-
-	//CHANGED BOOLEAN
-
-
 	public void destroy(){
 		this.lifePoints = -10f;
 		this.target = null;

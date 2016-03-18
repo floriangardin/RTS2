@@ -12,9 +12,9 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import model.Game;
-import model.Map;
-import model.Sounds;
 import multiplaying.InputObject;
+import ressources.Map;
+import ressources.Sounds;
 
 public class MenuOptions extends Menu {
 
@@ -82,7 +82,7 @@ public class MenuOptions extends Menu {
 		} 
 		this.game.options.musicVolume = ((Menu_Curseur)this.items.get(4)).value;
 		this.game.options.soundVolume = ((Menu_Curseur)this.items.get(5)).value/5f;
-		this.game.musics.menu.setVolume(game.options.musicVolume);
+		this.game.musics.get("themeMenu").setVolume(game.options.musicVolume);
 	}
 
 	public void updateOptions(){

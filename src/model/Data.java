@@ -1,6 +1,7 @@
 package model;
 
 import main.Main;
+import ressources.Map;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;
 import spells.SpellDash;

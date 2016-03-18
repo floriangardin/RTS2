@@ -9,9 +9,9 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
 import model.Player;
+import ressources.Map;
 import technologies.Technologie;
 
 public class BuildingUniversity extends BuildingTech {
@@ -43,8 +43,6 @@ public class BuildingUniversity extends BuildingTech {
 		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
 		this.initialize(f, h);
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.universitySound);
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 6;
 		this.g = g;

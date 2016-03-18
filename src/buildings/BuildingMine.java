@@ -9,8 +9,8 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
+import ressources.Map;
 import technologies.Technologie;
 
 public class BuildingMine extends BuildingTech{
@@ -35,8 +35,6 @@ public class BuildingMine extends BuildingTech{
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		this.name= "mine";
 		this.setTeam(team);
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.mineSound);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.mineChargeTime;
 		this.lifePoints = getGameTeam().data.mineLifePoints;
