@@ -772,7 +772,6 @@ public class Game extends BasicGame
 	private void handleMultiReceiver() throws SlickException {
 		int gilles = 0;
 		while(true){
-			gilles++;
 			byte[] message = new byte[10000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			try{
@@ -809,6 +808,7 @@ public class Game extends BasicGame
 					nbPaquetReceived++;
 					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
 						//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
+						gilles++;
 						switch(temp.substring(0,1)){
 						case "0":this.actionConnexion(temp.substring(1), packet); break;
 						case "1":this.actionInput(temp.substring(1)); break;
