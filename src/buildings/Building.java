@@ -14,6 +14,7 @@ import model.ActionObjet;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
+import model.MarkerBuilding;
 import model.Objet;
 import model.Plateau;
 import multiplaying.ChatHandler;
@@ -40,6 +41,7 @@ public class Building extends ActionObjet{
 	public float underAttackRemaining=0;
 	public float state;
 
+	public MarkerBuilding marker;
 	public Vector<Circle> corners=new Vector<Circle>();
 
 	public Building(){}
@@ -47,13 +49,17 @@ public class Building extends ActionObjet{
 
 
 	public void initialize(float f, float h){
+		
 		this.x = f*Map.stepGrid+sizeX/2f;
 		this.y = h*Map.stepGrid+sizeY/2f;
+		
+		
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
 		this.id = p.g.idChar;
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
+		this.marker = new MarkerBuilding(p,x,y,this);
 		this.selectionBox = this.collisionBox;
 		this.setXY(x, y);
 		resetRallyPoint();

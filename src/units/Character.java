@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,13 +15,13 @@ import org.newdawn.slick.geom.Rectangle;
 import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
-
 import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
 import model.GameTeam;
+import model.MarkerBuilding;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -687,13 +688,17 @@ public class Character extends ActionObjet{
 			((Checkpoint) target).toDraw = true;
 			//this.target.draw(g);
 		}
-		//Draw the building which is being conquered
-		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
-			g.setLineWidth(2f*Main.ratioSpace);
-			g.setColor(Colors.buildingTaking);
-			Building target = (Building) this.target;
-			g.draw(target.collisionBox);
+		if(this.target instanceof Building){
+			((Building) target).marker.toDraw = true;
+			//this.target.draw(g);
 		}
+//		//Draw the building which is being conquered
+//		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
+//			g.setLineWidth(2f*Main.ratioSpace);
+//			g.setColor(Colors.buildingTaking);
+//			Building target = (Building) this.target;
+//			g.draw(target.collisionBox);
+//		}
 
 		g.setLineWidth(1f*Main.ratioSpace);
 		g.setAntiAlias(false);
@@ -936,8 +941,14 @@ public class Character extends ActionObjet{
 	//// UPDATE FUNCTIONS
 
 	public void setTarget(Objet t, Vector<Case> waypoints){
-		if(t!=null && t instanceof Checkpoint ){
-			((Checkpoint)t).toDraw = false;
+		if(target!=null && target instanceof Checkpoint ){
+			((Checkpoint)target).lifePoints =-1f;
+		}
+		if(target!=null && target instanceof Building){
+			((Building) target).marker.state = ((Building) target).marker.maxDuration+1f;
+		}
+		if(t!=null && t instanceof Building){
+			((Building) t).marker.state = 0;
 		}
 		this.target = t;
 		
@@ -963,6 +974,15 @@ public class Character extends ActionObjet{
 
 	public void setTarget(Objet t, Vector<Case> waypoints,int mode){
 		this.mode = mode;
+		if(target!=null && target instanceof Checkpoint ){
+			((Checkpoint)target).lifePoints =-1f;
+		}
+		if(target!=null && target instanceof Building){
+			((Building) target).marker.state = ((Building) target).marker.maxDuration+1f;
+		}
+		if(t!=null && t instanceof Building){
+			((Building) t).marker.state = 0;
+		}
 		this.target = t;
 		if(t!=null){
 			this.checkpointTarget = new Checkpoint(this.p,t.getX(),t.getY());

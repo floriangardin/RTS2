@@ -490,7 +490,12 @@ public class Game extends BasicGame
 				else
 					toDraw.add(b);
 			}
-
+			for(Checkpoint c : this.plateau.checkpoints){
+				toDrawAfter.add(c);
+			}
+			for(Checkpoint c : this.plateau.markersBuilding){
+				toDraw.add(c);
+			}
 			Utils.triY(toDraw);
 			Utils.triY(toDrawAfter);
 			// determine visible objets
@@ -500,9 +505,7 @@ public class Game extends BasicGame
 			plateau.drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
-			for(Checkpoint c : this.plateau.checkpoints){
-				c.draw(g);
-			}
+
 			// Draw the selection :
 			if(plateau.cosmetic.selection!=null){
 				g.setColor(Colors.selection);
