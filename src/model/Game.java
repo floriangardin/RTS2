@@ -1068,7 +1068,7 @@ public class Game extends BasicGame
 			// on gère les connexions de menumapchoice
 
 			if(host){
-				this.send(new MultiMessage("0"+message,this.addressBroadcast));
+//				this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
 					this.send(new MultiMessage("0"+message,ia));
 				}
