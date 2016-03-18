@@ -802,7 +802,7 @@ public class Game extends BasicGame
 					Test.testNombreMessagesRecus(round);
 					//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
 				}
-
+				System.out.println(packet.getAddress().getHostAddress());
 				for(int i =0; i<tab.length;i++){
 					temp = tab[i];
 					nbPaquetReceived++;
