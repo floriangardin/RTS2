@@ -528,7 +528,7 @@ public class EditorPlateau {
 	}
 
 	public void openFrom(String name){
-		String fichier = "ressources/"+name+".rtsmap";
+		String fichier = "ressources/maps/"+name+".rtsmap";
 		this.name = name;
 		try{
 			//lecture du fichier texte	
@@ -705,7 +705,7 @@ public class EditorPlateau {
 		 * creating or changing the file name.rtsmap in location ressources
 		 */
 		try {
-			FileWriter fw = new FileWriter ("ressources/"+name+".rtsmap");
+			FileWriter fw = new FileWriter ("ressources/maps/"+name+".rtsmap");
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 			fichierSortie.println ("###########################");
