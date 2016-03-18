@@ -167,7 +167,7 @@ public class Game extends BasicGame
 	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
 	// port
-	public int port = 2301;
+	public int port = 2302;
 	// depots for senders
 	DatagramSocket server;
 	DatagramSocket client;
