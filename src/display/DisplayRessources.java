@@ -48,7 +48,7 @@ public class DisplayRessources {
 	}
 	
 	public void draw(Graphics g){
-		//Utils.drawNiceRect(g, color, x-(Game.g.font.getWidth(string)+image.getWidth())/2-2, y-Game.g.font.getHeight(string)/2-2, (Game.g.font.getWidth(string)+image.getWidth())+4, Game.g.font.getHeight(string)+4);
+//		Utils.drawNiceRect(g, color, x-(Game.g.font.getWidth(string)+image.getWidth())/2-2, y-Game.g.font.getHeight(string)/2-2, (Game.g.font.getWidth(string)+image.getWidth())+4, Game.g.font.getHeight(string)+4);
 		Color c = new Color(color.r,color.g,color.b,2f*this.remainingTime/totalRemainingTime);
 		g.setColor(c);
 		g.drawString(string, x-(Game.g.font.getWidth(string)+image.getWidth())/2, y-Game.g.font.getHeight(string)/2);
