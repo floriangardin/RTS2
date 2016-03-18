@@ -17,6 +17,7 @@ import model.Game;
 import model.Map;
 import model.Objet;
 import model.Plateau;
+import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
 import technologies.Technologie;
 import units.Character;
@@ -122,7 +123,8 @@ public class Building extends ActionObjet{
 							this.p.g.victory = false;
 						}
 					}
-				}else{
+				}else if(ChatHandler.remainingTimeNotEnoughRoom<=0f){
+					ChatHandler.remainingTimeNotEnoughRoom=10f;
 					this.g.sendMessage(ChatMessage.getById("pop"));
 				}
 

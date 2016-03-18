@@ -45,10 +45,10 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedProd1;
 	public boolean isPressedProd2;
 	public boolean isPressedProd3;
-	public boolean isPressedA;
+	public boolean isPressedMinimap;
 	public boolean isPressedB;
 	public boolean isPressedF;
-	public boolean isPressedT;
+	public boolean isPressedA;
 	public boolean isPressedE;
 	public boolean isPressedR;
 	public boolean isPressedH;
@@ -59,7 +59,7 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedF2;
 	public boolean isPressedF3;
 	public boolean isPressedF4;
-	
+	public boolean isPressedRallyPoint;
 	public int letterPressed;
 	
 	
@@ -105,10 +105,10 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedProd2 = input.isKeyPressed(Input.KEY_C);
 		this.isPressedProd3 = input.isKeyPressed(Input.KEY_V);
 		
-		this.isPressedA = input.isKeyDown(Input.KEY_SPACE)||input.isKeyDown(Input.KEY_LMENU);
+		this.isPressedMinimap = input.isKeyDown(Input.KEY_SPACE)||input.isKeyDown(Input.KEY_LMENU);
 		this.isPressedB = input.isKeyDown(Input.KEY_B);
 		this.isPressedF = input.isKeyDown(Input.KEY_F);
-		this.isPressedT = input.isKeyPressed(Input.KEY_A);
+		this.isPressedA = input.isKeyPressed(Input.KEY_A);
 		this.isPressedE = input.isKeyPressed(Input.KEY_E);
 		this.isPressedR = input.isKeyPressed(Input.KEY_R);
 		this.isPressedH = input.isKeyPressed(Input.KEY_H);
@@ -116,8 +116,7 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedF2 = input.isKeyPressed(Input.KEY_F2);
 		this.isPressedF3 = input.isKeyPressed(Input.KEY_F3);
 		this.isPressedF4 = input.isKeyPressed(Input.KEY_F4);
-		
-		
+		this.isPressedRallyPoint = input.isKeyPressed(Input.KEY_R);
 		
 		this.isPressedSuppr = input.isKeyPressed(Input.KEY_U);
 		this.isPressedPause = input.isKeyPressed(Input.KEY_F10);
@@ -129,7 +128,7 @@ public class InputObject extends MultiObjetModel{
 		
 		this.isOnMiniMap = false;
 		if(player !=null && player.bottomBar!=null){
-			this.isOnMiniMap = this.xMouse>(1-player.bottomBar.ratioMinimapX)*g.resX && this.yMouse>(g.resY-player.bottomBar.ratioMinimapX*g.resX);
+			this.isOnMiniMap = this.xMouse>(1-player.bottomBar.ratioMinimapX)*g.resX && this.yMouse>(g.resY-player.bottomBar.ratioMinimapX*g.resX) && this.xMouse<g.resX-2f && this.yMouse<g.resY-2f ;
 			this.isOnMiniMap = this.isOnMiniMap && g.plateau.rectangleSelection.get(g.currentPlayer.id)==null;
 		}
 		if(g.isInMenu || g.inEditor)
@@ -203,10 +202,10 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("RGT")) isPressedRIGHT= true;
 		if(content.containsKey("UP")) isPressedUP= true;
 		if(content.containsKey("DWN")) isPressedDOWN= true;
-		if(content.containsKey("A")) isPressedA= true;
+		if(content.containsKey("A")) isPressedMinimap= true;
 		if(content.containsKey("B")) isPressedB= true;
 		if(content.containsKey("F")) isPressedF= true;
-		if(content.containsKey("T")) isPressedT= true;
+		if(content.containsKey("T")) isPressedA= true;
 		if(content.containsKey("E")) isPressedE= true;
 		if(content.containsKey("R")) isPressedR= true;
 		if(content.containsKey("H")) isPressedH= true;
@@ -223,6 +222,8 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("F2")) isPressedF2 = true;
 		if(content.containsKey("F3")) isPressedF3 = true;
 		if(content.containsKey("F4")) isPressedF4 = true;
+		if(content.containsKey("R")) isPressedR = true;
+		
 		toPlay= true;
 
 		for(int i=0; i<10; i++){
@@ -272,10 +273,10 @@ public class InputObject extends MultiObjetModel{
 		if(isPressedProd1) s+=",P1: ";
 		if(isPressedProd2) s+=",P2: ";
 		if(isPressedProd3) s+=",P3: ";
-		if(isPressedA) s+=",A: ";
+		if(isPressedMinimap) s+=",A: ";
 		if(isPressedB) s+=",B: ";
 		if(isPressedF) s+=",F: ";
-		if(isPressedT) s+=",T: ";
+		if(isPressedA) s+=",T: ";
 		if(isPressedE) s+=",E: ";
 		if(isPressedR) s+=",R: ";
 		if(isPressedH) s+=",H: ";
@@ -286,6 +287,7 @@ public class InputObject extends MultiObjetModel{
 		if(isPressedF2) s+=",F2: ";
 		if(isPressedF3) s+=",F3: ";
 		if(isPressedF4) s+=",F4: ";
+		if(isPressedR) s+=",R: ";
 		
 		if(toPlay) s+=",toPlay: ";
 		for(int i=0; i<10; i++)
@@ -339,10 +341,10 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedProd1 = false;
 		this.isPressedProd2 = false;
 		this.isPressedProd3 = false;
-		this.isPressedA = false;
+		this.isPressedMinimap = false;
 		this.isPressedB = false;
 		this.isPressedF = false;
-		this.isPressedT = false;
+		this.isPressedA = false;
 		this.isPressedE = false;
 		this.isPressedR = false;
 		this.isPressedH = false;

@@ -10,14 +10,26 @@ public class ChatMessage {
 	public String message;
 	public int remainingTime;
 	public Color color;
+	public Color colorBody = Color.white;
 	public int idPlayer;
-
+	
 	public static int basicTime = Main.framerate*2;
 	public static int multiTime = Main.framerate*7;
 
 	public ChatMessage(String message, int idPlayer) {
 		this.message = message;
 		this.idPlayer = idPlayer;
+		switch(idPlayer){
+		case 0: this.color = Color.white; this.remainingTime = basicTime; break;
+		case 1: this.color = Color.blue; this.remainingTime = multiTime; break;
+		case 2: this.color = Color.red; this.remainingTime = multiTime; break;
+		}
+	}
+	
+	public ChatMessage(String message, int idPlayer, Color color) {
+		this.message = message;
+		this.idPlayer = idPlayer;
+		this.colorBody = color;
 		switch(idPlayer){
 		case 0: this.color = Color.white; this.remainingTime = basicTime; break;
 		case 1: this.color = Color.blue; this.remainingTime = multiTime; break;
@@ -34,6 +46,7 @@ public class ChatMessage {
 		case 0: this.color = Color.white;break;
 		case 1: this.color = Color.blue; break;
 		case 2: this.color = Color.red; break;
+		case 3: this.color = Color.green ; break;
 		}
 	}
 
@@ -42,28 +55,34 @@ public class ChatMessage {
 		switch(s){
 		case "food" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough food", 0);
+			return new ChatMessage("Not enough food", 0,Color.red);
 		case "building taken":
 			g.sounds.buildingTaken.play(1f,g.options.soundVolume );
-			return new ChatMessage("Building Taken", 0);
+			return new ChatMessage("Building Taken", 0,Color.green);
 		case "gold" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough gold", 0);
+			return new ChatMessage("Not enough gold", 0,Color.red);
 		case "faith" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough faith", 0);
+			return new ChatMessage("Not enough faith", 0,Color.red);
 		case "research" : 
 			g.sounds.techDiscovered.play(1f,g.options.soundVolume );
-			return new ChatMessage("Research complete", 0);
+			return new ChatMessage("Research complete", 0,Color.green);
 		case "mana" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough mana", 0);
+			return new ChatMessage("Not enough mana", 0,Color.red);
 		case "pop" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough room", 0);
+			return new ChatMessage("Not enough room", 0,Color.red);
 		case "building" :
 			g.sounds.messageWrong.play(1f,g.options.soundVolume );
-			return new ChatMessage("Cannot convert this building", 0);
+			return new ChatMessage("Cannot convert this building", 0,Color.red);
+		case "attack" :
+			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			return new ChatMessage("You are being attacked", 0,Color.red);
+		case "unit created" :
+			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			return new ChatMessage("Unit created", 0,Color.green);
 		default : 
 			return null;
 		}
@@ -81,9 +100,10 @@ public class ChatMessage {
 			return new ChatMessage("Research complete", 0);
 		case "mana" : 
 			return new ChatMessage("Not enough mana", 0);
-		case "pop" : 
-			return new ChatMessage("Not enough room", 0);
-		case "building" : 
+		case "pop" :
+			Game.g.sounds.messageWrong.play(1f,Game.g.options.soundVolume );
+			return new ChatMessage("Not enough room", 0,Color.red);
+		case "building" :
 			return new ChatMessage("Cannot convert this building", 0);
 		default : 
 			return null;

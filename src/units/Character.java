@@ -683,12 +683,13 @@ public class Character extends ActionObjet{
 		}
 		g.setLineWidth(2f);
 		if(this.target instanceof Character){
+			g.setLineWidth(2f*Main.ratioSpace);
 			g.setColor(Colors.aggressive);
 			g.draw(this.target.collisionBox);
 		}
 		if(this.target instanceof Checkpoint){
-
-			this.target.draw(g);
+			((Checkpoint) target).toDraw = true;
+			//this.target.draw(g);
 		}
 		//Draw the building which is being conquered
 		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
@@ -939,7 +940,11 @@ public class Character extends ActionObjet{
 	//// UPDATE FUNCTIONS
 
 	public void setTarget(Objet t, Vector<Case> waypoints){
+		if(t!=null && t instanceof Checkpoint ){
+			((Checkpoint)t).toDraw = false;
+		}
 		this.target = t;
+		
 		if(this.mode == TAKE_BUILDING){
 			this.mode = NORMAL;
 		}

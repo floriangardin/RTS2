@@ -8,25 +8,25 @@ import model.Plateau;
 import model.Utils;
 import units.Character;
 
-public class SpellFence extends Spell{
+public class SpellFrozen extends Spell{
 
 	public float remainingTime;
 
-	public SpellFence(Plateau p, GameTeam gameteam){
+	public SpellFrozen(Plateau p, GameTeam gameteam){
 		this.chargeTime = 450f;
 		this.p = p;
 		this.name = "Fence";
 		this.icon = p.g.images.get("spellFirewall");
 		this.range = 400f*Main.ratioSpace;
 		this.damage = 1f;
-		this.remainingTime = 10f;
+		this.remainingTime = 5f;
 		this.gameteam = gameteam;
 		this.needToClick=false;
 	}
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
-			Fence f = new Fence(launcher.p,launcher,target,-1);
+			Frozen f = new Frozen(launcher.p,launcher,target,-1);
 			f.remainingTime = this.remainingTime;
 		}
 

@@ -14,7 +14,7 @@ public class Arrow extends CollisionBullet{
 
 	protected float angle= 0f;
 	public Image shadow;
-	
+	public float life = 4f;
 	public Arrow(Plateau p,Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
 	
@@ -76,6 +76,7 @@ public class Arrow extends CollisionBullet{
 	}
 
 	public void collision(Building c){
+		this.lifePoints = -1f;
 	}
 	public Graphics draw(Graphics g){
 		g.drawImage(this.image,this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
@@ -89,7 +90,11 @@ public class Arrow extends CollisionBullet{
 	}
 	public void action(){
 		//MULTI 
-		this.toKeep = false;
+		this.life  -= Main.increment;
+		if(life<0f){
+			this.lifePoints = -1f;
+		}
+		
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
 		if(this.x>this.p.maxX || this.x<0 || this.y>this.p.maxY||this.y<0){
 			this.setLifePoints(-1f);

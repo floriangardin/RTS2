@@ -242,8 +242,8 @@ public class UnitSpearman extends Character {
 		y2-=40f*Main.ratioSpace;
 
 
-		if(mouseOver){
-		
+		if(mouseOver && frozen<=0f){
+
 			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.1f);
 			Image i;
 			if(!isAttacking){
@@ -259,7 +259,7 @@ public class UnitSpearman extends Character {
 			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
 			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
-		else{
+		else if(frozen<=0f){
 			if(!isAttacking){
 				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 			}
@@ -267,7 +267,7 @@ public class UnitSpearman extends Character {
 				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*((int)(5*this.attackState/this.attackDuration)),imageHeight*direction,imageWidth*((int)(5*this.attackState/this.attackDuration))+imageWidth,imageHeight*direction+imageHeight);
 			}
 		}
-		if(frozen>0f){
+		else{
 			Color color = Color.darkGray;
 			color = new Color(100,150,255,0.4f);
 			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
@@ -277,14 +277,7 @@ public class UnitSpearman extends Character {
 			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
 			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
-		else{
-			if(!isAttacking){
-				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-			}
-			else{
-				g.drawImage(toDraw,x1,y1,x2,y2,imageWidth*((int)(5*this.attackState/this.attackDuration)),imageHeight*direction,imageWidth*((int)(5*this.attackState/this.attackDuration))+imageWidth,imageHeight*direction+imageHeight);
-			}
-		}
+		
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			drawLifePoints(g, drawHeight);
 

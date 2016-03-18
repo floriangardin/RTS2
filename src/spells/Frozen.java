@@ -12,7 +12,7 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Circle;
 import units.Character;
 
-public class Fence extends SpellEffect{
+public class Frozen extends SpellEffect{
 
 	public static float radius = 70f;
 	public float remainingTime;
@@ -20,7 +20,7 @@ public class Fence extends SpellEffect{
 	public Image image;
 	public Character owner;
 	public boolean active = false;
-	public Fence(Plateau p, Character launcher, Objet t,int id){
+	public Frozen(Plateau p, Character launcher, Objet t,int id){
 
 		if(id==-1){
 			this.id = p.g.idChar;
@@ -52,7 +52,7 @@ public class Fence extends SpellEffect{
 	public void action(){
 
 		this.remainingTime-=Main.increment;
-		if(remainingTime<1f){
+		if(remainingTime<0.5f){
 			if(!active){
 				this.p.g.sounds.iceActive.play(1f,this.p.g.options.soundVolume);
 				this.p.g.sounds.iceStart.stop();
@@ -67,7 +67,7 @@ public class Fence extends SpellEffect{
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
 		g.draw(collisionBox);
-		if(!(this.remainingTime>2f)){
+		if(!(this.remainingTime>0.5f)){
 			g.setColor(new Color(60,100,250,0.2f));
 			g.fill(collisionBox);
 		}

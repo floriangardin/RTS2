@@ -4,7 +4,7 @@ import main.Main;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;
 import spells.SpellDash;
-import spells.SpellFence;
+import spells.SpellFrozen;
 import spells.SpellFirewall;
 import spells.SpellImmolation;
 import spells.SpellInstantDeath;
@@ -110,7 +110,7 @@ public class Data {
 	public SpellInstantDeath instantDeath ;
 	public SpellManualArrow manualArrow;
 	public SpellDash spellDash;
-	public SpellFence fence;
+	public SpellFrozen fence;
 	//// Special
 
 	public float gainedFaithByImmolation = 1f;
@@ -141,7 +141,7 @@ public class Data {
 		this.instantDeath = new SpellInstantDeath(p,gameteam);
 		this.instantHealth = new SpellInstantHealth(p,gameteam);
 		this.spellDash = new SpellDash(p,gameteam);
-		this.fence = new SpellFence(p, gameteam);
+		this.fence = new SpellFrozen(p, gameteam);
 		// Init unit 
 		this.spearman = new UnitSpearman(p,gameteam,this);
 		this.crossbowman = new UnitCrossbowman(p,gameteam,this);

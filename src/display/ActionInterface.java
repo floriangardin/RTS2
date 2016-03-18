@@ -90,13 +90,14 @@ public class ActionInterface extends Bar {
 				g.setColor(this.p.g.currentPlayer.getGameTeam().color);
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
 				if(ul.size()>i && this.toDrawDescription[i]){
+					g.setColor(Color.white);
 					g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawImage(this.imageFood,this.x + 3.6f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString(": "+(int)ul.get(i).foodPrice,this.x + 3.95f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawImage(this.imageGold,this.x + 4.8f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString(": "+(int)ul.get(i).goldPrice,this.x + 5.15f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString("T: ",this.x + 6f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString(Integer.toString(((int)ul.get(i).time)),this.x + 6.35f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageFood,this.x + 3.6f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).foodPrice,this.x + 3.95f*(this.sizeX+400f)/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageGold,this.x + 4.8f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).goldPrice,this.x + 5.15f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString("T: ",this.x + 6f*(this.sizeX+400f)/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(Integer.toString(((int)ul.get(i).time)),this.x + 6.35f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
 		}
@@ -114,12 +115,12 @@ public class ActionInterface extends Bar {
 				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
 					g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawImage(this.imageFood,this.x + 3.6f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString(": "+(int)ul.get(i).tech.foodPrice,this.x + 3.95f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawImage(this.imageGold,this.x + 4.8f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString(": "+(int)ul.get(i).tech.goldPrice,this.x + 5.15f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString("T: ",this.x + 6f*this.sizeX/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
-					g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),this.x + 6.35f*this.sizeX/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageFood,this.x + 3.6f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).tech.foodPrice,this.x + 3.95f*(this.sizeX+400f)/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawImage(this.imageGold,this.x + 4.8f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(": "+(int)ul.get(i).tech.goldPrice,this.x + 5.15f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString("T: ",this.x + 6f*(this.sizeX+400f)/7, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),this.x + 6.35f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
 		}

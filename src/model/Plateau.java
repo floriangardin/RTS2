@@ -76,6 +76,7 @@ public class Plateau {
 	public Vector<Building> toAddBuildings;
 	public Vector<Building> toRemoveBuildings;
 
+	public Vector<Checkpoint> checkpoints; 
 	public Vector<Bonus> bonus;
 
 	public Vector<NaturalObjet> naturalObjets;
@@ -143,6 +144,8 @@ public class Plateau {
 		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
 		this.toRemoveBuildings = new Vector<Building>();
+		//temporary Checkpoints ( markers )
+		this.checkpoints = new Vector<Checkpoint>();
 		// SELECTION
 		this.selection = new Vector<Vector<ActionObjet>>();
 		this.toAddSelection = new Vector<Vector<ActionObjet>>();
@@ -430,6 +433,9 @@ public class Plateau {
 	}
 
 	public void action() {
+		for (Checkpoint a : this.checkpoints) {
+			a.action();
+		}
 		for (Character o : this.characters) {
 			o.action();
 		}
@@ -810,6 +816,7 @@ public class Plateau {
 							im.yMouse);
 				}
 			} else if (im.isPressedMAJ) {
+			
 				updateSecondaryTarget(im.xMouse, im.yMouse, player);
 			} else {
 				updateTarget(im.xMouse, im.yMouse, player, Character.MOVE);
@@ -824,22 +831,32 @@ public class Plateau {
 				}
 			}
 		}
-		if (im.isPressedT) {
+		if (im.isPressedA) {
 
 			updateTarget(im.xMouse, im.yMouse, player, Character.AGGRESSIVE);
 		}
 		if (im.isPressedE) {
-			// ZONE ATTACK
+			// Attack building
 
 			updateTarget(im.xMouse, im.yMouse, player, Character.TAKE_BUILDING);
 		}
 		if (im.isPressedH) {
-			// ZONE ATTACK
+			// Hold position
 			updateTarget(im.xMouse, im.yMouse, player, Character.HOLD_POSITION);
 		}
 		if (im.isPressedSuppr) {
-			// ZONE ATTACK
+			// Sell building
 			updateTarget(im.xMouse, im.yMouse, player, Character.DESTROY_BUILDING);
+		}
+		if (im.isPressedR) {
+			
+			//Update rally point
+			for(Building b : buildings){
+				if(b.getTeam()==this.g.players.get(player).getTeam() && b instanceof BuildingProduction){
+					Checkpoint c = new Checkpoint(this,im.xMouse,im.yMouse,true,Colors.team1);
+					((BuildingProduction) b).rallyPoint = new Checkpoint(this,im.xMouse,im.yMouse);
+				}
+			}
 		}
 	}
 
@@ -932,21 +949,21 @@ public class Plateau {
 //			boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
 			// Move camera according to inputs :
 			if ((im.isPressedUP || ((im.isPressedZ && !im.isPressedMAJ) ||!im.isOnMiniMap && im.yMouse < Ycam + 5)) && Ycam > -g.resY / 2) {
-				Ycam -= (int) (40 * 30 / Main.framerate);
+				Ycam -= (int) (80 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
 			if ((im.isPressedDOWN || (im.isPressedS && !im.isPressedMAJ) || (!im.isOnMiniMap && im.yMouse > Ycam + g.resY - 5))
 					&& Ycam < this.maxY - g.resY / 2) {
-				Ycam += (int) (40 * 30 / Main.framerate);
+				Ycam += (int) (80 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
 			if ((im.isPressedLEFT || (im.isPressedQ && !im.isPressedMAJ) ||(!im.isOnMiniMap && im.xMouse < Xcam + 5)) && Xcam > -g.resX / 2) {
-				Xcam -= (int) (40 * 30 / Main.framerate);
+				Xcam -= (int) (80 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
 			if ((im.isPressedRIGHT || (im.isPressedD && !im.isPressedMAJ) ||(!im.isOnMiniMap && im.xMouse > Xcam + g.resX - 5))
 					&& Xcam < this.maxX - g.resX / 2) {
-				Xcam += (int) (40 * 30 / Main.framerate);
+				Xcam += (int) (80 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
 			// Displaying the selected group

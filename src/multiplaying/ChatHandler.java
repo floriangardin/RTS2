@@ -5,13 +5,13 @@ import java.net.InetAddress;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.newdawn.slick.Color;
+import main.Main;
+import menu.Menu_TextScanner;
+import model.Game;
+
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-
-import menu.Menu_TextScanner;
-import model.Game;
 
 public class ChatHandler {
 
@@ -21,7 +21,8 @@ public class ChatHandler {
 	public boolean typingMessage;
 	public Menu_TextScanner textScanner;
 	public float startY;
-
+	public static float remainingTimeNotEnoughRoom = 0f;
+	public static float remainingTimeBeingAttacked = 0f;
 
 	public ChatHandler(Game game){
 		this.game = game;
@@ -38,6 +39,13 @@ public class ChatHandler {
 		//				System.out.println(i);
 		//			}
 		//		}
+		if(remainingTimeNotEnoughRoom>0f){
+			remainingTimeNotEnoughRoom-=Main.increment;
+		}
+		if(remainingTimeBeingAttacked>0f){
+			remainingTimeNotEnoughRoom-=Main.increment;
+		}
+		
 		Vector<ChatMessage> toRemove = new Vector<ChatMessage>();
 		mutex.lock();
 		ChatMessage m;
@@ -76,7 +84,7 @@ public class ChatHandler {
 				nickname = game.players.get(m.idPlayer).nickname+ " : ";
 				g.drawString(nickname, 20f, startY+2f*height*k);
 			}
-			g.setColor(Color.white);
+			g.setColor(m.colorBody);
 			g.drawString(m.message, 20f+f.getWidth(nickname), startY+2f*height*k);
 			k++;
 		}

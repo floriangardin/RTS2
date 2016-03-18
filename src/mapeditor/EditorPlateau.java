@@ -601,10 +601,10 @@ public class EditorPlateau {
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
 				if(tab[0].equals("1")){
-					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("headQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 					this.setCollision(headquartersBlue.get(0), true);
 				} else {
-					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("headQuartersRed"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersRed"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
 					this.setCollision(headquartersRed.get(0), true);
 				}
 			}
@@ -616,13 +616,13 @@ public class EditorPlateau {
 				if(tab[1].equals("0")){
 					switch(tab[0]){
 					// usual buildings
-					case "Mill" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("millNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));break;
-					case "Mine" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("mineNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));break;
-					case "Barrack" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("barrackNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));break;
-					case "Stable" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("stableNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));break;
-					case "Academy" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("academyNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));break;
-					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("universityNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
-					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("towerNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
+					case "Mill" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingmillNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));break;
+					case "Mine" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingmineNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));break;
+					case "Barrack" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingbarrackNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));break;
+					case "Stable" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingstableNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));break;
+					case "Academy" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingacademyNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));break;
+					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildinguniversityNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
+					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingtowerNeutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
 					// bonus
 					case "BonusLifePoints" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusLifePoints"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
 					case "BonusDamage" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusDamage"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
@@ -632,26 +632,26 @@ public class EditorPlateau {
 				} else if(tab[1].equals("1")){
 					switch(tab[0]){
 					// usual buildings
-					case "Mill" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("millBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));break;
-					case "Mine" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("mineBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));break;
-					case "Barrack" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("barrackBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));break;
-					case "Stable" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("stableBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));break;
-					case "Academy" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("academyBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));break;
-					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("universityBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
-					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("towerBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
+					case "Mill" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingmillBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));break;
+					case "Mine" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingmineBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));break;
+					case "Barrack" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingbarrackBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));break;
+					case "Stable" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingstableBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));break;
+					case "Academy" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingacademyBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));break;
+					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildinguniversityBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
+					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingtowerBlue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
 					default : 
 					}
 				} else if(tab[1].equals("2")){
 					switch(tab[0]){
 					// usual buildings
 
-					case "Mill" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("millRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));break;
-					case "Mine" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("mineRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));break;
-					case "Barrack" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("barrackRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));break;
-					case "Stable" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("stableRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));break;
-					case "Academy" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("academyRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));break;
-					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("universityRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
-					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("towerRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
+					case "Mill" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingmillRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));break;
+					case "Mine" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingmineRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));break;
+					case "Barrack" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingbarrackRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));break;
+					case "Stable" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingstableRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));break;
+					case "Academy" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingacademyRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));break;
+					case "University" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildinguniversityRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));break;
+					case "Tower" : this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("buildingtowerRed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));break;
 					default : 
 					}
 				}

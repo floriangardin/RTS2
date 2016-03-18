@@ -73,7 +73,7 @@ public class Game extends BasicGame
 
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
-
+	
 	public boolean displayMapGrid = false;
 
 	public static boolean showUpdateLogicInterval = true;
@@ -104,8 +104,8 @@ public class Game extends BasicGame
 
 	// Music and sounds
 	public Options options;
-	public Sounds sounds;
 	public Images images;
+	public Sounds sounds;
 	public Musics musics;
 	public Taunt taunts;
 
@@ -458,6 +458,10 @@ public class Game extends BasicGame
 
 			// Draw the selection of your team 
 			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
+				if(o.target!=null && o instanceof Checkpoint){
+					Checkpoint c = (Checkpoint) o.target;
+					c.toDraw = true;
+				}
 				o.drawIsSelected(g);
 				if(Game.debugGroup){
 					if(o instanceof Character && ((Character) o).group!=null){
@@ -511,6 +515,7 @@ public class Game extends BasicGame
 				else
 					toDraw.add(b);
 			}
+
 			Utils.triY(toDraw);
 			Utils.triY(toDrawAfter);
 			// determine visible objets
@@ -520,7 +525,9 @@ public class Game extends BasicGame
 			plateau.drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
-
+			for(Checkpoint c : this.plateau.checkpoints){
+				c.draw(g);
+			}
 			// Draw the selection :
 			if(plateau.cosmetic.selection!=null){
 				g.setColor(Colors.selection);
@@ -728,7 +735,7 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
-
+			chatHandler.messages.clear();
 			//Write replay
 			//replay.write("test");
 			if(this.musics.imperial.playing()){

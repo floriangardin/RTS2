@@ -3,8 +3,8 @@
 ###########################
 
 
-#Creator: bouard
-# date: 15/03/2016
+#Creator: Welcome
+# date: 18/03/2016
 
 & sizeX 31
 & sizeY 31
@@ -57,6 +57,7 @@ Spearman 2 14.0 25.0
 Spearman 2 16.0 25.0
 Crossbowman 2 15.0 20.0
 Crossbowman 1 15.0 10.0
+Knight 1 18.0 6.0
 
 ###########
 = naturalObjects
