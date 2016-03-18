@@ -150,19 +150,6 @@ public class InputObject extends MultiObjetModel{
 		BottomBar bb = g.currentPlayer.bottomBar;
 		float relativeXMouse = input.getAbsoluteMouseX();
 		float relativeYMouse = input.getAbsoluteMouseY();
-		if(relativeXMouse>bb.action.x && relativeXMouse<bb.action.x+bb.action.icoSizeX && relativeYMouse>bb.action.y && relativeYMouse<bb.action.y+bb.action.sizeY){
-			int mouseOnItem = (int)((relativeYMouse-bb.action.y)/(bb.action.sizeY/bb.action.prodIconNb));
-			//.println(mouseOnItem);
-			if(pressedLeftClick){
-				switch(mouseOnItem){
-				case 0: isPressedProd0 = true;pressedLeftClick = false; break;
-				case 1: isPressedProd1 = true;pressedLeftClick = false;break;
-				case 2: isPressedProd2 = true;pressedLeftClick = false;break;
-				case 3: isPressedProd3 = true;pressedLeftClick = false;break;
-				default:
-				} 
-			}
-		}
 		for(int i=0; i<10;i++){
 			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
 		}

@@ -715,6 +715,7 @@ public class Plateau {
 			// Handle minimap
 
 			this.handleMinimap(im, player);
+			this.handleInterface(im);
 			this.handleSelection(im, player, g.players.get(player).getTeam());
 
 			// if(player == this.currentPlayer.id){
@@ -918,18 +919,7 @@ public class Plateau {
 		}
 
 	}
-//					number = 1;
-//				if (im.isPressedProd2)
-//					number = 2;
-//				if (im.isPressedProd3)
-//					number = 3;
-//				if (im.isPressedImmolation)
-//					number = 4;
-//
-//				this.handleSpellsOnField(im, number, player, true);
-//			}
-//		}
-//	}
+
 
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
 
@@ -1133,7 +1123,10 @@ public class Plateau {
 			}
 
 		}
-		// display for the bottom bar
+	}
+	
+	public void handleInterface(InputObject im){
+		// display for the action bar
 		BottomBar bb = g.currentPlayer.bottomBar;
 		float relativeXMouse = (im.xMouse - Xcam);
 		float relativeYMouse = (im.yMouse - Ycam);

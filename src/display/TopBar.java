@@ -17,6 +17,8 @@ public class TopBar extends Bar {
 	Image imagePop;
 	Image imageTimer;
 
+	private int gold, food;
+
 	public float ratioSizeGoldX = 1/13f;
 	public float ratioSizeTimerX = 1/12f;
 	public float ratioSizeGoldY = 1/22f;
@@ -45,6 +47,12 @@ public class TopBar extends Bar {
 		String s;
 		float rX = this.p.g.resX;
 		float rY = this.p.g.resY;
+		
+		if(gold != p.g.currentPlayer.getGameTeam().gold)
+			gold += (p.g.currentPlayer.getGameTeam().gold-gold)/5+Math.signum(p.g.currentPlayer.getGameTeam().gold-gold);
+		if(food != p.g.currentPlayer.getGameTeam().food)
+			food += (p.g.currentPlayer.getGameTeam().food-food)/5+Math.signum(p.g.currentPlayer.getGameTeam().food-food);
+		
 
 		// pop
 		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
@@ -59,7 +67,7 @@ public class TopBar extends Bar {
 
 		// food
 		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+this.p.g.currentPlayer.getGameTeam().food;
+		s = ""+food;
 		g.setColor(Color.white);
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
@@ -73,7 +81,7 @@ public class TopBar extends Bar {
 
 		// gold
 		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2-4,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+this.p.g.currentPlayer.getGameTeam().gold;
+		s = ""+gold;
 		g.setColor(Color.white);
 		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);

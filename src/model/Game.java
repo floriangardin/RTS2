@@ -381,7 +381,7 @@ public class Game extends BasicGame
 				int width = this.loadingSpearman.getWidth()/5;
 				int w = animationLoadingSpearman*8/Main.framerate+1;
 				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),resX-startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
-				g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
+				//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
 //				g.setColor(Color.white);
 //				String s = "Chargement...";
 //				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
@@ -430,37 +430,6 @@ public class Game extends BasicGame
 
 			g.drawImage(this.images.get("islandTexture"),0, 0, this.plateau.maxX, this.plateau.maxY,
 					0, 0, this.images.get("islandTexture").getWidth(),  this.images.get("islandTexture").getHeight());
-
-			//		int i = 0;
-			//		int j = 0;
-			//		while(i<this.plateau.maxX+this.images.get("grassTexture.getWidth()){
-			//			while(j<this.plateau.maxY+this.images.get("grassTexture.getHeight()){
-			//				g.drawImage(this.images.get("grassTexture, i,j);
-			//				j+=this.images.get("grassTexture.getHeight();
-			//			}
-			//			i+=this.images.get("grassTexture.getWidth();
-			//			j= 0;
-			//		}
-
-			//		g.setColor(Color.black);
-			//		g.fillRect(this.plateau.maxX, 0, 2*this.plateau.maxX, 2*this.plateau.maxY);
-			//		g.fillRect(0, this.plateau.maxY, 2*this.plateau.maxX, 2*this.plateau.maxY);
-
-			//		g.drawImage(this.images.get("background"),this.plateau.maxX, 0);
-			//		g.drawImage(this.images.get("background"),0, this.plateau.maxY);
-
-			//			MapGrid mapGrid = this.plateau.mapGrid;
-			//			g.setColor(Color.black);
-			//			for(Float x : mapGrid.Xcoord){
-			//				if(x>this.plateau.Xcam && x<this.plateau.Xcam+this.resX){
-			//					g.drawLine(x, plateau.Ycam, x, plateau.Ycam+resY);
-			//				}
-			//			}
-			//			for(Float y : mapGrid.Ycoord){
-			//				if(y>this.plateau.Ycam && y<this.plateau.Ycam+this.resY){
-			//					g.drawLine(plateau.Xcam, y,plateau.Xcam+resX, y);
-			//				}
-			//			}
 
 			// Draw the selection of your team 
 			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){

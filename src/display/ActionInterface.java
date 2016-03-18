@@ -22,8 +22,8 @@ import units.UnitsList;
 public class ActionInterface extends Bar {
 
 	// Minimap caract
-	public float startX;
 	public float startY;
+	public float startY2;
 	public float sizeX;
 	public float sizeY;
 	public Game game;
@@ -32,6 +32,7 @@ public class ActionInterface extends Bar {
 	public Image imageSpecial;
 	public int prodIconNb = 5;
 	public boolean[] toDrawDescription = new boolean[prodIconNb];
+	public boolean mouseOnIt;
 	public float icoSizeX;
 	public float icoSizeY;
 	// Production Bar
@@ -48,7 +49,9 @@ public class ActionInterface extends Bar {
 		this.icoSizeX = ratio*this.sizeY+2f;
 		this.icoSizeY = ratio*this.sizeY+2f;
 		this.x = 0;
-		this.y = this.game.resY - this.sizeY - parent.ratioSelectionX*parent.p.g.resX;
+		this.startY = this.game.resY - this.sizeY - parent.ratioSelectionX*parent.p.g.resX;
+		this.startY2 = this.game.resY - parent.ratioSelectionX*parent.p.g.resX;
+		this.y = startY2;
 
 		toDrawDescription[0] = false;
 		toDrawDescription[1] = false;
@@ -67,6 +70,11 @@ public class ActionInterface extends Bar {
 		// Draw the potential actions
 		// Draw Separation (1/3 1/3 1/3) : 
 
+		if(mouseOnIt && y>startY)
+			y = startY+(y-startY)/5;
+		if(!mouseOnIt && y<startY2)
+			y = startY2+(y-startY2)/5;
+		
 		float ratio =1f/prodIconNb;
 		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, x-4, y-5, sizeX+4, sizeY+9);
 		g.setColor(Color.darkGray);
@@ -79,6 +87,7 @@ public class ActionInterface extends Bar {
 
 		// Draw Production/Effect Bar
 		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingProduction){
+			mouseOnIt = true;
 			BuildingProduction b =(BuildingProduction) this.p.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<UnitsList> ul = b.productionList;
@@ -100,8 +109,8 @@ public class ActionInterface extends Bar {
 					g.drawString(Integer.toString(((int)ul.get(i).time)),this.x + 6.35f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
-		}
-		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingTech){
+		}else if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingTech){
+			mouseOnIt = true;
 			BuildingTech b =(BuildingTech) this.p.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
@@ -123,8 +132,8 @@ public class ActionInterface extends Bar {
 					g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),this.x + 6.35f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
-		}
-		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof Character){
+		} else if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof Character){
+			mouseOnIt = true;
 			Character b =(Character) this.p.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Spell> ul = b.spells;
@@ -160,6 +169,8 @@ public class ActionInterface extends Bar {
 				}
 
 			}
+		} else {
+			mouseOnIt = false;
 		}
 
 		return g;
