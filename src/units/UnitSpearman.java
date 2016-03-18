@@ -240,7 +240,7 @@ public class UnitSpearman extends Character {
 
 		if(mouseOver && frozen<=0f){
 
-			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.1f);
+			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
 			Image i;
 			if(!isAttacking){
 				i = toDraw.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);

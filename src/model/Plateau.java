@@ -467,6 +467,9 @@ public class Plateau {
 	//Handling cosmetic for current player in lan game
 	public void updateCosmetic(InputObject im){
 		//SELECTION RECTANGLE
+		if (im.player == this.g.currentPlayer) {
+			this.handleMouseHover(im);
+		}
 		if (im.leftClick) {
 
 
@@ -716,9 +719,7 @@ public class Plateau {
 			// on g�re la s�lection des sorts (type firewall/ blessed area)
 			//this.handleSpellCasting(im, player);
 			// on g�re c�t� serveur l'action bar et le click droit
-			if (im.player == this.g.currentPlayer) {
-				this.handleMouseHover(im, player);
-			}
+
 			// Handling action bar
 			this.handleActionBar(im, player);
 			// Handling the right click
@@ -750,7 +751,7 @@ public class Plateau {
 	
 	
 
-	private void handleMouseHover(InputObject im, int player) {
+	private void handleMouseHover(InputObject im) {
 		for (Character c : this.characters) {
 			if (c.selectionBox.contains(im.xMouse, im.yMouse)) {
 				c.mouseOver = true;

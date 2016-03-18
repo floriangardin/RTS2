@@ -211,9 +211,8 @@ public class UnitInquisitor extends Character {
 		y2-=40f*Main.ratioSpace;
 		x1+=5f*Main.ratioSpace;
 		x2+=5f*Main.ratioSpace;
-		if(mouseOver){
+		if(mouseOver && frozen<=0f){
 			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
-
 			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
 			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 
@@ -221,22 +220,21 @@ public class UnitInquisitor extends Character {
 			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
 			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
-		else{
+		else if(frozen<=0f){
 			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		}
-		if(frozen>0f){
-			Color color = Color.darkGray;
-			color = new Color(100,150,255,0.4f);
-			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
-			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+		}else{
+		
+				Color color = Color.darkGray;
+				color = new Color(100,150,255,0.4f);
+				Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+				i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 
-			g.drawImage(i,x1,y1);
-			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
-			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+				g.drawImage(i,x1,y1);
+				i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+				//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
 		}
-		else{
-			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		}
+
+
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
 			drawLifePoints(g,r);
