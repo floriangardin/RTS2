@@ -80,7 +80,7 @@ public class Game extends BasicGame
 
 	public static boolean deplacementGroupIntelligent = true;
 	public static boolean debugGroup = false;
-	
+
 	public boolean displayMapGrid = false;
 
 	public static boolean showUpdateLogicInterval = true;
@@ -295,7 +295,7 @@ public class Game extends BasicGame
 		if(m instanceof MenuMapChoice){
 			((MenuMapChoice)m).initialize();
 		}
-		
+
 	}
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
@@ -376,8 +376,10 @@ public class Game extends BasicGame
 				float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
 				g.setColor(new Color(1f-x,0f,x));
 				g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
-				g.setColor(Color.white);
-				g.drawString(""+lastThing, resX/2-font.getWidth(lastThing)/2, startBarY+sizeBarY/2-font.getHeight("H")/2);
+				if(LoadingList.get().getRemainingResources() > 0){
+					g.setColor(Color.white);
+					g.drawString(""+lastThing, startBarX+20f, startBarY+sizeBarY/2-font.getHeight("H")/2);
+				}
 				int xanimation = startBarX + sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
 				if(special){
 					int height = this.loadingSpearman.getHeight();
@@ -392,9 +394,9 @@ public class Game extends BasicGame
 					g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),xanimation-width/2,startBarY-sizeBarY-height);
 				}				
 				//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
-//				g.setColor(Color.white);
-//				String s = "Chargement...";
-//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
+				//				g.setColor(Color.white);
+				//				String s = "Chargement...";
+				//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
 			}
 			Image temp = this.loadingBackground;
 			temp.setAlpha(toGoTitle2);
@@ -533,10 +535,10 @@ public class Game extends BasicGame
 			}
 			this.displayRessources.removeAll(toRemove);
 			toRemove.clear();
-			
+
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
-			
+
 
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
@@ -563,7 +565,7 @@ public class Game extends BasicGame
 			if(!inEditor){
 				g.setColor(Color.white);
 				this.drawPing(g);
-				
+
 			}
 		}
 		this.chatHandler.draw(g);
@@ -603,18 +605,13 @@ public class Game extends BasicGame
 			}
 			nextResource = LoadingList.get().getNext(); 
 			try {
-//				System.out.println(nextResource.getDescription());
+				//				System.out.println(nextResource.getDescription());
 				nextResource.load();
 				lastThing = nextResource.getDescription();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(LoadingList.get().getRemainingResources()==0){
-				allLoaded = true;
-			}
 			waitLoading = false;
-			return;
-		} else if(!allLoaded) {
 			return;
 		} else if (!plateauLoaded){
 			this.handleEndLoading();
@@ -632,7 +629,7 @@ public class Game extends BasicGame
 			g.thingsLoaded = true;
 			return;
 		}
-		
+
 		// Handling multiReceiver
 		this.handleMultiReceiver();
 
@@ -769,8 +766,8 @@ public class Game extends BasicGame
 		}
 
 	}
-	
-	
+
+
 	// FONCTIONS AUXILIAIRES RECEIVER
 	private void handleMultiReceiver() throws SlickException {
 		while(true){
@@ -790,8 +787,8 @@ public class Game extends BasicGame
 					tempsReception = (int) System.currentTimeMillis();
 				}
 				String msg = new String(packet.getData());
-//				if(Game.debugReceiver) 
-//					System.out.println(msg.substring(0, 200));
+				//				if(Game.debugReceiver) 
+				//					System.out.println(msg.substring(0, 200));
 				//Split submessages
 				String[] tab = msg.split("\\%");
 				String temp;
@@ -827,7 +824,7 @@ public class Game extends BasicGame
 				break;
 			}
 		}
-		
+
 	}
 	public int getRoundFromMessage(String msg){
 		String[] tab = msg.split("\\%");
@@ -930,7 +927,7 @@ public class Game extends BasicGame
 	public void addDisplayRessources(DisplayRessources dr){
 		this.displayRessources.addElement(dr);
 	}
-	
+
 	private void drawPing(Graphics g) {
 		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
 		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
@@ -1267,5 +1264,5 @@ public class Game extends BasicGame
 	public void activateGdBMode(){
 		this.images.activateGdBMode();
 	}
-	
+
 }
