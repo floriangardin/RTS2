@@ -858,7 +858,7 @@ public class Game extends BasicGame
 			inputsHandler.addToInputs(io);
 			io.validate();
 		}else{
-			System.out.println("Multi Receiver line 167 : Message reçu trop tard");
+			System.out.println("Multi Receiver line 167 : Message reçu trop tard "+(round-io.round+Main.nDelay));
 		}
 	}
 	public void actionValidation(String msg){
