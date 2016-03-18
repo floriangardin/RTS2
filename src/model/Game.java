@@ -1226,4 +1226,9 @@ public class Game extends BasicGame
 	}
 
 
+	// GILLES DE BOUARD MODE
+	public void activateGdBMode(){
+		this.images.activateGdBMode();
+	}
+	
 }

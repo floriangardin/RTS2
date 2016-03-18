@@ -98,6 +98,13 @@ public class ChatHandler {
 		if(textScanner.s.length()>0){
 			// checking if not adding an ip n menumapchoice
 			InetAddress ia = null;
+			// activate GdB mode
+			if(textScanner.s.equals("/gilles")){
+				this.game.activateGdBMode();
+				System.out.println("Gilles de Bouard Mode activé");
+				textScanner.s="";
+				return;
+			}
 			try {
 				ia = InetAddress.getByName(textScanner.s);
 			} catch (IOException e) {
