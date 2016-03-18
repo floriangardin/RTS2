@@ -754,6 +754,11 @@ public class Game extends BasicGame
 				this.isInMenu = true;
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
+				try {
+					this.server.setBroadcast(true);
+				} catch (SocketException e) {
+					e.printStackTrace();
+				}
 				this.setMenu(this.menuIntro);
 			}
 		}
@@ -946,6 +951,11 @@ public class Game extends BasicGame
 		this.musicPlaying = this.musics.get("themeImperial");
 		this.musicPlaying.loop();
 		this.musicPlaying.setVolume(options.musicVolume);
+		try {
+			this.server.setBroadcast(false);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
 		//this.game.newGame();
 		this.quitMenu();
 		this.plateau.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
