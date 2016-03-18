@@ -774,57 +774,59 @@ public class Game extends BasicGame
 		while(true){
 			byte[] message = new byte[10000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
-			try{
-				server.receive(packet);
-				if(!Game.g.isInMenu){
-					nbReception+=1;
-					if(nbReception==1){
+				try {
+					server.receive(packet);
+					if(!Game.g.isInMenu){
+						nbReception+=1;
+						if(nbReception==1){
+							tempsReception = (int) System.currentTimeMillis();
+						}else{
+							tempsReception = (int) (System.currentTimeMillis()-tempsReception);
+						}
+						if(debugReceiver)
+							System.out.println("reception du message: "+ tempsReception);
 						tempsReception = (int) System.currentTimeMillis();
-					}else{
-						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
 					}
-					if(debugReceiver)
-						System.out.println("reception du message: "+ tempsReception);
-					tempsReception = (int) System.currentTimeMillis();
-				}
-				String msg = new String(packet.getData());
-				//				if(Game.debugReceiver) 
-				//					System.out.println(msg.substring(0, 200));
-				//Split submessages
-				String[] tab = msg.split("\\%");
-				String temp;
-
-				// TODO : check if input in message
-				if(Game.tests && !isInMenu){
-					Test.testIfInputInMessage(msg);
-					int round = getRoundFromMessage(msg);
-					Test.testOrderedMessages(round);
-					Test.testNombreMessagesRecus(round);
-					//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
-				}
-				System.out.println(packet.getAddress().getHostAddress());
-				for(int i =0; i<tab.length;i++){
-					temp = tab[i];
-					nbPaquetReceived++;
-					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
-						//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
-						gilles++;
-						switch(temp.substring(0,1)){
-						case "0":this.actionConnexion(temp.substring(1), packet); break;
-						case "1":this.actionInput(temp.substring(1)); break;
-						case "2":this.actionValidation(temp.substring(1)); break;
-						case "3":this.actionResynchro(temp.substring(1)); break;
-						case "4":this.actionPing(temp.substring(1)); break;
-						case "5":this.actionChecksum(temp.substring(1)); break;
-						case "6":this.actionChat(temp.substring(1)); break;
-						default:
+					String msg = new String(packet.getData());
+					//				if(Game.debugReceiver) 
+					//					System.out.println(msg.substring(0, 200));
+					//Split submessages
+					String[] tab = msg.split("\\%");
+					String temp;
+					
+					// TODO : check if input in message
+					if(Game.tests && !isInMenu){
+						Test.testIfInputInMessage(msg);
+						int round = getRoundFromMessage(msg);
+						Test.testOrderedMessages(round);
+						Test.testNombreMessagesRecus(round);
+						//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
+					}
+					System.out.println(packet.getAddress().getHostAddress());
+					gilles++;
+					for(int i =0; i<tab.length;i++){
+						temp = tab[i];
+						nbPaquetReceived++;
+						if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
+							//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
+							switch(temp.substring(0,1)){
+							case "0":this.actionConnexion(temp.substring(1), packet); break;
+							case "1":this.actionInput(temp.substring(1)); break;
+							case "2":this.actionValidation(temp.substring(1)); break;
+							case "3":this.actionResynchro(temp.substring(1)); break;
+							case "4":this.actionPing(temp.substring(1)); break;
+							case "5":this.actionChecksum(temp.substring(1)); break;
+							case "6":this.actionChat(temp.substring(1)); break;
+							default:
+							}
 						}
 					}
+				} catch (SocketException e) {
+					break;
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch( IOException e){
-				// Si le message met trop de temps à arriver, on quitte la boucle
-				break;
-			}
+
 		}
 		System.out.println(gilles + " messages reçus ce tour");
 
