@@ -808,7 +808,7 @@ public class Game extends BasicGame
 						Test.testNombreMessagesRecus(round);
 						//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
 					}
-					System.out.println(packet.getAddress().getHostAddress());
+					//System.out.println(packet.getAddress().getHostAddress());
 					gilles++;
 					for(int i =0; i<tab.length;i++){
 						temp = tab[i];
@@ -834,7 +834,7 @@ public class Game extends BasicGame
 				}
 
 		}
-		System.out.println(gilles + " messages reçus ce tour");
+		//System.out.println(gilles + " messages reçus ce tour");
 
 	}
 	public int getRoundFromMessage(String msg){
@@ -1101,7 +1101,13 @@ public class Game extends BasicGame
 		toSendThisTurn="";
 	}
 
+	private static long timeToSend;
+	
 	private void send(MultiMessage m) throws FatalGillesError{
+		if(timeToSend==0L)
+			timeToSend= System.nanoTime();
+		else
+			System.out.println("dernier message envoyé il y a: "+(System.nanoTime()-timeToSend)/1000);
 		if( Game.tests){
 			Test.testSendEmptyMessages(m.message);
 		}
