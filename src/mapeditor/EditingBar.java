@@ -174,11 +174,11 @@ public class EditingBar {
 				for(int i=0; i<4; i++){
 					if(im.xMouse>=(sizeY+spaceY)*i && im.xMouse<(sizeY+spaceY)*(i+1)){
 						if(this.mouseOver!=i){
-							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						this.mouseOver = i;
 						if(im.pressedLeftClick){
-							this.editor.game.sounds.menuItemSelected.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							this.callItem(i);
 						}
 					}
@@ -195,11 +195,11 @@ public class EditingBar {
 				for(int i=0; i<5; i++){
 					if(im.xMouse>=editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*i && im.xMouse<editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*(i+1)){
 						if(this.mouseOverBis!=i){
-							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						this.mouseOverBis = i;
 						if(im.pressedLeftClick){
-							this.editor.game.sounds.menuItemSelected.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							if(editor.plateau!=null)
 								this.callItemBis(i);
 						}

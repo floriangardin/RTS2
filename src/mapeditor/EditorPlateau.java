@@ -16,8 +16,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Point;
 
 import model.Data;
-import model.Map;
 import multiplaying.InputObject;
+import ressources.Map;
 
 public class EditorPlateau {
 

@@ -12,9 +12,9 @@ import bullets.Fireball;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
 import model.Utils;
+import ressources.Map;
 import units.Character;
 
 public class BuildingTower extends Building{
@@ -41,8 +41,6 @@ public class BuildingTower extends Building{
 		this.chargeTime = this.gameteam.data.towerChargeTime;
 		this.sight = this.gameteam.data.towerSight;
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.towerSound);
 		if(getTeam()==1){
 			this.image = this.p.g.images.get("buildingTowerBlue");
 		} else if(getTeam()==2){

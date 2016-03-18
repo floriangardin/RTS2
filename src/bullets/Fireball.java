@@ -68,7 +68,7 @@ public class Fireball extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-		this.sound = p.g.sounds.fireball;
+		this.sound = p.g.sounds.get("fireball");
 		this.sound.play(1f,this.p.g.options.soundVolume);
 	}
 	

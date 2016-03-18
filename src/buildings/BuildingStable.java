@@ -9,8 +9,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
+import ressources.Map;
 import units.UnitsList;
 
 public class BuildingStable extends BuildingProduction{
@@ -27,8 +27,6 @@ public class BuildingStable extends BuildingProduction{
 		this.sizeY = this.getGameTeam().data.stableSizeY;
 		this.sight = this.getGameTeam().data.stableSight;
 		this.name = "stable";
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.stableSound);
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 2;
 		this.initialize(f, h);

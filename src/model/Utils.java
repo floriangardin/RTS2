@@ -27,15 +27,6 @@ public class Utils {
 
 	}
 
-	public static Sound getRandomSound (Vector<Sound> v) {
-		if(v.size()==1){
-			return v.get(0);
-		}
-		Random generator = new Random();
-		int rnd = generator.nextInt(v.size());
-		return v.get(rnd); // Cast the vector value into a String object
-	}
-
 	public static float distance(Objet a ,Objet b){
 		if(a== null || b == null){
 			return -1f;

@@ -41,28 +41,28 @@ public class ChatMessage {
 	public static ChatMessage getById(String s,Game g){
 		switch(s){
 		case "food" :
-			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough food", 0);
 		case "building taken":
-			g.sounds.buildingTaken.play(1f,g.options.soundVolume );
+			g.sounds.get("buildingTaken").play(1f,g.options.soundVolume );
 			return new ChatMessage("Building Taken", 0);
 		case "gold" :
-			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough gold", 0);
 		case "faith" :
-			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough faith", 0);
 		case "research" : 
-			g.sounds.techDiscovered.play(1f,g.options.soundVolume );
+			g.sounds.get("techDiscovered").play(1f,g.options.soundVolume );
 			return new ChatMessage("Research complete", 0);
 		case "mana" :
-			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough mana", 0);
 		case "pop" :
-			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
 			return new ChatMessage("Not enough room", 0);
 		case "building" :
-			g.sounds.messageWrong.play(1f,g.options.soundVolume );
+			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
 			return new ChatMessage("Cannot convert this building", 0);
 		default : 
 			return null;

@@ -14,10 +14,10 @@ import model.ActionObjet;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
-import model.Map;
 import model.Objet;
 import model.Plateau;
 import multiplaying.ChatMessage;
+import ressources.Map;
 import technologies.Technologie;
 import units.Character;
 

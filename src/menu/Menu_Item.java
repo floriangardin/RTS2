@@ -1,8 +1,8 @@
 package menu;
 
 import model.Game;
-import model.Images;
 import multiplaying.InputObject;
+import ressources.Images;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -78,7 +78,7 @@ public class Menu_Item {
 		if(this.selectionable){
 			if(this.isMouseOver(im)){
 				if(!mouseOver){
-					this.game.sounds.menuMouseOverItem.play(1f,this.game.options.soundVolume);
+					this.game.sounds.get("menuMouseOverItem").play(1f,this.game.options.soundVolume);
 					mouseOver = true;
 				}
 				this.toDraw = this.selectedImage;

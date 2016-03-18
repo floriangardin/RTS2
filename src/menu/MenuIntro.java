@@ -5,10 +5,10 @@ import java.util.Vector;
 import org.newdawn.slick.Image;
 
 import model.Game;
-import model.Map;
 import model.Plateau;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiSender;
+import ressources.Map;
 
 public class MenuIntro extends Menu {
 

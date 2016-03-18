@@ -6,7 +6,7 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
@@ -33,7 +33,6 @@ import units.Character;
 import units.UnitCrossbowman;
 import units.UnitInquisitor;
 import units.UnitKnight;
-import units.UnitPriest;
 import units.UnitSpearman;
 
 public class Plateau {
@@ -246,9 +245,9 @@ public class Plateau {
 			if (!o.isAlive()) {
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
-				if (o.soundDeath != null && o.soundDeath.size() > 0) {
-					Utils.getRandomSound(o.soundDeath).play(1f, this.g.options.soundVolume);
-				}
+				Sound s = g.sounds.getRandomSoundUnit(o.name,"death");
+				if(s!=null)
+					s.play(1f, this.g.options.soundVolume);
 			}
 		}
 		for (Bullet o : bullets) {
@@ -513,13 +512,16 @@ public class Plateau {
 					o.group = new Vector<Character>();
 					continue;
 				}
-				if (i == 0 && c.soundSetTarget != null && c.soundSetTarget.size() > 0 && Math.random() > 0.3) {
+				if (i == 0 && Math.random() > 0.3) {
+					Sound s = null;
 					if (c.getTeam() == this.g.currentPlayer.id && target instanceof Character
 							&& c.getTeam() != target.getTeam()) {
-						Utils.getRandomSound(c.soundAttack).play(1f, this.g.options.soundVolume);
+						s = this.g.sounds.getRandomSoundUnit(c.name, "attack");
 					} else if (c.getTeam() == this.g.currentPlayer.id) {
-						Utils.getRandomSound(c.soundSetTarget).play(1f, this.g.options.soundVolume);
+						s = this.g.sounds.getRandomSoundUnit(c.name, "target");
 					}
+					if(s!=null)
+						s.play(1f, this.g.options.soundVolume);
 				}
 				i++;
 				// first we deal with o's elder group
@@ -1262,22 +1264,22 @@ public class Plateau {
 		if (!im.leftClick) {
 			if (this.rectangleSelection.get(player) != null) {
 				// Play selection sound
+				Sound s = null;
 				if (player == this.g.currentPlayer.id && this.selection.get(player).size() > 0
 						&& this.selection.get(player).get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(player).get(0);
-					if (c.soundSelection != null && c.soundSelection.size() > 0 && Math.random() > 0.3) {
-						Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
+					if (Math.random() > 0.3) {
+						s = g.sounds.getRandomSoundUnit(c.name, "selection");
 					}
 
 				}
 				if (player == this.g.currentPlayer.id && this.selection.get(player).size() > 0
 						&& this.selection.get(player).get(0) instanceof Building) {
 					Building c = (Building) this.selection.get(player).get(0);
-					if (c.soundSelection != null && c.soundSelection.size() > 0) {
-						Utils.getRandomSound(c.soundSelection).play(1f, this.g.options.soundVolume);
-					}
-
+					s = g.sounds.get("selection"+c.name);
 				}
+				if(s!=null)
+					s.play(1f, this.g.options.soundVolume);
 			}
 			this.rectangleSelection.set(player, null);
 			this.inRectangle.get(player).clear();

@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
+import ressources.Map;
 import technologies.DualistAge2;
 import technologies.DualistAge3;
 import technologies.DualistBonusFood;
@@ -44,8 +44,6 @@ public class BuildingHeadQuarters extends BuildingTech {
 		this.productionList = new Vector<Technologie>();
 		this.allTechs = new Vector<Technologie>();
 		this.gameteam = g.teams.get(team);
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.headQuartersSound);
 		
 		this.getGameTeam().hq = this;
 		if(getGameTeam().civ==0){

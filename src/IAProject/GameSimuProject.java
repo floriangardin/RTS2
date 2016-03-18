@@ -14,8 +14,8 @@ import org.newdawn.slick.SlickException;
 import main.Main;
 import menu.Menu_TextScanner;
 import model.Game;
-import model.Map;
 import multiplaying.InputObject;
+import ressources.Map;
 import units.Character;
 
 public class GameSimuProject extends Game{

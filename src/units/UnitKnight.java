@@ -39,10 +39,6 @@ public class UnitKnight extends Character {
 		this.spells.add(data.immolation);
 		this.spells.add(data.fence);
 		this.animStep = 32f;
-		this.soundSetTarget = this.p.g.sounds.orderSpearman;
-		this.soundAttack = this.p.g.sounds.attackSpearman;
-		this.soundDeath = this.p.g.sounds.deathSpearman;
-		this.soundSelection = this.p.g.sounds.selectionSpearman;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		if(this.getGameTeam().id==1){
 			this.image = this.p.g.images.get("knightBlue");
@@ -68,7 +64,7 @@ public class UnitKnight extends Character {
 		// Attack sound
 		float damage = this.damage;
 		if(this.p.g.sounds!=null)
-			this.p.g.sounds.getByName(this.weapon).play(1f,this.p.g.options.soundVolume);
+			this.p.g.sounds.get(this.weapon).play(1f,this.p.g.options.soundVolume);
 		if(c.weapon=="bow"){
 			damage = damage*this.getGameTeam().data.bonusSwordBow;
 		}

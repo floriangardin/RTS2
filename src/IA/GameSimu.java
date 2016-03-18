@@ -8,10 +8,10 @@ import org.newdawn.slick.TrueTypeFont;
 
 import menu.MenuIntro;
 import model.Game;
-import model.Images;
-import model.Musics;
 import model.Options;
-import model.Sounds;
+import ressources.Images;
+import ressources.Musics;
+import ressources.Sounds;
 
 public class GameSimu extends Game	{
 	

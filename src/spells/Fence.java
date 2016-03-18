@@ -42,7 +42,7 @@ public class Fence extends SpellEffect{
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);
-		this.p.g.sounds.iceStart.play(1f,this.p.g.options.soundVolume);
+		this.p.g.sounds.get("frozen").play(1f,this.p.g.options.soundVolume);
 	}
 
 
@@ -54,8 +54,8 @@ public class Fence extends SpellEffect{
 		this.remainingTime-=Main.increment;
 		if(remainingTime<1f){
 			if(!active){
-				this.p.g.sounds.iceActive.play(1f,this.p.g.options.soundVolume);
-				this.p.g.sounds.iceStart.stop();
+				this.p.g.sounds.get("frozenActive").play(1f,this.p.g.options.soundVolume);
+				this.p.g.sounds.get("frozen").stop();
 			}
 			this.active = true;
 		}

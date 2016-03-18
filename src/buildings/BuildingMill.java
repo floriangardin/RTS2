@@ -11,8 +11,8 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
+import ressources.Map;
 import technologies.Technologie;
 
 public class BuildingMill extends BuildingTech{
@@ -30,8 +30,6 @@ public class BuildingMill extends BuildingTech{
 		this.type = 1;
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		this.name= "mill";
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.millSound);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.millChargeTime;
 		this.lifePoints = getGameTeam().data.millLifePoints;

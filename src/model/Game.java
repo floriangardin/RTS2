@@ -28,6 +28,11 @@ import multiplaying.InputObject;
 import multiplaying.MultiMessage;
 import multiplaying.MultiReceiver;
 import multiplaying.MultiReceiver.Checksum;
+import ressources.Images;
+import ressources.Map;
+import ressources.Musics;
+import ressources.Sounds;
+import ressources.Taunts;
 import multiplaying.MultiSender;
 
 import org.newdawn.slick.AppGameContainer;
@@ -37,6 +42,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -107,7 +113,8 @@ public class Game extends BasicGame
 	public Sounds sounds;
 	public Images images;
 	public Musics musics;
-	public Taunt taunts;
+	public Taunts taunts;
+	public Music musicPlaying;
 
 	// Timer
 	public Timer timer ;
@@ -216,7 +223,7 @@ public class Game extends BasicGame
 
 	public boolean endGame = false;
 	public boolean victory = false;
-	int victoryTime = 200;
+	int victoryTime = 120;
 	boolean hasAlreadyPlay = false;
 
 	public boolean antidrop;
@@ -259,34 +266,33 @@ public class Game extends BasicGame
 		//app.setClearEachFrame(true);
 	}
 	public void setMenu(Menu m){
-
-		if(!(m instanceof MenuOptions) && this.menuCurrent instanceof MenuIntro && this.musics.menu.playing()  ){
-			this.musics.menu.stop();
-		}
-
-		if(this.menuCurrent instanceof MenuMulti && this.musics.multi.playing() && !(m instanceof MenuMapChoice)){
-			this.musics.multi.stop();
-		}
-
-		if(this.musics.editor.playing()){
-			this.musics.editor.stop();
-		}
-
+		// handle change of menu
+		// including the change of music
 		this.menuCurrent = m;
 		this.isInMenu = true;
 
-		if(!this.musics.multi.playing()&&(m instanceof MenuMulti || m instanceof MenuMapChoice)){
-			this.musics.multi.loop(1f, this.options.musicVolume);
+		if((m instanceof MenuMulti || m instanceof MenuMapChoice) && this.musicPlaying!=this.musics.get("themeMulti")){
+			this.musicPlaying.stop();
+			this.musicPlaying=this.musics.get("themeMulti");
+			this.musicPlaying.setVolume(this.options.musicVolume);
+			this.musicPlaying.play();
 		}
-		if(m instanceof MenuIntro && !this.musics.menu.playing()){
-			this.musics.menu.loop(1f, this.options.musicVolume);
+		if(m instanceof MenuIntro && this.musicPlaying!=this.musics.get("themeMenu")){
+			this.musicPlaying.stop();
+			this.musicPlaying=this.musics.get("themeMenu");
+			this.musicPlaying.setVolume(this.options.musicVolume);
+			this.musicPlaying.play();
 		}
 		if(m instanceof Credits){
-			this.musics.editor.loop(1f, this.options.musicVolume);
+			this.musicPlaying.stop();
+			this.musicPlaying=this.musics.get("themeMapEditor");
+			this.musicPlaying.setVolume(this.options.musicVolume);
+			this.musicPlaying.play();
 		}
 		if(m instanceof MenuMapChoice){
 			((MenuMapChoice)m).initialize();
 		}
+		
 	}
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
@@ -595,6 +601,7 @@ public class Game extends BasicGame
 			}
 			nextResource = LoadingList.get().getNext(); 
 			try {
+//				System.out.println(nextResource.getDescription());
 				nextResource.load();
 				lastThing = nextResource.getDescription();
 			} catch (IOException e) {
@@ -617,7 +624,8 @@ public class Game extends BasicGame
 			else
 				toGoTitle+=0.005f;
 			return;
-		} else if(!thingsLoaded){	
+		} else if(!thingsLoaded){
+			this.musicPlaying = this.musics.get("themeMenu");
 			this.setMenu(menuIntro);
 			g.thingsLoaded = true;
 			return;
@@ -728,35 +736,25 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
-
-			//Write replay
-			//replay.write("test");
-			if(this.musics.imperial.playing()){
-				this.musics.imperial.stop();
-			}
-			if(victory){
-				if(!this.sounds.soundVictory.playing())
-					this.sounds.soundVictory.play(1f, this.options.musicVolume);
-			}
-			else{
-				if(!this.sounds.soundDefeat.playing())
-					this.sounds.soundDefeat.play(1f, this.options.musicVolume);
-			}
+			// handle victory / defeat screen
+			if(victory && this.musicPlaying!=this.musics.get("themeVictory")){
+				this.musicPlaying.stop();
+				this.musicPlaying = this.musics.get("themeVictory");
+				this.musicPlaying.play(1f, this.options.musicVolume);
+			} else if(!victory && this.musicPlaying!=this.musics.get("themeDefeat")) {
+				this.musicPlaying.stop();
+				this.musicPlaying = this.musics.get("themeDefeat");
+				this.musicPlaying.play(1f, this.options.musicVolume);
+			} 
 			//Print victory !!
 			victoryTime --;
 			if(victoryTime <0){
-				if(this.sounds.soundVictory.playing()){
-					this.sounds.soundVictory.stop();
-				}
-				else{
-					this.sounds.soundDefeat.stop();
-				}
-				victoryTime = 100;
+				this.musicPlaying.stop();
+				victoryTime = 120;
 				this.isInMenu = true;
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
 				this.setMenu(this.menuIntro);
-
 			}
 		}
 
@@ -938,8 +936,9 @@ public class Game extends BasicGame
 
 	public void launchGame(){
 
-		this.musics.imperial.loop();
-		this.musics.imperial.setVolume(options.musicVolume);
+		this.musicPlaying = this.musics.get("themeImperial");
+		this.musicPlaying.loop();
+		this.musicPlaying.setVolume(options.musicVolume);
 		//this.game.newGame();
 		this.quitMenu();
 		this.plateau.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
@@ -963,7 +962,7 @@ public class Game extends BasicGame
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
-		Image cursor = new Image("pics/cursor.png");
+		Image cursor = new Image("ressources/images/cursor.png");
 		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,25);
 		this.font = new UnicodeFont(fe,25,false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
@@ -977,9 +976,9 @@ public class Game extends BasicGame
 		Plateau.fog = new Image((int) (resX), (int) (resY));
 		Plateau.gf = Plateau.fog.getGraphics();
 
-		this.loadingSpearman = new Image("pics/unit/spearmanBlue.png");
-		this.loadingTitle = new Image("pics/menu/menuTitle01.png").getScaledCopy(0.35f*this.resY/650);
-		this.loadingBackground = new Image("pics/backgroundMenu.png").getScaledCopy(0.35f*this.resY/650);
+		this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");
+		this.loadingTitle = new Image("ressources/images/menu/menuTitle01.png").getScaledCopy(0.35f*this.resY/650);
+		this.loadingBackground = new Image("ressources/images/backgroundMenu.png").getScaledCopy(0.35f*this.resY/650);
 
 		LoadingList.setDeferredLoading(true);
 
@@ -987,7 +986,7 @@ public class Game extends BasicGame
 		g.options = new Options();
 		g.images = new Images();
 		g.musics = new Musics();
-		g.taunts = new Taunt(g);
+		g.taunts = new Taunts(g);
 
 		g.menuIntro = new MenuIntro(g);
 		g.menuOptions = new MenuOptions(g);

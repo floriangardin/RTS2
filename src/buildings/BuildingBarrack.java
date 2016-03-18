@@ -9,8 +9,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import model.Checkpoint;
 import model.Game;
-import model.Map;
 import model.Plateau;
+import ressources.Map;
 import units.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
@@ -30,8 +30,6 @@ public class BuildingBarrack extends BuildingProduction{
 		this.sizeY = this.getGameTeam().data.barrackSizeY;
 		this.sight = this.getGameTeam().data.barrackSight;
 		this.name = "barrack";
-		this.soundSelection = new Vector<Sound>();
-		this.soundSelection.addElement(this.g.sounds.barrackSound);
 		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
 		type= 3;
 		this.initialize(f, h);

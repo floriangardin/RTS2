@@ -7,8 +7,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import model.Data;
-import model.Map;
 import multiplaying.InputObject;
+import ressources.Map;
 
 public class ObjectBar {
 
@@ -228,12 +228,12 @@ public class ObjectBar {
 				for(int i=0; i<4; i++){
 					if(im.xMouse>startX+(i%2)*sizeX/2f && im.xMouse<startX+(i%2+1)*sizeX/2f && im.yMouse>(i/2)*sizeY/20f && im.yMouse<(i/2+1)*sizeY/20f){
 						if(this.overClass!=i){
-							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						overClass = i;
 						if(im.pressedLeftClick){
 							selectedClass = i;
-							this.editor.game.sounds.menuItemSelected.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							updateObjects();
 						}
 					}
@@ -246,12 +246,12 @@ public class ObjectBar {
 				for(int i=0; i<3; i++){
 					if(im.xMouse>startX+(i)*sizeX/3f && im.xMouse<startX+(i+1)*sizeX/3f){
 						if(this.overCiv!=i){
-							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						overCiv = i;
 						if(im.pressedLeftClick){
 							selectedCiv = i;
-							this.editor.game.sounds.menuItemSelected.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							updateObjects();
 						}
 					}
@@ -264,12 +264,12 @@ public class ObjectBar {
 				for(int i=0; i<3; i++){
 					if(im.xMouse>startX+(i)*sizeX/3f && im.xMouse<startX+(i+1)*sizeX/3f){
 						if(this.overColor!=i){
-							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						overColor = i;
 						if(im.pressedLeftClick){
 							selectedColor = i;
-							this.editor.game.sounds.menuItemSelected.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							updateObjects();
 						}
 					}
@@ -283,7 +283,7 @@ public class ObjectBar {
 					if(im.xMouse>startX+(i%2)*sizeX/2f && im.xMouse<startX+(i%2+1)*sizeX/2f 
 							&& im.yMouse>startYObjects+(i/2)*sizeY/6f && im.yMouse<startYObjects+(i/2+1)*sizeY/6f){
 						if(this.overObject!=i){
-							this.editor.game.sounds.menuMouseOverItem.play(1f,editor.game.options.soundVolume);
+							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						if(im.pressedLeftClick){
 							EditorObject e = this.objects.get(overObject);

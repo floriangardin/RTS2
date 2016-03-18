@@ -27,7 +27,7 @@ public class SpellImmolation extends Spell{
 
 		launcher.isImmolating = true;
 		launcher.remainingTime = this.remainingTime;
-		launcher.p.g.sounds.fire.play(1f,launcher.p.g.options.soundVolume);
+		launcher.p.g.sounds.get("fire").play(1f,launcher.p.g.options.soundVolume);
 		launcher.spells = new Vector<Spell>();
 	}
 }
