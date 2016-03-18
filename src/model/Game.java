@@ -1106,7 +1106,7 @@ public class Game extends BasicGame
 	private void send(MultiMessage m) throws FatalGillesError{
 		if(timeToSend!=0L)
 			System.out.println("dernier message envoyé il y a: "+(System.nanoTime()-timeToSend)/1000);
-		if((System.nanoTime()-timeToSend)/1000<1000)
+		if((System.nanoTime()-timeToSend)/1000<3000)
 			System.out.println("   = >  "+m.message);
 		timeToSend= System.nanoTime();
 		
