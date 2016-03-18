@@ -61,7 +61,7 @@ public class EditingBar {
 		this.spaceY = this.sizeY/3;
 		name = "";
 		mapNames = new Vector<String>();
-		File repertoire = new File("ressources/");
+		File repertoire = new File("ressources/maps/");
 		File[] files=repertoire.listFiles();
 		for(int i=0; i<files.length; i++){
 			if(files[i].getName().endsWith(".rtsmap")){
