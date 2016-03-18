@@ -743,22 +743,6 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
-<<<<<<< HEAD
-			chatHandler.messages.clear();
-			//Write replay
-			//replay.write("test");
-			if(this.musics.imperial.playing()){
-				this.musics.imperial.stop();
-			}
-			if(victory){
-				if(!this.sounds.soundVictory.playing())
-					this.sounds.soundVictory.play(1f, this.options.musicVolume);
-			}
-			else{
-				if(!this.sounds.soundDefeat.playing())
-					this.sounds.soundDefeat.play(1f, this.options.musicVolume);
-			}
-=======
 			// handle victory / defeat screen
 			if(victory && this.musicPlaying!=this.musics.get("themeVictory")){
 				this.musicPlaying.stop();
@@ -769,7 +753,6 @@ public class Game extends BasicGame
 				this.musicPlaying = this.musics.get("themeDefeat");
 				this.musicPlaying.play(1f, this.options.musicVolume);
 			} 
->>>>>>> 02bf43613b3b838a40501709366385dc0c739800
 			//Print victory !!
 			victoryTime --;
 			if(victoryTime <0){
