@@ -33,6 +33,7 @@ public class SelectionInterface extends Bar {
 
 	public Graphics draw(Graphics g){
 
+		g.setLineWidth(1f);
 		// Draw the selection of current player
 		g.setColor(Color.red);
 		// Draw 4 separations

@@ -70,6 +70,7 @@ public class ActionInterface extends Bar {
 		// Draw the potential actions
 		// Draw Separation (1/3 1/3 1/3) : 
 
+		g.setLineWidth(1f);
 		if(mouseOnIt && y>startY)
 			y = startY+(y-startY)/5;
 		if(!mouseOnIt && y<startY2)

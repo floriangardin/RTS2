@@ -13,7 +13,7 @@ public class DualistBonusFood extends Technologie {
 	}
 	
 	public void applyEffect(){
-		this.data.bonusFood=1;
+		this.data.bonusFood=4;
 		//Update
 		
 		

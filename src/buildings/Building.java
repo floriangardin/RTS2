@@ -226,16 +226,6 @@ public class Building extends ActionObjet{
 
 
 	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-
-		//		//TEST
-		//		Image i = this.image;
-		//		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
-		//		if(mouseOver){
-		//			i.drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY,i.getWidth(),i.getHeight(),color);
-		//			g.setColor(new Color(250,0,0,0.8f));
-		//		}
-		//		//
 
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadQuarters){
 			g.drawImage(this.image, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/2f, 0, 0, this.image.getWidth(), this.image.getHeight());
@@ -248,8 +238,6 @@ public class Building extends ActionObjet{
 			g.drawImage(this.imageNeutre, this.x-this.sizeX/1.8f, this.y-this.sizeY, this.x+this.sizeX/1.8f, this.y+this.sizeY/1.8f, 0, 0, this.imageNeutre.getWidth(), this.imageNeutre.getHeight());
 		if(visibleByCurrentPlayer)
 			this.drawAnimation(g);
-		//g.drawImage(this.image,this.getX()-sizeX/2f,this.getY()-sizeY,this.getX()+sizeX/2f,this.getY()+1f*sizeY/6f,0f,0f,this.image.getWidth(),this.image.getHeight());
-
 
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
@@ -269,6 +257,59 @@ public class Building extends ActionObjet{
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
 			g.fill(new Rectangle(this.getX()-sizeX/4,this.getY()-3*this.sizeY/4,x*sizeX/2,10f));
 		}
+		g.setAntiAlias(true);
+		// draw production
+		if(this instanceof BuildingProduction && this.getGameTeam().equals(Game.g.currentPlayer.getGameTeam())){
+			BuildingProduction bp = ((BuildingProduction) this);
+			float sizeXIcon = 30f;
+			if(bp.queue.size()>0){
+				float offsetY = Math.min(3*sizeY/2, bp.charge*(64*sizeY)/bp.productionList.get(0).time);
+				float opacity = 50*bp.charge/bp.productionList.get(0).time;
+				Image icone = Game.g.images.get("icon"+bp.productionList.get(bp.queue.get(0)).name).getScaledCopy((int)sizeXIcon, (int)sizeXIcon);
+				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
+				g.setColor(new Color(1f,1f,1f,opacity));
+				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
+				g.setColor(new Color(0f,0f,0f,opacity));
+				g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
+				//						g.setColor(Color.white);
+				//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
+				g.setColor(new Color(bp.getGameTeam().color.r,bp.getGameTeam().color.g,bp.getGameTeam().color.b,opacity));
+				float startAngle = 270f;
+				float sizeAngle = (float)(1f*bp.charge*(360f)/bp.productionList.get(0).time);
+				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
+				g.setColor(new Color(0f,0f,0f,opacity));
+				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);
+				icone.setAlpha(opacity);
+				g.drawImage(icone, x-sizeXIcon/2, y-offsetY-sizeXIcon/2);
+
+			}
+		}
+		if(this instanceof BuildingTech && this.getGameTeam().equals(Game.g.currentPlayer.getGameTeam())){
+			BuildingTech bt = ((BuildingTech) this);
+			float sizeXIcon = 30f;
+			if(bt.queue!=null){
+				float offsetY = Math.min(3*sizeY/2, bt.charge*(64*sizeY)/bt.queue.tech.prodTime);
+				float opacity = 50*bt.charge/bt.queue.tech.prodTime;
+				Image icone = Game.g.images.get(bt.queue.tech.nameIcon).getScaledCopy((int)sizeXIcon, (int)sizeXIcon);
+				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
+				g.setColor(new Color(1f,1f,1f,opacity));
+				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
+				g.setColor(new Color(0f,0f,0f,opacity));
+				g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
+				//						g.setColor(Color.white);
+				//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
+				g.setColor(new Color(bt.getGameTeam().color.r,bt.getGameTeam().color.g,bt.getGameTeam().color.b,opacity));
+				float startAngle = 270f;
+				float sizeAngle = (float)(1f*bt.charge*(360f)/bt.queue.tech.prodTime);
+				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
+				g.setColor(new Color(0f,0f,0f,opacity));
+				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);
+				icone.setAlpha(opacity);
+				g.drawImage(icone, x-sizeXIcon/2, y-offsetY-sizeXIcon/2);
+
+			}
+		}
+		
 		g.setAntiAlias(false);
 		g.setLineWidth(2f);
 		return g;

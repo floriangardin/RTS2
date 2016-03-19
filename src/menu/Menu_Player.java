@@ -97,7 +97,7 @@ public class Menu_Player extends Menu_Item{
 
 	public void draw(Graphics g) {
 		g.setColor(Color.white);
-		String s = "Player "+p.id+" : "+this.p.nickname+"   ";
+		String s = "Joueur "+p.id+" : "+this.p.nickname+"   ";
 		g.drawString(s, x, y);
 		if(isOverColor)
 			g.setColor(Color.gray);

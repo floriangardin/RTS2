@@ -12,7 +12,7 @@ public class DualistBonusGold extends Technologie {
 	}
 	
 	public void applyEffect(){
-		this.data.bonusGold=1;
+		this.data.bonusGold=4;
 		//Update
 		
 		

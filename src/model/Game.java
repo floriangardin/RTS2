@@ -198,8 +198,9 @@ public class Game extends BasicGame
 	public boolean toDrawAntiDrop = false;
 	public int roundDelay;
 
-
 	public String toSendThisTurn = "";
+	
+	
 	/////////////
 	/// MENUS ///
 	/////////////
@@ -1098,15 +1099,14 @@ public class Game extends BasicGame
 			// on gère les connexions de menumapchoice
 
 			if(host){
-//				this.send(new MultiMessage("0"+message,this.addressBroadcast));
+				this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
 					this.send(new MultiMessage("0"+message,ia));
 				}
 			} else {
 				this.send(new MultiMessage("0"+message,this.addressHost));
 			}
-		} 
-		if(toSendThisTurn.length()>0) {
+		}else if(toSendThisTurn.length()>0) {
 			// on est inGame et on gère les communications habituelles
 			for(int i=1; i<this.nPlayers; i++){
 				if(i!=currentPlayer.id){
@@ -1121,12 +1121,13 @@ public class Game extends BasicGame
 	private static long timeToSend;
 	
 	private void send(MultiMessage m) throws FatalGillesError{
-		if(timeToSend!=0L)
-			System.out.println("dernier message envoyé il y a: "+(System.nanoTime()-timeToSend)/1000);
-		if((System.nanoTime()-timeToSend)/1000<3000)
-			System.out.println("   = >  "+m.message);
-		timeToSend= System.nanoTime();
-		
+//		if(!isInMenu){
+//			if(timeToSend!=0L)
+//				System.out.println("dernier message envoyé il y a: "+(System.nanoTime()-timeToSend)/1000);
+//			//			if((System.nanoTime()-timeToSend)/1000<3000)
+//			System.out.println("   = >  "+m.message);
+//			timeToSend= System.nanoTime();
+//		}
 		if( Game.tests){
 			Test.testSendEmptyMessages(m.message);
 		}

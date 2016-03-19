@@ -79,8 +79,7 @@ public class BuildingMill extends BuildingTech{
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
-			this.animation+=2f;
-			if(animation>120f)
+			this.animation=(int) ((this.animation+2f)%120);
 				
 			this.charge+=Main.increment;
 			if(this.charge>=this.queue.tech.prodTime){

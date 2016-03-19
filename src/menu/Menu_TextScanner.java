@@ -76,6 +76,7 @@ public class Menu_TextScanner extends Menu_Item{
 		intToChar.put(Input.KEY_7, "7");
 		intToChar.put(Input.KEY_8, "8");
 		intToChar.put(Input.KEY_9, "9");
+		intToChar.put(83, ".");
 		intToChar.put(Input.KEY_NUMPAD0, "0");
 		intToChar.put(Input.KEY_NUMPAD1, "1");
 		intToChar.put(Input.KEY_NUMPAD2, "2");
@@ -124,6 +125,7 @@ public class Menu_TextScanner extends Menu_Item{
 		intToCharMin.put(Input.KEY_7, "è");
 		intToCharMin.put(Input.KEY_8, "_");
 		intToCharMin.put(Input.KEY_9, "ç");
+		intToCharMin.put(83, ".");
 		intToCharMin.put(Input.KEY_NUMPAD0, "0");
 		intToCharMin.put(Input.KEY_NUMPAD1, "1");
 		intToCharMin.put(Input.KEY_NUMPAD2, "2");

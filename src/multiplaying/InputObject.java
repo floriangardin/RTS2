@@ -87,7 +87,7 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedCTRL = input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyPressed(Input.KEY_RCONTROL);
 		this.isPressedBACK = input.isKeyPressed(Input.KEY_BACK);
 		this.isPressedDOT = input.isKeyPressed(Input.KEY_COMMA);
-		this.isPressedENTER = input.isKeyPressed(Input.KEY_RETURN);
+		this.isPressedENTER = input.isKeyPressed(Input.KEY_RETURN) || input.isKeyPressed(Input.KEY_NUMPADENTER);
 		this.isPressedTAB = input.isKeyPressed(Input.KEY_TAB);
 		
 		this.isPressedUP = input.isKeyDown(Input.KEY_UP);
@@ -334,7 +334,11 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedA = false;
 		this.isPressedE = false;
 		this.isPressedR = false;
-		this.isPressedH = false;
+		this.isPressedImmolation = false;
+		this.isPressedZ = false;
+		this.isPressedS = false;
+		this.isPressedQ = false;
+		this.isPressedD = false;
 		for(int i=0; i<10; i++)
 			this.isPressedNumPad[i]=false;
 	}

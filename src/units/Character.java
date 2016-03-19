@@ -22,7 +22,6 @@ import model.Checkpoint;
 import model.Colors;
 import model.Game;
 import model.GameTeam;
-import model.MarkerBuilding;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -30,17 +29,10 @@ import model.RidableObjet;
 import model.Utils;
 import nature.Tree;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Transform;
 
 import pathfinding.Case;
 import spells.Spell;
-import IA.IAUnit;
-import buildings.Building;
 
 public class Character extends ActionObjet{
 
@@ -721,7 +713,6 @@ public class Character extends ActionObjet{
 		float y_med = this.getX()-o.getX();
 		float x_med = o.getY()-this.getY();
 		float norm = (x_med*x_med+y_med*y_med);
-		float r = this.collisionBox.getBoundingCircleRadius();
 		y_med = y_med/norm;
 		x_med = x_med/norm;
 		if(x_med*vx+y_med*vy<0){
@@ -795,28 +786,6 @@ public class Character extends ActionObjet{
 		x = this.getX();
 		y = this.getY();
 		int sector = 0;
-
-
-		//		if(x-oX>0f){
-		//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-		//				sector = 2;
-		//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-		//				sector = 4;
-		//			} else {
-		//				sector = 1;
-		//			}
-		//		} else {
-		//			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-		//				sector = 2;
-		//			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
-		//				sector = 4;
-		//			} else {
-		//				sector = 3;
-		//			}
-		//		}
-
-		//		x = x-vx;
-		//		y = y-vy;
 		if(x-oX>0f){
 			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
@@ -834,36 +803,6 @@ public class Character extends ActionObjet{
 				sector = 3;
 			}
 		}
-		float cornerThreshold = 5f;
-		//		if((o.getMaxX()-this.getX()<cornerThreshold || this.getX()-o.getMinX()<cornerThreshold)&&(o.getMaxY()-this.getY()<cornerThreshold || this.getY()-o.getMinY()<cornerThreshold)){
-		//			//System.out.println("dans un coin");
-		//			if(this.getTarget()==null)
-		//				return;
-		//			if( ((sector==1||sector==3) && this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY()) || 
-		//					((sector==2||sector==4) && this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX())){
-		//				switch(sector){
-		//				case 1: 
-		//				case 3:
-		//					if(this.getY()>o.getCenterY())
-		//
-		//						this.setXY(this.getX(), this.getY()+30f);
-		//					else
-		//						this.setXY(this.getX(), this.getY()-30f);
-		//
-		//					break;
-		//				case 2:
-		//				case 4:
-		//					if(this.getX()>o.getCenterX())
-		//
-		//						this.setXY(this.getX()+30f, this.getY());
-		//					else
-		//						this.setXY(this.getX()-30f, this.getY());
-		//
-		//					break;
-		//				}
-		//				return;
-		//			}
-		//		}
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
