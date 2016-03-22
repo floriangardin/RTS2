@@ -1,6 +1,7 @@
 package menu;
 
 
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -9,13 +10,13 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import tests.FatalGillesError;
 import main.Main;
 import model.Game;
 import model.Objet;
 import model.Player;
 import multiplaying.InputObject;
 import ressources.Map;
+import tests.FatalGillesError;
 
 public class MenuMapChoice extends Menu {
 
@@ -580,7 +581,10 @@ public class MenuMapChoice extends Menu {
 					this.game.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
 					System.out.println("MMC 581 : debut ip  "+ (System.currentTimeMillis())%10000);
 					try {
-						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
+						if(i==1)
+							this.game.getPlayerById(i).address = game.addressHost;
+						else
+							this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
 					} catch (UnknownHostException e) {}
 					System.out.println("MMC 585 : fin ip  "+ (System.currentTimeMillis())%10000);
 				}
