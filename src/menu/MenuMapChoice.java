@@ -583,7 +583,7 @@ public class MenuMapChoice extends Menu {
 					try {
 						if(i==1)
 							this.game.getPlayerById(i).address = game.addressHost;
-						else
+						else if(i>1)
 							this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
 					} catch (UnknownHostException e) {}
 					System.out.println("MMC 585 : fin ip  "+ (System.currentTimeMillis())%10000);
