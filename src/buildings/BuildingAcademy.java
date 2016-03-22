@@ -2,13 +2,10 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Rectangle;
-
 import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
-import ressources.Map;
 import units.UnitsList;
 
 public class BuildingAcademy extends BuildingProduction {
@@ -21,21 +18,14 @@ public class BuildingAcademy extends BuildingProduction {
 		this.g = g;
 		this.setTeam(team);
 		maxLifePoints = this.getGameTeam().data.academyLifePoints;
-		this.sizeX = this.getGameTeam().data.academySizeX; 
-		this.sizeY = this.getGameTeam().data.academySizeY;
+		this.sizeX = Data.academySizeX; 
+		this.sizeY = Data.academySizeY;
 		this.sight = this.getGameTeam().data.academySight;
 		this.initialize(f, h);
 		this.name = "academy";
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 4;
 		this.g = g;
-		if(this.getTeam()==1){
-			this.image = this.p.g.images.get("buildingAcademyBlue");
-		} else if(this.getTeam()==2){
-			this.image = this.p.g.images.get("buildingAcademyRed");
-		} else {
-			this.image = this.p.g.images.get("buildingAcademyNeutral");
-		}
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();

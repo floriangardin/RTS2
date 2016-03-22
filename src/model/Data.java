@@ -1,12 +1,14 @@
 package model;
 
+import org.newdawn.slick.geom.Point;
+
 import main.Main;
 import ressources.Map;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;
 import spells.SpellDash;
-import spells.SpellFrozen;
 import spells.SpellFirewall;
+import spells.SpellFrozen;
 import spells.SpellImmolation;
 import spells.SpellInstantDeath;
 import spells.SpellInstantHealth;
@@ -49,57 +51,57 @@ public class Data {
 	//headQuarters
 	public int headQuartersLifePoints = 30;
 	public float headQuartersSight = 500f;
-	public float headQuartersSizeX = 3f*Map.stepGrid;
-	public float headQuartersSizeY = 2f*Map.stepGrid;
+	public static float headquartersSizeX = 3f*Map.stepGrid;
+	public static float headquartersSizeY = 2f*Map.stepGrid;
 	// Mill
 	public int millChargeTime = 5;
 	public int millLifePoints = 50;
 	public float millSight = 300f;
-	public float millSizeX = 3f*Map.stepGrid;
-	public float millSizeY = 2f*Map.stepGrid;
+	public static float millSizeX = 3f*Map.stepGrid;
+	public static float millSizeY = 2f*Map.stepGrid;
 
 	// Mine
 	public int mineChargeTime = 5;
 	public int mineLifePoints = 50;
 	public float mineSight = 300f;
-	public float mineSizeX = 3f*Map.stepGrid;
-	public float mineSizeY = 2f*Map.stepGrid;
+	public static float mineSizeX = 3f*Map.stepGrid;
+	public static float mineSizeY = 2f*Map.stepGrid;
 
 	// Barrack
 	public int barrackLifePoints = 50;
 	public float barrackSight = 500f;
-	public float barrackSizeX = 5f*Map.stepGrid;
-	public float barrackSizeY = 3f*Map.stepGrid;
+	public static float barrackSizeX = 5f*Map.stepGrid;
+	public static float barrackSizeY = 3f*Map.stepGrid;
 
 	//Stable
 	public int stableLifePoints = 50;
 	public float stableSight = 300f;
-	public float stableSizeX = 4f*Map.stepGrid;
-	public float stableSizeY = 3f*Map.stepGrid;
+	public static float stableSizeX = 4f*Map.stepGrid;
+	public static float stableSizeY = 3f*Map.stepGrid;
 
 	// Academy 
 	public int academyLifePoints = 50;
 	public float academySight = 300f;
-	public float academySizeX = 4f*Map.stepGrid;
-	public float academySizeY = 3f*Map.stepGrid;
+	public static float academySizeX = 4f*Map.stepGrid;
+	public static float academySizeY = 3f*Map.stepGrid;
 
 	// University 
 	public int universityLifePoints = 50;
 	public float universitySight = 300f;
-	public float universitySizeX = 3f*Map.stepGrid;
-	public float universitySizeY = 3f*Map.stepGrid;
+	public static float universitySizeX = 3f*Map.stepGrid;
+	public static float universitySizeY = 3f*Map.stepGrid;
 	
 	// Tower
 	public int towerLifePoints = 50;
 	public float towerSight = 600f;
 	public float towerChargeTime = 5f;
-	public float towerSizeX = 2f*Map.stepGrid;
-	public float towerSizeY = 2f*Map.stepGrid;
+	public static float towerSizeX = 2f*Map.stepGrid;
+	public static float towerSizeY = 2f*Map.stepGrid;
 
 	//Bonus
-	public int bonusLifePoints = 50;
-	public float bonusSight = 100f;
-	public float bonusChargeTime = 100f;
+	public static int bonusLifePoints = 50;
+	public static float bonusSight = 100f;
+	public static float bonusChargeTime = 100f;
 	
 	//// Spells
 
@@ -189,5 +191,18 @@ public class Data {
 
 	}
 
+	public static Point getSize(String s){
+		switch(s){
+		case "academy" : return new Point((int)academySizeX,(int)academySizeY);
+		case "tower" : return new Point((int)towerSizeX,(int)towerSizeY);
+		case "university" : return new Point((int)universitySizeX,(int)universitySizeY);
+		case "barrack" : return new Point((int)barrackSizeX,(int)barrackSizeY);
+		case "headquarters" : return new Point((int)headquartersSizeX,(int)headquartersSizeY);
+		case "mill" : return new Point((int)millSizeX,(int)millSizeY);
+		case "mine" : return new Point((int)mineSizeX,(int)mineSizeY);
+		case "stable" : return new Point((int)stableSizeX,(int)stableSizeY);
+		default: return new Point(0,0);
+		}
+	}
 
 }

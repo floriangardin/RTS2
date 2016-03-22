@@ -16,15 +16,15 @@ public class DisplayRessources {
 	private float x,y;
 	private int totalRemainingTime = (int) (1.2*Main.framerate);
 	private int remainingTime = totalRemainingTime;
+	public static int taille = 24;
 	
 	private float vx, vy;
 	
 	public DisplayRessources(float price, String ressource, float x2, float y2){
-		int taille = 24;
 		switch(ressource){
-		case "gold" : this.image = Game.g.images.get("imageGold").getSubImage(7*taille ,15*taille ,taille, taille).getScaledCopy(1f);break;
-		case "food" : this.image = Game.g.images.get("imageGold").getSubImage(7*taille, taille, taille, taille).getScaledCopy(1f);break;
-		case "faith" : this.image = Game.g.images.get("imageSpecial").getScaledCopy(1f);break;
+		case "gold" : this.image = Game.g.images.get("imageGolddisplayressources");break;
+		case "food" : this.image = Game.g.images.get("imageFooddisplayressources");break;
+		case "faith" : this.image = Game.g.images.get("imageSpecial");break;
 		default:
 		}
 		if(price>0){
@@ -36,12 +36,12 @@ public class DisplayRessources {
 		}
 		this.x = x2;
 		this.y = y2;
-		this.vy = (float) (-3f+Math.random()-0.5);
+		this.vy = (float) (-5f+Math.random()-0.5);
 		this.vx = (float) (2f*Math.random()-1f);
 	}
 	
 	public void update(){
-		this.vy += 3f/Main.framerate;
+		this.vy += 6f/Main.framerate;
 		this.y+=vy;
 		this.x+=vx;
 		this.remainingTime--;

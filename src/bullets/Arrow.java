@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
 import main.Main;
+import model.Game;
 import model.Plateau;
 import units.Character;
 
@@ -49,8 +50,6 @@ public class Arrow extends CollisionBullet{
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
-		this.image = p.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
-		this.image.rotate(this.angle);
 		
 		this.shadow = p.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
 		this.shadow.rotate(this.angle);
@@ -79,7 +78,9 @@ public class Arrow extends CollisionBullet{
 		this.lifePoints = -1f;
 	}
 	public Graphics draw(Graphics g){
-		g.drawImage(this.image,this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
+		Game.g.images.get("arrow").rotate(angle);
+		g.drawImage(Game.g.images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
+		Game.g.images.get("arrow").rotate(-angle);
 
 		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
 		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);

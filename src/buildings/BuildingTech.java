@@ -141,9 +141,9 @@ public abstract class BuildingTech extends BuildingAction {
 	
 
 	public void setTeamExtra(){
-		if(this instanceof BuildingHeadQuarters){
+		if(this instanceof BuildingHeadquarters){
 			this.getGameTeam().hq = hq;
-			this.hq =(BuildingHeadQuarters) this;
+			this.hq =(BuildingHeadquarters) this;
 		}
 		if(this.queue!=null){
 			this.queue=null;

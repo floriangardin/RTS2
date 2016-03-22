@@ -126,18 +126,9 @@ public class Character extends ActionObjet{
 		this.animations = new Image[1][4][4];
 		this.setTeam(gameteam);
 		this.name = "character";
-		Image imagea = this.p.g.images.get("corps").getScaledCopy(Main.ratioSpace);
-		Image imageb = this.p.g.images.get("corps").getScaledCopy(Main.ratioSpace);;
-		if(getTeam()==1)
-			imageb = this.p.g.images.get("blue").getScaledCopy(Main.ratioSpace);;
-			if(getTeam()==2)
-				imageb = this.p.g.images.get("red").getScaledCopy(Main.ratioSpace);;
-
-
-				this.image = Utils.mergeImages(imagea, imageb);
-				this.size = 30f*Main.ratioSpace;
-				this.isHidden = false;
-				this.spells = new Vector<Spell>();
+		this.size = 30f*Main.ratioSpace;
+		this.isHidden = false;
+		this.spells = new Vector<Spell>();
 
 	}
 	// Copy constructor , to really create an unit
@@ -164,13 +155,10 @@ public class Character extends ActionObjet{
 		this.animations = c.animations;
 		this.setXY(x, y);
 		this.maxVelocity = c.maxVelocity;
-		this.armor = c.armor;
+		this.weapon = c.weapon;
 		this.range = c.range;
 		this.chargeTime = c.chargeTime;
 		this.isHidden = c.isHidden;
-		this.image = c.image;
-		this.horse = c.horse;
-		this.weapon = c.weapon;
 		this.group = new Vector<Character>();
 		this.group.add(this);
 		this.animStep = c.animStep;
@@ -286,51 +274,51 @@ public class Character extends ActionObjet{
 	//Update functions
 
 	public void updateImage(){
-		//Handling the team
-		Image imagea = this.p.g.images.get("corps");
-		if(imagea==null)
-			return;
-		Image imageb = this.p.g.images.get("corps");
-		Image imagec = this.p.g.images.get("corps");
-		Image imaged = null;
-		if(getTeam()==1){
-			imageb = this.p.g.images.get("blue");
-			imagec = this.p.g.images.get("horseBlue");
-		}
-		if(getTeam()==2){
-			imageb = this.p.g.images.get("red");
-			imagec = this.p.g.images.get("horseRed");
-		}
-		this.image = Utils.mergeImages(imagea, imageb);
-		//Handling the weapon
-
-		if(this.weapon!=null){
-			if(this.weapon == "sword"){
-				imageb = this.p.g.images.get("sword");
-				imaged = this.p.g.images.get("mediumArmor");
-			}
-			if(this.weapon == "spear"){
-				this.image = this.p.g.images.get("spearman_move");
-				return;
-				//				imageb = this.p.g.images.get("sword;
-				//				imaged = this.p.g.images.get("heavyArmor;
-			}
-			if(this.weapon == "bow"){
-				imageb = this.p.g.images.get("bow");
-				imaged = this.p.g.images.get("lightArmor");
-			}
-			if(this.weapon == "bible")
-				imageb = this.p.g.images.get("bible");
-			if(this.weapon == "wand")
-				imageb = this.p.g.images.get("magicwand");
-			this.image = Utils.mergeImages(this.image, imageb);
-			this.image = Utils.mergeImages(this.image, imaged);
-		}
-
-		//Handling the horse
-		if(this.horse!=null){
-			this.image = Utils.mergeHorse(imagec, this.image);
-		}
+//		//Handling the team
+//		Image imagea = this.p.g.images.get("corps");
+//		if(imagea==null)
+//			return;
+//		Image imageb = this.p.g.images.get("corps");
+//		Image imagec = this.p.g.images.get("corps");
+//		Image imaged = null;
+//		if(getTeam()==1){
+//			imageb = this.p.g.images.get("blue");
+//			imagec = this.p.g.images.get("horseBlue");
+//		}
+//		if(getTeam()==2){
+//			imageb = this.p.g.images.get("red");
+//			imagec = this.p.g.images.get("horseRed");
+//		}
+//		this.image = Utils.mergeImages(imagea, imageb);
+//		//Handling the weapon
+//
+//		if(this.weapon!=null){
+//			if(this.weapon == "sword"){
+//				imageb = this.p.g.images.get("sword");
+//				imaged = this.p.g.images.get("mediumArmor");
+//			}
+//			if(this.weapon == "spear"){
+//				this.image = this.p.g.images.get("spearman_move");
+//				return;
+//				//				imageb = this.p.g.images.get("sword;
+//				//				imaged = this.p.g.images.get("heavyArmor;
+//			}
+//			if(this.weapon == "bow"){
+//				imageb = this.p.g.images.get("bow");
+//				imaged = this.p.g.images.get("lightArmor");
+//			}
+//			if(this.weapon == "bible")
+//				imageb = this.p.g.images.get("bible");
+//			if(this.weapon == "wand")
+//				imageb = this.p.g.images.get("magicwand");
+//			this.image = Utils.mergeImages(this.image, imageb);
+//			this.image = Utils.mergeImages(this.image, imaged);
+//		}
+//
+//		//Handling the horse
+//		if(this.horse!=null){
+//			this.image = Utils.mergeHorse(imagec, this.image);
+//		}
 	}
 
 
@@ -351,7 +339,7 @@ public class Character extends ActionObjet{
 
 	public void mainAction(){
 		this.toKeep = false;
-		
+
 		if(this instanceof UnitSpearman){
 			UnitSpearman unit = (UnitSpearman)this;
 			if(unit.inDash>0f){
@@ -483,29 +471,25 @@ public class Character extends ActionObjet{
 		this.setXY(newX, newY);
 
 		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
-
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 		}
-
 		if(animationValue!=0f){
 			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f)){
 				animation = 1;
-
 			}	
 			else if(this.animationValue>=1f && this.animationValue<2f){
 				animation = 0;
-
 			}	
 			else{
 				animation = 2;
-
 			}	
 		}
 
 	}
 	public void stop(){
 		this.checkpointTarget = null;
+		this.animation = 0;
 		if(this.mode!=TAKE_BUILDING){
 			this.mode = NORMAL;
 		}
@@ -529,32 +513,20 @@ public class Character extends ActionObjet{
 		//Draw lifepoints
 
 		g.setColor(Color.black);
-		g.fill(new Rectangle(this.getX()-r/2-1f,-47f+this.getY()-r,r+2f,8f));
+		g.fillRect(this.getX()-r/2-1f,-47f+this.getY()-r,r+2f,8f);
 		float x = this.lifePoints/this.maxLifePoints;
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
-		g.fill(new Rectangle(this.getX()-r/2,-46f+this.getY()-r,x*r,6f));
+		g.fillRect(this.getX()-r/2,-46f+this.getY()-r,x*r,6f);
 	}
-	
+
 
 	public Graphics draw(Graphics g){
 
 		float r = collisionBox.getBoundingCircleRadius();
-		float direction = 0f;
-		direction = (float)(orientation/2-1);
-		int imageWidth = this.image.getWidth()/3;
-		int imageHeight = this.image.getHeight()/4;
-		float factor = 1f;
-		if(this.weapon=="spear")
-			factor = 2;
-		float drawWidth = factor*r*imageWidth/Math.min(imageWidth,imageHeight);
-		float drawHeight = factor*r*imageHeight/Math.min(imageWidth,imageHeight);
-		float x1 = this.getX() - drawWidth;
-		float y1 = this.getY() + drawWidth - 2*drawHeight;
-		float x2 = this.getX() + drawWidth;
-		float y2 = this.getY() + drawWidth;
-		y1-=15f;
-		y2-=15f;
-		if(mouseOver){
+		int direction = (orientation/2-1);
+		Image im;
+		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
+		if(mouseOver && frozen<=0f){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
 				color = new Color(0,0,205,0.4f);
@@ -562,48 +534,22 @@ public class Character extends ActionObjet{
 			else{
 				color = new Color(250,0,0,0.4f);
 			}
-
-			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
-			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-
-			g.drawImage(i,x1,y1);
-			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
-			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
+			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 		}
 		else{
-			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
 		}
 		if(frozen>0f){
 			Color color = Color.darkGray;
 			color = new Color(100,150,255,0.4f);
-			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
-			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-
-			g.drawImage(i,x1,y1);
-			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
-			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		}
-		else{
-			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
+			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 		}
 
 		// Drawing the health bar
 		if(!isImmolating && this.lifePoints<this.maxLifePoints){
-			//Draw lifepoints
-			g.setColor(new Color(0,0,0));
-			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,r,4f));
-			float x = this.lifePoints*r/this.maxLifePoints;
-			g.setColor(new Color(255*(1-x),255*x,0));
-			g.fill(new Rectangle(this.getX()-r/2,-34f+this.getY()-r,x,4f));
-
-		}
-		//Draw state
-		if(!isImmolating && this.state<this.chargeTime){
-			g.setColor(new Color(255,255,255,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-30f+this.getY()-r,r,4f));
-			float x = this.state*r/this.chargeTime;
-			g.setColor(new Color(0,0,0,0.8f));
-			g.fill(new Rectangle(this.getX()-r/2,-30f+this.getY()-r,x,4f));
+			drawLifePoints(g,r);
 		}
 
 		//Draw the immolation
@@ -685,13 +631,13 @@ public class Character extends ActionObjet{
 			((Building) target).marker.toDraw = true;
 			//this.target.draw(g);
 		}
-//		//Draw the building which is being conquered
-//		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
-//			g.setLineWidth(2f*Main.ratioSpace);
-//			g.setColor(Colors.buildingTaking);
-//			Building target = (Building) this.target;
-//			g.draw(target.collisionBox);
-//		}
+		//		//Draw the building which is being conquered
+		//		if(this.target !=null && this.target instanceof Building && this.mode==Character.TAKE_BUILDING){
+		//			g.setLineWidth(2f*Main.ratioSpace);
+		//			g.setColor(Colors.buildingTaking);
+		//			Building target = (Building) this.target;
+		//			g.draw(target.collisionBox);
+		//		}
 
 		g.setLineWidth(1f*Main.ratioSpace);
 		g.setAntiAlias(false);
@@ -891,7 +837,7 @@ public class Character extends ActionObjet{
 			((Building) t).marker.state = 0;
 		}
 		this.target = t;
-		
+
 		if(this.mode == TAKE_BUILDING){
 			this.mode = NORMAL;
 		}
@@ -1004,7 +950,6 @@ public class Character extends ActionObjet{
 					this.stop();
 					this.attackState = 0f;
 					this.isAttacking = true;
-					this.animation= 0;
 				}
 			}
 			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration-2*Main.increment && this.mode!=TAKE_BUILDING){
@@ -1024,6 +969,9 @@ public class Character extends ActionObjet{
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
 		if(!isAttacking && this.state<=this.chargeTime)
 			this.state+= Main.increment;
+		if(isAttacking && this.attackState==0){
+			this.animation = 0;
+		}
 		if(isAttacking && this.attackState<=this.attackDuration)
 			this.attackState+= Main.increment;
 		if(this.attackState>=this.attackDuration){
@@ -1096,8 +1044,8 @@ public class Character extends ActionObjet{
 		}
 	}
 	public void updateAnimation(){
-		if(this.vx>0 ||this.vy>0 || this.isAttacking){
-			this.incrementf+=4f/(float)this.getGameTeam().data.FRAMERATE;
+		if(this.isAttacking){
+			this.animation = Math.max(0, Math.min(4,(int)(this.attackDuration/this.attackState)));
 		}
 
 
@@ -1288,6 +1236,17 @@ public class Character extends ActionObjet{
 		this.timerAttacked = this.timerMaxValueAttacked;
 	}
 
+	public static float getSize(String name){
+		switch(name.toLowerCase()){
+		case "spearman" : return UnitSpearman.radiusCollisionBox;
+		case "crossbowman" : return UnitCrossbowman.radiusCollisionBox;
+		case "knight" : return UnitKnight.radiusCollisionBox;
+		case "priest" : return UnitPriest.radiusCollisionBox;
+		case "inquisitor" : return UnitInquisitor.radiusCollisionBox;
+		default : System.out.println("petit souci dans le calcul de taile"); return 0f;
+		}
+	}
+	
 }
 
 

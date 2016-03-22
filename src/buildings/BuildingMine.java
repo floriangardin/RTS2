@@ -2,13 +2,9 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import display.DisplayRessources;
 import main.Main;
-import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
 import ressources.Map;
@@ -33,23 +29,16 @@ public class BuildingMine extends BuildingTech{
 		this.p =p;
 		this.g =g;
 		this.type = 0;
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		this.name= "mine";
 		this.setTeam(team);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.mineChargeTime;
 		this.lifePoints = getGameTeam().data.mineLifePoints;
-		this.sizeX = getGameTeam().data.mineSizeX;
-		this.sizeY = getGameTeam().data.mineSizeY;
+		this.sizeX = Data.mineSizeX;
+		this.sizeY = Data.mineSizeY;
 		this.sight = getGameTeam().data.mineSight;
 		this.initialize(f, h);
-		if(getTeam()==1){
-			this.image = this.p.g.images.get("buildingMineBlue");
-		} else if(getTeam()==2){
-			this.image = this.p.g.images.get("buildingMineRed");
-		} else {
-			this.image = this.p.g.images.get("buildingMineNeutral");
-		}
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
 	}

@@ -12,6 +12,8 @@ import model.Player;
 
 public class UnitPriest extends Character {
 
+	public static float radiusCollisionBox = 20f*Main.ratioSpace;
+
 	public UnitPriest(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "priest";
@@ -21,8 +23,8 @@ public class UnitPriest extends Character {
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f*Main.ratioSpace;
 		this.attackDuration = 2f;
-		this.collisionBox = new Circle(0f,0f,this.size);
-		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
+		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
+		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
 		this.maxVelocity = 80f*Main.ratioSpace*data.speedFactor;
 		this.armor = 1f;
 		this.damage = 0f*data.damageFactor;

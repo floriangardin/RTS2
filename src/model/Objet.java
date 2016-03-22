@@ -41,7 +41,7 @@ public abstract class Objet implements java.io.Serializable {
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
 	public boolean visibleByCamera;
-	public Image image;
+	
 	//MULTIPLAYING BOOLEANS
 
 	public void setName(String s){

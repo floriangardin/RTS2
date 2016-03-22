@@ -4,17 +4,14 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Fireball;
 import main.Main;
 import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
 import model.Utils;
-import ressources.Map;
 import units.Character;
 
 public class BuildingTower extends Building{
@@ -35,19 +32,19 @@ public class BuildingTower extends Building{
 		this.damage = 20f;
 		this.setTeam(team);
 		this.maxLifePoints = this.gameteam.data.towerLifePoints;
-		this.sizeX = this.gameteam.data.towerSizeX;
-		this.sizeY = this.gameteam.data.towerSizeY;
+		this.sizeX = Data.towerSizeX;
+		this.sizeY = Data.towerSizeY;
 		this.name = "tower";
 		this.chargeTime = this.gameteam.data.towerChargeTime;
 		this.sight = this.gameteam.data.towerSight;
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
-		if(getTeam()==1){
-			this.image = this.p.g.images.get("buildingTowerBlue");
-		} else if(getTeam()==2){
-			this.image = this.p.g.images.get("buildingTowerRed");
-		} else {
-			this.image = this.p.g.images.get("buildingTowerNeutral");
-		}
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+//		if(getTeam()==1){
+//			this.image = this.p.g.images.get("buildingTowerBlue");
+//		} else if(getTeam()==2){
+//			this.image = this.p.g.images.get("buildingTowerRed");
+//		} else {
+//			this.image = this.p.g.images.get("buildingTowerNeutral");
+//		}
 		this.initialize(f, h);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		canAttack = false;

@@ -16,7 +16,7 @@ import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingAction;
 import buildings.BuildingBarrack;
-import buildings.BuildingHeadQuarters;
+import buildings.BuildingHeadquarters;
 import buildings.BuildingProduction;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
@@ -275,6 +275,14 @@ public class Plateau {
 				this.removeSpell(o);
 			}
 		}
+		if(Game.debugMemory){
+			System.out.println("\n nouveau tour ");
+			System.out.println("characters : " + characters.size());
+			System.out.println("bullets : " + bullets.size());
+			System.out.println("naturalObjects : " + naturalObjets.size());
+			System.out.println("buildings : " + buildings.size());
+			System.out.println("spells : " + spells.size());
+		}
 		Vector<Checkpoint> toremove = new Vector<Checkpoint>();
 		for (Checkpoint o : checkpoints) {
 			if (!o.isAlive()) {
@@ -476,10 +484,10 @@ public class Plateau {
 			if (im.isOnMiniMap && cosmetic.selection==null) {
 				return;
 			}
-			if (this.cosmetic.selection == null || im.isPressedCTRL) {
+			if (this.cosmetic.selection == null|| im.isPressedCTRL) {
 				cosmetic.recX= (float) im.xMouse;
 				cosmetic.recY= (float) im.yMouse;
-				cosmetic.selection=  new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
+				cosmetic.selection = new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
 			}
 			cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.xMouse),
 					(float) Math.min(cosmetic.recY, im.yMouse), (float) Math.abs(im.xMouse - cosmetic.recX) + 0.1f,
@@ -1066,14 +1074,14 @@ public class Plateau {
 				//Headquarter
 				//Barrack
 				for(Objet o : visible){
-					if(o instanceof BuildingHeadQuarters &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+					if(o instanceof BuildingHeadquarters &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
 						Vector<ActionObjet> sel = new Vector<ActionObjet>();
 						sel.addElement((ActionObjet)o);
 						this.selection.set(player,sel);
 						break;
-					}else if(o instanceof BuildingHeadQuarters && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
-						this.buildings.remove((BuildingHeadQuarters)o);
-						this.buildings.addElement((BuildingHeadQuarters)o);
+					}else if(o instanceof BuildingHeadquarters && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+						this.buildings.remove((BuildingHeadquarters)o);
+						this.buildings.addElement((BuildingHeadquarters)o);
 					}
 				}
 			}

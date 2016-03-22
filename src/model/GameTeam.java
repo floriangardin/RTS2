@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 
-import buildings.BuildingHeadQuarters;
+import buildings.BuildingHeadquarters;
 import main.Main;
 
 public class GameTeam {
@@ -15,11 +15,12 @@ public class GameTeam {
 	public int id;
 	public int civ;
 	public String civName;
+	public String colorName;
 	public int food;
 	public int gold;
 	public int special;
 	public int pop;
-	public BuildingHeadQuarters hq ;
+	public BuildingHeadquarters hq ;
 	public int maxPop;
 	public Color color;
 	
@@ -30,12 +31,15 @@ public class GameTeam {
 		this.data = new Data(plateau,this,Main.framerate);
 		if(id==0){
 			color = Colors.team0;
+			colorName = "neutral";
 		}
 		else if(id==1){
 			color = Colors.team1;
+			colorName = "blue";
 		}
 		else if(id==2){
 			color = Colors.team2;
+			colorName = "red";
 		}
 		this.plateau = plateau;
 		this.civ = civ;

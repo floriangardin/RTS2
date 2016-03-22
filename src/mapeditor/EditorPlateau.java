@@ -472,7 +472,7 @@ public class EditorPlateau {
 				case "Academy" : sizeX = data.academySizeX/Map.stepGrid; break; 
 				case "University" : sizeX = data.universitySizeX/Map.stepGrid;break; 
 				case "Tower" : sizeX = data.towerSizeX/Map.stepGrid; break; 
-				case "Headquarters" : sizeX = data.headQuartersSizeX/Map.stepGrid; break;
+				case "Headquarters" : sizeX = data.headquartersSizeX/Map.stepGrid; break;
 				}
 				o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
 				o.stepGrid = newScale;
@@ -601,10 +601,10 @@ public class EditorPlateau {
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
 				if(tab[0].equals("1")){
-					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headquartersSizeX/Map.stepGrid),(int)(data.headquartersSizeY/Map.stepGrid)));
 					this.setCollision(headquartersBlue.get(0), true);
 				} else {
-					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersRed"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersRed"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(data.headquartersSizeX/Map.stepGrid),(int)(data.headquartersSizeY/Map.stepGrid)));
 					this.setCollision(headquartersRed.get(0), true);
 				}
 			}

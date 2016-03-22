@@ -35,10 +35,10 @@ public class DescriptionInterface extends Bar {
 
 			if(this.c0 instanceof Character){
 				Character c0 =(Character) this.c0;
-				if(c0.horse!=null)
-					g.drawImage(c0.image, x+25f, y+40f, x+this.sizeX/3f-25f, y+sizeY*2f/3f+15f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
-				else
-					g.drawImage(c0.image, x+25f, y+40f, x+this.sizeX/3f-25f, y+sizeY*2f/3f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
+//				if(c0.horse!=null)
+//					g.drawImage(c0.image, x+25f, y+40f, x+this.sizeX/3f-25f, y+sizeY*2f/3f+15f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
+//				else
+//					g.drawImage(c0.image, x+25f, y+40f, x+this.sizeX/3f-25f, y+sizeY*2f/3f,0f,0f,c0.image.getWidth()/3f,c0.image.getHeight()/4f);
 				g.setColor(Color.red);
 				g.fillRect(x+10f, y+this.sizeY-25f, this.sizeX/3f-20f, 20f);
 				g.setColor(Color.green);

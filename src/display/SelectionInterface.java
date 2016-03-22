@@ -107,55 +107,55 @@ public class SelectionInterface extends Bar {
 			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+sizeX-4, parent.p.g.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
 			for(ActionObjet a : this.parent.p.g.currentPlayer.selection){
-				c = (Character) a;
-				Image icone = a.image;
-				int imageWidth = a.image.getWidth()/5;
-				int imageHeight = a.image.getHeight()/4;
-				float r = a.collisionBox.getBoundingCircleRadius();
-				if(compteur ==0){
-					//Show icons
-					//Show production bar
-					g.setColor(Color.darkGray);
-					g.fillRect(startX+this.sizeX/4, startY+this.sizeY/4,3*sizeX/4-5, 3*sizeY/4-5);
-					g.setColor(Color.white);
-					g.drawRect(startX+this.sizeX/4, startY+this.sizeY/4,3*sizeX/4-5, 3*sizeY/4-5);
-					g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,imageWidth*c.animation,0,imageWidth*c.animation+imageWidth,imageHeight);
-					g.setColor(Color.white);
-					String s = a.name;
-					g.drawString(s, startX+sizeX/2-parent.p.g.font.getWidth(s)/2f, startY+sizeY/8f-parent.p.g.font.getHeight(s)/2f);
-					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
-					g.setColor(Color.darkGray);
-					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
-					float x = a.lifePoints/a.maxLifePoints;
-					g.setColor(new Color((1f-x),x,0));
-					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+(a.maxLifePoints-a.lifePoints)*(3*sizeY/4-20f)/a.maxLifePoints, sizeX/8f,3*sizeY/4-20f-(a.maxLifePoints-a.lifePoints)*(3*sizeY/4-20f)/a.maxLifePoints);
-					g.setColor(Color.white);
-					g.drawRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
-				}
-				else{
-					int x1,y1,x2,y2;
-					if(nb>5){
-						x1 = (int) (this.x+this.sizeX+5+(sVB)*(compteur-1)*4/(nb-1));
-						y1 = (int) (parent.p.g.resY-sVB+3f);
-						x2 = (int) (x1+sVB);
-						y2 = (int) (y1+sVB);						
-					} else {
-						x1 = (int) (this.x+this.sizeX+5+(sVB)*(compteur-1));
-						y1 = (int) (parent.p.g.resY-sVB+3f);
-						x2 = (int) (x1+sVB);
-						y2 = (int) (y1+sVB);
-					}
-					float x = a.lifePoints/a.maxLifePoints;
-					g.setColor(Color.darkGray);
-					g.fillRect(x1, y1, x2-x1, y2-y1);
-					g.setColor(new Color((1f-x),x,0));
-					float diff = x*(y2-y1);
-					g.fillRect(x1, y1-diff+(y2-y1), (x2-x1)/5, diff);
-					g.drawImage(icone,x1, y1, x2, y2, imageWidth*c.animation, 0, imageWidth*c.animation+imageWidth, imageHeight);
-					g.setColor(Color.white);
-					g.drawRect(x1, y1, x2-x1, y2-y1);
-				}
-				compteur ++;
+//				c = (Character) a;
+//				Image icone = c.image;
+//				int imageWidth = c.image.getWidth()/5;
+//				int imageHeight = c.image.getHeight()/4;
+//				float r = a.collisionBox.getBoundingCircleRadius();
+//				if(compteur ==0){
+//					//Show icons
+//					//Show production bar
+//					g.setColor(Color.darkGray);
+//					g.fillRect(startX+this.sizeX/4, startY+this.sizeY/4,3*sizeX/4-5, 3*sizeY/4-5);
+//					g.setColor(Color.white);
+//					g.drawRect(startX+this.sizeX/4, startY+this.sizeY/4,3*sizeX/4-5, 3*sizeY/4-5);
+//					g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,imageWidth*c.animation,0,imageWidth*c.animation+imageWidth,imageHeight);
+//					g.setColor(Color.white);
+//					String s = a.name;
+//					g.drawString(s, startX+sizeX/2-parent.p.g.font.getWidth(s)/2f, startY+sizeY/8f-parent.p.g.font.getHeight(s)/2f);
+//					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
+//					g.setColor(Color.darkGray);
+//					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
+//					float x = a.lifePoints/a.maxLifePoints;
+//					g.setColor(new Color((1f-x),x,0));
+//					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+(a.maxLifePoints-a.lifePoints)*(3*sizeY/4-20f)/a.maxLifePoints, sizeX/8f,3*sizeY/4-20f-(a.maxLifePoints-a.lifePoints)*(3*sizeY/4-20f)/a.maxLifePoints);
+//					g.setColor(Color.white);
+//					g.drawRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
+//				}
+//				else{
+//					int x1,y1,x2,y2;
+//					if(nb>5){
+//						x1 = (int) (this.x+this.sizeX+5+(sVB)*(compteur-1)*4/(nb-1));
+//						y1 = (int) (parent.p.g.resY-sVB+3f);
+//						x2 = (int) (x1+sVB);
+//						y2 = (int) (y1+sVB);						
+//					} else {
+//						x1 = (int) (this.x+this.sizeX+5+(sVB)*(compteur-1));
+//						y1 = (int) (parent.p.g.resY-sVB+3f);
+//						x2 = (int) (x1+sVB);
+//						y2 = (int) (y1+sVB);
+//					}
+//					float x = a.lifePoints/a.maxLifePoints;
+//					g.setColor(Color.darkGray);
+//					g.fillRect(x1, y1, x2-x1, y2-y1);
+//					g.setColor(new Color((1f-x),x,0));
+//					float diff = x*(y2-y1);
+//					g.fillRect(x1, y1-diff+(y2-y1), (x2-x1)/5, diff);
+//					g.drawImage(icone,x1, y1, x2, y2, imageWidth*c.animation, 0, imageWidth*c.animation+imageWidth, imageHeight);
+//					g.setColor(Color.white);
+//					g.drawRect(x1, y1, x2-x1, y2-y1);
+//				}
+//				compteur ++;
 			}
 		} else {
 			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);

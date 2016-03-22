@@ -29,22 +29,15 @@ public class BuildingMill extends BuildingTech{
 		this.g =g;
 		this.setTeam(team);
 		this.type = 1;
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		this.name= "mill";
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.millChargeTime;
 		this.lifePoints = getGameTeam().data.millLifePoints;
-		this.sizeX = getGameTeam().data.millSizeX; 
-		this.sizeY = getGameTeam().data.millSizeY;
+		this.sizeX = this.getGameTeam().data.millSizeX; 
+		this.sizeY = this.getGameTeam().data.millSizeY;
 		this.sight = p.g.players.get(getTeam()).data.millSight;
 		this.initialize(f, h);
-		if(getTeam()==1){
-			this.image = this.p.g.images.get("buildingMillBlue");
-		} else if(getTeam()==2){
-			this.image = this.p.g.images.get("buildingMillRed");
-		} else {
-			this.image = this.p.g.images.get("buildingMillNeutral");
-		}
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
 	}

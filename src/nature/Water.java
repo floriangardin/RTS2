@@ -17,7 +17,7 @@ public class Water extends NaturalObjet {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.p = p;
-		this.image= this.p.g.images.get("water");
+//		this.image= this.p.g.images.get("water");
 		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.blue;
 		this.lifePoints = 1.0f;
@@ -32,11 +32,11 @@ public class Water extends NaturalObjet {
 	public Graphics draw(Graphics g){
 		float x = this.getX()-sizeX/2f;
 		float y = this.getY()-sizeY/2f;
-		for(int i=0; i<(int)(this.sizeX/this.image.getWidth())+1;i++)
-			for(int j=0; j<(int)(this.sizeY/this.image.getHeight())+1;j++)
-				if(-32f<x+this.image.getWidth()*i && x+this.image.getWidth()*i<this.p.maxX+32f)
-					if(-32f<y+this.image.getHeight()*j && y+this.image.getHeight()*j<this.p.maxY+32f)
-						g.drawImage(this.image,x+this.image.getWidth()*i,y+this.image.getHeight()*j);
+//		for(int i=0; i<(int)(this.sizeX/this.image.getWidth())+1;i++)
+//			for(int j=0; j<(int)(this.sizeY/this.image.getHeight())+1;j++)
+//				if(-32f<x+this.image.getWidth()*i && x+this.image.getWidth()*i<this.p.maxX+32f)
+//					if(-32f<y+this.image.getHeight()*j && y+this.image.getHeight()*j<this.p.maxY+32f)
+//						g.drawImage(this.image,x+this.image.getWidth()*i,y+this.image.getHeight()*j);
 		g.setColor(Color.green);
 		
 		return g;

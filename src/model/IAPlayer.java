@@ -14,7 +14,7 @@ import units.UnitSpearman;
 import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
-import buildings.BuildingHeadQuarters;
+import buildings.BuildingHeadquarters;
 import buildings.BuildingMill;
 import buildings.BuildingMine;
 import buildings.BuildingStable;
@@ -302,7 +302,7 @@ public class IAPlayer extends Player{
 	public Building getNearestHQToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b instanceof BuildingHeadQuarters && b.getTeam()!=caller.getTeam()){
+			if(b instanceof BuildingHeadquarters && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -541,7 +541,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c instanceof BuildingHeadQuarters ){
+			if(c instanceof BuildingHeadquarters ){
 				result.add(c);
 			}
 		}

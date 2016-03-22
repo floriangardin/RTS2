@@ -21,6 +21,7 @@ public abstract class Bonus extends Building{
 	public boolean bonusPresent=false;
 	public float hitBoxSize;
 	public Circle hitBox;
+	public Image image;
 
 	public float animationStep  = 1f;
 

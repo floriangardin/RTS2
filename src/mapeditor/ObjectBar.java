@@ -111,7 +111,7 @@ public class ObjectBar {
 		buildingsBlue.add(new EditorObject("Academy", 1, 1,this.editor.game.images.get("buildingAcademyBlue"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
 		buildingsBlue.add(new EditorObject("University", 1, 1,this.editor.game.images.get("buildingUniversityBlue"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
 		buildingsBlue.add(new EditorObject("Tower", 1, 1,this.editor.game.images.get("buildingTowerBlue"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Headquarters", 1, 1,this.editor.game.images.get("buildingHeadQuartersBlue"),0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+		buildingsBlue.add(new EditorObject("Headquarters", 1, 1,this.editor.game.images.get("buildingHeadQuartersBlue"),0,0,this,(int)(data.headquartersSizeX/Map.stepGrid),(int)(data.headquartersSizeY/Map.stepGrid)));
 		// red
 		buildingsRed.add(new EditorObject("Mill", 2, 1,this.editor.game.images.get("buildingMillRed"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("Mine", 2, 1,this.editor.game.images.get("buildingMineRed"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
@@ -120,7 +120,7 @@ public class ObjectBar {
 		buildingsRed.add(new EditorObject("Academy", 2, 1,this.editor.game.images.get("buildingAcademyRed"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.get("buildingUniversityRed"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
 		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.get("buildingTowerRed"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.get("buildingHeadQuartersRed"),0,0,this,(int)(data.headQuartersSizeX/Map.stepGrid),(int)(data.headQuartersSizeY/Map.stepGrid)));
+		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.get("buildingHeadQuartersRed"),0,0,this,(int)(data.headquartersSizeX/Map.stepGrid),(int)(data.headquartersSizeY/Map.stepGrid)));
 
 		// others
 		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.get("bonusLifePoints"),0,0,this,1,1));

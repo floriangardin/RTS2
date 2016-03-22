@@ -2,14 +2,10 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Rectangle;
-
 import main.Main;
-import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
-import ressources.Map;
 import technologies.DualistAge2;
 import technologies.DualistAge3;
 import technologies.DualistBonusFood;
@@ -27,7 +23,7 @@ import technologies.DualistShield3;
 import technologies.Technologie;
 import units.UnitsList;
 
-public class BuildingHeadQuarters extends BuildingTech {
+public class BuildingHeadquarters extends BuildingTech {
 
 
 	public int age=1;
@@ -36,7 +32,7 @@ public class BuildingHeadQuarters extends BuildingTech {
 	public Vector<Technologie> allTechs;
 	
 	
-	public BuildingHeadQuarters(Plateau plateau, Game g, float f, float h, int team) {
+	public BuildingHeadquarters(Plateau plateau, Game g, float f, float h, int team) {
 		// Init ProductionList
 		this.hq = this;
 		this.p = plateau ;
@@ -111,25 +107,16 @@ public class BuildingHeadQuarters extends BuildingTech {
 		}
 		this.queue = null;
 		teamCapturing= getTeam();
-		this.sizeX = this.getGameTeam().data.headQuartersSizeX; 
-		this.sizeY = this.getGameTeam().data.headQuartersSizeY;
+		this.sizeX = Data.headquartersSizeX; 
+		this.sizeY = Data.headquartersSizeY;
 		this.sight = this.getGameTeam().data.headQuartersSight;
-		maxLifePoints = getGameTeam().data.headQuartersLifePoints;
+		maxLifePoints = this.getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 5;
 
 		this.initialize(f,h);
 		this.constructionPoints = this.maxLifePoints;
-		if(this.getTeam() == 1){
-			this.image = this.p.g.images.get("buildingHeadQuartersBlue");
-		}
-		else if(this.getTeam() == 2){
-			this.image = this.p.g.images.get("buildingHeadQuartersRed");
-		}
-		else {
-			this.image = this.p.g.images.get("tent");
-		}
 		// List of potential production 
 		this.techsDiscovered = new Vector<Technologie>();
 		this.updateProductionList();
@@ -163,11 +150,13 @@ public class BuildingHeadQuarters extends BuildingTech {
 		//Product, increase state of the queue
 		// If enough faith create archange
 		
-		if(this.getGameTeam().civ==0 && this.getGameTeam().special>=UnitsList.Archange.specialPrice){
-			
-			this.getGameTeam().data.create(UnitsList.Archange, this.x, this.y+this.sizeY/2);
-			this.getGameTeam().special=0;
-		}
+		// CES LIGNES SERVAIENT A CREER UN ARCHANGE, ET JE LES AI SUPPRIME, LOL
+//		if(this.getGameTeam().civ==0 && this.getGameTeam().special>=UnitsList.Archange.specialPrice){
+//			
+//			this.getGameTeam().data.create(UnitsList.Archange, this.x, this.y+this.sizeY/2);
+//			this.getGameTeam().special=0;
+//		}
+		// voilà, plus d'archanges
 		if(this.queue!=null){
 			if(!this.isProducing){
 				this.isProducing = true;

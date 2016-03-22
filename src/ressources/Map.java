@@ -15,7 +15,7 @@ import buildings.BonusLifePoints;
 import buildings.BonusSpeed;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
-import buildings.BuildingHeadQuarters;
+import buildings.BuildingHeadquarters;
 import buildings.BuildingMill;
 import buildings.BuildingMine;
 import buildings.BuildingStable;
@@ -147,7 +147,7 @@ public class Map {
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				new BuildingHeadQuarters(game.plateau,game,Float.parseFloat(tab[1]),Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[0]));
+				new BuildingHeadquarters(game.plateau,game,Float.parseFloat(tab[1]),Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[0]));
 			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
@@ -203,8 +203,8 @@ public class Map {
 		Data data1 = game.teams.get(1).data;
 		Data data2 = game.teams.get(2).data;
 		// Headquarters
-		new BuildingHeadQuarters(game.plateau,game,-5,-3,1);
-		new BuildingHeadQuarters(game.plateau,game,7,-3,2);
+		new BuildingHeadquarters(game.plateau,game,-5,-3,1);
+		new BuildingHeadquarters(game.plateau,game,7,-3,2);
 
 		// Units
 		Data data;

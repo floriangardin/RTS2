@@ -20,6 +20,7 @@ public class Fireball extends Bullet {
 	protected float angle;
 	protected Image image1, image2, boom;
 	protected boolean explosion= false;
+	public Image image;
 
 	public Fireball(Plateau p,ActionObjet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
 		//MULTI 

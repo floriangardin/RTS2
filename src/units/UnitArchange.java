@@ -15,6 +15,8 @@ import model.Player;
 
 public class UnitArchange extends Character {
 
+	public static float radiusCollisionBox = 30f;
+	
 	public UnitArchange(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "archange";
@@ -23,8 +25,8 @@ public class UnitArchange extends Character {
 		this.maxLifePoints = 200f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f*Main.ratioSpace;
-		this.collisionBox = new Circle(0f,0f,this.size);
-		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
+		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
+		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
 		this.maxVelocity = 60f*Main.ratioSpace*data.speedFactor;
 		this.armor = 5f;
 		this.damage = 20f*data.damageFactor;
@@ -36,39 +38,36 @@ public class UnitArchange extends Character {
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		this.spells.add(data.instantDeath);
 		this.spells.add(data.instantHealth);
-		if(this.getTeam()==1)
-			this.image = this.p.g.images.get("archangeBlue");
-		else
-			this.image = this.p.g.images.get("archangeRed");
 	}
 
 	public UnitArchange(UnitArchange archange, float x, float y,int id) {
 		super(archange,x,y,id);
 	}
 
-	public Graphics draw(Graphics g){
-		float r = collisionBox.getBoundingCircleRadius();
-		float direction = 0f;
-		direction = (float)(orientation/2-1);
-		int imageWidth = this.image.getWidth()/4;
-		int imageHeight = this.image.getHeight()/4;
-		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
-		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
-		float x1 = this.getX() - drawWidth*2f;
-		float y1 = this.getY() + (drawWidth - 2*drawHeight)*3f;
-		float x2 = this.getX() + drawWidth*2f;
-		float y2 = this.getY() + drawWidth;
-		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		// Drawing the health bar
-		if(!isImmolating && this.lifePoints<this.maxLifePoints){
-			drawLifePoints(g,r);
-		}
-		//Draw the immolation
-		if(isImmolating){
-			drawImmolation(g,r);
-		}
-		return g;
-	}
+//	public Graphics draw(Graphics g){
+//		float r = collisionBox.getBoundingCircleRadius();
+//		float direction = 0f;
+//		direction = (float)(orientation/2-1);
+//		int imageWidth = this.image.getWidth()/4;
+//		int imageHeight = this.image.getHeight()/4;
+//		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
+//		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
+//		float x1 = this.getX() - drawWidth*2f;
+//		float y1 = this.getY() + (drawWidth - 2*drawHeight)*3f;
+//		float x2 = this.getX() + drawWidth*2f;
+//		float y2 = this.getY() + drawWidth;
+//		g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+//		// Drawing the health bar
+//		if(!isImmolating && this.lifePoints<this.maxLifePoints){
+//			drawLifePoints(g,r);
+//		}
+//		//Draw the immolation
+//		if(isImmolating){
+//			drawImmolation(g,r);
+//		}
+//		return g;
+//	}
+	
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
 		if(this.horse!=null){

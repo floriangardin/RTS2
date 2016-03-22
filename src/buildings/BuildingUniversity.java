@@ -2,16 +2,12 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import main.Main;
 import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
 import model.Player;
-import ressources.Map;
 import technologies.Technologie;
 
 public class BuildingUniversity extends BuildingTech {
@@ -37,31 +33,19 @@ public class BuildingUniversity extends BuildingTech {
 		this.queue = null;
 		teamCapturing= getTeam();
 
-		this.sizeX = getGameTeam().data.universitySizeX; 
-		this.sizeY = getGameTeam().data.universitySizeY;
+		this.sizeX = Data.universitySizeX; 
+		this.sizeY = Data.universitySizeY;
 		this.sight = getGameTeam().data.universitySight;
 		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
 		this.initialize(f, h);
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 6;
 		this.g = g;
-		if(this.getTeam() == 1){
-			this.image = this.p.g.images.get("buildingUniversityBlue");
-		}
-		else if(getTeam() == 2){
-			this.image = this.p.g.images.get("buildingUniversityRed");
-		}
-		else {
-			this.image = this.p.g.images.get("buildingUniversityNeutral");
-		}
 		// List of potential production (Spearman
 		
 		this.updateProductionList();
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
-		this.updateImage();
-
-
 	}
 	public void removeProd() {
 		if(this.queue!=null){

@@ -2,15 +2,10 @@ package buildings;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
-import ressources.Map;
 import units.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
@@ -26,21 +21,14 @@ public class BuildingBarrack extends BuildingProduction{
 		this.setTeam(team);
 		maxLifePoints = this.getGameTeam().data.barrackLifePoints;
 		//maxLifePoints = 10f;
-		this.sizeX = this.getGameTeam().data.barrackSizeX; 
-		this.sizeY = this.getGameTeam().data.barrackSizeY;
+		this.sizeX = Data.barrackSizeX; 
+		this.sizeY = Data.barrackSizeY;
 		this.sight = this.getGameTeam().data.barrackSight;
 		this.name = "barrack";
-		this.selection_circle = this.p.g.images.get("rectSelect").getScaledCopy(4f);
+		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 3;
 		this.initialize(f, h);
 		this.g = g;
-		if(getTeam()==1){
-			this.image = this.p.g.images.get("buildingBarrackBlue");
-		} else if(getTeam()==2){
-			this.image = this.p.g.images.get("buildingBarrackRed");
-		} else {
-			this.image = this.p.g.images.get("buildingBarrackNeutral");
-		}
 		// List of potential production (Spearman)
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();

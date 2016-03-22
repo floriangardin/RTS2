@@ -15,6 +15,8 @@ import model.Plateau;
 
 public class UnitKnight extends Character {
 
+	public static float radiusCollisionBox = 40f*Main.ratioSpace;
+	
 	public UnitKnight(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "knight";
@@ -24,9 +26,8 @@ public class UnitKnight extends Character {
 		this.maxLifePoints = 90f*data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 400f*Main.ratioSpace;
-		this.size = 40f*Main.ratioSpace;
-		this.collisionBox = new Circle(0f,0f,this.size);
-		this.selectionBox = new Rectangle(-1.5f*this.image.getWidth()/5,-2.5f*this.image.getHeight()/4,3*this.image.getWidth()/5,3*this.image.getHeight()/4);
+		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
+		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
 		this.maxVelocity = 160f*Main.ratioSpace*data.speedFactor;
 		this.armor = 3f;
 		this.damage = 8f*data.damageFactor;
@@ -34,20 +35,12 @@ public class UnitKnight extends Character {
 		this.weapon = "sword";
 		this.civ = 0;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.range = this.size+20f*Main.ratioSpace;
+		this.range = this.radiusCollisionBox+20f*Main.ratioSpace;
 		this.horse = new Horse(p,this);
 		this.spells.add(data.immolation);
 		this.spells.add(data.fence);
 		this.animStep = 32f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
-		if(this.getGameTeam().id==1){
-			this.image = this.p.g.images.get("knightBlue");
-			//this.animationAttack = this.p.g.images.get("attackSpearmanBlue;
-		}
-		else{
-			this.image = this.p.g.images.get("knightRed");
-			//this.animationAttack = this.p.g.images.get("attackSpearmanRed;
-		}
 		
 	}
 	
@@ -196,65 +189,65 @@ public class UnitKnight extends Character {
 	}
 
 
-	public Graphics draw(Graphics g){
-
-		float r = collisionBox.getBoundingCircleRadius()*1.9f;
-		float direction = 0f;
-		//Adapted to spearman TODO : Genericity
-		
-		if(this.isImmolating){
-			this.animation = 0;
-			this.orientation = 2;
-		}
-
-		direction = (float)(orientation/2-1);
-		int imageWidth = this.image.getWidth()/5;
-		int imageHeight = this.image.getHeight()/4;
-		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
-		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
-		float x1 = this.getX() - drawWidth;
-		float y1 = this.getY() + drawWidth - 2*drawHeight;
-		float x2 = this.getX() + drawWidth;
-		float y2 = this.getY() + drawWidth;
-		y1-=40f*Main.ratioSpace;
-		y2-=40f*Main.ratioSpace;
-		x1+=5f*Main.ratioSpace;
-		x2+=5f*Main.ratioSpace;
-		if(mouseOver && frozen<=0f){
-			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
-			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
-			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-
-			g.drawImage(i,x1,y1);
-			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
-			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		}
-		else if(frozen<=0f){
-			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		}else{
-		
-				Color color = Color.darkGray;
-				color = new Color(100,150,255,0.4f);
-				Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
-				i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-
-				g.drawImage(i,x1,y1);
-				i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
-				//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
-		}
-
-		// Drawing the health bar
-		if(!isImmolating && this.lifePoints<this.maxLifePoints){
-			drawLifePoints(g,r);
-
-		}
-		//Draw the immolation
-		if(isImmolating){
-			drawImmolation(g,r);
-		}
-		return g;
-	
-	}
+//	public Graphics draw(Graphics g){
+//
+//		float r = collisionBox.getBoundingCircleRadius()*1.9f;
+//		float direction = 0f;
+//		//Adapted to spearman TODO : Genericity
+//		
+//		if(this.isImmolating){
+//			this.animation = 0;
+//			this.orientation = 2;
+//		}
+//
+//		direction = (float)(orientation/2-1);
+//		int imageWidth = this.image.getWidth()/5;
+//		int imageHeight = this.image.getHeight()/4;
+//		float drawWidth = r*imageWidth/Math.min(imageWidth,imageHeight);
+//		float drawHeight = r*imageHeight/Math.min(imageWidth,imageHeight);
+//		float x1 = this.getX() - drawWidth;
+//		float y1 = this.getY() + drawWidth - 2*drawHeight;
+//		float x2 = this.getX() + drawWidth;
+//		float y2 = this.getY() + drawWidth;
+//		y1-=40f*Main.ratioSpace;
+//		y2-=40f*Main.ratioSpace;
+//		x1+=5f*Main.ratioSpace;
+//		x2+=5f*Main.ratioSpace;
+//		if(mouseOver && frozen<=0f){
+//			Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.4f);
+//			Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+//			i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+//
+//			g.drawImage(i,x1,y1);
+//			i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+//			//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+//		}
+//		else if(frozen<=0f){
+//			g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+//		}else{
+//		
+//				Color color = Color.darkGray;
+//				color = new Color(100,150,255,0.4f);
+//				Image i = this.image.getSubImage(imageWidth*animation,imageHeight*(int)direction,imageWidth,imageHeight);
+//				i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
+//
+//				g.drawImage(i,x1,y1);
+//				i.drawFlash(x1, y1,i.getWidth(),i.getHeight(),color);
+//				//g.drawImage(this.image,x1,y1,x2,y2,imageWidth*animation,imageHeight*direction,imageWidth*animation+imageWidth,imageHeight*direction+imageHeight);
+//		}
+//
+//		// Drawing the health bar
+//		if(!isImmolating && this.lifePoints<this.maxLifePoints){
+//			drawLifePoints(g,r);
+//
+//		}
+//		//Draw the immolation
+//		if(isImmolating){
+//			drawImmolation(g,r);
+//		}
+//		return g;
+//	
+//	}
 
 }
 

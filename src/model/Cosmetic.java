@@ -10,6 +10,7 @@ public class Cosmetic {
 	float recY;
 	
 	public Cosmetic(){
+
 	}
 	
 	public Graphics draw(Graphics g){

@@ -4,7 +4,7 @@
 
 
 #Creator: Welcome
-# date: 18/03/2016
+# date: 22/03/2016
 
 & sizeX 31
 & sizeY 31
@@ -61,6 +61,6 @@ Spearman 2 16.0 25.0
 ###########
 
 Tree 1 10.0 7.0
-Tree 1 10.0 23.0
-Tree 2 20.0 23.0
+Tree 2 10.0 23.0
 Tree 2 20.0 7.0
+Tree 1 20.0 23.0

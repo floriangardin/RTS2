@@ -5,6 +5,8 @@ package bullets;
 
 import java.util.HashMap;
 
+import org.newdawn.slick.Image;
+
 import buildings.Building;
 import model.ActionObjet;
 import model.Game;
