@@ -38,20 +38,15 @@ public class Main {
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer( game );
 			game.app = app;
-			//app.setIcon("pics/danger/iconeJeu.png");
+			app.setIcon("ressources/images/danger/iconeJeu.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);
-			app.setShowFPS(false);
+			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,pleinEcran);
 			app.setAlwaysRender(false);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
-			//app.setTargetFrameRate(Main.framerate);
 			app.setVSync(true);
 			//app.setSmoothDeltas(true);
-//			app.setMinimumLogicUpdateInterval(1000/framerate);
-//			app.setMaximumLogicUpdateInterval(1000/framerate);
-			//app.setMaximumLogicUpdateInterval(20);
-			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

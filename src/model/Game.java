@@ -828,6 +828,7 @@ public class Game extends BasicGame
 		} else if(!thingsLoaded){
 			app.setMinimumLogicUpdateInterval(1000/Main.framerate);
 			app.setMaximumLogicUpdateInterval(1000/Main.framerate);
+			app.setTargetFrameRate(Main.framerate);
 			this.musicPlaying = this.musics.get("themeMenu");
 			this.setMenu(menuIntro);
 			g.thingsLoaded = true;
