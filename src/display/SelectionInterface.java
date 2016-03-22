@@ -20,6 +20,7 @@ public class SelectionInterface extends Bar {
 
 	public BottomBar parent;
 	public Game game;
+	private float debut = Game.nbRoundInit/4, duree = debut;
 	public SelectionInterface(BottomBar parent){
 		this.game = parent.p.g;
 		this.parent = parent;
@@ -33,18 +34,13 @@ public class SelectionInterface extends Bar {
 
 	public Graphics draw(Graphics g){
 
-		g.setLineWidth(1f);
-		// Draw the selection of current player
-		g.setColor(Color.red);
-		// Draw 4 separations
-		g.setColor(Color.white);
-
+		if(Game.g.round<Game.nbRoundInit)
+			startX = Math.max(-sizeX-10, Math.min(0, sizeX*(Game.g.round-debut-duree)/duree));
+		
 		// variable de travail sizeVerticalBar
+		g.setLineWidth(1f);
 		float sVB = parent.ratioBarVertX*parent.p.g.resX;
-		for(int i=0; i<5; i++){
-			g.setColor(Color.darkGray);
-			// TODO: faire des carrés gris
-		}
+
 
 		// Draw building state
 		if(this.parent.p.g.currentPlayer.selection.size()>0 && this.parent.p.g.currentPlayer.selection.get(0) instanceof BuildingProduction ){

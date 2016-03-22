@@ -18,7 +18,7 @@ import buildings.Building;
 
 public class MinimapInterface extends Bar {
 	// Minimap caract
-	public float startX, startX2;
+	public float startX, startX2, offsetDrawX;
 	public float startY, startY2;
 	public float w;
 	public float h;
@@ -29,6 +29,8 @@ public class MinimapInterface extends Bar {
 	
 	public static boolean todrawGrid = true;
 
+	private float debutGlissade = Game.nbRoundInit/4;
+	private float dureeGlissade = Game.nbRoundInit/4;
 	
 	// Extra params __ Debug
 	public float x1,y1,x2,y2;
@@ -61,8 +63,8 @@ public class MinimapInterface extends Bar {
 		this.toDraw = false;
 	}
 	
-	public void update(Game game){
-
+	
+	public void updateRatio(Game game){
 		this.game = game;
 		this.p = game.plateau;
 		if(this.p.maxX>this.p.maxY){
@@ -81,9 +83,10 @@ public class MinimapInterface extends Bar {
 	}
 
 	public Graphics draw(Graphics g){
-		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color,startX2-3, startY2-3, sizeX+9, sizeY+9);
+		this.offsetDrawX = Math.max(0, Math.min(sizeX+10, -sizeX*(Game.g.round-debutGlissade-dureeGlissade)/dureeGlissade));
+		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color,startX2+offsetDrawX-3, startY2-3, sizeX+9, sizeY+9);
 		g.setColor(Color.black);
-		g.fillRect(this.startX2, this.startY2, this.sizeX, this.sizeY);
+		g.fillRect(this.startX2+offsetDrawX, this.startY2, this.sizeX, this.sizeY);
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);
@@ -93,10 +96,10 @@ public class MinimapInterface extends Bar {
 
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.drawImage(this.p.g.images.get("islandTexture"),startX, startY, startX+w, startY+h,0,0,this.p.g.images.get("islandTexture").getWidth(),this.p.g.images.get("islandTexture").getHeight());
+		g.drawImage(this.p.g.images.get("islandTexture"),startX+offsetDrawX, startY, startX+offsetDrawX+w, startY+h,0,0,this.p.g.images.get("islandTexture").getWidth(),this.p.g.images.get("islandTexture").getHeight());
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.green);
-			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
+			g.fillRect(startX+offsetDrawX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
 		// Draw units on camera 
 		g.setAntiAlias(true);
@@ -105,14 +108,14 @@ public class MinimapInterface extends Bar {
 				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 					float r = c.collisionBox.getBoundingCircleRadius();
-					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
+					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 			else if(c.getTeam()==1){
 				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 					float r = c.collisionBox.getBoundingCircleRadius();
-					g.fillOval(startX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
+					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 		}
@@ -139,7 +142,7 @@ public class MinimapInterface extends Bar {
 
 				}
 			}
-			g.fillOval(startX+rw*(c.x-c.size/2f), startY+rh*(c.y-c.size/2f), rw*c.size, rh*c.size);
+			g.fillOval(startX+offsetDrawX+rw*(c.x-c.size/2f), startY+rh*(c.y-c.size/2f), rw*c.size, rh*c.size);
 		}
 		g.setAntiAlias(false);
 		for(Building c : this.p.buildings){
@@ -163,7 +166,7 @@ public class MinimapInterface extends Bar {
 
 				}
 			}
-			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
+			g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
 			
 			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
 				float ratio = c.constructionPoints/c.maxLifePoints;
@@ -173,14 +176,13 @@ public class MinimapInterface extends Bar {
 				else if(c.potentialTeam==2){
 					g.setColor(Colors.team2);
 				}
-				g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
+				g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
 			}
 		}
 		
 		// Draw rect of camera 
 		g.setColor(Color.white);
-
-		g.drawRect(hlx,hly,brx-hlx,bry-hly );
+		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
 		return g;
 	}
 

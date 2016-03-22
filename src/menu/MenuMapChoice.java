@@ -94,7 +94,7 @@ public class MenuMapChoice extends Menu {
 		case 1: 
 			// demarrer
 			if(!game.inMultiplayer){
-				game.launchGame();
+				this.launchGameSinglePlayer();
 			} else {
 				this.game.currentPlayer.isReady = true;
 			}
@@ -102,6 +102,11 @@ public class MenuMapChoice extends Menu {
 		default:		
 		}
 	}
+
+	private void launchGameSinglePlayer() {
+		this.startGame = game.clock.getCurrentTime()+2000000000L;
+	}
+
 
 	public void draw(Graphics g){
 		this.drawItems(g);
@@ -121,20 +126,41 @@ public class MenuMapChoice extends Menu {
 		g.setColor(Color.white);
 		g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
 
+		
 		if(startGame!=0){
+			float f = 1f-(1f*((float)(startGame-this.game.clock.getCurrentTime())/2000000000f));
+			System.out.println(startGame-this.game.clock.getCurrentTime());
+			g.setColor(new Color(0f,0f,0f,f));
+			g.fillRect(0, 0, game.resX, game.resY);
+			// draw title
+			g.drawImage(this.title, this.game.resX/2-this.title.getWidth()/2, 10f+(game.resY/2-this.title.getHeight()/2-10f)*f);
 			// drawing countdown to launch game
 			g.setColor(Color.white);
 			int sec = (int) ((startGame-this.game.clock.getCurrentTime())/1000000000L);
 			String s = "Début de la partie dans "+(sec+1)+" s.";
 			String s1 = "Début de la partie dans 5 s.";
 			g.drawString(s,game.resX-game.font.getWidth(s1)-15f,game.resY-game.font.getHeight(s1)-15f);
+		} else {
+			// draw title
+			g.drawImage(this.title, this.game.resX/2-this.title.getWidth()/2, 10f);
 		}
 
+	}
+	
+	public void drawItems(Graphics g){
+		// draw background
+		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+		// draw items
+		for(Menu_Item item: this.items){
+			item.draw(g);
+		}
 	}
 
 	public void update(InputObject im){
 		// Handling current player according to input
-		this.menuPlayers.get(game.currentPlayer.id).update(im);
+		if(startGame!=0 && game.inMultiplayer){
+			this.menuPlayers.get(game.currentPlayer.id).update(im);
+		}
 		// handling connexions
 		if(game.inMultiplayer){
 			if(game.host){
@@ -206,6 +232,11 @@ public class MenuMapChoice extends Menu {
 				this.initializeMenuPlayer();
 			}
 			//Checking starting of the game
+			if(startGame!=0){
+				this.handleStartGame();
+				return;
+			}
+		} else {
 			if(startGame!=0){
 				this.handleStartGame();
 				return;

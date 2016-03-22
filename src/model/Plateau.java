@@ -178,7 +178,7 @@ public class Plateau {
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
 		for (Player p : g.players) {
-			p.bottomBar.minimap.update(g);
+			p.bottomBar.minimap.updateRatio(g);
 		}
 	}
 

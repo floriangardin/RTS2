@@ -6,7 +6,7 @@ import java.util.Vector;
 import main.Main;
 import model.Game;
 
-public class Clock extends Thread{
+public class Clock {
 	Game game;
 	boolean isMaster;
 	public long originTime;
@@ -23,25 +23,6 @@ public class Clock extends Thread{
 		this.origins = new Vector<Long>();
 	}
 	
-	
-	public void run(){
-		boolean b = true;
-		while(b){
-			
-			try {
-				if(this.game.isInMenu){
-					Thread.sleep(5000);
-				}
-				else{
-					b=false;
-				}
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				b=false;
-			}
-		}
-	}
 	
 	public long getCurrentTime(){
 		return System.nanoTime()-this.originTime;

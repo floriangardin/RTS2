@@ -526,7 +526,7 @@ public class Character extends ActionObjet{
 		int direction = (orientation/2-1);
 		Image im;
 		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
-		if(mouseOver && frozen<=0f){
+		if(mouseOver && frozen<=0f && Game.g.round>Game.nbRoundInit){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
 				color = new Color(0,0,205,0.4f);

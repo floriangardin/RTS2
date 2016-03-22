@@ -23,6 +23,11 @@ public class TopBar extends Bar {
 	public float ratioSizeTimerX = 1/12f;
 	public float ratioSizeGoldY = 1/22f;
 	public float ratioSizeTimerY = 1/16f;
+	
+	private float debutC = Game.nbRoundInit/4;
+	private float debut1 = 3*Game.nbRoundInit/8;
+	private float debut2 = Game.nbRoundInit/2;
+	private float dureeDescente = Game.nbRoundInit/8;
 
 	public TopBar(Plateau p , int resX, int resY){
 
@@ -47,6 +52,11 @@ public class TopBar extends Bar {
 		String s;
 		float rX = this.p.g.resX;
 		float rY = this.p.g.resY;
+		float offset = ratioSizeTimerY*rY;
+		float yCentral = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debutC-dureeDescente)/dureeDescente));
+		offset = ratioSizeGoldY*rY;
+		float y1 = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debut1-dureeDescente)/dureeDescente));
+		float y2 = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debut2-dureeDescente)/dureeDescente));
 		
 		if(gold != p.g.currentPlayer.getGameTeam().gold)
 			gold += (p.g.currentPlayer.getGameTeam().gold-gold)/5+Math.signum(p.g.currentPlayer.getGameTeam().gold-gold);
@@ -55,42 +65,42 @@ public class TopBar extends Bar {
 		
 
 		// pop
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+this.p.g.currentPlayer.getGameTeam().pop + "/" + this.p.g.currentPlayer.getGameTeam().maxPop;
 		if(this.p.g.currentPlayer.getGameTeam().pop==this.p.g.currentPlayer.getGameTeam().maxPop){
 			g.setColor(Color.red);
 		}else{
 			g.setColor(Color.white);
 		}
-		g.drawString(s, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imagePop, (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
+		g.drawString(s, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawImage(this.imagePop, (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, y2+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
 
 		// food
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+food;
 		g.setColor(Color.white);
-		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
+		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-this.p.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
 
 		// faith
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-4,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-4,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+this.p.g.currentPlayer.getGameTeam().special;
 		g.setColor(Color.white);
-		g.drawString(s, (1+ratioSizeTimerX)*rX/2+2*ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageSpecial, (1+ratioSizeTimerX)*rX/2+10+ratioSizeGoldX*rX, ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
+		g.drawString(s, (1+ratioSizeTimerX)*rX/2+2*ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawImage(this.imageSpecial, (1+ratioSizeTimerX)*rX/2+10+ratioSizeGoldX*rX, y2+ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
 
 		// gold
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2-4,-3,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2-4,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+gold;
 		g.setColor(Color.white);
-		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
+		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, y1+ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
 
 		// timer
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,-3,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
+		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
 		s = ""+model.Utils.gameTime(this.p.g.startTime);
 		g.setColor(Color.white);
-		g.drawString(s, rX/2-this.p.g.font.getWidth(s)/2, ratioSizeTimerY*rY/2f-20);
+		g.drawString(s, rX/2-this.p.g.font.getWidth(s)/2, yCentral+ratioSizeTimerY*rY/2f-20);
 
 
 		//		g.drawImage(this.imageTimer, 3*this.p.g.resX/7, 0);

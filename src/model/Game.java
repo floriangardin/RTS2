@@ -102,8 +102,9 @@ public class Game extends BasicGame
 
 
 	//Increment de game
-
 	public static float ratio = 60f/((float)Main.framerate);
+
+	public static int nbRoundInit = 3*Main.framerate;
 
 	public int idChar = 0;
 	public int idBullet = 0;
@@ -200,8 +201,8 @@ public class Game extends BasicGame
 	public int roundDelay;
 
 	public String toSendThisTurn = "";
-	
-	
+
+
 	/////////////
 	/// MENUS ///
 	/////////////
@@ -362,6 +363,12 @@ public class Game extends BasicGame
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
 	}
+
+	//////////////////////////////////////////////////////
+
+	//////////////
+	/// RENDER ///
+	//////////////
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
@@ -545,7 +552,18 @@ public class Game extends BasicGame
 			// Draw bottom bar
 			g.translate(plateau.Xcam, plateau.Ycam);
 
-
+			if(this.round<nbRoundInit){
+				g.setColor(new Color(0f,0f,0f,1f-0.3f*round/nbRoundInit));
+				g.fillRect(0, 0, resX, resY);
+//				int sec = (int)((nbRoundInit-round)/Main.framerate);
+//				if(sec<=2 ){
+//					g.setColor(Color.white);
+//					String s = ""+(sec+1);
+//					g.drawString(s,this.resX/5-font.getWidth(s)/2,resY/2-font.getHeight(s)/2);
+//					g.drawString(s,4*this.resX/5-font.getWidth(s)/2,resY/2-font.getHeight(s)/2);
+//				}
+				g.drawImage(this.menuIntro.title, this.resX/2-this.menuIntro.title.getWidth()/2, this.resY/2-this.menuIntro.title.getHeight()/2);
+			}
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
 			if(this.currentPlayer.bottomBar!=null)
@@ -589,65 +607,24 @@ public class Game extends BasicGame
 		//		sb.append("free memory: " + format.format(freeMemory / 1024) + "<br/>");
 		//		sb.append("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
 		//		sb.append("max memory: " + format.format(maxMemory / 1024) + "<br/>");
-		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
-		//		
+		//		sb.append("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");	
 
 
 	}
 
-	// Do our logic 
+
+	//////////////
+	/// UPDATE ///
+	//////////////
+
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException{
 		// Initializing engine
-		if (LoadingList.get().getRemainingResources() > 0) { 
-			if(waitLoading == false){
-				waitLoading = true;
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				return;
-			}
-			nextResource = LoadingList.get().getNext(); 
-			try {
-				//				System.out.println(nextResource.getDescription());
-				nextResource.load();
-				lastThing = nextResource.getDescription();
-				if(nextResource.getDescription().contains("gilles") ){
-					gillesPasse+=3;
-				}
-				if(gillesPasse>0)
-					gillesPasse--;
-				if(gc.getInput().isKeyPressed(Input.KEY_SPACE) && !this.rate){
-					if(gillesPasse>0 ){
-						this.loadingSpearman = this.loadingGilles;
-						this.special = true;
-					} else {
-						this.rate = true;
-					}
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			waitLoading = false;
-			return;
-		} else if (!plateauLoaded){
-			this.handleEndLoading();
-			plateauLoaded=true;
-			return;
-		} else if(toGoTitle<1f) {
-			if(toGoTitle>0)
-				toGoTitle+=0.05f;
-			else
-				toGoTitle+=0.005f;
-			return;
-		} else if(!thingsLoaded){
-			this.musicPlaying = this.musics.get("themeMenu");
-			this.setMenu(menuIntro);
-			g.thingsLoaded = true;
+		if(!thingsLoaded){
+			this.initializeEngine(gc);
 			return;
 		}
+
 
 		// Handling multiReceiver
 		this.handleMultiReceiver();
@@ -678,8 +655,9 @@ public class Game extends BasicGame
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,!processSynchro);
 			this.editor.update(im,in);
-
 		} else if(!endGame) {
+
+			// gérer le début de partie
 
 			//Update of current round
 			this.clock.setRoundFromTime();
@@ -703,6 +681,7 @@ public class Game extends BasicGame
 				////////////////////
 				/// MULTI PLAYER ///
 				////////////////////
+
 				//toSendThisTurn = "";
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
@@ -723,7 +702,11 @@ public class Game extends BasicGame
 				if(tests) Test.testRoundCorrect(this, ims);
 
 				if(ims.size()>0){
-					this.plateau.update(ims);
+					if(this.round>=Game.nbRoundInit){
+						this.plateau.update(ims);
+					} else {
+						this.updateInit();
+					}
 					this.plateau.updatePlateauState();
 				}
 				this.plateau.updateCosmetic(im);
@@ -739,7 +722,11 @@ public class Game extends BasicGame
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
 				// solo mode, update du joueur courant
-				this.plateau.update(ims);
+				if(this.round>=Game.nbRoundInit){
+					this.plateau.update(ims);
+				} else {
+					this.updateInit();
+				}
 				this.plateau.updateCosmetic(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
@@ -791,6 +778,65 @@ public class Game extends BasicGame
 
 	}
 
+	///////////////////////////////////////////////////////
+
+	// INITIALIZING ENGINE
+	private void initializeEngine(GameContainer gc) {
+		if (LoadingList.get().getRemainingResources() > 0) { 
+			if(waitLoading == false){
+				waitLoading = true;
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
+			nextResource = LoadingList.get().getNext(); 
+			try {
+				//				System.out.println(nextResource.getDescription());
+				nextResource.load();
+				lastThing = nextResource.getDescription();
+				if(nextResource.getDescription().contains("gilles") ){
+					gillesPasse+=3;
+				}
+				if(gillesPasse>0)
+					gillesPasse--;
+				if(gc.getInput().isKeyPressed(Input.KEY_SPACE) && !this.rate){
+					if(gillesPasse>0 ){
+						this.loadingSpearman = this.loadingGilles;
+						this.special = true;
+					} else {
+						this.rate = true;
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			waitLoading = false;
+			return;
+		} else if (!plateauLoaded){
+			this.handleEndLoading();
+			plateauLoaded=true;
+			return;
+		} else if(toGoTitle<1f) {
+			if(toGoTitle>0)
+				toGoTitle+=0.05f;
+			else
+				toGoTitle+=0.005f;
+			return;
+		} else if(!thingsLoaded){
+			this.musicPlaying = this.musics.get("themeMenu");
+			this.setMenu(menuIntro);
+			g.thingsLoaded = true;
+			return;
+		}
+	}
+
+	private void updateInit() {
+		this.startTime = System.currentTimeMillis();
+
+	}
 
 	// FONCTIONS AUXILIAIRES RECEIVER
 	private void handleMultiReceiver() throws SlickException {
@@ -798,58 +844,58 @@ public class Game extends BasicGame
 		while(true){
 			byte[] message = new byte[10000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
-				try {
-					server.receive(packet);
-					if(!Game.g.isInMenu){
-						nbReception+=1;
-						if(nbReception==1){
-							tempsReception = (int) System.currentTimeMillis();
-						}else{
-							tempsReception = (int) (System.currentTimeMillis()-tempsReception);
-						}
-						if(debugReceiver)
-							System.out.println("reception du message: "+ tempsReception);
+			try {
+				server.receive(packet);
+				if(!Game.g.isInMenu){
+					nbReception+=1;
+					if(nbReception==1){
 						tempsReception = (int) System.currentTimeMillis();
+					}else{
+						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
 					}
-					String msg = new String(packet.getData());
-					//				if(Game.debugReceiver) 
-					//					System.out.println(msg.substring(0, 200));
-					//Split submessages
-					String[] tab = msg.split("\\%");
-					String temp;
-					
-					// TODO : check if input in message
-					if(Game.tests && !isInMenu){
-						Test.testIfInputInMessage(msg);
-						int round = getRoundFromMessage(msg);
-						Test.testOrderedMessages(round);
-						Test.testNombreMessagesRecus(round);
-						//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
-					}
-					//System.out.println(packet.getAddress().getHostAddress());
-					gilles++;
-					for(int i =0; i<tab.length;i++){
-						temp = tab[i];
-						nbPaquetReceived++;
-						if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
-							//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
-							switch(temp.substring(0,1)){
-							case "0":this.actionConnexion(temp.substring(1), packet); break;
-							case "1":this.actionInput(temp.substring(1)); break;
-							case "2":this.actionValidation(temp.substring(1)); break;
-							case "3":this.actionResynchro(temp.substring(1)); break;
-							case "4":this.actionPing(temp.substring(1)); break;
-							case "5":this.actionChecksum(temp.substring(1)); break;
-							case "6":this.actionChat(temp.substring(1)); break;
-							default:
-							}
+					if(debugReceiver)
+						System.out.println("reception du message: "+ tempsReception);
+					tempsReception = (int) System.currentTimeMillis();
+				}
+				String msg = new String(packet.getData());
+				//				if(Game.debugReceiver) 
+				//					System.out.println(msg.substring(0, 200));
+				//Split submessages
+				String[] tab = msg.split("\\%");
+				String temp;
+
+				// TODO : check if input in message
+				if(Game.tests && !isInMenu){
+					Test.testIfInputInMessage(msg);
+					int round = getRoundFromMessage(msg);
+					Test.testOrderedMessages(round);
+					Test.testNombreMessagesRecus(round);
+					//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
+				}
+				//System.out.println(packet.getAddress().getHostAddress());
+				gilles++;
+				for(int i =0; i<tab.length;i++){
+					temp = tab[i];
+					nbPaquetReceived++;
+					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
+						//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
+						switch(temp.substring(0,1)){
+						case "0":this.actionConnexion(temp.substring(1), packet); break;
+						case "1":this.actionInput(temp.substring(1)); break;
+						case "2":this.actionValidation(temp.substring(1)); break;
+						case "3":this.actionResynchro(temp.substring(1)); break;
+						case "4":this.actionPing(temp.substring(1)); break;
+						case "5":this.actionChecksum(temp.substring(1)); break;
+						case "6":this.actionChat(temp.substring(1)); break;
+						default:
 						}
 					}
-				} catch (SocketTimeoutException e) {
-					break;
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+			} catch (SocketTimeoutException e) {
+				break;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 		}
 		//System.out.println(gilles + " messages reçus ce tour");
@@ -958,10 +1004,10 @@ public class Game extends BasicGame
 	}
 
 	private void drawPing(Graphics g) {
-		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
-		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
-		g.drawString("Current Time  : "+Integer.toString((int)(this.clock.getCurrentTime()/1000000000f)), 20f, y+20f);
-		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, y);
+//		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
+//		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
+//		g.drawString("Current Time  : "+Integer.toString((int)(this.clock.getCurrentTime()/1000000000f)), 20f, y+20f);
+//		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, y);
 	}
 
 	public void launchGame(){
@@ -1073,7 +1119,7 @@ public class Game extends BasicGame
 			e.printStackTrace();
 		}
 		g.clock = new Clock(g);
-		g.clock.start();
+		//		g.clock.start();
 		g.chatHandler = new ChatHandler(g);
 
 		//TODO : to change to false
@@ -1120,15 +1166,15 @@ public class Game extends BasicGame
 	}
 
 	private static long timeToSend;
-	
+
 	private void send(MultiMessage m) throws FatalGillesError{
-//		if(!isInMenu){
-//			if(timeToSend!=0L)
-//				System.out.println("dernier message envoyé il y a: "+(System.nanoTime()-timeToSend)/1000);
-//			//			if((System.nanoTime()-timeToSend)/1000<3000)
-//			System.out.println("   = >  "+m.message);
-//			timeToSend= System.nanoTime();
-//		}
+		//		if(!isInMenu){
+		//			if(timeToSend!=0L)
+		//				System.out.println("dernier message envoyé il y a: "+(System.nanoTime()-timeToSend)/1000);
+		//			//			if((System.nanoTime()-timeToSend)/1000<3000)
+		//			System.out.println("   = >  "+m.message);
+		//			timeToSend= System.nanoTime();
+		//		}
 		if( Game.tests){
 			Test.testSendEmptyMessages(m.message);
 		}
@@ -1307,5 +1353,6 @@ public class Game extends BasicGame
 	public void activateGdBMode(){
 		this.images.activateGdBMode();
 	}
+
 
 }

@@ -152,7 +152,7 @@ public class Building extends ActionObjet{
 
 		if(visibleByCurrentPlayer || this instanceof BuildingHeadquarters){
 			g.drawImage(Game.g.images.get("building"+name+this.getGameTeam().colorName),this.x-this.sizeX/1.8f, this.y-this.sizeY);
-			if(mouseOver){
+			if(mouseOver && Game.g.round>Game.nbRoundInit){
 				Color color = new Color(this.gameteam.color.getRed(),this.gameteam.color.getGreen(),this.gameteam.color.getBlue(),0.1f);
 				Game.g.images.get("building"+name+this.getGameTeam().colorName).drawFlash(this.x-this.sizeX/1.8f, this.y-this.sizeY, 2*sizeX/1.8f, 3*sizeY/2,color);
 			}

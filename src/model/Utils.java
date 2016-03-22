@@ -465,13 +465,18 @@ public class Utils {
 	}
 
 	public static String gameTime(long startTime){
+		long time = System.currentTimeMillis();
 		String result = "";
-		result+=((int) ((System.currentTimeMillis()-startTime)/1000))/60;
+		if(time<startTime){
+			result ="-";
+			time = 2*startTime-time;
+		}
+		result+=((int) ((time-startTime)/1000))/60;
 		result+=":";
-		if((((System.currentTimeMillis()-startTime)/1000)%60)<10){
+		if((((time-startTime)/1000)%60)<10){
 			result+="0";
 		}
-		result+=((System.currentTimeMillis()-startTime)/1000)%60;
+		result+=((time-startTime)/1000)%60;
 
 		return result;
 

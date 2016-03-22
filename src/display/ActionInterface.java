@@ -35,6 +35,8 @@ public class ActionInterface extends Bar {
 	public boolean mouseOnIt;
 	public float icoSizeX;
 	public float icoSizeY;
+	private float debut = Game.nbRoundInit/4, duree = debut;
+	private float offset;
 	// Production Bar
 	public Building buildingToShow;
 
@@ -45,6 +47,7 @@ public class ActionInterface extends Bar {
 		this.p = parent.p;
 		this.player = parent.player;
 		this.sizeX = this.game.resX*parent.ratioBarVertX;
+		this.offset = parent.p.g.resX*parent.ratioSelectionX;
 		this.sizeY = 5*sizeX;
 		this.icoSizeX = ratio*this.sizeY+2f;
 		this.icoSizeY = ratio*this.sizeY+2f;
@@ -70,6 +73,10 @@ public class ActionInterface extends Bar {
 		// Draw the potential actions
 		// Draw Separation (1/3 1/3 1/3) : 
 
+		if(Game.g.round<Game.nbRoundInit)
+			this.x = Math.max(-offset-10, Math.min(0, offset*(Game.g.round-debut-duree)/duree));
+		else
+			this.x = 0;
 		g.setLineWidth(1f);
 		if(mouseOnIt && y>startY)
 			y = startY+(y-startY)/5;
