@@ -86,8 +86,9 @@ public class MenuMulti extends Menu {
 		case 1:
 			// Rejoindre
 			if(gameSelected!=-1){
-				System.out.println((System.currentTimeMillis()/1000)%100);
+				//System.out.println((System.currentTimeMillis()/1000)%100);
 				this.game.menuMapChoice.seconds = 6;
+				this.game.menuMapChoice.messageDropped = 0;
 				game.host = false;
 				game.inMultiplayer = true;
 				game.initializePlayers();
