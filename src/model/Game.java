@@ -848,6 +848,7 @@ public class Game extends BasicGame
 			byte[] message = new byte[10000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			try {
+				server.setBroadcast(false);
 				server.receive(packet);
 				if(!Game.g.isInMenu){
 					nbReception+=1;
@@ -1007,10 +1008,8 @@ public class Game extends BasicGame
 	}
 
 	private void drawPing(Graphics g) {
-//		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
-//		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
-//		g.drawString("Current Time  : "+Integer.toString((int)(this.clock.getCurrentTime()/1000000000f)), 20f, y+20f);
-//		g.drawString("delay : "+Integer.toString(this.roundDelay), 110f, y);
+		float y = this.relativeHeightBottomBar*resY/2f-this.font.getHeight("Hg")/2f;
+		g.drawString("Ping : "+Integer.toString((int)(this.clock.getPing()/1000000f)), 20f, y);
 	}
 
 	public void launchGame(){
@@ -1149,7 +1148,7 @@ public class Game extends BasicGame
 			// on gère les connexions de menumapchoice
 
 			if(host){
-				this.send(new MultiMessage("0"+message,this.addressBroadcast));
+				//this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
 					this.send(new MultiMessage("0"+message,ia));
 				}

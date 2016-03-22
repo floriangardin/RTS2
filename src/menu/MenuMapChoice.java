@@ -157,10 +157,6 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void update(InputObject im){
-		// Handling current player according to input
-		if(startGame!=0 && game.inMultiplayer){
-			this.menuPlayers.get(game.currentPlayer.id).update(im);
-		}
 		// handling connexions
 		if(game.inMultiplayer){
 			if(game.host){
@@ -182,6 +178,8 @@ public class MenuMapChoice extends Menu {
 				if(this.startGame==0 || this.seconds>2){
 					try {
 						this.game.send(this.messageToHost());	
+						System.out.println("message sent");
+						System.out.println((System.currentTimeMillis()/1000)%100);
 					} catch (FatalGillesError e) {
 						e.printStackTrace();
 					}
@@ -247,6 +245,7 @@ public class MenuMapChoice extends Menu {
 		// Checking if all players are ready then launch the game
 		this.checkStartGame();
 		// Updating items
+		this.menuPlayers.get(game.currentPlayer.id).update(im);
 		this.updateItems(im);
 		// Updating map choices
 		if(this.game.host || !this.game.inMultiplayer){
