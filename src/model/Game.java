@@ -826,6 +826,8 @@ public class Game extends BasicGame
 				toGoTitle+=0.005f;
 			return;
 		} else if(!thingsLoaded){
+			app.setMinimumLogicUpdateInterval(1000/Main.framerate);
+			app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 			this.musicPlaying = this.musics.get("themeMenu");
 			this.setMenu(menuIntro);
 			g.thingsLoaded = true;

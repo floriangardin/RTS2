@@ -129,7 +129,7 @@ public class MenuMapChoice extends Menu {
 		
 		if(startGame!=0){
 			float f = Math.max(0f, Math.min(1f,1f-(1f*((float)(startGame-this.game.clock.getCurrentTime())/2000000000f))));
-			System.out.println(startGame-this.game.clock.getCurrentTime());
+//			System.out.println(startGame-this.game.clock.getCurrentTime());
 			g.setColor(new Color(0f,0f,0f,f));
 			g.fillRect(0, 0, game.resX, game.resY);
 			// draw title
@@ -189,7 +189,7 @@ public class MenuMapChoice extends Menu {
 				messageDropped++;	
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
-					System.out.println("reception "+(System.currentTimeMillis()/1000)%100);
+//					System.out.println("reception "+(System.currentTimeMillis()/1000)%100);
 					messageDropped=0;
 					this.parseForClient(Objet.preParse(game.receivedConnexion.lastElement()));
 					game.receivedConnexion.clear();
@@ -201,7 +201,7 @@ public class MenuMapChoice extends Menu {
 				// requete de ping
 				if(roundForPingRequest==0){
 					this.game.pingRequest();
-					System.out.println("MMC 204 ping");
+//					System.out.println("MMC 204 ping");
 					roundForPingRequest++;
 				}else {
 					roundForPingRequest++;
