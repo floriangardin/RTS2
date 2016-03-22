@@ -14,7 +14,6 @@ import model.ActionObjet;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
-import model.Images;
 import model.MarkerBuilding;
 import model.Objet;
 import model.Plateau;
