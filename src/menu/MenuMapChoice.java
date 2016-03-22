@@ -174,12 +174,12 @@ public class MenuMapChoice extends Menu {
 					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
+				System.out.println("==== nouveau tour : " + (System.currentTimeMillis())%10000);
 				// sending to host only if the game isn't about to start
 				if(this.startGame==0 || this.seconds>2){
 					try {
 						this.game.send(this.messageToHost());	
-						System.out.println("message sent");
-						System.out.println((System.currentTimeMillis())%10000);
+						System.out.println("&& message sent : "+(System.currentTimeMillis())%10000);
 					} catch (FatalGillesError e) {
 						e.printStackTrace();
 					}
@@ -187,7 +187,7 @@ public class MenuMapChoice extends Menu {
 				messageDropped++;	
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
-//					System.out.println("reception "+(System.currentTimeMillis()/1000)%100);
+					System.out.println("message recu : " + (System.currentTimeMillis())%10000);
 					messageDropped=0;
 					this.parseForClient(Objet.preParse(game.receivedConnexion.lastElement()));
 					game.receivedConnexion.clear();

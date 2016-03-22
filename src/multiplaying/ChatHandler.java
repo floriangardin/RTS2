@@ -17,7 +17,6 @@ public class ChatHandler {
 
 	public Vector<ChatMessage> messages;
 	public Game game;
-	public ReentrantLock mutex;
 	public boolean typingMessage;
 	public Menu_TextScanner textScanner;
 	public float startY;
@@ -27,7 +26,6 @@ public class ChatHandler {
 	public ChatHandler(Game game){
 		this.game = game;
 		this.messages = new Vector<ChatMessage>();
-		this.mutex = new ReentrantLock();
 		this.textScanner = new Menu_TextScanner("", game.resX/2f, game.resY-2f*game.font.getHeight("Pg"), game.resX/3f, game.font.getHeight("Pg"), game);
 		this.textScanner.isSelected = true;
 		this.startY = game.resY/3f;
@@ -47,7 +45,6 @@ public class ChatHandler {
 		}
 		
 		Vector<ChatMessage> toRemove = new Vector<ChatMessage>();
-		mutex.lock();
 		ChatMessage m;
 		int k=0;
 		while(k<this.messages.size()){
@@ -59,7 +56,6 @@ public class ChatHandler {
 			k++;
 		}
 		this.messages.removeAll(toRemove);
-		mutex.unlock();
 		if(im.isPressedENTER){
 			this.typingMessage = !this.typingMessage;
 		}
