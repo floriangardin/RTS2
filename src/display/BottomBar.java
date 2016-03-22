@@ -69,9 +69,6 @@ public class BottomBar extends Bar {
 		minimap.draw(g);
 		
 		
-		// Draw path 
-		
-		path.draw(g);
 		
 		return g;
 	}

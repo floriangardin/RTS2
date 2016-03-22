@@ -209,8 +209,8 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 			// checking disconnecting players
-			int toRemove = -1;
 			if(game.host && this.startGame==0 && seconds>2){
+				int toRemove = -1;
 				for(int i=2 ; i<this.menuPlayers.size(); i++){
 					Menu_Player mp = this.menuPlayers.get(i);
 					if(mp!=null && mp.hasBeenUpdated){
@@ -218,20 +218,20 @@ public class MenuMapChoice extends Menu {
 						mp.hasBeenUpdated = false;
 					} else {
 						mp.messageDropped++;
-						if(mp.messageDropped>2f*Main.framerate){
+						if(mp.messageDropped>20f*Main.framerate){
 							//System.out.println("disconnecting player:"+i);
 							toRemove=i;
 						}
 					}
 				}
-			}
-			if(toRemove!=-1){
-				int k = toRemove;
-				this.game.removePlayer(k);
-				for(int i=0; i<this.game.players.size(); i++){
-					this.game.players.get(i).id = i;
+				if(toRemove!=-1){
+					int k = toRemove;
+					this.game.removePlayer(k);
+					for(int i=0; i<this.game.players.size(); i++){
+						this.game.players.get(i).id = i;
+					}
+					this.initializeMenuPlayer();
 				}
-				this.initializeMenuPlayer();
 			}
 			//Checking starting of the game
 			if(startGame!=0){
