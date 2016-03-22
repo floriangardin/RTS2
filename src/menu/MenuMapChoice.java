@@ -189,6 +189,7 @@ public class MenuMapChoice extends Menu {
 				messageDropped++;	
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
+					System.out.println("reception "+(System.currentTimeMillis()/1000)%100);
 					messageDropped=0;
 					this.parseForClient(Objet.preParse(game.receivedConnexion.lastElement()));
 					game.receivedConnexion.clear();
