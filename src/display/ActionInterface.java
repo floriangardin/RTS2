@@ -63,9 +63,8 @@ public class ActionInterface extends Bar {
 		toDrawDescription[4] = false;
 
 		this.buildingToShow = null;
-		int taille = 24;
-		this.imageGold = Game.g.images.get("imageGold").getSubImage(7*taille ,15*taille ,taille, taille);
-		this.imageFood = Game.g.images.get("imageFood").getSubImage(7*taille, taille, taille, taille);
+		this.imageGold = Game.g.images.get("imagegolddisplayressources");
+		this.imageFood = Game.g.images.get("imagefooddisplayressources");
 		this.imageSpecial = Game.g.images.get("imageSpecial");
 
 	}

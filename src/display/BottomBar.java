@@ -45,7 +45,7 @@ public class BottomBar extends Bar {
 		this.display = new DisplayInterface(this);
 		this.minimap = new MinimapInterface(this);
 		this.action = new ActionInterface(this);
-		this.path = new PathInterface(this);
+//		this.path = new PathInterface(this);
 		this.topBar = new TopBar(this.p,resX,resY);
 	}
 

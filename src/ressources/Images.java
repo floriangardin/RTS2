@@ -44,6 +44,7 @@ public class Images {
 		this.images.put("imagegolddisplayressources",this.images.get("imagegold").getSubImage(7*taille ,15*taille ,taille, taille));
 		this.images.put("imagefooddisplayressources",this.images.get("imagegold").getSubImage(7*taille ,taille ,taille, taille));
 		this.images.put("rectselectsizebuilding",this.images.get("rectselect").getScaledCopy(4f));
+		this.images.put("imagepop", this.images.get("imagepop").getScaledCopy(32,32));
 		
 		// buildings
 		this.resizeBuilding("academy");

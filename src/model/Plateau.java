@@ -307,16 +307,6 @@ public class Plateau {
 			if (toAddSelection.get(i).size() > 0) {
 				Utils.triName(selection.get(i));
 			}
-			for (int k = 0; k < 10; k++) {
-				toDelete.clear();
-				for (ActionObjet c : this.g.players.get(i).groups.get(k)) {
-					if (!c.isAlive())
-						toDelete.add(c);
-				}
-				for (ActionObjet c : toDelete) {
-					this.g.players.get(i).groups.get(k).remove(c);
-				}
-			}
 		}
 		// Remove objets from lists
 		for (Character o : toRemoveCharacters) {
@@ -979,19 +969,6 @@ public class Plateau {
 				Xcam += (int) (80 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			// Displaying the selected group
-			for (int to = 0; to < 10; to++) {
-				if (im.isPressedNumPad[to]) {
-					if (this.g.players.get(player).groupSelection == to
-							&& this.g.players.get(player).groups.get(to).size() > 0) {
-						float xmoy = this.g.players.get(player).groups.get(to).get(0).getX();
-						float ymoy = this.g.players.get(player).groups.get(to).get(0).getY();
-						this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
-						this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
-						this.slidingCam = false;
-					}
-				}
-			}
 			// Displaying selected area
 			if(im.isPressedZ && im.isPressedMAJ){
 				this.slidingCam = true;
@@ -1290,9 +1267,6 @@ public class Plateau {
 		if (im.isPressedTAB) {
 			if (this.selection.get(player).size() > 0) {
 				Utils.switchTriName(this.selection.get(player));
-				if (this.g.players.get(player).groupSelection != -1)
-					Utils.switchTriName(
-							this.g.players.get(player).groups.get(this.g.players.get(player).groupSelection));
 			}
 		}
 		// update the rectangle

@@ -9,7 +9,6 @@ import display.TopBar;
 
 public class Player {
 	public Vector<ActionObjet> selection;
-	public Vector<Vector<ActionObjet>> groups;
 	public Plateau p;
 	
 	//FLO INPUTS TO BE APPLIED ON THIS ROUND
@@ -39,9 +38,6 @@ public class Player {
 		this.nickname = name;
 		this.p = p;
 		this.selection = new Vector<ActionObjet>();
-		this.groups = new Vector<Vector<ActionObjet>>();
-		for(int i=0; i<10; i++)
-			this.groups.add(new Vector<ActionObjet>());
 		groupSelection = -1;
 		this.gameteam = gameteam;
 		this.team = gameteam.id;

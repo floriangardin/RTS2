@@ -201,6 +201,7 @@ public class MenuMapChoice extends Menu {
 				// requete de ping
 				if(roundForPingRequest==0){
 					this.game.pingRequest();
+					System.out.println("MMC 204 ping");
 					roundForPingRequest++;
 				}else {
 					roundForPingRequest++;
@@ -521,6 +522,7 @@ public class MenuMapChoice extends Menu {
 			}
 			if(toStop){
 				//				System.out.println("MenuMapChoice line 496: return due to missing player");
+				System.out.println("MMC 525 return");
 				return;
 			}
 			// checking if there is a missing player
