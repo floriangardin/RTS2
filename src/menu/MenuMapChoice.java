@@ -128,7 +128,7 @@ public class MenuMapChoice extends Menu {
 
 		
 		if(startGame!=0){
-			float f = 1f-(1f*((float)(startGame-this.game.clock.getCurrentTime())/2000000000f));
+			float f = Math.max(0f, Math.min(1f,1f-(1f*((float)(startGame-this.game.clock.getCurrentTime())/2000000000f))));
 			System.out.println(startGame-this.game.clock.getCurrentTime());
 			g.setColor(new Color(0f,0f,0f,f));
 			g.fillRect(0, 0, game.resX, game.resY);
