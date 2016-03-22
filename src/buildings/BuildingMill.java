@@ -4,16 +4,12 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 
 import display.DisplayRessources;
 import main.Main;
-import model.Checkpoint;
+import model.Data;
 import model.Game;
 import model.Plateau;
-import ressources.Map;
 import technologies.Technologie;
 
 public class BuildingMill extends BuildingTech{
@@ -34,8 +30,8 @@ public class BuildingMill extends BuildingTech{
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.millChargeTime;
 		this.lifePoints = getGameTeam().data.millLifePoints;
-		this.sizeX = this.getGameTeam().data.millSizeX; 
-		this.sizeY = this.getGameTeam().data.millSizeY;
+		this.sizeX = Data.millSizeX; 
+		this.sizeY = Data.millSizeY;
 		this.sight = p.g.players.get(getTeam()).data.millSight;
 		this.initialize(f, h);
 		this.productionList = new Vector<Technologie>();

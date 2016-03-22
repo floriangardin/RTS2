@@ -74,7 +74,7 @@ public class Building extends ActionObjet{
 	}
 	
 	public void resetRallyPoint(){
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2+10);
 	}
 
 	public void giveUpProcess(){
@@ -189,10 +189,10 @@ public class Building extends ActionObjet{
 				float opacity = 50*bp.charge/bp.productionList.get(0).time;
 				Image icone = Game.g.images.get("icon"+bp.productionList.get(bp.queue.get(0)).name+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
-				g.setColor(new Color(1f,1f,1f,opacity));
-				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
+				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
+				//g.setColor(new Color(0f,0f,0f,opacity));
+				//g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
 				//						g.setColor(Color.white);
 				//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
 				g.setColor(new Color(bp.getGameTeam().color.r,bp.getGameTeam().color.g,bp.getGameTeam().color.b,opacity));

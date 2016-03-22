@@ -208,7 +208,7 @@ public class Plateau {
 	}
 
 	public void addNaturalObjets(NaturalObjet o) {
-		this.mapGrid.insertNewRec(o.x, o.y, o.sizeX, o.sizeY);
+		this.mapGrid.insertNewRec(o.x, o.y, Map.stepGrid,Map.stepGrid);
 		toAddNaturalObjets.addElement(o);
 	}
 

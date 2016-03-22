@@ -19,7 +19,7 @@ public class Tree extends NaturalObjet {
 	public int type;
 
 	public Tree(float x, float y, Plateau p, int type) {
-		this.type = type+1;
+		this.type = type;
 		this.collisionBox = new Circle(x-sizeX/2,y-sizeY/2,size);
 		this.sizeX = 1*Map.stepGrid;
 		this.sizeY = 1*Map.stepGrid;
