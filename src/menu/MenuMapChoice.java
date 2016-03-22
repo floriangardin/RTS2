@@ -179,7 +179,7 @@ public class MenuMapChoice extends Menu {
 					try {
 						this.game.send(this.messageToHost());	
 						System.out.println("message sent");
-						System.out.println((System.currentTimeMillis()/100)%1000);
+						System.out.println((System.currentTimeMillis())%10000);
 					} catch (FatalGillesError e) {
 						e.printStackTrace();
 					}
