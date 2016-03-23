@@ -1274,7 +1274,7 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
-							System.out.println(c.checksum+" "+c1.checksum);
+							System.out.println(c.checksum+"\n"+c1.checksum);
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
