@@ -158,7 +158,7 @@ public class InputObject extends MultiObjetModel{
 		String[] vaneau = im.split(",");
 		//System.out.println("InputObjet line 112: " + im);
 		selection = new Vector<Integer>();
-		for(int i=0; i<vaneau.length-1; i++){
+		for(int i=0; i<vaneau.length; i++){
 			content.put(vaneau[i].split(":")[0],vaneau[i].split(":")[1]);
 		}
 		this.id = Integer.parseInt(content.get("id"));
@@ -207,9 +207,12 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("R")) isPressedR = true;
 		
 		toPlay= true;
-
+		System.out.println(im);
 		for(int i=0; i<10; i++){
-			if(content.containsKey(i+"")) isPressedNumPad[i] = true;
+			if(content.containsKey(i+"")){ 
+				isPressedNumPad[i] = true;
+				System.out.println(i);
+			}
 		}
 		//System.out.println("InputObjet line 152: " + this.toString());
 
