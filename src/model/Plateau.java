@@ -1246,6 +1246,25 @@ public class Plateau {
 				Utils.switchTriName(this.selection.get(player));
 			}
 		}
+		if (im.isPressedSpecial) {
+			boolean hasLaunched= false;
+			for(Character c : characters){
+				if(c.selectionBox.contains(im.xMouse, im.yMouse)){
+					Game.g.players.get(player).getGameTeam().civ.launchSpell(c);
+					hasLaunched = true;
+					break;
+				}
+			}
+			if(!hasLaunched){
+				for(Building c : buildings){
+					if(c.selectionBox.contains(im.xMouse, im.yMouse)){
+						Game.g.players.get(player).getGameTeam().civ.launchSpell(c);
+						hasLaunched = true;
+						break;
+					}
+				}
+			}
+		}
 		// update the rectangle
 		if (im.leftClick) {
 			// As long as the button is pressed, the selection is updated

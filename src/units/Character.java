@@ -186,7 +186,7 @@ public class Character extends ActionObjet{
 	public void setXY(float x, float y){
 		float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
 		float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
-		this.selectionBox = this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
+		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
 		this.x = xt;
 		this.y = yt;
 		this.collisionBox.setCenterX(this.x);

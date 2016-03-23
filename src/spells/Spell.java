@@ -25,7 +25,9 @@ public class Spell {
 		
 	}
 	
-	public void launch(Objet target, Character launcher){}
+	public void launch(Objet target, Character launcher){
+		
+	}
 	
 	
 }

@@ -37,7 +37,7 @@ public abstract class Bonus extends Building{
 		this.sight = 200f*Main.ratioSpace;
 		this.size = 100f*Main.ratioSpace;
 		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.size);
-		this.selectionBox = this.collisionBox;
+		this.selectionBox = new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,collisionBox.getWidth(),collisionBox.getHeight());
 		this.hitBoxSize = 30f*Main.ratioSpace;
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);

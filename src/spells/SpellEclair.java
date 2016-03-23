@@ -39,9 +39,10 @@ public class SpellEclair extends Spell{
 		}
 
 		if(h instanceof Character && h.getTeam()!=launcher.getTeam() && launcher!=h && this.range>=Utils.distance(h, launcher)){
-			
 			((Character)h).isBolted = true;
 			//TODO add a sound
+		}else{
+			this.gameteam.special+=this.faithCost;
 		}
 	}
 

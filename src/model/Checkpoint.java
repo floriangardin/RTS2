@@ -38,7 +38,7 @@ public class Checkpoint extends ActionObjet {
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
 		
-		this.selectionBox = this.collisionBox;
+		this.selectionBox = null;
 		this.setXY(x, y);
 		this.printed=0f;
 		
@@ -61,7 +61,7 @@ public class Checkpoint extends ActionObjet {
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
 		
-		this.selectionBox = this.collisionBox;
+		this.selectionBox = null;
 		this.setXY(x, y);
 		this.printed=0f;
 		

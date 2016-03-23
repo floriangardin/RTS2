@@ -35,6 +35,7 @@ public class InputObject extends MultiObjetModel{
 	public boolean isPressedRIGHT;
 	public boolean isPressedUP;
 	public boolean isPressedDOWN;
+	public boolean isPressedSpecial;
 	
 	public boolean isPressedQ;
 	public boolean isPressedD;
@@ -121,6 +122,7 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedSuppr = input.isKeyPressed(Input.KEY_U);
 		this.isPressedPause = input.isKeyPressed(Input.KEY_F10);
 		this.isPressedImmolation = input.isKeyPressed(Input.KEY_I);
+		this.isPressedSpecial = input.isKeyPressed(Input.KEY_SPACE);
 		this.toPlay = toPlay;
 
 		for(int i=0; i<10;i++){
@@ -205,6 +207,7 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("F3")) isPressedF3 = true;
 		if(content.containsKey("F4")) isPressedF4 = true;
 		if(content.containsKey("R")) isPressedR = true;
+		if(content.containsKey("SPACE")) isPressedSpecial = true;
 		
 		toPlay= true;
 		for(int i=0; i<10; i++){
@@ -271,6 +274,7 @@ public class InputObject extends MultiObjetModel{
 		if(isPressedF3) s+=",F3: ";
 		if(isPressedF4) s+=",F4: ";
 		if(isPressedR) s+=",R: ";
+		if(isPressedSpecial) s+=",SPACE: ";
 		
 		if(toPlay) s+=",toPlay: ";
 		for(int i=0; i<10; i++)
