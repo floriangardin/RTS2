@@ -18,7 +18,7 @@ public class UnitSpearman extends Character {
 	public static float radiusCollisionBox = 40f*Main.ratioSpace;
 	public float inDash=0f;
 	public boolean bonusAttack;
-	public float bonusSpeed =200f;
+	public float bonusSpeed =400f;
 	public float bonusDamage = 10f;
 	public UnitSpearman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);

@@ -31,7 +31,7 @@ public class UnitKnight extends Character {
 		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
 		this.maxVelocity = 160f*Main.ratioSpace*data.speedFactor;
 		this.armor = 3f;
-		this.damage = 8f*data.damageFactor;
+		this.damage = 12f*data.damageFactor;
 		this.chargeTime = 4f;
 		this.weapon = "sword";
 		this.civ = 0;

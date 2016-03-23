@@ -121,9 +121,9 @@ public class Data {
 
 	//// Attack Bonuses
 
-	public float bonusSpearHorse = 3f;
-	public float bonusSwordBow = 2f;
-	public float bonusBowFoot = 3f;
+	public float bonusSpearHorse = 2f;
+	public float bonusSwordBow = 1.5f;
+	public float bonusBowFoot = 2f;
 	public float bonusWandBow = 2f;
 
 	// Ressources

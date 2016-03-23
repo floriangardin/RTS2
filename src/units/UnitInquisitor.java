@@ -41,7 +41,7 @@ public class UnitInquisitor extends Character {
 		this.animStep = 24f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		this.spells.add(data.immolation);
-		this.spells.add(data.firewall);
+		//this.spells.add(data.firewall);
 		this.spells.add(data.blessedArea);
 		
 	}
