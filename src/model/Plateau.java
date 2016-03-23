@@ -698,9 +698,7 @@ public class Plateau {
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
-			// pour tous les inputs pass�s en argument on fait le traitement
 			int player = im.player.id;
-			// si on est client on ne g�re que son input
 
 			//handle victory
 			if(im.isPressedPause){
@@ -714,30 +712,15 @@ public class Plateau {
 				return;
 			}
 
-			// on g�re la s�lection des sorts (type firewall/ blessed area)
-			//this.handleSpellCasting(im, player);
-			// on g�re c�t� serveur l'action bar et le click droit
-
 			// Handling action bar
 			this.handleActionBar(im, player);
 			// Handling the right click
 			this.handleRightClick(im, player);
-			// handling only the current player
-			// Handle minimap
 
 			this.handleMinimap(im, player);
 			this.handleInterface(im);
 			this.handleSelection(im, player, g.players.get(player).getTeam());
 
-			// if(player == this.currentPlayer.id){
-			// // ong�re le d�placement de la cam�ra et la s�lection
-			// if(!this.isCastingSpell.get(player) &&
-			// !this.hasCastSpell.get(player)){
-			// this.handleView(im, player);
-			// }
-			// }
-			// enfin on g�re le lancement des sorts
-			// this.handleSpellsOnField(im, player, !g.inMultiplayer || g.host);
 
 		}
 		if (Game.debugTimeSteps)
@@ -846,24 +829,17 @@ public class Plateau {
 			}
 		}
 		if (im.isPressedA) {
-
 			updateTarget(im.xMouse, im.yMouse, player, Character.AGGRESSIVE);
 		}
 		if (im.isPressedE) {
 			// Attack building
-
 			updateTarget(im.xMouse, im.yMouse, player, Character.TAKE_BUILDING);
 		}
 		if (im.isPressedH) {
 			// Hold position
 			updateTarget(im.xMouse, im.yMouse, player, Character.HOLD_POSITION);
 		}
-		if (im.isPressedSuppr) {
-			// Sell building
-			updateTarget(im.xMouse, im.yMouse, player, Character.DESTROY_BUILDING);
-		}
 		if (im.isPressedR) {
-
 			//Update rally point
 			for(Building b : buildings){
 				if(b.getTeam()==this.g.players.get(player).getTeam() && b instanceof BuildingProduction){
@@ -996,73 +972,7 @@ public class Plateau {
 				}
 			}
 		}
-		// Selection des batiments
-		Vector<Building> visible = new Vector<Building>();
-		for(Building b : this.buildings){
-			if(b.getTeam()==this.g.players.get(player).getTeam()){
-				visible.addElement(b);
-			}
-		}
-		if(im.isPressedF1 || im.isPressedF2 || im.isPressedF3 || im.isPressedF4){
-			if(im.isPressedF1){
-				//Barrack
-				for(Objet o : visible){
-					if(o instanceof BuildingBarrack &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
-						this.selection.set(player,sel);
-						break;
-					}else if(o instanceof BuildingBarrack && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
-						this.buildings.remove((BuildingBarrack)o);
-						this.buildings.addElement((BuildingBarrack)o);
-					}
-				}
-			}
-			else if(im.isPressedF2){
-				// Stable
-				for(Objet o : visible){
-					if(o instanceof BuildingStable &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
-						this.selection.set(player,sel);
-						break;
-					}else if(o instanceof BuildingStable && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
-						this.buildings.remove((BuildingStable)o);
-						this.buildings.addElement((BuildingStable)o);
-					}
-				}
-			}
-			else if(im.isPressedF3){
-				// Academy
-				//Barrack
-				for(Objet o : visible){
-					if(o instanceof BuildingAcademy &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
-						this.selection.set(player,sel);
-						break;
-					}else if(o instanceof BuildingAcademy && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
-						this.buildings.remove((BuildingAcademy)o);
-						this.buildings.addElement((BuildingAcademy)o);
-					}
-				}
-			}
-			else if(im.isPressedF4){
-				//Headquarter
-				//Barrack
-				for(Objet o : visible){
-					if(o instanceof BuildingHeadquarters &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
-						this.selection.set(player,sel);
-						break;
-					}else if(o instanceof BuildingHeadquarters && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
-						this.buildings.remove((BuildingHeadquarters)o);
-						this.buildings.addElement((BuildingHeadquarters)o);
-					}
-				}
-			}
-		}
+
 
 	}
 
@@ -1189,7 +1099,7 @@ public class Plateau {
 				this.g.players.get(player).groupSelection = 0;
 				this.selection.set(player, new Vector<ActionObjet>());
 				for(Character o : this.characters){
-					if(o.getGameTeam() == g.currentPlayer.getGameTeam() && o instanceof UnitSpearman){
+					if(o.getGameTeam().id == team && o instanceof UnitSpearman){
 						this.selection.get(player).add((ActionObjet)o);
 					}
 				}
@@ -1199,7 +1109,7 @@ public class Plateau {
 				this.g.players.get(player).groupSelection = 1;
 				this.selection.set(player, new Vector<ActionObjet>());
 				for(Character o : this.characters){
-					if(o.getGameTeam() == g.currentPlayer.getGameTeam() && o instanceof UnitCrossbowman){
+					if(o.getGameTeam().id == team && o instanceof UnitCrossbowman){
 						this.selection.get(player).add((ActionObjet)o);
 					}
 				}
@@ -1209,7 +1119,7 @@ public class Plateau {
 				this.g.players.get(player).groupSelection = 1;
 				this.selection.set(player, new Vector<ActionObjet>());
 				for(Character o : this.characters){
-					if(o.getGameTeam() == g.currentPlayer.getGameTeam() && o instanceof UnitKnight){
+					if(o.getGameTeam().id == team && o instanceof UnitKnight){
 
 						this.selection.get(player).add((ActionObjet)o);
 					}
@@ -1220,7 +1130,7 @@ public class Plateau {
 				this.g.players.get(player).groupSelection = 1;
 				this.selection.set(player, new Vector<ActionObjet>());
 				for(Character o : this.characters){
-					if(o.getGameTeam() == g.currentPlayer.getGameTeam() && o instanceof UnitInquisitor){
+					if(o.getGameTeam().id == team && o instanceof UnitInquisitor){
 						this.selection.get(player).add((ActionObjet)o);
 					}
 				}
@@ -1230,8 +1140,73 @@ public class Plateau {
 				this.g.players.get(player).groupSelection = 4;
 				this.selection.set(player, new Vector<ActionObjet>());
 				for(Character o : this.characters){
-					if(o.getGameTeam() == g.currentPlayer.getGameTeam()){
+					if(o.getGameTeam().id == team){
 						this.selection.get(player).add((ActionObjet)o);
+					}
+				}
+			}
+		}
+		// Selection des batiments
+		Vector<Building> visible = new Vector<Building>();
+		for(Building b : this.buildings){
+			if(b.getTeam()==this.g.players.get(player).getTeam()){
+				visible.addElement(b);
+			}
+		}
+		if(im.isPressedF1 || im.isPressedF2 || im.isPressedF3 || im.isPressedF4){
+			if(im.isPressedF1){
+				//Barrack
+				for(Objet o : visible){
+					if(o instanceof BuildingBarrack &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+						Vector<ActionObjet> sel = new Vector<ActionObjet>();
+						sel.addElement((ActionObjet)o);
+						this.selection.set(player,sel);
+						break;
+					}else if(o instanceof BuildingBarrack && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+						this.buildings.remove((BuildingBarrack)o);
+						this.buildings.addElement((BuildingBarrack)o);
+					}
+				}
+			}
+			else if(im.isPressedF2){
+				// Stable
+				for(Objet o : visible){
+					if(o instanceof BuildingStable &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+						Vector<ActionObjet> sel = new Vector<ActionObjet>();
+						sel.addElement((ActionObjet)o);
+						this.selection.set(player,sel);
+						break;
+					}else if(o instanceof BuildingStable && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+						this.buildings.remove((BuildingStable)o);
+						this.buildings.addElement((BuildingStable)o);
+					}
+				}
+			}
+			else if(im.isPressedF3){
+				// Academy
+				for(Objet o : visible){
+					if(o instanceof BuildingAcademy &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+						Vector<ActionObjet> sel = new Vector<ActionObjet>();
+						sel.addElement((ActionObjet)o);
+						this.selection.set(player,sel);
+						break;
+					}else if(o instanceof BuildingAcademy && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+						this.buildings.remove((BuildingAcademy)o);
+						this.buildings.addElement((BuildingAcademy)o);
+					}
+				}
+			}
+			else if(im.isPressedF4){
+				//Headquarters
+				for(Objet o : visible){
+					if(o instanceof BuildingHeadquarters &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
+						Vector<ActionObjet> sel = new Vector<ActionObjet>();
+						sel.addElement((ActionObjet)o);
+						this.selection.set(player,sel);
+						break;
+					}else if(o instanceof BuildingHeadquarters && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
+						this.buildings.remove((BuildingHeadquarters)o);
+						this.buildings.addElement((BuildingHeadquarters)o);
 					}
 				}
 			}
@@ -1246,7 +1221,7 @@ public class Plateau {
 				if (player == this.g.currentPlayer.id && this.selection.get(player).size() > 0
 						&& this.selection.get(player).get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(player).get(0);
-					if (Math.random() > 0.3) {
+					if (Math.random() > 0) {
 						s = g.sounds.getRandomSoundUnit(c.name, "selection");
 					}
 
@@ -1334,7 +1309,6 @@ public class Plateau {
 			}
 			this.g.players.get(player).groupSelection = -1;
 		}
-
 	}
 
 	public void updateSelectionCTRL(Rectangle select, int player, int team) {

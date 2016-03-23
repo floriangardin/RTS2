@@ -849,6 +849,7 @@ public class Game extends BasicGame
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			try {
 				server.setBroadcast(false);
+				server.setSoTimeout(1);
 				server.receive(packet);
 				if(!Game.g.isInMenu){
 					nbReception+=1;
@@ -1150,10 +1151,10 @@ public class Game extends BasicGame
 			if(host){
 				//this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
-					this.send(new MultiMessage("0"+message,ia));
+					this.send(new MultiMessage(toSendThisTurn+"0"+message+"%",ia));
 				}
 			} else {
-				this.send(new MultiMessage("0"+message,this.addressHost));
+				this.send(new MultiMessage(toSendThisTurn+"0"+message+"%",this.addressHost));
 			}
 		}else if(toSendThisTurn.length()>0) {
 			// on est inGame et on gère les communications habituelles
@@ -1167,7 +1168,7 @@ public class Game extends BasicGame
 		toSendThisTurn="";
 	}
 
-	private static long timeToSend;
+	//private static long timeToSend;
 
 	private void send(MultiMessage m) throws FatalGillesError{
 		//		if(!isInMenu){
@@ -1255,10 +1256,11 @@ public class Game extends BasicGame
 			}
 			checksum+="|";
 			checksum+=this.clock.getPing()+"| ";
-			// si client on envoie checksum
-			toSendThisTurn+="5"+checksum+"%";
 			if(host){
 				this.checksum.addElement(new Checksum(checksum));
+			} else {
+				// si client on envoie checksum
+				toSendThisTurn+="5"+checksum+"%";				
 			}
 		}
 		// handling checksum comparison
@@ -1272,10 +1274,6 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
-							//							System.out.println("Game line 719 : Probleme synchro round "+this.round);
-							//							System.out.println(c.checksum);
-							//							System.out.println(c1.checksum);
-							//
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
@@ -1317,13 +1315,13 @@ public class Game extends BasicGame
 	}
 	private void handleResynchro() {
 		if( processSynchro){
-			//Si round+2
+			//Si round+nDelay
 			if(toParse==null){
 				this.processSynchro = false;
 				return;
 			}
 			String[] u = this.toParse.split("!");
-			//Je resynchronise au tour n+2
+			//Je resynchronise au tour n+nDelay
 			if(Integer.parseInt(u[0])==(this.round-Main.nDelay)){
 				//				System.out.println("Play resynchronisation round at round " + this.round);
 				this.plateau.parse(this.toParse);
@@ -1331,7 +1329,7 @@ public class Game extends BasicGame
 				this.processSynchro = false;
 
 			}
-			else if(this.toParse==null || Integer.parseInt(u[0])<(this.round-Main.nDelay)){
+			else if( Integer.parseInt(u[0])<(this.round-Main.nDelay)){
 				this.processSynchro = false;
 				this.toParse = null;
 			}

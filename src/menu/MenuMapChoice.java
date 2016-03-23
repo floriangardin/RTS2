@@ -175,12 +175,10 @@ public class MenuMapChoice extends Menu {
 					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
-				System.out.println("==== nouveau tour : " + (System.currentTimeMillis())%10000);
 				// sending to host only if the game isn't about to start
 				if(this.startGame==0 || this.seconds>2){
 					try {
 						this.game.send(this.messageToHost());	
-						System.out.println("&& message sent : "+(System.currentTimeMillis())%10000);
 					} catch (FatalGillesError e) {
 						e.printStackTrace();
 					}
@@ -188,7 +186,6 @@ public class MenuMapChoice extends Menu {
 				messageDropped++;	
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
-					System.out.println("message recu : " + (System.currentTimeMillis())%10000);
 					messageDropped=0;
 					this.parseForClient(Objet.preParse(game.receivedConnexion.lastElement()));
 					game.receivedConnexion.clear();
@@ -521,13 +518,10 @@ public class MenuMapChoice extends Menu {
 				}
 			}
 			if(toStop){
-				//				System.out.println("MenuMapChoice line 496: return due to missing player");
-				System.out.println("MMC 525 return");
 				return;
 			}
 			// checking if there is a missing player
 			if(civ.length<this.game.players.size()){
-				System.out.println("MMC 529 : missing player");
 				//System.out.println("MMC line 485: missing player");
 				// we reparse all informations and set again the currentPlayer to the right location
 				this.game.clearPlayer();
@@ -554,7 +548,6 @@ public class MenuMapChoice extends Menu {
 			}
 			// adding new player if needed
 			if(civ.length>this.game.players.size()){
-				System.out.println("MMC 556 : new player");
 				//System.out.println("MMC line 511: new player");
 				try {
 					this.game.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
@@ -565,9 +558,7 @@ public class MenuMapChoice extends Menu {
 			}
 			//checking if changes about currentPlayer
 			if(!ips[this.game.currentPlayer.id].equals(this.game.currentPlayer.address.getHostAddress())){
-				System.out.println("MMC 567 : changes donc return");
 				// changes among the player
-				//				System.out.println("MenuMapChoice line 482: error player unidentified");
 				return;
 			}
 			for(int i = 0;i<civ.length;i++){
@@ -579,14 +570,12 @@ public class MenuMapChoice extends Menu {
 						this.menuPlayers.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
 					}
 					this.game.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
-					System.out.println("MMC 581 : debut ip  "+ (System.currentTimeMillis())%10000);
 					try {
 						if(i==1)
 							this.game.getPlayerById(i).address = game.addressHost;
 						else if(i>1)
 							this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
 					} catch (UnknownHostException e) {}
-					System.out.println("MMC 585 : fin ip  "+ (System.currentTimeMillis())%10000);
 				}
 			}
 		}

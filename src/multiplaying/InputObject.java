@@ -122,7 +122,10 @@ public class InputObject extends MultiObjetModel{
 		this.isPressedPause = input.isKeyPressed(Input.KEY_F10);
 		this.isPressedImmolation = input.isKeyPressed(Input.KEY_I);
 		this.toPlay = toPlay;
-	
+
+		for(int i=0; i<10;i++){
+			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
+		}
 		this.xMouse = input.getAbsoluteMouseX();
 		this.yMouse = input.getAbsoluteMouseY();
 		
@@ -144,14 +147,6 @@ public class InputObject extends MultiObjetModel{
 			this.yMouse = (int) Math.floor((this.yMouse-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
 		} else {
 //			System.out.println("pas MiniMap");
-		}
-		
-		// Only for current player at the creation of the input
-		BottomBar bb = g.currentPlayer.bottomBar;
-		float relativeXMouse = input.getAbsoluteMouseX();
-		float relativeYMouse = input.getAbsoluteMouseY();
-		for(int i=0; i<10;i++){
-			this.isPressedNumPad[i] = input.isKeyPressed(i+2);
 		}
 		this.validated = new Vector<Boolean>();
 		for(Player p:g.players)
@@ -289,10 +284,6 @@ public class InputObject extends MultiObjetModel{
 			validated.set(player.id-1,true);
 			if(Game.debugValidation)
 				System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
-		}
-		else{
-			if(Game.debugValidation)
-				System.out.println("InputObjet line 242, putain glandu");
 		}
 	}
 
