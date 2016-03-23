@@ -17,9 +17,11 @@ public class BottomBar extends Bar {
 	public ActionInterface action;
 	public PathInterface path;
 	public TopBar topBar;
+	public SpellInterface spell;
 
 	public float ratioMinimapX = 1/6f;
 	public float ratioSelectionX = 1/8f;
+	public float ratioSpellX = 1/12f;
 	public float ratioBarVertX = 1/32f;
 	
 
@@ -45,6 +47,7 @@ public class BottomBar extends Bar {
 		this.display = new DisplayInterface(this);
 		this.minimap = new MinimapInterface(this);
 		this.action = new ActionInterface(this);
+		this.spell = new SpellInterface(this);
 //		this.path = new PathInterface(this);
 		this.topBar = new TopBar(this.p,resX,resY);
 	}
@@ -67,6 +70,8 @@ public class BottomBar extends Bar {
 
 		// MINIMAP CENTERED :
 		minimap.draw(g);
+		
+		spell.draw(g);
 		
 		
 		
