@@ -27,7 +27,7 @@ public class SpellHeal extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
-			Frozen f = new Frozen(launcher.p,launcher,target,-1);
+			Heal f = new Heal(p,launcher,target,-1,gameteam);
 			f.remainingTime = this.remainingTime;
 		}
 
