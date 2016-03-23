@@ -20,16 +20,10 @@ public class BuildingUniversity extends BuildingTech {
 		this.g = g;
 		this.productionList = new Vector<Technologie>();
 		this.setTeam(team);
-		if(this.getGameTeam().civ==0){
-			this.productionList = new Vector<Technologie>();
+		
+		this.productionList = new Vector<Technologie>();
 			//this.productionList.addElement(new DualistAge2(this.p,this.player));
-		}
-		else if(this.getGameTeam().civ==1){
-			this.productionList = new Vector<Technologie>();
-		}
-		else{
-			this.productionList = new Vector<Technologie>();
-		}
+		
 		this.queue = null;
 		teamCapturing= getTeam();
 

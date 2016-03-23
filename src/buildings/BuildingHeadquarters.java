@@ -42,7 +42,7 @@ public class BuildingHeadquarters extends BuildingTech {
 		this.gameteam = g.teams.get(team);
 		
 		this.getGameTeam().hq = this;
-		if(getGameTeam().civ==0){
+		
 			// AGING
 			DualistAge2 d2 = new DualistAge2(this.p,this.getGameTeam());
 			this.allTechs.addElement(d2);
@@ -98,13 +98,8 @@ public class BuildingHeadquarters extends BuildingTech {
 			this.allTechs.addElement(r3);
 			
 	
-		}
-		else if(getGameTeam().civ==1){
-			this.productionList = new Vector<Technologie>();
-		}
-		else{
-			this.productionList = new Vector<Technologie>();
-		}
+		
+		
 		this.queue = null;
 		teamCapturing= getTeam();
 		this.sizeX = Data.headquartersSizeX; 
