@@ -57,6 +57,7 @@ public class Menu_Player extends Menu_Item{
 		this.sizeXcolor = 90f*this.game.resX/1920f;
 		this.sizeYcolor = 40f*this.game.resY/1080f;
 		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("  ");
+		this.sizeXciv = this.game.font.getWidth("Zinaids");
 		this.startXready = startXciv+this.game.font.getWidth("Zinaids      ");
 		this.startYciv = y;
 		this.startYready = y;
@@ -75,7 +76,7 @@ public class Menu_Player extends Menu_Item{
 			} else {
 				isOverColor = false;
 			}
-			if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
+			if(xMouse>startXciv && yMouse>startYcolor && xMouse<startXciv+sizeXciv && yMouse<startYcolor+sizeYcolor){
 				isOverCiv = true;
 				if(im.pressedLeftClick){
 					switch(p.getGameTeam().civ.name){
@@ -90,20 +91,6 @@ public class Menu_Player extends Menu_Item{
 		}
 	}
 
-	public void callItem(Input i){
-		float xMouse = i.getAbsoluteMouseX();
-		float yMouse = i.getAbsoluteMouseY();
-		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
-			int newTeam = p.getTeam() + 1;
-			if(newTeam>=this.game.teams.size())
-				newTeam = 1;
-			p.setTeam(newTeam);
-		} 
-		if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
-
-
-		} 
-	}
 
 	public void draw(Graphics g) {
 		g.setColor(Color.white);

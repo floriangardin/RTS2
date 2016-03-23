@@ -21,7 +21,7 @@ public class SpellEclair extends Spell{
 		this.faithCost = 2;
 		this.width = 15f*Main.ratioSpace;
 		this.name = "Instant Death";
-		this.icon = p.g.images.get("spellInstantDeath");
+		this.icon = p.g.images.get("spellEclair");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 250f;

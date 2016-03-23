@@ -18,8 +18,8 @@ public class SpellProduct extends Spell{
 		this.p = p;
 		this.chargeTime = 450f;
 		this.width = 15f*Main.ratioSpace;
-		this.name = "Instant Death";
-		this.icon = p.g.images.get("spellInstantDeath");
+		this.name = "Spell Product";
+		this.icon = p.g.images.get("spellProduct");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 250f;
