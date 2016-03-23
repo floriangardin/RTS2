@@ -937,7 +937,7 @@ public class Game extends BasicGame
 			toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
 			inputsHandler.addToInputs(io);
 			io.validate();
-		}else{
+		}else if(round>Game.nbRoundInit){
 			System.out.println("Game line 941 : Message reçu trop tard "+(round-io.round+Main.nDelay));
 		}
 	}
@@ -1274,7 +1274,7 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
-							System.out.println(c);
+							System.out.println(c.checksum+" "+c1.checksum);
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
