@@ -1,0 +1,21 @@
+RTS Ultra Mythe a été majoritairement développé sous l'emprise de Kronenbourg
+Le pathfinding de Callebouille: si je rencontre un mur, je tourne à droite
+Vous avez essayé d'appuyer sur espace. Genre, maintenant ?
+Des moqueries sont disponibles via le chat et la commande / - '/philippe'
+Au début on a codé le jeu pour faire des batailles d'IA, aujourd'hui tout marche sauf l'IA
+Un projet de FPS a été mis en chantier, son nom : FPS Giga Swag
+N'hésitez pas à nous envoyer des mails de remerciement pour les heures de fun passées sur ce jeu
+Vous avez une chance sur cent de voir son portrait à la place de l'unité durant le chargement
+T'as vu Flo ? J'ai rajouté du texte pendant le chargement, original non ?
+T'es sûr d'avoir bien fait F5 avant de lancer le jeu ?
+Tu le sens venir le Null.Pointer.Exception ? Parce qu'il arrive...
+RTS Ultra Mythe, on hésite sérieusement à garder le nom.
+Gilles de Bouard. Que dire de plus ?
+J'ai plus d'idée de trucs à écrire ici...
+Chargement des images en 4K
+RTS Ultra Mythe est né en décembre 2014 un lendemain de cuite
+Vous êtes déçu d'avoir eu ce message. Et content en même temps.
+Pour faire planter le jeu, rien de plus simple. Jouez-y !
+
+
+ 

@@ -1,7 +1,11 @@
 
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -86,6 +90,18 @@ public class Game extends BasicGame
 	public boolean displayMapGrid = false;
 
 	public static boolean showUpdateLogicInterval = false;
+
+
+	///////////////////////
+	/// BONUS DISABLING ///
+	///////////////////////
+
+	public static boolean gillesBombeEnable = false;
+	public static boolean gillesEspaceEnable = false;
+	public static boolean gillesSurCentEnable = false;
+	public static boolean gillesModeEnable = false;
+	public static boolean conseilChargementEnable = true;
+
 
 
 	// debugging tools
@@ -270,12 +286,13 @@ public class Game extends BasicGame
 	private boolean waitLoading;
 	private DeferredResource nextResource;
 	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
-	
+	String adviceToDisplay;
+
 
 	/////////////////////
 	// USELESS & BONUS //
 	/////////////////////
-	
+
 	private class Gilles{
 		float x,y,vx,vy;
 		float angle;
@@ -322,11 +339,11 @@ public class Game extends BasicGame
 			y += vy;
 		}
 	}
-	
+
 	public boolean gillesBombe = false;
 	public int timeGilles = 0;
 	private Vector<Gilles> gillesPics = new Vector<Gilles>();
-	
+
 	public void handleGillesBombe(){
 		if(timeGilles==0){
 			this.musicPlaying = musics.get("themeVerdi");
@@ -456,6 +473,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		g.setFont(this.font);
 		if(!thingsLoaded){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, resX, resY);
@@ -467,6 +485,8 @@ public class Game extends BasicGame
 				int sizeBarY = (int)(resY/40);
 				g.setColor(Color.white);
 				g.fillRect(startBarX-2, startBarY-2,sizeBarX+4, sizeBarY+4);
+				if(Game.conseilChargementEnable)
+					g.drawString(adviceToDisplay, resX/2-font.getWidth(adviceToDisplay)/2, resY-20-font.getHeight(adviceToDisplay));
 				g.setColor(Color.black);
 				g.fillRect(startBarX, startBarY,sizeBarX, sizeBarY);
 				float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
@@ -474,7 +494,7 @@ public class Game extends BasicGame
 				g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
 				if(LoadingList.get().getRemainingResources() > 0){
 					g.setColor(Color.white);
-					g.drawString(""+lastThing, startBarX+20f, startBarY+sizeBarY/2-font.getHeight("H")/2);
+					g.drawString(""+lastThing, startBarX+20f, startBarY+sizeBarY/2-font.getHeight("Hg")/2);
 				}
 				int xanimation = startBarX + sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
 				if(special){
@@ -497,7 +517,7 @@ public class Game extends BasicGame
 					} else {
 						s = "Trop tôt";
 					}
-					g.drawString(s, resX-10-font.getWidth(s), resY-10-font.getHeight(s));
+					g.drawString(s, resX-10-font.getWidth(s), resY-20-font.getHeight(s));
 				}
 				//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
 				//				g.setColor(Color.white);
@@ -513,7 +533,6 @@ public class Game extends BasicGame
 			g.drawImage(temp, xTitle, yTitle);
 			return;
 		}
-		g.setFont(this.font);
 		if(isInMenu){
 			if(hasAlreadyPlay){
 				g.translate(+plateau.Xcam,+ plateau.Ycam);
@@ -648,20 +667,20 @@ public class Game extends BasicGame
 			if(this.round<nbRoundInit){
 				g.setColor(new Color(0f,0f,0f,1f-0.3f*round/nbRoundInit));
 				g.fillRect(0, 0, resX, resY);
-//				int sec = (int)((nbRoundInit-round)/Main.framerate);
-//				if(sec<=2 ){
-//					g.setColor(Color.white);
-//					String s = ""+(sec+1);
-//					g.drawString(s,this.resX/5-font.getWidth(s)/2,resY/2-font.getHeight(s)/2);
-//					g.drawString(s,4*this.resX/5-font.getWidth(s)/2,resY/2-font.getHeight(s)/2);
-//				}
+				//				int sec = (int)((nbRoundInit-round)/Main.framerate);
+				//				if(sec<=2 ){
+				//					g.setColor(Color.white);
+				//					String s = ""+(sec+1);
+				//					g.drawString(s,this.resX/5-font.getWidth(s)/2,resY/2-font.getHeight(s)/2);
+				//					g.drawString(s,4*this.resX/5-font.getWidth(s)/2,resY/2-font.getHeight(s)/2);
+				//				}
 				g.drawImage(this.menuIntro.title, this.resX/2-this.menuIntro.title.getWidth()/2, this.resY/2-this.menuIntro.title.getHeight()/2);
 			}
 			if(this.currentPlayer.bottomBar.topBar!=null)
 				this.currentPlayer.bottomBar.topBar.draw(g);
 			if(this.currentPlayer.bottomBar!=null)
 				this.currentPlayer.bottomBar.draw(g);
-			
+
 			//bonus
 			if(gillesBombe){
 				for(Gilles gi : gillesPics){
@@ -760,6 +779,15 @@ public class Game extends BasicGame
 
 			//Update of current round
 			this.clock.setRoundFromTime();
+
+			// on lance la musique
+			if(this.round==Game.nbRoundInit){
+				this.musicPlaying = musics.get("themeImperial");
+				this.musicPlaying.setVolume(options.musicVolume);
+				this.musicPlaying.play();
+				this.musicPlaying.loop();
+				this.musicPlaying.setVolume(options.musicVolume);
+			}
 			// getting inputs
 			Input in = gc.getInput();
 			//			if(in.isKeyPressed(Input.KEY_RALT)){
@@ -781,7 +809,6 @@ public class Game extends BasicGame
 				/// MULTI PLAYER ///
 				////////////////////
 
-				//toSendThisTurn = "";
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn+="1"+im.toString()+"%";
@@ -905,7 +932,7 @@ public class Game extends BasicGame
 				}
 				if(gillesPasse>0)
 					gillesPasse--;
-				if(gc.getInput().isKeyPressed(Input.KEY_SPACE) && !this.rate){
+				if(Game.gillesEspaceEnable && gc.getInput().isKeyPressed(Input.KEY_SPACE) && !this.rate){
 					if(gillesPasse>0 ){
 						this.loadingSpearman = this.loadingGilles;
 						this.special = true;
@@ -1101,8 +1128,7 @@ public class Game extends BasicGame
 	public void actionChat(String message){
 		ChatMessage cm = new ChatMessage(message);
 		chatHandler.messages.add(cm);
-		System.out.println(cm.message);
-		if(cm.message.equals("/gillesBombe")){
+		if(Game.gillesBombeEnable && cm.message.equals("/gillesBombe")){
 			this.gillesBombe = true;
 			return;
 		}
@@ -1123,9 +1149,8 @@ public class Game extends BasicGame
 
 	public void launchGame(){
 
+		this.musicPlaying.stop();
 		this.musicPlaying = this.musics.get("themeImperial");
-		this.musicPlaying.loop();
-		this.musicPlaying.setVolume(options.musicVolume);
 		try {
 			this.server.setBroadcast(false);
 		} catch (SocketException e) {
@@ -1175,11 +1200,29 @@ public class Game extends BasicGame
 			this.loadingSpearman = new Image("ressources/images/unit/crossbowmanBlue.png");			
 		} else if (rdm<0.75){
 			this.loadingSpearman = new Image("ressources/images/unit/knightBlue.png");			
-		} else if (rdm<0.99){
+		} else if (rdm<0.99 || !Game.gillesSurCentEnable){
 			this.loadingSpearman = new Image("ressources/images/unit/inquisitorBlue.png");			
 		} else {
 			this.loadingSpearman = new Image("ressources/images/danger/gilles.png");					
 			this.special = true;
+		}
+		if(Game.conseilChargementEnable){
+			String fichier ="././ressources/conseils.txt";
+			//lecture du fichier texte	
+			try{
+				InputStream ips=new FileInputStream(fichier); 
+				InputStreamReader ipsr=new InputStreamReader(ips);
+				BufferedReader br=new BufferedReader(ipsr);
+				String ligne;
+				Vector<String> lignes = new Vector<String>();
+				while ((ligne=br.readLine())!=null){
+					lignes.add(ligne);
+				}
+				br.close(); 
+				this.adviceToDisplay = lignes.get((int)(Math.random()*lignes.size()));
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 		}
 		this.loadingGilles = new Image("ressources/images/danger/gilles.png");
 		this.loadingTitle = new Image("ressources/images/menu/menuTitle01.png").getScaledCopy(0.35f*this.resY/650);
@@ -1452,7 +1495,7 @@ public class Game extends BasicGame
 			this.toSendThisTurn+="6"+m.toString()+"%";
 		}
 		//if(!m.message.equals("/gillesBombe"))
-			this.chatHandler.messages.addElement(m);
+		this.chatHandler.messages.addElement(m);
 		if(m.message.charAt(0)=='/'){
 			this.taunts.playTaunt(m.message.substring(1).toLowerCase());
 		}
@@ -1462,11 +1505,13 @@ public class Game extends BasicGame
 	// GILLES DE BOUARD MODE
 	public boolean GdB;
 	public void activateGdBMode(){
-		this.GdB = !this.GdB;
-		if(GdB)
-			this.images.activateGdBMode();
-		else
-			this.images.deactivateGdBMode();
+		if(Game.gillesModeEnable){
+			this.GdB = !this.GdB;
+			if(GdB)
+				this.images.activateGdBMode();
+			else
+				this.images.deactivateGdBMode();
+		}
 	}
 
 
