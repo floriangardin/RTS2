@@ -105,7 +105,7 @@ public class MenuMapChoice extends Menu {
 	}
 
 	private void launchGameSinglePlayer() {
-		this.startGame = game.clock.getCurrentTime()+2000000000L;
+		this.startGame = game.clock.getCurrentTime()+5000000000L;
 		this.deselectItems();
 		this.menuPlayers.get(game.currentPlayer.id).isOverColor = false;
 	}
@@ -275,7 +275,7 @@ public class MenuMapChoice extends Menu {
 		 */
 		if(startGame-this.game.clock.getCurrentTime()<=this.seconds*1000000000L && seconds!=0){
 			if(seconds==2){
-				this.game.musicPlaying.fade(2000, 0, true);
+				this.game.musicPlaying.fade(3000, 0, true);
 			}
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
