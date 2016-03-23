@@ -8,7 +8,10 @@ import spells.SpellProduct;
 public class Civilisation {
 	public String name;
 	public Spell uniqueSpell;
+	public String printName;
 	public GameTeam gameteam;
+	
+	public int chargeTime;
 	
 	public Civilisation(String name,GameTeam gameteam){
 		this.name = name;
@@ -24,7 +27,6 @@ public class Civilisation {
 			this.uniqueSpell = new SpellProduct(Game.g.plateau,gameteam);
 			break;
 		}
-		
 	}
 	
 	public void launchSpell(Objet target){
@@ -34,5 +36,6 @@ public class Civilisation {
 		}
 		
 	}
+
 
 }
