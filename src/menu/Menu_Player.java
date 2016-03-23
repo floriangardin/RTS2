@@ -56,7 +56,7 @@ public class Menu_Player extends Menu_Item{
 		this.startYcolor = y;
 		this.sizeXcolor = 90f*this.game.resX/1920f;
 		this.sizeYcolor = 40f*this.game.resY/1080f;
-		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("  ");
+		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("        ");
 		this.sizeXciv = this.game.font.getWidth("Zinaids");
 		this.startXready = startXciv+this.game.font.getWidth("Zinaids      ");
 		this.startYciv = y;
@@ -111,7 +111,7 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.gray);
 		else
 			g.setColor(Color.white);
-		g.drawString(p.getGameTeam().civ.name, startXciv, startYciv);
+		g.drawString(p.getGameTeam().civ.printName, startXciv, startYciv);
 		g.setColor(Color.white);
 		if(game.inMultiplayer)
 			g.drawString(this.p.isReady ? "Ready":"Not Ready" ,startXready , startYready);

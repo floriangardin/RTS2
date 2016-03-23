@@ -18,12 +18,15 @@ public class Civilisation {
 		this.gameteam = gameteam;
 		switch(name.toLowerCase()){
 		case "dualists":
+			this.printName = "Dualists";
 			this.uniqueSpell = new SpellEclair(Game.g.plateau,gameteam);
 			break;
 		case "kitanos":
+			this.printName = "Kitanos";
 			this.uniqueSpell = new SpellHeal(Game.g.plateau,gameteam);
 			break;
 		case "zinaids":
+			this.printName = "Zinaids";
 			this.uniqueSpell = new SpellProduct(Game.g.plateau,gameteam);
 			break;
 		}
