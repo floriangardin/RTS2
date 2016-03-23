@@ -12,7 +12,7 @@ import units.Character;
 public class SpellHeal extends Spell{
 
 	public float remainingTime;
-
+	
 	public SpellHeal(Plateau p, GameTeam gameteam){
 		this.chargeTime = 450f;
 		this.p = p;
@@ -20,7 +20,8 @@ public class SpellHeal extends Spell{
 		this.icon = p.g.images.get("spellHeal");
 		this.range = 400f*Main.ratioSpace;
 		this.damage = 1f;
-		this.remainingTime = 5f;
+		this.faithCost = 2;
+		this.remainingTime = 8f;
 		this.gameteam = gameteam;
 		this.needToClick=false;
 	}
