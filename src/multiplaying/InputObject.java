@@ -207,11 +207,9 @@ public class InputObject extends MultiObjetModel{
 		if(content.containsKey("R")) isPressedR = true;
 		
 		toPlay= true;
-		System.out.println(im);
 		for(int i=0; i<10; i++){
 			if(content.containsKey(i+"")){ 
 				isPressedNumPad[i] = true;
-				System.out.println(i);
 			}
 		}
 		//System.out.println("InputObjet line 152: " + this.toString());

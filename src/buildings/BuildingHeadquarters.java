@@ -157,6 +157,7 @@ public class BuildingHeadquarters extends BuildingTech {
 //			this.getGameTeam().special=0;
 //		}
 		// voilà, plus d'archanges
+		
 		if(this.queue!=null){
 			if(!this.isProducing){
 				this.isProducing = true;

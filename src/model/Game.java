@@ -77,7 +77,7 @@ public class Game extends BasicGame
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
-	public static boolean debugDisplayDebug = true;
+	public static boolean debugDisplayDebug = false;
 	public static boolean debugMemory = false;
 
 	public static boolean deplacementGroupIntelligent = true;
@@ -85,7 +85,7 @@ public class Game extends BasicGame
 
 	public boolean displayMapGrid = false;
 
-	public static boolean showUpdateLogicInterval = true;
+	public static boolean showUpdateLogicInterval = false;
 
 
 	// debugging tools

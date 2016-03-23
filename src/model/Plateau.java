@@ -485,11 +485,8 @@ public class Plateau {
 		}else{
 			cosmetic.selection = null;
 		}
-		//Selection character
-
-		//RIGHT CLICK HERE
-		//TODO
 	}
+
 	private void updateRectangle(InputObject im, int player) {
 		if(im.isOnMiniMap && this.rectangleSelection.get(player)==null)
 			return;
@@ -1095,14 +1092,12 @@ public class Plateau {
 		// Handling groups of units
 		if(im.isPressedNumPad[0] || im.isPressedNumPad[1] || im.isPressedNumPad[4] || im.isPressedNumPad[2] || im.isPressedNumPad[3]){
 			if(im.isPressedNumPad[0]){
-				System.out.print("ajout de lanciers : ");
 				//Lancier
 				this.g.players.get(player).groupSelection = 0;
 				this.selection.set(player, new Vector<ActionObjet>());
 				for(Character o : this.characters){
 					if(o.getGameTeam().id == team && o instanceof UnitSpearman){
 						this.selection.get(player).add((ActionObjet)o);
-						System.out.print("X ");
 					}
 				}
 				System.out.println();
