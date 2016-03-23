@@ -66,10 +66,9 @@ public class Heal extends SpellEffect{
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
 		g.draw(collisionBox);
-		g.setColor(new Color(99,255,32,0.7f));
+		g.setColor(new Color(99,255,32,0.8f));
 		g.fill(collisionBox);
 		
-
 		g.setAntiAlias(false);
 
 		//g.setColor(Color.white);

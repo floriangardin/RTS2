@@ -286,7 +286,7 @@ public class Plateau {
 			System.out.println("markers building : " + markersBuilding.size());
 
 		}
-		
+
 		Vector<Checkpoint> toremove = new Vector<Checkpoint>();
 		for (Checkpoint o : checkpoints) {
 			if (!o.isAlive()) {
@@ -506,7 +506,7 @@ public class Plateau {
 	// handling the input
 	public void updateTarget(float x, float y, int team, int mode) {
 		// called when right click on the mouse
-		Objet target = this.findTarget(x, y);
+		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
 			target = new Checkpoint(this, x, y);
 		}
@@ -581,7 +581,7 @@ public class Plateau {
 
 	public void updateSecondaryTarget(float x, float y, int team) {
 		// called when right click on the mouse
-		Objet target = this.findTarget(x, y);
+		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
 			target = new Checkpoint(this, x, y);
 		}
@@ -646,15 +646,24 @@ public class Plateau {
 		return ennemies_in_sight;
 	}
 
-	public Objet findTarget(float x, float y) {
+	public Objet findTarget(float x, float y,int player) {
 		Point point = new Point(x, y);
 		Objet target = null;
 		// looking for the object on the target
 		for (Character i : this.characters) {
 			// looking amongst other characters
-			if (i.selectionBox.contains(point)) {
+			if (i.selectionBox.contains(point) && i.getTeam()!=Game.g.getPlayerById(player).getTeam()) {
 				target = i;
 				break;
+			}
+		}
+		if (target == null) {
+			for (Character i : this.characters) {
+				// looking amongst other characters
+				if (i.selectionBox.contains(point) && i.getTeam()==Game.g.getPlayerById(player).getTeam()) {
+					target = i;
+					break;
+				}
 			}
 		}
 		if (target == null) {
@@ -805,7 +814,7 @@ public class Plateau {
 			// RALLY POINT
 			if (this.selection.get(player).size() > 0
 					&& this.selection.get(player).get(0) instanceof BuildingProduction) {
-				Objet target = findTarget(im.xMouse, im.yMouse);
+				Objet target = findTarget(im.xMouse, im.yMouse,player);
 				if(target instanceof Building || target instanceof Character){
 					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = target;
 				}
