@@ -98,9 +98,9 @@ public class ChatHandler {
 			if(textScanner.s.equals("/gilles")){
 				this.game.activateGdBMode();
 				if(Game.g.GdB)
-					this.messages.addElement(new ChatMessage("Gilles de Bouard mode activé"));
+					this.messages.addElement(new ChatMessage("Gilles de Bouard mode activé",0));
 				else
-					this.messages.addElement(new ChatMessage("Gilles de Bouard mode desactivé"));
+					this.messages.addElement(new ChatMessage("Gilles de Bouard mode desactivé",0));
 				//System.out.println("Gilles de Bouard Mode activé");
 				textScanner.s="";
 				return;

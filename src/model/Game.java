@@ -240,9 +240,9 @@ public class Game extends BasicGame
 	public boolean pingPeak=false;
 
 
-	//////////////////////////
+	/////////////////////////
 	///       REPLAYS     ///
-	////////////////////////
+	/////////////////////////
 
 	public Replay replay = null;
 
@@ -270,6 +270,87 @@ public class Game extends BasicGame
 	private boolean waitLoading;
 	private DeferredResource nextResource;
 	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
+	
+
+	/////////////////////
+	// USELESS & BONUS //
+	/////////////////////
+	
+	private class Gilles{
+		int x,y,vx,vy;
+		float angle;
+		public Gilles(){
+			double proba = Math.random();
+			if(proba<0.25){
+				//depuis le haut
+				y = 0;
+				x = (int) (Math.random()*resX);
+				vx = (int) (2.0*Math.random()-1.0);
+				vy = (int) Math.random();
+			} else if(proba<0.5){
+				// depuis le bas
+				y = (int) resY;
+				x = (int) (Math.random()*resX);
+				vx = (int) (2.0*Math.random()-1.0);
+				vy = (int) -Math.random();
+			} else if(proba<0.75){
+				// depuis la gauche
+				y = (int) (Math.random()*resY);
+				x = 0;
+				vx = (int) Math.random();
+				vy = (int) (2.0*Math.random()-1.0);
+			} else {
+				// depuis la gauche
+				y = (int) (Math.random()*resY);
+				x = (int) resX;
+				vx = (int) -Math.random();
+				vy = (int) (2.0*Math.random()-1.0);
+			} 
+			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
+			if(this.vx<0)
+				this.angle+=180;
+			if(this.angle<0)
+				this.angle+=360;
+		}
+		public void draw(Graphics g){
+			images.get("gilles").rotate(angle);
+			g.drawImage(images.get("gilles"), x, y);
+			images.get("gilles").rotate(-angle);
+		}
+		public void update(){
+			x += vx;
+			y += vy;
+		}
+	}
+	
+	public boolean gillesBombe = false;
+	public int timeGilles = 0;
+	private Vector<Gilles> gillesPics;
+	
+	public void handleGillesBombe(){
+		if(timeGilles==0){
+			gillesPics = new Vector<Gilles>();
+			this.musicPlaying = musics.get("themeVerdi");
+			this.musicPlaying.play();
+		}
+		if(timeGilles<6*Main.framerate){
+			gillesPics.add(new Gilles());
+			for(Gilles g : gillesPics){
+				g.update();
+			}
+			Vector<Gilles> toRemove = new Vector<Gilles>();
+			for(Gilles g : gillesPics){
+				if(g.x<10 || g.x>resX+10 || g.y<0 || g.y>resY+10)
+					toRemove.add(g);
+			}
+			gillesPics.removeAll(toRemove);
+		} else {
+			this.musicPlaying = musics.get("themeImperial");
+			this.musicPlaying.play();
+			gillesPics.clear();
+			gillesBombe = false;
+		}
+	}
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -579,7 +660,13 @@ public class Game extends BasicGame
 				this.currentPlayer.bottomBar.topBar.draw(g);
 			if(this.currentPlayer.bottomBar!=null)
 				this.currentPlayer.bottomBar.draw(g);
-
+			
+			//bonus
+			if(gillesBombe){
+				for(Gilles gi : gillesPics){
+					gi.draw(g);
+				}
+			}
 		}
 		if(Game.debugDisplayDebug){
 			if(processSynchro){
@@ -1011,6 +1098,10 @@ public class Game extends BasicGame
 	public void actionChat(String message){
 		ChatMessage cm = new ChatMessage(message);
 		chatHandler.messages.add(cm);
+		if(cm.message.equals("/gillesBombe")){
+			this.gillesBombe = true;
+			return;
+		}
 		if(cm.message.charAt(0)=='/'){
 			taunts.playTaunt(cm.message.substring(1).toLowerCase());
 		}
@@ -1356,7 +1447,8 @@ public class Game extends BasicGame
 		if(m.idPlayer==currentPlayer.id){
 			this.toSendThisTurn+="6"+m.toString()+"%";
 		}
-		this.chatHandler.messages.addElement(m);
+		//if(!m.message.equals("/gillesBombe"))
+			this.chatHandler.messages.addElement(m);
 		if(m.message.charAt(0)=='/'){
 			this.taunts.playTaunt(m.message.substring(1).toLowerCase());
 		}
