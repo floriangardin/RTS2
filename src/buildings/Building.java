@@ -131,7 +131,7 @@ public class Building extends ActionObjet{
 					}
 				}else if(ChatHandler.remainingTimeNotEnoughRoom<=0f){
 					ChatHandler.remainingTimeNotEnoughRoom=10f;
-					this.g.sendMessage(ChatMessage.getById("pop"));
+					this.g.sendMessage(ChatMessage.getById("pop",g));
 				}
 
 			}

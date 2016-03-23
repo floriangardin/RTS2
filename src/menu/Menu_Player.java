@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import main.Main;
 import model.Colors;
 import model.Game;
 import model.Player;
@@ -35,7 +36,6 @@ public class Menu_Player extends Menu_Item{
 	public int messageDropped = 0;
 	public boolean hasBeenUpdated = false;
 	
-	private static boolean drawDrooped = true;
 
 	Game game;
 
@@ -121,10 +121,10 @@ public class Menu_Player extends Menu_Item{
 		if(game.inMultiplayer)
 			g.drawString(this.p.isReady ? "Ready":"Not Ready" ,startXready , startYready);
 		g.setColor(Color.red);
-		if(Game.g.host)
-			g.drawString(""+this.messageDropped, x-50, y);
-		else if(p.id==1)
-			g.drawString(""+Game.g.menuMapChoice.messageDropped, x-50, y);
+		if(Game.g.host && this.messageDropped>Main.framerate)
+			g.drawString("X", x-50, y);
+		else if(p.id==1 && Game.g.menuMapChoice.messageDropped>Main.framerate)
+			g.drawString("X", x-50, y);
 			
 	}
 

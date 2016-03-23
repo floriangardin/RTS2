@@ -54,6 +54,7 @@ public class DisplayRessources {
 		g.drawString(string, x-(Game.g.font.getWidth(string)+image.getWidth())/2, y-Game.g.font.getHeight(string)/2);
 		this.image.setAlpha(2f*this.remainingTime/totalRemainingTime);
 		g.drawImage(image, x+(Game.g.font.getWidth(string)-image.getWidth())/2, y - image.getHeight()/2);
+		this.image.setAlpha(1f);
 	}
 	
 	public boolean isDead(){

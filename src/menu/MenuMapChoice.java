@@ -106,6 +106,8 @@ public class MenuMapChoice extends Menu {
 
 	private void launchGameSinglePlayer() {
 		this.startGame = game.clock.getCurrentTime()+2000000000L;
+		this.deselectItems();
+		this.menuPlayers.get(game.currentPlayer.id).isOverColor = false;
 	}
 
 
@@ -214,7 +216,7 @@ public class MenuMapChoice extends Menu {
 						mp.hasBeenUpdated = false;
 					} else {
 						mp.messageDropped++;
-						if(mp.messageDropped>20f*Main.framerate){
+						if(mp.messageDropped>2f*Main.framerate){
 							//System.out.println("disconnecting player:"+i);
 							toRemove=i;
 						}
@@ -307,6 +309,8 @@ public class MenuMapChoice extends Menu {
 					// Launch Game
 					if(startGame==0){
 						this.startGame = this.game.clock.getCurrentTime()+5000000000L;
+						this.deselectItems();
+						this.menuPlayers.get(game.currentPlayer.id).isOverColor = false;
 					}
 				}
 			}

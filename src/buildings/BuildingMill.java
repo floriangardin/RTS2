@@ -27,6 +27,7 @@ public class BuildingMill extends BuildingTech{
 		this.type = 1;
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		this.name= "mill";
+		this.printName = "Ferme";
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.millChargeTime;
 		this.lifePoints = getGameTeam().data.millLifePoints;

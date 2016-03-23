@@ -20,6 +20,7 @@ import units.Character;
 public class Images {
 
 	private HashMap<String, Image> images;
+	private HashMap<String, Image> oldimages;
 	private HashMap<String, HashMap<String, Image>> imagesUnits;
 
 	public Images(){
@@ -69,7 +70,6 @@ public class Images {
 	
 	public void resizeBuilding(String s){
 		Point p = Data.getSize(s);
-		System.out.println(p);
 		this.images.put("building"+s+"blue",this.images.get("building"+s+"blue")
 				.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
 		if(!s.equals("headquarters"))
@@ -200,9 +200,16 @@ public class Images {
 	
 	public void activateGdBMode() {
 		Image GdB = this.images.get("gilles");
-		for(String s : this.images.keySet()){
+		this.oldimages = images;
+		this.images = new HashMap<String, Image>();
+		for(String s : this.oldimages.keySet()){
 			this.images.put(s,GdB);
 		}
+	}
+	
+	public void deactivateGdBMode(){
+		this.images.clear();
+		this.images = this.oldimages;
 	}
 
 }

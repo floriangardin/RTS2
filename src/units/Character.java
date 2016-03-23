@@ -144,6 +144,7 @@ public class Character extends ActionObjet{
 			this.id = id;
 		}
 		this.name = c.name;
+		this.printName = c.printName;
 		this.setTeam(c.getTeam());
 		this.damage = c.damage;
 		this.maxLifePoints = c.maxLifePoints;

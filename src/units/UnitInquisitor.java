@@ -21,6 +21,7 @@ public class UnitInquisitor extends Character {
 	public UnitInquisitor(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "inquisitor";
+		this.printName = "Inquisiteur";
 		this.type = UnitsList.Inquisitor;
 		this.unitType = INQUISITOR;
 		this.maxLifePoints = 60f*data.healthFactor;

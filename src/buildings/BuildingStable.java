@@ -22,6 +22,7 @@ public class BuildingStable extends BuildingProduction{
 		this.sizeY = Data.stableSizeY;
 		this.sight = this.getGameTeam().data.stableSight;
 		this.name = "stable";
+		this.printName = "Ecurie";
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 2;
 		this.initialize(f, h);

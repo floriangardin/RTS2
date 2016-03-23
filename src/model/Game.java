@@ -257,6 +257,7 @@ public class Game extends BasicGame
 	public boolean plateauLoaded = false;
 	public boolean allLoaded = false;
 	private boolean special = false;
+	private boolean gilles = false;
 	private boolean rate = false;
 	private int gillesPasse = -1;
 	public Image loadingSpearman;
@@ -405,7 +406,17 @@ public class Game extends BasicGame
 					int width = this.loadingSpearman.getWidth()/5;
 					int w = animationLoadingSpearman*8/Main.framerate+1;
 					g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),xanimation-width/2,startBarY-sizeBarY-height);
-				}				
+				}	
+				if(this.rate){
+					g.setColor(Color.white);
+					String s;
+					if(this.gilles){
+						s = "Trop tard";
+					} else {
+						s = "Trop tôt";
+					}
+					g.drawString(s, resX-10-font.getWidth(s), resY-10-font.getHeight(s));
+				}
 				//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
 				//				g.setColor(Color.white);
 				//				String s = "Chargement...";
@@ -798,6 +809,8 @@ public class Game extends BasicGame
 				nextResource.load();
 				lastThing = nextResource.getDescription();
 				if(nextResource.getDescription().contains("gilles") ){
+					if(!rate)
+						gilles = true;
 					gillesPasse+=3;
 				}
 				if(gillesPasse>0)
@@ -1351,8 +1364,13 @@ public class Game extends BasicGame
 
 
 	// GILLES DE BOUARD MODE
+	public boolean GdB;
 	public void activateGdBMode(){
-		this.images.activateGdBMode();
+		this.GdB = !this.GdB;
+		if(GdB)
+			this.images.activateGdBMode();
+		else
+			this.images.deactivateGdBMode();
 	}
 
 

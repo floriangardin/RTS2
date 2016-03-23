@@ -23,6 +23,7 @@ public class UnitSpearman extends Character {
 	public UnitSpearman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "spearman";
+		this.printName = "Lancier";
 		this.type = UnitsList.Spearman;
 		this.unitType = SPEARMAN;
 		this.attackDuration = 1f;

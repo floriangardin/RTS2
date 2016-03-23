@@ -67,6 +67,11 @@ public abstract class Menu {
 			}			
 		}
 	}
+	public void deselectItems(){
+		for(int i=0; i<this.items.size(); i++){
+			this.items.get(i).toDraw = this.items.get(i).image;
+		}	
+	}
 
 	public void drawItems(Graphics g){
 		// draw background

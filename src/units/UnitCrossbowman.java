@@ -23,6 +23,7 @@ public class UnitCrossbowman extends Character {
 	public UnitCrossbowman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "crossbowman";
+		this.printName = "Archer";
 		this.type = UnitsList.Crossbowman;
 		this.unitType = CROSSBOWMAN;
 		this.attackDuration = 1f;

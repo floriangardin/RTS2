@@ -38,6 +38,7 @@ public class BuildingUniversity extends BuildingTech {
 		this.sight = getGameTeam().data.universitySight;
 		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
+		this.printName = "Université";
 		this.initialize(f, h);
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 6;

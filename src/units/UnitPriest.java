@@ -17,6 +17,7 @@ public class UnitPriest extends Character {
 	public UnitPriest(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "priest";
+		this.printName = "Prêtre";
 		this.type = UnitsList.Priest;
 		this.unitType = PRIEST;
 		this.maxLifePoints = 60f*data.healthFactor;

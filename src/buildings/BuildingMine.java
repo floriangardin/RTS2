@@ -31,6 +31,7 @@ public class BuildingMine extends BuildingTech{
 		this.type = 0;
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		this.name= "mine";
+		this.printName = "Mine d'Or";
 		this.setTeam(team);
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
 		this.chargeTime = getGameTeam().data.mineChargeTime;

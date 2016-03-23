@@ -1,10 +1,10 @@
 package spells;
 
 import main.Main;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Player;
 import multiplaying.ChatMessage;
 import units.Character;
 
@@ -33,7 +33,7 @@ public class SpellConversion extends Spell{
 			} else {
 				// Messages
 				if(this.gameteam.id==this.p.g.currentPlayer.getTeam()){
-						this.p.g.sendMessage(ChatMessage.getById("faith"));
+						this.p.g.sendMessage(ChatMessage.getById("faith",Game.g));
 				}
 			}
 		}

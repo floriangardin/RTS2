@@ -25,6 +25,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.sizeY = Data.barrackSizeY;
 		this.sight = this.getGameTeam().data.barrackSight;
 		this.name = "barrack";
+		this.printName = "Caserne";
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 3;
 		this.initialize(f, h);

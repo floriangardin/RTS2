@@ -20,6 +20,7 @@ public class UnitKnight extends Character {
 	public UnitKnight(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
 		this.name = "knight";
+		this.printName = "Chevalier";
 		this.type = UnitsList.Knight;
 		this.unitType = KNIGHT;
 		this.attackDuration = 2f;

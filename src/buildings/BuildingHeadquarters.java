@@ -112,6 +112,7 @@ public class BuildingHeadquarters extends BuildingTech {
 		this.sight = this.getGameTeam().data.headQuartersSight;
 		maxLifePoints = this.getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
+		this.printName = "Centre Ville";
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 5;
 

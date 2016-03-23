@@ -35,6 +35,7 @@ public class BuildingTower extends Building{
 		this.sizeX = Data.towerSizeX;
 		this.sizeY = Data.towerSizeY;
 		this.name = "tower";
+		this.printName = "Tour de Guet";
 		this.chargeTime = this.gameteam.data.towerChargeTime;
 		this.sight = this.gameteam.data.towerSight;
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");

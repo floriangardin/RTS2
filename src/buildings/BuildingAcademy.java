@@ -23,6 +23,7 @@ public class BuildingAcademy extends BuildingProduction {
 		this.sight = this.getGameTeam().data.academySight;
 		this.initialize(f, h);
 		this.name = "academy";
+		this.printName = "Académie";
 		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
 		type= 4;
 		this.g = g;

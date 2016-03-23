@@ -55,60 +55,39 @@ public class ChatMessage {
 		switch(s){
 		case "food" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough food", 0,Color.red);
+			return new ChatMessage("Pas assez de nourriture", 0,Color.red);
 		case "building taken":
 			g.sounds.get("buildingTaken").play(1f,g.options.soundVolume );
-			return new ChatMessage("Building Taken", 0,Color.green);
+			return new ChatMessage("Bâtiment capturé", 0,Color.green);
 		case "gold" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough gold", 0,Color.red);
+			return new ChatMessage("Pas assez d'or", 0,Color.red);
 		case "faith" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough faith", 0,Color.red);
+			return new ChatMessage("Pas assez de foi", 0,Color.red);
 		case "research" : 
 			g.sounds.get("techDiscovered").play(1f,g.options.soundVolume );
-			return new ChatMessage("Research complete", 0,Color.green);
+			return new ChatMessage("Technologie découverte", 0,Color.green);
 		case "mana" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough mana", 0,Color.red);
+			return new ChatMessage("Pas assez de mana", 0,Color.red);
 		case "pop" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Not enough room", 0,Color.red);
+			return new ChatMessage("Limite de population atteinte", 0,Color.red);
 		case "building" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Cannot convert this building", 0,Color.red);
+			return new ChatMessage("Capture impossible", 0,Color.red);
 		case "attack" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("You are being attacked", 0,Color.red);
+			return new ChatMessage("Vous êtes attaqué !", 0,Color.red);
 		case "unit created" :
 			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
-			return new ChatMessage("Unit created", 0,Color.green);
+			return new ChatMessage("Unité produite", 0,Color.green);
 		default : 
 			return null;
 		}
 	}
 	
-	public static ChatMessage getById(String s){
-		switch(s){
-		case "food" : 
-			return new ChatMessage("Not enough food", 0);
-		case "gold" : 
-			return new ChatMessage("Not enough gold", 0);
-		case "faith" : 
-			return new ChatMessage("Not enough faith", 0);
-		case "research" : 
-			return new ChatMessage("Research complete", 0);
-		case "mana" : 
-			return new ChatMessage("Not enough mana", 0);
-		case "pop" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Not enough room", 0,Color.red);
-		case "building" :
-			return new ChatMessage("Cannot convert this building", 0);
-		default : 
-			return null;
-		}
-	}
 
 	public String toString(){
 		String s = "";
