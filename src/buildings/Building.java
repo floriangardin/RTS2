@@ -212,10 +212,8 @@ public class Building extends ActionObjet{
 				float opacity = 50*bt.charge/bt.queue.tech.prodTime;
 				Image icone = Game.g.images.get(bt.queue.tech.nameIcon+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
-				g.setColor(new Color(1f,1f,1f,opacity));
-				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
+				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				g.setColor(new Color(bt.getGameTeam().color.r,bt.getGameTeam().color.g,bt.getGameTeam().color.b,opacity));
 				float startAngle = 270f;
 				float sizeAngle = (float)(1f*bt.charge*(360f)/bt.queue.tech.prodTime);
