@@ -11,6 +11,8 @@ public class Civilisation {
 	public String printName;
 	public GameTeam gameteam;
 	
+	public int chargeTime;
+	
 	public Civilisation(String name,GameTeam gameteam){
 		this.name = name;
 		this.gameteam = gameteam;
