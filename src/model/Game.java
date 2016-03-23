@@ -121,6 +121,7 @@ public class Game extends BasicGame
 	public static float ratio = 60f/((float)Main.framerate);
 
 	public static int nbRoundInit = 3*Main.framerate;
+	public int secondsGong;
 
 	public int idChar = 0;
 	public int idBullet = 0;
@@ -791,6 +792,10 @@ public class Game extends BasicGame
 				this.musicPlaying.loop();
 				this.musicPlaying.setVolume(options.musicVolume);
 			}
+			if(secondsGong!=0 && (Game.nbRoundInit-this.round)/Main.framerate<=secondsGong){
+				secondsGong--;
+				this.sounds.get("menuItemSelected").play(1f,options.soundVolume);
+			}
 			// getting inputs
 			Input in = gc.getInput();
 			//			if(in.isKeyPressed(Input.KEY_RALT)){
@@ -1171,6 +1176,7 @@ public class Game extends BasicGame
 		this.idPaquetSend = 0;
 		this.idPaquetTreated = 0;
 		this.round = 0;
+		this.secondsGong = 3;
 	}
 
 

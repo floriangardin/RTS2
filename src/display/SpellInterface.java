@@ -38,7 +38,7 @@ public class SpellInterface extends Bar{
 		Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, x, y, sizeX, sizeY);
 		g.drawImage(c.uniqueSpell.icon.getScaledCopy((int)(sizeX-20),(int)(sizeX-20)), x+10, y+10);
 		g.setColor(Color.white);
-		g.drawRect(x+10, y+10, sizeX/20, sizeX/20);
+		g.drawRect(x+10, y+10, sizeX-20, sizeX-20);
 		if(Game.g.currentPlayer.getGameTeam().special>=c.uniqueSpell.faithCost){
 			// afficher le cooldown
 			g.setColor(Game.g.currentPlayer.getGameTeam().color);
@@ -47,7 +47,7 @@ public class SpellInterface extends Bar{
 			g.drawRect(x+10, y + sizeX+10, sizeX-20, sizeExtraY-20);
 		} else {
 			g.setColor(new Color(0.5f,0.5f,0.5f,0.5f));
-			g.drawRect(x+10, y+10, sizeX/20, sizeX/20);
+			g.fillRect(x+10, y+10, sizeX-20, sizeX-20);
 			// afficher le cout en foi
 			g.drawImage(foi, x + sizeX/8 - foi.getWidth()/2, y + sizeX + sizeExtraY/2-foi.getHeight()/2);
 			g.setColor(Color.gray);
