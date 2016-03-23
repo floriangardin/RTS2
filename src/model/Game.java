@@ -96,10 +96,10 @@ public class Game extends BasicGame
 	/// BONUS DISABLING ///
 	///////////////////////
 
-	public static boolean gillesBombeEnable = false;
-	public static boolean gillesEspaceEnable = false;
-	public static boolean gillesSurCentEnable = false;
-	public static boolean gillesModeEnable = false;
+	public static boolean gillesBombeEnable = true;
+	public static boolean gillesEspaceEnable = true;
+	public static boolean gillesSurCentEnable = true;
+	public static boolean gillesModeEnable = true;
 	public static boolean conseilChargementEnable = true;
 
 
