@@ -19,6 +19,7 @@ public class Spell {
 	public GameTeam gameteam;
 	public boolean needToClick;
 	public Plateau p;
+	public int faithCost;
 
 	public void cast(Objet target, Character launcher, int number){
 		

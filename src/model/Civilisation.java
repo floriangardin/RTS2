@@ -2,21 +2,35 @@ package model;
 
 import spells.Spell;
 import spells.SpellEclair;
+import spells.SpellHeal;
+import spells.SpellProduct;
 
 public class Civilisation {
-	String name;
-	Spell uniqueSpell;
+	public String name;
+	public Spell uniqueSpell;
+	public GameTeam gameteam;
 	
-	public Civilisation(String name){
+	public Civilisation(String name,GameTeam gameteam){
 		this.name = name;
+		this.gameteam = gameteam;
 		switch(name.toLowerCase()){
 		case "dualists":
-			this.uniqueSpell = new SpellEclair();
+			this.uniqueSpell = new SpellEclair(Game.g.plateau,gameteam);
 			break;
 		case "kitanos":
+			this.uniqueSpell = new SpellHeal(Game.g.plateau,gameteam);
 			break;
 		case "zinaids":
+			this.uniqueSpell = new SpellProduct(Game.g.plateau,gameteam);
 			break;
+		}
+		
+	}
+	
+	public void launchSpell(Objet target){
+		if(target!=null && gameteam.special>=this.uniqueSpell.faithCost){
+			gameteam.special-=this.uniqueSpell.faithCost;
+			this.uniqueSpell.launch(target, null);
 		}
 		
 	}

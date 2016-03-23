@@ -67,7 +67,7 @@ public class Character extends ActionObjet{
 	public float maxVelocity = 100f;
 	public float range;
 	public float damage;
-
+	
 	//philippe
 	public String weapon;
 	//Dead since how many rounds
@@ -102,8 +102,10 @@ public class Character extends ActionObjet{
 	// Invisibility 
 	boolean isHidden;
 	public Civilisation civ ;
-	// Special Abilities
+	// Special Abilities or subisse
 	public boolean isImmolating = false;
+	public boolean isBolted = false;
+	
 	public float remainingTime;
 	// UnitsList associated
 	public UnitsList type;
@@ -349,6 +351,9 @@ public class Character extends ActionObjet{
 			this.frozen-=Main.increment;
 			return;
 		}
+		if(isBolted){
+			this.lifePoints-=Main.increment;
+		}
 		this.updateChargeTime();
 
 		if(this.isImmolating){
@@ -541,6 +546,11 @@ public class Character extends ActionObjet{
 		if(frozen>0f){
 			Color color = Color.darkGray;
 			color = new Color(100,150,255,0.4f);
+			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
+			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
+		}
+		if(isBolted){
+			Color color = new Color(44,117,255,0.4f);
 			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
 			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 		}
