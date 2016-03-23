@@ -834,6 +834,8 @@ public class Game extends BasicGame
 						this.updateInit();
 					}
 					this.plateau.updatePlateauState();
+				}else{
+					System.out.println("Game 839 : round drop "+round);
 				}
 				this.plateau.updateCosmetic(im);
 				if(this.gillesBombe){
@@ -1369,7 +1371,7 @@ public class Game extends BasicGame
 	//	}
 	private void handleChecksum() {
 		// If host and client send checksum
-		if(!processSynchro && this.round>=30 && this.round%20==0){
+		if(!processSynchro && this.round>=30 && this.round%1==0){
 			//Compute checksum
 			String checksum = this.round+"|C";
 			int i = 0;
@@ -1425,7 +1427,7 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
-							System.out.println(c.checksum+"\n"+c1.checksum);
+							System.out.println("resynchro : " +round+" " +"\n"+c.checksum+"\n"+c1.checksum);
 							this.processSynchro = true;
 							this.sendParse = true;					
 						}
