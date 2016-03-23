@@ -25,7 +25,7 @@ public class SpellConversion extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		Objet t = p.findTarget(target.x, target.y);
+		Objet t = p.findTarget(target.x, target.y,launcher.getTeam());
 		if(t instanceof Character && t.getTeam()!=launcher.getTeam()){
 			if(launcher.getGameTeam().special>=this.faithCost){
 				((Character)t).changeTeam(launcher.getTeam());
