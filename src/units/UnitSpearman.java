@@ -39,7 +39,7 @@ public class UnitSpearman extends Character {
 		this.weapon = "spear";
 		this.animStep = 32f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
-		this.civ = 0;
+		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = radiusCollisionBox+30f*Main.ratioSpace;
 		this.spells.add(data.immolation);

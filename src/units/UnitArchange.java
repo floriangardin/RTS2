@@ -32,7 +32,7 @@ public class UnitArchange extends Character {
 		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 12f;
 		this.weapon = "sword";
-		this.civ = 0;
+		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+20f*Main.ratioSpace;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;

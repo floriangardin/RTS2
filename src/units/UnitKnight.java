@@ -34,7 +34,7 @@ public class UnitKnight extends Character {
 		this.damage = 12f*data.damageFactor;
 		this.chargeTime = 4f;
 		this.weapon = "sword";
-		this.civ = 0;
+		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.radiusCollisionBox+20f*Main.ratioSpace;
 		this.horse = new Horse(p,this);

@@ -13,7 +13,7 @@ public class GameTeam {
 	public Data data;
 	Plateau plateau;
 	public int id;
-	public int civ;
+	public Civilisation civ;
 	public String civName;
 	public String colorName;
 	public int food;

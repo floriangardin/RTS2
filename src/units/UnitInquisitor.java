@@ -35,7 +35,7 @@ public class UnitInquisitor extends Character {
 		this.damage = 20f*data.damageFactor;
 		this.chargeTime = 8f;
 		this.weapon = "wand";
-		this.civ = 0;
+		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 200f*Main.ratioSpace;
 		this.animStep = 24f;

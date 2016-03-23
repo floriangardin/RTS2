@@ -39,7 +39,7 @@ public class UnitCrossbowman extends Character {
 		this.weapon ="bow";
 		this.animStep = 24f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
-		this.civ = 0;
+		this.civ = gameteam.civ;
 		this.range = 300f*Main.ratioSpace;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.spells.add(data.immolation);

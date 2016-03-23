@@ -4,13 +4,12 @@ package units;
 import java.util.HashMap;
 import java.util.Vector;
 
-
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 
 import IA.IAUnit;
 import battleIA.Mission;
@@ -19,6 +18,7 @@ import display.DisplayRessources;
 import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
+import model.Civilisation;
 import model.Colors;
 import model.Game;
 import model.GameTeam;
@@ -28,9 +28,6 @@ import model.Plateau;
 import model.RidableObjet;
 import model.Utils;
 import nature.Tree;
-
-import org.newdawn.slick.geom.Transform;
-
 import pathfinding.Case;
 import spells.Spell;
 
@@ -104,7 +101,7 @@ public class Character extends ActionObjet{
 	public Vector<Float> spellsState = new Vector<Float>();
 	// Invisibility 
 	boolean isHidden;
-	protected int civ ;
+	public Civilisation civ ;
 	// Special Abilities
 	public boolean isImmolating = false;
 	public float remainingTime;
