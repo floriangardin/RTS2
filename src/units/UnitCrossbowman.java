@@ -18,7 +18,7 @@ import model.Player;
 public class UnitCrossbowman extends Character {
 
 	int bonusArrow = 0;
-	public static float radiusCollisionBox = 20f*Main.ratioSpace;
+	public static float radiusCollisionBox = 30f*Main.ratioSpace;
 	
 	public UnitCrossbowman(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);

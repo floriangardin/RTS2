@@ -106,9 +106,11 @@ public class ChatHandler {
 				return;
 			}
 			if(Game.g.isInMenu){
-				try {
-					ia = InetAddress.getByName(textScanner.s);
-				} catch (IOException e) {
+				if(textScanner.s.contains(".")){
+					try {
+						ia = InetAddress.getByName(textScanner.s);
+					} catch (IOException e) {}
+				} else {
 					this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
 					textScanner.s="";
 				}

@@ -523,7 +523,7 @@ public class Character extends ActionObjet{
 
 	public Graphics draw(Graphics g){
 
-		float r = collisionBox.getBoundingCircleRadius();
+		float r = 60f*Main.ratioSpace;
 		int direction = (orientation/2-1);
 		Image im;
 		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
