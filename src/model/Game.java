@@ -833,10 +833,11 @@ public class Game extends BasicGame
 					} else {
 						this.updateInit();
 					}
-					this.plateau.updatePlateauState();
+					
 				}else{
 					System.out.println("Game 839 : round drop "+round);
 				}
+				this.plateau.updatePlateauState();
 				this.plateau.updateCosmetic(im);
 				if(this.gillesBombe){
 					this.handleGillesBombe();
