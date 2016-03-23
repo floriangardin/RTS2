@@ -61,7 +61,7 @@ public class Building extends ActionObjet{
 		p.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.marker = new MarkerBuilding(p,x,y,this);
-		this.selectionBox = this.collisionBox;
+		this.selectionBox = (Rectangle)this.collisionBox;
 		this.setXY(x, y);
 		resetRallyPoint();
 		this.constructionPoints = 0f;

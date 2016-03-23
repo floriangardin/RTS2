@@ -37,7 +37,7 @@ public class MarkerBuilding extends Checkpoint{
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
 		this.state = this.maxDuration+1f;
-		this.selectionBox = this.collisionBox;
+		this.selectionBox = null;
 		this.setXY(x, y);
 		this.printed=0f;
 		
@@ -66,7 +66,7 @@ public class MarkerBuilding extends Checkpoint{
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
 		this.state = this.maxDuration+1f;
-		this.selectionBox = this.collisionBox;
+		this.selectionBox = null;
 		this.setXY(x, y);
 		this.printed=0f;
 		
