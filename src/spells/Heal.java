@@ -66,11 +66,9 @@ public class Heal extends SpellEffect{
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
 		g.draw(collisionBox);
-		if(!(this.remainingTime>0.5f)){
-			g.setColor(new Color(99,255,32,0.4f));
-			g.fill(collisionBox);
-		}
-
+		g.setColor(new Color(99,255,32,0.8f));
+		g.fill(collisionBox);
+		
 		g.setAntiAlias(false);
 
 		//g.setColor(Color.white);
@@ -80,8 +78,8 @@ public class Heal extends SpellEffect{
 
 	public void collision(Character c){
 		// Si on est suffisamment dedans on reste bloqué
-		if(active && c.getTeam()==this.getTeam()){
-			c.frozen = 10f;
+		if(c.getTeam()==this.getTeam()){
+			c.setLifePoints(c.lifePoints+1f);
 		}
 	}
 

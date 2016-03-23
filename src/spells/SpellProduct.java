@@ -1,11 +1,11 @@
 package spells;
 
+import buildings.BuildingProduction;
+import buildings.BuildingTech;
 import main.Main;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Player;
-import model.Utils;
 import units.Character;
 
 //TODO : sort
@@ -25,22 +25,24 @@ public class SpellProduct extends Spell{
 		this.remainingTime = 250f;
 		this.gameteam = gameteam;
 		this.needToClick=true;
+		this.faithCost = 2;
 	}
 
 	public void launch(Objet target, Character launcher){
 		// Check if target intersect an ennemy
-		Objet h = target;
-		
-		for(Character c : p.characters){
-			if(c.collisionBox.contains(target.collisionBox)){
-				h =c;
+		if(target instanceof BuildingProduction && ((BuildingProduction) target).queue.size()>0){
+			BuildingProduction p = (BuildingProduction) target;
+			if(p.queue.size()>0){
+				p.charge=p.productionList.get(p.queue.get(0)).time;
 			}
+		}else if(target instanceof BuildingTech && ((BuildingTech) target).queue!=null){
+			BuildingTech p = (BuildingTech) target;
+			p.techTerminate(p.queue);
+		}else{
+			this.gameteam.special+=this.faithCost;
 		}
-
-		if(h instanceof Character && h.getTeam()!=launcher.getTeam() && launcher!=h && this.range>=Utils.distance(h, launcher)){
-			h.lifePoints = 0f;
-			
-		}
+		
+		
 	}
 
 }
