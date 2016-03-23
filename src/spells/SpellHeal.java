@@ -14,7 +14,7 @@ public class SpellHeal extends Spell{
 	public float remainingTime;
 
 	public SpellHeal(Plateau p, GameTeam gameteam){
-		this.chargeTime = 450f;
+		this.chargeTime = 15f;
 		this.p = p;
 		this.name = "heal";
 		this.icon = p.g.images.get("spellHeal");

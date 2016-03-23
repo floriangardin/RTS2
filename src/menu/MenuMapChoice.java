@@ -69,7 +69,7 @@ public class MenuMapChoice extends Menu {
 		sizeXMapChoice = game.resX*(1f/3f-1f/30f);
 		sizeYMapChoice = game.resY*0.80f-startYMapChoice;
 
-		startXPlayers = 1f*game.resX/5f;
+		startXPlayers = 1f*game.resX/6f;
 		startYPlayers = startY;
 		sizeXPlayers = game.resX*(2f/3f)-2*startXPlayers;
 		sizeYPlayers = game.resY*0.80f-startYMapChoice;
@@ -279,7 +279,7 @@ public class MenuMapChoice extends Menu {
 			}
 			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + this.game.clock.getOrigin());
 			//System.out.println("Current time: "+this.game.clock.getCurrentTime());
-			this.game.sounds.get("menuItemSelected").play();
+			//this.game.sounds.get("menuItemSelected").play();
 			seconds--;
 		} else if (startGame<=this.game.clock.getCurrentTime()) {
 			game.launchGame();

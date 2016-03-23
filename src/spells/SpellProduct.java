@@ -16,7 +16,7 @@ public class SpellProduct extends Spell{
 
 	public SpellProduct(Plateau p, GameTeam gameteam){
 		this.p = p;
-		this.chargeTime = 450f;
+		this.chargeTime = 15f;
 		this.width = 15f*Main.ratioSpace;
 		this.name = "Spell Product";
 		this.icon = p.g.images.get("spellProduct");

@@ -464,6 +464,9 @@ public class Plateau {
 		for (Bonus a : this.bonus) {
 			a.action();
 		}
+		for (GameTeam gt : this.g.teams){
+			gt.civ.update();
+		}
 	}
 
 	//Handling cosmetic for current player in lan game

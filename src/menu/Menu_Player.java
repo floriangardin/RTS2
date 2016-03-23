@@ -56,9 +56,9 @@ public class Menu_Player extends Menu_Item{
 		this.startYcolor = y;
 		this.sizeXcolor = 90f*this.game.resX/1920f;
 		this.sizeYcolor = 40f*this.game.resY/1080f;
-		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("        ");
+		this.startXciv = startXcolor+sizeXcolor+this.game.font.getWidth("  ");
 		this.sizeXciv = this.game.font.getWidth("Zinaids");
-		this.startXready = startXciv+this.game.font.getWidth("Zinaids      ");
+		this.startXready = startXciv+this.game.font.getWidth("Zinaids              ");
 		this.startYciv = y;
 		this.startYready = y;
 	}
@@ -120,6 +120,10 @@ public class Menu_Player extends Menu_Item{
 			g.drawString("X", x-50, y);
 		else if(p.id==1 && Game.g.menuMapChoice.messageDropped>Main.framerate)
 			g.drawString("X", x-50, y);
+		g.setColor(Color.white);
+		g.fillRect(startXready-sizeYcolor-12, startYcolor-2, sizeYcolor+4, sizeYcolor+4);
+		g.drawImage(p.getGameTeam().civ.uniqueSpell.icon.getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-10, startYcolor);
+		
 			
 	}
 

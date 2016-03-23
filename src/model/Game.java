@@ -792,7 +792,7 @@ public class Game extends BasicGame
 				this.musicPlaying.loop();
 				this.musicPlaying.setVolume(options.musicVolume);
 			}
-			if(secondsGong!=0 && (Game.nbRoundInit-this.round)/Main.framerate<=secondsGong){
+			if(secondsGong>=0 && (Game.nbRoundInit-this.round)/Main.framerate<=secondsGong){
 				secondsGong--;
 				this.sounds.get("menuItemSelected").play(1f,options.soundVolume);
 			}

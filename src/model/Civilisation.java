@@ -1,5 +1,6 @@
 package model;
 
+import main.Main;
 import spells.Spell;
 import spells.SpellEclair;
 import spells.SpellHeal;
@@ -11,7 +12,7 @@ public class Civilisation {
 	public String printName;
 	public GameTeam gameteam;
 	
-	public int chargeTime;
+	public float chargeTime;
 	
 	public Civilisation(String name,GameTeam gameteam){
 		this.name = name;
@@ -33,11 +34,15 @@ public class Civilisation {
 	}
 	
 	public void launchSpell(Objet target){
-		if(target!=null && gameteam.special>=this.uniqueSpell.faithCost){
+		if(target!=null && gameteam.special>=this.uniqueSpell.faithCost && chargeTime>=uniqueSpell.chargeTime){
 			gameteam.special-=this.uniqueSpell.faithCost;
 			this.uniqueSpell.launch(target, null);
 		}
 		
+	}
+	
+	public void update(){
+		this.chargeTime = (float) Math.min(uniqueSpell.chargeTime, chargeTime+Main.increment);
 	}
 
 
