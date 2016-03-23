@@ -79,9 +79,9 @@ public class Menu_Player extends Menu_Item{
 				isOverCiv = true;
 				if(im.pressedLeftClick){
 					switch(p.getGameTeam().civ.name){
-					case "dualists" : p.getGameTeam().civ = new Civilisation("zinaids"); break;
-					case "zinaids" : p.getGameTeam().civ = new Civilisation("kitanos"); break;
-					case "kitanos" : p.getGameTeam().civ = new Civilisation("dualists"); break;
+					case "dualists" : p.getGameTeam().civ = new Civilisation("zinaids", p.getGameTeam()); break;
+					case "zinaids" : p.getGameTeam().civ = new Civilisation("kitanos", p.getGameTeam()); break;
+					case "kitanos" : p.getGameTeam().civ = new Civilisation("dualists", p.getGameTeam()); break;
 					}
 				}
 			} else {

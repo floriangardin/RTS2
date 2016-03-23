@@ -44,9 +44,9 @@ public class GameTeam {
 		this.plateau = plateau;
 		
 		switch(civ){
-		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists");break;
-		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids");break;
-		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos");break;
+		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);break;
+		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids",this);break;
+		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos",this);break;
 		default:
 		}
 		this.maxPop = 15;
