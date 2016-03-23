@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import main.Main;
+import model.Civilisation;
 import model.Colors;
 import model.Game;
 import model.Player;
@@ -76,6 +77,13 @@ public class Menu_Player extends Menu_Item{
 			}
 			if(xMouse>startXciv && yMouse>startYciv && xMouse<startXciv+sizeXciv && yMouse<startYciv+sizeYciv){
 				isOverCiv = true;
+				if(im.pressedLeftClick){
+					switch(p.getGameTeam().civ.name){
+					case "dualists" : p.getGameTeam().civ = new Civilisation("zinaids"); break;
+					case "zinaids" : p.getGameTeam().civ = new Civilisation("kitanos"); break;
+					case "kitanos" : p.getGameTeam().civ = new Civilisation("dualists"); break;
+					}
+				}
 			} else {
 				isOverCiv = false;
 			}
@@ -116,7 +124,7 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.gray);
 		else
 			g.setColor(Color.white);
-		g.drawString(p.getGameTeam().civName, startXciv, startYciv);
+		g.drawString(p.getGameTeam().civ.name, startXciv, startYciv);
 		g.setColor(Color.white);
 		if(game.inMultiplayer)
 			g.drawString(this.p.isReady ? "Ready":"Not Ready" ,startXready , startYready);

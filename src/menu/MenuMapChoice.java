@@ -1,7 +1,6 @@
 package menu;
 
 
-import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import main.Main;
+import model.Civilisation;
 import model.Game;
 import model.Objet;
 import model.Player;
@@ -341,7 +341,7 @@ public class MenuMapChoice extends Menu {
 		s+="cvS:";
 		//Civ for all players
 		for(Menu_Player p : this.menuPlayers){
-			s+=p.p.getGameTeam().civ;
+			s+=p.p.getGameTeam().civ.name;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -425,7 +425,7 @@ public class MenuMapChoice extends Menu {
 			s+="idJ:"+this.game.currentPlayer.id+";ip:"+thisAddress+";";
 		} catch (UnknownHostException e) {}
 		// civ
-		s+="cvS:"+current.getGameTeam().civ+";";
+		s+="cvS:"+current.getGameTeam().civ.name+";";
 		// id team
 		s+="idT:"+current.getGameTeam().id+";";
 		// nickname
@@ -471,7 +471,7 @@ public class MenuMapChoice extends Menu {
 			return;
 		}
 		if(hs.containsKey("cvS")){
-			playerToChange.getGameTeam().civ = Integer.parseInt(hs.get("cvS"));
+			playerToChange.getGameTeam().civ = new Civilisation(hs.get("cvS"));
 		}
 		if(hs.containsKey("idT")){
 			playerToChange.setTeam(Integer.parseInt(hs.get("idT")));
@@ -536,7 +536,7 @@ public class MenuMapChoice extends Menu {
 				for(int i = 1;i<civ.length;i++){
 					this.game.addPlayer("philippe", null, 1, 1);
 					p = this.game.players.get(i);
-					p.getGameTeam().civ =  Integer.parseInt(civ[i]);
+					p.getGameTeam().civ = new Civilisation(hs.get("cvS"));
 					p.nickname =  nickname[i];
 					p.setTeam(Integer.parseInt(idTeam[i]));
 					p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
@@ -570,7 +570,7 @@ public class MenuMapChoice extends Menu {
 			}
 			for(int i = 0;i<civ.length;i++){
 				if(this.game.currentPlayer.id!=i){
-					this.menuPlayers.get(i).p.getGameTeam().civ =  Integer.parseInt(civ[i]);
+					this.menuPlayers.get(i).p.getGameTeam().civ =  new Civilisation(civ[i]);
 					this.menuPlayers.get(i).p.nickname =  nickname[i];
 					this.menuPlayers.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
 					if(this.menuPlayers.get(i).p.bottomBar.resX!=(int) Float.parseFloat(resX[i]) || this.menuPlayers.get(i).p.bottomBar.resY!=(int) Float.parseFloat(resY[i])){

@@ -4,8 +4,10 @@ import spells.Spell;
 import spells.SpellEclair;
 
 public class Civilisation {
-	String name;
-	Spell uniqueSpell;
+	public String name;
+	public Spell uniqueSpell;
+	public String printName;
+	
 	
 	public Civilisation(String name){
 		this.name = name;
@@ -18,7 +20,7 @@ public class Civilisation {
 		case "zinaids":
 			break;
 		}
-		
 	}
+
 
 }
