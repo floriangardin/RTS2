@@ -325,11 +325,10 @@ public class Game extends BasicGame
 	
 	public boolean gillesBombe = false;
 	public int timeGilles = 0;
-	private Vector<Gilles> gillesPics;
+	private Vector<Gilles> gillesPics = new Vector<Gilles>();
 	
 	public void handleGillesBombe(){
 		if(timeGilles==0){
-			gillesPics = new Vector<Gilles>();
 			this.musicPlaying = musics.get("themeVerdi");
 			this.musicPlaying.play();
 		}
@@ -350,6 +349,7 @@ public class Game extends BasicGame
 			gillesPics.clear();
 			gillesBombe = false;
 		}
+		timeGilles++;
 	}
 
 	public void quitMenu(){

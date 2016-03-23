@@ -43,7 +43,7 @@ public class ChatHandler {
 		if(remainingTimeBeingAttacked>0f){
 			remainingTimeNotEnoughRoom-=Main.increment;
 		}
-		
+
 		Vector<ChatMessage> toRemove = new Vector<ChatMessage>();
 		ChatMessage m;
 		int k=0;
@@ -105,17 +105,22 @@ public class ChatHandler {
 				textScanner.s="";
 				return;
 			}
-			try {
-				ia = InetAddress.getByName(textScanner.s);
-			} catch (IOException e) {
+			if(Game.g.isInMenu){
+				try {
+					ia = InetAddress.getByName(textScanner.s);
+				} catch (IOException e) {
+					this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
+					textScanner.s="";
+				}
+				if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null){
+					Game.g.menuMapChoice.addressesInvites.addElement(ia);
+					this.messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
+					textScanner.s="";
+					return;
+				}
+			} else {
 				this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
 				textScanner.s="";
-			}
-			if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null){
-				Game.g.menuMapChoice.addressesInvites.addElement(ia);
-				this.messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
-				textScanner.s="";
-				return;
 			}
 		}
 	}
