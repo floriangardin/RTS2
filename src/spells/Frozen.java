@@ -42,7 +42,7 @@ public class Frozen extends SpellEffect{
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);
-		//this.p.g.sounds.get("frozen").play(1f,this.p.g.options.soundVolume);
+		this.p.g.sounds.get("frozen").play(1f,this.p.g.options.soundVolume);
 	}
 
 

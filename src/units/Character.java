@@ -186,7 +186,9 @@ public class Character extends ActionObjet{
 	public void setXY(float x, float y){
 		float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
 		float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
-		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
+//		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
+		this.selectionBox.setCenterX(xt);
+		this.selectionBox.setCenterY(yt);
 		this.x = xt;
 		this.y = yt;
 		this.collisionBox.setCenterX(this.x);
@@ -352,7 +354,7 @@ public class Character extends ActionObjet{
 			return;
 		}
 		if(isBolted){
-			this.lifePoints-=Main.increment;
+			this.lifePoints-=20*Main.increment;
 		}
 		this.updateChargeTime();
 
@@ -550,7 +552,7 @@ public class Character extends ActionObjet{
 			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 		}
 		if(isBolted){
-			Color color = new Color(44,117,255,0.4f);
+			Color color = new Color(44,117,255,0.8f);
 			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
 			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 		}

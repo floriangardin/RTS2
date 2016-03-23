@@ -1,15 +1,14 @@
 package spells;
 
-import main.Main;
-import model.Objet;
-import model.Plateau;
-import model.Utils;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Circle;
+
+import main.Main;
+import model.GameTeam;
+import model.Objet;
+import model.Plateau;
 import units.Character;
 
 public class Heal extends SpellEffect{
@@ -20,7 +19,7 @@ public class Heal extends SpellEffect{
 	public Image image;
 	public Character owner;
 	public boolean active = false;
-	public Heal(Plateau p, Character launcher, Objet t,int id){
+	public Heal(Plateau p, Character launcher, Objet t,int id,GameTeam gameTeam){
 
 		if(id==-1){
 			this.id = p.g.idChar;
@@ -34,7 +33,7 @@ public class Heal extends SpellEffect{
 
 		this.x = t.getX();
 		this.y = t.getY();
-
+		this.gameteam = gameTeam;
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
@@ -68,7 +67,7 @@ public class Heal extends SpellEffect{
 		g.setAntiAlias(true);
 		g.draw(collisionBox);
 		if(!(this.remainingTime>0.5f)){
-			g.setColor(new Color(60,100,250,0.2f));
+			g.setColor(new Color(99,255,32,0.4f));
 			g.fill(collisionBox);
 		}
 
@@ -81,7 +80,7 @@ public class Heal extends SpellEffect{
 
 	public void collision(Character c){
 		// Si on est suffisamment dedans on reste bloqué
-		if(active){
+		if(active && c.getTeam()==this.getTeam()){
 			c.frozen = 10f;
 		}
 	}
