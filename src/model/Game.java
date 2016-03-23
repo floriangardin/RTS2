@@ -277,34 +277,34 @@ public class Game extends BasicGame
 	/////////////////////
 	
 	private class Gilles{
-		int x,y,vx,vy;
+		float x,y,vx,vy;
 		float angle;
 		public Gilles(){
 			double proba = Math.random();
 			if(proba<0.25){
 				//depuis le haut
 				y = 0;
-				x = (int) (Math.random()*resX);
-				vx = (int) (2.0*Math.random()-1.0);
-				vy = (int) Math.random();
+				x =  (float) (Math.random()*resX);
+				vx =  (float) (5f*(2.0*Math.random()-1.0));
+				vy =  (float) (5f*Math.random());
 			} else if(proba<0.5){
 				// depuis le bas
-				y = (int) resY;
-				x = (int) (Math.random()*resX);
-				vx = (int) (2.0*Math.random()-1.0);
-				vy = (int) -Math.random();
+				y = (float) resY;
+				x = (float) (Math.random()*resX);
+				vx = (float) (5f*(2.0*Math.random()-1.0));
+				vy = (float) -(5f*Math.random());
 			} else if(proba<0.75){
 				// depuis la gauche
-				y = (int) (Math.random()*resY);
+				y = (float) (Math.random()*resY);
 				x = 0;
-				vx = (int) Math.random();
-				vy = (int) (2.0*Math.random()-1.0);
+				vx = (float) (5f*Math.random());
+				vy = (float) (5f*(2.0*Math.random()-1.0));
 			} else {
 				// depuis la gauche
-				y = (int) (Math.random()*resY);
-				x = (int) resX;
-				vx = (int) -Math.random();
-				vy = (int) (2.0*Math.random()-1.0);
+				y = (float) (Math.random()*resY);
+				x = (float) resX;
+				vx = (float) -(5f*Math.random());
+				vy = (float) (5f*(2.0*Math.random()-1.0));
 			} 
 			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
 			if(this.vx<0)
@@ -332,6 +332,7 @@ public class Game extends BasicGame
 			this.musicPlaying = musics.get("themeVerdi");
 			this.musicPlaying.play();
 		}
+		timeGilles++;
 		if(timeGilles<6*Main.framerate){
 			gillesPics.add(new Gilles());
 			for(Gilles g : gillesPics){
@@ -347,9 +348,9 @@ public class Game extends BasicGame
 			this.musicPlaying = musics.get("themeImperial");
 			this.musicPlaying.play();
 			gillesPics.clear();
+			timeGilles = 0;
 			gillesBombe = false;
 		}
-		timeGilles++;
 	}
 
 	public void quitMenu(){
@@ -808,7 +809,9 @@ public class Game extends BasicGame
 					this.plateau.updatePlateauState();
 				}
 				this.plateau.updateCosmetic(im);
-
+				if(this.gillesBombe){
+					this.handleGillesBombe();
+				}
 			} else {
 
 				/////////////////////
@@ -1098,6 +1101,7 @@ public class Game extends BasicGame
 	public void actionChat(String message){
 		ChatMessage cm = new ChatMessage(message);
 		chatHandler.messages.add(cm);
+		System.out.println(cm.message);
 		if(cm.message.equals("/gillesBombe")){
 			this.gillesBombe = true;
 			return;
