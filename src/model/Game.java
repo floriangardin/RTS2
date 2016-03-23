@@ -380,24 +380,27 @@ public class Game extends BasicGame
 		// including the change of music
 		this.menuCurrent = m;
 		this.isInMenu = true;
-
+		int durationFade = 1000;
 		if((m instanceof MenuMulti || m instanceof MenuMapChoice) && this.musicPlaying!=this.musics.get("themeMulti")){
-			this.musicPlaying.stop();
+			this.musicPlaying.fade(durationFade,0,true);
 			this.musicPlaying=this.musics.get("themeMulti");
-			this.musicPlaying.setVolume(this.options.musicVolume);
 			this.musicPlaying.play();
+			this.musicPlaying.setVolume(0);
+			this.musicPlaying.fade(durationFade,options.musicVolume,false);
 		}
 		if(m instanceof MenuIntro && this.musicPlaying!=this.musics.get("themeMenu")){
-			this.musicPlaying.stop();
+			this.musicPlaying.fade(durationFade,0,true);
 			this.musicPlaying=this.musics.get("themeMenu");
-			this.musicPlaying.setVolume(this.options.musicVolume);
 			this.musicPlaying.play();
+			this.musicPlaying.setVolume(0);
+			this.musicPlaying.fade(durationFade,options.musicVolume,false);
 		}
 		if(m instanceof Credits){
-			this.musicPlaying.stop();
+			this.musicPlaying.fade(durationFade,0,true);
 			this.musicPlaying=this.musics.get("themeMapEditor");
-			this.musicPlaying.setVolume(this.options.musicVolume);
 			this.musicPlaying.play();
+			this.musicPlaying.setVolume(0);
+			this.musicPlaying.fade(durationFade,options.musicVolume,false);
 		}
 		if(m instanceof MenuMapChoice){
 			((MenuMapChoice)m).initialize();
