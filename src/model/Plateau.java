@@ -282,7 +282,11 @@ public class Plateau {
 			System.out.println("naturalObjects : " + naturalObjets.size());
 			System.out.println("buildings : " + buildings.size());
 			System.out.println("spells : " + spells.size());
+			System.out.println("checkpoints : " + checkpoints.size());
+			System.out.println("markers building : " + markersBuilding.size());
+
 		}
+		
 		Vector<Checkpoint> toremove = new Vector<Checkpoint>();
 		for (Checkpoint o : checkpoints) {
 			if (!o.isAlive()) {

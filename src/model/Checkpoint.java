@@ -75,6 +75,8 @@ public class Checkpoint extends ActionObjet {
 
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
+		}else{
+			this.lifePoints=-1f;
 		}
 		
 	}

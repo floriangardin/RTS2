@@ -122,14 +122,29 @@ public abstract class BuildingTech extends BuildingAction {
 	}
 	
 	public void parseBuildingTech(HashMap<String, String> hs) {
-		if(hs.containsKey("qE")){
-			this.queue = this.getTechnologieById(Integer.parseInt(hs.get("qE")));
+		if(hs.containsKey("qE") ){
+			Technologie t = this.getTechnologieById(Integer.parseInt(hs.get("qE")));
+			if(this.queue!=null){
+				if(!this.queue.name.equals(t.name)){
+					this.removeProd();
+					this.queue = t;
+				}
+			}
 		}
 		else{
-			this.queue = null;
+			if(this.queue!=null){
+				this.removeProd();
+			}
+			
 		}
 		if(hs.containsKey("lTD") && this.hq.allTechs.contains(this.getTechnologieById(Integer.parseInt(hs.get("lTD"))))){
-			this.techTerminate(this.getTechnologieById(Integer.parseInt(hs.get("lTD"))));
+			Technologie t = this.getTechnologieById(Integer.parseInt(hs.get("lTD")));
+			if(this.queue!=null){
+				if(!this.queue.name.equals(t.name)){
+					this.removeProd();
+				}
+			}
+			this.techTerminate(t);
 		}
 	}
 	
