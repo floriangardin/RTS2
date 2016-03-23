@@ -16,7 +16,7 @@ import model.Player;
 
 public class UnitInquisitor extends Character {
 
-	public static float radiusCollisionBox = 20f*Main.ratioSpace;
+	public static float radiusCollisionBox = 40f*Main.ratioSpace;
 	
 	public UnitInquisitor(Plateau p, GameTeam gameteam, Data data) {
 		super(p, gameteam);
