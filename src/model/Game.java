@@ -848,7 +848,7 @@ public class Game extends BasicGame
 			byte[] message = new byte[10000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			try {
-				server.setBroadcast(false);
+				server.setBroadcast(this.isInMenu);
 				server.setSoTimeout(1);
 				server.receive(packet);
 				if(!Game.g.isInMenu){
@@ -1149,7 +1149,7 @@ public class Game extends BasicGame
 			// on gère les connexions de menumapchoice
 
 			if(host){
-				//this.send(new MultiMessage("0"+message,this.addressBroadcast));
+				this.send(new MultiMessage("0"+message,this.addressBroadcast));
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
 					this.send(new MultiMessage(toSendThisTurn+"0"+message+"%",ia));
 				}
