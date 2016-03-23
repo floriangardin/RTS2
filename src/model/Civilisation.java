@@ -10,12 +10,12 @@ public class Civilisation {
 	public Civilisation(String name){
 		this.name = name;
 		switch(name.toLowerCase()){
-		case "dualist":
+		case "dualists":
 			this.uniqueSpell = new SpellEclair();
 			break;
-		case "kitano":
+		case "kitanos":
 			break;
-		case "zinaid":
+		case "zinaids":
 			break;
 		}
 		
