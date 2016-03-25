@@ -37,6 +37,9 @@ public abstract class Menu {
 		 * render function
 		 */
 		this.drawItems(g);
+//		if(this instanceof MenuIntro)
+//			g.drawImage(((MenuIntro)this).im, 20, 20);
+		
 	}
 
 

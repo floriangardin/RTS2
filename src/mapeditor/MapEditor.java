@@ -16,9 +16,10 @@ public class MapEditor {
 	public ObjectBar objectBar;
 	public EditorPlateau plateau;
 	
-	public boolean optionGridOn = true;
+	public boolean optionGridOn = false;
 	public boolean optionCollisionOn = true;
-	public boolean optionCam = true;
+	public boolean optionCam = false;
+	public boolean paintingWater = false;
 	
 	public EditorObject draggedObject = null;
 	public float decX, decY;

@@ -27,6 +27,7 @@ import main.Main;
 import multiplaying.InputObject;
 import pathfinding.Case;
 import pathfinding.MapGrid;
+import ressources.Map;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;

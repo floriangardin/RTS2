@@ -13,10 +13,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.geom.Point;
 
 import model.Data;
+import model.Game;
 import multiplaying.InputObject;
+import pathfinding.MapWater;
 import ressources.Map;
 
 public class EditorPlateau {
@@ -35,6 +36,8 @@ public class EditorPlateau {
 	public EditorObject Dcam = new EditorObject("Dcam", 2, 1);
 
 	public String name;
+
+	public MapWater mapWater;
 
 	public float Xcam;
 	public float Ycam;
@@ -56,6 +59,7 @@ public class EditorPlateau {
 	public Image seaBackground;
 	public Image grassTexture;
 
+	public int lastXpaint = -1, lastYpaint = -1;
 
 	public int Xclicked, Yclicked;
 	public EditorObject mouseOverObject;
@@ -71,6 +75,7 @@ public class EditorPlateau {
 		this.sizeY = editor.game.resY;
 		this.maxX = maxX;
 		this.maxY = maxY;
+		this.mapWater = new MapWater(maxX, maxY);
 		this.stepGrid = 50f;
 		collision = new boolean[maxX][maxY];
 		Xcam = 0;
@@ -147,67 +152,86 @@ public class EditorPlateau {
 			}
 		}
 
-		// gestion de la souris
-		if(editor.draggedObject == null){
-			this.mouseOverObject = getObjectAt((int)(im.xMouse+Xcam), (int)(im.yMouse+Ycam));
-		}
-		if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			if(editor.draggedObject == null){
-				// déplacement de la caméra
-				Xcam -= im.xMouse-Xclicked;
-				Ycam -= im.yMouse-Yclicked;
-				if(this.mouseOverObject!=null){
-					editor.draggedObject = mouseOverObject;
-					if(depotFromMouseOverObject!=null)
-						depotFromMouseOverObject.remove(mouseOverObject);
-					editor.tempX = mouseOverObject.x;
-					editor.tempY = mouseOverObject.y;
-					if(!editor.optionCam)
-						this.setCollision(mouseOverObject, false);
+		if(this.editor.paintingWater){
+			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+				int Xmouse = (int)((im.xMouse+Xcam)/stepGrid);
+				int Ymouse = (int)((im.yMouse+Ycam)/stepGrid);
+				if(Xmouse!=lastXpaint && Ymouse !=lastYpaint){
+					lastXpaint = Xmouse;
+					lastYpaint = Ymouse;
+					if(this.mapWater.getTerrain(Xmouse, Ymouse)==2)
+						this.mapWater.setTerrain(Xmouse, Ymouse, 0);
+					else
+						this.mapWater.setTerrain(Xmouse, Ymouse, 2);
+					this.mapWater.update();
 				}
 			} else {
-				// déplacer l'objet
-				editor.draggedObject.x = (int)((Xcam+im.xMouse-editor.decX-editor.draggedObject.sizeX/2f)/stepGrid);
-				editor.draggedObject.y = (int)((Ycam+im.yMouse-editor.decY-editor.draggedObject.sizeY/2f)/stepGrid);
+				this.lastXpaint = -1;
+				this.lastYpaint = -1;
 			}
-		} else{
-			if(editor.draggedObject!=null){
-				if(editor.objectBar.startX<editor.game.resX && !editor.optionCam){
-					//suppression de l'objet
-					editor.draggedObject.x = editor.tempX;
-					editor.draggedObject.y = editor.tempY;
-					this.addAction(EditorAction.getSuppression(editor.plateau,editor.draggedObject, depotFromMouseOverObject));
-					editor.draggedObject = null;
-					this.actions.firstElement().performed = true;
-
-				} else if(!getCollision(editor.draggedObject) || editor.optionCam){
-					if(depotFromMouseOverObject!=null)
-						depotFromMouseOverObject.add(editor.draggedObject);
-					if(!editor.optionCam)
-						this.setCollision(editor.draggedObject, true);
-					if(this.objetFromObjetBar && !editor.optionCam){
-						// ajout de l'objet
-						this.addAction(EditorAction.getCreation(editor.plateau,editor.draggedObject, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
-						this.objetFromObjetBar = false;
-					} else {
-						// déplacement de l'objet
-						this.addAction(EditorAction.getDeplacement(editor.plateau,editor.draggedObject, editor.tempX, editor.tempY, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
+		} else {
+			// gestion de la souris
+			if(editor.draggedObject == null){
+				this.mouseOverObject = getObjectAt((int)(im.xMouse+Xcam), (int)(im.yMouse+Ycam));
+			}
+			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+				if(editor.draggedObject == null){
+					// déplacement de la caméra
+					Xcam -= im.xMouse-Xclicked;
+					Ycam -= im.yMouse-Yclicked;
+					if(this.mouseOverObject!=null){
+						editor.draggedObject = mouseOverObject;
+						if(depotFromMouseOverObject!=null)
+							depotFromMouseOverObject.remove(mouseOverObject);
+						editor.tempX = mouseOverObject.x;
+						editor.tempY = mouseOverObject.y;
+						if(!editor.optionCam)
+							this.setCollision(mouseOverObject, false);
 					}
-					editor.draggedObject = null;
-					this.actions.firstElement().performed = true;
 				} else {
-					if(depotFromMouseOverObject!=null)
-						depotFromMouseOverObject.add(editor.draggedObject);
-					editor.draggedObject.x = editor.tempX;
-					editor.draggedObject.y = editor.tempY;
-					this.setCollision(editor.draggedObject, true);
-					editor.draggedObject = null;
+					// déplacer l'objet
+					editor.draggedObject.x = (int)((Xcam+im.xMouse-editor.decX-editor.draggedObject.sizeX/2f)/stepGrid);
+					editor.draggedObject.y = (int)((Ycam+im.yMouse-editor.decY-editor.draggedObject.sizeY/2f)/stepGrid);
 				}
-			}
+			} else{
+				if(editor.draggedObject!=null){
+					if(editor.objectBar.startX<editor.game.resX && !editor.optionCam){
+						//suppression de l'objet
+						editor.draggedObject.x = editor.tempX;
+						editor.draggedObject.y = editor.tempY;
+						this.addAction(EditorAction.getSuppression(editor.plateau,editor.draggedObject, depotFromMouseOverObject));
+						editor.draggedObject = null;
+						this.actions.firstElement().performed = true;
 
+					} else if(!getCollision(editor.draggedObject) || editor.optionCam){
+						if(depotFromMouseOverObject!=null)
+							depotFromMouseOverObject.add(editor.draggedObject);
+						if(!editor.optionCam)
+							this.setCollision(editor.draggedObject, true);
+						if(this.objetFromObjetBar && !editor.optionCam){
+							// ajout de l'objet
+							this.addAction(EditorAction.getCreation(editor.plateau,editor.draggedObject, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
+							this.objetFromObjetBar = false;
+						} else {
+							// déplacement de l'objet
+							this.addAction(EditorAction.getDeplacement(editor.plateau,editor.draggedObject, editor.tempX, editor.tempY, editor.draggedObject.x, editor.draggedObject.y, depotFromMouseOverObject));
+						}
+						editor.draggedObject = null;
+						this.actions.firstElement().performed = true;
+					} else {
+						if(depotFromMouseOverObject!=null)
+							depotFromMouseOverObject.add(editor.draggedObject);
+						editor.draggedObject.x = editor.tempX;
+						editor.draggedObject.y = editor.tempY;
+						this.setCollision(editor.draggedObject, true);
+						editor.draggedObject = null;
+					}
+				}
+
+			}
+			Xclicked = im.xMouse;
+			Yclicked = im.yMouse;
 		}
-		Xclicked = im.xMouse;
-		Yclicked = im.yMouse;
 	} 
 
 	public void draw(Graphics g){
@@ -217,6 +241,7 @@ public class EditorPlateau {
 
 		g.drawImage(this.grassTexture,0, 0, this.maxX*stepGrid, this.maxY*stepGrid,
 				0, 0, this.grassTexture.getWidth(),  this.grassTexture.getHeight());
+		//this.mapWater.draw(g, stepGrid, (int)Xcam, (int)Ycam, maxX, maxY);
 
 		// affichage de la grille
 		if(editor.optionGridOn){
@@ -484,6 +509,7 @@ public class EditorPlateau {
 			default:	
 			}
 		}
+		Game.g.images.updateScaleSend(stepGrid);
 	}
 
 	public void setCollision(EditorObject o, boolean toSet){

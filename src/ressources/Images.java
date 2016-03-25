@@ -22,6 +22,8 @@ public class Images {
 	private HashMap<String, Image> images;
 	private HashMap<String, Image> oldimages;
 	private HashMap<String, HashMap<String, Image>> imagesUnits;
+	private HashMap<String, Image> sand;	
+	
 
 	public Images(){
 			this.images = new HashMap<String, Image>();
@@ -66,6 +68,43 @@ public class Images {
 				this.images.put(im, this.images.get(im).getScaledCopy(Tree.coeffDraw));
 			}
 		}
+		
+		//sand
+		Image im = this.images.get("sandtile");
+		this.sand = new HashMap<String, Image> ();
+		this.sand.put("A222", im.getSubImage(128*0, 128*0, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A212", im.getSubImage(128*0, 128*0, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A121", im.getSubImage(128*8, 128*2, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A211", im.getSubImage(128*0, 128*1, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A221", im.getSubImage(128*0, 128*1, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A101", im.getSubImage(128*4, 128*4, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A111", im.getSubImage(128*4+50, 128*4+50, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A001", im.getSubImage(128*4, 128*3, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A011", im.getSubImage(128*4, 128*3, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A010", im.getSubImage(128*6, 128*0, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A000", im.getSubImage(128*6, 128*0, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A112", im.getSubImage(128*1, 128*0, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A122", im.getSubImage(128*1, 128*0, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A110", im.getSubImage(128*3, 128*4, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		this.sand.put("A100", im.getSubImage(128*3, 128*4, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
+		// importing B
+		HashMap<String, Image> temp = new HashMap<String, Image>();
+		Image image;
+		for(String s : sand.keySet()){
+			image = sand.get(s);
+			image.rotate(180);
+			temp.put("B"+s.substring(1), image);
+		}
+		this.sand.putAll(temp);
+		// importing C and D
+		temp.clear();
+		for(String s : sand.keySet()){
+			image = sand.get(s);
+			image.rotate(180);
+			temp.put((s.charAt(0)=='A' ? "C":"D")+s.substring(1), image);
+		}
+		this.sand.putAll(temp);
+		this.sand.put("E", im.getSubImage(128*2, 128*2, 256, 256).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
 	}
 	
 	public void resizeBuilding(String s){
@@ -212,4 +251,20 @@ public class Images {
 		this.images = this.oldimages;
 	}
 
+	public Image getSand(String s){
+		return this.sand.get(s);
+	}
+
+	public void updateScaleSend(float stepGrid) {
+		HashMap<String, Image> temp = new HashMap<String, Image>();
+		for(String s : this.sand.keySet()){
+			if(s.equals("E"))
+				temp.put(s, sand.get(s).getScaledCopy((int)(stepGrid), (int)(stepGrid)));
+			else
+				temp.put(s, sand.get(s).getScaledCopy((int)(stepGrid/2), (int)(stepGrid/2)));
+		}
+		this.sand = temp;
+		this.images.put("watertile", this.images.get("watertile").getScaledCopy((int)(2*stepGrid), (int)(2*stepGrid)));
+		this.images.put("watertile2", this.images.get("watertile2").getScaledCopy((int)(stepGrid), (int)(stepGrid)));
+	}
 }
