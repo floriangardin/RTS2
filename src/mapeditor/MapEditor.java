@@ -19,7 +19,7 @@ public class MapEditor {
 	public boolean optionGridOn = false;
 	public boolean optionCollisionOn = true;
 	public boolean optionCam = false;
-	public boolean paintingWater = false;
+	public boolean paintingWater = true;
 	
 	public EditorObject draggedObject = null;
 	public float decX, decY;

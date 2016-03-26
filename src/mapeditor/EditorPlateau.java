@@ -159,10 +159,10 @@ public class EditorPlateau {
 				if(Xmouse!=lastXpaint && Ymouse !=lastYpaint){
 					lastXpaint = Xmouse;
 					lastYpaint = Ymouse;
-					if(this.mapWater.getTerrain(Xmouse, Ymouse)==2)
+					if(this.mapWater.getTerrain(Xmouse, Ymouse)==1)
 						this.mapWater.setTerrain(Xmouse, Ymouse, 0);
 					else
-						this.mapWater.setTerrain(Xmouse, Ymouse, 2);
+						this.mapWater.setTerrain(Xmouse, Ymouse, 1);
 					this.mapWater.update();
 				}
 			} else {
@@ -241,7 +241,7 @@ public class EditorPlateau {
 
 		g.drawImage(this.grassTexture,0, 0, this.maxX*stepGrid, this.maxY*stepGrid,
 				0, 0, this.grassTexture.getWidth(),  this.grassTexture.getHeight());
-		//this.mapWater.draw(g, stepGrid, (int)Xcam, (int)Ycam, maxX, maxY);
+		this.mapWater.draw(g, stepGrid, (int)Xcam, (int)Ycam, maxX, maxY);
 
 		// affichage de la grille
 		if(editor.optionGridOn){

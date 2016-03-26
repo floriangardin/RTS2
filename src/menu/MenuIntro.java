@@ -40,27 +40,7 @@ public class MenuIntro extends Menu {
 
 		//		}
 		
-		//TODO : Delete
-		// Bonus - to Delete
-
-		Image image = this.game.images.getSand("A212");
-		Image image2 = this.game.images.getSand("B221");
-		Image image3 = this.game.images.getSand("C101");
-		Image image4 = this.game.images.getSand("D112");
-        int w = 2*image.getWidth();
-        int h = 2*image.getHeight();
-        Image combined;
-		try {
-			im = new Image(w, h);
-			Graphics g = im.getGraphics();
-			g.drawImage(image, 0, 0);
-			g.drawImage(image2, w/2, 0);
-			g.drawImage(image4, 0, h/2);
-			g.drawImage(image3, w/2, h/2);
-			g.flush();
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}        
+		     
 	}
 	
 	//to delete too
