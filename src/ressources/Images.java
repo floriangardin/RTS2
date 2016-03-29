@@ -69,7 +69,7 @@ public class Images {
 				this.images.put(im, this.images.get(im).getScaledCopy(Tree.coeffDraw));
 			}
 		}
-		this.initializeSand();
+		//this.initializeSand();
 	}
 
 	public void initializeSand(){

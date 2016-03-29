@@ -75,7 +75,7 @@ public class EditorPlateau {
 		this.sizeY = editor.game.resY;
 		this.maxX = maxX;
 		this.maxY = maxY;
-		this.mapWater = new MapWater(maxX, maxY);
+		//this.mapWater = new MapWater(maxX, maxY);
 		this.stepGrid = 50f;
 		collision = new boolean[maxX][maxY];
 		Xcam = 0;
@@ -241,7 +241,7 @@ public class EditorPlateau {
 
 		g.drawImage(this.grassTexture,0, 0, this.maxX*stepGrid, this.maxY*stepGrid,
 				0, 0, this.grassTexture.getWidth(),  this.grassTexture.getHeight());
-		this.mapWater.draw(g, stepGrid, (int)Xcam, (int)Ycam, maxX, maxY);
+		//this.mapWater.draw(g, stepGrid, (int)Xcam, (int)Ycam, maxX, maxY);
 
 		// affichage de la grille
 		if(editor.optionGridOn){
@@ -509,7 +509,7 @@ public class EditorPlateau {
 			default:	
 			}
 		}
-		Game.g.images.updateScaleSend(stepGrid);
+		//Game.g.images.updateScaleSend(stepGrid);
 	}
 
 	public void setCollision(EditorObject o, boolean toSet){
