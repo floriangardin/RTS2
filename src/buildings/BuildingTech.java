@@ -124,7 +124,7 @@ public abstract class BuildingTech extends BuildingAction {
 	public void parseBuildingTech(HashMap<String, String> hs) {
 		if(hs.containsKey("qE") ){
 			Technologie t = this.getTechnologieById(Integer.parseInt(hs.get("qE")));
-			if(this.queue!=null){
+			if(this.queue!=null && t!=null){
 				if(!this.queue.name.equals(t.name)){
 					this.removeProd();
 					this.queue = t;
