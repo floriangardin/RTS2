@@ -16,6 +16,9 @@ public abstract class Menu {
 	public Vector<Menu_Item> items;
 	public Game game;
 	public Image title;
+	
+	public float xMouseTemp, yMouseTemp;
+	public boolean mouseControl = true;
 
 	public Menu(Game g){
 		this.game = g;
@@ -60,6 +63,7 @@ public abstract class Menu {
 		// if mouse is over we call the related function
 		if(im!=null){
 			Menu_Item item;
+			if(im.isPressedUP)
 			for(int i=0; i<this.items.size(); i++){
 				item = this.items.get(i);
 				item.update(im);

@@ -126,9 +126,10 @@ public class MenuMapChoice extends Menu {
 			menuPlayers.get(i).draw(g);
 		}
 		// drawing local ip
-		g.setColor(Color.white);
-		g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
-
+		if(game.inMultiplayer){
+			g.setColor(Color.white);
+			g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
+		}
 		
 		if(startGame!=0){
 			float f = Math.max(0f, Math.min(1f,1f-(1f*((float)(startGame-this.game.clock.getCurrentTime())/2000000000f))));
