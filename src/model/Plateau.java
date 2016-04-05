@@ -726,13 +726,13 @@ public class Plateau {
 				return;
 			}
 
+			this.handleInterface(im);
 			// Handling action bar
 			this.handleActionBar(im, player);
 			// Handling the right click
 			this.handleRightClick(im, player);
 
 			this.handleMinimap(im, player);
-			this.handleInterface(im);
 			this.handleSelection(im, player, g.players.get(player).getTeam());
 
 
@@ -1004,6 +1004,7 @@ public class Plateau {
 			bb.action.toDrawDescription[3] = false;
 			if (mouseOnItem >= 0 && mouseOnItem < 4)
 				bb.action.toDrawDescription[mouseOnItem] = true;
+			System.out.println("youhou " + im.leftClick);
 		} else {
 			bb.action.toDrawDescription[0] = false;
 			bb.action.toDrawDescription[1] = false;

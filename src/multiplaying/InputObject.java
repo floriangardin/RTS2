@@ -133,9 +133,37 @@ public class InputObject extends MultiObjetModel{
 		
 		this.isOnMiniMap = false;
 		if(player !=null && player.bottomBar!=null){
+			// checking if on minimap or not
 			this.isOnMiniMap = this.xMouse>(1-player.bottomBar.ratioMinimapX)*g.resX && this.yMouse>(g.resY-player.bottomBar.ratioMinimapX*g.resX) && this.xMouse<g.resX-2f && this.yMouse<g.resY-2f ;
 			this.isOnMiniMap = this.isOnMiniMap && g.plateau.rectangleSelection.get(g.currentPlayer.id)==null;
+			// checking for the prod button in the action bar
+			if(this.pressedLeftClick){
+				if(player.bottomBar.action.toDrawDescription[0]){
+					this.isPressedProd0 = true;
+				}
+				if(player.bottomBar.action.toDrawDescription[1]){
+					this.isPressedProd1 = true;
+				}
+				if(player.bottomBar.action.toDrawDescription[2]){
+					this.isPressedProd2 = true;
+				}
+				if(player.bottomBar.action.toDrawDescription[3]){
+					this.isPressedProd3 = true;
+				}
+			}
+			if(this.pressedLeftClick || this.leftClick){
+				for(int i=0; i<player.bottomBar.action.toDrawDescription.length; i++){
+					if(player.bottomBar.action.toDrawDescription[i]){
+						this.pressedLeftClick = false;
+						this.leftClick = false;
+					}
+				}
+			}
 		}
+//		if(!g.isInMenu){
+//			this.pressedLeftClick = false;
+//			this.leftClick = false;
+//		}
 		if(g.isInMenu || g.inEditor)
 			return;
 		
@@ -147,9 +175,8 @@ public class InputObject extends MultiObjetModel{
 			BottomBar b = player.bottomBar;
 			this.xMouse = (int) Math.floor((this.xMouse-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
 			this.yMouse = (int) Math.floor((this.yMouse-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
-		} else {
-//			System.out.println("pas MiniMap");
 		}
+		
 		this.validated = new Vector<Boolean>();
 		for(Player p:g.players)
 			validated.add(false);
