@@ -89,4 +89,14 @@ public class Menu_Item {
 			}
 		}
 	}
+	
+	public void setMouseOver(boolean b){
+		if(this.selectionable){
+			if(b){
+				this.toDraw = this.selectedImage;
+			} else {
+				this.toDraw = this.image;
+			}
+		}
+	}
 }

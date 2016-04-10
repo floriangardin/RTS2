@@ -16,7 +16,7 @@ import multiplaying.InputObject;
 import ressources.Map;
 import ressources.Sounds;
 
-public class MenuOptions extends Menu {
+public class MenuNewUser extends Menu {
 
 
 
@@ -41,30 +41,30 @@ public class MenuOptions extends Menu {
 	public Menu_TextScanner textscanner;
 
 
-	public MenuOptions(Game game){
+	public MenuNewUser(Game game){
 		super(game);
 		this.volume = Game.g.images.get("menuVolume").getScaledCopy(game.ratioResolution);
 		this.curseur = Game.g.images.get("menuCurseur").getScaledCopy(game.ratioResolution);
 		this.game = game;
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
-		float startY = 0.50f*this.game.resY;
-		float stepY = 0.12f*this.game.resY;
+		float startY = 0.40f*this.game.resY;
+		float stepY = 0.3f*this.game.resY;
 		float startX = this.game.resX/2;
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+0*stepY,"Musique",this.game,false));
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+1*stepY,"Son",this.game,false));
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+2*stepY,"Pseudo",this.game,false));
-		this.textscanner = new Menu_TextScanner(game.options.nickname,2*this.game.resX/3f,startY+2f*stepY,this.game.font.getWidth("Gilles de Bouard "),this.game.font.getHeight("R")*2f+2f, this.game);
-		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
-		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",this.game,true));
+//		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+0*stepY,"Musique",this.game,false));
+//		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+1*stepY,"Son",this.game,false));
+		this.items.addElement(new Menu_Item(this.game.resX/2f,startY+0*stepY,"Veuillez entrer votre pseudo",this.game,false));
+		this.textscanner = new Menu_TextScanner(game.options.nickname,1*this.game.resX/2f,startY+1f*stepY,this.game.font.getWidth("Gilles de Bouard "),this.game.font.getHeight("R")*2f+2f, this.game);
+//		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
+//		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
+		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Accepter",this.game,true));
 		//		}
 	}
 
 
 	public void callItem(int i){
 		switch(i){
-		case 5: 
+		case 2: 
 			this.game.setMenu(game.menuIntro);
 			this.updateOptions();
 			break;
@@ -80,8 +80,8 @@ public class MenuOptions extends Menu {
 		if(im.pressedLeftClick){
 			textscanner.isSelected = textscanner.isMouseOver(im);
 		} 
-		this.game.options.musicVolume = ((Menu_Curseur)this.items.get(3)).value;
-		this.game.options.soundVolume = ((Menu_Curseur)this.items.get(4)).value/5f;
+		this.game.options.musicVolume = 1f;
+		this.game.options.soundVolume = 1f/5f;
 		this.game.musics.get("themeMenu").setVolume(game.options.musicVolume);
 	}
 

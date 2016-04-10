@@ -73,8 +73,8 @@ public class MenuMapChoice extends Menu {
 		startYPlayers = startY;
 		sizeXPlayers = game.resX*(2f/3f)-2*startXPlayers;
 		sizeYPlayers = game.resY*0.80f-startYMapChoice;
-		this.items.addElement(new Menu_Item(1f/3f*this.game.resX,this.game.resY*0.9f,"Retour",this.game,true));
-		this.items.addElement(new Menu_Item(2f/3f*this.game.resX,this.game.resY*0.9f,"Demarrer",this.game,true));
+		this.items.addElement(new Menu_Item(1f/3f*this.game.resX,this.game.resY*0.9f,"Demarrer",this.game,true));
+		this.items.addElement(new Menu_Item(2f/3f*this.game.resX,this.game.resY*0.9f,"Retour",this.game,true));
 		for(int i=0; i<maps.size(); i++){
 			this.mapchoices.addElement(new Menu_MapChoice(game, maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-this.game.font.getHeight("P")/2,200f,30f));
 		}
@@ -83,7 +83,7 @@ public class MenuMapChoice extends Menu {
 
 	public void callItem(int i){
 		switch(i){
-		case 0:
+		case 1:
 			// retour
 			if(game.inMultiplayer){
 				this.game.setMenu(this.game.menuMulti);
@@ -92,7 +92,7 @@ public class MenuMapChoice extends Menu {
 				this.game.setMenu(this.game.menuIntro);
 			}
 			break;
-		case 1: 
+		case 0: 
 			// demarrer
 			if(!game.inMultiplayer){
 				this.launchGameSinglePlayer();

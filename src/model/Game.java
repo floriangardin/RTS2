@@ -24,6 +24,7 @@ import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
+import menu.MenuNewUser;
 import menu.MenuOptions;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
@@ -971,7 +972,10 @@ public class Game extends BasicGame
 			app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 			app.setTargetFrameRate(Main.framerate);
 			this.musicPlaying = this.musics.get("themeMenu");
-			this.setMenu(menuIntro);
+			if(this.options.nickname.equals(""))
+				this.setMenu(new MenuNewUser(this));
+			else
+				this.setMenu(menuIntro);
 			g.thingsLoaded = true;
 			return;
 		}

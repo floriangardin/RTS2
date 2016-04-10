@@ -11,6 +11,6 @@ import model.Utils;
 public class mainTestCalculDegueu {
 	
 	public static void main(String[] args) throws SlickException {
-		System.out.println(System.getProperty("os.name"));
+		System.out.println(-1%5);
 	}
 }
