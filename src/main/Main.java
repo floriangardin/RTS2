@@ -13,7 +13,7 @@ import model.Game;
 public class Main {
 	// A REGLER \\
 	public static float ratioSpace = 0.7f;
-	public static int framerate = 60;
+	public static int framerate = 30;
 	public static int nDelay=5;
 	///////\\\\\\\\\
 	

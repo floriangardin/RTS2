@@ -768,7 +768,7 @@ public class Game extends BasicGame
 		if(isInMenu){
 			Input in = gc.getInput();
 			InputObject im = new InputObject(this,currentPlayer,in,true);
-			if(inMultiplayer && menuCurrent instanceof MenuMapChoice){
+			if(inMultiplayer && (menuCurrent instanceof MenuMapChoice || menuCurrent instanceof MenuMulti)){
 				this.chatHandler.action(in,im);
 			}
 			this.menuCurrent.update(im);
