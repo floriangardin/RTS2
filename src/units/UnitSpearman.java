@@ -37,7 +37,7 @@ public class UnitSpearman extends Character {
 		this.damage = 10f*data.damageFactor;
 		this.chargeTime = 4f;
 		this.weapon = "spear";
-		this.animStep = 32f;
+		this.animStep = 20f;
 		this.explosionWhenImmolate = data.explosionWhenImmolate;
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);

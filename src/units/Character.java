@@ -61,7 +61,7 @@ public class Character extends ActionObjet{
 	// General attributes
 	public Circle sightBox;
 
-	public float animStep = 4f;
+	public float animStep = 2f;
 	public float armor = 0f;	
 
 	public float maxVelocity = 100f;
