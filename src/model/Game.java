@@ -60,6 +60,9 @@ import spells.SpellEffect;
 import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitSpearman;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingProduction;
@@ -747,7 +750,7 @@ public class Game extends BasicGame
 			this.initializeEngine(gc);
 			return;
 		}
-
+		
 
 		// Handling multiReceiver
 		this.handleMultiReceiver();
@@ -781,7 +784,28 @@ public class Game extends BasicGame
 		} else if(!endGame) {
 
 			// gérer le début de partie
-
+			//// WARNING BIG RUSTINE TO DEGAGE, SHOULDNT EVER BE HERE AT THE FIRST PLACE
+			//// putin
+			if(this.round==20){
+						
+				for(GameTeam team : this.teams){
+					if(team.id==0){
+						continue;
+					}
+					if(team.civ.name.equals("dualists")){
+						// Get first of team
+						System.out.println(team.hq);
+						new UnitInquisitor(new UnitInquisitor(this.plateau,team,team.data),team.hq.x+200f,team.hq.y,this.idChar++);
+						
+					}
+					else if(team.civ.name.equals("kitanos")){
+						new UnitKnight(new UnitKnight(this.plateau,team,team.data),team.hq.x+200f,team.hq.y,this.idChar++);
+					}
+					else if(team.civ.name.equals("zinaids")){
+						new UnitSpearman(new UnitSpearman(this.plateau,team,team.data),team.hq.x+200f,team.hq.y,this.idChar++);
+					}
+				}
+			}
 			//Update of current round
 			this.clock.setRoundFromTime();
 
