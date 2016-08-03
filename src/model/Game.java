@@ -1323,8 +1323,11 @@ public class Game extends BasicGame
 	//private static long timeToSend;
 	
 	public void sendFromGame(MultiMessage m) throws FatalGillesError{
-		for(Player p : this.players){
-			
+		for(int i=1; i<this.nPlayers; i++){
+			if(i!=currentPlayer.id){
+				m.address = this.players.get(i).address;
+				this.send(m);
+			}
 		}
 	}
 
