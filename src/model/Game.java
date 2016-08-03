@@ -1250,6 +1250,7 @@ public class Game extends BasicGame
 
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 
+		this.toSendThisTurn = new MultiMessage(null);
 	}
 
 	public void handleEndLoading(){
