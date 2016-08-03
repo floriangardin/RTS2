@@ -1,4 +1,4 @@
-package multiplaying;
+package control;
 
 import java.util.Vector;
 import java.util.concurrent.locks.Lock;
@@ -6,9 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.newdawn.slick.SlickException;
 
-import tests.Test;
 import main.Main;
 import model.Game;
+import tests.Test;
 
 
 public class InputHandler {

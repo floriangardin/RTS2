@@ -3,9 +3,8 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
-import multiplaying.InputObject;
+import control.InputObject;
 import display.BottomBar;
-import display.TopBar;
 
 public class Player {
 	public Vector<ActionObjet> selection;

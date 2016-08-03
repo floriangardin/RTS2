@@ -14,9 +14,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
+import control.InputObject;
 import model.Data;
-import model.Game;
-import multiplaying.InputObject;
 import pathfinding.MapWater;
 import ressources.Map;
 
@@ -154,8 +153,8 @@ public class EditorPlateau {
 
 		if(this.editor.paintingWater){
 			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-				int Xmouse = (int)((im.xMouse+Xcam)/stepGrid);
-				int Ymouse = (int)((im.yMouse+Ycam)/stepGrid);
+				int Xmouse = (int)((im.x+Xcam)/stepGrid);
+				int Ymouse = (int)((im.y+Ycam)/stepGrid);
 				if(Xmouse!=lastXpaint && Ymouse !=lastYpaint){
 					lastXpaint = Xmouse;
 					lastYpaint = Ymouse;
@@ -172,13 +171,13 @@ public class EditorPlateau {
 		} else {
 			// gestion de la souris
 			if(editor.draggedObject == null){
-				this.mouseOverObject = getObjectAt((int)(im.xMouse+Xcam), (int)(im.yMouse+Ycam));
+				this.mouseOverObject = getObjectAt((int)(im.x+Xcam), (int)(im.y+Ycam));
 			}
 			if(in.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
 				if(editor.draggedObject == null){
 					// déplacement de la caméra
-					Xcam -= im.xMouse-Xclicked;
-					Ycam -= im.yMouse-Yclicked;
+					Xcam -= im.x-Xclicked;
+					Ycam -= im.y-Yclicked;
 					if(this.mouseOverObject!=null){
 						editor.draggedObject = mouseOverObject;
 						if(depotFromMouseOverObject!=null)
@@ -190,8 +189,8 @@ public class EditorPlateau {
 					}
 				} else {
 					// déplacer l'objet
-					editor.draggedObject.x = (int)((Xcam+im.xMouse-editor.decX-editor.draggedObject.sizeX/2f)/stepGrid);
-					editor.draggedObject.y = (int)((Ycam+im.yMouse-editor.decY-editor.draggedObject.sizeY/2f)/stepGrid);
+					editor.draggedObject.x = (int)((Xcam+im.x-editor.decX-editor.draggedObject.sizeX/2f)/stepGrid);
+					editor.draggedObject.y = (int)((Ycam+im.y-editor.decY-editor.draggedObject.sizeY/2f)/stepGrid);
 				}
 			} else{
 				if(editor.draggedObject!=null){
@@ -229,8 +228,8 @@ public class EditorPlateau {
 				}
 
 			}
-			Xclicked = im.xMouse;
-			Yclicked = im.yMouse;
+			Xclicked = (int) im.x;
+			Yclicked = (int) im.y;
 		}
 	} 
 

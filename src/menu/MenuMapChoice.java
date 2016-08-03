@@ -9,12 +9,13 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import main.Main;
 import model.Civilisation;
 import model.Game;
 import model.Objet;
 import model.Player;
-import multiplaying.InputObject;
 import ressources.Map;
 import tests.FatalGillesError;
 
@@ -168,7 +169,7 @@ public class MenuMapChoice extends Menu {
 				this.messageToClient = this.messageToClient();
 				if(this.startGame==0 || this.seconds>2){
 					try {
-						this.game.send(messageToClient);
+						this.game.sendFromMenu(messageToClient);
 					} catch (FatalGillesError e) {
 						e.printStackTrace();
 					}
@@ -181,7 +182,7 @@ public class MenuMapChoice extends Menu {
 				// sending to host only if the game isn't about to start
 				if(this.startGame==0 || this.seconds>2){
 					try {
-						this.game.send(this.messageToHost());	
+						this.game.sendFromMenu(this.messageToHost());	
 					} catch (FatalGillesError e) {
 						e.printStackTrace();
 					}
@@ -253,7 +254,7 @@ public class MenuMapChoice extends Menu {
 			for(int i=0; i<this.mapchoices.size(); i++){
 				Menu_MapChoice item = this.mapchoices.get(i);
 				item.update(im);
-				if(im.pressedLeftClick && item.mouseOver){
+				if(im.isPressed(KeyEnum.LeftClick) && item.mouseOver){
 					for(Menu_MapChoice mp : this.mapchoices){
 						mp.isSelected = false;
 					}

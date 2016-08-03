@@ -5,10 +5,10 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Game;
-import multiplaying.InputObject;
 
 public abstract class Menu {
 
@@ -67,29 +67,29 @@ public abstract class Menu {
 			Menu_Item item;
 			// if you move your mouse more than a certain distance you able it
 			float distanceThreshold = 250f;
-			if(! mouseControl && (xMouseTemp-im.xMouse)*(xMouseTemp-im.xMouse)+(yMouseTemp-im.yMouse)*(yMouseTemp-im.yMouse) > distanceThreshold){
+			if(! mouseControl && (xMouseTemp-im.x)*(xMouseTemp-im.x)+(yMouseTemp-im.y)*(yMouseTemp-im.y) > distanceThreshold){
 				mouseControl = true;
 			}
 			// Handling passage to mouseControl or not mouse Control
 			// if you press up or down you disable mouse control
-			if(arrowPressed && !im.isPressedUP && !im.isPressedDOWN){
+			if(arrowPressed && !im.isPressed(KeyEnum.Up) && !im.isPressed(KeyEnum.Down)){
 				arrowPressed = false;
 			}
-			if(!arrowPressed && (im.isPressedUP || im.isPressedDOWN)){
+			if(!arrowPressed && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down))){
 				this.mouseControl = false;
-				this.xMouseTemp = im.xMouse;
-				this.yMouseTemp = im.yMouse;
+				this.xMouseTemp = im.x;
+				this.yMouseTemp = im.y;
 			}
 			// handling key control
 			if(! mouseControl){
-				boolean flag = !arrowPressed && (im.isPressedUP || im.isPressedDOWN);
-				if(!arrowPressed && im.isPressedUP){
+				boolean flag = !arrowPressed && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down));
+				if(!arrowPressed && im.isPressed(KeyEnum.Up)){
 					do{
 						this.itemSelected-=1;
 						this.itemSelected = this.itemSelected % this.items.size() + (this.itemSelected<0 ? this.items.size() : 0);
 					} while(!this.items.get(itemSelected).selectionable || this.items.get(itemSelected) instanceof Menu_Curseur);
 				}
-				if(!arrowPressed && im.isPressedDOWN){
+				if(!arrowPressed && im.isPressed(KeyEnum.Down)){
 					do{
 						this.itemSelected+=1;
 						this.itemSelected = this.itemSelected % this.items.size() + (this.itemSelected<0 ? this.items.size() : 0);
@@ -101,7 +101,7 @@ public abstract class Menu {
 							this.game.sounds.get("menuMouseOverItem").play(1f,this.game.options.soundVolume);
 						item = this.items.get(i);
 						item.setMouseOver(true);
-						if(im.isPressedENTER){
+						if(im.isPressed(KeyEnum.Enter)){
 							this.game.sounds.get("menuMouseOverItem").play(1f,this.game.options.soundVolume);
 							this.callItem(i);
 						}
@@ -119,18 +119,18 @@ public abstract class Menu {
 					if(item.mouseOver){
 						this.itemSelected = i;
 					}
-					if((im.isPressedENTER || im.pressedLeftClick) && item.mouseOver){
+					if((im.isPressed(KeyEnum.Enter) || im.isPressed(KeyEnum.LeftClick)) && item.mouseOver){
 						this.callItem(i);
 						this.game.sounds.get("menuItemSelected").play(1f,game.options.soundVolume);
 					}
 				}			
 			}
-			if(im.isPressedUP || im.isPressedDOWN){
+			if(im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down)){
 				arrowPressed = true;
 			}
-			if(im.isPressedESC)
+			if(im.isPressed(KeyEnum.Escape))
 				this.escPressed = true;
-			if(escPressed && !im.isPressedESC){
+			if(escPressed && !im.isPressed(KeyEnum.Escape)){
 				this.escPressed = false;
 				this.callItem(this.items.size()-1);
 				this.game.sounds.get("menuItemSelected").play(1f,game.options.soundVolume);

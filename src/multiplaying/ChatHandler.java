@@ -3,15 +3,16 @@ package multiplaying;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Vector;
-import java.util.concurrent.locks.ReentrantLock;
-
-import main.Main;
-import menu.Menu_TextScanner;
-import model.Game;
 
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
+import main.Main;
+import menu.Menu_TextScanner;
+import model.Game;
 
 public class ChatHandler {
 
@@ -56,7 +57,7 @@ public class ChatHandler {
 			k++;
 		}
 		this.messages.removeAll(toRemove);
-		if(im.isPressedENTER){
+		if(im.isPressed(KeyEnum.Enter)){
 			this.typingMessage = !this.typingMessage;
 		}
 		if(!this.typingMessage){

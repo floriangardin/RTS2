@@ -3,8 +3,8 @@ package menu;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import control.InputObject;
 import model.Game;
-import multiplaying.InputObject;
 
 public class Menu_MapChoice extends Menu_Item {
 
@@ -30,8 +30,8 @@ public class Menu_MapChoice extends Menu_Item {
 	}
 	
 	public boolean isMouseOver(InputObject im){
-		float xMouse = im.xMouse;
-		float yMouse = im.yMouse;
+		float xMouse = im.x;
+		float yMouse = im.y;
 		return (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
 	}
 

@@ -4,8 +4,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import control.InputObject;
 import model.Game;
-import multiplaying.InputObject;
 
 public class MapEditor {
 
@@ -49,7 +49,7 @@ public class MapEditor {
 		if(!this.game.musics.get("themeMapEditor").playing()){
 			this.game.musics.get("themeMapEditor").loop(1f,this.game.options.musicVolume);
 		}
-		if(im.xMouse>Math.min(this.objectBar.startX,game.resX-10f)){
+		if(im.x>Math.min(this.objectBar.startX,game.resX-10f)){
 			this.objectBar.startX = Math.max(4*game.resX/5, this.objectBar.startX-35f);
 		} else {
 			this.objectBar.startX = Math.min(game.resX, this.objectBar.startX+35f);

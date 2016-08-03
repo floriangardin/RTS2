@@ -8,17 +8,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Vector;
 
 
 
 public class KeyMapper {
-	
-	private static String location = "././data/miscellaneous/keymapping.rtsfile";
-	public HashMap<Integer, KeyEnum> mapping;
+
+	private static String location = "././ressources/data/keymapping.rtsfile";
+	public HashMap<KeyEnum, Vector<Integer>> mapping;
+	public HashMap<Integer, KeyEnum> mouseMapping;
 
 	public KeyMapper(){
 		String fichier = location;
-		mapping = new HashMap<Integer, KeyEnum>();
+		mapping = new HashMap<KeyEnum,  Vector<Integer>>();
+		for(KeyEnum ke : KeyEnum.values()){
+			mapping.put(ke, new Vector<Integer>());
+		}
 		// Constructeur par défaut, associe le mapping standard
 		try{
 			InputStream ips=new FileInputStream(fichier); 
@@ -31,22 +36,30 @@ public class KeyMapper {
 					throw new Exception();
 				}
 				tab = ligne.split("_");
-				mapping.put(Integer.parseInt(tab[0]),KeyEnum.valueOf(tab[1]));
+				if(mapping.containsKey(KeyEnum.valueOf(tab[1]))){
+					mapping.get(KeyEnum.valueOf(tab[1])).add(Integer.parseInt(tab[0]));
+				}
 			}
 			br.close(); 
-			
+
 		}		
 		catch (Exception e){}
-			
+		mouseMapping = new HashMap<Integer, KeyEnum>();
+		mouseMapping.put(0, KeyEnum.LeftClick);
+		mouseMapping.put(1, KeyEnum.RightClick);
+		mouseMapping.put(2, KeyEnum.MiddleClick);
+
 	}
-	
+
 	public void saveMapping(){
 		try {
 			FileWriter fw = new FileWriter(location);
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
-			for(Integer i : this.mapping.keySet()){
-				fichierSortie.println (i+"_"+this.mapping.get(i).name());
+			for(KeyEnum ke : this.mapping.keySet()){
+				for(Integer i : this.mapping.get(ke)){
+					fichierSortie.println (i+"_"+ke);
+				}
 			}
 			fichierSortie.close();
 		}
@@ -54,7 +67,7 @@ public class KeyMapper {
 			System.out.println(e.toString());
 		}
 	}
-	
+
 	public enum KeyEnum {
 		LeftClick,
 		RightClick,
@@ -73,15 +86,25 @@ public class KeyMapper {
 		AjouterSelection,
 		ToutSelection,
 		AbandonnerPartie,
-		Key0,
-		Key1,
-		Key2,
-		Key3,
-		Key4,
-		Key5,
-		Key6,
-		Key7,
-		Key8,
-		Key9;
+		Building1,
+		Building2,
+		Building3,
+		Building4,
+		Building5,
+		Spearmen,
+		Bowmen,
+		Knights,
+		Inquisitors,
+		Monks,
+		Enter, 
+		Tab, 
+		Escape, 
+		StopperMouvement, 
+		Immolation,
+		Barracks,
+		Stable,
+		HeadQuarters, 
+		GlobalRallyPoint,
+		AllUnits;
 	}
 }

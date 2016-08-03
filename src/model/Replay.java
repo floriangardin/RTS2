@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-import multiplaying.InputObject;
+import control.InputObject;
 
 public class Replay {
 
@@ -76,8 +76,9 @@ public class Replay {
 			String ligne;
 
 			while ((ligne=br.readLine())!=null){
-				InputObject o = new InputObject(ligne,game);
-				this.inputs.add(o);
+				// TODO gérer la sérialisation ici, parce que c'est l'enfer là et j'ai la flemme tout de suite
+				// InputObject o = new InputObject(ligne,game);
+				// this.inputs.add(o);
 			}
 			br.close();
 		} catch (Exception e){

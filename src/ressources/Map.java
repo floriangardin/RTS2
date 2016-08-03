@@ -9,7 +9,6 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Point;
 
-import IAProject.GameSimuProject.ArmyCompo;
 import buildings.BonusDamage;
 import buildings.BonusLifePoints;
 import buildings.BonusSpeed;
@@ -197,38 +196,5 @@ public class Map {
 		}
 	}
 
-	public static void createMapMicro(Game game, ArmyCompo a){
-		// Création de la map
-		game.plateau.setMaxXMaxY(5*stepGrid, 5*stepGrid);
-		Data data1 = game.teams.get(1).data;
-		Data data2 = game.teams.get(2).data;
-		// Headquarters
-		new BuildingHeadquarters(game.plateau,game,-5,-3,1);
-		new BuildingHeadquarters(game.plateau,game,7,-3,2);
-
-		// Units
-		Data data;
-		Vector<Integer> army;
-		float x,y;
-		for(int team=1; team<3; team++){
-			if(team==1){
-				army = a.army1;
-				data = data1;
-			} else {
-				army = a.army2;
-				data = data2;
-			}
-			for(Integer i : army){
-				x = (float)((team*team)-0.1f+0.2f*Math.random());
-				y = (float)(1+3*Math.random());
-				switch(i){
-				case 0 : data.create(UnitsList.Spearman, x*Map.stepGrid, y*Map.stepGrid);break;
-				case 1 : data.create(UnitsList.Crossbowman, x*Map.stepGrid, y*Map.stepGrid);break;
-				case 2 : data.create(UnitsList.Knight, x*Map.stepGrid, y*Map.stepGrid);break;
-				case 3 : data.create(UnitsList.Inquisitor, x*Map.stepGrid, y*Map.stepGrid);break;
-				default:
-				}
-			}
-		}
-	}
+	
 }
