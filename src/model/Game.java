@@ -826,8 +826,8 @@ public class Game extends BasicGame
 				this.handlePing();
 				this.handleSendingResynchroParse();
 				this.handleResynchro();
-				this.send(toSendThisTurn);
-				toSendThisTurn = new MultiMessage();
+				this.sendFromGame(toSendThisTurn);
+				toSendThisTurn = new MultiMessage(null);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
@@ -1321,6 +1321,12 @@ public class Game extends BasicGame
 	}
 
 	//private static long timeToSend;
+	
+	public void sendFromGame(MultiMessage m) throws FatalGillesError{
+		for(Player p : this.players){
+			
+		}
+	}
 
 	private void send(MultiMessage m) throws FatalGillesError{
 		//		if(!isInMenu){
