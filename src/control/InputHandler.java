@@ -16,17 +16,16 @@ public class InputHandler {
 	private Vector<InputObject> inputs;
 	
 	Game g;
-	public Lock mutex;
+
 
 	public InputHandler(Game g){
 		this.inputs = new Vector<InputObject>();
 		this.g = g;
-		mutex = new ReentrantLock();
 	}
 
 	public void validate(int round,int player,int val){
 		// 
-		mutex.lock();
+		
 		int idx = 0;
 		while(idx<this.inputs.size()){
 			if(player==this.inputs.get(idx).idplayer && round==this.inputs.get(idx).round){
@@ -36,12 +35,12 @@ public class InputHandler {
 			}
 			idx++;
 		}
-		mutex.unlock();
+	
 	}
 
 	public Vector<InputObject> getInputsForRound(int round){
 		
-		this.mutex.lock();
+
 		// Check if good round to apply and messages validated
 		//Good round if current round = message round +delay
 		//If good round but not validated remove the message
@@ -75,13 +74,13 @@ public class InputHandler {
 				}
 			}
 			if(!toPlay){
-				this.mutex.unlock();
+				
 //				System.out.println("Round drop "+this.g.round+" à cause du joueur "+k);
 				this.g.toDrawDrop = true;
 				return new Vector<InputObject>();				
 			}
 		}
-		this.mutex.unlock();
+
 		return toReturn;
 	}
 	
@@ -90,9 +89,7 @@ public class InputHandler {
 	}
 	
 	public void addToInputs(InputObject io) throws SlickException{
-		mutex.lock();
 		this.inputs.addElement(io);
 		if(Game.tests) Test.testRoundInputHandler(this, g);
-		mutex.unlock();
 	}
 }
