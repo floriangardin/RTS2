@@ -25,8 +25,8 @@ public class Arrow extends CollisionBullet{
 
 		this.p = p;
 		if(id==-1){
-			this.id = p.g.idChar;
-			p.g.idChar++;
+			this.id = Game.g.idChar;
+			Game.g.idChar++;
 		}else{
 			this.id=id;
 		}
@@ -51,11 +51,11 @@ public class Arrow extends CollisionBullet{
 		if(this.angle<0)
 			this.angle+=360;
 		
-		this.shadow = p.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
+		this.shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
 		this.shadow.rotate(this.angle);
 	
-		this.sound = p.g.sounds.get("arrow");
-		this.sound.play(1f,this.p.g.options.soundVolume);
+		this.sound = Game.g.sounds.get("arrow");
+		this.sound.play(1f,Game.g.options.soundVolume);
 	}
 
 	public void collision(Character c){

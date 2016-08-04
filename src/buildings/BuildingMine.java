@@ -27,9 +27,8 @@ public class BuildingMine extends BuildingTech{
 		this.x = x*Map.stepGrid;
 		this.y = y*Map.stepGrid;
 		this.p =p;
-		this.g =g;
 		this.type = 0;
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		this.name= "mine";
 		this.printName = "Mine d'Or";
 		this.setTeam(team);

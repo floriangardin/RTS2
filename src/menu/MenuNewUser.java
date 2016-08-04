@@ -5,16 +5,13 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Game;
-import multiplaying.InputObject;
 import ressources.Map;
-import ressources.Sounds;
 
 public class MenuNewUser extends Menu {
 
@@ -77,7 +74,7 @@ public class MenuNewUser extends Menu {
 	public void update(InputObject im){
 		this.updateItems(im);
 		this.textscanner.update(this.game.app.getInput(),im);
-		if(im.pressedLeftClick){
+		if(im.isPressed(KeyEnum.LeftClick)){
 			textscanner.isSelected = textscanner.isMouseOver(im);
 		} 
 		this.game.options.musicVolume = 1f;

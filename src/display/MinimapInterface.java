@@ -24,7 +24,6 @@ public class MinimapInterface extends Bar {
 	public float h;
 	public float rw;
 	public float rh;
-	public Game game;
 	public boolean toDraw;
 	
 	public static boolean todrawGrid = true;
@@ -39,13 +38,12 @@ public class MinimapInterface extends Bar {
 
 	public MinimapInterface(BottomBar parent){
 
-		this.game = parent.p.g;
 		this.p = parent.p;
 
 		this.player = parent.player;
-		this.startX2 = parent.p.g.resX*(1-parent.ratioMinimapX)+3;
-		this.startY2 = parent.p.g.resY-parent.ratioMinimapX*parent.p.g.resX+3;
-		this.sizeX = parent.p.g.resX*parent.ratioMinimapX-6;
+		this.startX2 = Game.g.resX*(1-parent.ratioMinimapX)+3;
+		this.startY2 = Game.g.resY-parent.ratioMinimapX*Game.g.resX+3;
+		this.sizeX = Game.g.resX*parent.ratioMinimapX-6;
 		this.sizeY = sizeX;
 		if(this.p.maxX>this.p.maxY){
 			this.w = this.sizeX;
@@ -64,9 +62,8 @@ public class MinimapInterface extends Bar {
 	}
 	
 	
-	public void updateRatio(Game game){
-		this.game = game;
-		this.p = game.plateau;
+	public void updateRatio(){
+		this.p = Game.g.plateau;
 		if(this.p.maxX>this.p.maxY){
 			this.w = this.sizeX;
 			this.h = this.w*this.p.maxY/this.p.maxX;
@@ -84,19 +81,19 @@ public class MinimapInterface extends Bar {
 
 	public Graphics draw(Graphics g){
 		this.offsetDrawX = Math.max(0, Math.min(sizeX+10, -sizeX*(Game.g.round-debutGlissade-dureeGlissade)/dureeGlissade));
-		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color,startX2+offsetDrawX-3, startY2-3, sizeX+9, sizeY+9);
+		Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color,startX2+offsetDrawX-3, startY2-3, sizeX+9, sizeY+9);
 		g.setColor(Color.black);
 		g.fillRect(this.startX2+offsetDrawX, this.startY2, this.sizeX, this.sizeY);
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);
-		float brx = Math.min(startX+w,startX+rw*(this.p.Xcam+this.p.g.resX));
-		float bry = Math.min(startY+h,startY+rh*(this.p.Ycam+this.p.g.resY));
+		float brx = Math.min(startX+w,startX+rw*(this.p.Xcam+Game.g.resX));
+		float bry = Math.min(startY+h,startY+rh*(this.p.Ycam+Game.g.resY));
 		// Find the bottom right corner
 
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.drawImage(this.p.g.images.get("islandTexture"),startX+offsetDrawX, startY, startX+offsetDrawX+w, startY+h,0,0,this.p.g.images.get("islandTexture").getWidth(),this.p.g.images.get("islandTexture").getHeight());
+		g.drawImage(Game.g.images.get("islandTexture"),startX+offsetDrawX, startY, startX+offsetDrawX+w, startY+h,0,0,Game.g.images.get("islandTexture").getWidth(),Game.g.images.get("islandTexture").getHeight());
 		for(NaturalObjet q : p.naturalObjets){
 			g.setColor(Color.green);
 			g.fillRect(startX+offsetDrawX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
@@ -105,14 +102,14 @@ public class MinimapInterface extends Bar {
 		g.setAntiAlias(true);
 		for(Character c : this.p.characters){		
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
@@ -127,7 +124,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -135,7 +132,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -151,7 +148,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -159,7 +156,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -168,7 +165,7 @@ public class MinimapInterface extends Bar {
 			}
 			g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
 			
-			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(this.p.g.currentPlayer.getTeam(), c)){
+			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
 				float ratio = c.constructionPoints/c.maxLifePoints;
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);

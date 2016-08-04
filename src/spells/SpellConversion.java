@@ -16,7 +16,7 @@ public class SpellConversion extends Spell{
 		this.chargeTime = 200f;
 		this.faithCost = 2f;
 		this.name = "Conversion";
-		this.icon = p.g.images.get("spellConversion");
+		this.icon = Game.g.images.get("spellConversion");
 		this.range = 50f*Main.ratioSpace;
 		this.damage = 0f;
 		this.gameteam = gameteam;
@@ -32,8 +32,8 @@ public class SpellConversion extends Spell{
 				launcher.getGameTeam().special-=this.faithCost;
 			} else {
 				// Messages
-				if(this.gameteam.id==this.p.g.currentPlayer.getTeam()){
-						this.p.g.sendMessage(ChatMessage.getById("faith",Game.g));
+				if(this.gameteam.id==Game.g.currentPlayer.getTeam()){
+						Game.g.sendMessage(ChatMessage.getById("faith"));
 				}
 			}
 		}

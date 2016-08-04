@@ -2,12 +2,10 @@ package tests;
 
 import java.util.Vector;
 
+import control.InputHandler;
+import control.InputObject;
 import main.Main;
 import model.Game;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiSender;
 
 public class Test {
 	
@@ -46,25 +44,7 @@ public class Test {
 				throw new FatalGillesError("messages non supprimés");
 		}
 	}
-	public static void testSizeSender(MultiSender ms) throws FatalGillesError{
-		/**
-		 * Teste si le dépot d'envoi du Multi Sender n'est pas saturé
-		 * appelé au début de l'update de Game 
-		 */
-		int maximalAutorise = 3;
-		if(!ms.game.isInMenu && ms.depot.size()>maximalAutorise)
-			throw new FatalGillesError("sender saturé  -  round : "+ms.game.round+" \ntaille: "+ms.depot.size()+"\nmaximal autorise : " + maximalAutorise);
-	}
-	public static void testDelayReceiver(MultiReceiver mr) throws FatalGillesError{
-		/**
-		 * Teste si l'écart entre deux messages n'est pas supérieur à la tolérance du delay
-		 * appelé à chaque itération du thread du MultiSender
-		 */
-		int a = (int) (System.currentTimeMillis()-mr.tempsReception);
-		if(!mr.g.isInMenu && a>(Main.nDelay*1000f/Main.framerate) && mr.nbReception>10){
-			throw new FatalGillesError("délai d'attente dépassé : \n   attente : "+a+"\n maximum autorisé : "+Main.nDelay*1000f/Main.framerate);
-		}
-	}
+	
 	public static void testOrderedMessages(int round) throws FatalGillesError{
 		/**
 		 * Teste si le message reçu est bien de round supérieur au dernier message reçu

@@ -1,12 +1,11 @@
 package menu;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Game;
-import multiplaying.InputObject;
 
 public class Menu_Curseur extends Menu_Item{
 
@@ -39,11 +38,11 @@ public class Menu_Curseur extends Menu_Item{
 
 
 	public void update(InputObject im){
-		if(this.isMouseOver(im) && im.pressedLeftClick){
-			value = Math.min(1, Math.max(0,(im.xMouse-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
+		if(this.isMouseOver(im) && im.isPressed(KeyEnum.LeftClick)){
+			value = Math.min(1, Math.max(0,(im.x-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
 			isSelected = true;
-		} else if (isSelected && im.leftClick){
-			value = Math.min(1, Math.max(0,(im.xMouse-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
+		} else if (isSelected && im.isDown(KeyEnum.LeftClick)){
+			value = Math.min(1, Math.max(0,(im.x-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
 		} else {
 			isSelected = false;
 		}

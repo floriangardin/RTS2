@@ -11,8 +11,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Game;
-import multiplaying.InputObject;
 
 public class Credits extends Menu{
 
@@ -55,7 +56,7 @@ public class Credits extends Menu{
 	}
 	public void update(InputObject io){
 		this.currentHeight--;
-		if(this.currentHeight+texts.size()*stepLine+100<0 || io.isPressedESC)
+		if(this.currentHeight+texts.size()*stepLine+100<0 || io.isPressed(KeyEnum.Escape))
 			this.game.setMenu(this.game.menuIntro);
 	}
 	public void draw(Graphics g){

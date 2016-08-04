@@ -3,6 +3,7 @@ package spells;
 import java.util.Vector;
 
 import display.DisplayRessources;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -16,7 +17,7 @@ public class SpellImmolation extends Spell{
 	public SpellImmolation(Plateau p, GameTeam gameteam){
 		this.chargeTime = 0f;
 		this.name = "Immolation";
-		this.icon = p.g.images.get("spellImmolation");
+		this.icon = Game.g.images.get("spellImmolation");
 		this.range = 0f;
 		this.damage = 0f;
 		this.remainingTime = 75f;
@@ -28,7 +29,7 @@ public class SpellImmolation extends Spell{
 
 		launcher.isImmolating = true;
 		launcher.remainingTime = this.remainingTime;
-		launcher.p.g.sounds.get("fire").play(1f,launcher.p.g.options.soundVolume);
+		Game.g.sounds.get("fire").play(1f,Game.g.options.soundVolume);
 		launcher.spells = new Vector<Spell>();
 	}
 }

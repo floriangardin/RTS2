@@ -17,7 +17,6 @@ public class BuildingUniversity extends BuildingTech {
 	public BuildingUniversity(Plateau plateau, Game g, float f, float h, int team) {
 		// Init ProductionList
 		this.p = plateau ;
-		this.g = g;
 		this.productionList = new Vector<Technologie>();
 		this.setTeam(team);
 		
@@ -34,9 +33,8 @@ public class BuildingUniversity extends BuildingTech {
 		this.name = "university";
 		this.printName = "Université";
 		this.initialize(f, h);
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 6;
-		this.g = g;
 		// List of potential production (Spearman
 		
 		this.updateProductionList();

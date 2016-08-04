@@ -2,14 +2,14 @@ package menu;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import main.Main;
 import model.Civilisation;
 import model.Colors;
 import model.Game;
 import model.Player;
-import multiplaying.InputObject;
 
 public class Menu_Player extends Menu_Item{
 
@@ -65,12 +65,12 @@ public class Menu_Player extends Menu_Item{
 
 	public void update(InputObject im){
 		if(game.currentPlayer.id==p.id){
-			float xMouse = im.xMouse;
-			float yMouse = im.yMouse;
+			float xMouse = im.x;
+			float yMouse = im.y;
 			//Testing the click
 			if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 				isOverColor = true;
-				if(im.pressedLeftClick){
+				if(im.isPressed(KeyEnum.LeftClick)){
 					this.p.setTeam(this.p.getTeam()%(this.game.nTeams)+1);
 				}			
 			} else {
@@ -78,7 +78,7 @@ public class Menu_Player extends Menu_Item{
 			}
 			if(xMouse>startXciv && yMouse>startYcolor && xMouse<startXciv+sizeXciv && yMouse<startYcolor+sizeYcolor){
 				isOverCiv = true;
-				if(im.pressedLeftClick){
+				if(im.isPressed(KeyEnum.LeftClick)){
 					switch(p.getGameTeam().civ.name){
 					case "dualists" : p.getGameTeam().civ = new Civilisation("zinaids", p.getGameTeam()); break;
 					case "zinaids" : p.getGameTeam().civ = new Civilisation("kitanos", p.getGameTeam()); break;

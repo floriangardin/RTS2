@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import main.Main;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -22,8 +23,8 @@ public class Heal extends SpellEffect{
 	public Heal(Plateau p, Character launcher, Objet t,int id,GameTeam gameTeam){
 
 		if(id==-1){
-			this.id = p.g.idChar;
-			p.g.idChar+=1;
+			this.id = Game.g.idChar;
+			Game.g.idChar+=1;
 		}
 		else{
 			this.id =id;
@@ -37,11 +38,11 @@ public class Heal extends SpellEffect{
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		image = p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
+		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);
-		//this.p.g.sounds.get("frozen").play(1f,this.p.g.options.soundVolume);
+		//this.Game.g.sounds.get("frozen").play(1f,this.Game.g.options.soundVolume);
 	}
 
 
@@ -53,8 +54,8 @@ public class Heal extends SpellEffect{
 		this.remainingTime-=Main.increment;
 		if(remainingTime<0.5f){
 			if(!active){
-				this.p.g.sounds.get("frozenActive").play(1f,this.p.g.options.soundVolume);
-				this.p.g.sounds.get("frozen").stop();
+				Game.g.sounds.get("frozenActive").play(1f,Game.g.options.soundVolume);
+				Game.g.sounds.get("frozen").stop();
 			}
 			this.active = true;
 		}

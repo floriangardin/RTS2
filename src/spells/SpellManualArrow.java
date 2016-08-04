@@ -2,6 +2,7 @@ package spells;
 
 import main.Main;
 import model.Checkpoint;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -17,7 +18,7 @@ public class SpellManualArrow extends Spell{
 		this.chargeTime = 100f;
 		this.p = p;
 		this.name = "Manual Arrow";
-		this.icon = p.g.images.get("iconCrossbowman");
+		this.icon = Game.g.images.get("iconCrossbowman");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 60f;

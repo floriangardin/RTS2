@@ -30,22 +30,22 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.getGameTeam().gold-=this.productionList.get(unit).goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
 				if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
-					this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
-					this.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
+					Game.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
+					Game.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
 				}
 				return true;
 			}else {
-				if(this.p.g.players.get(this.getTeam()) instanceof IAPlayer){
+				if(Game.g.players.get(this.getTeam()) instanceof IAPlayer){
 					return false;
 				}
 				// Messages
-				if(this.getTeam()==this.g.currentPlayer.getTeam()){
+				if(this.getTeam()==Game.g.currentPlayer.getTeam()){
 					if(this.productionList.get(unit).foodPrice>this.getGameTeam().food){
-						this.g.sendMessage(ChatMessage.getById("food",g));
+						Game.g.sendMessage(ChatMessage.getById("food"));
 					} else if(this.productionList.get(unit).goldPrice>this.getGameTeam().gold){
-						this.g.sendMessage(ChatMessage.getById("gold",this.g));
+						Game.g.sendMessage(ChatMessage.getById("gold"));
 					} else {
-						this.g.sendMessage(ChatMessage.getById("pop",g));
+						Game.g.sendMessage(ChatMessage.getById("pop"));
 					}
 				}
 			}

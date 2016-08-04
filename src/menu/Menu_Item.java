@@ -1,12 +1,11 @@
 package menu;
 
-import model.Game;
-import multiplaying.InputObject;
-import ressources.Images;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+
+import control.InputObject;
+import model.Game;
 
 public class Menu_Item {
 
@@ -56,8 +55,8 @@ public class Menu_Item {
 
 
 	public boolean isMouseOver(InputObject im){
-		float xMouse = im.xMouse;
-		float yMouse = im.yMouse;
+		float xMouse = im.x;
+		float yMouse = im.y;
 		return (x-sizeX/2f<xMouse && xMouse<x+sizeX/2f && y-sizeY/2f<yMouse && yMouse<y+sizeY/2f);
 	}
 

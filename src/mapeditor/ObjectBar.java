@@ -2,12 +2,12 @@ package mapeditor;
 
 import java.util.Vector;
 
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Data;
-import multiplaying.InputObject;
 import ressources.Map;
 
 public class ObjectBar {
@@ -222,16 +222,16 @@ public class ObjectBar {
 	}
 
 	public void update(InputObject im){
-		if(im.xMouse>startX){
+		if(im.x>startX){
 			// classes
-			if(im.yMouse<startYCiv){
+			if(im.y<startYCiv){
 				for(int i=0; i<4; i++){
-					if(im.xMouse>startX+(i%2)*sizeX/2f && im.xMouse<startX+(i%2+1)*sizeX/2f && im.yMouse>(i/2)*sizeY/20f && im.yMouse<(i/2+1)*sizeY/20f){
+					if(im.x>startX+(i%2)*sizeX/2f && im.x<startX+(i%2+1)*sizeX/2f && im.y>(i/2)*sizeY/20f && im.y<(i/2+1)*sizeY/20f){
 						if(this.overClass!=i){
 							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						overClass = i;
-						if(im.pressedLeftClick){
+						if(im.isPressed(KeyEnum.LeftClick)){
 							selectedClass = i;
 							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							updateObjects();
@@ -242,14 +242,14 @@ public class ObjectBar {
 				overClass = -1;
 			}
 			// civs
-			if(im.yMouse>=startYCiv+sizeY/20f && im.yMouse<startYColor){
+			if(im.y>=startYCiv+sizeY/20f && im.y<startYColor){
 				for(int i=0; i<3; i++){
-					if(im.xMouse>startX+(i)*sizeX/3f && im.xMouse<startX+(i+1)*sizeX/3f){
+					if(im.x>startX+(i)*sizeX/3f && im.x<startX+(i+1)*sizeX/3f){
 						if(this.overCiv!=i){
 							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						overCiv = i;
-						if(im.pressedLeftClick){
+						if(im.isPressed(KeyEnum.LeftClick)){
 							selectedCiv = i;
 							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							updateObjects();
@@ -260,14 +260,14 @@ public class ObjectBar {
 				overCiv = -1;
 			}
 			// color
-			if(im.yMouse>=startYColor+sizeY/20f && im.yMouse<startYColor+sizeY/10f){
+			if(im.y>=startYColor+sizeY/20f && im.y<startYColor+sizeY/10f){
 				for(int i=0; i<3; i++){
-					if(im.xMouse>startX+(i)*sizeX/3f && im.xMouse<startX+(i+1)*sizeX/3f){
+					if(im.x>startX+(i)*sizeX/3f && im.x<startX+(i+1)*sizeX/3f){
 						if(this.overColor!=i){
 							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						overColor = i;
-						if(im.pressedLeftClick){
+						if(im.isPressed(KeyEnum.LeftClick)){
 							selectedColor = i;
 							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							updateObjects();
@@ -278,14 +278,14 @@ public class ObjectBar {
 				overColor = -1;
 			}
 			// object
-			if(im.yMouse>=startYObjects+sizeY/20f){
+			if(im.y>=startYObjects+sizeY/20f){
 				for(int i=0; i<this.objects.size(); i++){
-					if(im.xMouse>startX+(i%2)*sizeX/2f && im.xMouse<startX+(i%2+1)*sizeX/2f 
-							&& im.yMouse>startYObjects+(i/2)*sizeY/6f && im.yMouse<startYObjects+(i/2+1)*sizeY/6f){
+					if(im.x>startX+(i%2)*sizeX/2f && im.x<startX+(i%2+1)*sizeX/2f 
+							&& im.y>startYObjects+(i/2)*sizeY/6f && im.y<startYObjects+(i/2+1)*sizeY/6f){
 						if(this.overObject!=i){
 							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
-						if(im.pressedLeftClick){
+						if(im.isPressed(KeyEnum.LeftClick)){
 							EditorObject e = this.objects.get(overObject);
 							editor.draggedObject = EditorObject.createFromObjectBar(e);
 							switch(this.selectedClass){

@@ -17,30 +17,6 @@ import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import main.Main;
-import mapeditor.MapEditor;
-import menu.Credits;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuNewUser;
-import menu.MenuOptions;
-import multiplaying.ChatHandler;
-import multiplaying.ChatMessage;
-import multiplaying.Clock;
-import multiplaying.InputHandler;
-import multiplaying.InputObject;
-import multiplaying.MultiMessage;
-import multiplaying.MultiReceiver;
-import multiplaying.MultiReceiver.Checksum;
-import ressources.Images;
-import ressources.Map;
-import ressources.Musics;
-import ressources.Sounds;
-import ressources.Taunts;
-import multiplaying.MultiSender;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -56,16 +32,39 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
-import spells.SpellEffect;
-import tests.FatalGillesError;
-import tests.Test;
-import units.Character;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
 import bullets.Bullet;
+import control.InputHandler;
+import control.InputObject;
+import control.KeyMapper;
+import control.KeyMapper.KeyEnum;
 import display.DisplayRessources;
+import main.Main;
+import mapeditor.MapEditor;
+import menu.Credits;
+import menu.Menu;
+import menu.MenuIntro;
+import menu.MenuMapChoice;
+import menu.MenuMulti;
+import menu.MenuNewUser;
+import menu.MenuOptions;
+import multiplaying.ChatHandler;
+import multiplaying.ChatMessage;
+import multiplaying.Checksum;
+import multiplaying.Clock;
+import multiplaying.MultiMessage;
+import ressources.Images;
+import ressources.Map;
+import ressources.Musics;
+import ressources.Sounds;
+import ressources.Taunts;
+import spells.SpellEffect;
+import tests.FatalGillesError;
+import tests.Test;
+import units.Character;
 public class Game extends BasicGame 
 {
 	/////////////
@@ -117,6 +116,8 @@ public class Game extends BasicGame
 	public int idPaquetReceived = 0;
 	public int idPaquetTreated = 0;
 
+	// Controls
+	public KeyMapper keymapper;
 
 	//Increment de game
 	public static float ratio = 60f/((float)Main.framerate);
@@ -137,6 +138,13 @@ public class Game extends BasicGame
 	public Musics musics;
 	public Taunts taunts;
 	public Music musicPlaying;
+
+	/////////////////////////
+	/// RENDER ATTRIBUTES ///
+	/////////////////////////
+	public static Image fog;
+	public static Graphics gf;
+	public Cosmetic cosmetic;
 
 	// Timer
 	public Timer timer ;
@@ -218,7 +226,7 @@ public class Game extends BasicGame
 	public boolean toDrawAntiDrop = false;
 	public int roundDelay;
 
-	public String toSendThisTurn = "";
+	public MultiMessage toSendThisTurn;
 
 
 	/////////////
@@ -644,14 +652,14 @@ public class Game extends BasicGame
 			for(Objet o: toDraw)
 				o.draw(g);
 			// draw fog of war
-			plateau.drawFogOfWar(g);
+			drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
 
 			// Draw the selection :
-			if(plateau.cosmetic.selection!=null){
+			if(cosmetic.selection!=null){
 				g.setColor(Colors.selection);
-				this.plateau.cosmetic.draw(g);
+				cosmetic.draw(g);
 			}
 
 			// Draw and handle display ressources
@@ -735,6 +743,56 @@ public class Game extends BasicGame
 
 	}
 
+	// drawing fog of war method
+	public void drawFogOfWar(Graphics g) {
+		Vector<Objet> visibleObjet = new Vector<Objet>();
+		visibleObjet = this.plateau.getInCamObjets(Game.g.currentPlayer.getTeam());
+		float resX = Game.g.resX;
+		float resY = Game.g.resY;
+		gf.setColor(new Color(255, 255, 255));
+		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
+		gf.setColor(new Color(50, 50, 50));
+		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - this.plateau.Xcam);
+		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - this.plateau.Ycam);
+		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - this.plateau.Xcam);
+		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - this.plateau.Ycam);
+		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
+		gf.setColor(Color.white);
+		for (Objet o : visibleObjet) {
+			gf.fillOval(o.x - this.plateau.Xcam - o.sight, o.y - this.plateau.Ycam - o.sight, o.sight * 2f, o.sight * 2f);
+		}
+		gf.flush();
+		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+		g.drawImage(fog, this.plateau.Xcam, this.plateau.Ycam);
+		g.setDrawMode(Graphics.MODE_NORMAL);
+	}
+
+	//Handling cosmetic for current player in lan game
+	public void updateCosmetic(InputObject im){
+		//SELECTION RECTANGLE
+		if (im.idplayer == Game.g.currentPlayer.id) {
+			plateau.handleMouseHover(im);
+		}
+		if (im.isDown(KeyEnum.LeftClick)) {
+
+
+			if (im.isOnMiniMap && cosmetic.selection==null) {
+				return;
+			}
+			if (this.cosmetic.selection == null|| im.isPressed(KeyEnum.ToutSelection)) {
+				cosmetic.recX= (float) im.x;
+				cosmetic.recY= (float) im.y;
+				cosmetic.selection = new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
+			}
+			cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.x),
+					(float) Math.min(cosmetic.recY, im.y), (float) Math.abs(im.x - cosmetic.recX) + 0.1f,
+					(float) Math.abs(im.y - cosmetic.recY) + 0.1f);
+		}else{
+			cosmetic.selection = null;
+		}
+	}
+
+
 
 	//////////////
 	/// UPDATE ///
@@ -767,7 +825,11 @@ public class Game extends BasicGame
 		this.taunts.update();
 		if(isInMenu){
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,currentPlayer,in,true);
+			int id = -1;
+			if(currentPlayer != null){
+				id = currentPlayer.id;
+			}
+			InputObject im = new InputObject(id,in,true, this.keymapper);
 			if(inMultiplayer && (menuCurrent instanceof MenuMapChoice || menuCurrent instanceof MenuMulti)){
 				this.chatHandler.action(in,im);
 			}
@@ -776,7 +838,7 @@ public class Game extends BasicGame
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,currentPlayer,in,!processSynchro);
+			InputObject im = new InputObject(currentPlayer.id,in,!processSynchro, keymapper);
 			this.editor.update(im,in);
 		} else if(!endGame) {
 
@@ -802,7 +864,7 @@ public class Game extends BasicGame
 			//			if(in.isKeyPressed(Input.KEY_RALT)){
 			//				this.displayMapGrid = !this.displayMapGrid;
 			//			}
-			InputObject im = new InputObject(this,currentPlayer,in,true);
+			InputObject im = new InputObject(currentPlayer.id,in,true, keymapper);
 			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
 				im.eraseLetter();
@@ -820,13 +882,14 @@ public class Game extends BasicGame
 
 				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
-				this.toSendThisTurn+="1"+im.toString()+"%";
+				this.toSendThisTurn.input.addElement(im);
 				this.inputsHandler.addToInputs(im);
 				this.handleChecksum();
 				this.handlePing();
 				this.handleSendingResynchroParse();
 				this.handleResynchro();
-				this.send(toSendThisTurn);
+				this.sendFromGame(toSendThisTurn);
+				toSendThisTurn = new MultiMessage(null);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
@@ -842,12 +905,12 @@ public class Game extends BasicGame
 					} else {
 						this.updateInit();
 					}
-					
+
 				}else{
 					System.out.println("Game 839 : round drop "+round);
 				}
 				this.plateau.updatePlateauState();
-				this.plateau.updateCosmetic(im);
+				this.updateCosmetic(im);
 				if(this.gillesBombe){
 					this.handleGillesBombe();
 				}
@@ -867,7 +930,7 @@ public class Game extends BasicGame
 				} else {
 					this.updateInit();
 				}
-				this.plateau.updateCosmetic(im);
+				this.updateCosmetic(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
 				//Update replay
@@ -988,9 +1051,8 @@ public class Game extends BasicGame
 
 	// FONCTIONS AUXILIAIRES RECEIVER
 	private void handleMultiReceiver() throws SlickException {
-		int gilles = 0;
 		while(true){
-			byte[] message = new byte[10000];
+			byte[] message = new byte[100000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			try {
 				server.setBroadcast(this.isInMenu);
@@ -1007,39 +1069,27 @@ public class Game extends BasicGame
 						System.out.println("reception du message: "+ tempsReception);
 					tempsReception = (int) System.currentTimeMillis();
 				}
-				String msg = new String(packet.getData());
-				//				if(Game.debugReceiver) 
-				//					System.out.println(msg.substring(0, 200));
-				//Split submessages
-				String[] tab = msg.split("\\%");
-				String temp;
-
-				// TODO : check if input in message
-				if(Game.tests && !isInMenu){
-					Test.testIfInputInMessage(msg);
-					int round = getRoundFromMessage(msg);
-					Test.testOrderedMessages(round);
-					Test.testNombreMessagesRecus(round);
-					//System.out.println("reception du message: "+ round+" on est au round " +Game.g.round);
+				MultiMessage msg = MultiMessage.getMessageFromString(packet.getData());
+				for(String s : msg.connexion){
+					this.actionConnexion(s, packet);
 				}
-				//System.out.println(packet.getAddress().getHostAddress());
-				gilles++;
-				for(int i =0; i<tab.length;i++){
-					temp = tab[i];
-					nbPaquetReceived++;
-					if(temp.length()>0 && !packet.getAddress().equals(InetAddress.getLocalHost())){
-						//if(Game.debugReceiver) System.out.println("port : " + port + " message received: " + temp);
-						switch(temp.substring(0,1)){
-						case "0":this.actionConnexion(temp.substring(1), packet); break;
-						case "1":this.actionInput(temp.substring(1)); break;
-						case "2":this.actionValidation(temp.substring(1)); break;
-						case "3":this.actionResynchro(temp.substring(1)); break;
-						case "4":this.actionPing(temp.substring(1)); break;
-						case "5":this.actionChecksum(temp.substring(1)); break;
-						case "6":this.actionChat(temp.substring(1)); break;
-						default:
-						}
-					}
+				for(InputObject io : msg.input){
+					this.actionInput(io); 
+				}
+				for(String s : msg.validation){
+					this.actionValidation(s); 
+				}
+				for(String s : msg.resynchro){
+					this.actionResynchro(s); 
+				}
+				for(String s : msg.ping){
+					this.actionPing(s); 
+				}
+				for(String s : msg.checksum){
+					this.actionChecksum(s);
+				}
+				for(String s : msg.chat){
+					this.actionChat(s);
 				}
 			} catch (SocketTimeoutException e) {
 				break;
@@ -1071,15 +1121,14 @@ public class Game extends BasicGame
 		//HashMap<String, String> map = Objet.preParse(msg.substring(1));
 		receivedConnexion.add(message);		
 	}
-	public void actionInput(String message) throws SlickException{
+	public void actionInput(InputObject io) throws SlickException{
 		//System.out.println(msg);
-		InputObject io = new InputObject(message,g);
 		if(Game.debugValidation){
 			System.out.println("MultiReceiver line 63 input received at round "+ round);
 		}
 		//Send the validation for other players if the round is still ok
 		if(round<io.round+Main.nDelay){
-			toSendThisTurn+="2"+io.getMessageValidationToSend(g)+"%";
+			toSendThisTurn.validation.add(io.getMessageValidationToSend(g));
 			inputsHandler.addToInputs(io);
 			io.validate();
 		}else if(round>Game.nbRoundInit){
@@ -1113,7 +1162,7 @@ public class Game extends BasicGame
 			clock.updatePing(time);
 		}else if(g.host){
 			if(id<g.players.size()){
-				g.toSendThisTurn+="4"+(msg)+"%";
+				g.toSendThisTurn.ping.add(msg);
 			}
 		}
 	}
@@ -1206,8 +1255,8 @@ public class Game extends BasicGame
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 
-		Plateau.fog = new Image((int) (resX), (int) (resY));
-		Plateau.gf = Plateau.fog.getGraphics();
+		fog = new Image((int) (resX), (int) (resY));
+		gf = fog.getGraphics();
 
 		double rdm = Math.random();
 		if(rdm<0.25){
@@ -1251,6 +1300,7 @@ public class Game extends BasicGame
 		g.images = new Images();
 		g.musics = new Musics();
 		g.taunts = new Taunts(g);
+		g.keymapper = new KeyMapper();
 
 		g.menuIntro = new MenuIntro(g);
 		g.menuOptions = new MenuOptions(g);
@@ -1262,10 +1312,13 @@ public class Game extends BasicGame
 
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 
+		this.toSendThisTurn = new MultiMessage(null);
 	}
 
 	public void handleEndLoading(){
 		Map.initializePlateau(g, 1f, 1f);
+		//COSMETIC
+		this.cosmetic = new Cosmetic();
 		app.setMinimumLogicUpdateInterval(1000/Main.framerate);
 		app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 
@@ -1310,33 +1363,38 @@ public class Game extends BasicGame
 
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
-	public void send(String message) throws FatalGillesError{
+	public void sendFromMenu(String message) throws FatalGillesError{
 		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
 		if(this.isInMenu){
 			// on gère les connexions de menumapchoice
 
 			if(host){
-				this.send(new MultiMessage("0"+message,this.addressBroadcast));
+				MultiMessage m = new MultiMessage(this.addressBroadcast);
+				m.connexion.add(message);
+				this.send(m);
 				for(InetAddress ia : this.menuMapChoice.addressesInvites){
-					this.send(new MultiMessage(toSendThisTurn+"0"+message+"%",ia));
+					MultiMessage m1 = new MultiMessage(ia);
+					m.connexion.add(message);
+					this.send(m1);
 				}
 			} else {
-				this.send(new MultiMessage(toSendThisTurn+"0"+message+"%",this.addressHost));
-			}
-		}else if(toSendThisTurn.length()>0) {
-			// on est inGame et on gère les communications habituelles
-			for(int i=1; i<this.nPlayers; i++){
-				if(i!=currentPlayer.id){
-					MultiMessage multimessage = new MultiMessage(toSendThisTurn,this.players.get(i).address);
-					System.out.println(this.players.get(i).address);
-					this.send(multimessage);
-				}
+				MultiMessage m = new MultiMessage(this.addressHost);
+				m.connexion.add(message);
+				this.send(m);
 			}
 		}
-		toSendThisTurn="";
 	}
 
 	//private static long timeToSend;
+
+	public void sendFromGame(MultiMessage m) throws FatalGillesError{
+		for(int i=1; i<this.nPlayers; i++){
+			if(i!=currentPlayer.id){
+				m.address = this.players.get(i).address;
+				this.send(m);
+			}
+		}
+	}
 
 	private void send(MultiMessage m) throws FatalGillesError{
 		//		if(!isInMenu){
@@ -1346,12 +1404,9 @@ public class Game extends BasicGame
 		//			System.out.println("   = >  "+m.message);
 		//			timeToSend= System.nanoTime();
 		//		}
-		if( Game.tests){
-			Test.testSendEmptyMessages(m.message);
-		}
 		idPaquetSend++;
 		InetAddress address = m.address;
-		byte[] message = (m.message).getBytes();
+		byte[] message = Serializer.serialize(m);
 		DatagramPacket packet = new DatagramPacket(message, message.length, address, this.port);
 		packet.setData(message);
 		try {
@@ -1360,7 +1415,7 @@ public class Game extends BasicGame
 			e.printStackTrace();
 		}
 		if(Game.debugSender)
-			System.out.println("port : " + port + " address: "+m.address.getHostAddress()+" message sent: " + m.message);
+			System.out.println("port : " + port + " address: "+m.address.getHostAddress()+" message sent: " + m.toString());
 	}
 
 
@@ -1428,7 +1483,7 @@ public class Game extends BasicGame
 				this.checksum.addElement(new Checksum(checksum));
 			} else {
 				// si client on envoie checksum
-				toSendThisTurn+="5"+checksum+"%";				
+				toSendThisTurn.checksum.add(checksum);				
 			}
 		}
 		// handling checksum comparison
@@ -1459,14 +1514,14 @@ public class Game extends BasicGame
 		}
 	}
 	private void handlePing() {
-		toSendThisTurn+="4"+this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|%";
+		toSendThisTurn.ping.add(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 	}
 	private void handleSendingResynchroParse() {
 		if(this.host && this.processSynchro && this.sendParse){
 			this.toParse = this.plateau.toStringArray();
 			//			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
-			this.toSendThisTurn+="3"+this.toParse+"%";
+			this.toSendThisTurn.resynchro.addElement(this.toParse);
 		}
 	}
 	private void handleAntidrop(GameContainer gc) {
@@ -1505,11 +1560,11 @@ public class Game extends BasicGame
 		}
 	}
 	public void pingRequest() {
-		this.toSendThisTurn+="4"+this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|"+"%";
+		this.toSendThisTurn.ping.addElement(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 	}
 	public void sendMessage(ChatMessage m){
 		if(m.idPlayer==currentPlayer.id){
-			this.toSendThisTurn+="6"+m.toString()+"%";
+			this.toSendThisTurn.chat.addElement(m.toString());
 		}
 		//if(!m.message.equals("/gillesBombe"))
 		this.chatHandler.messages.addElement(m);

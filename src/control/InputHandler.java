@@ -1,4 +1,4 @@
-package multiplaying;
+package control;
 
 import java.util.Vector;
 import java.util.concurrent.locks.Lock;
@@ -6,9 +6,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.newdawn.slick.SlickException;
 
-import tests.Test;
 import main.Main;
 import model.Game;
+import tests.Test;
 
 
 public class InputHandler {
@@ -29,7 +29,7 @@ public class InputHandler {
 		mutex.lock();
 		int idx = 0;
 		while(idx<this.inputs.size()){
-			if(player==this.inputs.get(idx).player.id && round==this.inputs.get(idx).round){
+			if(player==this.inputs.get(idx).idplayer && round==this.inputs.get(idx).round){
 				//System.out.println("Input handler line 30 :Validation reussiz for  round "+round+ " "+player);
 				this.inputs.get(idx).validate(g.getPlayerById(val));
 				break;
@@ -70,7 +70,7 @@ public class InputHandler {
 		for(int k=1; k<this.g.players.size(); k++){
 			toPlay = false;
 			for(InputObject io : toReturn){
-				if(io.player.id==k){
+				if(io.idplayer==k){
 					toPlay = true;
 				}
 			}

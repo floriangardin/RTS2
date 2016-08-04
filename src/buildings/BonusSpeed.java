@@ -2,6 +2,7 @@ package buildings;
 
 
 import main.Main;
+import model.Game;
 import model.Plateau;
 import units.Character;
 
@@ -10,7 +11,7 @@ public class BonusSpeed extends Bonus{
 
 	public BonusSpeed(Plateau p , float x , float y){
 		this.initialize(p, x, y);
-		this.image = this.p.g.images.get("bonusSpeed").getScaledCopy(Main.ratioSpace);
+		this.image = Game.g.images.get("bonusSpeed").getScaledCopy(Main.ratioSpace);
 		this.bonus = 20f;
 	}
 
@@ -32,7 +33,7 @@ public class BonusSpeed extends Bonus{
 			c.maxVelocity +=this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
-			this.sound.play(1f, this.p.g.options.soundVolume);
+			this.sound.play(1f, Game.g.options.soundVolume);
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

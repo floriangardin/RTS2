@@ -7,8 +7,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Game;
-import multiplaying.InputObject;
 
 public class Menu_TextScanner extends Menu_Item{
 
@@ -146,7 +147,7 @@ public class Menu_TextScanner extends Menu_Item{
 	public void update(Input i, InputObject im){
 		if(s==null)
 			s = "";
-		if(im.isPressedTAB){
+		if(im.isPressed(KeyEnum.Tab)){
 			// autocompletion
 			// mise à jour de la liste de nom
 			//TODO améliorer le système d'autocompéltion
@@ -195,7 +196,7 @@ public class Menu_TextScanner extends Menu_Item{
 				back = 0;
 				cooldown = 0;
 			}
-			if(im.isPressedENTER){
+			if(im.isPressed(KeyEnum.Enter)){
 				isSelected = false;
 			}
 			animation +=1;

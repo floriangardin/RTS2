@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import model.Player;
@@ -85,8 +86,8 @@ public class UnitArchange extends Character {
 		// Attack sound
 		float damage = this.damage;
 	
-		if(this.p.g.sounds!=null)
-			this.p.g.sounds.get(this.weapon).play(1f,this.p.g.options.soundVolume);
+		if(Game.g.sounds!=null)
+			Game.g.sounds.get(this.weapon).play(1f,Game.g.options.soundVolume);
 
 		if(c.armor<damage){
 			c.setLifePoints(c.lifePoints+c.armor-damage);

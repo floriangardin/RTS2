@@ -1,6 +1,5 @@
 package battleIA;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import battleIA.IAStateOfGame.BuildingIA;
@@ -11,6 +10,7 @@ import buildings.BuildingHeadquarters;
 import buildings.BuildingProduction;
 import buildings.BuildingsList;
 import model.Checkpoint;
+import model.Game;
 import model.Plateau;
 import units.Character;
 import units.UnitsList;
@@ -508,15 +508,15 @@ public final class IAfunctions {
 
 	// ressources
 	public int getFood(){
-		return this.p.g.teams.get(currentTeam).food;
+		return Game.g.teams.get(currentTeam).food;
 	}
 
 	public int getGold(){
-		return this.p.g.teams.get(currentTeam).gold;
+		return Game.g.teams.get(currentTeam).gold;
 	}
 
 	public int getSpecial(){
-		return this.p.g.teams.get(currentTeam).special;
+		return Game.g.teams.get(currentTeam).special;
 	}
 
 

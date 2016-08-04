@@ -28,7 +28,6 @@ public class BuildingTower extends Building{
 	public BuildingTower(Plateau p,Game g,float f, float h, int team){
 		teamCapturing = 0;
 		this.p =p;
-		this.g =g;
 		this.damage = 20f;
 		this.setTeam(team);
 		this.maxLifePoints = this.gameteam.data.towerLifePoints;
@@ -38,7 +37,7 @@ public class BuildingTower extends Building{
 		this.printName = "Tour de Guet";
 		this.chargeTime = this.gameteam.data.towerChargeTime;
 		this.sight = this.gameteam.data.towerSight;
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 //		if(getTeam()==1){
 //			this.image = this.p.g.images.get("buildingTowerBlue");
 //		} else if(getTeam()==2){
@@ -49,8 +48,8 @@ public class BuildingTower extends Building{
 		this.initialize(f, h);
 		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
 		canAttack = false;
-		this.animationBleu = this.p.g.images.get("buildingTowerBlueAnimation");
-		this.animationRouge = this.p.g.images.get("buildingTowerRedAnimation");
+		this.animationBleu = Game.g.images.get("buildingTowerBlueAnimation");
+		this.animationRouge = Game.g.images.get("buildingTowerRedAnimation");
 	}
 
 	public void action(){

@@ -1,13 +1,13 @@
 package spells;
 
-import main.Main;
-import model.Objet;
-import model.Plateau;
-
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Polygon;
 
+import main.Main;
+import model.Game;
+import model.Objet;
+import model.Plateau;
 import units.Character;
 
 public class Firewall extends SpellEffect{
@@ -26,8 +26,8 @@ public class Firewall extends SpellEffect{
 
 	public Firewall(Plateau p, Character launcher, Objet t,int id){
 		if(id==-1){
-			this.id = p.g.idChar;
-			p.g.idChar+=1;
+			this.id = Game.g.idChar;
+			Game.g.idChar+=1;
 		}
 		else{
 			this.id =id;
@@ -42,7 +42,7 @@ public class Firewall extends SpellEffect{
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		image = p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
+		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();

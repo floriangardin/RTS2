@@ -22,10 +22,9 @@ public class BuildingMill extends BuildingTech{
 	public BuildingMill(Plateau p,Game g,float f, float h, int team){
 		
 		this.p =p;
-		this.g =g;
 		this.setTeam(team);
 		this.type = 1;
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		this.name= "mill";
 		this.printName = "Ferme";
 		this.maxLifePoints = getGameTeam().data.millLifePoints;
@@ -33,7 +32,7 @@ public class BuildingMill extends BuildingTech{
 		this.lifePoints = getGameTeam().data.millLifePoints;
 		this.sizeX = Data.millSizeX; 
 		this.sizeY = Data.millSizeY;
-		this.sight = p.g.players.get(getTeam()).data.millSight;
+		this.sight = Game.g.players.get(getTeam()).data.millSight;
 		this.initialize(f, h);
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
@@ -88,7 +87,7 @@ public class BuildingMill extends BuildingTech{
 	
 	public void drawAnimation(Graphics g){
 		if(getTeam()!=0){
-			g.drawImage(this.p.g.images.get("smoke"), this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+			g.drawImage(Game.g.images.get("smoke"), this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
 		}
 	}
 }

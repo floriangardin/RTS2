@@ -3,9 +3,8 @@ import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
 
-import multiplaying.InputObject;
+import control.InputObject;
 import display.BottomBar;
-import display.TopBar;
 
 public class Player {
 	public Vector<ActionObjet> selection;
@@ -52,7 +51,7 @@ public class Player {
 	}
 	public void setTeam(int team){
 		this.team = team;
-		this.gameteam = this.p.g.teams.get(team);
+		this.gameteam = Game.g.teams.get(team);
 	}
 	
 	
@@ -103,7 +102,7 @@ public class Player {
 			gameteam.special=Integer.parseInt(hs.get("special"));
 		}
 		if(hs.containsKey("team")){
-			for(GameTeam t : this.p.g.teams){
+			for(GameTeam t : Game.g.teams){
 				if(t.id == Integer.parseInt(hs.get("team"))){
 					this.gameteam = t;
 					this.team = t.id;

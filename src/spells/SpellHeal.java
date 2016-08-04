@@ -2,6 +2,7 @@ package spells;
 
 import main.Main;
 import model.Checkpoint;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -17,7 +18,7 @@ public class SpellHeal extends Spell{
 		this.chargeTime = 15f;
 		this.p = p;
 		this.name = "heal";
-		this.icon = p.g.images.get("spellHeal");
+		this.icon = Game.g.images.get("spellHeal");
 		this.range = 400f*Main.ratioSpace;
 		this.damage = 1f;
 		this.faithCost = 2;

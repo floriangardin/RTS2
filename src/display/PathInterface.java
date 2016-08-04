@@ -15,18 +15,16 @@ public class PathInterface extends Bar {
 	public float h;
 	public float rw;
 	public float rh;
-	public Game game;
 	public boolean toDraw;
 
 
 	public PathInterface(BottomBar parent){
-		this.game = parent.p.g;
 		this.p = parent.p;
 		this.player = parent.player;
-		this.startX = this.game.resX/4;
-		this.startY = this.game.resY/4;
-		this.w = this.game.resX/2;
-		this.h = this.game.resY/2;
+		this.startX = Game.g.resX/4;
+		this.startY = Game.g.resY/4;
+		this.w = Game.g.resX/2;
+		this.h = Game.g.resY/2;
 		rw = w/this.p.maxX;
 		rh = h/this.p.maxY;
 		this.toDraw = false;
@@ -40,8 +38,8 @@ public class PathInterface extends Bar {
 		// Find the high left corner
 		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
 		float hly = Math.max(startY,startY+rh*this.p.Ycam);
-		float brx = Math.min(startX+w,startX+rw*(this.p.Xcam+this.p.g.resX));
-		float bry = Math.min(startY+h,startY+rh*(this.p.Ycam+this.p.g.resY));
+		float brx = Math.min(startX+w,startX+rw*(this.p.Xcam+Game.g.resX));
+		float bry = Math.min(startY+h,startY+rh*(this.p.Ycam+Game.g.resY));
 		// Find the bottom right corner
 
 		// Draw background 
@@ -54,10 +52,10 @@ public class PathInterface extends Bar {
 		}
 		
 		g.setColor(Color.black);
-		for(float f : this.game.plateau.mapGrid.Xcoord){
+		for(float f : Game.g.plateau.mapGrid.Xcoord){
 			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);
 		}
-		for(float f : this.game.plateau.mapGrid.Ycoord){
+		for(float f : Game.g.plateau.mapGrid.Ycoord){
 			g.drawLine(startX, startY+rh*f, startX+w, startY+rh*f);
 		}
 		

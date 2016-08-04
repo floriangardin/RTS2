@@ -3,14 +3,15 @@ package mapeditor;
 import java.io.File;
 import java.util.Vector;
 
-import menu.Menu_TextScanner;
-import model.Game;
-import multiplaying.InputObject;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
+import menu.Menu_TextScanner;
+import model.Game;
 
 public class EditingBar {
 
@@ -169,15 +170,15 @@ public class EditingBar {
 
 	public void update(InputObject im, Input in){
 		// items de gauche
-		if(im.yMouse>=0 && im.yMouse<=sizeY){
-			if(im.xMouse<(sizeY+spaceY)*(5)){
+		if(im.y>=0 && im.y<=sizeY){
+			if(im.x<(sizeY+spaceY)*(5)){
 				for(int i=0; i<4; i++){
-					if(im.xMouse>=(sizeY+spaceY)*i && im.xMouse<(sizeY+spaceY)*(i+1)){
+					if(im.x>=(sizeY+spaceY)*i && im.x<(sizeY+spaceY)*(i+1)){
 						if(this.mouseOver!=i){
 							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						this.mouseOver = i;
-						if(im.pressedLeftClick){
+						if(im.isPressed(KeyEnum.LeftClick)){
 							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							this.callItem(i);
 						}
@@ -190,15 +191,15 @@ public class EditingBar {
 			this.mouseOver = -1;
 		}
 		// item de droite
-		if(im.yMouse>=0 && im.yMouse<=sizeY){
-			if(im.xMouse>editor.objectBar.startX-(sizeY+spaceY)*(5)){
+		if(im.y>=0 && im.y<=sizeY){
+			if(im.x>editor.objectBar.startX-(sizeY+spaceY)*(5)){
 				for(int i=0; i<5; i++){
-					if(im.xMouse>=editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*i && im.xMouse<editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*(i+1)){
+					if(im.x>=editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*i && im.x<editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*(i+1)){
 						if(this.mouseOverBis!=i){
 							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
 						}
 						this.mouseOverBis = i;
-						if(im.pressedLeftClick){
+						if(im.isPressed(KeyEnum.LeftClick)){
 							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
 							if(editor.plateau!=null)
 								this.callItemBis(i);
@@ -213,9 +214,9 @@ public class EditingBar {
 		}
 		if(nameEnter){
 			if(fileSelected==0){
-				if(im.pressedLeftClick && im.yMouse>sizeY && im.yMouse<2*sizeY && im.xMouse>sizeX/40f && im.xMouse<3*sizeX/40)
+				if(im.isPressed(KeyEnum.LeftClick) && im.y>sizeY && im.y<2*sizeY && im.x>sizeX/40f && im.x<3*sizeX/40)
 					currentSize = 0;
-				if(im.pressedLeftClick && im.yMouse>sizeY && im.yMouse<2*sizeY && im.xMouse>4*sizeX/40f && im.xMouse<6*sizeX/40)
+				if(im.isPressed(KeyEnum.LeftClick) && im.y>sizeY && im.y<2*sizeY && im.x>4*sizeX/40f && im.x<6*sizeX/40)
 					currentSize = 1;				
 				if(currentSize==0){
 					this.scannerSizeX.isSelected = true;
@@ -226,13 +227,13 @@ public class EditingBar {
 				}
 				this.scannerSizeY.update(in, im);
 				this.scannerSizeX.update(in, im);
-				if(im.isPressedTAB)
+				if(im.isPressed(KeyEnum.Tab))
 					currentSize = (currentSize+1)%2;
 			} else {
 				this.textScanner.isSelected = true;
 				this.textScanner.update(in, im);
 			}
-			if(im.isPressedESC){
+			if(im.isPressed(KeyEnum.Escape)){
 				if(fileSelected==0 && currentSize == 1){
 					currentSize-=1;
 					return;
@@ -242,7 +243,7 @@ public class EditingBar {
 				this.scannerSizeX.s = "";
 				this.scannerSizeY.s = "";
 			}
-			if(im.isPressedENTER){
+			if(im.isPressed(KeyEnum.Enter)){
 				if(fileSelected==0 && currentSize == 0){
 					currentSize+=1;
 					return;
