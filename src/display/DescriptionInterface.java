@@ -5,14 +5,14 @@ import org.newdawn.slick.Graphics;
 
 import buildings.Building;
 import main.Main;
-import model.ActionObjet;
+import model.Objet;
 import units.Character;
 
 public class DescriptionInterface extends Bar {
 
 	BottomBar parent;
 	float x, y, sizeX, sizeY;
-	ActionObjet c0;
+	Objet c0;
 
 	public DescriptionInterface(BottomBar parent){
 		this.parent = parent;

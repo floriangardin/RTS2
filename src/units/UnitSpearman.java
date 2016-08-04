@@ -63,7 +63,7 @@ public class UnitSpearman extends Character {
 		float damage = this.damage+bonus;
 		if(Game.g.sounds!=null)
 			Game.g.sounds.get(this.weapon).play(1f,Game.g.options.soundVolume);
-		if(c.horse!=null)
+		if(c.horse)
 			damage = damage*this.getGameTeam().data.bonusSpearHorse;
 
 		if(c.armor<damage){

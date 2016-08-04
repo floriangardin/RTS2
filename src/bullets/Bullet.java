@@ -5,17 +5,15 @@ package bullets;
 
 import java.util.HashMap;
 
-import org.newdawn.slick.Image;
-
 import buildings.Building;
-import model.ActionObjet;
 import model.Game;
+import model.Objet;
 import units.Character;
 
-public abstract class Bullet extends ActionObjet {
+public abstract class Bullet extends Objet {
 	public float damage;
 	public float areaEffect;
-	public ActionObjet owner;
+	public Objet owner;
 	public float size;
 
 	public void collision(Building c){

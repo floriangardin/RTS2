@@ -3,13 +3,12 @@ package bullets;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
-import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
+import model.Objet;
 import model.Plateau;
 import model.Utils;
 import units.Character;
@@ -23,7 +22,7 @@ public class Fireball extends Bullet {
 	protected boolean explosion= false;
 	public Image image;
 
-	public Fireball(Plateau p,ActionObjet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
+	public Fireball(Plateau p, Objet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
 		//MULTI 
 		// Parameters
 		this.altitude = 0f;

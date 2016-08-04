@@ -10,7 +10,6 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
-import model.ActionObjet;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
@@ -22,7 +21,7 @@ import ressources.Map;
 import technologies.Technologie;
 import units.Character;
 
-public class Building extends ActionObjet{
+public class Building extends Objet{
 	public float sizeX;
 	public float sizeY;
 	public int teamCapturing;

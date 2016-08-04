@@ -424,14 +424,14 @@ public class Game extends BasicGame
 		nPlayers+=1;
 
 		// adding components in plateau
-		this.plateau.selection.addElement(new Vector<ActionObjet>());
-		this.plateau.toAddSelection.addElement(new Vector<ActionObjet>());
-		this.plateau.toRemoveSelection.addElement(new Vector<ActionObjet>());
+		this.plateau.selection.addElement(new Vector<Objet>());
+		this.plateau.toAddSelection.addElement(new Vector<Objet>());
+		this.plateau.toRemoveSelection.addElement(new Vector<Objet>());
 
 		this.plateau.rectangleSelection.addElement(null);
 		this.plateau.recX.addElement(0f);
 		this.plateau.recY.addElement(0f);
-		this.plateau.inRectangle.addElement(new Vector<ActionObjet>());
+		this.plateau.inRectangle.addElement(new Vector<Objet>());
 
 	}
 
@@ -582,7 +582,7 @@ public class Game extends BasicGame
 					0, 0, this.images.get("islandTexture").getWidth(),  this.images.get("islandTexture").getHeight());
 
 			// Draw the selection of your team 
-			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
+			for(Objet o: plateau.selection.get(currentPlayer.id)){
 				if(o.target!=null && o instanceof Checkpoint){
 					Checkpoint c = (Checkpoint) o.target;
 					c.toDraw = true;

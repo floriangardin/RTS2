@@ -53,7 +53,7 @@ public class ArmyEstimator {
 			cacProportion+= (u.weapon == "sword" || u.weapon == "spear" ? 1 : 0);
 			rangeProportion+=(u.weapon == "bow" || u.weapon == "wand" ? 1 : 0);
 			spellCasterProportion+= (u.spells.size()>1 ? 1 : 0);
-			mountedProportion+= (u.horse!=null ? 1 : 0); ;
+			mountedProportion+= (u.horse ? 1 : 0); ;
 		}
 		// CALCULATE MEANS
 		meanX /= 1f*n;

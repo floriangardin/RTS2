@@ -6,9 +6,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import model.Data;
 import model.GameTeam;
-import model.Horse;
 import model.Plateau;
-import model.Player;
 
 public class UnitPriest extends Character {
 
@@ -35,7 +33,7 @@ public class UnitPriest extends Character {
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 70f*Main.ratioSpace;
-		this.horse = new Horse(p,this);
+		this.horse = true;
 		this.spells.add(data.immolation);
 		this.spells.add(data.conversion);
 		this.updateImage();

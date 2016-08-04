@@ -71,9 +71,9 @@ public class Plateau {
 	public Vector<NaturalObjet> toAddNaturalObjets;
 	public Vector<NaturalObjet> toRemoveNaturalObjets;
 
-	public Vector<Vector<ActionObjet>> selection;
-	public Vector<Vector<ActionObjet>> toAddSelection;
-	public Vector<Vector<ActionObjet>> toRemoveSelection;
+	public Vector<Vector<Objet>> selection;
+	public Vector<Vector<Objet>> toAddSelection;
+	public Vector<Vector<Objet>> toRemoveSelection;
 
 	public Vector<SpellEffect> spells;
 	public Vector<SpellEffect> toAddSpells;
@@ -83,7 +83,7 @@ public class Plateau {
 	public Vector<Float> recX;
 	public Vector<Float> recY;
 	
-	public Vector<Vector<ActionObjet>> inRectangle; // Je sais pas ce que c'est
+	public Vector<Vector<Objet>> inRectangle; // Je sais pas ce que c'est
 
 
 	public MapGrid mapGrid;
@@ -132,20 +132,20 @@ public class Plateau {
 		this.checkpoints = new Vector<Checkpoint>();
 		this.markersBuilding = new Vector<Checkpoint>();
 		// SELECTION
-		this.selection = new Vector<Vector<ActionObjet>>();
-		this.toAddSelection = new Vector<Vector<ActionObjet>>();
-		this.toRemoveSelection = new Vector<Vector<ActionObjet>>();
+		this.selection = new Vector<Vector<Objet>>();
+		this.toAddSelection = new Vector<Vector<Objet>>();
+		this.toRemoveSelection = new Vector<Vector<Objet>>();
 		this.rectangleSelection = new Vector<Rectangle>();
 		this.recX = new Vector<Float>();
 		this.recY = new Vector<Float>();
-		this.inRectangle = new Vector<Vector<ActionObjet>>();
+		this.inRectangle = new Vector<Vector<Objet>>();
 
 		for(int i =0; i<g.nPlayers;i++){
-			this.selection.addElement(new Vector<ActionObjet>());
-			this.toAddSelection.addElement(new Vector<ActionObjet>());
-			this.toRemoveSelection.addElement(new Vector<ActionObjet>());
+			this.selection.addElement(new Vector<Objet>());
+			this.toAddSelection.addElement(new Vector<Objet>());
+			this.toRemoveSelection.addElement(new Vector<Objet>());
 			this.rectangleSelection.addElement(null);
-			this.inRectangle.addElement(new Vector<ActionObjet>());
+			this.inRectangle.addElement(new Vector<Objet>());
 			this.recX.addElement(0f);
 			this.recY.addElement(0f);
 		}
@@ -217,11 +217,11 @@ public class Plateau {
 		toRemoveSpells.addElement(o);
 	}
 
-	public void addSelection(ActionObjet o, int team) {
+	public void addSelection(Objet o, int team) {
 		toAddSelection.get(team).addElement(o);
 	}
 
-	public void removeSelection(ActionObjet o, int team) {
+	public void removeSelection(Objet o, int team) {
 		toRemoveSelection.get(team).addElement(o);
 	}
 
@@ -279,17 +279,17 @@ public class Plateau {
 		}
 		checkpoints.removeAll(toremove);
 		// Update selection and groups
-		Vector<ActionObjet> toDelete = new Vector<ActionObjet>();
+		Vector<Objet> toDelete = new Vector<Objet>();
 		for (int i = 0; i < Game.g.nPlayers; i++) {
-			for (ActionObjet c : selection.get(i)) {
+			for (Objet c : selection.get(i)) {
 				if (!c.isAlive()) {
 					this.removeSelection(c, i);
 				}
 			}
-			for (ActionObjet o : toRemoveSelection.get(i)) {
+			for (Objet o : toRemoveSelection.get(i)) {
 				selection.get(i).remove(o);
 			}
-			for (ActionObjet o : toAddSelection.get(i)) {
+			for (Objet o : toAddSelection.get(i)) {
 				selection.get(i).addElement(o);
 			}
 			if (toAddSelection.get(i).size() > 0) {
@@ -350,7 +350,7 @@ public class Plateau {
 	public void collision() {
 		this.mapGrid.updateSurroundingChars();
 		for (Character o : characters) {
-			// Handle collision between actionObjets and action objects
+			// Handle collision between Objets and action objects
 			if (o.c != null) {
 				for (Character i : o.c.surroundingChars) {
 					// We suppose o and i have circle collision box
@@ -442,7 +442,7 @@ public class Plateau {
 		for (Building e : this.buildings) {
 			e.action();
 		}
-		for (ActionObjet a : this.spells) {
+		for (Objet a : this.spells) {
 			a.action();
 		}
 		for (Bonus a : this.bonus) {
@@ -475,7 +475,7 @@ public class Plateau {
 			target = new Checkpoint(this, x, y);
 		}
 		int i = 0;
-		for (ActionObjet c : this.selection.get(team)) {
+		for (Objet c : this.selection.get(team)) {
 			if(c instanceof Building && mode==Character.DESTROY_BUILDING){
 				((Building) c).giveUpProcess = true;
 				continue;
@@ -517,7 +517,7 @@ public class Plateau {
 				// Then we create its new group
 				o.group = new Vector<Character>();
 				Vector<Case> waypoints = null;
-				for (ActionObjet c1 : this.selection.get(team)) {
+				for (Objet c1 : this.selection.get(team)) {
 					if (c1 == c)
 						continue;
 					if (c1 instanceof Character) {
@@ -549,7 +549,7 @@ public class Plateau {
 		if (target == null) {
 			target = new Checkpoint(this, x, y);
 		}
-		for (ActionObjet c : this.selection.get(team)) {
+		for (Objet c : this.selection.get(team)) {
 			if (c instanceof Character) {
 				Character o = (Character) c;
 				// first we deal with o's elder group
@@ -560,7 +560,7 @@ public class Plateau {
 				}
 				// Then we create its new group
 				o.group = new Vector<Character>();
-				for (ActionObjet c1 : this.selection.get(team))
+				for (Objet c1 : this.selection.get(team))
 					if (c1 instanceof Character)
 						o.group.add((Character) c1);
 				o.secondaryTargets.add(target);
@@ -795,7 +795,7 @@ public class Plateau {
 		}
 		if (im.isPressed(KeyEnum.StopperMouvement)) {
 			// STOP SELECTION
-			for (ActionObjet c : this.selection.get(player)) {
+			for (Objet c : this.selection.get(player)) {
 				if (c instanceof Character) {
 					((Character) c).stop();
 					((Character) c).mode = Character.NORMAL;
@@ -1030,10 +1030,10 @@ public class Plateau {
 			if(im.isPressed(KeyEnum.Spearmen)){
 				//Lancier
 				Game.g.players.get(player).groupSelection = 0;
-				this.selection.set(player, new Vector<ActionObjet>());
+				this.selection.set(player, new Vector<Objet>());
 				for(Character o : this.characters){
 					if(o.getGameTeam().id == team && o instanceof UnitSpearman){
-						this.selection.get(player).add((ActionObjet)o);
+						this.selection.get(player).add((Objet)o);
 					}
 				}
 				System.out.println();
@@ -1041,41 +1041,41 @@ public class Plateau {
 			else if(im.isPressed(KeyEnum.Bowmen)){
 				//Archer
 				Game.g.players.get(player).groupSelection = 1;
-				this.selection.set(player, new Vector<ActionObjet>());
+				this.selection.set(player, new Vector<Objet>());
 				for(Character o : this.characters){
 					if(o.getGameTeam().id == team && o instanceof UnitCrossbowman){
-						this.selection.get(player).add((ActionObjet)o);
+						this.selection.get(player).add((Objet)o);
 					}
 				}
 			}
 			else if(im.isPressed(KeyEnum.Knights)){
 				//Chevalier
 				Game.g.players.get(player).groupSelection = 1;
-				this.selection.set(player, new Vector<ActionObjet>());
+				this.selection.set(player, new Vector<Objet>());
 				for(Character o : this.characters){
 					if(o.getGameTeam().id == team && o instanceof UnitKnight){
 
-						this.selection.get(player).add((ActionObjet)o);
+						this.selection.get(player).add((Objet)o);
 					}
 				}
 			}
 			else if(im.isPressed(KeyEnum.Inquisitors)){
 				//Inquisitor
 				Game.g.players.get(player).groupSelection = 1;
-				this.selection.set(player, new Vector<ActionObjet>());
+				this.selection.set(player, new Vector<Objet>());
 				for(Character o : this.characters){
 					if(o.getGameTeam().id == team && o instanceof UnitInquisitor){
-						this.selection.get(player).add((ActionObjet)o);
+						this.selection.get(player).add((Objet)o);
 					}
 				}
 			}
 			else if(im.isPressed(KeyEnum.AllUnits)){
 				//Tous
 				Game.g.players.get(player).groupSelection = 4;
-				this.selection.set(player, new Vector<ActionObjet>());
+				this.selection.set(player, new Vector<Objet>());
 				for(Character o : this.characters){
 					if(o.getGameTeam().id == team){
-						this.selection.get(player).add((ActionObjet)o);
+						this.selection.get(player).add((Objet)o);
 					}
 				}
 			}
@@ -1092,8 +1092,8 @@ public class Plateau {
 				//Barrack
 				for(Objet o : visible){
 					if(o instanceof BuildingBarrack &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
+						Vector<Objet> sel = new Vector<Objet>();
+						sel.addElement((Objet)o);
 						this.selection.set(player,sel);
 						break;
 					}else if(o instanceof BuildingBarrack && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
@@ -1106,8 +1106,8 @@ public class Plateau {
 				// Stable
 				for(Objet o : visible){
 					if(o instanceof BuildingStable &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
+						Vector<Objet> sel = new Vector<Objet>();
+						sel.addElement((Objet)o);
 						this.selection.set(player,sel);
 						break;
 					}else if(o instanceof BuildingStable && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
@@ -1120,8 +1120,8 @@ public class Plateau {
 				//Headquarters
 				for(Objet o : visible){
 					if(o instanceof BuildingHeadquarters &&(this.selection.get(player).size()==0 || this.selection.get(player).get(0)!=o)){
-						Vector<ActionObjet> sel = new Vector<ActionObjet>();
-						sel.addElement((ActionObjet)o);
+						Vector<Objet> sel = new Vector<Objet>();
+						sel.addElement((Objet)o);
 						this.selection.set(player,sel);
 						break;
 					}else if(o instanceof BuildingHeadquarters && this.selection.get(player).size()!=0 && this.selection.get(player).get(0)==o){
@@ -1203,7 +1203,7 @@ public class Plateau {
 		}
 		// Update the selections of the players
 		Game.g.players.get(player).selection.clear();
-		for (ActionObjet c : this.selection.get(player))
+		for (Objet c : this.selection.get(player))
 			Game.g.players.get(player).selection.addElement(c);
 
 	}
@@ -1211,7 +1211,7 @@ public class Plateau {
 
 	public void updateSelection(Rectangle select, int player, int team) {
 		if (select != null) {
-			for (ActionObjet a : this.inRectangle.get(player)) {
+			for (Objet a : this.inRectangle.get(player)) {
 				this.selection.get(player).remove(a);
 			}
 			this.inRectangle.get(player).clear();
@@ -1235,7 +1235,7 @@ public class Plateau {
 				}
 			} else {
 				Vector<Character> chars = new Vector<Character>();
-				for(ActionObjet o : this.selection.get(player)){
+				for(Objet o : this.selection.get(player)){
 					if(o instanceof Character){
 						chars.add((Character) o);
 					}
@@ -1272,7 +1272,7 @@ public class Plateau {
 			}
 			Vector<Objet> visibles = this.getInCamObjets(player);
 			if (this.toAddSelection.get(player).size() == 1) {
-				ActionObjet ao = this.toAddSelection.get(player).get(0);
+				Objet ao = this.toAddSelection.get(player).get(0);
 				if (ao instanceof Character) {
 					for (Character o : characters) {
 						if (o.getTeam() == team && o.name == ao.name && visibles.contains(o)) {
@@ -1336,7 +1336,7 @@ public class Plateau {
 				s+="-1;";
 			}
 			else{
-				for(ActionObjet o: this.selection.get(i)){
+				for(Objet o: this.selection.get(i)){
 					s+=o.id+";";
 				}
 			}
@@ -1418,8 +1418,8 @@ public class Plateau {
 			}
 		}
 	}
-	public ActionObjet getById(int id){
-		ActionObjet o = getCharacterById(id);
+	public Objet getById(int id){
+		Objet o = getCharacterById(id);
 		if(o!=null){
 			return o;
 		}

@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Circle;
 
 import units.Character;
 
-public class Checkpoint extends ActionObjet {
+public class Checkpoint extends Objet {
 	float printed;
 	int mode;
 	public Color color;

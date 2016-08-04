@@ -2,12 +2,11 @@ package spells;
 
 import java.util.HashMap;
 
-import model.ActionObjet;
-import model.Game;
-import model.Plateau;
-import units.Character;
 import model.Checkpoint;
-public class SpellEffect extends ActionObjet{
+import model.Game;
+import model.Objet;
+import units.Character;
+public class SpellEffect extends Objet{
 
 	public int type;
 

@@ -1,8 +1,5 @@
 package units;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -10,7 +7,6 @@ import main.Main;
 import model.Data;
 import model.Game;
 import model.GameTeam;
-import model.Horse;
 import model.Objet;
 import model.Plateau;
 
@@ -38,7 +34,7 @@ public class UnitKnight extends Character {
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.radiusCollisionBox+20f*Main.ratioSpace;
-		this.horse = new Horse(p,this);
+		this.horse = true;
 		this.spells.add(data.immolation);
 		this.spells.add(data.fence);
 		this.animStep = 32f;

@@ -9,14 +9,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Transform;
 
 import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
 import display.DisplayRessources;
 import main.Main;
-import model.ActionObjet;
 import model.Checkpoint;
 import model.Civilisation;
 import model.Colors;
@@ -25,13 +23,12 @@ import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
-import model.RidableObjet;
 import model.Utils;
 import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
 
-public class Character extends ActionObjet{
+public class Character extends Objet{
 
 
 	public boolean explosionWhenImmolate = false;
@@ -88,7 +85,7 @@ public class Character extends ActionObjet{
 	public float frozen = 0f;
 	public boolean someoneStopped;
 	// Equipment attributes
-	public RidableObjet horse;
+	public boolean horse;
 
 	public int typeWeapon, typeHorse;
 	//public Player player;
@@ -261,18 +258,7 @@ public class Character extends ActionObjet{
 	}
 
 
-	//Set functions
-
-	@Deprecated
-	public void setHorse(RidableObjet horse) {
-		if(horse!=null){
-			this.typeHorse = 1;
-		}else if (this.horse!=null){
-			this.typeHorse = 0;
-		}
-		this.horse = horse;
-		this.updateImage();
-	}
+	
 	//Update functions
 
 	public void updateImage(){
@@ -611,13 +597,8 @@ public class Character extends ActionObjet{
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
-		if(this.horse!=null){
-			g.draw(this.collisionBox);
+		g.draw(this.collisionBox);
 
-		} else {
-			g.draw(this.collisionBox);
-			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-		}
 		if(mode==MOVE || mode==NORMAL){
 			g.setColor(Colors.team0);
 		}
@@ -898,10 +879,10 @@ public class Character extends ActionObjet{
 
 	public boolean encounters(Character c){
 		boolean b = false;
-		if(c.horse!=null && this.name=="Spearman"){
+		if(c.horse && this.name=="Spearman"){
 			return true;
 		}
-		if(c.horse==null && this.weapon == "bow"){
+		if(!c.horse && this.weapon == "bow"){
 			return true;
 		}
 		if(c.weapon == "bow" && this.weapon =="wand"){
@@ -1112,7 +1093,7 @@ public class Character extends ActionObjet{
 			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
 		}
 		if(hs.containsKey("tid")){
-			ActionObjet target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+			Objet target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
 			if(target==null){
 				target = p.getBuildingById(Integer.parseInt(hs.get("tid")));
 			}

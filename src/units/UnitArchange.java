@@ -71,13 +71,8 @@ public class UnitArchange extends Character {
 	
 	public void drawIsSelected(Graphics g){
 		g.setColor(Color.green);
-		if(this.horse!=null){
-			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
-
-		} else {
-			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
-			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-		}
+		g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
+		
 	}
 
 	public void useWeapon(){

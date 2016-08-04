@@ -62,7 +62,7 @@ public class Arrow extends CollisionBullet{
 		if(c.getTeam()!=this.owner.getTeam()){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
-			if(c.horse==null){
+			if(!c.horse){
 				damage = damage * this.getGameTeam().data.bonusBowFoot;
 			}
 			if(c.armor<=damage){
