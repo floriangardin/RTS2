@@ -671,7 +671,7 @@ public class Plateau {
 		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
-			int player = im.player.id;
+			int player = im.idplayer;
 
 			//handle victory
 			if(im.isPressed(KeyEnum.Escape)){

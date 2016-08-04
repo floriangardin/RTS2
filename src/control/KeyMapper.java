@@ -68,7 +68,7 @@ public class KeyMapper {
 		}
 	}
 
-	public enum KeyEnum {
+	public enum KeyEnum implements java.io.Serializable{
 		LeftClick,
 		RightClick,
 		MiddleClick,

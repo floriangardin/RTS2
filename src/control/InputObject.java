@@ -1,8 +1,6 @@
 package control;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ObjectInputStream;
 import java.util.Vector;
 import org.newdawn.slick.Input;
 
@@ -21,7 +19,7 @@ public class InputObject implements java.io.Serializable{
 	private static final long serialVersionUID = 371933210691238615L;
 	public int id;
 	public int round;
-	public Player player;
+	public int idplayer;
 
 	public Vector<Boolean> validated;
 	public boolean toPlay;
@@ -35,7 +33,7 @@ public class InputObject implements java.io.Serializable{
 
 	public InputObject (){
 		this.id= 0;
-		this.player = null;
+		this.idplayer = -1;
 		this.round = 0;
 		down = new Vector<KeyEnum>();
 		pressed = new Vector<KeyEnum>();
@@ -46,11 +44,11 @@ public class InputObject implements java.io.Serializable{
 		this.validated = new Vector<Boolean>();
 	}
 
-	public InputObject (Game g, Player player, Input input,boolean toPlay, KeyMapper km){
-		this.id= g.idInput;
-		g.idInput ++;
-		this.player = player;
-		this.round = g.round;
+	public InputObject (int idplayer, Input input,boolean toPlay, KeyMapper km){
+		this.id= Game.g.idInput;
+		Game.g.idInput ++;
+		this.idplayer = idplayer;
+		this.round = Game.g.round;
 		down = new Vector<KeyEnum>();
 		pressed = new Vector<KeyEnum>();
 		x = input.getMouseX();
@@ -83,10 +81,14 @@ public class InputObject implements java.io.Serializable{
 
 		this.isOnMiniMap = false;
 		//TODO : check if on minimap
-		if(player !=null && player.bottomBar!=null){
+		Player player = null;
+		if(idplayer>0 && idplayer<Game.g.players.size()){
+			player = Game.g.players.get(idplayer);
+		}
+		if(player!=null && player.bottomBar!=null){
 			// checking if on minimap or not
-			this.isOnMiniMap = this.x>(1-player.bottomBar.ratioMinimapX)*g.resX && this.y>(g.resY-player.bottomBar.ratioMinimapX*g.resX) && this.x<g.resX-2f && this.y<g.resY-2f ;
-			this.isOnMiniMap = this.isOnMiniMap && g.plateau.rectangleSelection.get(g.currentPlayer.id)==null;
+			this.isOnMiniMap = this.x>(1-player.bottomBar.ratioMinimapX)*Game.g.resX && this.y>(Game.g.resY-player.bottomBar.ratioMinimapX*Game.g.resX) && this.x<Game.g.resX-2f && this.y<Game.g.resY-2f ;
+			this.isOnMiniMap = this.isOnMiniMap && Game.g.plateau.rectangleSelection.get(Game.g.currentPlayer.id)==null;
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick)){
 				if(player.bottomBar.action.toDrawDescription[0]){
@@ -117,21 +119,21 @@ public class InputObject implements java.io.Serializable{
 				}
 			}
 		}
-		if(g.isInMenu || g.inEditor)
+		if(Game.g.isInMenu || Game.g.inEditor)
 			return;
 
-		this.x = input.getAbsoluteMouseX()+g.plateau.Xcam;
-		this.y = input.getAbsoluteMouseY()+g.plateau.Ycam;
+		this.x = input.getAbsoluteMouseX()+Game.g.plateau.Xcam;
+		this.y = input.getAbsoluteMouseY()+Game.g.plateau.Ycam;
 
 		if(isOnMiniMap){
 			//			System.out.println("miniMap");
 			BottomBar b = player.bottomBar;
-			this.x = (int) Math.floor((this.x-g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
-			this.y = (int) Math.floor((this.y-g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
+			this.x = (int) Math.floor((this.x-Game.g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
+			this.y = (int) Math.floor((this.y-Game.g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
 		}
 
 		this.validated = new Vector<Boolean>();
-		for(Player p:g.players)
+		for(Player p:Game.g.players)
 			validated.add(false);
 	}
 
@@ -154,7 +156,7 @@ public class InputObject implements java.io.Serializable{
 
 	public String getMessageValidationToSend(Game g) {
 
-		return ""+this.round+"|"+this.player.id+"|"+g.currentPlayer.id+"|";
+		return ""+this.round+"|"+this.idplayer+"|"+g.currentPlayer.id+"|";
 	}
 
 	public boolean isValidated() {

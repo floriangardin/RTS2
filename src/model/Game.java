@@ -770,7 +770,7 @@ public class Game extends BasicGame
 	//Handling cosmetic for current player in lan game
 	public void updateCosmetic(InputObject im){
 		//SELECTION RECTANGLE
-		if (im.player == Game.g.currentPlayer) {
+		if (im.idplayer == Game.g.currentPlayer.id) {
 			plateau.handleMouseHover(im);
 		}
 		if (im.isDown(KeyEnum.LeftClick)) {
@@ -825,7 +825,11 @@ public class Game extends BasicGame
 		this.taunts.update();
 		if(isInMenu){
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,currentPlayer,in,true, this.keymapper);
+			int id = -1;
+			if(currentPlayer != null){
+				id = currentPlayer.id;
+			}
+			InputObject im = new InputObject(id,in,true, this.keymapper);
 			if(inMultiplayer && (menuCurrent instanceof MenuMapChoice || menuCurrent instanceof MenuMulti)){
 				this.chatHandler.action(in,im);
 			}
@@ -834,7 +838,7 @@ public class Game extends BasicGame
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();
-			InputObject im = new InputObject(this,currentPlayer,in,!processSynchro, keymapper);
+			InputObject im = new InputObject(currentPlayer.id,in,!processSynchro, keymapper);
 			this.editor.update(im,in);
 		} else if(!endGame) {
 
@@ -860,7 +864,7 @@ public class Game extends BasicGame
 			//			if(in.isKeyPressed(Input.KEY_RALT)){
 			//				this.displayMapGrid = !this.displayMapGrid;
 			//			}
-			InputObject im = new InputObject(this,currentPlayer,in,true, keymapper);
+			InputObject im = new InputObject(currentPlayer.id,in,true, keymapper);
 			this.chatHandler.action(in,im);
 			if(this.chatHandler.typingMessage){
 				im.eraseLetter();
