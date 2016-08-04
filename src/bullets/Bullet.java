@@ -46,23 +46,23 @@ public abstract class Bullet extends ActionObjet {
 		this.parseActionObjet(hs);
 	}
 
-	public static Bullet createNewBullet(HashMap<String,String> hs,Game g){
+	public static Bullet createNewBullet(HashMap<String,String> hs){
 		Bullet c=null;
 		//Get back the owner 
-		Character cha = g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
+		Character cha = Game.g.plateau.getCharacterById(Integer.parseInt(hs.get("ownerid")));
 		float vx = Float.parseFloat(hs.get("vxtarget"));
 		float vy = Float.parseFloat(hs.get("vytarget"));
 
 
 		switch(hs.get("name")){
 		case "arrow":
-			c =  new Arrow(g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+			c =  new Arrow(Game.g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			break;
 		case "fireball":
 			if(hs.containsKey("targetX") && hs.containsKey("targetY") ){
 				float targetX = Float.parseFloat(hs.get("targetX"));
 				float targetY = Float.parseFloat(hs.get("targetY"));
-				c =  new Fireball(g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+				c =  new Fireball(Game.g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			}	
 			break;
 		default:

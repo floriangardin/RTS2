@@ -2,6 +2,7 @@ package spells;
 
 import main.Main;
 import model.Checkpoint;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -16,7 +17,7 @@ public class SpellFrozen extends Spell{
 		this.chargeTime = 450f;
 		this.p = p;
 		this.name = "Fence";
-		this.icon = p.g.images.get("spellFirewall");
+		this.icon = Game.g.images.get("spellFirewall");
 		this.range = 400f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 5f;

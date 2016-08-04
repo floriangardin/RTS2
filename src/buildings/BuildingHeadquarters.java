@@ -36,7 +36,6 @@ public class BuildingHeadquarters extends BuildingTech {
 		// Init ProductionList
 		this.hq = this;
 		this.p = plateau ;
-		this.g = g;
 		this.productionList = new Vector<Technologie>();
 		this.allTechs = new Vector<Technologie>();
 		this.gameteam = g.teams.get(team);
@@ -108,7 +107,7 @@ public class BuildingHeadquarters extends BuildingTech {
 		maxLifePoints = this.getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
 		this.printName = "Centre Ville";
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 5;
 
 		this.initialize(f,h);

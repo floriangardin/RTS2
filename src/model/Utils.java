@@ -290,13 +290,13 @@ public class Utils {
 		System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Players");
-		if(p.g.players==null)
+		if(Game.g.players==null)
 			System.out.println("-> bug: players est null");
 		else{
-			for(Player c:p.g.players)
+			for(Player c:Game.g.players)
 				System.out.println(c.toString());
 		}
-		System.out.println("currentplayer: " + p.g.currentPlayer);
+		System.out.println("currentplayer: " + Game.g.currentPlayer);
 		System.out.println();System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Characters");

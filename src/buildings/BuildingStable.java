@@ -15,7 +15,6 @@ public class BuildingStable extends BuildingProduction{
 		teamCapturing= 0;
 		
 		this.p = plateau ;
-		this.g = g;
 		this.setTeam(team);
 		maxLifePoints = getGameTeam().data.stableLifePoints;
 		this.sizeX = Data.stableSizeX; 
@@ -23,7 +22,7 @@ public class BuildingStable extends BuildingProduction{
 		this.sight = this.getGameTeam().data.stableSight;
 		this.name = "stable";
 		this.printName = "Ecurie";
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 2;
 		this.initialize(f, h);
 		// List of potential production (Spearman

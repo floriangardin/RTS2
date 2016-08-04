@@ -15,7 +15,6 @@ public class BuildingAcademy extends BuildingProduction {
 		teamCapturing= 0;
 		//this.animation=-1f;
 		this.p = plateau ;
-		this.g = g;
 		this.setTeam(team);
 		maxLifePoints = this.getGameTeam().data.academyLifePoints;
 		this.sizeX = Data.academySizeX; 
@@ -24,9 +23,9 @@ public class BuildingAcademy extends BuildingProduction {
 		this.initialize(f, h);
 		this.name = "academy";
 		this.printName = "Académie";
-		this.selection_circle = this.p.g.images.get("rectSelectsizeBuilding");
+		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 4;
-		this.g = g;
+		Game.g = g;
 		// List of potential production (Spearman
 		this.queue = new Vector<Integer>();
 		this.productionList = new Vector<UnitsList>();

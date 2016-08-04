@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import model.Game;
 import model.Plateau;
 import model.Player;
 
@@ -38,9 +39,9 @@ public class BottomBar extends Bar {
 		this.resX = resX;
 		this.resY = resY;
 		this.sizeX = resX;
-		this.sizeY = this.p.g.relativeHeightBottomBar*resY;
+		this.sizeY = Game.g.relativeHeightBottomBar*resY;
 		this.x = 0;
-		this.y = (1f-this.p.g.relativeHeightBottomBar)*resY;
+		this.y = (1f-Game.g.relativeHeightBottomBar)*resY;
 		
 		this.selection = new SelectionInterface(this);
 		this.description = new DescriptionInterface(this);

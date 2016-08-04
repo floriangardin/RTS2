@@ -51,37 +51,37 @@ public class ChatMessage {
 	}
 
 
-	public static ChatMessage getById(String s,Game g){
+	public static ChatMessage getById(String s){
 		switch(s){
 		case "food" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Pas assez de nourriture", 0,Color.red);
 		case "building taken":
-			g.sounds.get("buildingTaken").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("buildingTaken").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Bâtiment capturé", 0,Color.green);
 		case "gold" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Pas assez d'or", 0,Color.red);
 		case "faith" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Pas assez de foi", 0,Color.red);
 		case "research" : 
-			g.sounds.get("techDiscovered").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("techDiscovered").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Technologie découverte", 0,Color.green);
 		case "mana" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Pas assez de mana", 0,Color.red);
 		case "pop" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Limite de population atteinte", 0,Color.red);
 		case "building" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Capture impossible", 0,Color.red);
 		case "attack" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Vous êtes attaqué !", 0,Color.red);
 		case "unit created" :
-			g.sounds.get("messageWrong").play(1f,g.options.soundVolume );
+			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Unité produite", 0,Color.green);
 		default : 
 			return null;

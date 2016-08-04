@@ -9,6 +9,7 @@ import buildings.Building;
 import main.Main;
 import model.ActionObjet;
 import model.Checkpoint;
+import model.Game;
 import model.Plateau;
 import model.Utils;
 import units.Character;
@@ -33,8 +34,8 @@ public class Fireball extends Bullet {
 		//
 		this.p = p;
 		if(id==-1){
-			this.id = p.g.idBullet;
-			p.g.idBullet++;
+			this.id = Game.g.idBullet;
+			Game.g.idBullet++;
 		}
 		else{
 			this.id = id;
@@ -43,10 +44,10 @@ public class Fireball extends Bullet {
 		p.addBulletObjets(this);
 		this.p = p;
 		this.damage = damage;
-		this.image = (this.p.g.images.get("fireball")).getSubImage(0, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-		this.image1 = (this.p.g.images.get("fireball")).getSubImage(75, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-		this.image2 = (this.p.g.images.get("fireball")).getSubImage(150, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-		this.boom = this.p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
+		this.image = (Game.g.images.get("fireball")).getSubImage(0, 150, 75, 75).getScaledCopy(Main.ratioSpace);
+		this.image1 = (Game.g.images.get("fireball")).getSubImage(75, 150, 75, 75).getScaledCopy(Main.ratioSpace);
+		this.image2 = (Game.g.images.get("fireball")).getSubImage(150, 150, 75, 75).getScaledCopy(Main.ratioSpace);
+		this.boom = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		this.animation = 0;
 		this.lifePoints = 30f;
 		this.owner = owner;
@@ -69,8 +70,8 @@ public class Fireball extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-		this.sound = p.g.sounds.get("fireball");
-		this.sound.play(1f,this.p.g.options.soundVolume);
+		this.sound = Game.g.sounds.get("fireball");
+		this.sound.play(1f,Game.g.options.soundVolume);
 	}
 	
 	public Fireball(){}

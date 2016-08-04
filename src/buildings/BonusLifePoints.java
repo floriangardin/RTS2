@@ -1,5 +1,6 @@
 package buildings;
 import main.Main;
+import model.Game;
 import model.Plateau;
 import units.Character;
 public class BonusLifePoints extends Bonus{
@@ -9,7 +10,7 @@ public class BonusLifePoints extends Bonus{
 
 	public BonusLifePoints(Plateau p , float x , float y){
 		this.initialize(p, x, y);
-		this.image = this.p.g.images.get("bonusLifePoints").getScaledCopy(Main.ratioSpace);
+		this.image = Game.g.images.get("bonusLifePoints").getScaledCopy(Main.ratioSpace);
 		this.bonus = 50f;
 
 	}
@@ -32,7 +33,7 @@ public class BonusLifePoints extends Bonus{
 			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;
-			this.sound.play(1f, this.p.g.options.soundVolume);
+			this.sound.play(1f, Game.g.options.soundVolume);
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

@@ -40,6 +40,7 @@ import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
+import control.KeyMapper.KeyEnum;
 import display.DisplayRessources;
 import main.Main;
 import mapeditor.MapEditor;
@@ -137,6 +138,13 @@ public class Game extends BasicGame
 	public Musics musics;
 	public Taunts taunts;
 	public Music musicPlaying;
+
+	/////////////////////////
+	/// RENDER ATTRIBUTES ///
+	/////////////////////////
+	public static Image fog;
+	public static Graphics gf;
+	public Cosmetic cosmetic;
 
 	// Timer
 	public Timer timer ;
@@ -644,14 +652,14 @@ public class Game extends BasicGame
 			for(Objet o: toDraw)
 				o.draw(g);
 			// draw fog of war
-			plateau.drawFogOfWar(g);
+			drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
 
 			// Draw the selection :
-			if(plateau.cosmetic.selection!=null){
+			if(cosmetic.selection!=null){
 				g.setColor(Colors.selection);
-				this.plateau.cosmetic.draw(g);
+				cosmetic.draw(g);
 			}
 
 			// Draw and handle display ressources
@@ -734,6 +742,56 @@ public class Game extends BasicGame
 
 
 	}
+
+	// drawing fog of war method
+	public void drawFogOfWar(Graphics g) {
+		Vector<Objet> visibleObjet = new Vector<Objet>();
+		visibleObjet = this.plateau.getInCamObjets(Game.g.currentPlayer.getTeam());
+		float resX = Game.g.resX;
+		float resY = Game.g.resY;
+		gf.setColor(new Color(255, 255, 255));
+		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
+		gf.setColor(new Color(50, 50, 50));
+		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - this.plateau.Xcam);
+		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - this.plateau.Ycam);
+		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - this.plateau.Xcam);
+		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - this.plateau.Ycam);
+		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
+		gf.setColor(Color.white);
+		for (Objet o : visibleObjet) {
+			gf.fillOval(o.x - this.plateau.Xcam - o.sight, o.y - this.plateau.Ycam - o.sight, o.sight * 2f, o.sight * 2f);
+		}
+		gf.flush();
+		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+		g.drawImage(fog, this.plateau.Xcam, this.plateau.Ycam);
+		g.setDrawMode(Graphics.MODE_NORMAL);
+	}
+
+	//Handling cosmetic for current player in lan game
+	public void updateCosmetic(InputObject im){
+		//SELECTION RECTANGLE
+		if (im.player == Game.g.currentPlayer) {
+			plateau.handleMouseHover(im);
+		}
+		if (im.isDown(KeyEnum.LeftClick)) {
+
+
+			if (im.isOnMiniMap && cosmetic.selection==null) {
+				return;
+			}
+			if (this.cosmetic.selection == null|| im.isPressed(KeyEnum.ToutSelection)) {
+				cosmetic.recX= (float) im.x;
+				cosmetic.recY= (float) im.y;
+				cosmetic.selection = new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
+			}
+			cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.x),
+					(float) Math.min(cosmetic.recY, im.y), (float) Math.abs(im.x - cosmetic.recX) + 0.1f,
+					(float) Math.abs(im.y - cosmetic.recY) + 0.1f);
+		}else{
+			cosmetic.selection = null;
+		}
+	}
+
 
 
 	//////////////
@@ -848,7 +906,7 @@ public class Game extends BasicGame
 					System.out.println("Game 839 : round drop "+round);
 				}
 				this.plateau.updatePlateauState();
-				this.plateau.updateCosmetic(im);
+				this.updateCosmetic(im);
 				if(this.gillesBombe){
 					this.handleGillesBombe();
 				}
@@ -868,7 +926,7 @@ public class Game extends BasicGame
 				} else {
 					this.updateInit();
 				}
-				this.plateau.updateCosmetic(im);
+				this.updateCosmetic(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
 				//Update replay
@@ -1193,8 +1251,8 @@ public class Game extends BasicGame
 		if(gc!=null)
 			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
 
-		Plateau.fog = new Image((int) (resX), (int) (resY));
-		Plateau.gf = Plateau.fog.getGraphics();
+		fog = new Image((int) (resX), (int) (resY));
+		gf = fog.getGraphics();
 
 		double rdm = Math.random();
 		if(rdm<0.25){
@@ -1255,6 +1313,8 @@ public class Game extends BasicGame
 
 	public void handleEndLoading(){
 		Map.initializePlateau(g, 1f, 1f);
+		//COSMETIC
+		this.cosmetic = new Cosmetic();
 		app.setMinimumLogicUpdateInterval(1000/Main.framerate);
 		app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 
@@ -1322,7 +1382,7 @@ public class Game extends BasicGame
 	}
 
 	//private static long timeToSend;
-	
+
 	public void sendFromGame(MultiMessage m) throws FatalGillesError{
 		for(int i=1; i<this.nPlayers; i++){
 			if(i!=currentPlayer.id){

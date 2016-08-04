@@ -85,7 +85,7 @@ public class Checkpoint extends ActionObjet {
 		if(!toDraw && !alwaysDraw){
 			return g;
 		}
-		if(this.lastRoundUpdate==this.p.g.round){
+		if(this.lastRoundUpdate==Game.g.round){
 			return g;
 		}
 
@@ -111,7 +111,7 @@ public class Checkpoint extends ActionObjet {
 			g.draw(drawShape2);
 			g.setColor(color);
 			g.draw(drawShape);
-			this.lastRoundUpdate = this.p.g.round;
+			this.lastRoundUpdate = Game.g.round;
 		}
 		g.setAntiAlias(false);
 		return g;

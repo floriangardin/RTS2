@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.Checkpoint;
+import model.Game;
 import model.Plateau;
 import units.Character;
 
@@ -28,19 +29,19 @@ public class BlessedArea extends SpellEffect{
 
 	public BlessedArea(Plateau p, Character launcher, Checkpoint t,int id){
 		if(id==-1){
-			this.id = p.g.idChar;
-			p.g.idChar+=1;
+			this.id = Game.g.idChar;
+			Game.g.idChar+=1;
 		}
 		else{
 			this.id =id;
 		}
 		this.type = 2;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
+		this.id = Game.g.idChar;
+		Game.g.idChar+=1;
 		this.lifePoints = 1f;
 		this.p = p;
 		p.addSpell(this);
-		this.image = p.g.images.get("blessedArea");
+		this.image = Game.g.images.get("blessedArea");
 		owner = launcher;
 		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
 		this.x = t.getX();

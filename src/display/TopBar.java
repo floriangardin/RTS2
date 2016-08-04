@@ -42,73 +42,73 @@ public class TopBar extends Bar {
 	public void update(int resX, int resY){
 
 		this.sizeX = resX;
-		this.sizeY = this.p.g.relativeHeightTopBar*resY;
+		this.sizeY = Game.g.relativeHeightTopBar*resY;
 		this.x = 0f;
 		this.y = 0f;
 	}
 
 	public Graphics draw(Graphics g){
 		String s;
-		float rX = this.p.g.resX;
-		float rY = this.p.g.resY;
+		float rX = Game.g.resX;
+		float rY = Game.g.resY;
 		float offset = ratioSizeTimerY*rY;
 		float yCentral = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debutC-dureeDescente)/dureeDescente));
 		offset = ratioSizeGoldY*rY;
 		float y1 = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debut1-dureeDescente)/dureeDescente));
 		float y2 = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debut2-dureeDescente)/dureeDescente));
 		
-		if(gold != p.g.currentPlayer.getGameTeam().gold)
-			gold += (p.g.currentPlayer.getGameTeam().gold-gold)/5+Math.signum(p.g.currentPlayer.getGameTeam().gold-gold);
-		if(food != p.g.currentPlayer.getGameTeam().food)
-			food += (p.g.currentPlayer.getGameTeam().food-food)/5+Math.signum(p.g.currentPlayer.getGameTeam().food-food);
+		if(gold != Game.g.currentPlayer.getGameTeam().gold)
+			gold += (Game.g.currentPlayer.getGameTeam().gold-gold)/5+Math.signum(Game.g.currentPlayer.getGameTeam().gold-gold);
+		if(food != Game.g.currentPlayer.getGameTeam().food)
+			food += (Game.g.currentPlayer.getGameTeam().food-food)/5+Math.signum(Game.g.currentPlayer.getGameTeam().food-food);
 		
 
 		// pop
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+this.p.g.currentPlayer.getGameTeam().pop + "/" + this.p.g.currentPlayer.getGameTeam().maxPop;
-		if(this.p.g.currentPlayer.getGameTeam().pop==this.p.g.currentPlayer.getGameTeam().maxPop){
+		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		s = ""+Game.g.currentPlayer.getGameTeam().pop + "/" + Game.g.currentPlayer.getGameTeam().maxPop;
+		if(Game.g.currentPlayer.getGameTeam().pop==Game.g.currentPlayer.getGameTeam().maxPop){
 			g.setColor(Color.red);
 		}else{
 			g.setColor(Color.white);
 		}
-		g.drawString(s, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawString(s, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX-10f-Game.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imagePop, (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, y2+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
 
 		// food
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+food;
 		g.setColor(Color.white);
-		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-this.p.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-Game.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
 
 		// faith
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-4,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+this.p.g.currentPlayer.getGameTeam().special;
+		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-4,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		s = ""+Game.g.currentPlayer.getGameTeam().special;
 		g.setColor(Color.white);
-		g.drawString(s, (1+ratioSizeTimerX)*rX/2+2*ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawString(s, (1+ratioSizeTimerX)*rX/2+2*ratioSizeGoldX*rX-10f-Game.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imageSpecial, (1+ratioSizeTimerX)*rX/2+10+ratioSizeGoldX*rX, y2+ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
 
 		// gold
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2-4,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2-4,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+gold;
 		g.setColor(Color.white);
-		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-this.p.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-p.g.font.getHeight("0")/2-3f);
+		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-Game.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, y1+ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
 
 		// timer
-		Utils.drawNiceRect(g,p.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
-		s = ""+model.Utils.gameTime(this.p.g.startTime);
+		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
+		s = ""+model.Utils.gameTime(Game.g.startTime);
 		g.setColor(Color.white);
-		g.drawString(s, rX/2-this.p.g.font.getWidth(s)/2, yCentral+ratioSizeTimerY*rY/2f-20);
+		g.drawString(s, rX/2-Game.g.font.getWidth(s)/2, yCentral+ratioSizeTimerY*rY/2f-20);
 
 
-		//		g.drawImage(this.imageTimer, 3*this.p.g.resX/7, 0);
-		//		g.drawImage(this.imageFood, 4*this.p.g.resX/7, 0);
+		//		g.drawImage(this.imageTimer, 3*Game.g.resX/7, 0);
+		//		g.drawImage(this.imageFood, 4*Game.g.resX/7, 0);
 		//		g.setColor(Color.white);
-		//		s = ""+this.p.g.currentPlayer.getGameTeam().food;
-		//		g.drawString(s, 4.8f*this.p.g.resX/7-this.p.g.font.getWidth(s), this.imageGold.getHeight()/2f-this.p.g.font.getHeight(s)/2f);
-		//		s = model.Utils.gameTime(this.p.g.startTime);
-		//		g.drawString(s, this.p.g.resX/2-this.p.g.font.getWidth(s)/2, this.imageTimer.getHeight()/2f-this.p.g.font.getHeight(s)/2f);
+		//		s = ""+Game.g.currentPlayer.getGameTeam().food;
+		//		g.drawString(s, 4.8f*Game.g.resX/7-Game.g.font.getWidth(s), this.imageGold.getHeight()/2f-Game.g.font.getHeight(s)/2f);
+		//		s = model.Utils.gameTime(Game.g.startTime);
+		//		g.drawString(s, Game.g.resX/2-Game.g.font.getWidth(s)/2, this.imageTimer.getHeight()/2f-Game.g.font.getHeight(s)/2f);
 		return g;
 	}
 
@@ -122,52 +122,52 @@ public class TopBar extends Bar {
 
 
 		g.setColor(Color.white);
-		g.drawString(model.Utils.gameTime(this.p.g.startTime), this.sizeX/3, (this.sizeY-28)/2);
+		g.drawString(model.Utils.gameTime(Game.g.startTime), this.sizeX/3, (this.sizeY-28)/2);
 		// Draw subcomponents :
 
 		String food = ":";
-		if(this.p.g.currentPlayer.getGameTeam().food<10)
+		if(Game.g.currentPlayer.getGameTeam().food<10)
 			food+="0";
-		if(this.p.g.currentPlayer.getGameTeam().food<100)
+		if(Game.g.currentPlayer.getGameTeam().food<100)
 			food+="0";
-		if(this.p.g.currentPlayer.getGameTeam().food<1000)
+		if(Game.g.currentPlayer.getGameTeam().food<1000)
 			food+="0";
 		String gold = ":";
-		if(this.p.g.currentPlayer.getGameTeam().gold<10)
+		if(Game.g.currentPlayer.getGameTeam().gold<10)
 			gold+="0";
-		if(this.p.g.currentPlayer.getGameTeam().gold<100)
+		if(Game.g.currentPlayer.getGameTeam().gold<100)
 			gold+="0";
-		if(this.p.g.currentPlayer.getGameTeam().gold<1000)
+		if(Game.g.currentPlayer.getGameTeam().gold<1000)
 			gold+="0";
 		String special = ":";
-		if(this.p.g.currentPlayer.getGameTeam().special<10)
+		if(Game.g.currentPlayer.getGameTeam().special<10)
 			special+="0";
-		if(this.p.g.currentPlayer.getGameTeam().special<100)
+		if(Game.g.currentPlayer.getGameTeam().special<100)
 			special+="0";
-		if(this.p.g.currentPlayer.getGameTeam().special<1000)
+		if(Game.g.currentPlayer.getGameTeam().special<1000)
 			special+="0";
 		String pop = ":";
-		if(this.p.g.currentPlayer.getGameTeam().pop<10)
+		if(Game.g.currentPlayer.getGameTeam().pop<10)
 			pop+="0";
-		float sizefood = this.p.g.font.getWidth(food);
-		float sizegold = this.p.g.font.getWidth(gold);
-		float sizespecial = this.p.g.font.getWidth(special);
-		float sizepop = this.p.g.font.getWidth(pop);
+		float sizefood = Game.g.font.getWidth(food);
+		float sizegold = Game.g.font.getWidth(gold);
+		float sizespecial = Game.g.font.getWidth(special);
+		float sizepop = Game.g.font.getWidth(pop);
 
 
 		// Draw Ressources
 		g.drawImage(this.imageFood, 11.2f*this.sizeX/16,(this.sizeY-24)/2);
 		g.drawString(":", 11.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.g.currentPlayer.getGameTeam().food, 11.5f*this.sizeX/16+sizefood,(this.sizeY-28)/2);
+		g.drawString(""+Game.g.currentPlayer.getGameTeam().food, 11.5f*this.sizeX/16+sizefood,(this.sizeY-28)/2);
 		g.drawImage(this.imageGold, 12.2f*this.sizeX/16,(this.sizeY-24)/2);
 		g.drawString(":", 12.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.g.currentPlayer.getGameTeam().gold, 12.5f*this.sizeX/16+sizegold,(this.sizeY-28)/2);
+		g.drawString(""+Game.g.currentPlayer.getGameTeam().gold, 12.5f*this.sizeX/16+sizegold,(this.sizeY-28)/2);
 		g.drawImage(this.imageSpecial, 13.2f*this.sizeX/16,(this.sizeY-32)/2);
 		g.drawString(":", 13.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.g.currentPlayer.getGameTeam().special, 13.5f*this.sizeX/16+sizespecial,(this.sizeY-28)/2);
+		g.drawString(""+Game.g.currentPlayer.getGameTeam().special, 13.5f*this.sizeX/16+sizespecial,(this.sizeY-28)/2);
 		g.drawImage(this.imagePop, 14.2f*this.sizeX/16,(this.sizeY-32)/2);
 		g.drawString(":", 14.5f*this.sizeX/16,(this.sizeY-28)/2);
-		g.drawString(""+this.p.g.currentPlayer.getGameTeam().pop+"/"+this.p.g.currentPlayer.getGameTeam().maxPop, 14.5f*this.sizeX/16+sizepop,(this.sizeY-28)/2);
+		g.drawString(""+Game.g.currentPlayer.getGameTeam().pop+"/"+Game.g.currentPlayer.getGameTeam().maxPop, 14.5f*this.sizeX/16+sizepop,(this.sizeY-28)/2);
 		// Draw separation 
 
 		return g;

@@ -3,6 +3,7 @@ package spells;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
 import main.Main;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -19,7 +20,7 @@ public class SpellProduct extends Spell{
 		this.chargeTime = 15f;
 		this.width = 15f*Main.ratioSpace;
 		this.name = "Spell Product";
-		this.icon = p.g.images.get("spellProduct");
+		this.icon = Game.g.images.get("spellProduct");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 250f;

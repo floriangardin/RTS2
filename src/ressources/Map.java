@@ -135,10 +135,6 @@ public class Map {
 			br.close(); 
 			// Création de la map
 			game.plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
-			game.plateau.Zcam = Zcam;
-			game.plateau.Scam = Scam;
-			game.plateau.Qcam = Qcam;
-			game.plateau.Dcam = Dcam;
 			Data data1 = game.teams.get(1).data;
 			Data data2 = game.teams.get(2).data;
 			// Headquarters

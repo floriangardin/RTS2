@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.Colors;
+import model.Game;
 import model.Plateau;
 import ressources.Map;
 
@@ -27,7 +28,6 @@ public abstract class Bonus extends Building{
 
 	public void initialize(Plateau p , float x , float y){
 		this.p = p;
-		this.g = p.g;
 		this.lifePoints = 10f;
 		this.maxLifePoints = 20f;
 		this.lifePoints = 1f;
@@ -41,7 +41,7 @@ public abstract class Bonus extends Building{
 		this.hitBoxSize = 30f*Main.ratioSpace;
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
-		this.sound = this.p.g.sounds.get("bonusTaken");
+		this.sound = Game.g.sounds.get("bonusTaken");
 
 	}
 	

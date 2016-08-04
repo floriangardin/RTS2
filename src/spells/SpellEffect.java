@@ -30,14 +30,14 @@ public class SpellEffect extends ActionObjet{
 
 	}
 
-	public static SpellEffect createNewSpell(HashMap<String, String> hs, Game g) {
+	public static SpellEffect createNewSpell(HashMap<String, String> hs) {
 		SpellEffect sp = null;
 		int type = Integer.parseInt(hs.get("typeSpell"));
-		Character launcher = g.plateau.getCharacterById(Integer.parseInt(hs.get("idLauncher")));
+		Character launcher = Game.g.plateau.getCharacterById(Integer.parseInt(hs.get("idLauncher")));
 		switch(type){
-			case 1: sp = new Firewall(g.plateau,launcher,new Checkpoint(g.plateau,Float.parseFloat(hs.get("x2")),Float.parseFloat(hs.get("y2"))),Integer.parseInt(hs.get("id")));
+			case 1: sp = new Firewall(Game.g.plateau,launcher,new Checkpoint(Game.g.plateau,Float.parseFloat(hs.get("x2")),Float.parseFloat(hs.get("y2"))),Integer.parseInt(hs.get("id")));
 			break;
-			case 2: sp = new BlessedArea(g.plateau,launcher,new Checkpoint(g.plateau,Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y"))),Integer.parseInt(hs.get("id")));
+			case 2: sp = new BlessedArea(Game.g.plateau,launcher,new Checkpoint(Game.g.plateau,Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y"))),Integer.parseInt(hs.get("id")));
 			break;
 		}
 		return sp;

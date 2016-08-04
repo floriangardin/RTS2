@@ -1,6 +1,7 @@
 package spells;
 
 import main.Main;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -18,7 +19,7 @@ public class SpellInstantDeath extends Spell{
 		this.chargeTime = 450f;
 		this.width = 15f*Main.ratioSpace;
 		this.name = "Instant Death";
-		this.icon = p.g.images.get("spellInstantDeath");
+		this.icon = Game.g.images.get("spellInstantDeath");
 		this.range = 200f*Main.ratioSpace;
 		this.damage = 1f;
 		this.remainingTime = 250f;

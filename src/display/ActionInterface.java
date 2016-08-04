@@ -26,7 +26,6 @@ public class ActionInterface extends Bar {
 	public float startY2;
 	public float sizeX;
 	public float sizeY;
-	public Game game;
 	public Image imageGold ;
 	public Image imageFood;
 	public Image imageSpecial;
@@ -42,18 +41,17 @@ public class ActionInterface extends Bar {
 
 
 	public ActionInterface(BottomBar parent){
-		this.game = parent.p.g;
 		float ratio =1f/prodIconNb;
 		this.p = parent.p;
 		this.player = parent.player;
-		this.sizeX = this.game.resX*parent.ratioBarVertX;
-		this.offset = parent.p.g.resX*parent.ratioSelectionX;
+		this.sizeX = Game.g.resX*parent.ratioBarVertX;
+		this.offset = Game.g.resX*parent.ratioSelectionX;
 		this.sizeY = 5*sizeX;
 		this.icoSizeX = ratio*this.sizeY+2f;
 		this.icoSizeY = ratio*this.sizeY+2f;
 		this.x = 0;
-		this.startY = this.game.resY - this.sizeY - parent.ratioSelectionX*parent.p.g.resX;
-		this.startY2 = this.game.resY - parent.ratioSelectionX*parent.p.g.resX;
+		this.startY = Game.g.resY - this.sizeY - parent.ratioSelectionX*Game.g.resX;
+		this.startY2 = Game.g.resY - parent.ratioSelectionX*Game.g.resX;
 		this.y = startY2;
 
 		toDrawDescription[0] = false;
@@ -83,7 +81,7 @@ public class ActionInterface extends Bar {
 			y = startY2+(y-startY2)/5;
 		
 		float ratio =1f/prodIconNb;
-		Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, x-4, y-5, sizeX+4, sizeY+9);
+		Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, x-4, y-5, sizeX+4, sizeY+9);
 		g.setColor(Color.darkGray);
 		for(int i=0; i<5; i++){
 			g.setColor(Color.darkGray);
@@ -93,17 +91,17 @@ public class ActionInterface extends Bar {
 
 
 		// Draw Production/Effect Bar
-		if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingProduction){
+		if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof BuildingProduction){
 			mouseOnIt = true;
-			BuildingProduction b =(BuildingProduction) this.p.g.currentPlayer.selection.get(0);
+			BuildingProduction b =(BuildingProduction) Game.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<UnitsList> ul = b.productionList;
 			int limit = Math.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(this.p.g.images.get("icon"+ul.get(i).name), this.x+2f, this.y+2f + i*this.sizeX, this.x-5f+this.sizeX, this.y+2f+(i+1)*(sizeX-5), 0, 0, 512,512);
+				g.drawImage(Game.g.images.get("icon"+ul.get(i).name), this.x+2f, this.y+2f + i*this.sizeX, this.x-5f+this.sizeX, this.y+2f+(i+1)*(sizeX-5), 0, 0, 512,512);
 				g.setColor(Color.white);
-				g.setColor(this.p.g.currentPlayer.getGameTeam().color);
+				g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
 				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
@@ -116,9 +114,9 @@ public class ActionInterface extends Bar {
 					g.drawString(Integer.toString(((int)ul.get(i).time)),this.x + 6.35f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
-		}else if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof BuildingTech){
+		}else if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof BuildingTech){
 			mouseOnIt = true;
-			BuildingTech b =(BuildingTech) this.p.g.currentPlayer.selection.get(0);
+			BuildingTech b =(BuildingTech) Game.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Technologie> ul = b.productionList;
 			int limit = Math.min(5, ul.size());
@@ -126,7 +124,7 @@ public class ActionInterface extends Bar {
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(ul.get(i).icon, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
 				// CHANGE PUT PRICES
-				g.setColor(this.p.g.currentPlayer.getGameTeam().color);
+				g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
 				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
@@ -139,9 +137,9 @@ public class ActionInterface extends Bar {
 					g.drawString(Integer.toString(((int)ul.get(i).tech.prodTime)),this.x + 6.35f*(this.sizeX+400f)/7 , this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
 				}
 			}
-		} else if(this.p.g.currentPlayer.selection.size()>0 && this.p.g.currentPlayer.selection.get(0) instanceof Character){
+		} else if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof Character){
 			mouseOnIt = true;
-			Character b =(Character) this.p.g.currentPlayer.selection.get(0);
+			Character b =(Character) Game.g.currentPlayer.selection.get(0);
 			//Print building capacities
 			Vector<Spell> ul = b.spells;
 			int limit = Math.min(5, ul.size());
@@ -151,11 +149,11 @@ public class ActionInterface extends Bar {
 				if(state.get(i)==ul.get(i).chargeTime){
 					g.setColor(Color.white);
 				} else {
-					g.setColor(this.p.g.currentPlayer.getGameTeam().color);
+					g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				}
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
 				g.drawImage(ul.get(i).icon, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
-				Color c = this.p.g.currentPlayer.getGameTeam().color;
+				Color c = Game.g.currentPlayer.getGameTeam().color;
 				c.a = 0.8f;
 				g.setColor(c);
 				if(state.get(i)>10){

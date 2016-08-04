@@ -16,7 +16,6 @@ import model.Colors;
 import model.Game;
 import model.MarkerBuilding;
 import model.Objet;
-import model.Plateau;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
 import ressources.Map;
@@ -24,7 +23,6 @@ import technologies.Technologie;
 import units.Character;
 
 public class Building extends ActionObjet{
-	public Game g;
 	public float sizeX;
 	public float sizeY;
 	public int teamCapturing;
@@ -57,8 +55,8 @@ public class Building extends ActionObjet{
 		
 		p.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
-		this.id = p.g.idChar;
-		p.g.idChar+=1;
+		this.id = Game.g.idChar;
+		Game.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
 		this.marker = new MarkerBuilding(p,x,y,this);
 		this.selectionBox = (Rectangle)this.collisionBox;
@@ -117,21 +115,21 @@ public class Building extends ActionObjet{
 
 		if(this.constructionPoints>=this.maxLifePoints && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
-				if(((this.g.teams.get(potentialTeam).pop+2)<=this.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (this instanceof BuildingHeadquarters)){
+				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (this instanceof BuildingHeadquarters)){
 
 					this.setTeam(this.potentialTeam);
 					if(this instanceof BuildingHeadquarters){
-						this.p.g.endGame = true;
-						if(this.getTeam()==this.p.g.currentPlayer.getTeam()){
-							this.p.g.victory = true;
+						Game.g.endGame = true;
+						if(this.getTeam()==Game.g.currentPlayer.getTeam()){
+							Game.g.victory = true;
 						}
 						else{
-							this.p.g.victory = false;
+							Game.g.victory = false;
 						}
 					}
 				}else if(ChatHandler.remainingTimeNotEnoughRoom<=0f){
 					ChatHandler.remainingTimeNotEnoughRoom=10f;
-					this.g.sendMessage(ChatMessage.getById("pop",g));
+					Game.g.sendMessage(ChatMessage.getById("pop"));
 				}
 
 			}
@@ -284,7 +282,7 @@ public class Building extends ActionObjet{
 				if(potentialTeam!=getTeam()){
 					this.setTeam(0);
 				}
-				this.hq = this.p.g.teams.get(potentialTeam).hq;
+				this.hq = Game.g.teams.get(potentialTeam).hq;
 			}
 		}
 	}
@@ -311,11 +309,11 @@ public class Building extends ActionObjet{
 		if(!(this instanceof Bonus) && this.gameteam!=null){
 			this.getGameTeam().pop-=2;
 		}
-		if(this.g.currentPlayer!=null && i==this.g.currentPlayer.id && !(this instanceof BuildingHeadquarters)){
-			this.g.sendMessage(ChatMessage.getById("building taken",this.g));
+		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(this instanceof BuildingHeadquarters)){
+			Game.g.sendMessage(ChatMessage.getById("building taken"));
 
 		}
-		this.gameteam = this.p.g.teams.get(i);
+		this.gameteam = Game.g.teams.get(i);
 		if(!(this instanceof Bonus)  && this.gameteam!=null){
 			this.hq = this.getGameTeam().hq;
 			this.getGameTeam().pop+=2;

@@ -51,7 +51,7 @@ public class Player {
 	}
 	public void setTeam(int team){
 		this.team = team;
-		this.gameteam = this.p.g.teams.get(team);
+		this.gameteam = Game.g.teams.get(team);
 	}
 	
 	
@@ -102,7 +102,7 @@ public class Player {
 			gameteam.special=Integer.parseInt(hs.get("special"));
 		}
 		if(hs.containsKey("team")){
-			for(GameTeam t : this.p.g.teams){
+			for(GameTeam t : Game.g.teams){
 				if(t.id == Integer.parseInt(hs.get("team"))){
 					this.gameteam = t;
 					this.team = t.id;

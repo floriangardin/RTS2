@@ -136,8 +136,8 @@ public class Character extends ActionObjet{
 		this.size = c.size;
 		p.addCharacterObjets(this);
 		if(id==-1){
-			this.id = p.g.idChar;
-			p.g.idChar+=1;
+			this.id = Game.g.idChar;
+			Game.g.idChar+=1;
 		}
 		else{
 			this.id = id;
@@ -570,7 +570,7 @@ public class Character extends ActionObjet{
 	}
 
 	protected void drawImmolation(Graphics g,float r) {
-		Image fire = this.p.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
+		Image fire = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		r = fire.getWidth()/5f;
 		x = this.getX();
 		y = this.getY();
@@ -1010,8 +1010,8 @@ public class Character extends ActionObjet{
 					}
 				}
 			}
-			if(p.g.sounds.get("fire").playing())
-				p.g.sounds.get("fire").stop();
+			if(Game.g.sounds.get("fire").playing())
+				Game.g.sounds.get("fire").stop();
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 			Game.g.addDisplayRessources(new DisplayRessources(this.getGameTeam().data.gainedFaithByImmolation,"faith",this.x,this.y));
@@ -1209,7 +1209,7 @@ public class Character extends ActionObjet{
 
 	}
 
-	public static Character createNewCharacter(HashMap<String,String> hs,Game g){
+	public static Character createNewCharacter(HashMap<String,String> hs){
 		Character c;
 		int id = Integer.parseInt(hs.get("id"));
 		float x = Float.parseFloat(hs.get("x"));
@@ -1217,23 +1217,23 @@ public class Character extends ActionObjet{
 		int team = Integer.parseInt(hs.get("tm"));
 		switch(hs.get("name")){
 		case "spearman":
-			c =  new UnitSpearman(g.teams.get(team).data.spearman,x,y,id);	
+			c =  new UnitSpearman(Game.g.teams.get(team).data.spearman,x,y,id);	
 			break;
 		case "knight":
-			c = new UnitKnight(g.teams.get(team).data.knight,x,y,id);	
+			c = new UnitKnight(Game.g.teams.get(team).data.knight,x,y,id);	
 
 			break;
 		case "priest":
-			c =  new UnitPriest(g.teams.get(team).data.priest,x,y,id);
+			c =  new UnitPriest(Game.g.teams.get(team).data.priest,x,y,id);
 			break;	
 		case "crossbowman":
-			c =  new UnitCrossbowman(g.teams.get(team).data.crossbowman,x,y,id);
+			c =  new UnitCrossbowman(Game.g.teams.get(team).data.crossbowman,x,y,id);
 			break;	
 		case "inquisitor":
-			c =  new UnitInquisitor(g.teams.get(team).data.inquisitor,x,y,id);
+			c =  new UnitInquisitor(Game.g.teams.get(team).data.inquisitor,x,y,id);
 			break;
 		case "archange":
-			c = new UnitArchange(g.teams.get(team).data.archange,x,y,id);
+			c = new UnitArchange(Game.g.teams.get(team).data.archange,x,y,id);
 			break;
 		default:
 			c = null;
