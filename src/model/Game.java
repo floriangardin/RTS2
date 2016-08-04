@@ -154,7 +154,7 @@ public class Game extends BasicGame
 	public float relativeHeightTopBar = 1f/20f;
 
 	// Selection
-	public Rectangle selection;
+
 	public boolean new_selection;
 	public Vector<Objet> objets_selection= new Vector<Objet>();
 
@@ -1327,7 +1327,7 @@ public class Game extends BasicGame
 		//System.out.println(g.plateau.mapGrid);
 		//			Map.createMapEmpty(g);
 		// Instantiate BottomBars for all players:
-		g.selection = null;
+		g.inputsHandler.selection = null;
 		try {
 			g.addressLocal = InetAddress.getLocalHost();
 			String address = g.addressLocal.getHostAddress();

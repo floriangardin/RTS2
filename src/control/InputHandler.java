@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.Game;
@@ -14,6 +15,10 @@ import tests.Test;
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
+	public Rectangle selection;
+	public Vector<Rectangle> rectangleSelection;
+	public Vector<Float> recX;
+	public Vector<Float> recY;
 	
 	Game g;
 

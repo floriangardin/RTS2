@@ -105,6 +105,7 @@ public class KeyMapper {
 		Stable,
 		HeadQuarters, 
 		GlobalRallyPoint,
-		AllUnits;
+		AllUnits,
+		Abandon;
 	}
 }

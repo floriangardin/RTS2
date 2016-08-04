@@ -82,7 +82,8 @@ public class Plateau {
 	public Vector<Rectangle> rectangleSelection;
 	public Vector<Float> recX;
 	public Vector<Float> recY;
-	public Vector<Vector<ActionObjet>> inRectangle;
+	
+	public Vector<Vector<ActionObjet>> inRectangle; // Je sais pas ce que c'est
 
 
 	public MapGrid mapGrid;
@@ -674,7 +675,7 @@ public class Plateau {
 			int player = im.idplayer;
 
 			//handle victory
-			if(im.isPressed(KeyEnum.Escape)){
+			if(im.isPressed(KeyEnum.Abandon)){
 				Game.g.endGame = true;
 				if(player!=Game.g.currentPlayer.id){
 					Game.g.victory = true;
