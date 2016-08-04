@@ -15,8 +15,7 @@ public class SpellProduct extends Spell{
 	public float remainingTime;
 	public float width;
 
-	public SpellProduct(Plateau p, GameTeam gameteam){
-		this.p = p;
+	public SpellProduct(GameTeam gameteam){
 		this.chargeTime = 15f;
 		this.width = 15f*Main.ratioSpace;
 		this.name = "Spell Product";

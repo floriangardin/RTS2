@@ -574,7 +574,7 @@ public class IAPlayer extends Player{
 	 *
 	 * Clear specified units group
 	 *
-	 * @param  c  the vector of wanted selection
+	 * @param  idCase  the vector of wanted selection
 	 * @param  group  the vector of wanted selection
 	 */
 	public void clearUnitGroup(int group){
@@ -590,7 +590,7 @@ public class IAPlayer extends Player{
 	 *
 	 * Clear specified buildings group
 	 *
-	 * @param  c  the vector of wanted selection
+	 * @param  idCase  the vector of wanted selection
 	 * @param  group  the vector of wanted selection
 	 */
 	public void clearBuildingsGroup(int group){

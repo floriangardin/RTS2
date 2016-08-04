@@ -14,9 +14,8 @@ public class BuildingUniversity extends BuildingTech {
 
 	public Player player;
 	
-	public BuildingUniversity(Plateau plateau, Game g, float f, float h, int team) {
+	public BuildingUniversity( float f, float h, int team) {
 		// Init ProductionList
-		this.p = plateau ;
 		this.productionList = new Vector<Technologie>();
 		this.setTeam(team);
 		
@@ -33,12 +32,11 @@ public class BuildingUniversity extends BuildingTech {
 		this.name = "university";
 		this.printName = "Université";
 		this.initialize(f, h);
-		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 6;
 		// List of potential production (Spearman
 		
 		this.updateProductionList();
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
 	}
 	public void removeProd() {
 		if(this.queue!=null){

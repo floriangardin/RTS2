@@ -25,9 +25,8 @@ public class BuildingTower extends Building{
 	public Image animationBleu;
 	public Image animationRouge;
 
-	public BuildingTower(Plateau p,Game g,float f, float h, int team){
+	public BuildingTower(float f, float h, int team){
 		teamCapturing = 0;
-		this.p =p;
 		this.damage = 20f;
 		this.setTeam(team);
 		this.maxLifePoints = this.gameteam.data.towerLifePoints;
@@ -37,7 +36,6 @@ public class BuildingTower extends Building{
 		this.printName = "Tour de Guet";
 		this.chargeTime = this.gameteam.data.towerChargeTime;
 		this.sight = this.gameteam.data.towerSight;
-		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 //		if(getTeam()==1){
 //			this.image = this.p.g.images.get("buildingTowerBlue");
 //		} else if(getTeam()==2){
@@ -46,7 +44,7 @@ public class BuildingTower extends Building{
 //			this.image = this.p.g.images.get("buildingTowerNeutral");
 //		}
 		this.initialize(f, h);
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
 		canAttack = false;
 		this.animationBleu = Game.g.images.get("buildingTowerBlueAnimation");
 		this.animationRouge = Game.g.images.get("buildingTowerRedAnimation");
@@ -77,7 +75,7 @@ public class BuildingTower extends Building{
 		}
 		if(canAttack){
 			if(target==null || this.target.lifePoints<0f ||Utils.distance(this, this.target)>sight){
-				Vector<Character> target= this.p.getEnnemiesInSight(this);
+				Vector<Character> target= Game.g.plateau.getEnnemiesInSight(this);
 				if(target.size()>0){
 					this.target = target.get(0);
 				}
@@ -85,7 +83,7 @@ public class BuildingTower extends Building{
 
 			//Launch a fireball on target
 			if(target!=null && Utils.distance(this, this.target)<this.sight){
-				new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
+				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 				this.canAttack= false;
 				this.charge = 0f;
 			}

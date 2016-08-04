@@ -18,16 +18,15 @@ public class Tree extends NaturalObjet {
 	public static float coeffDraw = 0.4f;
 	public int type;
 
-	public Tree(float x, float y, Plateau p, int type) {
+	public Tree(float x, float y, int type) {
 		this.type = type;
 		this.collisionBox = new Circle(x-sizeX/2,y-sizeY/2,size);
 		this.sizeX = 1*Map.stepGrid;
 		this.sizeY = 1*Map.stepGrid;
 		this.color = Color.gray;
-		this.p = p;
 		this.lifePoints = 1.0f;
 		this.setXY(x*Map.stepGrid+sizeX/2f, y*Map.stepGrid+sizeY/2f);
-		p.addNaturalObjets(this);
+		Game.g.plateau.addNaturalObjets(this);
 		this.name = "tree0"+type;
 	}
 	

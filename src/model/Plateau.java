@@ -351,8 +351,8 @@ public class Plateau {
 		this.mapGrid.updateSurroundingChars();
 		for (Character o : characters) {
 			// Handle collision between Objets and action objects
-			if (o.c != null) {
-				for (Character i : o.c.surroundingChars) {
+			if (o.idCase != -1) {
+				for (Character i : Game.g.plateau.mapGrid.getCase(o.idCase).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.size + o.size)) {
 						i.collision(o);
@@ -392,7 +392,7 @@ public class Plateau {
 				if (e.collisionBox.intersects(o.collisionBox)) {
 					boolean doCollision = true;
 					for(Circle c : e.corners){
-						if(Utils.distance(new Checkpoint(this,c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
+						if(Utils.distance(new Checkpoint(c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
 							doCollision = false;
 						}
 					}
@@ -472,7 +472,7 @@ public class Plateau {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(this, x, y);
+			target = new Checkpoint(x, y);
 		}
 		int i = 0;
 		for (Objet c : this.selection.get(team)) {
@@ -516,7 +516,7 @@ public class Plateau {
 				}
 				// Then we create its new group
 				o.group = new Vector<Character>();
-				Vector<Case> waypoints = null;
+				Vector<Integer> waypoints = null;
 				for (Objet c1 : this.selection.get(team)) {
 					if (c1 == c)
 						continue;
@@ -525,8 +525,8 @@ public class Plateau {
 						// System.out.println("Plateau line 507: " +
 						// (waypoints!=null) +" "+(c.c==c1.c)+"
 						// "+(((Character)c1).waypoints.size()>0));
-						if (((Character) c1).waypoints != null && c1.c == c.c && c1.getTarget() != null
-								&& c1.getTarget().c == target.c) {
+						if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget() != null
+								&& c1.getTarget().idCase == target.idCase) {
 							// System.out.println("Plateau line 508 : copie
 							// d'une chemin");
 							waypoints = ((Character) c1).waypoints;
@@ -547,7 +547,7 @@ public class Plateau {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(this, x, y);
+			target = new Checkpoint(x, y);
 		}
 		for (Objet c : this.selection.get(team)) {
 			if (c instanceof Character) {
@@ -783,8 +783,7 @@ public class Plateau {
 					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = target;
 				}
 				if(target==null){
-					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(this,im.x,
-							im.y);
+					((BuildingProduction) this.selection.get(player).get(0)).rallyPoint = new Checkpoint(im.x,im.y);
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
 
@@ -813,8 +812,8 @@ public class Plateau {
 			//Update rally point
 			for(Building b : buildings){
 				if(b.getTeam()==Game.g.players.get(player).getTeam() && b instanceof BuildingProduction){
-					Checkpoint c = new Checkpoint(this,im.x,im.y,true,Colors.team1);
-					((BuildingProduction) b).rallyPoint = new Checkpoint(this,im.x,im.y);
+					Checkpoint c = new Checkpoint(im.x,im.y,true,Colors.team1);
+					((BuildingProduction) b).rallyPoint = new Checkpoint(im.x,im.y);
 				}
 			}
 		}
@@ -857,10 +856,10 @@ public class Plateau {
 							Spell s = c.spells.get(number);
 							if(s.name.equals("Immolation")){
 								if(imo){
-									s.launch(new Checkpoint(this,im.x,im.y), c);
+									s.launch(new Checkpoint(im.x,im.y), c);
 								}
 							}else{
-								s.launch(new Checkpoint(this,im.x,im.y), c);
+								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
 							}
 							// switching selection

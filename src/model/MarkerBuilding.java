@@ -16,15 +16,14 @@ public class MarkerBuilding extends Checkpoint{
 	float maxWidth ;
 	float maxHeight ;
 	float delta = 20f;
-	public MarkerBuilding(Plateau p, float x, float y,Building b) {
-		super(p, x, y);
+	public MarkerBuilding(float x, float y,Building b) {
+		super(x, y);
 		this.lifePoints=1f;
-		this.p = p;
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
 		this.alwaysDraw = toDraw;
-		this.p.markersBuilding.addElement(this);
+		Game.g.plateau.markersBuilding.addElement(this);
 		this.maxRadius = 200f;
 		this.collisionBox = new Circle(x,y,3f);
 		maxWidth = ((Rectangle)b.collisionBox).getWidth()+delta;
@@ -32,7 +31,7 @@ public class MarkerBuilding extends Checkpoint{
 		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-		this.p.checkpoints.addElement(this);
+		Game.g.plateau.checkpoints.addElement(this);
 		this.drawShape2 = new Rectangle(x,y,maxWidth-delta,maxHeight-delta);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
@@ -44,11 +43,10 @@ public class MarkerBuilding extends Checkpoint{
 	}
 
 	
-	public MarkerBuilding(Plateau p , float x, float y,boolean toDraw,Color color,Building b){
-		super(p, x, y);
-		this.p.markersBuilding.addElement(this);
+	public MarkerBuilding(float x, float y,boolean toDraw,Color color,Building b){
+		super( x, y);
+		Game.g.plateau.markersBuilding.addElement(this);
 		this.lifePoints=1f;
-		this.p = p;
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
@@ -61,7 +59,7 @@ public class MarkerBuilding extends Checkpoint{
 		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-		this.p.checkpoints.addElement(this);
+		Game.g.plateau.checkpoints.addElement(this);
 		this.drawShape2 = new Rectangle(x,y,maxWidth-delta,maxHeight-delta);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);

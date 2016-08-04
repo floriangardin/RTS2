@@ -27,7 +27,7 @@ public class BlessedArea extends SpellEffect{
 	public float size = 200f;;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Plateau p, Character launcher, Checkpoint t,int id){
+	public BlessedArea(Character launcher, Checkpoint t,int id){
 		if(id==-1){
 			this.id = Game.g.idChar;
 			Game.g.idChar+=1;
@@ -39,8 +39,7 @@ public class BlessedArea extends SpellEffect{
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;
 		this.lifePoints = 1f;
-		this.p = p;
-		p.addSpell(this);
+		Game.g.plateau.addSpell(this);
 		this.image = Game.g.images.get("blessedArea");
 		owner = launcher;
 		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);

@@ -15,6 +15,7 @@ public abstract class Bullet extends Objet {
 	public float areaEffect;
 	public Objet owner;
 	public float size;
+	public String soundLaunch;
 
 	public void collision(Building c){
 
@@ -54,13 +55,13 @@ public abstract class Bullet extends Objet {
 
 		switch(hs.get("name")){
 		case "arrow":
-			c =  new Arrow(Game.g.plateau,cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+			c =  new Arrow(cha,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			break;
 		case "fireball":
 			if(hs.containsKey("targetX") && hs.containsKey("targetY") ){
 				float targetX = Float.parseFloat(hs.get("targetX"));
 				float targetY = Float.parseFloat(hs.get("targetY"));
-				c =  new Fireball(Game.g.plateau,cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
+				c =  new Fireball(cha,targetX,targetY,vx,vy,cha.damage,Integer.parseInt(hs.get("id")));
 			}	
 			break;
 		default:

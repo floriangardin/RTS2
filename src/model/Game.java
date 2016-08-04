@@ -1239,7 +1239,13 @@ public class Game extends BasicGame
 	}
 
 
+	//////////////////////////
+	/// GRAPHISM AND SOUND ///
+	//////////////////////////
 
+	public void playSound(String sound){
+		sounds.get(sound).play(1f,Game.g.options.soundVolume);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -1418,27 +1424,6 @@ public class Game extends BasicGame
 			System.out.println("port : " + port + " address: "+m.address.getHostAddress()+" message sent: " + m.toString());
 	}
 
-
-	//	private void manuelAntidrop(Input in,GameContainer gc) {
-	//		delaySleep = 0 ;
-	//		if(in.isKeyPressed(Input.KEY_P)){
-	//			this.round+=1;
-	//			this.roundDelay++;
-	//		}
-	//		if(in.isKeyPressed(Input.KEY_M)){
-	//			this.round-=1;
-	//			this.roundDelay--;
-	//		}
-	//		if(in.isKeyPressed(Input.KEY_O)){
-	//			this.delaySleep=8;
-	//		}
-	//		if(in.isKeyPressed(Input.KEY_L)){
-	//			this.delaySleep = -8;
-	//		}
-	//		//UPDATE ROUND DURATION
-	//		gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
-	//		gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleep);
-	//	}
 	private void handleChecksum() {
 		// If host and client send checksum
 		if(!processSynchro && this.round>=30 && this.round%1==0){

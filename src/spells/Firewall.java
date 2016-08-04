@@ -24,7 +24,7 @@ public class Firewall extends SpellEffect{
 	public float animationMax=1000f;
 	public float x2,y2;
 
-	public Firewall(Plateau p, Character launcher, Objet t,int id){
+	public Firewall( Character launcher, Objet t,int id){
 		if(id==-1){
 			this.id = Game.g.idChar;
 			Game.g.idChar+=1;
@@ -40,8 +40,7 @@ public class Firewall extends SpellEffect{
 		float width = 15f*Main.ratioSpace;
 		
 		this.lifePoints = 1f;
-		this.p = p;
-		p.addSpell(this);
+		Game.g.plateau.addSpell(this);
 		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();

@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.geom.Point;
 
 import model.Checkpoint;
+import model.Game;
 import units.Character;
 
 public class IAUnit {
@@ -98,9 +99,9 @@ public class IAUnit {
 		// distance according to y
 		features.get(1).add(c.y-unit.y);
 		// relative to the boundary
-		features.get(2).add(1/(c.p.maxX-c.x));
+		features.get(2).add(1/(Game.g.plateau.maxX-c.x));
 		features.get(3).add(1/c.x);
-		features.get(4).add(1/(c.p.maxY-c.y));
+		features.get(4).add(1/(Game.g.plateau.maxY-c.y));
 		features.get(5).add(1/c.y);
 	}
 	

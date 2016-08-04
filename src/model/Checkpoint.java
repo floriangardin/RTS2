@@ -21,9 +21,8 @@ public class Checkpoint extends Objet {
 	public boolean toDraw=false;
 	public boolean alwaysDraw = false;
 	
-	public Checkpoint(Plateau p , float x, float y){
+	public Checkpoint(float x, float y){
 		this.lifePoints=1f;
-		this.p = p;
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
@@ -33,7 +32,7 @@ public class Checkpoint extends Objet {
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
 		if(!(this instanceof MarkerBuilding))
-			this.p.checkpoints.addElement(this);
+			Game.g.plateau.checkpoints.addElement(this);
 		this.drawShape2 = new Circle(x,y,0);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
@@ -44,9 +43,8 @@ public class Checkpoint extends Objet {
 		
 	}
 	
-	public Checkpoint(Plateau p , float x, float y,boolean toDraw,Color color){
+	public Checkpoint(float x, float y,boolean toDraw,Color color){
 		this.lifePoints=1f;
-		this.p = p;
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
@@ -56,7 +54,7 @@ public class Checkpoint extends Objet {
 		this.drawShape = new Circle(x,y,maxRadius);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-		this.p.checkpoints.addElement(this);
+		Game.g.plateau.checkpoints.addElement(this);
 		this.drawShape2 = new Circle(x,y,1f);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);

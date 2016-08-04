@@ -101,7 +101,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				}
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
-						c.setTarget(new Checkpoint(p,this.rallyPoint.x,this.rallyPoint.y));
+						c.setTarget(new Checkpoint(this.rallyPoint.x,this.rallyPoint.y));
 					}
 					else if(rallyPoint instanceof Character){
 						c.setTarget(rallyPoint,null,Character.AGGRESSIVE);

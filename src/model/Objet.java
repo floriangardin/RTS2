@@ -22,21 +22,17 @@ public abstract class Objet implements java.io.Serializable {
 	// Animation : mode,orientation,increment
 	public float maxLifePoints;
 	public int id;
-	public Image[][][] animations;
 	public int mode;
 	public int orientation=2;
 	public int increment;
 	public float incrementf;
-	public Image selection_circle;
-	public Sound sound;
 	public float x;
 	public float y;
 	public float sight;
-	public Case c;
+	public int idCase;
 	public Shape collisionBox;
 	public Rectangle selectionBox;
 	public Color color;
-	public Plateau p;
 	public float lifePoints;
 	public String name;
 	public String printName;
@@ -65,21 +61,21 @@ public abstract class Objet implements java.io.Serializable {
 	public void setTarget(Objet t){
 		this.setTarget(t,null);
 	}
-	public void setTarget(Objet t, Vector<Case> waypoints){
+	public void setTarget(Objet t, Vector<Integer> waypoints){
 		this.target = t;
 		if(t!=null)
-			this.checkpointTarget = new Checkpoint(p,t.getX(),t.getY());
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 	}
 	public void drawIsSelected(Graphics g) {
 
 	}
-	public Vector<Case> computeWay(){
+	public Vector<Integer> computeWay(){
 		if(this.getTarget() instanceof Building && !(this.getTarget() instanceof Bonus)){
 			Building b = (Building)this.getTarget();
-			return this.p.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
+			return Game.g.plateau.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
 		} else {
 			float xEnd = this.getTarget().x, yEnd = this.getTarget().y;
-			return this.p.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
+			return Game.g.plateau.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 		}
 	}
 
@@ -143,8 +139,8 @@ public abstract class Objet implements java.io.Serializable {
 			this.y = y;
 		} else {
 			
-			float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
-			float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+			float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
+			float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
 			
 			this.x = xt;
 			this.y = yt;
@@ -152,7 +148,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		
-		this.c = this.p.mapGrid.getCase(x, y);
+		this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
 
 	}
 

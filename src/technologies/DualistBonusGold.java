@@ -5,10 +5,10 @@ import model.Plateau;
 
 public class DualistBonusGold extends Technologie {
 
-	public DualistBonusGold(Plateau p, GameTeam gameteam) {
+	public DualistBonusGold(GameTeam gameteam) {
 		this.id = 3;
 		this.tech = Technologies.DualistBonusGold;
-		this.initialize(p, gameteam,tech);
+		this.initialize( gameteam,tech);
 	}
 	
 	public void applyEffect(){

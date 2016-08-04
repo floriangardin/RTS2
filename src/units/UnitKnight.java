@@ -14,31 +14,31 @@ public class UnitKnight extends Character {
 
 	public static float radiusCollisionBox = 40f*Main.ratioSpace;
 	
-	public UnitKnight(Plateau p, GameTeam gameteam, Data data) {
-		super(p, gameteam);
+	public UnitKnight(GameTeam gameteam) {
+		super(gameteam);
 		this.name = "knight";
 		this.printName = "Chevalier";
 		this.type = UnitsList.Knight;
 		this.unitType = KNIGHT;
 		this.attackDuration = 2f;
-		this.maxLifePoints = 90f*data.healthFactor;
+		this.maxLifePoints = 90f*gameteam.data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 400f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
 		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
-		this.maxVelocity = 160f*Main.ratioSpace*data.speedFactor;
+		this.maxVelocity = 160f*Main.ratioSpace*gameteam.data.speedFactor;
 		this.armor = 3f;
-		this.damage = 12f*data.damageFactor;
+		this.damage = 12f*gameteam.data.damageFactor;
 		this.chargeTime = 4f;
 		this.weapon = "sword";
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.radiusCollisionBox+20f*Main.ratioSpace;
 		this.horse = true;
-		this.spells.add(data.immolation);
-		this.spells.add(data.fence);
+		this.spells.add(gameteam.data.immolation);
+		this.spells.add(gameteam.data.fence);
 		this.animStep = 32f;
-		this.explosionWhenImmolate = data.explosionWhenImmolate;
+		this.explosionWhenImmolate = gameteam.data.explosionWhenImmolate;
 		
 	}
 	
@@ -106,12 +106,12 @@ public class UnitKnight extends Character {
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 

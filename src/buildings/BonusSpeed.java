@@ -9,8 +9,8 @@ import units.Character;
 public class BonusSpeed extends Bonus{
 
 
-	public BonusSpeed(Plateau p , float x , float y){
-		this.initialize(p, x, y);
+	public BonusSpeed( float x , float y){
+		this.initialize( x, y);
 		this.image = Game.g.images.get("bonusSpeed").getScaledCopy(Main.ratioSpace);
 		this.bonus = 20f;
 	}
@@ -33,7 +33,7 @@ public class BonusSpeed extends Bonus{
 			c.maxVelocity +=this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
-			this.sound.play(1f, Game.g.options.soundVolume);
+			Game.g.playSound(this.soundTaken);
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

@@ -20,7 +20,7 @@ public class Heal extends SpellEffect{
 	public Image image;
 	public Character owner;
 	public boolean active = false;
-	public Heal(Plateau p, Character launcher, Objet t,int id,GameTeam gameTeam){
+	public Heal(Character launcher, Objet t,int id,GameTeam gameTeam){
 
 		if(id==-1){
 			this.id = Game.g.idChar;
@@ -36,8 +36,7 @@ public class Heal extends SpellEffect{
 		this.y = t.getY();
 		this.gameteam = gameTeam;
 		this.lifePoints = 1f;
-		this.p = p;
-		p.addSpell(this);
+		Game.g.plateau.addSpell(this);
 		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 

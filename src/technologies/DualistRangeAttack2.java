@@ -1,6 +1,7 @@
 package technologies;
 
 
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
@@ -9,10 +10,10 @@ import units.UnitInquisitor;
 
 public class DualistRangeAttack2 extends Technologie {
 
-	public DualistRangeAttack2(Plateau p, GameTeam gameteam) {
+	public DualistRangeAttack2( GameTeam gameteam) {
 		this.id = 9;
 		this.tech = Technologies.DualistRangeAttack2;
-		this.initialize(p, gameteam,tech);
+		this.initialize( gameteam,tech);
 	}
 	
 	public void applyEffect(){
@@ -24,7 +25,7 @@ public class DualistRangeAttack2 extends Technologie {
 
 		// Age passing does nothing
 		// Then update all existing units
-		for(Character c : this.p.characters){
+		for(Character c : Game.g.plateau.characters){
 			if(c.getTeam() == this.gameteam.id){
 				if(c instanceof UnitCrossbowman || c instanceof UnitInquisitor){
 					c.damage+=1;

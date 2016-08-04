@@ -175,7 +175,7 @@ public final class IAfunctions {
 		} else if(xToGo<0 || xToGo>=p.maxX || yToGo<0 || yToGo>p.maxY){
 			throw new IAException(currentTeam, "Vous ne pouvez pas donner l'ordre d'aller en dehors du plateau");
 		} else {
-			ally.setTarget(new Checkpoint(p, xToGo,yToGo));
+			ally.setTarget(new Checkpoint( xToGo,yToGo));
 			ally.mode = Character.AGGRESSIVE;
 		}
 	}

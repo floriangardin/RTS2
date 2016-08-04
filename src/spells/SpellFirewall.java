@@ -13,9 +13,8 @@ public class SpellFirewall extends Spell{
 
 	public float remainingTime;
 	
-	public SpellFirewall(Plateau p, GameTeam gameteam){
+	public SpellFirewall(GameTeam gameteam){
 		this.chargeTime = 450f;
-		this.p = p;
 		this.name = "Firewall";
 		this.icon = Game.g.images.get("spellFirewall");
 		this.range = 200f*Main.ratioSpace;
@@ -27,7 +26,7 @@ public class SpellFirewall extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		Objet t = realTarget(target, launcher);
-		Firewall f = new Firewall(launcher.p,launcher,t,-1);
+		Firewall f = new Firewall(launcher,t,-1);
 		f.damage = this.damage;
 		f.remainingTime = this.remainingTime;
 		launcher.stop();
@@ -40,7 +39,7 @@ public class SpellFirewall extends Spell{
 			float norm = (float) Math.sqrt(ux*ux+uy*uy);
 			ux = ux*this.range/norm;
 			uy = uy*this.range/norm;
-			return new Checkpoint(p,launcher.getX()+ux,launcher.getY()+uy);
+			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
 		} else {
 			return target;
 		}

@@ -14,8 +14,7 @@ public class SpellInstantHealth extends Spell{
 	public float remainingTime;
 	public float width;
 
-	public SpellInstantHealth(Plateau p, GameTeam gameteam){
-		this.p = p;
+	public SpellInstantHealth( GameTeam gameteam){
 		this.chargeTime = 450f;
 		this.width = 15f*Main.ratioSpace;
 		this.name = "Instant Health";
@@ -31,7 +30,7 @@ public class SpellInstantHealth extends Spell{
 		// Check if target intersect an ennemy
 		Objet h = target;
 		
-		for(Character c : p.characters){
+		for(Character c : Game.g.plateau.characters){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}

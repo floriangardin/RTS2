@@ -13,9 +13,8 @@ public class SpellFrozen extends Spell{
 
 	public float remainingTime;
 
-	public SpellFrozen(Plateau p, GameTeam gameteam){
+	public SpellFrozen(GameTeam gameteam){
 		this.chargeTime = 450f;
-		this.p = p;
 		this.name = "Fence";
 		this.icon = Game.g.images.get("spellFirewall");
 		this.range = 400f*Main.ratioSpace;
@@ -27,7 +26,7 @@ public class SpellFrozen extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
-			Frozen f = new Frozen(launcher.p,launcher,target,-1);
+			Frozen f = new Frozen(launcher,target,-1);
 			f.remainingTime = this.remainingTime;
 		}
 

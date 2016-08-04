@@ -1,10 +1,11 @@
 package pathfinding;
+import java.util.HashMap;
 import java.util.Vector;
-import units.Character;
 
 import org.newdawn.slick.geom.Rectangle;
 
 import model.Utils;
+import units.Character;
 
 public class MapGrid {
 
@@ -13,13 +14,17 @@ public class MapGrid {
 	public int idCase = 0;
 
 	public Vector<Vector<Case>> grid;
+	public HashMap<Integer, Case> idcases;
 	public Vector<Float> Xcoord;
 	public Vector<Float> Ycoord;
 
 	public MapGrid(float minX, float maxX, float minY, float maxY){
+		idcases = new HashMap<Integer, Case>();
 		grid = new Vector<Vector<Case>>();
 		grid.add(new Vector<Case>());
-		grid.get(0).add(new Case(true,idCase,this));
+		Case c = new Case(true,idCase,this);
+		grid.get(0).add(c);
+		idcases.put(c.id, c);
 		idCase++;
 		grid.get(0).get(0).update(minX, minY, maxX, maxY);
 		Xcoord = new Vector<Float>();
@@ -45,8 +50,11 @@ public class MapGrid {
 		float f2 = Xcoord.get(i);
 		Xcoord.insertElementAt(f, i);
 		grid.insertElementAt(new Vector<Case>(), i-1);
+		Case c;
 		for(int j=0; j<Ycoord.size()-1; j++){
-			grid.get(i-1).add(new Case(grid.get(i).get(j).ok,idCase,this));
+			c = new Case(grid.get(i).get(j).ok,idCase,this);
+			grid.get(i-1).add(c);
+			idcases.put(c.id, c);
 			idCase++;
 			grid.get(i-1).get(j).updateX(f1, f);
 			grid.get(i-1).get(j).updateY(Ycoord.get(j),Ycoord.get(j+1));
@@ -66,8 +74,11 @@ public class MapGrid {
 		float f1 = Ycoord.get(j-1);
 		float f2 = Ycoord.get(j);
 		Ycoord.insertElementAt(f, j);
+		Case c;
 		for(int i=0; i<Xcoord.size()-1; i++){
-			grid.get(i).insertElementAt(new Case(grid.get(i).get(j-1).ok,idCase,this), j-1);
+			c = new Case(grid.get(i).get(j-1).ok,idCase,this);
+			grid.get(i).insertElementAt(c, j-1);
+			idcases.put(c.id, c);
 			idCase++;
 			grid.get(i).get(j-1).updateX(Xcoord.get(i),Xcoord.get(i+1));
 			grid.get(i).get(j-1).updateY(f1,f);
@@ -127,6 +138,14 @@ public class MapGrid {
 		return grid.get(i).get(j);
 	}
 	
+	public Case getCase(int id){
+		if(idcases.containsKey(id)){			
+			return idcases.get(id);
+		} else {
+			return null;
+		}
+	}
+	
 	public void updateIndices(){
 		for(int i=0; i<grid.size(); i++){
 			for(int j=0; j<grid.get(0).size(); j++){
@@ -136,9 +155,9 @@ public class MapGrid {
 		}
 	}
 	
-	public Vector<Case> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
+	public Vector<Integer> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
 //		System.out.println("MapGrid line 124: calcul d'un chemin");
-		Vector<Case> path = new Vector<Case>();
+		Vector<Integer> path = new Vector<Integer>();
 		int iStart=0, jStart=0, iEnd=0, jEnd=0;
 		while(xStart>Xcoord.get(iStart+1))
 			iStart++;
@@ -183,9 +202,9 @@ public class MapGrid {
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
 				if(iTrav==iEnd && jTrav==jEnd){
-					path.add(grid.get(iTrav).get(jTrav));
+					path.add(grid.get(iTrav).get(jTrav).id);
 					while(u!=null){
-						path.insertElementAt(grid.get(u.i).get(u.j),0);
+						path.insertElementAt(grid.get(u.i).get(u.j).id,0);
 						u = u.comeFrom;
 					}
 					return path;
@@ -238,9 +257,9 @@ public class MapGrid {
 		return path;
 	}
 	
-	public Vector<Case> pathfinding(float xStart, float yStart, Rectangle r){
+	public Vector<Integer> pathfinding(float xStart, float yStart, Rectangle r){
 //		System.out.println("MapGrid line 230: calcul d'un chemin");
-		Vector<Case> path = new Vector<Case>();
+		Vector<Integer> path = new Vector<Integer>();
 		int iStart=0, jStart=0, iEnd1=0, jEnd1=0, iEnd2=0, jEnd2=0;
 		float xEnd1, xEnd2, yEnd1, yEnd2;
 		xEnd1 = r.getMinX()+0.1f;
@@ -295,9 +314,9 @@ public class MapGrid {
 					iTrav = u.i-1; jTrav = u.j-1;break;
 				}
 				if(iTrav>=iEnd1 && jTrav>=jEnd1 && iTrav<=iEnd2 && jTrav<=jEnd2){
-					path.add(grid.get(iTrav).get(jTrav));
+					path.add(grid.get(iTrav).get(jTrav).id);
 					while(u!=null){
-						path.insertElementAt(grid.get(u.i).get(u.j),0);
+						path.insertElementAt(grid.get(u.i).get(u.j).id,0);
 						u = u.comeFrom;
 					}
 					return path;

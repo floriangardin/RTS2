@@ -16,8 +16,7 @@ public class SpellEclair extends Spell{
 	public float width;
 	
 
-	public SpellEclair(Plateau p, GameTeam gameteam){
-		this.p = p;
+	public SpellEclair(GameTeam gameteam){
 		this.chargeTime = 15f;
 		this.faithCost = 2;
 		this.width = 15f*Main.ratioSpace;
@@ -33,7 +32,7 @@ public class SpellEclair extends Spell{
 	public void launch(Objet target, Character launcher){
 		// Check if target intersect an ennemy
 		Objet h = target;
-		for(Character c : p.characters){
+		for(Character c : Game.g.plateau.characters){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}
