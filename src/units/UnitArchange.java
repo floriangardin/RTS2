@@ -18,27 +18,27 @@ public class UnitArchange extends Character {
 
 	public static float radiusCollisionBox = 30f;
 	
-	public UnitArchange(Plateau p, GameTeam gameteam, Data data) {
-		super(p, gameteam);
+	public UnitArchange(GameTeam gameteam) {
+		super(gameteam);
 		this.name = "archange";
 		this.type = UnitsList.Archange;
 		this.unitType = ARCHANGE;
-		this.maxLifePoints = 200f*data.healthFactor;
+		this.maxLifePoints = 200f*gameteam.data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
 		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
-		this.maxVelocity = 60f*Main.ratioSpace*data.speedFactor;
+		this.maxVelocity = 60f*Main.ratioSpace*gameteam.data.speedFactor;
 		this.armor = 5f;
-		this.damage = 20f*data.damageFactor;
+		this.damage = 20f*gameteam.data.damageFactor;
 		this.chargeTime = 12f;
 		this.weapon = "sword";
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = this.size+20f*Main.ratioSpace;
-		this.explosionWhenImmolate = data.explosionWhenImmolate;
-		this.spells.add(data.instantDeath);
-		this.spells.add(data.instantHealth);
+		this.explosionWhenImmolate = gameteam.data.explosionWhenImmolate;
+		this.spells.add(gameteam.data.instantDeath);
+		this.spells.add(gameteam.data.instantHealth);
 	}
 
 	public UnitArchange(UnitArchange archange, float x, float y,int id) {
@@ -69,16 +69,7 @@ public class UnitArchange extends Character {
 //		return g;
 //	}
 	
-	public void drawIsSelected(Graphics g){
-		g.setColor(Color.green);
-		if(this.horse!=null){
-			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
-
-		} else {
-			g.drawImage(this.selection_circle.getScaledCopy(this.size/20f),-22f+this.getX()-this.collisionBox.getBoundingCircleRadius()/2f,-8f+this.getY()-this.collisionBox.getBoundingCircleRadius()/2f);
-			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-		}
-	}
+	
 
 	public void useWeapon(){
 		Character c = (Character) this.target;

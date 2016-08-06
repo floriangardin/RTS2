@@ -9,14 +9,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Transform;
 
 import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
 import display.DisplayRessources;
 import main.Main;
-import model.ActionObjet;
 import model.Checkpoint;
 import model.Civilisation;
 import model.Colors;
@@ -25,13 +23,12 @@ import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
-import model.RidableObjet;
 import model.Utils;
 import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
 
-public class Character extends ActionObjet{
+public class Character extends Objet{
 
 
 	public boolean explosionWhenImmolate = false;
@@ -88,7 +85,7 @@ public class Character extends ActionObjet{
 	public float frozen = 0f;
 	public boolean someoneStopped;
 	// Equipment attributes
-	public RidableObjet horse;
+	public boolean horse;
 
 	public int typeWeapon, typeHorse;
 	//public Player player;
@@ -110,19 +107,16 @@ public class Character extends ActionObjet{
 	// UnitsList associated
 	public UnitsList type;
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
-	public Vector<Case> waypoints = new Vector<Case>();
+	public Vector<Integer> waypoints = new Vector<Integer>();
 
 
 
-	public Image animationAttack;
 
 
 
 
 	// Constructor for data ( not adding in plateau not giving location)
-	public Character(Plateau p, GameTeam gameteam){
-		this.p = p;
-		this.animations = new Image[1][4][4];
+	public Character(GameTeam gameteam){
 		this.setTeam(gameteam);
 		this.name = "character";
 		this.size = 30f*Main.ratioSpace;
@@ -132,9 +126,8 @@ public class Character extends ActionObjet{
 	}
 	// Copy constructor , to really create an unit
 	public Character(Character c,float x,float y,int id){
-		this.p = c.p;
 		this.size = c.size;
-		p.addCharacterObjets(this);
+		Game.g.plateau.addCharacterObjets(this);
 		if(id==-1){
 			this.id = Game.g.idChar;
 			Game.g.idChar+=1;
@@ -152,7 +145,6 @@ public class Character extends ActionObjet{
 		this.collisionBox = new Circle(c.collisionBox.getCenterX(),c.collisionBox.getCenterY(),c.collisionBox.getBoundingCircleRadius());
 		this.selectionBox = new Rectangle(c.selectionBox.getX(),c.selectionBox.getY(),c.selectionBox.getWidth(),c.selectionBox.getHeight());
 		this.sightBox = new Circle(c.sightBox.getCenterX(),c.sightBox.getCenterY(),c.sightBox.getBoundingCircleRadius());
-		this.animations = c.animations;
 		this.setXY(x, y);
 		this.maxVelocity = c.maxVelocity;
 		this.weapon = c.weapon;
@@ -163,7 +155,6 @@ public class Character extends ActionObjet{
 		this.group.add(this);
 		this.animStep = c.animStep;
 		this.attackDuration = c.attackDuration;
-		this.animationAttack = c.animationAttack;
 		this.getGameTeam().pop++;
 		this.mode = NORMAL;
 		this.explosionWhenImmolate = c.explosionWhenImmolate;
@@ -184,8 +175,8 @@ public class Character extends ActionObjet{
 		return vx*vx+vy*vy>0.01f;
 	}
 	public void setXY(float x, float y){
-		float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
-		float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+		float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
+		float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
 //		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
 		this.selectionBox.setCenterX(xt);
 		this.selectionBox.setCenterY(yt);
@@ -195,16 +186,17 @@ public class Character extends ActionObjet{
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY());
-		Case oldc = this.c;
-		this.c = this.p.mapGrid.getCase(x, y);
+		int oldc = this.idCase;
+		this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
 		//Updating the case
-		if(c==null){
+		if(idCase==-1){
 			return;
 		}
-		if(oldc==null || c.id!=oldc.id){
-			if(oldc!=null && oldc.characters.contains(this))
-				oldc.characters.remove(this);
-			this.c.characters.addElement(this);
+		if(oldc==-1 || idCase!=oldc){
+			Case c = Game.g.plateau.mapGrid.getCase(oldc);
+			if(c!=null && c.characters.contains(this))
+				c.characters.remove(this);
+			Game.g.plateau.mapGrid.getCase(this.idCase).characters.addElement(this);
 		}
 
 	}
@@ -261,18 +253,7 @@ public class Character extends ActionObjet{
 	}
 
 
-	//Set functions
-
-	@Deprecated
-	public void setHorse(RidableObjet horse) {
-		if(horse!=null){
-			this.typeHorse = 1;
-		}else if (this.horse!=null){
-			this.typeHorse = 0;
-		}
-		this.horse = horse;
-		this.updateImage();
-	}
+	
 	//Update functions
 
 	public void updateImage(){
@@ -380,7 +361,7 @@ public class Character extends ActionObjet{
 			}
 		}
 		if(mode == AGGRESSIVE){
-			Vector<Character> targets  = this.p.getEnnemiesInSight(this);
+			Vector<Character> targets  = Game.g.plateau.getEnnemiesInSight(this);
 			if(targets.size()>0){
 				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL);
 			}
@@ -392,17 +373,17 @@ public class Character extends ActionObjet{
 			this.moveToward(this.getTarget());
 			return;
 		}
-		if(this.c == this.getTarget().c){
+		if(this.idCase == this.getTarget().idCase){
 			this.moveToward(this.getTarget());
 		} else if(this.waypoints.size()>0){
-			if(this.c==this.waypoints.get(0)){
+			if(this.idCase==this.waypoints.get(0)){
 				this.waypoints.remove(0);
 				this.move();
-			} else if(this.waypoints.size()>1 && this.c==this.waypoints.get(1)){
+			} else if(this.waypoints.size()>1 && this.idCase==this.waypoints.get(1)){
 				this.waypoints.remove(1);
 				this.waypoints.remove(0);
 				this.move();
-			} else if(this.waypoints.size()>2 && this.c==this.waypoints.get(2)){
+			} else if(this.waypoints.size()>2 && this.idCase==this.waypoints.get(2)){
 				this.waypoints.remove(2);
 				this.waypoints.remove(1);
 				this.waypoints.remove(0);
@@ -411,12 +392,13 @@ public class Character extends ActionObjet{
 				this.moveToward(this.waypoints.get(0));
 			}
 		} else {
-			this.waypoints = this.p.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
+			this.waypoints = Game.g.plateau.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
 		}
 	}
 	// Moving toward method method
-	public void moveToward(Case c){
-		moveToward(new Checkpoint(this.p,c.x+c.sizeX/2f,c.y+c.sizeY/2f));
+	public void moveToward(int idCase){
+		Case c = Game.g.plateau.mapGrid.getCase(idCase);
+		moveToward(new Checkpoint(c.x+c.sizeX/2f,c.y+c.sizeY/2f));
 	}
 	public void moveToward(Objet o){
 		if(o==null && this.checkpointTarget==null){
@@ -461,12 +443,12 @@ public class Character extends ActionObjet{
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 
@@ -611,13 +593,8 @@ public class Character extends ActionObjet{
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
-		if(this.horse!=null){
-			g.draw(this.collisionBox);
+		g.draw(this.collisionBox);
 
-		} else {
-			g.draw(this.collisionBox);
-			//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-		}
 		if(mode==MOVE || mode==NORMAL){
 			g.setColor(Colors.team0);
 		}
@@ -836,7 +813,7 @@ public class Character extends ActionObjet{
 
 	//// UPDATE FUNCTIONS
 
-	public void setTarget(Objet t, Vector<Case> waypoints){
+	public void setTarget(Objet t, Vector<Integer> waypoints){
 		if(target!=null && target instanceof Checkpoint ){
 			((Checkpoint)target).lifePoints =-1f;
 		}
@@ -853,22 +830,22 @@ public class Character extends ActionObjet{
 		}
 
 		if(t!=null){
-			this.checkpointTarget = new Checkpoint(this.p,t.getX(),t.getY());
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null){
-				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				this.moveAhead = (Game.g.plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
 					this.waypoints = this.computeWay();
 				else
-					this.waypoints = new Vector<Case>();
+					this.waypoints = new Vector<Integer>();
 			}else{
-				this.waypoints = new Vector<Case>();
-				for(Case cas:waypoints)
+				this.waypoints = new Vector<Integer>();
+				for(Integer cas:waypoints)
 					this.waypoints.addElement(cas);
 			}
 		}
 	}
 
-	public void setTarget(Objet t, Vector<Case> waypoints,int mode){
+	public void setTarget(Objet t, Vector<Integer> waypoints,int mode){
 		this.mode = mode;
 		if(target!=null && target instanceof Checkpoint ){
 			((Checkpoint)target).lifePoints =-1f;
@@ -881,16 +858,16 @@ public class Character extends ActionObjet{
 		}
 		this.target = t;
 		if(t!=null){
-			this.checkpointTarget = new Checkpoint(this.p,t.getX(),t.getY());
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null){
-				this.moveAhead = (this.p.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				this.moveAhead = (Game.g.plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
 					this.waypoints = this.computeWay();
 				else
-					this.waypoints = new Vector<Case>();
+					this.waypoints = new Vector<Integer>();
 			}else{
-				this.waypoints = new Vector<Case>();
-				for(Case cas:waypoints)
+				this.waypoints = new Vector<Integer>();
+				for(Integer cas:waypoints)
 					this.waypoints.addElement(cas);
 			}
 		}
@@ -898,10 +875,10 @@ public class Character extends ActionObjet{
 
 	public boolean encounters(Character c){
 		boolean b = false;
-		if(c.horse!=null && this.name=="Spearman"){
+		if(c.horse && this.name=="Spearman"){
 			return true;
 		}
-		if(c.horse==null && this.weapon == "bow"){
+		if(!c.horse && this.weapon == "bow"){
 			return true;
 		}
 		if(c.weapon == "bow" && this.weapon =="wand"){
@@ -1004,7 +981,7 @@ public class Character extends ActionObjet{
 		if(this.remainingTime<=0f){
 			//Test if explosion
 			if(this.explosionWhenImmolate){
-				for(Character c : p.characters){
+				for(Character c : Game.g.plateau.characters){
 					if(Utils.distance(c, this)<100f && c!=this){
 						c.setLifePoints(c.lifePoints-20f);
 					}
@@ -1031,9 +1008,9 @@ public class Character extends ActionObjet{
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
 			if(this.damage>0f) 
-				potential_targets = p.getEnnemiesInSight(this);
+				potential_targets = Game.g.plateau.getEnnemiesInSight(this);
 			else if (this.damage<0f) 
-				potential_targets = p.getWoundedAlliesInSight(this);
+				potential_targets = Game.g.plateau.getWoundedAlliesInSight(this);
 			else
 				potential_targets = new Vector<Character>();
 			if(potential_targets.size()>0){
@@ -1049,7 +1026,7 @@ public class Character extends ActionObjet{
 
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
-				this.setTarget(new Checkpoint(this.p,this.getTarget().x,this.getTarget().y),null);
+				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
 			}
 		}
 	}
@@ -1109,12 +1086,12 @@ public class Character extends ActionObjet{
 		}
 
 		if(hs.containsKey("tx")){
-			this.setTarget(new Checkpoint(this.p,Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
+			this.setTarget(new Checkpoint(Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
 		}
 		if(hs.containsKey("tid")){
-			ActionObjet target = this.p.getCharacterById(Integer.parseInt(hs.get("tid")));
+			Objet target = Game.g.plateau.getCharacterById(Integer.parseInt(hs.get("tid")));
 			if(target==null){
-				target = p.getBuildingById(Integer.parseInt(hs.get("tid")));
+				target = Game.g.plateau.getBuildingById(Integer.parseInt(hs.get("tid")));
 			}
 			this.setTarget(target,null);
 		}

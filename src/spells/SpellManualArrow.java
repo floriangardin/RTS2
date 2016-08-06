@@ -14,9 +14,8 @@ public class SpellManualArrow extends Spell{
 
 	public float remainingTime;
 	
-	public SpellManualArrow(Plateau p, GameTeam gameteam){
+	public SpellManualArrow(GameTeam gameteam){
 		this.chargeTime = 100f;
-		this.p = p;
 		this.name = "Manual Arrow";
 		this.icon = Game.g.images.get("iconCrossbowman");
 		this.range = 200f*Main.ratioSpace;

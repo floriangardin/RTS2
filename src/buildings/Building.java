@@ -10,7 +10,6 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
-import model.ActionObjet;
 import model.Checkpoint;
 import model.Colors;
 import model.Game;
@@ -22,7 +21,7 @@ import ressources.Map;
 import technologies.Technologie;
 import units.Character;
 
-public class Building extends ActionObjet{
+public class Building extends Objet{
 	public float sizeX;
 	public float sizeY;
 	public int teamCapturing;
@@ -53,12 +52,12 @@ public class Building extends ActionObjet{
 		this.y = h*Map.stepGrid+sizeY/2f;
 		
 		
-		p.addBuilding(this);
+		Game.g.plateau.addBuilding(this);
 		this.lifePoints = this.maxLifePoints;
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-sizeX/2f,y-sizeY/2f,sizeX,sizeY);
-		this.marker = new MarkerBuilding(p,x,y,this);
+		this.marker = new MarkerBuilding(x,y,this);
 		this.selectionBox = (Rectangle)this.collisionBox;
 		this.setXY(x, y);
 		resetRallyPoint();
@@ -71,7 +70,7 @@ public class Building extends ActionObjet{
 	}
 	
 	public void resetRallyPoint(){
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2+10);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2+10);
 	}
 
 	public void giveUpProcess(){
@@ -260,7 +259,7 @@ public class Building extends ActionObjet{
 
 	public void parseBuilding(HashMap<String, String> hs) {
 		if(hs.containsKey("rX") && hs.containsKey("rY") ){
-			this.rallyPoint = new Checkpoint(p, Integer.parseInt(hs.get("rX")),Integer.parseInt(hs.get("rY")));
+			this.rallyPoint = new Checkpoint(Integer.parseInt(hs.get("rX")),Integer.parseInt(hs.get("rY")));
 		}
 		if(hs.containsKey("cP")){
 			this.constructionPoints = Float.parseFloat(hs.get("cP"));

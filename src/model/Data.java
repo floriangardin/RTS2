@@ -136,23 +136,26 @@ public class Data {
 		this.FROT = 1f;
 		this.FRAMERATE = framerate;
 		// Init spells
-		this.firewall = new SpellFirewall(p,gameteam);
-		this.manualArrow = new SpellManualArrow(p,gameteam);
-		this.blessedArea = new SpellBlessedArea(p,gameteam);
-		this.immolation = new SpellImmolation(p,gameteam);
-		this.conversion = new SpellConversion(p,gameteam);
-		this.instantDeath = new SpellInstantDeath(p,gameteam);
-		this.instantHealth = new SpellInstantHealth(p,gameteam);
-		this.spellDash = new SpellDash(p,gameteam);
-		this.fence = new SpellFrozen(p, gameteam);
-		// Init unit 
-		this.spearman = new UnitSpearman(p,gameteam,this);
-		this.crossbowman = new UnitCrossbowman(p,gameteam,this);
-		this.knight = new UnitKnight(p,gameteam,this);
-		this.priest = new  UnitPriest(p,gameteam,this);
-		this.inquisitor = new UnitInquisitor(p,gameteam,this);
-		this.archange = new UnitArchange(p,gameteam,this);
+
 		//this.test = new UnitTest(p,player,this);
+	}
+	public void init(){
+		this.firewall = new SpellFirewall(gameteam);
+		this.manualArrow = new SpellManualArrow(gameteam);
+		this.blessedArea = new SpellBlessedArea(gameteam);
+		this.immolation = new SpellImmolation(gameteam);
+		this.conversion = new SpellConversion(gameteam);
+		this.instantDeath = new SpellInstantDeath(gameteam);
+		this.instantHealth = new SpellInstantHealth(gameteam);
+		this.spellDash = new SpellDash(gameteam);
+		this.fence = new SpellFrozen(gameteam);
+		// Init unit 
+		this.spearman = new UnitSpearman(gameteam);
+		this.crossbowman = new UnitCrossbowman(gameteam);
+		this.knight = new UnitKnight(gameteam);
+		this.priest = new  UnitPriest(gameteam);
+		this.inquisitor = new UnitInquisitor(gameteam);
+		this.archange = new UnitArchange(gameteam);
 	}
 	
 	public Data(){

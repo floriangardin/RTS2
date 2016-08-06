@@ -29,6 +29,7 @@ public class GameTeam {
 		this.players = players;
 		this.id = id;
 		this.data = new Data(plateau,this,Main.framerate);
+		this.data.init();
 		if(id==0){
 			color = Colors.team0;
 			colorName = "neutral";

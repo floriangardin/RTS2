@@ -11,6 +11,8 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import buildings.Bonus;
+import buildings.Building;
 import bullets.Bullet;
 import pathfinding.Case;
 import units.Character;
@@ -20,21 +22,17 @@ public abstract class Objet implements java.io.Serializable {
 	// Animation : mode,orientation,increment
 	public float maxLifePoints;
 	public int id;
-	public Image[][][] animations;
 	public int mode;
 	public int orientation=2;
 	public int increment;
 	public float incrementf;
-	public Image selection_circle;
-	public Sound sound;
 	public float x;
 	public float y;
 	public float sight;
-	public Case c;
+	public int idCase;
 	public Shape collisionBox;
 	public Rectangle selectionBox;
 	public Color color;
-	public Plateau p;
 	public float lifePoints;
 	public String name;
 	public String printName;
@@ -54,7 +52,50 @@ public abstract class Objet implements java.io.Serializable {
 	public boolean visibleByCurrentPlayer;
 	public boolean visibleByCamera;
 	
-	//MULTIPLAYING BOOLEANS
+
+
+
+	public void action(){}
+	public void move(){}
+
+	public Objet getTarget(){
+		return this.target;
+	}
+	public void setTarget(Objet t){
+		this.setTarget(t,null);
+	}
+	public void setTarget(Objet t, Vector<Integer> waypoints){
+		this.target = t;
+		if(t!=null)
+			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
+	}
+	public void drawIsSelected(Graphics g) {
+
+	}
+	public Vector<Integer> computeWay(){
+		if(this.getTarget() instanceof Building && !(this.getTarget() instanceof Bonus)){
+			Building b = (Building)this.getTarget();
+			return Game.g.plateau.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
+		} else {
+			float xEnd = this.getTarget().x, yEnd = this.getTarget().y;
+			return Game.g.plateau.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
+		}
+	}
+
+	public String toStringActionObjet(){
+		String s = "";
+
+		s+="maxLifePoints:"+maxLifePoints+";";
+
+
+		return s;
+	}
+
+	public void parseActionObjet(HashMap<String,String> hs){
+		if(hs.containsKey("maxLifePoints")){
+			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));
+		}
+	}
 
 	public void setName(String s){
 		this.name = s;
@@ -79,20 +120,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.gameteam = g;
 	}
 	
-	public Objet getTarget(){
-		return this.target;
-	}
-	public void setTarget(Objet t){
-		this.setTarget(t,null);
-	}
-	public void setTarget(Objet t, Vector<Case> waypoints){
-		this.target = t;
-		if(t!=null)
-			this.checkpointTarget = new Checkpoint(p,t.getX(),t.getY());
-	}
-	public void drawIsSelected(Graphics g) {
 
-	}
 	protected void destroy(){
 		this.lifePoints = -10;
 
@@ -116,8 +144,8 @@ public abstract class Objet implements java.io.Serializable {
 			this.y = y;
 		} else {
 			
-			float xt = Math.min(this.p.maxX-1f, Math.max(1f, x));
-			float yt = Math.min(this.p.maxY-1f, Math.max(1f, y));
+			float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
+			float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
 			
 			this.x = xt;
 			this.y = yt;
@@ -125,7 +153,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		
-		this.c = this.p.mapGrid.getCase(x, y);
+		this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
 
 	}
 

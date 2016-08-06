@@ -12,7 +12,7 @@ public class SpellConversion extends Spell{
 
 	public float faithCost;
 
-	public SpellConversion(Plateau p, GameTeam gameteam){
+	public SpellConversion( GameTeam gameteam){
 		this.chargeTime = 200f;
 		this.faithCost = 2f;
 		this.name = "Conversion";
@@ -21,11 +21,10 @@ public class SpellConversion extends Spell{
 		this.damage = 0f;
 		this.gameteam = gameteam;
 		this.needToClick=true;
-		this.p = p;
 	}
 
 	public void launch(Objet target, Character launcher){
-		Objet t = p.findTarget(target.x, target.y,launcher.getTeam());
+		Objet t = Game.g.plateau.findTarget(target.x, target.y,launcher.getTeam());
 		if(t instanceof Character && t.getTeam()!=launcher.getTeam()){
 			if(launcher.getGameTeam().special>=this.faithCost){
 				((Character)t).changeTeam(launcher.getTeam());

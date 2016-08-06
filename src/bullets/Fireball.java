@@ -3,13 +3,12 @@ package bullets;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
 import main.Main;
-import model.ActionObjet;
 import model.Checkpoint;
 import model.Game;
+import model.Objet;
 import model.Plateau;
 import model.Utils;
 import units.Character;
@@ -23,7 +22,7 @@ public class Fireball extends Bullet {
 	protected boolean explosion= false;
 	public Image image;
 
-	public Fireball(Plateau p,ActionObjet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
+	public Fireball( Objet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
 		//MULTI 
 		// Parameters
 		this.altitude = 0f;
@@ -32,7 +31,6 @@ public class Fireball extends Bullet {
 		float size = 10f*Main.ratioSpace;
 		this.name = "fireball";
 		//
-		this.p = p;
 		if(id==-1){
 			this.id = Game.g.idBullet;
 			Game.g.idBullet++;
@@ -41,8 +39,7 @@ public class Fireball extends Bullet {
 			this.id = id;
 		}
 		this.size = 10f*Main.ratioSpace;
-		p.addBulletObjets(this);
-		this.p = p;
+		Game.g.plateau.addBulletObjets(this);
 		this.damage = damage;
 		this.image = (Game.g.images.get("fireball")).getSubImage(0, 150, 75, 75).getScaledCopy(Main.ratioSpace);
 		this.image1 = (Game.g.images.get("fireball")).getSubImage(75, 150, 75, 75).getScaledCopy(Main.ratioSpace);
@@ -52,7 +49,7 @@ public class Fireball extends Bullet {
 		this.lifePoints = 30f;
 		this.owner = owner;
 		this.setTeam(owner.getTeam());
-		this.setTarget(new Checkpoint(p,targetX,targetY));
+		this.setTarget(new Checkpoint(targetX,targetY));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
 		this.vx = vx;
@@ -70,8 +67,8 @@ public class Fireball extends Bullet {
 		this.image.rotate(this.angle);
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
-		this.sound = Game.g.sounds.get("fireball");
-		this.sound.play(1f,Game.g.options.soundVolume);
+		this.soundLaunch = "fireball";
+		Game.g.playSound(this.soundLaunch);
 	}
 	
 	public Fireball(){}
@@ -95,7 +92,7 @@ public class Fireball extends Bullet {
 	public void explode(){
 		Circle area = new Circle(this.getX(),this.getY(),this.areaEffect);
 
-		for(Character c : this.p.characters){
+		for(Character c : Game.g.plateau.characters){
 			if(c.collisionBox.intersects(area) && c.getTeam()!=this.owner.getTeam()){
 				this.boom(c);
 

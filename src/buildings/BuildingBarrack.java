@@ -13,10 +13,9 @@ public class BuildingBarrack extends BuildingProduction{
 	public static final int SPEARMAN = 0;
 	public static final int CROSSBOWMAN = 1;
 
-	public BuildingBarrack(Plateau plateau, Game g, float f, float h, int team) {
+	public BuildingBarrack(float f, float h, int team) {
 		teamCapturing= 0;
 		//this.animation=-1f;
-		this.p = plateau ;
 		this.setTeam(team);
 		maxLifePoints = this.getGameTeam().data.barrackLifePoints;
 		//maxLifePoints = 10f;
@@ -25,7 +24,6 @@ public class BuildingBarrack extends BuildingProduction{
 		this.sight = this.getGameTeam().data.barrackSight;
 		this.name = "barrack";
 		this.printName = "Caserne";
-		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 3;
 		this.initialize(f, h);
 		// List of potential production (Spearman)
@@ -33,7 +31,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionList.addElement(UnitsList.Crossbowman);
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
 	}
 
 	

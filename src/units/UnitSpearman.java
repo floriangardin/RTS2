@@ -21,30 +21,30 @@ public class UnitSpearman extends Character {
 	public boolean bonusAttack;
 	public float bonusSpeed =400f;
 	public float bonusDamage = 10f;
-	public UnitSpearman(Plateau p, GameTeam gameteam, Data data) {
-		super(p, gameteam);
+	public UnitSpearman(GameTeam gameteam) {
+		super(gameteam);
 		this.name = "spearman";
 		this.printName = "Lancier";
 		this.type = UnitsList.Spearman;
 		this.unitType = SPEARMAN;
 		this.attackDuration = 1f;
-		this.maxLifePoints = 80f*data.healthFactor;
+		this.maxLifePoints = 80f*gameteam.data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 400f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
 		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
-		this.maxVelocity = 100f*Main.ratioSpace*data.speedFactor;
+		this.maxVelocity = 100f*Main.ratioSpace*gameteam.data.speedFactor;
 		this.armor = 4f;
-		this.damage = 10f*data.damageFactor;
+		this.damage = 10f*gameteam.data.damageFactor;
 		this.chargeTime = 4f;
 		this.weapon = "spear";
 		this.animStep = 20f;
-		this.explosionWhenImmolate = data.explosionWhenImmolate;
+		this.explosionWhenImmolate = gameteam.data.explosionWhenImmolate;
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = radiusCollisionBox+30f*Main.ratioSpace;
-		this.spells.add(data.immolation);
-		this.spells.add(data.spellDash);
+		this.spells.add(gameteam.data.immolation);
+		this.spells.add(gameteam.data.spellDash);
 		//this.updateImage();
 	}
 	public UnitSpearman(UnitSpearman unit, float x, float y,int id) {
@@ -63,7 +63,7 @@ public class UnitSpearman extends Character {
 		float damage = this.damage+bonus;
 		if(Game.g.sounds!=null)
 			Game.g.sounds.get(this.weapon).play(1f,Game.g.options.soundVolume);
-		if(c.horse!=null)
+		if(c.horse)
 			damage = damage*this.getGameTeam().data.bonusSpearHorse;
 
 		if(c.armor<damage){
@@ -112,12 +112,12 @@ public class UnitSpearman extends Character {
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 

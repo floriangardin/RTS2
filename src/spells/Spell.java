@@ -2,7 +2,6 @@ package spells;
 
 import org.newdawn.slick.Image;
 
-import model.ActionObjet;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -14,11 +13,10 @@ public class Spell {
 	public float chargeTime;
 	public float range;
 	public float damage;
-	public ActionObjet owner;
+	public Objet owner;
 	public String name;
 	public GameTeam gameteam;
 	public boolean needToClick;
-	public Plateau p;
 	public int faithCost;
 
 	public void cast(Objet target, Character launcher, int number){

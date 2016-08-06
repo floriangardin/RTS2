@@ -15,9 +15,8 @@ public class SpellDash extends Spell{
 
 	public float remainingTime;
 	
-	public SpellDash(Plateau p, GameTeam gameteam){
+	public SpellDash(GameTeam gameteam){
 		this.chargeTime = 500f;
-		this.p = p;
 		this.name = "Dash";
 		this.icon = Game.g.images.get("iconSpearman");
 		this.range = 200f*Main.ratioSpace;

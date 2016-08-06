@@ -73,6 +73,7 @@ public class Plateau {
 	public Vector<NaturalObjet> toRemoveNaturalObjets;
 
 
+
 	public Vector<SpellEffect> spells;
 	public Vector<SpellEffect> toAddSpells;
 	public Vector<SpellEffect> toRemoveSpells;
@@ -126,11 +127,6 @@ public class Plateau {
 		//temporary Checkpoints ( markers )
 		this.checkpoints = new Vector<Checkpoint>();
 		this.markersBuilding = new Vector<Checkpoint>();
-
-
-		
-
-
 
 		Game.g.idChar = 0;
 		Game.g.idBullet = 0;
@@ -198,7 +194,6 @@ public class Plateau {
 	}
 
 
-
 	// General methods
 
 	public void clean() {
@@ -253,7 +248,9 @@ public class Plateau {
 		}
 		checkpoints.removeAll(toremove);
 		// Update selection and groups
-		Vector<ActionObjet> toDelete = new Vector<ActionObjet>();
+
+		Vector<Objet> toDelete = new Vector<Objet>();
+
 
 		// Remove objets from lists
 		for (Character o : toRemoveCharacters) {
@@ -305,9 +302,9 @@ public class Plateau {
 	public void collision() {
 		this.mapGrid.updateSurroundingChars();
 		for (Character o : characters) {
-			// Handle collision between actionObjets and action objects
-			if (o.c != null) {
-				for (Character i : o.c.surroundingChars) {
+			// Handle collision between Objets and action objects
+			if (o.idCase != -1) {
+				for (Character i : Game.g.plateau.mapGrid.getCase(o.idCase).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.size + o.size)) {
 						i.collision(o);
@@ -347,7 +344,7 @@ public class Plateau {
 				if (e.collisionBox.intersects(o.collisionBox)) {
 					boolean doCollision = true;
 					for(Circle c : e.corners){
-						if(Utils.distance(new Checkpoint(this,c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
+						if(Utils.distance(new Checkpoint(c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
 							doCollision = false;
 						}
 					}
@@ -397,7 +394,7 @@ public class Plateau {
 		for (Building e : this.buildings) {
 			e.action();
 		}
-		for (ActionObjet a : this.spells) {
+		for (Objet a : this.spells) {
 			a.action();
 		}
 		for (Bonus a : this.bonus) {
@@ -416,10 +413,12 @@ public class Plateau {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(this, x, y);
+			target = new Checkpoint(x, y);
 		}
 		int i = 0;
+
 		for (Objet c : Game.g.inputsHandler.getSelection(team).selection) {
+
 			if(c instanceof Building && mode==Character.DESTROY_BUILDING){
 				((Building) c).giveUpProcess = true;
 				continue;
@@ -460,8 +459,10 @@ public class Plateau {
 				}
 				// Then we create its new group
 				o.group = new Vector<Character>();
-				Vector<Case> waypoints = null;
+
+				Vector<Integer> waypoints = null;
 				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection) {
+
 					if (c1 == c)
 						continue;
 					if (c1 instanceof Character) {
@@ -469,8 +470,8 @@ public class Plateau {
 						// System.out.println("Plateau line 507: " +
 						// (waypoints!=null) +" "+(c.c==c1.c)+"
 						// "+(((Character)c1).waypoints.size()>0));
-						if (((Character) c1).waypoints != null && c1.c == c.c && c1.getTarget() != null
-								&& c1.getTarget().c == target.c) {
+						if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget() != null
+								&& c1.getTarget().idCase == target.idCase) {
 							// System.out.println("Plateau line 508 : copie
 							// d'une chemin");
 							waypoints = ((Character) c1).waypoints;
@@ -491,9 +492,11 @@ public class Plateau {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(this, x, y);
+			target = new Checkpoint(x, y);
 		}
+
 		for (Objet c : Game.g.inputsHandler.getSelection(team).selection) {
+
 			if (c instanceof Character) {
 				Character o = (Character) c;
 				// first we deal with o's elder group
@@ -504,7 +507,9 @@ public class Plateau {
 				}
 				// Then we create its new group
 				o.group = new Vector<Character>();
+
 				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection)
+
 					if (c1 instanceof Character)
 						o.group.add((Character) c1);
 				o.secondaryTargets.add(target);
@@ -730,8 +735,9 @@ public class Plateau {
 					((BuildingProduction) selection.selection.get(0)).rallyPoint = target;
 				}
 				if(target==null){
-					((BuildingProduction) selection.selection.get(0)).rallyPoint = new Checkpoint(this,im.x,
-							im.y);
+
+					((BuildingProduction) selection.selection.get(0)).rallyPoint = new Checkpoint(im.x,im.y);
+
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
 
@@ -742,7 +748,9 @@ public class Plateau {
 		}
 		if (im.isPressed(KeyEnum.StopperMouvement)) {
 			// STOP SELECTION
+
 			for (Objet c : selection.selection) {
+
 				if (c instanceof Character) {
 					((Character) c).stop();
 					((Character) c).mode = Character.NORMAL;
@@ -760,8 +768,8 @@ public class Plateau {
 			//Update rally point
 			for(Building b : buildings){
 				if(b.getTeam()==Game.g.players.get(player).getTeam() && b instanceof BuildingProduction){
-					Checkpoint c = new Checkpoint(this,im.x,im.y,true,Colors.team1);
-					((BuildingProduction) b).rallyPoint = new Checkpoint(this,im.x,im.y);
+					Checkpoint c = new Checkpoint(im.x,im.y,true,Colors.team1);
+					((BuildingProduction) b).rallyPoint = new Checkpoint(im.x,im.y);
 				}
 			}
 		}
@@ -805,10 +813,10 @@ public class Plateau {
 							Spell s = c.spells.get(number);
 							if(s.name.equals("Immolation")){
 								if(imo){
-									s.launch(new Checkpoint(this,im.x,im.y), c);
+									s.launch(new Checkpoint(im.x,im.y), c);
 								}
 							}else{
-								s.launch(new Checkpoint(this,im.x,im.y), c);
+								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
 							}
 							// switching selection
@@ -973,7 +981,6 @@ public class Plateau {
 
 
 
-
 	
 
 	// MULTIPLAYING
@@ -1015,7 +1022,9 @@ public class Plateau {
 				s+="-1;";
 			}
 			else{
+
 				for(Objet o: selection.selection){
+
 					s+=o.id+";";
 				}
 			}
@@ -1098,8 +1107,8 @@ public class Plateau {
 			}
 		}
 	}
-	public ActionObjet getById(int id){
-		ActionObjet o = getCharacterById(id);
+	public Objet getById(int id){
+		Objet o = getCharacterById(id);
 		if(o!=null){
 			return o;
 		}

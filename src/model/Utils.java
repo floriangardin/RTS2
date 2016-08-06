@@ -357,10 +357,10 @@ public class Utils {
 		return t;
 	}
 
-	public static void triName(Vector<ActionObjet> liste){
+	public static void triName(Vector<Objet> liste){
 		if(liste.size()<=1)
 			return;
-		Vector<ActionObjet> liste1 = new Vector<ActionObjet>(), liste2= new Vector<ActionObjet>();
+		Vector<Objet> liste1 = new Vector<Objet>(), liste2= new Vector<Objet>();
 		for(int i=0;i<liste.size();i++){
 			if(i<liste.size()/2)
 				liste1.add(liste.get(i));

@@ -15,7 +15,7 @@ public class SpellBlessedArea extends Spell{
 	public float size;
 	public float effect;
 	
-	public SpellBlessedArea(Plateau p, GameTeam gameteam){
+	public SpellBlessedArea(GameTeam gameteam){
 		this.chargeTime = 450f;
 		this.name = "Blessed Area";
 		this.icon = Game.g.images.get("spellBlessedArea");
@@ -24,12 +24,11 @@ public class SpellBlessedArea extends Spell{
 		this.effect= 0.75f;
 		this.gameteam = gameteam;
 		this.needToClick=false;
-		this.p = p;
 	}
 
 	public void launch(Objet target, Character launcher){
 		Objet t = realTarget(target, launcher);
-		BlessedArea ba = new BlessedArea(launcher.p,launcher,(Checkpoint)t,-1);
+		BlessedArea ba = new BlessedArea(launcher,(Checkpoint)t,-1);
 		ba.remainingTime = this.remainingTime;
 		ba.effect = this.effect;
 		ba.size = this.size;
@@ -43,7 +42,7 @@ public class SpellBlessedArea extends Spell{
 			float norm = (float) Math.sqrt(ux*ux+uy*uy);
 			ux = ux*this.range/norm;
 			uy = uy*this.range/norm;
-			return new Checkpoint(p,launcher.getX()+ux,launcher.getY()+uy);
+			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
 		} else {
 			return target;
 		}

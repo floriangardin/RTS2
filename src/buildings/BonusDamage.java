@@ -8,8 +8,8 @@ import units.Character;
 public class BonusDamage extends Bonus{
 
 	
-	public BonusDamage(Plateau p , float x , float y){
-		this.initialize(p, x, y);
+	public BonusDamage(float x , float y){
+		this.initialize( x, y);
 		this.bonus = 5f;
 		this.image = Game.g.images.get("bonusDamage").getScaledCopy(Main.ratioSpace);
 
@@ -32,7 +32,7 @@ public class BonusDamage extends Bonus{
 			c.damage += this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
-			this.sound.play(1f, Game.g.options.soundVolume);
+			Game.g.playSound(this.soundTaken);
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

@@ -8,8 +8,8 @@ public class BonusLifePoints extends Bonus{
 
 
 
-	public BonusLifePoints(Plateau p , float x , float y){
-		this.initialize(p, x, y);
+	public BonusLifePoints(float x , float y){
+		this.initialize(x, y);
 		this.image = Game.g.images.get("bonusLifePoints").getScaledCopy(Main.ratioSpace);
 		this.bonus = 50f;
 
@@ -33,7 +33,7 @@ public class BonusLifePoints extends Bonus{
 			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;
-			this.sound.play(1f, Game.g.options.soundVolume);
+			Game.g.playSound(soundTaken);
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

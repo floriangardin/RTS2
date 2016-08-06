@@ -16,14 +16,13 @@ public class Arrow extends CollisionBullet{
 	protected float angle= 0f;
 	public Image shadow;
 	public float life = 4f;
-	public Arrow(Plateau p,Character owner,float vx,float vy,float damage,int id){
+	public Arrow(Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
 	
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
 		float Vmax = 600f*Main.ratioSpace;
 
-		this.p = p;
 		if(id==-1){
 			this.id = Game.g.idChar;
 			Game.g.idChar++;
@@ -32,7 +31,7 @@ public class Arrow extends CollisionBullet{
 		}
 		this.name ="arrow";
 		this.damage = damage;
-		p.addBulletObjets(this);
+		Game.g.plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
 		this.owner = owner;
 		this.setTeam(owner.getTeam());
@@ -54,15 +53,15 @@ public class Arrow extends CollisionBullet{
 		this.shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
 		this.shadow.rotate(this.angle);
 	
-		this.sound = Game.g.sounds.get("arrow");
-		this.sound.play(1f,Game.g.options.soundVolume);
+		this.soundLaunch = "arrow";
+		Game.g.playSound(this.soundLaunch);
 	}
 
 	public void collision(Character c){
 		if(c.getTeam()!=this.owner.getTeam()){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
-			if(c.horse==null){
+			if(!c.horse){
 				damage = damage * this.getGameTeam().data.bonusBowFoot;
 			}
 			if(c.armor<=damage){
@@ -97,7 +96,7 @@ public class Arrow extends CollisionBullet{
 		}
 		
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
-		if(this.x>this.p.maxX || this.x<0 || this.y>this.p.maxY||this.y<0){
+		if(this.x>Game.g.plateau.maxX || this.x<0 || this.y>Game.g.plateau.maxY||this.y<0){
 			this.setLifePoints(-1f);
 		}
 	}

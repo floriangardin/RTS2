@@ -5,14 +5,14 @@ import org.newdawn.slick.Graphics;
 
 import buildings.Building;
 import main.Main;
-import model.ActionObjet;
+import model.Objet;
 import units.Character;
 
 public class DescriptionInterface extends Bar {
 
 	BottomBar parent;
 	float x, y, sizeX, sizeY;
-	ActionObjet c0;
+	Objet c0;
 
 	public DescriptionInterface(BottomBar parent){
 		this.parent = parent;
@@ -25,7 +25,7 @@ public class DescriptionInterface extends Bar {
 
 	public Graphics draw(Graphics g){
 		if(this.parent.player.selection.size()>0){
-			this.c0 = (ActionObjet) this.parent.player.selection.get(0);
+			this.c0 =  this.parent.player.selection.get(0);
 			g.setColor(Color.white);
 			g.drawString(c0.name, x+30f, y+15f);
 			if(this.c0 instanceof Building){

@@ -1,5 +1,6 @@
 package technologies;
 
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
@@ -8,10 +9,10 @@ import org.newdawn.slick.SlickException;
 
 public class DualistExplosion extends Technologie {
 
-	public DualistExplosion(Plateau p, GameTeam gameteam) {
+	public DualistExplosion(GameTeam gameteam) {
 		this.id = 12;
 		this.tech = Technologies.DualistExplosion;
-		this.initialize(p, gameteam, tech);
+		this.initialize(gameteam, tech);
 	}
 	
 	public void applyEffect(){
@@ -21,7 +22,7 @@ public class DualistExplosion extends Technologie {
 		//TODO change effect
 		this.gameteam.data.explosionWhenImmolate= true;
 		
-		for(Character c : this.p.characters){
+		for(Character c : Game.g.plateau.characters){
 			c.explosionWhenImmolate = true;
 		}
 

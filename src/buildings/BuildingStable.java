@@ -11,10 +11,9 @@ import units.UnitsList;
 public class BuildingStable extends BuildingProduction{
 
 
-	public BuildingStable(Plateau plateau, Game g, float f, float h, int team) {
+	public BuildingStable( float f, float h, int team) {
 		teamCapturing= 0;
 		
-		this.p = plateau ;
 		this.setTeam(team);
 		maxLifePoints = getGameTeam().data.stableLifePoints;
 		this.sizeX = Data.stableSizeX; 
@@ -22,7 +21,6 @@ public class BuildingStable extends BuildingProduction{
 		this.sight = this.getGameTeam().data.stableSight;
 		this.name = "stable";
 		this.printName = "Ecurie";
-		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		type= 2;
 		this.initialize(f, h);
 		// List of potential production (Spearman
@@ -31,7 +29,7 @@ public class BuildingStable extends BuildingProduction{
 		this.productionList.addElement(UnitsList.Knight);
 		this.productionList.addElement(UnitsList.Inquisitor);
 		//this.productionList.addElement(UnitsList.Priest);
-		this.rallyPoint = new Checkpoint(p,this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
 	}
 
 	

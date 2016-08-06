@@ -1,16 +1,17 @@
 package technologies;
 
 
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
 
 public class DualistHealth3 extends Technologie {
 
-	public DualistHealth3(Plateau p, GameTeam gameteam) {
+	public DualistHealth3( GameTeam gameteam) {
 		this.id = 7;
 		this.tech = Technologies.DualistHealth3;
-		this.initialize(p, gameteam,tech);
+		this.initialize( gameteam,tech);
 	}
 	
 	public void applyEffect(){
@@ -24,7 +25,7 @@ public class DualistHealth3 extends Technologie {
 		this.gameteam.data.crossbowman.maxLifePoints+=10;
 		// Age passing does nothing
 		// Then update all existing units
-		for(Character c : this.p.characters){
+		for(Character c : Game.g.plateau.characters){
 			if(c.getTeam() == this.gameteam.id){
 				c.maxLifePoints+=10;
 			}

@@ -14,9 +14,8 @@ public class SpellHeal extends Spell{
 
 	public float remainingTime;
 	
-	public SpellHeal(Plateau p, GameTeam gameteam){
+	public SpellHeal(GameTeam gameteam){
 		this.chargeTime = 15f;
-		this.p = p;
 		this.name = "heal";
 		this.icon = Game.g.images.get("spellHeal");
 		this.range = 400f*Main.ratioSpace;
@@ -29,7 +28,7 @@ public class SpellHeal extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
-			Heal f = new Heal(p,launcher,target,-1,gameteam);
+			Heal f = new Heal(launcher,target,-1,gameteam);
 			f.remainingTime = this.remainingTime;
 		}
 

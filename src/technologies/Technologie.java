@@ -10,7 +10,6 @@ import model.Plateau;
 public abstract class Technologie {
 
 	public Technologies tech;
-	public Plateau p;
 	public GameTeam gameteam;
 	public Data data;
 	public boolean isDiscovered;
@@ -23,22 +22,22 @@ public abstract class Technologie {
 	}
 	
 	
-	public static Technologie technologie(int i,Plateau p , GameTeam gameteam){
+	public static Technologie technologie(int i, GameTeam gameteam){
 		switch(i){
-		case 0: return new DualistAge2(p,gameteam);
-		case 1: return new DualistAge3(p,gameteam);
-		case 2: return new DualistBonusFood(p,gameteam);
-		case 3: return new DualistBonusGold(p,gameteam);
-		case 4: return new 	DualistShield2(p,gameteam);
-		case 5: return new DualistHealth2(p,gameteam);
-		case 6: return new 	DualistShield3(p,gameteam);
-		case 7: return new DualistHealth3(p,gameteam);
-		case 8: return new 	DualistContact2(p,gameteam);
-		case 9: return new DualistRangeAttack2(p,gameteam);
-		case 10: return new DualistContact3(p,gameteam);
-		case 11: return new DualistRangeAttack3(p,gameteam);
-		case 12: return new DualistExplosion(p,gameteam);
-		case 13: return new DualistEagleView(p,gameteam);
+		case 0: return new DualistAge2(gameteam);
+		case 1: return new DualistAge3(gameteam);
+		case 2: return new DualistBonusFood(gameteam);
+		case 3: return new DualistBonusGold(gameteam);
+		case 4: return new 	DualistShield2(gameteam);
+		case 5: return new DualistHealth2(gameteam);
+		case 6: return new 	DualistShield3(gameteam);
+		case 7: return new DualistHealth3(gameteam);
+		case 8: return new 	DualistContact2(gameteam);
+		case 9: return new DualistRangeAttack2(gameteam);
+		case 10: return new DualistContact3(gameteam);
+		case 11: return new DualistRangeAttack3(gameteam);
+		case 12: return new DualistExplosion(gameteam);
+		case 13: return new DualistEagleView(gameteam);
 		default : return null;
 		}
 	}
@@ -47,10 +46,9 @@ public abstract class Technologie {
 		return o instanceof Technologie && ((Technologie)o).id==this.id;
 	}
 	
-	public void initialize(Plateau p, GameTeam gameteam, Technologies tech){
+	public void initialize(GameTeam gameteam, Technologies tech){
 		this.name = tech.name;
 		this.iconName  = tech.nameIcon;
-		this.p = p;
 		this.gameteam = gameteam;
 		this.data = this.gameteam.data;
 		this.icon = Game.g.images.get(iconName);		

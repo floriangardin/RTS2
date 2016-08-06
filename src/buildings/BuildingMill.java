@@ -19,12 +19,10 @@ public class BuildingMill extends BuildingTech{
 	public Image millarms;
 	public int bonusProd;
 	
-	public BuildingMill(Plateau p,Game g,float f, float h, int team){
+	public BuildingMill(float f, float h, int team){
 		
-		this.p =p;
 		this.setTeam(team);
 		this.type = 1;
-		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		this.name= "mill";
 		this.printName = "Ferme";
 		this.maxLifePoints = getGameTeam().data.millLifePoints;

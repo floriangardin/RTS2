@@ -2,7 +2,7 @@ package control;
 
 import java.util.Vector;
 
-import model.ActionObjet;
+
 import model.Game;
 import model.Objet;
 import model.Utils;
@@ -75,7 +75,7 @@ public class Selection {
 						this.inRectangle.addElement(o);
 					}
 				}
-				System.out.println("vanneau");
+				
 			} else {
 				Vector<Character> chars = new Vector<Character>();
 				for(Objet o : this.selection){
@@ -197,7 +197,7 @@ public class Selection {
 		}
 		if (!im.isPressed(KeyEnum.ToutSelection)) {
 			this.updateSelection();
-			System.out.println("vanneau 4 : "+this.selection.size());
+		
 		} else {
 			this.updateSelectionCTRL();
 		}

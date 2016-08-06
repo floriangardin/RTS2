@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import bullets.Fireball;
 import main.Main;
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -18,31 +19,31 @@ public class UnitInquisitor extends Character {
 
 	public static float radiusCollisionBox = 40f*Main.ratioSpace;
 	
-	public UnitInquisitor(Plateau p, GameTeam gameteam, Data data) {
-		super(p, gameteam);
+	public UnitInquisitor(GameTeam gameteam) {
+		super(gameteam);
 		this.name = "inquisitor";
 		this.printName = "Inquisiteur";
 		this.type = UnitsList.Inquisitor;
 		this.unitType = INQUISITOR;
-		this.maxLifePoints = 60f*data.healthFactor;
+		this.maxLifePoints = 60f*gameteam.data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 300f*Main.ratioSpace;
 		this.attackDuration = 2f;
 		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
 		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
-		this.maxVelocity = 90f*Main.ratioSpace*data.speedFactor;
+		this.maxVelocity = 90f*Main.ratioSpace*gameteam.data.speedFactor;
 		this.armor = 0f;
-		this.damage = 20f*data.damageFactor;
+		this.damage = 20f*gameteam.data.damageFactor;
 		this.chargeTime = 8f;
 		this.weapon = "wand";
 		this.civ = gameteam.civ;
 		this.sightBox = new Circle(0,0,this.sight);
 		this.range = 200f*Main.ratioSpace;
 		this.animStep = 24f;
-		this.explosionWhenImmolate = data.explosionWhenImmolate;
-		this.spells.add(data.immolation);
+		this.explosionWhenImmolate = gameteam.data.explosionWhenImmolate;
+		this.spells.add(gameteam.data.immolation);
 		//this.spells.add(data.firewall);
-		this.spells.add(data.blessedArea);
+		this.spells.add(gameteam.data.blessedArea);
 		
 	}
 
@@ -59,7 +60,7 @@ public class UnitInquisitor extends Character {
 	
 	
 	public void useWeapon(){
-		new Fireball(this.p,this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
+		new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
 		this.isAttacking = false;
 	}
@@ -152,12 +153,12 @@ public class UnitInquisitor extends Character {
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 

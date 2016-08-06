@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
+import model.Game;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
@@ -13,16 +14,15 @@ public class Water extends NaturalObjet {
 	
 	
 	
-	public Water(float x, float y, float sizeX, float sizeY, Plateau p) {
+	public Water(float x, float y, float sizeX, float sizeY) {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
-		this.p = p;
 //		this.image= this.p.g.images.get("water");
 		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.blue;
 		this.lifePoints = 1.0f;
 		this.setXY(x, y);
-		p.addNaturalObjets(this);
+		Game.g.plateau.addNaturalObjets(this);
 	}
 	
 	public void collision(Objet o){

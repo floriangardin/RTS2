@@ -15,7 +15,7 @@ public class BuildingMine extends BuildingTech{
 	public int chargeTime;
 	public int bonusProd;
 	
-	public BuildingMine(Plateau p,Game g,float f, float h, int team){
+	public BuildingMine(float f, float h, int team){
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}
@@ -26,9 +26,7 @@ public class BuildingMine extends BuildingTech{
 
 		this.x = x*Map.stepGrid;
 		this.y = y*Map.stepGrid;
-		this.p =p;
 		this.type = 0;
-		this.selection_circle = Game.g.images.get("rectSelectsizeBuilding");
 		this.name= "mine";
 		this.printName = "Mine d'Or";
 		this.setTeam(team);

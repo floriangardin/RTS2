@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import bullets.Arrow;
 import main.Main;
 import model.Data;
+import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
@@ -20,30 +21,30 @@ public class UnitCrossbowman extends Character {
 	int bonusArrow = 0;
 	public static float radiusCollisionBox = 30f*Main.ratioSpace;
 	
-	public UnitCrossbowman(Plateau p, GameTeam gameteam, Data data) {
-		super(p, gameteam);
+	public UnitCrossbowman(GameTeam gameteam) {
+		super(gameteam);
 		this.name = "crossbowman";
 		this.printName = "Archer";
 		this.type = UnitsList.Crossbowman;
 		this.unitType = CROSSBOWMAN;
 		this.attackDuration = 1f;
-		this.maxLifePoints = 40f*data.healthFactor;
+		this.maxLifePoints = 40f*gameteam.data.healthFactor;
 		this.lifePoints = this.maxLifePoints;
 		this.sight = 400f*Main.ratioSpace;
 		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
 		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
-		this.maxVelocity = 130f*Main.ratioSpace*data.speedFactor;
+		this.maxVelocity = 130f*Main.ratioSpace*gameteam.data.speedFactor;
 		this.armor = 2f;
-		this.damage = 5f*data.damageFactor;
+		this.damage = 5f*gameteam.data.damageFactor;
 		this.chargeTime = 5f;
 		this.weapon ="bow";
 		this.animStep = 24f;
-		this.explosionWhenImmolate = data.explosionWhenImmolate;
+		this.explosionWhenImmolate = gameteam.data.explosionWhenImmolate;
 		this.civ = gameteam.civ;
 		this.range = 300f*Main.ratioSpace;
 		this.sightBox = new Circle(0,0,this.sight);
-		this.spells.add(data.immolation);
-		this.spells.add(data.manualArrow);
+		this.spells.add(gameteam.data.immolation);
+		this.spells.add(gameteam.data.manualArrow);
 
 	}
 	public UnitCrossbowman(UnitCrossbowman unit, float x, float y,int id) {
@@ -61,14 +62,14 @@ public class UnitCrossbowman extends Character {
 		if(! (this.target instanceof Character)){
 			return ;
 		}
-		new Arrow(this.p,this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
+		new Arrow(this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
 		this.state = 0f;
 		this.isAttacking = false;
 		
 	}
 	
 	public void useWeapon(Objet target){
-		new Arrow(this.p,this,target.getX()-this.getX(),target.getY()-this.getY(),this.damage+bonusArrow,-1);
+		new Arrow(this,target.getX()-this.getX(),target.getY()-this.getY(),this.damage+bonusArrow,-1);
 		this.state = 0f;
 	}
 	
@@ -108,12 +109,12 @@ public class UnitCrossbowman extends Character {
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>this.p.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = this.p.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>this.p.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = this.p.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 

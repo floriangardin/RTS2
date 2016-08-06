@@ -1,5 +1,6 @@
 package technologies;
 
+import model.Game;
 import model.GameTeam;
 import model.Plateau;
 
@@ -9,10 +10,10 @@ import buildings.BuildingTech;
 
 public class DualistAge2 extends Technologie {
 
-	public DualistAge2(Plateau p, GameTeam gameteam) {
+	public DualistAge2(GameTeam gameteam) {
 		this.id = 0;
 		this.tech = Technologies.DualistAge2;
-		this.initialize(p, gameteam,tech);
+		this.initialize(gameteam,tech);
 	}
 	
 	public void applyEffect(){
@@ -21,7 +22,7 @@ public class DualistAge2 extends Technologie {
 		// Then update
 		this.gameteam.hq.age = 2;
 		this.gameteam.maxPop= 24;
-		for(Building b : this.p.buildings){
+		for(Building b : Game.g.plateau.buildings){
 			if(b instanceof BuildingTech && b.getTeam()==gameteam.id){
 				((BuildingTech) b).updateProductionList();
 				
