@@ -3,5 +3,5 @@ package events;
 public enum Events {
 
 	ArrowLaunched,
-	FireBallLaunched;
+	FireBallLaunched, BonusTaken, Death, Immolation, MoveAttack, MoveTarget, CharacterSelected, BuildingSelected, Attack;
 }

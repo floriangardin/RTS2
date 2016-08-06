@@ -12,6 +12,7 @@ import units.Character;
 import utils.Utils;
 import buildings.Building;
 import control.KeyMapper.KeyEnum;
+import events.Events;
 
 public class Selection {
 	public Rectangle rectangleSelection;
@@ -128,22 +129,20 @@ public class Selection {
 		if (!im.isDown(KeyEnum.LeftClick)) {
 			if (this.rectangleSelection != null) {
 				// Play selection sound
-				Sound s = null;
+				
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(0);
-					if (Math.random() > 0) {
-						s = Game.g.sounds.getRandomSoundUnit(c.name, "selection");
-					}
-
+					Game.g.events.addEvent(Events.CharacterSelected, c);
+					
 				}
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Building) {
 					Building c = (Building) this.selection.get(0);
-					s = Game.g.sounds.get("selection"+c.name);
+					//s = Game.g.sounds.get("selection"+c.name);
+					Game.g.events.addEvent(Events.BuildingSelected, c);
 				}
-				if(s!=null)
-					s.play(1f, Game.g.options.soundVolume);
+				
 				Game.g.players.get(player).groupSelection = -1;
 			}
 			

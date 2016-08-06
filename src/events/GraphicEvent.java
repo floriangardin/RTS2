@@ -12,11 +12,20 @@ public abstract class GraphicEvent {
 	
 	
 	public static GraphicEvent createGraphicEvent(GraphicEvents name,Event parent){
-		
+		GraphicEvent e ;
 		switch(name){
 		case ArrowWind:
-			return new GraphicWindArrow(parent);
+			e = new GraphicWindArrow();
+			e.parent = parent;
+			return e;
+		case BonusTaken:
+			e = new GraphicBonusTaken();
+			e.parent = parent;
+			return e;
+
+		default:
+			return null;
 		}
-		return null;
+		
 	}
 }

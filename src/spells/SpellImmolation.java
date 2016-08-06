@@ -2,13 +2,11 @@ package spells;
 
 import java.util.Vector;
 
-import display.DisplayRessources;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
-import model.Player;
 import units.Character;
+import events.Events;
 
 public class SpellImmolation extends Spell{
 
@@ -29,7 +27,7 @@ public class SpellImmolation extends Spell{
 
 		launcher.isImmolating = true;
 		launcher.remainingTime = this.remainingTime;
-		Game.g.sounds.get("fire").play(1f,Game.g.options.soundVolume);
 		launcher.spells = new Vector<Spell>();
+		Game.g.events.addEvent(Events.Immolation, target);
 	}
 }

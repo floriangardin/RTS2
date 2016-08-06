@@ -1,15 +1,14 @@
 package units;
 
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import main.Main;
-import utils.Utils;
-import data.Data;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
+
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+
+import events.Events;
 
 public class UnitKnight extends Character {
 
@@ -55,8 +54,8 @@ public class UnitKnight extends Character {
 		Character c = (Character) this.target;
 		// Attack sound
 		float damage = this.damage;
-		if(Game.g.sounds!=null)
-			Game.g.sounds.get(this.weapon).play(1f,Game.g.options.soundVolume);
+		
+		Game.g.events.addEvent(Events.Attack, this);
 		if(c.weapon=="bow"){
 			damage = damage*this.getGameTeam().data.bonusSwordBow;
 		}

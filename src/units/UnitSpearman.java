@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import utils.Utils;
 import data.Data;
+import events.Events;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
@@ -62,8 +63,7 @@ public class UnitSpearman extends Character {
 		float bonus = bonusAttack ? bonusDamage : 0f;
 		bonusAttack = false;
 		float damage = this.damage+bonus;
-		if(Game.g.sounds!=null)
-			Game.g.sounds.get(this.weapon).play(1f,Game.g.options.soundVolume);
+		Game.g.events.addEvent(Events.Attack, this);
 		if(c.horse)
 			damage = damage*this.getGameTeam().data.bonusSpearHorse;
 

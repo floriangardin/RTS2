@@ -3,22 +3,21 @@ package model;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Sound;
+import main.Main;
+
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Rectangle;
+
+import pathfinding.MapGrid;
+import ressources.Map;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
 import utils.Utils;
-import data.Data;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingAction;
-import buildings.BuildingBarrack;
-import buildings.BuildingHeadquarters;
 import buildings.BuildingProduction;
-import buildings.BuildingStable;
 import buildings.BuildingTower;
 import bullets.Bullet;
 import bullets.CollisionBullet;
@@ -26,17 +25,7 @@ import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import control.Selection;
 import display.BottomBar;
-import main.Main;
-import pathfinding.Case;
-import pathfinding.MapGrid;
-import ressources.Map;
-import spells.Spell;
-import spells.SpellEffect;
-import units.Character;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitSpearman;
+import events.Events;
 
 public class Plateau {
 
@@ -200,9 +189,7 @@ public class Plateau {
 			if (!o.isAlive()) {
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
-				Sound s = Game.g.sounds.getRandomSoundUnit(o.name,"death");
-				if(s!=null)
-					s.play(1f, Game.g.options.soundVolume);
+				Game.g.events.addEvent(Events.Death, o);
 			}
 		}
 		for (Bullet o : bullets) {
@@ -437,15 +424,14 @@ public class Plateau {
 					continue;
 				}
 				if (i == 0 && Math.random() > 0.3) {
-					Sound s = null;
+					
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& c.getTeam() != target.getTeam()) {
-						s = Game.g.sounds.getRandomSoundUnit(c.name, "attack");
+						Game.g.events.addEvent(Events.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
-						s = Game.g.sounds.getRandomSoundUnit(c.name, "target");
+						Game.g.events.addEvent(Events.MoveTarget, o);
 					}
-					if(s!=null)
-						s.play(1f, Game.g.options.soundVolume);
+
 				}
 				i++;
 				// first we deal with o's elder group

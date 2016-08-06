@@ -988,8 +988,7 @@ public class Character extends Objet{
 					}
 				}
 			}
-			if(Game.g.sounds.get("fire").playing())
-				Game.g.sounds.get("fire").stop();
+
 			this.lifePoints=-1f;
 			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
 			Game.g.addDisplayRessources(new DisplayRessources(this.getGameTeam().data.gainedFaithByImmolation,"faith",this.x,this.y));

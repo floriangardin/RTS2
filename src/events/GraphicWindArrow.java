@@ -7,10 +7,7 @@ import org.newdawn.slick.Graphics;
 
 public class GraphicWindArrow extends GraphicEvent {
 	
-	
-	public GraphicWindArrow(Event parent){
-		this.parent = parent;
-	}
+
 	@Override
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub

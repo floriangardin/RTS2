@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 import main.Main;
 import utils.Utils;
 import data.Data;
+import events.Events;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;
@@ -84,6 +85,7 @@ public class UnitArchange extends Character {
 		if(c.armor<damage){
 			c.setLifePoints(c.lifePoints+c.armor-damage);
 		}
+		Game.g.events.addEvent(Events.Attack, this);
 		// Reset the state
 		this.state = 0f;
 		c.isAttacked();
