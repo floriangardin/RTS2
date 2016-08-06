@@ -2,16 +2,17 @@ package control;
 
 import java.util.Vector;
 
-import model.Game;
-import model.Objet;
-
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
-import units.Character;
-import utils.Utils;
 import buildings.Building;
 import control.KeyMapper.KeyEnum;
+import model.Game;
+import model.Objet;
+import units.Character;
+import utils.BuildingsList;
+import utils.UnitsList;
+import utils.Utils;
 
 public class Selection {
 	public Rectangle rectangleSelection;
@@ -21,17 +22,17 @@ public class Selection {
 	public int player;
 	public Vector<Objet> inRectangle; // Je sais pas ce que c'est
 	public Vector<Objet> selection;
-	
+
 	public Selection(int player){
 		this.rectangleSelection = null;
 		this.inRectangle = new Vector<Objet>();
 		this.selection = new Vector<Objet>();
 		this.player = player;
-		
+
 	}
-	
+
 	public void updateRectangle(InputObject im, int player) {
-		
+
 		if(im.isOnMiniMap && this.rectangleSelection==null)
 			return;
 		if (this.rectangleSelection == null || im.isPressed(KeyEnum.ToutSelection)) {
@@ -43,9 +44,9 @@ public class Selection {
 				(float) Math.min(recY, im.y), (float) Math.abs(im.x - recX) + 0.1f,
 				(float) Math.abs(im.y - recY) + 0.1f);
 	}
-	
-	
-	
+
+
+
 	public void updateSelection() {
 		if (rectangleSelection != null) {
 			for (Objet a : this.inRectangle) {
@@ -70,7 +71,7 @@ public class Selection {
 						this.inRectangle.addElement(o);
 					}
 				}
-				
+
 			} else {
 				Vector<Character> chars = new Vector<Character>();
 				for(Objet o : this.selection){
@@ -88,40 +89,40 @@ public class Selection {
 			Game.g.players.get(player).groupSelection = -1;
 		}
 	}
-	
-	
-	
+
+
+
 	public void handleSelection(InputObject im) {
 		// Handling groups of units
-			KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearmen,KeyEnum.Bowmen,KeyEnum.Knights,KeyEnum.Inquisitors,KeyEnum.AllUnits,KeyEnum.HeadQuarters,KeyEnum.Barracks,KeyEnum.Stable};
-			KeyEnum  pressed= null;
-			for(KeyEnum key : tab){
-				if(im.isPressed(key)){
-					pressed=key;
-					break;
+		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.HeadQuarters,KeyEnum.Barracks,KeyEnum.Stable};
+		KeyEnum  pressed= null;
+		for(KeyEnum key : tab){
+			if(im.isPressed(key)){
+				pressed=key;
+				break;
+			}
+		}
+
+		if(pressed!=null){
+			this.selection =  new Vector<Objet>();
+			for(Character o : Game.g.plateau.characters){
+				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getUnitsList().contains(UnitsList.valueOf(o.name))){
+					this.selection.add(o);
 				}
 			}
-			
-			if(pressed!=null){
-				this.selection =  new Vector<Objet>();
-				for(Character o : Game.g.plateau.characters){
-					if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getClassFrom().isAssignableFrom(o.getClass())){
-						this.selection.add(o);
-					}
-				}
-				for(Building o : Game.g.plateau.buildings){
-					if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getClassFrom().isAssignableFrom(o.getClass())){
-						this.selection.add(o);
-					}
+			for(Building o : Game.g.plateau.buildings){
+				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getBuildingsList().contains(BuildingsList.valueOf(o.name))){
+					this.selection.add(o);
 				}
 			}
-		
+		}
 
 
-		
+
+
 		// Selection des batiments
-		
-		
+
+
 		// Cleaning the rectangle and buffer if mouse is released
 		//		boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
 
@@ -146,7 +147,7 @@ public class Selection {
 					s.play(1f, Game.g.options.soundVolume);
 				Game.g.players.get(player).groupSelection = -1;
 			}
-			
+
 			this.rectangleSelection= null;
 			this.inRectangle.clear();
 		}
@@ -155,7 +156,7 @@ public class Selection {
 			if (this.selection.size() > 0) {
 				Utils.switchTriName(this.selection);
 			}
-			
+
 		}
 		if (im.isPressed(KeyEnum.PouvoirSpecial)) {
 			boolean hasLaunched= false;
@@ -180,7 +181,7 @@ public class Selection {
 		if (im.isDown(KeyEnum.LeftClick)) {
 			// As long as the button is pressed, the selection is updated
 			this.updateRectangle(im, player);
-			
+
 		}
 		// we update the selection according to the rectangle wherever is the
 		// mouse
@@ -192,7 +193,7 @@ public class Selection {
 		}
 		if (!im.isPressed(KeyEnum.ToutSelection)) {
 			this.updateSelection();
-		
+
 		} else {
 			this.updateSelectionCTRL();
 		}
@@ -200,10 +201,10 @@ public class Selection {
 		Game.g.players.get(player).selection.clear();
 		for (Objet c : this.selection)
 			Game.g.players.get(player).selection.addElement( c);
-		
+
 	}
-	
-	
+
+
 	public void updateSelectionCTRL() {
 		if (rectangleSelection != null) {
 			this.selection.clear();;

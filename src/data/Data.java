@@ -7,10 +7,14 @@ import org.newdawn.slick.geom.Point;
 
 import main.Main;
 import ressources.Map;
+import spells.Spell;
+import utils.SpellsList;
 import utils.Utils;
 
 public class Data implements java.io.Serializable {
 
+
+	public int team;
 
 	public final float ACC;
 	public final float FROT;
@@ -19,20 +23,11 @@ public class Data implements java.io.Serializable {
 
 	public HashMap<String, DataObjet> datas;
 
-	//// UNITS
+	public HashMap<SpellsList, Spell> spells;
 
-	//	public UnitSpearman spearman;
-	//	public UnitKnight knight;
-	//	public UnitPriest priest;
-	//	public UnitInquisitor inquisitor;
-	//	public UnitCrossbowman crossbowman;
-	//	public UnitArchange archange;
-
-	
 	//// Special
 
 	public float gainedFaithByImmolation = 1f;
-
 
 	//// Attack Bonuses
 
@@ -48,7 +43,9 @@ public class Data implements java.io.Serializable {
 	// Gestion des coefficients multiplicateurs pour les attributs
 	public Vector<Attributs> ratioSpaceObjet;
 
-	public Data(){
+
+	public Data(int team){
+		this.team = team;
 		this.ratioSpaceObjet = new Vector<Attributs>();
 		this.ratioSpaceObjet.addElement(Attributs.sight);
 		this.ratioSpaceObjet.addElement(Attributs.range);
@@ -57,9 +54,13 @@ public class Data implements java.io.Serializable {
 		this.FROT = 1f;
 		this.FRAMERATE = Main.framerate;
 		datas = new HashMap<String, DataObjet>();
-		// add the unit
+		// add the objets
 		this.initHashMap();
-
+		// init the spells
+		this.spells = new HashMap<SpellsList, Spell>();
+		for(SpellsList s : SpellsList.values()){
+			this.spells.put(s, (Spell)Spell.createSpell(s,this.team));
+		}
 	}
 
 	public void initHashMap(){
@@ -74,9 +75,9 @@ public class Data implements java.io.Serializable {
 		}
 		// Convert to float ...
 		convert();
-//		for(String s : datas.keySet()){
-//			System.out.println(datas.get(s).toString());
-//		}
+		//		for(String s : datas.keySet()){
+		//			System.out.println(datas.get(s).toString());
+		//		}
 	}
 
 	// Fonctions méga propres de Flo
@@ -112,7 +113,15 @@ public class Data implements java.io.Serializable {
 						d.attributs.put(a, f);
 						toRemove.add(a);
 					} catch (NumberFormatException e) {
-						d.attributsString.put(a, d.attributsString.get(a));							
+						if(a==Attributs.spells || a==Attributs.productions || a==Attributs.list){
+							d.attributsList.put(a, new Vector<String>());
+							if(d.attributsString.get(a).length()>2){
+								for(String spell : d.attributsString.get(a).split("-")){
+									d.attributsList.get(a).add(spell);
+								}
+							}
+							toRemove.add(a);
+						} 
 					}
 				}
 			}
@@ -131,6 +140,7 @@ public class Data implements java.io.Serializable {
 		}
 	}
 
+	// getting and setting attributs
 	public float getAttribut(String name, Attributs attribut){
 		if(!this.datas.containsKey(name.toLowerCase())){
 			System.out.println("erreur : data ne contient pas "+name);
@@ -138,14 +148,15 @@ public class Data implements java.io.Serializable {
 		}
 		if(!this.datas.get(name.toLowerCase()).attributs.containsKey(attribut)){
 			System.out.println(name+" n'a pas d'attribut "+attribut);
+			Throwable t = new Throwable();
+			t.printStackTrace();
 			return 1f;
 		}
 		return this.datas.get(name.toLowerCase()).attributs.get(attribut);
 	}
-
 	public String getAttributString(String name, Attributs attribut){
 		if(!this.datas.containsKey(name.toLowerCase())){
-			System.out.println("erreur : data ne contient pas "+name);
+			System.out.println("erreur : data ne contient pas de string pour "+name);
 			return "vide";
 		}
 		if(!this.datas.get(name.toLowerCase()).attributsString.containsKey(attribut)){
@@ -154,7 +165,17 @@ public class Data implements java.io.Serializable {
 		}
 		return this.datas.get(name.toLowerCase()).attributsString.get(attribut);
 	}
-
+	public Vector<String> getAttributList(String name, Attributs attribut){
+		if(!this.datas.containsKey(name.toLowerCase())){
+			System.out.println("erreur : data ne contient pas de list pour "+name);
+			return new Vector<String>();
+		}
+		if(!this.datas.get(name.toLowerCase()).attributsList.containsKey(attribut)){
+			System.out.println(name+" n'a pas d'attribut "+attribut);
+			return new Vector<String>();
+		}
+		return this.datas.get(name.toLowerCase()).attributsList.get(attribut);
+	}
 	public void setAttributString(String name, Attributs attribut, String value){
 		if(!this.datas.containsKey(name)){
 			System.out.println("erreur : data ne contient pas "+name);
@@ -184,10 +205,18 @@ public class Data implements java.io.Serializable {
 		this.datas.get(name).attributs.put(attribut, this.datas.get(name).attributs.get(attribut)*value);
 	}
 
+	// getting spells
+	public Spell getSpell(SpellsList s){
+		if(this.spells.containsKey(s)){
+			return this.spells.get(s);
+		}
+		System.out.println("spell non existant : "+s);
+		return null;
+	}
 
 	public Point getSize(String name){
 		return new Point(getAttribut(name,Attributs.sizeX),getAttribut(name, Attributs.sizeY));
-		
+
 	}
 
 }

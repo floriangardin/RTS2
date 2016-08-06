@@ -72,6 +72,7 @@ public abstract class BuildingProduction extends BuildingAction {
 	}
 
 	public void action(){
+		this.updateAttributsChange();
 		giveUpProcess();
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
@@ -96,7 +97,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				//Introduit du random
 				float startX = this.x + this.getAttribut(Attributs.sizeX)*dirX/norm/2;
 				float startY = this.y + this.getAttribut(Attributs.sizeY)*dirY/norm/2;
-				Character c = Character.createCharacter(startX,startY, this.productionList.get(this.queue.get(0)), this.getTeam());
+				Character c = new Character(startX,startY, this.productionList.get(this.queue.get(0)), this.getTeam());
 				if(rallyPoint!=null && rallyPoint.lifePoints<=0){
 					resetRallyPoint();
 				}

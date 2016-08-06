@@ -122,7 +122,7 @@ public class Menu_Player extends Menu_Item{
 			g.drawString("X", x-50, y);
 		g.setColor(Color.white);
 		g.fillRect(startXready-sizeYcolor-20, startYcolor-2, sizeYcolor+4, sizeYcolor+4);
-		g.drawImage(p.getGameTeam().civ.uniqueSpell.icon.getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-18 , startYcolor);
+		g.drawImage(Game.g.images.get("spell"+p.getGameTeam().civ.uniqueSpell.name).getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-18 , startYcolor);
 		
 			
 	}

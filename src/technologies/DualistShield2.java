@@ -1,12 +1,6 @@
 package technologies;
 
 import data.Attributs;
-import model.Game;
-import model.GameTeam;
-import model.Plateau;
-import units.Character;
-import units.UnitKnight;
-import units.UnitSpearman;
 import utils.UnitsList;
 
 public class DualistShield2 extends Technologie {

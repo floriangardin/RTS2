@@ -8,6 +8,7 @@ import main.Main;
 import model.Game;
 import ressources.Map;
 import technologies.Technologie;
+import utils.BuildingsList;
 
 public class BuildingMine extends BuildingTech{
 	
@@ -26,7 +27,7 @@ public class BuildingMine extends BuildingTech{
 		this.x = x*Map.stepGrid;
 		this.y = y*Map.stepGrid;
 		this.type = 0;
-		this.name= "mine";
+		this.name= BuildingsList.Mine.name();
 		this.setTeam(team);
 		this.chargeTime = getAttribut(Attributs.maxChargetime);
 		this.lifePoints = getAttribut(Attributs.maxLifepoints);

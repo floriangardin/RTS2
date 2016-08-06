@@ -1,4 +1,5 @@
 {
+prototype:"Bonus",
 printName:"Bonus de dégât",
 maxLifepoints:30,
 size:30

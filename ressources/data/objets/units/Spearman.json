@@ -11,5 +11,6 @@ weapon:"spear",
 animStep:20,
 range:30,
 explosionWhenImmolate:0,
-size:30
+size:30,
+spells:Immolation-Dash
 }

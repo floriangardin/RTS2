@@ -1,14 +1,9 @@
 package data;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Vector;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,6 +13,7 @@ public class DataObjet implements java.io.Serializable {
 	// Generic fields
 	public HashMap<Attributs, Float> attributs = new HashMap<Attributs, Float>();
 	public HashMap<Attributs, String> attributsString = new HashMap<Attributs, String>();
+	public HashMap<Attributs, Vector<String>> attributsList = new HashMap<Attributs, Vector<String>>();
 	private static String location ="";
 	public static Gson gson = new Gson();
 	public DataObjet(String filename){

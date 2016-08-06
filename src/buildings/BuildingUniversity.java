@@ -7,6 +7,7 @@ import main.Main;
 import model.Checkpoint;
 import model.Player;
 import technologies.Technologie;
+import utils.BuildingsList;
 
 public class BuildingUniversity extends BuildingTech {
 
@@ -23,7 +24,7 @@ public class BuildingUniversity extends BuildingTech {
 		this.queue = null;
 		teamCapturing= getTeam();
 
-		this.name = "university";
+		this.name = BuildingsList.University.name();
 		this.initialize(f, h);
 		type= 6;
 		// List of potential production (Spearman

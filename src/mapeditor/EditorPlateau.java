@@ -453,7 +453,7 @@ public class EditorPlateau {
 			o.image = o.image.getScaledCopy(stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;
 		}
-		Data data = new Data();
+		Data data = new Data(0);
 		for(EditorObject o : buildings){
 			sizeX = Game.g.data.getAttribut(o.name, Attributs.sizeX)/Map.stepGrid;
 			o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
@@ -598,7 +598,7 @@ public class EditorPlateau {
 			}
 			br.close(); 
 			// Création de la map
-			Data data = new Data();
+			Data data = new Data(0);
 			this.cams = new Vector<EditorObject>();
 			this.cams.add(Zcam);
 			this.cams.add(Qcam);

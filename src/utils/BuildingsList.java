@@ -10,9 +10,9 @@ public enum BuildingsList {
 	Academy,
 	University,
 	Tower,
-	BonusLifePoint,
+	BonusLifepoints,
 	BonusSpeed,
-	BonusAttack;
+	BonusDamage;
 
 	
 }

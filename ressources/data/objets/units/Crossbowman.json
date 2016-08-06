@@ -7,7 +7,8 @@ sight:400,
 maxVelocity:130,
 armor:2,
 damage:5,
-weapon:"spear",
+weapon:"bow",
 range:300,
+spells:Immolation-SpecialArrow,
 size:30
 }

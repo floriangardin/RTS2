@@ -3,13 +3,14 @@ import data.Attributs;
 import main.Main;
 import model.Game;
 import units.Character;
-public class BonusLifePoints extends Bonus{
+import utils.BuildingsList;
+public class BonusLifepoints extends Bonus{
 
 
 
 
-	public BonusLifePoints(float x , float y){
-		this.name = "BonusLifepoints";
+	public BonusLifepoints(float x , float y){
+		this.name = BuildingsList.BonusLifepoints.name();
 		this.initialize(x, y);
 		this.bonus = 50f;
 

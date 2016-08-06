@@ -77,7 +77,7 @@ public class Arrow extends CollisionBullet{
 		Game.g.images.get("arrow").rotate(angle);
 		g.drawImage(Game.g.images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
 		Game.g.images.get("arrow").rotate(-angle);
-		Image shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
+		Image shadow = Game.g.images.get("arrow").getScaledCopy(Main.ratioSpace);
 		shadow.rotate(this.angle);
 		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
 		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);

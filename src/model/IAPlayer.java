@@ -2,17 +2,8 @@ package model;
 
 import java.util.HashMap;
 import java.util.Vector;
-import utils.Utils;
-import data.Data;
+
 import battleIA.Mission;
-import units.Character;
-import units.UnitArchange;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitPriest;
-import units.UnitSpearman;
-import utils.Utils;
 import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
@@ -22,6 +13,8 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
+import units.Character;
+import utils.Utils;
 
 public class IAPlayer extends Player{
 
@@ -325,7 +318,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitSpearman ){
+			if(c.name == "Spearman" ){
 				result.add(c);
 			}
 		}
@@ -336,7 +329,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitSpearman && c.mission==null ){
+			if(c.name == "Spearman" && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -346,7 +339,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitCrossbowman ){
+			if(c.name == "Crossbowman" ){
 				result.add(c);
 			}
 		}
@@ -357,7 +350,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitCrossbowman && c.mission==null ){
+			if(c.name == "Crossbowman" && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -368,7 +361,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitKnight ){
+			if(c.name == "Knight" ){
 				result.add(c);
 			}
 		}
@@ -379,7 +372,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitKnight  && c.mission==null ){
+			if(c.name == "Knight"  && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -391,7 +384,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitPriest ){
+			if(c.name == "Priest" ){
 				result.add(c);
 			}
 		}
@@ -402,7 +395,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitPriest && c.mission==null ){
+			if(c.name == "Priest" && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -413,7 +406,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitInquisitor ){
+			if(c.name == "Inquisitor" ){
 				result.add(c);
 			}
 		}
@@ -424,7 +417,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c instanceof UnitInquisitor  && c.mission==null  ){
+			if(c.name == "Inquisitor"  && c.mission==null  ){
 				result.add(c);
 			}
 		}
@@ -432,28 +425,7 @@ public class IAPlayer extends Player{
 	}
 
 
-	public Vector<Character> getArchange(Vector<Character> units){
-		Vector<Character> result = new Vector<Character>();
-
-		for(Character c : units){
-			if(c instanceof UnitArchange ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
-	public Vector<Character> getIdleArchange(Vector<Character> units){
-		Vector<Character> result = new Vector<Character>();
-
-		for(Character c : units){
-			if(c instanceof UnitArchange && c.mission==null ){
-				result.add(c);
-			}
-		}
-		return result;
-	}
-
+	
 	public int getFood(){
 		return this.getGameTeam().food;
 	}
@@ -467,24 +439,7 @@ public class IAPlayer extends Player{
 	}
 
 
-	public HashMap<Integer,Integer> initHashMap(){
-		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
-		r.put(Character.SPEARMAN, 0);
-		r.put(Character.CROSSBOWMAN, 0);
-		r.put(Character.KNIGHT, 0);
-		r.put(Character.INQUISITOR, 0);
-		r.put(Character.ARCHANGE, 0);
-		return r;
-	}
-	public HashMap<Integer,Integer> initHashMap(int s,int c, int k , int i , int a){
-		HashMap<Integer,Integer> r = new HashMap<Integer,Integer>();
-		r.put(Character.SPEARMAN, s);
-		r.put(Character.CROSSBOWMAN, c);
-		r.put(Character.KNIGHT, k);
-		r.put(Character.INQUISITOR, i);
-		r.put(Character.ARCHANGE, a);
-		return r;
-	}
+	
 
 	public Vector<Building> getMill(Vector<Building> units){
 		Vector<Building> result = new Vector<Building>();

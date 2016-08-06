@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import data.Attributs;
 import model.Checkpoint;
+import utils.BuildingsList;
 import utils.UnitsList;
 
 public class BuildingStable extends BuildingProduction{
@@ -13,7 +14,7 @@ public class BuildingStable extends BuildingProduction{
 		teamCapturing= 0;
 		
 		this.setTeam(team);
-		this.name = "stable";
+		this.name = BuildingsList.Stable.name();
 		type= 2;
 		this.initialize(f, h);
 		// List of potential production (Spearman

@@ -17,5 +17,11 @@ public enum Attributs {
 	animStep,
 	range, 
 	sizeY,
-	sizeX, maxChargetime;
+	sizeX, 
+	maxChargetime, 
+	spells, 
+	productions, 
+	totalTime, 
+	faithCost, 
+	effect, bonusDamage, bonusSpeed, list;
 }

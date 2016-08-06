@@ -82,7 +82,7 @@ public class ObjectBar {
 
 		this.objects = unitsDualistsNeutral;
 
-		Data data = new Data();
+		Data data = new Data(0);
 
 		// dualists
 		// blue

@@ -10,14 +10,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Vector;
 
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitPriest;
-import units.UnitSpearman;
-import buildings.BuildingBarrack;
-import buildings.BuildingHeadquarters;
-import buildings.BuildingStable;
+import utils.BuildingsList;
+import utils.UnitsList;
 
 
 
@@ -95,11 +89,11 @@ public class KeyMapper {
 		AjouterSelection,
 		ToutSelection,
 		AbandonnerPartie,
-		Spearmen,
-		Bowmen,
-		Knights,
-		Inquisitors,
-		Monks,
+		Spearman,
+		Crossbowman,
+		Knight,
+		Inquisitor,
+		Priest,
 		Enter, 
 		Tab, 
 		Escape, 
@@ -111,31 +105,39 @@ public class KeyMapper {
 		GlobalRallyPoint,
 		AllUnits,
 		Abandon;
-		
-		
-		public Class getClassFrom(){
-			switch(this){
-			case Spearmen:
-				return UnitSpearman.class;
-			case Bowmen:
-				return UnitCrossbowman.class;
-			case Knights:
-				return UnitKnight.class;
-			case Inquisitors:
-				return UnitInquisitor.class;
-			case Monks:
-				return UnitPriest.class;
-			case AllUnits:
-				return Character.class;
-			case Barracks:
-				return BuildingBarrack.class;
-			case Stable:
-				return BuildingStable.class;
-			case HeadQuarters:
-				return BuildingHeadquarters.class;
-			}
 
-			return null;
+		public Vector<UnitsList> getUnitsList() {
+			Vector<UnitsList> v = new Vector<UnitsList>();
+			switch(this){
+			case Spearman : 
+			case Crossbowman:
+			case Knight:
+			case Priest:
+			case Inquisitor:v.add(UnitsList.valueOf(this.name()));
+			break;
+			case AllUnits:
+				v.add(UnitsList.Spearman);
+				v.add(UnitsList.Crossbowman);
+				v.add(UnitsList.Knight);
+				v.add(UnitsList.Priest);
+				v.add(UnitsList.Inquisitor);
+			default:
+			}
+			return v;
 		}
+		
+		public Vector<BuildingsList> getBuildingsList() {
+			Vector<BuildingsList> v = new Vector<BuildingsList>();
+			switch(this){
+			case Barracks:
+			case Stable:
+			case HeadQuarters:v.add(BuildingsList.valueOf(this.name()));
+			default:
+			}
+			return v;
+		}
+
+
+
 	}
 }

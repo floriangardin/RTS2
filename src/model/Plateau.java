@@ -789,9 +789,10 @@ public class Plateau implements java.io.Serializable {
 
 					Character c = ((Character) selection.selection.get(0));
 					if (-1 != number && number < c.spells.size()
-							&& c.spellsState.get(number) >= c.spells.get(number).chargeTime) {
-						if (!c.spells.get(number).needToClick) {
-							Spell s = c.spells.get(number);
+							&& c.spellsState.get(number) >= c.getSpell(number).getAttribut(Attributs.chargeTime)) {
+						if (true) {
+//						if (!c.spells.get(number).needToClick) {
+							Spell s = c.getSpell(number);
 							if(s.name.equals("Immolation")){
 								if(imo){
 									s.launch(new Checkpoint(im.x,im.y), c);
@@ -927,7 +928,7 @@ public class Plateau implements java.io.Serializable {
 	}
 
 	public boolean isVisibleByCamera(Objet objet) {
-		float sight = objet.getMaxSize();
+		float sight = objet.getVisibleSize();
 		return objet.x + sight > Game.g.Xcam && objet.x - sight < Game.g.Xcam + Game.g.resX && objet.y + sight > Game.g.Ycam
 				&& objet.y - sight < Game.g.Ycam + Game.g.resY;
 

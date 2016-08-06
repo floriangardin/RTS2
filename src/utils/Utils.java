@@ -23,8 +23,27 @@ import units.Character;
 // Class for static methods
 public class Utils {
 
+	
+	public static String[] contactWeapon = new String[]{"spear","sword"};
 
+	public static HashMap<String,String> preParse(String s){
+		String[] u = s.split(";");
+		HashMap<String,String> hs = new HashMap<String,String>();
+		//		if(u.length<=1){
+		//			return hs;
+		//		}
+		for(int i=0;i<u.length;i++){
+			String[] r = u[i].split("\\:");
+			if(r.length>1){
+				hs.put(r[0], r[1]);
+			}
+			else{
+				hs.put(r[0],"");
+			}
 
+		}
+		return hs;
+	}
 
 	public static float distance_2(Objet a ,Objet b){
 		return (a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) ;

@@ -18,6 +18,7 @@ import model.Objet;
 import model.Player;
 import ressources.Map;
 import tests.FatalGillesError;
+import utils.Utils;
 
 public class MenuMapChoice extends Menu {
 
@@ -176,7 +177,7 @@ public class MenuMapChoice extends Menu {
 				}
 				// parsing if received anything
 				while(game.receivedConnexion.size()>0){
-					this.parseForHost(Objet.preParse(game.receivedConnexion.remove(0)));
+					this.parseForHost(Utils.preParse(game.receivedConnexion.remove(0)));
 				}
 			} else {
 				// sending to host only if the game isn't about to start
@@ -191,7 +192,7 @@ public class MenuMapChoice extends Menu {
 				// parsing if received anything
 				if(game.receivedConnexion.size()>0){
 					messageDropped=0;
-					this.parseForClient(Objet.preParse(game.receivedConnexion.lastElement()));
+					this.parseForClient(Utils.preParse(game.receivedConnexion.lastElement()));
 					game.receivedConnexion.clear();
 				}		
 				//checking if game still exists

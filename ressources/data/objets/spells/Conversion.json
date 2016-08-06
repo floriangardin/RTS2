@@ -1,0 +1,10 @@
+{
+prototype:"Spell",
+printName:"Conversion",
+chargeTime:200,
+faithCost:2,
+range:50,
+effect:0.5,
+size:1,
+totalTime:250
+}

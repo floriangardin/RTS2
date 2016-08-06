@@ -8,21 +8,11 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import buildings.Building;
-import bullets.Bullet;
 import data.Attributs;
 import model.Game;
 import model.Plateau;
 import pathfinding.MapGrid;
-import spells.SpellEffect;
 import units.Character;
-import units.UnitArchange;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitPriest;
-import units.UnitSpearman;
-import utils.UnitsList;
 public class Simulation {
 
 	public boolean render= true;

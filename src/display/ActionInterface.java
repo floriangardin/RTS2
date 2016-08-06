@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
+import data.Attributs;
 import model.Game;
 import spells.Spell;
 import technologies.Technologie;
@@ -139,36 +140,38 @@ public class ActionInterface extends Bar {
 			mouseOnIt = true;
 			Character b =(Character) Game.g.currentPlayer.selection.get(0);
 			//Print building capacities
-			Vector<Spell> ul = b.spells;
+			Vector<Spell> ul = b.getSpells();
 			int limit = Math.min(5, ul.size());
 			Vector<Float> state = b.spellsState;
 			Font f = g.getFont();
+			Image im;
 			for(int i=0; i<limit;i++){ 
-				if(state.get(i)==ul.get(i).chargeTime){
+				if(state.get(i)==ul.get(i).getAttribut(Attributs.chargeTime)){
 					g.setColor(Color.white);
 				} else {
 					g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				}
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
-				g.drawImage(ul.get(i).icon, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
+				im = Game.g.images.get("spell"+ul.get(i).name);
+				g.drawImage(im, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
 				Color c = Game.g.currentPlayer.getGameTeam().color;
 				c.a = 0.8f;
 				g.setColor(c);
 				if(state.get(i)>10){
-					float diffY = (int)((-5f+this.sizeX)*(state.get(i))/ul.get(i).chargeTime);
+					float diffY = (int)((-5f+this.sizeX)*(state.get(i))/ul.get(i).getAttribut(Attributs.chargeTime));
 					g.fillRect(this.x+2f, this.y+2f + ratio*i*this.sizeY+diffY, this.x-5f+this.sizeX, -5f+this.sizeX-diffY);
 				}
 				g.setColor(Color.white);
 
 				if(ul.size()>i && this.toDrawDescription[i]){
 					g.setColor(Color.white);
-					if(ul.get(i).chargeTime>0)
-						if(state.get(i)>=ul.get(i).chargeTime)
-							g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+					if(ul.get(i).getAttribut(Attributs.chargeTime)>0)
+						if(state.get(i)>=ul.get(i).getAttribut(Attributs.chargeTime))
+							g.drawString(ul.get(i).name.name(), this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name.name())/2f);
 						else
-							g.drawString(ul.get(i).name+" - "+(int)(100*state.get(i)/ul.get(i).chargeTime)+"%", this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+							g.drawString(ul.get(i).name+" - "+(int)(100*state.get(i)/ul.get(i).getAttribut(Attributs.chargeTime))+"%", this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name.name())/2f);
 					else
-						g.drawString(ul.get(i).name, this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name)/2f);
+						g.drawString(ul.get(i).name.name(), this.x + ratio*this.sizeY+10f, this.y + ratio*i*this.sizeY + ratio/2f*this.sizeY - f.getHeight(ul.get(i).name.name())/2f);
 				}
 
 			}

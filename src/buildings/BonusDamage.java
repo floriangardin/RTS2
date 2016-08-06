@@ -1,15 +1,17 @@
 package buildings;
 
+import data.Attributs;
+import data.AttributsChange;
+import data.AttributsChange.Change;
 import main.Main;
-import model.Game;
-import model.Plateau;
 import units.Character;
+import utils.BuildingsList;
 
 public class BonusDamage extends Bonus{
 
 	
 	public BonusDamage(float x , float y){
-		this.name = "BonusDamage";
+		this.name = BuildingsList.BonusDamage.name();
 		this.initialize( x, y);
 		this.bonus = 5f;
 
@@ -29,7 +31,7 @@ public class BonusDamage extends Bonus{
 
 	public void collision(Character c){
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
-			//c.damage += this.bonus;
+			c.attributsChanges.add(new AttributsChange(Attributs.damage, Change.ADD, 3f, 0f));
 			this.bonusPresent =false;
 			this.state = 0f;
 			

@@ -1,39 +1,29 @@
 package spells;
 
-import main.Main;
-import model.Game;
-import model.GameTeam;
+import data.Attributs;
 import model.Objet;
 import units.Character;
+import utils.SpellsList;
 import utils.Utils;
 
 //TODO : sort qui use heal
 public class SpellHeal extends Spell{
 
-	public float remainingTime;
 	
-	public SpellHeal(GameTeam gameteam){
-		this.chargeTime = 15f;
-		this.name = "heal";
-		this.icon = Game.g.images.get("spellHeal");
-		this.range = 400f*Main.ratioSpace;
-		this.damage = 1f;
-		this.faithCost = 2;
-		this.remainingTime = 8f;
-		this.gameteam = gameteam;
-		this.needToClick=false;
+	public SpellHeal(){
+		this.name = SpellsList.Heal;
 	}
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
 			Heal f = new Heal(launcher,target,-1);
-			f.remainingTime = this.remainingTime;
+			f.remainingTime = this.getAttribut(Attributs.totalTime);
 		}
 
 	}
 
 	public boolean realTarget(Objet target, Character launcher){
-		return Utils.distance(launcher, target)<range;
+		return Utils.distance(launcher, target)<getAttribut(Attributs.range);
 	}
 
 }
