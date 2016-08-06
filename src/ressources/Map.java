@@ -10,7 +10,7 @@ import java.util.Vector;
 import org.newdawn.slick.geom.Point;
 
 import buildings.BonusDamage;
-import buildings.BonusLifePoints;
+import buildings.BonusLifepoints;
 import buildings.BonusSpeed;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
@@ -155,13 +155,13 @@ public class Map {
 				// usual buildings
 				case "Mill" : new BuildingMill(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				case "Mine" : new BuildingMine(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "Barrack" : new BuildingBarrack(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
+				case "Barracks" : new BuildingBarrack(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				case "Stable" : new BuildingStable(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				case "Academy" : new BuildingAcademy(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				case "University" : new BuildingUniversity(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				case "Tower" : new BuildingTower(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
 				// bonus
-				case "BonusLifePoints" : new BonusLifePoints(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
+				case "BonusLifePoints" : new BonusLifepoints(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
 				case "BonusDamage" : new BonusDamage(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
 				case "BonusSpeed" : new BonusSpeed(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
 				default : 
@@ -178,7 +178,7 @@ public class Map {
 				} else {
 					throw new Exception();
 				}
-				Character.createCharacter(Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid, UnitsList.valueOf(tab[0]), Integer.parseInt(tab[1]));
+				new Character(Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid, UnitsList.valueOf(tab[0]), Integer.parseInt(tab[1]));
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){

@@ -1,0 +1,6 @@
+{
+prototype:"Spell",
+printName:"Fleche",
+damage:5,
+chargeTime:100
+}

@@ -30,7 +30,7 @@ public class GameTeam {
 	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
 		this.players = players;
 		this.id = id;
-		this.data = new Data();
+		this.data = new Data(id);
 		if(id==0){
 			color = Colors.team0;
 			colorName = "neutral";

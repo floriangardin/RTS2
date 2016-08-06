@@ -1,4 +1,5 @@
 {
+prototype:"Objet",
 sight:300,
 chargeTime:5,
 animStep:30,

@@ -10,6 +10,7 @@ import display.DisplayRessources;
 import main.Main;
 import model.Game;
 import technologies.Technologie;
+import utils.BuildingsList;
 
 public class BuildingMill extends BuildingTech{
 	
@@ -21,7 +22,7 @@ public class BuildingMill extends BuildingTech{
 		
 		this.setTeam(team);
 		this.type = 1;
-		this.name= "mill";
+		this.name= BuildingsList.Mill.name();
 		this.chargeTime = getAttribut(Attributs.maxChargetime);
 		this.lifePoints = getAttribut(Attributs.maxLifepoints);
 		this.initialize(f, h);

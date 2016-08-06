@@ -20,6 +20,7 @@ import technologies.DualistRangeAttack3;
 import technologies.DualistShield2;
 import technologies.DualistShield3;
 import technologies.Technologie;
+import utils.BuildingsList;
 
 public class BuildingHeadquarters extends BuildingTech {
 
@@ -98,7 +99,7 @@ public class BuildingHeadquarters extends BuildingTech {
 		
 		this.queue = null;
 		teamCapturing= getTeam();
-		this.name = "headquarters";
+		this.name = BuildingsList.Headquarters.name();
 		type= 5;
 
 		this.initialize(f,h);

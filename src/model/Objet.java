@@ -13,7 +13,11 @@ import buildings.Bonus;
 import buildings.Building;
 import bullets.Bullet;
 import data.Attributs;
+import data.AttributsChange;
+import main.Main;
+import spells.Spell;
 import units.Character;
+import utils.SpellsList;
 
 public abstract class Objet implements java.io.Serializable {
 
@@ -33,10 +37,18 @@ public abstract class Objet implements java.io.Serializable {
 	public String name;
 	protected int team;
 
+	// Bonus, équipements, potions et autres stuff
+	public Vector<AttributsChange> attributsChanges = new Vector<AttributsChange>();
+
+
+	// Spells ( what should appear in the bottom bar
+	public Vector<SpellsList> spells = new Vector<SpellsList>();
+	public Vector<Float> spellsState = new Vector<Float>();
+
 	// visibility boolean 
 	public boolean visibleByCurrentTeam;
 	public boolean visibleByCamera;
-	
+
 	public int animation = 0;
 	public float vx;
 	public float vy;
@@ -45,10 +57,24 @@ public abstract class Objet implements java.io.Serializable {
 	public boolean toKeep=false;
 	public boolean mouseOver = false;
 
-	
+
+
 	public void action(){}
 	public void move(){}
 
+	public void updateAttributsChange(){
+		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
+		for(AttributsChange ac : this.attributsChanges){
+			ac.remainingTime-=1f*Main.increment;
+			if(ac.remainingTime<=0){
+				toDelete.add(ac);
+			}
+		}
+		for(AttributsChange ac : toDelete){
+			this.attributsChanges.remove(ac);
+		}
+	}
+	
 	public Objet getTarget(){
 		return this.target;
 	}
@@ -98,7 +124,7 @@ public abstract class Objet implements java.io.Serializable {
 	public void setTeam(int i){
 		this.team = i;
 	}
-	
+
 
 	protected void destroy(){
 		this.lifePoints = -10;
@@ -117,21 +143,21 @@ public abstract class Objet implements java.io.Serializable {
 		return y;
 	}
 	protected void setXY(float x, float y){
-		
+
 		if(this instanceof Bullet){
 			this.x = x;
 			this.y = y;
 		} else {
-			
+
 			float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
 			float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
-			
+
 			this.x = xt;
 			this.y = yt;
 		}
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
-		
+
 		this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
 
 	}
@@ -139,7 +165,7 @@ public abstract class Objet implements java.io.Serializable {
 	public boolean isAlive(){
 		return this.lifePoints>0f;
 	}
-	
+
 	public void setLifePoints(float lifepoints){
 		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
 			this.lifePoints= lifepoints;
@@ -147,6 +173,7 @@ public abstract class Objet implements java.io.Serializable {
 			this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		}
 	}
+	
 	// TOSTRING METHODS
 	public String toStringObjet(){
 		return "";
@@ -154,50 +181,83 @@ public abstract class Objet implements java.io.Serializable {
 	public String toString(){
 		return this.toStringObjet();
 	}
-	public static HashMap<String,String> preParse(String s){
-		String[] u = s.split(";");
-		HashMap<String,String> hs = new HashMap<String,String>();
-//		if(u.length<=1){
-//			return hs;
-//		}
-		for(int i=0;i<u.length;i++){
-			String[] r = u[i].split("\\:");
-			if(r.length>1){
-				hs.put(r[0], r[1]);
-			}
-			else{
-				hs.put(r[0],"");
-			}
-			
-		}
-		return hs;
-	}
 	
+
 	public void parse(HashMap<String, String> hs) {
-		
+
 	}
 
+	// Attributs
 	public float getAttribut(Attributs attribut){
-		return this.getGameTeam().data.getAttribut(this.name.toLowerCase(),attribut);
+		float a = this.getGameTeam().data.getAttribut(this.name.toLowerCase(),attribut);
+		for(AttributsChange ac : this.attributsChanges){
+			if(ac.attribut==attribut){
+				a = ac.apply(a);
+				System.out.println("valeur modifiée :"+attribut+" en "+a);
+			}
+		}
+		return a;
+	}
+	public float getAttributAndRemoveUsageUnique(Attributs attribut){
+		/**
+		 * remove the corresponding attributes change if its with usage unique
+		 */
+		float a = this.getGameTeam().data.getAttribut(this.name.toLowerCase(),attribut);
+		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
+		for(AttributsChange ac : this.attributsChanges){
+			if(ac.attribut==attribut){
+				a = ac.apply(a);
+				if(ac.usageUnique){
+					toDelete.add(ac);
+				}
+			}
+		}
+		for(AttributsChange ac : toDelete){
+			this.attributsChanges.remove(ac);
+		}
+		return a;
 	}
 	public String getAttributString(Attributs attribut){
 		return this.getGameTeam().data.getAttributString(this.name.toLowerCase(),attribut);
 	}
+	public Vector<String> getAttributList(Attributs attribut){
+		return this.getGameTeam().data.getAttributList(this.name.toLowerCase(),attribut);
+	}
+
+	// Spells
+	public Spell getSpell(int i){
+		if(this.spells.size()>i){
+			if(this.getGameTeam().data.spells.containsKey(this.spells.get(i))){
+				return this.getGameTeam().data.spells.get(this.spells.get(i));
+			}
+		} else {
+			System.out.println("vous essayez d'accéder à un spell inexistant");
+		}
+		return null;
+	}
+	public Vector<Spell> getSpells() {
+		Vector<Spell>spells = new Vector<Spell>();
+		for(int i=0; i<this.spells.size(); i++){
+			spells.addElement(getSpell(i));
+		}
+		return spells;
+	}
 	
-	public float getMaxSize(){
+	// Autres
+	public float getVisibleSize(){
 		if(this.getGameTeam().data.datas.containsKey(this.name)){
 			if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.size)){
-				return getAttribut(Attributs.size)+10f;
+				return getAttribut(Attributs.size)+getAttribut(Attributs.sight);
 			} else if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.sizeX)){
 				float sizeX=this.getGameTeam().data.getAttribut(this.name.toLowerCase(),Attributs.sizeX);
 				float sizeY=this.getGameTeam().data.getAttribut(this.name.toLowerCase(),Attributs.sizeY);
-				return (float) Math.sqrt(sizeX*sizeX+sizeY*sizeY)+10f;
+				return (float) Math.sqrt(sizeX*sizeX+sizeY*sizeY)+getAttribut(Attributs.sight);
 			}
 		}
 		return 1f;
 	}
 
 
-	
+
 }
 

@@ -10,6 +10,7 @@ chargeTime:1,
 weapon:"bible",
 animStep:20,
 range:70,
+spells:Immolation-Heal,
 explosionWhenImmolate:0,
 size:30
 }

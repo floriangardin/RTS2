@@ -1,0 +1,8 @@
+{
+prototype:"Spell",
+printName:"Mur de Flamme",
+chargeTime:200,
+range:100,
+damage:1,
+totalTime:200
+}

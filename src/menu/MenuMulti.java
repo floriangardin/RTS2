@@ -12,8 +12,8 @@ import org.newdawn.slick.Image;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import model.Game;
-import model.Objet;
 import ressources.Map;
+import utils.Utils;
 
 public class MenuMulti extends Menu {
 
@@ -137,7 +137,7 @@ public class MenuMulti extends Menu {
 	public void update(InputObject im){
 		while(this.game.receivedConnexion.size()>0){
 			String s = this.game.receivedConnexion.remove(0);
-			HashMap<String, String> hashmap = Objet.preParse(s);
+			HashMap<String, String> hashmap = Utils.preParse(s);
 			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
 				try {
 					OpenGames o = null;

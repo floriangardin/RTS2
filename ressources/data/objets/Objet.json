@@ -1,3 +1,4 @@
 {
-maxLifepoints:1
+maxLifepoints:1,
+spells:""
 }

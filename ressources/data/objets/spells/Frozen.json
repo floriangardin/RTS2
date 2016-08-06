@@ -1,0 +1,7 @@
+{
+prototype:"Spell",
+printName:"Gel",
+chargeTime:250,
+range:400,
+totalTime:5
+}

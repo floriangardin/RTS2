@@ -23,6 +23,10 @@ import technologies.Technologie;
 import units.Character;
 
 public class Building extends Objet{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6321347988991860645L;
 	public int teamCapturing;
 	public float constructionPoints;
 	public int potentialTeam;

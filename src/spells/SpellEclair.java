@@ -1,30 +1,18 @@
 package spells;
 
-import main.Main;
+import data.Attributs;
 import model.Game;
-import model.GameTeam;
 import model.Objet;
 import units.Character;
-import utils.Utils;
+import utils.SpellsList;
 
 // TODO : Sort
 public class SpellEclair extends Spell{
 
-	public float remainingTime;
-	public float width;
 	
 
-	public SpellEclair(GameTeam gameteam){
-		this.chargeTime = 15f;
-		this.faithCost = 2;
-		this.width = 15f*Main.ratioSpace;
-		this.name = "Instant Death";
-		this.icon = Game.g.images.get("spellEclair");
-		this.range = 200f*Main.ratioSpace;
-		this.damage = 1f;
-		this.remainingTime = 250f;
-		this.gameteam = gameteam;
-		this.needToClick=true;
+	public SpellEclair(){
+		this.name = SpellsList.Eclair;
 	}
 
 	public void launch(Objet target, Character launcher){
@@ -36,11 +24,11 @@ public class SpellEclair extends Spell{
 			}
 		}
 
-		if(h instanceof Character && h.getTeam()!=gameteam.id && this.range>=Utils.distance(h, launcher)){
+		if(h instanceof Character && h.getTeam()!=team){
 			((Character)h).isBolted = true;
 			//TODO add a sound
 		}else{
-			this.gameteam.special+=this.faithCost;
+			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
 		}
 	}
 

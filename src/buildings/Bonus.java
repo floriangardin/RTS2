@@ -47,7 +47,7 @@ public abstract class Bonus extends Building{
 	public Graphics draw(Graphics g){
 		Image im = Game.g.images.get(this.name).getScaledCopy(Main.ratioSpace);
 		int imageWidth = im.getWidth()/5;
-		float r =((Circle) this.collisionBox).radius;
+		float r =this.getAttribut(Attributs.size);
 		Color color = Colors.team0;
 
 		color = new Color(0,0,0,0.4f);

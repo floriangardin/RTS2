@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import data.Attributs;
 import model.Checkpoint;
+import utils.BuildingsList;
 import utils.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
@@ -14,7 +15,7 @@ public class BuildingBarrack extends BuildingProduction{
 	public BuildingBarrack(float f, float h, int team) {
 		teamCapturing= 0;
 		this.setTeam(team);
-		this.name = "barracks";
+		this.name = BuildingsList.Barracks.name();
 		type= 3;
 		this.initialize(f, h);
 		// List of potential production (Spearman)

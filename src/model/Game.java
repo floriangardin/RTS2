@@ -219,9 +219,7 @@ public class Game extends BasicGame
 	// depots for receivers
 	public Vector<String> receivedConnexion = new Vector<String>();
 	public Vector<String> receivedValidation = new Vector<String>();
-	public Vector<String> receivedInputs = new Vector<String>();
 	public Vector<String> receivedPing = new Vector<String>();
-	public Vector<String> receivedResynchro = new Vector<String>();
 	public Vector<Checksum> receivedChecksum = new Vector<Checksum>();
 	public Vector<String> receivedChat = new Vector<String>();
 	// Sender
@@ -792,7 +790,7 @@ public class Game extends BasicGame
 				this.musicPlaying.setVolume(options.musicVolume);
 				this.musicPlaying.play();
 				this.musicPlaying.loop();
-				this.musicPlaying.setVolume(options.musicVolume);
+				this.musicPlaying.setVolume(options.musicVolume*0.5f);
 			}
 			if(secondsGong>=0 && (Game.nbRoundInit-this.round)/Main.framerate<=secondsGong){
 				secondsGong--;
@@ -1240,7 +1238,7 @@ public class Game extends BasicGame
 
 		LoadingList.setDeferredLoading(true);
 
-		g.data = new Data();
+		g.data = new Data(0);
 		g.sounds = new Sounds();
 		g.options = new Options();
 		g.images = new Images();

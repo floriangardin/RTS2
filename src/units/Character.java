@@ -1,7 +1,6 @@
 package units;
 
 
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -13,6 +12,8 @@ import org.newdawn.slick.geom.Rectangle;
 import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
+import bullets.Arrow;
+import bullets.Fireball;
 import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
@@ -25,25 +26,22 @@ import model.Objet;
 import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
+import utils.SpellsList;
 import utils.UnitsList;
 import utils.Utils;
 
 public class Character extends Objet{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6156105360565271761L;
+	
 	//Isattackec
 	public boolean isAttacked;
 	public float timerAttacked = 0f;
 	public float timerMaxValueAttacked = 10f;
-
-	//UNITS TYPE
-	public static int SPEARMAN = 0;
-	public static int CROSSBOWMAN = 1;
-	public static int KNIGHT = 2;
-	public static int INQUISITOR = 3;
-	public static int PRIEST = 4;
-	public static int ARCHANGE = 5;
-	public int unitType;
 
 	//MODE
 	public Mission mission;
@@ -75,43 +73,27 @@ public class Character extends Objet{
 	// Equipment attributes
 	public boolean horse;
 
-	public int typeWeapon, typeHorse;
-	//public Player player;
 	// About drawing
 	public float animationValue=0f;
 
-	// value = [2,4,6,8] according to the numeric pad
-	// Spells ( what should appear in the bottom bar
-	public Vector<Spell> spells = new Vector<Spell>();
-	public Vector<Float> spellsState = new Vector<Float>();
 	// Invisibility 
 	boolean isHidden;
 	public Civilisation civ ;
 	// Special Abilities or subisse
 	public boolean isImmolating = false;
 	public boolean isBolted = false;
-	
+
 	public float remainingTime;
+	
 	// UnitsList associated
-	public UnitsList type;
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Integer> waypoints = new Vector<Integer>();
 
 
-	public static Character createCharacter(float x,float y,UnitsList name, int team){
-		switch(name){
-		case Spearman : return new UnitSpearman(x,y,team);
-		case Knight : return new UnitKnight(x,y,team);
-		case Crossbowman : return new UnitCrossbowman(x, y, team);
-		case Priest : return new UnitPriest(x,y,team);
-		case Inquisitor : return new UnitInquisitor(x, y, team);
-		case Archange : return new UnitArchange(x, y, team);
-		default: return null;		
-		}
-	}
+
 
 	// Copy constructor , to really create an unit
-	protected Character(float x,float y,UnitsList name, int team){
+	public Character(float x,float y,UnitsList name, int team){
 		Game.g.plateau.addCharacterObjets(this);
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;
@@ -128,15 +110,15 @@ public class Character extends Objet{
 		this.getGameTeam().pop++;
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
-//		for(Spell s:c.spells){
-//			this.spells.addElement(s);
-//			this.spellsState.addElement(0f);
-//		}
+		for(String s: this.getAttributList(Attributs.spells)){
+			this.spells.addElement(SpellsList.valueOf(s));
+			this.spellsState.addElement(0f);
+		}
 
 
 	}
-	
-	
+
+
 	public boolean isLeader(){
 		return this.leader==this;
 	}
@@ -146,7 +128,7 @@ public class Character extends Objet{
 	public void setXY(float x, float y){
 		float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
 		float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
-//		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
+		//		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
 		this.selectionBox.setCenterX(xt);
 		this.selectionBox.setCenterY(yt);
 		this.x = xt;
@@ -222,55 +204,55 @@ public class Character extends Objet{
 	}
 
 
-	
+
 	//Update functions
 
 	public void updateImage(){
-//		//Handling the team
-//		Image imagea = this.p.g.images.get("corps");
-//		if(imagea==null)
-//			return;
-//		Image imageb = this.p.g.images.get("corps");
-//		Image imagec = this.p.g.images.get("corps");
-//		Image imaged = null;
-//		if(getTeam()==1){
-//			imageb = this.p.g.images.get("blue");
-//			imagec = this.p.g.images.get("horseBlue");
-//		}
-//		if(getTeam()==2){
-//			imageb = this.p.g.images.get("red");
-//			imagec = this.p.g.images.get("horseRed");
-//		}
-//		this.image = Utils.mergeImages(imagea, imageb);
-//		//Handling the weapon
-//
-//		if(this.weapon!=null){
-//			if(this.weapon == "sword"){
-//				imageb = this.p.g.images.get("sword");
-//				imaged = this.p.g.images.get("mediumArmor");
-//			}
-//			if(this.weapon == "spear"){
-//				this.image = this.p.g.images.get("spearman_move");
-//				return;
-//				//				imageb = this.p.g.images.get("sword;
-//				//				imaged = this.p.g.images.get("heavyArmor;
-//			}
-//			if(this.weapon == "bow"){
-//				imageb = this.p.g.images.get("bow");
-//				imaged = this.p.g.images.get("lightArmor");
-//			}
-//			if(this.weapon == "bible")
-//				imageb = this.p.g.images.get("bible");
-//			if(this.weapon == "wand")
-//				imageb = this.p.g.images.get("magicwand");
-//			this.image = Utils.mergeImages(this.image, imageb);
-//			this.image = Utils.mergeImages(this.image, imaged);
-//		}
-//
-//		//Handling the horse
-//		if(this.horse!=null){
-//			this.image = Utils.mergeHorse(imagec, this.image);
-//		}
+		//		//Handling the team
+		//		Image imagea = this.p.g.images.get("corps");
+		//		if(imagea==null)
+		//			return;
+		//		Image imageb = this.p.g.images.get("corps");
+		//		Image imagec = this.p.g.images.get("corps");
+		//		Image imaged = null;
+		//		if(getTeam()==1){
+		//			imageb = this.p.g.images.get("blue");
+		//			imagec = this.p.g.images.get("horseBlue");
+		//		}
+		//		if(getTeam()==2){
+		//			imageb = this.p.g.images.get("red");
+		//			imagec = this.p.g.images.get("horseRed");
+		//		}
+		//		this.image = Utils.mergeImages(imagea, imageb);
+		//		//Handling the weapon
+		//
+		//		if(this.weapon!=null){
+		//			if(this.weapon == "sword"){
+		//				imageb = this.p.g.images.get("sword");
+		//				imaged = this.p.g.images.get("mediumArmor");
+		//			}
+		//			if(this.weapon == "spear"){
+		//				this.image = this.p.g.images.get("spearman_move");
+		//				return;
+		//				//				imageb = this.p.g.images.get("sword;
+		//				//				imaged = this.p.g.images.get("heavyArmor;
+		//			}
+		//			if(this.weapon == "bow"){
+		//				imageb = this.p.g.images.get("bow");
+		//				imaged = this.p.g.images.get("lightArmor");
+		//			}
+		//			if(this.weapon == "bible")
+		//				imageb = this.p.g.images.get("bible");
+		//			if(this.weapon == "wand")
+		//				imageb = this.p.g.images.get("magicwand");
+		//			this.image = Utils.mergeImages(this.image, imageb);
+		//			this.image = Utils.mergeImages(this.image, imaged);
+		//		}
+		//
+		//		//Handling the horse
+		//		if(this.horse!=null){
+		//			this.image = Utils.mergeHorse(imagec, this.image);
+		//		}
 	}
 
 
@@ -281,7 +263,55 @@ public class Character extends Objet{
 
 	// ATTACK METHOD IF AT RANGE AND CHARGE TIME OK
 	public void useWeapon(){
-		this.state = 0f;		
+		if(!(this.target instanceof Character)){
+			return ;
+		}
+		String weapon = this.getAttributString(Attributs.weapon);
+
+		//arme de corps à corps
+		if(Game.g.data.getAttributList("contactWeapon", Attributs.list).contains(weapon)){
+			Character c = (Character) this.target;
+			c.isAttacked();
+			// Attack sound
+			if(Game.g.sounds!=null)
+				Game.g.sounds.get(this.getAttributString(Attributs.weapon)).play(1f,Game.g.options.soundVolume);
+
+			// compute damages
+			float damage = computeDamage(c);
+
+			if(c.getAttribut(Attributs.armor)<damage){
+				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
+			}			
+		} else {
+			// autres armes
+			switch(weapon){
+			case "bow" :
+				new Arrow(this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
+				break;
+			case "wand" :
+				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
+				break;
+			case "bible":
+				Character c = (Character) this.target;
+				float damage = this.getAttribut(Attributs.damage);
+				if(c.getAttribut(Attributs.armor)<damage){
+					c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
+				}
+			default:
+			}
+		}
+		// Reset the state
+		this.state = 0f;
+		this.isAttacking = false;
+	}
+
+	public float computeDamage(Character target){
+		float damage = this.getAttributAndRemoveUsageUnique(Attributs.damage);
+		if(this.getAttributString(Attributs.weapon)=="spear" && target.horse)
+			damage = damage*this.getGameTeam().data.bonusSpearHorse;
+		if(this.getAttributString(Attributs.weapon)=="bow" && !target.horse)
+			damage = damage*this.getGameTeam().data.bonusBowFoot;
+		return damage;
 	}
 
 	public void action(){
@@ -292,13 +322,7 @@ public class Character extends Objet{
 	public void mainAction(){
 		this.toKeep = false;
 
-		if(this instanceof UnitSpearman){
-			UnitSpearman unit = (UnitSpearman)this;
-			if(unit.inDash>0f){
-				unit.inDash-=Main.increment;
-			}
 
-		}
 		if(this.frozen>0f){
 			this.frozen-=Main.increment;
 			return;
@@ -315,6 +339,7 @@ public class Character extends Objet{
 
 		this.actionIAScript();
 		this.updateAnimation();
+		this.updateAttributsChange();
 	}
 
 	// Movement method
@@ -426,7 +451,7 @@ public class Character extends Objet{
 
 		this.setXY(newX, newY);
 
-		
+
 		this.animationValue+=this.getAttribut(Attributs.animStep)/(float)this.getGameTeam().data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
@@ -436,7 +461,7 @@ public class Character extends Objet{
 			}
 
 		}
-		
+
 
 	}
 	public void stop(){
@@ -935,7 +960,7 @@ public class Character extends Objet{
 		}
 
 		for(int i=0; i<this.spells.size(); i++){
-			this.spellsState.set(i,Math.min(this.spells.get(i).chargeTime, this.spellsState.get(i)+1f));
+			this.spellsState.set(i,Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
 		this.timerAttacked-=Main.increment;
 		if(this.timerAttacked<0f){
@@ -1006,94 +1031,16 @@ public class Character extends Objet{
 
 	}
 
-	public String toString(){
-		String s="";
-		s+="id:"+id+";";
-		s+="name:"+name+";";
-		s+="tm:"+this.getTeam()+";";
-		s+="x:"+(int)x+";";
-		s+="y:"+(int)y+";";
-		s+="lp:"+lifePoints+";";
-		s+="st:"+this.state+";";
-		s+="as:"+this.attackState+";";
-		s+="vx:"+this.vx+";";
-		s+="vy:"+this.vy+";";
-		s+="mode:"+this.mode+";";
-		if(this.isAttacking){
-			s+="ia: ;";
-		}
 
-		if(this.target!=null){
-			if(this.target instanceof Checkpoint){
-				s+="tx:"+this.target.x+";";
-				s+="ty:"+this.target.y+";";
-			}
-			if(this.target instanceof Character || this.target instanceof Building){
-				s+="tid:"+this.target.id+";";
-			}
-		}
-
-		return s;
-	}
-
-	public void parseCharacter(HashMap<String,String> hs){
-
-		if(hs.containsKey("x") && hs.containsKey("y")){
-			this.setXY(Float.parseFloat(hs.get("x")), Float.parseFloat(hs.get("y")));
-		}
-		if(hs.containsKey("as")){
-			this.attackState=Float.parseFloat(hs.get("as"));
-		}
-
-		if(hs.containsKey("vx")){
-			this.setVXVY(Float.parseFloat(hs.get("vx")),Float.parseFloat(hs.get("vy")));
-		}
-
-		if(hs.containsKey("ia")){
-			this.isAttacking = true;
-		}
-
-		if(hs.containsKey("tx")){
-			this.setTarget(new Checkpoint(Float.parseFloat(hs.get("tx")),Float.parseFloat(hs.get("ty"))),null);
-		}
-		if(hs.containsKey("tid")){
-			Objet target = Game.g.plateau.getCharacterById(Integer.parseInt(hs.get("tid")));
-			if(target==null){
-				target = Game.g.plateau.getBuildingById(Integer.parseInt(hs.get("tid")));
-			}
-			this.setTarget(target,null);
-		}
-
-		if(hs.containsKey("mode")){	
-			this.mode = Integer.parseInt(hs.get("mode"));
-		}
-
-		if(hs.containsKey("lp")){
-			this.lifePoints=Float.parseFloat(hs.get("lp"));
-		}
-		if(hs.containsKey("st")){
-			this.state=Float.parseFloat(hs.get("st"));
-		}
-		if(hs.containsKey("tm")){
-			this.setTeam(Integer.parseInt(hs.get("tm")));
-		}
-	}
-
-	public void parse(HashMap<String,String> hs){
-		//SEPARATION BETWEEN KEYS
-
-		this.parseCharacter(hs);
-
-	}
-
-	
 	public void isAttacked() {
 		this.isAttacked=true;
 		this.timerAttacked = this.timerMaxValueAttacked;
 	}
 
-	
-	
+
+
+
+
 }
 
 

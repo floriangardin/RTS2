@@ -2,12 +2,6 @@ package technologies;
 
 
 import data.Attributs;
-import model.Game;
-import model.GameTeam;
-import model.Plateau;
-import units.Character;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
 import utils.UnitsList;
 
 public class DualistRangeAttack2 extends Technologie {

@@ -1,10 +1,9 @@
 package model;
 
+import data.Attributs;
 import main.Main;
 import spells.Spell;
-import spells.SpellEclair;
-import spells.SpellHeal;
-import spells.SpellProduct;
+import utils.SpellsList;
 
 public class Civilisation {
 	public String name;
@@ -20,29 +19,29 @@ public class Civilisation {
 		switch(name.toLowerCase()){
 		case "dualists":
 			this.printName = "Dualists";
-			this.uniqueSpell = new SpellEclair(gameteam);
+			this.uniqueSpell = Game.g.data.spells.get(SpellsList.Eclair);
 			break;
 		case "kitanos":
 			this.printName = "Kitanos";
-			this.uniqueSpell = new SpellHeal(gameteam);
+			this.uniqueSpell = Game.g.data.spells.get(SpellsList.Heal);
 			break;
 		case "zinaids":
 			this.printName = "Zinaids";
-			this.uniqueSpell = new SpellProduct(gameteam);
+			this.uniqueSpell = Game.g.data.spells.get(SpellsList.Product);
 			break;
 		}
 	}
 	
 	public void launchSpell(Objet target){
-		if(target!=null && gameteam.special>=this.uniqueSpell.faithCost && chargeTime>=uniqueSpell.chargeTime){
-			gameteam.special-=this.uniqueSpell.faithCost;
+		if(target!=null && gameteam.special>=this.uniqueSpell.getAttribut(Attributs.faithCost) && chargeTime>=uniqueSpell.getAttribut(Attributs.chargeTime)){
+			gameteam.special-=this.uniqueSpell.getAttribut(Attributs.faithCost);
 			this.uniqueSpell.launch(target, null);
 		}
 		
 	}
 	
 	public void update(){
-		this.chargeTime = (float) Math.min(uniqueSpell.chargeTime, chargeTime+Main.increment);
+		this.chargeTime = (float) Math.min(uniqueSpell.getAttribut(Attributs.chargeTime), chargeTime+Main.increment);
 	}
 
 
