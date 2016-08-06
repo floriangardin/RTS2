@@ -1,5 +1,8 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
+import control.InputObject;
 import data.Attributs;
 import model.Game;
 import model.Objet;
@@ -29,6 +32,15 @@ public class SpellEclair extends Spell{
 			//TODO add a sound
 		}else{
 			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
+		}
+	}
+
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		if(target instanceof Character){
+			this.drawTargetUnit(g, (Character)target);
 		}
 	}
 

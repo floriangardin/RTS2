@@ -50,6 +50,7 @@ public class Data implements java.io.Serializable {
 		this.ratioSpaceObjet.addElement(Attributs.sight);
 		this.ratioSpaceObjet.addElement(Attributs.range);
 		this.ratioSpaceObjet.addElement(Attributs.size);
+		this.ratioSpaceObjet.addElement(Attributs.width);
 		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = Main.framerate;

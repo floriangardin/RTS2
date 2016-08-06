@@ -38,7 +38,8 @@ public class Checkpoint extends Objet {
 		drawShape2.setCenterY(y);
 		
 		this.selectionBox = null;
-		this.setXY(x, y);
+		this.x = x;
+		this.y = y;
 		this.printed=0f;
 		
 	}

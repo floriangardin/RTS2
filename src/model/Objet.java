@@ -193,7 +193,6 @@ public abstract class Objet implements java.io.Serializable {
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
 				a = ac.apply(a);
-				System.out.println("valeur modifiée :"+attribut+" en "+a);
 			}
 		}
 		return a;

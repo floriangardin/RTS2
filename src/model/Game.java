@@ -29,7 +29,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
@@ -41,6 +40,7 @@ import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
+import control.Selection;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import data.Data;
@@ -69,6 +69,7 @@ import spells.SpellEffect;
 import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
+import utils.SpellsList;
 import utils.Utils;
 public class Game extends BasicGame 
 {
@@ -152,6 +153,13 @@ public class Game extends BasicGame
 	public static Graphics gf;
 	public Cosmetic cosmetic;
 
+	// Spell with click handling
+	public boolean spellOk = true;
+	public Character spellLauncher;
+	public Objet spellTarget;
+	public float spellX,spellY;
+	public SpellsList spellCurrent = null;
+
 	// Timer
 	public Timer timer ;
 
@@ -171,17 +179,19 @@ public class Game extends BasicGame
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
-	
+
 	// Handling selection
 	public InputHandler inputsHandler;
-	
+
 	// Handling events
 	public EventQueue events = new EventQueue();
+
+
 
 	////////////////////////
 	/// PLAYERS && TEAMS ///
 	////////////////////////
-	
+
 	// Camera
 	public int Xcam;
 	public int Ycam;
@@ -229,9 +239,9 @@ public class Game extends BasicGame
 	// Chat
 	public ChatHandler chatHandler;
 	private Plateau toParse;
-	
 
-	
+
+
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
 	private boolean sendParse;
@@ -357,9 +367,9 @@ public class Game extends BasicGame
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
 		this.players.addElement(new Player(this.plateau,players.size(),name,teams.get(1),resX,resY));
-		
-		
-		
+
+
+
 		this.players.lastElement().address = address;
 		nPlayers+=1;
 
@@ -375,9 +385,9 @@ public class Game extends BasicGame
 
 		// deleting component from plateau
 
-		
+
 		//Pourquoi ???
-		
+
 	}
 	// functions that handle buffers
 
@@ -417,62 +427,7 @@ public class Game extends BasicGame
 	{
 		g.setFont(this.font);
 		if(!thingsLoaded){
-			g.setColor(Color.black);
-			g.fillRect(0, 0, resX, resY);
-			float toGoTitle2 = Math.max(0f,toGoTitle);
-			if(lastThing!=null && toGoTitle2==0f){
-				int startBarX = (int) (resX/10);
-				int startBarY = (int) (18*resY/20);
-				int sizeBarX = (int) (resX - 2*startBarX);
-				int sizeBarY = (int)(resY/40);
-				g.setColor(Color.white);
-				g.fillRect(startBarX-2, startBarY-2,sizeBarX+4, sizeBarY+4);
-				if(Game.conseilChargementEnable)
-					g.drawString(adviceToDisplay, resX/2-font.getWidth(adviceToDisplay)/2, resY-20-font.getHeight(adviceToDisplay));
-				g.setColor(Color.black);
-				g.fillRect(startBarX, startBarY,sizeBarX, sizeBarY);
-				float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
-				g.setColor(new Color(1f-x,0f,x));
-				g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
-				if(LoadingList.get().getRemainingResources() > 0){
-					g.setColor(Color.white);
-					g.drawString(""+lastThing, startBarX+20f, startBarY+sizeBarY/2-font.getHeight("Hg")/2);
-				}
-				int xanimation = startBarX + sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
-				if(special){
-					int height = this.loadingSpearman.getHeight();
-					int width = this.loadingSpearman.getWidth();
-					g.drawImage(this.loadingSpearman,xanimation-width/2,startBarY-sizeBarY-height);					
-				} else {
-					this.animationLoadingSpearman++;
-					this.animationLoadingSpearman=this.animationLoadingSpearman%(Main.framerate/2);
-					int height = this.loadingSpearman.getHeight()/4;
-					int width = this.loadingSpearman.getWidth()/5;
-					int w = animationLoadingSpearman*8/Main.framerate+1;
-					g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),xanimation-width/2,startBarY-sizeBarY-height);
-				}	
-				if(this.rate){
-					g.setColor(Color.white);
-					String s;
-					if(this.gilles){
-						s = "Trop tard";
-					} else {
-						s = "Trop tôt";
-					}
-					g.drawString(s, resX-10-font.getWidth(s), resY-20-font.getHeight(s));
-				}
-				//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
-				//				g.setColor(Color.white);
-				//				String s = "Chargement...";
-				//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
-			}
-			Image temp = this.loadingBackground;
-			temp.setAlpha(toGoTitle2);
-			g.drawImage(temp, 0,0,resX,resY,0,0,temp.getWidth(),temp.getHeight()-60f);
-			temp = this.loadingTitle.getScaledCopy(0.5f+toGoTitle2/2f);
-			float xTitle = (this.resX/2-temp.getWidth()/2) ;
-			float yTitle = toGoTitle2*(10f) + (1f-toGoTitle2)*(resY/3);
-			g.drawImage(temp, xTitle, yTitle);
+			this.renderIntro(g);
 			return;
 		}
 		if(isInMenu){
@@ -512,9 +467,6 @@ public class Game extends BasicGame
 
 
 			// Draw the selection of your team
-			
-
-			
 			for(Objet o: this.g.inputsHandler.getSelection(currentPlayer.id).selection){
 
 				if(o.target!=null && o instanceof Checkpoint){
@@ -531,6 +483,13 @@ public class Game extends BasicGame
 					}
 				}
 			}
+			//Draw spells cosmetic
+			if(this.spellCurrent!=null){
+				int i = spellLauncher.spells.indexOf(spellCurrent);
+				boolean ok = spellLauncher.spellsState.get(i)>=Game.g.data.spells.get(spellCurrent).getAttribut(Attributs.chargeTime);
+				this.currentPlayer.getGameTeam().data.spells.get(this.spellCurrent).draw(g,this.spellTarget,this.spellX,this.spellY,this.spellLauncher, ok);
+			}
+
 			//Creation of the drawing Vector
 			Vector<Objet> toDraw = new Vector<Objet>();
 			Vector<Objet> toDrawAfter = new Vector<Objet>();
@@ -541,6 +500,8 @@ public class Game extends BasicGame
 					toDrawAfter.add(o);
 
 			}
+
+			//
 
 			//Draw bonuses
 			for(Bonus o : plateau.bonus){
@@ -679,6 +640,66 @@ public class Game extends BasicGame
 
 	}
 
+	// drawing ecran chargement
+	public void renderIntro(Graphics g){
+		g.setColor(Color.black);
+		g.fillRect(0, 0, resX, resY);
+		float toGoTitle2 = Math.max(0f,toGoTitle);
+		if(lastThing!=null && toGoTitle2==0f){
+			int startBarX = (int) (resX/10);
+			int startBarY = (int) (18*resY/20);
+			int sizeBarX = (int) (resX - 2*startBarX);
+			int sizeBarY = (int)(resY/40);
+			g.setColor(Color.white);
+			g.fillRect(startBarX-2, startBarY-2,sizeBarX+4, sizeBarY+4);
+			if(Game.conseilChargementEnable)
+				g.drawString(adviceToDisplay, resX/2-font.getWidth(adviceToDisplay)/2, resY-20-font.getHeight(adviceToDisplay));
+			g.setColor(Color.black);
+			g.fillRect(startBarX, startBarY,sizeBarX, sizeBarY);
+			float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
+			g.setColor(new Color(1f-x,0f,x));
+			g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
+			if(LoadingList.get().getRemainingResources() > 0){
+				g.setColor(Color.white);
+				g.drawString(""+lastThing, startBarX+20f, startBarY+sizeBarY/2-font.getHeight("Hg")/2);
+			}
+			int xanimation = startBarX + sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
+			if(special){
+				int height = this.loadingSpearman.getHeight();
+				int width = this.loadingSpearman.getWidth();
+				g.drawImage(this.loadingSpearman,xanimation-width/2,startBarY-sizeBarY-height);					
+			} else {
+				this.animationLoadingSpearman++;
+				this.animationLoadingSpearman=this.animationLoadingSpearman%(Main.framerate/2);
+				int height = this.loadingSpearman.getHeight()/4;
+				int width = this.loadingSpearman.getWidth()/5;
+				int w = animationLoadingSpearman*8/Main.framerate+1;
+				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),xanimation-width/2,startBarY-sizeBarY-height);
+			}	
+			if(this.rate){
+				g.setColor(Color.white);
+				String s;
+				if(this.gilles){
+					s = "Trop tard";
+				} else {
+					s = "Trop tôt";
+				}
+				g.drawString(s, resX-10-font.getWidth(s), resY-20-font.getHeight(s));
+			}
+			//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
+			//				g.setColor(Color.white);
+			//				String s = "Chargement...";
+			//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
+		}
+		Image temp = this.loadingBackground;
+		temp.setAlpha(toGoTitle2);
+		g.drawImage(temp, 0,0,resX,resY,0,0,temp.getWidth(),temp.getHeight()-60f);
+		temp = this.loadingTitle.getScaledCopy(0.5f+toGoTitle2/2f);
+		float xTitle = (this.resX/2-temp.getWidth()/2) ;
+		float yTitle = toGoTitle2*(10f) + (1f-toGoTitle2)*(resY/3);
+		g.drawImage(temp, xTitle, yTitle);
+		return;
+	}
 	// drawing fog of war method
 	public void drawFogOfWar(Graphics g) {
 		Vector<Objet> visibleObjet = new Vector<Objet>();
@@ -705,29 +726,7 @@ public class Game extends BasicGame
 	}
 
 	//Handling cosmetic for current player in lan game
-	public void updateCosmetic(InputObject im){
-		//SELECTION RECTANGLE
-		if (im.idplayer == Game.g.currentPlayer.id) {
-			plateau.handleMouseHover(im);
-		}
-		if (im.isDown(KeyEnum.LeftClick)) {
 
-
-			if (im.isOnMiniMap && cosmetic.selection==null) {
-				return;
-			}
-			if (this.cosmetic.selection == null|| im.isPressed(KeyEnum.ToutSelection)) {
-				cosmetic.recX= (float) im.x;
-				cosmetic.recY= (float) im.y;
-				cosmetic.selection = new Rectangle(cosmetic.recX, cosmetic.recX, 0.1f, 0.1f);
-			}
-			cosmetic.selection.setBounds((float) Math.min(cosmetic.recX, im.x),
-					(float) Math.min(cosmetic.recY, im.y), (float) Math.abs(im.x - cosmetic.recX) + 0.1f,
-					(float) Math.abs(im.y - cosmetic.recY) + 0.1f);
-		}else{
-			cosmetic.selection = null;
-		}
-	}
 
 
 
@@ -743,19 +742,9 @@ public class Game extends BasicGame
 			return;
 		}
 
-
 		// Handling multiReceiver
 		this.handleMultiReceiver();
 
-		//		Thread[] tarray = new Thread[Thread.activeCount()];
-		//		Thread.enumerate(tarray);
-		//		System.out.println("threads prï¿½sents : "+tarray.length);
-		//		for(int i=0; i<tarray.length; i++){
-		//			System.out.println(tarray[i].getName());
-		//		}
-		//		System.out.println();
-		//		if(t!=16)
-		//			System.out.println("Le round "+round+" a dure "+t);
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -811,6 +800,10 @@ public class Game extends BasicGame
 			//			if(replay==null){
 			//				replay = new Replay(2,"apocalypse",0,this);
 			//			}
+
+			// handling spell cosmetic
+			this.handleSpellWithClick(im);
+
 			if(inMultiplayer){
 
 				////////////////////
@@ -847,7 +840,7 @@ public class Game extends BasicGame
 					System.out.println("Game 839 : round drop "+round);
 				}
 				this.plateau.updatePlateauState();
-				this.updateCosmetic(im);
+				this.cosmetic.update(im);
 				if(this.gillesBombe){
 					this.handleGillesBombe();
 				}
@@ -857,7 +850,7 @@ public class Game extends BasicGame
 				/// SINGLE PLAYER ///
 				/////////////////////
 
-				
+
 				ims.add(im);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
@@ -868,7 +861,7 @@ public class Game extends BasicGame
 				} else {
 					this.updateInit();
 				}
-				this.updateCosmetic(im);
+				this.cosmetic.update(im);
 				//Update des ordres de l'IA
 				this.plateau.updateIAOrders();
 				//Update replay
@@ -917,6 +910,27 @@ public class Game extends BasicGame
 			System.out.println("nb paquets traitï¿½s: " + idPaquetTreated);
 		}
 
+	}
+
+	// spell with click handling
+	public void handleSpellWithClick(InputObject im){
+		Selection selection = inputsHandler.getSelection(currentPlayer.id);
+		if(selection.selection.size() > 0 && selection.selection.get(0) instanceof Character){
+			Character c = (Character) selection.selection.get(0);
+			for(int i=0; i<c.spells.size(); i++){
+				if (im.isPressed(KeyEnum.valueOf("Prod"+i)) 
+						&& c.getSpell(i).getAttribut(Attributs.needToClick)==1){
+					this.spellCurrent = c.spells.get(i);
+					this.spellLauncher = c;
+				}
+			}
+		}
+		if(this.spellCurrent!=null){
+			this.spellTarget = plateau.findTarget(im.x, im.y, currentPlayer.id);
+			this.spellX = im.x;
+			this.spellY = im.y;
+			
+		}
 	}
 
 	///////////////////////////////////////////////////////
@@ -1150,7 +1164,7 @@ public class Game extends BasicGame
 	}
 
 	public void launchGame(){
-		
+
 		this.inputsHandler.initSelction();
 		this.musicPlaying.stop();
 		this.musicPlaying = this.musics.get("themeImperial");
@@ -1252,7 +1266,7 @@ public class Game extends BasicGame
 		g.menuMapChoice = new MenuMapChoice(g);
 		g.credits = new Credits(g);
 		g.editor = new MapEditor(g);
-		
+
 
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 
@@ -1554,7 +1568,7 @@ public class Game extends BasicGame
 			y += vy;
 		}
 	}
-	
+
 	public boolean gillesBombe = false;
 	public int timeGilles = 0;
 	private Vector<Gilles> gillesPics = new Vector<Gilles>();

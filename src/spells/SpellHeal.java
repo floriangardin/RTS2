@@ -1,5 +1,8 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
+import control.InputObject;
 import data.Attributs;
 import model.Objet;
 import units.Character;
@@ -9,21 +12,22 @@ import utils.Utils;
 //TODO : sort qui use heal
 public class SpellHeal extends Spell{
 
-	
+
 	public SpellHeal(){
 		this.name = SpellsList.Heal;
 	}
 
 	public void launch(Objet target, Character launcher){
-		if(realTarget(target, launcher)){
-			Heal f = new Heal(launcher,target,-1);
-			f.remainingTime = this.getAttribut(Attributs.totalTime);
-		}
-
+		Spell.realTarget(target, launcher, getAttribut(Attributs.range));
+		Heal f = new Heal(launcher,target,-1);
+		f.remainingTime = this.getAttribut(Attributs.totalTime);
 	}
 
-	public boolean realTarget(Objet target, Character launcher){
-		return Utils.distance(launcher, target)<getAttribut(Attributs.range);
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,6 +1,9 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
 import bullets.Arrow;
+import control.InputObject;
 import data.Attributs;
 import model.Objet;
 import units.Character;
@@ -19,6 +22,13 @@ public class SpellSpecialArrow extends Spell{
 		
 		launcher.stop();
 	}
-	
+
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

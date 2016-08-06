@@ -1,10 +1,12 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
 import data.Attributs;
+import model.Checkpoint;
 import model.Objet;
 import units.Character;
 import utils.SpellsList;
-import utils.Utils;
 
 public class SpellFrozen extends Spell{
 
@@ -14,15 +16,18 @@ public class SpellFrozen extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		if(realTarget(target, launcher)){
-			Frozen f = new Frozen(launcher,target,-1);
-			f.remainingTime = this.getAttribut(Attributs.totalTime);
-		}
+		Objet t = Spell.realTarget(target, launcher, getAttribut(Attributs.range));
+		Frozen f = new Frozen(launcher,t,-1,getAttribut(Attributs.size));
+		f.remainingTime = this.getAttribut(Attributs.totalTime);
 
 	}
 
-	public boolean realTarget(Objet target, Character launcher){
-		return Utils.distance(launcher, target)<getAttribut(Attributs.range);
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		g.setLineWidth(3f);
+		Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, this.getAttribut(Attributs.range));
+		g.draw(Frozen.createShape(launcher, t, getAttribut(Attributs.size)));
 	}
 
 }

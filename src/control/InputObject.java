@@ -1,15 +1,16 @@
 package control;
 
 
-import java.beans.Transient;
 import java.util.Vector;
 
 import org.newdawn.slick.Input;
 
 import control.KeyMapper.KeyEnum;
+import data.Attributs;
 import display.BottomBar;
 import model.Game;
 import model.Player;
+import utils.SpellsList;
 
 public class InputObject implements java.io.Serializable{
 
@@ -23,12 +24,17 @@ public class InputObject implements java.io.Serializable{
 	public int round;
 	public int idplayer;
 
+	// Spells
+	public int idObjetMouse;
+	public int idSpellLauncher;
+	public SpellsList spell;
+
 	public Vector<Boolean> validated;
 	public boolean toPlay;
 
 	public boolean isOnMiniMap;
-	
-	
+
+
 	private transient final  static  boolean debugTouche = false;
 
 	public Vector<KeyEnum> down;
@@ -83,6 +89,29 @@ public class InputObject implements java.io.Serializable{
 			}
 			if(input.isMouseButtonDown(i)){
 				down.addElement(km.mouseMapping.get(i));
+			}
+		}
+		// Spells
+		if(pressed.size()>0){
+			if(pressed.contains(KeyEnum.LeftClick) && Game.g.spellCurrent!=null){
+				int i = Game.g.spellLauncher.spells.indexOf(Game.g.spellCurrent);
+				if(Game.g.spellLauncher.spellsState.get(i)>=Game.g.data.spells.get(Game.g.spellCurrent).getAttribut(Attributs.chargeTime)){
+					this.spell = Game.g.spellCurrent;
+					this.idSpellLauncher = Game.g.spellLauncher.id;
+					if(Game.g.spellTarget!=null){
+						this.idObjetMouse = Game.g.spellTarget.id;
+					} else {
+						this.idObjetMouse = -1;
+					}
+					Game.g.spellCurrent = null;
+					Game.g.spellLauncher = null;
+					Game.g.spellTarget = null;
+				}
+				pressed.remove(KeyEnum.LeftClick);
+			} else {
+				Game.g.spellCurrent = null;
+				Game.g.spellLauncher = null;
+				Game.g.spellTarget = null;
 			}
 		}
 		this.toPlay = toPlay;

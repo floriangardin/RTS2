@@ -1,7 +1,11 @@
 package spells;
 
-import org.newdawn.slick.Image;
+import java.util.Vector;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+
+import buildings.Building;
 import data.Attributs;
 import model.Checkpoint;
 import model.Game;
@@ -16,13 +20,32 @@ public abstract class Spell {
 	public SpellsList name;
 	public int team;
 
-
+	public static Color colorOk = new Color(0f,1f,0.3f,0.5f);
+	public static Color colorPasOk = new Color(1f,.01f,0.1f,0.5f);
 
 	public abstract void launch(Objet target, Character launcher);
-
+	
+	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok){
+		if(ok){
+			g.setColor(Spell.colorOk);
+		} else {
+			g.setColor(Spell.colorPasOk);
+		}
+		if(this.getGameTeam().data.datas.get(this.name.name().toLowerCase()).attributs.containsKey(Attributs.range)){
+			this.drawRange(g, launcher);
+		}
+		this.drawCast(g, target, x, y, launcher, ok);
+	}
+	public abstract void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok);
 
 	public float getAttribut(Attributs attribut){
 		return this.getGameTeam().data.getAttribut(this.name.name().toLowerCase(),attribut);
+	}
+	public String getAttributString(Attributs attribut){
+		return this.getGameTeam().data.getAttributString(this.name.name().toLowerCase(),attribut);
+	}
+	public Vector<String> getAttributList(Attributs attribut){
+		return this.getGameTeam().data.getAttributList(this.name.name().toLowerCase(),attribut);
 	}
 
 	public static Objet realTarget(Objet target, Character launcher, float range){
@@ -62,6 +85,22 @@ public abstract class Spell {
 		}
 		spell.team = team;
 		return spell;
+	}
+	
+	public void drawRange(Graphics g, Character launcher){
+		g.setLineWidth(1f);
+		float range = this.getAttribut(Attributs.range);
+		g.drawOval(launcher.x-range, launcher.y-range, 2*range, 2*range);
+	}
+	
+	public void drawTargetUnit(Graphics g, Character target){
+		g.setLineWidth(3f);
+		float size = target.getAttribut(Attributs.size);
+		g.drawOval(target.x-size, target.y-size, 2*size, 2*size);
+	}
+	
+	public void drawTargetBuilding(Graphics g, Building building){
+		
 	}
 
 }

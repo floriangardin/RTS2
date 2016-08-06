@@ -1,5 +1,8 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
+import control.InputObject;
 import data.Attributs;
 import model.Game;
 import model.GameTeam;
@@ -28,6 +31,13 @@ public class SpellInstantDeath extends Spell{
 		if(h instanceof Character && h.getTeam()!=launcher.getTeam() && this.getAttribut(Attributs.range)>=Utils.distance(h, launcher)){
 			((Character)h).isBolted = true;
 			
+		}
+	}
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		if(target instanceof Character){
+			this.drawTargetUnit(g, (Character)target);
 		}
 	}
 

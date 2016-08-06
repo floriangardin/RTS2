@@ -1,5 +1,8 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
+import control.InputObject;
 import data.Attributs;
 import model.Game;
 import model.Objet;
@@ -27,6 +30,15 @@ public class SpellInstantHealth extends Spell{
 		if(h instanceof Character && h.getTeam()==launcher.getTeam() && launcher!=h && this.getAttribut(Attributs.range)>=Utils.distance(h, launcher)){
 			h.lifePoints = ((Character) h ).getAttribut(Attributs.maxLifepoints);
 			
+		}
+	}
+
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		if(target instanceof Character){
+			this.drawTargetUnit(g, (Character)target);
 		}
 	}
 
