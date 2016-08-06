@@ -6,7 +6,8 @@ import org.newdawn.slick.Image;
 
 import main.Main;
 import model.Game;
-import model.Utils;
+import utils.Utils;
+import data.Data;
 
 public class DisplayRessources {
 

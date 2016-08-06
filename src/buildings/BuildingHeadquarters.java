@@ -3,7 +3,8 @@ package buildings;
 import java.util.Vector;
 
 import main.Main;
-import model.Data;
+import utils.Utils;
+import data.Data;
 import model.Game;
 import model.Plateau;
 import technologies.DualistAge2;

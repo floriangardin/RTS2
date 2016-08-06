@@ -7,7 +7,8 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
-import model.Data;
+import utils.Utils;
+import data.Data;
 import ressources.Map;
 
 public class ObjectBar {

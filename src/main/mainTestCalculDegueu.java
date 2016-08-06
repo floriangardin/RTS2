@@ -9,7 +9,8 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
 import ressources.Map;
-import model.Utils;
+import utils.Utils;
+import data.Data;
 import units.Character;
 public class mainTestCalculDegueu {
 	public static class Test1 {

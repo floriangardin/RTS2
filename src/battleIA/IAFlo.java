@@ -9,7 +9,7 @@ import buildings.Building;
 import buildings.BuildingBarrack;
 import buildings.BuildingProduction;
 import model.Checkpoint;
-import model.Utils;
+import utils.Utils;
 import units.Character;
 
 

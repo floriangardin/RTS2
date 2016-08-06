@@ -4,7 +4,8 @@ import java.util.Vector;
 
 import display.DisplayRessources;
 import main.Main;
-import model.Data;
+import utils.Utils;
+import data.Data;
 import model.Game;
 import model.Plateau;
 import ressources.Map;
@@ -54,8 +55,7 @@ public class BuildingMine extends BuildingTech{
 			}
 			state = 0;
 		}
-		
-		
+			
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue!=null){

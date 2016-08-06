@@ -8,7 +8,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import bullets.Arrow;
 import main.Main;
-import model.Data;
+import utils.Utils;
+import data.Data;
 import model.Game;
 import model.GameTeam;
 import model.Objet;

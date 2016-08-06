@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
-
-import model.Utils;
+import utils.Utils;
+import data.Data;
 import units.Character;
 
 public class MapGrid {

@@ -10,7 +10,8 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
-
+import utils.Utils;
+import data.Data;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingAction;
@@ -42,11 +43,7 @@ public class Plateau {
 	public float maxX;
 	public float maxY;
 
-	// Camera
-	public int Xcam;
-	public int Ycam;
-	public boolean slidingCam = false;
-	public Point objectiveCam = new Point(0,0);
+
 
 	// debug
 	public boolean collisionSwitch;
@@ -843,33 +840,33 @@ public class Plateau {
 		// camera movement
 		if (player == Game.g.currentPlayer.id && Game.g.inputsHandler.getSelection(player).rectangleSelection == null && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
 			// Handling sliding
-			if(this.slidingCam==true){
-				int deltaX = (int) (this.objectiveCam.getX()-this.Xcam);
-				int deltaY = (int) (this.objectiveCam.getY()-this.Ycam);
-				this.Xcam += deltaX/5;
-				this.Ycam += deltaY/5;
+			if(Game.g.slidingCam==true){
+				int deltaX = (int) (Game.g.objectiveCam.getX()-Game.g.Xcam);
+				int deltaY = (int) (Game.g.objectiveCam.getY()-Game.g.Ycam);
+				Game.g.Xcam += deltaX/5;
+				Game.g.Ycam += deltaY/5;
 				if(Math.abs(deltaX)<2)
-					this.slidingCam = false;
+					Game.g.slidingCam = false;
 			}
 			//			boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
 			// Move camera according to inputs :
-			if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.y < Ycam + 5) && Ycam > -Game.g.resY / 2) {
-				Ycam -= (int) (80 * 30 / Main.framerate);
-				this.slidingCam = false;
+			if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.y < Game.g.Ycam + 5) && Game.g.Ycam > -Game.g.resY / 2) {
+				Game.g.Ycam -= (int) (80 * 30 / Main.framerate);
+				Game.g.slidingCam = false;
 			}
-			if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.y > Ycam + Game.g.resY - 5))
-					&& Ycam < this.maxY - Game.g.resY / 2) {
-				Ycam += (int) (80 * 30 / Main.framerate);
-				this.slidingCam = false;
+			if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.y > Game.g.Ycam + Game.g.resY - 5))
+					&& Game.g.Ycam < this.maxY - Game.g.resY / 2) {
+				Game.g.Ycam += (int) (80 * 30 / Main.framerate);
+				Game.g.slidingCam = false;
 			}
-			if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.x < Xcam + 5)) && Xcam > -Game.g.resX / 2) {
-				Xcam -= (int) (80 * 30 / Main.framerate);
-				this.slidingCam = false;
+			if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.x < Game.g.Xcam + 5)) && Game.g.Xcam > -Game.g.resX / 2) {
+				Game.g.Xcam -= (int) (80 * 30 / Main.framerate);
+				Game.g.slidingCam = false;
 			}
-			if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.x > Xcam + Game.g.resX - 5))
-					&& Xcam < this.maxX - Game.g.resX / 2) {
-				Xcam += (int) (80 * 30 / Main.framerate);
-				this.slidingCam = false;
+			if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.x > Game.g.Xcam + Game.g.resX - 5))
+					&& Game.g.Xcam < this.maxX - Game.g.resX / 2) {
+				Game.g.Xcam += (int) (80 * 30 / Main.framerate);
+				Game.g.slidingCam = false;
 			}
 			
 			// TODO : Centrer la selection sur un groupe d'unité
@@ -890,8 +887,8 @@ public class Plateau {
 	public void handleInterface(InputObject im){
 		// display for the action bar
 		BottomBar bb = Game.g.currentPlayer.bottomBar;
-		float relativeXMouse = (im.x - Xcam);
-		float relativeYMouse = (im.y - Ycam);
+		float relativeXMouse = (im.x - Game.g.Xcam);
+		float relativeYMouse = (im.y - Game.g.Ycam);
 		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + bb.action.icoSizeX
 				&& relativeYMouse > bb.action.y && relativeYMouse < bb.action.y + bb.action.sizeY) {
 			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNb));
@@ -913,8 +910,8 @@ public class Plateau {
 	private void handleMinimap(InputObject im, int player) {
 		if (im.isDown(KeyEnum.LeftClick) && player == Game.g.currentPlayer.id && im.isOnMiniMap) {
 			// Put camera where the click happened
-			this.objectiveCam = new Point((int) (im.x - Game.g.resX / 2f),(int) (im.y - Game.g.resY / 2f));
-			slidingCam = true;
+			Game.g.objectiveCam = new Point((int) (im.x - Game.g.resX / 2f),(int) (im.y - Game.g.resY / 2f));
+			Game.g.slidingCam = true;
 			//			System.out.println(slidingCam);
 		}
 	}
@@ -947,8 +944,8 @@ public class Plateau {
 	}
 
 	public boolean isVisibleByCamera(Objet objet) {
-		return objet.x + objet.sight > Xcam && objet.x - objet.sight < Xcam + Game.g.resX && objet.y + objet.sight > Ycam
-				&& objet.y - objet.sight < Ycam + Game.g.resY;
+		return objet.x + objet.sight > Game.g.Xcam && objet.x - objet.sight < Game.g.Xcam + Game.g.resX && objet.y + objet.sight > Game.g.Ycam
+				&& objet.y - objet.sight < Game.g.Ycam + Game.g.resY;
 	}
 
 	private void updateVisibility() {

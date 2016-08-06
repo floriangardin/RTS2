@@ -2,20 +2,15 @@ package control;
 
 import java.util.Vector;
 
-
 import model.Game;
 import model.Objet;
-import model.Utils;
 
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
-
+import utils.Utils;
 import buildings.Building;
-import buildings.BuildingBarrack;
-import buildings.BuildingHeadquarters;
-import buildings.BuildingStable;
 import control.KeyMapper.KeyEnum;
 
 public class Selection {

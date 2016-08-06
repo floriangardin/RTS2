@@ -8,10 +8,11 @@ import org.newdawn.slick.Image;
 import bullets.Fireball;
 import main.Main;
 import model.Checkpoint;
-import model.Data;
+
 import model.Game;
 import model.Plateau;
-import model.Utils;
+import utils.Utils;
+import data.Data;
 import units.Character;
 
 public class BuildingTower extends Building{

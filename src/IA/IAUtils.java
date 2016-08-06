@@ -3,7 +3,8 @@ package IA;
 import java.util.Vector;
 
 import model.Objet;
-import model.Utils;
+import utils.Utils;
+import data.Data;
 import units.Character;
 
 public class IAUtils {

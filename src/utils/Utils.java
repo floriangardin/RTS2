@@ -1,20 +1,23 @@
-package model;
+package utils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Random;
 import java.util.Vector;
+
+import model.Game;
+import model.Objet;
+import model.Plateau;
+import model.Player;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
-import org.newdawn.slick.Sound;
 
-import buildings.BuildingProduction;
 import units.Character;
+import buildings.BuildingProduction;
 
 // Class for static methods
 public class Utils {

@@ -33,7 +33,7 @@ public class BonusLifePoints extends Bonus{
 			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;
-			Game.g.playSound(soundTaken);
+			
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

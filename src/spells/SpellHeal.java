@@ -6,7 +6,8 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
+import utils.Utils;
+import data.Data;
 import units.Character;
 
 //TODO : sort qui use heal

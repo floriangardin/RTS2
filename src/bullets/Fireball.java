@@ -10,7 +10,9 @@ import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
+import utils.Utils;
+import data.Data;
+import events.Events;
 import units.Character;
 
 public class Fireball extends Bullet {
@@ -68,7 +70,7 @@ public class Fireball extends Bullet {
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
 		this.soundLaunch = "fireball";
-		Game.g.playSound(this.soundLaunch);
+		Game.g.events.addEvent(Events.FireBallLaunched, this);
 	}
 	
 	public Fireball(){}

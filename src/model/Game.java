@@ -28,6 +28,7 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
@@ -43,6 +44,7 @@ import control.KeyMapper;
 import control.KeyMapper.KeyEnum;
 import control.Selection;
 import display.DisplayRessources;
+import events.EventQueue;
 import main.Main;
 import mapeditor.MapEditor;
 import menu.Credits;
@@ -66,6 +68,7 @@ import spells.SpellEffect;
 import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
+import utils.Utils;
 public class Game extends BasicGame 
 {
 	/////////////
@@ -167,13 +170,21 @@ public class Game extends BasicGame
 	public Plateau plateau ;
 	public AppGameContainer app;
 	
-	// Selection 
-
+	// Handling selection
+	public InputHandler inputsHandler;
+	
+	// Handling events
+	public EventQueue events = new EventQueue();
 
 	////////////////////////
 	/// PLAYERS && TEAMS ///
 	////////////////////////
-
+	
+	// Camera
+	public int Xcam;
+	public int Ycam;
+	public boolean slidingCam = false;
+	public Point objectiveCam = new Point(0,0);
 	// Number of teams
 	public int nTeams =2;
 	// Number of players
@@ -218,8 +229,7 @@ public class Game extends BasicGame
 	// Chat
 	public ChatHandler chatHandler;
 	
-	// Handling selection
-	public InputHandler inputsHandler;
+
 	
 	public String toParse= null;
 	public boolean processSynchro;
@@ -467,9 +477,9 @@ public class Game extends BasicGame
 		}
 		if(isInMenu){
 			if(hasAlreadyPlay){
-				g.translate(+plateau.Xcam,+ plateau.Ycam);
+				g.translate(+Game.g.Xcam,+ Game.g.Ycam);
 			}
-			g.translate(-plateau.Xcam,- plateau.Ycam);
+			g.translate(-Game.g.Xcam,- Game.g.Ycam);
 			this.menuCurrent.draw(g);
 			if(inMultiplayer && menuCurrent instanceof MenuMapChoice){
 				this.chatHandler.draw(g);
@@ -491,7 +501,7 @@ public class Game extends BasicGame
 		} else {
 			// g repr�sente le pinceau
 			//g.setColor(Color.black);
-			g.translate(-plateau.Xcam,- plateau.Ycam);
+			g.translate(-Game.g.Xcam,- Game.g.Ycam);
 			//Draw background
 			g.drawImage(this.images.get("seaBackground"), -this.plateau.maxX, -this.plateau.maxY,
 					2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.get("seaBackground").getWidth(),this.images.get("seaBackground").getHeight());
@@ -585,6 +595,8 @@ public class Game extends BasicGame
 				g.setColor(Colors.selection);
 				cosmetic.draw(g);
 			}
+			// Render Graphics Events
+			events.render(g);
 
 			// Draw and handle display ressources
 			Vector<DisplayRessources> toRemove = new Vector<DisplayRessources>();
@@ -599,7 +611,7 @@ public class Game extends BasicGame
 			toRemove.clear();
 
 			// Draw bottom bar
-			g.translate(plateau.Xcam, plateau.Ycam);
+			g.translate(Game.g.Xcam, Game.g.Ycam);
 
 			if(this.round<nbRoundInit){
 				g.setColor(new Color(0f,0f,0f,1f-0.3f*round/nbRoundInit));
@@ -676,18 +688,18 @@ public class Game extends BasicGame
 		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
 		gf.setColor(new Color(50, 50, 50));
-		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - this.plateau.Xcam);
-		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - this.plateau.Ycam);
-		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - this.plateau.Xcam);
-		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - this.plateau.Ycam);
+		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - Game.g.Xcam);
+		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - Game.g.Ycam);
+		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - Game.g.Xcam);
+		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - Game.g.Ycam);
 		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		gf.setColor(Color.white);
 		for (Objet o : visibleObjet) {
-			gf.fillOval(o.x - this.plateau.Xcam - o.sight, o.y - this.plateau.Ycam - o.sight, o.sight * 2f, o.sight * 2f);
+			gf.fillOval(o.x - Game.g.Xcam - o.sight, o.y - Game.g.Ycam - o.sight, o.sight * 2f, o.sight * 2f);
 		}
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
-		g.drawImage(fog, this.plateau.Xcam, this.plateau.Ycam);
+		g.drawImage(fog, Game.g.Xcam, Game.g.Ycam);
 		g.setDrawMode(Graphics.MODE_NORMAL);
 	}
 
@@ -1146,8 +1158,8 @@ public class Game extends BasicGame
 		}
 		//this.game.newGame();
 		this.quitMenu();
-		this.plateau.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
-		this.plateau.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
+		Game.g.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
+		Game.g.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
 		this.startTime = System.currentTimeMillis();
 		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;
@@ -1167,9 +1179,7 @@ public class Game extends BasicGame
 	/// GRAPHISM AND SOUND ///
 	//////////////////////////
 
-	public void playSound(String sound){
-		sounds.get(sound).play(1f,Game.g.options.soundVolume);
-	}
+
 
 	@SuppressWarnings("unchecked")
 	@Override

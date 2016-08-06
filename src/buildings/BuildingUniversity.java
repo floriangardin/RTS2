@@ -4,7 +4,8 @@ import java.util.Vector;
 
 import main.Main;
 import model.Checkpoint;
-import model.Data;
+import utils.Utils;
+import data.Data;
 import model.Game;
 import model.Plateau;
 import model.Player;

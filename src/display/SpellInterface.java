@@ -7,7 +7,8 @@ import org.newdawn.slick.Image;
 import model.Civilisation;
 import model.Game;
 import model.Player;
-import model.Utils;
+import utils.Utils;
+import data.Data;
 
 public class SpellInterface extends Bar{
 	

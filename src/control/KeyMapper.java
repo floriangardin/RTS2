@@ -112,6 +112,7 @@ public class KeyMapper {
 		AllUnits,
 		Abandon;
 		
+		
 		public Class getClassFrom(){
 			switch(this){
 			case Spearmen:

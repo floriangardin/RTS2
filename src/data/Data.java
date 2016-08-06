@@ -1,8 +1,10 @@
-package model;
+package data;
 
 import org.newdawn.slick.geom.Point;
 
 import main.Main;
+import model.GameTeam;
+import model.Plateau;
 import ressources.Map;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;

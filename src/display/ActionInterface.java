@@ -13,7 +13,7 @@ import buildings.BuildingProduction;
 import buildings.BuildingTech;
 import javafx.scene.Parent;
 import model.Game;
-import model.Utils;
+import utils.Utils;
 import spells.Spell;
 import technologies.Technologie;
 import units.Character;

@@ -15,7 +15,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 
 import control.InputObject;
-import model.Data;
+import utils.Utils;
+import data.Data;
 import pathfinding.MapWater;
 import ressources.Map;
 
