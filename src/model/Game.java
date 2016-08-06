@@ -788,7 +788,7 @@ public class Game extends BasicGame
 
 			// on lance la musique
 			if(this.round==Game.nbRoundInit){
-				this.musicPlaying = musics.get("themeImperial");
+				this.musicPlaying = musics.get("destruction");
 				this.musicPlaying.setVolume(options.musicVolume);
 				this.musicPlaying.play();
 				this.musicPlaying.loop();

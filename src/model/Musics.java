@@ -9,6 +9,7 @@ public class Musics {
 	public Music imperial;
 	public Music multi;
 	public Music editor;
+	public Music destruction ;
 	//public Sound lackRessources;
 	
 	public Musics(){
@@ -18,6 +19,7 @@ public class Musics {
 			imperial=new Music("music/imperialTheme.ogg");
 			multi=new Music("music/waitingMusic.ogg");
 			editor=new Music("music/mapEditor.ogg");
+			destruction =new Music("music/destruction.ogg");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
