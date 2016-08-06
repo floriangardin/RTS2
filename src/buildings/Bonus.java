@@ -3,11 +3,15 @@ package buildings;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Sound;
+
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+
+import events.Events;
+
 import data.Attributs;
+
 import main.Main;
 import model.Colors;
 import model.Game;
@@ -37,7 +41,7 @@ public abstract class Bonus extends Building{
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
 		this.soundTaken = "bonusTaken";
-
+		Game.g.events.addEvent(Events.BonusTaken, this);
 	}
 	
 	public Graphics draw(Graphics g){

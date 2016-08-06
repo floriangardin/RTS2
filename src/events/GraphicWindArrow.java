@@ -7,16 +7,13 @@ import org.newdawn.slick.Graphics;
 
 public class GraphicWindArrow extends GraphicEvent {
 	
-	
-	public GraphicWindArrow(Event parent){
-		this.parent = parent;
-	}
+
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		g.setColor(new Color(1f,1f,1f,0.5f));
-		g.fillRect(parent.parent.x, parent.parent.y, 2f*Main.ratioSpace, 2f*Main.ratioSpace);
-		
+//		// TODO Auto-generated method stub
+//		g.setColor(new Color(1f,1f,1f,0.5f));
+//		g.fillRect(parent.parent.x, parent.parent.y, 2f*Main.ratioSpace, 2f*Main.ratioSpace);
+//		
 		
 	}
 

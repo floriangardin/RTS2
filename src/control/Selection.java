@@ -2,11 +2,11 @@ package control;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
 import buildings.Building;
 import control.KeyMapper.KeyEnum;
+import events.Events;
 import model.Game;
 import model.Objet;
 import units.Character;
@@ -82,7 +82,7 @@ public class Selection {
 
 				Utils.triId(chars);
 				this.selection.clear();
-				System.out.println(chars.size());
+				
 				for(Character c : chars)
 					this.selection.add(c);
 			}
@@ -129,22 +129,20 @@ public class Selection {
 		if (!im.isDown(KeyEnum.LeftClick)) {
 			if (this.rectangleSelection != null) {
 				// Play selection sound
-				Sound s = null;
+				
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(0);
-					if (Math.random() > 0) {
-						s = Game.g.sounds.getRandomSoundUnit(c.name, "selection");
-					}
-
+					Game.g.events.addEvent(Events.CharacterSelected, c);
+					
 				}
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Building) {
 					Building c = (Building) this.selection.get(0);
-					s = Game.g.sounds.get("selection"+c.name);
+					//s = Game.g.sounds.get("selection"+c.name);
+					Game.g.events.addEvent(Events.BuildingSelected, c);
 				}
-				if(s!=null)
-					s.play(1f, Game.g.options.soundVolume);
+				
 				Game.g.players.get(player).groupSelection = -1;
 			}
 

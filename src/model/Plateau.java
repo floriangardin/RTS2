@@ -2,10 +2,17 @@ package model;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Sound;
+import main.Main;
+
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
+import pathfinding.MapGrid;
+import ressources.Map;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
+import utils.Utils;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingAction;
@@ -18,19 +25,16 @@ import control.KeyMapper.KeyEnum;
 import control.Selection;
 import data.Attributs;
 import display.BottomBar;
-import main.Main;
-import pathfinding.MapGrid;
-import ressources.Map;
-import spells.Spell;
-import spells.SpellEffect;
-import units.Character;
-import utils.Utils;
+import events.Events;
+
+
 
 public class Plateau implements java.io.Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4212262274818996077L;
+
 
 
 	public float maxX;
@@ -185,9 +189,7 @@ public class Plateau implements java.io.Serializable {
 			if (!o.isAlive()) {
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
-				Sound s = Game.g.sounds.getRandomSoundUnit(o.name,"death");
-				if(s!=null)
-					s.play(1f, Game.g.options.soundVolume);
+				Game.g.events.addEvent(Events.Death, o);
 			}
 		}
 		for (Bullet o : bullets) {
@@ -422,15 +424,14 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				if (i == 0 && Math.random() > 0.3) {
-					Sound s = null;
+					
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& c.getTeam() != target.getTeam()) {
-						s = Game.g.sounds.getRandomSoundUnit(c.name, "attack");
+						Game.g.events.addEvent(Events.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
-						s = Game.g.sounds.getRandomSoundUnit(c.name, "target");
+						Game.g.events.addEvent(Events.MoveTarget, o);
 					}
-					if(s!=null)
-						s.play(1f, Game.g.options.soundVolume);
+
 				}
 				i++;
 				// first we deal with o's elder group
