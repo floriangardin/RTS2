@@ -2,20 +2,18 @@ package display;
 
 import java.util.Vector;
 
-import model.Colors;
-import model.Game;
-import model.NaturalObjet;
-import utils.Utils;
-import data.Data;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import pathfinding.Case;
-import ressources.Map;
-import units.Character;
 import buildings.Bonus;
 import buildings.Building;
+import data.Attributs;
+import model.Colors;
+import model.Game;
+import model.NaturalObjet;
+import pathfinding.Case;
+import units.Character;
+import utils.Utils;
 
 public class MinimapInterface extends Bar {
 	// Minimap caract
@@ -103,14 +101,14 @@ public class MinimapInterface extends Bar {
 		g.setAntiAlias(true);
 		for(Character c : this.p.characters){		
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
@@ -125,7 +123,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -133,14 +131,17 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
 
 				}
 			}
-			g.fillOval(startX+offsetDrawX+rw*(c.x-c.size/2f), startY+rh*(c.y-c.size/2f), rw*c.size, rh*c.size);
+			g.fillOval(startX+offsetDrawX+rw*(c.x-c.getAttribut(Attributs.size)/2f), 
+					startY+rh*(c.y-c.getAttribut(Attributs.size)/2f), 
+					rw*c.getAttribut(Attributs.size), 
+					rh*c.getAttribut(Attributs.size));
 		}
 		g.setAntiAlias(false);
 		for(Building c : this.p.buildings){
@@ -149,7 +150,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -157,24 +158,24 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
+				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
 
 				}
 			}
-			g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
+			g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, rw*c.getAttribut(Attributs.sizeX), rh*c.getAttribut(Attributs.sizeY));
 			
-			if(c.constructionPoints<c.maxLifePoints && this.p.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c)){
-				float ratio = c.constructionPoints/c.maxLifePoints;
+			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints);
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);
 				}
 				else if(c.potentialTeam==2){
 					g.setColor(Colors.team2);
 				}
-				g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, ratio*(rw*c.sizeX), rh*c.sizeY);
+				g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, ratio*(rw*c.getAttribut(Attributs.sizeX)), rh*c.getAttribut(Attributs.sizeY));
 			}
 		}
 		

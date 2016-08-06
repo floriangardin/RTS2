@@ -11,7 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
 import utils.Utils;
-import units.Character;
+import data.Attributs;
 
 public class Event {
 
@@ -78,7 +78,7 @@ public class Event {
 			break;
 		case Attack:
 			// Differentiate by death
-			this.sounds.add(Game.g.sounds.get(((Character)parent).weapon));
+			this.sounds.add(Game.g.sounds.get(parent.getAttributString(Attributs.weapon)));
 			this.duration = 3f;
 			break;
 		}

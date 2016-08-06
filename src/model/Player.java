@@ -5,6 +5,7 @@ import java.util.Vector;
 import utils.Utils;
 import data.Data;
 import control.InputObject;
+import data.Data;
 import display.BottomBar;
 
 public class Player {

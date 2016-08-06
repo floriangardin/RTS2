@@ -8,5 +8,5 @@ damage:0,
 chargeTime:4,
 animStep:20,
 range:30,
-explosionWhenImmolate:0,
+explosionWhenImmolate:0
 }

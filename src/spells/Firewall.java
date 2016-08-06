@@ -15,7 +15,6 @@ public class Firewall extends SpellEffect{
 
 	public float remainingTime;
 	public float damage;
-	public Image image;
 	public int nbFire=15;
 	public Character owner;
 	public float[] animationState = new float[nbFire];
@@ -41,7 +40,7 @@ public class Firewall extends SpellEffect{
 		
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
-		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
+		image = "explosion";
 		owner = launcher;
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();
@@ -92,21 +91,22 @@ public class Firewall extends SpellEffect{
 				this.animationState[k] = 0f;
 		}
 		float x,y,r;
+		Image im = Game.g.images.get(this.image).getScaledCopy(Main.ratioSpace);
 		for(int i=0;i<nbFire;i++){
 			if(this.animationState[i]>0f){
-				r = this.image.getWidth()/5f;
+				r = im.getWidth()/5f;
 				x = this.animationX[i];
 				y = this.animationY[i];
 				if(this.animationState[i]>=this.animationMax*4f/5f)
-					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,0f,0f,r,r);
+					g.drawImage(im, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,0f,0f,r,r);
 				else if(this.animationState[i]>=this.animationMax*3f/5f)
-					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,r,0f,2*r,r);
+					g.drawImage(im, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,r,0f,2*r,r);
 				else if(this.animationState[i]>=this.animationMax*2f/5f)
-					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,2*r,0f,3*r,r);
+					g.drawImage(im, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,2*r,0f,3*r,r);
 				else if(this.animationState[i]>=this.animationMax*1f/5f)
-					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
+					g.drawImage(im, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
 				else 
-					g.drawImage(this.image, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,5*r,r);
+					g.drawImage(im, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,5*r,r);
 			}
 		}
 		//g.setColor(Color.white);
@@ -120,11 +120,5 @@ public class Firewall extends SpellEffect{
 		}
 	}
 	
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
-		s+="x2:"+this.x2+";";
-		s+="y2:"+this.y2+";";
-		s+="idLauncher:"+this.owner.id+";";
-		return s;
-	}
+	
 }

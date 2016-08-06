@@ -1,4 +1,5 @@
 {
+prototype:"Unit",
 printName:"Lancier",
 attackDuration:1,
 maxLifepoints:80,
@@ -6,7 +7,6 @@ sight:400,
 maxVelocity:100,
 armor:4,
 damage:10,
-chargeTime:4,
 weapon:"spear",
 animStep:20,
 range:30,

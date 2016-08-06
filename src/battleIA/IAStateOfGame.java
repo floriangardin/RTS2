@@ -3,11 +3,12 @@ package battleIA;
 import java.util.Vector;
 
 import buildings.Building;
-import buildings.BuildingsList;
+import data.Attributs;
 import model.Objet;
 import model.Plateau;
 import units.Character;
-import units.UnitsList;
+import utils.BuildingsList;
+import utils.UnitsList;
 
 public class IAStateOfGame {
 	
@@ -51,10 +52,10 @@ public class IAStateOfGame {
 			this.x = c.getX();
 			this.y = c.getY();
 			this.team = c.getTeam();
-			this.type = UnitsList.switchName(c.name);
-			this.maxLifePoints = c.maxLifePoints;
-			this.velocity = c.maxVelocity;
-			this.attackState = c.state/c.chargeTime;
+			this.type = UnitsList.valueOf(c.name);
+			this.maxLifePoints = c.getAttribut(Attributs.maxLifepoints);
+			this.velocity = c.getAttribut(Attributs.maxVelocity);
+			this.attackState = c.state/c.getAttribut(Attributs.chargeTime);
 			if(c.getTarget()!=null){
 				this.idTarget = c.getTarget().id;
 			} else {
@@ -69,9 +70,9 @@ public class IAStateOfGame {
 		
 		public BuildingIA(Building b){
 			this.id = b.id;
-			this.type = BuildingsList.switchName(b.name);
+			this.type = BuildingsList.valueOf(b.name);
 			this.lifepoints = b.lifePoints;
-			this.maxLifePoints = b.maxLifePoints;
+			this.maxLifePoints = b.getAttribut(Attributs.maxLifepoints);
 			this.team = b.getTeam();
 		}
 	}

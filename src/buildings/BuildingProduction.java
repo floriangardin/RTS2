@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
+import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
@@ -13,7 +14,7 @@ import model.Game;
 import model.IAPlayer;
 import multiplaying.ChatMessage;
 import units.Character;
-import units.UnitsList;
+import utils.UnitsList;
 
 public abstract class BuildingProduction extends BuildingAction {
 
@@ -29,7 +30,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.add(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
-				if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
+				if(this.team==Game.g.currentPlayer.getGameTeam().id){
 					Game.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
 					Game.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
 				}
@@ -93,9 +94,9 @@ public abstract class BuildingProduction extends BuildingAction {
 				float dirY = this.random+this.rallyPoint.y - this.y;
 				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
 				//Introduit du random
-				float startX = this.x + this.sizeX*dirX/norm/2;
-				float startY = this.y + this.sizeY*dirY/norm/2;
-				Character c = this.getGameTeam().data.create(this.productionList.get(this.queue.get(0)), startX,startY );
+				float startX = this.x + this.getAttribut(Attributs.sizeX)*dirX/norm/2;
+				float startY = this.y + this.getAttribut(Attributs.sizeY)*dirY/norm/2;
+				Character c = Character.createCharacter(startX,startY, this.productionList.get(this.queue.get(0)), this.getTeam());
 				if(rallyPoint!=null && rallyPoint.lifePoints<=0){
 					resetRallyPoint();
 				}

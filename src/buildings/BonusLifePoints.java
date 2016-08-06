@@ -1,7 +1,7 @@
 package buildings;
+import data.Attributs;
 import main.Main;
 import model.Game;
-import model.Plateau;
 import units.Character;
 public class BonusLifePoints extends Bonus{
 
@@ -9,8 +9,8 @@ public class BonusLifePoints extends Bonus{
 
 
 	public BonusLifePoints(float x , float y){
+		this.name = "BonusLifepoints";
 		this.initialize(x, y);
-		this.image = Game.g.images.get("bonusLifePoints").getScaledCopy(Main.ratioSpace);
 		this.bonus = 50f;
 
 	}
@@ -29,7 +29,7 @@ public class BonusLifePoints extends Bonus{
 	}
 
 	public void collision(Character c){
-		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.maxLifePoints){
+		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.getAttribut(Attributs.maxLifepoints)){
 			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;

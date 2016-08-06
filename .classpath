@@ -6,5 +6,6 @@
 	<classpathentry exported="true" kind="lib" path="jar/jogg-0.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="jar/jorbis-0.0.15.jar"/>
 	<classpathentry kind="lib" path="jar/lwjgl.jar"/>
+	<classpathentry kind="lib" path="jar/gson-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

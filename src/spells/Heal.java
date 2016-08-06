@@ -17,10 +17,9 @@ public class Heal extends SpellEffect{
 	public static float radius = 70f;
 	public float remainingTime;
 	public float damage;
-	public Image image;
 	public Character owner;
 	public boolean active = false;
-	public Heal(Character launcher, Objet t,int id,GameTeam gameTeam){
+	public Heal(Character launcher, Objet t,int id){
 
 		if(id==-1){
 			this.id = Game.g.idChar;
@@ -34,10 +33,9 @@ public class Heal extends SpellEffect{
 
 		this.x = t.getX();
 		this.y = t.getY();
-		this.gameteam = gameTeam;
+		this.team = launcher.getTeam();
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
-		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);
@@ -83,11 +81,5 @@ public class Heal extends SpellEffect{
 		}
 	}
 
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
-		s+="x:"+this.x+";";
-		s+="y:"+this.y+";";
-		s+="idLauncher:"+this.owner.id+";";
-		return s;
-	}
+	
 }

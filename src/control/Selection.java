@@ -82,7 +82,7 @@ public class Selection {
 
 				Utils.triId(chars);
 				this.selection.clear();
-				System.out.println(chars.size());
+				
 				for(Character c : chars)
 					this.selection.add(c);
 			}

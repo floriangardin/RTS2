@@ -1,17 +1,7 @@
 package main;
 
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Vector;
-
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Shape;
 
-import ressources.Map;
-import utils.Utils;
-import data.Data;
-import units.Character;
 public class mainTestCalculDegueu {
 	public static class Test1 {
 		

@@ -9,9 +9,9 @@ public class BonusDamage extends Bonus{
 
 	
 	public BonusDamage(float x , float y){
+		this.name = "BonusDamage";
 		this.initialize( x, y);
 		this.bonus = 5f;
-		this.image = Game.g.images.get("bonusDamage").getScaledCopy(Main.ratioSpace);
 
 	}
 
@@ -29,7 +29,7 @@ public class BonusDamage extends Bonus{
 
 	public void collision(Character c){
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
-			c.damage += this.bonus;
+			//c.damage += this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
 			

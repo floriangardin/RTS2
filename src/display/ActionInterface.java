@@ -6,18 +6,16 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
-import javafx.scene.Parent;
 import model.Game;
-import utils.Utils;
 import spells.Spell;
 import technologies.Technologie;
 import units.Character;
-import units.UnitsList;
+import utils.UnitsList;
+import utils.Utils;
 
 public class ActionInterface extends Bar {
 
@@ -122,7 +120,7 @@ public class ActionInterface extends Bar {
 			int limit = Math.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(ul.get(i).icon, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
+				g.drawImage(Game.g.images.get(ul.get(i).icon), this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
 				// CHANGE PUT PRICES
 				g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);

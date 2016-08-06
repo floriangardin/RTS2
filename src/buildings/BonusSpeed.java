@@ -10,8 +10,8 @@ public class BonusSpeed extends Bonus{
 
 
 	public BonusSpeed( float x , float y){
+		this.name = "BonusSpeed";
 		this.initialize( x, y);
-		this.image = Game.g.images.get("bonusSpeed").getScaledCopy(Main.ratioSpace);
 		this.bonus = 20f;
 	}
 
@@ -30,7 +30,7 @@ public class BonusSpeed extends Bonus{
 	public void collision(Character c){
 		
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
-			c.maxVelocity +=this.bonus;
+			//c.maxVelocity +=this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
 			

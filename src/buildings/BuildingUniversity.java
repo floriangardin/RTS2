@@ -2,12 +2,9 @@ package buildings;
 
 import java.util.Vector;
 
+import data.Attributs;
 import main.Main;
 import model.Checkpoint;
-import utils.Utils;
-import data.Data;
-import model.Game;
-import model.Plateau;
 import model.Player;
 import technologies.Technologie;
 
@@ -26,18 +23,13 @@ public class BuildingUniversity extends BuildingTech {
 		this.queue = null;
 		teamCapturing= getTeam();
 
-		this.sizeX = Data.universitySizeX; 
-		this.sizeY = Data.universitySizeY;
-		this.sight = getGameTeam().data.universitySight;
-		maxLifePoints = getGameTeam().data.universityLifePoints;
 		this.name = "university";
-		this.printName = "Université";
 		this.initialize(f, h);
 		type= 6;
 		// List of potential production (Spearman
 		
 		this.updateProductionList();
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2);
 	}
 	public void removeProd() {
 		if(this.queue!=null){

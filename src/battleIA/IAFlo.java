@@ -2,16 +2,6 @@ package battleIA;
 
 import java.util.Vector;
 
-import IA.IAUtils;
-import IA.MissionGetABuilding;
-import battleIA.IAStateOfGame.BuildingIA;
-import buildings.Building;
-import buildings.BuildingBarrack;
-import buildings.BuildingProduction;
-import model.Checkpoint;
-import utils.Utils;
-import units.Character;
-
 
 public class IAFlo extends IAsuperclass {
 	

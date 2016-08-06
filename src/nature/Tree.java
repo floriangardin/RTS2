@@ -20,6 +20,8 @@ public class Tree extends NaturalObjet {
 
 	public Tree(float x, float y, int type) {
 		this.type = type;
+		this.name = "tree0"+type;
+		this.setTeam(0);
 		this.collisionBox = new Circle(x-sizeX/2,y-sizeY/2,size);
 		this.sizeX = 1*Map.stepGrid;
 		this.sizeY = 1*Map.stepGrid;
@@ -27,7 +29,6 @@ public class Tree extends NaturalObjet {
 		this.lifePoints = 1.0f;
 		this.setXY(x*Map.stepGrid+sizeX/2f, y*Map.stepGrid+sizeY/2f);
 		Game.g.plateau.addNaturalObjets(this);
-		this.name = "tree0"+type;
 	}
 	
 	

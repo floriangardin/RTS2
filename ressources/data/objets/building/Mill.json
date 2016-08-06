@@ -1,6 +1,7 @@
 {
 printName:"Mill",
-prototype:"Building"
+prototype:"Building",
 sizeX:3,
-sizeY:2
+sizeY:2,
+maxChargetime:10
 }

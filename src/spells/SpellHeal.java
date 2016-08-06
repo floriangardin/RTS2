@@ -1,14 +1,11 @@
 package spells;
 
 import main.Main;
-import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
-import utils.Utils;
-import data.Data;
 import units.Character;
+import utils.Utils;
 
 //TODO : sort qui use heal
 public class SpellHeal extends Spell{
@@ -29,7 +26,7 @@ public class SpellHeal extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
-			Heal f = new Heal(launcher,target,-1,gameteam);
+			Heal f = new Heal(launcher,target,-1);
 			f.remainingTime = this.remainingTime;
 		}
 

@@ -1,4 +1,5 @@
 {
+prototype:"Unit",
 printName:"Crossbowman",
 attackDuration:1,
 maxLifepoints:40,
@@ -6,10 +7,7 @@ sight:400,
 maxVelocity:130,
 armor:2,
 damage:5,
-chargeTime:5,
 weapon:"spear",
-animStep:24,
 range:300,
-explosionWhenImmolate:0,
-size:30,
+size:30
 }

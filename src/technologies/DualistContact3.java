@@ -1,39 +1,25 @@
 package technologies;
 
 
+import data.Attributs;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
 import units.UnitKnight;
 import units.UnitSpearman;
+import utils.UnitsList;
 
 public class DualistContact3 extends Technologie {
 
-	public DualistContact3(GameTeam gameteam) {
+	public DualistContact3(int team) {
 		this.id = 11;
 		this.tech = Technologies.DualistContactAttack3;
-		this.initialize(gameteam, tech);
+		this.initialize(team, tech);
 	}
 	
 	public void applyEffect(){
-		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		// Age passing does nothing
-		// Then update
-		this.gameteam.data.knight.damage+=1;
-		this.gameteam.data.spearman.damage+=1;
-
-		// Age passing does nothing
-		// Then update all existing units
-		for(Character c : Game.g.plateau.characters){
-			if(c.getTeam() == this.gameteam.id){
-				if(c instanceof UnitKnight || c instanceof UnitSpearman){
-					c.armor+=1;
-				}
-				
-			}
-		}
-		
-
+		this.getGameTeam().data.addAttribut(UnitsList.Knight.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(UnitsList.Spearman.name, Attributs.damage, 1);
 	}
 }

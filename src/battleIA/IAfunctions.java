@@ -8,12 +8,12 @@ import battleIA.IAStateOfGame.UnitIA;
 import buildings.Building;
 import buildings.BuildingHeadquarters;
 import buildings.BuildingProduction;
-import buildings.BuildingsList;
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import units.Character;
-import units.UnitsList;
+import utils.BuildingsList;
+import utils.UnitsList;
 
 public final class IAfunctions {
 
@@ -409,7 +409,7 @@ public final class IAfunctions {
 		return getNearestBuildingByTypeAndTeam(BuildingsList.Mine, 0, true, caller);
 	}
 	public BuildingIA getNearestNeutralBarrack(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Barrack, 0, true, caller);
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Barracks, 0, true, caller);
 	}
 	public BuildingIA getNearestEnemyMill(ObjetIA caller){
 		return getNearestBuildingByTypeAndTeam(BuildingsList.Mill, 0, false, caller);
@@ -418,7 +418,7 @@ public final class IAfunctions {
 		return getNearestBuildingByTypeAndTeam(BuildingsList.Mine, 0, false, caller);
 	}
 	public BuildingIA getNearestEnemyBarrack(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Barrack, 0, false, caller);
+		return getNearestBuildingByTypeAndTeam(BuildingsList.Barracks, 0, false, caller);
 	}
 
 	public BuildingIA getEnemyHQ(){
@@ -447,7 +447,7 @@ public final class IAfunctions {
 		return getAllBuildingByTypeAndTeam(BuildingsList.Mine, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyBarracks(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Barrack, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(BuildingsList.Barracks, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyStables(){
 		return getAllBuildingByTypeAndTeam(BuildingsList.Stable, currentTeam, true);

@@ -15,6 +15,8 @@ public class Water extends NaturalObjet {
 	
 	
 	public Water(float x, float y, float sizeX, float sizeY) {
+		this.name="water";
+		this.setTeam(0);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 //		this.image= this.p.g.images.get("water");

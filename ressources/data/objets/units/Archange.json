@@ -1,15 +1,12 @@
 {
+prototype:"Unit",
 printName:"Archange",
 attackDuration:1,
 maxLifepoints:200,
-sight:300,
 maxVelocity:100,
 armor:4,
 damage:10,
-chargeTime:4,
 weapon:"spear",
-animStep:20,
 range:50,
-explosionWhenImmolate:0,
-size:40,
+size:40
 }

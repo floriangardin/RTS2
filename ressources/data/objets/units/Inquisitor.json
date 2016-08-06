@@ -1,14 +1,12 @@
 {
+prototype:"Unit",
 printName:"Inquisitor",
 attackDuration:2,
 maxLifepoints:60,
-sight:300,
 maxVelocity:100,
 armor:4,
 damage:20,
-chargeTime:6,
-weapon:"spear",
-animStep:24,
+weapon:"wand",
 range:200,
 explosionWhenImmolate:1,
 size:40

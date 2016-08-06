@@ -1,28 +1,26 @@
 package bullets;
 
-import main.Main;
-import model.Game;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
-import units.Character;
 import buildings.Building;
+import data.Attributs;
 import events.Events;
+import main.Main;
+import model.Game;
+import units.Character;
 
 public class Arrow extends CollisionBullet{
 
 	protected float angle= 0f;
-	public Image shadow;
 	public float life = 4f;
 	public Arrow(Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
 	
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
-		float Vmax = 600f*Main.ratioSpace;
 
 		if(id==-1){
 			this.id = Game.g.idChar;
@@ -30,12 +28,13 @@ public class Arrow extends CollisionBullet{
 		}else{
 			this.id=id;
 		}
-		this.name ="arrow";
+		this.name ="Arrow";
 		this.damage = damage;
 		Game.g.plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
 		this.owner = owner;
 		this.setTeam(owner.getTeam());
+		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = vx;
@@ -51,9 +50,6 @@ public class Arrow extends CollisionBullet{
 		if(this.angle<0)
 			this.angle+=360;
 		
-		this.shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
-		this.shadow.rotate(this.angle);
-	
 		this.soundLaunch = "arrow";
 		Game.g.events.addEvent(Events.ArrowLaunched, this);
 	}
@@ -65,8 +61,8 @@ public class Arrow extends CollisionBullet{
 			if(!c.horse){
 				damage = damage * this.getGameTeam().data.bonusBowFoot;
 			}
-			if(c.armor<=damage){
-				c.setLifePoints(c.lifePoints+c.armor-damage);
+			if(c.getAttribut(Attributs.armor)<=damage){
+				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 			}
 			c.isAttacked();
 			this.setLifePoints(-1f);
@@ -81,7 +77,8 @@ public class Arrow extends CollisionBullet{
 		Game.g.images.get("arrow").rotate(angle);
 		g.drawImage(Game.g.images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
 		Game.g.images.get("arrow").rotate(-angle);
-
+		Image shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
+		shadow.rotate(this.angle);
 		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
 		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);
 		//g.setColor(Color.white);

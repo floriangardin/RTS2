@@ -4,11 +4,8 @@ import main.Main;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
-import model.Player;
-import utils.Utils;
-import data.Data;
 import units.Character;
+import utils.Utils;
 
 public class SpellInstantDeath extends Spell{
 

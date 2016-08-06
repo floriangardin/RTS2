@@ -3,11 +3,16 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
-import utils.Utils;
-import data.Data;
-import units.Character;
 
-public class MapGrid {
+import units.Character;
+import utils.Utils;
+
+public class MapGrid implements java.io.Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6785502878817282410L;
 
 	public float minX, maxX, minY, maxY;
 
@@ -545,7 +550,7 @@ public class MapGrid {
 	public void updateSurroundingChars(){
 		for(int i=0; i<grid.size(); i++){
 			for(int j=0; j<grid.get(0).size(); j++){
-				grid.get(i).get(j).updateSurroundingChar();
+				grid.get(i).get(j).surroundingChars = getSurroundingChars(grid.get(i).get(j));
 			}
 		}
 	}

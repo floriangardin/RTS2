@@ -1,14 +1,12 @@
 package display;
 
-import model.Game;
-import model.Plateau;
-import utils.Utils;
-import utils.Utils;
-import data.Data;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+
+import model.Game;
+import model.Plateau;
+import utils.Utils;
 
 public class TopBar extends Bar {
 
@@ -99,6 +97,7 @@ public class TopBar extends Bar {
 
 		// timer
 		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
+
 		s = ""+Utils.gameTime(Game.g.startTime);
 		g.setColor(Color.white);
 		g.drawString(s, rX/2-Game.g.font.getWidth(s)/2, yCentral+ratioSizeTimerY*rY/2f-20);

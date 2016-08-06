@@ -2,28 +2,32 @@ package technologies;
 
 import org.newdawn.slick.Image;
 
-import utils.Utils;
 import data.Data;
 import model.Game;
 import model.GameTeam;
-import model.Plateau;
 
-public abstract class Technologie {
+public abstract class Technologie implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3252944888737911231L;
+
 
 	public Technologies tech;
-	public GameTeam gameteam;
-	public Data data;
+	public int team;
 	public boolean isDiscovered;
 	public Technologie techRequired;
-	public Image icon;
+	public String icon;
 	public String name;
 	public String iconName;
 	public int id;
 	public void applyEffect(){
 	}
+	public GameTeam getGameTeam(){
+		return Game.g.teams.get(this.team);
+	}
 	
-	
-	public static Technologie technologie(int i, GameTeam gameteam){
+	public static Technologie technologie(int i, int gameteam){
 		switch(i){
 		case 0: return new DualistAge2(gameteam);
 		case 1: return new DualistAge3(gameteam);
@@ -47,11 +51,9 @@ public abstract class Technologie {
 		return o instanceof Technologie && ((Technologie)o).id==this.id;
 	}
 	
-	public void initialize(GameTeam gameteam, Technologies tech){
+	public void initialize(int team, Technologies tech){
 		this.name = tech.name;
-		this.iconName  = tech.nameIcon;
-		this.gameteam = gameteam;
-		this.data = this.gameteam.data;
-		this.icon = Game.g.images.get(iconName);		
+		this.icon = tech.nameIcon;
+		this.team = team;		
 	}
 }

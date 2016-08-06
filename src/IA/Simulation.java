@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import buildings.Building;
 import bullets.Bullet;
+import data.Attributs;
 import model.Game;
 import model.Plateau;
 import pathfinding.MapGrid;
@@ -21,7 +22,7 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
-import units.UnitsList;
+import utils.UnitsList;
 public class Simulation {
 
 	public boolean render= true;
@@ -106,7 +107,7 @@ public class Simulation {
 			g.fillOval((int) ((c.x-c.collisionBox.getBoundingCircleRadius())*ratio),(int) ((c.y-c.collisionBox.getBoundingCircleRadius())*ratio),(int) ((c.collisionBox.getBoundingCircleRadius())*ratio*2), (int)((c.collisionBox.getBoundingCircleRadius()*ratio)*2));
 
 			g.setColor(Color.BLACK);
-			g.drawString(c.id+ ""+c.weapon, (int) c.x*ratio,(int) c.y*ratio);
+			g.drawString(c.id+ ""+c.getAttributString(Attributs.weapon), (int) c.x*ratio,(int) c.y*ratio);
 			if(c.getTarget()!=null){
 				g.drawLine((int) (c.x*ratio), (int) (c.y*ratio), (int) (c.getTarget().x*ratio), (int) (c.getTarget().y*ratio));
 			}
@@ -114,9 +115,9 @@ public class Simulation {
 
 			// DRAW LIFE
 			g.setColor(Color.RED);
-			g.drawLine((int)((c.x-2*c.size)*ratio),(int)((c.y-2*c.size)*ratio), (int)((c.x+2*c.size)*ratio), (int)((c.y-2*c.size)*ratio));
+			g.drawLine((int)((c.x-2*c.getAttribut(Attributs.size))*ratio),(int)((c.y-2*c.getAttribut(Attributs.size))*ratio), (int)((c.x+2*c.getAttribut(Attributs.size))*ratio), (int)((c.y-2*c.getAttribut(Attributs.size))*ratio));
 			g.setColor(Color.GREEN);
-			g.drawLine((int)((c.x-2*c.size)*ratio),(int)((c.y-2*c.size)*ratio), (int)((c.x-2*c.size+4*c.size*c.lifePoints/c.maxLifePoints)*ratio), (int)((c.y-2*c.size)*ratio));
+			g.drawLine((int)((c.x-2*c.getAttribut(Attributs.size))*ratio),(int)((c.y-2*c.getAttribut(Attributs.size))*ratio), (int)((c.x-2*c.getAttribut(Attributs.size)+4*c.getAttribut(Attributs.size)*c.lifePoints/c.getAttribut(Attributs.maxLifepoints))*ratio), (int)((c.y-2*c.getAttribut(Attributs.size))*ratio));
 		}
 
 		bufferStrategy.show();

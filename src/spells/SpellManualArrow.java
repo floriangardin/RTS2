@@ -1,13 +1,9 @@
 package spells;
 
 import main.Main;
-import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
-import utils.Utils;
-import data.Data;
 import units.Character;
 import units.UnitCrossbowman;
 

@@ -42,7 +42,8 @@ import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
 import control.KeyMapper.KeyEnum;
-import control.Selection;
+import data.Attributs;
+import data.Data;
 import display.DisplayRessources;
 import events.EventQueue;
 import main.Main;
@@ -142,6 +143,7 @@ public class Game extends BasicGame
 	public Musics musics;
 	public Taunts taunts;
 	public Music musicPlaying;
+	public Data data;
 
 	/////////////////////////
 	/// RENDER ATTRIBUTES ///
@@ -228,10 +230,10 @@ public class Game extends BasicGame
 	// public MultiReceiver receiver;
 	// Chat
 	public ChatHandler chatHandler;
+	private Plateau toParse;
 	
 
 	
-	public String toParse= null;
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
 	private boolean sendParse;
@@ -537,7 +539,7 @@ public class Game extends BasicGame
 			// Draw the Action Objets
 			for(Character o : plateau.characters){
 				//o.draw(g);
-				if(o.visibleByCurrentPlayer)
+				if(o.visibleByCurrentTeam)
 					toDrawAfter.add(o);
 
 			}
@@ -550,26 +552,26 @@ public class Game extends BasicGame
 			// Draw the natural Objets
 
 			for(NaturalObjet o : this.plateau.naturalObjets){
-				if(o.visibleByCurrentPlayer)
+				if(o.visibleByCurrentTeam)
 					toDrawAfter.add(o);
 				else
 					toDraw.add(o);
 			}
 			// Draw the buildings
 			for(Building e : this.plateau.buildings){
-				if(e.visibleByCurrentPlayer)
+				if(e.visibleByCurrentTeam)
 					toDrawAfter.add(e);
 				else
 					toDraw.add(e);
 			}
 			for(SpellEffect e : this.plateau.spells){
-				if(e.visibleByCurrentPlayer)
+				if(e.visibleByCurrentTeam)
 					toDrawAfter.add(e);
 				else
 					toDraw.add(e);
 			}
 			for(Bullet b : this.plateau.bullets){
-				if(b.visibleByCurrentPlayer)
+				if(b.visibleByCurrentTeam)
 					toDrawAfter.add(b);
 				else
 					toDraw.add(b);
@@ -695,7 +697,8 @@ public class Game extends BasicGame
 		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		gf.setColor(Color.white);
 		for (Objet o : visibleObjet) {
-			gf.fillOval(o.x - Game.g.Xcam - o.sight, o.y - Game.g.Ycam - o.sight, o.sight * 2f, o.sight * 2f);
+			float sight = o.getAttribut(Attributs.sight);
+			gf.fillOval(o.x - Xcam - sight, o.y - Ycam - sight, sight * 2f, sight * 2f);
 		}
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
@@ -732,6 +735,7 @@ public class Game extends BasicGame
 
 	//////////////
 	/// UPDATE ///
+	//////////////
 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException{
@@ -773,7 +777,7 @@ public class Game extends BasicGame
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();
-			InputObject im = new InputObject(currentPlayer.id,in,!processSynchro, keymapper);
+			InputObject im = new InputObject(1,in,!processSynchro, keymapper);
 			this.editor.update(im,in);
 		} else if(!endGame) {
 
@@ -855,6 +859,7 @@ public class Game extends BasicGame
 				/// SINGLE PLAYER ///
 				/////////////////////
 
+				
 				ims.add(im);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
@@ -1014,8 +1019,8 @@ public class Game extends BasicGame
 				for(String s : msg.validation){
 					this.actionValidation(s); 
 				}
-				for(String s : msg.resynchro){
-					this.actionResynchro(s); 
+				if(msg.resynchro!=null){
+					this.actionResynchro(msg.resynchro); 
 				}
 				for(String s : msg.ping){
 					this.actionPing(s); 
@@ -1083,10 +1088,10 @@ public class Game extends BasicGame
 		// Ressources partag� le vecteur d'inputs de la mailbox..
 		inputsHandler.validate(round, idPlayer,idValidator);
 	}
-	public void actionResynchro(String msg){
+	public void actionResynchro(Plateau p){
 		//		System.out.println("Receive resynchro message");
 		processSynchro = true;
-		toParse= msg;
+		toParse= p;
 	}
 	public void actionPing(String msg){
 		String[] valMessage = msg.split("\\|");
@@ -1235,6 +1240,7 @@ public class Game extends BasicGame
 
 		LoadingList.setDeferredLoading(true);
 
+		g.data = new Data();
 		g.sounds = new Sounds();
 		g.options = new Options();
 		g.images = new Images();
@@ -1437,10 +1443,11 @@ public class Game extends BasicGame
 	}
 	private void handleSendingResynchroParse() {
 		if(this.host && this.processSynchro && this.sendParse){
-			this.toParse = this.plateau.toStringArray();
+			//this.toParse = this.plateau.toStringArray();
 			//			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
-			this.toSendThisTurn.resynchro.addElement(this.toParse);
+			this.plateau.roundToSynchro = this.round+Main.nDelay;
+			this.toSendThisTurn.resynchro=this.plateau;
 		}
 	}
 	private void handleAntidrop(GameContainer gc) {
@@ -1463,16 +1470,15 @@ public class Game extends BasicGame
 				this.processSynchro = false;
 				return;
 			}
-			String[] u = this.toParse.split("!");
 			//Je resynchronise au tour n+nDelay
-			if(Integer.parseInt(u[0])==(this.round-Main.nDelay)){
+			if(toParse.roundToSynchro==(this.round-Main.nDelay)){
 				//				System.out.println("Play resynchronisation round at round " + this.round);
-				this.plateau.parse(this.toParse);
+				this.plateau = toParse;
 				this.toParse = null;
 				this.processSynchro = false;
 
 			}
-			else if( Integer.parseInt(u[0])<(this.round-Main.nDelay)){
+			else if(toParse.roundToSynchro<(this.round-Main.nDelay)){
 				this.processSynchro = false;
 				this.toParse = null;
 			}

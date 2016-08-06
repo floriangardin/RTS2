@@ -2,12 +2,9 @@ package buildings;
 
 import java.util.Vector;
 
+import data.Attributs;
 import model.Checkpoint;
-import utils.Utils;
-import data.Data;
-import model.Game;
-import model.Plateau;
-import units.UnitsList;
+import utils.UnitsList;
 
 public class BuildingBarrack extends BuildingProduction{
 	
@@ -16,15 +13,8 @@ public class BuildingBarrack extends BuildingProduction{
 
 	public BuildingBarrack(float f, float h, int team) {
 		teamCapturing= 0;
-		//this.animation=-1f;
 		this.setTeam(team);
-		maxLifePoints = this.getGameTeam().data.barrackLifePoints;
-		//maxLifePoints = 10f;
-		this.sizeX = Data.barrackSizeX; 
-		this.sizeY = Data.barrackSizeY;
-		this.sight = this.getGameTeam().data.barrackSight;
-		this.name = "barrack";
-		this.printName = "Caserne";
+		this.name = "barracks";
 		type= 3;
 		this.initialize(f, h);
 		// List of potential production (Spearman)
@@ -32,7 +22,7 @@ public class BuildingBarrack extends BuildingProduction{
 		this.productionList = new Vector<UnitsList>();
 		this.productionList.addElement(UnitsList.Spearman);
 		this.productionList.addElement(UnitsList.Crossbowman);
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2);
 	}
 
 	

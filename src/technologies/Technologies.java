@@ -30,7 +30,6 @@ public enum Technologies {
 	public float foodPrice;
 	public float goldPrice;
 	public int age;
-	Image icon;
 	
 	Technologies(String name,String nameIcon,float food,float gold,float prodTime,String building,int age,int id){
 

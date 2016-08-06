@@ -56,7 +56,8 @@ public class Sounds {
 	}
 	
 	public Vector<Sound> getSoundVector(String unit,String type){
-		return this.soundsUnit.get(unit).get(type.toLowerCase());
+
+		return this.soundsUnit.get(unit.toLowerCase()).get(type.toLowerCase());
 	}
 
 	private void loadSoundsUnit(){

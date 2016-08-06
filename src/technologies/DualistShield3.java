@@ -1,36 +1,28 @@
 package technologies;
 
 
+import data.Attributs;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
+import utils.UnitsList;
 
 public class DualistShield3 extends Technologie {
 
-	public DualistShield3( GameTeam gameteam) {
+	public DualistShield3( int team) {
 		this.id = 6;
 		this.tech = Technologies.DualistShield3;
-		this.initialize( gameteam,tech);
+		this.initialize(team,tech);
 	}
 	
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		// Age passing does nothing
-		// Then update
-		this.gameteam.data.knight.armor+=1;
-		this.gameteam.data.priest.armor+=1;
-		this.gameteam.data.inquisitor.armor+=1;
-		this.gameteam.data.spearman.armor+=1;
-		this.gameteam.data.crossbowman.armor+=1;
-		// Age passing does nothing
-		// Then update all existing units
-		for(Character c : Game.g.plateau.characters){
-			if(c.getTeam() == this.gameteam.id){
-				c.armor+=1;
-			}
-		}
-		
-
+		this.getGameTeam().data.addAttribut(UnitsList.Spearman.name, Attributs.armor, 2f);
+		this.getGameTeam().data.addAttribut(UnitsList.Crossbowman.name, Attributs.armor, 2f);
+		this.getGameTeam().data.addAttribut(UnitsList.Knight.name, Attributs.armor, 2f);
+		this.getGameTeam().data.addAttribut(UnitsList.Priest.name, Attributs.armor, 2f);
+		this.getGameTeam().data.addAttribut(UnitsList.Inquisitor.name, Attributs.armor, 2f);
+		this.getGameTeam().data.addAttribut(UnitsList.Archange.name, Attributs.armor, 2f);
 	}
 }
