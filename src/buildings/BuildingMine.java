@@ -43,7 +43,7 @@ public class BuildingMine extends BuildingTech{
 		
 		if(state >= chargeTime && getTeam()!=0){
 			getGameTeam().gold+=6+getGameTeam().data.bonusGold;
-			if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
+			if(this.team==Game.g.currentPlayer.getGameTeam().id){
 				Game.g.addDisplayRessources(new DisplayRessources(6+getGameTeam().data.bonusGold, "gold", this.x, this.y));
 			}
 			state = 0;

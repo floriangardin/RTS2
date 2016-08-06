@@ -6,14 +6,14 @@ import model.Plateau;
 
 public class DualistBonusFood extends Technologie {
 
-	public DualistBonusFood(GameTeam gameteam) {
+	public DualistBonusFood(int team) {
 		this.id = 2;
 		this.tech = Technologies.DualistBonusFood;
-		this.initialize(gameteam,tech);
+		this.initialize(team,tech);
 	}
 	
 	public void applyEffect(){
-		this.data.bonusFood=4;
+		this.getGameTeam().data.bonusFood=4;
 		//Update
 		
 		

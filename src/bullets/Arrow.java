@@ -15,7 +15,6 @@ import units.Character;
 public class Arrow extends CollisionBullet{
 
 	protected float angle= 0f;
-	public Image shadow;
 	public float life = 4f;
 	public Arrow(Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
@@ -51,9 +50,6 @@ public class Arrow extends CollisionBullet{
 		if(this.angle<0)
 			this.angle+=360;
 		
-		this.shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
-		this.shadow.rotate(this.angle);
-	
 		this.soundLaunch = "arrow";
 		Game.g.events.addEvent(Events.ArrowLaunched, this);
 	}
@@ -81,7 +77,8 @@ public class Arrow extends CollisionBullet{
 		Game.g.images.get("arrow").rotate(angle);
 		g.drawImage(Game.g.images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
 		Game.g.images.get("arrow").rotate(-angle);
-
+		Image shadow = Game.g.images.get("arrow").getScaledCopy(2f*Main.ratioSpace);
+		shadow.rotate(this.angle);
 		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
 		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);
 		//g.setColor(Color.white);

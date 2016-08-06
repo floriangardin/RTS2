@@ -3,12 +3,11 @@ package pathfinding;
 import java.util.Vector;
 import units.Character;
 
-public class Case {
+public class Case implements java.io.Serializable {
 	
 	public boolean ok;
 	
 	public int id;
-	public MapGrid map;
 	
 	public float x;
 	public float y;
@@ -23,7 +22,6 @@ public class Case {
 	
 	public Case(boolean ok, int id, MapGrid map){
 		this.ok = ok;
-		this.map = map;
 		this.id = id;
 	}
 
@@ -49,8 +47,6 @@ public class Case {
 		return s;
 	}
 	
-	public void updateSurroundingChar(){
-		this.surroundingChars = this.map.getSurroundingChars(this);
-	}
+	
 	
 }

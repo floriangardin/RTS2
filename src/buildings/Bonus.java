@@ -23,7 +23,6 @@ public abstract class Bonus extends Building{
 	public boolean bonusPresent=false;
 	public float hitBoxSize;
 	public Circle hitBox;
-	public Image image;
 
 	public float animationStep  = 1f;
 
@@ -42,17 +41,18 @@ public abstract class Bonus extends Building{
 	}
 	
 	public Graphics draw(Graphics g){
-		int imageWidth = this.image.getWidth()/5;
+		Image im = Game.g.images.get(this.name).getScaledCopy(Main.ratioSpace);
+		int imageWidth = im.getWidth()/5;
 		float r =((Circle) this.collisionBox).radius;
 		Color color = Colors.team0;
 
 		color = new Color(0,0,0,0.4f);
 		Image i;
 		if(!bonusPresent){
-			i = this.image.getSubImage(0,0,imageWidth,this.image.getHeight());
+			i = im.getSubImage(0,0,imageWidth,im.getHeight());
 		}
 		else{
-			i = this.image.getSubImage(imageWidth*(animation+1),0,imageWidth,this.image.getHeight());
+			i = im.getSubImage(imageWidth*(animation+1),0,imageWidth,im.getHeight());
 		}
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));

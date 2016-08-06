@@ -11,6 +11,7 @@ import data.Data;
 public class SpellEffect extends Objet{
 
 	public int type;
+	public String image;
 
 	public void collision(Character c){
 

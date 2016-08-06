@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.util.Vector;
 
 import control.InputObject;
+import model.Plateau;
 
 public class MultiMessage implements java.io.Serializable{
 
@@ -15,7 +16,7 @@ public class MultiMessage implements java.io.Serializable{
 	public Vector<String> connexion;
 	public Vector<InputObject> input;
 	public Vector<String> validation;
-	public Vector<String> resynchro;
+	public Plateau resynchro;
 	public Vector<String> ping;
 	public Vector<String> checksum;
 	public Vector<String> chat;
@@ -37,7 +38,7 @@ public class MultiMessage implements java.io.Serializable{
 		this.connexion = new Vector<String>();
 		this.input = new Vector<InputObject>();
 		this.validation = new Vector<String>();
-		this.resynchro = new Vector<String>();
+		this.resynchro = null;
 		this.ping = new Vector<String>();
 		this.checksum = new Vector<String>();
 		this.chat = new Vector<String>();

@@ -82,7 +82,7 @@ public class SelectionInterface extends Bar {
 //			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+sizeX-4, parent.p.g.resY-sVB, 5*(sVB+2), sVB+4);
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
 			if(b.queue!=null){
-				Image icone = b.queue.icon;
+				Image icone = Game.g.images.get(b.queue.icon);
 				//Show icons
 				//Show production bar
 				g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,0,0,512,512);

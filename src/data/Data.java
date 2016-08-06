@@ -6,21 +6,10 @@ import java.util.Vector;
 import org.newdawn.slick.geom.Point;
 
 import main.Main;
-import model.GameTeam;
-import model.Plateau;
 import ressources.Map;
-import spells.SpellBlessedArea;
-import spells.SpellConversion;
-import spells.SpellDash;
-import spells.SpellFirewall;
-import spells.SpellFrozen;
-import spells.SpellImmolation;
-import spells.SpellInstantDeath;
-import spells.SpellInstantHealth;
-import spells.SpellManualArrow;
 import utils.Utils;
 
-public class Data {
+public class Data implements java.io.Serializable {
 
 
 	public final float ACC;
@@ -40,17 +29,6 @@ public class Data {
 	//	public UnitArchange archange;
 
 	
-	//// Spells
-
-	public SpellFirewall firewall;
-	public SpellBlessedArea blessedArea;
-	public SpellImmolation immolation;
-	public SpellConversion conversion;
-	public SpellInstantHealth instantHealth;
-	public SpellInstantDeath instantDeath ;
-	public SpellManualArrow manualArrow;
-	public SpellDash spellDash;
-	public SpellFrozen fence;
 	//// Special
 
 	public float gainedFaithByImmolation = 1f;
@@ -88,7 +66,6 @@ public class Data {
 		// création de la hashmap d'attributs
 		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/", "json");
 		for(String name : files.keySet()){
-			System.out.println(name);
 			this.datas.put(name, new DataObjet(files.get(name)));
 		}
 		// Do the prototyping (overrides non existing attributes
@@ -209,7 +186,6 @@ public class Data {
 
 
 	public Point getSize(String name){
-		System.out.println(getAttribut(name,Attributs.sizeX)+" "+getAttribut(name, Attributs.sizeY));
 		return new Point(getAttribut(name,Attributs.sizeX),getAttribut(name, Attributs.sizeY));
 		
 	}

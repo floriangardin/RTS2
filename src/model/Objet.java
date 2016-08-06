@@ -6,8 +6,6 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -15,7 +13,6 @@ import buildings.Bonus;
 import buildings.Building;
 import bullets.Bullet;
 import data.Attributs;
-import pathfinding.Case;
 import units.Character;
 
 public abstract class Objet implements java.io.Serializable {
@@ -34,7 +31,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Color color;
 	public float lifePoints;
 	public String name;
-	protected GameTeam gameteam;
+	protected int team;
 
 	// visibility boolean 
 	public boolean visibleByCurrentTeam;
@@ -49,9 +46,6 @@ public abstract class Objet implements java.io.Serializable {
 	public boolean mouseOver = false;
 
 	
-
-
-
 	public void action(){}
 	public void move(){}
 
@@ -96,20 +90,13 @@ public abstract class Objet implements java.io.Serializable {
 		return this.name;
 	}
 	public int getTeam(){
-		if(this.gameteam==null)
-			return 0;
-		return gameteam.id;
+		return this.team;
 	}
 	public GameTeam getGameTeam(){
-		return gameteam;
+		return Game.g.teams.get(this.team);
 	}
 	public void setTeam(int i){
-		
-		this.gameteam = Game.g.teams.get(i);
-	}
-	public void setTeam(GameTeam g){
-
-		this.gameteam = g;
+		this.team = i;
 	}
 	
 

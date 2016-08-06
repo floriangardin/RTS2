@@ -12,14 +12,14 @@ import utils.UnitsList;
 
 public class DualistContact3 extends Technologie {
 
-	public DualistContact3(GameTeam gameteam) {
+	public DualistContact3(int team) {
 		this.id = 11;
 		this.tech = Technologies.DualistContactAttack3;
-		this.initialize(gameteam, tech);
+		this.initialize(team, tech);
 	}
 	
 	public void applyEffect(){
-		this.gameteam.data.addAttribut(UnitsList.Knight.name, Attributs.damage, 1);
-		this.gameteam.data.addAttribut(UnitsList.Spearman.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(UnitsList.Knight.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(UnitsList.Spearman.name, Attributs.damage, 1);
 	}
 }

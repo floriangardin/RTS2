@@ -13,9 +13,8 @@ import technologies.Technologie;
 
 public class BuildingMill extends BuildingTech{
 	
-	public Float chargeTime;
+	public float chargeTime;
 	
-	public Image millarms;
 	public int bonusProd;
 	
 	public BuildingMill(float f, float h, int team){
@@ -47,7 +46,7 @@ public class BuildingMill extends BuildingTech{
 		
 		if(state >= chargeTime && getTeam()!=0){
 			this.getGameTeam().food+=7+this.getGameTeam().data.bonusFood;
-			if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
+			if(this.team==Game.g.currentPlayer.getGameTeam().id){
 				Game.g.addDisplayRessources(new DisplayRessources(7+this.getGameTeam().data.bonusFood, "food", this.x, this.y));
 			}
 			state = 0;

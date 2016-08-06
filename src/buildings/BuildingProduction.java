@@ -30,7 +30,7 @@ public abstract class BuildingProduction extends BuildingAction {
 				this.queue.add(unit);
 				this.getGameTeam().gold-=this.productionList.get(unit).goldPrice;
 				this.getGameTeam().food-=this.productionList.get(unit).foodPrice;
-				if(this.gameteam==Game.g.currentPlayer.getGameTeam()){
+				if(this.team==Game.g.currentPlayer.getGameTeam().id){
 					Game.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).goldPrice,"gold",this.x,this.y));
 					Game.g.addDisplayRessources(new DisplayRessources(-this.productionList.get(unit).foodPrice,"food",this.x,this.y));
 				}

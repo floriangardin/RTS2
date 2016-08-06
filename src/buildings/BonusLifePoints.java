@@ -11,7 +11,6 @@ public class BonusLifePoints extends Bonus{
 	public BonusLifePoints(float x , float y){
 		this.name = "BonusLifepoints";
 		this.initialize(x, y);
-		this.image = Game.g.images.get("bonusLifePoints").getScaledCopy(Main.ratioSpace);
 		this.bonus = 50f;
 
 	}

@@ -1,54 +1,43 @@
 package model;
 
-import java.util.HashMap;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.geom.Rectangle;
-import utils.Utils;
-import data.Data;
+
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingAction;
-import buildings.BuildingBarrack;
-import buildings.BuildingHeadquarters;
 import buildings.BuildingProduction;
-import buildings.BuildingStable;
 import buildings.BuildingTower;
 import bullets.Bullet;
 import bullets.CollisionBullet;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
-import data.Attributs;
 import control.Selection;
+import data.Attributs;
 import display.BottomBar;
 import main.Main;
-import pathfinding.Case;
 import pathfinding.MapGrid;
 import ressources.Map;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;
-import units.UnitCrossbowman;
-import units.UnitInquisitor;
-import units.UnitKnight;
-import units.UnitSpearman;
 import utils.Utils;
 
-public class Plateau {
+public class Plateau implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4212262274818996077L;
+
 
 	public float maxX;
 	public float maxY;
 
-
-
-	// debug
-	public boolean collisionSwitch;
+	// si le plateau est une photo, le round auquel synchroniser
+	public int roundToSynchro;
 
 	// ADD ALL OBJETS
 	public Vector<Character> characters;
@@ -71,13 +60,9 @@ public class Plateau {
 	public Vector<NaturalObjet> toAddNaturalObjets;
 	public Vector<NaturalObjet> toRemoveNaturalObjets;
 
-
-
 	public Vector<SpellEffect> spells;
 	public Vector<SpellEffect> toAddSpells;
 	public Vector<SpellEffect> toRemoveSpells;
-
-
 
 	public MapGrid mapGrid;
 
@@ -615,7 +600,6 @@ public class Plateau {
 		for (Player p : Game.g.players) {
 			Utils.triIdActionObjet(p.selection);
 		}
-		collisionSwitch = !collisionSwitch;
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
 			int player = im.idplayer;
@@ -898,7 +882,6 @@ public class Plateau {
 			bb.action.toDrawDescription[3] = false;
 			if (mouseOnItem >= 0 && mouseOnItem < 4)
 				bb.action.toDrawDescription[mouseOnItem] = true;
-			System.out.println("youhou " + im.isDown(KeyEnum.LeftClick));
 		} else {
 			bb.action.toDrawDescription[0] = false;
 			bb.action.toDrawDescription[1] = false;

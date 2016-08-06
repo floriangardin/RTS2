@@ -19,8 +19,8 @@ public class BuildingTower extends Building{
 	public boolean canAttack;
 	public Character target;
 
-	public Image animationBleu;
-	public Image animationRouge;
+	public String animationBleu;
+	public String animationRouge;
 
 	public BuildingTower(float f, float h, int team){
 		teamCapturing = 0;
@@ -36,8 +36,8 @@ public class BuildingTower extends Building{
 		this.initialize(f, h);
 		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2);
 		canAttack = false;
-		this.animationBleu = Game.g.images.get("buildingTowerBlueAnimation");
-		this.animationRouge = Game.g.images.get("buildingTowerRedAnimation");
+		this.animationBleu ="buildingTowerBlueAnimation";
+		this.animationRouge = "buildingTowerRedAnimation";
 	}
 
 	public void action(){
@@ -90,10 +90,10 @@ public class BuildingTower extends Building{
 		float sizeX = getAttribut(Attributs.sizeX);
 		float sizeY = getAttribut(Attributs.sizeY);
 		if(getTeam()==1){
-			g.drawImage(this.animationBleu, this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
+			g.drawImage(Game.g.images.get(this.animationBleu), this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
 		}
 		if(getTeam()==2){
-			g.drawImage(this.animationRouge, this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
+			g.drawImage(Game.g.images.get(this.animationRouge), this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
 		}
 	}
 }

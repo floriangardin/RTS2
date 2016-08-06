@@ -26,7 +26,7 @@ public class SpellHeal extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		if(realTarget(target, launcher)){
-			Heal f = new Heal(launcher,target,-1,gameteam);
+			Heal f = new Heal(launcher,target,-1);
 			f.remainingTime = this.remainingTime;
 		}
 

@@ -16,7 +16,6 @@ public class Frozen extends SpellEffect{
 	public static float radius = 70f;
 	public float remainingTime;
 	public float damage;
-	public Image image;
 	public Character owner;
 	public boolean active = false;
 	public Frozen(Character launcher, Objet t,int id){
@@ -36,7 +35,6 @@ public class Frozen extends SpellEffect{
 
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
-		image = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);

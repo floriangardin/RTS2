@@ -12,7 +12,6 @@ public class BonusSpeed extends Bonus{
 	public BonusSpeed( float x , float y){
 		this.name = "BonusSpeed";
 		this.initialize( x, y);
-		this.image = Game.g.images.get("bonusSpeed").getScaledCopy(Main.ratioSpace);
 		this.bonus = 20f;
 	}
 

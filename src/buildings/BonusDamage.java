@@ -12,7 +12,6 @@ public class BonusDamage extends Bonus{
 		this.name = "BonusDamage";
 		this.initialize( x, y);
 		this.bonus = 5f;
-		this.image = Game.g.images.get("bonusDamage").getScaledCopy(Main.ratioSpace);
 
 	}
 

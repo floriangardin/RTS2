@@ -17,7 +17,6 @@ public class BlessedArea extends SpellEffect{
 
 	public float remainingTime;
 	public float effect;
-	public Image image;
 	public int nbFire=4;
 	public Character owner;
 	public float animationState = 0f;
@@ -40,7 +39,7 @@ public class BlessedArea extends SpellEffect{
 		Game.g.idChar+=1;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
-		this.image = Game.g.images.get("blessedArea");
+		this.image = "blessedArea";
 		owner = launcher;
 		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
 		this.x = t.getX();
@@ -93,21 +92,22 @@ public class BlessedArea extends SpellEffect{
 		if(this.animationState>animationMax)
 			animationState = 0f;
 		float x,y,r,currentAnimation;
+		Image im = Game.g.images.get(this.image);
 		for(int i=0;i<4;i++){
-				r = this.image.getWidth()/4f;
+				r = im.getWidth()/4f;
 				x = this.animationX[i];
 				y = this.animationY[i];
 				currentAnimation = this.animationState+1f*i*animationMax/4f;
 				if(currentAnimation>animationMax)
 					currentAnimation-=animationMax;
 				if(currentAnimation>=this.animationMax*3f/4f)
-					g.drawImage(this.image, x-40f, y-40f, x+40f, y+40f,0f,0f,r,r);
+					g.drawImage(im, x-40f, y-40f, x+40f, y+40f,0f,0f,r,r);
 				else if(currentAnimation>=this.animationMax*2f/4f)
-					g.drawImage(this.image, x-40f, y-40f, x+40f, y+40f,r,0f,2*r,r);
+					g.drawImage(im, x-40f, y-40f, x+40f, y+40f,r,0f,2*r,r);
 				else if(currentAnimation>=this.animationMax*1f/4f)
-					g.drawImage(this.image, x-40f, y-40f, x+40f, y+40f,2*r,0f,3*r,r);
+					g.drawImage(im, x-40f, y-40f, x+40f, y+40f,2*r,0f,3*r,r);
 				else 
-					g.drawImage(this.image, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
+					g.drawImage(im, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
 		}
 		g.setColor(Color.white);
 		g.draw(this.collisionBox);

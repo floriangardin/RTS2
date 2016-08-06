@@ -230,10 +230,10 @@ public class Game extends BasicGame
 	// public MultiReceiver receiver;
 	// Chat
 	public ChatHandler chatHandler;
+	private Plateau toParse;
 	
 
 	
-	public String toParse= null;
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
 	private boolean sendParse;
@@ -735,6 +735,7 @@ public class Game extends BasicGame
 
 	//////////////
 	/// UPDATE ///
+	//////////////
 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException{
@@ -858,6 +859,7 @@ public class Game extends BasicGame
 				/// SINGLE PLAYER ///
 				/////////////////////
 
+				
 				ims.add(im);
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
@@ -1017,8 +1019,8 @@ public class Game extends BasicGame
 				for(String s : msg.validation){
 					this.actionValidation(s); 
 				}
-				for(String s : msg.resynchro){
-					this.actionResynchro(s); 
+				if(msg.resynchro!=null){
+					this.actionResynchro(msg.resynchro); 
 				}
 				for(String s : msg.ping){
 					this.actionPing(s); 
@@ -1086,10 +1088,10 @@ public class Game extends BasicGame
 		// Ressources partag� le vecteur d'inputs de la mailbox..
 		inputsHandler.validate(round, idPlayer,idValidator);
 	}
-	public void actionResynchro(String msg){
+	public void actionResynchro(Plateau p){
 		//		System.out.println("Receive resynchro message");
 		processSynchro = true;
-		toParse= msg;
+		toParse= p;
 	}
 	public void actionPing(String msg){
 		String[] valMessage = msg.split("\\|");
@@ -1444,7 +1446,8 @@ public class Game extends BasicGame
 			//this.toParse = this.plateau.toStringArray();
 			//			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
-			this.toSendThisTurn.resynchro.addElement(this.toParse);
+			this.plateau.roundToSynchro = this.round+Main.nDelay;
+			this.toSendThisTurn.resynchro=this.plateau;
 		}
 	}
 	private void handleAntidrop(GameContainer gc) {
@@ -1467,16 +1470,15 @@ public class Game extends BasicGame
 				this.processSynchro = false;
 				return;
 			}
-			String[] u = this.toParse.split("!");
 			//Je resynchronise au tour n+nDelay
-			if(Integer.parseInt(u[0])==(this.round-Main.nDelay)){
+			if(toParse.roundToSynchro==(this.round-Main.nDelay)){
 				//				System.out.println("Play resynchronisation round at round " + this.round);
-				//this.plateau.parse(this.toParse);
+				this.plateau = toParse;
 				this.toParse = null;
 				this.processSynchro = false;
 
 			}
-			else if( Integer.parseInt(u[0])<(this.round-Main.nDelay)){
+			else if(toParse.roundToSynchro<(this.round-Main.nDelay)){
 				this.processSynchro = false;
 				this.toParse = null;
 			}
