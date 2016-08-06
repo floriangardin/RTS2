@@ -15,14 +15,7 @@ import pathfinding.Case;
 
 
 public abstract class ActionObjet extends Objet{
-	public float size;
-	public int animation = 0;
-	public float vx;
-	public float vy;
-	public Objet target;
-	public Checkpoint checkpointTarget;
-	public boolean toKeep=false;
-	public boolean mouseOver = false;
+
 
 
 	public void destroy(){
@@ -39,20 +32,8 @@ public abstract class ActionObjet extends Objet{
 
 	}
 
-	public Objet getTarget(){
-		return this.target;
-	}
-	public void setTarget(Objet t){
-		this.setTarget(t,null);
-	}
-	public void setTarget(Objet t, Vector<Case> waypoints){
-		this.target = t;
-		if(t!=null)
-			this.checkpointTarget = new Checkpoint(p,t.getX(),t.getY());
-	}
-	public void drawIsSelected(Graphics g) {
 
-	}
+
 	public Vector<Case> computeWay(){
 		if(this.getTarget() instanceof Building && !(this.getTarget() instanceof Bonus)){
 			Building b = (Building)this.getTarget();

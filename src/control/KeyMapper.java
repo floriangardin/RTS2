@@ -10,6 +10,15 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Vector;
 
+import units.UnitCrossbowman;
+import units.UnitInquisitor;
+import units.UnitKnight;
+import units.UnitPriest;
+import units.UnitSpearman;
+import buildings.BuildingBarrack;
+import buildings.BuildingHeadquarters;
+import buildings.BuildingStable;
+
 
 
 public class KeyMapper {
@@ -86,11 +95,6 @@ public class KeyMapper {
 		AjouterSelection,
 		ToutSelection,
 		AbandonnerPartie,
-		Building1,
-		Building2,
-		Building3,
-		Building4,
-		Building5,
 		Spearmen,
 		Bowmen,
 		Knights,
@@ -107,5 +111,30 @@ public class KeyMapper {
 		GlobalRallyPoint,
 		AllUnits,
 		Abandon;
+		
+		public Class getClassFrom(){
+			switch(this){
+			case Spearmen:
+				return UnitSpearman.class;
+			case Bowmen:
+				return UnitCrossbowman.class;
+			case Knights:
+				return UnitKnight.class;
+			case Inquisitors:
+				return UnitInquisitor.class;
+			case Monks:
+				return UnitPriest.class;
+			case AllUnits:
+				return Character.class;
+			case Barracks:
+				return BuildingBarrack.class;
+			case Stable:
+				return BuildingStable.class;
+			case HeadQuarters:
+				return BuildingHeadquarters.class;
+			}
+
+			return null;
+		}
 	}
 }

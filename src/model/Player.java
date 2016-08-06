@@ -7,7 +7,7 @@ import control.InputObject;
 import display.BottomBar;
 
 public class Player {
-	public Vector<ActionObjet> selection;
+	public Vector<Objet> selection;
 	public Plateau p;
 	
 	//FLO INPUTS TO BE APPLIED ON THIS ROUND
@@ -36,7 +36,7 @@ public class Player {
 		this.id = id;
 		this.nickname = name;
 		this.p = p;
-		this.selection = new Vector<ActionObjet>();
+		this.selection = new Vector<Objet>();
 		groupSelection = -1;
 		this.gameteam = gameteam;
 		this.team = gameteam.id;

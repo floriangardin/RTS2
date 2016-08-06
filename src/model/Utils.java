@@ -241,10 +241,10 @@ public class Utils {
 	}
 
 
-	public static void triIdActionObjet(Vector<ActionObjet> liste){
+	public static void triIdActionObjet(Vector<Objet> liste){
 		if(liste.size()<=1)
 			return;
-		Vector<ActionObjet> liste1 = new Vector<ActionObjet>(), liste2= new Vector<ActionObjet>();
+		Vector<Objet> liste1 = new Vector<Objet>(), liste2= new Vector<Objet>();
 		for(int i=0;i<liste.size();i++){
 			if(i<liste.size()/2)
 				liste1.add(liste.get(i));
@@ -440,16 +440,16 @@ public class Utils {
 		}
 	}
 
-	public static void switchTriName(Vector<ActionObjet> liste){
+	public static void switchTriName(Vector<Objet> liste){
 		if(liste == null || liste.size()==0){
 			return;
 		}
 		String name = liste.get(0).name;
 		boolean useful = false;
-		for(ActionObjet a: liste)
+		for(Objet a: liste)
 			if(!a.name.equals(name))
 				useful = true;
-		ActionObjet buffer;
+		Objet buffer;
 		if(!useful){
 			buffer = liste.get(0);
 			liste.remove(0);

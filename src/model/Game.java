@@ -41,6 +41,7 @@ import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
 import control.KeyMapper.KeyEnum;
+import control.Selection;
 import display.DisplayRessources;
 import main.Main;
 import mapeditor.MapEditor;
@@ -165,6 +166,8 @@ public class Game extends BasicGame
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
+	
+	// Selection 
 
 
 	////////////////////////
@@ -214,8 +217,10 @@ public class Game extends BasicGame
 	// public MultiReceiver receiver;
 	// Chat
 	public ChatHandler chatHandler;
-	// Handling multiplaying
+	
+	// Handling selection
 	public InputHandler inputsHandler;
+	
 	public String toParse= null;
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
@@ -299,86 +304,8 @@ public class Game extends BasicGame
 	String adviceToDisplay;
 
 
-	/////////////////////
-	// USELESS & BONUS //
-	/////////////////////
 
-	private class Gilles{
-		float x,y,vx,vy;
-		float angle;
-		public Gilles(){
-			double proba = Math.random();
-			if(proba<0.25){
-				//depuis le haut
-				y = 0;
-				x =  (float) (Math.random()*resX);
-				vx =  (float) (5f*(2.0*Math.random()-1.0));
-				vy =  (float) (5f*Math.random());
-			} else if(proba<0.5){
-				// depuis le bas
-				y = (float) resY;
-				x = (float) (Math.random()*resX);
-				vx = (float) (5f*(2.0*Math.random()-1.0));
-				vy = (float) -(5f*Math.random());
-			} else if(proba<0.75){
-				// depuis la gauche
-				y = (float) (Math.random()*resY);
-				x = 0;
-				vx = (float) (5f*Math.random());
-				vy = (float) (5f*(2.0*Math.random()-1.0));
-			} else {
-				// depuis la gauche
-				y = (float) (Math.random()*resY);
-				x = (float) resX;
-				vx = (float) -(5f*Math.random());
-				vy = (float) (5f*(2.0*Math.random()-1.0));
-			} 
-			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
-			if(this.vx<0)
-				this.angle+=180;
-			if(this.angle<0)
-				this.angle+=360;
-		}
-		public void draw(Graphics g){
-			images.get("gilles").rotate(angle);
-			g.drawImage(images.get("gilles"), x, y);
-			images.get("gilles").rotate(-angle);
-		}
-		public void update(){
-			x += vx;
-			y += vy;
-		}
-	}
 
-	public boolean gillesBombe = false;
-	public int timeGilles = 0;
-	private Vector<Gilles> gillesPics = new Vector<Gilles>();
-
-	public void handleGillesBombe(){
-		if(timeGilles==0){
-			this.musicPlaying = musics.get("themeVerdi");
-			this.musicPlaying.play();
-		}
-		timeGilles++;
-		if(timeGilles<6*Main.framerate){
-			gillesPics.add(new Gilles());
-			for(Gilles g : gillesPics){
-				g.update();
-			}
-			Vector<Gilles> toRemove = new Vector<Gilles>();
-			for(Gilles g : gillesPics){
-				if(g.x<10 || g.x>resX+10 || g.y<0 || g.y>resY+10)
-					toRemove.add(g);
-			}
-			gillesPics.removeAll(toRemove);
-		} else {
-			this.musicPlaying = musics.get("themeImperial");
-			this.musicPlaying.play();
-			gillesPics.clear();
-			timeGilles = 0;
-			gillesBombe = false;
-		}
-	}
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -420,18 +347,14 @@ public class Game extends BasicGame
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
 		this.players.addElement(new Player(this.plateau,players.size(),name,teams.get(1),resX,resY));
+		
+		
+		
 		this.players.lastElement().address = address;
 		nPlayers+=1;
 
-		// adding components in plateau
-		this.plateau.selection.addElement(new Vector<ActionObjet>());
-		this.plateau.toAddSelection.addElement(new Vector<ActionObjet>());
-		this.plateau.toRemoveSelection.addElement(new Vector<ActionObjet>());
 
-		this.plateau.rectangleSelection.addElement(null);
-		this.plateau.recX.addElement(0f);
-		this.plateau.recY.addElement(0f);
-		this.plateau.inRectangle.addElement(new Vector<ActionObjet>());
+
 
 	}
 
@@ -442,13 +365,10 @@ public class Game extends BasicGame
 		nPlayers -= 1;
 
 		// deleting component from plateau
-		this.plateau.selection.remove(indice);
-		this.plateau.toAddSelection.remove(indice);
-		this.plateau.toRemoveSelection.remove(indice);
-		this.plateau.rectangleSelection.remove(indice);
-		this.plateau.recX.remove(indice);
-		this.plateau.recY.remove(indice);
-		this.plateau.inRectangle.remove(indice);
+
+		
+		//Pourquoi ???
+		
 	}
 	// functions that handle buffers
 
@@ -581,8 +501,11 @@ public class Game extends BasicGame
 			g.drawImage(this.images.get("islandTexture"),0, 0, this.plateau.maxX, this.plateau.maxY,
 					0, 0, this.images.get("islandTexture").getWidth(),  this.images.get("islandTexture").getHeight());
 
-			// Draw the selection of your team 
-			for(ActionObjet o: plateau.selection.get(currentPlayer.id)){
+			// Draw the selection of your team
+			
+
+			
+			for(Objet o: this.g.inputsHandler.getSelection(currentPlayer.id).selection){
 				if(o.target!=null && o instanceof Checkpoint){
 					Checkpoint c = (Checkpoint) o.target;
 					c.toDraw = true;
@@ -796,7 +719,6 @@ public class Game extends BasicGame
 
 	//////////////
 	/// UPDATE ///
-	//////////////
 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException{
@@ -1212,7 +1134,8 @@ public class Game extends BasicGame
 	}
 
 	public void launchGame(){
-
+		
+		this.inputsHandler.initSelction();
 		this.musicPlaying.stop();
 		this.musicPlaying = this.musics.get("themeImperial");
 		try {
@@ -1308,7 +1231,7 @@ public class Game extends BasicGame
 		g.menuMapChoice = new MenuMapChoice(g);
 		g.credits = new Credits(g);
 		g.editor = new MapEditor(g);
-
+		
 
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 
@@ -1323,11 +1246,11 @@ public class Game extends BasicGame
 		app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 
 		//FLO INPUTS
-		g.inputsHandler = new InputHandler(g);
+		g.inputsHandler = new InputHandler();
 		//System.out.println(g.plateau.mapGrid);
 		//			Map.createMapEmpty(g);
 		// Instantiate BottomBars for all players:
-		g.inputsHandler.selection = null;
+
 		try {
 			g.addressLocal = InetAddress.getLocalHost();
 			String address = g.addressLocal.getHostAddress();
@@ -1583,6 +1506,82 @@ public class Game extends BasicGame
 				this.images.activateGdBMode();
 			else
 				this.images.deactivateGdBMode();
+		}
+	}
+	private class Gilles{
+		float x,y,vx,vy;
+		float angle;
+		public Gilles(){
+			double proba = Math.random();
+			if(proba<0.25){
+				//depuis le haut
+				y = 0;
+				x =  (float) (Math.random()*resX);
+				vx =  (float) (5f*(2.0*Math.random()-1.0));
+				vy =  (float) (5f*Math.random());
+			} else if(proba<0.5){
+				// depuis le bas
+				y = (float) resY;
+				x = (float) (Math.random()*resX);
+				vx = (float) (5f*(2.0*Math.random()-1.0));
+				vy = (float) -(5f*Math.random());
+			} else if(proba<0.75){
+				// depuis la gauche
+				y = (float) (Math.random()*resY);
+				x = 0;
+				vx = (float) (5f*Math.random());
+				vy = (float) (5f*(2.0*Math.random()-1.0));
+			} else {
+				// depuis la gauche
+				y = (float) (Math.random()*resY);
+				x = (float) resX;
+				vx = (float) -(5f*Math.random());
+				vy = (float) (5f*(2.0*Math.random()-1.0));
+			} 
+			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
+			if(this.vx<0)
+				this.angle+=180;
+			if(this.angle<0)
+				this.angle+=360;
+		}
+		public void draw(Graphics g){
+			images.get("gilles").rotate(angle);
+			g.drawImage(images.get("gilles"), x, y);
+			images.get("gilles").rotate(-angle);
+		}
+		public void update(){
+			x += vx;
+			y += vy;
+		}
+	}
+	
+	public boolean gillesBombe = false;
+	public int timeGilles = 0;
+	private Vector<Gilles> gillesPics = new Vector<Gilles>();
+
+	public void handleGillesBombe(){
+		if(timeGilles==0){
+			this.musicPlaying = musics.get("themeVerdi");
+			this.musicPlaying.play();
+		}
+		timeGilles++;
+		if(timeGilles<6*Main.framerate){
+			gillesPics.add(new Gilles());
+			for(Gilles g : gillesPics){
+				g.update();
+			}
+			Vector<Gilles> toRemove = new Vector<Gilles>();
+			for(Gilles g : gillesPics){
+				if(g.x<10 || g.x>resX+10 || g.y<0 || g.y>resY+10)
+					toRemove.add(g);
+			}
+			gillesPics.removeAll(toRemove);
+		} else {
+			this.musicPlaying = musics.get("themeImperial");
+			this.musicPlaying.play();
+			gillesPics.clear();
+			timeGilles = 0;
+			gillesBombe = false;
 		}
 	}
 

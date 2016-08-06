@@ -8,8 +8,8 @@ import buildings.BuildingProduction;
 import buildings.BuildingTech;
 import model.ActionObjet;
 import model.Game;
+import model.Objet;
 import model.Utils;
-
 import units.Character;
 
 
@@ -108,7 +108,7 @@ public class SelectionInterface extends Bar {
 			this.sizeXBar = (Math.min(nb+1, 5))*(sVB+2)+2;
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX+sizeX-4, Game.g.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
-			for(ActionObjet a : Game.g.currentPlayer.selection){
+			for(Objet a : Game.g.currentPlayer.selection){
 				c = (Character) a;
 				Image icone = Game.g.images.get(c.name+"blue");
 				int imageWidth = icone.getWidth()/5;

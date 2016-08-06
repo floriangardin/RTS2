@@ -1,31 +1,42 @@
 package control;
 
 import java.util.Vector;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
 import main.Main;
 import model.Game;
+import model.Player;
+
+import org.newdawn.slick.SlickException;
+
 import tests.Test;
 
 
 public class InputHandler {
 
 	private Vector<InputObject> inputs;
-	public Rectangle selection;
-	public Vector<Rectangle> rectangleSelection;
-	public Vector<Float> recX;
-	public Vector<Float> recY;
 	
-	Game g;
+	public Vector<Selection> selection;
+	// Gestion du rectangle de selection
 
 
-	public InputHandler(Game g){
+	public InputHandler(){
 		this.inputs = new Vector<InputObject>();
-		this.g = g;
+		this.selection = new Vector<Selection>();
+	}
+	
+	public void initSelction(){
+		for(Player p : Game.g.players){
+			this.selection.addElement(new Selection(p.id));
+		}
+	}
+	
+	public Selection getSelection(int player){
+		for(Selection s  : selection){
+			if(s.player==player){
+				return s;
+			}
+		}
+		return null;
 	}
 
 	public void validate(int round,int player,int val){
@@ -35,7 +46,7 @@ public class InputHandler {
 		while(idx<this.inputs.size()){
 			if(player==this.inputs.get(idx).idplayer && round==this.inputs.get(idx).round){
 				//System.out.println("Input handler line 30 :Validation reussiz for  round "+round+ " "+player);
-				this.inputs.get(idx).validate(g.getPlayerById(val));
+				this.inputs.get(idx).validate(Game.g.getPlayerById(val));
 				break;
 			}
 			idx++;
@@ -71,7 +82,7 @@ public class InputHandler {
 		//Remove mark as treated inputs
 		this.inputs.removeAll(toRemove);
 		boolean toPlay;
-		for(int k=1; k<this.g.players.size(); k++){
+		for(int k=1; k<Game.g.players.size(); k++){
 			toPlay = false;
 			for(InputObject io : toReturn){
 				if(io.idplayer==k){
@@ -81,7 +92,7 @@ public class InputHandler {
 			if(!toPlay){
 				
 //				System.out.println("Round drop "+this.g.round+" à cause du joueur "+k);
-				this.g.toDrawDrop = true;
+				Game.g.toDrawDrop = true;
 				return new Vector<InputObject>();				
 			}
 		}
@@ -95,6 +106,16 @@ public class InputHandler {
 	
 	public void addToInputs(InputObject io) throws SlickException{
 		this.inputs.addElement(io);
-		if(Game.tests) Test.testRoundInputHandler(this, g);
+		if(Game.tests) Test.testRoundInputHandler(this, Game.g);
+	}
+
+	public void updateSelection(Vector<InputObject> ims) {
+		
+		for(InputObject im : ims){
+			
+			this.getSelection(im.idplayer).handleSelection(im);
+			
+		}
+		
 	}
 }

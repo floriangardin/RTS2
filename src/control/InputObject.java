@@ -88,7 +88,7 @@ public class InputObject implements java.io.Serializable{
 		if(player!=null && player.bottomBar!=null){
 			// checking if on minimap or not
 			this.isOnMiniMap = this.x>(1-player.bottomBar.ratioMinimapX)*Game.g.resX && this.y>(Game.g.resY-player.bottomBar.ratioMinimapX*Game.g.resX) && this.x<Game.g.resX-2f && this.y<Game.g.resY-2f ;
-			this.isOnMiniMap = this.isOnMiniMap && Game.g.plateau.rectangleSelection.get(Game.g.currentPlayer.id)==null;
+			this.isOnMiniMap = this.isOnMiniMap && Game.g.inputsHandler.getSelection(Game.g.currentPlayer.id)==null;
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick)){
 				if(player.bottomBar.action.toDrawDescription[0]){

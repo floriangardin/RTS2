@@ -2,6 +2,7 @@ package model;
 
 
 import java.util.HashMap;
+import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -38,6 +39,16 @@ public abstract class Objet implements java.io.Serializable {
 	public String name;
 	public String printName;
 	protected GameTeam gameteam;
+	
+	
+	public float size;
+	public int animation = 0;
+	public float vx;
+	public float vy;
+	public Objet target;
+	public Checkpoint checkpointTarget;
+	public boolean toKeep=false;
+	public boolean mouseOver = false;
 
 	// visibility boolean 
 	public boolean visibleByCurrentPlayer;
@@ -66,6 +77,21 @@ public abstract class Objet implements java.io.Serializable {
 	public void setTeam(GameTeam g){
 
 		this.gameteam = g;
+	}
+	
+	public Objet getTarget(){
+		return this.target;
+	}
+	public void setTarget(Objet t){
+		this.setTarget(t,null);
+	}
+	public void setTarget(Objet t, Vector<Case> waypoints){
+		this.target = t;
+		if(t!=null)
+			this.checkpointTarget = new Checkpoint(p,t.getX(),t.getY());
+	}
+	public void drawIsSelected(Graphics g) {
+
 	}
 	protected void destroy(){
 		this.lifePoints = -10;
