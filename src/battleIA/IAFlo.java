@@ -9,8 +9,8 @@ import buildings.Building;
 import buildings.BuildingBarrack;
 import buildings.BuildingProduction;
 import model.Checkpoint;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 
 public class IAFlo extends IAsuperclass {

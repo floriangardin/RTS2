@@ -3,8 +3,8 @@ package IA;
 import java.util.Vector;
 
 import model.Objet;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class IAUtils {
 	//Static methods for IA

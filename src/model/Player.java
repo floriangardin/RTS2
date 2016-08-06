@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import control.InputObject;
+import data.Data;
 import display.BottomBar;
 
 public class Player {

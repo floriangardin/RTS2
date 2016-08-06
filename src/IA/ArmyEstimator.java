@@ -2,6 +2,7 @@ package IA;
 
 import java.util.Vector;
 
+import data.Attributs;
 import units.Character;
 public class ArmyEstimator {
 
@@ -43,15 +44,15 @@ public class ArmyEstimator {
 		for(Character u : units){
 			meanX += u.x;
 			meanY += u.y;
-			attackSum+= u.damage ;
-			dpsSum+= u.damage/u.chargeTime ;
+			attackSum+= u.getAttribut(Attributs.damage) ;
+			dpsSum+= u.getAttribut(Attributs.damage)/u.getAttribut(Attributs.chargeTime) ;
 			lifepointsSum+= u.lifePoints ;
-			armorSum+= u.armor ;
-			minMobility= (minMobility==0 ? u.maxVelocity:Math.min(minMobility, u.maxVelocity));
-			maxMobility=  (maxMobility==0 ? u.maxVelocity:Math.max(maxMobility, u.maxVelocity)) ;
-			meanMobility+= u.maxVelocity;;
-			cacProportion+= (u.weapon == "sword" || u.weapon == "spear" ? 1 : 0);
-			rangeProportion+=(u.weapon == "bow" || u.weapon == "wand" ? 1 : 0);
+			armorSum+= u.getAttribut(Attributs.armor) ;
+			minMobility= (minMobility==0 ? u.getAttribut(Attributs.maxVelocity):Math.min(minMobility, u.getAttribut(Attributs.maxVelocity)));
+			maxMobility=  (maxMobility==0 ? u.getAttribut(Attributs.maxVelocity):Math.max(maxMobility, u.getAttribut(Attributs.maxVelocity))) ;
+			meanMobility+= u.getAttribut(Attributs.maxVelocity);
+			cacProportion+= (u.getAttributString(Attributs.weapon) == "sword" || u.getAttributString(Attributs.weapon) == "spear" ? 1 : 0);
+			rangeProportion+=(u.getAttributString(Attributs.weapon) == "bow" || u.getAttributString(Attributs.weapon) == "wand" ? 1 : 0);
 			spellCasterProportion+= (u.spells.size()>1 ? 1 : 0);
 			mountedProportion+= (u.horse ? 1 : 0); ;
 		}

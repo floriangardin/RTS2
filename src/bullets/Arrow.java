@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
+import data.Attributs;
 import main.Main;
 import model.Game;
 import model.Plateau;
@@ -21,7 +22,6 @@ public class Arrow extends CollisionBullet{
 	
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
-		float Vmax = 600f*Main.ratioSpace;
 
 		if(id==-1){
 			this.id = Game.g.idChar;
@@ -29,12 +29,13 @@ public class Arrow extends CollisionBullet{
 		}else{
 			this.id=id;
 		}
-		this.name ="arrow";
+		this.name ="Arrow";
 		this.damage = damage;
 		Game.g.plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
 		this.owner = owner;
 		this.setTeam(owner.getTeam());
+		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY());
 		this.vx = vx;
@@ -64,8 +65,8 @@ public class Arrow extends CollisionBullet{
 			if(!c.horse){
 				damage = damage * this.getGameTeam().data.bonusBowFoot;
 			}
-			if(c.armor<=damage){
-				c.setLifePoints(c.lifePoints+c.armor-damage);
+			if(c.getAttribut(Attributs.armor)<=damage){
+				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 			}
 			c.isAttacked();
 			this.setLifePoints(-1f);

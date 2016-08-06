@@ -5,16 +5,17 @@ import java.util.Vector;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import data.Attributs;
+import data.Data;
 import display.DisplayRessources;
 import main.Main;
-import model.Data;
 import model.Game;
 import model.Plateau;
 import technologies.Technologie;
 
 public class BuildingMill extends BuildingTech{
 	
-	public int chargeTime;
+	public Float chargeTime;
 	
 	public Image millarms;
 	public int bonusProd;
@@ -24,13 +25,8 @@ public class BuildingMill extends BuildingTech{
 		this.setTeam(team);
 		this.type = 1;
 		this.name= "mill";
-		this.printName = "Ferme";
-		this.maxLifePoints = getGameTeam().data.millLifePoints;
-		this.chargeTime = getGameTeam().data.millChargeTime;
-		this.lifePoints = getGameTeam().data.millLifePoints;
-		this.sizeX = Data.millSizeX; 
-		this.sizeY = Data.millSizeY;
-		this.sight = Game.g.players.get(getTeam()).data.millSight;
+		this.chargeTime = getAttribut(Attributs.maxChargetime);
+		this.lifePoints = getAttribut(Attributs.maxLifepoints);
 		this.initialize(f, h);
 		this.productionList = new Vector<Technologie>();
 		this.updateProductionList();
@@ -85,7 +81,7 @@ public class BuildingMill extends BuildingTech{
 	
 	public void drawAnimation(Graphics g){
 		if(getTeam()!=0){
-			g.drawImage(Game.g.images.get("smoke"), this.x+1f/18f*sizeX-50f, this.y-159f,this.x+1f/18f*sizeX+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
+			g.drawImage(Game.g.images.get("smoke"), this.x+1f/18f*getAttribut(Attributs.sizeX)-50f, this.y-159f,this.x+1f/18f*getAttribut(Attributs.sizeX)+36f, this.y-101f, (int)(animation/30f)*64, 64, ((int)(animation/30f)+1)*64, 128);
 		}
 	}
 }

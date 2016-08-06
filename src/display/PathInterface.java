@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import buildings.Building;
+import data.Attributs;
 import model.Game;
 import model.NaturalObjet;
 
@@ -63,7 +64,7 @@ public class PathInterface extends Bar {
 		for(Building c : this.p.buildings){
 			g.setColor(Color.gray);
 			
-			g.fillRect(startX+rw*c.x-rw*c.sizeX/2f, startY+rh*c.y-rh*c.sizeY/2f, rw*c.sizeX, rh*c.sizeY);
+			g.fillRect(startX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, rw*c.getAttribut(Attributs.sizeX), rh*c.getAttribut(Attributs.sizeY));
 			
 		}
 

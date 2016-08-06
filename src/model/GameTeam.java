@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 
 import buildings.BuildingHeadquarters;
+import data.Data;
 import main.Main;
 
 public class GameTeam {
@@ -28,7 +29,7 @@ public class GameTeam {
 	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
 		this.players = players;
 		this.id = id;
-		this.data = new Data(plateau,this,Main.framerate);
+		this.data = new Data();
 		if(id==0){
 			color = Colors.team0;
 			colorName = "neutral";

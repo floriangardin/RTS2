@@ -2,8 +2,9 @@ package buildings;
 
 import java.util.Vector;
 
+import data.Attributs;
+import data.Data;
 import main.Main;
-import model.Data;
 import model.Game;
 import model.Plateau;
 import technologies.DualistAge2;
@@ -21,7 +22,7 @@ import technologies.DualistRangeAttack3;
 import technologies.DualistShield2;
 import technologies.DualistShield3;
 import technologies.Technologie;
-import units.UnitsList;
+import utils.UnitsList;
 
 public class BuildingHeadquarters extends BuildingTech {
 
@@ -100,16 +101,11 @@ public class BuildingHeadquarters extends BuildingTech {
 		
 		this.queue = null;
 		teamCapturing= getTeam();
-		this.sizeX = Data.headquartersSizeX; 
-		this.sizeY = Data.headquartersSizeY;
-		this.sight = this.getGameTeam().data.headQuartersSight;
-		maxLifePoints = this.getGameTeam().data.headQuartersLifePoints;
 		this.name = "headquarters";
-		this.printName = "Centre Ville";
 		type= 5;
 
 		this.initialize(f,h);
-		this.constructionPoints = this.maxLifePoints;
+		this.constructionPoints = this.getAttribut(Attributs.maxLifepoints);
 		// List of potential production 
 		this.techsDiscovered = new Vector<Technologie>();
 		this.updateProductionList();

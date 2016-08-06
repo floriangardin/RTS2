@@ -6,10 +6,10 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import units.Character;
 import units.UnitCrossbowman;
 import units.UnitSpearman;
+import utils.Utils;
 
 public class SpellDash extends Spell{
 

@@ -3,6 +3,7 @@ package IA;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import data.Attributs;
 import units.Character;
 
 public class GeneticAlgorithm {
@@ -136,7 +137,7 @@ public class GeneticAlgorithm {
 				this.objective[i]=(s.victory%2)*(s.armies.get(0).get(0).lifePoints*2f);
 
 				for(Character c: s.armies.get(1)){
-					this.objective[i]+=3f*(c.maxLifePoints-c.lifePoints);
+					this.objective[i]+=3f*(c.getAttribut(Attributs.maxLifepoints)-c.lifePoints);
 				}
 			}
 		}
@@ -152,7 +153,7 @@ public class GeneticAlgorithm {
 			//TODO CALL SIMULATION AND RETURN OBJECTIVE
 			this.objective[i]=(s.victory%2)*(s.armies.get(0).get(0).lifePoints*2f);
 			for(Character c: s.armies.get(1)){
-				this.objective[i]+=3f*(c.maxLifePoints-c.lifePoints);
+				this.objective[i]+=3f*(c.getAttribut(Attributs.maxLifepoints)-c.lifePoints);
 			}
 		}
 	}

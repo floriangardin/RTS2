@@ -11,6 +11,7 @@ import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitPriest;
 import units.UnitSpearman;
+import utils.Utils;
 import buildings.Building;
 import buildings.BuildingAcademy;
 import buildings.BuildingBarrack;
@@ -120,7 +121,7 @@ public class IAPlayer extends Player{
 	public Vector<Character> getEnnemyUnitsInSight(){
 		Vector<Character> result = new Vector<Character>();
 		for(Character c : this.p.characters){
-			if(c.getTeam()!=this.getTeam() && this.p.isVisibleByPlayer(this.getTeam(), c))
+			if(c.getTeam()!=this.getTeam() && this.p.isVisibleByTeam(this.getTeam(), c))
 				result.add(c);
 		}
 		return result;

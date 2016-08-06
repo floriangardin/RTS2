@@ -6,9 +6,9 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import units.Character;
 import units.UnitCrossbowman;
+import utils.Utils;
 
 public class SpellManualArrow extends Spell{
 

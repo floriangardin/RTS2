@@ -7,6 +7,7 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import data.Attributs;
 import main.Main;
 import model.Colors;
 import model.Game;
@@ -27,15 +28,11 @@ public abstract class Bonus extends Building{
 	public float animationStep  = 1f;
 
 	public void initialize(Plateau p , float x , float y){
-		this.lifePoints = 10f;
-		this.maxLifePoints = 20f;
 		this.lifePoints = 1f;
 		this.constructionPoints=0f;
 		this.setTeam(0);
 		p.bonus.addElement(this);
-		this.sight = 200f*Main.ratioSpace;
-		this.size = 100f*Main.ratioSpace;
-		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.size);
+		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,collisionBox.getWidth(),collisionBox.getHeight());
 		this.hitBoxSize = 30f*Main.ratioSpace;
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
@@ -71,13 +68,13 @@ public abstract class Bonus extends Building{
 			}
 		}
 		// Construction points
-		if(this.constructionPoints<this.maxLifePoints && this.visibleByCurrentPlayer && this.constructionPoints>0){
+		if(this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && this.visibleByCurrentTeam && this.constructionPoints>0){
 //			System.out.println("Bonus taking");
 //			System.out.println(size+ " "+this.getX()+" "+this.getY() );
 			g.setColor(new Color(0,0,0));
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
-			g.fill(new Rectangle(-1f+this.getX()-size/4,-1f+this.getY()-3*this.size/4,size/2+2f,12f));
-			float x = this.constructionPoints/this.maxLifePoints;
+			g.fill(new Rectangle(-1f+this.getX()-getAttribut(Attributs.size)/4,-1f+this.getY()-3*this.getAttribut(Attributs.size)/4,getAttribut(Attributs.size)/2+2f,12f));
+			float x = this.constructionPoints/this.getAttribut(Attributs.maxLifepoints);
 			if(this.potentialTeam==1)
 				g.setColor(Colors.team1);
 			else if(this.potentialTeam==2)
@@ -86,7 +83,7 @@ public abstract class Bonus extends Building{
 				g.setColor(Colors.team0);
 			}
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
-			g.fill(new Rectangle(this.getX()-size/4,this.getY()-3*this.size/4,x*size/2,10f));
+			g.fill(new Rectangle(this.getX()-getAttribut(Attributs.size)/4,this.getY()-3*this.getAttribut(Attributs.size)/4,x*getAttribut(Attributs.size)/2,10f));
 		}
 		return g;
 	}

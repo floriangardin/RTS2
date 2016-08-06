@@ -41,6 +41,8 @@ import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
 import control.KeyMapper.KeyEnum;
+import data.Attributs;
+import data.Data;
 import display.DisplayRessources;
 import main.Main;
 import mapeditor.MapEditor;
@@ -65,6 +67,7 @@ import spells.SpellEffect;
 import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
+import utils.Utils;
 public class Game extends BasicGame 
 {
 	/////////////
@@ -138,6 +141,7 @@ public class Game extends BasicGame
 	public Musics musics;
 	public Taunts taunts;
 	public Music musicPlaying;
+	public Data data;
 
 	/////////////////////////
 	/// RENDER ATTRIBUTES ///
@@ -603,7 +607,7 @@ public class Game extends BasicGame
 			// Draw the Action Objets
 			for(Character o : plateau.characters){
 				//o.draw(g);
-				if(o.visibleByCurrentPlayer)
+				if(o.visibleByCurrentTeam)
 					toDrawAfter.add(o);
 
 			}
@@ -616,26 +620,26 @@ public class Game extends BasicGame
 			// Draw the natural Objets
 
 			for(NaturalObjet o : this.plateau.naturalObjets){
-				if(o.visibleByCurrentPlayer)
+				if(o.visibleByCurrentTeam)
 					toDrawAfter.add(o);
 				else
 					toDraw.add(o);
 			}
 			// Draw the buildings
 			for(Building e : this.plateau.buildings){
-				if(e.visibleByCurrentPlayer)
+				if(e.visibleByCurrentTeam)
 					toDrawAfter.add(e);
 				else
 					toDraw.add(e);
 			}
 			for(SpellEffect e : this.plateau.spells){
-				if(e.visibleByCurrentPlayer)
+				if(e.visibleByCurrentTeam)
 					toDrawAfter.add(e);
 				else
 					toDraw.add(e);
 			}
 			for(Bullet b : this.plateau.bullets){
-				if(b.visibleByCurrentPlayer)
+				if(b.visibleByCurrentTeam)
 					toDrawAfter.add(b);
 				else
 					toDraw.add(b);
@@ -759,7 +763,8 @@ public class Game extends BasicGame
 		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		gf.setColor(Color.white);
 		for (Objet o : visibleObjet) {
-			gf.fillOval(o.x - this.plateau.Xcam - o.sight, o.y - this.plateau.Ycam - o.sight, o.sight * 2f, o.sight * 2f);
+			float sight = o.getAttribut(Attributs.sight);
+			gf.fillOval(o.x - this.plateau.Xcam - sight, o.y - this.plateau.Ycam - sight, sight * 2f, sight * 2f);
 		}
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
@@ -838,7 +843,7 @@ public class Game extends BasicGame
 		} else if(inEditor) {
 			// Map Editor
 			Input in = gc.getInput();
-			InputObject im = new InputObject(currentPlayer.id,in,!processSynchro, keymapper);
+			InputObject im = new InputObject(1,in,!processSynchro, keymapper);
 			this.editor.update(im,in);
 		} else if(!endGame) {
 
@@ -1301,6 +1306,7 @@ public class Game extends BasicGame
 
 		LoadingList.setDeferredLoading(true);
 
+		g.data = new Data();
 		g.sounds = new Sounds();
 		g.options = new Options();
 		g.images = new Images();
@@ -1503,7 +1509,7 @@ public class Game extends BasicGame
 	}
 	private void handleSendingResynchroParse() {
 		if(this.host && this.processSynchro && this.sendParse){
-			this.toParse = this.plateau.toStringArray();
+			//this.toParse = this.plateau.toStringArray();
 			//			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
 			this.toSendThisTurn.resynchro.addElement(this.toParse);
@@ -1533,7 +1539,7 @@ public class Game extends BasicGame
 			//Je resynchronise au tour n+nDelay
 			if(Integer.parseInt(u[0])==(this.round-Main.nDelay)){
 				//				System.out.println("Play resynchronisation round at round " + this.round);
-				this.plateau.parse(this.toParse);
+				//this.plateau.parse(this.toParse);
 				this.toParse = null;
 				this.processSynchro = false;
 

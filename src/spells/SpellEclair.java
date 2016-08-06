@@ -6,8 +6,8 @@ import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import model.Player;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 // TODO : Sort
 public class SpellEclair extends Spell{

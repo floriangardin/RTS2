@@ -23,6 +23,7 @@ import bullets.Bullet;
 import bullets.CollisionBullet;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import data.Attributs;
 import display.BottomBar;
 import main.Main;
 import pathfinding.Case;
@@ -35,6 +36,7 @@ import units.UnitCrossbowman;
 import units.UnitInquisitor;
 import units.UnitKnight;
 import units.UnitSpearman;
+import utils.Utils;
 
 public class Plateau {
 
@@ -82,7 +84,7 @@ public class Plateau {
 	public Vector<Rectangle> rectangleSelection;
 	public Vector<Float> recX;
 	public Vector<Float> recY;
-	
+
 	public Vector<Vector<Objet>> inRectangle; // Je sais pas ce que c'est
 
 
@@ -201,7 +203,7 @@ public class Plateau {
 	}
 
 	public void addBuilding(Building o) {
-		this.mapGrid.insertNewRec(o.x, o.y, o.sizeX, o.sizeY);
+		this.mapGrid.insertNewRec(o.x, o.y, o.getAttribut(Attributs.sizeX), o.getAttribut(Attributs.sizeY));
 		toAddBuildings.addElement(o);
 	}
 
@@ -354,19 +356,19 @@ public class Plateau {
 			if (o.idCase != -1) {
 				for (Character i : Game.g.plateau.mapGrid.getCase(o.idCase).surroundingChars) {
 					// We suppose o and i have circle collision box
-					if (i != o && Utils.distance(i, o) < (i.size + o.size)) {
+					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
 						i.collision(o);
 						o.collision(i);
 					}
 				}
 			}
-			Circle range = new Circle(o.x, o.y, o.range);
+			Circle range = new Circle(o.x, o.y, o.getAttribut(Attributs.range));
 			// Between bonus and characters
 			for (Bonus b : this.bonus) {
 				if (Utils.distance(b, o) < b.hitBoxSize) {
 					b.collision(o);
 				}
-				if (Utils.distance(b, o) < (b.size + range.radius)) {
+				if (Utils.distance(b, o) < (b.getAttribut(Attributs.size) + range.radius)) {
 					b.collisionWeapon(o);
 				}
 			}
@@ -378,7 +380,7 @@ public class Plateau {
 			}
 			// Between Characters and bullets
 			for (Bullet i : bullets) {
-				if (i instanceof CollisionBullet && Utils.distance(i, o) < (i.size + o.size)) {
+				if (i instanceof CollisionBullet && Utils.distance(i, o) < (i.size + o.getAttribut(Attributs.size))) {
 					i.collision(o);
 				}
 			}
@@ -392,7 +394,7 @@ public class Plateau {
 				if (e.collisionBox.intersects(o.collisionBox)) {
 					boolean doCollision = true;
 					for(Circle c : e.corners){
-						if(Utils.distance(new Checkpoint(c.getCenterX(),c.getCenterY()), o)<(30f+o.size)){
+						if(Utils.distance(new Checkpoint(c.getCenterX(),c.getCenterY()), o)<(30f+o.getAttribut(Attributs.size))){
 							doCollision = false;
 						}
 					}
@@ -453,7 +455,7 @@ public class Plateau {
 		}
 	}
 
-	
+
 
 	private void updateRectangle(InputObject im, int player) {
 		if(im.isOnMiniMap && this.rectangleSelection.get(player)==null)
@@ -582,7 +584,7 @@ public class Plateau {
 	public Vector<Character> getEnnemiesInSight(BuildingTower caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : characters) {
-			if (o.getTeam() != caller.potentialTeam && Utils.distance(o, caller) < caller.sight) {
+			if (o.getTeam() != caller.potentialTeam && Utils.distance(o, caller) < caller.getAttribut(Attributs.sight)) {
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -602,7 +604,7 @@ public class Plateau {
 	public Vector<Character> getWoundedAlliesInSight(Character caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : characters) {
-			if (o != caller && o.getTeam() == caller.getTeam() && o.lifePoints < o.maxLifePoints
+			if (o != caller && o.getTeam() == caller.getTeam() && o.lifePoints < o.getAttribut(Attributs.maxLifepoints)
 					&& o.collisionBox.intersects(caller.sightBox)) {
 				ennemies_in_sight.add(o);
 			}
@@ -914,17 +916,17 @@ public class Plateau {
 				Xcam += (int) (80 * 30 / Main.framerate);
 				this.slidingCam = false;
 			}
-			
+
 			// TODO : Centrer la selection sur un groupe d'unité
-//			for (int to = 0; to < 10; to++) {
-//				if (im.isPressed(KeyEnum.valueOf("Key"+to)) && Game.g.players.get(player).groupSelection == to
-//						&& this.selection.get(player).size() > 0) {
-//					float xmoy = this.selection.get(player).get(0).getX();
-//					float ymoy = this.selection.get(player).get(0).getY();
-//					this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
-//					this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
-//				}
-//			}
+			//			for (int to = 0; to < 10; to++) {
+			//				if (im.isPressed(KeyEnum.valueOf("Key"+to)) && Game.g.players.get(player).groupSelection == to
+			//						&& this.selection.get(player).size() > 0) {
+			//					float xmoy = this.selection.get(player).get(0).getX();
+			//					float ymoy = this.selection.get(player).get(0).getY();
+			//					this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
+			//					this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
+			//				}
+			//			}
 		}
 
 
@@ -976,47 +978,49 @@ public class Plateau {
 		return obj;
 	}
 
-	public boolean isVisibleByPlayer(int team, Objet objet) {
+	public boolean isVisibleByTeam(int team, Objet objet) {
 		if (objet.getGameTeam() != null && objet.getTeam() == team)
 			return true;
 		float r = objet.collisionBox.getBoundingCircleRadius();
 		for (Character c : this.characters)
-			if (c.getTeam() == team && Utils.distance(c, objet) < c.sight + r)
+			if (c.getTeam() == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
 				return true;
 		for (Building b : this.buildings)
-			if (b.getTeam() == team && Utils.distance(b, objet) < b.sight + r)
+			if (b.getTeam() == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
 				return true;
 		return false;
 	}
 
 	public boolean isVisibleByCamera(Objet objet) {
-		return objet.x + objet.sight > Xcam && objet.x - objet.sight < Xcam + Game.g.resX && objet.y + objet.sight > Ycam
-				&& objet.y - objet.sight < Ycam + Game.g.resY;
+		
+		float sight = objet.getMaxSize();
+		return objet.x + sight > Xcam && objet.x - sight < Xcam + Game.g.resX && objet.y + sight > Ycam
+				&& objet.y - sight < Ycam + Game.g.resY;
 	}
 
 	private void updateVisibility() {
 		for (Character c : this.characters) {
-			c.visibleByCurrentPlayer = this.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), c);
+			c.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c);
 			c.visibleByCamera = this.isVisibleByCamera(c);
 		}
 		for (Building b : this.buildings) {
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 		for (Bullet b : this.bullets) {
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 		for (SpellEffect b : this.spells) {
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 		for (NaturalObjet n : this.naturalObjets) {
-			n.visibleByCurrentPlayer = this.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), n);
+			n.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), n);
 			n.visibleByCamera = this.isVisibleByCamera(n);
 		}
 		for (Bonus b : this.bonus) {
-			b.visibleByCurrentPlayer = this.isVisibleByPlayer(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 	}
@@ -1297,126 +1301,8 @@ public class Plateau {
 	}
 
 
-	// MULTIPLAYING
-	public String toStringArray() {
 
-		int id_charac = 0;
-		String s = "";
-		// IDS
-		s += Game.g.round;
-		s += "!";
-		s += Game.g.idChar;
-		s += "!";
-		// Time to restart the game
-		s += Game.g.clock.getCurrentTime() + (long) (0.05 * 1e9);
-		s += "!";
-		// We want to send the content of plateau
 
-		// CHARACTERS
-		while (id_charac < this.characters.size()) {
-			s += this.characters.get(id_charac).toString();
-			s += "|";
-			id_charac++;
-		}
-
-		s += "!";
-		int id_building = 0;
-		while (id_building < this.buildings.size()) {
-			s += this.buildings.get(id_building).toString();
-			s += "|";
-			id_building++;
-		}
-
-		s += "!";
-
-		//SELECTION
-		for(int i = 0;i<Game.g.players.size();i++){
-			if(this.selection.get(i).size()==0){
-				s+="-1;";
-			}
-			else{
-				for(Objet o: this.selection.get(i)){
-					s+=o.id+";";
-				}
-			}
-			s+="|";
-		}
-		s+="!";
-		return s;
-	}
-
-	public void parse(String s) {
-
-		// APPLY ACTION ON ALL CONCERNED OBJECTS
-		// GET ARRAY OF CHARACTERS,BUILDING,BULLET
-		// System.out.println(s);
-		if (s != null && s != "") {
-			String[] u = s.split("!");
-			// Take care of id sent
-			parseCharacter(u[3]);
-			parseBuilding(u[4]);
-			parseSelection(u[5]);
-
-			//PARSE SELECTION
-			Game.g.idChar = Integer.parseInt(u[1]);
-
-		}
-
-		// Update groups
-
-		Vector<Character> group = new Vector<Character>();
-		for (Character c : this.characters) {
-			c.group.clear();
-			if (c.target instanceof Checkpoint) {
-				group = new Vector<Character>();
-				group.add(c);
-				for (Character d : this.characters) {
-					if (d.target instanceof Checkpoint && c.id != d.id && c.getTeam() == d.getTeam()) {
-						if (d.target.x == c.target.x && d.target.y == c.target.y) {
-							group.addElement(d);
-						}
-					}
-				}
-				c.group.addAll(group);
-			}
-		}
-	}
-
-	public void parseBuilding(String s) {
-		String[] u = s.split("\\|");
-		// Loop over each Building
-		Building bul = null;
-		int finish = u.length;
-		// For all buildings in received message
-		//		System.out.println(s);
-		for (int i = 0; i < finish; i++) {
-			HashMap<String, String> hs = Objet.preParse(u[i]);
-			int idTest = Integer.parseInt(hs.get("id"));
-			// Find corresponding Building in plateau
-			bul = this.getBuildingById(idTest);
-			//Parse this building
-			bul.parse(hs);
-		}
-	}
-
-	public void parseSelection(String s){
-		//		System.out.println(s);
-		String[] u = s.split("\\|");
-		//Loop over each player
-		for(int i = 0; i<Game.g.players.size();i++){
-			this.selection.get(i).clear();
-			if(u[i].equals("")){
-				continue;	
-			}
-			String[] ids = u[i].split(";");
-			for(int j=0; j<ids.length;j++){
-				int id = Integer.parseInt(ids[j]);
-				if(id!=-1){
-					this.selection.get(i).add(getById(id));
-				}
-			}
-		}
-	}
 	public Objet getById(int id){
 		Objet o = getCharacterById(id);
 		if(o!=null){
@@ -1432,11 +1318,6 @@ public class Plateau {
 				return cha;
 			}
 		}
-		// for(Character cha : this.population.characters){
-		// if(id==cha.id){
-		// return cha;
-		// }
-		// }
 		return null;
 	}
 
@@ -1446,16 +1327,10 @@ public class Plateau {
 				return cha;
 			}
 		}
-		// for(Character cha : this.population.characters){
-		// if(id==cha.id){
-		// return cha;
-		// }
-		// }
 		return null;
 	}
 
 	public Bullet getBulletById(int id) {
-
 		for (Bullet cha : this.bullets) {
 			if (id == cha.id) {
 				return cha;
@@ -1482,124 +1357,6 @@ public class Plateau {
 		return null;
 	}
 
-	public void parseCharacter(String s) {
-		// SPLIT SELON |
-		//		System.out.println("characters : "+s);
-		for (Character c : this.characters) {
-			c.setTarget(null, null);
-			c.group.clear();
-			c.checkpointTarget = null;
-			c.secondaryTargets.clear();
-			c.leader = null;
-			c.moveAhead = false;
-			c.waypoints.clear();
-		}
-		String[] u = s.split("\\|");
-		// LOOP OVER EACH CHARACTER
-		Character cha = null;
-		int finish = u.length;
 
-		// //Clear all characters
-		// while(this.characters.size()>0){
-		// Character toErase = this.characters.get(0);
-		// toErase.lifePoints = -1f;
-		// toErase.destroy();
-		// this.removeCharacter(toErase);
-		// this.characters.remove(toErase);
-		// }
-
-		// this.characters.clear();
-		Utils.triId(this.characters);
-		for (int i = 0; i < finish; i++) {
-			// FIND CONCERNED CHARACTER
-			HashMap<String, String> hs = Objet.preParse(u[i]);
-			int idTest = Integer.parseInt(hs.get("id"));
-			cha = this.getCharacterByIdAndName(idTest, hs.get("name"));
-			if (cha == null) {
-				cha = Character.createNewCharacter(hs);
-				//				System.out.println("Create new character");
-
-			}
-			if (cha != null) {
-				cha.parse(hs);
-				cha.toKeep = true;
-			}
-		}
-
-		// Erase characters who didn't give any news
-		Utils.triId(this.characters);
-		for (Character c : this.characters) {
-			if (!c.toKeep) {
-				//				System.out.println("Destroyed " + c.id);
-				c.destroy();
-			}
-		}
-		// Clean plateau
-		this.clean();
-
-	}
-
-	public void parseBullet(String s) {
-		String[] u = s.split("\\|");
-		// Loop over each bullet
-		Bullet bul = null;
-		int finish = u.length;
-		if (!u[u.length - 1].contains("id")) {
-			finish--;
-		}
-		// For all bullets in received message
-		for (int i = 0; i < finish; i++) {
-			HashMap<String, String> hs = Objet.preParse(u[i]);
-			int idTest = Integer.parseInt(hs.get("id"));
-			// Find corresponding bullet in plateau
-			bul = this.getBulletById(idTest);
-			// Create bullet if not in plateau
-			if (bul == null) {
-				bul = Bullet.createNewBullet(hs);
-			}
-			bul.parse(hs);
-			bul.toKeep = true;
-		}
-		// Destroy bullets who didn't give any news
-		for (Bullet b : this.bullets) {
-			if (!b.toKeep) {
-				b.setLifePoints(-1f);
-			} else {
-				b.toKeep = false;
-			}
-		}
-	}
-
-	@Deprecated
-	public void parseSpell(String s) {
-		String[] u = s.split("\\|");
-		// Loop over each spells
-		SpellEffect bul = null;
-		int finish = u.length;
-		if (!u[u.length - 1].contains("id")) {
-			finish--;
-		}
-		// For all spellEffects in received message
-		for (int i = 0; i < finish; i++) {
-			HashMap<String, String> hs = Objet.preParse(u[i]);
-			int idTest = Integer.parseInt(hs.get("id"));
-			// Find corresponding spellEffect in plateau
-			bul = this.getSpellEffectById(idTest);
-			// Create spellEffect if not in plateau
-			if (bul == null) {
-				bul = SpellEffect.createNewSpell(hs);
-			}
-			bul.parse(hs);
-			bul.toKeep = true;
-		}
-		// Destroy spellEffects who didn't give any news
-		for (SpellEffect b : this.spells) {
-			if (!b.toKeep) {
-				b.setLifePoints(-1f);
-			} else {
-				b.toKeep = false;
-			}
-		}
-	}
 
 }

@@ -6,8 +6,8 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class SpellFirewall extends Spell{
 

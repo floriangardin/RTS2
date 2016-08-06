@@ -2,7 +2,7 @@ package display;
 
 import model.Game;
 import model.Plateau;
-import model.Utils;
+import utils.Utils;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -97,7 +97,7 @@ public class TopBar extends Bar {
 
 		// timer
 		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
-		s = ""+model.Utils.gameTime(Game.g.startTime);
+		s = ""+utils.Utils.gameTime(Game.g.startTime);
 		g.setColor(Color.white);
 		g.drawString(s, rX/2-Game.g.font.getWidth(s)/2, yCentral+ratioSizeTimerY*rY/2f-20);
 
@@ -122,7 +122,7 @@ public class TopBar extends Bar {
 
 
 		g.setColor(Color.white);
-		g.drawString(model.Utils.gameTime(Game.g.startTime), this.sizeX/3, (this.sizeY-28)/2);
+		g.drawString(utils.Utils.gameTime(Game.g.startTime), this.sizeX/3, (this.sizeY-28)/2);
 		// Draw subcomponents :
 
 		String food = ":";

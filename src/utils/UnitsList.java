@@ -1,4 +1,4 @@
-package units;
+package utils;
 
 public enum UnitsList {
 
@@ -26,17 +26,5 @@ public enum UnitsList {
 	    this.specialPrice = special;
 	 }
 	
-	public static UnitsList switchName(String name){
-		switch(name){
-		case "Knight" : return Knight;
-		case "Crossbowman" : return Crossbowman;
-		case "Spearman" : return Spearman;
-		case "Priest" : return Priest;
-		case "Inquisitor" : return Inquisitor;
-		case "Archange" : return Archange;
-		case "Test" : return Test;
-		default: return null;
-		}
-	}
 	
 }

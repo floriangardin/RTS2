@@ -3,47 +3,21 @@ package units;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import data.Attributs;
+import data.Data;
 import main.Main;
-import model.Data;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
+import utils.UnitsList;
 
 public class UnitKnight extends Character {
 
-	public static float radiusCollisionBox = 40f*Main.ratioSpace;
 	
-	public UnitKnight(GameTeam gameteam) {
-		super(gameteam);
-		this.name = "knight";
-		this.printName = "Chevalier";
-		this.type = UnitsList.Knight;
-		this.unitType = KNIGHT;
-		this.attackDuration = 2f;
-		this.maxLifePoints = 90f*gameteam.data.healthFactor;
-		this.lifePoints = this.maxLifePoints;
-		this.sight = 400f*Main.ratioSpace;
-		this.collisionBox = new Circle(0f,0f,radiusCollisionBox);
-		this.selectionBox = new Rectangle(-1.5f*radiusCollisionBox,-2.5f*radiusCollisionBox,3*radiusCollisionBox,3*radiusCollisionBox);
-		this.maxVelocity = 160f*Main.ratioSpace*gameteam.data.speedFactor;
-		this.armor = 3f;
-		this.damage = 12f*gameteam.data.damageFactor;
-		this.chargeTime = 4f;
-		this.weapon = "sword";
-		this.civ = gameteam.civ;
-		this.sightBox = new Circle(0,0,this.sight);
-		this.range = this.radiusCollisionBox+20f*Main.ratioSpace;
-		this.horse = true;
-		this.spells.add(gameteam.data.immolation);
-		this.spells.add(gameteam.data.fence);
-		this.animStep = 32f;
-		this.explosionWhenImmolate = gameteam.data.explosionWhenImmolate;
-		
-	}
 	
-	public UnitKnight(UnitKnight unit, float x, float y,int id) {
-		super(unit,x,y,id);
+	public UnitKnight(float x, float y,int team) {
+		super(x,y,UnitsList.Knight,team);
 	}
 
 	
@@ -53,14 +27,14 @@ public class UnitKnight extends Character {
 		}
 		Character c = (Character) this.target;
 		// Attack sound
-		float damage = this.damage;
+		float damage = this.getAttribut(Attributs.damage);
 		if(Game.g.sounds!=null)
-			Game.g.sounds.get(this.weapon).play(1f,Game.g.options.soundVolume);
-		if(c.weapon=="bow"){
+			Game.g.sounds.get(this.getAttributString(Attributs.weapon)).play(1f,Game.g.options.soundVolume);
+		if(c.getAttributString(Attributs.weapon)=="bow"){
 			damage = damage*this.getGameTeam().data.bonusSwordBow;
 		}
-		if(c.armor<damage){
-			c.setLifePoints(c.lifePoints+c.armor-damage);
+		if(c.getAttribut(Attributs.armor)<damage){
+			c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 		}
 		// Reset the state
 		this.state = 0f;
@@ -70,121 +44,8 @@ public class UnitKnight extends Character {
 	
 
 
-	public void moveToward(Objet o){
-		if(o==null && this.checkpointTarget==null){
-			return;
-		}
-		float newvx, newvy;
-		newvx = o.getX()-this.getX();
-		newvy = o.getY()-this.getY();
-		//Creating the norm of the acceleration and the new velocities among x and y
-		float maxVNorm = this.maxVelocity/((float)this.getGameTeam().data.FRAMERATE);
-		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
-
-		//Checking if the point is not too close of the target
-		if((this.group.size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
-			// 1st possible call of stop: the target is near
-			this.stop();
-			return;
-		}
-		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
-		if(vNorm>maxVNorm){
-			//if the velocity is too large it is reduced to the maxVelocity value
-			newvx = newvx*maxVNorm/vNorm;
-			newvy = newvy*maxVNorm/vNorm;
-		}
-		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
-		float newX,newY;
-		newX = this.getX()+newvx;
-		newY = this.getY()+newvy;
-		//if the new coordinates are beyond the map's limits, it must be reassigned
-		if(newX<this.collisionBox.getBoundingCircleRadius()){
-			newX = this.collisionBox.getBoundingCircleRadius();
-			newvx = Math.max(newvx,0f);
-		}
-		if(newY<this.collisionBox.getBoundingCircleRadius()){
-			newY = this.collisionBox.getBoundingCircleRadius();
-			newvy = Math.max(newvy, 0f);
-		}
-		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
-			newvx = Math.min(0f, newvx);
-		}
-		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
-			newvy = Math.min(0f, newvy);
-		}
-
-		//eventually we reassign the position and velocity variables
-		this.setVXVY(newvx, newvy);
-
-		this.setXY(newX, newY);
-
-
-
-		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
-		if(this.animationValue>=4f){
-			this.animationValue = 0f;
-			this.animation = (this.animation+1)%5;
-			if(this.animation == 0){
-				this.animation = 1;
-			}
-
-		}
-
-	}
-
 	
-	public void setVXVY(float vx, float vy){
-		this.vx = vx;
-		this.vy = vy;
-		int sector = 0;
-		if(vx==0 && vy==0){
-			//Orientation toward target
-
-			if(this.target!=null){
-				vx =this.target.x-this.x;
-				vy = this.target.y-this.y;
-				if(vx>0f){
-					if(vy>vx){
-						sector = 2;
-					} else if(vy<-vx){
-						sector = 8;
-					} else {
-						sector = 4;
-					}
-				} else {
-					if(vy>-vx){
-						sector = 2;
-					} else if(vy<vx){
-						sector = 8;
-					} else {
-						sector = 6;
-					}
-				}
-				this.orientation = sector;
-			}
-			return;
-		}
-		if(vx>0f){
-			if(vy>vx){
-				sector = 2;
-			} else if(vy<-vx){
-				sector = 8;
-			} else {
-				sector = 4;
-			}
-		} else {
-			if(vy>-vx){
-				sector = 2;
-			} else if(vy<vx){
-				sector = 8;
-			} else {
-				sector = 6;
-			}
-		}
-		this.orientation = sector;
-	}
+	
 
 
 //	public Graphics draw(Graphics g){

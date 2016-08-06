@@ -7,8 +7,8 @@ import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import model.Player;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class SpellBlessedArea extends Spell{
 	public float remainingTime;

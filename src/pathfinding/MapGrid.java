@@ -4,8 +4,8 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class MapGrid {
 

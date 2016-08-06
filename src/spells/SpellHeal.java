@@ -6,8 +6,8 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 //TODO : sort qui use heal
 public class SpellHeal extends Spell{

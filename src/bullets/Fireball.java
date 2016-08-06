@@ -5,13 +5,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
+import data.Attributs;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class Fireball extends Bullet {
 
@@ -26,10 +27,7 @@ public class Fireball extends Bullet {
 		//MULTI 
 		// Parameters
 		this.altitude = 0f;
-		this.areaEffect = 40f*Main.ratioSpace;
-		float Vmax = 300f*Main.ratioSpace;
-		float size = 10f*Main.ratioSpace;
-		this.name = "fireball";
+		this.name = "Fireball";
 		//
 		if(id==-1){
 			this.id = Game.g.idBullet;
@@ -49,6 +47,9 @@ public class Fireball extends Bullet {
 		this.lifePoints = 30f;
 		this.owner = owner;
 		this.setTeam(owner.getTeam());
+		this.areaEffect = getAttribut(Attributs.size)*Main.ratioSpace;
+		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
+		float size = 10f*Main.ratioSpace;
 		this.setTarget(new Checkpoint(targetX,targetY));
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude);
@@ -103,7 +104,7 @@ public class Fireball extends Bullet {
 	}
 	public void boom(Character c){
 		float damage = this.damage;
-		if(c.weapon!= null && c.weapon == "bow")
+		if(c.getAttributString(Attributs.weapon)!= null && c.getAttributString(Attributs.weapon) == "bow")
 			damage = damage * this.getGameTeam().data.bonusBowFoot;
 		c.setLifePoints(c.lifePoints-damage);
 		c.isAttacked();
@@ -142,15 +143,6 @@ public class Fireball extends Bullet {
 	}
 	
 	
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringBullet();
-		if(this.owner.target!=null){
-			s+="targetX:"+this.owner.target.x+";";
-			s+="targetY:"+this.owner.target.y+";";
-		}
-		return s;
-		
-	}
 
 	@Override
 	public void collision(Character c) {

@@ -14,13 +14,13 @@ import org.newdawn.slick.geom.Shape;
 import buildings.Bonus;
 import buildings.Building;
 import bullets.Bullet;
+import data.Attributs;
 import pathfinding.Case;
 import units.Character;
 
 public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
-	public float maxLifePoints;
 	public int id;
 	public int mode;
 	public int orientation=2;
@@ -28,21 +28,18 @@ public abstract class Objet implements java.io.Serializable {
 	public float incrementf;
 	public float x;
 	public float y;
-	public float sight;
 	public int idCase;
 	public Shape collisionBox;
 	public Rectangle selectionBox;
 	public Color color;
 	public float lifePoints;
 	public String name;
-	public String printName;
 	protected GameTeam gameteam;
 
 	// visibility boolean 
-	public boolean visibleByCurrentPlayer;
+	public boolean visibleByCurrentTeam;
 	public boolean visibleByCamera;
 	
-	public float size;
 	public int animation = 0;
 	public float vx;
 	public float vy;
@@ -82,17 +79,12 @@ public abstract class Objet implements java.io.Serializable {
 	public String toStringActionObjet(){
 		String s = "";
 
-		s+="maxLifePoints:"+maxLifePoints+";";
+		s+="maxLifePoints:"+getAttribut(Attributs.maxLifepoints)+";";
 
 
 		return s;
 	}
 
-	public void parseActionObjet(HashMap<String,String> hs){
-		if(hs.containsKey("maxLifePoints")){
-			this.maxLifePoints=Float.parseFloat(hs.get("maxLifePoints"));
-		}
-	}
 
 	public void setName(String s){
 		this.name = s;
@@ -157,10 +149,10 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public void setLifePoints(float lifepoints){
-		if(lifepoints<this.maxLifePoints)
+		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
 			this.lifePoints= lifepoints;
 		else{
-			this.lifePoints = this.maxLifePoints;
+			this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		}
 	}
 	// TOSTRING METHODS
@@ -188,28 +180,32 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		return hs;
 	}
-	public void parseObjet(HashMap<String,String> hs){
-		if(hs.containsKey("x")){
-			this.setXY(Float.parseFloat(hs.get("x")),Float.parseFloat(hs.get("y")));
-		}
-		if(hs.containsKey("lifePoints")){
-			this.lifePoints=Float.parseFloat(hs.get("lifePoints"));
-		}
-		if(hs.containsKey("sight")){
-			this.sight=Float.parseFloat(hs.get("sight"));
-		}
-		if(hs.containsKey("team")){
-			this.setTeam(Integer.parseInt(hs.get("team")));
-		}
-		if(hs.containsKey("orientation")){
-			this.orientation = Integer.parseInt(hs.get("orientation"));
-		}
-	}
+	
 	public void parse(HashMap<String, String> hs) {
 		
 	}
 
+	public float getAttribut(Attributs attribut){
+		return this.getGameTeam().data.getAttribut(this.name.toLowerCase(),attribut);
+	}
+	public String getAttributString(Attributs attribut){
+		return this.getGameTeam().data.getAttributString(this.name.toLowerCase(),attribut);
+	}
 	
+	public float getMaxSize(){
+		if(this.getGameTeam().data.datas.containsKey(this.name)){
+			if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.size)){
+				return getAttribut(Attributs.size)+10f;
+			} else if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.sizeX)){
+				float sizeX=this.getGameTeam().data.getAttribut(this.name.toLowerCase(),Attributs.sizeX);
+				float sizeY=this.getGameTeam().data.getAttribut(this.name.toLowerCase(),Attributs.sizeY);
+				return (float) Math.sqrt(sizeX*sizeX+sizeY*sizeY)+10f;
+			}
+		}
+		return 1f;
+	}
+
+
 	
 }
 

@@ -1,13 +1,12 @@
 package spells;
 
+import data.Attributs;
 import main.Main;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
-import model.Player;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class SpellInstantHealth extends Spell{
 
@@ -37,7 +36,7 @@ public class SpellInstantHealth extends Spell{
 		}
 
 		if(h instanceof Character && h.getTeam()==launcher.getTeam() && launcher!=h && this.range>=Utils.distance(h, launcher)){
-			h.lifePoints = ((Character) h ).maxLifePoints;
+			h.lifePoints = ((Character) h ).getAttribut(Attributs.maxLifepoints);
 			
 		}
 	}

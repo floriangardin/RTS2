@@ -120,11 +120,5 @@ public class Firewall extends SpellEffect{
 		}
 	}
 	
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
-		s+="x2:"+this.x2+";";
-		s+="y2:"+this.y2+";";
-		s+="idLauncher:"+this.owner.id+";";
-		return s;
-	}
+	
 }

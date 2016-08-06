@@ -69,7 +69,7 @@ public class BlessedArea extends SpellEffect{
 		if(this.remainingTime<=0f){
 			this.lifePoints = -1f;
 			for(Character c:this.targeted){
-				c.chargeTime/=this.effect;
+				//c.chargeTime/=this.effect;
 				toDelete.add(c);
 			}
 		}
@@ -79,7 +79,7 @@ public class BlessedArea extends SpellEffect{
 		toDelete = new Vector<Character>();
 		for(Character c:this.targeted){
 			if(!c.collisionBox.intersects(this.collisionBox)){
-				c.chargeTime/=this.effect;
+				//c.chargeTime/=this.effect;
 				toDelete.add(c);
 			}
 		}
@@ -116,15 +116,11 @@ public class BlessedArea extends SpellEffect{
 
 	public void collision(Character c){
 		if(this.lifePoints>0 && c.getTeam()==owner.getTeam() && !this.targeted.contains(c)){
-			c.chargeTime*=this.effect;
+			//c.chargeTime*=this.effect;
 			this.targeted.addElement(c);
 		}
 	}
 	
 	
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
-		s+="idLauncher:"+this.owner.id+";";
-		return s;
-	}
+	
 }

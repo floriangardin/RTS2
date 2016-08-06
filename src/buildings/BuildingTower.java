@@ -6,36 +6,28 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import bullets.Fireball;
+import data.Attributs;
+import data.Data;
 import main.Main;
 import model.Checkpoint;
-import model.Data;
 import model.Game;
 import model.Plateau;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 public class BuildingTower extends Building{
 
 
-	public float chargeTime;
 	public boolean canAttack;
 	public Character target;
-	public float damage;
 
 	public Image animationBleu;
 	public Image animationRouge;
 
 	public BuildingTower(float f, float h, int team){
 		teamCapturing = 0;
-		this.damage = 20f;
 		this.setTeam(team);
-		this.maxLifePoints = this.gameteam.data.towerLifePoints;
-		this.sizeX = Data.towerSizeX;
-		this.sizeY = Data.towerSizeY;
 		this.name = "tower";
-		this.printName = "Tour de Guet";
-		this.chargeTime = this.gameteam.data.towerChargeTime;
-		this.sight = this.gameteam.data.towerSight;
 //		if(getTeam()==1){
 //			this.image = this.p.g.images.get("buildingTowerBlue");
 //		} else if(getTeam()==2){
@@ -44,7 +36,7 @@ public class BuildingTower extends Building{
 //			this.image = this.p.g.images.get("buildingTowerNeutral");
 //		}
 		this.initialize(f, h);
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.sizeY/2);
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2);
 		canAttack = false;
 		this.animationBleu = Game.g.images.get("buildingTowerBlueAnimation");
 		this.animationRouge = Game.g.images.get("buildingTowerRedAnimation");
@@ -60,7 +52,7 @@ public class BuildingTower extends Building{
 		}
 		if(!this.canAttack)
 			this.setCharge(this.charge+Main.increment);
-		if(this.charge>this.chargeTime && this.getGameTeam().id!=0){
+		if(this.charge>this.getAttribut(Attributs.chargeTime) && this.getGameTeam().id!=0){
 			this.canAttack = true;
 			this.charge = 0f;
 
@@ -74,7 +66,7 @@ public class BuildingTower extends Building{
 			this.target = null;
 		}
 		if(canAttack){
-			if(target==null || this.target.lifePoints<0f ||Utils.distance(this, this.target)>sight){
+			if(target==null || this.target.lifePoints<0f ||Utils.distance(this, this.target)>getAttribut(Attributs.sight)){
 				Vector<Character> target= Game.g.plateau.getEnnemiesInSight(this);
 				if(target.size()>0){
 					this.target = target.get(0);
@@ -82,8 +74,8 @@ public class BuildingTower extends Building{
 			}
 
 			//Launch a fireball on target
-			if(target!=null && Utils.distance(this, this.target)<this.sight){
-				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.damage,-1);
+			if(target!=null && Utils.distance(this, this.target)<this.getAttribut(Attributs.sight)){
+				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
 				this.canAttack= false;
 				this.charge = 0f;
 			}
@@ -97,11 +89,13 @@ public class BuildingTower extends Building{
 
 	
 	public void drawAnimation(Graphics g){
+		float sizeX = getAttribut(Attributs.sizeX);
+		float sizeY = getAttribut(Attributs.sizeY);
 		if(getTeam()==1){
-			g.drawImage(this.animationBleu, this.x-(this.sizeX/1.8f)/3, this.y-this.sizeY,this.x+(this.sizeX/1.8f)/3, this.y-this.sizeY+this.sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
+			g.drawImage(this.animationBleu, this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
 		}
 		if(getTeam()==2){
-			g.drawImage(this.animationRouge, this.x-(this.sizeX/1.8f)/3, this.y-this.sizeY,this.x+(this.sizeX/1.8f)/3, this.y-this.sizeY+this.sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
+			g.drawImage(this.animationRouge, this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animation/30f)*100, 0, ((int)(animation/30f)+1)*100, 100);
 		}
 	}
 }

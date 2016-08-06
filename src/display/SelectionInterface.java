@@ -6,10 +6,11 @@ import org.newdawn.slick.Image;
 
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
+import data.Attributs;
 import model.Game;
 import model.Objet;
-import model.Utils;
 import units.Character;
+import utils.Utils;
 
 
 public class SelectionInterface extends Bar {
@@ -72,7 +73,7 @@ public class SelectionInterface extends Bar {
 				}
 			} else {
 				g.setColor(Color.white);
-				String s = b.printName;
+				String s = b.getAttributString(Attributs.printName);
 				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 			}
 		} else if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof BuildingTech ){
@@ -95,7 +96,7 @@ public class SelectionInterface extends Bar {
 				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.queue.tech.prodTime, sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.queue.tech.prodTime);
 			} else {
 				g.setColor(Color.white);
-				String s = b.printName;
+				String s = b.getAttributString(Attributs.printName);
 				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 			}
 		}else if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof Character ){
@@ -122,14 +123,14 @@ public class SelectionInterface extends Bar {
 					g.drawRect(startX+this.sizeX/4, startY+this.sizeY/4,3*sizeX/4-5, 3*sizeY/4-5);
 					g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,imageWidth*c.animation,0,imageWidth*c.animation+imageWidth,imageHeight);
 					g.setColor(Color.white);
-					String s = a.printName;
+					String s = a.getAttributString(Attributs.printName);
 					g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 					g.setColor(Color.darkGray);
 					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
-					float x = a.lifePoints/a.maxLifePoints;
+					float x = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
 					g.setColor(new Color((1f-x),x,0));
-					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+(a.maxLifePoints-a.lifePoints)*(3*sizeY/4-20f)/a.maxLifePoints, sizeX/8f,3*sizeY/4-20f-(a.maxLifePoints-a.lifePoints)*(3*sizeY/4-20f)/a.maxLifePoints);
+					g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeY/4-20f)/a.getAttribut(Attributs.maxLifepoints), sizeX/8f,3*sizeY/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeY/4-20f)/a.getAttribut(Attributs.maxLifepoints));
 					g.setColor(Color.white);
 					g.drawRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 				}
@@ -146,7 +147,7 @@ public class SelectionInterface extends Bar {
 						x2 = (int) (x1+sVB);
 						y2 = (int) (y1+sVB);
 					}
-					float x = a.lifePoints/a.maxLifePoints;
+					float x = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
 					g.setColor(Color.darkGray);
 					g.fillRect(x1, y1, x2-x1, y2-y1);
 					g.setColor(new Color((1f-x),x,0));

@@ -84,11 +84,5 @@ public class Frozen extends SpellEffect{
 		}
 	}
 
-	public String toString(){
-		String s = toStringObjet()+toStringActionObjet()+toStringSpellEffect();
-		s+="x:"+this.x+";";
-		s+="y:"+this.y+";";
-		s+="idLauncher:"+this.owner.id+";";
-		return s;
-	}
+	
 }

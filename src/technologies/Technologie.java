@@ -2,7 +2,7 @@ package technologies;
 
 import org.newdawn.slick.Image;
 
-import model.Data;
+import data.Data;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;

@@ -1,10 +1,10 @@
 ###########################
-# Map Apocalypse #
+# Map Apocalypse2 #
 ###########################
 
 
 #Creator: Welcome
-# date: 22/03/2016
+# date: 29/03/2016
 
 & sizeX 31
 & sizeY 31
@@ -25,27 +25,25 @@
 = buildings
 ##############
 
-Stable 0 23.0 20.0
-Stable 0 4.0 8.0
-Academy 0 23.0 8.0
-Academy 0 4.0 20.0
 University 0 14.0 14.0
-Mill 0 9.0 3.0
-Barrack 0 13.0 7.0
-Mill 0 3.0 3.0
 Mine 0 25.0 3.0
-Mine 0 19.0 3.0
-Tower 0 12.0 1.0
-Tower 0 17.0 1.0
-Barrack 0 13.0 21.0
-Mill 0 9.0 27.0
 Mill 0 3.0 27.0
 Mine 0 25.0 27.0
-Mine 0 19.0 27.0
-Tower 0 17.0 28.0
-Tower 0 12.0 28.0
-Barrack 0 24.0 14.0
-Barrack 0 2.0 14.0
+Barracks 0 24.0 14.0
+Barracks 0 2.0 14.0
+Mill 0 9.0 28.0
+Mine 0 19.0 28.0
+Mill 0 9.0 1.0
+Mine 0 19.0 1.0
+Mill 0 3.0 3.0
+Barracks 0 8.0 21.0
+Stable 0 18.0 21.0
+Tower 0 19.0 24.0
+Stable 0 9.0 7.0
+Tower 0 10.0 5.0
+Tower 0 19.0 5.0
+Barracks 0 18.0 7.0
+Tower 0 10.0 24.0
 
 #######
 = units
@@ -60,19 +58,19 @@ Spearman 2 16.0 25.0
 = naturalObjects
 ###########
 
-Tree 1 10.0 7.0
-Tree 2 10.0 23.0
-Tree 2 20.0 7.0
-Tree 1 20.0 23.0
-Tree 1 1.0 20.0
-Tree 2 2.0 22.0
-Tree 1 3.0 24.0
-Tree 1 27.0 24.0
-Tree 2 28.0 22.0
-Tree 1 29.0 20.0
-Tree 2 27.0 6.0
-Tree 1 28.0 8.0
-Tree 2 29.0 10.0
-Tree 2 3.0 6.0
-Tree 1 2.0 8.0
-Tree 2 1.0 10.0
+Tree 1 27.0 8.0
+Tree 1 3.0 8.0
+Tree 2 4.0 22.0
+Tree 1 3.0 21.0
+Tree 1 3.0 22.0
+Tree 2 3.0 23.0
+Tree 1 26.0 23.0
+Tree 1 26.0 21.0
+Tree 2 26.0 22.0
+Tree 1 27.0 23.0
+Tree 2 27.0 9.0
+Tree 2 26.0 8.0
+Tree 2 26.0 7.0
+Tree 2 4.0 8.0
+Tree 2 5.0 8.0
+Tree 1 3.0 9.0

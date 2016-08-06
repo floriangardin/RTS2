@@ -1,10 +1,12 @@
 package technologies;
 
 
+import data.Attributs;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
+import utils.UnitsList;
 
 public class DualistHealth3 extends Technologie {
 
@@ -16,21 +18,12 @@ public class DualistHealth3 extends Technologie {
 	
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		// Age passing does nothing
-		// Then update
-		this.gameteam.data.knight.maxLifePoints+=10;
-		this.gameteam.data.priest.maxLifePoints+=10;
-		this.gameteam.data.inquisitor.maxLifePoints+=10;
-		this.gameteam.data.spearman.maxLifePoints+=10;
-		this.gameteam.data.crossbowman.maxLifePoints+=10;
-		// Age passing does nothing
-		// Then update all existing units
-		for(Character c : Game.g.plateau.characters){
-			if(c.getTeam() == this.gameteam.id){
-				c.maxLifePoints+=10;
-			}
-		}
-		
+		this.gameteam.data.addAttribut(UnitsList.Spearman.name, Attributs.maxLifepoints, 30f);
+		this.gameteam.data.addAttribut(UnitsList.Crossbowman.name, Attributs.maxLifepoints, 30f);
+		this.gameteam.data.addAttribut(UnitsList.Knight.name, Attributs.maxLifepoints, 30f);
+		this.gameteam.data.addAttribut(UnitsList.Priest.name, Attributs.maxLifepoints, 30f);
+		this.gameteam.data.addAttribut(UnitsList.Inquisitor.name, Attributs.maxLifepoints, 30f);
+		this.gameteam.data.addAttribut(UnitsList.Archange.name, Attributs.maxLifepoints, 30f);
 	}
 
 	

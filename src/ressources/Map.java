@@ -20,13 +20,14 @@ import buildings.BuildingMine;
 import buildings.BuildingStable;
 import buildings.BuildingTower;
 import buildings.BuildingUniversity;
+import data.Data;
 import main.Main;
-import model.Data;
 import model.Game;
 import model.Plateau;
 import nature.Tree;
 import pathfinding.MapGrid;
-import units.UnitsList;
+import units.Character;
+import utils.UnitsList;
 
 public class Map {
 
@@ -176,7 +177,7 @@ public class Map {
 				} else {
 					throw new Exception();
 				}
-				data.create(UnitsList.switchName(tab[0]), Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid);
+				Character.createCharacter(Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid, UnitsList.valueOf(tab[0]), Integer.parseInt(tab[1]));
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){

@@ -13,6 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
 import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
+import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
@@ -23,15 +24,15 @@ import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
-import model.Utils;
 import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
+import utils.UnitsList;
+import utils.Utils;
 
 public class Character extends Objet{
 
 
-	public boolean explosionWhenImmolate = false;
 	//Isattackec
 	public boolean isAttacked;
 	public float timerAttacked = 0f;
@@ -58,26 +59,15 @@ public class Character extends Objet{
 	// General attributes
 	public Circle sightBox;
 
-	public float animStep = 2f;
-	public float armor = 0f;	
-
-	public float maxVelocity = 100f;
-	public float range;
-	public float damage;
-	
-	//philippe
-	public String weapon;
 	//Dead since how many rounds
 	public int deadSince = 0;
 	public IAUnit ia;
 
 	public boolean moveAhead;
 	public float state;
-	public float attackDuration = 10f;
 	public boolean isAttacking  = false;
 	public float attackState = 0f;
 
-	public float chargeTime;
 
 	// Group attributes
 	public Character leader;
@@ -110,64 +100,45 @@ public class Character extends Objet{
 	public Vector<Integer> waypoints = new Vector<Integer>();
 
 
-
-
-
-
-
-	// Constructor for data ( not adding in plateau not giving location)
-	public Character(GameTeam gameteam){
-		this.setTeam(gameteam);
-		this.name = "character";
-		this.size = 30f*Main.ratioSpace;
-		this.isHidden = false;
-		this.spells = new Vector<Spell>();
-
+	public static Character createCharacter(float x,float y,UnitsList name, int team){
+		switch(name){
+		case Spearman : return new UnitSpearman(x,y,team);
+		case Knight : return new UnitKnight(x,y,team);
+		case Crossbowman : return new UnitCrossbowman(x, y, team);
+		case Priest : return new UnitPriest(x,y,team);
+		case Inquisitor : return new UnitInquisitor(x, y, team);
+		case Archange : return new UnitArchange(x, y, team);
+		default: return null;		
+		}
 	}
+
 	// Copy constructor , to really create an unit
-	public Character(Character c,float x,float y,int id){
-		this.size = c.size;
+	protected Character(float x,float y,UnitsList name, int team){
 		Game.g.plateau.addCharacterObjets(this);
-		if(id==-1){
-			this.id = Game.g.idChar;
-			Game.g.idChar+=1;
-		}
-		else{
-			this.id = id;
-		}
-		this.name = c.name;
-		this.printName = c.printName;
-		this.setTeam(c.getTeam());
-		this.damage = c.damage;
-		this.maxLifePoints = c.maxLifePoints;
-		this.lifePoints = c.maxLifePoints;
-		this.sight = c.sight;
-		this.collisionBox = new Circle(c.collisionBox.getCenterX(),c.collisionBox.getCenterY(),c.collisionBox.getBoundingCircleRadius());
-		this.selectionBox = new Rectangle(c.selectionBox.getX(),c.selectionBox.getY(),c.selectionBox.getWidth(),c.selectionBox.getHeight());
-		this.sightBox = new Circle(c.sightBox.getCenterX(),c.sightBox.getCenterY(),c.sightBox.getBoundingCircleRadius());
+		this.id = Game.g.idChar;
+		Game.g.idChar+=1;
+		this.name = name.name;
+		this.setTeam(team);
+		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
+		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
+		this.selectionBox = new Rectangle(1f,1f,this.getAttribut(Attributs.size),this.getAttribut(Attributs.size));
+		this.sightBox = new Circle(1f,1f,this.getAttribut(Attributs.sight));
 		this.setXY(x, y);
-		this.maxVelocity = c.maxVelocity;
-		this.weapon = c.weapon;
-		this.range = c.range;
-		this.chargeTime = c.chargeTime;
-		this.isHidden = c.isHidden;
+		this.isHidden = false;
 		this.group = new Vector<Character>();
 		this.group.add(this);
-		this.animStep = c.animStep;
-		this.attackDuration = c.attackDuration;
 		this.getGameTeam().pop++;
 		this.mode = NORMAL;
-		this.explosionWhenImmolate = c.explosionWhenImmolate;
-
-		for(Spell s:c.spells){
-			this.spells.addElement(s);
-			this.spellsState.addElement(0f);
-		}
+		// TODO : ajouter les sorts
+//		for(Spell s:c.spells){
+//			this.spells.addElement(s);
+//			this.spellsState.addElement(0f);
+//		}
 
 
 	}
-
-
+	
+	
 	public boolean isLeader(){
 		return this.leader==this;
 	}
@@ -408,12 +379,12 @@ public class Character extends Objet{
 		newvx = o.getX()-this.getX();
 		newvy = o.getY()-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
-		float maxVNorm = this.maxVelocity/(Main.framerate);
+		float maxVNorm = this.getAttribut(Attributs.maxVelocity)/(Main.framerate);
 		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
 		if(Game.deplacementGroupIntelligent && this.group!=null){
 			//System.out.println("héhé");
 			for(Character c : this.group){
-				maxVNorm = Math.min(maxVNorm, c.maxVelocity/(Main.framerate));
+				maxVNorm = Math.min(maxVNorm, c.getAttribut(Attributs.maxVelocity)/(Main.framerate));
 			}
 		}
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
@@ -457,21 +428,17 @@ public class Character extends Objet{
 
 		this.setXY(newX, newY);
 
-		this.animationValue+=this.animStep/(float)this.getGameTeam().data.FRAMERATE;
+		
+		this.animationValue+=this.getAttribut(Attributs.animStep)/(float)this.getGameTeam().data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
+			this.animation = (this.animation+1)%5;
+			if(this.animation == 0){
+				this.animation = 1;
+			}
+
 		}
-		if(animationValue!=0f){
-			if(this.animationValue<1f || (this.animationValue>=2f && this.animationValue<3f)){
-				animation = 1;
-			}	
-			else if(this.animationValue>=1f && this.animationValue<2f){
-				animation = 0;
-			}	
-			else{
-				animation = 2;
-			}	
-		}
+		
 
 	}
 	public void stop(){
@@ -501,7 +468,7 @@ public class Character extends Objet{
 
 		g.setColor(Color.black);
 		g.fillRect(this.getX()-r/2-1f,-47f+this.getY()-r,r+2f,8f);
-		float x = this.lifePoints/this.maxLifePoints;
+		float x = this.lifePoints/this.getAttribut(Attributs.maxLifepoints);
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
 		g.fillRect(this.getX()-r/2,-46f+this.getY()-r,x*r,6f);
 	}
@@ -511,8 +478,12 @@ public class Character extends Objet{
 
 		float r = 60f*Main.ratioSpace;
 		int direction = (orientation/2-1);
+		// inverser gauche et droite
+		if(direction==1 || direction==2){
+			direction = ((direction-1)*(-1)+2);
+		}
 		Image im;
-		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
+		im = Game.g.images.getUnit(name.toLowerCase(), direction, animation, getGameTeam().id, isAttacking);
 		if(mouseOver && frozen<=0f && Game.g.round>Game.nbRoundInit){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
@@ -540,7 +511,7 @@ public class Character extends Objet{
 		}
 
 		// Drawing the health bar
-		if(!isImmolating && this.lifePoints<this.maxLifePoints){
+		if(!isImmolating && this.lifePoints<this.getAttribut(Attributs.maxLifepoints)){
 			drawLifePoints(g,r);
 		}
 
@@ -878,10 +849,10 @@ public class Character extends Objet{
 		if(c.horse && this.name=="Spearman"){
 			return true;
 		}
-		if(!c.horse && this.weapon == "bow"){
+		if(!c.horse && this.getAttributString(Attributs.weapon) == "bow"){
 			return true;
 		}
-		if(c.weapon == "bow" && this.weapon =="wand"){
+		if(c.getAttributString(Attributs.weapon) == "bow" && this.getAttributString(Attributs.weapon) =="wand"){
 			return true;
 		}
 		return b;
@@ -890,7 +861,7 @@ public class Character extends Objet{
 
 	public void actionIAScript(){
 		this.updateSetTarget();
-		Circle range = new Circle(this.getX(), this.getY(), this.range);
+		Circle range = new Circle(this.getX(), this.getY(), this.getAttribut(Attributs.range));
 		if(!isAttacking && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
 			if(this.mode!=Character.HOLD_POSITION)
 				this.move();
@@ -900,7 +871,7 @@ public class Character extends Objet{
 				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*1*this.size){
+				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*1*this.getAttribut(Attributs.size)){
 					for(Character c: this.group){
 						if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
@@ -915,9 +886,9 @@ public class Character extends Objet{
 					}
 				}
 				// avoiding problem if two members of the group are close to the target
-				if(Utils.distance(this, this.getTarget())<2*this.size){
+				if(Utils.distance(this, this.getTarget())<2*this.getAttribut(Attributs.size)){
 					for(Character c:this.group){
-						if(Utils.distance(c, c.getTarget())<2*c.size){
+						if(Utils.distance(c, c.getTarget())<2*c.getAttribut(Attributs.size)){
 							this.stop();
 							c.stop();
 						}
@@ -932,14 +903,14 @@ public class Character extends Objet{
 			}
 			if(!isAttacking)
 				this.stop();
-			if(state>=chargeTime && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
+			if(state>=getAttribut(Attributs.chargeTime) && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
 				if(!this.isAttacking){
 					this.stop();
 					this.attackState = 0f;
 					this.isAttacking = true;
 				}
 			}
-			if(this.target!=null && this.isAttacking && this.attackState>this.attackDuration-2*Main.increment && this.mode!=TAKE_BUILDING){
+			if(this.target!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING){
 				this.useWeapon();
 				this.attackState = 0f;
 				this.isAttacking= false;
@@ -954,14 +925,14 @@ public class Character extends Objet{
 
 	public void updateChargeTime(){
 		// INCREASE CHARGE TIME AND TEST IF CAN ATTACK
-		if(!isAttacking && this.state<=this.chargeTime)
+		if(!isAttacking && this.state<=this.getAttribut(Attributs.chargeTime))
 			this.state+= Main.increment;
 		if(isAttacking && this.attackState==0){
 			this.animation = 0;
 		}
-		if(isAttacking && this.attackState<=this.attackDuration)
+		if(isAttacking && this.attackState<=this.getAttribut(Attributs.attackDuration))
 			this.attackState+= Main.increment;
-		if(this.attackState>=this.attackDuration){
+		if(this.attackState>=this.getAttribut(Attributs.attackDuration)){
 			this.attackState-=2*Main.increment;
 		}
 
@@ -976,11 +947,11 @@ public class Character extends Objet{
 
 	}
 	public void updateImmolation(){
-		this.lifePoints=this.maxLifePoints;
+		this.lifePoints=this.getAttribut(Attributs.maxLifepoints);
 		this.remainingTime-=1f;
 		if(this.remainingTime<=0f){
 			//Test if explosion
-			if(this.explosionWhenImmolate){
+			if(this.getAttribut(Attributs.explosionWhenImmolate)==1){
 				for(Character c : Game.g.plateau.characters){
 					if(Utils.distance(c, this)<100f && c!=this){
 						c.setLifePoints(c.lifePoints-20f);
@@ -1007,9 +978,9 @@ public class Character extends Objet{
 
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
-			if(this.damage>0f) 
+			if(this.getAttribut(Attributs.damage)>0f) 
 				potential_targets = Game.g.plateau.getEnnemiesInSight(this);
-			else if (this.damage<0f) 
+			else if (this.getAttribut(Attributs.damage)<0f) 
 				potential_targets = Game.g.plateau.getWoundedAlliesInSight(this);
 			else
 				potential_targets = new Vector<Character>();
@@ -1032,7 +1003,7 @@ public class Character extends Objet{
 	}
 	public void updateAnimation(){
 		if(this.isAttacking){
-			this.animation = Math.max(0, Math.min(4,(int)(this.attackDuration/this.attackState)));
+			this.animation = Math.max(0, Math.min(4,(int)(this.getAttribut(Attributs.attackDuration)/this.attackState)));
 		}
 
 
@@ -1111,74 +1082,6 @@ public class Character extends Objet{
 		}
 	}
 
-	@Deprecated
-	public String toStringEx(){
-		String s ="" ;
-		s+=toStringObjet();
-		s+= toStringActionObjet();
-
-		s+="weapon:"+weapon+";";
-
-		s+="chargeTime:"+chargeTime+";";
-
-		s+="state:"+state+";";
-
-		s+="spellState:";
-		for(float i : this.spellsState){
-			s+=i+",";			
-		}
-		if(this.spellsState.size()>0){
-			s=s.substring(0, s.length()-1);
-		}
-
-		s+=";";
-
-
-
-		s+="animation:"+animation+";";
-
-
-		s+="isImmolating:"+(isImmolating?1:0)+";";
-
-
-		s+="remainingTime:"+remainingTime+";";
-
-		return s;
-	}
-
-	@Deprecated
-	public void parseCharacterEx(HashMap<String,String> hs){
-		if(hs.containsKey("weapon")){
-			this.weapon=hs.get("weapon");
-		}
-		if(hs.containsKey("chargeTime")){
-			this.chargeTime=Float.parseFloat(hs.get("chargeTime"));
-		}
-		if(hs.containsKey("state")){
-			this.state=Float.parseFloat(hs.get("state"));
-		}
-		if(hs.containsKey("spellState")){
-			this.spellsState.clear();
-			String[] r = hs.get("spellState").split(",");
-			if(!r[0].equals("")){
-				for(int i = 0;i<r.length;i++){
-					this.spellsState.addElement(Float.parseFloat(r[i]));
-				}
-			}
-		}
-		if(hs.containsKey("animation")){
-			this.animation=Integer.parseInt(hs.get("animation"));
-		}
-		if(hs.containsKey("isImmolating")){
-			this.isImmolating=hs.get("isImmolating").equals("1");
-		}
-		if(hs.containsKey("remainingTime")){
-			this.remainingTime=Float.parseFloat(hs.get("remainingTime"));
-		}
-
-
-	}
-
 	public void parse(HashMap<String,String> hs){
 		//SEPARATION BETWEEN KEYS
 
@@ -1186,53 +1089,13 @@ public class Character extends Objet{
 
 	}
 
-	public static Character createNewCharacter(HashMap<String,String> hs){
-		Character c;
-		int id = Integer.parseInt(hs.get("id"));
-		float x = Float.parseFloat(hs.get("x"));
-		float y = Float.parseFloat(hs.get("y"));
-		int team = Integer.parseInt(hs.get("tm"));
-		switch(hs.get("name")){
-		case "spearman":
-			c =  new UnitSpearman(Game.g.teams.get(team).data.spearman,x,y,id);	
-			break;
-		case "knight":
-			c = new UnitKnight(Game.g.teams.get(team).data.knight,x,y,id);	
-
-			break;
-		case "priest":
-			c =  new UnitPriest(Game.g.teams.get(team).data.priest,x,y,id);
-			break;	
-		case "crossbowman":
-			c =  new UnitCrossbowman(Game.g.teams.get(team).data.crossbowman,x,y,id);
-			break;	
-		case "inquisitor":
-			c =  new UnitInquisitor(Game.g.teams.get(team).data.inquisitor,x,y,id);
-			break;
-		case "archange":
-			c = new UnitArchange(Game.g.teams.get(team).data.archange,x,y,id);
-			break;
-		default:
-			c = null;
-		}
-
-		return c;
-	}
+	
 	public void isAttacked() {
 		this.isAttacked=true;
 		this.timerAttacked = this.timerMaxValueAttacked;
 	}
 
-	public static float getSize(String name){
-		switch(name.toLowerCase()){
-		case "spearman" : return UnitSpearman.radiusCollisionBox;
-		case "crossbowman" : return UnitCrossbowman.radiusCollisionBox;
-		case "knight" : return UnitKnight.radiusCollisionBox;
-		case "priest" : return UnitPriest.radiusCollisionBox;
-		case "inquisitor" : return UnitInquisitor.radiusCollisionBox;
-		default : System.out.println("petit souci dans le calcul de taile"); return 0f;
-		}
-	}
+	
 	
 }
 

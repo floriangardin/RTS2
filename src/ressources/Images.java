@@ -9,13 +9,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
-import buildings.BuildingsList;
+import data.Data;
 import display.DisplayRessources;
 import main.Main;
-import model.Data;
+import model.Game;
 import nature.Tree;
 import tests.FatalGillesError;
-import units.Character;
 
 
 public class Images {
@@ -52,7 +51,7 @@ public class Images {
 
 		// buildings
 		this.resizeBuilding("academy");
-		this.resizeBuilding("barrack");
+		this.resizeBuilding("barracks");
 		this.resizeBuilding("headquarters");
 		this.resizeBuilding("mill");
 		this.resizeBuilding("mine");
@@ -142,7 +141,7 @@ public class Images {
 	}
 
 	public void resizeBuilding(String s){
-		Point p = Data.getSize(s);
+		Point p = Game.g.data.getSize(s);
 		this.images.put("building"+s+"blue",this.images.get("building"+s+"blue")
 				.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
 		if(!s.equals("headquarters"))

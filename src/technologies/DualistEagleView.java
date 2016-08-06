@@ -1,10 +1,12 @@
 package technologies;
 
 
+import data.Attributs;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;
 import units.Character;
+import utils.UnitsList;
 
 public class DualistEagleView extends Technologie {
 
@@ -16,19 +18,11 @@ public class DualistEagleView extends Technologie {
 
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		this.gameteam.data.knight.sight*=1.5;
-		this.gameteam.data.priest.sight*=1.5;
-		this.gameteam.data.inquisitor.sight*=1.5;
-		this.gameteam.data.spearman.sight*=1.5;
-		this.gameteam.data.crossbowman.sight*=1.5;
-		// Age passing does nothing
-		// Then update all existing units
-		for(Character c : Game.g.plateau.characters){
-			if(c.getTeam() == this.gameteam.id){
-				c.sight*=1.5;
-			}
-
-		}
-
+		this.gameteam.data.mulAttribut(UnitsList.Spearman.name, Attributs.sight, 1.5f);
+		this.gameteam.data.mulAttribut(UnitsList.Crossbowman.name, Attributs.sight, 1.5f);
+		this.gameteam.data.mulAttribut(UnitsList.Knight.name, Attributs.sight, 1.5f);
+		this.gameteam.data.mulAttribut(UnitsList.Priest.name, Attributs.sight, 1.5f);
+		this.gameteam.data.mulAttribut(UnitsList.Inquisitor.name, Attributs.sight, 1.5f);
+		this.gameteam.data.mulAttribut(UnitsList.Archange.name, Attributs.sight, 1.5f);
 	}
 }

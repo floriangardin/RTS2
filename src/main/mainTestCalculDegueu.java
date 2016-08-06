@@ -6,7 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
-import model.Utils;
+import utils.Utils;
 
 public class mainTestCalculDegueu {
 	

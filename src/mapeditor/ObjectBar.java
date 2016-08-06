@@ -7,7 +7,9 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
-import model.Data;
+import data.Attributs;
+import data.Data;
+import model.Game;
 import ressources.Map;
 
 public class ObjectBar {
@@ -96,32 +98,14 @@ public class ObjectBar {
 
 		// buildings
 		// neutral
-		buildingsNeutral.add(new EditorObject("Mill", 0, 1,this.editor.game.images.get("buildingMillNeutral"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Mine", 0, 1,this.editor.game.images.get("buildingMineNeutral"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Barrack", 0,1, this.editor.game.images.get("buildingBarrackNeutral"),0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Stable", 0, 1,this.editor.game.images.get("buildingStableNeutral"),0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Academy", 0, 1,this.editor.game.images.get("buildingAcademyNeutral"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("University", 0, 1,this.editor.game.images.get("buildingUniversityNeutral"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
-		buildingsNeutral.add(new EditorObject("Tower", 0, 1,this.editor.game.images.get("buildingTowerNeutral"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		// blue
-		buildingsBlue.add(new EditorObject("Mill", 1, 1,this.editor.game.images.get("buildingMillBlue"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Mine", 1, 1,this.editor.game.images.get("buildingMineBlue"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Barrack", 1, 1,this.editor.game.images.get("buildingBarrackBlue"),0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Stable", 1, 1,this.editor.game.images.get("buildingStableBlue"),0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Academy", 1, 1,this.editor.game.images.get("buildingAcademyBlue"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("University", 1, 1,this.editor.game.images.get("buildingUniversityBlue"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Tower", 1, 1,this.editor.game.images.get("buildingTowerBlue"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsBlue.add(new EditorObject("Headquarters", 1, 1,this.editor.game.images.get("buildingHeadQuartersBlue"),0,0,this,(int)(data.headquartersSizeX/Map.stepGrid),(int)(data.headquartersSizeY/Map.stepGrid)));
-		// red
-		buildingsRed.add(new EditorObject("Mill", 2, 1,this.editor.game.images.get("buildingMillRed"),0,0,this,(int)(data.millSizeX/Map.stepGrid),(int)(data.millSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Mine", 2, 1,this.editor.game.images.get("buildingMineRed"),0,0,this,(int)(data.mineSizeX/Map.stepGrid),(int)(data.mineSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Barrack", 2, 1,this.editor.game.images.get("buildingBarrackRed"),0,0,this,(int)(data.barrackSizeX/Map.stepGrid),(int)(data.barrackSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Stable", 2, 1,this.editor.game.images.get("buildingStableRed"),0,0,this,(int)(data.stableSizeX/Map.stepGrid),(int)(data.stableSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Academy", 2, 1,this.editor.game.images.get("buildingAcademyRed"),0,0,this,(int)(data.academySizeX/Map.stepGrid),(int)(data.academySizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("University", 2, 1,this.editor.game.images.get("buildingUniversityRed"),0,0,this,(int)(data.universitySizeX/Map.stepGrid),(int)(data.universitySizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Tower", 2, 1,this.editor.game.images.get("buildingTowerRed"),0,0,this,(int)(data.towerSizeX/Map.stepGrid),(int)(data.towerSizeY/Map.stepGrid)));
-		buildingsRed.add(new EditorObject("Headquarters", 2,1, this.editor.game.images.get("buildingHeadQuartersRed"),0,0,this,(int)(data.headquartersSizeX/Map.stepGrid),(int)(data.headquartersSizeY/Map.stepGrid)));
-
+		for(String s : new String[]{"Mill","Mine","Barracks","Stable","University","Tower"}){			
+			if(!s.equals("Headquarters")){
+				buildingsNeutral.add(new EditorObject(s, 0, 1,this.editor.game.images.get("building"+s+"Neutral"),0,0,this,(int)(Game.g.data.getAttribut(s, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(s, Attributs.sizeY)/Map.stepGrid)));
+				buildingsBlue.add(new EditorObject(s, 1, 1,this.editor.game.images.get("building"+s+"blue"),0,0,this,(int)(Game.g.data.getAttribut(s, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(s, Attributs.sizeY)/Map.stepGrid)));
+				buildingsRed.add(new EditorObject(s, 2, 1,this.editor.game.images.get("building"+s+"red"),0,0,this,(int)(Game.g.data.getAttribut(s, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(s, Attributs.sizeY)/Map.stepGrid)));
+			}
+		}
+		
 		// others
 		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.get("bonusLifePoints"),0,0,this,1,1));
 		others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.get("bonusDamage"),0,0,this,1,1));
