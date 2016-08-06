@@ -12,7 +12,6 @@ public class BottomBar extends Bar {
 
 	public int resX,resY;
 	public SelectionInterface selection ;
-	public DescriptionInterface description;
 	public DisplayInterface display;
 	public MinimapInterface minimap;
 	public ActionInterface action;
@@ -44,7 +43,6 @@ public class BottomBar extends Bar {
 		this.y = (1f-Game.g.relativeHeightBottomBar)*resY;
 		
 		this.selection = new SelectionInterface(this);
-		this.description = new DescriptionInterface(this);
 		this.display = new DisplayInterface(this);
 		this.minimap = new MinimapInterface(this);
 		this.action = new ActionInterface(this);

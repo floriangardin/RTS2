@@ -1,7 +1,10 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
+import control.InputObject;
 import data.Attributs;
 import model.Objet;
 import units.Character;
@@ -29,6 +32,13 @@ public class SpellProduct extends Spell{
 			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
 		}
 		
+		
+	}
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -1,11 +1,12 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
 import data.Attributs;
 import model.Checkpoint;
 import model.Objet;
 import units.Character;
 import utils.SpellsList;
-import utils.Utils;
 
 public class SpellFirewall extends Spell{
 
@@ -16,12 +17,19 @@ public class SpellFirewall extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range));
-		Firewall f = new Firewall(launcher,t,-1);
+		Firewall f = new Firewall(launcher,t, getAttribut(Attributs.width),-1);
 		f.damage = this.getAttribut(Attributs.damage);
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.stop();
 	}
-	
-	
+
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		g.setLineWidth(3f);
+		Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, this.getAttribut(Attributs.range));
+		g.draw(Firewall.createShape(launcher, t, getAttribut(Attributs.width)));
+	}
 
 }

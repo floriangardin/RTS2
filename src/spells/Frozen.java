@@ -4,6 +4,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import main.Main;
 import model.Game;
@@ -13,12 +15,11 @@ import units.Character;
 
 public class Frozen extends SpellEffect{
 
-	public static float radius = 70f;
 	public float remainingTime;
 	public float damage;
 	public Character owner;
 	public boolean active = false;
-	public Frozen(Character launcher, Objet t,int id){
+	public Frozen(Character launcher, Objet t,int id, float radius){
 
 		if(id==-1){
 			this.id = Game.g.idChar;
@@ -37,10 +38,13 @@ public class Frozen extends SpellEffect{
 		Game.g.plateau.addSpell(this);
 		owner = launcher;
 
-		this.collisionBox = new Circle(x,y,radius);
+		this.collisionBox = createShape(launcher, t, radius);
 		Game.g.sounds.get("frozen").play(1f,Game.g.options.soundVolume);
 	}
 
+	public static Shape createShape(Character launcher, Objet t, float radius){
+		return new Circle(t.getX(),t.getY(),radius);
+	}
 
 
 

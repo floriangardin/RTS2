@@ -2,7 +2,8 @@
 prototype:"Spell",
 printName:"Mur de Flamme",
 chargeTime:200,
-range:100,
+range:200,
 damage:1,
+width:15,
 totalTime:200
 }

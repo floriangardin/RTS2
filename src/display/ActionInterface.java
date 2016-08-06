@@ -151,6 +151,9 @@ public class ActionInterface extends Bar {
 				} else {
 					g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				}
+				if(Game.g.spellCurrent==b.spells.get(i)){
+					g.setColor(Color.orange);
+				}
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
 				im = Game.g.images.get("spell"+ul.get(i).name);
 				g.drawImage(im, this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);

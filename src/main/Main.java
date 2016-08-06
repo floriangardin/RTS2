@@ -13,12 +13,12 @@ import model.Game;
 public class Main {
 	// A REGLER \\
 	public static float ratioSpace = 0.9f;
-	public static int framerate = 30;
+	public static int framerate = 60;
 	public static int nDelay=5;
 	///////\\\\\\\\\
 	
 	public static float increment = 0.1f*30/Main.framerate;
-	public static boolean pleinEcran = false;
+	public static boolean pleinEcran = true;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 

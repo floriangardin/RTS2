@@ -5,7 +5,9 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import data.Attributs;
 import data.AttributsChange;
@@ -13,7 +15,7 @@ import data.AttributsChange.Change;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Plateau;
+import model.Objet;
 import units.Character;
 
 public class BlessedArea extends SpellEffect{
@@ -26,10 +28,10 @@ public class BlessedArea extends SpellEffect{
 	public float[] animationX = new float[nbFire];
 	public float[] animationY = new float[nbFire];
 	public float animationMax=120f;
-	public float size = 200f;;
+	public float size;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Character launcher, Checkpoint t,int id){
+	public BlessedArea(Character launcher, Checkpoint t,int id, float size){
 		if(id==-1){
 			this.id = Game.g.idChar;
 			Game.g.idChar+=1;
@@ -38,6 +40,7 @@ public class BlessedArea extends SpellEffect{
 			this.id =id;
 		}
 		this.type = 2;
+		this.size = size;
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;
 		this.lifePoints = 1f;
@@ -46,10 +49,14 @@ public class BlessedArea extends SpellEffect{
 		this.ac = new Vector<AttributsChange>();
 		ac.add(new AttributsChange(Attributs.chargeTime,Change.MUL,0.5f,this.remainingTime));
 		owner = launcher;
-		this.collisionBox = new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
+		this.collisionBox = createShape(launcher, t, size);
 		this.x = t.getX();
 		this.y = t.getY();
 		this.createAnimation();
+	}
+	
+	public static Shape createShape(Character launcher, Objet t, float size){
+		return new Rectangle(t.getX()-size/2f,t.getY()-size/2f,size,size);
 	}
 
 

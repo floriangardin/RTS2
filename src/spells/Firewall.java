@@ -3,6 +3,7 @@ package spells;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 
 import main.Main;
 import model.Game;
@@ -23,7 +24,7 @@ public class Firewall extends SpellEffect{
 	public float animationMax=1000f;
 	public float x2,y2;
 
-	public Firewall( Character launcher, Objet t,int id){
+	public Firewall( Character launcher, Objet t,float width, int id){
 		if(id==-1){
 			this.id = Game.g.idChar;
 			Game.g.idChar+=1;
@@ -36,12 +37,16 @@ public class Firewall extends SpellEffect{
 		this.y = launcher.getY();
 		this.x2 = t.getX();
 		this.y2 = t.getY();
-		float width = 15f*Main.ratioSpace;
 		
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		image = "explosion";
 		owner = launcher;
+		this.collisionBox = createShape(launcher, t, width) ;
+		this.createAnimation(t, launcher);
+	}
+	
+	public static Shape createShape(Character launcher, Objet t, float width){
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();
 		float norm = (float)Math.sqrt(vx*vx+vy*vy);
@@ -57,8 +62,7 @@ public class Firewall extends SpellEffect{
 		cx = t.getX()-vx*width/2f;
 		cy = t.getY()-vy*width/2f;
 		float[] arg = {ax,ay,bx,by,cx,cy,dx,dy};
-		this.collisionBox = new Polygon(arg);
-		this.createAnimation(t, launcher);
+		return new Polygon(arg);
 	}
 
 	

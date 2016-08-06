@@ -2,6 +2,9 @@ package spells;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Graphics;
+
+import control.InputObject;
 import data.Attributs;
 import events.Events;
 import model.Game;
@@ -22,5 +25,12 @@ public class SpellImmolation extends Spell{
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.spells = new Vector<SpellsList>();
 		Game.g.events.addEvent(Events.Immolation, target);
+	}
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		// TODO Auto-generated method stub
+		
 	}
 }

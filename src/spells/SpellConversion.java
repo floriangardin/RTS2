@@ -1,5 +1,8 @@
 package spells;
 
+import org.newdawn.slick.Graphics;
+
+import control.InputObject;
 import data.Attributs;
 import main.Main;
 import model.Game;
@@ -26,11 +29,19 @@ public class SpellConversion extends Spell{
 			} else {
 				// Messages
 				if(this.team==Game.g.currentPlayer.getTeam()){
-						Game.g.sendMessage(ChatMessage.getById("faith"));
+					Game.g.sendMessage(ChatMessage.getById("faith"));
 				}
 			}
 		}
 	}
 
-	
+
+
+	@Override
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+		if(target instanceof Character){
+			this.drawTargetUnit(g, (Character)target);
+		}
+	}
+
 }

@@ -23,5 +23,5 @@ public enum Attributs {
 	productions, 
 	totalTime, 
 	faithCost, 
-	effect, bonusDamage, bonusSpeed, list;
+	effect, bonusDamage, bonusSpeed, list, needToClick, width;
 }

@@ -2,6 +2,7 @@
 prototype:"Spell",
 printName:"Gel",
 chargeTime:250,
-range:400,
+range:250,
+size:100,
 totalTime:5
 }

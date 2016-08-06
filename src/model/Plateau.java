@@ -2,17 +2,9 @@ package model;
 
 import java.util.Vector;
 
-import main.Main;
-
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
-import pathfinding.MapGrid;
-import ressources.Map;
-import spells.Spell;
-import spells.SpellEffect;
-import units.Character;
-import utils.Utils;
 import buildings.Bonus;
 import buildings.Building;
 import buildings.BuildingAction;
@@ -26,6 +18,14 @@ import control.Selection;
 import data.Attributs;
 import display.BottomBar;
 import events.Events;
+import main.Main;
+import pathfinding.MapGrid;
+import ressources.Map;
+import spells.Spell;
+import spells.SpellEffect;
+import units.Character;
+import utils.SpellsList;
+import utils.Utils;
 
 
 
@@ -424,7 +424,7 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				if (i == 0 && Math.random() > 0.3) {
-					
+
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& c.getTeam() != target.getTeam()) {
 						Game.g.events.addEvent(Events.MoveAttack, o);
@@ -624,7 +624,7 @@ public class Plateau implements java.io.Serializable {
 			this.handleRightClick(im, player);
 
 			this.handleMinimap(im, player);
-			
+
 
 
 		}
@@ -709,7 +709,7 @@ public class Plateau implements java.io.Serializable {
 		Selection selection = Game.g.inputsHandler.getSelection(player);
 		if (im.isPressed(KeyEnum.RightClick)) {
 			// RALLY POINT
-			
+
 			if (selection.selection.size() > 0
 					&& selection.selection.get(0) instanceof BuildingProduction) {
 				Objet target = findTarget(im.x, im.y,player);
@@ -762,27 +762,20 @@ public class Plateau implements java.io.Serializable {
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) || im.isPressed(KeyEnum.Escape)) {
 			if (selection.selection.size() > 0 && selection.selection.get(0) instanceof BuildingAction) {
-				if (im.isPressed(KeyEnum.Prod0))
-					((BuildingAction) selection.selection.get(0)).product(0);
-				if (im.isPressed(KeyEnum.Prod1))
-					((BuildingAction) selection.selection.get(0)).product(1);
-				if (im.isPressed(KeyEnum.Prod2))
-					((BuildingAction) selection.selection.get(0)).product(2);
-				if (im.isPressed(KeyEnum.Prod3))
-					((BuildingAction) selection.selection.get(0)).product(3);
+				for(int i=0; i<4; i++){
+					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
+						((BuildingAction) selection.selection.get(0)).product(i);
+					}
+				}
 				if (im.isPressed(KeyEnum.Escape))
 					((BuildingAction) selection.selection.get(0)).removeProd();
 			} else
 				if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Character) {
 					int number = -1;
-					if (im.isPressed(KeyEnum.Prod0))
-						number = 0;
-					if (im.isPressed(KeyEnum.Prod1))
-						number = 1;
-					if (im.isPressed(KeyEnum.Prod2))
-						number = 2;
-					if (im.isPressed(KeyEnum.Prod3))
-						number = 3;
+					for(int i=0; i<4; i++){
+						if (im.isPressed(KeyEnum.valueOf("Prod"+i)))
+							number = i;
+					}
 					if (im.isPressed(KeyEnum.Immolation)){
 						number = 0;
 						imo = true;
@@ -791,14 +784,9 @@ public class Plateau implements java.io.Serializable {
 					Character c = ((Character) selection.selection.get(0));
 					if (-1 != number && number < c.spells.size()
 							&& c.spellsState.get(number) >= c.getSpell(number).getAttribut(Attributs.chargeTime)) {
-						if (true) {
-//						if (!c.spells.get(number).needToClick) {
-							Spell s = c.getSpell(number);
-							if(s.name.equals("Immolation")){
-								if(imo){
-									s.launch(new Checkpoint(im.x,im.y), c);
-								}
-							}else{
+						Spell s = c.getSpell(number);
+						if (s.getAttribut(Attributs.needToClick)==0) {
+							if(s.name!=SpellsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
 							}
@@ -812,6 +800,20 @@ public class Plateau implements java.io.Serializable {
 						}
 					}
 				}
+		}
+		if(im.spell!=null){
+			Spell s = Game.g.getPlayerById(im.idplayer).getGameTeam().data.getSpell(im.spell);
+			Character c = Game.g.plateau.getCharacterById(im.idSpellLauncher);
+			if(im.idObjetMouse!=-1){
+				s.launch(Game.g.plateau.getById(im.idObjetMouse), c);
+			} else {
+				s.launch(new Checkpoint(im.x,im.y), c);				
+			}
+			for(int i=0; i<c.spells.size(); i++){
+				if(c.spells.get(i)==im.spell){
+					c.spellsState.set(i, 0f);
+				}
+			}
 		}
 
 	}
@@ -965,7 +967,7 @@ public class Plateau implements java.io.Serializable {
 
 
 
-	
+
 
 	public Objet getById(int id){
 		Objet o = getCharacterById(id);
