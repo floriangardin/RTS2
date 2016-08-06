@@ -34,7 +34,7 @@ public class BonusSpeed extends Bonus{
 			//c.maxVelocity +=this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
-			Game.g.playSound(this.soundTaken);
+			
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

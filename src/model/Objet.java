@@ -48,6 +48,9 @@ public abstract class Objet implements java.io.Serializable {
 	public boolean toKeep=false;
 	public boolean mouseOver = false;
 
+	
+
+
 
 	public void action(){}
 	public void move(){}
@@ -108,6 +111,8 @@ public abstract class Objet implements java.io.Serializable {
 
 		this.gameteam = g;
 	}
+	
+
 	protected void destroy(){
 		this.lifePoints = -10;
 

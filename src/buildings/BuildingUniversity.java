@@ -3,11 +3,8 @@ package buildings;
 import java.util.Vector;
 
 import data.Attributs;
-import data.Data;
 import main.Main;
 import model.Checkpoint;
-import model.Game;
-import model.Plateau;
 import model.Player;
 import technologies.Technologie;
 

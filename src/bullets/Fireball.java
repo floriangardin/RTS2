@@ -6,11 +6,11 @@ import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
 import data.Attributs;
+import events.Events;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Objet;
-import model.Plateau;
 import units.Character;
 import utils.Utils;
 
@@ -69,7 +69,7 @@ public class Fireball extends Bullet {
 		this.image1.rotate(this.angle);
 		this.image2.rotate(this.angle);
 		this.soundLaunch = "fireball";
-		Game.g.playSound(this.soundLaunch);
+		Game.g.events.addEvent(Events.FireBallLaunched, this);
 	}
 	
 	public Fireball(){}

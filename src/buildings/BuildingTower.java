@@ -7,11 +7,9 @@ import org.newdawn.slick.Image;
 
 import bullets.Fireball;
 import data.Attributs;
-import data.Data;
 import main.Main;
 import model.Checkpoint;
 import model.Game;
-import model.Plateau;
 import units.Character;
 import utils.Utils;
 

@@ -6,11 +6,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import data.Attributs;
-import data.Data;
 import display.DisplayRessources;
 import main.Main;
 import model.Game;
-import model.Plateau;
 import technologies.Technologie;
 
 public class BuildingMill extends BuildingTech{

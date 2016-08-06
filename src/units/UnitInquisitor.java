@@ -1,20 +1,7 @@
 package units;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import bullets.Fireball;
 import data.Attributs;
-import data.Data;
-import main.Main;
-import model.Game;
-import model.GameTeam;
-import model.Objet;
-import model.Plateau;
-import model.Player;
 import utils.UnitsList;
 
 public class UnitInquisitor extends Character {

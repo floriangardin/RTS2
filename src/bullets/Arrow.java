@@ -7,9 +7,9 @@ import org.newdawn.slick.geom.Circle;
 
 import buildings.Building;
 import data.Attributs;
+import events.Events;
 import main.Main;
 import model.Game;
-import model.Plateau;
 import units.Character;
 
 public class Arrow extends CollisionBullet{
@@ -55,7 +55,7 @@ public class Arrow extends CollisionBullet{
 		this.shadow.rotate(this.angle);
 	
 		this.soundLaunch = "arrow";
-		Game.g.playSound(this.soundLaunch);
+		Game.g.events.addEvent(Events.ArrowLaunched, this);
 	}
 
 	public void collision(Character c){

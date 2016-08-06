@@ -26,7 +26,7 @@ public class DescriptionInterface extends Bar {
 
 	public Graphics draw(Graphics g){
 		if(this.parent.player.selection.size()>0){
-			this.c0 = this.parent.player.selection.get(0);
+			this.c0 =  this.parent.player.selection.get(0);
 			g.setColor(Color.white);
 			g.drawString(c0.name, x+30f, y+15f);
 			if(this.c0 instanceof Building){

@@ -3,11 +3,9 @@ package buildings;
 import java.util.Vector;
 
 import data.Attributs;
-import data.Data;
 import display.DisplayRessources;
 import main.Main;
 import model.Game;
-import model.Plateau;
 import ressources.Map;
 import technologies.Technologie;
 
@@ -50,8 +48,7 @@ public class BuildingMine extends BuildingTech{
 			}
 			state = 0;
 		}
-		
-		
+			
 		//Do the action of Barrack
 		//Product, increase state of the queue
 		if(this.queue!=null){

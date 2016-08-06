@@ -28,6 +28,7 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
@@ -44,6 +45,7 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import data.Data;
 import display.DisplayRessources;
+import events.EventQueue;
 import main.Main;
 import mapeditor.MapEditor;
 import menu.Credits;
@@ -169,12 +171,22 @@ public class Game extends BasicGame
 	// Plateau
 	public Plateau plateau ;
 	public AppGameContainer app;
-
+	
+	// Handling selection
+	public InputHandler inputsHandler;
+	
+	// Handling events
+	public EventQueue events = new EventQueue();
 
 	////////////////////////
 	/// PLAYERS && TEAMS ///
 	////////////////////////
-
+	
+	// Camera
+	public int Xcam;
+	public int Ycam;
+	public boolean slidingCam = false;
+	public Point objectiveCam = new Point(0,0);
 	// Number of teams
 	public int nTeams =2;
 	// Number of players
@@ -218,8 +230,9 @@ public class Game extends BasicGame
 	// public MultiReceiver receiver;
 	// Chat
 	public ChatHandler chatHandler;
-	// Handling multiplaying
-	public InputHandler inputsHandler;
+	
+
+	
 	public String toParse= null;
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
@@ -303,86 +316,8 @@ public class Game extends BasicGame
 	String adviceToDisplay;
 
 
-	/////////////////////
-	// USELESS & BONUS //
-	/////////////////////
 
-	private class Gilles{
-		float x,y,vx,vy;
-		float angle;
-		public Gilles(){
-			double proba = Math.random();
-			if(proba<0.25){
-				//depuis le haut
-				y = 0;
-				x =  (float) (Math.random()*resX);
-				vx =  (float) (5f*(2.0*Math.random()-1.0));
-				vy =  (float) (5f*Math.random());
-			} else if(proba<0.5){
-				// depuis le bas
-				y = (float) resY;
-				x = (float) (Math.random()*resX);
-				vx = (float) (5f*(2.0*Math.random()-1.0));
-				vy = (float) -(5f*Math.random());
-			} else if(proba<0.75){
-				// depuis la gauche
-				y = (float) (Math.random()*resY);
-				x = 0;
-				vx = (float) (5f*Math.random());
-				vy = (float) (5f*(2.0*Math.random()-1.0));
-			} else {
-				// depuis la gauche
-				y = (float) (Math.random()*resY);
-				x = (float) resX;
-				vx = (float) -(5f*Math.random());
-				vy = (float) (5f*(2.0*Math.random()-1.0));
-			} 
-			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
-			if(this.vx<0)
-				this.angle+=180;
-			if(this.angle<0)
-				this.angle+=360;
-		}
-		public void draw(Graphics g){
-			images.get("gilles").rotate(angle);
-			g.drawImage(images.get("gilles"), x, y);
-			images.get("gilles").rotate(-angle);
-		}
-		public void update(){
-			x += vx;
-			y += vy;
-		}
-	}
 
-	public boolean gillesBombe = false;
-	public int timeGilles = 0;
-	private Vector<Gilles> gillesPics = new Vector<Gilles>();
-
-	public void handleGillesBombe(){
-		if(timeGilles==0){
-			this.musicPlaying = musics.get("themeVerdi");
-			this.musicPlaying.play();
-		}
-		timeGilles++;
-		if(timeGilles<6*Main.framerate){
-			gillesPics.add(new Gilles());
-			for(Gilles g : gillesPics){
-				g.update();
-			}
-			Vector<Gilles> toRemove = new Vector<Gilles>();
-			for(Gilles g : gillesPics){
-				if(g.x<10 || g.x>resX+10 || g.y<0 || g.y>resY+10)
-					toRemove.add(g);
-			}
-			gillesPics.removeAll(toRemove);
-		} else {
-			this.musicPlaying = musics.get("themeImperial");
-			this.musicPlaying.play();
-			gillesPics.clear();
-			timeGilles = 0;
-			gillesBombe = false;
-		}
-	}
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -424,18 +359,13 @@ public class Game extends BasicGame
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
 		this.players.addElement(new Player(this.plateau,players.size(),name,teams.get(1),resX,resY));
+		
+		
+		
 		this.players.lastElement().address = address;
 		nPlayers+=1;
 
-		// adding components in plateau
-		this.plateau.selection.addElement(new Vector<Objet>());
-		this.plateau.toAddSelection.addElement(new Vector<Objet>());
-		this.plateau.toRemoveSelection.addElement(new Vector<Objet>());
 
-		this.plateau.rectangleSelection.addElement(null);
-		this.plateau.recX.addElement(0f);
-		this.plateau.recY.addElement(0f);
-		this.plateau.inRectangle.addElement(new Vector<Objet>());
 
 	}
 
@@ -446,13 +376,10 @@ public class Game extends BasicGame
 		nPlayers -= 1;
 
 		// deleting component from plateau
-		this.plateau.selection.remove(indice);
-		this.plateau.toAddSelection.remove(indice);
-		this.plateau.toRemoveSelection.remove(indice);
-		this.plateau.rectangleSelection.remove(indice);
-		this.plateau.recX.remove(indice);
-		this.plateau.recY.remove(indice);
-		this.plateau.inRectangle.remove(indice);
+
+		
+		//Pourquoi ???
+		
 	}
 	// functions that handle buffers
 
@@ -552,9 +479,9 @@ public class Game extends BasicGame
 		}
 		if(isInMenu){
 			if(hasAlreadyPlay){
-				g.translate(+plateau.Xcam,+ plateau.Ycam);
+				g.translate(+Game.g.Xcam,+ Game.g.Ycam);
 			}
-			g.translate(-plateau.Xcam,- plateau.Ycam);
+			g.translate(-Game.g.Xcam,- Game.g.Ycam);
 			this.menuCurrent.draw(g);
 			if(inMultiplayer && menuCurrent instanceof MenuMapChoice){
 				this.chatHandler.draw(g);
@@ -576,7 +503,7 @@ public class Game extends BasicGame
 		} else {
 			// g repr�sente le pinceau
 			//g.setColor(Color.black);
-			g.translate(-plateau.Xcam,- plateau.Ycam);
+			g.translate(-Game.g.Xcam,- Game.g.Ycam);
 			//Draw background
 			g.drawImage(this.images.get("seaBackground"), -this.plateau.maxX, -this.plateau.maxY,
 					2*this.plateau.maxX, 2*this.plateau.maxY, 0, 0, this.images.get("seaBackground").getWidth(),this.images.get("seaBackground").getHeight());
@@ -585,8 +512,13 @@ public class Game extends BasicGame
 			g.drawImage(this.images.get("islandTexture"),0, 0, this.plateau.maxX, this.plateau.maxY,
 					0, 0, this.images.get("islandTexture").getWidth(),  this.images.get("islandTexture").getHeight());
 
-			// Draw the selection of your team 
-			for(Objet o: plateau.selection.get(currentPlayer.id)){
+
+			// Draw the selection of your team
+			
+
+			
+			for(Objet o: this.g.inputsHandler.getSelection(currentPlayer.id).selection){
+
 				if(o.target!=null && o instanceof Checkpoint){
 					Checkpoint c = (Checkpoint) o.target;
 					c.toDraw = true;
@@ -665,6 +597,8 @@ public class Game extends BasicGame
 				g.setColor(Colors.selection);
 				cosmetic.draw(g);
 			}
+			// Render Graphics Events
+			events.render(g);
 
 			// Draw and handle display ressources
 			Vector<DisplayRessources> toRemove = new Vector<DisplayRessources>();
@@ -679,7 +613,7 @@ public class Game extends BasicGame
 			toRemove.clear();
 
 			// Draw bottom bar
-			g.translate(plateau.Xcam, plateau.Ycam);
+			g.translate(Game.g.Xcam, Game.g.Ycam);
 
 			if(this.round<nbRoundInit){
 				g.setColor(new Color(0f,0f,0f,1f-0.3f*round/nbRoundInit));
@@ -756,19 +690,19 @@ public class Game extends BasicGame
 		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
 		gf.setColor(new Color(50, 50, 50));
-		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - this.plateau.Xcam);
-		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - this.plateau.Ycam);
-		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - this.plateau.Xcam);
-		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - this.plateau.Ycam);
+		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - Game.g.Xcam);
+		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - Game.g.Ycam);
+		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - Game.g.Xcam);
+		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - Game.g.Ycam);
 		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		gf.setColor(Color.white);
 		for (Objet o : visibleObjet) {
 			float sight = o.getAttribut(Attributs.sight);
-			gf.fillOval(o.x - this.plateau.Xcam - sight, o.y - this.plateau.Ycam - sight, sight * 2f, sight * 2f);
+			gf.fillOval(o.x - Xcam - sight, o.y - Ycam - sight, sight * 2f, sight * 2f);
 		}
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
-		g.drawImage(fog, this.plateau.Xcam, this.plateau.Ycam);
+		g.drawImage(fog, Game.g.Xcam, Game.g.Ycam);
 		g.setDrawMode(Graphics.MODE_NORMAL);
 	}
 
@@ -801,7 +735,6 @@ public class Game extends BasicGame
 
 	//////////////
 	/// UPDATE ///
-	//////////////
 
 	@Override
 	public void update(GameContainer gc, int t) throws SlickException{
@@ -1217,7 +1150,8 @@ public class Game extends BasicGame
 	}
 
 	public void launchGame(){
-
+		
+		this.inputsHandler.initSelction();
 		this.musicPlaying.stop();
 		this.musicPlaying = this.musics.get("themeImperial");
 		try {
@@ -1227,8 +1161,8 @@ public class Game extends BasicGame
 		}
 		//this.game.newGame();
 		this.quitMenu();
-		this.plateau.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
-		this.plateau.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
+		Game.g.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
+		Game.g.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
 		this.startTime = System.currentTimeMillis();
 		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;
@@ -1248,9 +1182,7 @@ public class Game extends BasicGame
 	/// GRAPHISM AND SOUND ///
 	//////////////////////////
 
-	public void playSound(String sound){
-		sounds.get(sound).play(1f,Game.g.options.soundVolume);
-	}
+
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -1320,7 +1252,7 @@ public class Game extends BasicGame
 		g.menuMapChoice = new MenuMapChoice(g);
 		g.credits = new Credits(g);
 		g.editor = new MapEditor(g);
-
+		
 
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 
@@ -1335,11 +1267,11 @@ public class Game extends BasicGame
 		app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 
 		//FLO INPUTS
-		g.inputsHandler = new InputHandler(g);
+		g.inputsHandler = new InputHandler();
 		//System.out.println(g.plateau.mapGrid);
 		//			Map.createMapEmpty(g);
 		// Instantiate BottomBars for all players:
-		g.inputsHandler.selection = null;
+
 		try {
 			g.addressLocal = InetAddress.getLocalHost();
 			String address = g.addressLocal.getHostAddress();
@@ -1574,6 +1506,82 @@ public class Game extends BasicGame
 				this.images.activateGdBMode();
 			else
 				this.images.deactivateGdBMode();
+		}
+	}
+	private class Gilles{
+		float x,y,vx,vy;
+		float angle;
+		public Gilles(){
+			double proba = Math.random();
+			if(proba<0.25){
+				//depuis le haut
+				y = 0;
+				x =  (float) (Math.random()*resX);
+				vx =  (float) (5f*(2.0*Math.random()-1.0));
+				vy =  (float) (5f*Math.random());
+			} else if(proba<0.5){
+				// depuis le bas
+				y = (float) resY;
+				x = (float) (Math.random()*resX);
+				vx = (float) (5f*(2.0*Math.random()-1.0));
+				vy = (float) -(5f*Math.random());
+			} else if(proba<0.75){
+				// depuis la gauche
+				y = (float) (Math.random()*resY);
+				x = 0;
+				vx = (float) (5f*Math.random());
+				vy = (float) (5f*(2.0*Math.random()-1.0));
+			} else {
+				// depuis la gauche
+				y = (float) (Math.random()*resY);
+				x = (float) resX;
+				vx = (float) -(5f*Math.random());
+				vy = (float) (5f*(2.0*Math.random()-1.0));
+			} 
+			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
+			if(this.vx<0)
+				this.angle+=180;
+			if(this.angle<0)
+				this.angle+=360;
+		}
+		public void draw(Graphics g){
+			images.get("gilles").rotate(angle);
+			g.drawImage(images.get("gilles"), x, y);
+			images.get("gilles").rotate(-angle);
+		}
+		public void update(){
+			x += vx;
+			y += vy;
+		}
+	}
+	
+	public boolean gillesBombe = false;
+	public int timeGilles = 0;
+	private Vector<Gilles> gillesPics = new Vector<Gilles>();
+
+	public void handleGillesBombe(){
+		if(timeGilles==0){
+			this.musicPlaying = musics.get("themeVerdi");
+			this.musicPlaying.play();
+		}
+		timeGilles++;
+		if(timeGilles<6*Main.framerate){
+			gillesPics.add(new Gilles());
+			for(Gilles g : gillesPics){
+				g.update();
+			}
+			Vector<Gilles> toRemove = new Vector<Gilles>();
+			for(Gilles g : gillesPics){
+				if(g.x<10 || g.x>resX+10 || g.y<0 || g.y>resY+10)
+					toRemove.add(g);
+			}
+			gillesPics.removeAll(toRemove);
+		} else {
+			this.musicPlaying = musics.get("themeImperial");
+			this.musicPlaying.play();
+			gillesPics.clear();
+			timeGilles = 0;
+			gillesBombe = false;
 		}
 	}
 

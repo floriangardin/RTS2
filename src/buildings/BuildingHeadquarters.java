@@ -3,10 +3,8 @@ package buildings;
 import java.util.Vector;
 
 import data.Attributs;
-import data.Data;
 import main.Main;
 import model.Game;
-import model.Plateau;
 import technologies.DualistAge2;
 import technologies.DualistAge3;
 import technologies.DualistBonusFood;
@@ -22,7 +20,6 @@ import technologies.DualistRangeAttack3;
 import technologies.DualistShield2;
 import technologies.DualistShield3;
 import technologies.Technologie;
-import utils.UnitsList;
 
 public class BuildingHeadquarters extends BuildingTech {
 

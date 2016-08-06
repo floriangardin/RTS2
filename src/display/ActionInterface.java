@@ -6,12 +6,10 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import buildings.Building;
 import buildings.BuildingProduction;
 import buildings.BuildingTech;
-import javafx.scene.Parent;
 import model.Game;
 import spells.Spell;
 import technologies.Technologie;

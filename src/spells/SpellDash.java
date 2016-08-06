@@ -1,15 +1,11 @@
 package spells;
 
 import main.Main;
-import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
 import units.Character;
-import units.UnitCrossbowman;
 import units.UnitSpearman;
-import utils.Utils;
 
 public class SpellDash extends Spell{
 

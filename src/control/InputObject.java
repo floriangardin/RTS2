@@ -1,7 +1,9 @@
 package control;
 
 
+import java.beans.Transient;
 import java.util.Vector;
+
 import org.newdawn.slick.Input;
 
 import control.KeyMapper.KeyEnum;
@@ -25,6 +27,9 @@ public class InputObject implements java.io.Serializable{
 	public boolean toPlay;
 
 	public boolean isOnMiniMap;
+	
+	
+	private transient final  static  boolean debugTouche = false;
 
 	public Vector<KeyEnum> down;
 	public Vector<KeyEnum> pressed;
@@ -54,6 +59,13 @@ public class InputObject implements java.io.Serializable{
 		x = input.getMouseX();
 		y = input.getMouseY();
 		// IL y a surement plus simple et moins coûteux
+		if(debugTouche){
+			for(int i=0; i<250; i++){
+				if(input.isKeyPressed(i)){
+					System.out.println(i);
+				}
+			}
+		}
 		for(KeyEnum ke : km.mapping.keySet()){
 			for(Integer i : km.mapping.get(ke)){
 				if(input.isKeyPressed(i)){
@@ -88,7 +100,7 @@ public class InputObject implements java.io.Serializable{
 		if(player!=null && player.bottomBar!=null){
 			// checking if on minimap or not
 			this.isOnMiniMap = this.x>(1-player.bottomBar.ratioMinimapX)*Game.g.resX && this.y>(Game.g.resY-player.bottomBar.ratioMinimapX*Game.g.resX) && this.x<Game.g.resX-2f && this.y<Game.g.resY-2f ;
-			this.isOnMiniMap = this.isOnMiniMap && Game.g.plateau.rectangleSelection.get(Game.g.currentPlayer.id)==null;
+			this.isOnMiniMap = this.isOnMiniMap && Game.g.inputsHandler.getSelection(Game.g.currentPlayer.id)==null;
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick)){
 				if(player.bottomBar.action.toDrawDescription[0]){
@@ -122,14 +134,14 @@ public class InputObject implements java.io.Serializable{
 		if(Game.g.isInMenu || Game.g.inEditor)
 			return;
 
-		this.x = input.getAbsoluteMouseX()+Game.g.plateau.Xcam;
-		this.y = input.getAbsoluteMouseY()+Game.g.plateau.Ycam;
+		this.x = input.getAbsoluteMouseX()+Game.g.Xcam;
+		this.y = input.getAbsoluteMouseY()+Game.g.Ycam;
 
 		if(isOnMiniMap){
 			//			System.out.println("miniMap");
 			BottomBar b = player.bottomBar;
-			this.x = (int) Math.floor((this.x-Game.g.plateau.Xcam-b.minimap.startX)/b.minimap.rw);
-			this.y = (int) Math.floor((this.y-Game.g.plateau.Ycam-b.minimap.startY)/b.minimap.rh);
+			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.minimap.startX)/b.minimap.rw);
+			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.minimap.startY)/b.minimap.rh);
 		}
 
 		this.validated = new Vector<Boolean>();
@@ -186,6 +198,6 @@ public class InputObject implements java.io.Serializable{
 		return this.pressed.contains(KeyEnum.valueOf("Prod"+i));
 	}
 
-	
-	
+
+
 }

@@ -2,7 +2,6 @@ package IA;
 
 import java.util.Vector;
 
-import model.Objet;
 import units.Character;
 import utils.Utils;
 

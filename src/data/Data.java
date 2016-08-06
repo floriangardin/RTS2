@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Point;
 
 import main.Main;
 import model.GameTeam;
+import model.Plateau;
 import ressources.Map;
 import spells.SpellBlessedArea;
 import spells.SpellConversion;
@@ -87,6 +88,7 @@ public class Data {
 		// création de la hashmap d'attributs
 		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/", "json");
 		for(String name : files.keySet()){
+			System.out.println(name);
 			this.datas.put(name, new DataObjet(files.get(name)));
 		}
 		// Do the prototyping (overrides non existing attributes

@@ -9,7 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
 import buildings.Building;
-import data.Data;
 import display.DisplayRessources;
 import main.Main;
 import model.Game;

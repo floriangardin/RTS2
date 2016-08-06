@@ -33,7 +33,7 @@ public class BonusDamage extends Bonus{
 			//c.damage += this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
-			Game.g.playSound(this.soundTaken);
+			
 			this.setTeam(0);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;

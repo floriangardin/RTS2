@@ -1,13 +1,7 @@
 package units;
 
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
-
 import data.Attributs;
-import data.Data;
 import main.Main;
-import model.GameTeam;
-import model.Plateau;
 import utils.UnitsList;
 
 public class UnitPriest extends Character {

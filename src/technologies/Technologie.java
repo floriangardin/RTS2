@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import data.Data;
 import model.Game;
 import model.GameTeam;
-import model.Plateau;
 
 public abstract class Technologie {
 

@@ -5,6 +5,8 @@ import org.newdawn.slick.Image;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
+import utils.Utils;
+import data.Data;
 import units.Character;;
 
 public class Spell {

@@ -3,10 +3,7 @@ package buildings;
 import java.util.Vector;
 
 import data.Attributs;
-import data.Data;
 import model.Checkpoint;
-import model.Game;
-import model.Plateau;
 import utils.UnitsList;
 
 public class BuildingAcademy extends BuildingProduction {

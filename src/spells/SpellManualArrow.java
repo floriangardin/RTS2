@@ -1,14 +1,11 @@
 package spells;
 
 import main.Main;
-import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
 import units.Character;
 import units.UnitCrossbowman;
-import utils.Utils;
 
 public class SpellManualArrow extends Spell{
 

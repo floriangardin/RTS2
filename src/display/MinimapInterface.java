@@ -84,10 +84,10 @@ public class MinimapInterface extends Bar {
 		g.setColor(Color.black);
 		g.fillRect(this.startX2+offsetDrawX, this.startY2, this.sizeX, this.sizeY);
 		// Find the high left corner
-		float hlx = Math.max(startX,startX+rw*this.p.Xcam);
-		float hly = Math.max(startY,startY+rh*this.p.Ycam);
-		float brx = Math.min(startX+w,startX+rw*(this.p.Xcam+Game.g.resX));
-		float bry = Math.min(startY+h,startY+rh*(this.p.Ycam+Game.g.resY));
+		float hlx = Math.max(startX,startX+rw*Game.g.Xcam);
+		float hly = Math.max(startY,startY+rh*Game.g.Ycam);
+		float brx = Math.min(startX+w,startX+rw*(Game.g.Xcam+Game.g.resX));
+		float bry = Math.min(startY+h,startY+rh*(Game.g.Ycam+Game.g.resY));
 		// Find the bottom right corner
 
 		// Draw background

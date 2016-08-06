@@ -5,8 +5,6 @@ import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import model.Plateau;
-import model.Player;
 import units.Character;
 import utils.Utils;
 
