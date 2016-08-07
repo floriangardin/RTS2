@@ -760,14 +760,16 @@ public class Plateau implements java.io.Serializable {
 		Selection selection = Game.g.inputsHandler.getSelection(player);
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
+			System.out.println("Vanneau a ");
 			if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Building) {
+				System.out.println("Vanneau d ");
 				for(int i=0; i<4; i++){
 					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
 						
 						((Building) selection.selection.get(0)).product(i);
 					}
 					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
-						
+						System.out.println("Vanneau "+i);
 						((Building) selection.selection.get(0)).productTech(i);
 					}
 				}

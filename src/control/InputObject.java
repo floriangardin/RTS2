@@ -73,6 +73,7 @@ public class InputObject implements java.io.Serializable{
 		}
 		for(KeyEnum ke : km.mapping.keySet()){
 			for(Integer i : km.mapping.get(ke)){
+				
 				if(input.isKeyPressed(i)){
 					this.pressed.addElement(ke);
 				}
@@ -114,7 +115,7 @@ public class InputObject implements java.io.Serializable{
 				Game.g.spellTarget = null;
 			}
 			
-			
+		
 			// ATTACK CLICK
 			if(pressed.contains(KeyEnum.DeplacementOffensif) && !Game.g.attackClick){
 				Game.g.attackClick = true;
