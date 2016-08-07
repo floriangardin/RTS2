@@ -35,14 +35,16 @@ public class Selection {
 
 		if(im.isOnMiniMap && this.rectangleSelection==null)
 			return;
-		if (this.rectangleSelection == null || im.isPressed(KeyEnum.ToutSelection)) {
+		if (this.rectangleSelection == null && im.isPressed(KeyEnum.LeftClick)) {
 			recX=(float) im.x;
 			recY= (float) im.y;
 			rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
 		}
-		rectangleSelection.setBounds((float) Math.min(recX, im.x),
-				(float) Math.min(recY, im.y), (float) Math.abs(im.x - recX) + 0.1f,
-				(float) Math.abs(im.y - recY) + 0.1f);
+		if(this.rectangleSelection!=null){
+			rectangleSelection.setBounds((float) Math.min(recX, im.x),
+					(float) Math.min(recY, im.y), (float) Math.abs(im.x - recX) + 0.1f,
+					(float) Math.abs(im.y - recY) + 0.1f);
+		}
 	}
 
 
@@ -82,7 +84,7 @@ public class Selection {
 
 				Utils.triId(chars);
 				this.selection.clear();
-				
+
 				for(Character c : chars)
 					this.selection.add(c);
 			}
@@ -129,12 +131,11 @@ public class Selection {
 		if (!im.isDown(KeyEnum.LeftClick)) {
 			if (this.rectangleSelection != null) {
 				// Play selection sound
-				
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(0);
 					Game.g.events.addEvent(Events.CharacterSelected, c);
-					
+
 				}
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Building) {
@@ -142,7 +143,7 @@ public class Selection {
 					//s = Game.g.sounds.get("selection"+c.name);
 					Game.g.events.addEvent(Events.BuildingSelected, c);
 				}
-				
+
 				Game.g.players.get(player).groupSelection = -1;
 			}
 

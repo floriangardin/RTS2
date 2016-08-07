@@ -10,5 +10,5 @@ weapon:"wand",
 range:200,
 explosionWhenImmolate:1,
 spells:Immolation-Firewall-BlessedArea,
-size:40
+size:35
 }

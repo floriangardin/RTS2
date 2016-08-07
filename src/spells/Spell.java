@@ -24,7 +24,7 @@ public abstract class Spell {
 	public static Color colorPasOk = new Color(1f,.01f,0.1f,0.5f);
 
 	public abstract void launch(Objet target, Character launcher);
-	
+
 	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok){
 		if(ok){
 			g.setColor(Spell.colorOk);
@@ -48,7 +48,7 @@ public abstract class Spell {
 		return this.getGameTeam().data.getAttributList(this.name.name().toLowerCase(),attribut);
 	}
 
-	public static Objet realTarget(Objet target, Character launcher, float range){
+	public static Objet realTarget(Objet target, Character launcher, float range, boolean checkpoint){
 		if(Utils.distance(target,launcher)>range){
 			float ux = target.getX() - launcher.getX();
 			float uy = target.getY() - launcher.getY();
@@ -57,7 +57,11 @@ public abstract class Spell {
 			uy = uy*range/norm;
 			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
 		} else {
-			return target;
+			if(checkpoint && !(target instanceof Checkpoint)){
+				return new Checkpoint(target.x, target.y);
+			} else {
+				return target;
+			}
 		}
 	}
 
@@ -86,21 +90,21 @@ public abstract class Spell {
 		spell.team = team;
 		return spell;
 	}
-	
+
 	public void drawRange(Graphics g, Character launcher){
 		g.setLineWidth(1f);
 		float range = this.getAttribut(Attributs.range);
 		g.drawOval(launcher.x-range, launcher.y-range, 2*range, 2*range);
 	}
-	
+
 	public void drawTargetUnit(Graphics g, Character target){
 		g.setLineWidth(3f);
 		float size = target.getAttribut(Attributs.size);
 		g.drawOval(target.x-size, target.y-size, 2*size, 2*size);
 	}
-	
+
 	public void drawTargetBuilding(Graphics g, Building building){
-		
+
 	}
 
 }

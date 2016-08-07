@@ -1,8 +1,13 @@
 {
 maxLifepoints:1,
+<<<<<<< HEAD
 spells:"",
 goldCost:0,
 foodCost:0,
 faithCost:0,
 prodTime:2
+=======
+sight:1,
+spells:""
+>>>>>>> aa518b5c775a6e5180a25b78d2c640de47353a9f
 }

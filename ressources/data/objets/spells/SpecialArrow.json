@@ -1,6 +1,7 @@
 {
 prototype:"Spell",
 printName:"Fleche",
+range:400,
 damage:5,
 chargeTime:100
 }

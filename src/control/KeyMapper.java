@@ -107,8 +107,7 @@ public class KeyMapper {
 		Stable,
 		HeadQuarters, 
 		GlobalRallyPoint,
-		AllUnits,
-		Abandon;
+		AllUnits;
 
 		public Vector<ObjetsList> getUnitsList() {
 			Vector<ObjetsList> v = new Vector<ObjetsList>();

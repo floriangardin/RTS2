@@ -34,9 +34,11 @@ public class Frozen extends SpellEffect{
 		this.x = t.getX();
 		this.y = t.getY();
 
+		this.name = "Frozen";
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		owner = launcher;
+		this.setTeam(launcher.getTeam());
 
 		this.collisionBox = createShape(launcher, t, radius);
 		Game.g.sounds.get("frozen").play(1f,Game.g.options.soundVolume);

@@ -107,6 +107,7 @@ public class InputObject implements java.io.Serializable{
 					Game.g.spellTarget = null;
 				}
 				pressed.remove(KeyEnum.LeftClick);
+				down.remove(KeyEnum.LeftClick);
 			} else {
 				Game.g.spellCurrent = null;
 				Game.g.spellLauncher = null;

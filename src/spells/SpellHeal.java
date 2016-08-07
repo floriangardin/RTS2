@@ -18,7 +18,7 @@ public class SpellHeal extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		Spell.realTarget(target, launcher, getAttribut(Attributs.range));
+		Spell.realTarget(target, launcher, getAttribut(Attributs.range),true);
 		Heal f = new Heal(launcher,target,-1);
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 	}
