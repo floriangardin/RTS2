@@ -75,7 +75,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void action(){
-		this.remainingTime-=1f*Main.increment;
+		this.remainingTime-=10f*Main.increment;
 		for(AttributsChange ac : this.ac){
 			ac.remainingTime = this.remainingTime;
 		}
@@ -94,7 +94,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-		this.animationState +=1f*Main.increment;
+		this.animationState +=30f*Main.increment;
 		if(this.animationState>animationMax)
 			animationState = 0f;
 		float x,y,r,currentAnimation;

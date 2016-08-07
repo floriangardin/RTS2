@@ -1229,14 +1229,16 @@ public class Game extends BasicGame
 		gf = fog.getGraphics();
 
 		double rdm = Math.random();
-		if(rdm<0.25){
+		if(rdm<0.20){
 			this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");			
-		} else if (rdm<0.5){
+		} else if (rdm<0.40){
 			this.loadingSpearman = new Image("ressources/images/unit/crossbowmanBlue.png");			
-		} else if (rdm<0.75){
+		} else if (rdm<0.60){
 			this.loadingSpearman = new Image("ressources/images/unit/knightBlue.png");			
-		} else if (rdm<0.99 || !Game.gillesSurCentEnable){
+		} else if (rdm<0.80 ){
 			this.loadingSpearman = new Image("ressources/images/unit/inquisitorBlue.png");			
+		} else if (rdm<0.99 || !Game.gillesSurCentEnable){
+			this.loadingSpearman = new Image("ressources/images/unit/priestBlue.png");			
 		} else {
 			this.loadingSpearman = new Image("ressources/images/danger/gilles.png");					
 			this.special = true;

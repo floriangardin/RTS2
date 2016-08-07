@@ -37,7 +37,7 @@ public class Character extends Objet{
 	 * 
 	 */
 	private static final long serialVersionUID = -6156105360565271761L;
-	
+
 	//Isattackec
 	public boolean isAttacked;
 	public float timerAttacked = 0f;
@@ -84,7 +84,7 @@ public class Character extends Objet{
 	public boolean isBolted = false;
 
 	public float remainingTime;
-	
+
 	// UnitsList associated
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Integer> waypoints = new Vector<Integer>();
@@ -279,7 +279,7 @@ public class Character extends Objet{
 			// compute damages
 			float damage = computeDamage(c);
 
-			if(c.getAttribut(Attributs.armor)<damage){
+			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 			}			
 		} else {
@@ -291,12 +291,6 @@ public class Character extends Objet{
 			case "wand" :
 				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
 				break;
-			case "bible":
-				Character c = (Character) this.target;
-				float damage = this.getAttribut(Attributs.damage);
-				if(c.getAttribut(Attributs.armor)<damage){
-					c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
-				}
 			default:
 			}
 		}
@@ -962,7 +956,7 @@ public class Character extends Objet{
 			}
 			if(!isAttacking)
 				this.stop();
-			if(state>=getAttribut(Attributs.chargeTime) && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
+			if(state>=getAttribut(Attributs.chargeTime) && this.target!=null && this.target instanceof Character){
 				if(!this.isAttacking){
 					this.stop();
 					this.attackState = 0f;
@@ -979,8 +973,8 @@ public class Character extends Objet{
 
 
 	}
-	
-	
+
+
 
 
 	public void updateChargeTime(){
@@ -1037,12 +1031,13 @@ public class Character extends Objet{
 
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
-			if(this.getAttribut(Attributs.damage)>0f) 
+			if(this.getAttribut(Attributs.damage)>0f) {
 				potential_targets = Game.g.plateau.getEnnemiesInSight(this);
-			else if (this.getAttribut(Attributs.damage)<0f) 
+			} else if (this.getAttribut(Attributs.damage)<0f) {
 				potential_targets = Game.g.plateau.getWoundedAlliesInSight(this);
-			else
+			} else{
 				potential_targets = new Vector<Character>();
+			}
 			if(potential_targets.size()>0){
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			} else {

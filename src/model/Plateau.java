@@ -424,15 +424,14 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				if (i == 0 && Math.random() > 0.3) {
-
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
-							&& c.getTeam() != target.getTeam()) {
+							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
 						Game.g.events.addEvent(Events.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
 						Game.g.events.addEvent(Events.MoveTarget, o);
 					}
-
 				}
+
 				i++;
 				// first we deal with o's elder group
 				if (o.group != null && o.group.size() > 1) {
