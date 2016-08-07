@@ -114,6 +114,22 @@ public class InputObject implements java.io.Serializable{
 				Game.g.spellLauncher = null;
 				Game.g.spellTarget = null;
 			}
+			
+			
+			// ATTACK CLICK
+			if(pressed.contains(KeyEnum.DeplacementOffensif) && !Game.g.attackClick){
+				Game.g.attackClick = true;
+				pressed.remove(KeyEnum.DeplacementOffensif);
+			}
+			else if(pressed.contains(KeyEnum.LeftClick) && Game.g.attackClick){
+				pressed.remove(KeyEnum.LeftClick);
+				Game.g.attackClick = false;
+				pressed.add(KeyEnum.DeplacementOffensif);
+			} else {
+				Game.g.attackClick = false;
+			}
+			
+			
 		}
 		this.toPlay = toPlay;
 

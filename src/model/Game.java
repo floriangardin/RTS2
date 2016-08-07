@@ -133,7 +133,12 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
-
+	
+	// Cursors
+	Image attackCursor ; 
+	Image cursor;
+	private Image currentCursor;
+	
 	// Font 
 	public UnicodeFont font;
 
@@ -186,7 +191,8 @@ public class Game extends BasicGame
 	// Handling events
 	public EventQueue events = new EventQueue();
 
-
+	// Attack click
+	public boolean attackClick = false;
 
 	////////////////////////
 	/// PLAYERS && TEAMS ///
@@ -322,6 +328,7 @@ public class Game extends BasicGame
 	private DeferredResource nextResource;
 	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 	String adviceToDisplay;
+	
 
 
 
@@ -744,7 +751,11 @@ public class Game extends BasicGame
 
 		// Handling multiReceiver
 		this.handleMultiReceiver();
+		
 
+
+		
+		
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -1201,7 +1212,8 @@ public class Game extends BasicGame
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc) throws SlickException {	
-		Image cursor = new Image("ressources/images/cursor.png");
+		cursor = new Image("ressources/images/cursor.png").getSubImage(0, 0, 24, 64);
+		attackCursor = new Image("ressources/images/swordCursor.png");
 		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(25*resX/1920));
 		this.font = new UnicodeFont(fe,(int)(25*resX/1920),false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
@@ -1209,9 +1221,10 @@ public class Game extends BasicGame
 		//this.font.addNeheGlyphs();
 		//this.font.addGlyphs(0, 256);
 		this.font.loadGlyphs();
+		this.currentCursor = cursor;
 		if(gc!=null)
-			gc.setMouseCursor(cursor.getSubImage(0, 0, 24, 64),5,16);
-
+			gc.setMouseCursor(currentCursor,5,16);
+		
 		fog = new Image((int) (resX), (int) (resY));
 		gf = fog.getGraphics();
 
