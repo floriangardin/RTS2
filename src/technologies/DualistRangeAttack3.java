@@ -2,7 +2,7 @@ package technologies;
 
 
 import data.Attributs;
-import utils.UnitsList;
+import utils.ObjetsList;
 
 public class DualistRangeAttack3 extends Technologie {
 
@@ -13,7 +13,7 @@ public class DualistRangeAttack3 extends Technologie {
 	}
 	
 	public void applyEffect(){
-		this.getGameTeam().data.addAttribut(UnitsList.Inquisitor.name, Attributs.damage, 1);
-		this.getGameTeam().data.addAttribut(UnitsList.Crossbowman.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.damage, 1);
 	}
 }

@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Point;
 import main.Main;
 import ressources.Map;
 import spells.Spell;
+import utils.ObjetsList;
 import utils.SpellsList;
 import utils.Utils;
 
@@ -114,7 +115,7 @@ public class Data implements java.io.Serializable {
 						d.attributs.put(a, f);
 						toRemove.add(a);
 					} catch (NumberFormatException e) {
-						if(a==Attributs.spells || a==Attributs.productions || a==Attributs.list){
+						if(a==Attributs.spells || a==Attributs.units || a==Attributs.technologies  || a==Attributs.productions || a==Attributs.list){
 							d.attributsList.put(a, new Vector<String>());
 							if(d.attributsString.get(a).length()>2){
 								for(String spell : d.attributsString.get(a).split("-")){
@@ -176,6 +177,24 @@ public class Data implements java.io.Serializable {
 			return new Vector<String>();
 		}
 		return this.datas.get(name.toLowerCase()).attributsList.get(attribut);
+	}
+	
+	public Vector<ObjetsList> getAttributListAtt(String name, Attributs attribut){
+		if(!this.datas.containsKey(name.toLowerCase())){
+			System.out.println("erreur : data ne contient pas de list pour "+name);
+			return new Vector<ObjetsList>();
+		}
+		if(!this.datas.get(name.toLowerCase()).attributsList.containsKey(attribut)){
+			System.out.println(name+" n'a pas d'attribut "+attribut);
+			return new Vector<ObjetsList>();
+		}
+		Vector<String> s = this.datas.get(name.toLowerCase()).attributsList.get(attribut);
+		Vector<ObjetsList> result = new Vector<ObjetsList>();
+		for(String s1 : s){
+			result.add(ObjetsList.valueOf(s1));
+		}
+		return result;
+		
 	}
 	public void setAttributString(String name, Attributs attribut, String value){
 		if(!this.datas.containsKey(name)){

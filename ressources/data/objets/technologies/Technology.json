@@ -1,8 +1,7 @@
 {
-maxLifepoints:1,
-spells:"",
+nameIcon:"techfervourage",
 goldCost:0,
 foodCost:0,
 faithCost:0,
-prodTime:2
+prodTime:20
 }

@@ -23,5 +23,6 @@ public enum Attributs {
 	productions, 
 	totalTime, 
 	faithCost, 
-	effect, bonusDamage, bonusSpeed, list, needToClick, width;
+	effect, bonusDamage, bonusSpeed, list, needToClick, width,
+	foodCost,goldCost,prodTime, units, technologies, nameIcon;
 }

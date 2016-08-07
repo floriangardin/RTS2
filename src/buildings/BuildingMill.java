@@ -10,9 +10,9 @@ import display.DisplayRessources;
 import main.Main;
 import model.Game;
 import technologies.Technologie;
-import utils.BuildingsList;
+import utils.ObjetsList;
 
-public class BuildingMill extends BuildingTech{
+public class BuildingMill extends Building{
 	
 	public float chargeTime;
 	
@@ -20,13 +20,14 @@ public class BuildingMill extends BuildingTech{
 	
 	public BuildingMill(float f, float h, int team){
 		
+		super(ObjetsList.Mill,f,h);
 		this.setTeam(team);
 		this.type = 1;
-		this.name= BuildingsList.Mill.name();
+		this.name= ObjetsList.Mill.name().toLowerCase();
 		this.chargeTime = getAttribut(Attributs.maxChargetime);
 		this.lifePoints = getAttribut(Attributs.maxLifepoints);
 		this.initialize(f, h);
-		this.productionList = new Vector<Technologie>();
+	
 		this.updateProductionList();
 	}
 
@@ -56,15 +57,15 @@ public class BuildingMill extends BuildingTech{
 		
 		//Do the action of prod tech
 		//Product, increase state of the queue
-		if(this.queue!=null){
+		if(this.queueTechnology!=null){
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
 			this.animation=(int) ((this.animation+2f)%120);
 				
 			this.charge+=Main.increment;
-			if(this.charge>=this.queue.tech.prodTime){
-				this.techTerminate(this.queue);
+			if(this.charge>=this.queueTechnology.tech.prodTime){
+				this.techTerminate(this.queueTechnology);
 
 			}
 		}

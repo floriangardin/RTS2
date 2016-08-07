@@ -27,7 +27,7 @@ import model.Plateau;
 import nature.Tree;
 import pathfinding.MapGrid;
 import units.Character;
-import utils.UnitsList;
+import utils.ObjetsList;
 
 public class Map {
 
@@ -178,7 +178,7 @@ public class Map {
 				} else {
 					throw new Exception();
 				}
-				new Character(Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid, UnitsList.valueOf(tab[0]), Integer.parseInt(tab[1]));
+				new Character(Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid, ObjetsList.valueOf(tab[0]), Integer.parseInt(tab[1]));
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){

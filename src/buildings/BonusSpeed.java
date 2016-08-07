@@ -5,13 +5,14 @@ import main.Main;
 import model.Game;
 import model.Plateau;
 import units.Character;
-import utils.BuildingsList;
+import utils.ObjetsList;
 
 public class BonusSpeed extends Bonus{
 
 
 	public BonusSpeed( float x , float y){
-		this.name = BuildingsList.BonusSpeed.name();
+		super(ObjetsList.BonusSpeed,x,y);
+		this.name = ObjetsList.BonusSpeed.name().toLowerCase();
 		this.initialize( x, y);
 		this.bonus = 20f;
 	}

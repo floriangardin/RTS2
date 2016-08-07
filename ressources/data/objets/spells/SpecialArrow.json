@@ -2,6 +2,5 @@
 prototype:"Spell",
 printName:"Fleche",
 damage:5,
-chargeTime:100,
-needToClick:0
+chargeTime:100
 }

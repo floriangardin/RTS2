@@ -7,13 +7,13 @@ import battleIA.IAStateOfGame.ObjetIA;
 import battleIA.IAStateOfGame.UnitIA;
 import buildings.Building;
 import buildings.BuildingHeadquarters;
-import buildings.BuildingProduction;
+
 import model.Checkpoint;
 import model.Game;
 import model.Plateau;
 import units.Character;
-import utils.BuildingsList;
-import utils.UnitsList;
+import utils.ObjetsList;
+import utils.ObjetsList;
 
 public final class IAfunctions {
 
@@ -391,7 +391,7 @@ public final class IAfunctions {
 
 	//about buildings
 	
-	private BuildingIA getNearestBuildingByTypeAndTeam(BuildingsList type, int team, boolean ally, ObjetIA caller){
+	private BuildingIA getNearestBuildingByTypeAndTeam(ObjetsList type, int team, boolean ally, ObjetIA caller){
 		Vector<ObjetIA> result = new Vector<ObjetIA>();
 		for(BuildingIA b : plateau.buildings){
 			if(b.type == type && ((ally && b.team==team) || (!ally && b.team!=team && b.team!=0))){
@@ -403,34 +403,34 @@ public final class IAfunctions {
 	
 
 	public BuildingIA getNearestNeutralMill(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Mill, 0, true, caller);
+		return getNearestBuildingByTypeAndTeam(ObjetsList.Mill, 0, true, caller);
 	}
 	public BuildingIA getNearestNeutralMine(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Mine, 0, true, caller);
+		return getNearestBuildingByTypeAndTeam(ObjetsList.Mine, 0, true, caller);
 	}
 	public BuildingIA getNearestNeutralBarrack(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Barracks, 0, true, caller);
+		return getNearestBuildingByTypeAndTeam(ObjetsList.Barracks, 0, true, caller);
 	}
 	public BuildingIA getNearestEnemyMill(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Mill, 0, false, caller);
+		return getNearestBuildingByTypeAndTeam(ObjetsList.Mill, 0, false, caller);
 	}
 	public BuildingIA getNearestEnemyMine(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Mine, 0, false, caller);
+		return getNearestBuildingByTypeAndTeam(ObjetsList.Mine, 0, false, caller);
 	}
 	public BuildingIA getNearestEnemyBarrack(ObjetIA caller){
-		return getNearestBuildingByTypeAndTeam(BuildingsList.Barracks, 0, false, caller);
+		return getNearestBuildingByTypeAndTeam(ObjetsList.Barracks, 0, false, caller);
 	}
 
 	public BuildingIA getEnemyHQ(){
 		for(BuildingIA b: this.plateau.buildings){
-			if(b.type == BuildingsList.Headquarters && b.team != this.currentTeam){
+			if(b.type == ObjetsList.Headquarters && b.team != this.currentTeam){
 				return b;
 			}
 		}
 		return null;
 	}
 
-	private Vector<BuildingIA> getAllBuildingByTypeAndTeam(BuildingsList type, int team, boolean ally){
+	private Vector<BuildingIA> getAllBuildingByTypeAndTeam(ObjetsList type, int team, boolean ally){
 		Vector<BuildingIA> result = new Vector<BuildingIA>();
 		for(BuildingIA b : this.plateau.buildings){
 			if(b.type == type && ((ally && b.team==team) || (!ally && b.team!=team && b.team!=0))){
@@ -441,28 +441,28 @@ public final class IAfunctions {
 	}
 
 	public Vector<BuildingIA> getAllyMills(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Mill, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Mill, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyMines(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Mine, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Mine, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyBarracks(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Barracks, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Barracks, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyStables(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Stable, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Stable, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyAcademys(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Academy, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Academy, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyHeadQuarters(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Headquarters, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Headquarters, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyUniversitys(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.University, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.University, currentTeam, true);
 	}
 	public Vector<BuildingIA> getAllyTowers(){
-		return getAllBuildingByTypeAndTeam(BuildingsList.Tower, currentTeam, true);
+		return getAllBuildingByTypeAndTeam(ObjetsList.Tower, currentTeam, true);
 	}
 
 	public void addToBuildingAProduction(BuildingIA building, int production) throws IAException{
@@ -471,13 +471,13 @@ public final class IAfunctions {
 				if(b.getTeam()!=this.currentTeam){
 					throw new IAException(currentTeam, "Impossible de donner des ordres à un bâtiment ennemi");
 				}
-				((BuildingProduction) b).product(production);
+				((Building) b).product(production);
 			}
 		}
 	}
 
 	// about Units
-	private Vector<UnitIA> getUnitsByTypeAndTeam(UnitsList type, int team, boolean ally){
+	private Vector<UnitIA> getUnitsByTypeAndTeam(ObjetsList type, int team, boolean ally){
 		Vector<UnitIA> result = new Vector<UnitIA>();
 		for(UnitIA c : plateau.units){
 			if(c.type == type && ((ally && c.team == team) || (!ally && c.team != team && c.team !=0))){
@@ -488,22 +488,22 @@ public final class IAfunctions {
 	}
 
 	public Vector<UnitIA> getAllySpearmen(){
-		return getUnitsByTypeAndTeam(UnitsList.Spearman, this.currentTeam, true);
+		return getUnitsByTypeAndTeam(ObjetsList.Spearman, this.currentTeam, true);
 	}
 	public Vector<UnitIA> getCrossbowman(){
-		return getUnitsByTypeAndTeam(UnitsList.Crossbowman, this.currentTeam, true);
+		return getUnitsByTypeAndTeam(ObjetsList.Crossbowman, this.currentTeam, true);
 	}
 	public Vector<UnitIA> getKnight(){
-		return getUnitsByTypeAndTeam(UnitsList.Knight, this.currentTeam, true);
+		return getUnitsByTypeAndTeam(ObjetsList.Knight, this.currentTeam, true);
 	}
 	public Vector<UnitIA> getPriest(){
-		return getUnitsByTypeAndTeam(UnitsList.Priest, this.currentTeam, true);
+		return getUnitsByTypeAndTeam(ObjetsList.Priest, this.currentTeam, true);
 	}
 	public Vector<UnitIA> getInquisitor(){
-		return getUnitsByTypeAndTeam(UnitsList.Inquisitor, this.currentTeam, true);
+		return getUnitsByTypeAndTeam(ObjetsList.Inquisitor, this.currentTeam, true);
 	}
 	public Vector<UnitIA> getArchange(){
-		return getUnitsByTypeAndTeam(UnitsList.Archange, this.currentTeam, true);
+		return getUnitsByTypeAndTeam(ObjetsList.Archange, this.currentTeam, true);
 	}
 
 	// ressources

@@ -7,8 +7,7 @@ import org.newdawn.slick.geom.Point;
 
 import buildings.Bonus;
 import buildings.Building;
-import buildings.BuildingAction;
-import buildings.BuildingProduction;
+
 import buildings.BuildingTower;
 import bullets.Bullet;
 import bullets.CollisionBullet;
@@ -711,14 +710,14 @@ public class Plateau implements java.io.Serializable {
 			// RALLY POINT
 
 			if (selection.selection.size() > 0
-					&& selection.selection.get(0) instanceof BuildingProduction) {
+					&& selection.selection.get(0) instanceof Building) {
 				Objet target = findTarget(im.x, im.y,player);
 				if(target instanceof Building || target instanceof Character){
-					((BuildingProduction) selection.selection.get(0)).rallyPoint = target;
+					((Building) selection.selection.get(0)).rallyPoint = target;
 				}
 				if(target==null){
 
-					((BuildingProduction) selection.selection.get(0)).rallyPoint = new Checkpoint(im.x,im.y);
+					((Building) selection.selection.get(0)).rallyPoint = new Checkpoint(im.x,im.y);
 
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
@@ -750,9 +749,9 @@ public class Plateau implements java.io.Serializable {
 		if (im.isPressed(KeyEnum.GlobalRallyPoint)) {
 			//Update rally point
 			for(Building b : buildings){
-				if(b.getTeam()==Game.g.players.get(player).getTeam() && b instanceof BuildingProduction){
+				if(b.getTeam()==Game.g.players.get(player).getTeam() && b instanceof Building){
 					Checkpoint c = new Checkpoint(im.x,im.y,true,Colors.team1);
-					((BuildingProduction) b).rallyPoint = new Checkpoint(im.x,im.y);
+					((Building) b).rallyPoint = new Checkpoint(im.x,im.y);
 				}
 			}
 		}
@@ -761,15 +760,20 @@ public class Plateau implements java.io.Serializable {
 	private void handleActionBar(InputObject im, int player) {
 		Selection selection = Game.g.inputsHandler.getSelection(player);
 		boolean imo = false;
-		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) || im.isPressed(KeyEnum.Escape)) {
-			if (selection.selection.size() > 0 && selection.selection.get(0) instanceof BuildingAction) {
+		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
+			if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Building) {
 				for(int i=0; i<4; i++){
 					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
-						((BuildingAction) selection.selection.get(0)).product(i);
+						
+						((Building) selection.selection.get(0)).product(i);
+					}
+					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
+						
+						((Building) selection.selection.get(0)).productTech(i);
 					}
 				}
 				if (im.isPressed(KeyEnum.Escape))
-					((BuildingAction) selection.selection.get(0)).removeProd();
+					((Building) selection.selection.get(0)).removeProd();
 			} else
 				if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Character) {
 					int number = -1;

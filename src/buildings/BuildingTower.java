@@ -11,7 +11,7 @@ import main.Main;
 import model.Checkpoint;
 import model.Game;
 import units.Character;
-import utils.BuildingsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class BuildingTower extends Building{
@@ -24,9 +24,10 @@ public class BuildingTower extends Building{
 	public String animationRouge;
 
 	public BuildingTower(float f, float h, int team){
+		super(ObjetsList.Tower,f,h);
 		teamCapturing = 0;
 		this.setTeam(team);
-		this.name = BuildingsList.Tower.name();
+		this.name = ObjetsList.Tower.name().toLowerCase();
 //		if(getTeam()==1){
 //			this.image = this.p.g.images.get("buildingTowerBlue");
 //		} else if(getTeam()==2){

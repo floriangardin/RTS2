@@ -2,8 +2,8 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
-import buildings.BuildingProduction;
-import buildings.BuildingTech;
+import buildings.Building;
+
 import control.InputObject;
 import data.Attributs;
 import model.Objet;
@@ -20,14 +20,15 @@ public class SpellProduct extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		// Check if target intersect an ennemy
-		if(target instanceof BuildingProduction && ((BuildingProduction) target).queue.size()>0){
-			BuildingProduction p = (BuildingProduction) target;
+		if(target instanceof Building && ((Building) target).queue.size()>0){
+			Building p = (Building) target;
 			if(p.queue.size()>0){
-				p.charge=p.productionList.get(p.queue.get(0)).time;
+				 Float prodTime = p.getGameTeam().data.getAttribut(p.getProductionList().get(p.queue.get(0)).name, Attributs.printName);
+				p.charge=prodTime;
 			}
-		}else if(target instanceof BuildingTech && ((BuildingTech) target).queue!=null){
-			BuildingTech p = (BuildingTech) target;
-			p.techTerminate(p.queue);
+		}else if(target instanceof Building && ((Building) target).queueTechnology!=null){
+			Building p = (Building) target;
+			p.techTerminate(p.queueTechnology);
 		}else{
 			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
 		}

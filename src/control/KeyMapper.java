@@ -10,8 +10,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Vector;
 
-import utils.BuildingsList;
-import utils.UnitsList;
+import utils.ObjetsList;
+import utils.ObjetsList;
 
 
 
@@ -83,6 +83,10 @@ public class KeyMapper {
 		Prod1,
 		Prod2,
 		Prod3,
+		Tech0,
+		Tech1,
+		Tech2,
+		Tech3,
 		TenirPosition,
 		DeplacementOffensif,
 		PouvoirSpecial,
@@ -106,32 +110,32 @@ public class KeyMapper {
 		AllUnits,
 		Abandon;
 
-		public Vector<UnitsList> getUnitsList() {
-			Vector<UnitsList> v = new Vector<UnitsList>();
+		public Vector<ObjetsList> getUnitsList() {
+			Vector<ObjetsList> v = new Vector<ObjetsList>();
 			switch(this){
 			case Spearman : 
 			case Crossbowman:
 			case Knight:
 			case Priest:
-			case Inquisitor:v.add(UnitsList.valueOf(this.name()));
+			case Inquisitor:v.add(ObjetsList.valueOf(this.name()));
 			break;
 			case AllUnits:
-				v.add(UnitsList.Spearman);
-				v.add(UnitsList.Crossbowman);
-				v.add(UnitsList.Knight);
-				v.add(UnitsList.Priest);
-				v.add(UnitsList.Inquisitor);
+				v.add(ObjetsList.Spearman);
+				v.add(ObjetsList.Crossbowman);
+				v.add(ObjetsList.Knight);
+				v.add(ObjetsList.Priest);
+				v.add(ObjetsList.Inquisitor);
 			default:
 			}
 			return v;
 		}
 		
-		public Vector<BuildingsList> getBuildingsList() {
-			Vector<BuildingsList> v = new Vector<BuildingsList>();
+		public Vector<ObjetsList> getBuildingsList() {
+			Vector<ObjetsList> v = new Vector<ObjetsList>();
 			switch(this){
 			case Barracks:
 			case Stable:
-			case HeadQuarters:v.add(BuildingsList.valueOf(this.name()));
+			case HeadQuarters:v.add(ObjetsList.valueOf(this.name()));
 			default:
 			}
 			return v;

@@ -34,8 +34,8 @@ import org.newdawn.slick.loading.LoadingList;
 
 import buildings.Bonus;
 import buildings.Building;
-import buildings.BuildingProduction;
-import buildings.BuildingTech;
+
+
 import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
@@ -1409,21 +1409,19 @@ public class Game extends BasicGame
 				checksum+=this.plateau.buildings.get(i).name;
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).charge))%10);
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).constructionPoints))%10);
-				if(this.plateau.buildings.get(i) instanceof BuildingProduction){
-					BuildingProduction p =(BuildingProduction) this.plateau.buildings.get(i);
+				if(this.plateau.buildings.get(i) instanceof Building){
+					Building p =(Building) this.plateau.buildings.get(i);
 					if(p.queue!=null && p.queue.size()>0){
 
 						checksum+=Integer.toString(p.queue.size());
 					}
-
-				}
-				else if(this.plateau.buildings.get(i) instanceof BuildingTech){
-					BuildingTech p =(BuildingTech) this.plateau.buildings.get(i);
 					checksum+="bt";
-					if(p.queue!=null){
+					if(p.queueTechnology!=null){
 						checksum+="q";
 					}
+
 				}
+	
 				checksum+="-";
 				i++;
 			}

@@ -3,22 +3,26 @@ package buildings;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 
+
 import events.Events;
-
 import data.Attributs;
-
 import main.Main;
 import model.Colors;
 import model.Game;
 import model.Plateau;
 import ressources.Map;
+import utils.ObjetsList;
 
 public abstract class Bonus extends Building{
+
+	public Bonus(ObjetsList name, float x, float y) {
+		super(name, x, y);
+		// TODO Auto-generated constructor stub
+	}
 
 	public float bonus=5f;
 	public String soundTaken;
