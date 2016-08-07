@@ -1021,14 +1021,15 @@ public class Character extends Objet{
 	}
 	public void updateSetTarget(){
 
-		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
+		if(this.getTarget()!=null 
+				&& !this.getTarget().isAlive()
+				&& (this.getAttribut(Attributs.damage)>0 && this.getTarget().getTeam()!=this.getTeam())){
 			this.setTarget(null);
 		}
 		if(this.getTarget()==null && this.secondaryTargets.size()>0){
 			this.setTarget(this.secondaryTargets.get(0));
 		}
 		if(this.getTarget()==null){
-
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
 			if(this.getAttribut(Attributs.damage)>0f) {
@@ -1048,7 +1049,6 @@ public class Character extends Objet{
 			//			return;
 		}
 		if(this.getTarget() instanceof Character){
-
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
