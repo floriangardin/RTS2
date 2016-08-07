@@ -740,6 +740,7 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 		if (im.isPressed(KeyEnum.DeplacementOffensif)) {
+			
 			updateTarget(im.x, im.y, player, Character.AGGRESSIVE);
 		}
 		if (im.isPressed(KeyEnum.TenirPosition)) {
