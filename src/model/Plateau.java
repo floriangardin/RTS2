@@ -393,7 +393,7 @@ public class Plateau implements java.io.Serializable {
 
 
 	// handling the input
-	public void updateTarget(float x, float y, int team, int mode) {
+	public void updateTarget(float x, float y, int team, int mode, Vector<Objet> vo) {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
@@ -401,7 +401,7 @@ public class Plateau implements java.io.Serializable {
 		}
 		int i = 0;
 
-		for (Objet c : Game.g.inputsHandler.getSelection(team).selection) {
+		for (Objet c : vo) {
 
 			if(c instanceof Building && mode==Character.DESTROY_BUILDING){
 				((Building) c).giveUpProcess = true;
@@ -606,7 +606,7 @@ public class Plateau implements java.io.Serializable {
 			int player = im.idplayer;
 
 			//handle victory
-			if(im.isPressed(KeyEnum.Abandon)){
+			if(im.isPressed(KeyEnum.AbandonnerPartie)){
 				Game.g.endGame = true;
 				if(player!=Game.g.currentPlayer.id){
 					Game.g.victory = true;
@@ -725,7 +725,7 @@ public class Plateau implements java.io.Serializable {
 
 				updateSecondaryTarget(im.x, im.y, player);
 			} else {
-				updateTarget(im.x, im.y, player, Character.MOVE);
+				updateTarget(im.x, im.y, player, Character.MOVE,Game.g.inputsHandler.getSelection(player).selection);
 			}
 		}
 		if (im.isPressed(KeyEnum.StopperMouvement)) {
@@ -740,11 +740,11 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 		if (im.isPressed(KeyEnum.DeplacementOffensif)) {
-			updateTarget(im.x, im.y, player, Character.AGGRESSIVE);
+			updateTarget(im.x, im.y, player, Character.AGGRESSIVE,Game.g.inputsHandler.getSelection(player).selection);
 		}
 		if (im.isPressed(KeyEnum.TenirPosition)) {
 			// Hold position
-			updateTarget(im.x, im.y, player, Character.HOLD_POSITION);
+			updateTarget(im.x, im.y, player, Character.HOLD_POSITION,Game.g.inputsHandler.getSelection(player).selection);
 		}
 		if (im.isPressed(KeyEnum.GlobalRallyPoint)) {
 			//Update rally point
@@ -792,7 +792,7 @@ public class Plateau implements java.io.Serializable {
 							}
 							// switching selection
 							int compteur = 0;
-							while(selection.selection.size()>compteur && selection.selection.get(compteur).getClass()==c.getClass()){
+							while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
 								compteur++;
 							}
 							selection.selection.insertElementAt(c, compteur);
@@ -803,7 +803,7 @@ public class Plateau implements java.io.Serializable {
 		}
 		if(im.spell!=null){
 			Spell s = Game.g.getPlayerById(im.idplayer).getGameTeam().data.getSpell(im.spell);
-			Character c = Game.g.plateau.getCharacterById(im.idSpellLauncher);
+			Character c = ((Character) selection.selection.get(0));
 			if(im.idObjetMouse!=-1){
 				s.launch(Game.g.plateau.getById(im.idObjetMouse), c);
 			} else {
@@ -814,6 +814,13 @@ public class Plateau implements java.io.Serializable {
 					c.spellsState.set(i, 0f);
 				}
 			}
+			// switching selection
+			int compteur = 0;
+			while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
+				compteur++;
+			}
+			selection.selection.insertElementAt(c, compteur);
+			selection.selection.remove(0);
 		}
 
 	}

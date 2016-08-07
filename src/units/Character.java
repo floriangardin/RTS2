@@ -101,7 +101,7 @@ public class Character extends Objet{
 		this.setTeam(team);
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
-		this.selectionBox = new Rectangle(1f,1f,this.getAttribut(Attributs.size),this.getAttribut(Attributs.size));
+		this.selectionBox = new Rectangle(1f,1f,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
 		this.sightBox = new Circle(1f,1f,this.getAttribut(Attributs.sight));
 		this.setXY(x, y);
 		this.isHidden = false;
@@ -136,7 +136,7 @@ public class Character extends Objet{
 		this.collisionBox.setCenterX(this.x);
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
-		this.sightBox.setCenterY(this.getY());
+		this.sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
 		int oldc = this.idCase;
 		this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
 		//Updating the case
@@ -943,7 +943,8 @@ public class Character extends Objet{
 
 
 	}
-
+	
+	
 
 
 	public void updateChargeTime(){

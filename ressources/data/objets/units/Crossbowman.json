@@ -10,5 +10,5 @@ damage:5,
 weapon:"bow",
 range:300,
 spells:Immolation-SpecialArrow,
-size:30
+size:40
 }

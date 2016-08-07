@@ -15,7 +15,7 @@ import units.Character;
 public class Arrow extends CollisionBullet{
 
 	protected float angle= 0f;
-	public float life = 4f;
+	public float life = 6f;
 	public Arrow(Character owner,float vx,float vy,float damage,int id){
 		//MULTI 
 	
