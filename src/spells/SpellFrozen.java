@@ -16,7 +16,7 @@ public class SpellFrozen extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		Objet t = Spell.realTarget(target, launcher, getAttribut(Attributs.range));
+		Objet t = Spell.realTarget(target, launcher, getAttribut(Attributs.range),true);
 		Frozen f = new Frozen(launcher,t,-1,getAttribut(Attributs.size));
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 
@@ -26,7 +26,7 @@ public class SpellFrozen extends Spell{
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
 		g.setLineWidth(3f);
-		Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, this.getAttribut(Attributs.range));
+		Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, this.getAttribut(Attributs.range),true);
 		g.draw(Frozen.createShape(launcher, t, getAttribut(Attributs.size)));
 	}
 

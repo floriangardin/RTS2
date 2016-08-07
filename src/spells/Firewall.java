@@ -37,10 +37,12 @@ public class Firewall extends SpellEffect{
 		this.y = launcher.getY();
 		this.x2 = t.getX();
 		this.y2 = t.getY();
-		
+
+		this.name = "Firewall";
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		image = "explosion";
+		this.setTeam(launcher.getTeam());
 		owner = launcher;
 		this.collisionBox = createShape(launcher, t, width) ;
 		this.createAnimation(t, launcher);

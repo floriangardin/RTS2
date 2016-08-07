@@ -39,6 +39,7 @@ public class BlessedArea extends SpellEffect{
 		else{
 			this.id =id;
 		}
+		this.name = "blessedArea";
 		this.type = 2;
 		this.size = size;
 		this.id = Game.g.idChar;
@@ -49,6 +50,7 @@ public class BlessedArea extends SpellEffect{
 		this.ac = new Vector<AttributsChange>();
 		ac.add(new AttributsChange(Attributs.chargeTime,Change.MUL,0.5f,this.remainingTime));
 		owner = launcher;
+		this.setTeam(launcher.getTeam());
 		this.collisionBox = createShape(launcher, t, size);
 		this.x = t.getX();
 		this.y = t.getY();

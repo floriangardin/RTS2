@@ -391,8 +391,44 @@ public class Character extends Objet{
 	}
 	// Moving toward method method
 	public void moveToward(int idCase){
-		Case c = Game.g.plateau.mapGrid.getCase(idCase);
-		moveToward(new Checkpoint(c.x+c.sizeX/2f,c.y+c.sizeY/2f));
+		Case c0 = Game.g.plateau.mapGrid.getCase(this.idCase);
+		Case c1 = Game.g.plateau.mapGrid.getCase(idCase);
+		// il faut vérifier que l'intersection ne se fait pas trop près du bord de la case
+		float a, b, c, d;
+		float newX, newY;
+		float coeff;
+		if(c0.x==c1.x){
+			b = c1.y+c1.sizeY/2f-y;;
+			c = x;
+			d = c1.x+c1.sizeX/2f-x;;
+			//déplacement vertical
+			if(c0.y<c1.y){
+				// on va vers le bas
+				a = c1.y-y;
+				newY = c1.y+getAttribut(Attributs.maxVelocity);
+			} else {
+				// on va vers le haut
+				a = c0.y-y;
+				newY = c0.y-getAttribut(Attributs.maxVelocity);
+			}
+			newX = (float)(Math.min(Math.max(c+d*a/b, c1.x+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.x+c1.sizeX-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+		} else {
+			// déplacement horizontal
+			b = c1.x+c1.sizeX/2f-x;
+			c = y;
+			d = c1.y+c1.sizeY/2f-y;
+			if(c0.x<c1.x){
+				// on va vers la droite
+				a = c1.x-x;
+				newX = c1.x+getAttribut(Attributs.maxVelocity);
+			} else {
+				// on va vers la gauche
+				a = c0.x-x;
+				newX = c0.x-getAttribut(Attributs.maxVelocity);
+			} 
+			newY = (float)(Math.min(Math.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+		}	
+		moveToward(new Checkpoint(newX,newY));
 	}
 	public void moveToward(Objet o){
 		if(o==null && this.checkpointTarget==null){

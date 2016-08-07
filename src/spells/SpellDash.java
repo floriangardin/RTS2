@@ -24,7 +24,8 @@ public class SpellDash extends Spell{
 		launcher.attributsChanges.add(new AttributsChange(Attributs.maxVelocity,Change.SET,this.getAttribut(Attributs.bonusSpeed),this.getAttribut(Attributs.totalTime)));
 		Vector<Objet> v = new Vector<Objet>();
 		v.add(launcher);
-		Game.g.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.AGGRESSIVE,v);		
+		launcher.inDash = this.getAttribut(Attributs.totalTime);
+		Game.g.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
 	}
 
 
@@ -53,9 +54,27 @@ public class SpellDash extends Spell{
 		float xpointe = launcher.x+(x-launcher.x)*(longueur+longueurPointe)/dist;
 		float ypointe = launcher.y+(y-launcher.y)*(longueur+longueurPointe)/dist;
 		g.drawLine(xlauncherLeft,ylauncherLeft,xtargetLeft,ytargetLeft);
+		g.setLineWidth(6f);
 		g.drawLine(xtargetLeft,ytargetLeft,xpointe,ypointe);
 		g.drawLine(xpointe,ypointe,xtargetRight,ytargetRight);
+		g.setLineWidth(3f);
 		g.drawLine(xlauncherRight,ylauncherRight,xtargetRight,ytargetRight);
+		int nbTotalFleche = 7;
+		float ratio, offset = 0.002f*(System.currentTimeMillis()%500);
+		g.setLineWidth(1f);
+		for(int i=0; i<nbTotalFleche; i++){
+			ratio = (longueur*i/nbTotalFleche+longueur*offset/nbTotalFleche)/dist;
+			xtargetLeft = launcher.x+(x-launcher.x)*ratio+(launcher.y-y)*10f/dist;
+			ytargetLeft = launcher.y+(y-launcher.y)*ratio+(x-launcher.x)*10f/dist;
+			xtargetRight = launcher.x+(x-launcher.x)*ratio-(launcher.y-y)*10f/dist;
+			ytargetRight = launcher.y+(y-launcher.y)*ratio-(x-launcher.x)*10f/dist;
+			ratio = (longueur*i/nbTotalFleche+longueurPointe+longueur*offset/nbTotalFleche)/dist;
+			xpointe = launcher.x+(x-launcher.x)*ratio;
+			ypointe = launcher.y+(y-launcher.y)*ratio;
+
+			g.drawLine(xtargetLeft,ytargetLeft,xpointe,ypointe);
+			g.drawLine(xpointe,ypointe,xtargetRight,ytargetRight);
+		}
 		g.setLineWidth(1f);
 	}
 

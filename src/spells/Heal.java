@@ -31,6 +31,7 @@ public class Heal extends SpellEffect{
 
 		this.type = 1;
 
+		this.name = "heal";
 		this.x = t.getX();
 		this.y = t.getY();
 		this.team = launcher.getTeam();

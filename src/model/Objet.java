@@ -56,6 +56,9 @@ public abstract class Objet implements java.io.Serializable {
 	public Checkpoint checkpointTarget;
 	public boolean toKeep=false;
 	public boolean mouseOver = false;
+	
+	// spells attributs
+	public float inDash = 0f;
 
 
 
@@ -72,6 +75,13 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		for(AttributsChange ac : toDelete){
 			this.attributsChanges.remove(ac);
+		}
+		// handling end of dash
+		if(this.inDash>0f){
+			this.inDash-=1f*Main.increment;
+			if(this.inDash<=0f && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint)){
+				this.mode = Character.AGGRESSIVE;
+			}
 		}
 	}
 	
@@ -242,7 +252,7 @@ public abstract class Objet implements java.io.Serializable {
 	
 	// Autres
 	public float getVisibleSize(){
-		if(this.getGameTeam().data.datas.containsKey(this.name)){
+		if(this.getGameTeam().data.datas.containsKey(this.name.toLowerCase())){
 			if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.size)){
 				return getAttribut(Attributs.size)+getAttribut(Attributs.sight);
 			} else if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.sizeX)){
