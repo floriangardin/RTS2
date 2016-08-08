@@ -13,7 +13,7 @@ public class DualistRangeAttack2 extends Technologie {
 	}
 	
 	public void applyEffect(){
-		this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.damage, 1);
-		this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.damage, 1);
 	}
 }

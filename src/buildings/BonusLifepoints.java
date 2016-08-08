@@ -11,7 +11,7 @@ public class BonusLifepoints extends Bonus{
 
 	public BonusLifepoints(float x , float y){
 		super(ObjetsList.BonusLifepoints,x,y);
-		this.name = ObjetsList.BonusLifepoints.name().toLowerCase();
+		this.name = ObjetsList.BonusLifepoints;
 		this.initialize(x, y);
 		this.bonus = 50f;
 

@@ -58,10 +58,11 @@ public class Building extends Objet{
 	
 	public Building(ObjetsList name,float x , float y){
 		// SET UP TECH LIST ET PRODUCTION LIST
+		this.name = name;
 	}
 	
 	public float getAttribut(ObjetsList o ,Attributs a){
-		return this.getGameTeam().data.getAttribut(o.name, a);
+		return this.getGameTeam().data.getAttribut(o, a);
 	}
 	public Vector<ObjetsList> getProductionList(){
 		return getGameTeam().data.getAttributListAtt(this.name, Attributs.units);
@@ -277,7 +278,7 @@ public class Building extends Objet{
 					if(idr==te.id)
 						ok = true;
 			}
-			if(this.hq.age>=t.tech.age && ok && t.tech.building.name().toLowerCase().equals(this.name) ){
+			if(this.hq.age>=t.tech.age && ok && t.tech.building.name().toLowerCase().equals(this.name.name().toLowerCase()) ){
 				
 //				getTechnologyList().addElement(t);
 			}
@@ -424,7 +425,7 @@ public class Building extends Objet{
 			if(bp.queue.size()>0){
 				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bp.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime));
 				float opacity = 50*bp.charge/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime);
-				Image icone = Game.g.images.get("icon"+bp.getProductionList().get(bp.queue.get(0)).name+"buildingsize");
+				Image icone = Game.g.images.get("icon"+bp.getProductionList().get(bp.queue.get(0))+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);

@@ -20,12 +20,9 @@ public class DualistShield2 extends Technologie {
 	
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name().toLowerCase(), Attributs.armor, 2f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name().toLowerCase(), Attributs.armor, 2f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Knight.name().toLowerCase(), Attributs.armor, 2f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Priest.name().toLowerCase(), Attributs.armor, 2f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name().toLowerCase(), Attributs.armor, 2f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Archange.name().toLowerCase(), Attributs.armor, 2f);
+		for(ObjetsList o : ObjetsList.getUnits()){
+			this.getGameTeam().data.addAttribut(o, Attributs.armor, 2f);
+		}
 	}
 
 	

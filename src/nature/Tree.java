@@ -11,6 +11,7 @@ import model.Objet;
 import model.Plateau;
 import ressources.Map;
 import units.Character;
+import utils.ObjetsList;
 
 public class Tree extends NaturalObjet {
 	
@@ -20,7 +21,7 @@ public class Tree extends NaturalObjet {
 
 	public Tree(float x, float y, int type) {
 		this.type = type;
-		this.name = "tree0"+type;
+		this.name = ObjetsList.get("tree0"+type);
 		this.setTeam(0);
 		this.collisionBox = new Circle(x-sizeX/2,y-sizeY/2,size);
 		this.sizeX = 1*Map.stepGrid;
@@ -36,7 +37,7 @@ public class Tree extends NaturalObjet {
 	}
 	
 	public Graphics draw(Graphics g){
-		Image i = Game.g.images.get(this.name);
+		Image i = Game.g.images.get(this.name.name());
 		float x1 = this.x-i.getWidth()/2f;
 		float y1 = this.y-i.getHeight()+2*size;
 		g.drawImage(i,x1,y1);

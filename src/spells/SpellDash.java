@@ -10,13 +10,13 @@ import data.AttributsChange.Change;
 import model.Game;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellDash extends Spell{
 
 	
 	public SpellDash(){
-		this.name = SpellsList.Dash;
+		this.name = ObjetsList.Dash;
 	}
 
 	public void launch(Objet target, Character launcher){

@@ -26,12 +26,9 @@ public class DualistHealth2 extends Technologie {
 	}
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.maxLifepoints, 20f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.maxLifepoints, 20f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.maxLifepoints, 20f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.maxLifepoints, 20f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.maxLifepoints, 20f);
-		this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.maxLifepoints, 20f);
+		for(ObjetsList o : ObjetsList.getUnits()){
+			this.getGameTeam().data.addAttribut(o, Attributs.maxLifepoints, 20f);
+		}
 	}
 
 	

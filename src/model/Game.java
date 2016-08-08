@@ -69,7 +69,7 @@ import spells.SpellEffect;
 import tests.FatalGillesError;
 import tests.Test;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 public class Game extends BasicGame 
 {
@@ -163,7 +163,7 @@ public class Game extends BasicGame
 	public Character spellLauncher;
 	public Objet spellTarget;
 	public float spellX,spellY;
-	public SpellsList spellCurrent = null;
+	public ObjetsList spellCurrent = null;
 
 	// Timer
 	public Timer timer ;

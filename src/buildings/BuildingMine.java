@@ -28,7 +28,6 @@ public class BuildingMine extends Building{
 		this.x = x*Map.stepGrid;
 		this.y = y*Map.stepGrid;
 		this.type = 0;
-		this.name= ObjetsList.Mine.name().toLowerCase();
 		this.setTeam(team);
 		this.chargeTime = getAttribut(Attributs.maxChargetime);
 		this.lifePoints = getAttribut(Attributs.maxLifepoints);

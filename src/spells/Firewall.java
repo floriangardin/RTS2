@@ -8,8 +8,8 @@ import org.newdawn.slick.geom.Shape;
 import main.Main;
 import model.Game;
 import model.Objet;
-import model.Plateau;
 import units.Character;
+import utils.ObjetsList;
 
 public class Firewall extends SpellEffect{
 
@@ -38,7 +38,7 @@ public class Firewall extends SpellEffect{
 		this.x2 = t.getX();
 		this.y2 = t.getY();
 
-		this.name = "Firewall";
+		this.name = ObjetsList.FirewallEffect;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		image = "explosion";

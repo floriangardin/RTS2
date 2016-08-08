@@ -15,7 +15,6 @@ public class BuildingStable extends Building{
 		teamCapturing= 0;
 		
 		this.setTeam(team);
-		this.name = ObjetsList.Stable.name().toLowerCase();
 		type= 2;
 		this.initialize(f, h);
 		// List of potential production (Spearman

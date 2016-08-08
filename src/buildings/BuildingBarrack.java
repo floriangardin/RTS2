@@ -15,7 +15,6 @@ public class BuildingBarrack extends Building{
 	public BuildingBarrack(float f, float h, int team) {
 		
 		super(ObjetsList.Barracks,f ,h);
-		this.name = ObjetsList.Barracks.name().toLowerCase();
 		teamCapturing= 0;
 		this.setTeam(team);
 		

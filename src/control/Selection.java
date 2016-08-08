@@ -96,7 +96,7 @@ public class Selection {
 
 	public void handleSelection(InputObject im) {
 		// Handling groups of units
-		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.HeadQuarters,KeyEnum.Barracks,KeyEnum.Stable};
+		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
 		KeyEnum  pressed= null;
 		for(KeyEnum key : tab){
 			if(im.isPressed(key)){
@@ -108,12 +108,12 @@ public class Selection {
 		if(pressed!=null){
 			this.selection =  new Vector<Objet>();
 			for(Character o : Game.g.plateau.characters){
-				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getUnitsList().contains(ObjetsList.valueOf(o.name))){
+				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getUnitsList().contains(o.name)){
 					this.selection.add(o);
 				}
 			}
 			for(Building o : Game.g.plateau.buildings){
-				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getBuildingsList().contains(ObjetsList.valueOf(o.name))){
+				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getBuildingsList().contains(o.name)){
 					this.selection.add(o);
 				}
 			}

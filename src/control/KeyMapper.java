@@ -105,7 +105,7 @@ public class KeyMapper {
 		Immolation,
 		Barracks,
 		Stable,
-		HeadQuarters, 
+		Headquarters, 
 		GlobalRallyPoint,
 		AllUnits;
 
@@ -134,7 +134,7 @@ public class KeyMapper {
 			switch(this){
 			case Barracks:
 			case Stable:
-			case HeadQuarters:v.add(ObjetsList.valueOf(this.name()));
+			case Headquarters:v.add(ObjetsList.valueOf(this.name()));
 			default:
 			}
 			return v;

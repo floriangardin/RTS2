@@ -27,7 +27,6 @@ public class BuildingTower extends Building{
 		super(ObjetsList.Tower,f,h);
 		teamCapturing = 0;
 		this.setTeam(team);
-		this.name = ObjetsList.Tower.name().toLowerCase();
 //		if(getTeam()==1){
 //			this.image = this.p.g.images.get("buildingTowerBlue");
 //		} else if(getTeam()==2){

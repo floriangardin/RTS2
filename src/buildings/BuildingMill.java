@@ -23,7 +23,6 @@ public class BuildingMill extends Building{
 		super(ObjetsList.Mill,f,h);
 		this.setTeam(team);
 		this.type = 1;
-		this.name= ObjetsList.Mill.name().toLowerCase();
 		this.chargeTime = getAttribut(Attributs.maxChargetime);
 		this.lifePoints = getAttribut(Attributs.maxLifepoints);
 		this.initialize(f, h);

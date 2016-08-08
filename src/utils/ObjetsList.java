@@ -1,7 +1,18 @@
 package utils;
 
+import java.util.Vector;
+
 public enum ObjetsList {
 
+	// Prototypes
+	Objet,
+	Spell,
+	Unit,
+	Building,
+	Bullet,
+	Technology,
+	Bonus,
+	// Units
 	Knight,
 	Crossbowman,
 	Priest,
@@ -9,6 +20,7 @@ public enum ObjetsList {
 	Spearman,
 	Archange,
 	Test,
+	// Buildings
 	Headquarters,
 	Mill,
 	Mine,
@@ -17,9 +29,11 @@ public enum ObjetsList {
 	Academy,
 	University,
 	Tower,
+	// Bonus
 	BonusLifepoints,
 	BonusSpeed,
 	BonusDamage,
+	// Technologies
 	DualistAge2, 
 	DualistAge3, 
 	DualistBonusFood, 
@@ -33,16 +47,78 @@ public enum ObjetsList {
 	DualistContact3, 
 	DualistRangeAttack3, 
 	DualistExplosion, 
-	DualistEagleView
+	DualistEagleView,
+	// Bullets
+	Arrow,
+	Fireball,
+	// Nature
+	Tree00,
+	Tree01,
+	Tree02,
+	Tree03,
+	Water, 
+	// SpellEffects
+	BlessedAreaEffect, 
+	FirewallEffect, 
+	FrozenEffect, 
+	HealEffect,
+	// Spells
+	BlessedArea,
+	Conversion,
+	Dash,
+	Eclair,
+	Firewall,
+	Frozen,
+	Heal,
+	Immolation,
+	InstantDeath,
+	InstantHealth,
+	SpecialArrow,
+	Product,
+	// Others
+	ContactWeapon
 	;
 
-	
-public String name;
 
-private ObjetsList(){
-	this.name = this.name().toLowerCase();
-}
+	public static ObjetsList get(String name){
+		for(ObjetsList o : ObjetsList.values()){
+			if(o.name().toLowerCase().equals(name.toLowerCase())){
+				return o;
+			}
+		}
+		System.out.println(name);
+		return null;
+	}
 
-	
-	
+	public static Vector<ObjetsList> getUnits() {
+		Vector<ObjetsList> v = new Vector<ObjetsList>();
+		v.add(Spearman);
+		v.add(Knight);
+		v.add(Crossbowman);
+		v.add(Inquisitor);
+		v.add(Priest);
+		v.add(Archange);
+		return v;
+	}
+
+	public static Vector<ObjetsList> getSpells() {
+		Vector<ObjetsList> v = new Vector<ObjetsList>();
+		v.add(BlessedArea);
+		v.add(Conversion);
+		v.add(Dash);
+		v.add(Eclair);
+		v.add(Firewall);
+		v.add(Frozen);
+		v.add(Heal);
+		v.add(Immolation);
+		v.add(InstantDeath);
+		v.add(InstantHealth);
+		v.add(SpecialArrow);
+		v.add(Product);
+		return v;
+	}
+
+
+
+
 }

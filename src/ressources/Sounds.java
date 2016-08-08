@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import tests.FatalGillesError;
+import utils.ObjetsList;
 
 public class Sounds {
 	// STORE ALL THE SOUNDS
@@ -55,9 +56,9 @@ public class Sounds {
 		return null;
 	}
 	
-	public Vector<Sound> getSoundVector(String unit,String type){
+	public Vector<Sound> getSoundVector(ObjetsList unit,String type){
 
-		return this.soundsUnit.get(unit.toLowerCase()).get(type.toLowerCase());
+		return this.soundsUnit.get(unit.name().toLowerCase()).get(type.toLowerCase());
 	}
 
 	private void loadSoundsUnit(){

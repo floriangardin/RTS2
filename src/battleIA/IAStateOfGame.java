@@ -52,7 +52,7 @@ public class IAStateOfGame {
 			this.x = c.getX();
 			this.y = c.getY();
 			this.team = c.getTeam();
-			this.type = ObjetsList.valueOf(c.name);
+			this.type = c.name;
 			this.maxLifePoints = c.getAttribut(Attributs.maxLifepoints);
 			this.velocity = c.getAttribut(Attributs.maxVelocity);
 			this.attackState = c.state/c.getAttribut(Attributs.chargeTime);
@@ -70,7 +70,7 @@ public class IAStateOfGame {
 		
 		public BuildingIA(Building b){
 			this.id = b.id;
-			this.type = ObjetsList.valueOf(b.name);
+			this.type = b.name;
 			this.lifepoints = b.lifePoints;
 			this.maxLifePoints = b.getAttribut(Attributs.maxLifepoints);
 			this.team = b.getTeam();

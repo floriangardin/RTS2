@@ -14,13 +14,14 @@ import main.Main;
 import model.Game;
 import nature.Tree;
 import tests.FatalGillesError;
+import utils.ObjetsList;
 
 
 public class Images {
 
 	private HashMap<String, Image> images;
 	private HashMap<String, Image> oldimages;
-	private HashMap<String, HashMap<String, Image>> imagesUnits;
+	private HashMap<ObjetsList, HashMap<String, Image>> imagesUnits;
 	private HashMap<String, Image> sand;	
 
 
@@ -140,7 +141,7 @@ public class Images {
 	}
 
 	public void resizeBuilding(String s){
-		Point p = Game.g.data.getSize(s);
+		Point p = Game.g.data.getSize(ObjetsList.get(s));
 		this.images.put("building"+s+"blue",this.images.get("building"+s+"blue")
 				.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
 		if(!s.equals("headquarters"))
@@ -208,12 +209,10 @@ public class Images {
 		File repertoire = new File("ressources/images/unit");
 		File[] files=repertoire.listFiles();
 		String s,s2,s4;
-		this.imagesUnits = new HashMap<String, HashMap<String, Image>>();
-		this.imagesUnits.put("spearman", new HashMap<String, Image>());
-		this.imagesUnits.put("crossbowman", new HashMap<String, Image>());
-		this.imagesUnits.put("knight", new HashMap<String, Image>());
-		this.imagesUnits.put("priest", new HashMap<String, Image>());
-		this.imagesUnits.put("inquisitor", new HashMap<String, Image>());
+		this.imagesUnits = new HashMap<ObjetsList, HashMap<String, Image>>();
+		for(ObjetsList o : ObjetsList.getUnits()){
+			this.imagesUnits.put(ObjetsList.Spearman, new HashMap<String, Image>());
+		}
 		Image im;
 		int imageHeight, imageWidth;
 		try {
@@ -225,8 +224,8 @@ public class Images {
 					imageHeight = im.getHeight()/4;
 					imageWidth = im.getWidth()/5;
 					s = s.substring(0, s.length()-4);
-					for(String s1 : this.imagesUnits.keySet()){
-						if(s.toLowerCase().contains(s1)){
+					for(ObjetsList s1 : this.imagesUnits.keySet()){
+						if(s.toLowerCase().contains(s1.name().toLowerCase())){
 							s2 = (s.toLowerCase().startsWith("attack") ? "1" : "0");
 							s4 = (s.toLowerCase().endsWith("blue") ? "1" : "2");
 							for(int orientation =0; orientation<4; orientation++){
@@ -242,7 +241,7 @@ public class Images {
 				}
 			} 
 			HashMap<String, Image> toAdd = new HashMap<String, Image>();
-			for(String s1 : this.imagesUnits.keySet()){
+			for(ObjetsList s1 : this.imagesUnits.keySet()){
 				toAdd.clear();
 				if(this.imagesUnits.get(s1).size()==40){
 					for(String s3 : this.imagesUnits.get(s1).keySet()){
@@ -256,7 +255,7 @@ public class Images {
 		}
 	}
 
-	public Image getUnit(String name, int direction, int animation, int team, boolean attack){
+	public Image getUnit(ObjetsList name, int direction, int animation, int team, boolean attack){
 		if(this.imagesUnits.containsKey(name) && this.imagesUnits.get(name).containsKey((attack?"1":"0")+direction+""+animation+"" +team)){
 			return this.imagesUnits.get(name).get((attack?"1":"0")+direction+""+animation+"" +team);
 		} else {
@@ -284,7 +283,7 @@ public class Images {
 	}
 
 	// about sand tiles
-	
+
 	public Image getSand(String s){
 		return this.sand.get(s);
 	}

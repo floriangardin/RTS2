@@ -6,13 +6,13 @@ import data.Attributs;
 import model.Checkpoint;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellFrozen extends Spell{
 
 
 	public SpellFrozen(){
-		this.name = SpellsList.Frozen;
+		this.name = ObjetsList.Frozen;
 	}
 
 	public void launch(Objet target, Character launcher){

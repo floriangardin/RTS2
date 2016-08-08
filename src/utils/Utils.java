@@ -411,8 +411,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().name;
-			y2 = liste2.firstElement().name;
+			y1 = liste1.firstElement().name.name();
+			y2 = liste2.firstElement().name.name();
 			if(y1.compareTo(y2)>=0){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -468,10 +468,10 @@ public class Utils {
 		if(liste == null || liste.size()==0){
 			return;
 		}
-		String name = liste.get(0).name;
+		String name = liste.get(0).name.name();
 		boolean useful = false;
 		for(Objet a: liste)
-			if(!a.name.equals(name))
+			if(!a.name.name().equals(name))
 				useful = true;
 		Objet buffer;
 		if(!useful){
@@ -480,7 +480,7 @@ public class Utils {
 			liste.add(buffer);
 			return;
 		}
-		while(liste.get(0).name.equals(name)){
+		while(liste.get(0).name.name().equals(name)){
 			buffer = liste.get(0);
 			liste.remove(0);
 			liste.add(buffer);

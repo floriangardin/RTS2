@@ -12,6 +12,7 @@ import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import units.Character;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class Fireball extends Bullet {
@@ -25,7 +26,7 @@ public class Fireball extends Bullet {
 		//MULTI 
 		// Parameters
 		this.altitude = 0f;
-		this.name = "Fireball";
+		this.name = ObjetsList.Fireball;
 		//
 		if(id==-1){
 			this.id = Game.g.idBullet;

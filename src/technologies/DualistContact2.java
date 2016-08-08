@@ -20,7 +20,7 @@ public class DualistContact2 extends Technologie {
 	
 	
 	public void applyEffect(){
-		this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.damage, 1);
-		this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.damage, 1);
 	}
 }

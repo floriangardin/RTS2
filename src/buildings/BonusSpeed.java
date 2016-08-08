@@ -12,7 +12,7 @@ public class BonusSpeed extends Bonus{
 
 	public BonusSpeed( float x , float y){
 		super(ObjetsList.BonusSpeed,x,y);
-		this.name = ObjetsList.BonusSpeed.name().toLowerCase();
+		this.name = ObjetsList.BonusSpeed;
 		this.initialize( x, y);
 		this.bonus = 20f;
 	}

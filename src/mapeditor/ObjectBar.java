@@ -11,6 +11,7 @@ import data.Attributs;
 import data.Data;
 import model.Game;
 import ressources.Map;
+import utils.ObjetsList;
 
 public class ObjectBar {
 
@@ -98,11 +99,13 @@ public class ObjectBar {
 
 		// buildings
 		// neutral
+		ObjetsList o;
 		for(String s : new String[]{"Mill","Mine","Barracks","Stable","University","Tower"}){			
 			if(!s.equals("Headquarters")){
-				buildingsNeutral.add(new EditorObject(s, 0, 1,this.editor.game.images.get("building"+s+"Neutral"),0,0,this,(int)(Game.g.data.getAttribut(s, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(s, Attributs.sizeY)/Map.stepGrid)));
-				buildingsBlue.add(new EditorObject(s, 1, 1,this.editor.game.images.get("building"+s+"blue"),0,0,this,(int)(Game.g.data.getAttribut(s, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(s, Attributs.sizeY)/Map.stepGrid)));
-				buildingsRed.add(new EditorObject(s, 2, 1,this.editor.game.images.get("building"+s+"red"),0,0,this,(int)(Game.g.data.getAttribut(s, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(s, Attributs.sizeY)/Map.stepGrid)));
+				 o = ObjetsList.get(s);
+				buildingsNeutral.add(new EditorObject(s, 0, 1,this.editor.game.images.get("building"+s+"Neutral"),0,0,this,(int)(Game.g.data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
+				buildingsBlue.add(new EditorObject(s, 1, 1,this.editor.game.images.get("building"+s+"blue"),0,0,this,(int)(Game.g.data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
+				buildingsRed.add(new EditorObject(s, 2, 1,this.editor.game.images.get("building"+s+"red"),0,0,this,(int)(Game.g.data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
 			}
 		}
 		

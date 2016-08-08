@@ -23,7 +23,7 @@ import ressources.Map;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 
@@ -791,7 +791,7 @@ public class Plateau implements java.io.Serializable {
 							&& c.spellsState.get(number) >= c.getSpell(number).getAttribut(Attributs.chargeTime)) {
 						Spell s = c.getSpell(number);
 						if (s.getAttribut(Attributs.needToClick)==0) {
-							if(s.name!=SpellsList.Immolation || imo){
+							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
 							}

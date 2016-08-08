@@ -8,14 +8,14 @@ import control.InputObject;
 import data.Attributs;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 //TODO : sort
 public class SpellProduct extends Spell{
 
 
 	public SpellProduct(){
-		this.name = SpellsList.Product;
+		this.name = ObjetsList.Product;
 	}
 
 	public void launch(Objet target, Character launcher){
@@ -23,7 +23,7 @@ public class SpellProduct extends Spell{
 		if(target instanceof Building && ((Building) target).queue.size()>0){
 			Building p = (Building) target;
 			if(p.queue.size()>0){
-				 Float prodTime = p.getGameTeam().data.getAttribut(p.getProductionList().get(p.queue.get(0)).name, Attributs.printName);
+				 Float prodTime = p.getGameTeam().data.getAttribut(p.getProductionList().get(p.queue.get(0)), Attributs.printName);
 				p.charge=prodTime;
 			}
 		}else if(target instanceof Building && ((Building) target).queueTechnology!=null){

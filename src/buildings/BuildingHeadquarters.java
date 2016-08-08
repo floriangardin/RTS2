@@ -100,7 +100,6 @@ public class BuildingHeadquarters extends Building {
 		
 		this.queueTechnology = null;
 		teamCapturing= getTeam();
-		this.name = ObjetsList.Headquarters.name().toLowerCase();
 		type= 5;
 
 		this.initialize(f,h);

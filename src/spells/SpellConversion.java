@@ -11,13 +11,13 @@ import model.Objet;
 import model.Plateau;
 import multiplaying.ChatMessage;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellConversion extends Spell{
 
 
 	public SpellConversion(){
-		this.name = SpellsList.Conversion;
+		this.name = ObjetsList.Conversion;
 	}
 
 	public void launch(Objet target, Character launcher){

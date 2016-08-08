@@ -12,12 +12,12 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;;
 
 public abstract class Spell {
 
-	public SpellsList name;
+	public ObjetsList name;
 	public int team;
 
 	public static Color colorOk = new Color(0f,1f,0.3f,0.5f);
@@ -31,7 +31,7 @@ public abstract class Spell {
 		} else {
 			g.setColor(Spell.colorPasOk);
 		}
-		if(this.getGameTeam().data.datas.get(this.name.name().toLowerCase()).attributs.containsKey(Attributs.range)){
+		if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.range)){
 			this.drawRange(g, launcher);
 		}
 		this.drawCast(g, target, x, y, launcher, ok);
@@ -39,13 +39,13 @@ public abstract class Spell {
 	public abstract void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok);
 
 	public float getAttribut(Attributs attribut){
-		return this.getGameTeam().data.getAttribut(this.name.name().toLowerCase(),attribut);
+		return this.getGameTeam().data.getAttribut(this.name,attribut);
 	}
 	public String getAttributString(Attributs attribut){
-		return this.getGameTeam().data.getAttributString(this.name.name().toLowerCase(),attribut);
+		return this.getGameTeam().data.getAttributString(this.name,attribut);
 	}
 	public Vector<String> getAttributList(Attributs attribut){
-		return this.getGameTeam().data.getAttributList(this.name.name().toLowerCase(),attribut);
+		return this.getGameTeam().data.getAttributList(this.name,attribut);
 	}
 
 	public static Objet realTarget(Objet target, Character launcher, float range, boolean checkpoint){
@@ -70,7 +70,7 @@ public abstract class Spell {
 	}
 
 
-	public static Spell createSpell(SpellsList s, int team) {
+	public static Spell createSpell(ObjetsList s, int team) {
 		Spell spell = null;
 		switch(s){
 		case BlessedArea: spell = new SpellBlessedArea();break;
@@ -86,6 +86,7 @@ public abstract class Spell {
 		case SpecialArrow: spell = new SpellSpecialArrow(); break;
 		case Product: spell = new SpellProduct(); break;
 		default:
+			System.out.println(s);
 		}
 		spell.team = team;
 		return spell;

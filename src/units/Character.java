@@ -26,7 +26,7 @@ import model.Objet;
 import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -97,7 +97,7 @@ public class Character extends Objet{
 		Game.g.plateau.addCharacterObjets(this);
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;
-		this.name = name.name;
+		this.name= name;
 		this.setTeam(team);
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
@@ -111,7 +111,7 @@ public class Character extends Objet{
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
 		for(String s: this.getAttributList(Attributs.spells)){
-			this.spells.addElement(SpellsList.valueOf(s));
+			this.spells.addElement(ObjetsList.valueOf(s));
 			this.spellsState.addElement(0f);
 		}
 
@@ -269,7 +269,7 @@ public class Character extends Objet{
 		String weapon = this.getAttributString(Attributs.weapon);
 
 		//arme de corps à corps
-		if(Game.g.data.getAttributList("contactWeapon", Attributs.list).contains(weapon)){
+		if(Game.g.data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
 			Character c = (Character) this.target;
 			c.isAttacked();
 			// Attack sound
@@ -536,7 +536,7 @@ public class Character extends Objet{
 			direction = ((direction-1)*(-1)+2);
 		}
 		Image im;
-		im = Game.g.images.getUnit(name.toLowerCase(), direction, animation, getGameTeam().id, isAttacking);
+		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
 		if(mouseOver && frozen<=0f && Game.g.round>Game.nbRoundInit){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
@@ -899,7 +899,7 @@ public class Character extends Objet{
 
 	public boolean encounters(Character c){
 		boolean b = false;
-		if(c.horse && this.name=="Spearman"){
+		if(c.horse && this.getAttributString(Attributs.weapon)=="spear"){
 			return true;
 		}
 		if(!c.horse && this.getAttributString(Attributs.weapon) == "bow"){

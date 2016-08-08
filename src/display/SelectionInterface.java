@@ -57,7 +57,7 @@ public class SelectionInterface extends Bar {
 			int compteur = 0;
 			if(b.queue.size()>0){
 				for(int q : b.queue){
-					Image icone = Game.g.images.get("icon"+b.getProductionList().get(q).name);
+					Image icone = Game.g.images.get("icon"+b.getProductionList().get(q).name());
 					if(compteur ==0){
 						//Show icons
 						//Show production bar
@@ -66,8 +66,8 @@ public class SelectionInterface extends Bar {
 						
 						
 						
-						String s = this.player.getGameTeam().data.getAttributString(b.getProductionList().get(q).name, Attributs.printName);
-						Float prodTime = this.player.getGameTeam().data.getAttribut(b.getProductionList().get(q).name, Attributs.prodTime);
+						String s = this.player.getGameTeam().data.getAttributString(b.getProductionList().get(q), Attributs.printName);
+						Float prodTime = this.player.getGameTeam().data.getAttribut(b.getProductionList().get(q), Attributs.prodTime);
 						g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 						g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 						g.setColor(Color.gray);
@@ -96,7 +96,7 @@ public class SelectionInterface extends Bar {
 				//Show production bar
 				g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,0,0,512,512);
 				g.setColor(Color.white);
-				String s = b.queueTechnology.tech.name;
+				String s = b.queueTechnology.tech.name();
 				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 				g.setColor(Color.gray);

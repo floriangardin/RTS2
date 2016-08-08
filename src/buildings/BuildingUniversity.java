@@ -19,7 +19,6 @@ public class BuildingUniversity extends Building{
 		this.setTeam(team);
 		
 
-		this.name = ObjetsList.University.name().toLowerCase();
 		this.initialize(f, h);
 		type= 6;
 		// List of potential production (Spearman

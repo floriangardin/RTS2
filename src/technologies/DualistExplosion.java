@@ -21,12 +21,9 @@ public class DualistExplosion extends Technologie {
 	
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-		this.getGameTeam().data.setAttribut(ObjetsList.Spearman.name, Attributs.explosionWhenImmolate, 1f);
-		this.getGameTeam().data.setAttribut(ObjetsList.Crossbowman.name, Attributs.explosionWhenImmolate, 1f);
-		this.getGameTeam().data.setAttribut(ObjetsList.Knight.name, Attributs.explosionWhenImmolate, 1f);
-		this.getGameTeam().data.setAttribut(ObjetsList.Priest.name, Attributs.explosionWhenImmolate, 1f);
-		this.getGameTeam().data.setAttribut(ObjetsList.Inquisitor.name, Attributs.explosionWhenImmolate, 1f);
-		this.getGameTeam().data.setAttribut(ObjetsList.Archange.name, Attributs.explosionWhenImmolate, 1f);
+		for(ObjetsList o : ObjetsList.getUnits()){
+			this.getGameTeam().data.setAttribut(o, Attributs.explosionWhenImmolate, 1f);
+		}
 	}
 
 	

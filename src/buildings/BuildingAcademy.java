@@ -15,7 +15,6 @@ public class BuildingAcademy extends Building {
 		teamCapturing= 0;
 		//this.animation=-1f;
 		this.setTeam(team);
-		this.name = ObjetsList.Academy.name().toLowerCase();
 		this.initialize(f, h);
 		type= 4;
 		// List of potential production (Spearman

@@ -8,14 +8,14 @@ import data.Attributs;
 import model.Checkpoint;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellSpecialArrow extends Spell{
 
 	public float remainingTime;
 	
 	public SpellSpecialArrow(){
-		this.name = SpellsList.SpecialArrow;
+		this.name = ObjetsList.SpecialArrow;
 	}
 
 	public void launch(Objet target, Character launcher){

@@ -11,6 +11,7 @@ import events.Events;
 import main.Main;
 import model.Game;
 import units.Character;
+import utils.ObjetsList;
 
 public class Arrow extends CollisionBullet{
 
@@ -28,7 +29,7 @@ public class Arrow extends CollisionBullet{
 		}else{
 			this.id=id;
 		}
-		this.name ="Arrow";
+		this.name = ObjetsList.Arrow;
 		this.damage = damage;
 		Game.g.plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
