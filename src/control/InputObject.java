@@ -133,7 +133,6 @@ public class InputObject implements java.io.Serializable{
 		}
 		this.toPlay = toPlay;
 
-
 		this.x = input.getAbsoluteMouseX();
 		this.y = input.getAbsoluteMouseY();
 
