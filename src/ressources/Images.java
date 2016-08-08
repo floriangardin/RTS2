@@ -211,7 +211,7 @@ public class Images {
 		String s,s2,s4;
 		this.imagesUnits = new HashMap<ObjetsList, HashMap<String, Image>>();
 		for(ObjetsList o : ObjetsList.getUnits()){
-			this.imagesUnits.put(ObjetsList.Spearman, new HashMap<String, Image>());
+			this.imagesUnits.put(o, new HashMap<String, Image>());
 		}
 		Image im;
 		int imageHeight, imageWidth;
