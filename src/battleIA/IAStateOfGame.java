@@ -7,8 +7,8 @@ import data.Attributs;
 import model.Objet;
 import model.Plateau;
 import units.Character;
-import utils.BuildingsList;
-import utils.UnitsList;
+import utils.ObjetsList;
+import utils.ObjetsList;
 
 public class IAStateOfGame {
 	
@@ -42,7 +42,7 @@ public class IAStateOfGame {
 	}
 	
 	public class UnitIA extends ObjetIA{
-		public UnitsList type;
+		public ObjetsList type;
 		public float velocity;
 		public float attackState;
 		public int idTarget;
@@ -52,7 +52,7 @@ public class IAStateOfGame {
 			this.x = c.getX();
 			this.y = c.getY();
 			this.team = c.getTeam();
-			this.type = UnitsList.valueOf(c.name);
+			this.type = ObjetsList.valueOf(c.name);
 			this.maxLifePoints = c.getAttribut(Attributs.maxLifepoints);
 			this.velocity = c.getAttribut(Attributs.maxVelocity);
 			this.attackState = c.state/c.getAttribut(Attributs.chargeTime);
@@ -65,12 +65,12 @@ public class IAStateOfGame {
 	}
 	
 	public class BuildingIA extends ObjetIA{
-		public BuildingsList type;
+		public ObjetsList type;
 		public Vector<Integer> queue;
 		
 		public BuildingIA(Building b){
 			this.id = b.id;
-			this.type = BuildingsList.valueOf(b.name);
+			this.type = ObjetsList.valueOf(b.name);
 			this.lifepoints = b.lifePoints;
 			this.maxLifePoints = b.getAttribut(Attributs.maxLifepoints);
 			this.team = b.getTeam();

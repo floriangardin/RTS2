@@ -20,9 +20,9 @@ import technologies.DualistRangeAttack3;
 import technologies.DualistShield2;
 import technologies.DualistShield3;
 import technologies.Technologie;
-import utils.BuildingsList;
+import utils.ObjetsList;
 
-public class BuildingHeadquarters extends BuildingTech {
+public class BuildingHeadquarters extends Building {
 
 
 	public int age=1;
@@ -33,8 +33,9 @@ public class BuildingHeadquarters extends BuildingTech {
 	
 	public BuildingHeadquarters(float f, float h, int team) {
 		// Init ProductionList
+		super(ObjetsList.Headquarters,f,h);
 		this.hq = this;
-		this.productionList = new Vector<Technologie>();
+		
 		this.allTechs = new Vector<Technologie>();
 		this.setTeam(team);
 		
@@ -97,9 +98,9 @@ public class BuildingHeadquarters extends BuildingTech {
 	
 		
 		
-		this.queue = null;
+		this.queueTechnology = null;
 		teamCapturing= getTeam();
-		this.name = BuildingsList.Headquarters.name();
+		this.name = ObjetsList.Headquarters.name().toLowerCase();
 		type= 5;
 
 		this.initialize(f,h);
@@ -145,7 +146,7 @@ public class BuildingHeadquarters extends BuildingTech {
 //		}
 		// voilà, plus d'archanges
 		
-		if(this.queue!=null){
+		if(this.queueTechnology!=null){
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
@@ -153,8 +154,8 @@ public class BuildingHeadquarters extends BuildingTech {
 			if(animation>120f)
 				animation = 0;
 			this.setCharge(this.charge+Main.increment);
-			if(this.charge>=this.queue.tech.prodTime){
-				this.techTerminate(this.queue);
+			if(this.charge>=this.queueTechnology.tech.prodTime){
+				this.techTerminate(this.queueTechnology);
 			}
 		}
 		else if(this.isProducing){
@@ -168,8 +169,8 @@ public class BuildingHeadquarters extends BuildingTech {
 
 	public void updateAllProductionList(){
 		for(Building b : Game.g.plateau.buildings){
-			if(b instanceof BuildingTech && b.getTeam()==this.getTeam()){
-				((BuildingTech)b).updateProductionList();
+			if(b.getTeam()==this.getTeam()){
+				b.updateProductionList();
 			}
 		}
 	}

@@ -5,13 +5,15 @@ import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
 import units.Character;
-import utils.BuildingsList;
+import utils.ObjetsList;
 
 public class BonusDamage extends Bonus{
 
 	
 	public BonusDamage(float x , float y){
-		this.name = BuildingsList.BonusDamage.name();
+		
+		super(ObjetsList.BonusDamage,x,y);
+		this.name = ObjetsList.BonusDamage.name().toLowerCase();
 		this.initialize( x, y);
 		this.bonus = 5f;
 

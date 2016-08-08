@@ -2,7 +2,7 @@ package technologies;
 
 
 import data.Attributs;
-import utils.UnitsList;
+import utils.ObjetsList;
 
 public class DualistContact2 extends Technologie {
 
@@ -11,9 +11,16 @@ public class DualistContact2 extends Technologie {
 		this.tech = Technologies.DualistContactAttack2;
 		this.initialize(team,tech);
 	}
+	public DualistContact2(int team,ObjetsList o) {
+		this.objet = o;
+		this.id = 8;
+		this.tech = Technologies.DualistContactAttack2;
+		this.initialize(team,tech);
+	}
+	
 	
 	public void applyEffect(){
-		this.getGameTeam().data.addAttribut(UnitsList.Knight.name, Attributs.damage, 1);
-		this.getGameTeam().data.addAttribut(UnitsList.Spearman.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.damage, 1);
+		this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.damage, 1);
 	}
 }

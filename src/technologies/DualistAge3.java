@@ -1,8 +1,8 @@
 package technologies;
 
 
+import utils.ObjetsList;
 import buildings.Building;
-import buildings.BuildingTech;
 import model.Game;
 import model.GameTeam;
 import model.Plateau;
@@ -15,6 +15,13 @@ public class DualistAge3 extends Technologie {
 		this.initialize(team,tech);
 	}
 	
+	public DualistAge3(int team,ObjetsList o) {
+		this.objet = o;
+		this.id = 0;
+		this.tech = Technologies.DualistAge3;
+		this.initialize(team,tech);
+	}
+	
 	public void applyEffect(){
 		// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
 		// Age passing does nothing
@@ -22,8 +29,8 @@ public class DualistAge3 extends Technologie {
 		this.getGameTeam().hq.age = 3;
 		this.getGameTeam().maxPop= 40;
 		for(Building b : Game.g.plateau.buildings){
-			if(b instanceof BuildingTech && b.getTeam()==team){
-				((BuildingTech) b).updateProductionList();
+			if( b.getTeam()==team){
+				b.updateProductionList();
 			}
 		}
 	}

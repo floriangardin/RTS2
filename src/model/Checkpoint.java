@@ -14,7 +14,7 @@ public class Checkpoint extends Objet {
 	public Color color;
 	public float maxDuration=10f;
 	public float state;
-	float maxRadius = 20f;
+	transient float maxRadius = 20f;
 	int lastRoundUpdate =0;
 	Circle drawShape;
 	Circle drawShape2;

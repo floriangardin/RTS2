@@ -10,8 +10,8 @@ import events.Events;
 import model.Game;
 import model.Objet;
 import units.Character;
-import utils.BuildingsList;
-import utils.UnitsList;
+import utils.ObjetsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class Selection {
@@ -108,12 +108,12 @@ public class Selection {
 		if(pressed!=null){
 			this.selection =  new Vector<Objet>();
 			for(Character o : Game.g.plateau.characters){
-				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getUnitsList().contains(UnitsList.valueOf(o.name))){
+				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getUnitsList().contains(ObjetsList.valueOf(o.name))){
 					this.selection.add(o);
 				}
 			}
 			for(Building o : Game.g.plateau.buildings){
-				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getBuildingsList().contains(BuildingsList.valueOf(o.name))){
+				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getBuildingsList().contains(ObjetsList.valueOf(o.name))){
 					this.selection.add(o);
 				}
 			}

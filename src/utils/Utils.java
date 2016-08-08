@@ -13,7 +13,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 
-import buildings.BuildingProduction;
+import buildings.Building;
+
 import model.Game;
 import model.Objet;
 import model.Plateau;
@@ -421,10 +422,10 @@ public class Utils {
 			}
 		}
 	}
-	public static void sortByQueue(Vector<BuildingProduction> liste){
+	public static void sortByQueue(Vector<Building> liste){
 		if(liste.size()<=1)
 			return;
-		Vector<BuildingProduction> liste1 = new Vector<BuildingProduction>(), liste2= new Vector<BuildingProduction>();
+		Vector<Building> liste1 = new Vector<Building>(), liste2= new Vector<Building>();
 		for(int i=0;i<liste.size();i++){
 			if(i<liste.size()/2)
 				liste1.add(liste.get(i));

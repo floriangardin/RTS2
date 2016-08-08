@@ -34,7 +34,6 @@ public class InputObject implements java.io.Serializable{
 
 	public boolean isOnMiniMap;
 
-
 	private transient final  static  boolean debugTouche = false;
 
 	public Vector<KeyEnum> down;
@@ -74,6 +73,7 @@ public class InputObject implements java.io.Serializable{
 		}
 		for(KeyEnum ke : km.mapping.keySet()){
 			for(Integer i : km.mapping.get(ke)){
+				
 				if(input.isKeyPressed(i)){
 					this.pressed.addElement(ke);
 				}
@@ -115,7 +115,7 @@ public class InputObject implements java.io.Serializable{
 				Game.g.spellTarget = null;
 			}
 			
-			
+		
 			// ATTACK CLICK
 			if(pressed.contains(KeyEnum.DeplacementOffensif) && !Game.g.attackClick){
 				Game.g.attackClick = true;
@@ -139,6 +139,8 @@ public class InputObject implements java.io.Serializable{
 
 		this.isOnMiniMap = false;
 		//TODO : check if on minimap
+		
+		
 		Player player = null;
 		if(idplayer>0 && idplayer<Game.g.players.size()){
 			player = Game.g.players.get(idplayer);
@@ -146,7 +148,11 @@ public class InputObject implements java.io.Serializable{
 		if(player!=null && player.bottomBar!=null){
 			// checking if on minimap or not
 			this.isOnMiniMap = this.x>(1-player.bottomBar.ratioMinimapX)*Game.g.resX && this.y>(Game.g.resY-player.bottomBar.ratioMinimapX*Game.g.resX) && this.x<Game.g.resX-2f && this.y<Game.g.resY-2f ;
-			this.isOnMiniMap = this.isOnMiniMap && Game.g.inputsHandler.getSelection(Game.g.currentPlayer.id)==null;
+			/// In case not in game, in "MENUMAPCHOICE"
+			if(!Game.g.isInMenu){				
+				this.isOnMiniMap = this.isOnMiniMap && Game.g.inputsHandler.getSelection(Game.g.currentPlayer.id).rectangleSelection==null;
+			}
+
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick)){
 				if(player.bottomBar.action.toDrawDescription[0]){

@@ -17,6 +17,7 @@ import data.AttributsChange;
 import main.Main;
 import spells.Spell;
 import units.Character;
+import utils.ObjetsList;
 import utils.SpellsList;
 
 public abstract class Objet implements java.io.Serializable {

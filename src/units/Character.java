@@ -27,7 +27,7 @@ import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
 import utils.SpellsList;
-import utils.UnitsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class Character extends Objet{
@@ -93,7 +93,7 @@ public class Character extends Objet{
 
 
 	// Copy constructor , to really create an unit
-	public Character(float x,float y,UnitsList name, int team){
+	public Character(float x,float y,ObjetsList name, int team){
 		Game.g.plateau.addCharacterObjets(this);
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;

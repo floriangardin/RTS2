@@ -8,14 +8,15 @@ import main.Main;
 import model.Game;
 import ressources.Map;
 import technologies.Technologie;
-import utils.BuildingsList;
+import utils.ObjetsList;
 
-public class BuildingMine extends BuildingTech{
+public class BuildingMine extends Building{
 	
 	public float chargeTime;
 	public int bonusProd;
 	
 	public BuildingMine(float f, float h, int team){
+		super(ObjetsList.Mine,f,h);
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}
@@ -27,12 +28,12 @@ public class BuildingMine extends BuildingTech{
 		this.x = x*Map.stepGrid;
 		this.y = y*Map.stepGrid;
 		this.type = 0;
-		this.name= BuildingsList.Mine.name();
+		this.name= ObjetsList.Mine.name().toLowerCase();
 		this.setTeam(team);
 		this.chargeTime = getAttribut(Attributs.maxChargetime);
 		this.lifePoints = getAttribut(Attributs.maxLifepoints);
 		this.initialize(f, h);
-		this.productionList = new Vector<Technologie>();
+		
 		this.updateProductionList();
 	}
 	
@@ -52,14 +53,14 @@ public class BuildingMine extends BuildingTech{
 			
 		//Do the action of Barrack
 		//Product, increase state of the queue
-		if(this.queue!=null){
+		if(this.queueTechnology!=null){
 			if(!this.isProducing){
 				this.isProducing = true;
 			}
 			this.animation=(int) ((this.animation+2f)%120);
 			this.charge+=Main.increment;
-			if(this.charge>=this.queue.tech.prodTime){
-				this.techTerminate(this.queue);
+			if(this.charge>=this.queueTechnology.tech.prodTime){
+				this.techTerminate(this.queueTechnology);
 
 			}
 		}
