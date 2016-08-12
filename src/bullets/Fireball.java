@@ -11,6 +11,7 @@ import main.Main;
 import model.Checkpoint;
 import model.Game;
 import model.Objet;
+import spells.BurningArea;
 import units.Character;
 import utils.ObjetsList;
 import utils.Utils;
@@ -69,7 +70,7 @@ public class Fireball extends Bullet {
 		//MULTI 
 		this.toKeep = false;
 		if(explosion){
-			this.setLifePoints(-1f);
+			this.setLifePoints(lifePoints-10f*Main.increment);
 			return;
 		}
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
@@ -85,13 +86,14 @@ public class Fireball extends Bullet {
 	public void explode(){
 		Circle area = new Circle(this.getX(),this.getY(),this.areaEffect);
 
-		for(Character c : Game.g.plateau.characters){
-			if(c.collisionBox.intersects(area) && c.getTeam()!=this.owner.getTeam()){
-				this.boom(c);
+//		for(Character c : Game.g.plateau.characters){
+//			if(c.collisionBox.intersects(area) && c.getTeam()!=this.owner.getTeam()){
+//				this.boom(c);
+//
+//			}
+//		}
 
-			}
-		}
-
+		new BurningArea(this.owner, new Checkpoint(x,y), this.areaEffect);
 		this.explosion = true;
 	}
 	public void boom(Character c){

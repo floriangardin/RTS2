@@ -37,6 +37,9 @@ public abstract class Objet implements java.io.Serializable {
 	public float lifePoints;
 	public ObjetsList name;
 	
+	// draw
+	public boolean toDrawOnGround = false;
+	
 	protected int team;
 
 	// Bonus, équipements, potions et autres stuff

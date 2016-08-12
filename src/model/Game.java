@@ -133,12 +133,12 @@ public class Game extends BasicGame
 
 	public int idChar = 0;
 	public int idBullet = 0;
-	
+
 	// Cursors
 	Image attackCursor ; 
 	Image cursor;
 	private Image currentCursor;
-	
+
 	// Font 
 	public UnicodeFont font;
 
@@ -328,7 +328,7 @@ public class Game extends BasicGame
 	private DeferredResource nextResource;
 	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 	String adviceToDisplay;
-	
+
 
 
 
@@ -472,9 +472,13 @@ public class Game extends BasicGame
 			g.drawImage(this.images.get("islandTexture"),0, 0, this.plateau.maxX, this.plateau.maxY,
 					0, 0, this.images.get("islandTexture").getWidth(),  this.images.get("islandTexture").getHeight());
 
-
+			// Draw ground effects
+			for(SpellEffect e : this.plateau.spells){
+				if(e.visibleByCurrentTeam && e.toDrawOnGround)
+					e.draw(g);
+			}
 			// Draw the selection of your team
-			for(Objet o: this.g.inputsHandler.getSelection(currentPlayer.id).selection){
+			for(Objet o: this.inputsHandler.getSelection(currentPlayer.id).selection){
 
 				if(o.target!=null && o instanceof Checkpoint){
 					Checkpoint c = (Checkpoint) o.target;
@@ -531,10 +535,12 @@ public class Game extends BasicGame
 					toDraw.add(e);
 			}
 			for(SpellEffect e : this.plateau.spells){
-				if(e.visibleByCurrentTeam)
-					toDrawAfter.add(e);
-				else
-					toDraw.add(e);
+				if(!e.toDrawOnGround){
+					if(e.visibleByCurrentTeam)
+						toDrawAfter.add(e);
+					else
+						toDraw.add(e);
+				}
 			}
 			for(Bullet b : this.plateau.bullets){
 				if(b.visibleByCurrentTeam)
@@ -751,11 +757,11 @@ public class Game extends BasicGame
 
 		// Handling multiReceiver
 		this.handleMultiReceiver();
-		
 
 
-		
-		
+
+
+
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -940,7 +946,7 @@ public class Game extends BasicGame
 			this.spellTarget = plateau.findTarget(im.x, im.y, currentPlayer.id);
 			this.spellX = im.x;
 			this.spellY = im.y;
-			
+
 		}
 	}
 
@@ -1224,7 +1230,7 @@ public class Game extends BasicGame
 		this.currentCursor = cursor;
 		if(gc!=null)
 			gc.setMouseCursor(currentCursor,5,16);
-		
+
 		fog = new Image((int) (resX), (int) (resY));
 		gf = fog.getGraphics();
 
@@ -1423,7 +1429,7 @@ public class Game extends BasicGame
 					}
 
 				}
-	
+
 				checksum+="-";
 				i++;
 			}

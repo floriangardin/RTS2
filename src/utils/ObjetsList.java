@@ -59,6 +59,7 @@ public enum ObjetsList {
 	Water, 
 	// SpellEffects
 	BlessedAreaEffect, 
+	BurningAreaEffect, 
 	FirewallEffect, 
 	FrozenEffect, 
 	HealEffect,
