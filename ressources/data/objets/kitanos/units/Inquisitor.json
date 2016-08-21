@@ -1,0 +1,15 @@
+{
+prototype:"Unit",
+printName:"Inquisitor",
+attackDuration:2,
+maxLifepoints:60,
+maxVelocity:100,
+armor:1,
+damage:10,
+weapon:"wand",
+range:200,
+explosionWhenImmolate:1,
+spells:Immolation-Firewall-BlessedArea,
+techsRequired:DualistAge3,
+size:35
+}

@@ -1,0 +1,6 @@
+{
+prototype:"Bonus",
+printName:"Bonus de vie",
+maxLifepoints:30,
+size:30
+}

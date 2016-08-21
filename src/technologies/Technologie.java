@@ -146,7 +146,7 @@ public abstract class Technologie implements java.io.Serializable{
 			
 		};
 			
-		case DualistContact2:
+		case DualistContactAttack2:
 			return 	new Technologie(o, gameteam){
 				
 			@Override
@@ -167,7 +167,7 @@ public abstract class Technologie implements java.io.Serializable{
 			}
 			
 		};
-		case DualistContact3:
+		case DualistContactAttack3:
 			return 	new Technologie(o, gameteam){
 				
 			@Override

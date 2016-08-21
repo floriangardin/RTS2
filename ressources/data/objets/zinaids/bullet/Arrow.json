@@ -1,0 +1,5 @@
+{
+prototype:"Objet",
+printName:"Flèche",
+maxVelocity:300
+}

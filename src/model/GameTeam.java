@@ -30,9 +30,15 @@ public class GameTeam {
 	
 	
 	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
+		switch(civ){
+		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);break;
+		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids",this);break;
+		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos",this);break;
+		default:
+		}
 		this.players = players;
 		this.id = id;
-		this.data = new Data(id);
+		this.data = new Data(id,this.civ.name);
 		if(id==0){
 			color = Colors.team0;
 			colorName = "neutral";
@@ -47,12 +53,7 @@ public class GameTeam {
 		}
 		this.plateau = plateau;
 		
-		switch(civ){
-		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);break;
-		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids",this);break;
-		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos",this);break;
-		default:
-		}
+
 		this.maxPop = 15;
 		this.gold = 50;
 		this.food = 100;

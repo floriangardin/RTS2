@@ -35,11 +35,11 @@ public class Building extends Objet{
 	public int teamCapturing;
 	public float constructionPoints;
 	public int potentialTeam;
-	public int type;
+
 	public Objet rallyPoint;
 
 	public float charge;
-	public float chargeRessource=5f;
+
 
 	public boolean giveUpProcess = false;
 	public boolean underAttack;
@@ -61,15 +61,15 @@ public class Building extends Objet{
 
 	public Vector<Integer> queue ;
 	public float random=0f;
-	private float stateRessource;
-
-	
 	//TOWER
 	public float chargeAttack;
 	public String animationBleu;
 	public String animationRouge;
 	public boolean canAttack=false;
 	private float animationTower;
+	private float stateRessourceGold;
+	private float stateRessourceFood;
+	private float stateRessourceFaith;
 	
 	
 	public Building(ObjetsList name,float x , float y,int team){
@@ -81,7 +81,6 @@ public class Building extends Objet{
 		this.y = y;
 		teamCapturing= 0;
 		this.setTeam(team);
-		type= 3;
 
 		this.initialize(x, y);
 		if(objet.equals(ObjetsList.Headquarters)){
@@ -327,24 +326,34 @@ public class Building extends Objet{
 		
 		//MINE
 		
-		this.stateRessource+=Main.increment;
-	
-		if(stateRessource >= chargeRessource && getTeam()!=0){
+		this.stateRessourceGold+=Main.increment;
+		this.stateRessourceFood+=Main.increment;
+		this.stateRessourceFaith+=Main.increment;
+		
+		if(stateRessourceGold >= this.getAttribut(Attributs.frequencyProduceGold) && getTeam()!=0){
 			getGameTeam().gold+=this.getAttribut(this.objet,Attributs.produceGold)*getGameTeam().data.prodGold;
-			getGameTeam().food+=this.getAttribut(this.objet,Attributs.produceFood)*getGameTeam().data.prodGold;
-			getGameTeam().special+=this.getAttribut(this.objet,Attributs.produceFaith)*getGameTeam().data.prodGold;
-			
+			stateRessourceGold = 0;
 			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceGold)==1 ){
 				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodGold, "gold", this.x, this.y));
+				
 			}
+		}
+		if(stateRessourceFood >= this.getAttribut(Attributs.frequencyProduceFood) && getTeam()!=0){
+			getGameTeam().food+=this.getAttribut(this.objet,Attributs.produceFood)*getGameTeam().data.prodFood;
+			stateRessourceFood = 0;
 			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceFood)==1 ){
 				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFood, "food", this.x, this.y));
+				
 			}
+		}
+		if(stateRessourceFaith >= this.getAttribut(Attributs.frequencyProduceFaith) && getTeam()!=0){
+			getGameTeam().special+=this.getAttribut(this.objet,Attributs.produceFaith)*getGameTeam().data.prodFaith;
+			stateRessourceFaith = 0;
 			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceFaith)==1 ){
 				// TODO : Produce faith display
 				//				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFaith, "special", this.x, this.y));
+				
 			}
-			stateRessource = 0;
 		}
 		//TOWER
 		if(this.getGameTeam().data.getAttribut(this.objet, Attributs.canAttack)>0){
@@ -500,14 +509,12 @@ public class Building extends Objet{
 				if(!(objet.equals(ObjetsList.Headquarters))){
 					this.setTeam(0);
 				}
-			
 			}
 			this.constructionPoints-=Main.increment;
 		}
 		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && c.mode==Character.TAKE_BUILDING && c.target==this){
 			this.constructionPoints+=Main.increment;
 		}
-
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
 				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (objet.equals(ObjetsList.Headquarters))){
@@ -526,7 +533,6 @@ public class Building extends Objet{
 					ChatHandler.remainingTimeNotEnoughRoom=10f;
 					Game.g.sendMessage(ChatMessage.getById("pop"));
 				}
-
 			}
 		}
 	}
@@ -537,7 +543,6 @@ public class Building extends Objet{
 		g.draw(this.collisionBox);
 		this.drawRallyPoint(g);
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-
 	}	
 
 	public Graphics draw(Graphics g){

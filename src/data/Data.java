@@ -46,7 +46,7 @@ public class Data implements java.io.Serializable {
 	public Vector<Attributs> ratioSpaceObjet;
 
 
-	public Data(int team){
+	public Data(int team,String civilisation){
 		this.team = team;
 		this.ratioSpaceObjet = new Vector<Attributs>();
 		this.ratioSpaceObjet.addElement(Attributs.sight);
@@ -58,7 +58,7 @@ public class Data implements java.io.Serializable {
 		this.FRAMERATE = Main.framerate;
 		datas = new HashMap<ObjetsList, DataObjet>();
 		// add the objets
-		this.initHashMap();
+		this.initHashMap(civilisation);
 		// init the spells
 		this.spells = new HashMap<ObjetsList, Spell>();
 		for(ObjetsList s : ObjetsList.getSpells()){
@@ -66,9 +66,9 @@ public class Data implements java.io.Serializable {
 		}
 	}
 
-	public void initHashMap(){
+	public void initHashMap(String civilisation){
 		// création de la hashmap d'attributs
-		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/", "json");
+		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/"+civilisation+"/", "json");
 		for(String name : files.keySet()){
 			this.datas.put(ObjetsList.get(name), new DataObjet(files.get(name)));
 		}

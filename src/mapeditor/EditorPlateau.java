@@ -454,7 +454,7 @@ public class EditorPlateau {
 			o.image = o.image.getScaledCopy(stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;
 		}
-		Data data = new Data(0);
+		Data data = new Data(0,"dualists");
 		for(EditorObject o : buildings){
 			sizeX = Game.g.data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
 			o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
@@ -599,7 +599,7 @@ public class EditorPlateau {
 			}
 			br.close(); 
 			// Création de la map
-			Data data = new Data(0);
+			Data data = new Data(0,"dualists");
 			this.cams = new Vector<EditorObject>();
 			this.cams.add(Zcam);
 			this.cams.add(Qcam);

@@ -1,0 +1,6 @@
+{
+printName:"Barracks",
+prototype:"Building",
+units:Spearman-Crossbowman-Inquisitor,
+technologies:DualistContactAttack2-DualistContactAttack3-DualistRangeAttack2-DualistRangeAttack3
+}

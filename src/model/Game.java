@@ -1273,7 +1273,7 @@ public class Game extends BasicGame
 
 		LoadingList.setDeferredLoading(true);
 
-		g.data = new Data(0);
+		g.data = new Data(0,"dualists");
 		g.sounds = new Sounds();
 		g.options = new Options();
 		g.images = new Images();
