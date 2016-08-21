@@ -29,7 +29,7 @@ public abstract class Technologie implements java.io.Serializable{
 	}
 	
 	public String getIcon(){
-		return this.getGameTeam().data.getAttributString(objet.name, Attributs.nameIcon);
+		return this.getGameTeam().data.getAttributString(objet, Attributs.nameIcon);
 	}
 
 	public static Technologie technologie(ObjetsList o, int gameteam){
@@ -84,12 +84,12 @@ public abstract class Technologie implements java.io.Serializable{
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name().toLowerCase(), Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name().toLowerCase(), Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name().toLowerCase(), Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name().toLowerCase(), Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name().toLowerCase(), Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name().toLowerCase(), Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange, Attributs.armor, 2f);
 			
 			}
 			
@@ -100,12 +100,12 @@ public abstract class Technologie implements java.io.Serializable{
 				
 			@Override
 			public void applyEffect() {
-				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.maxLifepoints, 20f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.maxLifepoints, 20f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.maxLifepoints, 20f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.maxLifepoints, 20f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.maxLifepoints, 20f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange, Attributs.maxLifepoints, 20f);
 			
 			}
 			
@@ -117,12 +117,12 @@ public abstract class Technologie implements java.io.Serializable{
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.armor, 2f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange, Attributs.armor, 2f);
 			
 			}
 			
@@ -136,12 +136,12 @@ public abstract class Technologie implements java.io.Serializable{
 				// TODO Auto-generated method stub
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.maxLifepoints, 30f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.maxLifepoints, 30f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.maxLifepoints, 30f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.maxLifepoints, 30f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.maxLifepoints, 30f);
-				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange, Attributs.maxLifepoints, 30f);
 			}
 			
 		};
@@ -151,8 +151,8 @@ public abstract class Technologie implements java.io.Serializable{
 				
 			@Override
 			public void applyEffect() {
-				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.damage, 1);
-				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.damage, 1);
 			}
 			
 		};
@@ -162,8 +162,8 @@ public abstract class Technologie implements java.io.Serializable{
 				
 			@Override
 			public void applyEffect() {
-				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.damage, 1);
-				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.damage, 1);
 			}
 			
 		};
@@ -172,8 +172,8 @@ public abstract class Technologie implements java.io.Serializable{
 				
 			@Override
 			public void applyEffect() {
-				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.damage, 1);
-				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.damage, 1);
 			}
 			
 		};
@@ -182,8 +182,8 @@ public abstract class Technologie implements java.io.Serializable{
 				
 			@Override
 			public void applyEffect() {
-				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.damage, 1);
-				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman, Attributs.damage, 1);
 			}
 			
 		};
@@ -193,12 +193,12 @@ public abstract class Technologie implements java.io.Serializable{
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-				this.getGameTeam().data.setAttribut(ObjetsList.Spearman.name, Attributs.explosionWhenImmolate, 1f);
-				this.getGameTeam().data.setAttribut(ObjetsList.Crossbowman.name, Attributs.explosionWhenImmolate, 1f);
-				this.getGameTeam().data.setAttribut(ObjetsList.Knight.name, Attributs.explosionWhenImmolate, 1f);
-				this.getGameTeam().data.setAttribut(ObjetsList.Priest.name, Attributs.explosionWhenImmolate, 1f);
-				this.getGameTeam().data.setAttribut(ObjetsList.Inquisitor.name, Attributs.explosionWhenImmolate, 1f);
-				this.getGameTeam().data.setAttribut(ObjetsList.Archange.name, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Spearman, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Crossbowman, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Knight, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Priest, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Inquisitor, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Archange, Attributs.explosionWhenImmolate, 1f);
 			}
 			
 		};
@@ -208,12 +208,12 @@ public abstract class Technologie implements java.io.Serializable{
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-				this.getGameTeam().data.mulAttribut(ObjetsList.Spearman.name, Attributs.sight, 1.5f);
-				this.getGameTeam().data.mulAttribut(ObjetsList.Crossbowman.name, Attributs.sight, 1.5f);
-				this.getGameTeam().data.mulAttribut(ObjetsList.Knight.name, Attributs.sight, 1.5f);
-				this.getGameTeam().data.mulAttribut(ObjetsList.Priest.name, Attributs.sight, 1.5f);
-				this.getGameTeam().data.mulAttribut(ObjetsList.Inquisitor.name, Attributs.sight, 1.5f);
-				this.getGameTeam().data.mulAttribut(ObjetsList.Archange.name, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Spearman, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Crossbowman, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Knight, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Priest, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Inquisitor, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Archange, Attributs.sight, 1.5f);
 			}
 			
 		};

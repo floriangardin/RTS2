@@ -39,7 +39,7 @@ public class Building extends Objet{
 	public Objet rallyPoint;
 
 	public float charge;
-	public float chargeRessource;
+	public float chargeRessource=5f;
 
 	public boolean giveUpProcess = false;
 	public boolean underAttack;
@@ -74,7 +74,8 @@ public class Building extends Objet{
 	
 	public Building(ObjetsList name,float x , float y,int team){
 		// SET UP TECH LIST ET PRODUCTION LIST
-		this.name = name.name;
+
+		this.name = name;
 		this.objet = name;
 		this.x = x;
 		this.y = y;
@@ -93,14 +94,15 @@ public class Building extends Objet{
 			this.animationRouge = "buildingTowerRedAnimation";
 		}
 
+
 	}
 	
 
 	public float getAttribut(ObjetsList o ,Attributs a){
-		return this.getGameTeam().data.getAttribut(o.name, a);
+		return this.getGameTeam().data.getAttribut(o, a);
 	}
 	public String getAttributString(ObjetsList o ,Attributs a){
-		return this.getGameTeam().data.getAttributString(o.name, a);
+		return this.getGameTeam().data.getAttributString(o, a);
 	}
 	public Vector<ObjetsList> getProductionList(){
 		return getGameTeam().data.getAttributListAtt(this.name, Attributs.units);
@@ -331,7 +333,7 @@ public class Building extends Objet{
 			stateRessource = 0;
 		}
 		//TOWER
-		if(this.getGameTeam().data.getAttribut(this.objet.name, Attributs.canAttack)>0){
+		if(this.getGameTeam().data.getAttribut(this.objet, Attributs.canAttack)>0){
 			this.attack();
 		}
 		
@@ -405,14 +407,15 @@ public class Building extends Objet{
 			if(getHQ().currentTechsProduced.contains(t) || getHQ().techsDiscovered.contains(t)){	
 				continue;
 			}
+
 			// Get the techRequired
-			Vector<String> techsRequired = getGameTeam().data.getAttributList(t.name, Attributs.techsRequired);
+			Vector<String> techsRequired = getGameTeam().data.getAttributList(t, Attributs.techsRequired);
 			boolean isValid = true;
 			for(String techRequired : techsRequired){
 				// Check we already have the techno required  discovered
 				boolean hasTech=false;
 				for(ObjetsList tech : getHQ().techsDiscovered){
-					if(tech.name.equals(techRequired.toLowerCase())){
+					if(tech.getName().equals(techRequired.toLowerCase())){
 						hasTech = true;
 						break;
 					}
@@ -421,6 +424,7 @@ public class Building extends Objet{
 					isValid = false;
 					break;
 				}
+
 			}
 			if(isValid){
 				toReturn.add(t);
@@ -561,7 +565,7 @@ public class Building extends Objet{
 			if(bp.queue.size()>0){
 				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bp.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime));
 				float opacity = 50*bp.charge/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime);
-				Image icone = Game.g.images.get("icon"+bp.getProductionList().get(bp.queue.get(0)).name+"buildingsize");
+				Image icone = Game.g.images.get("icon"+bp.getProductionList().get(bp.queue.get(0))+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
@@ -603,7 +607,7 @@ public class Building extends Objet{
 		
 		
 		//TOWER
-		if(this.getGameTeam().data.getAttribut(this.objet.name, Attributs.canAttack)>0){
+		if(this.getGameTeam().data.getAttribut(this.objet, Attributs.canAttack)>0){
 			this.drawAnimationTower(g);
 		}
 		

@@ -6,7 +6,7 @@ import control.InputObject;
 import data.Attributs;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 //TODO : sort qui use heal
@@ -14,7 +14,7 @@ public class SpellHeal extends Spell{
 
 
 	public SpellHeal(){
-		this.name = SpellsList.Heal;
+		this.name = ObjetsList.Heal;
 	}
 
 	public void launch(Objet target, Character launcher){

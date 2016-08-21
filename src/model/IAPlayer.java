@@ -311,7 +311,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Spearman" ){
+			if(c.name == ObjetsList.Spearman ){
 				result.add(c);
 			}
 		}
@@ -322,7 +322,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Spearman" && c.mission==null ){
+			if(c.name == ObjetsList.Spearman && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -332,7 +332,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Crossbowman" ){
+			if(c.name == ObjetsList.Crossbowman ){
 				result.add(c);
 			}
 		}
@@ -343,7 +343,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Crossbowman" && c.mission==null ){
+			if(c.name == ObjetsList.Crossbowman && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -354,7 +354,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Knight" ){
+			if(c.name == ObjetsList.Knight ){
 				result.add(c);
 			}
 		}
@@ -365,7 +365,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Knight"  && c.mission==null ){
+			if(c.name == ObjetsList.Knight  && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -377,7 +377,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Priest" ){
+			if(c.name == ObjetsList.Priest ){
 				result.add(c);
 			}
 		}
@@ -388,7 +388,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Priest" && c.mission==null ){
+			if(c.name == ObjetsList.Priest && c.mission==null ){
 				result.add(c);
 			}
 		}
@@ -399,7 +399,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Inquisitor" ){
+			if(c.name == ObjetsList.Inquisitor ){
 				result.add(c);
 			}
 		}
@@ -410,7 +410,7 @@ public class IAPlayer extends Player{
 		Vector<Character> result = new Vector<Character>();
 
 		for(Character c : units){
-			if(c.name == "Inquisitor"  && c.mission==null  ){
+			if(c.name == ObjetsList.Inquisitor  && c.mission==null  ){
 				result.add(c);
 			}
 		}

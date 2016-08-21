@@ -8,14 +8,14 @@ import model.Game;
 import model.GameTeam;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class SpellInstantDeath extends Spell{
 
 
 	public SpellInstantDeath(){
-		this.name = SpellsList.InstantDeath;
+		this.name = ObjetsList.InstantDeath;
 	}
 
 	public void launch(Objet target, Character launcher){

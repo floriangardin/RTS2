@@ -9,7 +9,7 @@ import main.Main;
 import ressources.Map;
 import spells.Spell;
 import utils.ObjetsList;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class Data implements java.io.Serializable {
@@ -22,9 +22,9 @@ public class Data implements java.io.Serializable {
 	public final int FRAMERATE;
 
 
-	public HashMap<String, DataObjet> datas;
+	public HashMap<ObjetsList, DataObjet> datas;
 
-	public HashMap<SpellsList, Spell> spells;
+	public HashMap<ObjetsList, Spell> spells;
 
 	//// Special
 
@@ -56,12 +56,12 @@ public class Data implements java.io.Serializable {
 		this.ACC = 40f;
 		this.FROT = 1f;
 		this.FRAMERATE = Main.framerate;
-		datas = new HashMap<String, DataObjet>();
+		datas = new HashMap<ObjetsList, DataObjet>();
 		// add the objets
 		this.initHashMap();
 		// init the spells
-		this.spells = new HashMap<SpellsList, Spell>();
-		for(SpellsList s : SpellsList.values()){
+		this.spells = new HashMap<ObjetsList, Spell>();
+		for(ObjetsList s : ObjetsList.getSpells()){
 			this.spells.put(s, (Spell)Spell.createSpell(s,this.team));
 		}
 	}
@@ -70,10 +70,10 @@ public class Data implements java.io.Serializable {
 		// création de la hashmap d'attributs
 		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/", "json");
 		for(String name : files.keySet()){
-			this.datas.put(name, new DataObjet(files.get(name)));
+			this.datas.put(ObjetsList.get(name), new DataObjet(files.get(name)));
 		}
 		// Do the prototyping (overrides non existing attributes
-		for(String s : datas.keySet()){
+		for(ObjetsList s : datas.keySet()){
 			overrides(s);
 		}
 		// Convert to float ...
@@ -84,20 +84,19 @@ public class Data implements java.io.Serializable {
 	}
 
 	// Fonctions méga propres de Flo
-	public String overrides(String s){
+	public ObjetsList overrides(ObjetsList s){
 		// On cherche le parent le plus vieux
 		if(datas.get(s).attributsString.containsKey(Attributs.prototype)){
 			// Merge parent...
-			merge(s,overrides(datas.get(s).attributsString.get(Attributs.prototype).toLowerCase()));
+			merge(s,overrides(ObjetsList.get(datas.get(s).attributsString.get(Attributs.prototype))));
 		}
 		return s;
-
 
 	}
 
 	public void convert(){
 		Vector<Attributs> toRemove;
-		for(String s : datas.keySet()){
+		for(ObjetsList s : datas.keySet()){
 			DataObjet d = datas.get(s);
 			d.attributs = new HashMap<Attributs,Float>();
 			toRemove = new Vector<Attributs>();
@@ -133,7 +132,7 @@ public class Data implements java.io.Serializable {
 			}
 		}
 	}
-	public void merge(String child,String parent){
+	public void merge(ObjetsList child,ObjetsList parent){
 		HashMap<Attributs,String> c = datas.get(child).attributsString;
 		HashMap<Attributs,String> p = datas.get(parent).attributsString;
 		for(Attributs s : p.keySet()){
@@ -144,52 +143,52 @@ public class Data implements java.io.Serializable {
 	}
 
 	// getting and setting attributs
-	public float getAttribut(String name, Attributs attribut){
-		if(!this.datas.containsKey(name.toLowerCase())){
+	public float getAttribut(ObjetsList name, Attributs attribut){
+		if(!this.datas.containsKey(name)){
 			System.out.println("erreur : data ne contient pas "+name);
 			return 1f;
 		}
-		if(!this.datas.get(name.toLowerCase()).attributs.containsKey(attribut)){
+		if(!this.datas.get(name).attributs.containsKey(attribut)){
 			System.out.println(name+" n'a pas d'attribut "+attribut);
 			Throwable t = new Throwable();
 			t.printStackTrace();
 			return 1f;
 		}
-		return this.datas.get(name.toLowerCase()).attributs.get(attribut);
+		return this.datas.get(name).attributs.get(attribut);
 	}
-	public String getAttributString(String name, Attributs attribut){
-		if(!this.datas.containsKey(name.toLowerCase())){
+	public String getAttributString(ObjetsList name, Attributs attribut){
+		if(!this.datas.containsKey(name)){
 			System.out.println("erreur : data ne contient pas de string pour "+name);
 			return "vide";
 		}
-		if(!this.datas.get(name.toLowerCase()).attributsString.containsKey(attribut)){
+		if(!this.datas.get(name).attributsString.containsKey(attribut)){
 			System.out.println(name+" n'a pas d'attribut "+attribut);
 			return "vide";
 		}
-		return this.datas.get(name.toLowerCase()).attributsString.get(attribut);
+		return this.datas.get(name).attributsString.get(attribut);
 	}
-	public Vector<String> getAttributList(String name, Attributs attribut){
-		if(!this.datas.containsKey(name.toLowerCase())){
+	public Vector<String> getAttributList(ObjetsList name, Attributs attribut){
+		if(!this.datas.containsKey(name)){
 			System.out.println("erreur : data ne contient pas de list pour "+name);
 			return new Vector<String>();
 		}
-		if(!this.datas.get(name.toLowerCase()).attributsList.containsKey(attribut)){
+		if(!this.datas.get(name).attributsList.containsKey(attribut)){
 			System.out.println(name+" n'a pas d'attribut "+attribut);
 			return new Vector<String>();
 		}
-		return this.datas.get(name.toLowerCase()).attributsList.get(attribut);
+		return this.datas.get(name).attributsList.get(attribut);
 	}
 	
-	public Vector<ObjetsList> getAttributListAtt(String name, Attributs attribut){
-		if(!this.datas.containsKey(name.toLowerCase())){
+	public Vector<ObjetsList> getAttributListAtt(ObjetsList name, Attributs attribut){
+		if(!this.datas.containsKey(name)){
 			System.out.println("erreur : data ne contient pas de list pour "+name);
 			return new Vector<ObjetsList>();
 		}
-		if(!this.datas.get(name.toLowerCase()).attributsList.containsKey(attribut)){
+		if(!this.datas.get(name).attributsList.containsKey(attribut)){
 			System.out.println(name+" n'a pas d'attribut "+attribut);
 			return new Vector<ObjetsList>();
 		}
-		Vector<String> s = this.datas.get(name.toLowerCase()).attributsList.get(attribut);
+		Vector<String> s = this.datas.get(name).attributsList.get(attribut);
 		Vector<ObjetsList> result = new Vector<ObjetsList>();
 		for(String s1 : s){
 			result.add(ObjetsList.valueOf(s1));
@@ -197,37 +196,37 @@ public class Data implements java.io.Serializable {
 		return result;
 		
 	}
-	public void setAttributString(String name, Attributs attribut, String value){
+	public void setAttributString(ObjetsList name, Attributs attribut, String value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name);
+			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributsString.put(attribut, value);
 	}
-	public void setAttribut(String name, Attributs attribut, float value){
+	public void setAttribut(ObjetsList name, Attributs attribut, float value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name);
+			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributs.put(attribut, value);
 	}
-	public void addAttribut(String name, Attributs attribut, float value){
+	public void addAttribut(ObjetsList name, Attributs attribut, float value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name);
+			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributs.put(attribut, this.datas.get(name).attributs.get(attribut)+value);
 	}
-	public void mulAttribut(String name, Attributs attribut, float value){
+	public void mulAttribut(ObjetsList name, Attributs attribut, float value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name);
+			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributs.put(attribut, this.datas.get(name).attributs.get(attribut)*value);
 	}
 
 	// getting spells
-	public Spell getSpell(SpellsList s){
+	public Spell getSpell(ObjetsList s){
 		if(this.spells.containsKey(s)){
 			return this.spells.get(s);
 		}
@@ -235,7 +234,7 @@ public class Data implements java.io.Serializable {
 		return null;
 	}
 
-	public Point getSize(String name){
+	public Point getSize(ObjetsList name){
 		return new Point(getAttribut(name,Attributs.sizeX),getAttribut(name, Attributs.sizeY));
 
 	}

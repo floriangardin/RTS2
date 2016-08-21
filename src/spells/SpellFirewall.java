@@ -6,13 +6,13 @@ import data.Attributs;
 import model.Checkpoint;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellFirewall extends Spell{
 
 	
 	public SpellFirewall(){
-		this.name = SpellsList.Firewall;
+		this.name = ObjetsList.Firewall;
 	}
 
 	public void launch(Objet target, Character launcher){

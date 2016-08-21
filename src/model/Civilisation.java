@@ -3,7 +3,7 @@ package model;
 import data.Attributs;
 import main.Main;
 import spells.Spell;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class Civilisation {
 	public String name;
@@ -19,15 +19,15 @@ public class Civilisation {
 		switch(name.toLowerCase()){
 		case "dualists":
 			this.printName = "Dualists";
-			this.uniqueSpell = Game.g.data.spells.get(SpellsList.Eclair);
+			this.uniqueSpell = Game.g.data.spells.get(ObjetsList.Eclair);
 			break;
 		case "kitanos":
 			this.printName = "Kitanos";
-			this.uniqueSpell = Game.g.data.spells.get(SpellsList.Heal);
+			this.uniqueSpell = Game.g.data.spells.get(ObjetsList.Heal);
 			break;
 		case "zinaids":
 			this.printName = "Zinaids";
-			this.uniqueSpell = Game.g.data.spells.get(SpellsList.Product);
+			this.uniqueSpell = Game.g.data.spells.get(ObjetsList.Product);
 			break;
 		}
 	}

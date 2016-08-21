@@ -2,15 +2,13 @@ package spells;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import main.Main;
 import model.Game;
-import model.GameTeam;
 import model.Objet;
-import model.Plateau;
 import units.Character;
+import utils.ObjetsList;
 
 public class Heal extends SpellEffect{
 
@@ -31,7 +29,7 @@ public class Heal extends SpellEffect{
 
 		this.type = 1;
 
-		this.name = "heal";
+		this.name = ObjetsList.HealEffect;
 		this.x = t.getX();
 		this.y = t.getY();
 		this.team = launcher.getTeam();

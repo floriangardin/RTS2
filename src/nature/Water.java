@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import units.Character;
+import utils.ObjetsList;
 import model.Game;
 import model.NaturalObjet;
 import model.Objet;
@@ -15,7 +16,7 @@ public class Water extends NaturalObjet {
 	
 	
 	public Water(float x, float y, float sizeX, float sizeY) {
-		this.name="water";
+		this.name = ObjetsList.Water;
 		this.setTeam(0);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;

@@ -13,7 +13,7 @@ public class BonusDamage extends Bonus{
 	public BonusDamage(float x , float y){
 		
 		super(ObjetsList.BonusDamage,x,y);
-		this.name = ObjetsList.BonusDamage.name().toLowerCase();
+		this.name = ObjetsList.BonusDamage;
 		this.initialize( x, y);
 		this.bonus = 5f;
 

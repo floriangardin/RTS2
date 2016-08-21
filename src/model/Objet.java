@@ -18,7 +18,7 @@ import main.Main;
 import spells.Spell;
 import units.Character;
 import utils.ObjetsList;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public abstract class Objet implements java.io.Serializable {
 
@@ -35,7 +35,11 @@ public abstract class Objet implements java.io.Serializable {
 	public Rectangle selectionBox;
 	public Color color;
 	public float lifePoints;
-	public String name;
+	public ObjetsList name;
+	
+	// draw
+	public boolean toDrawOnGround = false;
+	
 	protected int team;
 
 	// Bonus, équipements, potions et autres stuff
@@ -43,7 +47,7 @@ public abstract class Objet implements java.io.Serializable {
 
 
 	// Spells ( what should appear in the bottom bar
-	public Vector<SpellsList> spells = new Vector<SpellsList>();
+	public Vector<ObjetsList> spells = new Vector<ObjetsList>();
 	public Vector<Float> spellsState = new Vector<Float>();
 
 	// visibility boolean 
@@ -120,12 +124,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 
 
-	public void setName(String s){
-		this.name = s;
-	}
-	public String getName(){
-		return this.name;
-	}
+	
 	public int getTeam(){
 		return this.team;
 	}
@@ -197,7 +196,7 @@ public abstract class Objet implements java.io.Serializable {
 
 	// Attributs
 	public float getAttribut(Attributs attribut){
-		float a = this.getGameTeam().data.getAttribut(this.name.toLowerCase(),attribut);
+		float a = this.getGameTeam().data.getAttribut(this.name,attribut);
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
 				a = ac.apply(a);
@@ -210,7 +209,7 @@ public abstract class Objet implements java.io.Serializable {
 		/**
 		 * remove the corresponding attributes change if its with usage unique
 		 */
-		float a = this.getGameTeam().data.getAttribut(this.name.toLowerCase(),attribut);
+		float a = this.getGameTeam().data.getAttribut(this.name,attribut);
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
@@ -226,10 +225,10 @@ public abstract class Objet implements java.io.Serializable {
 		return a;
 	}
 	public String getAttributString(Attributs attribut){
-		return this.getGameTeam().data.getAttributString(this.name.toLowerCase(),attribut);
+		return this.getGameTeam().data.getAttributString(this.name,attribut);
 	}
 	public Vector<String> getAttributList(Attributs attribut){
-		return this.getGameTeam().data.getAttributList(this.name.toLowerCase(),attribut);
+		return this.getGameTeam().data.getAttributList(this.name,attribut);
 	}
 
 	// Spells
@@ -253,12 +252,12 @@ public abstract class Objet implements java.io.Serializable {
 	
 	// Autres
 	public float getVisibleSize(){
-		if(this.getGameTeam().data.datas.containsKey(this.name.toLowerCase())){
-			if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.size)){
+		if(this.getGameTeam().data.datas.containsKey(this.name)){
+			if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.size)){
 				return getAttribut(Attributs.size)+getAttribut(Attributs.sight);
-			} else if(this.getGameTeam().data.datas.get(this.name.toLowerCase()).attributs.containsKey(Attributs.sizeX)){
-				float sizeX=this.getGameTeam().data.getAttribut(this.name.toLowerCase(),Attributs.sizeX);
-				float sizeY=this.getGameTeam().data.getAttribut(this.name.toLowerCase(),Attributs.sizeY);
+			} else if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.sizeX)){
+				float sizeX=this.getGameTeam().data.getAttribut(this.name,Attributs.sizeX);
+				float sizeY=this.getGameTeam().data.getAttribut(this.name,Attributs.sizeY);
 				return (float) Math.sqrt(sizeX*sizeX+sizeY*sizeY)+getAttribut(Attributs.sight);
 			}
 		}

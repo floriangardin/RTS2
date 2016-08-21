@@ -7,14 +7,14 @@ import data.Attributs;
 import model.Game;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class SpellInstantHealth extends Spell{
 
 
 	public SpellInstantHealth(){
-		this.name = SpellsList.InstantHealth;
+		this.name = ObjetsList.InstantHealth;
 	}
 
 	public void launch(Objet target, Character launcher){

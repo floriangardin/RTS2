@@ -6,12 +6,12 @@ import data.Attributs;
 import model.Checkpoint;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellBlessedArea extends Spell{
 	
 	protected SpellBlessedArea(){
-		this.name = SpellsList.BlessedArea;
+		this.name = ObjetsList.BlessedArea;
 	}
 
 	public void launch(Objet target, Character launcher){

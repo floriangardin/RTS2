@@ -5,7 +5,6 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
@@ -17,6 +16,7 @@ import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import units.Character;
+import utils.ObjetsList;
 
 public class BlessedArea extends SpellEffect{
 
@@ -39,7 +39,7 @@ public class BlessedArea extends SpellEffect{
 		else{
 			this.id =id;
 		}
-		this.name = "blessedArea";
+		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
 		this.id = Game.g.idChar;
@@ -75,7 +75,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public void action(){
-		this.remainingTime-=1f*Main.increment;
+		this.remainingTime-=10f*Main.increment;
 		for(AttributsChange ac : this.ac){
 			ac.remainingTime = this.remainingTime;
 		}
@@ -94,7 +94,7 @@ public class BlessedArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-		this.animationState +=1f*Main.increment;
+		this.animationState +=30f*Main.increment;
 		if(this.animationState>animationMax)
 			animationState = 0f;
 		float x,y,r,currentAnimation;

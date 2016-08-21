@@ -10,20 +10,20 @@ import events.Events;
 import model.Game;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class SpellImmolation extends Spell{
 
 	
 	public SpellImmolation(){
-		this.name = SpellsList.Immolation;
+		this.name = ObjetsList.Immolation;
 	}
 
 	public void launch(Objet target, Character launcher){
 
 		launcher.isImmolating = true;
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
-		launcher.spells = new Vector<SpellsList>();
+		launcher.spells = new Vector<ObjetsList>();
 		Game.g.events.addEvent(Events.Immolation, target);
 	}
 

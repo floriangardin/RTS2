@@ -22,7 +22,7 @@ import ressources.Map;
 import spells.Spell;
 import spells.SpellEffect;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.Utils;
 
 
@@ -422,15 +422,14 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				if (i == 0 && Math.random() > 0.3) {
-
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
-							&& c.getTeam() != target.getTeam()) {
+							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
 						Game.g.events.addEvent(Events.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
 						Game.g.events.addEvent(Events.MoveTarget, o);
 					}
-
 				}
+
 				i++;
 				// first we deal with o's elder group
 				if (o.group != null && o.group.size() > 1) {
@@ -791,7 +790,7 @@ public class Plateau implements java.io.Serializable {
 							&& c.spellsState.get(number) >= c.getSpell(number).getAttribut(Attributs.chargeTime)) {
 						Spell s = c.getSpell(number);
 						if (s.getAttribut(Attributs.needToClick)==0) {
-							if(s.name!=SpellsList.Immolation || imo){
+							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
 							}

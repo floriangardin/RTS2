@@ -49,7 +49,7 @@ public abstract class Bonus extends Building{
 	}
 	
 	public Graphics draw(Graphics g){
-		Image im = Game.g.images.get(this.name).getScaledCopy(Main.ratioSpace);
+		Image im = Game.g.images.get(this.name.name()).getScaledCopy(Main.ratioSpace);
 		int imageWidth = im.getWidth()/5;
 		float r =this.getAttribut(Attributs.size);
 		Color color = Colors.team0;

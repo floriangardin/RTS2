@@ -20,6 +20,7 @@ import data.Data;
 import model.Game;
 import pathfinding.MapWater;
 import ressources.Map;
+import utils.ObjetsList;
 
 public class EditorPlateau {
 
@@ -455,7 +456,7 @@ public class EditorPlateau {
 		}
 		Data data = new Data(0);
 		for(EditorObject o : buildings){
-			sizeX = Game.g.data.getAttribut(o.name, Attributs.sizeX)/Map.stepGrid;
+			sizeX = Game.g.data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
 			o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;
 		}
@@ -480,7 +481,7 @@ public class EditorPlateau {
 				break;
 			case 1: 
 			case 2: //building
-				sizeX = Game.g.data.getAttribut(o.name, Attributs.sizeX)/Map.stepGrid;
+				sizeX = Game.g.data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
 				
 				o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
 				o.stepGrid = newScale;
@@ -609,8 +610,8 @@ public class EditorPlateau {
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				float sizeX = Game.g.data.getAttribut("headquarters", Attributs.sizeX)/Map.stepGrid;
-				float sizeY = Game.g.data.getAttribut("headquarters", Attributs.sizeY)/Map.stepGrid;
+				float sizeX = Game.g.data.getAttribut(ObjetsList.Headquarters, Attributs.sizeX)/Map.stepGrid;
+				float sizeY = Game.g.data.getAttribut(ObjetsList.Headquarters, Attributs.sizeY)/Map.stepGrid;
 				if(tab[0].equals("1")){
 					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(sizeX),(int)(sizeY)));
 					this.setCollision(headquartersBlue.get(0), true);
@@ -633,7 +634,7 @@ public class EditorPlateau {
 					case "Academy" : 
 					case "University" : 
 					case "Tower" :
-						this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Neutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(tab[0], Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(tab[0], Attributs.sizeY)/Map.stepGrid)));
+						this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Neutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
 						break;
 					case "BonusLifePoints" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusLifePoints"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
 					case "BonusDamage" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusDamage"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
@@ -641,9 +642,9 @@ public class EditorPlateau {
 					default : 
 					}
 				} else if(tab[1].equals("1")){
-					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Blue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(tab[0], Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(tab[0], Attributs.sizeY)/Map.stepGrid)));
+					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Blue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
 				} else if(tab[1].equals("2")){
-					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Red"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(tab[0], Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(tab[0], Attributs.sizeY)/Map.stepGrid)));
+					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Red"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
 				}
 			}
 			// Units

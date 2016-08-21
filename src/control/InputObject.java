@@ -10,7 +10,7 @@ import data.Attributs;
 import display.BottomBar;
 import model.Game;
 import model.Player;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 public class InputObject implements java.io.Serializable{
 
@@ -27,7 +27,7 @@ public class InputObject implements java.io.Serializable{
 	// Spells
 	public int idObjetMouse;
 	public int idSpellLauncher;
-	public SpellsList spell;
+	public ObjetsList spell;
 
 	public Vector<Boolean> validated;
 	public boolean toPlay;
@@ -153,7 +153,7 @@ public class InputObject implements java.io.Serializable{
 			}
 
 			// checking for the prod button in the action bar
-			if(pressed.contains(KeyEnum.LeftClick)){
+			if(pressed.contains(KeyEnum.LeftClick) ){
 				if(player.bottomBar.action.toDrawDescription[0][0]){
 					this.pressed.addElement(KeyEnum.Prod0);
 				}

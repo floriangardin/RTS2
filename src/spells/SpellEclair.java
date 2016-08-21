@@ -7,7 +7,7 @@ import data.Attributs;
 import model.Game;
 import model.Objet;
 import units.Character;
-import utils.SpellsList;
+import utils.ObjetsList;
 
 // TODO : Sort
 public class SpellEclair extends Spell{
@@ -15,7 +15,7 @@ public class SpellEclair extends Spell{
 	
 
 	public SpellEclair(){
-		this.name = SpellsList.Eclair;
+		this.name = ObjetsList.Eclair;
 	}
 
 	public void launch(Objet target, Character launcher){

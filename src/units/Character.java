@@ -26,7 +26,7 @@ import model.Objet;
 import nature.Tree;
 import pathfinding.Case;
 import spells.Spell;
-import utils.SpellsList;
+import utils.ObjetsList;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -37,7 +37,7 @@ public class Character extends Objet{
 	 * 
 	 */
 	private static final long serialVersionUID = -6156105360565271761L;
-	
+
 	//Isattackec
 	public boolean isAttacked;
 	public float timerAttacked = 0f;
@@ -84,7 +84,7 @@ public class Character extends Objet{
 	public boolean isBolted = false;
 
 	public float remainingTime;
-	
+
 	// UnitsList associated
 	public Vector<Objet> secondaryTargets = new Vector<Objet>();
 	public Vector<Integer> waypoints = new Vector<Integer>();
@@ -97,7 +97,7 @@ public class Character extends Objet{
 		Game.g.plateau.addCharacterObjets(this);
 		this.id = Game.g.idChar;
 		Game.g.idChar+=1;
-		this.name = name.name;
+		this.name= name;
 		this.setTeam(team);
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
@@ -111,7 +111,7 @@ public class Character extends Objet{
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
 		for(String s: this.getAttributList(Attributs.spells)){
-			this.spells.addElement(SpellsList.valueOf(s));
+			this.spells.addElement(ObjetsList.valueOf(s));
 			this.spellsState.addElement(0f);
 		}
 
@@ -269,7 +269,7 @@ public class Character extends Objet{
 		String weapon = this.getAttributString(Attributs.weapon);
 
 		//arme de corps à corps
-		if(Game.g.data.getAttributList("contactWeapon", Attributs.list).contains(weapon)){
+		if(Game.g.data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
 			Character c = (Character) this.target;
 			c.isAttacked();
 			// Attack sound
@@ -279,7 +279,7 @@ public class Character extends Objet{
 			// compute damages
 			float damage = computeDamage(c);
 
-			if(c.getAttribut(Attributs.armor)<damage){
+			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 			}			
 		} else {
@@ -291,12 +291,6 @@ public class Character extends Objet{
 			case "wand" :
 				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
 				break;
-			case "bible":
-				Character c = (Character) this.target;
-				float damage = this.getAttribut(Attributs.damage);
-				if(c.getAttribut(Attributs.armor)<damage){
-					c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
-				}
 			default:
 			}
 		}
@@ -542,7 +536,7 @@ public class Character extends Objet{
 			direction = ((direction-1)*(-1)+2);
 		}
 		Image im;
-		im = Game.g.images.getUnit(name.toLowerCase(), direction, animation, getGameTeam().id, isAttacking);
+		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
 		if(mouseOver && frozen<=0f && Game.g.round>Game.nbRoundInit){
 			Color color = Color.darkGray;
 			if(this.getGameTeam().id==1){
@@ -905,7 +899,7 @@ public class Character extends Objet{
 
 	public boolean encounters(Character c){
 		boolean b = false;
-		if(c.horse && this.name=="Spearman"){
+		if(c.horse && this.getAttributString(Attributs.weapon)=="spear"){
 			return true;
 		}
 		if(!c.horse && this.getAttributString(Attributs.weapon) == "bow"){
@@ -962,7 +956,7 @@ public class Character extends Objet{
 			}
 			if(!isAttacking)
 				this.stop();
-			if(state>=getAttribut(Attributs.chargeTime) && this.target!=null && this.target.getTeam()!=this.getTeam() && this.target instanceof Character){
+			if(state>=getAttribut(Attributs.chargeTime) && this.target!=null && this.target instanceof Character){
 				if(!this.isAttacking){
 					this.stop();
 					this.attackState = 0f;
@@ -979,8 +973,8 @@ public class Character extends Objet{
 
 
 	}
-	
-	
+
+
 
 
 	public void updateChargeTime(){
@@ -1027,22 +1021,24 @@ public class Character extends Objet{
 	}
 	public void updateSetTarget(){
 
-		if(this.getTarget()!=null && !this.getTarget().isAlive() ){
+		if(this.getTarget()!=null 
+				&& !this.getTarget().isAlive()
+				&& (this.getAttribut(Attributs.damage)>0 && this.getTarget().getTeam()!=this.getTeam())){
 			this.setTarget(null);
 		}
 		if(this.getTarget()==null && this.secondaryTargets.size()>0){
 			this.setTarget(this.secondaryTargets.get(0));
 		}
 		if(this.getTarget()==null){
-
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
-			if(this.getAttribut(Attributs.damage)>0f) 
+			if(this.getAttribut(Attributs.damage)>0f) {
 				potential_targets = Game.g.plateau.getEnnemiesInSight(this);
-			else if (this.getAttribut(Attributs.damage)<0f) 
+			} else if (this.getAttribut(Attributs.damage)<0f) {
 				potential_targets = Game.g.plateau.getWoundedAlliesInSight(this);
-			else
+			} else{
 				potential_targets = new Vector<Character>();
+			}
 			if(potential_targets.size()>0){
 				this.setTarget(Utils.nearestObject(potential_targets, this));
 			} else {
@@ -1053,7 +1049,6 @@ public class Character extends Objet{
 			//			return;
 		}
 		if(this.getTarget() instanceof Character){
-
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);

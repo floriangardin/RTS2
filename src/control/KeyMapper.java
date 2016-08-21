@@ -26,7 +26,9 @@ public class KeyMapper {
 		mapping = new HashMap<KeyEnum,  Vector<Integer>>();
 		for(KeyEnum ke : KeyEnum.values()){
 			mapping.put(ke, new Vector<Integer>());
+
 		}
+
 		// Constructeur par défaut, associe le mapping standard
 		try{
 			InputStream ips=new FileInputStream(fichier); 
@@ -39,7 +41,9 @@ public class KeyMapper {
 					throw new Exception();
 				}
 				tab = ligne.split("_");
+				
 				if(mapping.containsKey(KeyEnum.valueOf(tab[1]))){
+					
 					mapping.get(KeyEnum.valueOf(tab[1])).add(Integer.parseInt(tab[0]));
 				}
 			}
@@ -105,7 +109,7 @@ public class KeyMapper {
 		Immolation,
 		Barracks,
 		Stable,
-		HeadQuarters, 
+		Headquarters, 
 		GlobalRallyPoint,
 		AllUnits;
 
@@ -134,7 +138,7 @@ public class KeyMapper {
 			switch(this){
 			case Barracks:
 			case Stable:
-			case HeadQuarters:v.add(ObjetsList.valueOf(this.name()));
+			case Headquarters:v.add(ObjetsList.valueOf(this.name()));
 			default:
 			}
 			return v;

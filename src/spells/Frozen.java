@@ -2,16 +2,14 @@ package spells;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import main.Main;
 import model.Game;
 import model.Objet;
-import model.Plateau;
 import units.Character;
+import utils.ObjetsList;
 
 public class Frozen extends SpellEffect{
 
@@ -34,7 +32,7 @@ public class Frozen extends SpellEffect{
 		this.x = t.getX();
 		this.y = t.getY();
 
-		this.name = "Frozen";
+		this.name = ObjetsList.FrozenEffect;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		owner = launcher;
