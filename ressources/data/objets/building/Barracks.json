@@ -1,4 +1,5 @@
 {
 printName:"Barracks",
-prototype:"Building"
+prototype:"Building",
+units:Spearman-Crossbowman
 }

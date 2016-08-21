@@ -1,6 +1,6 @@
 package buildings;
 
-import java.util.HashMap;
+
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import bullets.Fireball;
 import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
@@ -24,6 +25,7 @@ import ressources.Map;
 import technologies.Technologie;
 import units.Character;
 import utils.ObjetsList;
+import utils.Utils;
 
 public class Building extends Objet{
 	/**
@@ -35,38 +37,78 @@ public class Building extends Objet{
 	public int potentialTeam;
 	public int type;
 	public Objet rallyPoint;
-	public BuildingHeadquarters hq;
+
 	public float charge;
-	public boolean isProducing;
+	public float chargeRessource;
+
 	public boolean giveUpProcess = false;
 	public boolean underAttack;
 	public float underAttackRemaining=0;
 	public float state;
-	
+	public ObjetsList objet;
 	public static int sizeXIcon = 30;
+	public float chargeTime;
+	public int age=1;
 
+	public Vector<ObjetsList> techsDiscovered;
+	public Vector<ObjetsList> currentTechsProduced;
 	public MarkerBuilding marker;
 	public Vector<Circle> corners=new Vector<Circle>();
 	
 
 	public Technologie queueTechnology;
-	public Technologie lastTechDiscovered;
+
 
 	public Vector<Integer> queue ;
 	public float random=0f;
+	private float stateRessource;
 
 	
-	public Building(ObjetsList name,float x , float y){
+	//TOWER
+	public float chargeAttack;
+	public String animationBleu;
+	public String animationRouge;
+	public boolean canAttack=false;
+	private float animationTower;
+	
+	
+	public Building(ObjetsList name,float x , float y,int team){
 		// SET UP TECH LIST ET PRODUCTION LIST
+		this.name = name.name;
+		this.objet = name;
+		this.x = x;
+		this.y = y;
+		teamCapturing= 0;
+		this.setTeam(team);
+		type= 3;
+
+		this.initialize(x, y);
+		if(objet.equals(ObjetsList.Headquarters)){
+			initHQ();
+		}
+		
+		//TODO : Animations should be generic !
+		if(objet.equals(ObjetsList.Tower)){
+			this.animationBleu ="buildingTowerBlueAnimation";
+			this.animationRouge = "buildingTowerRedAnimation";
+		}
+
 	}
 	
+
 	public float getAttribut(ObjetsList o ,Attributs a){
 		return this.getGameTeam().data.getAttribut(o.name, a);
+	}
+	public String getAttributString(ObjetsList o ,Attributs a){
+		return this.getGameTeam().data.getAttributString(o.name, a);
 	}
 	public Vector<ObjetsList> getProductionList(){
 		return getGameTeam().data.getAttributListAtt(this.name, Attributs.units);
 	}
-	public Vector<ObjetsList> getTechnologyList(){
+	public Vector<ObjetsList> getRawTechnologyList(){
+		return getGameTeam().data.getAttributListAtt(this.name, Attributs.technologies);
+	}
+	public Vector<ObjetsList> getAllTechs(){
 		return getGameTeam().data.getAttributListAtt(this.name, Attributs.technologies);
 	}
 	
@@ -75,6 +117,9 @@ public class Building extends Objet{
 		
 		// PRODUCTION LIST
 		//UNIT PRODUCTION
+		if(this.queueTechnology!=null){
+			return false;
+		}
 		if(this.queue.size()<5 && unit<getProductionList().size()){
 			float goldCost = getAttribut(getProductionList().get(unit),Attributs.goldCost);
 			float foodCost = getAttribut(getProductionList().get(unit),Attributs.foodCost);
@@ -119,7 +164,9 @@ public class Building extends Objet{
 	public boolean productTech(int unit) {
 		// TODO Auto-generated method stub
 		// TECH PRODUCTION
-		
+		if(this.queue.size()>0){
+			return false;
+		}
 		if(this.queueTechnology==null && unit<getTechnologyList().size()){
 			
 			float goldCost = getAttribut(getTechnologyList().get(unit),Attributs.goldCost);
@@ -135,8 +182,8 @@ public class Building extends Objet{
 					Game.g.addDisplayRessources(new DisplayRessources(-goldCost,"gold",this.x,this.y));
 					Game.g.addDisplayRessources(new DisplayRessources(-foodCost,"food",this.x,this.y));
 				}
-				this.hq.allTechs.remove(getTechnologyList().get(unit));
-				this.hq.updateAllProductionList();
+				getHQ().currentTechsProduced.add(getTechnologyList().get(unit));
+				
 				return true;
 			} else {
 				// Messages
@@ -154,7 +201,60 @@ public class Building extends Objet{
 		return false;
 	}
 	
+	public Building getHQ(){
+		return this.getGameTeam().hq;
+	}
+	
+	public void updateHeadQuarters(){
+		
+	}
 
+	public void initHQ(){
+		
+		this.techsDiscovered = new Vector<ObjetsList>();
+		
+		this.currentTechsProduced = new Vector<ObjetsList>();
+		this.setTeam(team);
+		this.getGameTeam().hq = this;
+		this.constructionPoints = this.getAttribut(Attributs.maxLifepoints);
+		// List of potential production 
+		
+		
+	}
+	
+	public void attack(){
+		//Animation
+		if(getTeam()!=0)
+			this.animationTower+=2f;
+		if(this.animationTower>120f)
+			this.animationTower = 1;
+		
+		if(this.target!=null && this.target.getTeam()==this.getTeam()){
+			this.target = null;
+		}
+		if(!this.canAttack)
+			this.chargeAttack = (this.chargeAttack+Main.increment);
+		if(this.chargeAttack>this.getAttribut(Attributs.chargeTime) && this.getGameTeam().id!=0){
+			this.canAttack = true;
+			this.chargeAttack = 0f;
+
+		}
+		if(canAttack){
+			if(target==null || this.target.lifePoints<0f ||Utils.distance(this, this.target)>getAttribut(Attributs.sight)){
+				Vector<Character> target= Game.g.plateau.getEnnemiesInSight(this);
+				if(target.size()>0){
+					this.target = target.get(0);
+				}
+			}
+
+			//Launch a fireball on target
+			if(target!=null && Utils.distance(this, this.target)<this.getAttribut(Attributs.sight)){
+				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
+				this.canAttack= false;
+				this.chargeAttack = 0f;
+			}
+		}
+	}
 	public void action(){
 		
 		// PRODUCTION
@@ -202,16 +302,50 @@ public class Building extends Objet{
 		}
 		
 		// TECH
+		if(this.queueTechnology!=null){
+			this.setCharge(this.charge+Main.increment);
+			if(this.charge>=this.getAttribut(this.queueTechnology.objet, Attributs.prodTime)){
+				this.techTerminate(this.queueTechnology);
+			}
+		}
+		
+		//MINE
+		
+		this.stateRessource+=Main.increment;
+	
+		if(stateRessource >= chargeRessource && getTeam()!=0){
+			getGameTeam().gold+=this.getAttribut(this.objet,Attributs.produceGold)*getGameTeam().data.prodGold;
+			getGameTeam().food+=this.getAttribut(this.objet,Attributs.produceFood)*getGameTeam().data.prodGold;
+			getGameTeam().special+=this.getAttribut(this.objet,Attributs.produceFaith)*getGameTeam().data.prodGold;
+			
+			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceGold)==1 ){
+				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodGold, "gold", this.x, this.y));
+			}
+			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceFood)==1 ){
+				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFood, "food", this.x, this.y));
+			}
+			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceFaith)==1 ){
+				// TODO : Produce faith display
+				//				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFaith, "special", this.x, this.y));
+			}
+			stateRessource = 0;
+		}
+		//TOWER
+		if(this.getGameTeam().data.getAttribut(this.objet.name, Attributs.canAttack)>0){
+			this.attack();
+		}
+		
 	}
 	
 	public void removeProd(){
 		if(this.queueTechnology!=null){
-			this.getGameTeam().food += queueTechnology.tech.foodPrice;
-			this.getGameTeam().gold += queueTechnology.tech.goldPrice;
-			this.hq.allTechs.addElement(this.queueTechnology);
+			
+			this.getGameTeam().food += this.getAttribut(this.queueTechnology.objet, Attributs.foodCost);
+			this.getGameTeam().gold += this.getAttribut(this.queueTechnology.objet, Attributs.goldCost);
+			getHQ().currentTechsProduced.remove(this.queueTechnology.objet);
 			this.queueTechnology=null;
 			this.setCharge(0f);
-			this.hq.updateAllProductionList();
+			
 		}
 		if(this.queue.size()>0){
 			float goldCost = getAttribut(getProductionList().get(this.queue.size()-1),Attributs.goldCost);
@@ -254,34 +388,46 @@ public class Building extends Objet{
 		
 		// Initialize production
 		this.queue = new Vector<Integer>();
-
-
 		this.queueTechnology = null;
+		
+		
 		teamCapturing= getTeam();
 		
 	}
 	
 	
 	// TECH
-	public void updateProductionList(){
-		if(this.hq==null){
-			return;
-		}
-		
-		for(Technologie t:this.hq.allTechs){
+	public Vector<ObjetsList> getTechnologyList(){
+
+		Vector<ObjetsList> toReturn = new Vector<ObjetsList>();
+		for(ObjetsList t:getRawTechnologyList()){
 			boolean ok = true;
-			if(t.techRequired!=null){
-				int idr = t.techRequired.id;
-				ok = false;
-				for(Technologie te : this.hq.techsDiscovered)
-					if(idr==te.id)
-						ok = true;
+			if(getHQ().currentTechsProduced.contains(t) || getHQ().techsDiscovered.contains(t)){	
+				continue;
 			}
-			if(this.hq.age>=t.tech.age && ok && t.tech.building.name().toLowerCase().equals(this.name) ){
-				
-//				getTechnologyList().addElement(t);
+			// Get the techRequired
+			Vector<String> techsRequired = getGameTeam().data.getAttributList(t.name, Attributs.techsRequired);
+			boolean isValid = true;
+			for(String techRequired : techsRequired){
+				// Check we already have the techno required  discovered
+				boolean hasTech=false;
+				for(ObjetsList tech : getHQ().techsDiscovered){
+					if(tech.name.equals(techRequired.toLowerCase())){
+						hasTech = true;
+						break;
+					}
+				}
+				if(!hasTech){
+					isValid = false;
+					break;
+				}
 			}
+			if(isValid){
+				toReturn.add(t);
+			}
+
 		}
+		return toReturn;
 	}
 	public void techTerminate(Technologie q){
 		if(q==null){
@@ -293,20 +439,11 @@ public class Building extends Objet{
 			Game.g.sendMessage(ChatMessage.getById("research"));
 		}
 		this.setCharge(0f);
-		this.hq.techsDiscovered.addElement(q);
-		getTechnologyList().removeElement(q);
-		Technologie toDelete = null;
-		for(Technologie t:this.hq.allTechs)
-			if(t.id==q.id)
-				toDelete = t;
-		if(toDelete != null)
-			this.hq.allTechs.removeElement(toDelete);
+		getHQ().techsDiscovered.addElement(q.objet);
+		getHQ().currentTechsProduced.remove(q.objet);
 		q.applyEffect();
 		this.queueTechnology=null;
-		this.isProducing =false;
 
-		this.updateProductionList();
-		this.lastTechDiscovered = q;
 	}
 	
 	
@@ -328,11 +465,11 @@ public class Building extends Objet{
 		}
 		if( c.getAttributString(Attributs.weapon)== "bow" || c.getAttributString(Attributs.weapon)== "wand" || c.getAttributString(Attributs.weapon)=="bible")
 			return;
-		if(this instanceof BuildingStable && c.getGameTeam().hq.age<2){
+		if(this.objet.equals(ObjetsList.Stable) && c.getGameTeam().hq.age<2){
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this instanceof BuildingAcademy && c.getGameTeam().hq.age<3){
+		if(this.objet.equals(ObjetsList.Academy) && c.getGameTeam().hq.age<3){
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
@@ -342,10 +479,10 @@ public class Building extends Objet{
 
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
-				if(!(this instanceof BuildingHeadquarters)){
+				if(!(objet.equals(ObjetsList.Headquarters))){
 					this.setTeam(0);
 				}
-				this.hq = this.getGameTeam().hq;
+			
 			}
 			this.constructionPoints-=Main.increment;
 		}
@@ -355,10 +492,10 @@ public class Building extends Objet{
 
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
-				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (this instanceof BuildingHeadquarters)){
+				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (objet.equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam);
-					if(this instanceof BuildingHeadquarters){
+					if(objet.equals(ObjetsList.Headquarters)){
 						Game.g.endGame = true;
 						if(this.getTeam()==Game.g.currentPlayer.getTeam()){
 							Game.g.victory = true;
@@ -386,8 +523,8 @@ public class Building extends Objet{
 	}	
 
 	public Graphics draw(Graphics g){
-
-		if(visibleByCurrentTeam || this instanceof BuildingHeadquarters){
+		
+		if(visibleByCurrentTeam || objet.equals(ObjetsList.Headquarters)){
 			g.drawImage(Game.g.images.get("building"+name+this.getGameTeam().colorName),this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY));
 			if(mouseOver && Game.g.round>Game.nbRoundInit){
 				Color color = new Color(this.getGameTeam().color.getRed(),this.getGameTeam().color.getGreen(),this.getGameTeam().color.getBlue(),0.1f);
@@ -446,15 +583,15 @@ public class Building extends Objet{
 		if(this.getGameTeam().equals(Game.g.currentPlayer.getGameTeam())){
 			Building bt = ((Building) this);
 			if(bt.queueTechnology!=null){
-				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bt.charge*(64*getAttribut(Attributs.sizeY))/bt.queueTechnology.tech.prodTime);
-				float opacity = 50*bt.charge/bt.queueTechnology.tech.prodTime;
-				Image icone = Game.g.images.get(bt.queueTechnology.tech.nameIcon+"buildingsize");
+				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bt.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(this.queueTechnology.objet, Attributs.prodTime));
+				float opacity = 50*bt.charge/this.getAttribut(this.queueTechnology.objet, Attributs.prodTime);
+				Image icone = Game.g.images.get(this.getAttributString(this.queueTechnology.objet, Attributs.nameIcon)+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				g.setColor(new Color(bt.getGameTeam().color.r,bt.getGameTeam().color.g,bt.getGameTeam().color.b,opacity));
 				float startAngle = 270f;
-				float sizeAngle = (float)(1f*bt.charge*(360f)/bt.queueTechnology.tech.prodTime);
+				float sizeAngle = (float)(1f*bt.charge*(360f)/this.getAttribut(this.queueTechnology.objet, Attributs.prodTime));
 				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);
@@ -464,11 +601,27 @@ public class Building extends Objet{
 			}
 		}
 		
+		
+		//TOWER
+		if(this.getGameTeam().data.getAttribut(this.objet.name, Attributs.canAttack)>0){
+			this.drawAnimationTower(g);
+		}
+		
 		g.setAntiAlias(false);
 		g.setLineWidth(2f);
 		return g;
 	}
-
+	
+	public void drawAnimationTower(Graphics g){
+		float sizeX = getAttribut(Attributs.sizeX);
+		float sizeY = getAttribut(Attributs.sizeY);
+		if(getTeam()==1){
+			g.drawImage(Game.g.images.get(this.animationBleu), this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animationTower/30f)*100, 0, ((int)(animationTower/30f)+1)*100, 100);
+		}
+		if(getTeam()==2){
+			g.drawImage(Game.g.images.get(this.animationRouge), this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animationTower/30f)*100, 0, ((int)(animationTower/30f)+1)*100, 100);
+		}
+	}
 	public Graphics drawRallyPoint(Graphics g){
 		g.setColor(Colors.team0);
 		g.setAntiAlias(true);
@@ -485,9 +638,7 @@ public class Building extends Objet{
 
 	}
 	
-	public String toString(){
-		return toStringBuilding();
-	}
+
 	
 	public void setCharge(float charge){
 		if(this.queue!=null && this.queue.size()>0 && charge>this.getAttribut(getProductionList().get(this.queue.get(0)),Attributs.prodTime)){
@@ -497,80 +648,19 @@ public class Building extends Objet{
 		
 		this.charge= charge;
 	}
-	public String toStringBuilding(){
-		String s = "";
-		s+="id:"+id+";";
-		s+="tm:"+getTeam()+";";
-		s+="pT:"+potentialTeam+";";
-		s+="cP:"+constructionPoints+";";
-		s+="chrg:"+charge+";";
-		s+="sta:"+state+";";
-		if(this.rallyPoint!=null){
-			s+="rX:"+(int)this.rallyPoint.x+";";
-			s+="rY:"+(int)this.rallyPoint.y+";";
-		}
-		return s;
-	}
 
-	public void parseBuilding(HashMap<String, String> hs) {
-		if(hs.containsKey("rX") && hs.containsKey("rY") ){
-			this.rallyPoint = new Checkpoint(Integer.parseInt(hs.get("rX")),Integer.parseInt(hs.get("rY")));
-		}
-		if(hs.containsKey("cP")){
-			this.constructionPoints = Float.parseFloat(hs.get("cP"));
-		}
-		if(hs.containsKey("chrg")){
-			this.setCharge(Float.parseFloat(hs.get("chrg")));
-		}
-		if(hs.containsKey("sta")){
-			this.state = Float.parseFloat(hs.get("sta"));
-		}
-		if(hs.containsKey("tm")){
-			if(this.getTeam()!=Integer.parseInt(hs.get("tm"))){
-				this.setTeam(Integer.parseInt(hs.get("tm")));
-			}
-		}
-		if(hs.containsKey("pT")){
-			if(this.potentialTeam!=Integer.parseInt(hs.get("pT"))){
-				this.potentialTeam = Integer.parseInt(hs.get("pT"));
-				if(potentialTeam!=getTeam()){
-					this.setTeam(0);
-				}
-				this.hq = Game.g.teams.get(potentialTeam).hq;
-			}
-		}
-	}
 
-	public void parse(HashMap<String, String> hs){
-		parseBuilding(hs);
-	}
+	
 
-	public Technologie getTechnologieById(int id){
-		Technologie tec = null;
-		for(Technologie t : this.hq.allTechs){
-			if(t.id==id){
-				tec = t;
-			}
-		}
-		return tec;
-	}
 
 	public void setTeamExtra(){
-		if(this instanceof BuildingHeadquarters){
-			this.getGameTeam().hq = hq;
-			this.hq =(BuildingHeadquarters) this;
-		}
+
 		if(this.queueTechnology!=null){
 			this.queueTechnology=null;
 		}
 		this.setCharge(0f);
-		updateProductionList();
-		if(this instanceof BuildingMine){
-			((BuildingMine) this).bonusProd = 0;
-		}
-		if(this instanceof BuildingMill){
-			((BuildingMill) this).bonusProd = 0;
-		}
+		
+
 		if(this.queue!=null){
 			this.queue.clear();
 		}
@@ -583,13 +673,13 @@ public class Building extends Objet{
 		if(!(this instanceof Bonus) && this.team!=0){
 			this.getGameTeam().pop-=2;
 		}
-		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(this instanceof BuildingHeadquarters)){
+		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(objet.equals(ObjetsList.Headquarters))){
 			Game.g.sendMessage(ChatMessage.getById("building taken"));
 
 		}
 		this.team = i;
 		if(!(this instanceof Bonus)  && this.team!=0){
-			this.hq = this.getGameTeam().hq;
+		
 			this.getGameTeam().pop+=2;
 		}
 		this.setTeamExtra();

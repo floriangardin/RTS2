@@ -8,7 +8,6 @@ import org.newdawn.slick.geom.Point;
 import buildings.Bonus;
 import buildings.Building;
 
-import buildings.BuildingTower;
 import bullets.Bullet;
 import bullets.CollisionBullet;
 import control.InputObject;
@@ -510,7 +509,7 @@ public class Plateau implements java.io.Serializable {
 		return ennemies_in_sight;
 	}
 
-	public Vector<Character> getEnnemiesInSight(BuildingTower caller) {
+	public Vector<Character> getEnnemiesInSight(Building caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : characters) {
 			if (o.getTeam() != caller.potentialTeam && Utils.distance(o, caller) < caller.getAttribut(Attributs.sight)) {
@@ -890,20 +889,24 @@ public class Plateau implements java.io.Serializable {
 		BottomBar bb = Game.g.currentPlayer.bottomBar;
 		float relativeXMouse = (im.x - Game.g.Xcam);
 		float relativeYMouse = (im.y - Game.g.Ycam);
-		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + bb.action.icoSizeX
+		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + 2*bb.action.sizeX
 				&& relativeYMouse > bb.action.y && relativeYMouse < bb.action.y + bb.action.sizeY) {
-			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNb));
-			bb.action.toDrawDescription[0] = false;
-			bb.action.toDrawDescription[1] = false;
-			bb.action.toDrawDescription[2] = false;
-			bb.action.toDrawDescription[3] = false;
-			if (mouseOnItem >= 0 && mouseOnItem < 4)
-				bb.action.toDrawDescription[mouseOnItem] = true;
+			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNbX));
+			int yItem = relativeXMouse>bb.action.x + bb.action.sizeX? 1:0;
+			for(int i = 0 ; i<bb.action.prodIconNbX;i++){
+				for(int j = 0 ; j<bb.action.prodIconNbY; j++){
+					bb.action.toDrawDescription[i][j] = false;
+				}
+			}
+
+			if (mouseOnItem >= 0 && mouseOnItem < bb.action.prodIconNbX)
+				bb.action.toDrawDescription[mouseOnItem][yItem] = true;
 		} else {
-			bb.action.toDrawDescription[0] = false;
-			bb.action.toDrawDescription[1] = false;
-			bb.action.toDrawDescription[2] = false;
-			bb.action.toDrawDescription[3] = false;
+			for(int i = 0 ; i<bb.action.prodIconNbX;i++){
+				for(int j = 0 ; j<bb.action.prodIconNbY; j++){
+					bb.action.toDrawDescription[i][j] = false;
+				}
+			}
 		}
 	}
 

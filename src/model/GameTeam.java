@@ -3,9 +3,11 @@ package model;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
+
 import utils.Utils;
 import data.Data;
-import buildings.BuildingHeadquarters;
+import buildings.Building;
+
 import data.Data;
 import main.Main;
 
@@ -22,7 +24,7 @@ public class GameTeam {
 	public int gold;
 	public int special;
 	public int pop;
-	public BuildingHeadquarters hq ;
+	public Building hq ;
 	public int maxPop;
 	public Color color;
 	

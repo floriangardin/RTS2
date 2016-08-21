@@ -6,7 +6,7 @@ import battleIA.IAStateOfGame.BuildingIA;
 import battleIA.IAStateOfGame.ObjetIA;
 import battleIA.IAStateOfGame.UnitIA;
 import buildings.Building;
-import buildings.BuildingHeadquarters;
+
 
 import model.Checkpoint;
 import model.Game;
@@ -247,7 +247,7 @@ public final class IAfunctions {
 		}
 		Building buildingToTake = null;
 		for(Building b : this.p.buildings){
-			if(b instanceof BuildingHeadquarters && b.getTeam()!=currentTeam){
+			if(b.objet.equals(ObjetsList.Headquarters)&& b.getTeam()!=currentTeam){
 				buildingToTake = b;
 			}
 		}
@@ -285,7 +285,7 @@ public final class IAfunctions {
 		}
 		Building buildingToTake = null;
 		for(Building b : this.p.buildings){
-			if(b instanceof BuildingHeadquarters && b.getTeam()==currentTeam){
+			if(b.objet.equals(ObjetsList.Headquarters)&& b.getTeam()==currentTeam){
 				buildingToTake = b;
 			}
 		}

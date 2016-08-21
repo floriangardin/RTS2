@@ -38,8 +38,9 @@ public class Data implements java.io.Serializable {
 	public float bonusWandBow = 2f;
 
 	// Ressources
-	public int bonusFood = 0;
-	public int bonusGold = 0;
+	public int prodFood = 6;
+	public int prodGold = 6;
+	public int prodFaith = 0;
 
 	// Gestion des coefficients multiplicateurs pour les attributs
 	public Vector<Attributs> ratioSpaceObjet;
@@ -115,7 +116,7 @@ public class Data implements java.io.Serializable {
 						d.attributs.put(a, f);
 						toRemove.add(a);
 					} catch (NumberFormatException e) {
-						if(a==Attributs.spells || a==Attributs.units || a==Attributs.technologies  || a==Attributs.productions || a==Attributs.list){
+						if(a==Attributs.spells || a==Attributs.units || a==Attributs.technologies  || a==Attributs.techsRequired || a==Attributs.productions || a==Attributs.list){
 							d.attributsList.put(a, new Vector<String>());
 							if(d.attributsString.get(a).length()>2){
 								for(String spell : d.attributsString.get(a).split("-")){

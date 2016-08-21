@@ -12,14 +12,9 @@ import org.newdawn.slick.geom.Point;
 import buildings.BonusDamage;
 import buildings.BonusLifepoints;
 import buildings.BonusSpeed;
-import buildings.BuildingAcademy;
-import buildings.BuildingBarrack;
-import buildings.BuildingHeadquarters;
-import buildings.BuildingMill;
-import buildings.BuildingMine;
-import buildings.BuildingStable;
-import buildings.BuildingTower;
-import buildings.BuildingUniversity;
+import buildings.Building;
+
+
 import data.Data;
 import main.Main;
 import model.Game;
@@ -144,28 +139,15 @@ public class Map {
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				new BuildingHeadquarters(Float.parseFloat(tab[1]),Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[0]));
+				new Building(ObjetsList.Headquarters,Float.parseFloat(tab[1]),Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[0]));
 			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
 				//format
 				// typeBuilding_team_x_y
 				String[] tab = buildings.get(i).split(" ");
-				switch(tab[0]){
-				// usual buildings
-				case "Mill" : new BuildingMill(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "Mine" : new BuildingMine(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "Barracks" : new BuildingBarrack(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "Stable" : new BuildingStable(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "Academy" : new BuildingAcademy(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "University" : new BuildingUniversity(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				case "Tower" : new BuildingTower(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1])); break;
-				// bonus
-				case "BonusLifePoints" : new BonusLifepoints(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
-				case "BonusDamage" : new BonusDamage(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
-				case "BonusSpeed" : new BonusSpeed(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]));break;
-				default : 
-				}
+				System.out.println(tab[2]);
+				new Building(ObjetsList.valueOf(tab[0]),Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1]));
 			}
 			// Units
 			for(int i=0; i<units.size(); i++){

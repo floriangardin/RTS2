@@ -1,9 +1,8 @@
 package technologies;
 
-import org.newdawn.slick.Image;
-
 import utils.ObjetsList;
-import data.Data;
+import data.Attributs;
+
 import model.Game;
 import model.GameTeam;
 
@@ -11,71 +10,233 @@ public abstract class Technologie implements java.io.Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3252944888737911231L;
 
-
-	public Technologies tech;
 	public int team;
-	public boolean isDiscovered;
-	public Technologie techRequired;
 	public ObjetsList objet;
-	public String icon;
-	public String name;
-	public String iconName;
-	public int id;
-	public void applyEffect(){
-	}
+
+	public abstract void applyEffect();
 	public GameTeam getGameTeam(){
 		return Game.g.teams.get(this.team);
 	}
 	
-	public static Technologie technologie(int i, int gameteam){
-		switch(i){
-		case 0: return new DualistAge2(gameteam);
-		case 1: return new DualistAge3(gameteam);
-		case 2: return new DualistBonusFood(gameteam);
-		case 3: return new DualistBonusGold(gameteam);
-		case 4: return new 	DualistShield2(gameteam);
-		case 5: return new DualistHealth2(gameteam);
-		case 6: return new 	DualistShield3(gameteam);
-		case 7: return new DualistHealth3(gameteam);
-		case 8: return new 	DualistContact2(gameteam);
-		case 9: return new DualistRangeAttack2(gameteam);
-		case 10: return new DualistContact3(gameteam);
-		case 11: return new DualistRangeAttack3(gameteam);
-		case 12: return new DualistExplosion(gameteam);
-		case 13: return new DualistEagleView(gameteam);
-		default : return null;
-		}
+	
+	public Technologie(ObjetsList o, int gameteam){
+		this.objet = o;
+		this.team = gameteam;		
+	}
+	public String getName(){
+		return this.objet.name();
 	}
 	
+	public String getIcon(){
+		return this.getGameTeam().data.getAttributString(objet.name, Attributs.nameIcon);
+	}
+
 	public static Technologie technologie(ObjetsList o, int gameteam){
 		switch(o){
-		case DualistAge2: return new DualistAge2(gameteam,o);
-		case DualistAge3: return new DualistAge3(gameteam,o);
-//		case DualistBonusFood: return new DualistBonusFood(gameteam,o);
-//		case DualistBonusGold: return new DualistBonusGold(gameteam,o);
-//		case DualistShield2: return new 	DualistShield2(gameteam,o);
-//		case DualistHealth2: return new DualistHealth2(gameteam,o);
-//		case DualistShield3: return DualistShield3(gameteam,o);
-//		case DualistHealth3: return new DualistHealth3(gameteam,o);
-//		case DualistContact2: return new 	DualistContact2(gameteam,o);
-//		case DualistRangeAttack2: return new DualistRangeAttack2(gameteam);
-//		case DualistContact3: return new DualistContact3(gameteam);
-//		case DualistRangeAttack3: return new DualistRangeAttack3(gameteam);
-//		case DualistExplosion: return new DualistExplosion(gameteam);
-//		case DualistEagleView: return new DualistEagleView(gameteam);
+		case DualistAge2:
+			
+			return 	new Technologie(o, gameteam){
+			
+			@Override
+			public void applyEffect() {
+				// TODO Auto-generated method stub
+				this.getGameTeam().hq.age = 2;
+				this.getGameTeam().maxPop= 20;
+			}
+			
+		};
+		case DualistAge3:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// TODO Auto-generated method stub
+				this.getGameTeam().hq.age = 3;
+				this.getGameTeam().maxPop= 40;
+			}
+			
+		};
+			
+		case DualistBonusFood: 
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// TODO Auto-generated method stub
+				this.getGameTeam().data.prodFood=4;
+			}
+			
+		};
+		case DualistBonusGold:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// TODO Auto-generated method stub
+				this.getGameTeam().data.prodGold=4;
+			}
+			
+		};
+		case DualistShield2:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name().toLowerCase(), Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name().toLowerCase(), Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name().toLowerCase(), Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name().toLowerCase(), Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name().toLowerCase(), Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name().toLowerCase(), Attributs.armor, 2f);
+			
+			}
+			
+		};
+			
+		case DualistHealth2:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.maxLifepoints, 20f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.maxLifepoints, 20f);
+			
+			}
+			
+		};
+			
+		case DualistShield3:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.armor, 2f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.armor, 2f);
+			
+			}
+			
+		};
+			
+		case DualistHealth3:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// TODO Auto-generated method stub
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Priest.name, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.maxLifepoints, 30f);
+				this.getGameTeam().data.addAttribut(ObjetsList.Archange.name, Attributs.maxLifepoints, 30f);
+			}
+			
+		};
+			
+		case DualistContact2:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.damage, 1);
+			}
+			
+		};
+			
+		case DualistRangeAttack2: 
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.damage, 1);
+			}
+			
+		};
+		case DualistContact3:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				this.getGameTeam().data.addAttribut(ObjetsList.Knight.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Spearman.name, Attributs.damage, 1);
+			}
+			
+		};
+		case DualistRangeAttack3: 
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor.name, Attributs.damage, 1);
+				this.getGameTeam().data.addAttribut(ObjetsList.Crossbowman.name, Attributs.damage, 1);
+			}
+			
+		};
+		case DualistExplosion:
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				this.getGameTeam().data.setAttribut(ObjetsList.Spearman.name, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Crossbowman.name, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Knight.name, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Priest.name, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Inquisitor.name, Attributs.explosionWhenImmolate, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Archange.name, Attributs.explosionWhenImmolate, 1f);
+			}
+			
+		};
+		case DualistEagleView: 
+			return 	new Technologie(o, gameteam){
+				
+			@Override
+			public void applyEffect() {
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				this.getGameTeam().data.mulAttribut(ObjetsList.Spearman.name, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Crossbowman.name, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Knight.name, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Priest.name, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Inquisitor.name, Attributs.sight, 1.5f);
+				this.getGameTeam().data.mulAttribut(ObjetsList.Archange.name, Attributs.sight, 1.5f);
+			}
+			
+		};
 		default : return null;
 		}
 	}
 	
 	public boolean equals(Object o){
-		return o instanceof Technologie && ((Technologie)o).id==this.id;
+		return o instanceof Technologie && this.objet.equals(((Technologie) o).objet) ;
 	}
 	
-	public void initialize(int team, Technologies tech){
-		this.name = tech.name;
-		this.icon = tech.nameIcon;
-		this.team = team;		
-	}
+
+	
+	
+	// CLASS
+
+
+	
+	
+	
+	
+	
+	
+	
+	
 }

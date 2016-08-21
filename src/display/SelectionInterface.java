@@ -91,18 +91,18 @@ public class SelectionInterface extends Bar {
 //			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+sizeX-4, parent.p.g.resY-sVB, 5*(sVB+2), sVB+4);
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
 			if(b.queueTechnology!=null){
-				Image icone = Game.g.images.get(b.queueTechnology.icon);
+				Image icone = Game.g.images.get(b.queueTechnology.getIcon());
 				//Show icons
 				//Show production bar
 				g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,0,0,512,512);
 				g.setColor(Color.white);
-				String s = b.queueTechnology.tech.name;
+				String s = b.queueTechnology.getName();
 				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 				g.setColor(Color.gray);
 				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 				g.setColor(Game.g.currentPlayer.getGameTeam().color);
-				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.queueTechnology.tech.prodTime, sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.queueTechnology.tech.prodTime);
+				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.queueTechnology.objet, Attributs.foodCost), sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.queueTechnology.objet, Attributs.foodCost));
 			} else {
 				g.setColor(Color.white);
 				String s = b.getAttributString(Attributs.printName);

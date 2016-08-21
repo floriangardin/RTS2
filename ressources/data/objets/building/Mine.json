@@ -3,5 +3,7 @@ printName:"Mine",
 prototype:"Building",
 sizeX:3,
 sizeY:2,
-maxChargetime:10
+maxChargetime:10,
+technologies:DualistBonusGold,
+produceGold:1
 }

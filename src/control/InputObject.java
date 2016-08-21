@@ -154,24 +154,36 @@ public class InputObject implements java.io.Serializable{
 
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick)){
-				if(player.bottomBar.action.toDrawDescription[0]){
+				if(player.bottomBar.action.toDrawDescription[0][0]){
 					this.pressed.addElement(KeyEnum.Prod0);
 				}
-				if(player.bottomBar.action.toDrawDescription[1]){
-					this.pressed.addElement(KeyEnum.Prod0);
+				if(player.bottomBar.action.toDrawDescription[1][0]){
+					this.pressed.addElement(KeyEnum.Prod1);
 				}
-				if(player.bottomBar.action.toDrawDescription[2]){
-					this.pressed.addElement(KeyEnum.Prod0);
+				if(player.bottomBar.action.toDrawDescription[2][0]){
+					this.pressed.addElement(KeyEnum.Prod2);
 				}
-				if(player.bottomBar.action.toDrawDescription[3]){
-					this.pressed.addElement(KeyEnum.Prod0);
+				if(player.bottomBar.action.toDrawDescription[3][0]){
+					this.pressed.addElement(KeyEnum.Prod3);
+				}
+				if(player.bottomBar.action.toDrawDescription[0][1]){
+					this.pressed.addElement(KeyEnum.Tech0);
+				}
+				if(player.bottomBar.action.toDrawDescription[1][1]){
+					this.pressed.addElement(KeyEnum.Tech1);
+				}
+				if(player.bottomBar.action.toDrawDescription[2][1]){
+					this.pressed.addElement(KeyEnum.Tech2);
+				}
+				if(player.bottomBar.action.toDrawDescription[3][1]){
+					this.pressed.addElement(KeyEnum.Tech3);
 				}
 			}
 			boolean a = pressed.contains(KeyEnum.LeftClick);
 			boolean b = down.contains(KeyEnum.LeftClick);
 			if(a || b){
 				for(int i=0; i<player.bottomBar.action.toDrawDescription.length; i++){
-					if(player.bottomBar.action.toDrawDescription[i]){
+					if(player.bottomBar.action.toDrawDescription[i][0]){
 						if(a){
 							pressed.remove(KeyEnum.LeftClick);
 						}
