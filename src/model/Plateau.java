@@ -758,16 +758,16 @@ public class Plateau implements java.io.Serializable {
 		Selection selection = Game.g.inputsHandler.getSelection(player);
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
-			System.out.println("Vanneau a ");
+			
 			if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Building) {
-				System.out.println("Vanneau d ");
+				
 				for(int i=0; i<4; i++){
 					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
 						
 						((Building) selection.selection.get(0)).product(i);
 					}
 					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
-						System.out.println("Vanneau "+i);
+						
 						((Building) selection.selection.get(0)).productTech(i);
 					}
 				}
@@ -890,19 +890,19 @@ public class Plateau implements java.io.Serializable {
 		float relativeYMouse = (im.y - Game.g.Ycam);
 		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + 2*bb.action.sizeX
 				&& relativeYMouse > bb.action.y && relativeYMouse < bb.action.y + bb.action.sizeY) {
-			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNbX));
+			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNbY));
 			int yItem = relativeXMouse>bb.action.x + bb.action.sizeX? 1:0;
-			for(int i = 0 ; i<bb.action.prodIconNbX;i++){
-				for(int j = 0 ; j<bb.action.prodIconNbY; j++){
+			for(int i = 0 ; i<bb.action.prodIconNbY;i++){
+				for(int j = 0 ; j<bb.action.prodIconNbX; j++){
 					bb.action.toDrawDescription[i][j] = false;
 				}
 			}
 
-			if (mouseOnItem >= 0 && mouseOnItem < bb.action.prodIconNbX)
+			if (mouseOnItem >= 0 && mouseOnItem < bb.action.prodIconNbY)
 				bb.action.toDrawDescription[mouseOnItem][yItem] = true;
 		} else {
-			for(int i = 0 ; i<bb.action.prodIconNbX;i++){
-				for(int j = 0 ; j<bb.action.prodIconNbY; j++){
+			for(int i = 0 ; i<bb.action.prodIconNbY;i++){
+				for(int j = 0 ; j<bb.action.prodIconNbX; j++){
 					bb.action.toDrawDescription[i][j] = false;
 				}
 			}

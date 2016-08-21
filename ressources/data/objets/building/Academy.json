@@ -3,5 +3,6 @@ printName:"Mine",
 prototype:"Building",
 sizeX:3,
 sizeY:2,
+techsRequired:DualistAge2,
 maxChargetime:10
 }

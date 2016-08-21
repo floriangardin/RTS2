@@ -1,5 +1,6 @@
 {
 prototype:"Objet",
+techsRequired:"",
 sight:300,
 chargeTime:2,
 animStep:30,

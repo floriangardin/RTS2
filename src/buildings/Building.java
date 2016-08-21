@@ -105,7 +105,21 @@ public class Building extends Objet{
 		return this.getGameTeam().data.getAttributString(o, a);
 	}
 	public Vector<ObjetsList> getProductionList(){
-		return getGameTeam().data.getAttributListAtt(this.name, Attributs.units);
+		Vector<ObjetsList> toReturn = new Vector<ObjetsList>();
+		Vector<ObjetsList> result =  getGameTeam().data.getAttributListAtt(this.name, Attributs.units);
+		
+		// Remove units which not match tech required
+		
+		Vector<ObjetsList> techDiscovered = getHQ().techsDiscovered;
+		for(ObjetsList o : result){
+			Vector<ObjetsList> techsRequired =  this.getGameTeam().data.getAttributListAtt(o, Attributs.techsRequired);
+			if(techDiscovered.containsAll(techsRequired)){
+				toReturn.add(o);
+			}
+		}
+		
+		
+		return toReturn;
 	}
 	public Vector<ObjetsList> getRawTechnologyList(){
 		return getGameTeam().data.getAttributListAtt(this.name, Attributs.technologies);
@@ -564,7 +578,7 @@ public class Building extends Objet{
 			Building bp = ((Building) this);
 			if(bp.queue.size()>0){
 				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bp.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime));
-				float opacity = 50*bp.charge/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime);
+				float opacity = 50*bp.charge/this.getAttribut(bp.getProductionList().get(bp.queue.get(0)),Attributs.prodTime);
 				Image icone = Game.g.images.get("icon"+bp.getProductionList().get(bp.queue.get(0))+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
@@ -575,7 +589,7 @@ public class Building extends Objet{
 				//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
 				g.setColor(new Color(bp.getGameTeam().color.r,bp.getGameTeam().color.g,bp.getGameTeam().color.b,opacity));
 				float startAngle = 270f;
-				float sizeAngle = (float)(1f*bp.charge*(360f)/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime));
+				float sizeAngle = (float)(1f*bp.charge*(360f)/this.getAttribut(bp.getProductionList().get(bp.queue.get(0)),Attributs.prodTime));
 				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);

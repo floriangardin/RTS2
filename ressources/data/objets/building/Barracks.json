@@ -1,5 +1,5 @@
 {
 printName:"Barracks",
 prototype:"Building",
-units:Spearman-Crossbowman
+units:Spearman-Crossbowman-Inquisitor
 }

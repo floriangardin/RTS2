@@ -28,9 +28,9 @@ public class ActionInterface extends Bar {
 	public Image imageGold ;
 	public Image imageFood;
 	public Image imageSpecial;
-	public int prodIconNbX = 5;
-	public int prodIconNbY = 2;
-	public boolean[][] toDrawDescription = new boolean[prodIconNbX][prodIconNbY];
+	public int prodIconNbY = 5;
+	public int prodIconNbX = 2;
+	public boolean[][] toDrawDescription = new boolean[prodIconNbY][prodIconNbX];
 	public boolean mouseOnIt;
 	public float icoSizeX;
 	public float icoSizeY;
@@ -41,7 +41,7 @@ public class ActionInterface extends Bar {
 
 
 	public ActionInterface(BottomBar parent){
-		float ratio =1f/prodIconNbX;
+		float ratio =1f/prodIconNbY;
 		this.p = parent.p;
 		this.player = parent.player;
 		this.sizeX = Game.g.resX*parent.ratioBarVertX;
@@ -54,8 +54,8 @@ public class ActionInterface extends Bar {
 		this.startY2 = Game.g.resY - parent.ratioSelectionX*Game.g.resX;
 		this.y = startY2;
 		
-		for(int i= 0 ; i<prodIconNbX; i++){
-			for(int j= 0 ; j<prodIconNbY; j++){
+		for(int i= 0 ; i<prodIconNbY; i++){
+			for(int j= 0 ; j<prodIconNbX; j++){
 				toDrawDescription[i][j] = false;
 			}
 		}
@@ -87,7 +87,7 @@ public class ActionInterface extends Bar {
 		if(!mouseOnIt && y<startY2)
 			y = startY2+(y-startY2)/5;
 		
-		float ratio =1f/prodIconNbX;
+		float ratio =1f/prodIconNbY;
 		Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, x-4, y-5, 2*sizeX+4, sizeY+9);
 		g.setColor(Color.darkGray);
 		for(int i=0; i<5; i++){
@@ -107,7 +107,7 @@ public class ActionInterface extends Bar {
 			int limit = Math.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(Game.g.images.get("icon"+ul.get(i)), this.x+2f, this.y+2f + i*this.sizeX, this.x-5f+this.sizeX, this.y+2f+(i+1)*(sizeX-5), 0, 0, 512,512);
+				g.drawImage(Game.g.images.get("icon"+ul.get(i)), this.x+2f, this.y+2f + ratio*i*this.sizeY, this.x-5f+this.sizeX, this.y-5f+ratio*i*sizeY+this.sizeX, 0, 0, 512,512);
 				g.setColor(Color.white);
 				g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);
