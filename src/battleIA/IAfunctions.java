@@ -247,7 +247,7 @@ public final class IAfunctions {
 		}
 		Building buildingToTake = null;
 		for(Building b : this.p.buildings){
-			if(b.objet.equals(ObjetsList.Headquarters)&& b.getTeam()!=currentTeam){
+			if(b.name.equals(ObjetsList.Headquarters)&& b.getTeam()!=currentTeam){
 				buildingToTake = b;
 			}
 		}
@@ -285,7 +285,7 @@ public final class IAfunctions {
 		}
 		Building buildingToTake = null;
 		for(Building b : this.p.buildings){
-			if(b.objet.equals(ObjetsList.Headquarters)&& b.getTeam()==currentTeam){
+			if(b.name.equals(ObjetsList.Headquarters)&& b.getTeam()==currentTeam){
 				buildingToTake = b;
 			}
 		}

@@ -1,7 +1,0 @@
-{
-printName:"Spell",
-sight:1,
-faithCost:0,
-chargeTime:1,
-needToClick:1
-}

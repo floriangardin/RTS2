@@ -45,7 +45,7 @@ public class Building extends Objet{
 	public boolean underAttack;
 	public float underAttackRemaining=0;
 	public float state;
-	public ObjetsList objet;
+
 	public static int sizeXIcon = 30;
 	public float chargeTime;
 	public int age=1;
@@ -76,19 +76,19 @@ public class Building extends Objet{
 		// SET UP TECH LIST ET PRODUCTION LIST
 
 		this.name = name;
-		this.objet = name;
+
 		this.x = x;
 		this.y = y;
 		teamCapturing= 0;
 		this.setTeam(team);
 
 		this.initialize(x, y);
-		if(objet.equals(ObjetsList.Headquarters)){
+		if(name.equals(ObjetsList.Headquarters)){
 			initHQ();
 		}
 		
 		//TODO : Animations should be generic !
-		if(objet.equals(ObjetsList.Tower)){
+		if(name.equals(ObjetsList.Tower)){
 			this.animationBleu ="buildingTowerBlueAnimation";
 			this.animationRouge = "buildingTowerRedAnimation";
 		}
@@ -331,32 +331,32 @@ public class Building extends Objet{
 		this.stateRessourceFaith+=Main.increment;
 		
 		if(stateRessourceGold >= this.getAttribut(Attributs.frequencyProduceGold) && getTeam()!=0){
-			getGameTeam().gold+=this.getAttribut(this.objet,Attributs.produceGold)*getGameTeam().data.prodGold;
+			getGameTeam().gold+=this.getAttribut(this.name,Attributs.produceGold)*getGameTeam().data.prodGold;
 			stateRessourceGold = 0;
-			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceGold)==1 ){
+			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.name,Attributs.produceGold)==1 ){
 				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodGold, "gold", this.x, this.y));
 				
 			}
 		}
 		if(stateRessourceFood >= this.getAttribut(Attributs.frequencyProduceFood) && getTeam()!=0){
-			getGameTeam().food+=this.getAttribut(this.objet,Attributs.produceFood)*getGameTeam().data.prodFood;
+			getGameTeam().food+=this.getAttribut(this.name,Attributs.produceFood)*getGameTeam().data.prodFood;
 			stateRessourceFood = 0;
-			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceFood)==1 ){
+			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.name,Attributs.produceFood)==1 ){
 				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFood, "food", this.x, this.y));
 				
 			}
 		}
 		if(stateRessourceFaith >= this.getAttribut(Attributs.frequencyProduceFaith) && getTeam()!=0){
-			getGameTeam().special+=this.getAttribut(this.objet,Attributs.produceFaith)*getGameTeam().data.prodFaith;
+			getGameTeam().special+=this.getAttribut(this.name,Attributs.produceFaith)*getGameTeam().data.prodFaith;
 			stateRessourceFaith = 0;
-			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.objet,Attributs.produceFaith)==1 ){
+			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.name,Attributs.produceFaith)==1 ){
 				// TODO : Produce faith display
 				//				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFaith, "special", this.x, this.y));
 				
 			}
 		}
 		//TOWER
-		if(this.getGameTeam().data.getAttribut(this.objet, Attributs.canAttack)>0){
+		if(this.getGameTeam().data.getAttribut(this.name, Attributs.canAttack)>0){
 			this.attack();
 		}
 		
@@ -492,11 +492,11 @@ public class Building extends Objet{
 		}
 		if( c.getAttributString(Attributs.weapon)== "bow" || c.getAttributString(Attributs.weapon)== "wand" || c.getAttributString(Attributs.weapon)=="bible")
 			return;
-		if(this.objet.equals(ObjetsList.Stable) && c.getGameTeam().hq.age<2){
+		if(this.name.equals(ObjetsList.Stable) && c.getGameTeam().hq.age<2){
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.objet.equals(ObjetsList.Academy) && c.getGameTeam().hq.age<3){
+		if(this.name.equals(ObjetsList.Academy) && c.getGameTeam().hq.age<3){
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
@@ -506,7 +506,7 @@ public class Building extends Objet{
 
 			if(this.constructionPoints<=0f){
 				this.potentialTeam = c.getTeam();
-				if(!(objet.equals(ObjetsList.Headquarters))){
+				if(!(name.equals(ObjetsList.Headquarters))){
 					this.setTeam(0);
 				}
 			}
@@ -517,10 +517,10 @@ public class Building extends Objet{
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
 			if(this.potentialTeam!=this.getTeam()  ){
-				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (objet.equals(ObjetsList.Headquarters))){
+				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam);
-					if(objet.equals(ObjetsList.Headquarters)){
+					if(name.equals(ObjetsList.Headquarters)){
 						Game.g.endGame = true;
 						if(this.getTeam()==Game.g.currentPlayer.getTeam()){
 							Game.g.victory = true;
@@ -547,7 +547,7 @@ public class Building extends Objet{
 
 	public Graphics draw(Graphics g){
 		
-		if(visibleByCurrentTeam || objet.equals(ObjetsList.Headquarters)){
+		if(visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)){
 			g.drawImage(Game.g.images.get("building"+name+this.getGameTeam().colorName),this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY));
 			if(mouseOver && Game.g.round>Game.nbRoundInit){
 				Color color = new Color(this.getGameTeam().color.getRed(),this.getGameTeam().color.getGreen(),this.getGameTeam().color.getBlue(),0.1f);
@@ -626,7 +626,7 @@ public class Building extends Objet{
 		
 		
 		//TOWER
-		if(this.getGameTeam().data.getAttribut(this.objet, Attributs.canAttack)>0){
+		if(this.getGameTeam().data.getAttribut(this.name, Attributs.canAttack)>0){
 			this.drawAnimationTower(g);
 		}
 		
@@ -696,7 +696,7 @@ public class Building extends Objet{
 		if(!(this instanceof Bonus) && this.team!=0){
 			this.getGameTeam().pop-=2;
 		}
-		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(objet.equals(ObjetsList.Headquarters))){
+		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(name.equals(ObjetsList.Headquarters))){
 			Game.g.sendMessage(ChatMessage.getById("building taken"));
 
 		}

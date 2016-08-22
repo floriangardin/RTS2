@@ -234,7 +234,7 @@ public class IAPlayer extends Player{
 	public Building getNearestNeutralMill(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Mill) && b.getTeam()==0){
+			if(b.name.equals(ObjetsList.Mill) && b.getTeam()==0){
 				result.add(b);
 
 			}
@@ -246,7 +246,7 @@ public class IAPlayer extends Player{
 	public Building getNearestNeutralMine(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Mine) && b.getTeam()==0){
+			if(b.name.equals(ObjetsList.Mine) && b.getTeam()==0){
 				result.add(b);
 			}
 		}
@@ -257,7 +257,7 @@ public class IAPlayer extends Player{
 	public Building getNearestNeutralBarrack(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Barracks)&& b.getTeam()==0){
+			if(b.name.equals(ObjetsList.Barracks)&& b.getTeam()==0){
 				result.add(b);
 			}
 		}
@@ -267,7 +267,7 @@ public class IAPlayer extends Player{
 	public Building getNearestMillToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Mill) && b.getTeam()!=caller.getTeam()){
+			if(b.name.equals(ObjetsList.Mill) && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -278,7 +278,7 @@ public class IAPlayer extends Player{
 	public Building getNearestMineToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Mine) && b.getTeam()!=caller.getTeam()){
+			if(b.name.equals(ObjetsList.Mine) && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -290,7 +290,7 @@ public class IAPlayer extends Player{
 	public Building getNearestHQToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Headquarters) && b.getTeam()!=caller.getTeam()){
+			if(b.name.equals(ObjetsList.Headquarters) && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -300,7 +300,7 @@ public class IAPlayer extends Player{
 	public Building getNearestBarrackToConquer(Vector<Building> buildings,Objet caller){
 		Vector<Objet> result = new Vector<Objet>();
 		for(Building b : buildings){
-			if(b.objet.equals(ObjetsList.Barracks) && b.getTeam()!=caller.getTeam()){
+			if(b.name.equals(ObjetsList.Barracks) && b.getTeam()!=caller.getTeam()){
 				result.add(b);
 			}
 		}
@@ -438,7 +438,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Mill) ){
+			if(c.name.equals(ObjetsList.Mill) ){
 				result.add(c);
 			}
 		}
@@ -448,7 +448,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Mine)){
+			if(c.name.equals(ObjetsList.Mine)){
 				result.add(c);
 			}
 		}
@@ -459,7 +459,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Barracks) ){
+			if(c.name.equals(ObjetsList.Barracks) ){
 				result.add(c);
 			}
 		}
@@ -470,7 +470,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Stable) ){
+			if(c.name.equals(ObjetsList.Stable) ){
 				result.add(c);
 			}
 		}
@@ -481,7 +481,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Academy) ){
+			if(c.name.equals(ObjetsList.Academy) ){
 				result.add(c);
 			}
 		}
@@ -491,7 +491,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Headquarters)){
+			if(c.name.equals(ObjetsList.Headquarters)){
 				result.add(c);
 			}
 		}
@@ -502,7 +502,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.University) ){
+			if(c.name.equals(ObjetsList.University) ){
 				result.add(c);
 			}
 		}
@@ -513,7 +513,7 @@ public class IAPlayer extends Player{
 		Vector<Building> result = new Vector<Building>();
 
 		for(Building c : units){
-			if(c.objet.equals(ObjetsList.Tower) ){
+			if(c.name.equals(ObjetsList.Tower) ){
 				result.add(c);
 			}
 		}
