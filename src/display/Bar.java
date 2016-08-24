@@ -13,7 +13,7 @@ public abstract class Bar {
 	public float x;
 	public float y;
 	public Player player;
-	public Plateau p;
+
 
 	public Graphics draw(Graphics g){
 		return g;

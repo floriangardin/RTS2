@@ -88,7 +88,7 @@ public class Selection {
 				for(Character c : chars)
 					this.selection.add(c);
 			}
-			Game.g.players.get(player).groupSelection = -1;
+			
 		}
 	}
 
@@ -144,7 +144,7 @@ public class Selection {
 					Game.g.events.addEvent(Events.BuildingSelected, c);
 				}
 
-				Game.g.players.get(player).groupSelection = -1;
+			
 			}
 
 			this.rectangleSelection= null;
@@ -187,7 +187,7 @@ public class Selection {
 		if(!im.isOnMiniMap){
 			if (im.isPressed(KeyEnum.LeftClick) && !im.isPressed(KeyEnum.Tab)) {
 				this.selection.clear();
-				Game.g.players.get(player).groupSelection = -1;
+		
 			}
 		}
 		if (!im.isPressed(KeyEnum.ToutSelection)) {
@@ -243,7 +243,7 @@ public class Selection {
 					}
 				}
 			}
-			Game.g.players.get(Game.g.players.get(player).getTeam()).groupSelection = -1;
+			
 		}
 	}
 

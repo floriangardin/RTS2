@@ -1,0 +1,38 @@
+RTS Ultra Mythe a été majoritairement développé sous l'emprise de Kronenbourg
+Le pathfinding de Callebouille: si je rencontre un mur, je tourne à droite
+Vous avez essayé d'appuyer sur espace. Genre, maintenant ?
+Des moqueries sont disponibles via le chat et la commande / - '/philippe'
+Au début on a codé le jeu pour faire des batailles d'IA, aujourd'hui tout marche sauf l'IA
+Un projet de FPS a été mis en chantier, son nom : FPS Giga Swag
+N'hésitez pas à nous envoyer des mails de remerciement pour les heures de fun passées sur ce jeu
+Vous avez une chance sur cent de voir son portrait à la place de l'unité durant le chargement
+T'as vu Flo ? J'ai rajouté du texte pendant le chargement, original non ?
+T'es sûr d'avoir bien fait F5 avant de lancer le jeu ?
+Tu le sens venir le Null.Pointer.Exception ? Parce qu'il arrive...
+RTS Ultra Mythe, on hésite sérieusement à garder le nom.
+Gilles de Bouard. Que dire de plus ?
+J'ai plus d'idée de trucs à écrire ici...
+Chargement des images en 4K
+RTS Ultra Mythe est né en décembre 2014 un lendemain de cuite
+Vous êtes déçu d'avoir eu ce message. Et content en même temps.
+Pour faire planter le jeu, rien de plus simple. Jouez-y !
+Il faut produire des unités pour gagner la partie.
+Les archers et les inquisiteurs ne peuvent pas prendre de bâtiments.
+Les chevaliers peuvent geler une zone indiquée avec leur pouvoir spécial.
+Toutes les unités peuvent s'immoler avec la touche I, ceci fait gagner de la foi.
+Les lanciers acquièrent un bonus sur leur première attaque après avoir chargé.
+Il vaut mieux utiliser la flèche spéciale de l'archer après son attaque de base.
+Il y a une limite de population et de bâtiment qui augmente en passant à l'âge suivant.
+Les bâtiments prennent 2 de place dans la population.
+Les unités prennent 1 place dans la population.
+On peut faire des miracles, avec la foi.
+Pour gagner il faut prendre le centre-ville adverse.
+L'inquisiteur avec sa boule de feu possède la seule attaque de zone du jeu.
+Il faut développer des technologies afin d'assurer un développement durable.
+Surtout ne tapez pas /gillesBombe dans le chat en multijoueur.
+La production décline toute responsabilité quant à la présence d'éventuels bugs.
+C'est long hein ?
+4 8 15 16 23 42.
+La guerre, la haine, la mort et la destruction.
+Ptite kro ?
+Il existe seulement deux façons de gagner la partie : millitaire ou millitaire.

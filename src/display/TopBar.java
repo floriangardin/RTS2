@@ -29,10 +29,10 @@ public class TopBar extends Bar {
 	private float debut2 = Game.nbRoundInit/2;
 	private float dureeDescente = Game.nbRoundInit/8;
 
-	public TopBar(Plateau p , int resX, int resY){
+	public TopBar(){
 
-		this.p = p ;
-		this.update(resX, resY);
+		
+		this.update((int)Game.g.resX,(int) Game.g.resY);
 		this.imageGold = Game.g.images.get("imagegolddisplayressources");
 		this.imageFood = Game.g.images.get("imagefooddisplayressources");
 		this.imageSpecial = Game.g.images.get("imageSpecial");

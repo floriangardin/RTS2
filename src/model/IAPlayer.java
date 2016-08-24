@@ -32,8 +32,8 @@ public class IAPlayer extends Player{
 
 	//TODO find a way to isolate data for package ..
 
-	public IAPlayer(Plateau p, int id, String name, GameTeam gameteam,int resX, int resY) {
-		super(p, id, name, gameteam, resX, resY);
+	public IAPlayer( int id, String name, GameTeam gameteam,int resX, int resY) {
+		super(id, name, gameteam);
 
 
 		unitsGroups = new Vector<Vector<Character>>();
@@ -70,7 +70,7 @@ public class IAPlayer extends Player{
 
 	public Vector<Character> getMyAliveUnits(){
 		Vector<Character> result = new Vector<Character>();
-		for(Character c : this.p.characters){
+		for(Character c : Game.g.plateau.characters){
 			if(c.getTeam()==this.getTeam())
 				result.add(c);
 		}
@@ -79,7 +79,7 @@ public class IAPlayer extends Player{
 
 	public Vector<Building> getMyBuildings(){
 		Vector<Building> result = new Vector<Building>();
-		for(Building b : this.p.buildings){
+		for(Building b : Game.g.plateau.buildings){
 			if(b.getTeam()==this.getTeam())
 				result.add(b);
 		}
@@ -89,7 +89,7 @@ public class IAPlayer extends Player{
 
 	public Vector<Building> getNeutralBuildings(){
 		Vector<Building> result = new Vector<Building>();
-		for(Building b : this.p.buildings){
+		for(Building b : Game.g.plateau.buildings){
 			if(b.getTeam()==0)
 				result.add(b);
 		}
@@ -98,7 +98,7 @@ public class IAPlayer extends Player{
 
 	public Vector<Building> getEnnemyBuildings(){
 		Vector<Building> result = new Vector<Building>();
-		for(Building b : this.p.buildings){
+		for(Building b : Game.g.plateau.buildings){
 			if(b.getTeam()!=this.getTeam() && b.getTeam()!=0)
 				result.add(b);
 		}
@@ -107,8 +107,8 @@ public class IAPlayer extends Player{
 
 	public Vector<Character> getEnnemyUnitsInSight(){
 		Vector<Character> result = new Vector<Character>();
-		for(Character c : this.p.characters){
-			if(c.getTeam()!=this.getTeam() && this.p.isVisibleByTeam(this.getTeam(), c))
+		for(Character c : Game.g.plateau.characters){
+			if(c.getTeam()!=this.getTeam() && Game.g.plateau.isVisibleByTeam(this.getTeam(), c))
 				result.add(c);
 		}
 		return result;

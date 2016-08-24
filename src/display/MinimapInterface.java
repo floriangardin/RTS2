@@ -37,45 +37,45 @@ public class MinimapInterface extends Bar {
 
 	public MinimapInterface(BottomBar parent){
 
-		this.p = parent.p;
+		
 
 		this.player = parent.player;
 		this.startX2 = Game.g.resX*(1-parent.ratioMinimapX)+3;
 		this.startY2 = Game.g.resY-parent.ratioMinimapX*Game.g.resX+3;
 		this.sizeX = Game.g.resX*parent.ratioMinimapX-6;
 		this.sizeY = sizeX;
-		if(this.p.maxX>this.p.maxY){
+		if(Game.g.plateau.maxX>Game.g.plateau.maxY){
 			this.w = this.sizeX;
-			this.h = this.w*this.p.maxY/this.p.maxX;
+			this.h = this.w*Game.g.plateau.maxY/Game.g.plateau.maxX;
 			this.startX = this.startX2;
 			this.startY = this.startY2 + (this.sizeY-h)/2;
 		} else {
 			this.h = this.sizeY;			
-			this.w = this.h*this.p.maxX/this.p.maxY;
+			this.w = this.h*Game.g.plateau.maxX/Game.g.plateau.maxY;
 			this.startX = this.startX2 + (this.sizeX-w)/2;
 			this.startY = this.startY2;
 		}
-		rw = w/this.p.maxX;
-		rh = h/this.p.maxY;
+		rw = w/Game.g.plateau.maxX;
+		rh = h/Game.g.plateau.maxY;
 		this.toDraw = false;
 	}
 	
 	
 	public void updateRatio(){
-		this.p = Game.g.plateau;
-		if(this.p.maxX>this.p.maxY){
+		
+		if(Game.g.plateau.maxX>Game.g.plateau.maxY){
 			this.w = this.sizeX;
-			this.h = this.w*this.p.maxY/this.p.maxX;
+			this.h = this.w*Game.g.plateau.maxY/Game.g.plateau.maxX;
 			this.startX = this.startX2;
 			this.startY = this.startY2 + (this.sizeY-h)/2;
 		} else {
 			this.h = this.sizeY;			
-			this.w = this.h*this.p.maxX/this.p.maxY;
+			this.w = this.h*Game.g.plateau.maxX/Game.g.plateau.maxY;
 			this.startX = this.startX2 + (this.sizeX-w)/2;
 			this.startY = this.startY2;
 		}
-		rw = w/this.p.maxX;
-		rh = h/this.p.maxY;
+		rw = w/Game.g.plateau.maxX;
+		rh = h/Game.g.plateau.maxY;
 	}
 
 	public Graphics draw(Graphics g){
@@ -93,22 +93,22 @@ public class MinimapInterface extends Bar {
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.drawImage(Game.g.images.get("islandTexture"),startX+offsetDrawX, startY, startX+offsetDrawX+w, startY+h,0,0,Game.g.images.get("islandTexture").getWidth(),Game.g.images.get("islandTexture").getHeight());
-		for(NaturalObjet q : p.naturalObjets){
+		for(NaturalObjet q : Game.g.plateau.naturalObjets){
 			g.setColor(Color.green);
 			g.fillRect(startX+offsetDrawX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
 		// Draw units on camera 
 		g.setAntiAlias(true);
-		for(Character c : this.p.characters){		
+		for(Character c : Game.g.plateau.characters){		
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startX+offsetDrawX+rw*c.x-rw*r, startY+rh*c.y-rh*r, 2f*rw*r, 2f*rh*r);
@@ -117,13 +117,13 @@ public class MinimapInterface extends Bar {
 		}
 		
 		
-		for(Bonus c : this.p.bonus){
+		for(Bonus c : Game.g.plateau.bonus){
 			if(c.getTeam()==0){
 				g.setColor(Colors.team0);
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -131,7 +131,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -144,13 +144,13 @@ public class MinimapInterface extends Bar {
 					rh*c.getAttribut(Attributs.size));
 		}
 		g.setAntiAlias(false);
-		for(Building c : this.p.buildings){
+		for(Building c : Game.g.plateau.buildings){
 			if(c.getTeam()==0){
 				g.setColor(Colors.team0);
 
 			}
 			if(c.getTeam()==2){
-				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -158,7 +158,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -167,7 +167,7 @@ public class MinimapInterface extends Bar {
 			}
 			g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, rw*c.getAttribut(Attributs.sizeX), rh*c.getAttribut(Attributs.sizeY));
 			
-			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && this.p.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
 				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints);
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);

@@ -34,16 +34,15 @@ import org.newdawn.slick.loading.LoadingList;
 
 import buildings.Bonus;
 import buildings.Building;
-
-
 import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
-import control.Selection;
 import control.KeyMapper.KeyEnum;
+import control.Selection;
 import data.Attributs;
 import data.Data;
+import display.BottomBar;
 import display.DisplayRessources;
 import events.EventQueue;
 import main.Main;
@@ -157,7 +156,7 @@ public class Game extends BasicGame
 	public static Image fog;
 	public static Graphics gf;
 	public Cosmetic cosmetic;
-
+	
 	// Spell with click handling
 	public boolean spellOk = true;
 	public Character spellLauncher;
@@ -171,7 +170,7 @@ public class Game extends BasicGame
 	// Bars
 	public float relativeHeightBottomBar = 1f/6f;
 	public float relativeHeightTopBar = 1f/20f;
-
+	public BottomBar bottomBar = new BottomBar();
 	// Selection
 
 	public boolean new_selection;
@@ -373,7 +372,7 @@ public class Game extends BasicGame
 	}
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
-		this.players.addElement(new Player(this.plateau,players.size(),name,teams.get(1),resX,resY));
+		this.players.addElement(new Player(players.size(),name,teams.get(1)));
 
 
 
@@ -415,8 +414,8 @@ public class Game extends BasicGame
 		this.teams.addElement(new GameTeam(players,this.plateau,1,0));
 		this.teams.addElement(new GameTeam(players,this.plateau,2,0));
 		this.players = new Vector<Player>();
-		this.players.add(new Player(this.plateau,0,"Nature",teams.get(0),2,2));
-		this.players.add(new Player(this.plateau,1,this.options.nickname,teams.get(1),(int) this.resX, (int) this.resY));
+		this.players.add(new Player(0,"Nature",teams.get(0)));
+		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
 		//		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
@@ -599,10 +598,10 @@ public class Game extends BasicGame
 				//				}
 				g.drawImage(this.menuIntro.title, this.resX/2-this.menuIntro.title.getWidth()/2, this.resY/2-this.menuIntro.title.getHeight()/2);
 			}
-			if(this.currentPlayer.bottomBar.topBar!=null)
-				this.currentPlayer.bottomBar.topBar.draw(g);
-			if(this.currentPlayer.bottomBar!=null)
-				this.currentPlayer.bottomBar.draw(g);
+			if(this.bottomBar.topBar!=null)
+				this.bottomBar.topBar.draw(g);
+			if(this.bottomBar!=null)
+				this.bottomBar.draw(g);
 
 			//bonus
 			if(gillesBombe){
@@ -1182,7 +1181,7 @@ public class Game extends BasicGame
 
 	public void launchGame(){
 
-		this.inputsHandler.initSelction();
+		this.inputsHandler.initSelection();
 		this.musicPlaying.stop();
 		this.musicPlaying = this.musics.get("themeImperial");
 		try {

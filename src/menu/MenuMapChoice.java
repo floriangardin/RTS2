@@ -401,7 +401,7 @@ public class MenuMapChoice extends Menu {
 		//RESOLUTION
 		s+="resX:";
 		for(Menu_Player p : this.menuPlayers){
-			s+=p.p.bottomBar.resX;
+			s+=Game.g.bottomBar.resX;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -409,7 +409,7 @@ public class MenuMapChoice extends Menu {
 
 		s+="resY:";
 		for(Menu_Player p : this.menuPlayers){
-			s+=p.p.bottomBar.resY;
+			s+=Game.g.bottomBar.resY;
 			s+=",";
 		}
 		s = s.substring(0,s.length()-1);
@@ -436,8 +436,8 @@ public class MenuMapChoice extends Menu {
 		// is ready
 		s+="isR:"+current.isReady+";";
 		// resX and resY
-		s+="resX:"+current.bottomBar.resX+";";
-		s+="resY:"+current.bottomBar.resY+";";
+		s+="resX:"+Game.g.resX+";";
+		s+="resY:"+Game.g.resY+";";
 		return s;
 	}
 
@@ -485,12 +485,7 @@ public class MenuMapChoice extends Menu {
 		if(hs.containsKey("isR")){
 			playerToChange.isReady = Boolean.parseBoolean(hs.get("isR"));
 		}
-		if(hs.containsKey("resX")){
-			playerToChange.bottomBar.resX = Integer.parseInt(hs.get("resX"));
-		}
-		if(hs.containsKey("resY")){
-			playerToChange.bottomBar.resY = Integer.parseInt(hs.get("resY"));
-		}
+
 		this.menuPlayers.get(idJ).hasBeenUpdated = true;
 	}
 
@@ -542,7 +537,7 @@ public class MenuMapChoice extends Menu {
 					p.getGameTeam().civ = new Civilisation(hs.get("cvS"), p.getGameTeam());
 					p.nickname =  nickname[i];
 					p.setTeam(Integer.parseInt(idTeam[i]));
-					p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
+
 					p.isReady = Boolean.parseBoolean(isReady[i]);
 					try {
 						this.game.getPlayerById(i).address= InetAddress.getByName(ips[i]);
@@ -576,9 +571,7 @@ public class MenuMapChoice extends Menu {
 					this.menuPlayers.get(i).p.getGameTeam().civ =  new Civilisation(civ[i], this.menuPlayers.get(i).p.getGameTeam());
 					this.menuPlayers.get(i).p.nickname =  nickname[i];
 					this.menuPlayers.get(i).p.setTeam(Integer.parseInt(idTeam[i]));
-					if(this.menuPlayers.get(i).p.bottomBar.resX!=(int) Float.parseFloat(resX[i]) || this.menuPlayers.get(i).p.bottomBar.resY!=(int) Float.parseFloat(resY[i])){
-						this.menuPlayers.get(i).p.bottomBar.update((int) Float.parseFloat(resX[i]),(int) Float.parseFloat(resY[i]));
-					}
+
 					this.game.players.get(i).isReady = Boolean.parseBoolean(isReady[i]);
 					try {
 						if(i==1)
