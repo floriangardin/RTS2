@@ -117,15 +117,14 @@ public class Plateau implements java.io.Serializable {
 		for(GameTeam t : g.teams){
 			t.pop = 0;
 		}
+		
 	}
 
 	public void setMaxXMaxY(float MaxX, float MaxY) {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
-		for (Player p : Game.g.players) {
-			Game.g.bottomBar.minimap.updateRatio();
-		}
+		Game.g.bottomBar = new BottomBar();
 	}
 
 	public void addCharacterObjets(Character o) {

@@ -170,7 +170,7 @@ public class Game extends BasicGame
 	// Bars
 	public float relativeHeightBottomBar = 1f/6f;
 	public float relativeHeightTopBar = 1f/20f;
-	public BottomBar bottomBar = new BottomBar();
+	public BottomBar bottomBar;
 	// Selection
 
 	public boolean new_selection;
@@ -1336,6 +1336,7 @@ public class Game extends BasicGame
 		this.resY = resY;
 		this.ratioResolution = this.resX/2800f;
 		Game.g = this;
+		 
 	}
 
 

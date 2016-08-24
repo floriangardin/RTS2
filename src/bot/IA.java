@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import model.Game;
 import model.GameTeam;
+import model.Objet;
 import model.Player;
 import units.*;
 import units.Character;
@@ -39,6 +40,17 @@ public class IA extends Player {
 	
 	public Vector<Character> getUnits(){
 		return Game.g.plateau.characters;
+	}
+	
+	public Vector<Objet> get(String query){
+		/*
+		 * Create A Json query 
+		 */
+		Vector<Objet> result = new Vector<Objet>();
+		
+		
+		return null;
+		
 	}
 	
 }
