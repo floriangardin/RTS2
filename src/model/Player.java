@@ -53,6 +53,10 @@ public class Player {
 		this.gameteam = Game.g.teams.get(team);
 	}
 	
+	public void action(){
+		
+	}
+	
 	
 	public String toString(){
 		String s ="";

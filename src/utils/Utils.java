@@ -13,8 +13,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 
-import buildings.Building;
+import com.google.gson.Gson;
 
+import buildings.Building;
 import model.Game;
 import model.Objet;
 import model.Plateau;
@@ -24,8 +25,15 @@ import units.Character;
 // Class for static methods
 public class Utils {
 
-	
+	public static Gson gson = new Gson();
 	public static String[] contactWeapon = new String[]{"spear","sword"};
+	
+	public Vector<Objet> get(HashMap<String,Objet> req){
+		Vector<Objet> result = new Vector<Objet>();
+		result.stream().map((Objet o )->  o.id);
+		
+		return result;
+	}
 
 	public static HashMap<String,String> preParse(String s){
 		String[] u = s.split(";");

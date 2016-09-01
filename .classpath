@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="jar/slick.jar"/>
-	<classpathentry exported="true" kind="lib" path="jar/jogg-0.0.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="jar/jorbis-0.0.15.jar"/>
-	<classpathentry kind="lib" path="jar/lwjgl.jar"/>
 	<classpathentry kind="lib" path="jar/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="RTS_lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="RTS_lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="RTS_lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="RTS_lib/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Optional;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Circle;
@@ -7,7 +8,6 @@ import org.newdawn.slick.geom.Point;
 
 import buildings.Bonus;
 import buildings.Building;
-
 import bullets.Bullet;
 import bullets.CollisionBullet;
 import control.InputObject;
@@ -411,13 +411,13 @@ public class Plateau implements java.io.Serializable {
 					o.stop();
 					o.secondaryTargets.clear();
 					o.mode = Character.HOLD_POSITION;
-					if (o.group != null && o.group.size() > 1) {
-						for (Character c1 : o.group)
+					if (o.getGroup() != null && o.getGroup().size() > 1) {
+						for (Character c1 : o.getGroup())
 							if (c1 != o)
-								c1.group.remove(o);
+								c1.removeFromGroup(o.id);
 					}
 					// Then we create its new group
-					o.group = new Vector<Character>();
+					o.setGroup(new Vector<Character>());
 					continue;
 				}
 				if (i == 0 && Math.random() > 0.3) {
@@ -431,13 +431,13 @@ public class Plateau implements java.io.Serializable {
 
 				i++;
 				// first we deal with o's elder group
-				if (o.group != null && o.group.size() > 1) {
-					for (Character c1 : o.group)
+				if (o.getGroup() != null && o.getGroup().size() > 1) {
+					for (Character c1 : o.getGroup())
 						if (c1 != o)
-							c1.group.remove(o);
+							c1.removeFromGroup(o.id);
 				}
 				// Then we create its new group
-				o.group = new Vector<Character>();
+				o.setGroup(new Vector<Character>());
 
 				Vector<Integer> waypoints = null;
 				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection) {
@@ -445,7 +445,7 @@ public class Plateau implements java.io.Serializable {
 					if (c1 == c)
 						continue;
 					if (c1 instanceof Character) {
-						o.group.add((Character) c1);
+						o.addInGroup(c1.id);
 						// System.out.println("Plateau line 507: " +
 						// (waypoints!=null) +" "+(c.c==c1.c)+"
 						// "+(((Character)c1).waypoints.size()>0));
@@ -479,18 +479,18 @@ public class Plateau implements java.io.Serializable {
 			if (c instanceof Character) {
 				Character o = (Character) c;
 				// first we deal with o's elder group
-				if (o.group != null && o.group.size() > 1) {
-					for (Character c1 : o.group)
+				if (o.getGroup() != null && o.getGroup().size() > 1) {
+					for (Character c1 : o.getGroup())
 						if (c1 != o)
-							c1.group.remove(o);
+							c1.removeFromGroup(o.id);
 				}
 				// Then we create its new group
-				o.group = new Vector<Character>();
+				o.setGroup(new Vector<Character>());
 
 				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection)
 
 					if (c1 instanceof Character)
-						o.group.add((Character) c1);
+						o.addInGroup(c1.id);
 				o.secondaryTargets.add(target);
 			}
 		}
@@ -978,11 +978,6 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 
-
-
-
-
-
 	public Objet getById(int id){
 		Objet o = getCharacterById(id);
 		if(o!=null){
@@ -993,50 +988,20 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 	public Character getCharacterById(int id) {
-		for (Character cha : this.characters) {
-			if (id == cha.id) {
-				return cha;
-			}
-		}
-		return null;
-	}
+		return this.characters.stream().filter( ((Character c) ->c.id == id)).findFirst().get();
 
+	}
 	public Character getCharacterByIdAndName(int id, String name) {
-		for (Character cha : this.characters) {
-			if (id == cha.id && name.equals(cha.name)) {
-				return cha;
-			}
-		}
-		return null;
+		return this.characters.stream().filter( ((Character c) ->(c.id == id && c.name.equals(name)))).findFirst().get();
 	}
-
 	public Bullet getBulletById(int id) {
-		for (Bullet cha : this.bullets) {
-			if (id == cha.id) {
-				return cha;
-			}
-		}
-		return null;
+		return this.bullets.stream().filter( ((Bullet c) ->c.id == id)).findFirst().get();
 	}
-
 	public Building getBuildingById(int id) {
-		for (Building cha : this.buildings) {
-			if (id == cha.id) {
-				return cha;
-			}
-		}
-		return null;
+		return this.buildings.stream().filter( ((Building c) ->c.id == id)).findFirst().get();
 	}
-
 	private SpellEffect getSpellEffectById(int id) {
-		for (SpellEffect cha : this.spells) {
-			if (id == cha.id) {
-				return cha;
-			}
-		}
-		return null;
+		return this.spells.stream().filter( ((SpellEffect c) ->c.id == id)).findFirst().get();
 	}
-
-
 
 }

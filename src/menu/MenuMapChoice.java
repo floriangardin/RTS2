@@ -553,7 +553,7 @@ public class MenuMapChoice extends Menu {
 			}
 			// adding new player if needed
 			if(civ.length>this.game.players.size()){
-				//System.out.println("MMC line 511: new player");
+//				System.out.println("MMC line 511: new player");
 				try {
 					this.game.addPlayer("Philippe", InetAddress.getByName(hs.get("ip")),1,1);
 				} catch (UnknownHostException e) {}

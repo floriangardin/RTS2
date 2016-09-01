@@ -59,7 +59,7 @@ public abstract class Objet implements java.io.Serializable {
 	public float vy;
 	public Objet target;
 	public Checkpoint checkpointTarget;
-	public boolean toKeep=false;
+
 	public boolean mouseOver = false;
 	
 	// spells attributs

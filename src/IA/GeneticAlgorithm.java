@@ -131,7 +131,7 @@ public class GeneticAlgorithm {
 				//			System.out.println("i" + i);
 				//			print(X[i]);
 				s = new Simulation(game);
-				s.armies.get(0).get(0).ia = new IAUnit(s.armies.get(0).get(0),copy(X[i]));
+//				s.armies.get(0).get(0).ia = new IAUnit(s.armies.get(0).get(0),copy(X[i]));
 				s.simulate();
 				//TODO CALL SIMULATION AND RETURN OBJECTIVE
 				this.objective[i]=(s.victory%2)*(s.armies.get(0).get(0).lifePoints*2f);
@@ -148,7 +148,7 @@ public class GeneticAlgorithm {
 		// RUN SIMU FOR THE NEW N/2 MATRICES
 		for(int i=0;i<N_POP;i++){
 			s = new Simulation(game);
-			s.armies.get(0).get(0).ia = new IAUnit(s.armies.get(0).get(0),copy(X[i]));
+//			s.armies.get(0).get(0).ia = new IAUnit(s.armies.get(0).get(0),copy(X[i]));
 			s.simulate();
 			//TODO CALL SIMULATION AND RETURN OBJECTIVE
 			this.objective[i]=(s.victory%2)*(s.armies.get(0).get(0).lifePoints*2f);

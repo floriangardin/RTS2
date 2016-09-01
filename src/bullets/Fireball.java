@@ -67,8 +67,7 @@ public class Fireball extends Bullet {
 
 	public Fireball(){}
 	public void action(){
-		//MULTI 
-		this.toKeep = false;
+
 		if(explosion){
 			this.setLifePoints(lifePoints-10f*Main.increment);
 			return;

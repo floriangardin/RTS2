@@ -3,13 +3,13 @@ package units;
 
 import java.util.Vector;
 
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-import IA.IAUnit;
 import battleIA.Mission;
 import buildings.Building;
 import bullets.Arrow;
@@ -18,15 +18,13 @@ import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
 import model.Checkpoint;
-import model.Civilisation;
+
 import model.Colors;
 import model.Game;
 import model.NaturalObjet;
 import model.Objet;
 import nature.Tree;
 import pathfinding.Case;
-import spells.Spell;
-import utils.ObjetsList;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -57,7 +55,7 @@ public class Character extends Objet{
 
 	//Dead since how many rounds
 	public int deadSince = 0;
-	public IAUnit ia;
+
 
 	public boolean moveAhead;
 	public float state;
@@ -65,10 +63,8 @@ public class Character extends Objet{
 	public float attackState = 0f;
 
 
-	// Group attributes
-	public Character leader;
-	public Vector<Character> group;
-	public float frozen = 0f;
+	private Vector<Integer> group = new Vector<Integer>();
+	
 	public boolean someoneStopped;
 	// Equipment attributes
 	public boolean horse;
@@ -76,13 +72,12 @@ public class Character extends Objet{
 	// About drawing
 	public float animationValue=0f;
 
-	// Invisibility 
-	boolean isHidden;
-	public Civilisation civ ;
+
 	// Special Abilities or subisse
 	public boolean isImmolating = false;
 	public boolean isBolted = false;
-
+	public float frozen = 0f;
+	
 	public float remainingTime;
 
 	// UnitsList associated
@@ -104,9 +99,8 @@ public class Character extends Objet{
 		this.selectionBox = new Rectangle(1f,1f,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
 		this.sightBox = new Circle(1f,1f,this.getAttribut(Attributs.sight));
 		this.setXY(x, y);
-		this.isHidden = false;
-		this.group = new Vector<Character>();
-		this.group.add(this);
+		this.setGroup(new Vector<Character>());
+		this.getGroup().add(this);
 		this.getGameTeam().pop++;
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
@@ -119,9 +113,7 @@ public class Character extends Objet{
 	}
 
 
-	public boolean isLeader(){
-		return this.leader==this;
-	}
+
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
 	}
@@ -314,7 +306,7 @@ public class Character extends Objet{
 	}
 
 	public void mainAction(){
-		this.toKeep = false;
+
 
 
 		if(this.frozen>0f){
@@ -434,16 +426,16 @@ public class Character extends Objet{
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.getAttribut(Attributs.maxVelocity)/(Main.framerate);
 		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
-		if(Game.deplacementGroupIntelligent && this.group!=null){
+		if(Game.deplacementGroupIntelligent && this.getGroup()!=null){
 			//System.out.println("héhé");
-			for(Character c : this.group){
+			for(Character c : this.getGroup()){
 				maxVNorm = Math.min(maxVNorm, c.getAttribut(Attributs.maxVelocity)/(Main.framerate));
 			}
 		}
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
-		if((this.group.size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
+		if((this.getGroup().size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop();
 			return;
@@ -920,12 +912,12 @@ public class Character extends Objet{
 				this.move();
 			if(!this.isMobile())
 				return;
-			if(this.group!=null){
+			if(this.getGroup()!=null){
 				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.group.size())+1)*1*this.getAttribut(Attributs.size)){
-					for(Character c: this.group){
+				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.getGroup().size())+1)*1*this.getAttribut(Attributs.size)){
+					for(Character c: this.getGroup()){
 						if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
 						if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
@@ -940,7 +932,7 @@ public class Character extends Objet{
 				}
 				// avoiding problem if two members of the group are close to the target
 				if(Utils.distance(this, this.getTarget())<2*this.getAttribut(Attributs.size)){
-					for(Character c:this.group){
+					for(Character c:this.getGroup()){
 						if(Utils.distance(c, c.getTarget())<2*c.getAttribut(Attributs.size)){
 							this.stop();
 							c.stop();
@@ -1067,6 +1059,34 @@ public class Character extends Objet{
 	public void isAttacked() {
 		this.isAttacked=true;
 		this.timerAttacked = this.timerMaxValueAttacked;
+	}
+
+
+
+	public Vector<Character> getGroup() {
+		Vector<Character> result = new Vector<Character>();
+		
+		for(Integer i : this.group){
+			result.add(Game.g.plateau.getCharacterById(i));
+		}
+		return result;
+	}
+
+
+
+	public void setGroup(Vector<Character> group) {
+		this.group.clear();
+		for(Character c  : group){
+			this.group.add(c.id);
+		}
+	}
+	
+	public void addInGroup(int id ){
+		this.group.addElement(id);
+	}
+	
+	public void removeFromGroup(int id){
+		this.group.removeElement(id);
 	}
 
 

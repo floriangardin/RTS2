@@ -32,6 +32,7 @@ import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
+import bot.IA;
 import buildings.Bonus;
 import buildings.Building;
 import bullets.Bullet;
@@ -408,6 +409,7 @@ public class Game extends BasicGame
 
 	public void initializePlayers(){
 		//UPDATING GAME
+		System.out.println("Initialize players");
 		this.teams.clear();
 		this.players.clear();
 		this.teams.addElement(new GameTeam(players,this.plateau,0,0));
@@ -415,8 +417,9 @@ public class Game extends BasicGame
 		this.teams.addElement(new GameTeam(players,this.plateau,2,0));
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0,"Nature",teams.get(0)));
-		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
-		//		this.players.add(new IAFlo(this.plateau,2,"IA random",teams.get(2),2,2));
+//		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
+		this.players.add(new IA(1,"IA random1",teams.get(1)));
+		this.players.add(new IA(2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
@@ -431,6 +434,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
+		
 		g.setFont(this.font);
 		if(!thingsLoaded){
 			this.renderIntro(g);
@@ -485,8 +489,8 @@ public class Game extends BasicGame
 				}
 				o.drawIsSelected(g);
 				if(Game.debugGroup){
-					if(o instanceof Character && ((Character) o).group!=null){
-						for(Character c : ((Character)o).group){
+					if(o instanceof Character && ((Character) o).getGroup()!=null){
+						for(Character c : ((Character)o).getGroup()){
 							g.setColor(Color.white);
 							g.fillRect(c.getX()-50f, c.getY()-50f, 100f, 100f);
 						}
@@ -785,7 +789,10 @@ public class Game extends BasicGame
 		} else if(!endGame) {
 
 			// gérer le début de partie
-
+			// Gérer les joueurs
+			for(Player p : this.players){
+				p.action();
+			}
 			//Update of current round
 			this.clock.setRoundFromTime();
 
