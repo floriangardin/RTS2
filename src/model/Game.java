@@ -34,14 +34,12 @@ import org.newdawn.slick.loading.LoadingList;
 
 import buildings.Bonus;
 import buildings.Building;
-
-
 import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
-import control.Selection;
 import control.KeyMapper.KeyEnum;
+import control.Selection;
 import data.Attributs;
 import data.Data;
 import display.DisplayRessources;
@@ -60,6 +58,8 @@ import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import multiplaying.Clock;
 import multiplaying.MultiMessage;
+import nature.Tree;
+import pathfinding.Case;
 import ressources.Images;
 import ressources.Map;
 import ressources.Musics;
@@ -155,8 +155,16 @@ public class Game extends BasicGame
 	/// RENDER ATTRIBUTES ///
 	/////////////////////////
 	public static Image fog;
+	public static Image transparence;
 	public static Graphics gf;
+	public static Graphics gt;
 	public Cosmetic cosmetic;
+
+	// colors
+	public static Color couleurJoueur0 = new Color(25,25,25);
+	public static Color couleurJoueur1 = new Color(0,0,205);
+	public static Color couleurJoueur2 = new Color(255,0,0);
+
 
 	// Spell with click handling
 	public boolean spellOk = true;
@@ -563,6 +571,7 @@ public class Game extends BasicGame
 			drawFogOfWar(g);
 			for(Objet o: toDrawAfter)
 				o.draw(g);
+			handleDrawUnderBuilding(g);
 
 			// Draw the selection :
 			if(cosmetic.selection!=null){
@@ -717,8 +726,6 @@ public class Game extends BasicGame
 	public void drawFogOfWar(Graphics g) {
 		Vector<Objet> visibleObjet = new Vector<Objet>();
 		visibleObjet = this.plateau.getInCamObjets(Game.g.currentPlayer.getTeam());
-		float resX = Game.g.resX;
-		float resY = Game.g.resY;
 		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
 		gf.setColor(new Color(50, 50, 50));
@@ -734,8 +741,82 @@ public class Game extends BasicGame
 		}
 		gf.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
-		g.drawImage(fog, Game.g.Xcam, Game.g.Ycam);
+		g.drawImage(fog, Xcam, Ycam);
 		g.setDrawMode(Graphics.MODE_NORMAL);
+	}
+
+	// getting color by id team
+	public static Color getColorByTeam(int team){
+		switch(team){
+		case 1 : return couleurJoueur1;
+		case 2 : return couleurJoueur2;
+		default : return couleurJoueur0;
+		}
+	}
+	// handle transparency
+	public void handleDrawUnderBuilding(Graphics g){
+		Vector<Objet> v = new Vector<Objet>();
+		Image im;
+		Vector<Objet> vb = new Vector<Objet>();
+		// buildings
+		v.addAll(plateau.buildings);
+		v.addAll(plateau.naturalObjets);
+		for(Objet b : v){
+			if(b.visibleByCamera){
+				vb.add(b);
+			}
+		}
+		
+		for(Objet b : vb){
+			v.clear();
+			Case ca = plateau.mapGrid.getCase(b.x, b.y);
+			while(ca.y+ca.sizeY>b.y-b.visibleHeight){
+//				Game.g.app.getGraphics().setColor(Color.red);
+//				Game.g.app.getGraphics().drawRect(ca.x,ca.y,ca.sizeX,ca.sizeY);
+				for(Character c : ca.surroundingChars){
+					if(c.visibleByCamera && 
+							c.x>b.x-b.getAttribut(Attributs.sizeX)/2f &&
+							c.x<b.x+b.getAttribut(Attributs.sizeX)/2f &&
+							c.y>b.y-b.getVisibleSize()-b.getAttribut(Attributs.sight)-b.visibleHeight 
+							&& !v.contains(c)){
+						v.add(c);
+					}
+				}
+				if(ca.j==0){
+					break;
+				} else {
+					ca = plateau.mapGrid.grid.get(ca.i).get(ca.j-1);
+				}
+			}
+			if(v.size()>0){
+				System.out.println(b);
+				gt.translate(-Xcam, -Ycam);
+				gt.clear();
+				gt.setDrawMode(Graphics.MODE_NORMAL);
+				b.drawBasicImage(gt);
+				for(Objet o : v){
+					if(o instanceof Character){
+						Character c = (Character) o;
+						int direction = (c.orientation/2-1);
+						// inverser gauche et droite
+						if(direction==1 || direction==2){
+							direction = ((direction-1)*(-1)+2);
+						}
+						im = Game.g.images.getUnit(c.name, direction, c.animation, c.getGameTeam().id, c.isAttacking);
+
+						gt.drawImage(im,c.x-im.getWidth()/2,c.y-3*im.getHeight()/4, Color.blue);
+					}
+				}
+				gt.clearAlphaMap();
+				gt.setDrawMode(Graphics.MODE_ALPHA_MAP);
+				b.drawBasicImage(gt);
+				gt.flush();
+				g.setDrawMode(Graphics.MODE_NORMAL);
+				transparence.setAlpha(0.6f);
+				g.drawImage(transparence, Xcam, Ycam);
+				g.setDrawMode(Graphics.MODE_NORMAL);
+			}
+		}
 	}
 
 	//Handling cosmetic for current player in lan game
@@ -991,6 +1072,17 @@ public class Game extends BasicGame
 			return;
 		} else if (!plateauLoaded){
 			this.handleEndLoading();
+			if(Main.debugRapid){
+				app.setMinimumLogicUpdateInterval(1000/Main.framerate);
+				app.setMaximumLogicUpdateInterval(1000/Main.framerate);
+				app.setTargetFrameRate(Main.framerate);
+				this.musicPlaying = this.musics.get("themeVictory");
+				this.setMenu(menuMapChoice);
+				this.initializePlayers();
+				Map.updateMap(Main.nameMap, this);
+				this.launchGame();
+				g.thingsLoaded = true;
+			}
 			plateauLoaded=true;
 			return;
 		} else if(toGoTitle<1f) {
@@ -1233,6 +1325,8 @@ public class Game extends BasicGame
 
 		fog = new Image((int) (resX), (int) (resY));
 		gf = fog.getGraphics();
+		transparence = new Image((int) (resX), (int) (resY));
+		gt = transparence.getGraphics();
 
 		double rdm = Math.random();
 		if(rdm<0.20){

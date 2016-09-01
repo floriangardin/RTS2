@@ -92,6 +92,7 @@ public class Building extends Objet{
 			this.animationBleu ="buildingTowerBlueAnimation";
 			this.animationRouge = "buildingTowerRedAnimation";
 		}
+		
 
 
 	}
@@ -275,6 +276,7 @@ public class Building extends Objet{
 		// PRODUCTION
 		this.updateAttributsChange();
 		giveUpProcess();
+		
 		if(underAttackRemaining>0f){
 			this.underAttackRemaining-=Main.increment;
 		}
@@ -545,17 +547,20 @@ public class Building extends Objet{
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 	}	
 
-	public Graphics draw(Graphics g){
-		
+	public void drawBasicImage(Graphics g){
 		if(visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)){
 			g.drawImage(Game.g.images.get("building"+name+this.getGameTeam().colorName),this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY));
-			if(mouseOver && Game.g.round>Game.nbRoundInit){
-				Color color = new Color(this.getGameTeam().color.getRed(),this.getGameTeam().color.getGreen(),this.getGameTeam().color.getBlue(),0.1f);
-				Game.g.images.get("building"+name+this.getGameTeam().colorName).drawFlash(this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY), 2*getAttribut(Attributs.sizeX)/1.8f, 3*getAttribut(Attributs.sizeY)/2,color);
-			}
-		}
-		else
+		}else{
 			g.drawImage(Game.g.images.get("building"+name+"neutral"), this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY));
+		}
+	}
+	
+	public Graphics draw(Graphics g){
+		drawBasicImage(g);
+		if((visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)) && mouseOver && Game.g.round>Game.nbRoundInit){
+			Color color = new Color(this.getGameTeam().color.getRed(),this.getGameTeam().color.getGreen(),this.getGameTeam().color.getBlue(),0.1f);
+			Game.g.images.get("building"+name+this.getGameTeam().colorName).drawFlash(this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY), 2*getAttribut(Attributs.sizeX)/1.8f, 3*getAttribut(Attributs.sizeY)/2,color);
+		}
 		if(visibleByCurrentTeam)
 			this.drawAnimation(g);
 
