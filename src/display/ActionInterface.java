@@ -42,7 +42,7 @@ public class ActionInterface extends Bar {
 
 	public ActionInterface(BottomBar parent){
 		float ratio =1f/prodIconNbY;
-		this.p = parent.p;
+		
 		this.player = parent.player;
 		this.sizeX = Game.g.resX*parent.ratioBarVertX;
 		this.offset = Game.g.resX*parent.ratioSelectionX;

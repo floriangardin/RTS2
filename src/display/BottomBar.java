@@ -26,8 +26,8 @@ public class BottomBar extends Bar {
 	
 
 	
-	public BottomBar(Plateau p , int resX, int resY){
-		this.p = p ;	
+	public BottomBar(){
+		
 		this.update(resX, resY);
 	}
 
@@ -35,8 +35,8 @@ public class BottomBar extends Bar {
 		/**
 		 * Tres fortement utile et bienvenue
 		 */
-		this.resX = resX;
-		this.resY = resY;
+		this.resX = (int) Game.g.resX;
+		this.resY = (int) Game.g.resY;
 		this.sizeX = resX;
 		this.sizeY = Game.g.relativeHeightBottomBar*resY;
 		this.x = 0;
@@ -48,7 +48,7 @@ public class BottomBar extends Bar {
 		this.action = new ActionInterface(this);
 		this.spell = new SpellInterface(this);
 //		this.path = new PathInterface(this);
-		this.topBar = new TopBar(this.p,resX,resY);
+		this.topBar = new TopBar();
 	}
 
 	public Graphics draw(Graphics g){

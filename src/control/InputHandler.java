@@ -24,7 +24,7 @@ public class InputHandler {
 		this.selection = new Vector<Selection>();
 	}
 	
-	public void initSelction(){
+	public void initSelection(){
 		for(Player p : Game.g.players){
 			this.selection.addElement(new Selection(p.id));
 		}

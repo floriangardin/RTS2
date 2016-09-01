@@ -20,14 +20,14 @@ public class PathInterface extends Bar {
 
 
 	public PathInterface(BottomBar parent){
-		this.p = parent.p;
+	
 		this.player = parent.player;
 		this.startX = Game.g.resX/4;
 		this.startY = Game.g.resY/4;
 		this.w = Game.g.resX/2;
 		this.h = Game.g.resY/2;
-		rw = w/this.p.maxX;
-		rh = h/this.p.maxY;
+		rw = w/Game.g.plateau.maxX;
+		rh = h/Game.g.plateau.maxY;
 		this.toDraw = false;
 	}
 
@@ -47,7 +47,7 @@ public class PathInterface extends Bar {
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.fillRect(startX, startY, w, h);
 		// Draw water
-		for(NaturalObjet q : p.naturalObjets){
+		for(NaturalObjet q : Game.g.plateau.naturalObjets){
 			g.setColor(Color.cyan);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
@@ -61,7 +61,7 @@ public class PathInterface extends Bar {
 		}
 		
 		
-		for(Building c : this.p.buildings){
+		for(Building c : Game.g.plateau.buildings){
 			g.setColor(Color.gray);
 			
 			g.fillRect(startX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, rw*c.getAttribut(Attributs.sizeX), rh*c.getAttribut(Attributs.sizeY));

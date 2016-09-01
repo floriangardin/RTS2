@@ -10,49 +10,46 @@ import display.BottomBar;
 
 public class Player {
 	public Vector<Objet> selection;
-	public Plateau p;
+
 	
-	//FLO INPUTS TO BE APPLIED ON THIS ROUND
+	//INPUTS TO BE APPLIED ON THIS ROUND
 	public Vector<InputObject> inputs;
 	
 	public int id;
 	private GameTeam gameteam;
-	private int team;
 	public String nickname;
-	public int groupSelection;
-	public BottomBar bottomBar;
+	
+//	public BottomBar bottomBar;
 	public Data data;
 	public boolean isReady;
+	
 	//Network
 	public InetAddress address;
 	
 	
-	public Player(Plateau p ,int id,String name, GameTeam gameteam,int resX,int resY) {
-		this.initialize(p, id, name, gameteam);
-		this.bottomBar = new BottomBar(this.p,resX,resY);
+	public Player(int id,String name, GameTeam gameteam) {
+		this.initialize(id, name, gameteam);
+	
 	}
 	
 	
 	
-	public void initialize(Plateau p, int id , String name , GameTeam gameteam){
+	public void initialize(int id , String name , GameTeam gameteam){
 		this.id = id;
 		this.nickname = name;
-		this.p = p;
 		this.selection = new Vector<Objet>();
-		groupSelection = -1;
 		this.gameteam = gameteam;
-		this.team = gameteam.id;
 		this.data = gameteam.data;
 		this.inputs = new Vector<InputObject>();
 	}
 	public int getTeam(){
-		return team;
+		return gameteam.id;
 	}
 	public GameTeam getGameTeam(){
 		return gameteam;
 	}
 	public void setTeam(int team){
-		this.team = team;
+		
 		this.gameteam = Game.g.teams.get(team);
 	}
 	
@@ -60,7 +57,7 @@ public class Player {
 	public String toString(){
 		String s ="";
 		s+="id:"+id+";";
-		s+="team:"+team+";";
+		
 		s+="gold:"+gameteam.gold+";";
 		s+="food:"+gameteam.food+";";
 		s+="special:"+gameteam.special+";";
@@ -107,7 +104,7 @@ public class Player {
 			for(GameTeam t : Game.g.teams){
 				if(t.id == Integer.parseInt(hs.get("team"))){
 					this.gameteam = t;
-					this.team = t.id;
+					
 				}
 			}
 		}

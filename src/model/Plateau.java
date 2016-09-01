@@ -117,15 +117,14 @@ public class Plateau implements java.io.Serializable {
 		for(GameTeam t : g.teams){
 			t.pop = 0;
 		}
+		
 	}
 
 	public void setMaxXMaxY(float MaxX, float MaxY) {
 		this.maxX = MaxX;
 		this.maxY = MaxY;
 		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
-		for (Player p : Game.g.players) {
-			p.bottomBar.minimap.updateRatio();
-		}
+		Game.g.bottomBar = new BottomBar();
 	}
 
 	public void addCharacterObjets(Character o) {
@@ -885,7 +884,7 @@ public class Plateau implements java.io.Serializable {
 
 	public void handleInterface(InputObject im){
 		// display for the action bar
-		BottomBar bb = Game.g.currentPlayer.bottomBar;
+		BottomBar bb = Game.g.bottomBar;
 		float relativeXMouse = (im.x - Game.g.Xcam);
 		float relativeYMouse = (im.y - Game.g.Ycam);
 		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + 2*bb.action.sizeX

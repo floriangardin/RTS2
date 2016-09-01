@@ -144,9 +144,9 @@ public class InputObject implements java.io.Serializable{
 		if(idplayer>0 && idplayer<Game.g.players.size()){
 			player = Game.g.players.get(idplayer);
 		}
-		if(player!=null && player.bottomBar!=null){
+		if(player!=null && Game.g.bottomBar!=null){
 			// checking if on minimap or not
-			this.isOnMiniMap = this.x>(1-player.bottomBar.ratioMinimapX)*Game.g.resX && this.y>(Game.g.resY-player.bottomBar.ratioMinimapX*Game.g.resX) && this.x<Game.g.resX-2f && this.y<Game.g.resY-2f ;
+			this.isOnMiniMap = this.x>(1-Game.g.bottomBar.ratioMinimapX)*Game.g.resX && this.y>(Game.g.resY-Game.g.bottomBar.ratioMinimapX*Game.g.resX) && this.x<Game.g.resX-2f && this.y<Game.g.resY-2f ;
 			/// In case not in game, in "MENUMAPCHOICE"
 			if(!Game.g.isInMenu){				
 				this.isOnMiniMap = this.isOnMiniMap && Game.g.inputsHandler.getSelection(Game.g.currentPlayer.id).rectangleSelection==null;
@@ -154,36 +154,36 @@ public class InputObject implements java.io.Serializable{
 
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick) ){
-				if(player.bottomBar.action.toDrawDescription[0][0]){
+				if(Game.g.bottomBar.action.toDrawDescription[0][0]){
 					this.pressed.addElement(KeyEnum.Prod0);
 				}
-				if(player.bottomBar.action.toDrawDescription[1][0]){
+				if(Game.g.bottomBar.action.toDrawDescription[1][0]){
 					this.pressed.addElement(KeyEnum.Prod1);
 				}
-				if(player.bottomBar.action.toDrawDescription[2][0]){
+				if(Game.g.bottomBar.action.toDrawDescription[2][0]){
 					this.pressed.addElement(KeyEnum.Prod2);
 				}
-				if(player.bottomBar.action.toDrawDescription[3][0]){
+				if(Game.g.bottomBar.action.toDrawDescription[3][0]){
 					this.pressed.addElement(KeyEnum.Prod3);
 				}
-				if(player.bottomBar.action.toDrawDescription[0][1]){
+				if(Game.g.bottomBar.action.toDrawDescription[0][1]){
 					this.pressed.addElement(KeyEnum.Tech0);
 				}
-				if(player.bottomBar.action.toDrawDescription[1][1]){
+				if(Game.g.bottomBar.action.toDrawDescription[1][1]){
 					this.pressed.addElement(KeyEnum.Tech1);
 				}
-				if(player.bottomBar.action.toDrawDescription[2][1]){
+				if(Game.g.bottomBar.action.toDrawDescription[2][1]){
 					this.pressed.addElement(KeyEnum.Tech2);
 				}
-				if(player.bottomBar.action.toDrawDescription[3][1]){
+				if(Game.g.bottomBar.action.toDrawDescription[3][1]){
 					this.pressed.addElement(KeyEnum.Tech3);
 				}
 			}
 			boolean a = pressed.contains(KeyEnum.LeftClick);
 			boolean b = down.contains(KeyEnum.LeftClick);
 			if(a || b){
-				for(int i=0; i<player.bottomBar.action.toDrawDescription.length; i++){
-					if(player.bottomBar.action.toDrawDescription[i][0]){
+				for(int i=0; i<Game.g.bottomBar.action.toDrawDescription.length; i++){
+					if(Game.g.bottomBar.action.toDrawDescription[i][0]){
 						if(a){
 							pressed.remove(KeyEnum.LeftClick);
 						}
@@ -202,7 +202,7 @@ public class InputObject implements java.io.Serializable{
 
 		if(isOnMiniMap){
 			//			System.out.println("miniMap");
-			BottomBar b = player.bottomBar;
+			BottomBar b = Game.g.bottomBar;
 			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.minimap.startX)/b.minimap.rw);
 			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.minimap.startY)/b.minimap.rh);
 		}
