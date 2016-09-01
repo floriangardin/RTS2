@@ -813,7 +813,7 @@ public class Game extends BasicGame
 				b.drawBasicImage(gt);
 				gt.flush();
 				g.setDrawMode(Graphics.MODE_NORMAL);
-				transparence.setAlpha(0.6f);
+				transparence.setAlpha(0.8f);
 				g.drawImage(transparence, Xcam, Ycam);
 				g.setDrawMode(Graphics.MODE_NORMAL);
 			}
