@@ -3,6 +3,7 @@ package data;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Point;
 
 import main.Main;
@@ -20,7 +21,8 @@ public class Data implements java.io.Serializable {
 	public final float ACC;
 	public final float FROT;
 	public final int FRAMERATE;
-
+	
+	
 
 	public HashMap<ObjetsList, DataObjet> datas;
 
@@ -69,6 +71,7 @@ public class Data implements java.io.Serializable {
 	public void initHashMap(String civilisation){
 		// création de la hashmap d'attributs
 		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/"+civilisation+"/", "json");
+		files.putAll(Utils.loadRepertoire("ressources/data/objets/0_nature/", "json"));
 		for(String name : files.keySet()){
 			this.datas.put(ObjetsList.get(name), new DataObjet(files.get(name)));
 		}

@@ -36,6 +36,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Color color;
 	public float lifePoints;
 	public ObjetsList name;
+	public float visibleHeight = 100;
 	
 	// draw
 	public boolean toDrawOnGround = false;
@@ -143,7 +144,9 @@ public abstract class Objet implements java.io.Serializable {
 		this.y = -10f;
 	}
 	public Graphics draw(Graphics g){
-		return g;}
+		return g;
+	}
+	public void drawBasicImage(Graphics g){}
 	protected void collision(Objet o){}
 	public abstract void collision(Character c);
 	public float getX(){
