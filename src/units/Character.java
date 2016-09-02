@@ -86,7 +86,6 @@ public class Character extends Objet{
 
 
 
-
 	// Copy constructor , to really create an unit
 	public Character(float x,float y,ObjetsList name, int team){
 		Game.g.plateau.addCharacterObjets(this);

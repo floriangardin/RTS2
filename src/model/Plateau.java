@@ -988,20 +988,29 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 	public Character getCharacterById(int id) {
-		return this.characters.stream().filter( ((Character c) ->c.id == id)).findFirst().get();
+		Optional<Character> res =  this.characters.stream().filter( ((Character c) ->c.id == id)).findFirst();
+		if(res.isPresent()){
+			
+			return res.get();
+		}
+		return null;
+	}
 
-	}
-	public Character getCharacterByIdAndName(int id, String name) {
-		return this.characters.stream().filter( ((Character c) ->(c.id == id && c.name.equals(name)))).findFirst().get();
-	}
 	public Bullet getBulletById(int id) {
-		return this.bullets.stream().filter( ((Bullet c) ->c.id == id)).findFirst().get();
+		Optional<Bullet> res =  this.bullets.stream().filter( ((Bullet c) ->c.id == id)).findFirst();
+		if(res.isPresent()){
+			
+			return res.get();
+		}
+		return null;
 	}
 	public Building getBuildingById(int id) {
-		return this.buildings.stream().filter( ((Building c) ->c.id == id)).findFirst().get();
-	}
-	private SpellEffect getSpellEffectById(int id) {
-		return this.spells.stream().filter( ((SpellEffect c) ->c.id == id)).findFirst().get();
+		Optional<Building> res =  this.buildings.stream().filter( ((Building c) ->c.id == id)).findFirst();
+		if(res.isPresent()){
+			
+			return res.get();
+		}
+		return null;
 	}
 
 }
