@@ -7,8 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-import buildings.Building;
-
 public class MarkerBuilding extends Checkpoint{
 
 	public Rectangle drawShape;
@@ -16,14 +14,15 @@ public class MarkerBuilding extends Checkpoint{
 	float maxWidth ;
 	float maxHeight ;
 	float delta = 20f;
+	
+
 	public MarkerBuilding(float x, float y,Building b) {
 		super(x, y);
-		this.lifePoints=1f;
-		//p.addEquipmentObjets(this);
+		
 		this.x = x;
 		this.y = y;
-		this.alwaysDraw = toDraw;
-		Game.g.plateau.markersBuilding.addElement(this);
+		this.toDraw = true;
+		this.alwaysDraw = true;
 		this.maxRadius = 200f;
 		this.collisionBox = new Circle(x,y,3f);
 		maxWidth = ((Rectangle)b.collisionBox).getWidth()+delta;
@@ -31,7 +30,6 @@ public class MarkerBuilding extends Checkpoint{
 		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-		Game.g.plateau.checkpoints.addElement(this);
 		this.drawShape2 = new Rectangle(x,y,maxWidth-delta,maxHeight-delta);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
@@ -43,47 +41,22 @@ public class MarkerBuilding extends Checkpoint{
 	}
 
 	
-	public MarkerBuilding(float x, float y,boolean toDraw,Color color,Building b){
-		super( x, y);
-		Game.g.plateau.markersBuilding.addElement(this);
-		this.lifePoints=1f;
-		//p.addEquipmentObjets(this);
-		this.x = x;
-		this.y = y;
-		this.alwaysDraw = toDraw;
-		this.color = color;
-		this.maxRadius = 200f;
-		this.collisionBox = new Circle(x,y,3f);
-		maxWidth = ((Rectangle)b.collisionBox).getWidth()+delta;
-		maxHeight = ((Rectangle)b.collisionBox).getHeight()+delta;
-		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
-		drawShape.setCenterX(x);
-		drawShape.setCenterY(y);
-		Game.g.plateau.checkpoints.addElement(this);
-		this.drawShape2 = new Rectangle(x,y,maxWidth-delta,maxHeight-delta);
-		drawShape2.setCenterX(x);
-		drawShape2.setCenterY(y);
-		this.state = this.maxDuration+1f;
-		this.selectionBox = null;
-		this.setXY(x, y);
-		this.printed=0f;
-		
-	}
-	
 	public void action(){
 		this.toDraw = this.state<this.maxDuration;
+		if(state<=maxDuration){
+			state+=3f*Main.increment;
+		}
 		
 	}
 	public Graphics draw(Graphics g){
+		
 		if(!toDraw && !alwaysDraw){
 			return g;
 		}
 		if(this.lastRoundUpdate==Game.g.round){
 			return g;
 		}
-		if(state<=maxDuration){
-			state+=3f*Main.increment;
-		}
+
 		g.setAntiAlias(true);
 		g.setColor(Colors.team0);
 		if(state<=maxDuration){

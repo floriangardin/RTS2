@@ -5,14 +5,14 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import buildings.Bonus;
-import buildings.Building;
+import bonus.Bonus;
 import data.Attributs;
+import model.Building;
+import model.Character;
 import model.Colors;
 import model.Game;
 import model.NaturalObjet;
 import pathfinding.Case;
-import units.Character;
 import utils.Utils;
 
 public class MinimapInterface extends Bar {

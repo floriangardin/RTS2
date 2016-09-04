@@ -2,11 +2,11 @@ package battleIA;
 
 import java.util.Vector;
 
-import buildings.Building;
 import data.Attributs;
+import model.Building;
+import model.Character;
 import model.Objet;
 import model.Plateau;
-import units.Character;
 import utils.ObjetsList;
 import utils.ObjetsList;
 

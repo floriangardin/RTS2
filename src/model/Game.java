@@ -32,9 +32,7 @@ import org.newdawn.slick.geom.Point;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
-import bot.IA;
-import buildings.Bonus;
-import buildings.Building;
+import bonus.Bonus;
 import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
@@ -60,7 +58,8 @@ import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import multiplaying.Clock;
 import multiplaying.MultiMessage;
-import nature.Tree;
+import mybot.IAFlo;
+import mybot.IAKevin;
 import pathfinding.Case;
 import ressources.Images;
 import ressources.Map;
@@ -70,7 +69,6 @@ import ressources.Taunts;
 import spells.SpellEffect;
 import tests.FatalGillesError;
 import tests.Test;
-import units.Character;
 import utils.ObjetsList;
 import utils.Utils;
 public class Game extends BasicGame 
@@ -133,8 +131,10 @@ public class Game extends BasicGame
 	public static int nbRoundInit = 3*Main.framerate;
 	public int secondsGong;
 
-	public int idChar = 0;
-	public int idBullet = 0;
+	
+	// Hold ids of objects
+	public int id = 0;
+	
 
 	// Cursors
 	Image attackCursor ; 
@@ -422,15 +422,20 @@ public class Game extends BasicGame
 		System.out.println("Initialize players");
 		this.teams.clear();
 		this.players.clear();
-		this.teams.addElement(new GameTeam(players,this.plateau,0,0));
-		this.teams.addElement(new GameTeam(players,this.plateau,1,0));
-		this.teams.addElement(new GameTeam(players,this.plateau,2,0));
+		this.teams.addElement(new GameTeam(players,0,0));
+		this.teams.addElement(new GameTeam(players,1,0));
+		this.teams.addElement(new GameTeam(players,2,0));
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0,"Nature",teams.get(0)));
 //		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
-		this.players.add(new IA(1,"IA random1",teams.get(1)));
-		this.players.add(new IA(2,"IA random",teams.get(2)));
+		this.players.add(new Player(1,"IA random1",teams.get(1)));
+		this.players.add(new Player(2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
+		
+		// ADD SOME IA 
+		this.players.get(1).initIA(new IAFlo(this.players.get(1)));
+		this.players.get(2).initIA(new IAKevin(this.players.get(2)));
+		
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
 	}
@@ -493,8 +498,8 @@ public class Game extends BasicGame
 			// Draw the selection of your team
 			for(Objet o: this.inputsHandler.getSelection(currentPlayer.id).selection){
 
-				if(o.target!=null && o instanceof Checkpoint){
-					Checkpoint c = (Checkpoint) o.target;
+				if(o.getTarget()!=null && o instanceof Checkpoint){
+					Checkpoint c = (Checkpoint) o.getTarget();
 					c.toDraw = true;
 				}
 				o.drawIsSelected(g);
@@ -561,12 +566,8 @@ public class Game extends BasicGame
 				else
 					toDraw.add(b);
 			}
-			for(Checkpoint c : this.plateau.checkpoints){
-				toDrawAfter.add(c);
-			}
-			for(Checkpoint c : this.plateau.markersBuilding){
-				toDraw.add(c);
-			}
+			
+
 			Utils.triY(toDraw);
 			Utils.triY(toDrawAfter);
 			// determine visible objets
@@ -794,7 +795,7 @@ public class Game extends BasicGame
 				}
 			}
 			if(v.size()>0){
-				System.out.println(b);
+				
 				gt.translate(-Xcam, -Ycam);
 				gt.clear();
 				gt.setDrawMode(Graphics.MODE_NORMAL);
@@ -968,8 +969,7 @@ public class Game extends BasicGame
 					this.updateInit();
 				}
 				this.cosmetic.update(im);
-				//Update des ordres de l'IA
-				this.plateau.updateIAOrders();
+
 				//Update replay
 				if(replay!=null){
 					replay.addInReplay(ims);

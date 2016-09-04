@@ -1,4 +1,4 @@
-package buildings;
+package model;
 
 
 import java.util.Vector;
@@ -9,21 +9,14 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import bonus.Bonus;
 import bullets.Fireball;
 import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
-import model.Checkpoint;
-import model.Colors;
-import model.Game;
-import model.IAPlayer;
-import model.MarkerBuilding;
-import model.Objet;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
 import ressources.Map;
-import technologies.Technologie;
-import units.Character;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -36,7 +29,7 @@ public class Building extends Objet{
 	public float constructionPoints;
 	public int potentialTeam;
 
-	public Objet rallyPoint;
+	private int rallyPoint;
 
 	public float charge;
 
@@ -153,9 +146,7 @@ public class Building extends Objet{
 				}
 				return true;
 			}else {
-				if(Game.g.players.get(this.getTeam()) instanceof IAPlayer){
-					return false;
-				}
+
 				// Messages
 				if(this.getTeam()==Game.g.currentPlayer.getTeam()){
 					if(foodCost>this.getGameTeam().food){
@@ -240,13 +231,14 @@ public class Building extends Objet{
 	
 	public void attack(){
 		//Animation
+		Objet target = getTarget();
 		if(getTeam()!=0)
 			this.animationTower+=2f;
 		if(this.animationTower>120f)
 			this.animationTower = 1;
 		
-		if(this.target!=null && this.target.getTeam()==this.getTeam()){
-			this.target = null;
+		if(target!=null && target.getTeam()==this.getTeam()){
+			this.setTarget(null);
 		}
 		if(!this.canAttack)
 			this.chargeAttack = (this.chargeAttack+Main.increment);
@@ -256,24 +248,28 @@ public class Building extends Objet{
 
 		}
 		if(canAttack){
-			if(target==null || this.target.lifePoints<0f ||Utils.distance(this, this.target)>getAttribut(Attributs.sight)){
-				Vector<Character> target= Game.g.plateau.getEnnemiesInSight(this);
-				if(target.size()>0){
-					this.target = target.get(0);
+			if(target==null || this.getTarget().lifePoints<0f ||Utils.distance(this, target)>getAttribut(Attributs.sight)){
+				Vector<Character> target1= Game.g.plateau.getEnnemiesInSight(this);
+				if(target1.size()>0){
+					this.setTarget(target1.get(0));
 				}
 			}
 
 			//Launch a fireball on target
-			if(target!=null && Utils.distance(this, this.target)<this.getAttribut(Attributs.sight)){
-				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
+			if(target!=null && Utils.distance(this, target)<this.getAttribut(Attributs.sight)){
+				new Fireball(this,target.getX(),target.getY(),this.getTarget().getX()-this.getX(),target.getY()-this.getY(),this.getAttribut(Attributs.damage));
 				this.canAttack= false;
 				this.chargeAttack = 0f;
 			}
 		}
 	}
+	
+	public Objet getRallyPoint(){
+		return Game.g.plateau.getById(this.rallyPoint);
+	}
 	public void action(){
-		
-		// PRODUCTION
+		Objet rallyPoint = getRallyPoint();
+		// PRODUCTION	
 		this.updateAttributsChange();
 		giveUpProcess();
 		
@@ -294,8 +290,8 @@ public class Building extends Objet{
 			this.setCharge(this.charge+Main.increment);
 			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.getAttribut(getProductionList().get(this.queue.get(0)), Attributs.prodTime)){
 				this.setCharge(0f);
-				float dirX = this.random+this.rallyPoint.x-this.x;
-				float dirY = this.random+this.rallyPoint.y - this.y;
+				float dirX = this.random+getRallyPoint().x-this.x;
+				float dirY = this.random+getRallyPoint().y - this.y;
 				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
 				//Introduit du random
 				float startX = this.x + this.getAttribut(Attributs.sizeX)*dirX/norm/2;
@@ -305,7 +301,7 @@ public class Building extends Objet{
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
 					
-						c.setTarget(rallyPoint);
+						c.setTarget(new Checkpoint(rallyPoint.x,rallyPoint.y,true));
 					}
 					else if(rallyPoint instanceof Character){
 						c.setTarget(rallyPoint,null,Character.AGGRESSIVE);
@@ -397,13 +393,10 @@ public class Building extends Objet{
 		
 		Game.g.plateau.addBuilding(this);
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
-		this.id = Game.g.idChar;
-		Game.g.idChar+=1;
 		this.collisionBox= new Rectangle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,getAttribut(Attributs.sizeX),getAttribut(Attributs.sizeY));
 		this.marker = new MarkerBuilding(x,y,this);
 		this.selectionBox = (Rectangle)this.collisionBox;
 		this.setXY(x, y);
-		resetRallyPoint();
 		this.constructionPoints = 0f;
 		this.potentialTeam = this.getTeam();
 		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
@@ -411,14 +404,20 @@ public class Building extends Objet{
 		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
 		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
 		
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2);
-		
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2,true).id;
 		// Initialize production
 		this.queue = new Vector<Integer>();
 		this.queueTechnology = null;
 		
 		
 		teamCapturing= getTeam();
+		
+	}
+	
+	public void setRallyPoint(float x , float y){
+		Objet rp = this.getRallyPoint();
+		rp.x = x;
+		rp.y = y;
 		
 	}
 	
@@ -477,7 +476,10 @@ public class Building extends Objet{
 	
 	
 	public void resetRallyPoint(){
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2+10);
+		Objet rallyPoint = this.getRallyPoint();
+		rallyPoint.x = this.x;
+		rallyPoint.y = this.y+this.getAttribut(Attributs.sizeY)/2+10;
+		
 	}
 
 	public void giveUpProcess(){
@@ -502,7 +504,7 @@ public class Building extends Objet{
 			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
-		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
+		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
 			this.underAttack = true;
 			this.underAttackRemaining =20f;
 
@@ -514,10 +516,10 @@ public class Building extends Objet{
 			}
 			this.constructionPoints-=Main.increment;
 		}
-		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && c.mode==Character.TAKE_BUILDING && c.target==this){
+		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
 			this.constructionPoints+=Main.increment;
 		}
-		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.target==this){
+		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
 			if(this.potentialTeam!=this.getTeam()  ){
 				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
 
@@ -651,11 +653,12 @@ public class Building extends Objet{
 		}
 	}
 	public Graphics drawRallyPoint(Graphics g){
+		Objet rallyPoint = getRallyPoint();
 		g.setColor(Colors.team0);
 		g.setAntiAlias(true);
 		g.setLineWidth(2f);
-		g.fill(new Circle(this.rallyPoint.x,this.rallyPoint.y,3f));
-		g.draw(new Circle(this.rallyPoint.x,this.rallyPoint.y,10f));
+		g.fill(new Circle(rallyPoint.x,rallyPoint.y,3f));
+		g.draw(new Circle(rallyPoint.x,rallyPoint.y,10f));
 		g.setAntiAlias(false);
 		g.setLineWidth(1f);
 		return g;

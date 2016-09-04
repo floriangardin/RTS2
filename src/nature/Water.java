@@ -4,8 +4,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
-import units.Character;
 import utils.ObjetsList;
+import model.Character;
 import model.Game;
 import model.NaturalObjet;
 import model.Objet;

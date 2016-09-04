@@ -2,7 +2,7 @@ package display;
 
 import org.newdawn.slick.Graphics;
 
-import units.Character;
+import model.Character;
 
 public class DisplayInterface extends Bar{
 	BottomBar parent;

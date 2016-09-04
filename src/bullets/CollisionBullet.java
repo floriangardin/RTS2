@@ -1,6 +1,6 @@
 package bullets;
 
-import units.Character;
+import model.Character;
 
 public class CollisionBullet extends Bullet{
 

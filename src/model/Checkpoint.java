@@ -6,23 +6,28 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
-import units.Character;
-
 public class Checkpoint extends Objet {
 	float printed;
-	int mode;
-	public Color color;
-	public float maxDuration=10f;
+	public float maxDuration=30f*60/Main.framerate;
 	public float state;
+	public float animationState;
 	transient float maxRadius = 20f;
 	int lastRoundUpdate =0;
 	Circle drawShape;
 	Circle drawShape2;
 	public boolean toDraw=false;
 	public boolean alwaysDraw = false;
+	public boolean neverEnding = false;
 	
 	public Checkpoint(float x, float y){
+
+		this.initialize(x, y);
+	}
+	
+	public void initialize(float x, float y){
 		this.lifePoints=1f;
+		Game.g.plateau.checkpoints.addElement(this);
+		Game.g.plateau.objets.put(this.id,this);
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
@@ -31,50 +36,35 @@ public class Checkpoint extends Objet {
 		this.drawShape = new Circle(x,y,maxRadius);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-		if(!(this instanceof MarkerBuilding))
-			Game.g.plateau.checkpoints.addElement(this);
+
 		this.drawShape2 = new Circle(x,y,0);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
-		
+		this.setXY(x, y);
 		this.selectionBox = null;
 		this.x = x;
 		this.y = y;
 		this.printed=0f;
-		
 	}
 	
-	public Checkpoint(float x, float y,boolean toDraw,Color color){
-		this.lifePoints=1f;
-		//p.addEquipmentObjets(this);
-		this.x = x;
-		this.y = y;
-		this.alwaysDraw = toDraw;
-		this.color = color;
-		this.collisionBox = new Circle(x,y,3f);
-		this.drawShape = new Circle(x,y,maxRadius);
-		drawShape.setCenterX(x);
-		drawShape.setCenterY(y);
-		Game.g.plateau.checkpoints.addElement(this);
-		this.drawShape2 = new Circle(x,y,1f);
-		drawShape2.setCenterX(x);
-		drawShape2.setCenterY(y);
-		
-		this.selectionBox = null;
-		this.setXY(x, y);
-		this.printed=0f;
-		
+	public Checkpoint(float x, float y,boolean neverEnding){
+
+		this.initialize(x, y);
+		this.neverEnding = neverEnding;
 	}
+	
+
 	
 
 	
 	public void action(){
 
-		toDraw = false;
+		//toDraw = false;
 
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
-		}else{
+			animationState+=3f*Main.increment;
+		}else if(!neverEnding){
 			this.lifePoints=-1f;
 		}
 		
@@ -97,12 +87,12 @@ public class Checkpoint extends Objet {
 				
 			}
 			g.setLineWidth(2f);
-			drawShape.setRadius(maxRadius*(1-2*state/maxDuration));
+			drawShape.setRadius(maxRadius*(1-2*(animationState)/maxDuration));
 			drawShape.setCenterX(x);
 			drawShape.setCenterY(y);
 			
 			
-			drawShape2.setRadius((maxRadius)*(state/maxDuration));
+			drawShape2.setRadius((maxRadius)*((animationState)/maxDuration));
 			drawShape2.setCenterX(x);
 			drawShape2.setCenterY(y);
 			g.fill(new Circle(x,y,2f));

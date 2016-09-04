@@ -6,16 +6,14 @@ import org.newdawn.slick.Color;
 
 import utils.Utils;
 import data.Data;
-import buildings.Building;
-
 import data.Data;
 import main.Main;
 
 public class GameTeam {
 
-	public Vector<Player> players;
+	
 	public Data data;
-	Plateau plateau;
+	
 	public int id;
 	public Civilisation civ;
 	public String civName;
@@ -29,14 +27,14 @@ public class GameTeam {
 	public Color color;
 	
 	
-	public GameTeam(Vector<Player> players, Plateau plateau, int id, int civ) {
+	public GameTeam(Vector<Player> players, int id, int civ) {
 		switch(civ){
 		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);break;
 		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids",this);break;
 		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos",this);break;
 		default:
 		}
-		this.players = players;
+		
 		this.id = id;
 		this.data = new Data(id,this.civ.name);
 		if(id==0){
@@ -51,7 +49,7 @@ public class GameTeam {
 			color = Colors.team2;
 			colorName = "red";
 		}
-		this.plateau = plateau;
+		
 		
 
 		this.maxPop = 15;

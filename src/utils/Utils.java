@@ -15,12 +15,12 @@ import org.newdawn.slick.ImageBuffer;
 
 import com.google.gson.Gson;
 
-import buildings.Building;
+import model.Building;
+import model.Character;
 import model.Game;
 import model.Objet;
 import model.Plateau;
 import model.Player;
-import units.Character;
 
 // Class for static methods
 public class Utils {
@@ -336,8 +336,8 @@ public class Utils {
 			System.out.println("-> bug: characters est null");
 		else{
 			for(Character c:p.characters)
-				if(c.target!=null)
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.target.x);
+				if(c.getTarget()!=null)
+					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.getTarget().x);
 				else
 					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 		}

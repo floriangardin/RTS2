@@ -4,12 +4,12 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import buildings.Building;
 import control.KeyMapper.KeyEnum;
 import events.Events;
+import model.Building;
+import model.Character;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 import utils.ObjetsList;
 import utils.Utils;

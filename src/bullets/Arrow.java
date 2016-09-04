@@ -5,30 +5,24 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
-import buildings.Building;
 import data.Attributs;
 import events.Events;
 import main.Main;
+import model.Building;
+import model.Character;
 import model.Game;
-import units.Character;
 import utils.ObjetsList;
 
 public class Arrow extends CollisionBullet{
 
 	protected float angle= 0f;
 	public float life = 6f;
-	public Arrow(Character owner,float vx,float vy,float damage,int id){
+	public Arrow(Character owner,float vx,float vy,float damage){
 		//MULTI 
 	
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
 
-		if(id==-1){
-			this.id = Game.g.idChar;
-			Game.g.idChar++;
-		}else{
-			this.id=id;
-		}
 		this.name = ObjetsList.Arrow;
 		this.damage = damage;
 		Game.g.plateau.addBulletObjets(this);

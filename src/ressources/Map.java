@@ -9,19 +9,17 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Point;
 
-import buildings.BonusDamage;
-import buildings.BonusLifepoints;
-import buildings.BonusSpeed;
-import buildings.Building;
-
-
+import bonus.BonusDamage;
+import bonus.BonusLifepoints;
+import bonus.BonusSpeed;
 import data.Data;
 import main.Main;
+import model.Building;
+import model.Character;
 import model.Game;
 import model.Plateau;
 import nature.Tree;
 import pathfinding.MapGrid;
-import units.Character;
 import utils.ObjetsList;
 
 public class Map {

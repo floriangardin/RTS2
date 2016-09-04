@@ -4,9 +4,9 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Point;
 
+import model.Character;
 import model.Checkpoint;
 import model.Game;
-import units.Character;
 
 public class IAUnit {
 	

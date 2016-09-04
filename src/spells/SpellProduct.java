@@ -2,12 +2,11 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
-import buildings.Building;
-
 import control.InputObject;
 import data.Attributs;
+import model.Building;
+import model.Character;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 //TODO : sort

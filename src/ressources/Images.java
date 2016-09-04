@@ -8,9 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
-import buildings.Building;
 import display.DisplayRessources;
 import main.Main;
+import model.Building;
 import model.Game;
 import nature.Tree;
 import tests.FatalGillesError;

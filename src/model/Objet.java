@@ -9,25 +9,22 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-import buildings.Bonus;
-import buildings.Building;
+import bonus.Bonus;
 import bullets.Bullet;
 import data.Attributs;
 import data.AttributsChange;
 import main.Main;
 import spells.Spell;
-import units.Character;
-import utils.ObjetsList;
 import utils.ObjetsList;
 
 public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
-	public int id;
+	public int id=Game.g.id++;
 	public int mode;
 	public int orientation=2;
 	public int increment;
-	public float incrementf;
+
 	public float x;
 	public float y;
 	public int idCase;
@@ -37,7 +34,7 @@ public abstract class Objet implements java.io.Serializable {
 	public float lifePoints;
 	public ObjetsList name;
 	public float visibleHeight = 100;
-	
+	public static int NO_TARGET = -1;
 	// draw
 	public boolean toDrawOnGround = false;
 	
@@ -58,8 +55,8 @@ public abstract class Objet implements java.io.Serializable {
 	public int animation = 0;
 	public float vx;
 	public float vy;
-	public Objet target;
-	public Checkpoint checkpointTarget;
+	private int target = NO_TARGET;
+//	public int checkpointTarget = NO_TARGET;
 
 	public boolean mouseOver = false;
 	
@@ -91,17 +88,17 @@ public abstract class Objet implements java.io.Serializable {
 		}
 	}
 	
-	public Objet getTarget(){
-		return this.target;
-	}
+
 	public void setTarget(Objet t){
-		this.setTarget(t,null);
+		if(t!=null){
+			this.target = t.id;
+			
+		}
+		if(t==null){
+			this.target = NO_TARGET;
+		}
 	}
-	public void setTarget(Objet t, Vector<Integer> waypoints){
-		this.target = t;
-		if(t!=null)
-			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
-	}
+
 	public void drawIsSelected(Graphics g) {
 
 	}
@@ -266,7 +263,10 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		return 1f;
 	}
-
+	public Objet getTarget() {
+		return Game.g.plateau.getById(target);
+	}
+	
 
 
 }

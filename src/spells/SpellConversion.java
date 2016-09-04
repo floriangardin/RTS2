@@ -5,12 +5,12 @@ import org.newdawn.slick.Graphics;
 import control.InputObject;
 import data.Attributs;
 import main.Main;
+import model.Character;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
 import model.Plateau;
 import multiplaying.ChatMessage;
-import units.Character;
 import utils.ObjetsList;
 
 public class SpellConversion extends Spell{

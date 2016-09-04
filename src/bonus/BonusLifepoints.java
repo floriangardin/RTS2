@@ -1,20 +1,20 @@
-package buildings;
-
-
+package bonus;
+import data.Attributs;
 import main.Main;
+import model.Character;
 import model.Game;
-import model.Plateau;
-import units.Character;
 import utils.ObjetsList;
+public class BonusLifepoints extends Bonus{
 
-public class BonusSpeed extends Bonus{
 
 
-	public BonusSpeed( float x , float y){
-		super(ObjetsList.BonusSpeed,x,y);
-		this.name = ObjetsList.BonusSpeed;
-		this.initialize( x, y);
-		this.bonus = 20f;
+
+	public BonusLifepoints(float x , float y){
+		super(ObjetsList.BonusLifepoints,x,y);
+		this.name = ObjetsList.BonusLifepoints;
+		this.initialize(x, y);
+		this.bonus = 50f;
+
 	}
 
 	public void action(){
@@ -26,13 +26,13 @@ public class BonusSpeed extends Bonus{
 		else if(bonusPresent && this.state>this.animationStep){
 			this.animation=(this.animation+1)%4;
 			this.state= 0f;
+			
 		}
 	}
 
 	public void collision(Character c){
-		
-		if(this.bonusPresent && c.getTeam()==this.getTeam()){
-			//c.maxVelocity +=this.bonus;
+		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.getAttribut(Attributs.maxLifepoints)){
+			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;
 			
@@ -42,8 +42,6 @@ public class BonusSpeed extends Bonus{
 		}
 
 	}
-
-
 
 
 }

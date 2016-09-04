@@ -2,7 +2,7 @@ package IA;
 
 import java.util.Vector;
 
-import units.Character;
+import model.Character;
 import utils.Utils;
 
 public class IAUtils {

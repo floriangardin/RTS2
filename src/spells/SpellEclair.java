@@ -4,9 +4,9 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import data.Attributs;
+import model.Character;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 // TODO : Sort

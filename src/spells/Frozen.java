@@ -6,9 +6,9 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
 import main.Main;
+import model.Character;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class Frozen extends SpellEffect{
@@ -20,8 +20,8 @@ public class Frozen extends SpellEffect{
 	public Frozen(Character launcher, Objet t,int id, float radius){
 
 		if(id==-1){
-			this.id = Game.g.idChar;
-			Game.g.idChar+=1;
+			this.id = Game.g.id;
+			Game.g.id+=1;
 		}
 		else{
 			this.id =id;

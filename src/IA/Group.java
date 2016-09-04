@@ -1,7 +1,8 @@
 package IA;
 
 import java.util.Vector;
-import units.Character;
+
+import model.Character;
 
 public class Group {
 

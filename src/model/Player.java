@@ -2,11 +2,9 @@ package model;
 import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Vector;
-import utils.Utils;
-import data.Data;
+
+import bot.IA;
 import control.InputObject;
-import data.Data;
-import display.BottomBar;
 
 public class Player {
 	public Vector<Objet> selection;
@@ -20,17 +18,25 @@ public class Player {
 	public String nickname;
 	
 //	public BottomBar bottomBar;
-	public Data data;
+	
 	public boolean isReady;
 	
 	//Network
 	public InetAddress address;
 	
 	
+	
+	// IA
+	public IA ia;
+	
+	
 	public Player(int id,String name, GameTeam gameteam) {
 		this.initialize(id, name, gameteam);
+		
 	
 	}
+	
+
 	
 	
 	
@@ -39,7 +45,7 @@ public class Player {
 		this.nickname = name;
 		this.selection = new Vector<Objet>();
 		this.gameteam = gameteam;
-		this.data = gameteam.data;
+		
 		this.inputs = new Vector<InputObject>();
 	}
 	public int getTeam(){
@@ -54,10 +60,15 @@ public class Player {
 	}
 	
 	public void action(){
-		
+		if(ia!=null){			
+			this.ia.action();
+		}
 	}
 	
-	
+	public void initIA(IA ia){
+		this.ia = ia;
+		
+	}
 	public String toString(){
 		String s ="";
 		s+="id:"+id+";";

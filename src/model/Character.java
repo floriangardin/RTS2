@@ -1,4 +1,4 @@
-package units;
+package model;
 
 
 import java.util.Vector;
@@ -10,19 +10,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-import battleIA.Mission;
-import buildings.Building;
+
 import bullets.Arrow;
 import bullets.Fireball;
 import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
-import model.Checkpoint;
-
-import model.Colors;
-import model.Game;
-import model.NaturalObjet;
-import model.Objet;
 import nature.Tree;
 import pathfinding.Case;
 import utils.ObjetsList;
@@ -41,8 +34,7 @@ public class Character extends Objet{
 	public float timerAttacked = 0f;
 	public float timerMaxValueAttacked = 10f;
 
-	//MODE
-	public Mission mission;
+
 	public static int MOVE=0;
 	public static int AGGRESSIVE=1;
 	public static int TAKE_BUILDING=2;
@@ -53,8 +45,7 @@ public class Character extends Objet{
 	// General attributes
 	public Circle sightBox;
 
-	//Dead since how many rounds
-	public int deadSince = 0;
+
 
 
 	public boolean moveAhead;
@@ -65,7 +56,7 @@ public class Character extends Objet{
 
 	private Vector<Integer> group = new Vector<Integer>();
 	
-	public boolean someoneStopped;
+
 	// Equipment attributes
 	public boolean horse;
 
@@ -81,17 +72,14 @@ public class Character extends Objet{
 	public float remainingTime;
 
 	// UnitsList associated
-	public Vector<Objet> secondaryTargets = new Vector<Objet>();
+	public Vector<Integer> secondaryTargets = new Vector<Integer>();
 	public Vector<Integer> waypoints = new Vector<Integer>();
-
-
 
 	// Copy constructor , to really create an unit
 	public Character(float x,float y,ObjetsList name, int team){
 		Game.g.plateau.addCharacterObjets(this);
-		this.id = Game.g.idChar;
-		Game.g.idChar+=1;
 		this.name= name;
+		this.setTarget(null);
 		this.setTeam(team);
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
@@ -149,9 +137,9 @@ public class Character extends Objet{
 		if(vx==0 && vy==0){
 			//Orientation toward target
 
-			if(this.target!=null){
-				vx =this.target.x-this.x;
-				vy = this.target.y-this.y;
+			if(this.getTarget()!=null){
+				vx =this.getTarget().x-this.x;
+				vy = this.getTarget().y-this.y;
 				if(vx>0f){
 					if(vy>vx){
 						sector = 2;
@@ -254,14 +242,14 @@ public class Character extends Objet{
 
 	// ATTACK METHOD IF AT RANGE AND CHARGE TIME OK
 	public void useWeapon(){
-		if(!(this.target instanceof Character)){
+		if(!(this.getTarget() instanceof Character)){
 			return ;
 		}
 		String weapon = this.getAttributString(Attributs.weapon);
 
 		//arme de corps à corps
 		if(Game.g.data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
-			Character c = (Character) this.target;
+			Character c = (Character) this.getTarget();
 			c.isAttacked();
 			// Attack sound
 			if(Game.g.sounds!=null)
@@ -277,10 +265,10 @@ public class Character extends Objet{
 			// autres armes
 			switch(weapon){
 			case "bow" :
-				new Arrow(this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
+				new Arrow(this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage));
 				break;
 			case "wand" :
-				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage),-1);
+				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage));
 				break;
 			default:
 			}
@@ -330,10 +318,11 @@ public class Character extends Objet{
 	// Movement method
 	// the character move toward its target
 	public void move(){
+		Objet target = this.getTarget();
 		// rustine debug mode : collision with trees
-		if(this.getTarget()!=null){
+		if(target!=null){
 			if( this.getTarget() instanceof Tree){
-				if(Utils.distance(this, this.getTarget())<(this.getTarget().collisionBox.getBoundingCircleRadius()+this.collisionBox.getBoundingCircleRadius()+2f)){
+				if(Utils.distance(this, target)<(target.collisionBox.getBoundingCircleRadius()+this.collisionBox.getBoundingCircleRadius()+2f)){
 					this.stop();
 					return;
 				}
@@ -345,15 +334,15 @@ public class Character extends Objet{
 				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL);
 			}
 		}
-		if(this.getTarget()==null && this.checkpointTarget==null){
+		if(this.getTarget()==null ){
 			return;
 		}
 		if(this.moveAhead){
-			this.moveToward(this.getTarget());
+			this.moveToward(target.x,target.y);
 			return;
 		}
-		if(this.idCase == this.getTarget().idCase){
-			this.moveToward(this.getTarget());
+		if(this.idCase == target.idCase){
+			this.moveToward(target.x,target.y);
 		} else if(this.waypoints.size()>0){
 			if(this.idCase==this.waypoints.get(0)){
 				this.waypoints.remove(0);
@@ -412,16 +401,15 @@ public class Character extends Objet{
 				newX = c0.x-getAttribut(Attributs.maxVelocity);
 			} 
 			newY = (float)(Math.min(Math.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
-		}	
-		moveToward(new Checkpoint(newX,newY));
-	}
-	public void moveToward(Objet o){
-		if(o==null && this.checkpointTarget==null){
-			return;
 		}
+
+		moveToward(newX,newY);
+	}
+	private void moveToward(float x , float y){
+
 		float newvx, newvy;
-		newvx = o.getX()-this.getX();
-		newvy = o.getY()-this.getY();
+		newvx = x-this.getX();
+		newvy = y-this.getY();
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.getAttribut(Attributs.maxVelocity)/(Main.framerate);
 		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
@@ -486,7 +474,6 @@ public class Character extends Objet{
 
 	}
 	public void stop(){
-		this.checkpointTarget = null;
 		this.animation = 0;
 		if(this.mode!=TAKE_BUILDING){
 			this.mode = NORMAL;
@@ -496,7 +483,7 @@ public class Character extends Objet{
 				this.setTarget(null);
 				this.animationValue=0f;
 			}else{
-				this.setTarget(this.secondaryTargets.firstElement());
+				this.setTarget(Game.g.plateau.getById(this.secondaryTargets.firstElement()));
 				this.secondaryTargets.remove(0);
 				return;
 			}
@@ -609,7 +596,14 @@ public class Character extends Objet{
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
 		g.draw(this.collisionBox);
-
+		Objet target = this.getTarget();
+		if(target !=null && target instanceof Checkpoint){
+			target.draw(g);
+		}
+		
+		if(target !=null && target instanceof Building){
+			((Building)target).marker.draw(g);
+		}
 		if(mode==MOVE || mode==NORMAL){
 			g.setColor(Colors.team0);
 		}
@@ -620,17 +614,17 @@ public class Character extends Objet{
 			g.setColor(Colors.buildingTaking);
 		}
 		g.setLineWidth(2f);
-		if(this.target instanceof Character){
+		if(this.getTarget() instanceof Character){
 			g.setLineWidth(2f*Main.ratioSpace);
 			g.setColor(Colors.aggressive);
-			g.draw(this.target.collisionBox);
+			g.draw(this.getTarget().collisionBox);
 		}
-		if(this.target instanceof Checkpoint){
-			((Checkpoint) target).toDraw = true;
+		if(this.getTarget() instanceof Checkpoint){
+			((Checkpoint) getTarget()).toDraw = true;
 			//this.target.draw(g);
 		}
-		if(this.target instanceof Building){
-			((Building) target).marker.toDraw = true;
+		if(this.getTarget() instanceof Building){
+			((Building) getTarget()).marker.toDraw = true;
 			//this.target.draw(g);
 		}
 		//		//Draw the building which is being conquered
@@ -828,52 +822,21 @@ public class Character extends Objet{
 
 	//// UPDATE FUNCTIONS
 
-	public void setTarget(Objet t, Vector<Integer> waypoints){
-		if(target!=null && target instanceof Checkpoint ){
-			((Checkpoint)target).lifePoints =-1f;
-		}
-		if(target!=null && target instanceof Building){
-			((Building) target).marker.state = ((Building) target).marker.maxDuration+1f;
-		}
-		if(t!=null && t instanceof Building){
-			((Building) t).marker.state = 0;
-		}
-		this.target = t;
-
-		if(this.mode == TAKE_BUILDING){
-			this.mode = NORMAL;
-		}
-
-		if(t!=null){
-			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
-			if(waypoints==null){
-				this.moveAhead = (Game.g.plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
-				if(!this.moveAhead)	
-					this.waypoints = this.computeWay();
-				else
-					this.waypoints = new Vector<Integer>();
-			}else{
-				this.waypoints = new Vector<Integer>();
-				for(Integer cas:waypoints)
-					this.waypoints.addElement(cas);
-			}
-		}
-	}
 
 	public void setTarget(Objet t, Vector<Integer> waypoints,int mode){
+
 		this.mode = mode;
-		if(target!=null && target instanceof Checkpoint ){
-			((Checkpoint)target).lifePoints =-1f;
+		if(this.getTarget()!=null && this.getTarget() instanceof Checkpoint ){
+			((Checkpoint)this.getTarget()).lifePoints =-1f;
 		}
-		if(target!=null && target instanceof Building){
-			((Building) target).marker.state = ((Building) target).marker.maxDuration+1f;
+		if(this.getTarget()!=null && this.getTarget() instanceof Building){
+			((Building) this.getTarget()).marker.state = ((Building) this.getTarget()).marker.maxDuration+1f;
 		}
 		if(t!=null && t instanceof Building){
 			((Building) t).marker.state = 0;
 		}
-		this.target = t;
+		this.setTarget(t);
 		if(t!=null){
-			this.checkpointTarget = new Checkpoint(t.getX(),t.getY());
 			if(waypoints==null){
 				this.moveAhead = (Game.g.plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
@@ -906,7 +869,7 @@ public class Character extends Objet{
 	public void actionIAScript(){
 		this.updateSetTarget();
 		Circle range = new Circle(this.getX(), this.getY(), this.getAttribut(Attributs.range));
-		if(!isAttacking && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.target.collisionBox))){
+		if(!isAttacking && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.getTarget().collisionBox))){
 			if(this.mode!=Character.HOLD_POSITION)
 				this.move();
 			if(!this.isMobile())
@@ -917,9 +880,9 @@ public class Character extends Objet{
 				boolean oneHasArrived = false;
 				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.getGroup().size())+1)*1*this.getAttribut(Attributs.size)){
 					for(Character c: this.getGroup()){
-						if(c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
+						if(c!=null && c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
-						if(Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
+						if(c!=null && Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
 							oneHasArrived = true;
 					}
 					//				if(nextToStop && Utils.distance(this, this.getTarget())>200f)
@@ -947,14 +910,14 @@ public class Character extends Objet{
 			}
 			if(!isAttacking)
 				this.stop();
-			if(state>=getAttribut(Attributs.chargeTime) && this.target!=null && this.target instanceof Character){
+			if(state>=getAttribut(Attributs.chargeTime) && this.getTarget()!=null && this.getTarget() instanceof Character){
 				if(!this.isAttacking){
 					this.stop();
 					this.attackState = 0f;
 					this.isAttacking = true;
 				}
 			}
-			if(this.target!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING){
+			if(this.getTarget()!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING){
 				this.useWeapon();
 				this.attackState = 0f;
 				this.isAttacking= false;
@@ -1018,7 +981,7 @@ public class Character extends Objet{
 			this.setTarget(null);
 		}
 		if(this.getTarget()==null && this.secondaryTargets.size()>0){
-			this.setTarget(this.secondaryTargets.get(0));
+			this.setTarget(Game.g.plateau.getById(this.secondaryTargets.get(0)));
 		}
 		if(this.getTarget()==null){
 			// The character has no target, we look for a new one
@@ -1032,9 +995,7 @@ public class Character extends Objet{
 			}
 			if(potential_targets.size()>0){
 				this.setTarget(Utils.nearestObject(potential_targets, this));
-			} else {
-				this.setTarget(this.checkpointTarget);
-			}
+			} 
 			//			move();
 			//			this.setTarget(null);
 			//			return;
@@ -1042,7 +1003,8 @@ public class Character extends Objet{
 		if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
-				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null);
+				
+				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null,this.mode);
 			}
 		}
 	}
@@ -1066,7 +1028,11 @@ public class Character extends Objet{
 		Vector<Character> result = new Vector<Character>();
 		
 		for(Integer i : this.group){
-			result.add(Game.g.plateau.getCharacterById(i));
+			Objet o =  Game.g.plateau.getById(i);
+			if(o!=null){
+				result.add((Character)o );
+			}
+			
 		}
 		return result;
 	}

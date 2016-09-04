@@ -5,13 +5,13 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
-import buildings.Building;
 import data.Attributs;
+import model.Building;
+import model.Character;
 import model.Checkpoint;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 import utils.Utils;;
 

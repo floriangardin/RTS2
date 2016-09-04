@@ -4,10 +4,10 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import data.Attributs;
+import model.Character;
 import model.Game;
 import model.GameTeam;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 import utils.Utils;
 

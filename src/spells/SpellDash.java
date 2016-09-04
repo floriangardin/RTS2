@@ -7,9 +7,9 @@ import org.newdawn.slick.Graphics;
 import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
+import model.Character;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class SpellDash extends Spell{

@@ -7,9 +7,9 @@ import org.newdawn.slick.Graphics;
 import control.InputObject;
 import data.Attributs;
 import events.Events;
+import model.Character;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class SpellImmolation extends Spell{

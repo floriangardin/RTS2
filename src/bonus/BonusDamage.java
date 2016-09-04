@@ -1,24 +1,26 @@
-package buildings;
+package bonus;
+
 import data.Attributs;
+import data.AttributsChange;
+import data.AttributsChange.Change;
 import main.Main;
-import model.Game;
-import units.Character;
+import model.Character;
 import utils.ObjetsList;
-public class BonusLifepoints extends Bonus{
 
+public class BonusDamage extends Bonus{
 
-
-
-	public BonusLifepoints(float x , float y){
-		super(ObjetsList.BonusLifepoints,x,y);
-		this.name = ObjetsList.BonusLifepoints;
-		this.initialize(x, y);
-		this.bonus = 50f;
+	
+	public BonusDamage(float x , float y){
+		
+		super(ObjetsList.BonusDamage,x,y);
+		this.name = ObjetsList.BonusDamage;
+		this.initialize( x, y);
+		this.bonus = 5f;
 
 	}
 
 	public void action(){
-		this.state+=0.1f;
+		this.state+=0.1f*30/Main.framerate;
 		if(!bonusPresent && this.state>timeRegen){
 			this.bonusPresent =true;
 			this.state= 0f;
@@ -26,13 +28,12 @@ public class BonusLifepoints extends Bonus{
 		else if(bonusPresent && this.state>this.animationStep){
 			this.animation=(this.animation+1)%4;
 			this.state= 0f;
-			
 		}
 	}
 
 	public void collision(Character c){
-		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.getAttribut(Attributs.maxLifepoints)){
-			c.setLifePoints(c.lifePoints+this.bonus);
+		if(this.bonusPresent && c.getTeam()==this.getTeam()){
+			c.attributsChanges.add(new AttributsChange(Attributs.damage, Change.ADD, 3f, 0f));
 			this.bonusPresent =false;
 			this.state = 0f;
 			
@@ -42,6 +43,5 @@ public class BonusLifepoints extends Bonus{
 		}
 
 	}
-
 
 }

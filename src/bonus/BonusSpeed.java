@@ -1,26 +1,24 @@
-package buildings;
+package bonus;
 
-import data.Attributs;
-import data.AttributsChange;
-import data.AttributsChange.Change;
+
 import main.Main;
-import units.Character;
+import model.Character;
+import model.Game;
+import model.Plateau;
 import utils.ObjetsList;
 
-public class BonusDamage extends Bonus{
+public class BonusSpeed extends Bonus{
 
-	
-	public BonusDamage(float x , float y){
-		
-		super(ObjetsList.BonusDamage,x,y);
-		this.name = ObjetsList.BonusDamage;
+
+	public BonusSpeed( float x , float y){
+		super(ObjetsList.BonusSpeed,x,y);
+		this.name = ObjetsList.BonusSpeed;
 		this.initialize( x, y);
-		this.bonus = 5f;
-
+		this.bonus = 20f;
 	}
 
 	public void action(){
-		this.state+=0.1f*30/Main.framerate;
+		this.state+=0.1f;
 		if(!bonusPresent && this.state>timeRegen){
 			this.bonusPresent =true;
 			this.state= 0f;
@@ -32,8 +30,9 @@ public class BonusDamage extends Bonus{
 	}
 
 	public void collision(Character c){
+		
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
-			c.attributsChanges.add(new AttributsChange(Attributs.damage, Change.ADD, 3f, 0f));
+			//c.maxVelocity +=this.bonus;
 			this.bonusPresent =false;
 			this.state = 0f;
 			
@@ -43,5 +42,8 @@ public class BonusDamage extends Bonus{
 		}
 
 	}
+
+
+
 
 }

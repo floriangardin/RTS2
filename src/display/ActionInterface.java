@@ -7,14 +7,12 @@ import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import buildings.Building;
-
-
 import data.Attributs;
+import model.Building;
+import model.Character;
 import model.Game;
+import model.Technologie;
 import spells.Spell;
-import technologies.Technologie;
-import units.Character;
 import utils.ObjetsList;
 import utils.Utils;
 

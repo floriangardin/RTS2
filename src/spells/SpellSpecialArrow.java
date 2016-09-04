@@ -5,9 +5,9 @@ import org.newdawn.slick.Graphics;
 import bullets.Arrow;
 import control.InputObject;
 import data.Attributs;
+import model.Character;
 import model.Checkpoint;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class SpellSpecialArrow extends Spell{
@@ -19,7 +19,7 @@ public class SpellSpecialArrow extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage),-1);
+		new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage));
 		
 		launcher.stop();
 	}

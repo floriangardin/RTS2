@@ -5,12 +5,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
+import model.Character;
 import model.Game;
 import model.NaturalObjet;
 import model.Objet;
 import model.Plateau;
 import ressources.Map;
-import units.Character;
 import utils.ObjetsList;
 
 public class Tree extends NaturalObjet {

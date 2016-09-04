@@ -3,9 +3,9 @@ package spells;
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
+import model.Character;
 import model.Checkpoint;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class SpellBlessedArea extends Spell{

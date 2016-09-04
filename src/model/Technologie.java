@@ -1,10 +1,7 @@
-package technologies;
+package model;
 
 import utils.ObjetsList;
 import data.Attributs;
-
-import model.Game;
-import model.GameTeam;
 
 public abstract class Technologie implements java.io.Serializable{
 	/**

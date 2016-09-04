@@ -4,15 +4,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
-import buildings.Building;
 import data.Attributs;
 import events.Events;
 import main.Main;
+import model.Building;
+import model.Character;
 import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import spells.BurningArea;
-import units.Character;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -23,19 +23,12 @@ public class Fireball extends Bullet {
 	protected float angle;
 	protected boolean explosion= false;
 
-	public Fireball( Objet owner,float targetX,float targetY,float vx,float vy,float damage,int id){
+	public Fireball( Objet owner,float targetX,float targetY,float vx,float vy,float damage){
 		//MULTI 
 		// Parameters
 		this.altitude = 0f;
 		this.name = ObjetsList.Fireball;
 		//
-		if(id==-1){
-			this.id = Game.g.idBullet;
-			Game.g.idBullet++;
-		}
-		else{
-			this.id = id;
-		}
 		this.size = 10f*Main.ratioSpace;
 		Game.g.plateau.addBulletObjets(this);
 		this.damage = damage;
@@ -78,7 +71,7 @@ public class Fireball extends Bullet {
 			this.animation = 0;
 
 
-		if(Utils.distance(this, this.target)<this.size){
+		if(Utils.distance(this, this.getTarget())<this.size){
 			this.explode();
 		}
 	}

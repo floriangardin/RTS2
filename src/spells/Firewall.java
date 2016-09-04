@@ -6,9 +6,9 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 
 import main.Main;
+import model.Character;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class Firewall extends SpellEffect{
@@ -26,8 +26,8 @@ public class Firewall extends SpellEffect{
 
 	public Firewall( Character launcher, Objet t,float width, int id){
 		if(id==-1){
-			this.id = Game.g.idChar;
-			Game.g.idChar+=1;
+			this.id = Game.g.id;
+			Game.g.id+=1;
 		}
 		else{
 			this.id =id;

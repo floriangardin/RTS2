@@ -12,10 +12,10 @@ import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
+import model.Character;
 import model.Checkpoint;
 import model.Game;
 import model.Objet;
-import units.Character;
 import utils.ObjetsList;
 
 public class BlessedArea extends SpellEffect{
@@ -33,8 +33,8 @@ public class BlessedArea extends SpellEffect{
 
 	public BlessedArea(Character launcher, Checkpoint t,int id, float size){
 		if(id==-1){
-			this.id = Game.g.idChar;
-			Game.g.idChar+=1;
+			this.id = Game.g.id;
+			Game.g.id+=1;
 		}
 		else{
 			this.id =id;
@@ -42,8 +42,8 @@ public class BlessedArea extends SpellEffect{
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
-		this.id = Game.g.idChar;
-		Game.g.idChar+=1;
+		this.id = Game.g.id;
+		Game.g.id+=1;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		this.image = "blessedArea";

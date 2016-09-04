@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import data.Attributs;
-import units.Character;
+import model.Character;
 
 public class GeneticAlgorithm {
 	//N_POP should be 0%4

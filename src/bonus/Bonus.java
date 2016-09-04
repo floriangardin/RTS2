@@ -1,4 +1,4 @@
-package buildings;
+package bonus;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
 import events.Events;
 import data.Attributs;
 import main.Main;
+import model.Building;
 import model.Colors;
 import model.Game;
 import model.Plateau;
