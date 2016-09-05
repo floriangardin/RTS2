@@ -174,7 +174,7 @@ public class ActionInterface extends Bar {
 				} else {
 					g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				}
-				if(Game.g.spellCurrent==b.spells.get(i)){
+				if(Game.g.spellCurrent==b.getSpells().get(i).name){
 					g.setColor(Color.orange);
 				}
 				g.drawRect(this.x+1f, this.y+1f + i*this.sizeX, -6f+this.sizeX, -6f+this.sizeX);

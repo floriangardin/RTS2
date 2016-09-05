@@ -28,7 +28,6 @@ public class Building extends Objet{
 	public int teamCapturing;
 	public float constructionPoints;
 	public int potentialTeam;
-
 	private int rallyPoint;
 
 	public float charge;
@@ -49,10 +48,10 @@ public class Building extends Objet{
 	public Vector<Circle> corners=new Vector<Circle>();
 	
 
-	public Technologie queueTechnology;
+	private Technologie queueTechnology;
 
 
-	public Vector<Integer> queue ;
+	private Vector<ObjetsList> queue ;
 	public float random=0f;
 	//TOWER
 	public float chargeAttack;
@@ -60,6 +59,8 @@ public class Building extends Objet{
 	public String animationRouge;
 	public boolean canAttack=false;
 	private float animationTower;
+	
+	
 	private float stateRessourceGold;
 	private float stateRessourceFood;
 	private float stateRessourceFaith;
@@ -137,7 +138,7 @@ public class Building extends Objet{
 
 			if(foodCost<=this.getGameTeam().food
 					&& getAttribut(getProductionList().get(unit),Attributs.goldCost)<=this.getGameTeam().gold && this.getGameTeam().pop<this.getGameTeam().maxPop){
-				this.queue.add(unit);
+				this.queue.add(getProductionList().get(unit));
 				this.getGameTeam().gold-=goldCost;
 				this.getGameTeam().food-=foodCost;
 				if(this.team==Game.g.currentPlayer.getGameTeam().id){
@@ -166,7 +167,9 @@ public class Building extends Objet{
 		
 	}
 	
-	
+	public Technologie getQueueTechnologie(){
+		return this.queueTechnology;
+	}
 
 	public boolean productTech(int unit) {
 		// TODO Auto-generated method stub
@@ -288,7 +291,7 @@ public class Building extends Objet{
 		}
 		if(this.queue.size()>0){
 			this.setCharge(this.charge+Main.increment);
-			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.getAttribut(getProductionList().get(this.queue.get(0)), Attributs.prodTime)){
+			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
 				this.setCharge(0f);
 				float dirX = this.random+getRallyPoint().x-this.x;
 				float dirY = this.random+getRallyPoint().y - this.y;
@@ -296,7 +299,7 @@ public class Building extends Objet{
 				//Introduit du random
 				float startX = this.x + this.getAttribut(Attributs.sizeX)*dirX/norm/2;
 				float startY = this.y + this.getAttribut(Attributs.sizeY)*dirY/norm/2;
-				Character c = new Character(startX,startY, getProductionList().get(this.queue.get(0)), this.getTeam());
+				Character c = new Character(startX,startY, getQueue().get(0), this.getTeam());
 				
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
@@ -406,7 +409,7 @@ public class Building extends Objet{
 		
 		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2,true).id;
 		// Initialize production
-		this.queue = new Vector<Integer>();
+		this.queue = new Vector<ObjetsList>();
 		this.queueTechnology = null;
 		
 		
@@ -474,7 +477,9 @@ public class Building extends Objet{
 
 	}
 	
-	
+	public Vector<ObjetsList> getQueue(){
+		return this.queue;
+	}
 	public void resetRallyPoint(){
 		Objet rallyPoint = this.getRallyPoint();
 		rallyPoint.x = this.x;
@@ -590,8 +595,8 @@ public class Building extends Objet{
 			Building bp = ((Building) this);
 			if(bp.queue.size()>0){
 				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bp.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(bp.getProductionList().get(0),Attributs.prodTime));
-				float opacity = 50*bp.charge/this.getAttribut(bp.getProductionList().get(bp.queue.get(0)),Attributs.prodTime);
-				Image icone = Game.g.images.get("icon"+bp.getProductionList().get(bp.queue.get(0))+"buildingsize");
+				float opacity = 50*bp.charge/this.getAttribut(bp.queue.get(0),Attributs.prodTime);
+				Image icone = Game.g.images.get("icon"+bp.getQueue().get(0)+"buildingsize");
 				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
@@ -601,7 +606,7 @@ public class Building extends Objet{
 				//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
 				g.setColor(new Color(bp.getGameTeam().color.r,bp.getGameTeam().color.g,bp.getGameTeam().color.b,opacity));
 				float startAngle = 270f;
-				float sizeAngle = (float)(1f*bp.charge*(360f)/this.getAttribut(bp.getProductionList().get(bp.queue.get(0)),Attributs.prodTime));
+				float sizeAngle = (float)(1f*bp.charge*(360f)/this.getAttribut(bp.getQueue().get(0),Attributs.prodTime));
 				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);
@@ -672,8 +677,8 @@ public class Building extends Objet{
 
 	
 	public void setCharge(float charge){
-		if(this.queue!=null && this.queue.size()>0 && charge>this.getAttribut(getProductionList().get(this.queue.get(0)),Attributs.prodTime)){
-			this.charge = this.getAttribut(getProductionList().get(this.queue.get(0)),Attributs.prodTime);
+		if(this.queue!=null && this.queue.size()>0 && charge>this.getAttribut(this.getQueue().get(0),Attributs.prodTime)){
+			this.charge = this.getAttribut(this.getQueue().get(0),Attributs.prodTime);
 			return;
 		}
 		

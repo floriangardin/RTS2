@@ -19,15 +19,15 @@ public class SpellProduct extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		// Check if target intersect an ennemy
-		if(target instanceof Building && ((Building) target).queue.size()>0){
+		if(target instanceof Building && ((Building) target).getQueue().size()>0){
 			Building p = (Building) target;
-			if(p.queue.size()>0){
-				 Float prodTime = p.getGameTeam().data.getAttribut(p.getProductionList().get(p.queue.get(0)), Attributs.printName);
+			if(p.getQueue().size()>0){
+				 Float prodTime = p.getGameTeam().data.getAttribut(p.getQueue().get(0), Attributs.printName);
 				p.charge=prodTime;
 			}
-		}else if(target instanceof Building && ((Building) target).queueTechnology!=null){
+		}else if(target instanceof Building && ((Building) target).getQueueTechnologie()!=null){
 			Building p = (Building) target;
-			p.techTerminate(p.queueTechnology);
+			p.techTerminate(p.getQueueTechnologie());
 		}else{
 			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
 		}

@@ -92,7 +92,7 @@ public class Character extends Objet{
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
 		for(String s: this.getAttributList(Attributs.spells)){
-			this.spells.addElement(ObjetsList.valueOf(s));
+			this.addSpell(ObjetsList.valueOf(s));
 			this.spellsState.addElement(0f);
 		}
 
@@ -480,6 +480,7 @@ public class Character extends Objet{
 		}
 		if(this.getTarget() instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
+				this.getTarget().lifePoints = -1f;
 				this.setTarget(null);
 				this.animationValue=0f;
 			}else{
@@ -944,7 +945,7 @@ public class Character extends Objet{
 			this.attackState-=2*Main.increment;
 		}
 
-		for(int i=0; i<this.spells.size(); i++){
+		for(int i=0; i<this.getSpells().size(); i++){
 			this.spellsState.set(i,Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
 		this.timerAttacked-=Main.increment;
@@ -1004,7 +1005,7 @@ public class Character extends Objet{
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
 				
-				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y),null,this.mode);
+				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y,true),null,this.mode);
 			}
 		}
 	}

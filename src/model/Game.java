@@ -515,7 +515,7 @@ public class Game extends BasicGame
 			}
 			//Draw spells cosmetic
 			if(this.spellCurrent!=null){
-				int i = spellLauncher.spells.indexOf(spellCurrent);
+				int i = spellLauncher.getSpellsName().indexOf(spellCurrent);
 				boolean ok = spellLauncher.spellsState.get(i)>=Game.g.data.spells.get(spellCurrent).getAttribut(Attributs.chargeTime);
 				this.currentPlayer.getGameTeam().data.spells.get(this.spellCurrent).draw(g,this.spellTarget,this.spellX,this.spellY,this.spellLauncher, ok);
 			}
@@ -1027,10 +1027,10 @@ public class Game extends BasicGame
 		Selection selection = inputsHandler.getSelection(currentPlayer.id);
 		if(selection.selection.size() > 0 && selection.selection.get(0) instanceof Character){
 			Character c = (Character) selection.selection.get(0);
-			for(int i=0; i<c.spells.size(); i++){
+			for(int i=0; i<c.getSpells().size(); i++){
 				if (im.isPressed(KeyEnum.valueOf("Prod"+i)) 
 						&& c.getSpell(i).getAttribut(Attributs.needToClick)==1){
-					this.spellCurrent = c.spells.get(i);
+					this.spellCurrent = c.getSpells().get(i).name;
 					this.spellLauncher = c;
 				}
 			}
@@ -1526,12 +1526,12 @@ public class Game extends BasicGame
 				checksum+=Integer.toString(((int)(10f*this.plateau.buildings.get(i).constructionPoints))%10);
 				if(this.plateau.buildings.get(i) instanceof Building){
 					Building p =(Building) this.plateau.buildings.get(i);
-					if(p.queue!=null && p.queue.size()>0){
+					if(p.getQueue()!=null && p.getQueue().size()>0){
 
-						checksum+=Integer.toString(p.queue.size());
+						checksum+=Integer.toString(p.getQueue().size());
 					}
 					checksum+="bt";
-					if(p.queueTechnology!=null){
+					if(p.getQueueTechnologie()!=null){
 						checksum+="q";
 					}
 

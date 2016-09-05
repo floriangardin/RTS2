@@ -9,6 +9,7 @@ import model.Building;
 import model.Character;
 import model.Game;
 import model.Objet;
+import utils.ObjetsList;
 import utils.Utils;
 
 
@@ -47,14 +48,14 @@ public class SelectionInterface extends Bar {
 
 			Building b = (Building) Game.g.currentPlayer.selection.get(0);
 
-			this.sizeXBar = (Math.min(4,b.queue.size()+1))*(sVB+2)+3;
+			this.sizeXBar = (Math.min(4,b.getQueue().size()+1))*(sVB+2)+3;
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX+sizeX-4, Game.g.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
 			
 			int compteur = 0;
-			if(b.queue.size()>0){
-				for(int q : b.queue){
-					Image icone = Game.g.images.get("icon"+b.getProductionList().get(q).name());
+			if(b.getQueue().size()>0){
+				for(ObjetsList q : b.getQueue()){
+					Image icone = Game.g.images.get("icon"+q.name());
 					if(compteur ==0){
 						//Show icons
 						//Show production bar
@@ -63,8 +64,8 @@ public class SelectionInterface extends Bar {
 						
 						
 						
-						String s = this.player.getGameTeam().data.getAttributString(b.getProductionList().get(q), Attributs.printName);
-						Float prodTime = this.player.getGameTeam().data.getAttribut(b.getProductionList().get(q), Attributs.prodTime);
+						String s = this.player.getGameTeam().data.getAttributString(q, Attributs.printName);
+						Float prodTime = this.player.getGameTeam().data.getAttribut(q, Attributs.prodTime);
 						g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 						g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 						g.setColor(Color.gray);
@@ -87,20 +88,20 @@ public class SelectionInterface extends Bar {
 //			this.sizeXBar = (b.queue.size()+1)*(sVB+2);
 //			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+sizeX-4, parent.p.g.resY-sVB, 5*(sVB+2), sVB+4);
 			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
-			if(b.queueTechnology!=null){
-				Image icone = Game.g.images.get(b.queueTechnology.getIcon());
+			if(b.getQueueTechnologie()!=null){
+				Image icone = Game.g.images.get(b.getQueueTechnologie().getIcon());
 				//Show icons
 				//Show production bar
 				g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,0,0,512,512);
 				g.setColor(Color.white);
-				String s = b.queueTechnology.getName();
+				String s = b.getQueueTechnologie().getName();
 
 				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 				g.setColor(Color.gray);
 				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
 				g.setColor(Game.g.currentPlayer.getGameTeam().color);
-				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.queueTechnology.objet, Attributs.foodCost), sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.queueTechnology.objet, Attributs.foodCost));
+				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost), sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost));
 			} else {
 				g.setColor(Color.white);
 				String s = b.getAttributString(Attributs.printName);

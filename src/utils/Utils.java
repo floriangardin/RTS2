@@ -460,8 +460,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().queue.size();
-			y2 = liste2.firstElement().queue.size();
+			y1 = liste1.firstElement().getQueue().size();
+			y2 = liste2.firstElement().getQueue().size();
 			if(y1<=y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);

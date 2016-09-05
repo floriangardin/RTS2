@@ -94,7 +94,7 @@ public class InputObject implements java.io.Serializable{
 		// Spells
 		if(pressed.size()>0){
 			if(pressed.contains(KeyEnum.LeftClick) && Game.g.spellCurrent!=null){
-				int i = Game.g.spellLauncher.spells.indexOf(Game.g.spellCurrent);
+				int i = Game.g.spellLauncher.getSpellsName().indexOf(Game.g.spellCurrent);
 				if(Game.g.spellLauncher.spellsState.get(i)>=Game.g.data.spells.get(Game.g.spellCurrent).getAttribut(Attributs.chargeTime)){
 					this.spell = Game.g.spellCurrent;
 					this.idSpellLauncher = Game.g.spellLauncher.id;

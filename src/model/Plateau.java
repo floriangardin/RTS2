@@ -423,7 +423,7 @@ public class Plateau implements java.io.Serializable {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(x, y);
+			target = new Checkpoint(x, y,true);
 		}
 		int i = 0;
 
@@ -435,20 +435,19 @@ public class Plateau implements java.io.Serializable {
 			}
 			if (c instanceof Character) {
 				Character o = (Character) c;
-				if (mode == Character.HOLD_POSITION) {
-					o.setTarget(null);
-					o.stop();
-					o.secondaryTargets.clear();
-					o.mode = Character.HOLD_POSITION;
-					if (o.getGroup() != null && o.getGroup().size() > 1) {
-						for (Character c1 : o.getGroup())
-							if (c1 != o)
-								c1.removeFromGroup(o.id);
-					}
-					// Then we create its new group
-					o.setGroup(new Vector<Character>());
-					continue;
+				o.setTarget(null);
+				o.stop();
+				o.secondaryTargets.clear();
+				o.mode = mode;
+				if (o.getGroup() != null && o.getGroup().size() > 1) {
+					for (Character c1 : o.getGroup())
+						if (c1 != o)
+							c1.removeFromGroup(o.id);
 				}
+				// Then we create its new group
+				o.setGroup(new Vector<Character>());
+				
+				
 				if (i == 0 && Math.random() > 0.3) {
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
@@ -459,14 +458,7 @@ public class Plateau implements java.io.Serializable {
 				}
 
 				i++;
-				// first we deal with o's elder group
-				if (o.getGroup() != null && o.getGroup().size() > 1) {
-					for (Character c1 : o.getGroup())
-						if (c1 != o)
-							c1.removeFromGroup(o.id);
-				}
-				// Then we create its new group
-				o.setGroup(new Vector<Character>());
+
 
 				Vector<Integer> waypoints = null;
 				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection) {
@@ -798,7 +790,7 @@ public class Plateau implements java.io.Serializable {
 					}
 
 					Character c = ((Character) selection.selection.get(0));
-					if (-1 != number && number < c.spells.size()
+					if (-1 != number && number < c.getSpells().size()
 							&& c.spellsState.get(number) >= c.getSpell(number).getAttribut(Attributs.chargeTime)) {
 						Spell s = c.getSpell(number);
 						if (s.getAttribut(Attributs.needToClick)==0) {
@@ -825,8 +817,8 @@ public class Plateau implements java.io.Serializable {
 			} else {
 				s.launch(new Checkpoint(im.x,im.y), c);				
 			}
-			for(int i=0; i<c.spells.size(); i++){
-				if(c.spells.get(i)==im.spell){
+			for(int i=0; i<c.getSpells().size(); i++){
+				if(c.getSpells().get(i).name==im.spell){
 					c.spellsState.set(i, 0f);
 				}
 			}

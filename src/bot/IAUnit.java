@@ -19,7 +19,7 @@ public class IAUnit {
 		this.ia = ia;
 
 	}
-	
+
 	public ObjetsList getName(){
 		return objet.name;
 	}

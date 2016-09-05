@@ -45,7 +45,7 @@ public abstract class Objet implements java.io.Serializable {
 
 
 	// Spells ( what should appear in the bottom bar
-	public Vector<ObjetsList> spells = new Vector<ObjetsList>();
+	private Vector<ObjetsList> spells = new Vector<ObjetsList>();
 	public Vector<Float> spellsState = new Vector<Float>();
 
 	// visibility boolean 
@@ -249,6 +249,13 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		return spells;
 	}
+	public Vector<ObjetsList> getSpellsName(){
+		return this.spells;
+	}
+	
+	public void addSpell(ObjetsList s){
+		this.spells.addElement(s);
+	}
 	
 	// Autres
 	public float getVisibleSize(){
@@ -265,6 +272,9 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	public Objet getTarget() {
 		return Game.g.plateau.getById(target);
+	}
+	public void setSpells(Vector<ObjetsList> spells) {
+		this.spells = spells;
 	}
 	
 

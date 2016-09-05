@@ -53,7 +53,7 @@ public class ArmyEstimator {
 			meanMobility+= u.getAttribut(Attributs.maxVelocity);
 			cacProportion+= (u.getAttributString(Attributs.weapon) == "sword" || u.getAttributString(Attributs.weapon) == "spear" ? 1 : 0);
 			rangeProportion+=(u.getAttributString(Attributs.weapon) == "bow" || u.getAttributString(Attributs.weapon) == "wand" ? 1 : 0);
-			spellCasterProportion+= (u.spells.size()>1 ? 1 : 0);
+			spellCasterProportion+= (u.getSpells().size()>1 ? 1 : 0);
 			mountedProportion+= (u.horse ? 1 : 0); ;
 		}
 		// CALCULATE MEANS

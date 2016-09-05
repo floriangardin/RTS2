@@ -23,7 +23,7 @@ public class SpellImmolation extends Spell{
 
 		launcher.isImmolating = true;
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
-		launcher.spells = new Vector<ObjetsList>();
+		launcher.setSpells(new Vector<ObjetsList>());
 		Game.g.events.addEvent(Events.Immolation, target);
 	}
 

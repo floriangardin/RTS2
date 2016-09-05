@@ -53,7 +53,7 @@ public class IAAllyObject extends IAUnit{
 			rightClick(x,y);
 			objet.mode = Character.MOVE;
 		}else{
-			Game.g.sendMessage(new ChatMessage("0|Error : Tried to move a building ..."));
+			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to move a building ..."));
 		}
 	}; // classic move
 	public  void attack(float x , float y){
@@ -66,16 +66,27 @@ public class IAAllyObject extends IAUnit{
 				((Building) objet).product(this.getProductionList().indexOf(production));
 			}
 		}else{
-			Game.g.sendMessage(new ChatMessage("0|Error : Tried to produce not in a building ..."));
+			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
 		}
 	}; // Produce unit
 	public  void research(ObjetsList tech){
 		if(objet instanceof Building){
 			
 		}else{
-			Game.g.sendMessage(new ChatMessage("0|Error : Tried to research not in a building ..."));
+			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to research not in a building ..."));
 		}
 	}; // Produce research
 	
-
+	
+	
+	public Vector<ObjetsList> getQueue(){
+		Vector<ObjetsList> res = new Vector<ObjetsList>();
+		
+		if(getObjet() instanceof Building){
+			Building b = (Building) getObjet();
+			res.addAll(b.getQueue());
+		}
+		
+		return res;
+	}
 }
