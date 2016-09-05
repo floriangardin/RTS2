@@ -5,6 +5,7 @@ import java.util.Vector;
 import data.Attributs;
 import model.Building;
 import model.Objet;
+import model.Character;
 import utils.ObjetsList;
 
 public class IAUnit {
@@ -79,12 +80,19 @@ public class IAUnit {
 	}
 	
 	
+	public Vector<ObjetsList> getSpells(){
+		if(getObjet() instanceof Character){
+			return getObjet().getSpellsName();
+		}
+		return new Vector<ObjetsList>();
+	}
+	
 	
 	public IAUnit getNearestNeutral(ObjetsList o){
-		Vector<IAEnemyObject> enemies = getIA().getNature();
+		Vector<IAUnit> enemies = getIA().getNature();
 		float minDist = -1;
 		IAUnit best =null;
-		for(IAEnemyObject enemy : enemies){
+		for(IAUnit enemy : enemies){
 			float dist = IAUnit.distance(enemy, this);
 			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
 				minDist = dist;
@@ -109,10 +117,10 @@ public class IAUnit {
 	}
 	
 	public IAUnit getNearestEnemy(ObjetsList o){
-		Vector<IAEnemyObject> enemies = getIA().getEnemies();
+		Vector<IAUnit> enemies = getIA().getEnemies();
 		float minDist = -1;
 		IAUnit best =null;
-		for(IAEnemyObject enemy : enemies){
+		for(IAUnit enemy : enemies){
 			float dist = IAUnit.distance(enemy, this);
 			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
 				minDist = dist;

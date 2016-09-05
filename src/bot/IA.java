@@ -17,16 +17,16 @@ public abstract class IA {
 	 */
 	
 	private Vector<IAAllyObject> units;
-	private Vector<IAEnemyObject> enemies;
-	private Vector<IAEnemyObject> nature;
+	private Vector<IAUnit> enemies;
+	private Vector<IAUnit> nature;
 	
 	private GameTeam player;
 		
 	public IA(Player p) {
 		this.player = p.getGameTeam();
 		units = new Vector<IAAllyObject>();
-		enemies = new Vector<IAEnemyObject>();
-		nature = new Vector<IAEnemyObject>();
+		enemies = new Vector<IAUnit>();
+		nature = new Vector<IAUnit>();
 		// Create ennemy static IA
 		// Contain all the objects visible by the IA
 	}
@@ -41,13 +41,13 @@ public abstract class IA {
 		return units;
 	}
 	
-	public Vector<IAEnemyObject> getEnemies(){
+	public Vector<IAUnit> getEnemies(){
 		/*
 		 * Return objects of enemy team
 		 */
 		return enemies;
 	}
-	public Vector<IAEnemyObject> getNature(){
+	public Vector<IAUnit> getNature(){
 		/*
 		 * Return object of nature
 		 * 
@@ -69,9 +69,9 @@ public abstract class IA {
 				if(c.getGameTeam().id==this.player.id){					
 					this.units.addElement(new IAAllyObject(c,this));
 				}else if( c.getGameTeam().id ==0){
-					this.nature.addElement(new IAEnemyObject(c,this));
+					this.nature.addElement(new IAUnit(c,this));
 				}else{
-					this.enemies.addElement(new IAEnemyObject(c, this));
+					this.enemies.addElement(new IAUnit(c, this));
 				}
 			}
 		}
@@ -79,9 +79,9 @@ public abstract class IA {
 			if(b.getGameTeam().id==this.player.id){					
 				this.units.addElement(new IAAllyObject(b,this));
 			}else if(b.getGameTeam().id == 0 || !Game.g.plateau.isVisibleByTeam(this.player.id, b)){
-				this.nature.addElement(new IAEnemyObject(b,this));
+				this.nature.addElement(new IAUnit(b,this));
 			}else{
-				this.enemies.addElement(new IAEnemyObject(b,this));
+				this.enemies.addElement(new IAUnit(b,this));
 			}
 		}
 		
