@@ -86,13 +86,19 @@ public abstract class IA {
 		}
 		
 		// Call abstract method to overrides
-		this.update();
+		try {
+			this.update();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			alert("Error in IA ... "+e.toString());
+			
+		}
 	}
 	
 
 	
 	
-	public abstract void update();
+	public abstract void update() throws Exception;
 	
 	
 	/*Find an unit on a mouse click
@@ -116,6 +122,9 @@ public abstract class IA {
 	
 	protected void print(String s){
 		Game.g.sendMessage(new ChatMessage("0|"+s));
+	}
+	protected void alert(String s){
+		Game.g.sendMessage(new ChatMessage("2|"+s));
 	}
 	
 	protected int getGold(){

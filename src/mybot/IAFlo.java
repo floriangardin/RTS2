@@ -12,7 +12,6 @@ public class IAFlo extends IA{
 
 	public IAFlo(Player p) {
 		super(p);
-		// TODO Auto-generated constructor stub
 		
 	}
 
@@ -28,6 +27,7 @@ public class IAFlo extends IA{
 				units.get(0).rightClick(barrack);
 			}
 		}
+		
 		
 		
 	}
