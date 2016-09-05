@@ -150,7 +150,7 @@ public class MinimapInterface extends Bar {
 
 			}
 			if(c.getTeam()==2){
-				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c) || Game.debugFog){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -158,7 +158,7 @@ public class MinimapInterface extends Bar {
 				}
 			}
 			else if(c.getTeam()==1){
-				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+				if(Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c) || Game.debugFog){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -167,7 +167,7 @@ public class MinimapInterface extends Bar {
 			}
 			g.fillRect(startX+offsetDrawX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, rw*c.getAttribut(Attributs.sizeX), rh*c.getAttribut(Attributs.sizeY));
 			
-			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c)){
+			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (Game.g.plateau.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c) || Game.debugFog)){
 				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints);
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);

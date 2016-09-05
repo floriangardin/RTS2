@@ -89,6 +89,7 @@ public class Game extends BasicGame
 	public static boolean debugThread = false;
 	public static boolean debugDisplayDebug = true;
 	public static boolean debugMemory = false;
+	public static boolean debugFog = true;
 
 	public static boolean deplacementGroupIntelligent = false;
 	public static boolean debugGroup = false;
@@ -525,7 +526,7 @@ public class Game extends BasicGame
 			// Draw the Action Objets
 			for(Character o : plateau.characters){
 				//o.draw(g);
-				if(o.visibleByCurrentTeam)
+				if(o.visibleByCurrentTeam || debugFog)
 					toDrawAfter.add(o);
 
 			}
@@ -540,7 +541,7 @@ public class Game extends BasicGame
 			// Draw the natural Objets
 
 			for(NaturalObjet o : this.plateau.naturalObjets){
-				if(o.visibleByCurrentTeam)
+				if(o.visibleByCurrentTeam || debugFog)
 					toDrawAfter.add(o);
 				else
 					toDraw.add(o);
@@ -554,14 +555,14 @@ public class Game extends BasicGame
 			}
 			for(SpellEffect e : this.plateau.spells){
 				if(!e.toDrawOnGround){
-					if(e.visibleByCurrentTeam)
+					if(e.visibleByCurrentTeam || debugFog)
 						toDrawAfter.add(e);
 					else
 						toDraw.add(e);
 				}
 			}
 			for(Bullet b : this.plateau.bullets){
-				if(b.visibleByCurrentTeam)
+				if(b.visibleByCurrentTeam || debugFog)
 					toDrawAfter.add(b);
 				else
 					toDraw.add(b);
@@ -574,7 +575,10 @@ public class Game extends BasicGame
 			for(Objet o: toDraw)
 				o.draw(g);
 			// draw fog of war
-			drawFogOfWar(g);
+			if(!debugFog){
+				drawFogOfWar(g);
+			}
+			
 			for(Objet o: toDrawAfter)
 				o.draw(g);
 			handleDrawUnderBuilding(g);

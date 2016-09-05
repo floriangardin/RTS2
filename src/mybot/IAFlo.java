@@ -21,6 +21,7 @@ public class IAFlo extends IA{
 	public void update() {
 		// Take nearest barrack with one unit
 		Vector<IAAllyObject> units = this.getUnits();
+		
 		if(units.size()>0){
 			IAUnit barrack = units.get(0).getNearestNeutral(ObjetsList.Barracks);
 			if(barrack!=null){				

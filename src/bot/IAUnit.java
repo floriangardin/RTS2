@@ -138,4 +138,18 @@ public class IAUnit {
 		}
 		return best;	
 	}
+	
+	public IAUnit getTarget(){
+		return new IAUnit(this.objet.getTarget(),this.ia);
+	}
+	public boolean hasTarget(){
+		return objet.getTarget()!=null;
+	}
+	
+	public boolean equals(Object o){
+		if(o instanceof IAUnit){
+			return this.getId()==((IAUnit)o).getId();
+		}
+		return false;
+	}
 }
