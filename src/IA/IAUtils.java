@@ -2,8 +2,8 @@ package IA;
 
 import java.util.Vector;
 
-import model.Character;
 import utils.Utils;
+import model.Character;
 
 public class IAUtils {
 	//Static methods for IA

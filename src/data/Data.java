@@ -148,11 +148,11 @@ public class Data implements java.io.Serializable {
 	// getting and setting attributs
 	public float getAttribut(ObjetsList name, Attributs attribut){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name);
+//			System.out.println("erreur : data ne contient pas "+name);
 			return 1f;
 		}
 		if(!this.datas.get(name).attributs.containsKey(attribut)){
-			System.out.println(name+" n'a pas d'attribut "+attribut);
+//			System.out.println(name+" n'a pas d'attribut "+attribut);
 			Throwable t = new Throwable();
 			t.printStackTrace();
 			return 1f;
@@ -161,22 +161,22 @@ public class Data implements java.io.Serializable {
 	}
 	public String getAttributString(ObjetsList name, Attributs attribut){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas de string pour "+name);
+//			System.out.println("erreur : data ne contient pas de string pour "+name);
 			return "vide";
 		}
 		if(!this.datas.get(name).attributsString.containsKey(attribut)){
-			System.out.println(name+" n'a pas d'attribut "+attribut);
+//			System.out.println(name+" n'a pas d'attribut "+attribut);
 			return "vide";
 		}
 		return this.datas.get(name).attributsString.get(attribut);
 	}
 	public Vector<String> getAttributList(ObjetsList name, Attributs attribut){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas de list pour "+name);
+//			System.out.println("erreur : data ne contient pas de list pour "+name);
 			return new Vector<String>();
 		}
 		if(!this.datas.get(name).attributsList.containsKey(attribut)){
-			System.out.println(name+" n'a pas d'attribut "+attribut);
+//			System.out.println(name+" n'a pas d'attribut "+attribut);
 			return new Vector<String>();
 		}
 		return this.datas.get(name).attributsList.get(attribut);
@@ -184,11 +184,11 @@ public class Data implements java.io.Serializable {
 	
 	public Vector<ObjetsList> getAttributListAtt(ObjetsList name, Attributs attribut){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas de list pour "+name);
+//			System.out.println("erreur : data ne contient pas de list pour "+name);
 			return new Vector<ObjetsList>();
 		}
 		if(!this.datas.get(name).attributsList.containsKey(attribut)){
-			System.out.println(name+" n'a pas d'attribut "+attribut);
+//			System.out.println(name+" n'a pas d'attribut "+attribut);
 			return new Vector<ObjetsList>();
 		}
 		Vector<String> s = this.datas.get(name).attributsList.get(attribut);
@@ -201,28 +201,28 @@ public class Data implements java.io.Serializable {
 	}
 	public void setAttributString(ObjetsList name, Attributs attribut, String value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name.name());
+//			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributsString.put(attribut, value);
 	}
 	public void setAttribut(ObjetsList name, Attributs attribut, float value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name.name());
+//			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributs.put(attribut, value);
 	}
 	public void addAttribut(ObjetsList name, Attributs attribut, float value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name.name());
+//			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributs.put(attribut, this.datas.get(name).attributs.get(attribut)+value);
 	}
 	public void mulAttribut(ObjetsList name, Attributs attribut, float value){
 		if(!this.datas.containsKey(name)){
-			System.out.println("erreur : data ne contient pas "+name.name());
+//			System.out.println("erreur : data ne contient pas "+name.name());
 			return;
 		}
 		this.datas.get(name).attributs.put(attribut, this.datas.get(name).attributs.get(attribut)*value);
@@ -233,7 +233,7 @@ public class Data implements java.io.Serializable {
 		if(this.spells.containsKey(s)){
 			return this.spells.get(s);
 		}
-		System.out.println("spell non existant : "+s);
+//		System.out.println("spell non existant : "+s);
 		return null;
 	}
 

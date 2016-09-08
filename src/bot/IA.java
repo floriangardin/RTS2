@@ -163,6 +163,124 @@ public abstract class IA {
 		return player.data.getAttributList(o, a);
 	}
 	
+	
+	
+	
+	
+	// High levels functions For IA Strategy
+	
+	
+	public Vector<ObjetsList> getTechsRequired(ObjetsList o){
+		return player.data.getAttributListAtt(o, Attributs.techsRequired);
+	}
+	
+	/*
+	 * Liste et/ou
+	 */
+	public Vector<Vector<ObjetsList>> getRequirements(ObjetsList o ){
+		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
+		res.add(getProducers(o));
+		for(ObjetsList ol : getTechsRequired(o)){
+			Vector<ObjetsList> tech = new Vector<ObjetsList>();
+			tech.add(ol);
+			res.add(tech);
+		}
+		return res;
+	}
+
+	
+	public Vector<Vector<ObjetsList>> getUnsatisfiedRequirements(ObjetsList o){
+		
+		Vector<Vector<ObjetsList>> req = getRequirements(o);
+		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
+		for(Vector<ObjetsList> v : req){
+			Vector<ObjetsList> requirement = new Vector<ObjetsList>();
+			boolean toAdd = true;
+			for(ObjetsList h : v){
+				
+				if(has(h)){
+					
+					toAdd = false;
+					break;
+				}
+			}
+			if(toAdd){				
+				res.add(v);
+			}
+		}
+		return res;
+	}
+	
+	public Vector<ObjetsList> getTechsDiscovered(){
+		return player.hq.techsDiscovered;
+	}
+	public GameTeam getPlayer(){
+		return player;
+	}
+	
+	public Vector<ObjetsList> getProducers(ObjetsList o){
+		Vector<ObjetsList> res = new Vector<ObjetsList>();
+		for(ObjetsList ol : ObjetsList.values()){
+			if(getPlayer().data.getAttributListAtt(ol, Attributs.units).contains(o)){
+				res.add(ol);
+			}
+			if(getPlayer().data.getAttributListAtt(ol, Attributs.technologies).contains(o)){
+				res.add(ol);
+			}
+		}
+		return res;
+	}
+	
+	/*
+	 * Look if we have the object or the tech
+	 */
+	public boolean has(ObjetsList o){
+		for(IAUnit u : getUnits()){
+			if(u.getName()==o){
+				return true;
+			}
+		}
+		
+		//Now check if we have a technology of this name
+		if(getTechsDiscovered().contains(o)){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/*
+	 * Check if we have at least one of the Object at our command
+	 */
+	public boolean hasOneOf(Vector<ObjetsList> o){
+		for(IAUnit u : getUnits()){
+			for(ObjetsList ol : o){
+				if(u.getName()==ol){
+					return true;
+				}
+			}
+
+		}
+		
+		//Now check if we have a technology of this name
+		if(getTechsDiscovered().contains(o)){
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * Look if we have the requirements for producing the object or the tech
+	 */
+	public boolean hasRequirements(ObjetsList o){
+		for(Vector<ObjetsList> ol : getRequirements(o)){
+			if(!hasOneOf(ol)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 
 	
 }

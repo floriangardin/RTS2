@@ -103,6 +103,8 @@ public enum ObjetsList {
 		v.add(Archange);
 		return v;
 	}
+	
+
 
 	public static Vector<ObjetsList> getSpells() {
 		Vector<ObjetsList> v = new Vector<ObjetsList>();

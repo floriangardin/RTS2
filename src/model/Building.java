@@ -727,6 +727,8 @@ public class Building extends Objet{
 		// TODO Auto-generated method stub
 
 	}
+	
+
 
 
 }

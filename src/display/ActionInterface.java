@@ -165,7 +165,7 @@ public class ActionInterface extends Bar {
 			//Print building capacities
 			Vector<Spell> ul = b.getSpells();
 			int limit = Math.min(5, ul.size());
-			Vector<Float> state = b.spellsState;
+			Vector<Float> state = b.getSpellsState();
 			Font f = g.getFont();
 			Image im;
 			for(int i=0; i<limit;i++){ 

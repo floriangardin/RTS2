@@ -37,10 +37,13 @@ public class IAUnit {
 	public int getId(){
 		return objet.id;
 	}
+	public float getLifepoints(){
+		return objet.lifePoints;
+	}
 	public int getGameTeam(){
 		return this.objet.getGameTeam().id;
 	}
-	protected Objet getObjet(){
+	Objet getObjet(){
 		return this.objet;
 	}
 	public float getAttribut(Attributs a){
@@ -160,4 +163,17 @@ public class IAUnit {
 		}
 		return false;
 	}
+	
+	// All things that you can produce (tech,units,spells ...)
+	public Vector<ObjetsList> getAllProductions(){
+		Vector<ObjetsList> result = new Vector<ObjetsList>();
+		result.addAll(getProductionList());
+		result.addAll(getResearchList());
+		result.addAll(getSpells());
+		return result;
+	}
+	
+	
+	
+	
 }

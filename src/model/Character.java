@@ -475,7 +475,7 @@ public class Character extends Objet{
 	}
 	public void stop(){
 		this.animation = 0;
-		if(this.mode!=TAKE_BUILDING){
+		if(this.mode!=TAKE_BUILDING ){
 			this.mode = NORMAL;
 		}
 		if(this.getTarget() instanceof Checkpoint){
@@ -911,14 +911,14 @@ public class Character extends Objet{
 			}
 			if(!isAttacking)
 				this.stop();
-			if(state>=getAttribut(Attributs.chargeTime) && this.getTarget()!=null && this.getTarget() instanceof Character){
+			if(state>=getAttribut(Attributs.chargeTime) && this.getTarget()!=null && this.getTarget() instanceof Character && canAttack() ){
 				if(!this.isAttacking){
 					this.stop();
 					this.attackState = 0f;
 					this.isAttacking = true;
 				}
 			}
-			if(this.getTarget()!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING){
+			if(this.getTarget()!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING &&  canAttack()){
 				this.useWeapon();
 				this.attackState = 0f;
 				this.isAttacking= false;
@@ -927,6 +927,11 @@ public class Character extends Objet{
 		}
 
 
+	}
+	
+	public boolean canAttack(){
+		boolean b= (getTarget()!=null && getTarget().getGameTeam().id!=this.getGameTeam().id);
+		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
 	}
 
 
@@ -1016,7 +1021,7 @@ public class Character extends Objet{
 
 
 	}
-
+	
 
 	public void isAttacked() {
 		this.isAttacked=true;

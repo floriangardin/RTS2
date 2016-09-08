@@ -1,6 +1,5 @@
 package model;
 
-
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -46,7 +45,7 @@ public abstract class Objet implements java.io.Serializable {
 
 	// Spells ( what should appear in the bottom bar
 	private Vector<ObjetsList> spells = new Vector<ObjetsList>();
-	public Vector<Float> spellsState = new Vector<Float>();
+	protected Vector<Float> spellsState = new Vector<Float>();
 
 	// visibility boolean 
 	public boolean visibleByCurrentTeam;
@@ -82,9 +81,9 @@ public abstract class Objet implements java.io.Serializable {
 		// handling end of dash
 		if(this.inDash>0f){
 			this.inDash-=1f*Main.increment;
-			if(this.inDash<=0f && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint)){
-				this.mode = Character.AGGRESSIVE;
-			}
+//			if(this.inDash<=0f && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint)){
+//				this.mode = Character.AGGRESSIVE;
+//			}
 		}
 	}
 	
@@ -232,6 +231,9 @@ public abstract class Objet implements java.io.Serializable {
 	}
 
 	// Spells
+	public boolean canLaunch(int number){
+		return this.spellsState.get(number) >= this.getSpell(number).getAttribut(Attributs.chargeTime);
+	}
 	public Spell getSpell(int i){
 		if(this.spells.size()>i){
 			if(this.getGameTeam().data.spells.containsKey(this.spells.get(i))){
@@ -251,6 +253,45 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	public Vector<ObjetsList> getSpellsName(){
 		return this.spells;
+	}
+	public Spell getSpell(ObjetsList spell){
+		int indexSpell = getSpellsName().indexOf(spell);
+		if(indexSpell>=0){
+			return getSpell(indexSpell);
+		}
+		return null;
+	}
+	
+	public void launchSpell(Objet target,ObjetsList spell){
+		if(this instanceof Character){
+			this.getSpell(spell).launch(target, (Character)this);
+			this.resetSpellState(spell);
+		}
+		
+	}
+	public float getSpellState(ObjetsList spell){
+		int indexSpell = getSpellsName().indexOf(spell);
+		if(indexSpell>=0){
+			return this.spellsState.get(indexSpell);
+		}
+		return -1;
+	}
+	public void resetSpellState(ObjetsList spell){
+		int indexSpell = getSpellsName().indexOf(spell);
+		if(indexSpell>=0){
+			this.spellsState.set(indexSpell,0f);
+		}
+		
+	}
+	public float getSpellState(int i){
+		
+		if(i>=0 && i<this.spellsState.size()){			
+			return this.spellsState.get(i);
+		}
+		return -1;
+	}
+	public Vector<Float> getSpellsState(){
+		return spellsState;
 	}
 	
 	public void addSpell(ObjetsList s){

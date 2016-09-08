@@ -90,7 +90,6 @@ public final class IAfunctions {
 	/**
 	 * function that orders the UnitIA with id 'idAlliedPlayer'
 	 * to hold Position and attack any enemy unit in range
-	 * 
 	 * @throws IAException if idAlliedPlayer is not an allied player
 	 * 
 	 * @param idAlliedPlayer id of the unit to assign the order

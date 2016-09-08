@@ -1,5 +1,5 @@
 {
 prototype:"Objet",
 printName:"Flèche",
-maxVelocity:300
+maxVelocity:400
 }

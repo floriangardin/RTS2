@@ -8,6 +8,7 @@ import model.Checkpoint;
 import model.Game;
 import model.Objet;
 import multiplaying.ChatMessage;
+import spells.Spell;
 import utils.ObjetsList;
 
 public class IAAllyObject extends IAUnit{
@@ -60,7 +61,7 @@ public class IAAllyObject extends IAUnit{
 		rightClick(x,y);
 		objet.mode = Character.AGGRESSIVE;
 	}; // attack move
-	public  void produce(ObjetsList production){
+	public  void produceUnit(ObjetsList production){
 		if(objet instanceof Building){
 			if(this.getProductionList().contains(production)){
 				((Building) objet).product(this.getProductionList().indexOf(production));
@@ -69,7 +70,7 @@ public class IAAllyObject extends IAUnit{
 			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
 		}
 	}; // Produce unit
-	public  void research(ObjetsList tech){
+	public  void produceTechnology(ObjetsList tech){
 		if(objet instanceof Building){
 			
 		}else{
@@ -77,7 +78,46 @@ public class IAAllyObject extends IAUnit{
 		}
 	}; // Produce research
 	
+	public void produce(ObjetsList o){
+		produceUnit(o);
+		produceTechnology(o);
+	}
+	// SPELLS
+	public boolean canLaunch(ObjetsList spell){
+		if(getObjet() instanceof Character){
+			Character c = (Character) getObjet();
+			int index = c.getSpellsName().indexOf(spell);
+			if(index>=0){
+				return c.canLaunch(index);
+			}
+			
+		}
+
+		return false;
+	}
 	
+	public void launchSpell(float x , float y,ObjetsList spell){
+		
+		if(this.getObjet() instanceof Character ){
+			Character c = (Character) getObjet();
+			if(c.getSpellsName().contains(spell)){
+				c.launchSpell(new Checkpoint(x,y),spell);
+				
+			}
+			
+		}
+	}
+	
+	public void launchSpell(IAUnit target,ObjetsList spell){
+		
+		if(this.getObjet() instanceof Character ){
+			Character c = (Character) getObjet();
+			if(c.getSpellsName().contains(spell)){
+				c.getSpell(spell).launch(target.getObjet(), c);
+			}
+			
+		}
+	}
 	
 	public Vector<ObjetsList> getQueue(){
 		Vector<ObjetsList> res = new Vector<ObjetsList>();
