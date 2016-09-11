@@ -5,80 +5,92 @@ import java.util.Vector;
 public enum ObjetsList {
 
 	// Prototypes
-	Objet,
-	Spell,
-	Unit,
-	Building,
-	Bullet,
-	Technology,
-	Bonus,
+	Objet("Objet"),
+	Spell("Objet"),
+	Unit("Character"),
+	Building("Building"),
+	Bullet("Bullet"),
+	Technology("Technology"),
+	Bonus("Building"),
 	// Units
-	Knight,
-	Crossbowman,
-	Priest,
-	Inquisitor,
-	Spearman,
-	Archange,
-	Test,
+	Knight("Character"),
+	Crossbowman("Character"),
+	Priest("Character"),
+	Inquisitor("Character"),
+	Spearman("Character"),
+	Archange("Character"),
+	Test("Character"),
 	// Buildings
-	Headquarters,
-	Mill,
-	Mine,
-	Barracks,
-	Stable,
-	Academy,
-	University,
-	Tower,
+	Headquarters("Building"),
+	Mill("Building"),
+	Mine("Building"),
+	Barracks("Building"),
+	Stable("Building"),
+	Academy("Building"),
+	University("Building"),
+	Tower("Building"),
 	// Bonus
-	BonusLifepoints,
-	BonusSpeed,
-	BonusDamage,
+	BonusLifepoints("Building"),
+	BonusSpeed("Building"),
+	BonusDamage("Building"),
 	// Technologies
-	DualistAge2, 
-	DualistAge3, 
-	DualistBonusFood, 
-	DualistBonusGold, 
-	DualistShield2, 
-	DualistHealth2, 
-	DualistShield3, 
-	DualistHealth3, 
-	DualistContactAttack2, 
-	DualistRangeAttack2, 
-	DualistContactAttack3, 
-	DualistRangeAttack3, 
-	DualistExplosion, 
-	DualistEagleView,
+	DualistAge2("Technology"), 
+	DualistAge3("Technology"), 
+	DualistBonusFood("Technology"), 
+	DualistBonusGold("Technology"), 
+	DualistShield2("Technology"), 
+	DualistHealth2("Technology"), 
+	DualistShield3("Technology"), 
+	DualistHealth3("Technology"), 
+	DualistContactAttack2("Technology"), 
+	DualistRangeAttack2("Technology"), 
+	DualistContactAttack3("Technology"), 
+	DualistRangeAttack3("Technology"), 
+	DualistExplosion("Technology"),
+	DualistEagleView("Technology"),
 	// Bullets
-	Arrow,
-	Fireball,
+	Arrow("Bullet"),
+	Fireball("Bullet"),
 	// Nature
-	Tree00,
-	Tree01,
-	Tree02,
-	Tree03,
-	Water, 
+	Tree00("NatureObject"),
+	Tree01("NatureObject"),
+	Tree02("NatureObject"),
+	Tree03("NatureObject"),
+	Water("NatureObject"), 
 	// SpellEffects
-	BlessedAreaEffect, 
-	BurningAreaEffect, 
-	FirewallEffect, 
-	FrozenEffect, 
-	HealEffect,
+	BlessedAreaEffect("SpellEffect"), 
+	BurningAreaEffect("SpellEffect"), 
+	FirewallEffect("SpellEffect"), 
+	FrozenEffect("SpellEffect"), 
+	HealEffect("SpellEffect"),
 	// Spells
-	BlessedArea,
-	Conversion,
-	Dash,
-	Eclair,
-	Firewall,
-	Frozen,
-	Heal,
-	Immolation,
-	InstantDeath,
-	InstantHealth,
-	SpecialArrow,
-	Product,
+	BlessedArea("Spell"),
+	Conversion("Spell"),
+	Dash("Spell"),
+	Eclair("Spell"),
+	Firewall("Spell"),
+	Frozen("Spell"),
+	Heal("Spell"),
+	Immolation("Spell"),
+	InstantDeath("Spell"),
+	InstantHealth("Spell"),
+	SpecialArrow("Spell"),
+	Product("Spell"),
 	// Others
-	ContactWeapon
+	ContactWeapon("Weapon")
 	;
+	
+	
+	String type;
+	
+	private ObjetsList(String type){
+		this.type = type;
+	}
+	public String getType(){
+		
+		
+		return type;
+	}
 
 	public String getName(){
 		return this.name().toLowerCase();
@@ -101,6 +113,19 @@ public enum ObjetsList {
 		v.add(Inquisitor);
 		v.add(Priest);
 		v.add(Archange);
+		return v;
+	}
+	
+	public static Vector<ObjetsList> getBuildings() {
+		Vector<ObjetsList> v = new Vector<ObjetsList>();
+		v.add(Barracks);
+		v.add(Academy);
+		v.add(Stable);
+		v.add(Mill);
+		v.add(Mine);
+		v.add(Headquarters);
+		v.add(University);
+		v.add(Tower);
 		return v;
 	}
 	

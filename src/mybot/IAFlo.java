@@ -12,6 +12,8 @@ public class IAFlo extends IA{
 	
 	
 	BOObjective boManager;
+	ObjetsList currentObjective;
+	boolean newObjective = false;
 	int round = 0;
 	
 	public IAFlo(Player p) {
@@ -22,23 +24,23 @@ public class IAFlo extends IA{
 	
 	@Override
 	public void update() {
-		// Take nearest barrack with one unit
-		Vector<IAAllyObject> units = this.getUnits();
-		if(round == 10){
-			
+		// Settle objective
+		if(round==10){
 			this.boManager = new BOObjective(this,ObjetsList.Crossbowman);
 		}
-//		if(units.size()>1){
-//			IAUnit barrack = units.get(0).getNearestNeutral(ObjetsList.Barracks);
-//			if(barrack!=null){				
-//				units.get(0).rightClick(barrack);
-//			}
-//			if(units.get(1).canLaunch(ObjetsList.Dash)){
-//				units.get(1).launchSpell(units.get(1).getX()+50f,units.get(1).getY()+50f , ObjetsList.Dash);
-//			}
-//		}
+		if(boManager!=null && currentObjective==null){
+			currentObjective = boManager.getObjective();
+			newObjective = true;
+		}
 		
-		round++;
+		// Find how to do the objective depending on unit or building
+		
+		// Assign everyone on the objective
+		for(IAAllyObject u : this.getUnits()){
+			
+		}
+		
+		round++;	
 		
 	}
 	

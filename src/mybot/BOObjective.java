@@ -33,20 +33,23 @@ public class BOObjective {
 			// On imagine pour le moment que requirements est déjà factorisé au maximum
 			// Donc pour le moment vu que c'est pas factorisé ce n'est pas optimal
 			// PRINT REQUIREMENTS
+			System.out.println("Pour produire "+obj.finalObjective+" on a besoin de :");
 			for(Vector<ObjetsList> r : requirements){
 				for(ObjetsList re : r){
-					System.out.print(re+" ");
+					System.out.print(re+" ou ");
 				}
-				System.out.println();
+				System.out.println("et");
 			}
 			// Construit les noeuds fils 
-			
+			System.out.println();
 			for(Vector<ObjetsList> ol : requirements){
 				Vector<BOObjective> toAdd = new Vector<BOObjective>();
 				for(ObjetsList o : ol){
 					toAdd.add(new BOObjective(obj.ia,o));
 				}
+				obj.childObjectives.add(toAdd);
 			}
+			
 			
 		}else{
 			obj.currentObjective = obj.finalObjective;
@@ -68,6 +71,7 @@ public class BOObjective {
 			if(obj!=null){
 				return obj.finalObjective;
 			}else{
+				
 				return getAChild().finalObjective;
 			}
 			
@@ -88,6 +92,7 @@ public class BOObjective {
 	public BOObjective getAChild(){
 		for(Vector<BOObjective> bo : childObjectives){
 			for(BOObjective b : bo){
+				System.out.println("Return "+b.finalObjective);
 				return b;
 			}
 		}
