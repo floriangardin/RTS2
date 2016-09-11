@@ -46,7 +46,7 @@ public enum ObjetsList {
 	DualistRangeAttack2("Technology"), 
 	DualistContactAttack3("Technology"), 
 	DualistRangeAttack3("Technology"), 
-	DualistExplosion("Technology"),
+	DualistExplosion("Technology"), 
 	DualistEagleView("Technology"),
 	// Bullets
 	Arrow("Bullet"),

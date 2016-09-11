@@ -231,6 +231,22 @@ public abstract class IA {
 		return res;
 	}
 	
+	public Vector<IAAllyObject> getMyProducers(ObjetsList o){
+		Vector<ObjetsList> res = getProducers(o);
+		Vector<IAAllyObject> toReturn = new Vector<IAAllyObject>();
+		for(IAAllyObject u : getUnits()){
+			for(ObjetsList ol : res){
+				if(u.getName()==ol ){
+					toReturn.add(u);
+				}
+			}
+		}
+		
+		return toReturn;
+	}
+	
+	
+	
 	/*
 	 * Look if we have the object or the tech
 	 */

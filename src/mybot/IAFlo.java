@@ -14,6 +14,11 @@ public class IAFlo extends IA{
 	BOObjective boManager;
 	ObjetsList currentObjective;
 	boolean newObjective = false;
+	
+	
+	IAUnit target ;
+	
+	
 	int round = 0;
 	
 	public IAFlo(Player p) {
@@ -33,12 +38,32 @@ public class IAFlo extends IA{
 			newObjective = true;
 		}
 		
-		// Find how to do the objective depending on unit or building
+		// Check if should change objective
 		
-		// Assign everyone on the objective
-		for(IAAllyObject u : this.getUnits()){
-			
+		
+		Vector<IAAllyObject> units = this.getUnits();
+		if(units.size()>0){
+			IAUnit firstUnit = units.get(0);
+			// Find how to do the objective depending on unit or building
+			if(currentObjective.getType().equals("Building")){
+				// Find nearest building from unit selected
+				target = firstUnit.getNearestNeutral(currentObjective);
+			}
+			if(currentObjective.getType().equals("Character")){
+				// Try to produce it if ressources
+				// Find the building which produce it
+				Vector<IAAllyObject> myProducers = this.getMyProducers(currentObjective);
+				if(myProducers.size()>0){
+					// Produce in the producer
+					myProducers.get(0).produceUnit(currentObjective);
+				}
+			}
+			// Assign everyone on the objective
+			for(IAAllyObject u : this.getUnits()){
+				
+			}
 		}
+
 		
 		round++;	
 		
