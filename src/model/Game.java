@@ -1108,9 +1108,9 @@ public class Game extends BasicGame
 			app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 			app.setTargetFrameRate(Main.framerate);
 			this.musicPlaying = this.musics.get("themeMenu");
-			if(this.options.nickname.equals(""))
-				this.setMenu(new MenuNewUser(this));
-			else
+//			if(this.options.nickname.equals(""))
+//				this.setMenu(new MenuNewUser(this));
+//			else
 				this.setMenu(menuIntro);
 			g.thingsLoaded = true;
 			return;
