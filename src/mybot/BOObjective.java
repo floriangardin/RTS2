@@ -11,7 +11,7 @@ public class BOObjective {
 	ObjetsList currentObjective;
 	 
 	Vector<Vector<BOObjective>> childObjectives= new Vector<Vector<BOObjective>>();
-	BOObjective subObjective ;
+	
 	
 	BOObjective(IAFlo ia,ObjetsList finalObjective){
 		this.ia = ia;

@@ -25,6 +25,7 @@ public class GameTeam {
 	public Building hq ;
 	public int maxPop;
 	public Color color;
+	private int madness;
 	
 	
 	public GameTeam(Vector<Player> players, int id, int civ) {
@@ -56,6 +57,11 @@ public class GameTeam {
 		this.gold = 50;
 		this.food = 100;
 	}
+	
+	public int getMadness(){
+		return madness;
+	}
+	
 	
 	
 }

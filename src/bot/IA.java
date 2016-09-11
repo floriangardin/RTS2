@@ -194,12 +194,9 @@ public abstract class IA {
 		Vector<Vector<ObjetsList>> req = getRequirements(o);
 		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
 		for(Vector<ObjetsList> v : req){
-			Vector<ObjetsList> requirement = new Vector<ObjetsList>();
 			boolean toAdd = true;
 			for(ObjetsList h : v){
-				
 				if(has(h)){
-					
 					toAdd = false;
 					break;
 				}

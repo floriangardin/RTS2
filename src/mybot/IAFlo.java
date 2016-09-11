@@ -37,7 +37,9 @@ public class IAFlo extends IA{
 			currentObjective = boManager.getObjective();
 			newObjective = true;
 		}
-		
+		if(round!=10){
+			return;
+		}
 		// Check if should change objective
 		
 		
