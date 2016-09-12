@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Circle;
@@ -16,6 +15,7 @@ import control.Selection;
 import data.Attributs;
 import display.BottomBar;
 import events.Events;
+import madness.Act;
 import main.Main;
 import pathfinding.MapGrid;
 import ressources.Map;
@@ -68,6 +68,12 @@ public class Plateau implements java.io.Serializable {
 	public MapGrid mapGrid;
 
 	public HashMap<Integer,Objet> objets;
+	
+	// About Acts
+	public Vector<Act> acts;
+	private int currentAct = -1;
+	private float currentActTime = 0f;
+	
 
 	// Quick accessors 
 
@@ -82,8 +88,6 @@ public class Plateau implements java.io.Serializable {
 		this.maxY = maxY;
 
 		initializePlateau(g);
-
-
 
 	}
 
@@ -120,6 +124,9 @@ public class Plateau implements java.io.Serializable {
 		// All objects
 		objets = new HashMap<Integer,Objet>();
 		Game.g.id = 0;
+		
+		// Acts
+		this.acts = new Vector<Act>();
 
 		for(GameTeam t : g.teams){
 			t.pop = 0;
@@ -637,6 +644,7 @@ public class Plateau implements java.io.Serializable {
 			this.handleInterface(im);
 			// Handling action bar
 			this.handleActionBar(im, player);
+			
 			// Handling the right click
 			this.handleRightClick(im, player);
 
@@ -646,6 +654,17 @@ public class Plateau implements java.io.Serializable {
 
 		}
 		Game.g.inputsHandler.updateSelection(ims);
+		// 2 - Handling acts
+		this.currentActTime-=1f/Main.framerate;
+		if(this.currentActTime<=0){
+			// changement d'acte
+			if(this.currentAct>=0){
+				// on gère le choix des cartes
+				
+			}
+			this.currentAct += 1;
+			this.currentActTime = this.getCurrentAct().getTime();
+		}
 		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - Game.g.timeSteps));
 
@@ -892,22 +911,22 @@ public class Plateau implements java.io.Serializable {
 		BottomBar bb = Game.g.bottomBar;
 		float relativeXMouse = (im.x - Game.g.Xcam);
 		float relativeYMouse = (im.y - Game.g.Ycam);
-		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + 2*bb.action.sizeX
-				&& relativeYMouse > bb.action.y && relativeYMouse < bb.action.y + bb.action.sizeY) {
-			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNbY));
-			int yItem = relativeXMouse>bb.action.x + bb.action.sizeX? 1:0;
-			for(int i = 0 ; i<bb.action.prodIconNbY;i++){
-				for(int j = 0 ; j<bb.action.prodIconNbX; j++){
-					bb.action.toDrawDescription[i][j] = false;
+		if (bb.isMouseOnActionBar(relativeXMouse, relativeYMouse)) {
+			int mouseOnItem = (int) ((relativeYMouse - bb.startYActionBar) / (bb.sizeYActionBar / bb.prodIconNbY));
+			System.out.println(mouseOnItem);
+			int yItem = relativeXMouse>bb.startXActionBar + bb.sizeXActionBar? 1:0;
+			for(int i = 0 ; i<bb.prodIconNbY;i++){
+				for(int j = 0 ; j<bb.prodIconNbX; j++){
+					bb.toDrawDescription[i][j] = false;
 				}
 			}
 
-			if (mouseOnItem >= 0 && mouseOnItem < bb.action.prodIconNbY)
-				bb.action.toDrawDescription[mouseOnItem][yItem] = true;
+			if (mouseOnItem >= 0 && mouseOnItem < bb.prodIconNbY)
+				bb.toDrawDescription[mouseOnItem][yItem] = true;
 		} else {
-			for(int i = 0 ; i<bb.action.prodIconNbY;i++){
-				for(int j = 0 ; j<bb.action.prodIconNbX; j++){
-					bb.action.toDrawDescription[i][j] = false;
+			for(int i = 0 ; i<bb.prodIconNbY;i++){
+				for(int j = 0 ; j<bb.prodIconNbX; j++){
+					bb.toDrawDescription[i][j] = false;
 				}
 			}
 		}
@@ -992,6 +1011,19 @@ public class Plateau implements java.io.Serializable {
 	}
 
 
+	// getter, setter and act handler
+	
+	public Act getCurrentAct(){
+		if(this.acts.size()>=0 && this.currentAct<this.acts.size()){
+			return this.acts.get(this.currentAct);
+		} else {
+			return null;
+		}
+	}
+	
+	public float getCurrentActTime(){
+		return this.currentActTime;
+	}
 
 
 }

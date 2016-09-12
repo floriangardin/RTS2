@@ -48,6 +48,11 @@ public enum ObjetsList {
 	DualistRangeAttack3("Technology"), 
 	DualistExplosion("Technology"), 
 	DualistEagleView("Technology"),
+	// ActCard
+	AgeIa("ActCard"),
+	AgeIb("ActCard"),
+	AgeIm("ActCard"),
+	AgeIr("ActCard"),
 	// Bullets
 	Arrow("Bullet"),
 	Fireball("Bullet"),

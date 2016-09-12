@@ -7,6 +7,10 @@ public abstract class Technologie implements java.io.Serializable{
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -6828706989877875782L;
+	/**
+	 * 
+	 */
 
 	public int team;
 	public ObjetsList objet;
@@ -35,6 +39,11 @@ public abstract class Technologie implements java.io.Serializable{
 			
 			return 	new Technologie(o, gameteam){
 			
+			/**
+				 * 
+				 */
+				private static final long serialVersionUID = 7849208106681217142L;
+
 			@Override
 			public void applyEffect() {
 				// TODO Auto-generated method stub
@@ -46,6 +55,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistAge3:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 1471827763762372496L;
+
 			@Override
 			public void applyEffect() {
 				// TODO Auto-generated method stub
@@ -58,6 +69,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistBonusFood: 
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = -4941002180544285759L;
+
 			@Override
 			public void applyEffect() {
 				// TODO Auto-generated method stub
@@ -68,6 +81,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistBonusGold:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 265349469812493092L;
+
 			@Override
 			public void applyEffect() {
 				// TODO Auto-generated method stub
@@ -78,6 +93,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistShield2:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 7072326746162551883L;
+
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
@@ -95,6 +112,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistHealth2:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 1065615291990746589L;
+
 			@Override
 			public void applyEffect() {
 				this.getGameTeam().data.addAttribut(ObjetsList.Spearman, Attributs.maxLifepoints, 20f);
@@ -111,6 +130,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistShield3:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 3981043616830016713L;
+
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
@@ -128,6 +149,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistHealth3:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = -5645611184043974443L;
+
 			@Override
 			public void applyEffect() {
 				// TODO Auto-generated method stub
@@ -146,6 +169,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistContactAttack2:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = -1911743227820137189L;
+
 			@Override
 			public void applyEffect() {
 				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.damage, 1);
@@ -157,6 +182,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistRangeAttack2: 
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 4093688968126666594L;
+
 			@Override
 			public void applyEffect() {
 				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.damage, 1);
@@ -167,6 +194,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistContactAttack3:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = -3797423010268300801L;
+
 			@Override
 			public void applyEffect() {
 				this.getGameTeam().data.addAttribut(ObjetsList.Knight, Attributs.damage, 1);
@@ -177,6 +206,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistRangeAttack3: 
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 3968281430598253836L;
+
 			@Override
 			public void applyEffect() {
 				this.getGameTeam().data.addAttribut(ObjetsList.Inquisitor, Attributs.damage, 1);
@@ -187,6 +218,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistExplosion:
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 6929598547186654867L;
+
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
@@ -202,6 +235,8 @@ public abstract class Technologie implements java.io.Serializable{
 		case DualistEagleView: 
 			return 	new Technologie(o, gameteam){
 				
+			private static final long serialVersionUID = 7256891693162888534L;
+
 			@Override
 			public void applyEffect() {
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné

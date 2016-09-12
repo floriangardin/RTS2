@@ -23,7 +23,6 @@ public class MinimapInterface extends Bar {
 	public float h;
 	public float rw;
 	public float rh;
-	public boolean toDraw;
 	
 	public static boolean todrawGrid = true;
 
@@ -44,20 +43,7 @@ public class MinimapInterface extends Bar {
 		this.startY2 = Game.g.resY-parent.ratioMinimapX*Game.g.resX+3;
 		this.sizeX = Game.g.resX*parent.ratioMinimapX-6;
 		this.sizeY = sizeX;
-		if(Game.g.plateau.maxX>Game.g.plateau.maxY){
-			this.w = this.sizeX;
-			this.h = this.w*Game.g.plateau.maxY/Game.g.plateau.maxX;
-			this.startX = this.startX2;
-			this.startY = this.startY2 + (this.sizeY-h)/2;
-		} else {
-			this.h = this.sizeY;			
-			this.w = this.h*Game.g.plateau.maxX/Game.g.plateau.maxY;
-			this.startX = this.startX2 + (this.sizeX-w)/2;
-			this.startY = this.startY2;
-		}
-		rw = w/Game.g.plateau.maxX;
-		rh = h/Game.g.plateau.maxY;
-		this.toDraw = false;
+		this.updateRatio();
 	}
 	
 	

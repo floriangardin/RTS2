@@ -618,8 +618,6 @@ public class Game extends BasicGame
 				//				}
 				g.drawImage(this.menuIntro.title, this.resX/2-this.menuIntro.title.getWidth()/2, this.resY/2-this.menuIntro.title.getHeight()/2);
 			}
-			if(this.bottomBar.topBar!=null)
-				this.bottomBar.topBar.draw(g);
 			if(this.bottomBar!=null)
 				this.bottomBar.draw(g);
 

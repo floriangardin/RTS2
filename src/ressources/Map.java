@@ -13,6 +13,7 @@ import bonus.BonusDamage;
 import bonus.BonusLifepoints;
 import bonus.BonusSpeed;
 import data.Data;
+import madness.Act;
 import main.Main;
 import model.Building;
 import model.Character;
@@ -132,6 +133,12 @@ public class Map {
 			game.plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
 			Data data1 = game.teams.get(1).data;
 			Data data2 = game.teams.get(2).data;
+			// Ajout des actes au plateau
+			// TODO : rajouter les actes dans le fichier texte
+			game.plateau.acts.add(Act.HAINE);
+			game.plateau.acts.add(Act.GUERRE);
+			game.plateau.acts.add(Act.DESTRUCTION);
+			game.plateau.acts.add(Act.MORT);
 			// Headquarters
 			for(int i=0;i<headquarters.size(); i++){
 				// format:

@@ -63,7 +63,7 @@ public class InputObject implements java.io.Serializable{
 		pressed = new Vector<KeyEnum>();
 		x = input.getMouseX();
 		y = input.getMouseY();
-		// IL y a surement plus simple et moins coûteux
+		// Il y a surement plus simple et moins coûteux
 		if(debugTouche){
 			for(int i=0; i<250; i++){
 				if(input.isKeyPressed(i)){
@@ -154,36 +154,36 @@ public class InputObject implements java.io.Serializable{
 
 			// checking for the prod button in the action bar
 			if(pressed.contains(KeyEnum.LeftClick) ){
-				if(Game.g.bottomBar.action.toDrawDescription[0][0]){
+				if(Game.g.bottomBar.toDrawDescription[0][0]){
 					this.pressed.addElement(KeyEnum.Prod0);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[1][0]){
+				if(Game.g.bottomBar.toDrawDescription[1][0]){
 					this.pressed.addElement(KeyEnum.Prod1);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[2][0]){
+				if(Game.g.bottomBar.toDrawDescription[2][0]){
 					this.pressed.addElement(KeyEnum.Prod2);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[3][0]){
+				if(Game.g.bottomBar.toDrawDescription[3][0]){
 					this.pressed.addElement(KeyEnum.Prod3);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[0][1]){
+				if(Game.g.bottomBar.toDrawDescription[0][1]){
 					this.pressed.addElement(KeyEnum.Tech0);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[1][1]){
+				if(Game.g.bottomBar.toDrawDescription[1][1]){
 					this.pressed.addElement(KeyEnum.Tech1);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[2][1]){
+				if(Game.g.bottomBar.toDrawDescription[2][1]){
 					this.pressed.addElement(KeyEnum.Tech2);
 				}
-				if(Game.g.bottomBar.action.toDrawDescription[3][1]){
+				if(Game.g.bottomBar.toDrawDescription[3][1]){
 					this.pressed.addElement(KeyEnum.Tech3);
 				}
 			}
 			boolean a = pressed.contains(KeyEnum.LeftClick);
 			boolean b = down.contains(KeyEnum.LeftClick);
 			if(a || b){
-				for(int i=0; i<Game.g.bottomBar.action.toDrawDescription.length; i++){
-					if(Game.g.bottomBar.action.toDrawDescription[i][0]){
+				for(int i=0; i<Game.g.bottomBar.toDrawDescription.length; i++){
+					if(Game.g.bottomBar.toDrawDescription[i][0]){
 						if(a){
 							pressed.remove(KeyEnum.LeftClick);
 						}
