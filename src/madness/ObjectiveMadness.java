@@ -8,7 +8,10 @@ import model.Objet;
 public abstract class ObjectiveMadness {
 	
 	
-	public int reward ; // +n or -n (n immolation for having)
+	public int current ; // +n or -n (n immolation for having)
+	public int objective;
+	
+
 	public GameTeam gameTeam;
 	
 	
@@ -22,15 +25,14 @@ public abstract class ObjectiveMadness {
 		
 	}
 	
-	public boolean action(){
-		
-		if(checkIfCompleted()){
-			gameTeam.addMadness(reward);
-			return true;
-		}
-		return false;
-		
+
+	public boolean isCompleted(){
+		return current>=objective;
 	}
 	
-	public abstract boolean checkIfCompleted();
+	public abstract void action();
+	
+	public String toString(){
+		return current+"/"+objective+"isCompleted : "+isCompleted()+" "+this.getClass();
+	}
 }

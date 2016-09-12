@@ -15,20 +15,21 @@ import data.Attributs;
 
 public class Event {
 
-	
 	Vector<Sound> sounds = new Vector<Sound>();
 	Sound soundPlaying;
 	Vector<GraphicEvent> graphics = new Vector<GraphicEvent>();
 	Events name;
+	int roundLaunched;
 	Objet parent;
 	float power;
 	float duration;
 	boolean playSound = false;
 	
+	
 	public Event(Events name,final Objet parent){
 		this.parent = parent;
 		this.name = name;
-		
+		this.roundLaunched = Game.g.round;
 		// TODO : Make it generic with dataFile
 		switch(name){
 		case ArrowLaunched:
@@ -83,6 +84,13 @@ public class Event {
 			break;
 		}
 	}
+	public String toString(){
+		return this.getName().name();
+	}
+	public boolean isNewEvent(){
+		return Game.g.round-roundLaunched==0;
+	}
+	
 	
 	
 	public boolean play(Graphics g){
@@ -97,7 +105,9 @@ public class Event {
 		if(duration<=0 && soundPlaying!=null){
 			//soundPlaying.stop();
 		}
+	
 		return duration>0;
+		
 	}
 
 	
@@ -127,5 +137,9 @@ public class Event {
 	
 	private float ratioDistance(){
 		return Math.min(1f, Math.max(0f, (200f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
+	}
+	
+	public Events getName(){
+		return name;
 	}
 }

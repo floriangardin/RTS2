@@ -193,7 +193,7 @@ public class Plateau implements java.io.Serializable {
 			if (!o.isAlive()) {
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
-				Game.g.events.addEvent(Events.Death, o);
+				Game.g.triggerEvent(Events.Death, o);
 			}
 		}
 		for (Bullet o : bullets) {
@@ -451,9 +451,9 @@ public class Plateau implements java.io.Serializable {
 				if (i == 0 && Math.random() > 0.3) {
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
-						Game.g.events.addEvent(Events.MoveAttack, o);
+						Game.g.triggerEvent(Events.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
-						Game.g.events.addEvent(Events.MoveTarget, o);
+						Game.g.triggerEvent(Events.MoveTarget, o);
 					}
 				}
 
@@ -719,9 +719,7 @@ public class Plateau implements java.io.Serializable {
 					((Building) selection.get(0)).setRallyPoint(target.x, target.y);;
 				}
 				if(target==null){
-
 					((Building) selection.get(0)).setRallyPoint(im.x, im.y);
-
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
 
@@ -785,6 +783,7 @@ public class Plateau implements java.io.Serializable {
 							number = i;
 					}
 					if (im.isPressed(KeyEnum.Immolation)){
+						
 						number = 0;
 						imo = true;
 					}
@@ -797,6 +796,7 @@ public class Plateau implements java.io.Serializable {
 							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
+	
 							}
 							// switching selection
 							int compteur = 0;

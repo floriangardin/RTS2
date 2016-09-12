@@ -133,14 +133,14 @@ public class Selection {
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(0);
-					Game.g.events.addEvent(Events.CharacterSelected, c);
+					Game.g.triggerEvent(Events.CharacterSelected, c);
 
 				}
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Building) {
 					Building c = (Building) this.selection.get(0);
 					//s = Game.g.sounds.get("selection"+c.name);
-					Game.g.events.addEvent(Events.BuildingSelected, c);
+					Game.g.triggerEvent(Events.BuildingSelected, c);
 				}
 
 			

@@ -45,24 +45,18 @@ public class Character extends Objet{
 	// General attributes
 	public Circle sightBox;
 
-
-
-
 	public boolean moveAhead;
 	public float state;
 	public boolean isAttacking  = false;
 	public float attackState = 0f;
 
-
 	private Vector<Integer> group = new Vector<Integer>();
 	
-
 	// Equipment attributes
 	public boolean horse;
 
 	// About drawing
 	public float animationValue=0f;
-
 
 	// Special Abilities or subisse
 	public boolean isImmolating = false;

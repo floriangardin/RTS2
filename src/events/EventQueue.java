@@ -8,17 +8,11 @@ import org.newdawn.slick.Graphics;
 
 public class EventQueue {
 
-	Vector<Event> events = new Vector<Event>();
-	
-	
+	private Vector<Event> events = new Vector<Event>();
 	public EventQueue(){
-		
 	}
 	
-
-	
 	public void render(Graphics g){
-		
 		Vector<Event> toRemove = new Vector<Event>();
 		for(Event e : events){
 			if(!e.play(g)){
@@ -30,7 +24,20 @@ public class EventQueue {
 	
 	public void addEvent(Events name,Objet o){
 		this.events.addElement(new Event(name,o));
-		
+	}
+	
+	public Vector<Event> getNewEvents(){
+		Vector<Event> res = new Vector<Event>();
+		for(Event e: events){
+			if(e.isNewEvent()){
+				res.add(e);
+			}
+		}
+		return res;
+	}
+	
+	public Vector<Event> getEvents(){
+		return events;
 	}
 	
 	
