@@ -9,6 +9,7 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.BottomBar;
 import model.Game;
+import model.Objet;
 import model.Player;
 import utils.ObjetsList;
 
@@ -28,7 +29,9 @@ public class InputObject implements java.io.Serializable{
 	public int idObjetMouse;
 	public int idSpellLauncher;
 	public ObjetsList spell;
-
+	
+	// Selection
+	public Vector<Integer> selection = new Vector<Integer>();
 	public Vector<Boolean> validated;
 	public boolean toPlay;
 
@@ -45,13 +48,25 @@ public class InputObject implements java.io.Serializable{
 		this.id= 0;
 		this.idplayer = -1;
 		this.round = 0;
+		
 		down = new Vector<KeyEnum>();
 		pressed = new Vector<KeyEnum>();
+		
+		
+		
 		x = 0;
 		y = 0;
 		this.toPlay = false;
 		this.isOnMiniMap = false;
 		this.validated = new Vector<Boolean>();
+	}
+	
+	public Vector<Objet> getSelection(){
+		Vector<Objet> res = new Vector<Objet>();
+		for(Integer i : selection){
+			res.add(Game.g.plateau.getById(i));
+		}
+		return res;
 	}
 
 	public InputObject (int idplayer, Input input,boolean toPlay, KeyMapper km){
@@ -71,6 +86,10 @@ public class InputObject implements java.io.Serializable{
 				}
 			}
 		}
+		
+
+
+		
 		for(KeyEnum ke : km.mapping.keySet()){
 			for(Integer i : km.mapping.get(ke)){
 				
@@ -208,8 +227,14 @@ public class InputObject implements java.io.Serializable{
 		}
 
 		this.validated = new Vector<Boolean>();
-		for(Player p:Game.g.players)
+		for(Player p : Game.g.players)
 			validated.add(false);
+		
+		
+		// Handle selection at the very end
+		// Handle Selection
+		Game.g.inputsHandler.updateSelection(this);
+		
 	}
 
 	public void validate(Player player){

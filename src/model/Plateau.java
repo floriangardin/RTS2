@@ -481,7 +481,7 @@ public class Plateau implements java.io.Serializable {
 				if(target instanceof Building){
 					mode = Character.TAKE_BUILDING;
 				}
-
+				
 				o.setTarget(target, waypoints, mode);
 				o.secondaryTargets.clear();
 			}
@@ -708,19 +708,19 @@ public class Plateau implements java.io.Serializable {
 
 
 	private void handleRightClick(InputObject im, int player) {
-		Selection selection = Game.g.inputsHandler.getSelection(player);
+		Vector<Objet> selection = im.getSelection();
 		if (im.isPressed(KeyEnum.RightClick)) {
 			// RALLY POINT
 
-			if (selection.selection.size() > 0
-					&& selection.selection.get(0) instanceof Building) {
+			if (selection.size() > 0
+					&& selection.get(0) instanceof Building) {
 				Objet target = findTarget(im.x, im.y,player);
 				if(target instanceof Building || target instanceof Character){
-					((Building) selection.selection.get(0)).setRallyPoint(target.x, target.y);;
+					((Building) selection.get(0)).setRallyPoint(target.x, target.y);;
 				}
 				if(target==null){
 
-					((Building) selection.selection.get(0)).setRallyPoint(im.x, im.y);
+					((Building) selection.get(0)).setRallyPoint(im.x, im.y);
 
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
@@ -733,7 +733,7 @@ public class Plateau implements java.io.Serializable {
 		if (im.isPressed(KeyEnum.StopperMouvement)) {
 			// STOP SELECTION
 
-			for (Objet c : selection.selection) {
+			for (Objet c : selection) {
 
 				if (c instanceof Character) {
 					((Character) c).stop();

@@ -62,6 +62,10 @@ public class GameTeam {
 		return madness;
 	}
 	
+	public void addMadness(int add){
+		madness = madness+add;
+	}
+	
 	
 	
 }

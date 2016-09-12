@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import main.Main;
 import model.Game;
+import model.Objet;
 import model.Player;
 
 import org.newdawn.slick.SlickException;
@@ -112,10 +113,28 @@ public class InputHandler {
 	public void updateSelection(Vector<InputObject> ims) {
 		
 		for(InputObject im : ims){
-			
-			this.getSelection(im.idplayer).handleSelection(im);
-			
+			updateSelection(im);
 		}
+	}
+	
+	public void updateSelection(InputObject im){
 		
+		this.getSelection(im.idplayer).handleSelection(im);
+		/// Put it in input model
+		for(Objet o :this.getSelection(im.idplayer).selection){
+			im.selection.add(o.id);
+		}
+
+	}
+	
+	public void setSelection(int idPlayer, Vector<Integer> selection){
+		for(Selection s: this.selection){
+			if(idPlayer == s.player){
+				s.selection.clear();
+				for(Integer i : selection){
+					s.selection.addElement(Game.g.plateau.getById(i));
+				}
+			}
+		}
 	}
 }
