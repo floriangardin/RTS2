@@ -72,6 +72,7 @@ public enum ObjetsList {
 	Frozen("Spell"),
 	Heal("Spell"),
 	Immolation("Spell"),
+	Meditation("Spell"),
 	InstantDeath("Spell"),
 	InstantHealth("Spell"),
 	SpecialArrow("Spell"),
@@ -141,6 +142,7 @@ public enum ObjetsList {
 		v.add(Frozen);
 		v.add(Heal);
 		v.add(Immolation);
+		v.add(Meditation);
 		v.add(InstantDeath);
 		v.add(InstantHealth);
 		v.add(SpecialArrow);

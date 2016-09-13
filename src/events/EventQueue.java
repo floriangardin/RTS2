@@ -22,6 +22,17 @@ public class EventQueue {
 		events.removeAll(toRemove);
 	}
 	
+	
+	/*
+	 * TODO : Not used yet, to be used with
+	 */
+	public void action(){
+		//Update sounds
+		for(Event e: events){
+			e.action();
+		}
+	}
+	
 	public void addEvent(Events name,Objet o){
 		this.events.addElement(new Event(name,o));
 	}

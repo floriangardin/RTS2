@@ -81,6 +81,7 @@ public abstract class Spell {
 		case Frozen: spell = new SpellFrozen(); break;
 		case Heal : spell = new SpellHeal();break;
 		case Immolation: spell = new SpellImmolation(); break;
+		case Meditation: spell = new SpellMeditation(); break;
 		case InstantDeath: spell = new SpellInstantDeath(); break;
 		case InstantHealth: spell = new SpellInstantHealth(); break;
 		case SpecialArrow: spell = new SpellSpecialArrow(); break;

@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 import data.Data;
 import madness.ObjectiveImmolation;
 import madness.ObjectiveMadness;
+import madness.ObjectiveMeditation;
 
 public class GameTeam {
 
@@ -26,13 +27,18 @@ public class GameTeam {
 	public Color color;
 	private int madness;
 	
+	private Vector<ObjectiveMadness> objective;
+	
 	// Objectives of madness
 	private Vector<ObjectiveMadness> objectivesMadness = new Vector<ObjectiveMadness>();
 	
 	
 	public GameTeam(Vector<Player> players, int id, int civ) {
 		switch(civ){
-		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);this.objectivesMadness.addElement(new ObjectiveImmolation(this));break;
+		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);
+		this.objectivesMadness.addElement(new ObjectiveImmolation(this,2));
+		this.objectivesMadness.addElement(new ObjectiveMeditation(this,2));
+		break;
 		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids",this);break;
 		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos",this);break;
 		default:

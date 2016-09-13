@@ -24,14 +24,8 @@ public class Firewall extends SpellEffect{
 	public float animationMax=4f;
 	public float x2,y2;
 
-	public Firewall( Character launcher, Objet t,float width, int id){
-		if(id==-1){
-			this.id = Game.g.id;
-			Game.g.id+=1;
-		}
-		else{
-			this.id =id;
-		}
+	public Firewall( Character launcher, Objet t,float width){
+
 		this.type = 1;
 		this.x = launcher.getX();
 		this.y = launcher.getY();

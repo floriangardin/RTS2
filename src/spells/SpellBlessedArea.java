@@ -16,7 +16,7 @@ public class SpellBlessedArea extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true);
-		BlessedArea ba = new BlessedArea(launcher,(Checkpoint)t,-1,getAttribut(Attributs.size));
+		BlessedArea ba = new BlessedArea(launcher,(Checkpoint)t,getAttribut(Attributs.size));
 		ba.remainingTime = this.getAttribut(Attributs.totalTime);
 		ba.size = this.getAttribut(Attributs.size);
 		launcher.stop();

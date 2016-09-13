@@ -3,13 +3,11 @@ package model;
 
 import java.util.Vector;
 
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
-
 
 import bullets.Arrow;
 import bullets.Fireball;
@@ -18,6 +16,8 @@ import display.DisplayRessources;
 import main.Main;
 import nature.Tree;
 import pathfinding.Case;
+import spells.Immolation;
+import spells.SpellEffect;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -57,12 +57,16 @@ public class Character extends Objet{
 
 	// About drawing
 	public float animationValue=0f;
-
+	
+	
+	// Vecteur de spells
+	public Vector<Integer> spells = new Vector<Integer>();
+	
 	// Special Abilities or subisse
-	public boolean isImmolating = false;
+
 	public boolean isBolted = false;
 	public float frozen = 0f;
-	
+
 	public float remainingTime;
 
 	// UnitsList associated
@@ -93,7 +97,9 @@ public class Character extends Objet{
 
 	}
 
-
+	public void addSpellEffect(SpellEffect e){
+		spells.add(e.id);
+	}
 
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
@@ -180,55 +186,6 @@ public class Character extends Objet{
 
 	//Update functions
 
-	public void updateImage(){
-		//		//Handling the team
-		//		Image imagea = this.p.g.images.get("corps");
-		//		if(imagea==null)
-		//			return;
-		//		Image imageb = this.p.g.images.get("corps");
-		//		Image imagec = this.p.g.images.get("corps");
-		//		Image imaged = null;
-		//		if(getTeam()==1){
-		//			imageb = this.p.g.images.get("blue");
-		//			imagec = this.p.g.images.get("horseBlue");
-		//		}
-		//		if(getTeam()==2){
-		//			imageb = this.p.g.images.get("red");
-		//			imagec = this.p.g.images.get("horseRed");
-		//		}
-		//		this.image = Utils.mergeImages(imagea, imageb);
-		//		//Handling the weapon
-		//
-		//		if(this.weapon!=null){
-		//			if(this.weapon == "sword"){
-		//				imageb = this.p.g.images.get("sword");
-		//				imaged = this.p.g.images.get("mediumArmor");
-		//			}
-		//			if(this.weapon == "spear"){
-		//				this.image = this.p.g.images.get("spearman_move");
-		//				return;
-		//				//				imageb = this.p.g.images.get("sword;
-		//				//				imaged = this.p.g.images.get("heavyArmor;
-		//			}
-		//			if(this.weapon == "bow"){
-		//				imageb = this.p.g.images.get("bow");
-		//				imaged = this.p.g.images.get("lightArmor");
-		//			}
-		//			if(this.weapon == "bible")
-		//				imageb = this.p.g.images.get("bible");
-		//			if(this.weapon == "wand")
-		//				imageb = this.p.g.images.get("magicwand");
-		//			this.image = Utils.mergeImages(this.image, imageb);
-		//			this.image = Utils.mergeImages(this.image, imaged);
-		//		}
-		//
-		//		//Handling the horse
-		//		if(this.horse!=null){
-		//			this.image = Utils.mergeHorse(imagec, this.image);
-		//		}
-	}
-
-
 	//// ACTION METHODS
 
 	// Main method called on every time loop
@@ -282,14 +239,6 @@ public class Character extends Objet{
 	}
 
 	public void action(){
-
-		mainAction();
-	}
-
-	public void mainAction(){
-
-
-
 		if(this.frozen>0f){
 			this.frozen-=Main.increment;
 			return;
@@ -298,15 +247,23 @@ public class Character extends Objet{
 			this.lifePoints-=20*Main.increment;
 		}
 		this.updateChargeTime();
-
-		if(this.isImmolating){
-			this.updateImmolation();
-			return;
+		// Update spell effects
+		Vector<Integer> toRemove = new Vector<Integer>();
+		for(Integer i : spells){
+			SpellEffect e = (SpellEffect) Game.g.plateau.getById(i);
+			if(e==null){
+				toRemove.add(i);
+				continue;
+			}
+			
+		}
+		
+		if(canMove){
+			this.actionIAScript();
+			this.updateAnimation();
+			this.updateAttributsChange();
 		}
 
-		this.actionIAScript();
-		this.updateAnimation();
-		this.updateAttributsChange();
 	}
 
 	// Movement method
@@ -537,53 +494,12 @@ public class Character extends Objet{
 		}
 
 		// Drawing the health bar
-		if(!isImmolating && this.lifePoints<this.getAttribut(Attributs.maxLifepoints)){
+		if(this.lifePoints<this.getAttribut(Attributs.maxLifepoints)){
 			drawLifePoints(g,r);
-		}
-
-		//Draw the immolation
-		if(isImmolating){
-			drawImmolation(g, r);
 		}
 		return g;
 	}
 
-	protected void drawImmolation(Graphics g,float r) {
-		Image fire = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
-		r = fire.getWidth()/5f;
-		x = this.getX();
-		y = this.getY();
-		if(this.remainingTime>=65f){
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,0f,0f,r,r);
-		}
-		else if(this.remainingTime>=55f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,r,0f,2*r,r);
-		else if(this.remainingTime>=45f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,2*r,0f,3*r,r);
-		else if(this.remainingTime>=40f*Main.ratioSpace)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
-		else if(this.remainingTime>=35f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,5*r,r);
-		else if(this.remainingTime>=40f*Main.ratioSpace)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
-		else if(this.remainingTime>=35f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,3*r,r);
-		else if(this.remainingTime>=30f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
-		else if(this.remainingTime>=25f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,5*r,r);
-		else if(this.remainingTime>=20f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
-		else if(this.remainingTime>=15f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,3*r,r);
-		else if(this.remainingTime>=10f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
-		else if(this.remainingTime>=5f)
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,4*r,0f,5*r,r);
-		else 
-			g.drawImage(fire, x-40f*Main.ratioSpace, y-40f*Main.ratioSpace, x+40f*Main.ratioSpace, y+40f*Main.ratioSpace,3*r,0f,4*r,r);
-
-	}
 
 	public void drawIsSelected(Graphics g){
 
@@ -812,7 +728,6 @@ public class Character extends Objet{
 	//// Changing the team
 	public void changeTeam(int newTeam){
 		this.setTeam( newTeam);
-		this.updateImage();
 	}
 
 	//// UPDATE FUNCTIONS
@@ -954,25 +869,7 @@ public class Character extends Objet{
 		}
 
 	}
-	public void updateImmolation(){
-		this.lifePoints=this.getAttribut(Attributs.maxLifepoints);
-		this.remainingTime-=1f;
-		if(this.remainingTime<=0f){
-			//Test if explosion
-			if(this.getAttribut(Attributs.explosionWhenImmolate)==1){
-				for(Character c : Game.g.plateau.characters){
-					if(Utils.distance(c, this)<100f && c!=this){
-						c.setLifePoints(c.lifePoints-20f);
-					}
-				}
-			}
 
-			this.lifePoints=-1f;
-			this.getGameTeam().special+=this.getGameTeam().data.gainedFaithByImmolation;
-			Game.g.addDisplayRessources(new DisplayRessources(this.getGameTeam().data.gainedFaithByImmolation,"faith",this.x,this.y));
-		}
-
-	}
 	public void updateSetTarget(){
 
 		if(this.getTarget()!=null 
@@ -1037,8 +934,6 @@ public class Character extends Objet{
 		return result;
 	}
 
-
-
 	public void setGroup(Vector<Character> group) {
 		this.group.clear();
 		for(Character c  : group){
@@ -1053,11 +948,6 @@ public class Character extends Objet{
 	public void removeFromGroup(int id){
 		this.group.removeElement(id);
 	}
-
-
-
-
-
 }
 
 

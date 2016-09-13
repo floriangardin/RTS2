@@ -31,19 +31,11 @@ public class BlessedArea extends SpellEffect{
 	public float size;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Character launcher, Checkpoint t,int id, float size){
-		if(id==-1){
-			this.id = Game.g.id;
-			Game.g.id+=1;
-		}
-		else{
-			this.id =id;
-		}
+	public BlessedArea(Character launcher, Checkpoint t, float size){
+
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
-		this.id = Game.g.id;
-		Game.g.id+=1;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		this.image = "blessedArea";

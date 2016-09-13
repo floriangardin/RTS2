@@ -23,13 +23,11 @@ public class BurningArea extends SpellEffect{
 	public float size;
 
 	public BurningArea(Objet launcher, Checkpoint t, float size){
-		this.id = Game.g.id;
-		Game.g.id+=1;
+
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
 		this.id = Game.g.id;
-		Game.g.id+=1;
 		this.toDrawOnGround = true;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);

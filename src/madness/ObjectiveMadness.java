@@ -20,11 +20,9 @@ public abstract class ObjectiveMadness {
 	}
 	
 	
-	
 	public void getReward(){
 		
 	}
-	
 
 	public boolean isCompleted(){
 		return current>=objective;

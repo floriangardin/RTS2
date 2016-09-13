@@ -23,7 +23,8 @@ public abstract class Objet implements java.io.Serializable {
 	public int mode;
 	public int orientation=2;
 	public int increment;
-
+	
+	public boolean canMove=true;
 	public float x;
 	public float y;
 	public int idCase;
@@ -61,8 +62,6 @@ public abstract class Objet implements java.io.Serializable {
 	
 	// spells attributs
 	public float inDash = 0f;
-
-
 
 	public void action(){}
 	public void move(){}
@@ -235,6 +234,8 @@ public abstract class Objet implements java.io.Serializable {
 		return this.spellsState.get(number) >= this.getSpell(number).getAttribut(Attributs.chargeTime);
 	}
 	public Spell getSpell(int i){
+
+		
 		if(this.spells.size()>i){
 			if(this.getGameTeam().data.spells.containsKey(this.spells.get(i))){
 				return this.getGameTeam().data.spells.get(this.spells.get(i));

@@ -17,15 +17,8 @@ public class Heal extends SpellEffect{
 	public float damage;
 	public Character owner;
 	public boolean active = false;
-	public Heal(Character launcher, Objet t,int id){
+	public Heal(Character launcher, Objet t){
 
-		if(id==-1){
-			this.id = Game.g.id;
-			Game.g.id+=1;
-		}
-		else{
-			this.id =id;
-		}
 
 		this.type = 1;
 

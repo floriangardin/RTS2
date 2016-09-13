@@ -17,7 +17,7 @@ public class SpellFirewall extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true);
-		Firewall f = new Firewall(launcher,t, getAttribut(Attributs.width),-1);
+		Firewall f = new Firewall(launcher,t, getAttribut(Attributs.width));
 		f.damage = this.getAttribut(Attributs.damage);
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.stop();

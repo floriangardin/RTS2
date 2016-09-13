@@ -17,7 +17,7 @@ public class SpellFrozen extends Spell{
 
 	public void launch(Objet target, Character launcher){
 		Objet t = Spell.realTarget(target, launcher, getAttribut(Attributs.range),true);
-		Frozen f = new Frozen(launcher,t,-1,getAttribut(Attributs.size));
+		Frozen f = new Frozen(launcher,t,getAttribut(Attributs.size));
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 
 	}

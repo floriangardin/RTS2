@@ -5,9 +5,9 @@ import events.Events;
 import model.Game;
 import model.GameTeam;
 
-public class ObjectiveImmolation  extends ObjectiveMadness{
+public class ObjectiveMeditation  extends ObjectiveMadness{
 
-	public ObjectiveImmolation(GameTeam gameTeam,int value) {
+	public ObjectiveMeditation(GameTeam gameTeam,int value) {
 		super(gameTeam);
 		objective= value;
 	}
@@ -16,7 +16,7 @@ public class ObjectiveImmolation  extends ObjectiveMadness{
 	@Override
 	public void action() {
 		for(Event e : Game.g.getEvents().getNewEvents()){
-			if(e.getName()==Events.Immolation){
+			if(e.getName()==Events.Meditation){
 				this.current++;
 			}
 		}

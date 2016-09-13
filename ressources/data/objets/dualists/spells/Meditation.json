@@ -1,0 +1,8 @@
+{
+prototype:"Spell",
+printName:"Meditation",
+chargeTime:0,
+faithCost:0,
+totalTime:20,
+needToClick:0
+}

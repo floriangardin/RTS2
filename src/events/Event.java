@@ -55,7 +55,12 @@ public class Event {
 		case Immolation:
 			// Differentiate by death
 			this.sounds.add(Game.g.sounds.get("fire"));
-			this.duration = 10f;
+			this.duration = 10f*20f*Main.increment;
+			break;
+		case Meditation:
+			System.out.println("launch meditation");
+			this.sounds.add(Game.g.sounds.get("meditation"));
+			this.duration = 30f*20f*Main.increment;
 			break;
 		case MoveAttack:
 			// Differentiate by death
@@ -81,6 +86,8 @@ public class Event {
 			// Differentiate by death
 			this.sounds.add(Game.g.sounds.get(parent.getAttributString(Attributs.weapon)));
 			this.duration = 3f;
+			break;
+		default:
 			break;
 		}
 	}
@@ -141,5 +148,10 @@ public class Event {
 	
 	public Events getName(){
 		return name;
+	}
+	public void action() {
+		// Recalculate distance and set volume according to it
+		
+		
 	}
 }
