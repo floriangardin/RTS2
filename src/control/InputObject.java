@@ -8,6 +8,7 @@ import org.newdawn.slick.Input;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.BottomBar;
+import display.BottomBar.Icon;
 import model.Game;
 import model.Objet;
 import model.Player;
@@ -78,7 +79,7 @@ public class InputObject implements java.io.Serializable{
 		pressed = new Vector<KeyEnum>();
 		x = input.getMouseX();
 		y = input.getMouseY();
-		// IL y a surement plus simple et moins coûteux
+		// Il y a surement plus simple et moins coûteux
 		if(debugTouche){
 			for(int i=0; i<250; i++){
 				if(input.isKeyPressed(i)){
@@ -172,43 +173,39 @@ public class InputObject implements java.io.Serializable{
 			}
 
 			// checking for the prod button in the action bar
-			if(pressed.contains(KeyEnum.LeftClick) ){
-				if(Game.g.bottomBar.action.toDrawDescription[0][0]){
-					this.pressed.addElement(KeyEnum.Prod0);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[1][0]){
-					this.pressed.addElement(KeyEnum.Prod1);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[2][0]){
-					this.pressed.addElement(KeyEnum.Prod2);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[3][0]){
-					this.pressed.addElement(KeyEnum.Prod3);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[0][1]){
-					this.pressed.addElement(KeyEnum.Tech0);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[1][1]){
-					this.pressed.addElement(KeyEnum.Tech1);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[2][1]){
-					this.pressed.addElement(KeyEnum.Tech2);
-				}
-				if(Game.g.bottomBar.action.toDrawDescription[3][1]){
-					this.pressed.addElement(KeyEnum.Tech3);
-				}
-			}
 			boolean a = pressed.contains(KeyEnum.LeftClick);
 			boolean b = down.contains(KeyEnum.LeftClick);
-			if(a || b){
-				for(int i=0; i<Game.g.bottomBar.action.toDrawDescription.length; i++){
-					if(Game.g.bottomBar.action.toDrawDescription[i][0]){
-						if(a){
-							pressed.remove(KeyEnum.LeftClick);
+			if(pressed.contains(KeyEnum.LeftClick) ){
+				// action bar
+				String s = "";
+				for(int i=0; i<2; i++){
+					s = (i==0 ? "Prod" : "Tech");
+					for(int j=0;j<Game.g.bottomBar.prodIconNbY;j++){
+						if(Game.g.bottomBar.toDrawDescription[j][i]){
+							this.pressed.addElement(KeyEnum.valueOf(s+j));
+							if(a){
+								pressed.remove(KeyEnum.LeftClick);
+							}
+							if(b){
+								pressed.remove(KeyEnum.LeftClick);
+							}
 						}
-						if(b){
-							pressed.remove(KeyEnum.LeftClick);
+					}
+				}
+				// topbar
+				if(Game.g.bottomBar.iconChoice!=null){
+					int i = 0;
+					for(Icon icon : Game.g.bottomBar.iconChoice){
+						if(icon.isMouseOnIt){
+							pressed.add(KeyEnum.valueOf("ActCard"+i));
+							if(a){
+								pressed.remove(KeyEnum.LeftClick);
+							}
+							if(b){
+								pressed.remove(KeyEnum.LeftClick);
+							}
 						}
+						i+=1;
 					}
 				}
 			}
@@ -222,8 +219,8 @@ public class InputObject implements java.io.Serializable{
 		if(isOnMiniMap){
 			//			System.out.println("miniMap");
 			BottomBar b = Game.g.bottomBar;
-			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.minimap.startX)/b.minimap.rw);
-			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.minimap.startY)/b.minimap.rh);
+			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.startXMiniMap)/b.ratioWidthMiniMap);
+			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.startYMiniMap)/b.ratioHeightMiniMap);
 		}
 
 		this.validated = new Vector<Boolean>();

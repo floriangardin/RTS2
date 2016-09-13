@@ -111,6 +111,11 @@ public class KeyMapper {
 		Stable,
 		Headquarters, 
 		GlobalRallyPoint,
+		ActCard0,
+		ActCard1,
+		ActCard2,
+		ActCard3,
+		ActCard4,
 		AllUnits;
 
 		public Vector<ObjetsList> getUnitsList() {

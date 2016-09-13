@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 
 import data.Data;
+import madness.ActCard;
 import madness.ObjectiveImmolation;
 import madness.ObjectiveMadness;
 import madness.ObjectiveMeditation;
@@ -31,6 +32,11 @@ public class GameTeam {
 	
 	// Objectives of madness
 	private Vector<ObjectiveMadness> objectivesMadness = new Vector<ObjectiveMadness>();
+	
+	// Current choice of actCard
+	public Vector<Vector<ActCard>> currentChoices = new Vector<Vector<ActCard>>();
+	// Made choices of actcard
+	public Vector<ActCard> choices = new Vector<ActCard>();
 	
 	
 	public GameTeam(Vector<Player> players, int id, int civ) {

@@ -196,12 +196,12 @@ public class Images {
 			return this.images.get(name.toLowerCase());
 		} else {
 			System.out.println("Error : trying to load an non-existing image : "+name);
-			try {
-				throw new FatalGillesError("non-existing image : "+name);
-			} catch (FatalGillesError e) {
-				e.printStackTrace();
-			}
-			return null;
+//			try {
+//				throw new FatalGillesError("non-existing image : "+name);
+//			} catch (FatalGillesError e) {
+//				e.printStackTrace();
+//			}
+			return this.images.get("image_manquante");
 		}
 	}
 

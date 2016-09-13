@@ -1,0 +1,13 @@
+{
+name:"zinaids",
+
+choiceAct1:AgeIa-AgeIb,
+choiceMadnessAct1:AgeIm-,
+choiceReasonAct1:AgeIr-,
+choiceAct2:AgeIIa-AgeIIb,
+choiceMadnessAct2:AgeIIm-,
+choiceReasonAct2:AgeIIr-,
+choiceAct3:-,
+choiceMadnessAct3:-,
+choiceReasonAct3:-
+}

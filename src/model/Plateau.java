@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Circle;
@@ -16,6 +15,9 @@ import control.Selection;
 import data.Attributs;
 import display.BottomBar;
 import events.Events;
+import javafx.scene.input.InputMethodHighlight;
+import madness.Act;
+import madness.ActCard;
 import main.Main;
 import pathfinding.MapGrid;
 import ressources.Map;
@@ -69,6 +71,12 @@ public class Plateau implements java.io.Serializable {
 
 	public HashMap<Integer,Objet> objets;
 
+	// About Acts
+	public Vector<Act> acts;
+	private int currentAct = -1;
+	private float currentActTime = 0f;
+
+
 	// Quick accessors 
 
 	//TODO : Objet pool
@@ -82,8 +90,6 @@ public class Plateau implements java.io.Serializable {
 		this.maxY = maxY;
 
 		initializePlateau(g);
-
-
 
 	}
 
@@ -120,6 +126,9 @@ public class Plateau implements java.io.Serializable {
 		// All objects
 		objets = new HashMap<Integer,Objet>();
 		Game.g.id = 0;
+
+		// Acts
+		this.acts = new Vector<Act>();
 
 		for(GameTeam t : g.teams){
 			t.pop = 0;
@@ -446,8 +455,8 @@ public class Plateau implements java.io.Serializable {
 				}
 				// Then we create its new group
 				o.setGroup(new Vector<Character>());
-				
-				
+
+
 				if (i == 0 && Math.random() > 0.3) {
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
@@ -481,7 +490,7 @@ public class Plateau implements java.io.Serializable {
 				if(target instanceof Building){
 					mode = Character.TAKE_BUILDING;
 				}
-				
+
 				o.setTarget(target, waypoints, mode);
 				o.secondaryTargets.clear();
 			}
@@ -636,7 +645,8 @@ public class Plateau implements java.io.Serializable {
 
 			this.handleInterface(im);
 			// Handling action bar
-			this.handleActionBar(im, player);
+			this.handleActionOnInterface(im, player);
+
 			// Handling the right click
 			this.handleRightClick(im, player);
 
@@ -646,6 +656,22 @@ public class Plateau implements java.io.Serializable {
 
 		}
 		Game.g.inputsHandler.updateSelection(ims);
+		// 2 - Handling acts
+		this.currentActTime-=1f/Main.framerate;
+		if(this.currentActTime<=0){
+			// changement d'acte
+			if(this.currentAct>=0){
+				// on gère le choix des cartes
+				for(GameTeam team : Game.g.teams){
+					Vector<ActCard> v = new Vector<ActCard>();
+					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
+					// TODO : rajouter folie/raison + objectifs
+					team.currentChoices.add(v);
+				}
+			}
+			this.currentAct += 1;
+			this.currentActTime = this.getCurrentAct().getTime();
+		}
 		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - Game.g.timeSteps));
 
@@ -756,7 +782,8 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 
-	private void handleActionBar(InputObject im, int player) {
+	private void handleActionOnInterface(InputObject im, int player) {
+		// Action bar
 		Selection selection = Game.g.inputsHandler.getSelection(player);
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
@@ -783,7 +810,7 @@ public class Plateau implements java.io.Serializable {
 							number = i;
 					}
 					if (im.isPressed(KeyEnum.Immolation)){
-						
+
 						number = 0;
 						imo = true;
 					}
@@ -796,7 +823,7 @@ public class Plateau implements java.io.Serializable {
 							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
-	
+
 							}
 							// switching selection
 							int compteur = 0;
@@ -830,6 +857,16 @@ public class Plateau implements java.io.Serializable {
 			selection.selection.insertElementAt(c, compteur);
 			selection.selection.remove(0);
 		}
+		// Top Bar
+		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
+			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
+				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
+					chooseActCard(i);
+					break;
+				}
+			}
+		}
+		
 
 	}
 
@@ -892,25 +929,8 @@ public class Plateau implements java.io.Serializable {
 		BottomBar bb = Game.g.bottomBar;
 		float relativeXMouse = (im.x - Game.g.Xcam);
 		float relativeYMouse = (im.y - Game.g.Ycam);
-		if (relativeXMouse > bb.action.x && relativeXMouse < bb.action.x + 2*bb.action.sizeX
-				&& relativeYMouse > bb.action.y && relativeYMouse < bb.action.y + bb.action.sizeY) {
-			int mouseOnItem = (int) ((relativeYMouse - bb.action.y) / (bb.action.sizeY / bb.action.prodIconNbY));
-			int yItem = relativeXMouse>bb.action.x + bb.action.sizeX? 1:0;
-			for(int i = 0 ; i<bb.action.prodIconNbY;i++){
-				for(int j = 0 ; j<bb.action.prodIconNbX; j++){
-					bb.action.toDrawDescription[i][j] = false;
-				}
-			}
-
-			if (mouseOnItem >= 0 && mouseOnItem < bb.action.prodIconNbY)
-				bb.action.toDrawDescription[mouseOnItem][yItem] = true;
-		} else {
-			for(int i = 0 ; i<bb.action.prodIconNbY;i++){
-				for(int j = 0 ; j<bb.action.prodIconNbX; j++){
-					bb.action.toDrawDescription[i][j] = false;
-				}
-			}
-		}
+		bb.update(relativeXMouse, relativeYMouse);
+		
 	}
 
 	private void handleMinimap(InputObject im, int player) {
@@ -992,6 +1012,27 @@ public class Plateau implements java.io.Serializable {
 	}
 
 
+	// getter, setter and act handler
 
+	public Act getCurrentAct(){
+		if(this.acts.size()>=0 && this.currentAct>=0 && this.currentAct<this.acts.size()){
+			return this.acts.get(this.currentAct);
+		} else {
+			return null;
+		}
+	}
+
+	public float getCurrentActTime(){
+		return this.currentActTime;
+	}
+
+	public void chooseActCard(int i){
+		// sélection de la carte
+		Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i).applyEffect();
+		Game.g.bottomBar.addCardChoice(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
+		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
+		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
+		Game.g.bottomBar.iconChoice=null;
+	}
 
 }

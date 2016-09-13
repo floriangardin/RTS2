@@ -496,23 +496,23 @@ public class Utils {
 
 	}
 
-	public static String gameTime(long startTime){
-		long time = System.currentTimeMillis();
+	public static String displayTime(int nbSecond){
 		String result = "";
-		if(time<startTime){
+		if(nbSecond<0){
 			result ="-";
-			time = 2*startTime-time;
+			nbSecond *= -1;
 		}
-		result+=((int) ((time-startTime)/1000))/60;
+		result+=nbSecond/60;
 		result+=":";
-		if((((time-startTime)/1000)%60)<10){
+		if((nbSecond%60)<10){
 			result+="0";
 		}
-		result+=((time-startTime)/1000)%60;
+		result+=nbSecond%60;
 
 		return result;
-
 	}
+	
+	
 
 	public static float[][] loadFloatMatrix(String path){
 		float[][] matrix = null;

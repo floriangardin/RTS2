@@ -1,15 +1,14 @@
 package madness;
 
-import java.util.Vector;
-
+import model.Civilisation.AttributsCiv;
 import model.GameTeam;
-import model.Objet;
 
 public abstract class ObjectiveMadness {
 	
 	
 	public int current ; // +n or -n (n immolation for having)
 	public int objective;
+	public AttributsCiv cardList;
 	
 
 	public GameTeam gameTeam;

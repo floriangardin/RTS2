@@ -48,6 +48,15 @@ public enum ObjetsList {
 	DualistRangeAttack3("Technology"), 
 	DualistExplosion("Technology"), 
 	DualistEagleView("Technology"),
+	// ActCard
+	AgeIa("ActCard"),
+	AgeIb("ActCard"),
+	AgeIm("ActCard"),
+	AgeIr("ActCard"),
+	AgeIIa("ActCard"),
+	AgeIIb("ActCard"),
+	AgeIIm("ActCard"),
+	AgeIIr("ActCard"),
 	// Bullets
 	Arrow("Bullet"),
 	Fireball("Bullet"),
@@ -102,7 +111,7 @@ public enum ObjetsList {
 				return o;
 			}
 		}
-		System.out.println(name);
+		System.out.println(name+" pose un problème car est nul !");
 		return null;
 	}
 
