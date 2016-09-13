@@ -21,6 +21,7 @@ public enum Attributs {
 	maxChargetime, 
 	spells, 
 	productions, 
+	defendable,
 	totalTime, 
 	faithCost, 
 	effect, bonusDamage, bonusSpeed, list, needToClick, width,

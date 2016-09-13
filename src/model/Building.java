@@ -13,6 +13,7 @@ import bonus.Bonus;
 import bullets.Fireball;
 import data.Attributs;
 import display.DisplayRessources;
+import madness.ActRule;
 import main.Main;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
@@ -31,6 +32,8 @@ public class Building extends Objet{
 	private int rallyPoint;
 
 	public float charge;
+	
+	public boolean isDestroyed = false;
 
 
 	public boolean giveUpProcess = false;
@@ -75,8 +78,11 @@ public class Building extends Objet{
 		this.y = y;
 		teamCapturing= 0;
 		this.setTeam(team);
-
 		this.initialize(x, y);
+		if(this.team>0){
+			this.constructionPoints = this.getAttribut(Attributs.maxLifepoints);
+		}
+
 		if(name.equals(ObjetsList.Headquarters)){
 			initHQ();
 		}
@@ -226,13 +232,15 @@ public class Building extends Objet{
 		this.currentTechsProduced = new Vector<ObjetsList>();
 		this.setTeam(team);
 		this.getGameTeam().hq = this;
-		this.constructionPoints = this.getAttribut(Attributs.maxLifepoints);
 		// List of potential production 
 		
 		
 	}
 	
 	public void attack(){
+		if(Game.g.plateau.isRuleActive(ActRule.no_tower_attack)){
+			return;
+		}
 		//Animation
 		Objet target = getTarget();
 		if(getTeam()!=0)
@@ -502,11 +510,17 @@ public class Building extends Objet{
 		if( c.getAttributString(Attributs.weapon)== "bow" || c.getAttributString(Attributs.weapon)== "wand" || c.getAttributString(Attributs.weapon)=="bible")
 			return;
 		if(this.name.equals(ObjetsList.Stable) && c.getGameTeam().hq.age<2){
-			//			this.p.addMessage(Message.getById(5), c.team);
 			return;
 		}
 		if(this.name.equals(ObjetsList.Academy) && c.getGameTeam().hq.age<3){
-			//			this.p.addMessage(Message.getById(5), c.team);
+			return;
+		}
+		if(this.getGameTeam().id==c.getGameTeam().id && (Game.g.plateau.isRuleActive(ActRule.no_defense_building)||this.getAttribut(Attributs.defendable)==0)){
+			// plus de defense des bâtiments
+			return;
+		}
+		if(this.getGameTeam().id!=0 && this.getGameTeam().id!=c.getGameTeam().id && Game.g.plateau.isRuleActive(ActRule.no_attack_building)){
+			// pas le droit d'attaquer les bâtiments
 			return;
 		}
 		if(this.potentialTeam!=c.getTeam() && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
@@ -514,9 +528,11 @@ public class Building extends Objet{
 			this.underAttackRemaining =20f;
 
 			if(this.constructionPoints<=0f){
-				this.potentialTeam = c.getTeam();
-				if(!(name.equals(ObjetsList.Headquarters))){
+				if(this.getAttribut(Attributs.defendable)==0){
+					this.isDestroyed = true;
 					this.setTeam(0);
+				} else {
+					this.potentialTeam = c.getTeam();
 				}
 			}
 			this.constructionPoints-=Main.increment;
@@ -529,15 +545,7 @@ public class Building extends Objet{
 				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam);
-					if(name.equals(ObjetsList.Headquarters)){
-						Game.g.endGame = true;
-						if(this.getTeam()==Game.g.currentPlayer.getTeam()){
-							Game.g.victory = true;
-						}
-						else{
-							Game.g.victory = false;
-						}
-					}
+					
 				}else if(ChatHandler.remainingTimeNotEnoughRoom<=0f){
 					ChatHandler.remainingTimeNotEnoughRoom=10f;
 					Game.g.sendMessage(ChatMessage.getById("pop"));
@@ -710,12 +718,12 @@ public class Building extends Objet{
 			this.getGameTeam().pop-=2;
 		}
 		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(name.equals(ObjetsList.Headquarters))){
-			Game.g.sendMessage(ChatMessage.getById("building taken"));
-
+			if(Game.g.plateau.getCurrentAct()!=null){
+				Game.g.sendMessage(ChatMessage.getById("building taken"));
+			}
 		}
 		this.team = i;
 		if(!(this instanceof Bonus)  && this.team!=0){
-		
 			this.getGameTeam().pop+=2;
 		}
 		this.setTeamExtra();

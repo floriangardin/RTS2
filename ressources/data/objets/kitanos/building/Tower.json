@@ -4,5 +4,6 @@ prototype:"Building",
 damage:20,
 sizeX:2,
 sizeY:2,
-canAttack:1
+canAttack:1,
+defendable:0
 }

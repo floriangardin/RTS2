@@ -18,6 +18,7 @@ import main.Main;
 import model.Building;
 import model.Character;
 import model.Game;
+import model.GameTeam;
 import model.Plateau;
 import nature.Tree;
 import pathfinding.MapGrid;
@@ -87,6 +88,11 @@ public class Map {
 			Vector<String> naturalObjects = new Vector<String>();
 			Vector<String> headquarters = new Vector<String>();
 			Vector<String> currentVector = null;
+			// Acts
+			game.plateau.acts = new Vector<Act>();
+			for(GameTeam t : Game.g.teams){
+				t.pop = 0;
+			}
 			String ligne;
 			int sizeX = 0, sizeY = 0;
 			Point Zcam = new Point(0,0), Scam = new Point(0,0), Qcam = new Point(0,0), Dcam = new Point(0,0);
