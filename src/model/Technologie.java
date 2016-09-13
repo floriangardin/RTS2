@@ -32,7 +32,8 @@ public abstract class Technologie implements java.io.Serializable{
 	public String getIcon(){
 		return this.getGameTeam().data.getAttributString(objet, Attributs.nameIcon);
 	}
-
+	
+	
 	public static Technologie technologie(ObjetsList o, int gameteam){
 		switch(o){
 		case DualistAge2:
@@ -229,6 +230,23 @@ public abstract class Technologie implements java.io.Serializable{
 				this.getGameTeam().data.setAttribut(ObjetsList.Priest, Attributs.explosionWhenImmolate, 1f);
 				this.getGameTeam().data.setAttribut(ObjetsList.Inquisitor, Attributs.explosionWhenImmolate, 1f);
 				this.getGameTeam().data.setAttribut(ObjetsList.Archange, Attributs.explosionWhenImmolate, 1f);
+			}
+			
+		};
+		case DualistImmolationAuto:
+			return 	new Technologie(o, gameteam){
+				
+			private static final long serialVersionUID = 6929598547186654867L;
+
+			@Override
+			public void applyEffect() {
+				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
+				this.getGameTeam().data.setAttribut(ObjetsList.Spearman, Attributs.autoImmolation, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Crossbowman, Attributs.autoImmolation, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Knight,Attributs.autoImmolation, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Priest, Attributs.autoImmolation, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Inquisitor,Attributs.autoImmolation, 1f);
+				this.getGameTeam().data.setAttribut(ObjetsList.Archange, Attributs.autoImmolation, 1f);
 			}
 			
 		};

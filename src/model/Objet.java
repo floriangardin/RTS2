@@ -256,6 +256,7 @@ public abstract class Objet implements java.io.Serializable {
 		return this.spells;
 	}
 	public Spell getSpell(ObjetsList spell){
+
 		int indexSpell = getSpellsName().indexOf(spell);
 		if(indexSpell>=0){
 			return getSpell(indexSpell);

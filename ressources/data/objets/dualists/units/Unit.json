@@ -5,5 +5,6 @@ sight:300,
 chargeTime:2,
 animStep:30,
 heal:0,
-explosionWhenImmolate:0
+explosionWhenImmolate:0,
+autoImmolation:1
 }

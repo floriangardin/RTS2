@@ -31,6 +31,7 @@ public class Civilisation {
 
 	public Civilisation(String name,GameTeam gameteam){
 		this.name = name;
+
 		this.gameteam = gameteam;
 		switch(name.toLowerCase()){
 		case "dualists":
@@ -60,6 +61,7 @@ public class Civilisation {
 				cardChoices.put(a, new Vector<ActCard>());
 				if(attributsString.get(a).length()>2){
 					for(String element : attributsString.get(a).split("-")){
+						
 						cardChoices.get(a).add(ActCard.actCard(ObjetsList.get(element), gameteam.id));
 					}
 				}

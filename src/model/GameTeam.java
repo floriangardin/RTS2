@@ -40,6 +40,7 @@ public class GameTeam {
 	
 	
 	public GameTeam(Vector<Player> players, int id, int civ) {
+		this.id = id;
 		switch(civ){
 		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);
 		this.objectivesMadness.addElement(new ObjectiveImmolation(this,2));
@@ -50,7 +51,7 @@ public class GameTeam {
 		default:
 		}
 		
-		this.id = id;
+		
 		this.data = new Data(id,this.civ.name);
 		if(id==0){
 			color = Colors.team0;
