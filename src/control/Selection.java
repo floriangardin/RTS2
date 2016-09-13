@@ -95,9 +95,11 @@ public class Selection {
 
 
 	public void handleSelection(InputObject im) {
+		
+		
 		// Handling groups of units
 		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
-		KeyEnum  pressed= null;
+		KeyEnum  pressed = null;
 		for(KeyEnum key : tab){
 			if(im.isPressed(key)){
 				pressed=key;
@@ -106,7 +108,7 @@ public class Selection {
 		}
 
 		if(pressed!=null){
-			this.selection =  new Vector<Objet>();
+			this.selection = new Vector<Objet>();
 			for(Character o : Game.g.plateau.characters){
 				if(o.getGameTeam().id == Game.g.players.get(player).getTeam() && pressed.getUnitsList().contains(o.name)){
 					this.selection.add(o);
@@ -119,11 +121,8 @@ public class Selection {
 			}
 		}
 
-
-
-
 		// Selection des batiments
-
+		
 
 		// Cleaning the rectangle and buffer if mouse is released
 		//		boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
@@ -134,14 +133,14 @@ public class Selection {
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(0);
-					Game.g.events.addEvent(Events.CharacterSelected, c);
+					Game.g.triggerEvent(Events.CharacterSelected, c);
 
 				}
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Building) {
 					Building c = (Building) this.selection.get(0);
 					//s = Game.g.sounds.get("selection"+c.name);
-					Game.g.events.addEvent(Events.BuildingSelected, c);
+					Game.g.triggerEvent(Events.BuildingSelected, c);
 				}
 
 			

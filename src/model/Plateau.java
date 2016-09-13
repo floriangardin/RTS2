@@ -15,7 +15,9 @@ import control.Selection;
 import data.Attributs;
 import display.BottomBar;
 import events.Events;
+import javafx.scene.input.InputMethodHighlight;
 import madness.Act;
+import madness.ActCard;
 import main.Main;
 import pathfinding.MapGrid;
 import ressources.Map;
@@ -68,12 +70,12 @@ public class Plateau implements java.io.Serializable {
 	public MapGrid mapGrid;
 
 	public HashMap<Integer,Objet> objets;
-	
+
 	// About Acts
 	public Vector<Act> acts;
 	private int currentAct = -1;
 	private float currentActTime = 0f;
-	
+
 
 	// Quick accessors 
 
@@ -124,7 +126,7 @@ public class Plateau implements java.io.Serializable {
 		// All objects
 		objets = new HashMap<Integer,Objet>();
 		Game.g.id = 0;
-		
+
 		// Acts
 		this.acts = new Vector<Act>();
 
@@ -200,7 +202,7 @@ public class Plateau implements java.io.Serializable {
 			if (!o.isAlive()) {
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
-				Game.g.events.addEvent(Events.Death, o);
+				Game.g.triggerEvent(Events.Death, o);
 			}
 		}
 		for (Bullet o : bullets) {
@@ -453,14 +455,14 @@ public class Plateau implements java.io.Serializable {
 				}
 				// Then we create its new group
 				o.setGroup(new Vector<Character>());
-				
-				
+
+
 				if (i == 0 && Math.random() > 0.3) {
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
-						Game.g.events.addEvent(Events.MoveAttack, o);
+						Game.g.triggerEvent(Events.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
-						Game.g.events.addEvent(Events.MoveTarget, o);
+						Game.g.triggerEvent(Events.MoveTarget, o);
 					}
 				}
 
@@ -643,8 +645,8 @@ public class Plateau implements java.io.Serializable {
 
 			this.handleInterface(im);
 			// Handling action bar
-			this.handleActionBar(im, player);
-			
+			this.handleActionOnInterface(im, player);
+
 			// Handling the right click
 			this.handleRightClick(im, player);
 
@@ -660,7 +662,12 @@ public class Plateau implements java.io.Serializable {
 			// changement d'acte
 			if(this.currentAct>=0){
 				// on gère le choix des cartes
-				
+				for(GameTeam team : Game.g.teams){
+					Vector<ActCard> v = new Vector<ActCard>();
+					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
+					// TODO : rajouter folie/raison + objectifs
+					team.currentChoices.add(v);
+				}
 			}
 			this.currentAct += 1;
 			this.currentActTime = this.getCurrentAct().getTime();
@@ -727,20 +734,18 @@ public class Plateau implements java.io.Serializable {
 
 
 	private void handleRightClick(InputObject im, int player) {
-		Selection selection = Game.g.inputsHandler.getSelection(player);
+		Vector<Objet> selection = im.getSelection();
 		if (im.isPressed(KeyEnum.RightClick)) {
 			// RALLY POINT
 
-			if (selection.selection.size() > 0
-					&& selection.selection.get(0) instanceof Building) {
+			if (selection.size() > 0
+					&& selection.get(0) instanceof Building) {
 				Objet target = findTarget(im.x, im.y,player);
 				if(target instanceof Building || target instanceof Character){
-					((Building) selection.selection.get(0)).setRallyPoint(target.x, target.y);;
+					((Building) selection.get(0)).setRallyPoint(target.x, target.y);;
 				}
 				if(target==null){
-
-					((Building) selection.selection.get(0)).setRallyPoint(im.x, im.y);
-
+					((Building) selection.get(0)).setRallyPoint(im.x, im.y);
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
 
@@ -752,7 +757,7 @@ public class Plateau implements java.io.Serializable {
 		if (im.isPressed(KeyEnum.StopperMouvement)) {
 			// STOP SELECTION
 
-			for (Objet c : selection.selection) {
+			for (Objet c : selection) {
 
 				if (c instanceof Character) {
 					((Character) c).stop();
@@ -777,7 +782,8 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 
-	private void handleActionBar(InputObject im, int player) {
+	private void handleActionOnInterface(InputObject im, int player) {
+		// Action bar
 		Selection selection = Game.g.inputsHandler.getSelection(player);
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
@@ -804,6 +810,7 @@ public class Plateau implements java.io.Serializable {
 							number = i;
 					}
 					if (im.isPressed(KeyEnum.Immolation)){
+
 						number = 0;
 						imo = true;
 					}
@@ -816,6 +823,7 @@ public class Plateau implements java.io.Serializable {
 							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y), c);
 								c.spellsState.set(number, 0f);
+
 							}
 							// switching selection
 							int compteur = 0;
@@ -849,6 +857,16 @@ public class Plateau implements java.io.Serializable {
 			selection.selection.insertElementAt(c, compteur);
 			selection.selection.remove(0);
 		}
+		// Top Bar
+		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
+			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
+				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
+					chooseActCard(i);
+					break;
+				}
+			}
+		}
+		
 
 	}
 
@@ -911,25 +929,8 @@ public class Plateau implements java.io.Serializable {
 		BottomBar bb = Game.g.bottomBar;
 		float relativeXMouse = (im.x - Game.g.Xcam);
 		float relativeYMouse = (im.y - Game.g.Ycam);
-		if (bb.isMouseOnActionBar(relativeXMouse, relativeYMouse)) {
-			int mouseOnItem = (int) ((relativeYMouse - bb.startYActionBar) / (bb.sizeYActionBar / bb.prodIconNbY));
-			System.out.println(mouseOnItem);
-			int yItem = relativeXMouse>bb.startXActionBar + bb.sizeXActionBar? 1:0;
-			for(int i = 0 ; i<bb.prodIconNbY;i++){
-				for(int j = 0 ; j<bb.prodIconNbX; j++){
-					bb.toDrawDescription[i][j] = false;
-				}
-			}
-
-			if (mouseOnItem >= 0 && mouseOnItem < bb.prodIconNbY)
-				bb.toDrawDescription[mouseOnItem][yItem] = true;
-		} else {
-			for(int i = 0 ; i<bb.prodIconNbY;i++){
-				for(int j = 0 ; j<bb.prodIconNbX; j++){
-					bb.toDrawDescription[i][j] = false;
-				}
-			}
-		}
+		bb.update(relativeXMouse, relativeYMouse);
+		
 	}
 
 	private void handleMinimap(InputObject im, int player) {
@@ -1012,18 +1013,26 @@ public class Plateau implements java.io.Serializable {
 
 
 	// getter, setter and act handler
-	
+
 	public Act getCurrentAct(){
-		if(this.acts.size()>=0 && this.currentAct<this.acts.size()){
+		if(this.acts.size()>=0 && this.currentAct>=0 && this.currentAct<this.acts.size()){
 			return this.acts.get(this.currentAct);
 		} else {
 			return null;
 		}
 	}
-	
+
 	public float getCurrentActTime(){
 		return this.currentActTime;
 	}
 
+	public void chooseActCard(int i){
+		// sélection de la carte
+		Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i).applyEffect();
+		Game.g.bottomBar.addCardChoice(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
+		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
+		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
+		Game.g.bottomBar.iconChoice=null;
+	}
 
 }

@@ -46,7 +46,7 @@ public class Arrow extends CollisionBullet{
 			this.angle+=360;
 		
 		this.soundLaunch = "arrow";
-		Game.g.events.addEvent(Events.ArrowLaunched, this);
+		Game.g.triggerEvent(Events.ArrowLaunched, this);
 	}
 
 	public void collision(Character c){

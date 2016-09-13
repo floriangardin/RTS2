@@ -55,7 +55,7 @@ public class Fireball extends Bullet {
 		if(this.angle<0)
 			this.angle+=360;
 		this.soundLaunch = "fireball";
-		Game.g.events.addEvent(Events.FireBallLaunched, this);
+		Game.g.triggerEvent(Events.FireBallLaunched, this);
 	}
 
 	public Fireball(){}

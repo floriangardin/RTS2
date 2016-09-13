@@ -46,7 +46,7 @@ public abstract class Bonus extends Building{
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
 		this.soundTaken = "bonusTaken";
-		Game.g.events.addEvent(Events.BonusTaken, this);
+		Game.g.triggerEvent(Events.BonusTaken, this);
 	}
 	
 	public Graphics draw(Graphics g){

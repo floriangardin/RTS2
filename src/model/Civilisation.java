@@ -86,15 +86,15 @@ public class Civilisation {
 	
 	public enum AttributsCiv{
 		name,
-		choiceActI,
-		choiceMadnessActI,
-		choiceReasonActI,
-		choiceActII,
-		choiceMadnessActII,
-		choiceReasonActII,
-		choiceActIII,
-		choiceMadnessActIII,
-		choiceReasonActIII;
+		choiceAct1,
+		choiceMadnessAct1,
+		choiceReasonAct1,
+		choiceAct2,
+		choiceMadnessAct2,
+		choiceReasonAct2,
+		choiceAct3,
+		choiceMadnessAct3,
+		choiceReasonAct3;
 	}
 	
 	public void print(){
@@ -111,6 +111,12 @@ public class Civilisation {
 		}
 		System.out.println();
 		
+	}
+	
+	public Vector<ActCard> getChoices(int nbChoice, boolean madness, boolean reason){
+		String s = "choice"
+				+(madness && !reason ? "Madness" : (reason && !madness ? "Reason" : "Act"))+nbChoice;
+		return this.cardChoices.get(AttributsCiv.valueOf(s));
 	}
 
 

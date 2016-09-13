@@ -44,6 +44,7 @@ import data.Data;
 import display.BottomBar;
 import display.DisplayRessources;
 import events.EventQueue;
+import events.Events;
 import main.Main;
 import mapeditor.MapEditor;
 import menu.Credits;
@@ -200,7 +201,7 @@ public class Game extends BasicGame
 	public InputHandler inputsHandler;
 
 	// Handling events
-	public EventQueue events = new EventQueue();
+	private EventQueue events = new EventQueue();
 
 	// Attack click
 	public boolean attackClick = false;
@@ -343,7 +344,12 @@ public class Game extends BasicGame
 
 
 
-
+	public void triggerEvent(Events name,Objet o){
+		events.addEvent(name, o);
+	}
+	public EventQueue getEvents(){
+		return events;
+	}
 
 	public void quitMenu(){
 		this.isInMenu = false;
@@ -420,7 +426,6 @@ public class Game extends BasicGame
 
 	public void initializePlayers(){
 		//UPDATING GAME
-		System.out.println("Initialize players");
 		this.teams.clear();
 		this.players.clear();
 		this.teams.addElement(new GameTeam(players,0,0));

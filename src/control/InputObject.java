@@ -8,7 +8,9 @@ import org.newdawn.slick.Input;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.BottomBar;
+import display.BottomBar.Icon;
 import model.Game;
+import model.Objet;
 import model.Player;
 import utils.ObjetsList;
 
@@ -28,7 +30,9 @@ public class InputObject implements java.io.Serializable{
 	public int idObjetMouse;
 	public int idSpellLauncher;
 	public ObjetsList spell;
-
+	
+	// Selection
+	public Vector<Integer> selection = new Vector<Integer>();
 	public Vector<Boolean> validated;
 	public boolean toPlay;
 
@@ -45,13 +49,25 @@ public class InputObject implements java.io.Serializable{
 		this.id= 0;
 		this.idplayer = -1;
 		this.round = 0;
+		
 		down = new Vector<KeyEnum>();
 		pressed = new Vector<KeyEnum>();
+		
+		
+		
 		x = 0;
 		y = 0;
 		this.toPlay = false;
 		this.isOnMiniMap = false;
 		this.validated = new Vector<Boolean>();
+	}
+	
+	public Vector<Objet> getSelection(){
+		Vector<Objet> res = new Vector<Objet>();
+		for(Integer i : selection){
+			res.add(Game.g.plateau.getById(i));
+		}
+		return res;
 	}
 
 	public InputObject (int idplayer, Input input,boolean toPlay, KeyMapper km){
@@ -71,6 +87,10 @@ public class InputObject implements java.io.Serializable{
 				}
 			}
 		}
+		
+
+
+		
 		for(KeyEnum ke : km.mapping.keySet()){
 			for(Integer i : km.mapping.get(ke)){
 				
@@ -153,43 +173,39 @@ public class InputObject implements java.io.Serializable{
 			}
 
 			// checking for the prod button in the action bar
-			if(pressed.contains(KeyEnum.LeftClick) ){
-				if(Game.g.bottomBar.toDrawDescription[0][0]){
-					this.pressed.addElement(KeyEnum.Prod0);
-				}
-				if(Game.g.bottomBar.toDrawDescription[1][0]){
-					this.pressed.addElement(KeyEnum.Prod1);
-				}
-				if(Game.g.bottomBar.toDrawDescription[2][0]){
-					this.pressed.addElement(KeyEnum.Prod2);
-				}
-				if(Game.g.bottomBar.toDrawDescription[3][0]){
-					this.pressed.addElement(KeyEnum.Prod3);
-				}
-				if(Game.g.bottomBar.toDrawDescription[0][1]){
-					this.pressed.addElement(KeyEnum.Tech0);
-				}
-				if(Game.g.bottomBar.toDrawDescription[1][1]){
-					this.pressed.addElement(KeyEnum.Tech1);
-				}
-				if(Game.g.bottomBar.toDrawDescription[2][1]){
-					this.pressed.addElement(KeyEnum.Tech2);
-				}
-				if(Game.g.bottomBar.toDrawDescription[3][1]){
-					this.pressed.addElement(KeyEnum.Tech3);
-				}
-			}
 			boolean a = pressed.contains(KeyEnum.LeftClick);
 			boolean b = down.contains(KeyEnum.LeftClick);
-			if(a || b){
-				for(int i=0; i<Game.g.bottomBar.toDrawDescription.length; i++){
-					if(Game.g.bottomBar.toDrawDescription[i][0]){
-						if(a){
-							pressed.remove(KeyEnum.LeftClick);
+			if(pressed.contains(KeyEnum.LeftClick) ){
+				// action bar
+				String s = "";
+				for(int i=0; i<2; i++){
+					s = (i==0 ? "Prod" : "Tech");
+					for(int j=0;j<Game.g.bottomBar.prodIconNbY;j++){
+						if(Game.g.bottomBar.toDrawDescription[j][i]){
+							this.pressed.addElement(KeyEnum.valueOf(s+j));
+							if(a){
+								pressed.remove(KeyEnum.LeftClick);
+							}
+							if(b){
+								pressed.remove(KeyEnum.LeftClick);
+							}
 						}
-						if(b){
-							pressed.remove(KeyEnum.LeftClick);
+					}
+				}
+				// topbar
+				if(Game.g.bottomBar.iconChoice!=null){
+					int i = 0;
+					for(Icon icon : Game.g.bottomBar.iconChoice){
+						if(icon.isMouseOnIt){
+							pressed.add(KeyEnum.valueOf("ActCard"+i));
+							if(a){
+								pressed.remove(KeyEnum.LeftClick);
+							}
+							if(b){
+								pressed.remove(KeyEnum.LeftClick);
+							}
 						}
+						i+=1;
 					}
 				}
 			}
@@ -203,13 +219,19 @@ public class InputObject implements java.io.Serializable{
 		if(isOnMiniMap){
 			//			System.out.println("miniMap");
 			BottomBar b = Game.g.bottomBar;
-			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.minimap.startX)/b.minimap.rw);
-			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.minimap.startY)/b.minimap.rh);
+			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.startXMiniMap)/b.ratioWidthMiniMap);
+			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.startYMiniMap)/b.ratioHeightMiniMap);
 		}
 
 		this.validated = new Vector<Boolean>();
-		for(Player p:Game.g.players)
+		for(Player p : Game.g.players)
 			validated.add(false);
+		
+		
+		// Handle selection at the very end
+		// Handle Selection
+		Game.g.inputsHandler.updateSelection(this);
+		
 	}
 
 	public void validate(Player player){

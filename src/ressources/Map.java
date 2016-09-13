@@ -151,7 +151,7 @@ public class Map {
 				//format
 				// typeBuilding_team_x_y
 				String[] tab = buildings.get(i).split(" ");
-				System.out.println(tab[2]);
+				//System.out.println(tab[2]);
 				new Building(ObjetsList.valueOf(tab[0]),Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1]));
 			}
 			// Units

@@ -4,10 +4,10 @@ package madness;
 public enum Act implements java.io.Serializable{
 
 
-	HAINE(new ActRule[]{ActRule.no_attack_building},60f,"La Haine"),
-	GUERRE(new ActRule[]{},180f,"La Guerre"),
-	DESTRUCTION(new ActRule[]{ActRule.no_defense_building},180f,"La Destruction"),
-	MORT(new ActRule[]{ActRule.no_building_production, ActRule.sudden_death},-1f,"La Mort");
+	HAINE(new ActRule[]{ActRule.no_attack_building},15f,"La Haine"),
+	GUERRE(new ActRule[]{},18f,"La Guerre"),
+	DESTRUCTION(new ActRule[]{ActRule.no_defense_building},18f,"La Destruction"),
+	MORT(new ActRule[]{ActRule.no_building_production, ActRule.sudden_death},15f,"La Mort");
 
 	Act(ActRule[] rules, float time, String displayName){
 		this.rules = rules;
@@ -15,7 +15,7 @@ public enum Act implements java.io.Serializable{
 		this.displayName = displayName;
 	}
 
-	ActRule[] rules;
+	public ActRule[] rules;
 	String displayName;
 	float time;
 	

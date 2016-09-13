@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import bot.IA;
 import control.InputObject;
+import madness.ObjectiveMadness;
 
 public class Player {
 	public Vector<Objet> selection;
@@ -62,7 +63,20 @@ public class Player {
 	public void action(){
 		if(ia!=null){			
 			this.ia.action();
+		}	
+		
+		
+		// Handle madness objectives
+		Vector<ObjectiveMadness> toRemove = new Vector<ObjectiveMadness>();
+		for(ObjectiveMadness m : this.getGameTeam().getObjectivesMadness()){
+			m.action();
+			
+			if(m.isCompleted()){
+				toRemove.add(m);
+			}
 		}
+
+		this.getGameTeam().successObjectives(toRemove);
 	}
 	
 	public void initIA(IA ia){
@@ -72,7 +86,6 @@ public class Player {
 	public String toString(){
 		String s ="";
 		s+="id:"+id+";";
-		
 		s+="gold:"+gameteam.gold+";";
 		s+="food:"+gameteam.food+";";
 		s+="special:"+gameteam.special+";";
