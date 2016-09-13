@@ -413,7 +413,7 @@ public class BottomBar {
 			int limit = Math.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(Game.g.images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar, 0, 0, 512,512);
+				g.drawImage(Game.g.images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				g.setColor(Color.white);
 				g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
