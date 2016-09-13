@@ -1,9 +1,9 @@
 {
 name:"zinaids",
 
-choiceAct1:AgeIa-AgeIb,
-choiceMadnessAct1:AgeIm-,
-choiceReasonAct1:AgeIr-,
+choiceAct1:AgeICrossbowman-AgeISpearman,
+choiceMadnessAct1:AgeIExplosion-AgeIImmolationAuto,
+choiceReasonAct1:AgeIRessource-Age1AttackBonusMeditation,
 choiceAct2:AgeIIa-AgeIIb,
 choiceMadnessAct2:AgeIIm-,
 choiceReasonAct2:AgeIIr-,

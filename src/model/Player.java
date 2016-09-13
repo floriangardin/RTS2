@@ -72,6 +72,8 @@ public class Player {
 			m.action();
 			
 			if(m.isCompleted()){
+				// Add all tech choices 
+				this.getGameTeam().civ.cardSelection.addAll(m.techAllowed);
 				toRemove.add(m);
 			}
 		}

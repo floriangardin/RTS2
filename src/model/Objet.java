@@ -70,7 +70,7 @@ public abstract class Objet implements java.io.Serializable {
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
 			ac.remainingTime-=1f*Main.increment;
-			if(ac.remainingTime<=0){
+			if(ac.remainingTime<=0 && !ac.endless){
 				toDelete.add(ac);
 			}
 		}
@@ -256,6 +256,7 @@ public abstract class Objet implements java.io.Serializable {
 		return this.spells;
 	}
 	public Spell getSpell(ObjetsList spell){
+
 		int indexSpell = getSpellsName().indexOf(spell);
 		if(indexSpell>=0){
 			return getSpell(indexSpell);

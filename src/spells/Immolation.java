@@ -26,15 +26,17 @@ public class Immolation extends SpellEffect{
 	public Immolation(Character launcher, Objet t){
 		launcher.canMove = false;
 		this.type = 1;
+		this.name = ObjetsList.Immolation;
 		this.x = launcher.getX();
 		this.y = launcher.getY();
 		remainingTime = this.getAttribut(Attributs.totalTime);	
 		// Calculate step of lifepoints
 		lifepointStart = launcher.lifePoints;
 		System.out.println("lp start : "+lifepointStart);
-		step = lifepointStart*0.1f*Main.increment/(remainingTime);
+		System.out.println("Remaining time "+remainingTime);
+		step = lifepointStart/(Main.framerate*remainingTime);
 		System.out.println("step "+step);
-		this.name = ObjetsList.FrozenEffect;
+		this.name = ObjetsList.Immolation;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		owner = launcher.id;
@@ -42,25 +44,25 @@ public class Immolation extends SpellEffect{
 	}
 
 	public void action(){
-
-		this.remainingTime-=0.1f*Main.increment;
+		
+		this.remainingTime-=1f/Main.framerate;
 		Objet owner = this.getOwner();
 		if(owner!=null){			
 			owner.setLifePoints(owner.lifePoints-step);
+		}else{
+			System.out.println("Owner is null");
 		}
-
-		if(this.remainingTime<=0f){
+		if(this.remainingTime-2f/Main.framerate<=0f){
 			// Test if explosion
-			if(this.getAttribut(Attributs.explosionWhenImmolate)==1){
+			if(getOwner().getAttribut(Attributs.explosionWhenImmolate)==1){
 				for(Character c : Game.g.plateau.characters){
 					if(Utils.distance(c, this.getOwner())<100f && c!=this.getOwner()){
 						c.setLifePoints(c.lifePoints-20f);
 					}
 				}
 			}
-			this.lifePoints=-1f;
-
 		}
+
 	}
 
 	public Graphics draw(Graphics g){

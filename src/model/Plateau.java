@@ -195,17 +195,38 @@ public class Plateau implements java.io.Serializable {
 
 
 	// General methods
-
+	public boolean isImmolating(Character c){
+		System.out.println("Plateau 199 : isImmolating");
+		for(Integer e: c.spellsEffect){
+			System.out.println("Plateau 199 : true");
+			System.out.println(Game.g.plateau.getById(e).name);
+			if(Game.g.plateau.getById(e).name==ObjetsList.Immolation){
+				Game.g.plateau.getById(e).lifePoints = -1f;
+				return true;
+			}
+		}
+		return false;
+	}
 	public void clean() {
 		// Clean the buffers and handle die
 		// Remove and add considering alive
 		for (Character o : characters) {
 			if (!o.isAlive()) {
+				System.out.println("Deal with dead");
+				System.out.println("id "+o.id);
+				System.out.println(o.getAttribut(Attributs.autoImmolation));
+				if(o.getAttribut(Attributs.autoImmolation)==1f && !isImmolating(o) ){
+					o.lifePoints = 10f;
+					o.launchSpell(o,ObjetsList.Immolation);
+					continue;
+				}
 				this.removeCharacter(o);
 				o.getGameTeam().pop--;
+				
 				Game.g.triggerEvent(Events.Death, o);
 			}
 		}
+		
 		for (Bullet o : bullets) {
 			if (!o.isAlive()) {
 				this.removeBullet(o);
@@ -1044,6 +1065,7 @@ public class Plateau implements java.io.Serializable {
 
 	public void chooseActCard(int i){
 		// sélection de la carte
+
 		Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i).applyEffect();
 		Game.g.bottomBar.addCardChoice(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
 		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));

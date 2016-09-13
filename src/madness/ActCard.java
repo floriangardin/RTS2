@@ -4,8 +4,12 @@ import java.util.Vector;
 
 import org.newdawn.slick.Font;
 
+import data.Attributs;
+import model.Building;
+import model.Character;
 import model.Game;
 import model.GameTeam;
+import model.Technologie;
 import utils.ObjetsList;
 
 public abstract class ActCard implements java.io.Serializable{
@@ -38,66 +42,79 @@ public abstract class ActCard implements java.io.Serializable{
 
 	public static ActCard actCard(ObjetsList o, int gameteam){
 		switch(o){
-		case AgeIa:
-			return new ActCard(o, gameteam, "Age I a", "Il est des pays ou les gens au creux des lits font des rêves"){
-
+		// Choice madness
+		case AgeICrossbowman:
+			return new ActCard(o, gameteam, "Archer gratuit", "Produit un archer dans votre centre ville"){
+				
 				@Override
 				public void applyEffect() {
-
+					// get headquarters
+					Building  b = Game.g.teams.get(gameteam).hq;
+					System.out.println("gt" + gameteam);
+					System.out.println("building " +b);
+					new Character(b.getX()+b.getAttribut(Attributs.sizeX),b.getY(),ObjetsList.Crossbowman,gameteam);
 				}
 
 			};
-		case AgeIb:
-			return new ActCard(o, gameteam, "Age I b", "Ici, nous vois-tu, nous on marche, nous on tue, nous on crève"){
+		case AgeISpearman:
+			return new ActCard(o, gameteam, "Lancier gratuit", "Produit un lancier dans votre centre ville"){
 
 				@Override
 				public void applyEffect() {
-
+					// get headquarters
+					Building  b = Game.g.teams.get(gameteam).hq;
+					new Character(b.getX()+b.getAttribut(Attributs.sizeX),b.getY(),ObjetsList.Spearman,gameteam);
 				}
 
 			};
-		case AgeIm:
-			return new ActCard(o, gameteam, "Age I madness", "Bonjour bonjour"){
+			
+
+
+		case AgeIExplosion:
+			return new ActCard(o, gameteam, "Immolation explosive", "Vos unités qui s'immolent explosent désormais. Cela leur confère un dégât de zone au moment de leur mort"){
 
 				@Override
 				public void applyEffect() {
-
+					Technologie.technologie(ObjetsList.DualistExplosion, gameteam);
 				}
 
 			};
-		case AgeIr:
-			return new ActCard(o, gameteam, "Age I reason", "Bonjour bonjour"){
-
+			
+		case AgeIImmolationAuto:
+			return new ActCard(o, gameteam, "Immolation automatique", "Vos unités s'immoleront désormais automatiquement quand leur mort est sur le point d'arriver"){
+				
 				@Override
 				public void applyEffect() {
-
+					// Gain ressources after a meditation
+					for(ObjetsList o : ObjetsList.getUnits()){
+						this.getGameTeam().data.setAttribut(o, Attributs.autoImmolation, 1f);
+					}
 				}
 
 			};
-		case AgeIIa:
-			return new ActCard(o, gameteam, "Age II a", "Bonjour bonjour"){
+		case AgeIRessource:
+			return new ActCard(o, gameteam, "Méditation productive", "Une unité qui médite fait gagner 20 ressources après sa méditation"){
 
 				@Override
 				public void applyEffect() {
-
+					// Gain ressources after a meditation
+					for(ObjetsList o : ObjetsList.getUnits()){
+						this.getGameTeam().data.setAttribut(o, Attributs.ressourceAfterMeditation, 1f);
+					}
+				
 				}
 
 			};
-		case AgeIIb:
-			return new ActCard(o, gameteam, "Age II b", "Bonjour bonjour"){
+		case Age1AttackBonusMeditation:
+			return new ActCard(o, gameteam, "Méditation de force", "Une unité qui médite gagne +1 de dommage à la fin de sa méditation (cumulable)"){
 
 				@Override
 				public void applyEffect() {
-
-				}
-
-			};
-		case AgeIIm:
-			return new ActCard(o, gameteam, "Age II madness", "Bonjour bonjour"){
-
-				@Override
-				public void applyEffect() {
-
+					// Gain strength after meditation
+					// Gain ressources after a meditation
+					for(ObjetsList o : ObjetsList.getUnits()){
+						this.getGameTeam().data.setAttribut(o, Attributs.ressourceAfterMeditation, 1f);
+					}
 				}
 
 			};

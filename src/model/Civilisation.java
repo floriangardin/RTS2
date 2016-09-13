@@ -20,6 +20,9 @@ public class Civilisation {
 	public Spell uniqueSpell;
 	public String printName;
 	public GameTeam gameteam;
+	
+	public Vector<ObjetsList> cardSelection = new Vector<ObjetsList>();
+	
 
 	public HashMap<AttributsCiv, String> attributsString = new HashMap<AttributsCiv, String>();
 	public HashMap<AttributsCiv, Vector<ActCard>> cardChoices = new HashMap<AttributsCiv, Vector<ActCard>>();
@@ -31,6 +34,7 @@ public class Civilisation {
 
 	public Civilisation(String name,GameTeam gameteam){
 		this.name = name;
+
 		this.gameteam = gameteam;
 		switch(name.toLowerCase()){
 		case "dualists":
@@ -54,12 +58,15 @@ public class Civilisation {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		
 		Vector<AttributsCiv> toRemove = new Vector<AttributsCiv>();
 		for(AttributsCiv a : attributsString.keySet()){
 			if(a.name().startsWith("choice")){
 				cardChoices.put(a, new Vector<ActCard>());
 				if(attributsString.get(a).length()>2){
 					for(String element : attributsString.get(a).split("-")){
+						
 						cardChoices.get(a).add(ActCard.actCard(ObjetsList.get(element), gameteam.id));
 					}
 				}

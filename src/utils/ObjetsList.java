@@ -48,15 +48,24 @@ public enum ObjetsList {
 	DualistRangeAttack3("Technology"), 
 	DualistExplosion("Technology"), 
 	DualistEagleView("Technology"),
+	DualistImmolationAuto("Technology"),
 	// ActCard
-	AgeIa("ActCard"),
-	AgeIb("ActCard"),
-	AgeIm("ActCard"),
+
 	AgeIr("ActCard"),
 	AgeIIa("ActCard"),
 	AgeIIb("ActCard"),
 	AgeIIm("ActCard"),
 	AgeIIr("ActCard"),
+
+	AgeICrossbowman("ActCard"),
+	AgeISpearman("ActCard"),
+	AgeIExplosion("ActCard"),
+	AgeIImmolationAuto("ActCard"),
+	AgeIRessource("ActCard"),
+	Age1AttackBonusMeditation("ActCard"),
+	
+	
+	
 	// Bullets
 	Arrow("Bullet"),
 	Fireball("Bullet"),
@@ -87,7 +96,7 @@ public enum ObjetsList {
 	SpecialArrow("Spell"),
 	Product("Spell"),
 	// Others
-	ContactWeapon("Weapon")
+	ContactWeapon("Weapon"), 
 	;
 	
 	

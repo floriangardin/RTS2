@@ -9,6 +9,8 @@ import madness.ActCard;
 import madness.ObjectiveImmolation;
 import madness.ObjectiveMadness;
 import madness.ObjectiveMeditation;
+import madness.ObjectiveNormal;
+import utils.ObjetsList;
 
 public class GameTeam {
 
@@ -40,17 +42,31 @@ public class GameTeam {
 	
 	
 	public GameTeam(Vector<Player> players, int id, int civ) {
+		this.id = id;
 		switch(civ){
 		case 0 : civName = "Dualists"; this.civ = new Civilisation("dualists",this);
-		this.objectivesMadness.addElement(new ObjectiveImmolation(this,2));
-		this.objectivesMadness.addElement(new ObjectiveMeditation(this,2));
+		Vector<ObjetsList> imo = new Vector<ObjetsList>();
+		imo.addElement(ObjetsList.AgeIImmolationAuto);
+		imo.addElement(ObjetsList.AgeIExplosion);
+		Vector<ObjetsList> medit = new Vector<ObjetsList>();
+		medit.addElement(ObjetsList.AgeIRessource);
+		medit.addElement(ObjetsList.Age1AttackBonusMeditation);
+		Vector<ObjetsList> normal = new Vector<ObjetsList>();
+		normal.addElement(ObjetsList.AgeIRessource);
+		normal.addElement(ObjetsList.Age1AttackBonusMeditation);
+		
+		this.objectivesMadness.addElement(new ObjectiveImmolation(this,2,imo));
+		this.objectivesMadness.addElement(new ObjectiveMeditation(this,2,medit));
+		this.objectivesMadness.addElement(new ObjectiveNormal(this,2,normal));
+		
+		
 		break;
 		case 1 : civName = "Zinaids";this.civ = new Civilisation("zinaids",this);break;
 		case 2 : civName = "kitano";this.civ = new Civilisation("kitanos",this);break;
 		default:
 		}
 		
-		this.id = id;
+		
 		this.data = new Data(id,this.civ.name);
 		if(id==0){
 			color = Colors.team0;

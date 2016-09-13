@@ -9,9 +9,9 @@ import model.Game;
 import model.GameTeam;
 import utils.ObjetsList;
 
-public class ObjectiveImmolation  extends ObjectiveMadness{
+public class ObjectiveNormal  extends ObjectiveMadness{
 
-	public ObjectiveImmolation(GameTeam gameTeam,int value, Vector<ObjetsList> list) {
+	public ObjectiveNormal(GameTeam gameTeam,int value, Vector<ObjetsList> list) {
 		super(gameTeam,value,list);
 		
 		this.cardList = AttributsCiv.choiceMadnessAct1;

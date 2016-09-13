@@ -3,6 +3,6 @@ prototype:"Spell",
 printName:"Immolation",
 chargeTime:0,
 faithCost:1,
-totalTime:75,
+totalTime:5,
 needToClick:0
 }

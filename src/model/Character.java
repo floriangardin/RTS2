@@ -60,7 +60,7 @@ public class Character extends Objet{
 	
 	
 	// Vecteur de spells
-	public Vector<Integer> spells = new Vector<Integer>();
+	public Vector<Integer> spellsEffect = new Vector<Integer>();
 	
 	// Special Abilities or subisse
 
@@ -98,7 +98,7 @@ public class Character extends Objet{
 	}
 
 	public void addSpellEffect(SpellEffect e){
-		spells.add(e.id);
+		spellsEffect.add(e.id);
 	}
 
 	public boolean isMobile(){
@@ -249,7 +249,7 @@ public class Character extends Objet{
 		this.updateChargeTime();
 		// Update spell effects
 		Vector<Integer> toRemove = new Vector<Integer>();
-		for(Integer i : spells){
+		for(Integer i : spellsEffect){
 			SpellEffect e = (SpellEffect) Game.g.plateau.getById(i);
 			if(e==null){
 				toRemove.add(i);
