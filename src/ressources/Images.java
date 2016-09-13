@@ -53,7 +53,7 @@ public class Images {
 		this.resizeBuilding("academy");
 		this.resizeBuilding("barracks");
 		this.resizeBuilding("headquarters");
-		this.resizeBuilding("mill");
+//		this.resizeBuilding("mill");
 		this.resizeBuilding("mine");
 		this.resizeBuilding("stable");
 		this.resizeBuilding("tower");
@@ -149,7 +149,6 @@ public class Images {
 					.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
 		this.images.put("building"+s+"red",this.images.get("building"+s+"red")
 				.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
-
 	}
 
 	private void loadRepertoire(String name){

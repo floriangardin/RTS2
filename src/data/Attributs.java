@@ -18,6 +18,7 @@ public enum Attributs {
 	range, 
 	sizeY,
 	sizeX, 
+	newdesign,
 	maxChargetime, 
 	spells, 
 	productions, 

@@ -639,11 +639,15 @@ public class BottomBar {
 		if(Game.g.startTime+2000/Main.framerate>System.currentTimeMillis()){
 			s = ""+Utils.displayTime((int) ((System.currentTimeMillis()-Game.g.startTime)/1000));
 		} else {
-			s = ""+Game.g.plateau.getCurrentAct().getDisplayName();
-			g.drawString(s, rX/2-Game.g.font.getWidth(s)/2f, yCentral+ratioSizeTimerY*rY/3f-Game.g.font.getHeight(s)/2f);
-			s = ""+Utils.displayTime((int) Game.g.plateau.getCurrentActTime());
-			if(Game.g.plateau.getCurrentActTime()<15){
-				g.setColor(Color.red);
+			try{
+				s = ""+Game.g.plateau.getCurrentAct().getDisplayName();
+				g.drawString(s, rX/2-Game.g.font.getWidth(s)/2f, yCentral+ratioSizeTimerY*rY/3f-Game.g.font.getHeight(s)/2f);
+				s = ""+Utils.displayTime((int) Game.g.plateau.getCurrentActTime());
+				if(Game.g.plateau.getCurrentActTime()<15){
+					g.setColor(Color.red);
+				}
+			}catch(Exception e){
+				
 			}
 		}
 		g.drawString(s, rX/2-Game.g.font.getWidth(s)/2f, yCentral+2*ratioSizeTimerY*rY/3f-Game.g.font.getHeight(s)/2f);

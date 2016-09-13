@@ -90,7 +90,7 @@ public class Game extends BasicGame
 	public static boolean debugThread = false;
 	public static boolean debugDisplayDebug = true;
 	public static boolean debugMemory = false;
-	public static boolean debugFog = true;
+	public static boolean debugFog = false;
 
 	public static boolean deplacementGroupIntelligent = false;
 	public static boolean debugGroup = false;
