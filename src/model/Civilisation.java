@@ -20,6 +20,9 @@ public class Civilisation {
 	public Spell uniqueSpell;
 	public String printName;
 	public GameTeam gameteam;
+	
+	public Vector<ObjetsList> cardSelection = new Vector<ObjetsList>();
+	
 
 	public HashMap<AttributsCiv, String> attributsString = new HashMap<AttributsCiv, String>();
 	public HashMap<AttributsCiv, Vector<ActCard>> cardChoices = new HashMap<AttributsCiv, Vector<ActCard>>();
@@ -55,6 +58,8 @@ public class Civilisation {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		
+		
 		Vector<AttributsCiv> toRemove = new Vector<AttributsCiv>();
 		for(AttributsCiv a : attributsString.keySet()){
 			if(a.name().startsWith("choice")){
