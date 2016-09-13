@@ -21,7 +21,6 @@ public class PathInterface extends Bar {
 
 	public PathInterface(BottomBar parent){
 	
-		this.player = parent.player;
 		this.startX = Game.g.resX/4;
 		this.startY = Game.g.resY/4;
 		this.w = Game.g.resX/2;
