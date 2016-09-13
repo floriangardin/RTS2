@@ -153,8 +153,8 @@ public class Data implements java.io.Serializable {
 		}
 		if(!this.datas.get(name).attributs.containsKey(attribut)){
 //			System.out.println(name+" n'a pas d'attribut "+attribut);
-			Throwable t = new Throwable();
-			t.printStackTrace();
+//			Throwable t = new Throwable();
+//			t.printStackTrace();
 			return 1f;
 		}
 		return this.datas.get(name).attributs.get(attribut);

@@ -18,6 +18,7 @@ import events.Events;
 import javafx.scene.input.InputMethodHighlight;
 import madness.Act;
 import madness.ActCard;
+import madness.ActRule;
 import main.Main;
 import pathfinding.MapGrid;
 import ressources.Map;
@@ -679,7 +680,7 @@ public class Plateau implements java.io.Serializable {
 		Game.g.inputsHandler.updateSelection(ims);
 		// 2 - Handling acts
 		this.currentActTime-=1f/Main.framerate;
-		if(this.currentActTime<=0){
+		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
 			// changement d'acte
 			if(this.currentAct>=0){
 				// on gère le choix des cartes
@@ -750,6 +751,21 @@ public class Plateau implements java.io.Serializable {
 
 		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - Game.g.timeSteps));
+
+		// 4- handling victory
+		for(GameTeam team : Game.g.teams){
+			if(team.id==0){
+				continue;
+			}
+			if(team.hq.constructionPoints<=0){
+				Game.g.endGame = true;
+				if(team.id!=Game.g.currentPlayer.getTeam()){
+					Game.g.victory = true;
+				} else{
+					Game.g.victory = false;
+				}
+			}
+		}
 	}
 
 
@@ -887,7 +903,7 @@ public class Plateau implements java.io.Serializable {
 				}
 			}
 		}
-		
+
 
 	}
 
@@ -951,7 +967,7 @@ public class Plateau implements java.io.Serializable {
 		float relativeXMouse = (im.x - Game.g.Xcam);
 		float relativeYMouse = (im.y - Game.g.Ycam);
 		bb.update(relativeXMouse, relativeYMouse);
-		
+
 	}
 
 	private void handleMinimap(InputObject im, int player) {
@@ -1055,6 +1071,11 @@ public class Plateau implements java.io.Serializable {
 		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
 		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
 		Game.g.bottomBar.iconChoice=null;
+	}
+
+
+	public boolean isRuleActive(ActRule rule) {
+		return this.getCurrentAct()!=null && this.getCurrentAct().isRuleActive(rule);
 	}
 
 }

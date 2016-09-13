@@ -85,16 +85,36 @@ public abstract class ActCard implements java.io.Serializable{
 				
 				@Override
 				public void applyEffect() {
-					
+					// Gain ressources after a meditation
+					for(ObjetsList o : ObjetsList.getUnits()){
+						this.getGameTeam().data.setAttribut(o, Attributs.autoImmolation, 1f);
+					}
 				}
 
 			};
-		case AgeIIm:
-			return new ActCard(o, gameteam, "Age II madness", "Bonjour bonjour"){
+		case AgeIRessource:
+			return new ActCard(o, gameteam, "Méditation productive", "Une unité qui médite fait gagner 20 ressources après sa méditation"){
 
 				@Override
 				public void applyEffect() {
+					// Gain ressources after a meditation
+					for(ObjetsList o : ObjetsList.getUnits()){
+						this.getGameTeam().data.setAttribut(o, Attributs.ressourceAfterMeditation, 1f);
+					}
+				
+				}
 
+			};
+		case Age1AttackBonusMeditation:
+			return new ActCard(o, gameteam, "Méditation de force", "Une unité qui médite gagne +1 de dommage à la fin de sa méditation (cumulable)"){
+
+				@Override
+				public void applyEffect() {
+					// Gain strength after meditation
+					// Gain ressources after a meditation
+					for(ObjetsList o : ObjetsList.getUnits()){
+						this.getGameTeam().data.setAttribut(o, Attributs.ressourceAfterMeditation, 1f);
+					}
 				}
 
 			};

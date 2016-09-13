@@ -7,6 +7,8 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
 import data.Attributs;
+import data.AttributsChange;
+import data.AttributsChange.Change;
 import display.DisplayRessources;
 import main.Main;
 import model.Character;
@@ -38,8 +40,17 @@ public class Meditation extends SpellEffect{
 
 	public void action(){
 		this.remainingTime-=1f/Main.framerate;
+		
+		
 		if(this.remainingTime<=0f){
 			// Test if special capacity explosion
+			if(getOwner().getAttribut(Attributs.ressourceAfterMeditation)==1f){
+				getOwner().getGameTeam().food = getOwner().getGameTeam().food+20;
+			}
+			if(getOwner().getAttribut(Attributs.attackBonusAfterMeditation)==1f){
+				getOwner().attributsChanges.add(new AttributsChange(Attributs.damage,Change.ADD,1,0));
+			}
+			
 			this.lifePoints=-1f;
 			getOwner().canMove = true;
 		}

@@ -23,7 +23,7 @@ import spells.Spell;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class BottomBar extends Bar {
+public class BottomBar {
 
 	public int resX,resY;
 
@@ -98,10 +98,6 @@ public class BottomBar extends Bar {
 	public BottomBar(){
 		this.resX = (int) Game.g.resX;
 		this.resY = (int) Game.g.resY;
-		this.sizeX = resX;
-		this.sizeY = Game.g.relativeHeightBottomBar*resY;
-		this.x = 0;
-		this.y = (1f-Game.g.relativeHeightBottomBar)*resY;
 		this.updateRatioMiniMap();
 
 	}
@@ -201,7 +197,7 @@ public class BottomBar extends Bar {
 		float sizeXBar;
 		float x = 0;
 		if(Game.g.round<Game.nbRoundInit)
-			startXSelectionBar = Math.max(-sizeX-10, Math.min(0, sizeX*(Game.g.round-debut-duree)/duree));
+			startXSelectionBar = Math.max(-Game.g.resX-10, Math.min(0, Game.g.resX*(Game.g.round-debut-duree)/duree));
 
 		// variable de travail sizeVerticalBar
 		g.setLineWidth(1f);
@@ -226,10 +222,10 @@ public class BottomBar extends Bar {
 						//Show production bar
 						g.drawImage(icone,startXSelectionBar+this.sizeXSelectionBar/4, 
 								startYSelectionBar+this.sizeYSelectionBar/4,
-								startXSelectionBar+sizeX-5, startYSelectionBar + sizeYSelectionBar-5,0,0,512,512);
+								startXSelectionBar+sizeXSelectionBar-5, startYSelectionBar + sizeYSelectionBar-5,0,0,512,512);
 						g.setColor(Color.white);
-						String s = this.player.getGameTeam().data.getAttributString(q, Attributs.printName);
-						Float prodTime = this.player.getGameTeam().data.getAttribut(q, Attributs.prodTime);
+						String s = Game.g.currentPlayer.getGameTeam().data.getAttributString(q, Attributs.printName);
+						Float prodTime = Game.g.currentPlayer.getGameTeam().data.getAttribut(q, Attributs.prodTime);
 						g.drawString(s, startXSelectionBar+sizeXSelectionBar/2-Game.g.font.getWidth(s)/2f, 
 								startYSelectionBar+sizeYSelectionBar/8f-Game.g.font.getHeight(s)/2f);
 						g.fillRect(startXSelectionBar+this.sizeXSelectionBar/16, 
@@ -243,9 +239,9 @@ public class BottomBar extends Bar {
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f-b.charge*(3*sizeYSelectionBar/4-20)/prodTime);
 					}
 					else{
-						g.drawImage(icone,this.x+this.sizeXSelectionBar+5+(sVB)*(compteur-1), 
+						g.drawImage(icone,this.sizeXSelectionBar+5+(sVB)*(compteur-1), 
 								Game.g.resY-sVB+3f, 
-								this.x+this.sizeXSelectionBar+(sVB)*(compteur), 
+								this.sizeXSelectionBar+(sVB)*(compteur), 
 								Game.g.resY-1,0f,0f,512f,512f);
 					}
 					compteur ++;
@@ -259,26 +255,26 @@ public class BottomBar extends Bar {
 			//		} else if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof Building  ){
 			//			Building b = (Building) Game.g.currentPlayer.selection.get(0);
 			////			this.sizeXBar = (b.queue.size()+1)*(sVB+2);
-			////			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+sizeX-4, parent.p.g.resY-sVB, 5*(sVB+2), sVB+4);
-			//			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, sizeX+4, sizeY+4);
+			////			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+Game.g.resX-4, parent.p.g.resY-sVB, 5*(sVB+2), sVB+4);
+			//			Utils.drawNiceRect(g, Game.g.currentPlayer.getGameTeam().color, startX-4, startY, Game.g.resX+4, sizeY+4);
 			//			if(b.getQueueTechnologie()!=null){
 			//				Image icone = Game.g.images.get(b.getQueueTechnologie().getIcon());
 			//				//Show icons
 			//				//Show production bar
-			//				g.drawImage(icone,startX+this.sizeX/4, startY+this.sizeY/4,startX+sizeX-5, startY + sizeY-5,0,0,512,512);
+			//				g.drawImage(icone,startX+this.Game.g.resX/4, startY+this.sizeY/4,startX+Game.g.resX-5, startY + sizeY-5,0,0,512,512);
 			//				g.setColor(Color.white);
 			//				String s = b.getQueueTechnologie().getName();
 			//
-			//				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
-			//				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
+			//				g.drawString(s, startX+Game.g.resX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
+			//				g.fillRect(startX+this.Game.g.resX/16, startY+this.sizeY/4 +10f, Game.g.resX/8f,3*sizeY/4-20f);
 			//				g.setColor(Color.gray);
-			//				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4 +10f, sizeX/8f,3*sizeY/4-20f);
+			//				g.fillRect(startX+this.Game.g.resX/16, startY+this.sizeY/4 +10f, Game.g.resX/8f,3*sizeY/4-20f);
 			//				g.setColor(Game.g.currentPlayer.getGameTeam().color);
-			//				g.fillRect(startX+this.sizeX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost), sizeX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost));
+			//				g.fillRect(startX+this.Game.g.resX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost), Game.g.resX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost));
 			//			} else {
 			//				g.setColor(Color.white);
 			//				String s = b.getAttributString(Attributs.printName);
-			//				g.drawString(s, startX+sizeX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
+			//				g.drawString(s, startX+Game.g.resX/2-Game.g.font.getWidth(s)/2f, startY+sizeY/8f-Game.g.font.getHeight(s)/2f);
 			//			}
 		}else if(Game.g.currentPlayer.selection.size()>0 && Game.g.currentPlayer.selection.get(0) instanceof Character ){
 
@@ -371,7 +367,7 @@ public class BottomBar extends Bar {
 		float ratio =1f/prodIconNbY;
 
 		offset = sizeXSelectionBar;
-		x = 0;
+		float x = 0;
 		startYActionBar = Game.g.resY - sizeYActionBar - this.sizeYSelectionBar;
 		startY2 = Game.g.resY - sizeYSelectionBar;
 
@@ -417,7 +413,7 @@ public class BottomBar extends Bar {
 			int limit = Math.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
-				g.drawImage(Game.g.images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar, 0, 0, 512,512);
+				g.drawImage(Game.g.images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				g.setColor(Color.white);
 				g.setColor(Game.g.currentPlayer.getGameTeam().color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
@@ -766,7 +762,7 @@ public class BottomBar extends Bar {
 		float offset = sizeXSelectionBar;
 		// Production Bar
 		float ratio =1f/prodIconNbY;
-
+		float x;
 		sizeYCardChoiceBar = Game.g.currentPlayer.getGameTeam().choices.size()*sizeXCardChoiceBar;
 		
 		startYCardChoiceBar = Game.g.resY - sizeYMiniMap - sizeYCardChoiceBar-5;

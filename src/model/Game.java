@@ -433,8 +433,8 @@ public class Game extends BasicGame
 		this.teams.addElement(new GameTeam(players,2,0));
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0,"Nature",teams.get(0)));
-//		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
-		this.players.add(new Player(1,"IA random1",teams.get(1)));
+		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
+//		this.players.add(new Player(1,"IA random1",teams.get(1)));
 		this.players.add(new Player(2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
 		
@@ -586,7 +586,8 @@ public class Game extends BasicGame
 			
 			for(Objet o: toDrawAfter)
 				o.draw(g);
-			handleDrawUnderBuilding(g);
+			
+			//handleDrawUnderBuilding(g);
 
 			// Draw the selection :
 			if(cosmetic.selection!=null){
@@ -1011,6 +1012,7 @@ public class Game extends BasicGame
 				} catch (SocketException e) {
 					e.printStackTrace();
 				}
+				Map.initializePlateau(this, 1, 1);
 				this.setMenu(this.menuIntro);
 			}
 		}

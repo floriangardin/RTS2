@@ -21,6 +21,7 @@ public enum Attributs {
 	maxChargetime, 
 	spells, 
 	productions, 
+	defendable,
 	totalTime, 
 	faithCost, 
 	effect, bonusDamage, bonusSpeed, list, needToClick, width,
@@ -28,5 +29,5 @@ public enum Attributs {
 	produceFood,produceGold,produceFaith,techsRequired,canAttack,
 	frequencyProduceGold,
 	frequencyProduceFood,
-	frequencyProduceFaith,autoImmolation;
+	frequencyProduceFaith,autoImmolation,ressourceAfterMeditation,attackBonusAfterMeditation;
 }
