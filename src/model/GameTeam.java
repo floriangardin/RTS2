@@ -6,9 +6,6 @@ import org.newdawn.slick.Color;
 
 import data.Data;
 import madness.ActCard;
-import madness.ObjectiveImmolation;
-import madness.Objective;
-import madness.ObjectiveMeditation;
 import utils.ObjetsList;
 
 public class GameTeam {

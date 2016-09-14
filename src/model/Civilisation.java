@@ -85,8 +85,8 @@ public class Civilisation {
 		for(AttributsCiv a : toRemove){
 			attributsString.remove(a);
 		}
-		this.objectiveMadness = new ObjectiveImmolation(this.gameteam,new int[]{2,5,10});
-		this.objectiveWisdom = new ObjectiveMeditation(this.gameteam,new int[]{2,5,10});
+		this.objectiveMadness = new ObjectiveImmolation(this.gameteam,new int[]{2,5,10}, true);
+		this.objectiveWisdom = new ObjectiveMeditation(this.gameteam,new int[]{2,5,10}, false);
 		
 	}
 
@@ -100,6 +100,12 @@ public class Civilisation {
 
 	public void update(){
 		this.chargeTime = (float) Math.min(uniqueSpell.getAttribut(Attributs.chargeTime), chargeTime+Main.increment);
+		if(this.objectiveMadness.action()){
+			this.madness+=1;
+		}
+		if(this.objectiveWisdom.action()){
+			this.madness-=1;
+		}
 	}
 	
 	public enum AttributsCiv{
@@ -133,7 +139,7 @@ public class Civilisation {
 	
 	public Vector<ActCard> getChoices(int nbChoice, boolean madness, boolean reason){
 		String s = "choice"
-				+(madness && !reason ? "Madness" : (reason && !madness ? "Reason" : "Act"))+nbChoice;
+				+(madness && !reason ? "Madness" : (reason && !madness ? "Reason" : ""))+"Act"+nbChoice;
 		return this.cardChoices.get(AttributsCiv.valueOf(s));
 	}
 

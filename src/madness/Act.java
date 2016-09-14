@@ -4,7 +4,7 @@ package madness;
 public enum Act implements java.io.Serializable{
 
 
-	HAINE(new ActRule[]{ActRule.no_attack_building,ActRule.no_tower_attack},60f,"La Haine"),
+	HAINE(new ActRule[]{ActRule.no_attack_building,ActRule.no_tower_attack},10f,"La Haine"),
 	GUERRE(new ActRule[]{},180f,"La Guerre"),
 	DESTRUCTION(new ActRule[]{ActRule.no_defense_building},180f,"La Destruction"),
 	MORT(new ActRule[]{ActRule.no_building_production, ActRule.sudden_death},-1f,"La Mort");

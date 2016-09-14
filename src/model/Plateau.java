@@ -678,20 +678,21 @@ public class Plateau implements java.io.Serializable {
 
 		}
 		Game.g.inputsHandler.updateSelection(ims);
+		
 		// 2 - Handling acts and objectives
-		for(GameTeam team : Game.g.teams){
-			team.civ.objectiveMadness.action();
-			team.civ.objectiveWisdom.action();
-		}
 		this.currentActTime-=1f/Main.framerate;
 		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
 			// changement d'acte
 			if(this.currentAct>=0){
 				// on gère le choix des cartes
 				for(GameTeam team : Game.g.teams){
+					if(team.id==0){
+						continue;
+					}
 					Vector<ActCard> v = new Vector<ActCard>();
 					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
 					if(team.civ.objectiveMadness.isCompleted(this.currentAct)){
+						System.out.println("vaneau");
 						v.addAll(team.civ.getChoices(this.currentAct+1, true, false));
 					}
 					if(team.civ.objectiveWisdom.isCompleted(this.currentAct)){

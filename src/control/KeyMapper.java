@@ -116,6 +116,8 @@ public class KeyMapper {
 		ActCard2,
 		ActCard3,
 		ActCard4,
+		ActCard5,
+		ActCard6,
 		AllUnits;
 
 		public Vector<ObjetsList> getUnitsList() {

@@ -60,7 +60,6 @@ public class Immolation extends SpellEffect{
 				}
 			}
 		}
-
 	}
 
 	public Graphics draw(Graphics g){
