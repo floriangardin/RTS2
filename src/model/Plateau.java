@@ -22,6 +22,7 @@ import madness.ActRule;
 import main.Main;
 import pathfinding.MapGrid;
 import ressources.Map;
+import spells.Etats;
 import spells.Spell;
 import spells.SpellEffect;
 import utils.ObjetsList;
@@ -196,25 +197,13 @@ public class Plateau implements java.io.Serializable {
 
 	// General methods
 	public boolean isImmolating(Character c){
-		System.out.println("Plateau 199 : isImmolating");
-		for(Integer e: c.spellsEffect){
-			System.out.println("Plateau 199 : true");
-			System.out.println(Game.g.plateau.getById(e).name);
-			if(Game.g.plateau.getById(e).name==ObjetsList.Immolation){
-				Game.g.plateau.getById(e).lifePoints = -1f;
-				return true;
-			}
-		}
-		return false;
+		return c.etats.contains(Etats.Immolated);
 	}
 	public void clean() {
 		// Clean the buffers and handle die
 		// Remove and add considering alive
 		for (Character o : characters) {
 			if (!o.isAlive()) {
-				System.out.println("Deal with dead");
-				System.out.println("id "+o.id);
-				System.out.println(o.getAttribut(Attributs.autoImmolation));
 				if(o.getAttribut(Attributs.autoImmolation)==1f && !isImmolating(o) ){
 					o.lifePoints = 10f;
 					o.launchSpell(o,ObjetsList.Immolation);

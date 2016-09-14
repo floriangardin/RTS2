@@ -16,6 +16,7 @@ import display.DisplayRessources;
 import main.Main;
 import nature.Tree;
 import pathfinding.Case;
+import spells.Etats;
 import spells.Immolation;
 import spells.SpellEffect;
 import utils.ObjetsList;
@@ -49,7 +50,9 @@ public class Character extends Objet{
 	public float state;
 	public boolean isAttacking  = false;
 	public float attackState = 0f;
+	
 
+	
 	private Vector<Integer> group = new Vector<Integer>();
 	
 	// Equipment attributes

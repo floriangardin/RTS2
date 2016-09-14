@@ -25,6 +25,7 @@ public class Immolation extends SpellEffect{
 	public boolean active = false;
 	public Immolation(Character launcher, Objet t){
 		launcher.canMove = false;
+		launcher.etats.add(Etats.Immolated);
 		this.type = 1;
 		this.name = ObjetsList.Immolation;
 		this.x = launcher.getX();
@@ -59,6 +60,8 @@ public class Immolation extends SpellEffect{
 					}
 				}
 			}
+			getOwner().lifePoints = -1f;
+			this.lifePoints=-1f;
 		}
 
 	}
