@@ -19,7 +19,7 @@ public class Frozen extends SpellEffect{
 	public boolean active = false;
 	public Frozen(Character launcher, Objet t, float radius){
 
-
+		launcher.etats.add(Etats.Frozen);
 		this.type = 1;
 
 		this.x = t.getX();

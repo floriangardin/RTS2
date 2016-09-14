@@ -13,6 +13,7 @@ import bullets.Bullet;
 import data.Attributs;
 import data.AttributsChange;
 import main.Main;
+import spells.Etats;
 import spells.Spell;
 import utils.ObjetsList;
 
@@ -37,6 +38,9 @@ public abstract class Objet implements java.io.Serializable {
 	public static int NO_TARGET = -1;
 	// draw
 	public boolean toDrawOnGround = false;
+	//State
+	public Vector<Etats> etats = new Vector<Etats>();
+	
 	
 	protected int team;
 
