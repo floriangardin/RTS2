@@ -20,6 +20,10 @@ public class SpellMeditation extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
+		// Check if already meditating
+		if(launcher.etats.contains(Etats.Meditating)){
+			return;
+		}
 		launcher.addSpellEffect(new Meditation(launcher,target));
 		launcher.canMove = false;
 		Game.g.triggerEvent(Events.Meditation, launcher);
