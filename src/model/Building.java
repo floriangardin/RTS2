@@ -137,18 +137,14 @@ public class Building extends Objet{
 			return false;
 		}
 		if(this.queue.size()<5 && unit<getProductionList().size()){
-			float goldCost = getAttribut(getProductionList().get(unit),Attributs.goldCost);
 			float foodCost = getAttribut(getProductionList().get(unit),Attributs.foodCost);
-			float faithCost = getAttribut(getProductionList().get(unit),Attributs.faithCost);
-			float prodTime = getAttribut(getProductionList().get(unit),Attributs.prodTime);
 
 			if(foodCost<=this.getGameTeam().food
-					&& getAttribut(getProductionList().get(unit),Attributs.goldCost)<=this.getGameTeam().gold && this.getGameTeam().pop<this.getGameTeam().maxPop){
+					 && this.getGameTeam().enoughPop(getProductionList().get(unit))){
 				this.queue.add(getProductionList().get(unit));
-				this.getGameTeam().gold-=goldCost;
+				
 				this.getGameTeam().food-=foodCost;
 				if(this.team==Game.g.currentPlayer.getGameTeam().id){
-					Game.g.addDisplayRessources(new DisplayRessources(-goldCost,"gold",this.x,this.y));
 					Game.g.addDisplayRessources(new DisplayRessources(-foodCost,"food",this.x,this.y));
 				}
 				return true;
@@ -158,9 +154,7 @@ public class Building extends Objet{
 				if(this.getTeam()==Game.g.currentPlayer.getTeam()){
 					if(foodCost>this.getGameTeam().food){
 						Game.g.sendMessage(ChatMessage.getById("food"));
-					} else if(goldCost>this.getGameTeam().gold){
-						Game.g.sendMessage(ChatMessage.getById("gold"));
-					} else {
+					}  else {
 						Game.g.sendMessage(ChatMessage.getById("pop"));
 					}
 				}
@@ -189,13 +183,11 @@ public class Building extends Objet{
 			float foodCost = getAttribut(getTechnologyList().get(unit),Attributs.foodCost);
 			float faithCost = getAttribut(getTechnologyList().get(unit),Attributs.faithCost);
 			float prodTime = getAttribut(getTechnologyList().get(unit),Attributs.prodTime);
-			if(foodCost<=this.getGameTeam().food && goldCost<=this.getGameTeam().gold){
+			if(foodCost<=this.getGameTeam().food ){
 
 				this.queueTechnology = Technologie.technologie(getTechnologyList().get(unit), this.getGameTeam().id);
-				this.getGameTeam().gold-=goldCost;
 				this.getGameTeam().food-=foodCost;
 				if(this.team==Game.g.currentPlayer.getGameTeam().id){
-					Game.g.addDisplayRessources(new DisplayRessources(-goldCost,"gold",this.x,this.y));
 					Game.g.addDisplayRessources(new DisplayRessources(-foodCost,"food",this.x,this.y));
 				}
 				getHQ().currentTechsProduced.add(getTechnologyList().get(unit));
@@ -206,8 +198,6 @@ public class Building extends Objet{
 				if(this.getTeam()==Game.g.currentPlayer.getTeam()){
 					if(foodCost>this.getGameTeam().food){
 						Game.g.sendMessage(ChatMessage.getById("food"));
-					} else if(goldCost>this.getGameTeam().gold){
-						Game.g.sendMessage(ChatMessage.getById("gold"));
 					} else {
 						Game.g.sendMessage(ChatMessage.getById("pop"));
 					}
@@ -299,7 +289,7 @@ public class Building extends Objet{
 		}
 		if(this.queue.size()>0){
 			this.setCharge(this.charge+Main.increment);
-			if((this.getGameTeam().pop+1)<=this.getGameTeam().maxPop && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
+			if(this.getGameTeam().enoughPop(getQueue().get(0)) && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
 				this.setCharge(0f);
 				float dirX = this.random+getRallyPoint().x-this.x;
 				float dirY = this.random+getRallyPoint().y - this.y;
@@ -339,14 +329,7 @@ public class Building extends Objet{
 		this.stateRessourceFood+=Main.increment;
 		this.stateRessourceFaith+=Main.increment;
 
-		if(stateRessourceGold >= this.getAttribut(Attributs.frequencyProduceGold) && getTeam()!=0){
-			getGameTeam().gold+=this.getAttribut(this.name,Attributs.produceGold)*getGameTeam().data.prodGold;
-			stateRessourceGold = 0;
-			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.name,Attributs.produceGold)==1 ){
-				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodGold, "gold", this.x, this.y));
 
-			}
-		}
 		if(stateRessourceFood >= this.getAttribut(Attributs.frequencyProduceFood) && getTeam()!=0){
 			getGameTeam().food+=this.getAttribut(this.name,Attributs.produceFood)*getGameTeam().data.prodFood;
 			stateRessourceFood = 0;
@@ -355,15 +338,7 @@ public class Building extends Objet{
 
 			}
 		}
-		if(stateRessourceFaith >= this.getAttribut(Attributs.frequencyProduceFaith) && getTeam()!=0){
-			getGameTeam().special+=this.getAttribut(this.name,Attributs.produceFaith)*getGameTeam().data.prodFaith;
-			stateRessourceFaith = 0;
-			if(this.team==Game.g.currentPlayer.getGameTeam().id && this.getAttribut(this.name,Attributs.produceFaith)==1 ){
-				// TODO : Produce faith display
-				//				Game.g.addDisplayRessources(new DisplayRessources(getGameTeam().data.prodFaith, "special", this.x, this.y));
 
-			}
-		}
 		//TOWER
 		if(this.getGameTeam().data.getAttribut(this.name, Attributs.canAttack)>0){
 			this.attack();
@@ -375,7 +350,6 @@ public class Building extends Objet{
 		if(this.queueTechnology!=null){
 
 			this.getGameTeam().food += this.getAttribut(this.queueTechnology.objet, Attributs.foodCost);
-			this.getGameTeam().gold += this.getAttribut(this.queueTechnology.objet, Attributs.goldCost);
 			getHQ().currentTechsProduced.remove(this.queueTechnology.objet);
 			this.queueTechnology=null;
 			this.setCharge(0f);
@@ -387,8 +361,7 @@ public class Building extends Objet{
 			float faithCost = getAttribut(getProductionList().get(this.queue.size()-1),Attributs.faithCost);
 			float prodTime = getAttribut(getProductionList().get(this.queue.size()-1),Attributs.prodTime);
 			this.getGameTeam().food += foodCost;
-			this.getGameTeam().gold += goldCost;
-			this.getGameTeam().special += faithCost;
+
 			this.queue.remove(this.queue.size()-1);
 			if(this.queue.size()==0){
 				this.setCharge(0f);
@@ -542,7 +515,7 @@ public class Building extends Objet{
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam() && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
 			if(this.potentialTeam!=this.getTeam()  ){
-				if(((Game.g.teams.get(potentialTeam).pop+2)<=Game.g.teams.get(potentialTeam).maxPop)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
+				if(this.getGameTeam().enoughPop(this.name)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam);
 
@@ -743,18 +716,13 @@ public class Building extends Objet{
 
 	public void setTeam(int i){
 
-		if(!(this instanceof Bonus) && this.team!=0){
-			this.getGameTeam().pop-=2;
-		}
+
 		if(Game.g.currentPlayer!=null && i==Game.g.currentPlayer.id && !(name.equals(ObjetsList.Headquarters))){
 			if(Game.g.plateau.getCurrentAct()!=null){
 				Game.g.sendMessage(ChatMessage.getById("building taken"));
 			}
 		}
 		this.team = i;
-		if(!(this instanceof Bonus)  && this.team!=0){
-			this.getGameTeam().pop+=2;
-		}
 		this.setTeamExtra();
 		this.giveUpProcess = false;
 	}

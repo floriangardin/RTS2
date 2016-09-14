@@ -132,9 +132,7 @@ public class Plateau implements java.io.Serializable {
 		// Acts
 		this.acts = new Vector<Act>();
 
-		for(GameTeam t : g.teams){
-			t.pop = 0;
-		}
+
 
 	}
 
@@ -210,7 +208,6 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				this.removeCharacter(o);
-				o.getGameTeam().pop--;
 				
 				Game.g.triggerEvent(Events.Death, o);
 			}

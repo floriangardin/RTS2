@@ -49,7 +49,7 @@ public abstract class Technologie implements java.io.Serializable{
 			public void applyEffect() {
 				// TODO Auto-generated method stub
 				this.getGameTeam().hq.age = 2;
-				this.getGameTeam().maxPop= 20;
+			
 			}
 			
 		};
@@ -62,7 +62,7 @@ public abstract class Technologie implements java.io.Serializable{
 			public void applyEffect() {
 				// TODO Auto-generated method stub
 				this.getGameTeam().hq.age = 3;
-				this.getGameTeam().maxPop= 40;
+				
 			}
 			
 		};

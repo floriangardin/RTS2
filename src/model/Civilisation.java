@@ -70,6 +70,7 @@ public class Civilisation {
 		
 		Vector<AttributsCiv> toRemove = new Vector<AttributsCiv>();
 		for(AttributsCiv a : attributsString.keySet()){
+			
 			if(a.name().startsWith("choice")){
 				cardChoices.put(a, new Vector<ActCard>());
 				if(attributsString.get(a).length()>2){
@@ -91,8 +92,7 @@ public class Civilisation {
 	}
 
 	public void launchSpell(Objet target){
-		if(target!=null && gameteam.special>=this.uniqueSpell.getAttribut(Attributs.faithCost) && chargeTime>=uniqueSpell.getAttribut(Attributs.chargeTime)){
-			gameteam.special-=this.uniqueSpell.getAttribut(Attributs.faithCost);
+		if(target!=null && chargeTime>=uniqueSpell.getAttribut(Attributs.chargeTime)){
 			this.uniqueSpell.launch(target, null);
 		}
 

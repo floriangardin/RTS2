@@ -88,9 +88,7 @@ public class Player {
 	public String toString(){
 		String s ="";
 		s+="id:"+id+";";
-		s+="gold:"+gameteam.gold+";";
 		s+="food:"+gameteam.food+";";
-		s+="special:"+gameteam.special+";";
 		return s;
 		
 	}
@@ -124,12 +122,7 @@ public class Player {
 		if(hs.containsKey("food")){
 			gameteam.food=Integer.parseInt(hs.get("food"));
 		}
-		if(hs.containsKey("gold")){
-			gameteam.gold=Integer.parseInt(hs.get("gold"));
-		}
-		if(hs.containsKey("special")){
-			gameteam.special=Integer.parseInt(hs.get("special"));
-		}
+
 		if(hs.containsKey("team")){
 			for(GameTeam t : Game.g.teams){
 				if(t.id == Integer.parseInt(hs.get("team"))){

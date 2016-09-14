@@ -127,28 +127,22 @@ public abstract class IA {
 		Game.g.sendMessage(new ChatMessage("2|"+s));
 	}
 	
-	protected int getGold(){
-		return player.gold;
-	}
+
 	protected int getFood(){
 		return player.food;
 	}
 	
-	protected int getSpecial(){
-		return player.special;
-	}
+
 	protected int getPop(){
-		return player.pop;
+		return player.getPop();
 	}
 	protected int getMaxPop(){
-		return player.maxPop;
+		return player.getMaxPop();
 	}
 	
 	protected boolean canProduce(ObjetsList o){
 		
 		return this.getFood()>this.getAttribut(o, Attributs.foodCost)
-				&& this.getGold()>this.getAttribut(o, Attributs.goldCost)
-				&& this.getSpecial()>this.getAttribut(o, Attributs.faithCost)
 				&& (this.getMaxPop()-this.getPop())>=1; //FIXME : Not generic 
 	}
 	

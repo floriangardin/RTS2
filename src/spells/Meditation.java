@@ -27,6 +27,7 @@ public class Meditation extends SpellEffect{
 		
 		this.type = 1;
 		this.name = ObjetsList.Meditation;
+		launcher.etats.add(Etats.Meditating);
 		this.x = launcher.getX();
 		this.y = launcher.getY()+1f;
 		remainingTime = this.getAttribut(Attributs.totalTime);	
@@ -53,6 +54,7 @@ public class Meditation extends SpellEffect{
 			
 			this.lifePoints=-1f;
 			getOwner().canMove = true;
+			getOwner().etats.remove(Etats.Meditating);
 		}
 	}
 
