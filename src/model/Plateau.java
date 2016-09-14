@@ -670,6 +670,10 @@ public class Plateau implements java.io.Serializable {
 		
 		// 2 - Handling acts and objectives
 		this.currentActTime-=1f/Main.framerate;
+		if(this.currentAct<3f){
+			Game.g.musicPlaying.fade(1, 0f, true);
+			Game.g.sounds.get("trompette").play(1f, Game.g.options.soundVolume);
+		}
 		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
 			// changement d'acte
 			if(this.currentAct>=0){
