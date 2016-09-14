@@ -20,7 +20,7 @@ public class ObjectiveImmolation  extends Objective{
 	public void action() {
 		System.out.println("roger");
 		for(Event e : Game.g.getEvents().getNewEvents()){
-			if(e.getName()==Events.Immolation){
+			if(e.getName()==Events.Immolation && e.getGameTeam()==this.gameTeam.id){
 				this.current++;
 				System.out.println("vaneau");
 			}

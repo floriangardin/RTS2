@@ -98,6 +98,9 @@ public class Event {
 		return Game.g.round-roundLaunched==0;
 	}
 	
+	public int getGameTeam(){
+		return parent.getGameTeam().id;
+	}
 	
 	
 	public boolean play(Graphics g){
