@@ -508,13 +508,9 @@ public final class IAfunctions {
 		return Game.g.teams.get(currentTeam).food;
 	}
 
-	public int getGold(){
-		return Game.g.teams.get(currentTeam).gold;
-	}
 
-	public int getSpecial(){
-		return Game.g.teams.get(currentTeam).special;
-	}
+
+
 
 
 //	public HashMap<Integer,Integer> initHashMap(){

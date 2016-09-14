@@ -30,8 +30,6 @@ public class SpellEclair extends Spell{
 		if(h instanceof Character && h.getTeam()!=team){
 			((Character)h).isBolted = true;
 			//TODO add a sound
-		}else{
-			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
 		}
 	}
 

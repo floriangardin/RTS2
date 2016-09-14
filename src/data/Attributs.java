@@ -30,5 +30,5 @@ public enum Attributs {
 	produceFood,produceGold,produceFaith,techsRequired,canAttack,
 	frequencyProduceGold,
 	frequencyProduceFood,
-	frequencyProduceFaith,autoImmolation,ressourceAfterMeditation,attackBonusAfterMeditation;
+	frequencyProduceFaith,autoImmolation,ressourceAfterMeditation,attackBonusAfterMeditation,popGiven,popTaken;
 }

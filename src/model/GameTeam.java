@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.Color;
 
+import data.Attributs;
 import data.Data;
 import madness.ActCard;
 import utils.ObjetsList;
@@ -18,11 +19,11 @@ public class GameTeam {
 	public String civName;
 	public String colorName;
 	public int food;
-	public int gold;
-	public int special;
-	public int pop;
+
+
+
 	public Building hq ;
-	public int maxPop;
+
 	public Color color;
 	private int madness;
 	
@@ -72,10 +73,16 @@ public class GameTeam {
 			colorName = "red";
 		}
 		
-		this.maxPop = 15;
-		this.gold = 50;
+	
+		
 		this.food = 100;
 	}
+	
+	
+	public boolean enoughPop(ObjetsList o){
+		return (getPop()+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop()|| this.data.getAttribut(o, Attributs.popTaken)==0 );
+	}
+	
 	
 	public int getMadness(){
 		return madness;
@@ -84,6 +91,44 @@ public class GameTeam {
 	public void addMadness(int add){
 		madness = madness+add;
 	}
+
+	public int getPop() {
+		
+		int result = 0;
+		/*
+		 * For all buildings check how much pop it gives
+		 */
+		for(Building b : Game.g.plateau.buildings){
+			if(b.getGameTeam().id==this.id){
+				result+=b.getAttribut(Attributs.popTaken);
+			}
+		}
+		for(Character b : Game.g.plateau.characters){
+			if(b.getGameTeam().id==this.id){
+				result+=b.getAttribut(Attributs.popTaken);
+			}
+		}
+		return result;
+		
+	}
+
+
+
+	public int getMaxPop() {
+		
+		int result = 0;
+		/*
+		 * For all buildings check how much pop it gives
+		 */
+		for(Building b : Game.g.plateau.buildings){
+			if(b.getGameTeam().id==this.id){
+				result+=b.getAttribut(Attributs.popGiven);
+			}
+		}
+		return result;
+	}
+
+
 	
 //	public void successObjective(ObjectiveMadness om){
 //		objectivesMadness.remove(om);

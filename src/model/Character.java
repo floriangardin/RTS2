@@ -89,7 +89,7 @@ public class Character extends Objet{
 		this.setXY(x, y);
 		this.setGroup(new Vector<Character>());
 		this.getGroup().add(this);
-		this.getGameTeam().pop++;
+		
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
 		for(String s: this.getAttributList(Attributs.spells)){

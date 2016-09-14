@@ -28,8 +28,6 @@ public class SpellProduct extends Spell{
 		}else if(target instanceof Building && ((Building) target).getQueueTechnologie()!=null){
 			Building p = (Building) target;
 			p.techTerminate(p.getQueueTechnologie());
-		}else{
-			this.getGameTeam().special+=this.getAttribut(Attributs.faithCost);
 		}
 		
 		

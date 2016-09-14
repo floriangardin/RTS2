@@ -525,8 +525,6 @@ public class BottomBar {
 		float y1 = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debut1-dureeDescente)/dureeDescente));
 		float y2 = Math.max(-offset-10,Math.min(0, offset*(Game.g.round-debut2-dureeDescente)/dureeDescente));
 
-		if(gold != Game.g.currentPlayer.getGameTeam().gold)
-			gold += (Game.g.currentPlayer.getGameTeam().gold-gold)/5+Math.signum(Game.g.currentPlayer.getGameTeam().gold-gold);
 		if(food != Game.g.currentPlayer.getGameTeam().food)
 			food += (Game.g.currentPlayer.getGameTeam().food-food)/5+Math.signum(Game.g.currentPlayer.getGameTeam().food-food);
 
@@ -603,8 +601,8 @@ public class BottomBar {
 		}
 		// pop
 		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+Game.g.currentPlayer.getGameTeam().pop + "/" + Game.g.currentPlayer.getGameTeam().maxPop;
-		if(Game.g.currentPlayer.getGameTeam().pop==Game.g.currentPlayer.getGameTeam().maxPop){
+		s = ""+Game.g.currentPlayer.getGameTeam().getPop() + "/" + Game.g.currentPlayer.getGameTeam().getMaxPop();
+		if(Game.g.currentPlayer.getGameTeam().getPop()==Game.g.currentPlayer.getGameTeam().getMaxPop()){
 			g.setColor(Color.red);
 		}else{
 			g.setColor(Color.white);
@@ -619,19 +617,7 @@ public class BottomBar {
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-Game.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
 		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
 
-		// faith
-		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-4,y2,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+Game.g.currentPlayer.getGameTeam().special;
-		g.setColor(Color.white);
-		g.drawString(s, (1+ratioSizeTimerX)*rX/2+2*ratioSizeGoldX*rX-10f-Game.g.font.getWidth(s), y2+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageSpecial, (1+ratioSizeTimerX)*rX/2+10+ratioSizeGoldX*rX, y2+ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
 
-		// gold
-		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1+ratioSizeTimerX)*rX/2-4,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+gold;
-		g.setColor(Color.white);
-		g.drawString(s, (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX-10f-Game.g.font.getWidth(s), y1+ratioSizeGoldY*rY/2f-Game.g.font.getHeight("0")/2-3f);
-		g.drawImage(this.imageGold, (1+ratioSizeTimerX)*rX/2+10, y1+ratioSizeGoldY*rY/2f-3-this.imageGold.getHeight()/2);
 
 		// timer
 		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
