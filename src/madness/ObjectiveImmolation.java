@@ -1,18 +1,16 @@
 package madness;
 
-import java.util.Vector;
 
 import events.Event;
 import events.Events;
 import model.Civilisation.AttributsCiv;
 import model.Game;
 import model.GameTeam;
-import utils.ObjetsList;
 
-public class ObjectiveImmolation  extends ObjectiveMadness{
+public class ObjectiveImmolation  extends Objective{
 
-	public ObjectiveImmolation(GameTeam gameTeam,int value, Vector<ObjetsList> list) {
-		super(gameTeam,value,list);
+	public ObjectiveImmolation(GameTeam gameTeam,int[] value) {
+		super(gameTeam,value);
 		
 		this.cardList = AttributsCiv.choiceMadnessAct1;
 	}
@@ -20,9 +18,11 @@ public class ObjectiveImmolation  extends ObjectiveMadness{
 	
 	@Override
 	public void action() {
+		System.out.println("roger");
 		for(Event e : Game.g.getEvents().getNewEvents()){
 			if(e.getName()==Events.Immolation){
 				this.current++;
+				System.out.println("vaneau");
 			}
 		}
 	}

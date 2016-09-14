@@ -11,6 +11,9 @@ import com.google.gson.stream.JsonReader;
 
 import data.Attributs;
 import madness.ActCard;
+import madness.ObjectiveImmolation;
+import madness.Objective;
+import madness.ObjectiveMeditation;
 import main.Main;
 import spells.Spell;
 import utils.ObjetsList;
@@ -21,8 +24,13 @@ public class Civilisation {
 	public String printName;
 	public GameTeam gameteam;
 	
+	public int madness = 0;
+	
+	
 	public Vector<ObjetsList> cardSelection = new Vector<ObjetsList>();
 	
+	public Objective objectiveMadness;
+	public Objective objectiveWisdom;
 
 	public HashMap<AttributsCiv, String> attributsString = new HashMap<AttributsCiv, String>();
 	public HashMap<AttributsCiv, Vector<ActCard>> cardChoices = new HashMap<AttributsCiv, Vector<ActCard>>();
@@ -77,6 +85,9 @@ public class Civilisation {
 		for(AttributsCiv a : toRemove){
 			attributsString.remove(a);
 		}
+		this.objectiveMadness = new ObjectiveImmolation(this.gameteam,new int[]{2,5,10});
+		this.objectiveWisdom = new ObjectiveMeditation(this.gameteam,new int[]{2,5,10});
+		
 	}
 
 	public void launchSpell(Objet target){

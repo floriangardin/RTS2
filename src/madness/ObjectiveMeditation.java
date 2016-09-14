@@ -8,10 +8,10 @@ import utils.ObjetsList;
 
 import java.util.Vector;
 
-public class ObjectiveMeditation  extends ObjectiveMadness{
+public class ObjectiveMeditation  extends Objective{
 
-	public ObjectiveMeditation(GameTeam gameTeam,int value, Vector<ObjetsList> list) {
-		super(gameTeam,value,list);
+	public ObjectiveMeditation(GameTeam gameTeam,int[] value) {
+		super(gameTeam,value);
 		
 	}
 

@@ -7,9 +7,8 @@ import org.newdawn.slick.Color;
 import data.Data;
 import madness.ActCard;
 import madness.ObjectiveImmolation;
-import madness.ObjectiveMadness;
+import madness.Objective;
 import madness.ObjectiveMeditation;
-import madness.ObjectiveNormal;
 import utils.ObjetsList;
 
 public class GameTeam {
@@ -30,10 +29,8 @@ public class GameTeam {
 	public Color color;
 	private int madness;
 	
-	private Vector<ObjectiveMadness> objective;
 	
 	// Objectives of madness
-	private Vector<ObjectiveMadness> objectivesMadness = new Vector<ObjectiveMadness>();
 	
 	// Current choice of actCard
 	public Vector<Vector<ActCard>> currentChoices = new Vector<Vector<ActCard>>();
@@ -55,9 +52,6 @@ public class GameTeam {
 		normal.addElement(ObjetsList.AgeIRessource);
 		normal.addElement(ObjetsList.Age1AttackBonusMeditation);
 		
-		this.objectivesMadness.addElement(new ObjectiveImmolation(this,2,imo));
-		this.objectivesMadness.addElement(new ObjectiveMeditation(this,2,medit));
-		this.objectivesMadness.addElement(new ObjectiveNormal(this,2,normal));
 		
 		
 		break;
@@ -94,15 +88,15 @@ public class GameTeam {
 		madness = madness+add;
 	}
 	
-	public void successObjective(ObjectiveMadness om){
-		objectivesMadness.remove(om);
-	}
-	public void successObjectives(Vector<ObjectiveMadness> om){
-		objectivesMadness.removeAll(om);
-	}
-	public Vector<ObjectiveMadness> getObjectivesMadness(){
-		return objectivesMadness;
-	}
+//	public void successObjective(ObjectiveMadness om){
+//		objectivesMadness.remove(om);
+//	}
+//	public void successObjectives(Vector<ObjectiveMadness> om){
+//		objectivesMadness.removeAll(om);
+//	}
+//	public Vector<ObjectiveMadness> getObjectivesMadness(){
+//		return objectivesMadness;
+//	}
 	
 	
 }

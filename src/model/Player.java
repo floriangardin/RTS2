@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import bot.IA;
 import control.InputObject;
-import madness.ObjectiveMadness;
+import madness.Objective;
 
 public class Player {
 	public Vector<Objet> selection;
@@ -66,19 +66,19 @@ public class Player {
 		}	
 		
 		
-		// Handle madness objectives
-		Vector<ObjectiveMadness> toRemove = new Vector<ObjectiveMadness>();
-		for(ObjectiveMadness m : this.getGameTeam().getObjectivesMadness()){
-			m.action();
-			
-			if(m.isCompleted()){
-				// Add all tech choices 
-				this.getGameTeam().civ.cardSelection.addAll(m.techAllowed);
-				toRemove.add(m);
-			}
-		}
-
-		this.getGameTeam().successObjectives(toRemove);
+//		// Handle madness objectives
+//		Vector<Objective> toRemove = new Vector<ObjectiveMadness>();
+//		for(Objective m : this.getGameTeam().getObjectiveMadness()){
+//			m.action();
+//			
+//			if(m.isCompleted()){
+//				// Add all tech choices 
+//				this.getGameTeam().civ.cardSelection.addAll(m.techAllowed);
+//				toRemove.add(m);
+//			}
+//		}
+//
+//		this.getGameTeam().successObjectives(toRemove);
 	}
 	
 	public void initIA(IA ia){

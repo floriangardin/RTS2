@@ -678,7 +678,11 @@ public class Plateau implements java.io.Serializable {
 
 		}
 		Game.g.inputsHandler.updateSelection(ims);
-		// 2 - Handling acts
+		// 2 - Handling acts and objectives
+		for(GameTeam team : Game.g.teams){
+			team.civ.objectiveMadness.action();
+			team.civ.objectiveWisdom.action();
+		}
 		this.currentActTime-=1f/Main.framerate;
 		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
 			// changement d'acte
@@ -687,7 +691,12 @@ public class Plateau implements java.io.Serializable {
 				for(GameTeam team : Game.g.teams){
 					Vector<ActCard> v = new Vector<ActCard>();
 					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
-					// TODO : rajouter folie/raison + objectifs
+					if(team.civ.objectiveMadness.isCompleted(this.currentAct)){
+						v.addAll(team.civ.getChoices(this.currentAct+1, true, false));
+					}
+					if(team.civ.objectiveWisdom.isCompleted(this.currentAct)){
+						v.addAll(team.civ.getChoices(this.currentAct+1, false, true));
+					}
 					team.currentChoices.add(v);
 				}
 			}
@@ -698,9 +707,6 @@ public class Plateau implements java.io.Serializable {
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - Game.g.timeSteps));
 
 	}
-
-
-
 
 
 	void handleMouseHover(InputObject im) {

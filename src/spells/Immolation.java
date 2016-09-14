@@ -49,10 +49,8 @@ public class Immolation extends SpellEffect{
 		Objet owner = this.getOwner();
 		if(owner!=null){			
 			owner.setLifePoints(owner.lifePoints-step);
-		}else{
-			System.out.println("Owner is null");
 		}
-		if(this.remainingTime-2f/Main.framerate<=0f){
+		if(owner!=null && this.remainingTime-1f/Main.framerate<=0f){
 			// Test if explosion
 			if(getOwner().getAttribut(Attributs.explosionWhenImmolate)==1){
 				for(Character c : Game.g.plateau.characters){
