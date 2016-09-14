@@ -63,6 +63,9 @@ public class Immolation extends SpellEffect{
 			getOwner().lifePoints = -1f;
 			this.lifePoints=-1f;
 		}
+		if(this.getOwner()==null){
+			this.lifePoints=-1f;
+		}
 
 	}
 
