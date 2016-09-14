@@ -12,8 +12,8 @@ import model.Game;
 
 public class Main {
 	// A REGLER \\
-	public static float ratioSpace = 0.9f;
-	public static int framerate = 60;
+	public static float ratioSpace = 1f;
+	public static int framerate = 30;
 	public static int nDelay=5;
 	///////\\\\\\\\\
 	
@@ -40,7 +40,7 @@ public class Main {
 		}
 		try {
 			Game game = new Game(resolutionX,resolutionY);
-			AppGameContainer app = new AppGameContainer( game );
+			AppGameContainer app = new AppGameContainer(game);
 			game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);

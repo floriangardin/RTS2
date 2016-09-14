@@ -75,7 +75,7 @@ public class Plateau implements java.io.Serializable {
 
 	// About Acts
 	public Vector<Act> acts;
-	private int currentAct = -1;
+	public int currentAct = -1;
 	private float currentActTime = 0f;
 
 
