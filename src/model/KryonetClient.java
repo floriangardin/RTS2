@@ -5,6 +5,8 @@ import java.net.InetAddress;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
 
 import multiplaying.MultiMessage;
 import multiplaying.SerializedMessage;
@@ -26,8 +28,20 @@ public class KryonetClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Kryo kryo = client.getKryo();
+		this.client.addListener(new Listener() {
+			public void received (Connection connection, Object object) {
+				if (object instanceof SerializedMessage) {
+					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
+					System.out.println("message reçu");
+					Game.g.kryonetBuffer.add(request);
+					MultiMessage response = new MultiMessage(null);
+					response.text = "Thanks";
+					connection.sendTCP(response);
+				}
+			}
+		});
 		
+		Kryo kryo = client.getKryo();
 	    kryo.register(SerializedMessage.class);
 	    kryo.register(byte[].class);
 	    kryo.register(byte.class);
