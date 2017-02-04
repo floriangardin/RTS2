@@ -1293,7 +1293,7 @@ public class Game extends BasicGame
 
 		this.inputsHandler.initSelection();
 		this.musicPlaying.stop();
-		this.musicPlaying = this.musics.get("imperialtheme");
+		this.musicPlaying = this.musics.get("themeImperial");
 		try {
 			this.server.setBroadcast(false);
 		} catch (SocketException e) {

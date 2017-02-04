@@ -13,7 +13,7 @@ import model.Game;
 public class Main {
 	// A REGLER \\
 	public static float ratioSpace = 1f;
-	public static int framerate = 30;
+	public static int framerate = 60;
 	public static int nDelay=5;
 	///////\\\\\\\\\
 	
@@ -28,7 +28,7 @@ public class Main {
 //		Log.setLogSystem(new NullLogSystem()); 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-//		System.out.println(LWJGLUtil.getPlatformName());
+		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		int resolutionX;
 		int resolutionY;
 		if(pleinEcran){
