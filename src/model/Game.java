@@ -1581,7 +1581,6 @@ public class Game extends BasicGame
 				// si client on envoie checksum
 				toSendThisTurn.checksum.add(checksum);				
 			}
-			System.out.println(checksum);
 		}
 		// handling checksum comparison
 		if(this.host && !this.processSynchro){
