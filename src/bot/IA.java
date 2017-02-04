@@ -93,12 +93,15 @@ public abstract class IA {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			alert("Error in IA ... "+e.toString());
+			e.printStackTrace();
 			
 		}
 	}
 	
 
-	
+	public float getAttributs(ObjetsList o, Attributs a){
+		return this.player.data.getAttribut(o, a);
+	}
 	
 	public abstract void update() throws Exception;
 	

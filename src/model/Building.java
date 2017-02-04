@@ -480,7 +480,7 @@ public class Building extends Objet{
 		if(this instanceof Bonus && !((Bonus)this).bonusPresent){
 			return;
 		}
-		if( c.getAttributString(Attributs.weapon)== "bow" || c.getAttributString(Attributs.weapon)== "wand" || c.getAttributString(Attributs.weapon)=="bible")
+		if( c.getAttributString(Attributs.weapon).equals("bow") || c.getAttributString(Attributs.weapon).equals("wand") || c.getAttributString(Attributs.weapon).equals("bible"))
 			return;
 		if(this.name.equals(ObjetsList.Stable) && c.getGameTeam().hq.age<2){
 			return;
