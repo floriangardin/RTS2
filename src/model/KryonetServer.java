@@ -13,12 +13,16 @@ import multiplaying.SerializedMessage;
 public class KryonetServer {
 
 	public Server server;
+	public Server serverResynchro;
 
-	public KryonetServer(int portTCP, int portUDP){
-		this.server = new Server(300000,300000);
+	public KryonetServer(int portTCP, int portUDP, int portTCPResynchro,int portUDPResynchro){
+		this.server = new Server();
+		this.serverResynchro = new Server(300000,300000);
 		this.server.start();
+		this.serverResynchro.start();
 		try {
 			this.server.bind(portTCP, portUDP);
+			this.serverResynchro.bind(portTCPResynchro, portUDPResynchro);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -37,12 +41,22 @@ public class KryonetServer {
 	    kryo.register(SerializedMessage.class);
 	    kryo.register(byte[].class);
 	    kryo.register(byte.class);
+	    
+		Kryo kryoResynchro = serverResynchro.getKryo();
+	    kryoResynchro.register(SerializedMessage.class);
+	    kryoResynchro.register(byte[].class);
+	    kryoResynchro.register(byte.class);
 
 	}
 
 	public void send(MultiMessage msg){
 		if(this.server.getConnections().length>0){
 			this.server.getConnections()[0].sendTCP(new SerializedMessage(Serializer.serialize(msg)));
+		}
+	}
+	public void sendResynchro(MultiMessage msg){
+		if(this.serverResynchro.getConnections().length>0){
+			this.serverResynchro.getConnections()[0].sendTCP(new SerializedMessage(Serializer.serialize(msg)));
 		}
 	}
 }

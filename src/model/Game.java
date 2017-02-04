@@ -240,6 +240,8 @@ public class Game extends BasicGame
 	public static int portUDP = 2302;
 	public static int portUDPKryonet = 2303;
 	public static int portTCP = 54555;
+	public static int portUDPKryonetResynchro = 2304;
+	public static int portTCPResynchro = 54556;
 	// depots for senders
 	public boolean usingKryonet = true;
 	DatagramSocket normalServer;
@@ -395,14 +397,8 @@ public class Game extends BasicGame
 
 	public void addPlayer(String name, InetAddress address,int resX,int resY){
 		this.players.addElement(new Player(players.size(),name,teams.get(1)));
-
-
-
 		this.players.lastElement().address = address;
 		nPlayers+=1;
-
-
-
 	}
 
 	public void removePlayer(int indice){
@@ -1435,7 +1431,7 @@ public class Game extends BasicGame
 			normalClient.setSendBufferSize(500000);
 //			System.out.println("Game line 1429 : " +normalClient.getSendBufferSize());
 			if(usingKryonet){
-				kryonetServer = new KryonetServer(portTCP, portUDPKryonet);
+				kryonetServer = new KryonetServer(portTCP, portUDPKryonet, portTCPResynchro, portUDPKryonetResynchro);
 				kryonetClient = new KryonetClient();
 			}
 			normalServer = new DatagramSocket(portUDP);
@@ -1511,7 +1507,12 @@ public class Game extends BasicGame
 		idPaquetSend++;
 		if(usingKryonet && !isInMenu){	
 			if(host){
-				kryonetServer.send(m);
+				if(processSynchro){
+					kryonetServer.sendResynchro(m);
+				}else {
+					kryonetServer.send(m);
+				}
+				
 			} else {
 				kryonetClient.send(m);
 			}
@@ -1632,6 +1633,7 @@ public class Game extends BasicGame
 	}
 	private void handleResynchro() {
 		if( processSynchro){
+			System.out.println("Game ligne 1641 : is Handling Resynchro");
 			//Si round+nDelay
 			if(toParse==null){
 				this.processSynchro = false;
@@ -1727,6 +1729,7 @@ public class Game extends BasicGame
 	public boolean gillesBombe = false;
 	public int timeGilles = 0;
 	private Vector<Gilles> gillesPics = new Vector<Gilles>();
+	
 
 	public void handleGillesBombe(){
 		if(timeGilles==0){
