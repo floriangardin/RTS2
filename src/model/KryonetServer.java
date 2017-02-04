@@ -24,7 +24,7 @@ public class KryonetServer {
 			public void received (Connection connection, Object object) {
 				if (object instanceof MultiMessage) {
 					MultiMessage request = (MultiMessage)object;
-					System.out.println(request.text);
+					System.out.println("message reçu");
 					Game.g.kryonetBuffer.add(request);
 					MultiMessage response = new MultiMessage(null);
 					response.text = "Thanks";
