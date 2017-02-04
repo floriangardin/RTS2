@@ -14,9 +14,9 @@ public class IAFlo extends IA{
 	
 	
 	int round = 0;
-	
 	boolean hasTakenTower;
-	
+	private boolean hasSendMessagePhilippe;
+	private boolean missionRogerLaventurierDone;
 	
 	public IAFlo(Player p) {
 		super(p);
@@ -26,7 +26,9 @@ public class IAFlo extends IA{
 	
 	@Override
 	public void update() {
-		
+		if(round==30){
+			this.sendMessage("Tu es un traître, tu as vendu des informations aux Japonais");
+		}
 		// Update pour mes characters
 		for(IAAllyObject unit : getMyCharacters()){
 			// Si c'est une unité
@@ -63,7 +65,14 @@ public class IAFlo extends IA{
 				
 				// Si batiment pris alors arreter et ne rien faire ...
 				if(target.getGameTeam()==this.getPlayer().id){
-					unit.stop();
+					if(target.getName()==ObjetsList.Mill && !missionRogerLaventurierDone ){
+						unit.stop();
+						unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mill));
+						this.sendMessage("La mission secrète de Roger commence");
+						missionRogerLaventurierDone = true;
+					}else{
+						unit.stop();
+					}
 				}
 				if(target.getName()==ObjetsList.Tower && target.getGameTeam()==0){
 					hasTakenTower = true;
@@ -87,11 +96,50 @@ public class IAFlo extends IA{
 		
 		
 		// Réagir à une situation d'urgence (exemple ennemi trop proche)
+		Vector<IAUnit> enemiesAttackingBarrack = enemiesAttacking(ObjetsList.Barracks);
+		if(enemiesAttackingBarrack.size()>0){
+			// TAKE FIRST WIZARD TO DESTROY THEM AHAHAHA
+			if(!hasSendMessagePhilippe){
+				this.sendMessage("Tu n'auras jamais ma caserne !");
+				this.sendMessage("/Philippe");
+				hasSendMessagePhilippe = true;
+			}
+
+			Vector<IAAllyObject> inquisitors = this.getUnits(ObjetsList.Inquisitor);
+			for(IAAllyObject u : inquisitors){
+				// TODO : Find first lancier ?
+				if(u.getTarget()!=enemiesAttackingBarrack.get(0)){
+					u.rightClick(enemiesAttackingBarrack.get(0));
+				}
+				
+			}
+		}
 		
+		Vector<IAUnit> enemiesAttackingFarm = enemiesAttacking(ObjetsList.Mill);
+		if(enemiesAttackingFarm.size()>0){
+			// TAKE FIRST WIZARD TO DESTROY THEM AHAHAHA
+			if(!hasSendMessagePhilippe){
+				this.sendMessage("Tu n'auras jamais ma caserne !");
+				this.sendMessage("/Philippe");
+				hasSendMessagePhilippe = true;
+			}
+
+			Vector<IAAllyObject> inquisitors = this.getUnits(ObjetsList.Inquisitor);
+			for(IAAllyObject u : inquisitors){
+				// TODO : Find first lancier ?
+				if(u.getTarget()!=enemiesAttackingFarm.get(0)){
+					u.rightClick(enemiesAttackingFarm.get(0));
+				}
+				
+			}
+		}
 		// Pour mes buildings, prévenir du danger
 		
 		// Pour mes characters attaquer s'ils se font target
-		
+		// Aller en fourbe chercher une ferme
+		for(IAAllyObject u: getUnits(ObjetsList.Spearman)){
+			
+		}
 		
 		round++;	
 		
@@ -141,26 +189,8 @@ public class IAFlo extends IA{
 		}
 		return result;
 	}
-	
-	private Vector<IAUnit> getEnemyOrNeutralUnits(ObjetsList o){
-		Vector<IAUnit> result = new Vector<IAUnit>();
-		for(IAUnit u: getNatureAndEnemies()){
-			if(u.getName()==o){
-				result.add(u);
-			}
-		}
-		return result;
-	}
+
 	private boolean isAlreadyTargeted(ObjetsList o){
-//		for(IAUnit b : this.getEnemyOrNeutralUnits(o)){
-//			for(IAAllyObject u : getUnits()){
-//				if(u.getTarget().equals(o)){
-//					return true;
-//				}
-//			}
-//		}
-//		
-//		return false;
 		for(IAAllyObject u : getUnits()){
 			if(!u.getTarget().isNull() && u.getTarget().getName()==o){
 				return true;
@@ -168,30 +198,15 @@ public class IAFlo extends IA{
 		}
 		return false;
 	}
-	private boolean isAlreadyTargeted(IAUnit unit){
-		for(IAAllyObject u : getUnits()){
-			IAUnit target = u.getTarget();
-			if(target.equals(unit)){
-				return true;
+	private Vector<IAUnit> enemiesAttacking(ObjetsList o){
+		Vector<IAUnit> units = new Vector<IAUnit>();
+		for(IAUnit u : getEnemies()){
+			if(!u.isNull() && !u.getTarget().isNull() && u.getTarget().getName()==o && u.getTarget().getGameTeam()==this.getPlayer().id){
+				units.add(u);
 			}
 		}
-		return false;
+		return units;
 	}
-	
-	
-
-	
-	private Vector<IAUnit> getAll(){
-		Vector<IAUnit> result = new Vector<IAUnit>();
-		result.addAll(convert(getUnits()));
-		result.addAll(this.getEnemies());
-		return result;
-	}
-
-	private void findTarget(Vector<IAUnit> units) {
-		
-	}
-	
 	
 	public Vector<IAUnit> convert(Vector<IAAllyObject> units){
 		Vector<IAUnit> result = new Vector<IAUnit>();
