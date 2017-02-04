@@ -1565,9 +1565,9 @@ public class Game extends BasicGame
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
-//							System.out.println("resynchro : " +round+" " +"\n"+c.checksum+"\n"+c1.checksum);
-//							this.processSynchro = true;
-//							this.sendParse = true;					
+							System.out.println("resynchro : " +round+" " +"\n"+c.checksum+"\n"+c1.checksum);
+							this.processSynchro = true;
+							this.sendParse = true;					
 						}
 					}
 				}
