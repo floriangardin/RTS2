@@ -956,7 +956,7 @@ public class Game extends BasicGame
 					}
 
 				}else{
-					System.out.println("Game 955 : round drop "+round);
+//					System.out.println("Game 959 : round drop "+round);
 				}
 				this.plateau.updatePlateauState();
 				this.cosmetic.update(im);
@@ -1438,7 +1438,7 @@ public class Game extends BasicGame
 			addressBroadcast = InetAddress.getByName(address);
 			normalClient = new DatagramSocket();
 			normalClient.setSendBufferSize(500000);
-			System.out.println("Game line 1429 : " +normalClient.getSendBufferSize());
+//			System.out.println("Game line 1429 : " +normalClient.getSendBufferSize());
 			if(usingKryonet){
 				kryonetServer = new KryonetServer(portTCP, portUDPKryonet);
 				kryonetClient = new KryonetClient();
