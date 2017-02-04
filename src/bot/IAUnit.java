@@ -41,7 +41,11 @@ public class IAUnit {
 		return objet.lifePoints;
 	}
 	public int getGameTeam(){
-		return this.objet.getGameTeam().id;
+		if(this.objet.getGameTeam() != null){
+			return this.objet.getGameTeam().id;
+		}
+		return 0;
+		
 	}
 	Objet getObjet(){
 		return this.objet;
@@ -104,6 +108,20 @@ public class IAUnit {
 		}
 		return best;
 	}
+	public IAUnit getNearestNeutralorEnnemy(ObjetsList o){
+		Vector<IAUnit> enemies = getIA().getNature();
+		enemies.addAll(getIA().getEnemies());
+		float minDist = -1;
+		IAUnit best =null;
+		for(IAUnit enemy : enemies){
+			float dist = IAUnit.distance(enemy, this);
+			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
+				minDist = dist;
+				best = enemy;
+			}
+		}
+		return best;
+	}
 	
 	public IAUnit getNearestAlly(ObjetsList o){
 		Vector<IAAllyObject> enemies = getIA().getUnits();
@@ -132,6 +150,19 @@ public class IAUnit {
 		}
 		return best;
 	}
+	public IAUnit getNearestEnemyCharacter(){
+		Vector<IAUnit> enemies = getIA().getEnemies();
+		float minDist = -1;
+		IAUnit best =null;
+		for(IAUnit enemy : enemies){
+			float dist = IAUnit.distance(enemy, this);
+			if(ObjetsList.getUnits().contains(enemy.getName()) && (minDist==-1 || dist<minDist)){
+				minDist = dist;
+				best = enemy;
+			}
+		}
+		return best;
+	}
 	
 	public IAUnit getNearest(ObjetsList o ){
 		Vector<IAUnit> enemies = new Vector<IAUnit>();
@@ -149,7 +180,9 @@ public class IAUnit {
 		}
 		return best;	
 	}
-	
+	public boolean isNull(){
+		return this.objet==null;
+	}
 	public IAUnit getTarget(){
 		return new IAUnit(this.objet.getTarget(),this.ia);
 	}

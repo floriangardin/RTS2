@@ -38,8 +38,13 @@ public class IAAllyObject extends IAUnit{
 		}
 	}; // simulate right click
 	
-	
+	public void stop(){
+		this.objet.setTarget(null);
+	}
 	public void rightClick(IAUnit u){
+		if(u==null){
+			return;
+		}
 		if(objet instanceof Character){
 			((Character)this.objet).setTarget(u.getObjet(),null,(u.objet instanceof Building)? Character.TAKE_BUILDING:Character.NORMAL);
 		}
@@ -62,6 +67,7 @@ public class IAAllyObject extends IAUnit{
 		objet.mode = Character.AGGRESSIVE;
 	}; // attack move
 	public  void produceUnit(ObjetsList production){
+		// Check price of unit first
 		if(objet instanceof Building){
 			if(this.getProductionList().contains(production)){
 				((Building) objet).product(this.getProductionList().indexOf(production));

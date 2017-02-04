@@ -15,7 +15,9 @@ public class mainTestCalculDegueu {
 	public static void main(String[] args) throws SlickException {
 		int[] tab = new int[]{12,1,3};
 		System.out.println(tab);
-		
+		if(null instanceof int[]){
+			System.out.println("Ok");
+		}
 		
 	}
 }

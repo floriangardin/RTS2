@@ -57,14 +57,23 @@ public abstract class IA {
 		return nature;
 	}
 	
+	public Vector<IAUnit> getNatureAndEnemies(){
+		Vector<IAUnit> result = new Vector<IAUnit>();
+		result.addAll(enemies);
+		result.addAll(nature);
+		return result;
+	}
 	/*
 	 * Method always called when IA is awaken
 	 */
 	public void action(){
+		
 		this.units.clear();
 		this.nature.clear();
 		this.enemies.clear();
-		
+		if(Game.g.round<5){
+			return;
+		}
 		//Update IA Objects
 		for(Character c : Game.g.plateau.characters){
 			if(c.getGameTeam().id ==0 ||Game.g.plateau.isVisibleByTeam(this.player.id, c)){
@@ -93,7 +102,7 @@ public abstract class IA {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			alert("Error in IA ... "+e.toString());
-			
+			e.printStackTrace();
 		}
 	}
 	
