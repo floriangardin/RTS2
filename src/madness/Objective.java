@@ -18,7 +18,6 @@ public abstract class Objective {
 	}
 	public boolean isCompleted(int act){
 		int current = (madness ? 1 : -1)*this.gameTeam.civ.madness;
-		System.out.println("current:"+current);
 		if(act<objective.length){
 			return current>=objective[act];
 		} else {
