@@ -28,9 +28,9 @@ public class KryonetServer {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
 					System.out.println("message reçu");
 					Game.g.kryonetBuffer.add(request);
-					MultiMessage response = new MultiMessage(null);
-					response.text = "Thanks";
-					connection.sendTCP(response);
+//					MultiMessage response = new MultiMessage(null);
+//					response.text = "Thanks";
+//					connection.sendTCP(response);
 				}
 			}
 		});
