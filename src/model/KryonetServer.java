@@ -17,7 +17,7 @@ public class KryonetServer {
 
 	public KryonetServer(int portTCP, int portUDP, int portTCPResynchro,int portUDPResynchro){
 		this.server = new Server();
-		this.serverResynchro = new Server(300000,300000);
+		this.serverResynchro = new Server();
 		this.server.start();
 		this.serverResynchro.start();
 		try {
