@@ -62,15 +62,17 @@ public class Meditation extends SpellEffect{
 		Color color = Color.darkGray;
 		color = new Color(100,150,255,0.4f);
 		Character owner = (Character) getOwner();
-		int direction = (owner.orientation/2-1);
-		// inverser gauche et droite
-		if(direction==1 || direction==2){
-			direction = ((direction-1)*(-1)+2);
+		if(owner!=null){
+			int direction = (owner.orientation/2-1);
+			// inverser gauche et droite
+			if(direction==1 || direction==2){
+				direction = ((direction-1)*(-1)+2);
+			}
+			Image im;
+			im = Game.g.images.getUnit(owner.name, direction, owner.animation, getGameTeam().id, owner.isAttacking);
+			g.drawImage(im,owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4);
+			im.drawFlash(owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);			
 		}
-		Image im;
-		im = Game.g.images.getUnit(owner.name, direction, owner.animation, getGameTeam().id, owner.isAttacking);
-		g.drawImage(im,owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4);
-		im.drawFlash(owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 		return g;
 	}
 
