@@ -15,4 +15,8 @@ public class Checksum {
 		tab[1] = (!c.checksum.equals(this.checksum));
 		return tab;
 	}
+	
+	public String toString(){
+		return this.checksum;
+	}
 }
