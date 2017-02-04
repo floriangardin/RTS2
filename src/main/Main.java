@@ -34,7 +34,7 @@ public class Main {
 		if(pleinEcran){
 			resolutionX = (int)screenSize.getWidth();		
 			resolutionY = (int)screenSize.getHeight();
-		} else {
+		}  else {
 			resolutionX = 800;		
 			resolutionY = 600;
 		}
