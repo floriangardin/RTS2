@@ -15,6 +15,8 @@ public class IAFlo extends IA{
 	
 	int round = 0;
 	
+	boolean hasTakenTower;
+	
 	
 	public IAFlo(Player p) {
 		super(p);
@@ -41,7 +43,7 @@ public class IAFlo extends IA{
 				}else{
 					// Occupy a tower
 					IAUnit nearestTower = unit.getNearestNeutralorEnnemy(ObjetsList.Tower);
-					if(unit.getName()==ObjetsList.Spearman && nearestTower!=null && nearestTower.getGameTeam()!=0 && !this.isAlreadyTargeted(ObjetsList.Tower)){
+					if(!hasTakenTower && unit.getName()==ObjetsList.Spearman && nearestTower!=null && nearestTower.getGameTeam()!=0 && !this.isAlreadyTargeted(ObjetsList.Tower)){
 						unit.rightClick(nearestTower);
 					}
 					// Else Attack Head Quarters with all spearmans
@@ -63,6 +65,10 @@ public class IAFlo extends IA{
 				if(target.getGameTeam()==this.getPlayer().id){
 					unit.stop();
 				}
+				if(target.getName()==ObjetsList.Tower && target.getGameTeam()==0){
+					hasTakenTower = true;
+					unit.stop();
+				}
 			}
 		}
 		
@@ -73,7 +79,9 @@ public class IAFlo extends IA{
 				unit.getAttributList(Attributs.productions);
 				Vector<ObjetsList> productionList = unit.getProductionList();
 				ObjetsList o = findWhatToProduce(productionList);
-				unit.produce(o);
+				if(this.getAttribut(o,Attributs.foodCost)<this.getFood() && this.getAttribut(o, Attributs.popTaken)<= this.getMaxPop() - this.getPop() ){
+					unit.produce(o);
+				}
 			}
 		}
 		
@@ -94,14 +102,14 @@ public class IAFlo extends IA{
 		int countLancier = this.getUnits(ObjetsList.Spearman).size();
 		int countArcher = this.getUnits(ObjetsList.Crossbowman).size();
 		int countWizard = this.getUnits(ObjetsList.Inquisitor).size();
-		if(countLancier<1){
+		if(countLancier<3){
 			return ObjetsList.Spearman;
+		}
+		if(countWizard<=countArcher){
+			return ObjetsList.Inquisitor;
 		}
 		if(countArcher<countLancier){
 			return ObjetsList.Crossbowman;
-		}
-		if(countWizard<countArcher){
-			return ObjetsList.Inquisitor;
 		}
 			
 		return ObjetsList.Spearman;
