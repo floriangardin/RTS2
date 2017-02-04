@@ -106,6 +106,7 @@ public class Game extends BasicGame
 	public static boolean gillesEspaceEnable = true;
 	public static boolean gillesSurCentEnable = true;
 	public static boolean gillesModeEnable = true;
+	public static boolean marcoPoloModeEnable = true;
 	public static boolean conseilChargementEnable = true;
 
 
@@ -531,7 +532,7 @@ public class Game extends BasicGame
 			// Draw the Action Objets
 			for(Character o : plateau.characters){
 				//o.draw(g);
-				if(o.visibleByCurrentTeam || debugFog)
+				if(o.visibleByCurrentTeam || debugFog || marcoPolo)
 					toDrawAfter.add(o);
 
 			}
@@ -546,28 +547,28 @@ public class Game extends BasicGame
 			// Draw the natural Objets
 
 			for(NaturalObjet o : this.plateau.naturalObjets){
-				if(o.visibleByCurrentTeam || debugFog)
+				if(o.visibleByCurrentTeam || debugFog || marcoPolo)
 					toDrawAfter.add(o);
 				else
 					toDraw.add(o);
 			}
 			// Draw the buildings
 			for(Building e : this.plateau.buildings){
-				if(e.visibleByCurrentTeam)
+				if(e.visibleByCurrentTeam || marcoPolo)
 					toDrawAfter.add(e);
 				else
 					toDraw.add(e);
 			}
 			for(SpellEffect e : this.plateau.spells){
 				if(!e.toDrawOnGround){
-					if(e.visibleByCurrentTeam || debugFog)
+					if(e.visibleByCurrentTeam || debugFog || marcoPolo)
 						toDrawAfter.add(e);
 					else
 						toDraw.add(e);
 				}
 			}
 			for(Bullet b : this.plateau.bullets){
-				if(b.visibleByCurrentTeam || debugFog)
+				if(b.visibleByCurrentTeam || debugFog || marcoPolo)
 					toDrawAfter.add(b);
 				else
 					toDraw.add(b);
@@ -580,7 +581,7 @@ public class Game extends BasicGame
 			for(Objet o: toDraw)
 				o.draw(g);
 			// draw fog of war
-			if(!debugFog){
+			if(!debugFog && !Game.g.marcoPolo){
 				drawFogOfWar(g);
 			}
 
@@ -1678,6 +1679,11 @@ public class Game extends BasicGame
 			else
 				this.images.deactivateGdBMode();
 		}
+	}
+	// MARCO POLO MODE
+	public boolean marcoPolo;
+	public void activateMarcoPoloMode(){
+		marcoPolo = !marcoPolo;
 	}
 	private class Gilles{
 		float x,y,vx,vy;

@@ -7,6 +7,7 @@ public enum Act implements java.io.Serializable{
 	HAINE(new ActRule[]{ActRule.no_attack_building,ActRule.no_tower_attack},15f,"La Haine"),
 	GUERRE(new ActRule[]{},180f,"La Guerre"),
 	DESTRUCTION(new ActRule[]{ActRule.no_defense_building},180f,"La Destruction"),
+	NEUTRE(new ActRule[]{},100000f,""),
 	MORT(new ActRule[]{ActRule.no_building_production, ActRule.sudden_death},-1f,"La Mort");
 
 	Act(ActRule[] rules, float time, String displayName){

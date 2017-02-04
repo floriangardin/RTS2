@@ -1,10 +1,10 @@
 {
 prototype:"Unit",
 printName:"Crossbowman",
+foodCost:50,
 attackDuration:1,
 maxLifepoints:40,
 sight:400,
-techsRequired:DualistAge3,
 maxVelocity:130,
 armor:0,
 damage:3,

@@ -96,12 +96,22 @@ public class ChatHandler {
 			// checking if not adding an ip n menumapchoice
 			InetAddress ia = null;
 			// activate GdB mode
-			if(textScanner.s.equals("/gilles")){
+			if(textScanner.s.equals("/gilles") && Game.gillesModeEnable){
 				this.game.activateGdBMode();
 				if(Game.g.GdB)
 					this.messages.addElement(new ChatMessage("Gilles de Bouard mode activé",0));
 				else
 					this.messages.addElement(new ChatMessage("Gilles de Bouard mode desactivé",0));
+				//System.out.println("Gilles de Bouard Mode activé");
+				textScanner.s="";
+				return;
+			}
+			if(textScanner.s.equals("/marcopolo") && Game.marcoPoloModeEnable){
+				this.game.activateMarcoPoloMode();
+				if(Game.g.marcoPolo)
+					this.messages.addElement(new ChatMessage("Mode Marco Polo activé",0));
+				else
+					this.messages.addElement(new ChatMessage("Mode Marco Polo desactivé",0));
 				//System.out.println("Gilles de Bouard Mode activé");
 				textScanner.s="";
 				return;

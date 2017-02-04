@@ -722,8 +722,10 @@ public class EditorPlateau {
 			fichierSortie.println ("= headquarters");
 			fichierSortie.println ("##############");
 			fichierSortie.println ();
-			fichierSortie.println (headquartersBlue.get(0).team+" "+headquartersBlue.get(0).x+" "+headquartersBlue.get(0).y);
-			fichierSortie.println (headquartersRed.get(0).team+" "+headquartersRed.get(0).x+" "+headquartersRed.get(0).y);
+			fichierSortie.println ("1 x y");
+			fichierSortie.println ("2 x y");
+//			fichierSortie.println (headquartersBlue.get(0).team+" "+headquartersBlue.get(0).x+" "+headquartersBlue.get(0).y);
+//			fichierSortie.println (headquartersRed.get(0).team+" "+headquartersRed.get(0).x+" "+headquartersRed.get(0).y);
 			fichierSortie.println ();
 			fichierSortie.println ("##############");
 			fichierSortie.println ("= buildings");

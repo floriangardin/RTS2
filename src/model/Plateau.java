@@ -979,10 +979,10 @@ public class Plateau implements java.io.Serializable {
 		// return all objects from a team in the camera view
 		Vector<Objet> obj = new Vector<Objet>();
 		for (Character c : this.characters)
-			if (c.getTeam() == team && c.visibleByCamera)
+			if (c.getTeam() == team && c.visibleByCamera || Game.g.marcoPolo)
 				obj.add(c);
 		for (Building c : this.buildings)
-			if (c.getTeam() == team && c.visibleByCamera)
+			if (c.getTeam() == team && c.visibleByCamera || Game.g.marcoPolo)
 				obj.add(c);
 		return obj;
 	}

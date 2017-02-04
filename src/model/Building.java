@@ -508,6 +508,7 @@ public class Building extends Objet{
 					this.potentialTeam = c.getTeam();
 				}
 			}
+			this.chargeAttack = Math.max(this.chargeAttack-2*Main.increment, 0);
 			this.constructionPoints-=Main.increment;
 		}
 		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
