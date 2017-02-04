@@ -58,7 +58,6 @@ public class Event {
 			this.duration = 10f*20f*Main.increment;
 			break;
 		case Meditation:
-			System.out.println("launch meditation");
 			this.sounds.add(Game.g.sounds.get("meditation"));
 			this.duration = 30f*20f*Main.increment;
 			break;
