@@ -105,6 +105,9 @@ public abstract class Objet implements java.io.Serializable {
 
 	}
 	public Vector<Integer> computeWay(){
+		if(this.getTarget()==null){
+			return new Vector<Integer>();
+		}
 		if(this.getTarget() instanceof Building && !(this.getTarget() instanceof Bonus)){
 			Building b = (Building)this.getTarget();
 			return Game.g.plateau.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));

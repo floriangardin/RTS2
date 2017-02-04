@@ -42,7 +42,7 @@ public class IAAllyObject extends IAUnit{
 		this.objet.setTarget(null);
 	}
 	public void rightClick(IAUnit u){
-		if(u==null){
+		if(u==null || u.isNull()){
 			return;
 		}
 		if(objet instanceof Character){

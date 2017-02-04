@@ -163,6 +163,9 @@ public class IAUnit {
 		}
 		return best;
 	}
+	public boolean isNotUnit(){
+		return this.objet==null || (!(this.objet instanceof Building) && !(this.objet instanceof Character));
+	}
 	
 	public IAUnit getNearest(ObjetsList o ){
 		Vector<IAUnit> enemies = new Vector<IAUnit>();

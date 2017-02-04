@@ -29,7 +29,7 @@ public class IAFlo extends IA{
 		for(IAAllyObject unit : getMyCharacters()){
 			// Si c'est une unité
 			IAUnit target =  unit.getTarget();
-			if(target.isNull()){
+			if(target.isNotUnit()){
 				// Si j'ai pas de caserne et que personne n'en target une
 				if(this.getPop()>=this.getMaxPop()){
 					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mine));
@@ -57,7 +57,7 @@ public class IAFlo extends IA{
 					}
 				}
 			}
-			if(!target.isNull()){
+			if(!target.isNotUnit()){
 				
 				// Si batiment pris alors arreter et ne rien faire ...
 				if(target.getGameTeam()==this.getPlayer().id){
