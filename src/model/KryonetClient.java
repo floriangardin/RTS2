@@ -27,7 +27,10 @@ public class KryonetClient {
 			e.printStackTrace();
 		}
 		Kryo kryo = client.getKryo();
+		
 	    kryo.register(SerializedMessage.class);
+	    kryo.register(byte[].class);
+	    kryo.register(byte.class);
 	}
 	
 	public void send(MultiMessage msg){

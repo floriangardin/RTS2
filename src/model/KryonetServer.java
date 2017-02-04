@@ -36,6 +36,8 @@ public class KryonetServer {
 		});
 		Kryo kryo = server.getKryo();
 	    kryo.register(SerializedMessage.class);
+	    kryo.register(byte[].class);
+	    kryo.register(byte.class);
 
 	}
 
