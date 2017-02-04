@@ -13,7 +13,10 @@ public class Serializer {
 			so.writeObject(o);
 			so.flush();
 			serializedObject = bo.toByteArray();
-			System.out.println("Serializer line 16 size of buffer : "+ serializedObject.length);
+			if(o instanceof Plateau ){
+				System.out.println("Serializer line 16 size of buffer : "+ serializedObject.length);
+			}
+		
 		} catch (Exception e) {
 			System.out.println(e);
 		}
