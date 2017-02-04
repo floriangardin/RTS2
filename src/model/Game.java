@@ -849,13 +849,8 @@ public class Game extends BasicGame
 			this.initializeEngine(gc);
 			return;
 		}
-
 		// Handling multiReceiver
 		this.handleMultiReceiver();
-
-
-
-
 
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
