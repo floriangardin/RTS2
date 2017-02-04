@@ -14,16 +14,19 @@ import multiplaying.SerializedMessage;
 public class KryonetClient {
 
 	public Client client;
+	public Client clientResynchro;
 	private boolean isConnected;
 	
 	public KryonetClient(){
-		this.client = new Client(300000,300000);
+		this.client = new Client();
+		this.clientResynchro = new Client(300000,300000);
 		client.start();
 	}
 	
-	public void connect(InetAddress address, int portTCP, int portUDP){
+	public void connect(InetAddress address, int portTCP, int portUDP, int portTCPResynchro, int portUDPResynchro){
 		try {
 			client.connect(5000, address.toString().substring(1), portTCP, portUDP);
+			clientResynchro.connect(5000, address.toString().substring(1), portTCPResynchro, portUDPResynchro);
 			isConnected = true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -32,11 +35,18 @@ public class KryonetClient {
 			public void received (Connection connection, Object object) {
 				if (object instanceof SerializedMessage) {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
-					System.out.println("message reçu");
+					System.out.println("Kryonet Client : message reçu");
 					Game.g.kryonetBuffer.add(request);
-//					MultiMessage response = new MultiMessage(null);
-//					response.text = "Thanks";
-//					connection.sendTCP(response);
+
+				}
+			}
+		});
+		this.clientResynchro.addListener(new Listener() {
+			public void received (Connection connection, Object object) {
+				if (object instanceof SerializedMessage) {
+					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
+					System.out.println("message Resynchro recu");
+					Game.g.kryonetBuffer.add(request);
 				}
 			}
 		});
