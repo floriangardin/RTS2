@@ -268,7 +268,6 @@ public class MenuMapChoice extends Menu {
 	}
 
 
-
 	public void handleStartGame(){
 		/**
 		 * function that checks if the game is about to start

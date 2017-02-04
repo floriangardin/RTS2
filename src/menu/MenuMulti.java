@@ -95,6 +95,10 @@ public class MenuMulti extends Menu {
 				OpenGames opengame = openGames.get(gameSelected);
 
 				this.game.addressHost = opengame.hostAddress;
+				// and now, we can create a kyonet connection
+				if(Game.g.usingKryonet){
+					Game.g.kryonetClient.connect(game.addressHost, Game.portTCP, Game.portUDPKryonet);
+				}
 				for(int j=1; j<opengame.nPlayers; j++){
 					game.addPlayer("unknown",null,1,1);
 				}

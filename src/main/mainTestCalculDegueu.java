@@ -13,11 +13,8 @@ public class mainTestCalculDegueu {
 		
 	}
 	public static void main(String[] args) throws SlickException {
-		System.out.println(-1%5);
-		Test1 t1 = new Test1();
-		Test2 t2 = new Test2();
-		
-		System.out.println(Test2.class.isAssignableFrom(Test3.class));
+		int[] tab = new int[]{12,1,3};
+		System.out.println(tab);
 		
 		
 	}

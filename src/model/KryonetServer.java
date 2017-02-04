@@ -1,0 +1,43 @@
+package model;
+
+import java.io.IOException;
+
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+
+import multiplaying.MultiMessage;
+
+public class KryonetServer {
+
+	public Server server;
+
+	public KryonetServer(int portTCP, int portUDP){
+		this.server = new Server();
+		this.server.start();
+		try {
+			this.server.bind(portTCP, portUDP);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.server.addListener(new Listener() {
+			public void received (Connection connection, Object object) {
+				if (object instanceof MultiMessage) {
+					MultiMessage request = (MultiMessage)object;
+					System.out.println(request.text);
+					Game.g.kryonetBuffer.add(request);
+					MultiMessage response = new MultiMessage(null);
+					response.text = "Thanks";
+					connection.sendTCP(response);
+				}
+			}
+		});
+
+	}
+
+	public void send(MultiMessage msg){
+		if(this.server.getConnections().length>0){
+			this.server.getConnections()[0].sendTCP(msg);
+		}
+	}
+}

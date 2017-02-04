@@ -21,6 +21,8 @@ public class MultiMessage implements java.io.Serializable{
 	public Vector<String> checksum;
 	public Vector<String> chat;
 	
+	public String text = "vaneau";
+	
 	
 	/**
 	 * 0 connexion

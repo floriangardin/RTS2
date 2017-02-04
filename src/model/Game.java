@@ -11,7 +11,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.locks.Lock;
@@ -52,7 +51,6 @@ import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
-import menu.MenuNewUser;
 import menu.MenuOptions;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
@@ -133,10 +131,10 @@ public class Game extends BasicGame
 	public static int nbRoundInit = 3*Main.framerate;
 	public int secondsGong;
 
-	
+
 	// Hold ids of objects
 	public int id = 0;
-	
+
 
 	// Cursors
 	Image attackCursor ; 
@@ -239,10 +237,16 @@ public class Game extends BasicGame
 	public InetAddress addressBroadcast;
 	public InetAddress addressLocal;
 	// port
-	public int port = 2302;
+	public static int portUDP = 2302;
+	public static int portUDPKryonet = 2303;
+	public static int portTCP = 54555;
 	// depots for senders
-	DatagramSocket server;
-	DatagramSocket client;
+	public boolean usingKryonet = true;
+	DatagramSocket normalServer;
+	DatagramSocket normalClient;
+	KryonetServer kryonetServer;
+	public KryonetClient kryonetClient;
+	public Vector<MultiMessage> kryonetBuffer = new Vector<MultiMessage>();
 	int nbReception, tempsReception;
 	// depots for receivers
 	public Vector<String> receivedConnexion = new Vector<String>();
@@ -434,14 +438,14 @@ public class Game extends BasicGame
 		this.players = new Vector<Player>();
 		this.players.add(new Player(0,"Nature",teams.get(0)));
 		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
-//		this.players.add(new Player(1,"IA random1",teams.get(1)));
+		//		this.players.add(new Player(1,"IA random1",teams.get(1)));
 		this.players.add(new Player(2,"IA random",teams.get(2)));
 		this.currentPlayer = players.get(1);
-		
+
 		// ADD SOME IA 
 		this.players.get(1).initIA(new IAFlo(this.players.get(1)));
 		this.players.get(2).initIA(new IAKevin(this.players.get(2)));
-		
+
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
 	}
@@ -455,7 +459,7 @@ public class Game extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException 
 	{
-		
+
 		g.setFont(this.font);
 		if(!thingsLoaded){
 			this.renderIntro(g);
@@ -572,7 +576,7 @@ public class Game extends BasicGame
 				else
 					toDraw.add(b);
 			}
-			
+
 
 			Utils.triY(toDraw);
 			Utils.triY(toDrawAfter);
@@ -583,10 +587,10 @@ public class Game extends BasicGame
 			if(!debugFog){
 				drawFogOfWar(g);
 			}
-			
+
 			for(Objet o: toDrawAfter)
 				o.draw(g);
-			
+
 			//handleDrawUnderBuilding(g);
 
 			// Draw the selection :
@@ -780,13 +784,13 @@ public class Game extends BasicGame
 				vb.add(b);
 			}
 		}
-		
+
 		for(Objet b : vb){
 			v.clear();
 			Case ca = plateau.mapGrid.getCase(b.x, b.y);
 			while(ca.y+ca.sizeY>b.y-b.visibleHeight){
-//				Game.g.app.getGraphics().setColor(Color.red);
-//				Game.g.app.getGraphics().drawRect(ca.x,ca.y,ca.sizeX,ca.sizeY);
+				//				Game.g.app.getGraphics().setColor(Color.red);
+				//				Game.g.app.getGraphics().drawRect(ca.x,ca.y,ca.sizeX,ca.sizeY);
 				for(Character c : ca.surroundingChars){
 					if(c.visibleByCamera && 
 							c.x>b.x-b.getAttribut(Attributs.sizeX)/2f &&
@@ -803,7 +807,7 @@ public class Game extends BasicGame
 				}
 			}
 			if(v.size()>0){
-				
+
 				gt.translate(-Xcam, -Ycam);
 				gt.clear();
 				gt.setDrawMode(Graphics.MODE_NORMAL);
@@ -1008,7 +1012,7 @@ public class Game extends BasicGame
 				this.hasAlreadyPlay = true;
 				this.endGame = false;
 				try {
-					this.server.setBroadcast(true);
+					this.normalServer.setBroadcast(true);
 				} catch (SocketException e) {
 					e.printStackTrace();
 				}
@@ -1113,10 +1117,10 @@ public class Game extends BasicGame
 			app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 			app.setTargetFrameRate(Main.framerate);
 			this.musicPlaying = this.musics.get("themeMenu");
-//			if(this.options.nickname.equals(""))
-//				this.setMenu(new MenuNewUser(this));
-//			else
-				this.setMenu(menuIntro);
+			//			if(this.options.nickname.equals(""))
+			//				this.setMenu(new MenuNewUser(this));
+			//			else
+			this.setMenu(menuIntro);
 			g.thingsLoaded = true;
 			return;
 		}
@@ -1132,47 +1136,55 @@ public class Game extends BasicGame
 		while(true){
 			byte[] message = new byte[10000000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
-			try {
-				server.setBroadcast(this.isInMenu);
-				server.setSoTimeout(1);
-				server.receive(packet);
-				if(!Game.g.isInMenu){
-					nbReception+=1;
-					if(nbReception==1){
-						tempsReception = (int) System.currentTimeMillis();
-					}else{
-						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
-					}
-					if(debugReceiver)
-						System.out.println("reception du message: "+ tempsReception);
-					tempsReception = (int) System.currentTimeMillis();
+			MultiMessage msg = null;
+			if(usingKryonet && !isInMenu){
+				if(kryonetBuffer.size()==0)
+					break;
+				else
+					msg = kryonetBuffer.remove(0);
+			} else {
+				try {
+					normalServer.setBroadcast(this.isInMenu);
+					normalServer.setSoTimeout(1);
+					normalServer.receive(packet);
+				} catch (SocketTimeoutException e) {
+					break;
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				MultiMessage msg = MultiMessage.getMessageFromString(packet.getData());
-				for(String s : msg.connexion){
-					this.actionConnexion(s, packet);
-				}
-				for(InputObject io : msg.input){
-					this.actionInput(io); 
-				}
-				for(String s : msg.validation){
-					this.actionValidation(s); 
-				}
-				if(msg.resynchro!=null){
-					this.actionResynchro(msg.resynchro); 
-				}
-				for(String s : msg.ping){
-					this.actionPing(s); 
-				}
-				for(String s : msg.checksum){
-					this.actionChecksum(s);
-				}
-				for(String s : msg.chat){
-					this.actionChat(s);
-				}
-			} catch (SocketTimeoutException e) {
-				break;
-			} catch (IOException e) {
-				e.printStackTrace();
+				//				if(!Game.g.isInMenu){
+				//					nbReception+=1;
+				//					if(nbReception==1){
+				//						tempsReception = (int) System.currentTimeMillis();
+				//					}else{
+				//						tempsReception = (int) (System.currentTimeMillis()-tempsReception);
+				//					}
+				//					if(debugReceiver)
+				//						System.out.println("reception du message: "+ tempsReception);
+				//					tempsReception = (int) System.currentTimeMillis();
+				//				}
+				msg = MultiMessage.getMessageFromString(packet.getData());
+			}
+			for(String s : msg.connexion){
+				this.actionConnexion(s, packet);
+			}
+			for(InputObject io : msg.input){
+				this.actionInput(io); 
+			}
+			for(String s : msg.validation){
+				this.actionValidation(s); 
+			}
+			if(msg.resynchro!=null){
+				this.actionResynchro(msg.resynchro); 
+			}
+			for(String s : msg.ping){
+				this.actionPing(s); 
+			}
+			for(String s : msg.checksum){
+				this.actionChecksum(s);
+			}
+			for(String s : msg.chat){
+				this.actionChat(s);
 			}
 
 		}
@@ -1295,7 +1307,7 @@ public class Game extends BasicGame
 		this.musicPlaying.stop();
 		this.musicPlaying = this.musics.get("themeImperial");
 		try {
-			this.server.setBroadcast(false);
+			this.normalServer.setBroadcast(false);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -1424,13 +1436,17 @@ public class Game extends BasicGame
 			String[] tab = address.split("\\.");
 			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
 			addressBroadcast = InetAddress.getByName(address);
-			client = new DatagramSocket();
-			client.setSendBufferSize(500000);
-			System.out.println("Game line 1429 : " +client.getSendBufferSize());
-			server = new DatagramSocket(port);
-			server.setSoTimeout(1);
-			server.setBroadcast(true);
-		} catch (UnknownHostException | SocketException e) {
+			normalClient = new DatagramSocket();
+			normalClient.setSendBufferSize(500000);
+			System.out.println("Game line 1429 : " +normalClient.getSendBufferSize());
+			if(usingKryonet){
+				kryonetServer = new KryonetServer(portTCP, portUDPKryonet);
+				kryonetClient = new KryonetClient();
+			}
+			normalServer = new DatagramSocket(portUDP);
+			normalServer.setSoTimeout(1);
+			normalServer.setBroadcast(true);				
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		g.clock = new Clock(g);
@@ -1450,7 +1466,7 @@ public class Game extends BasicGame
 		this.resY = resY;
 		this.ratioResolution = this.resX/2800f;
 		Game.g = this;
-		 
+
 	}
 
 
@@ -1498,20 +1514,27 @@ public class Game extends BasicGame
 		//			timeToSend= System.nanoTime();
 		//		}
 		idPaquetSend++;
-		InetAddress address = m.address;
-		byte[] message = Serializer.serialize(m);
-		DatagramPacket packet = new DatagramPacket(message, message.length, address, this.port);
-		packet.setData(message);
-		try {
-			
-			client.setSendBufferSize(500000);
-			System.out.println("sending message Game line 1506 (pour l'instant) size:"+client.getSendBufferSize());
-			client.send(packet);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(usingKryonet && !isInMenu){	
+			if(host){
+				kryonetServer.send(m);
+			} else {
+				kryonetClient.send(m);
+			}
+		} else {
+			InetAddress address = m.address;
+			byte[] message = Serializer.serialize(m);
+			DatagramPacket packet = new DatagramPacket(message, message.length, address, portUDP);
+			packet.setData(message);
+			try {
+				normalClient.setSendBufferSize(500000);
+				System.out.println("sending message Game line 1506 (pour l'instant) size:"+normalClient.getSendBufferSize());
+				normalClient.send(packet);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
 		}
 		if(Game.debugSender)
-			System.out.println("port : " + port + " address: "+m.address.getHostAddress()+" message sent: " + m.toString());
+			System.out.println("port : " + portUDP + " address: "+m.address.getHostAddress()+" message sent: " + m.toString());
 	}
 
 	private void handleChecksum() {
