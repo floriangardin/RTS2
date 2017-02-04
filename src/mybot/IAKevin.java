@@ -284,7 +284,7 @@ public class IAKevin extends IA {
 		} else {
 			memNbUnit=curNbUnit;
 		}
-		if(enemyHQ.getLifepoints()<10){
+		if(enemyHQ!=null && enemyHQ.getLifepoints()<10){
 			this.launchTaunt("philippe");
 		}
 		Vector<IAAllyObject> v = this.getUnits();
