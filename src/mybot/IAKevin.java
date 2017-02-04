@@ -32,7 +32,7 @@ public class IAKevin extends IA {
 	public Vector<Integer> attHQ = new Vector<Integer>();
 	public Vector<Integer> def = new Vector<Integer>();
 	public Vector<Vector<Integer>> vectors = new Vector<Vector<Integer>>();
-	
+
 	//	public Vector<IAAllyObject> employed = new Vector<IAAllyObject>();
 	public Vector<IAAllyObject> unemployed = new Vector<IAAllyObject>();
 
@@ -59,7 +59,7 @@ public class IAKevin extends IA {
 		vectors.add(attTour);
 		vectors.add(attHQ);
 	}
-	
+
 	public void initBuildings(){
 		IAUnit iau = this.getUnits().get(0);
 		allyCaserne = iau.getNearestNeutral(ObjetsList.Barracks);
@@ -83,11 +83,9 @@ public class IAKevin extends IA {
 	}
 
 	public boolean updateHasEnemyBuilding(IAUnit building){
-		float d = IAUnit.distance(building, building.getNearestAlly(ObjetsList.Spearman));
-		float s = building.getNearestAlly(ObjetsList.Spearman).getAttribut(Attributs.sight);
-		return d>s ||  building.getGameTeam()!=0 && building.getGameTeam()!=this.getPlayer().id;
+		return building.getGameTeam()!=allyHQ.getGameTeam();
 	}
-	
+
 	public void refreshBuildings(){
 		if(allyCaserne!=null){
 			hasAllyCaserne = allyCaserne.getGameTeam()==this.getPlayer().id;
@@ -101,16 +99,16 @@ public class IAKevin extends IA {
 		if(allyTour!=null){
 			hasAllyTour = allyTour.getGameTeam()==this.getPlayer().id;
 		}
-//		if(enemyCaserne!=null){
-//			hasEnnemyCaserne = updateHasEnemyBuilding(enemyCaserne);
-//		}
-//		if(enemyFarm!=null){
-//			hasEnnemyFarm = updateHasEnemyBuilding(enemyFarm);
-//		}
-//		if(enemyMine!=null){
-//			hasEnnemyMine = updateHasEnemyBuilding(enemyMine);
-//		}
-		
+		if(enemyCaserne!=null){
+			hasEnnemyCaserne = updateHasEnemyBuilding(enemyCaserne);
+		}
+		if(enemyFarm!=null){
+			hasEnnemyFarm = updateHasEnemyBuilding(enemyFarm);
+		}
+		if(enemyMine!=null){
+			hasEnnemyMine = updateHasEnemyBuilding(enemyMine);
+		}
+
 		//		System.out.println("hasAllyFarm "+hasAllyFarm);
 		//		System.out.println("hasAllyCaserne "+hasAllyCaserne);
 		//		System.out.println("hasAllyMine "+hasAllyMine);
@@ -121,10 +119,10 @@ public class IAKevin extends IA {
 		//		System.out.println("hasEnnemyMine "+hasEnnemyMine);
 	}
 
-	
+
 	public float minDist = 600f;
 	public IAUnit minLancier = null;
-	
+
 	public void refreshUnemployed(){
 		unemployed = new Vector<IAAllyObject>();
 		// declarer etat durgence
@@ -134,7 +132,7 @@ public class IAKevin extends IA {
 		try{
 			d = IAUnit.distance(allyHQ.getNearestEnemy(ObjetsList.Spearman),allyHQ);
 		}catch(Exception e){
-			
+
 		}
 		if(d<minDist){
 			minDist = d;
@@ -177,10 +175,9 @@ public class IAKevin extends IA {
 					unemployed.add(iao);
 				}
 			}  else if(attCaserne.contains(iao.getId())){
-				if(!hasEnnemyCaserne || IAUnit.distance(iao, enemyCaserne)<iao.getAttribut(Attributs.sight) && enemyCaserne.getGameTeam()==0){
+				if(!hasEnnemyCaserne){
 					attCaserne.removeElement(iao.getId());
 					unemployed.add(iao);
-					hasEnnemyCaserne = false;
 				}
 			}  else if(attFarm.contains(iao.getId())){
 				if(!hasEnnemyFarm){
@@ -205,11 +202,22 @@ public class IAKevin extends IA {
 	}
 
 	boolean initedBuilding=false;
+	int nbSpearman = 0;
+	int nbInquisitor = 0;
 
 	@Override
 	public void update() {
 		if(getUnits().size()==0){
 			return;
+		}
+		nbInquisitor=0;
+		nbSpearman=0;
+		for(IAAllyObject iao : getUnits()){
+			if(iao.getName()==ObjetsList.Spearman)
+				nbSpearman+=1;
+			if(iao.getName()==ObjetsList.Inquisitor)
+				nbInquisitor+=1;
+
 		}
 		Vector<IAAllyObject> v = this.getUnits();
 		if(!initedBuilding){
@@ -230,10 +238,10 @@ public class IAKevin extends IA {
 			compt1+=1;
 			if(iao.getName()==ObjetsList.Barracks){
 				ObjetsList ol = null;
-				if(getUnits().size()>getEnemies().size()+3)
-					ol = ObjetsList.Spearman;
-				else
+				if(nbInquisitor<2)
 					ol = ObjetsList.Inquisitor;
+				else
+					ol = ObjetsList.Spearman;
 				if(this.getAttribut(ol, Attributs.foodCost)<=this.getFood())
 					iao.produceUnit(ol);
 			}
@@ -243,23 +251,23 @@ public class IAKevin extends IA {
 				defCaserne.add(iao.getId());
 			}else if(attCaserne.size()>-1 && hasEnnemyCaserne){
 				attCaserne.add(iao.getId());
-			}else if(attTour.size()<2 && hasEnnemyTour){
+			}else if(getUnits().size()<4 && hasEnnemyTour){
 				attTour.add(iao.getId());
-			}else if(true){
+			}else if(getUnits().size()<4){
 				attHQ.add(iao.getId());
 			}
-//			System.out.println("defFarm:"+defFarm.size());
-//			System.out.println("defCaserne:"+defCaserne.size());
-//			System.out.println("defMine:"+defMine.size());
+			//			System.out.println("defFarm:"+defFarm.size());
+			//			System.out.println("defCaserne:"+defCaserne.size());
+			//			System.out.println("defMine:"+defMine.size());
 		}
-//		System.out.println(compt1);
+		//		System.out.println(compt1);
 		// on vérifie que les ordres sont obéis
 		for(IAAllyObject iao : getUnits()){
-			if(minLancier!=null){
-				iao.rightClick(minLancier);
-				continue;
-			}
 			if(iao.getName()==ObjetsList.Inquisitor){
+				if(minLancier!=null){
+					iao.rightClick(minLancier);
+					continue;
+				}
 				iao.rightClick(iao.getNearestEnemyCharacter());
 				continue;
 			}

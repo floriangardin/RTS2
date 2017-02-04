@@ -505,6 +505,7 @@ public class Building extends Objet{
 					this.isDestroyed = true;
 					this.setTeam(0);
 				} else {
+					this.setTeam(0);
 					this.potentialTeam = c.getTeam();
 				}
 			}
