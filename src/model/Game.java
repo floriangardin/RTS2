@@ -1512,7 +1512,9 @@ public class Game extends BasicGame
 
 	private void handleChecksum() {
 		// If host and client send checksum
+		System.out.println("Vanneau 1");
 		if(!processSynchro && this.round>=30 && this.round%1==0){
+			System.out.println("Vanneau 2");
 			//Compute checksum
 			String checksum = this.round+"|C";
 			int i = 0;
@@ -1554,6 +1556,7 @@ public class Game extends BasicGame
 				// si client on envoie checksum
 				toSendThisTurn.checksum.add(checksum);				
 			}
+			System.out.println(checksum);
 		}
 		// handling checksum comparison
 		if(this.host && !this.processSynchro){
@@ -1563,6 +1566,7 @@ public class Game extends BasicGame
 			for(Checksum c: this.receivedChecksum){
 				for(Checksum c1 : this.checksum){
 					tab = c.comparison(c1);
+					System.out.println(c1+" "+c);
 					if(tab[0]){
 						toRemove.add(c);
 						if(tab[1]){
