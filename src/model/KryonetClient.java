@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 
 import multiplaying.MultiMessage;
+import multiplaying.SerializedMessage;
 
 public class KryonetClient {
 
@@ -26,12 +27,12 @@ public class KryonetClient {
 			e.printStackTrace();
 		}
 		Kryo kryo = client.getKryo();
-	    kryo.register(MultiMessage.class);
+	    kryo.register(SerializedMessage.class);
 	}
 	
 	public void send(MultiMessage msg){
 		if(isConnected){
-			this.client.sendTCP(msg);			
+			this.client.sendTCP(new SerializedMessage(Serializer.serialize(msg)));			
 		}
 	}
 }
