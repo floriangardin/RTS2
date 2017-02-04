@@ -1503,6 +1503,7 @@ public class Game extends BasicGame
 		DatagramPacket packet = new DatagramPacket(message, message.length, address, this.port);
 		packet.setData(message);
 		try {
+			
 			client.setSendBufferSize(500000);
 			System.out.println("sending message Game line 1506 (pour l'instant) size:"+client.getSendBufferSize());
 			client.send(packet);
