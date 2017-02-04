@@ -109,7 +109,7 @@ public class Game extends BasicGame
 	public static boolean marcoPoloModeEnable = true;
 	public static boolean conseilChargementEnable = true;
 
-
+	
 
 	// debugging tools
 	long timeSteps = 0;
@@ -1658,7 +1658,10 @@ public class Game extends BasicGame
 		this.toSendThisTurn.ping.addElement(this.clock.getCurrentTime()+"|"+this.currentPlayer.id+"|");
 	}
 	public void sendMessage(ChatMessage m){
-		if(m.idPlayer==currentPlayer.id){
+		this.sendMessage(m, Game.g.currentPlayer.id);
+	}
+	public void sendMessage(ChatMessage m, int idPlayer){
+		if(m.idPlayer==idPlayer){
 			this.toSendThisTurn.chat.addElement(m.toString());
 		}
 		//if(!m.message.equals("/gillesBombe"))

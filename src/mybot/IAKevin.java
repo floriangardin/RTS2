@@ -13,7 +13,6 @@ public class IAKevin extends IA {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

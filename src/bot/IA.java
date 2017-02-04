@@ -30,7 +30,9 @@ public abstract class IA {
 		// Create ennemy static IA
 		// Contain all the objects visible by the IA
 	}
-	
+	public void sendMessage(String message){
+		Game.g.sendMessage(new ChatMessage(this.player.id+"|"+message),this.player.id);
+	}
 	/*
 	 * Renvoie les units , peut-être faire une copie du vecteur à terme par sécurité
 	 */

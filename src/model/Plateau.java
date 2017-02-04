@@ -92,7 +92,7 @@ public class Plateau implements java.io.Serializable {
 		this.maxY = maxY;
 
 		initializePlateau(g);
-
+		
 	}
 
 	public void initializePlateau(Game g) {
