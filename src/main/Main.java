@@ -21,7 +21,7 @@ public class Main {
 	public static boolean pleinEcran = true;
 	
 	// debug direct
-	public static boolean debugRapid = true;
+	public static boolean debugRapid = false;
 	public static int nameMap = 0;
 	
 	public static void main(String[] args) {
@@ -34,7 +34,7 @@ public class Main {
 		if(pleinEcran){
 			resolutionX = (int)screenSize.getWidth();		
 			resolutionY = (int)screenSize.getHeight();
-		} else {
+		}  else {
 			resolutionX = 800;		
 			resolutionY = 600;
 		}
