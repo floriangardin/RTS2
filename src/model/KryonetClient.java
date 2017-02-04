@@ -21,6 +21,7 @@ public class KryonetClient {
 		this.client = new Client();
 		this.clientResynchro = new Client(300000,300000);
 		client.start();
+		clientResynchro.start();
 	}
 	
 	public void connect(InetAddress address, int portTCP, int portUDP, int portTCPResynchro, int portUDPResynchro){
@@ -55,6 +56,11 @@ public class KryonetClient {
 	    kryo.register(SerializedMessage.class);
 	    kryo.register(byte[].class);
 	    kryo.register(byte.class);
+	    
+		Kryo kryoResynchro = clientResynchro.getKryo();
+	    kryoResynchro.register(SerializedMessage.class);
+	    kryoResynchro.register(byte[].class);
+	    kryoResynchro.register(byte.class);
 	}
 	
 	public void send(MultiMessage msg){
@@ -62,4 +68,5 @@ public class KryonetClient {
 			this.client.sendTCP(new SerializedMessage(Serializer.serialize(msg)));			
 		}
 	}
+	
 }
