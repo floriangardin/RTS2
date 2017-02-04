@@ -40,7 +40,8 @@ public class Meditation extends SpellEffect{
 
 	public void action(){
 		this.remainingTime-=1f/Main.framerate;
-		
+		if(getOwner()==null)
+			this.lifePoints=-1f;
 		
 		if(this.remainingTime<=0f){
 			// Test if special capacity explosion
