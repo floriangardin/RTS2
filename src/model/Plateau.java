@@ -953,8 +953,6 @@ public class Plateau implements java.io.Serializable {
 			//				}
 			//			}
 		}
-
-
 	}
 
 	public void handleInterface(InputObject im){
