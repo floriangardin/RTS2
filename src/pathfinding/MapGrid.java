@@ -161,7 +161,9 @@ public class MapGrid implements java.io.Serializable {
 	}
 	
 	public Vector<Integer> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
-//		System.out.println("MapGrid line 124: calcul d'un chemin");
+		xEnd = Math.min(Math.max(1, xEnd), this.maxX-1);
+		yEnd = Math.min(Math.max(1, yEnd), this.maxY-1);
+		//		System.out.println("MapGrid line 124: calcul d'un chemin");
 		Vector<Integer> path = new Vector<Integer>();
 		int iStart=0, jStart=0, iEnd=0, jEnd=0;
 		while(xStart>Xcoord.get(iStart+1))
