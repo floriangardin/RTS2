@@ -436,12 +436,12 @@ public class Game extends BasicGame
 		this.players.add(new Player(0,"Nature",teams.get(0)));
 		this.players.add(new Player(1,this.options.nickname,teams.get(1)));
 		//		this.players.add(new Player(1,"IA random1",teams.get(1)));
-		this.players.add(new Player(2,"IA random",teams.get(2)));
+		this.players.add(new Player(2,"Flo",teams.get(2)));
 		this.currentPlayer = players.get(1);
 
 		// ADD SOME IA 
 		this.players.get(1).initIA(new IAKevin(this.players.get(1)));
-//		this.players.get(2).initIA(new IAFlo(this.players.get(2)));
+		this.players.get(2).initIA(new IAFlo(this.players.get(2)));
 
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);
