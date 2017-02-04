@@ -15,7 +15,7 @@ public class KryonetServer {
 	public Server server;
 
 	public KryonetServer(int portTCP, int portUDP){
-		this.server = new Server();
+		this.server = new Server(300000,300000);
 		this.server.start();
 		try {
 			this.server.bind(portTCP, portUDP);
@@ -26,7 +26,6 @@ public class KryonetServer {
 			public void received (Connection connection, Object object) {
 				if (object instanceof SerializedMessage) {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
-					System.out.println("message reçu");
 					Game.g.kryonetBuffer.add(request);
 //					MultiMessage response = new MultiMessage(null);
 //					response.text = "Thanks";

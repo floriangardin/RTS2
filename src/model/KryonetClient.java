@@ -17,7 +17,7 @@ public class KryonetClient {
 	private boolean isConnected;
 	
 	public KryonetClient(){
-		this.client = new Client();
+		this.client = new Client(300000,300000);
 		client.start();
 	}
 	
