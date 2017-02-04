@@ -1425,6 +1425,7 @@ public class Game extends BasicGame
 			address = tab[0]+"."+tab[1]+"."+tab[2]+".255";
 			addressBroadcast = InetAddress.getByName(address);
 			client = new DatagramSocket();
+			client.setSendBufferSize(500000);
 			server = new DatagramSocket(port);
 			server.setSoTimeout(1);
 			server.setBroadcast(true);
