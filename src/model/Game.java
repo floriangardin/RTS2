@@ -440,8 +440,8 @@ public class Game extends BasicGame
 		this.currentPlayer = players.get(1);
 
 		// ADD SOME IA 
-		this.players.get(1).initIA(new IAFlo(this.players.get(1)));
-		this.players.get(2).initIA(new IAKevin(this.players.get(2)));
+		this.players.get(1).initIA(new IAKevin(this.players.get(1)));
+//		this.players.get(2).initIA(new IAFlo(this.players.get(2)));
 
 		this.nPlayers = players.size();
 		this.plateau.initializePlateau(this);

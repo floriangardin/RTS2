@@ -107,7 +107,9 @@ public abstract class IA {
 	}
 	
 
-	
+	public float getAttributs(ObjetsList o, Attributs a){
+		return this.player.data.getAttribut(o, a);
+	}
 	
 	public abstract void update() throws Exception;
 	
