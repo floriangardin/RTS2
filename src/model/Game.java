@@ -84,7 +84,7 @@ public class Game extends BasicGame
 	public static boolean debugTimeSteps = false;
 	public static boolean debugPaquet = false;
 	public static boolean debugValidation = false;
-	public static boolean debugReceiver = true;
+	public static boolean debugReceiver = false;
 	public static boolean debugSender = false;
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
@@ -952,7 +952,7 @@ public class Game extends BasicGame
 					}
 
 				}else{
-					System.out.println("Game 839 : round drop "+round);
+					System.out.println("Game 955 : round drop "+round);
 				}
 				this.plateau.updatePlateauState();
 				this.cosmetic.update(im);
