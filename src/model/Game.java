@@ -1527,7 +1527,7 @@ public class Game extends BasicGame
 			packet.setData(message);
 			try {
 				normalClient.setSendBufferSize(500000);
-				System.out.println("sending message Game line 1506 (pour l'instant) size:"+normalClient.getSendBufferSize());
+//				System.out.println("sending message Game line 1506 (pour l'instant) size:"+normalClient.getSendBufferSize());
 				normalClient.send(packet);
 			} catch (IOException e) {
 				e.printStackTrace();

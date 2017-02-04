@@ -19,7 +19,7 @@ public class KryonetClient {
 	
 	public void connect(InetAddress address, int portTCP, int portUDP){
 		try {
-			client.connect(5000, address.toString(), portTCP, portUDP);
+			client.connect(5000, address.toString().substring(1), portTCP, portUDP);
 			isConnected = true;
 		} catch (IOException e) {
 			e.printStackTrace();
