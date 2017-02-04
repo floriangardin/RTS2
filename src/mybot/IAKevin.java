@@ -1,12 +1,12 @@
 package mybot;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import bot.IA;
 import bot.IAAllyObject;
 import bot.IAUnit;
 import data.Attributs;
-import model.Game;
 import model.Player;
 import utils.ObjetsList;
 
@@ -83,7 +83,7 @@ public class IAKevin extends IA {
 	}
 
 	public boolean updateHasEnemyBuilding(IAUnit building){
-		return building.getGameTeam()!=allyHQ.getGameTeam();
+		return building.getGameTeam()==2-allyHQ.getGameTeam();
 	}
 
 	public void refreshBuildings(){
@@ -100,7 +100,7 @@ public class IAKevin extends IA {
 			hasAllyTour = allyTour.getGameTeam()==this.getPlayer().id;
 		}
 		if(enemyCaserne!=null){
-			hasEnnemyCaserne = updateHasEnemyBuilding(enemyCaserne);
+			hasEnnemyCaserne = enemyCaserne.getGameTeam()==2-allyHQ.getGameTeam();
 		}
 		if(enemyFarm!=null){
 			hasEnnemyFarm = updateHasEnemyBuilding(enemyFarm);
@@ -174,10 +174,12 @@ public class IAKevin extends IA {
 					defCaserne.removeElement(iao.getId());
 					unemployed.add(iao);
 				}
-			}  else if(attCaserne.contains(iao.getId())){
-				if(!hasEnnemyCaserne){
+			} else if(attCaserne.contains(iao.getId())){
+				if(!hasEnnemyCaserne || IAUnit.distance(iao, enemyCaserne)<iao.getAttribut(Attributs.sight) && enemyCaserne.getGameTeam()!=allyHQ.getGameTeam()){
 					attCaserne.removeElement(iao.getId());
 					unemployed.add(iao);
+					hasEnnemyCaserne = false;
+					this.launchTaunt("alafraiche");
 				}
 			}  else if(attFarm.contains(iao.getId())){
 				if(!hasEnnemyFarm){
@@ -200,13 +202,62 @@ public class IAKevin extends IA {
 			}
 		}
 	}
+	
+	boolean tauntPhilippe = false;
+	boolean tauntVerdi = false;
+	boolean tauntAlaFraiche = false;
+	int round = 0;
+	
+	public void launchTaunt(String taunt){
+		switch(taunt){
+		case "philippe":
+			if(!tauntPhilippe){
+				tauntPhilippe=true;
+				this.sendMessage("/"+taunt);				
+			}
+			break;
+		case "verdi":
+			if(!tauntVerdi){
+				tauntVerdi=true;
+				this.sendMessage("/"+taunt);				
+			}
+			break;
+		case "alafraiche":
+			if(!tauntAlaFraiche){
+				tauntAlaFraiche=true;
+				this.sendMessage("/"+taunt);				
+			}
+			break;
+		default:
+		}
+	}
+	
+	float memLifepoints = 0;
+	int memNbUnit = 0;
 
 	boolean initedBuilding=false;
 	int nbSpearman = 0;
 	int nbInquisitor = 0;
+	Vector<Integer> isOnFire = new Vector<Integer>();
+	HashMap<IAAllyObject, Integer> temp = new HashMap<IAAllyObject, Integer>();
+
+	public void refreshIsOnFire(){
+		isOnFire.clear();
+		for(IAAllyObject iao : getUnits()){
+			if(iao.getName()==ObjetsList.Inquisitor){
+				if(temp.containsKey(iao.getId())){
+					if(temp.get(iao.getId())!=iao.getLifepoints()){
+						isOnFire.add(iao.getId());
+					}
+					temp.put(iao, (int)(iao.getLifepoints()));
+				}
+			}
+		}
+	}
 
 	@Override
 	public void update() {
+		round++;
 		if(getUnits().size()==0){
 			return;
 		}
@@ -217,7 +268,24 @@ public class IAKevin extends IA {
 				nbSpearman+=1;
 			if(iao.getName()==ObjetsList.Inquisitor)
 				nbInquisitor+=1;
-
+		}
+		int curNbUnit=0;
+		float curLifepoints=0f;
+		for(IAUnit iau : getEnemies()){
+			if(ObjetsList.getUnits().contains(iau.getName())){
+				curNbUnit+=1;
+				curLifepoints+=iau.getLifepoints();
+			}
+		}
+		if(memNbUnit==curNbUnit){
+			if(curLifepoints<memLifepoints-15f){
+				this.launchTaunt("verdi");
+			}
+		} else {
+			memNbUnit=curNbUnit;
+		}
+		if(enemyHQ.getLifepoints()<10){
+			this.launchTaunt("philippe");
 		}
 		Vector<IAAllyObject> v = this.getUnits();
 		if(!initedBuilding){
@@ -232,7 +300,7 @@ public class IAKevin extends IA {
 				continue;
 			}
 			if(iao.getName()==ObjetsList.Inquisitor || iao.getName()==ObjetsList.Crossbowman){
-				iao.rightClick(iao.getNearest(ObjetsList.Spearman));
+				iao.rightClick(iao.getNearestEnemy(ObjetsList.Spearman));
 				continue;
 			}
 			compt1+=1;
@@ -264,11 +332,15 @@ public class IAKevin extends IA {
 		// on vérifie que les ordres sont obéis
 		for(IAAllyObject iao : getUnits()){
 			if(iao.getName()==ObjetsList.Inquisitor){
+				if(isOnFire.contains(iao.getId())&&round%100!=0){
+					iao.rightClick(650,1000);
+					continue;
+				}
 				if(minLancier!=null){
 					iao.rightClick(minLancier);
 					continue;
 				}
-				iao.rightClick(iao.getNearestEnemyCharacter());
+				iao.rightClick(allyHQ.getNearestEnemyCharacter());
 				continue;
 			}
 			if(defFarm.contains(iao.getId())){
