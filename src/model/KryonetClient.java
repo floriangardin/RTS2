@@ -3,6 +3,7 @@ package model;
 import java.io.IOException;
 import java.net.InetAddress;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 
 import multiplaying.MultiMessage;
@@ -24,6 +25,8 @@ public class KryonetClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Kryo kryo = client.getKryo();
+	    kryo.register(MultiMessage.class);
 	}
 	
 	public void send(MultiMessage msg){
