@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="RTS_lib/jogg-0.0.7.jar"/>
 	<classpathentry kind="lib" path="RTS_lib/jorbis-0.0.15.jar"/>
 	<classpathentry kind="lib" path="RTS_lib/slick.jar"/>
+	<classpathentry kind="lib" path="jar/kryonet-2.18.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
