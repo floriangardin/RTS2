@@ -17,8 +17,8 @@ public class IAKevin extends IA {
 	public boolean hasAllyTour = true;
 	public boolean hasAllyFarm = false;
 	public boolean hasAllyMine = false;
-	public boolean hasEnnemyCaserne = false;
-	public boolean hasEnnemyFarm = false;
+	public boolean hasEnnemyCaserne = true;
+	public boolean hasEnnemyFarm = true;
 	public boolean hasEnnemyMine = false;
 	public boolean hasEnnemyTour = true;
 
@@ -82,6 +82,12 @@ public class IAKevin extends IA {
 		allyHQ = iau.getNearestAlly(ObjetsList.Headquarters);
 	}
 
+	public boolean updateHasEnemyBuilding(IAUnit building){
+		float d = IAUnit.distance(building, building.getNearestAlly(ObjetsList.Spearman));
+		float s = building.getNearestAlly(ObjetsList.Spearman).getAttribut(Attributs.sight);
+		return d>s ||  building.getGameTeam()!=0 && building.getGameTeam()!=this.getPlayer().id;
+	}
+	
 	public void refreshBuildings(){
 		if(allyCaserne!=null){
 			hasAllyCaserne = allyCaserne.getGameTeam()==this.getPlayer().id;
@@ -95,15 +101,15 @@ public class IAKevin extends IA {
 		if(allyTour!=null){
 			hasAllyTour = allyTour.getGameTeam()==this.getPlayer().id;
 		}
-		if(enemyCaserne!=null){
-			hasEnnemyCaserne = enemyCaserne.getGameTeam()!=this.getPlayer().id;
-		}
-		if(enemyFarm!=null){
-			hasEnnemyFarm = enemyFarm.getGameTeam()!=this.getPlayer().id;
-		}
-		if(enemyMine!=null){
-			hasEnnemyMine = enemyMine.getGameTeam()!=this.getPlayer().id;
-		}
+//		if(enemyCaserne!=null){
+//			hasEnnemyCaserne = updateHasEnemyBuilding(enemyCaserne);
+//		}
+//		if(enemyFarm!=null){
+//			hasEnnemyFarm = updateHasEnemyBuilding(enemyFarm);
+//		}
+//		if(enemyMine!=null){
+//			hasEnnemyMine = updateHasEnemyBuilding(enemyMine);
+//		}
 		
 		//		System.out.println("hasAllyFarm "+hasAllyFarm);
 		//		System.out.println("hasAllyCaserne "+hasAllyCaserne);
@@ -116,13 +122,13 @@ public class IAKevin extends IA {
 	}
 
 	
-	public float minDist = 300f;
+	public float minDist = 600f;
 	public IAUnit minLancier = null;
 	
 	public void refreshUnemployed(){
 		unemployed = new Vector<IAAllyObject>();
 		// declarer etat durgence
-		minDist = 300f;
+		minDist = 600f;
 		minLancier = null;
 		float d = minDist+1;
 		try{
@@ -171,9 +177,10 @@ public class IAKevin extends IA {
 					unemployed.add(iao);
 				}
 			}  else if(attCaserne.contains(iao.getId())){
-				if(!hasEnnemyCaserne){
+				if(!hasEnnemyCaserne || IAUnit.distance(iao, enemyCaserne)<iao.getAttribut(Attributs.sight) && enemyCaserne.getGameTeam()==0){
 					attCaserne.removeElement(iao.getId());
 					unemployed.add(iao);
+					hasEnnemyCaserne = false;
 				}
 			}  else if(attFarm.contains(iao.getId())){
 				if(!hasEnnemyFarm){
@@ -223,7 +230,7 @@ public class IAKevin extends IA {
 			compt1+=1;
 			if(iao.getName()==ObjetsList.Barracks){
 				ObjetsList ol = null;
-				if(getUnits().size()>getEnemies().size()+2)
+				if(getUnits().size()>getEnemies().size()+3)
 					ol = ObjetsList.Spearman;
 				else
 					ol = ObjetsList.Inquisitor;
@@ -234,8 +241,8 @@ public class IAKevin extends IA {
 				defFarm.add(iao.getId());
 			}else if(defCaserne.size()==0 && !hasAllyCaserne){
 				defCaserne.add(iao.getId());
-//			}else if(defMine.size()==0 && !hasAllyMine){
-//				defMine.add(iao.getId());
+			}else if(attCaserne.size()>-1 && hasEnnemyCaserne){
+				attCaserne.add(iao.getId());
 			}else if(attTour.size()<2 && hasEnnemyTour){
 				attTour.add(iao.getId());
 			}else if(true){
@@ -250,6 +257,10 @@ public class IAKevin extends IA {
 		for(IAAllyObject iao : getUnits()){
 			if(minLancier!=null){
 				iao.rightClick(minLancier);
+				continue;
+			}
+			if(iao.getName()==ObjetsList.Inquisitor){
+				iao.rightClick(iao.getNearestEnemyCharacter());
 				continue;
 			}
 			if(defFarm.contains(iao.getId())){
