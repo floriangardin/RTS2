@@ -32,7 +32,6 @@ public class Meditation extends SpellEffect{
 		this.y = launcher.getY()+1f;
 		remainingTime = this.getAttribut(Attributs.totalTime);	
 		// Calculate step of lifepoints
-		this.name = ObjetsList.FrozenEffect;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);
 		owner = launcher.id;

@@ -208,11 +208,11 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				this.removeCharacter(o);
-				
+
 				Game.g.triggerEvent(Events.Death, o);
 			}
 		}
-		
+
 		for (Bullet o : bullets) {
 			if (!o.isAlive()) {
 				this.removeBullet(o);
@@ -664,13 +664,13 @@ public class Plateau implements java.io.Serializable {
 
 		}
 		Game.g.inputsHandler.updateSelection(ims);
-		
+
 		// 2 - Handling acts and objectives
 		this.currentActTime-=1f/Main.framerate;
-//		if(this.currentAct<3f){
-//			Game.g.musicPlaying.fade(1, 0f, true);
-//			Game.g.sounds.get("trompette").play(1f, Game.g.options.soundVolume);
-//		}
+		//		if(this.currentAct<3f){
+		//			Game.g.musicPlaying.fade(1, 0f, true);
+		//			Game.g.sounds.get("trompette").play(1f, Game.g.options.soundVolume);
+		//		}
 		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
 			// changement d'acte
 			if(this.currentAct>=0){
@@ -992,7 +992,10 @@ public class Plateau implements java.io.Serializable {
 	public boolean isVisibleByTeam(int team, Objet objet) {
 		if (objet.getGameTeam() != null && objet.getTeam() == team)
 			return true;
-		float r = objet.collisionBox.getBoundingCircleRadius();
+		float r = 1f;
+		if(objet.collisionBox!=null){
+			r = objet.collisionBox.getBoundingCircleRadius();
+		} 
 		for (Character c : this.characters)
 			if (c.getTeam() == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
 				return true;
