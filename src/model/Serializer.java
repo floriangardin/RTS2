@@ -3,6 +3,8 @@ package model;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 
+import multiplaying.MultiMessage;
+
 public class Serializer {
 	public static byte[] serialize(Object o){
 		byte[] serializedObject = new byte[0];
@@ -13,7 +15,7 @@ public class Serializer {
 			so.writeObject(o);
 			so.flush();
 			serializedObject = bo.toByteArray();
-			if(o instanceof Plateau ){
+			if(o instanceof MultiMessage && ((MultiMessage)o).resynchro!=null ){
 				System.out.println("Serializer line 16 size of buffer : "+ serializedObject.length);
 			}
 		
