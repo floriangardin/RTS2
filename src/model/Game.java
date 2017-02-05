@@ -937,22 +937,25 @@ public class Game extends BasicGame
 				if(debugInputs )
 					System.out.println(round+ " : " + ims.size());
 				if(tests) Test.testRoundCorrect(this, ims);
-
-				if(ims.size()>0){
-					if(this.round>=Game.nbRoundInit){
-						this.plateau.update(ims);
-					} else {
-						this.updateInit();
+				if(!processSynchro){
+							
+					if(ims.size()>0){
+						if(this.round>=Game.nbRoundInit){
+							this.plateau.update(ims);
+						} else {
+							this.updateInit();
+						}
+	
+					}else{
+	//					System.out.println("Game 959 : round drop "+round);
 					}
-
-				}else{
-//					System.out.println("Game 959 : round drop "+round);
+					this.plateau.updatePlateauState();
 				}
-				this.plateau.updatePlateauState();
 				this.cosmetic.update(im);
 				if(this.gillesBombe){
 					this.handleGillesBombe();
 				}
+				
 			} else {
 
 				/////////////////////
@@ -1596,7 +1599,7 @@ public class Game extends BasicGame
 	}
 	private void handleSendingResynchroParse() {
 		if(this.host && this.processSynchro && this.sendParse){
-			//this.toParse = this.plateau.toStringArray();
+//			this.toParse = this.plateau.toStringArray();
 			//			System.out.println("Game line 698: Sent synchro message");
 			this.sendParse = false;
 			this.plateau.roundToSynchro = this.round+Main.nDelay;
@@ -1609,7 +1612,6 @@ public class Game extends BasicGame
 			System.out.println("Game ligne 1641 : is Handling Resynchro");
 			//Si round+nDelay
 			if(toParse==null){
-				this.processSynchro = false;
 				return;
 			}
 			//Je resynchronise au tour n+nDelay
