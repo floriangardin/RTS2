@@ -933,6 +933,7 @@ public class Game extends BasicGame
 				if(!chatHandler.typingMessage){
 					this.plateau.handleView(im, this.currentPlayer.id);
 				}
+				this.cosmetic.update(im);
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				if(debugInputs )
 					System.out.println(round+ " : " + ims.size());
@@ -951,7 +952,6 @@ public class Game extends BasicGame
 					}
 					this.plateau.updatePlateauState();
 				}
-				this.cosmetic.update(im);
 				if(this.gillesBombe){
 					this.handleGillesBombe();
 				}
