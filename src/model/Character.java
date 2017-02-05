@@ -782,7 +782,12 @@ public class Character extends Objet{
 	public void actionIAScript(){
 		this.updateSetTarget();
 		Circle range = new Circle(this.getX(), this.getY(), this.getAttribut(Attributs.range));
-		if(!isAttacking && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint || !range.intersects(this.getTarget().collisionBox))){
+		if(!isAttacking && this.getTarget()!=null && 
+				(this.getTarget() instanceof Checkpoint || 
+					!range.intersects(this.getTarget().collisionBox) ||
+					Game.g.plateau.mapGrid.isLineOk(getX(), getY(), getTarget().getX(), getTarget().getY()).size()==0
+						)
+			){
 			if(this.mode!=Character.HOLD_POSITION)
 				this.move();
 			if(!this.isMobile())
