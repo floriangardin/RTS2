@@ -270,11 +270,8 @@ public class Game extends BasicGame
 	public boolean processSynchro;
 	public Vector<Checksum> checksum = new Vector<Checksum>();
 	private boolean sendParse;
-	public Lock mutexChecksum = new ReentrantLock();
 	// antidrop
 	public boolean toDrawDrop = false;
-	public boolean toDrawAntiDrop = false;
-	public int roundDelay;
 
 	public MultiMessage toSendThisTurn;
 
@@ -647,11 +644,6 @@ public class Game extends BasicGame
 				g.drawString("Round Drop", 30f,  90f);
 				g.fillRect(10f,90f,15f,15f);
 			}
-			if(toDrawAntiDrop){
-				g.setColor(Color.blue);
-				g.drawString("AntiDrop done", 30f,  90f);
-				g.fillRect(10f,90f,15f,15f);
-			}
 			if(!inEditor){
 				g.setColor(Color.white);
 				this.drawPing(g);
@@ -922,7 +914,6 @@ public class Game extends BasicGame
 				/// MULTI PLAYER ///
 				////////////////////
 
-				this.toDrawAntiDrop = false;
 				this.toDrawDrop = false;
 				this.toSendThisTurn.input.addElement(im);
 				this.inputsHandler.addToInputs(im);
@@ -938,7 +929,6 @@ public class Game extends BasicGame
 				ims = this.inputsHandler.getInputsForRound(this.round);
 				if(debugInputs )
 					System.out.println(round+ " : " + ims.size());
-				this.handleAntidrop(gc);
 				if(tests) Test.testRoundCorrect(this, ims);
 
 				if(ims.size()>0){
@@ -1127,7 +1117,7 @@ public class Game extends BasicGame
 	// FONCTIONS AUXILIAIRES RECEIVER
 	private void handleMultiReceiver() throws SlickException {
 		while(true){
-			byte[] message = new byte[10000000];
+			byte[] message = new byte[1000000];
 			DatagramPacket packet = new DatagramPacket(message, message.length);
 			MultiMessage msg = null;
 			if(usingKryonet && !isInMenu){
@@ -1251,26 +1241,9 @@ public class Game extends BasicGame
 	}
 	public void actionChecksum(String msg){
 		if(host){
-			mutexChecksum.lock();
 			receivedChecksum.addElement(new Checksum(msg));
-			mutexChecksum.unlock();
 		}
-		// HANDLE ANTI-DROP 
-		String[] u = msg.split("\\|");
-		int round = Integer.parseInt(u[0]); 
 
-		if(host){
-			long ping =Long.parseLong( u[u.length-2]);
-			clock.ping = ping;
-		}
-		//		System.out.println("Je regarde le checksum du round  "+round+ " au round " +g.round );
-		//		System.out.println("Et le ping .. " +g.clock.ping);
-		//Calcul du delta
-		int delta =(int) (clock.ping*Main.framerate/(2e9));
-		int deltaMesure = round - round ;
-		if((deltaMesure-delta)>1){
-			g.antidrop = true;
-		}
 	}
 	public void actionChat(String message){
 		ChatMessage cm = new ChatMessage(message);
@@ -1537,7 +1510,7 @@ public class Game extends BasicGame
 
 	private void handleChecksum() {
 		// If host and client send checksum
-		if(!processSynchro && this.round>=30 && this.round%1==0){
+		if(!processSynchro && this.round>=30 && this.round%30==0){
 			//Compute checksum
 			String checksum = this.round+"|C";
 			int i = 0;
@@ -1583,7 +1556,6 @@ public class Game extends BasicGame
 		// handling checksum comparison
 		if(this.host && !this.processSynchro){
 			boolean [] tab;
-			this.mutexChecksum.lock();
 			Vector<Checksum> toRemove = new Vector<Checksum>();
 			for(Checksum c: this.receivedChecksum){
 				for(Checksum c1 : this.checksum){
@@ -1605,7 +1577,6 @@ public class Game extends BasicGame
 			if(this.receivedChecksum.size()>2){
 				this.receivedChecksum.remove(0);
 			}
-			this.mutexChecksum.unlock();
 		}
 	}
 	private void handlePing() {
@@ -1620,19 +1591,7 @@ public class Game extends BasicGame
 			this.toSendThisTurn.resynchro=this.plateau;
 		}
 	}
-	private void handleAntidrop(GameContainer gc) {
-		if(antidrop){
-			//UPDATE ROUND DURATION
-			gc.setMinimumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);
-			gc.setMaximumLogicUpdateInterval((1000/Main.framerate)+delaySleepAntiDrop);	
-			//			System.out.println("antidrop !!! round: "+this.round);
-			this.toDrawAntiDrop = true;
-		}else{
-			gc.setMinimumLogicUpdateInterval((1000/Main.framerate));
-			gc.setMaximumLogicUpdateInterval((1000/Main.framerate));	
-		}
-		antidrop = false;
-	}
+
 	private void handleResynchro() {
 		if( processSynchro){
 			System.out.println("Game ligne 1641 : is Handling Resynchro");

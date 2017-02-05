@@ -93,8 +93,6 @@ public class IAFlo extends IA{
 				}
 			}
 		}
-		
-		
 		// Réagir à une situation d'urgence (exemple ennemi trop proche)
 		Vector<IAUnit> enemiesAttackingBarrack = enemiesAttacking(ObjetsList.Barracks);
 		if(enemiesAttackingBarrack.size()>0){
@@ -104,17 +102,14 @@ public class IAFlo extends IA{
 				this.sendMessage("/Philippe");
 				hasSendMessagePhilippe = true;
 			}
-
 			Vector<IAAllyObject> inquisitors = this.getUnits(ObjetsList.Inquisitor);
 			for(IAAllyObject u : inquisitors){
 				// TODO : Find first lancier ?
 				if(u.getTarget()!=enemiesAttackingBarrack.get(0)){
 					u.rightClick(enemiesAttackingBarrack.get(0));
 				}
-				
 			}
 		}
-		
 		Vector<IAUnit> enemiesAttackingFarm = enemiesAttacking(ObjetsList.Mill);
 		if(enemiesAttackingFarm.size()>0){
 			// TAKE FIRST WIZARD TO DESTROY THEM AHAHAHA
@@ -123,26 +118,21 @@ public class IAFlo extends IA{
 				this.sendMessage("/Philippe");
 				hasSendMessagePhilippe = true;
 			}
-
 			Vector<IAAllyObject> inquisitors = this.getUnits(ObjetsList.Inquisitor);
 			for(IAAllyObject u : inquisitors){
 				// TODO : Find first lancier ?
 				if(u.getTarget()!=enemiesAttackingFarm.get(0)){
 					u.rightClick(enemiesAttackingFarm.get(0));
-				}
-				
+				}	
 			}
 		}
 		// Pour mes buildings, prévenir du danger
-		
 		// Pour mes characters attaquer s'ils se font target
 		// Aller en fourbe chercher une ferme
 		for(IAAllyObject u: getUnits(ObjetsList.Spearman)){
 			
 		}
-		
 		round++;	
-		
 	}
 	private ObjetsList findWhatToProduce(Vector<ObjetsList> productionList){
 		//TODO
