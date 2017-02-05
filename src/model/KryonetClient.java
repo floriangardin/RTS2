@@ -19,7 +19,7 @@ public class KryonetClient {
 	
 	public KryonetClient(){
 		this.client = new Client();
-		this.clientResynchro = new Client();
+		this.clientResynchro = new Client(500000, 500000);
 		client.start();
 		clientResynchro.start();
 	}
