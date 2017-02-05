@@ -787,7 +787,7 @@ public class Character extends Objet{
 		if(!isAttacking && this.getTarget()!=null && 
 				(this.getTarget() instanceof Checkpoint || 
 					!range.intersects(this.getTarget().collisionBox) ||
-					Game.g.plateau.mapGrid.isLineOk(getX(), getY(), getTarget().getX(), getTarget().getY()).size()==0
+					(!(this.getTarget() instanceof Building) && Game.g.plateau.mapGrid.isLineOk(getX(), getY(), getTarget().getX(), getTarget().getY()).size()==0)
 						)
 			){
 			if(this.mode!=Character.HOLD_POSITION)
