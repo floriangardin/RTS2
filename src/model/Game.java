@@ -1622,11 +1622,6 @@ public class Game extends BasicGame
 			if(toParse.roundToSynchro==(this.round-Main.nDelay)){
 				System.out.println("Line 1616  : Play resynchronisation round at round " + this.round);
 				this.plateau = toParse;
-				System.out.println("Clear selection : ");
-				for(Player p : players){
-					p.selection.clear();
-					Game.g.inputsHandler.getSelection(p.id).selection.clear();
-				}
 				this.toParse = null;
 				this.processSynchro = false;
 
