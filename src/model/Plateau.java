@@ -667,7 +667,7 @@ public class Plateau implements java.io.Serializable {
 
 
 		}
-		Game.g.inputsHandler.updateSelection(ims);
+		//Game.g.inputsHandler.updateSelection(ims);
 
 		//TODO:acts
 //		// 2 - Handling acts and objectives
