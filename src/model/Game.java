@@ -891,6 +891,13 @@ public class Game extends BasicGame
 			}
 			// getting inputs
 			Input in = gc.getInput();
+			if(in.isKeyPressed(Input.KEY_J)){
+				this.manualAntiDrop(-1);
+				System.out.println("Going back one turn");
+			}else if(in.isKeyPressed(Input.KEY_K)){
+				this.manualAntiDrop(+1);
+				System.out.println("Advancing one turn");
+			}
 			//			if(in.isKeyPressed(Input.KEY_RALT)){
 			//				this.displayMapGrid = !this.displayMapGrid;
 			//			}
@@ -1507,11 +1514,14 @@ public class Game extends BasicGame
 		if(Game.debugSender)
 			System.out.println("port : " + portUDP + " address: "+m.address.getHostAddress()+" message sent: " + m.toString());
 	}
-
+	
+	public void manualAntiDrop(int round){
+		this.round +=round;
+	}
 	private void handleChecksum() {
 		// If host and client send checksum
 		if(!processSynchro && this.round>=30 && this.round%30==0){
-			System.out.println("Vanneau On check la resynchro 1514 Game");
+//			System.out.println("Vanneau On check la resynchro 1514 Game");
 			//Compute checksum
 			String checksum = this.round+"|C";
 			int i = 0;
@@ -1556,12 +1566,11 @@ public class Game extends BasicGame
 		}
 		// handling checksum comparison
 		if(this.host && !this.processSynchro){
-			System.out.println("Vanneau on va comparer des checksums");
+//			System.out.println("Vanneau on va comparer des checksums");
 			boolean [] tab;
 			Vector<Checksum> toRemove = new Vector<Checksum>();
 			for(Checksum c: this.receivedChecksum){
 				for(Checksum c1 : this.checksum){
-					System.out.println("Vanneau y'a des checksum");
 					tab = c.comparison(c1);
 //					System.out.println(c1+" "+c);
 					if(tab[0]){
