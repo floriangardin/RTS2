@@ -113,7 +113,9 @@ public class InputHandler {
 	public void updateSelection(Vector<InputObject> ims) {
 		
 		for(InputObject im : ims){
-			updateSelection(im);
+			if(im.idplayer!=Game.g.currentPlayer.id){	
+				setSelection(im.idplayer, im.selection);
+			}
 		}
 	}
 	
