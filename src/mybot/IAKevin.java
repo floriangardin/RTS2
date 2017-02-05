@@ -80,6 +80,7 @@ public class IAKevin extends IA {
 		enemyHQ = iau.getNearestNeutral(ObjetsList.Headquarters);
 		allyTour = iau.getNearestAlly(ObjetsList.Tower);
 		allyHQ = iau.getNearestAlly(ObjetsList.Headquarters);
+
 	}
 
 	public boolean updateHasEnemyBuilding(IAUnit building){
@@ -99,9 +100,9 @@ public class IAKevin extends IA {
 		if(allyTour!=null){
 			hasAllyTour = allyTour.getGameTeam()==this.getPlayer().id;
 		}
-		if(enemyCaserne!=null){
-			hasEnnemyCaserne = enemyCaserne.getGameTeam()==2-allyHQ.getGameTeam();
-		}
+//		if(enemyCaserne!=null){
+//			hasEnnemyCaserne = enemyCaserne.getGameTeam()==2-allyHQ.getGameTeam();
+//		}
 		if(enemyFarm!=null){
 			hasEnnemyFarm = updateHasEnemyBuilding(enemyFarm);
 		}
@@ -175,7 +176,7 @@ public class IAKevin extends IA {
 					unemployed.add(iao);
 				}
 			} else if(attCaserne.contains(iao.getId())){
-				if(!hasEnnemyCaserne || IAUnit.distance(iao, enemyCaserne)<iao.getAttribut(Attributs.sight) && enemyCaserne.getGameTeam()!=allyHQ.getGameTeam()){
+				if(!hasEnnemyCaserne || IAUnit.distance(iao, enemyCaserne)<iao.getAttribut(Attributs.sight) && enemyCaserne.getGameTeam()==allyHQ.getGameTeam()){
 					attCaserne.removeElement(iao.getId());
 					unemployed.add(iao);
 					hasEnnemyCaserne = false;
@@ -295,12 +296,12 @@ public class IAKevin extends IA {
 		refreshUnemployed();
 		refreshBuildings();
 		int compt1 = 0;
-		for(IAAllyObject iao : unemployed){
+		for(IAAllyObject iao : getUnits()){
 			if(iao.getName()==ObjetsList.Tower || iao.getName()==ObjetsList.Headquarters){
 				continue;
 			}
 			if(iao.getName()==ObjetsList.Inquisitor || iao.getName()==ObjetsList.Crossbowman){
-				iao.rightClick(iao.getNearestEnemy(ObjetsList.Spearman));
+//				iao.rightClick(iao.getNearestEnemyCharacter());
 				continue;
 			}
 			compt1+=1;
@@ -332,10 +333,10 @@ public class IAKevin extends IA {
 		// on vérifie que les ordres sont obéis
 		for(IAAllyObject iao : getUnits()){
 			if(iao.getName()==ObjetsList.Inquisitor){
-				if(isOnFire.contains(iao.getId())&&round%100!=0){
-					iao.rightClick(650,1000);
-					continue;
-				}
+//				if(isOnFire.contains(iao.getId())&&round%100!=0){
+//					iao.rightClick(650,1000);
+//					continue;
+//				}
 				if(minLancier!=null){
 					iao.rightClick(minLancier);
 					continue;

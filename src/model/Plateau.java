@@ -193,10 +193,12 @@ public class Plateau implements java.io.Serializable {
 	}
 
 
-	// General methods
 	public boolean isImmolating(Character c){
 		return c.etats.contains(Etats.Immolated);
 	}
+
+	// General methods
+
 	public void clean() {
 		// Clean the buffers and handle die
 		// Remove and add considering alive
