@@ -510,6 +510,8 @@ public class Character extends Objet{
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
 		g.draw(this.collisionBox);
+		float r = 60f*Main.ratioSpace;
+		this.drawLifePoints(g, r);
 		Objet target = this.getTarget();
 		if(target !=null && target instanceof Checkpoint){
 			target.draw(g);
