@@ -1565,6 +1565,7 @@ public class Game extends BasicGame
 				// si client on envoie checksum
 				toSendThisTurn.checksum.add(checksum);				
 			}
+			
 		}
 		// handling checksum comparison
 		if(this.host && !this.processSynchro){
@@ -1607,6 +1608,10 @@ public class Game extends BasicGame
 	}
 
 	private void handleResynchro() {
+		if(host){
+			processSynchro = this.plateau.roundToSynchro>(this.round-Main.nDelay) ;
+		}
+		
 		if( processSynchro){
 			//Si round+nDelay
 			
