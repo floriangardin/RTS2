@@ -133,7 +133,7 @@ public class Plateau implements java.io.Serializable {
 
 		// All objects
 		objets = new HashMap<Integer,Objet>();
-		Game.g.plateau.id = 0;
+		id = 0;
 
 //		// Acts
 		//TODO:acts
