@@ -73,6 +73,11 @@ public class Plateau implements java.io.Serializable {
 
 	public HashMap<Integer,Objet> objets;
 
+
+
+	// Hold ids of objects
+	public int id = 0;
+
 //	// About Acts
 	//TODO:acts
 //	public Vector<Act> acts;
@@ -128,7 +133,7 @@ public class Plateau implements java.io.Serializable {
 
 		// All objects
 		objets = new HashMap<Integer,Objet>();
-		Game.g.id = 0;
+		Game.g.plateau.id = 0;
 
 //		// Acts
 		//TODO:acts

@@ -27,7 +27,7 @@ public class BurningArea extends SpellEffect{
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
-		this.id = Game.g.id;
+		this.id = Game.g.plateau.id;
 		this.toDrawOnGround = true;
 		this.lifePoints = 1f;
 		Game.g.plateau.addSpell(this);

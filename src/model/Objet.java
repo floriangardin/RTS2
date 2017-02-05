@@ -20,7 +20,7 @@ import utils.ObjetsList;
 public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
-	public int id=Game.g.id++;
+	public int id=Game.g.plateau.id++;
 	public int mode;
 	public int orientation=2;
 	public int increment;

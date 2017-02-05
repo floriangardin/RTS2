@@ -133,10 +133,6 @@ public class Game extends BasicGame
 	public int secondsGong;
 
 
-	// Hold ids of objects
-	public int id = 0;
-
-
 	// Cursors
 	Image attackCursor ; 
 	Image cursor;
