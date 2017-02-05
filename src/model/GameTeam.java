@@ -19,15 +19,9 @@ public class GameTeam {
 	public String civName;
 	public String colorName;
 	public int food;
-
-
-
 	public Building hq ;
-
 	public Color color;
 	private int madness;
-	
-	
 	// Objectives of madness
 	
 	// Current choice of actCard
