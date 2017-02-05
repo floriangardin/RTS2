@@ -1609,7 +1609,6 @@ public class Game extends BasicGame
 
 	private void handleResynchro() {
 		if( processSynchro){
-			System.out.println("Game ligne 1641 : is Handling Resynchro");
 			//Si round+nDelay
 			
 			if(toParse==null){
