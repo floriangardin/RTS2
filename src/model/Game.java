@@ -634,7 +634,7 @@ public class Game extends BasicGame
 			}
 		}
 		if(Game.debugDisplayDebug){
-			if(processSynchro){
+			if(this.plateau.roundToSynchro>(this.round-Main.nDelay)){
 				g.setColor(Color.green);
 				g.drawString("Resynchro", 30f, 90f);
 				g.fillRect(10f,90f,15f,15f);
@@ -937,7 +937,7 @@ public class Game extends BasicGame
 				if(debugInputs )
 					System.out.println(round+ " : " + ims.size());
 				if(tests) Test.testRoundCorrect(this, ims);
-				if(!processSynchro){
+				if(this.plateau.roundToSynchro<=(this.round-Main.nDelay)){
 							
 					if(ims.size()>0){
 						if(this.round>=Game.nbRoundInit){
@@ -1611,6 +1611,7 @@ public class Game extends BasicGame
 		if( processSynchro){
 			System.out.println("Game ligne 1641 : is Handling Resynchro");
 			//Si round+nDelay
+			
 			if(toParse==null){
 				return;
 			}
