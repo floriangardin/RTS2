@@ -228,9 +228,9 @@ public class Building extends Objet{
 	}
 
 	public void attack(){
-		if(Game.g.plateau.isRuleActive(ActRule.no_tower_attack)){
-			return;
-		}
+//		if(Game.g.plateau.isRuleActive(ActRule.no_tower_attack)){
+//			return;
+//		}
 		//Animation
 		Objet target = getTarget();
 		if(getTeam()!=0)

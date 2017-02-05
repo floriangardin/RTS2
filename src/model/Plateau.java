@@ -73,10 +73,11 @@ public class Plateau implements java.io.Serializable {
 
 	public HashMap<Integer,Objet> objets;
 
-	// About Acts
-	public Vector<Act> acts;
-	public int currentAct = -1;
-	private float currentActTime = 0f;
+//	// About Acts
+	//TODO:acts
+//	public Vector<Act> acts;
+//	public int currentAct = -1;
+//	private float currentActTime = 0f;
 
 
 	// Quick accessors 
@@ -129,8 +130,9 @@ public class Plateau implements java.io.Serializable {
 		objets = new HashMap<Integer,Objet>();
 		Game.g.id = 0;
 
-		// Acts
-		this.acts = new Vector<Act>();
+//		// Acts
+		//TODO:acts
+//		this.acts = new Vector<Act>();
 
 
 
@@ -193,10 +195,12 @@ public class Plateau implements java.io.Serializable {
 	}
 
 
-	// General methods
 	public boolean isImmolating(Character c){
 		return c.etats.contains(Etats.Immolated);
 	}
+
+	// General methods
+
 	public void clean() {
 		// Clean the buffers and handle die
 		// Remove and add considering alive
@@ -665,34 +669,35 @@ public class Plateau implements java.io.Serializable {
 		}
 		Game.g.inputsHandler.updateSelection(ims);
 
-		// 2 - Handling acts and objectives
-		this.currentActTime-=1f/Main.framerate;
-		//		if(this.currentAct<3f){
-		//			Game.g.musicPlaying.fade(1, 0f, true);
-		//			Game.g.sounds.get("trompette").play(1f, Game.g.options.soundVolume);
-		//		}
-		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
-			// changement d'acte
-			if(this.currentAct>=0){
-				// on gère le choix des cartes
-				for(GameTeam team : Game.g.teams){
-					if(team.id==0){
-						continue;
-					}
-					Vector<ActCard> v = new Vector<ActCard>();
-					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
-					if(team.civ.objectiveMadness.isCompleted(this.currentAct)){
-						v.addAll(team.civ.getChoices(this.currentAct+1, true, false));
-					}
-					if(team.civ.objectiveWisdom.isCompleted(this.currentAct)){
-						v.addAll(team.civ.getChoices(this.currentAct+1, false, true));
-					}
-					team.currentChoices.add(v);
-				}
-			}
-			this.currentAct += 1;
-			this.currentActTime = this.getCurrentAct().getTime();
-		}
+		//TODO:acts
+//		// 2 - Handling acts and objectives
+//		this.currentActTime-=1f/Main.framerate;
+//		//		if(this.currentAct<3f){
+//		//			Game.g.musicPlaying.fade(1, 0f, true);
+//		//			Game.g.sounds.get("trompette").play(1f, Game.g.options.soundVolume);
+//		//		}
+//		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
+//			// changement d'acte
+//			if(this.currentAct>=0){
+//				// on gère le choix des cartes
+//				for(GameTeam team : Game.g.teams){
+//					if(team.id==0){
+//						continue;
+//					}
+//					Vector<ActCard> v = new Vector<ActCard>();
+//					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
+//					if(team.civ.objectiveMadness.isCompleted(this.currentAct)){
+//						v.addAll(team.civ.getChoices(this.currentAct+1, true, false));
+//					}
+//					if(team.civ.objectiveWisdom.isCompleted(this.currentAct)){
+//						v.addAll(team.civ.getChoices(this.currentAct+1, false, true));
+//					}
+//					team.currentChoices.add(v);
+//				}
+//			}
+//			this.currentAct += 1;
+//			this.currentActTime = this.getCurrentAct().getTime();
+//		}
 		if (Game.debugTimeSteps)
 			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - Game.g.timeSteps));
 
@@ -890,15 +895,15 @@ public class Plateau implements java.io.Serializable {
 			selection.selection.insertElementAt(c, compteur);
 			selection.selection.remove(0);
 		}
-		// Top Bar
-		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
-			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
-				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
-					chooseActCard(i);
-					break;
-				}
-			}
-		}
+//		// Top Bar
+//		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
+//			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
+//				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
+//					chooseActCard(i);
+//					break;
+//				}
+//			}
+//		}
 
 
 	}
@@ -1049,27 +1054,31 @@ public class Plateau implements java.io.Serializable {
 	// getter, setter and act handler
 
 	public Act getCurrentAct(){
-		if(this.acts.size()>=0 && this.currentAct>=0 && this.currentAct<this.acts.size()){
-			return this.acts.get(this.currentAct);
-		} else {
-			return null;
-		}
+		//TODO:acts
+//		if(this.acts.size()>=0 && this.currentAct>=0 && this.currentAct<this.acts.size()){
+//			return this.acts.get(this.currentAct);
+//		} else {
+//			return null;
+//		}
+		return null;
 	}
-
+	
 	public float getCurrentActTime(){
-		return this.currentActTime;
+		//TODO:acts
+//		return this.currentActTime;
+		return 0f;
 	}
-
-	public void chooseActCard(int i){
-		// sélection de la carte
-
-		Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i).applyEffect();
-		Game.g.bottomBar.addCardChoice(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
-		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
-		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
-		Game.g.bottomBar.iconChoice=null;
-	}
-
+	//TODO:acts
+//	public void chooseActCard(int i){
+//		// sélection de la carte
+//
+//		Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i).applyEffect();
+//		Game.g.bottomBar.addCardChoice(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
+//		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
+//		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
+//		Game.g.bottomBar.iconChoice=null;
+//	}
+//
 
 	public boolean isRuleActive(ActRule rule) {
 		return this.getCurrentAct()!=null && this.getCurrentAct().isRuleActive(rule);
