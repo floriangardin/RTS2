@@ -74,6 +74,7 @@ public class Plateau implements java.io.Serializable {
 	public HashMap<Integer,Objet> objets;
 
 //	// About Acts
+	//TODO:acts
 //	public Vector<Act> acts;
 //	public int currentAct = -1;
 //	private float currentActTime = 0f;
@@ -130,6 +131,7 @@ public class Plateau implements java.io.Serializable {
 		Game.g.id = 0;
 
 //		// Acts
+		//TODO:acts
 //		this.acts = new Vector<Act>();
 
 
@@ -667,6 +669,7 @@ public class Plateau implements java.io.Serializable {
 		}
 		Game.g.inputsHandler.updateSelection(ims);
 
+		//TODO:acts
 //		// 2 - Handling acts and objectives
 //		this.currentActTime-=1f/Main.framerate;
 //		//		if(this.currentAct<3f){
@@ -892,15 +895,15 @@ public class Plateau implements java.io.Serializable {
 			selection.selection.insertElementAt(c, compteur);
 			selection.selection.remove(0);
 		}
-		// Top Bar
-		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
-			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
-				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
-					chooseActCard(i);
-					break;
-				}
-			}
-		}
+//		// Top Bar
+//		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
+//			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
+//				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
+//					chooseActCard(i);
+//					break;
+//				}
+//			}
+//		}
 
 
 	}
@@ -1050,18 +1053,22 @@ public class Plateau implements java.io.Serializable {
 
 	// getter, setter and act handler
 
-//	public Act getCurrentAct(){
+	public Act getCurrentAct(){
+		//TODO:acts
 //		if(this.acts.size()>=0 && this.currentAct>=0 && this.currentAct<this.acts.size()){
 //			return this.acts.get(this.currentAct);
 //		} else {
 //			return null;
 //		}
-//	}
-//
-//	public float getCurrentActTime(){
+		return null;
+	}
+	
+	public float getCurrentActTime(){
+		//TODO:acts
 //		return this.currentActTime;
-//	}
-//
+		return 0f;
+	}
+	//TODO:acts
 //	public void chooseActCard(int i){
 //		// sélection de la carte
 //
@@ -1071,7 +1078,7 @@ public class Plateau implements java.io.Serializable {
 //		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
 //		Game.g.bottomBar.iconChoice=null;
 //	}
-
+//
 
 	public boolean isRuleActive(ActRule rule) {
 		return this.getCurrentAct()!=null && this.getCurrentAct().isRuleActive(rule);

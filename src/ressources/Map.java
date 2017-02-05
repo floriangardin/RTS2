@@ -89,7 +89,8 @@ public class Map {
 			Vector<String> headquarters = new Vector<String>();
 			Vector<String> currentVector = null;
 			// Acts
-			game.plateau.acts = new Vector<Act>();
+			//TODO:acts
+//			game.plateau.acts = new Vector<Act>();
 
 			String ligne;
 			int sizeX = 0, sizeY = 0;
@@ -138,13 +139,13 @@ public class Map {
 			Data data1 = game.teams.get(1).data;
 			Data data2 = game.teams.get(2).data;
 			// Ajout des actes au plateau
-			// TODO : rajouter les actes dans le fichier texte
+			//TODO:acts
 //			game.plateau.acts.add(Act.HAINE);
 //			game.plateau.acts.add(Act.GUERRE);
 //			game.plateau.acts.add(Act.DESTRUCTION);
 //			game.plateau.acts.add(Act.MORT);
-			game.plateau.acts.add(Act.NEUTRE);
-			game.plateau.acts.add(Act.MORT);
+//			game.plateau.acts.add(Act.NEUTRE);
+//			game.plateau.acts.add(Act.MORT);
 			// Headquarters
 			for(int i=0;i<headquarters.size(); i++){
 				// format:

@@ -663,7 +663,8 @@ public class BottomBar {
 		s = ""+madness;
 		g.setColor(Color.white);
 		try{
-			g.drawString(s+" / "+objective[Game.g.plateau.currentAct], (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX+sizeXjauge/2+10, yJauge-Game.g.font.getHeight("Hj")/2);
+			//TODO : acts
+//			g.drawString(s+" / "+objective[Game.g.plateau.currentAct], (1+ratioSizeTimerX)*rX/2+ratioSizeGoldX*rX+sizeXjauge/2+10, yJauge-Game.g.font.getHeight("Hj")/2);
 		} catch(Exception e){}
 		// affichage de la jauge
 		for(int i=-1; i<objective.length; i++){
@@ -700,7 +701,7 @@ public class BottomBar {
 		// timer
 		Utils.drawNiceRect(g,Game.g.currentPlayer.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
 		g.setColor(Color.white);
-		if(Game.g.startTime+2000/Main.framerate>System.currentTimeMillis()){
+		if(Game.g.plateau.getCurrentAct()==null || Game.g.startTime+2000/Main.framerate>System.currentTimeMillis()){
 			s = ""+Utils.displayTime((int) ((System.currentTimeMillis()-Game.g.startTime)/1000));
 		} else {
 			try{
