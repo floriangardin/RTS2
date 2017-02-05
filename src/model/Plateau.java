@@ -874,7 +874,7 @@ public class Plateau implements java.io.Serializable {
 					}
 				}
 		}
-		if(im.spell!=null){
+		if(im.spell!=null && selection.selection.size()>0){
 			Spell s = Game.g.getPlayerById(im.idplayer).getGameTeam().data.getSpell(im.spell);
 			Character c = ((Character) selection.selection.get(0));
 			if(im.idObjetMouse!=-1){

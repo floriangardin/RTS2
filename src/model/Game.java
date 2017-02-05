@@ -1165,6 +1165,7 @@ public class Game extends BasicGame
 				this.actionValidation(s); 
 			}
 			if(msg.resynchro!=null){
+				System.out.println("Game l1168 : doing action resynchro");
 				this.actionResynchro(msg.resynchro); 
 			}
 			for(String s : msg.ping){
@@ -1442,7 +1443,6 @@ public class Game extends BasicGame
 
 	}
 
-
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
 	public void sendFromMenu(String message) throws FatalGillesError{
@@ -1520,7 +1520,7 @@ public class Game extends BasicGame
 	}
 	private void handleChecksum() {
 		// If host and client send checksum
-		if(!processSynchro && this.round>=30 && this.round%30==0){
+		if(!processSynchro && this.round>=30 && this.round%5==0){
 //			System.out.println("Vanneau On check la resynchro 1514 Game");
 			//Compute checksum
 			String checksum = this.round+"|C";
@@ -1614,8 +1614,13 @@ public class Game extends BasicGame
 			}
 			//Je resynchronise au tour n+nDelay
 			if(toParse.roundToSynchro==(this.round-Main.nDelay)){
-				//				System.out.println("Play resynchronisation round at round " + this.round);
+				System.out.println("Line 1616  : Play resynchronisation round at round " + this.round);
 				this.plateau = toParse;
+				System.out.println("Clear selection : ");
+				for(Player p : players){
+					p.selection.clear();
+					Game.g.inputsHandler.getSelection(p.id).selection.clear();
+				}
 				this.toParse = null;
 				this.processSynchro = false;
 
