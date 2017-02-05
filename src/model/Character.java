@@ -936,7 +936,7 @@ public class Character extends Objet{
 		
 		for(Integer i : this.group){
 			Objet o =  Game.g.plateau.getById(i);
-			if(o!=null){
+			if(o!=null && o instanceof Character){
 				result.add((Character)o );
 			}
 			
