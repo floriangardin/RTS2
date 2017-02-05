@@ -79,11 +79,12 @@ public class Menu_Player extends Menu_Item{
 			if(xMouse>startXciv && yMouse>startYcolor && xMouse<startXciv+sizeXciv && yMouse<startYcolor+sizeYcolor){
 				isOverCiv = true;
 				if(im.isPressed(KeyEnum.LeftClick)){
-					switch(p.getGameTeam().civ.name){
-					case "dualists" : p.getGameTeam().civ = new Civilisation("zinaids", p.getGameTeam()); break;
-					case "zinaids" : p.getGameTeam().civ = new Civilisation("kitanos", p.getGameTeam()); break;
-					case "kitanos" : p.getGameTeam().civ = new Civilisation("dualists", p.getGameTeam()); break;
-					}
+					//TODO:civ
+//					switch(p.getGameTeam().civ.name){
+//					case "dualists" : p.getGameTeam().civ = new Civilisation("zinaids", p.getGameTeam()); break;
+//					case "zinaids" : p.getGameTeam().civ = new Civilisation("kitanos", p.getGameTeam()); break;
+//					case "kitanos" : p.getGameTeam().civ = new Civilisation("dualists", p.getGameTeam()); break;
+//					}
 				}
 			} else {
 				isOverCiv = false;
