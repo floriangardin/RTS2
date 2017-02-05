@@ -25,7 +25,9 @@ public class SpellDash extends Spell{
 		Vector<Objet> v = new Vector<Objet>();
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
-		Game.g.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
+		if(target!=null && launcher!=null){			
+			Game.g.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
+		}
 	}
 
 
