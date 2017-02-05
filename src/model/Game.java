@@ -1489,11 +1489,10 @@ public class Game extends BasicGame
 		idPaquetSend++;
 		if(usingKryonet && !isInMenu){	
 			if(host){
-					if(m.resynchro==null){
-						kryonetServer.send(m);
-					}else{
-						kryonetServer.sendResynchro(m);
-					}
+				if(m.resynchro!=null){
+					kryonetServer.sendResynchro(m);
+				}else {
+					kryonetServer.send(m);
 				}
 				
 			} else {
