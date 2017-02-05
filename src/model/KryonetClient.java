@@ -36,7 +36,6 @@ public class KryonetClient {
 			public void received (Connection connection, Object object) {
 				if (object instanceof SerializedMessage) {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
-					System.out.println("Kryonet Client : message reçu");
 					Game.g.kryonetBuffer.add(request);
 
 				}
@@ -45,9 +44,11 @@ public class KryonetClient {
 		this.clientResynchro.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
 				System.out.println("Kryonet client l47 : has received resynchro message");
+				System.out.println(object.getClass());
 				if (object instanceof SerializedMessage) {
+					System.out.println("message Resynchro recu 1");
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
-					System.out.println("message Resynchro recu");
+					System.out.println("message Resynchro recu 2");
 					Game.g.kryonetBuffer.add(request);
 				}
 			}

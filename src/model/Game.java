@@ -1497,7 +1497,6 @@ public class Game extends BasicGame
 				}else {
 					kryonetServer.send(m);
 				}
-				
 			} else {
 				kryonetClient.send(m);
 			}
