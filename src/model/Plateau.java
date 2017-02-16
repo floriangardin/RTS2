@@ -641,13 +641,7 @@ public class Plateau implements java.io.Serializable {
 
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
-				Game.g.endGame = true;
-				if(player!=Game.g.currentPlayer.id){
-					Game.g.victory = true;
-				}
-				else{
-					Game.g.victory = false;
-				}
+				Game.g.launchVictory(Game.g.teams.get(2-Game.g.currentPlayer.getTeam()));
 				return;
 			}
 
@@ -763,6 +757,7 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 	}
+	
 
 
 
@@ -912,6 +907,7 @@ public class Plateau implements java.io.Serializable {
 
 		// camera movement
 		if (player == Game.g.currentPlayer.id && Game.g.inputsHandler.getSelection(player).rectangleSelection == null && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
+			// No camera movement if boolean activated
 			// Handling sliding
 			if(Game.g.slidingCam==true){
 				int deltaX = (int) (Game.g.objectiveCam.getX()-Game.g.Xcam);
@@ -921,25 +917,26 @@ public class Plateau implements java.io.Serializable {
 				if(Math.abs(deltaX)<2)
 					Game.g.slidingCam = false;
 			}
-			//			boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
-			// Move camera according to inputs :
-			if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.y < Game.g.Ycam + 5) && Game.g.Ycam > -Game.g.resY / 2) {
-				Game.g.Ycam -= (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-			if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.y > Game.g.Ycam + Game.g.resY - 5))
-					&& Game.g.Ycam < this.maxY - Game.g.resY / 2) {
-				Game.g.Ycam += (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-			if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.x < Game.g.Xcam + 5)) && Game.g.Xcam > -Game.g.resX / 2) {
-				Game.g.Xcam -= (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-			if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.x > Game.g.Xcam + Game.g.resX - 5))
-					&& Game.g.Xcam < this.maxX - Game.g.resX / 2) {
-				Game.g.Xcam += (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
+			if(Game.g.cameraMovementAllowed){
+				// Move camera according to inputs :
+				if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.y < Game.g.Ycam + 5) && Game.g.Ycam > -Game.g.resY / 2) {
+					Game.g.Ycam -= (int) (80 * 30 / Main.framerate);
+					Game.g.slidingCam = false;
+				}
+				if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.y > Game.g.Ycam + Game.g.resY - 5))
+						&& Game.g.Ycam < this.maxY - Game.g.resY / 2) {
+					Game.g.Ycam += (int) (80 * 30 / Main.framerate);
+					Game.g.slidingCam = false;
+				}
+				if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.x < Game.g.Xcam + 5)) && Game.g.Xcam > -Game.g.resX / 2) {
+					Game.g.Xcam -= (int) (80 * 30 / Main.framerate);
+					Game.g.slidingCam = false;
+				}
+				if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.x > Game.g.Xcam + Game.g.resX - 5))
+						&& Game.g.Xcam < this.maxX - Game.g.resX / 2) {
+					Game.g.Xcam += (int) (80 * 30 / Main.framerate);
+					Game.g.slidingCam = false;
+				}
 			}
 
 			// TODO : Centrer la selection sur un groupe d'unité
@@ -952,6 +949,7 @@ public class Plateau implements java.io.Serializable {
 			//					this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
 			//				}
 			//			}
+			
 		}
 	}
 

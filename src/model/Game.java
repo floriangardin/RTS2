@@ -211,6 +211,7 @@ public class Game extends BasicGame
 	////////////////////////
 
 	// Camera
+	public boolean cameraMovementAllowed = false;
 	public int Xcam;
 	public int Ycam;
 	public boolean slidingCam = false;
@@ -298,7 +299,10 @@ public class Game extends BasicGame
 	public boolean endGame = false;
 	public boolean victory = false;
 	int victoryTime = 120;
+	private EndGameHandler endGameHandler;
 	boolean hasAlreadyPlay = false;
+	
+	
 
 	public boolean antidrop;
 	int nombreDrop = 0;
@@ -853,10 +857,6 @@ public class Game extends BasicGame
 		// Handling multiReceiver
 		this.handleMultiReceiver();
 
-
-
-
-
 		Vector<InputObject> ims = new Vector<InputObject>();
 		// If not in multiplayer mode, dealing with the common input
 		// updating the game	
@@ -899,6 +899,9 @@ public class Game extends BasicGame
 			if(secondsGong>=0 && (Game.nbRoundInit-this.round)/Main.framerate<=secondsGong){
 				secondsGong--;
 				this.sounds.get("menuItemSelected").play(1f,options.soundVolume);
+				if(secondsGong<0){
+					this.cameraMovementAllowed = true;
+				}
 			}
 			// getting inputs
 			Input in = gc.getInput();
@@ -989,33 +992,8 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
-			// handle victory / defeat screen
-			if(victory && this.musicPlaying!=this.musics.get("themeVictory")){
-				this.musicPlaying.stop();
-				this.musicPlaying = this.musics.get("themeVictory");
-				this.musicPlaying.play(1f, this.options.musicVolume);
-			} else if(!victory && this.musicPlaying!=this.musics.get("themeDefeat")) {
-				this.musicPlaying.stop();
-				this.musicPlaying = this.musics.get("themeDefeat");
-				this.musicPlaying.play(1f, this.options.musicVolume);
-			} 
-			//Print victory !!
-			victoryTime --;
-			if(victoryTime <0){
-				this.musicPlaying.stop();
-				victoryTime = 120;
-				this.isInMenu = true;
-				this.hasAlreadyPlay = true;
-				this.endGame = false;
-				try {
-					this.server.setBroadcast(true);
-				} catch (SocketException e) {
-					e.printStackTrace();
-				}
-				Map.initializePlateau(this, 1, 1);
-				this.setMenu(this.menuIntro);
-			}
-		}
+			this.endGameHandler.update();
+		} 
 
 		if(debugPaquet){
 			System.out.println("tour de jeu: " + round);
@@ -1303,6 +1281,7 @@ public class Game extends BasicGame
 		this.quitMenu();
 		Game.g.Xcam =(int)( this.currentPlayer.getGameTeam().hq.getX()-this.resX/2);
 		Game.g.Ycam = (int)(this.currentPlayer.getGameTeam().hq.getY()-this.resY/2);
+		this.endGameHandler = new EndGameHandler();
 		this.startTime = System.currentTimeMillis();
 		this.nbPaquetReceived = 0;
 		this.idPaquetSend = 0;
@@ -1310,7 +1289,12 @@ public class Game extends BasicGame
 		this.round = 0;
 		this.secondsGong = 3;
 	}
-
+	
+	public void launchVictory(GameTeam gt){
+		this.endGameHandler.init(gt.hq);
+		this.endGame = true;
+		this.victory = gt.id==currentPlayer.getTeam();
+	}
 
 	public Player getPlayerById(int id){
 		return this.players.get(id);
