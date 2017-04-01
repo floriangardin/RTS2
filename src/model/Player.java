@@ -27,7 +27,6 @@ public class Player {
 	public Player(int id,String name, GameTeam gameteam) {
 		this.initialize(id, name, gameteam);
 		
-	
 	}
 
 	public void initialize(int id , String name , GameTeam gameteam){

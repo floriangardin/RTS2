@@ -33,7 +33,7 @@ public enum EventNames {
 			sound = "bonusTaken";
 			break;
 		case Death:
-			return new EventDefault(parent, Game.g.sounds.getRandomSoundUnit(parent.name.name(), "death"));
+			return new EventDeath(parent);
 		case Immolation:
 			sound = "fire";
 			break;

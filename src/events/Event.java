@@ -22,13 +22,13 @@ public abstract class Event {
 	float power;
 	float duration;
 	boolean playSound = false;
-	
-	
+
+
 	public Event(final Objet parent){
 		this.parent = parent;
 		this.roundLaunched = Game.g.round;
 		// TODO : Make it generic with dataFile
-		
+
 	}
 
 	public String toString(){
@@ -37,42 +37,51 @@ public abstract class Event {
 	public boolean isNewEvent(){
 		return Game.g.round-roundLaunched==0;
 	}
-	
+
 	public int getGameTeam(){
 		return parent.getGameTeam().id;
 	}
-	
-	
+
+
 	public abstract boolean play(Graphics g);
 
-	
-//	public abstract void draw(Graphics g);
-	
-	
-  public static Sound getRandomSound (Vector<Sound> v) {
-       Random generator = new Random();
-       //Filter by not is playing
-       
-       if(v.size()==1){
-    	   return v.get(0);
-       }
-       int rnd = generator.nextInt(v.size() - 1);
-       return v.get(rnd); // Cast the vector value into a String object
-   }
-  
+
+	//	public abstract void draw(Graphics g);
+
+
+	public static Sound getRandomSound (Vector<Sound> v) {
+		Random generator = new Random();
+		//Filter by not is playing
+
+		if(v.size()==1){
+			return v.get(0);
+		}
+		int rnd = generator.nextInt(v.size() - 1);
+		return v.get(rnd); // Cast the vector value into a String object
+	}
+
 	public void playSound(){
 		if(this.sounds.size()>0 && !playSound){
 			soundPlaying = getRandomSound(this.sounds);
-			if(soundPlaying != null)
-				soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance());
-			playSound = true;
+			if(soundPlaying != null){
+				if(this instanceof EventDeath){
+					soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance(((EventDeath)this).x,((EventDeath)this).y));
+				} else {
+					soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance());
+				}
+			}
+		playSound = true;
 		}
 	}
-	
-	private float ratioDistance(){
-		return Math.min(1f, Math.max(0f, (200f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
+
+
+	protected float ratioDistance(){
+		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
 	}
-	
+	protected float ratioDistance(float x, float y){
+		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
+	}
+
 	public EventNames getName(){
 		return name;
 	}

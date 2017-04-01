@@ -16,9 +16,9 @@ import model.Building;
 import model.Character;
 import model.Colors;
 import model.Game;
+import model.GameTeam;
 import model.NaturalObjet;
 import model.Objet;
-import ressources.Images;
 import spells.Spell;
 import utils.ObjetsList;
 import utils.Utils;
@@ -94,6 +94,9 @@ public class BottomBar {
 	private float sizeXCardChoiceBar = sizeXActionBar;
 	private float sizeYCardChoiceBar;
 	public Vector<Icon> cardChoice = new Vector<Icon>();
+	
+	//killing spree offest
+	public float offsetYkillingSpree = -150f;
 
 
 	public BottomBar(){
@@ -717,7 +720,37 @@ public class BottomBar {
 		}
 		g.drawString(s, rX/2-Game.g.font.getWidth(s)/2f, yCentral+2*ratioSizeTimerY*rY/3f-Game.g.font.getHeight(s)/2f);
 
-
+		// timer kill
+		GameTeam gt = Game.g.currentPlayer.getGameTeam();
+		float opacity = 255f;
+		float centerx = 70, centery = 70;
+		float r = 25f;
+		if(gt.nbKill>0){
+			if(offsetYkillingSpree!=0){
+				offsetYkillingSpree*=0.5f;
+				if(offsetYkillingSpree>-1){
+					offsetYkillingSpree = 0f;
+				}
+			}
+			System.out.println("mythe" + gt.nbKill+ "  "+offsetYkillingSpree);
+			g.setColor(new Color(0f,0f,0f,opacity));
+			g.fillOval(centerx-r-10, centery+offsetYkillingSpree-r-10, 2*r+20f, 2*r+20f);
+			//g.setColor(new Color(0f,0f,0f,opacity));
+			//g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
+			//						g.setColor(Color.white);
+			//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
+			g.setColor(new Color(gt.color.r,gt.color.g,gt.color.b,opacity));
+			float startAngle = 270f;
+			float sizeAngle = (float)(1f*gt.timerKill*(360f)/gt.timerMaxKill);
+			g.fillArc(centerx-r-8f, centery+offsetYkillingSpree-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
+			g.setColor(new Color(0f,0f,0f,opacity));
+			g.fillOval(centerx-r, centery+offsetYkillingSpree-r, 2*r, 2*r);
+			g.setColor(new Color(1f,1f,1f,opacity));
+			g.drawString(""+gt.nbKill, centerx-Game.g.font.getWidth(""+gt.nbKill)/2, centery+offsetYkillingSpree-Game.g.font.getHeight(""+gt.nbKill)/2);
+		} else {
+			offsetYkillingSpree = -150f;
+		}
+		
 	}
 
 	public void drawMiniMap(Graphics g){
