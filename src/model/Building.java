@@ -30,12 +30,8 @@ public class Building extends Objet{
 	public float constructionPoints;
 	public int potentialTeam;
 	private int rallyPoint;
-
 	public float charge;
-
 	public boolean isDestroyed = false;
-
-
 	public boolean giveUpProcess = false;
 	public boolean underAttack;
 	public float underAttackRemaining=0;

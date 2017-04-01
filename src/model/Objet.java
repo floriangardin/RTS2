@@ -12,6 +12,7 @@ import bonus.Bonus;
 import bullets.Bullet;
 import data.Attributs;
 import data.AttributsChange;
+import events.EventNames;
 import main.Main;
 import spells.Etats;
 import spells.Spell;
@@ -69,7 +70,10 @@ public abstract class Objet implements java.io.Serializable {
 
 	public void action(){}
 	public void move(){}
-
+	public boolean canAttack(){
+		boolean b= (getTarget()!=null && getTarget().getGameTeam().id!=this.getGameTeam().id);
+		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
+	}
 	public void updateAttributsChange(){
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
@@ -185,6 +189,9 @@ public abstract class Objet implements java.io.Serializable {
 	}
 
 	public void setLifePoints(float lifepoints){
+		if(lifepoints<this.lifePoints && this instanceof Character){
+			Game.g.triggerEvent(EventNames.Blood, this);
+		}
 		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
 			this.lifePoints= lifepoints;
 		else{

@@ -16,7 +16,8 @@ public enum EventNames {
 	MoveTarget, 
 	CharacterSelected, 
 	BuildingSelected, 
-	Attack, 
+	Attack,
+	Blood,
 	Meditation;
 	
 	
@@ -52,7 +53,9 @@ public enum EventNames {
 		case Attack:
 			sound = parent.getAttributString(Attributs.weapon);
 		case Dash:
-			sound = "fireball";
+			return new EventDash(parent);
+		case Blood:
+			return new EventBlood(parent);
 		default:
 			sound = "arrow";
 		}

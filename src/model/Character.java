@@ -841,10 +841,7 @@ public class Character extends Objet{
 
 	}
 	
-	public boolean canAttack(){
-		boolean b= (getTarget()!=null && getTarget().getGameTeam().id!=this.getGameTeam().id);
-		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
-	}
+
 
 
 
@@ -903,7 +900,6 @@ public class Character extends Objet{
 		if(this.getTarget() instanceof Character){
 			Character c =(Character) this.getTarget();
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
-				
 				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y,true),null,this.mode);
 			}
 		}
@@ -912,8 +908,6 @@ public class Character extends Objet{
 		if(this.isAttacking){
 			this.animation = Math.max(0, Math.min(4,(int)(this.getAttribut(Attributs.attackDuration)/this.attackState)));
 		}
-
-
 	}
 	
 
@@ -921,8 +915,6 @@ public class Character extends Objet{
 		this.isAttacked=true;
 		this.timerAttacked = this.timerMaxValueAttacked;
 	}
-
-
 
 	public Vector<Character> getGroup() {
 		Vector<Character> result = new Vector<Character>();

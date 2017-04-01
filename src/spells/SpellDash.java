@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
+import events.EventNames;
 import model.Character;
 import model.Game;
 import model.Objet;
@@ -17,6 +18,7 @@ public class SpellDash extends Spell{
 	
 	public SpellDash(){
 		this.name = ObjetsList.Dash;
+		
 	}
 
 	public void launch(Objet target, Character launcher){
@@ -28,6 +30,7 @@ public class SpellDash extends Spell{
 		if(target!=null && launcher!=null){			
 			Game.g.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
 		}
+		Game.g.triggerEvent(EventNames.Dash, launcher);
 	}
 
 

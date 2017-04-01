@@ -23,12 +23,10 @@ public abstract class Event {
 	float duration;
 	boolean playSound = false;
 	
-	
 	public Event(final Objet parent){
 		this.parent = parent;
 		this.roundLaunched = Game.g.round;
 		// TODO : Make it generic with dataFile
-		
 	}
 
 	public String toString(){
