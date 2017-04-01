@@ -6,7 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
-import events.Events;
+import events.EventNames;
 import main.Main;
 import model.Building;
 import model.Character;
@@ -46,7 +46,7 @@ public class Arrow extends CollisionBullet{
 			this.angle+=360;
 		
 		this.soundLaunch = "arrow";
-		Game.g.triggerEvent(Events.ArrowLaunched, this);
+		Game.g.triggerEvent(EventNames.ArrowLaunched, this);
 	}
 
 	public void collision(Character c){

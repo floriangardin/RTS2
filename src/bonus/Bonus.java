@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 
 
-import events.Events;
+import events.EventNames;
 import data.Attributs;
 import main.Main;
 import model.Building;
@@ -46,7 +46,7 @@ public abstract class Bonus extends Building{
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
 		this.soundTaken = "bonusTaken";
-		Game.g.triggerEvent(Events.BonusTaken, this);
+		Game.g.triggerEvent(EventNames.BonusTaken, this);
 	}
 	
 	public Graphics draw(Graphics g){

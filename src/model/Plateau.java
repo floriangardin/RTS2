@@ -14,7 +14,7 @@ import control.KeyMapper.KeyEnum;
 import control.Selection;
 import data.Attributs;
 import display.BottomBar;
-import events.Events;
+import events.EventNames;
 import javafx.scene.input.InputMethodHighlight;
 import madness.Act;
 import madness.ActCard;
@@ -218,7 +218,7 @@ public class Plateau implements java.io.Serializable {
 				}
 				this.removeCharacter(o);
 
-				Game.g.triggerEvent(Events.Death, o);
+				Game.g.triggerEvent(EventNames.Death, o);
 			}
 		}
 
@@ -477,9 +477,9 @@ public class Plateau implements java.io.Serializable {
 				if (i == 0 && Math.random() > 0.3) {
 					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
 							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
-						Game.g.triggerEvent(Events.MoveAttack, o);
+						Game.g.triggerEvent(EventNames.MoveAttack, o);
 					} else if (c.getTeam() == Game.g.currentPlayer.id) {
-						Game.g.triggerEvent(Events.MoveTarget, o);
+						Game.g.triggerEvent(EventNames.MoveTarget, o);
 					}
 				}
 

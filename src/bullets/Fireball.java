@@ -5,7 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
-import events.Events;
+import events.EventNames;
 import main.Main;
 import model.Building;
 import model.Character;
@@ -55,7 +55,7 @@ public class Fireball extends Bullet {
 		if(this.angle<0)
 			this.angle+=360;
 		this.soundLaunch = "fireball";
-		Game.g.triggerEvent(Events.FireBallLaunched, this);
+		Game.g.triggerEvent(EventNames.FireBallLaunched, this);
 	}
 
 	public Fireball(){}

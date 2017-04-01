@@ -1,7 +1,7 @@
 package madness;
 
 import events.Event;
-import events.Events;
+import events.EventNames;
 import model.Game;
 import model.GameTeam;
 
@@ -15,7 +15,7 @@ public class ObjectiveMeditation  extends Objective{
 	@Override
 	public boolean action() {
 		for(Event e : Game.g.getEvents().getNewEvents()){
-			if(e.getName()==Events.Meditation && e.getGameTeam()==this.gameTeam.id){
+			if(e.getName()==EventNames.Meditation && e.getGameTeam()==this.gameTeam.id){
 				return true;
 			}
 		}

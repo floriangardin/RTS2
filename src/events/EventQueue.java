@@ -37,8 +37,8 @@ public class EventQueue {
 		events.removeAll(toRemove);
 	}
 	
-	public void addEvent(Events name,Objet o){
-		this.events.addElement(new Event(name,o));
+	public void addEvent(EventNames name,Objet parent){
+		this.events.addElement(name.createEvent(parent));
 	}
 	
 	public Vector<Event> getNewEvents(){

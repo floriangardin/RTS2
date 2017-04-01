@@ -5,7 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.geom.Rectangle;
 
 import control.KeyMapper.KeyEnum;
-import events.Events;
+import events.EventNames;
 import model.Building;
 import model.Character;
 import model.Game;
@@ -133,14 +133,14 @@ public class Selection {
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Character) {
 					Character c = (Character) this.selection.get(0);
-					Game.g.triggerEvent(Events.CharacterSelected, c);
+					Game.g.triggerEvent(EventNames.CharacterSelected, c);
 
 				}
 				if (player == Game.g.currentPlayer.id && this.selection.size() > 0
 						&& this.selection.get(0) instanceof Building) {
 					Building c = (Building) this.selection.get(0);
 					//s = Game.g.sounds.get("selection"+c.name);
-					Game.g.triggerEvent(Events.BuildingSelected, c);
+					Game.g.triggerEvent(EventNames.BuildingSelected, c);
 				}
 
 			

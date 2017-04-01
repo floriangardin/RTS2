@@ -6,7 +6,7 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import data.Attributs;
-import events.Events;
+import events.EventNames;
 import model.Character;
 import model.Game;
 import model.Objet;
@@ -26,7 +26,7 @@ public class SpellMeditation extends Spell{
 		}
 		launcher.addSpellEffect(new Meditation(launcher,target));
 		launcher.canMove = false;
-		Game.g.triggerEvent(Events.Meditation, launcher);
+		Game.g.triggerEvent(EventNames.Meditation, launcher);
 	}
 
 	@Override

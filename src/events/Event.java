@@ -11,87 +11,26 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
 import utils.Utils;
-import data.Attributs;
 
-public class Event {
+public abstract class Event {
 
 	Vector<Sound> sounds = new Vector<Sound>();
 	Sound soundPlaying;
-	Vector<GraphicEvent> graphics = new Vector<GraphicEvent>();
-	Events name;
+	EventNames name;
 	int roundLaunched;
-	Objet parent;
+	public Objet parent;
 	float power;
 	float duration;
 	boolean playSound = false;
 	
 	
-	public Event(Events name,final Objet parent){
+	public Event(final Objet parent){
 		this.parent = parent;
-		this.name = name;
 		this.roundLaunched = Game.g.round;
 		// TODO : Make it generic with dataFile
-		switch(name){
-		case ArrowLaunched:
-			this.sounds.addElement(Game.g.sounds.get("arrow"));
-			this.duration = 20f;
-			this.graphics.addElement(GraphicEvent.createGraphicEvent(GraphicEvents.ArrowWind, this));
-			break;
-		case FireBallLaunched:
-			this.sounds.addElement(Game.g.sounds.get("fireball"));
-			this.duration = 20f;
-			this.graphics.addElement(GraphicEvent.createGraphicEvent(GraphicEvents.ArrowWind, this));
-			break;
-		case BonusTaken:
-			this.sounds.addElement(Game.g.sounds.get("bonusTaken"));
-			this.duration = 20f;
-			this.graphics.addElement(GraphicEvent.createGraphicEvent(GraphicEvents.BonusTaken, this));
-			break;
-		case Death:
-			// Differentiate by death
-			this.sounds.addAll(Game.g.sounds.getSoundVector(parent.name,"death"));
-			this.duration = 20f;
-			break;
-		case Immolation:
-			// Differentiate by death
-			this.sounds.add(Game.g.sounds.get("fire"));
-			this.duration = 10f*20f*Main.increment;
-			break;
-		case Meditation:
-			this.sounds.add(Game.g.sounds.get("meditation"));
-			this.duration = 30f*20f*Main.increment;
-			break;
-		case MoveAttack:
-			// Differentiate by death
-			this.sounds.addAll(Game.g.sounds.getSoundVector(parent.name,"attack"));
-			this.duration = 3f;
-			break;
-		case MoveTarget:
-			// Differentiate by death
-			this.sounds.addAll(Game.g.sounds.getSoundVector(parent.name,"target"));
-			this.duration = 3f;
-			break;
-		case BuildingSelected:
-			// Differentiate by death
-			this.sounds.add(Game.g.sounds.get("selection"+parent.name));
-			this.duration = 3f;
-			break;
-		case CharacterSelected:
-			// Differentiate by death
-			this.sounds.addAll(Game.g.sounds.getSoundVector(parent.name,"selection"));
-			this.duration = 3f;
-			break;
-		case Attack:
-			// Differentiate by death
-			this.sounds.add(Game.g.sounds.get(parent.getAttributString(Attributs.weapon)));
-			this.duration = 3f;
-			break;
-		case Dash:
-			break;
-		default:
-			break;
-		}
+		
 	}
+
 	public String toString(){
 		return this.getName().name();
 	}
@@ -104,27 +43,10 @@ public class Event {
 	}
 	
 	
-	public boolean play(Graphics g){
-		// Calculate intensity in function of options and distance to scene
-		playSound();
-		
-		// Render images
-		for(GraphicEvent gr : graphics){
-			gr.draw(g);
-		}
-		duration = duration - Main.increment;
-		if(duration<=0 && soundPlaying!=null){
-			//soundPlaying.stop();
-		}
-	
-		return duration>0;
-		
-	}
+	public abstract boolean play(Graphics g);
 
 	
-	public void draw(Graphics g){
-		
-	}
+	public abstract void draw(Graphics g);
 	
 	
   public static Sound getRandomSound (Vector<Sound> v) {
@@ -141,7 +63,8 @@ public class Event {
 	public void playSound(){
 		if(this.sounds.size()>0 && !playSound){
 			soundPlaying = getRandomSound(this.sounds);
-			soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance());
+			if(soundPlaying != null)
+				soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance());
 			playSound = true;
 		}
 	}
@@ -150,7 +73,7 @@ public class Event {
 		return Math.min(1f, Math.max(0f, (200f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
 	}
 	
-	public Events getName(){
+	public EventNames getName(){
 		return name;
 	}
 	public boolean action() {

@@ -43,7 +43,7 @@ import data.Data;
 import display.BottomBar;
 import display.DisplayRessources;
 import events.EventQueue;
-import events.Events;
+import events.EventNames;
 import main.Main;
 import mapeditor.MapEditor;
 import menu.Credits;
@@ -87,7 +87,7 @@ public class Game extends BasicGame
 	public static boolean debugTourEnCours = false;
 	public static boolean debugThread = false;
 	public static boolean debugDisplayDebug = true;
-	public static boolean debugMemory = true;
+	public static boolean debugMemory = false;
 	public static boolean debugFog = false;
 
 	public static boolean deplacementGroupIntelligent = false;
@@ -344,7 +344,7 @@ public class Game extends BasicGame
 
 
 
-	public void triggerEvent(Events name,Objet o){
+	public void triggerEvent(EventNames name,Objet o){
 		events.addEvent(name, o);
 	}
 	public EventQueue getEvents(){
