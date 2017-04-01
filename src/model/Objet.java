@@ -190,7 +190,7 @@ public abstract class Objet implements java.io.Serializable {
 
 	public void setLifePoints(float lifepoints){
 		if(lifepoints<this.lifePoints && this instanceof Character){
-			Game.g.triggerEvent(EventNames.Blood, this);
+			//Game.g.triggerEvent(EventNames.Blood, this);
 		}
 		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
 			this.lifePoints= lifepoints;
