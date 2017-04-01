@@ -34,7 +34,6 @@ public enum EventNames {
 			break;
 		case Death:
 			return new EventDefault(parent, Game.g.sounds.getRandomSoundUnit(parent.name.name(), "death"));
-			break;
 		case Immolation:
 			sound = "fire";
 			break;
