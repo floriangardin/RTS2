@@ -579,8 +579,13 @@ public class Game extends BasicGame
 				drawFogOfWar(g);
 			}
 
-			for(Objet o: toDrawAfter)
+			for(Objet o: toDrawAfter){
 				o.draw(g);
+				if(o instanceof Character && this.inputsHandler.getSelection(currentPlayer.id).selection.contains(o)){
+					((Character)o).drawLifePoints(g, 60f*Main.ratioSpace);
+				}
+			}
+
 
 			//handleDrawUnderBuilding(g);
 
