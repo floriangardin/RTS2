@@ -22,20 +22,7 @@ public class EventQueue {
 		events.removeAll(toRemove);
 	}
 	
-	
-	/*
-	 * TODO : Not used yet, to be used with
-	 */
-	public void action(){
-		//Update sounds
-		Vector<Event> toRemove = new Vector<Event>();
-		for(Event e: events){
-			if(!e.action()){
-				toRemove.add(e);
-			}
-		}
-		events.removeAll(toRemove);
-	}
+
 	
 	public void addEvent(EventNames name,Objet parent){
 		this.events.addElement(name.createEvent(parent));

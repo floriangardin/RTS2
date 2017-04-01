@@ -46,7 +46,7 @@ public abstract class Event {
 	public abstract boolean play(Graphics g);
 
 	
-	public abstract void draw(Graphics g);
+//	public abstract void draw(Graphics g);
 	
 	
   public static Sound getRandomSound (Vector<Sound> v) {
@@ -76,9 +76,5 @@ public abstract class Event {
 	public EventNames getName(){
 		return name;
 	}
-	public boolean action() {
-		// Recalculate distance and set volume according to it
-		return false;
-		
-	}
+
 }
