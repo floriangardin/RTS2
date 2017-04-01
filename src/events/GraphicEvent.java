@@ -5,9 +5,6 @@ import org.newdawn.slick.Graphics;
 public abstract class GraphicEvent {
 
 	Event parent;
-	
-	
-	
 	public abstract void draw(Graphics g);
 	
 	
@@ -16,16 +13,16 @@ public abstract class GraphicEvent {
 		switch(name){
 		case ArrowWind:
 			e = new GraphicWindArrow();
-			e.parent = parent;
-			return e;
+			break;
+
 		case BonusTaken:
 			e = new GraphicBonusTaken();
-			e.parent = parent;
-			return e;
+			break;
 
 		default:
 			return null;
 		}
-		
+		e.parent = parent;
+		return e;
 	}
 }
