@@ -14,17 +14,14 @@ public abstract class GraphicEvent {
 	
 	
 	public static GraphicEvent createGraphicEvent(GraphicEvents name,Event parent){
-		GraphicEvent e ;
 		switch(name){
 		case ArrowWind:
-			e = new GraphicWindArrow(parent);
-			break;
+			return new GraphicWindArrow(parent);
 		case BonusTaken:
-			e = new GraphicBonusTaken(parent);
-			break;
+			return new GraphicBonusTaken(parent);	
 		default:
 			return null;
 		}
-		return e;
+		
 	}
 }

@@ -86,6 +86,8 @@ public class Event {
 			this.sounds.add(Game.g.sounds.get(parent.getAttributString(Attributs.weapon)));
 			this.duration = 3f;
 			break;
+		case Dash:
+			break;
 		default:
 			break;
 		}
