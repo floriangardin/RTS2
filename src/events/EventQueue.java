@@ -28,9 +28,13 @@ public class EventQueue {
 	 */
 	public void action(){
 		//Update sounds
+		Vector<Event> toRemove = new Vector<Event>();
 		for(Event e: events){
-			e.action();
+			if(!e.action()){
+				toRemove.add(e);
+			}
 		}
+		events.removeAll(toRemove);
 	}
 	
 	public void addEvent(Events name,Objet o){

@@ -184,16 +184,10 @@ public class Character extends Objet{
 		this.orientation = sector;
 
 	}
-
-
-
 	//Update functions
-
 	//// ACTION METHODS
-
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
-
 	// ATTACK METHOD IF AT RANGE AND CHARGE TIME OK
 	public void useWeapon(){
 		if(!(this.getTarget() instanceof Character)){

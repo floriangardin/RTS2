@@ -3,11 +3,13 @@ package events;
 import org.newdawn.slick.Graphics;
 
 public abstract class GraphicEvent {
-
+	
+	
+	public GraphicEvent(Event parent){
+		this.parent = parent;
+	}
+	
 	Event parent;
-	
-	
-	
 	public abstract void draw(Graphics g);
 	
 	
@@ -15,17 +17,14 @@ public abstract class GraphicEvent {
 		GraphicEvent e ;
 		switch(name){
 		case ArrowWind:
-			e = new GraphicWindArrow();
-			e.parent = parent;
-			return e;
+			e = new GraphicWindArrow(parent);
+			break;
 		case BonusTaken:
-			e = new GraphicBonusTaken();
-			e.parent = parent;
-			return e;
-
+			e = new GraphicBonusTaken(parent);
+			break;
 		default:
 			return null;
 		}
-		
+		return e;
 	}
 }

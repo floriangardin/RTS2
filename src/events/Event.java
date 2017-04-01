@@ -151,9 +151,9 @@ public class Event {
 	public Events getName(){
 		return name;
 	}
-	public void action() {
+	public boolean action() {
 		// Recalculate distance and set volume according to it
-		
+		return false;
 		
 	}
 }
