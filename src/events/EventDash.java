@@ -41,10 +41,5 @@ public class EventDash extends Event{
 		return parent.inDash>0f;
 	}
 
-	@Override
-	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

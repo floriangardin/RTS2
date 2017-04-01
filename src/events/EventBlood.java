@@ -22,10 +22,6 @@ public class EventBlood extends Event{
 		return parent.isAlive() && this.duration>0f;
 	}
 
-	@Override
-	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

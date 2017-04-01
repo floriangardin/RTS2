@@ -153,6 +153,7 @@ public class Game extends BasicGame
 	/////////////////////////
 	/// RENDER ATTRIBUTES ///
 	/////////////////////////
+	
 	public static Image fog;
 	public static Image transparence;
 	public static Graphics gf;
@@ -875,6 +876,7 @@ public class Game extends BasicGame
 			for(Player p : this.players){
 				p.action();
 			}
+			this.currentPlayer.getGameTeam().update();
 			//Update of current round
 			this.clock.setRoundFromTime();
 
