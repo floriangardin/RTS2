@@ -19,8 +19,9 @@ public class SpellSpecialArrow extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage));
-		
+		if(target!=null && launcher!=null){			
+			new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage));
+		}	
 		launcher.stop();
 	}
 
