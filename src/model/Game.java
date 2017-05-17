@@ -61,6 +61,7 @@ import mybot.IAFlo;
 import mybot.IAKevin;
 import pathfinding.Case;
 import ressources.Images;
+import ressources.IntroMovie;
 import ressources.Map;
 import ressources.Musics;
 import ressources.Sounds;
@@ -456,6 +457,9 @@ public class Game extends BasicGame
 		if(!thingsLoaded){
 			this.renderIntro(g);
 			return;
+		} else if (this.introMovieEnd==false){
+			this.introMovie.render(g);
+			return;
 		}
 		if(isInMenu){
 			if(hasAlreadyPlay){
@@ -724,11 +728,16 @@ public class Game extends BasicGame
 			//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
 		}
 		Image temp = this.loadingBackground;
-		temp.setAlpha(toGoTitle2);
-		g.drawImage(temp, 0,0,resX,resY,0,0,temp.getWidth(),temp.getHeight()-60f);
-		temp = this.loadingTitle.getScaledCopy(0.5f+toGoTitle2/2f);
+//		temp.setAlpha(toGoTitle2);
+//		g.drawImage(temp, 0,0,resX,resY,0,0,temp.getWidth(),temp.getHeight()-60f);
+//		temp = this.loadingTitle.getScaledCopy(0.5f+toGoTitle2/2f);
+//		float xTitle = (this.resX/2-temp.getWidth()/2) ;
+//		float yTitle = toGoTitle2*(10f) + (1f-toGoTitle2)*(resY/3);
+//		g.drawImage(temp, xTitle, yTitle);
+		temp = this.loadingTitle.getScaledCopy(0.5f);
+		temp.setAlpha(1-toGoTitle2);
 		float xTitle = (this.resX/2-temp.getWidth()/2) ;
-		float yTitle = toGoTitle2*(10f) + (1f-toGoTitle2)*(resY/3);
+		float yTitle = (resY/3);
 		g.drawImage(temp, xTitle, yTitle);
 		return;
 	}
@@ -843,6 +852,9 @@ public class Game extends BasicGame
 		// Initializing engine
 		if(!thingsLoaded){
 			this.initializeEngine(gc);
+			return;
+		} else if (this.introMovieEnd==false){
+			this.introMovie.update(gc);
 			return;
 		}
 		// Handling multiReceiver
@@ -1104,9 +1116,9 @@ public class Game extends BasicGame
 			return;
 		} else if(toGoTitle<1f) {
 			if(toGoTitle>0)
-				toGoTitle+=0.05f;
+				toGoTitle+=0.02f;
 			else
-				toGoTitle+=0.005f;
+				toGoTitle+=0.002f;
 			return;
 		} else if(!thingsLoaded){
 			app.setMinimumLogicUpdateInterval(1000/Main.framerate);
@@ -1720,7 +1732,10 @@ public class Game extends BasicGame
 	public int timeGilles = 0;
 	private Vector<Gilles> gillesPics = new Vector<Gilles>();
 	
-
+	// INTRO MOVIE
+	public boolean introMovieEnd = false;
+	public IntroMovie introMovie = new IntroMovie();
+	
 	public void handleGillesBombe(){
 		if(timeGilles==0){
 			this.musicPlaying = musics.get("themeVerdi");
