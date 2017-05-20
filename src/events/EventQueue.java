@@ -28,6 +28,10 @@ public class EventQueue {
 		this.events.addElement(name.createEvent(parent));
 	}
 	
+	public void addEvent(Event event){
+		this.events.addElement(event);
+	}
+	
 	public Vector<Event> getNewEvents(){
 		Vector<Event> res = new Vector<Event>();
 		for(Event e: events){

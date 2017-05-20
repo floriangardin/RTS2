@@ -60,6 +60,7 @@ import multiplaying.MultiMessage;
 import mybot.IAFlo;
 import mybot.IAKevin;
 import pathfinding.Case;
+import ressources.Fonts;
 import ressources.Images;
 import ressources.IntroMovie;
 import ressources.Map;
@@ -1337,9 +1338,8 @@ public class Game extends BasicGame
 		this.font = new UnicodeFont(fe,(int)(25*resX/1920),false,false);
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
 		this.font.addAsciiGlyphs();
-		//this.font.addNeheGlyphs();
-		//this.font.addGlyphs(0, 256);
 		this.font.loadGlyphs();
+		Fonts.init();
 		this.currentCursor = cursor;
 		if(gc!=null)
 			gc.setMouseCursor(currentCursor,5,16);

@@ -12,12 +12,10 @@ import org.newdawn.slick.geom.Rectangle;
 import bullets.Arrow;
 import bullets.Fireball;
 import data.Attributs;
-import display.DisplayRessources;
+import events.EventAttackDamage;
 import main.Main;
 import nature.Tree;
 import pathfinding.Case;
-import spells.Etats;
-import spells.Immolation;
 import spells.SpellEffect;
 import utils.ObjetsList;
 import utils.Utils;
@@ -208,6 +206,7 @@ public class Character extends Objet{
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
+				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 			}			
 		} else {
 			// autres armes
@@ -473,7 +472,7 @@ public class Character extends Objet{
 				color = new Color(250,0,0,0.4f);
 			}
 			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
-			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
+			this.drawFlash(g, color);
 		}
 		else{
 			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
@@ -482,12 +481,13 @@ public class Character extends Objet{
 			Color color = Color.darkGray;
 			color = new Color(100,150,255,0.4f);
 			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
-			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
+			this.drawFlash(g, color);
+			
 		}
 		if(isBolted){
 			Color color = new Color(44,117,255,0.8f);
 			g.drawImage(im,x-im.getWidth()/2,y-3*im.getHeight()/4);
-			im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
+			this.drawFlash(g, color);
 		}
 
 		// Drawing the health bar
@@ -495,6 +495,16 @@ public class Character extends Objet{
 			drawLifePoints(g,r);
 		}
 		return g;
+	}
+	
+	public void drawFlash(Graphics g, Color color){
+		int direction = (orientation/2-1);
+		if(direction==1 || direction==2){
+			direction = ((direction-1)*(-1)+2);
+		}
+		Image im;
+		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
+		im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 	}
 
 

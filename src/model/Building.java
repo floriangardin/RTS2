@@ -13,6 +13,7 @@ import bonus.Bonus;
 import bullets.Fireball;
 import data.Attributs;
 import display.DisplayRessources;
+import events.EventNames;
 import madness.ActRule;
 import main.Main;
 import multiplaying.ChatHandler;
@@ -498,6 +499,9 @@ public class Building extends Objet{
 
 			if(this.constructionPoints<=0f){
 				if(this.getAttribut(Attributs.defendable)==0){
+					if(this.getTeam()!=0 && this.name==ObjetsList.Tower){
+						Game.g.getEvents().addEvent(EventNames.DestructionTower, this);
+					}
 					this.isDestroyed = true;
 					this.setTeam(0);
 				} else {
@@ -506,7 +510,9 @@ public class Building extends Objet{
 				}
 			}
 			this.chargeAttack = Math.max(this.chargeAttack-2*Main.increment, 0);
-			this.constructionPoints-=Main.increment;
+			if(!this.isDestroyed){
+				this.constructionPoints-=Main.increment;
+			}
 		}
 		if(this.potentialTeam==c.getTeam() && this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && c.mode==Character.TAKE_BUILDING && c.getTarget()==this){
 			this.constructionPoints+=Main.increment;
@@ -561,13 +567,17 @@ public class Building extends Objet{
 		g.drawImage(im,this.x-im.getWidth()/2f, this.y+this.getAttribut(Attributs.sizeY)/2-im.getHeight());
 	}
 
+	public void drawFlash(Graphics g, Color color){
+		Image im = Game.g.images.get("building"+name+"neutral");
+		im.drawFlash(this.x-im.getWidth()/2f, this.y+this.getAttribut(Attributs.sizeY)/2-im.getHeight(), im.getWidth(), im.getHeight(), color);
+	}
+	
 	public Graphics draw(Graphics g){
 		if(this.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g);
 			if((visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)) && mouseOver && Game.g.round>Game.nbRoundInit){
 				Color color = new Color(this.getGameTeam().color.getRed(),this.getGameTeam().color.getGreen(),this.getGameTeam().color.getBlue(),0.1f);
-				Image im = Game.g.images.get("building"+name+"neutral");
-				im.drawFlash(this.x-im.getWidth()/2f, this.y+this.getAttribut(Attributs.sizeY)/2-im.getHeight(), im.getWidth(), im.getHeight(), color);
+				drawFlash(g, color);
 			}
 		} else {
 			drawBasicImage(g);

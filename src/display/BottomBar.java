@@ -732,7 +732,6 @@ public class BottomBar {
 					offsetYkillingSpree = 0f;
 				}
 			}
-			System.out.println("mythe" + gt.nbKill+ "  "+offsetYkillingSpree);
 			g.setColor(new Color(0f,0f,0f,opacity));
 			g.fillOval(centerx-r-10, centery+offsetYkillingSpree-r-10, 2*r+20f, 2*r+20f);
 			//g.setColor(new Color(0f,0f,0f,opacity));

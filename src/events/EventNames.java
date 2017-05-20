@@ -18,7 +18,9 @@ public enum EventNames {
 	BuildingSelected, 
 	Attack,
 	Blood,
-	Meditation;
+	Meditation, 
+	AttackDamageNormal, 
+	DestructionTower;
 	
 	
 	public Event createEvent(Objet parent){
@@ -56,6 +58,8 @@ public enum EventNames {
 			return new EventDash(parent);
 		case Blood:
 			return new EventBlood(parent);
+		case DestructionTower:
+			return new EventDestructionTour(parent);
 		default:
 			sound = "arrow";
 		}

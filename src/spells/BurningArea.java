@@ -6,7 +6,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
+import data.Attributs;
 import data.AttributsChange;
+import events.EventAttackDamage;
 import main.Main;
 import model.Character;
 import model.Checkpoint;
@@ -64,7 +66,7 @@ public class BurningArea extends SpellEffect{
 
 	public void collision(Character c){
 		if(this.lifePoints>0 && c.getTeam()!=this.team){
-			c.setLifePoints(c.lifePoints-0.1f);
+			c.setLifePoints(c.lifePoints-0.05f);
 		}
 	}
 

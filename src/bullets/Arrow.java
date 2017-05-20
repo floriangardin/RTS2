@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
+import events.EventAttackDamage;
 import events.EventNames;
 import main.Main;
 import model.Building;
@@ -57,6 +58,7 @@ public class Arrow extends CollisionBullet{
 				damage = damage * this.getGameTeam().data.bonusBowFoot;
 			}
 			if(c.getAttribut(Attributs.armor)<=damage){
+				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 			}
 			c.isAttacked();
