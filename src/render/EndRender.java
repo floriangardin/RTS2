@@ -20,7 +20,7 @@ public class EndRender {
 	private static int time = 0;
 	private static int time_period;
 	
-	private static int timeDropBackground = Main.framerate/2;
+	private static int timeDropBackground = Main.framerate/4;
 	private static int timeFadeTitle = Main.framerate;
 	private static int timeWaiting = 7*Main.framerate;
 	private static int timeBlackFade = 1*Main.framerate;
@@ -31,6 +31,8 @@ public class EndRender {
 	private static Image image_background;
 	private static Image image_text;
 	private static Image image_texture;
+	
+	private static float sizeBandes = 0f;
 	
 	private static Vector<Rond> vector;
 	
@@ -58,6 +60,7 @@ public class EndRender {
 		// moving camera
 		int Xcam = Game.g.Xcam, Ycam = Game.g.Ycam;
 		float resX = Game.g.resX, resY = Game.g.resY;
+		sizeBandes = Math.min(sizeBandes+2, Game.g.resY/7f);
 		if((destroyedHQ.x-Xcam-resX/2)*(destroyedHQ.x-Xcam-resX/2)+(destroyedHQ.y-Ycam-resY/2)*(destroyedHQ.y-Ycam-resY/2)>450f){
 			Game.g.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
 			Game.g.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
@@ -99,6 +102,9 @@ public class EndRender {
 	
 	public static void render(Graphics g){
 		if(time==0){
+			g.setColor(Color.black);
+			g.fillRect(0, 0, Game.g.resX, sizeBandes);
+			g.fillRect(0, Game.g.resY, Game.g.resX, -sizeBandes);
 			return;
 		}
 		if(time<=timeDropBackground){
@@ -129,6 +135,9 @@ public class EndRender {
 		g.drawImage(image_text, Game.g.resX/2-image_text.getWidth()/2, 
 				Game.g.resY/2-image_text.getHeight()/2);
 		float ratio = 1f*(time-timeDropBackground-timeFadeTitle-timeWaiting)/(timeBlackFade);
+		g.setColor(Color.black);
+		g.fillRect(0, 0, Game.g.resX, sizeBandes);
+		g.fillRect(0, Game.g.resY, Game.g.resX, -sizeBandes);
 		Color color = new Color(0f,0f,0f,2*ratio);
 		g.setColor(color);
 		g.fillOval(Game.g.resX*(0.5f-ratio*0.75f), Game.g.resY*0.5f-Game.g.resX*ratio*0.75f, Game.g.resX*ratio*1.5f, Game.g.resX*ratio*1.5f);
