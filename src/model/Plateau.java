@@ -21,6 +21,7 @@ import madness.ActCard;
 import madness.ActRule;
 import main.Main;
 import pathfinding.MapGrid;
+import render.EndRender;
 import ressources.Map;
 import spells.Etats;
 import spells.Spell;
@@ -650,13 +651,7 @@ public class Plateau implements java.io.Serializable {
 
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
-				Game.g.endGame = true;
-				if(player!=Game.g.currentPlayer.id){
-					Game.g.victory = true;
-				}
-				else{
-					Game.g.victory = false;
-				}
+				EndRender.initEnd(Game.g.players.get(player).getTeam());
 				return;
 			}
 
@@ -765,12 +760,8 @@ public class Plateau implements java.io.Serializable {
 				continue;
 			}
 			if(team.hq.constructionPoints<=0){
-				Game.g.endGame = true;
-				if(team.id!=Game.g.currentPlayer.getTeam()){
-					Game.g.victory = true;
-				} else{
-					Game.g.victory = false;
-				}
+				EndRender.initEnd(team.id);
+
 			}
 		}
 	}
@@ -1021,7 +1012,7 @@ public class Plateau implements java.io.Serializable {
 
 	}
 
-	private void updateVisibility() {
+	public void updateVisibility() {
 		for (Character c : this.characters) {
 			c.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c);
 			c.visibleByCamera = this.isVisibleByCamera(c);

@@ -503,7 +503,9 @@ public class Building extends Objet{
 						Game.g.getEvents().addEvent(EventNames.DestructionTower, this);
 					}
 					this.isDestroyed = true;
-					this.setTeam(0);
+					if(this.name!=ObjetsList.Headquarters){
+						this.setTeam(0);
+					}
 				} else {
 					this.setTeam(0);
 					this.potentialTeam = c.getTeam();

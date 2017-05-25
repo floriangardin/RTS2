@@ -13,8 +13,6 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Timer;
 import java.util.Vector;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -42,8 +40,8 @@ import data.Attributs;
 import data.Data;
 import display.BottomBar;
 import display.DisplayRessources;
-import events.EventQueue;
 import events.EventNames;
+import events.EventQueue;
 import main.Main;
 import mapeditor.MapEditor;
 import menu.Credits;
@@ -57,9 +55,8 @@ import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import multiplaying.Clock;
 import multiplaying.MultiMessage;
-import mybot.IAFlo;
-import mybot.IAKevin;
 import pathfinding.Case;
+import render.EndRender;
 import ressources.Fonts;
 import ressources.Images;
 import ressources.IntroMovie;
@@ -244,7 +241,7 @@ public class Game extends BasicGame
 	public static int portTCPResynchro = 54556;
 	// depots for senders
 	public boolean usingKryonet = true;
-	DatagramSocket normalServer;
+	public DatagramSocket normalServer;
 	DatagramSocket normalClient;
 	KryonetServer kryonetServer;
 	public KryonetClient kryonetClient;
@@ -300,8 +297,8 @@ public class Game extends BasicGame
 
 	public boolean endGame = false;
 	public boolean victory = false;
-	int victoryTime = 120;
-	boolean hasAlreadyPlay = false;
+	int victoryTime = 240;
+	public boolean hasAlreadyPlay = false;
 
 	public boolean antidrop;
 	int nombreDrop = 0;
@@ -473,18 +470,7 @@ public class Game extends BasicGame
 			}
 		} else if (inEditor){
 			this.editor.draw(g);
-		} else if (endGame){
 
-			g.setColor(Color.black);
-			g.fillRect(0, 0, this.resX, this.resY);
-			g.setColor(Color.white);
-			//PRint victory
-			if(this.victory){
-				g.drawString("Vous Avez Gagné !", this.resX/3f, this.resY/3f);
-			}
-			else{
-				g.drawString("Vous Avez Perdu...", this.resX/3f, this.resY/3f);
-			}
 		} else {
 			// g reprï¿½sente le pinceau
 			//g.setColor(Color.black);
@@ -632,11 +618,14 @@ public class Game extends BasicGame
 			}
 			if(this.bottomBar!=null)
 				this.bottomBar.draw(g);
-
-			//bonus
-			if(gillesBombe){
-				for(Gilles gi : gillesPics){
-					gi.draw(g);
+			if(endGame){
+				EndRender.render(g);
+			}else{
+				//bonus
+				if(gillesBombe){
+					for(Gilles gi : gillesPics){
+						gi.draw(g);
+					}
 				}
 			}
 		}
@@ -1002,32 +991,9 @@ public class Game extends BasicGame
 					System.out.println("update du plateau single player: "+(System.currentTimeMillis()-timeSteps));
 			}
 		} else if(endGame){
+			EndRender.updateEnd();
 			// handle victory / defeat screen
-			if(victory && this.musicPlaying!=this.musics.get("themeVictory")){
-				this.musicPlaying.stop();
-				this.musicPlaying = this.musics.get("themeVictory");
-				this.musicPlaying.play(1f, this.options.musicVolume);
-			} else if(!victory && this.musicPlaying!=this.musics.get("themeDefeat")) {
-				this.musicPlaying.stop();
-				this.musicPlaying = this.musics.get("themeDefeat");
-				this.musicPlaying.play(1f, this.options.musicVolume);
-			} 
-			//Print victory !!
-			victoryTime --;
-			if(victoryTime <0){
-				this.musicPlaying.stop();
-				victoryTime = 120;
-				this.isInMenu = true;
-				this.hasAlreadyPlay = true;
-				this.endGame = false;
-				try {
-					this.normalServer.setBroadcast(true);
-				} catch (SocketException e) {
-					e.printStackTrace();
-				}
-				Map.initializePlateau(this, 1, 1);
-				this.setMenu(this.menuIntro);
-			}
+			
 		}
 
 		if(debugPaquet){
@@ -1140,6 +1106,9 @@ public class Game extends BasicGame
 
 	}
 
+	
+	// HANDLING END GAME
+	
 	// FONCTIONS AUXILIAIRES RECEIVER
 	private void handleMultiReceiver() throws SlickException {
 		while(true){
