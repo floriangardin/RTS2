@@ -21,7 +21,7 @@ public class RenderEngine {
 	
 	public static final int FOGOFWARLAYER = 3;
 	public static final int BACKGROUNDLAYER = 0;
-
+	public static final int NORMALLAYER = 2;
 
 	public static void render(Graphics g, Plateau plateau, Camera camera){
 
@@ -66,7 +66,7 @@ public class RenderEngine {
 	
 	public static void renderObjet(Objet o, Vector<GraphicLayer> gl, Plateau plateau){
 		if(o instanceof Character){
-			RenderCharacter.render((Character)o, gl);
+			RenderCharacter.render((Character)o, gl, plateau);
 		} else if(o instanceof Building){
 			RenderBuilding.render((Building)o, gl, plateau);
 		}
