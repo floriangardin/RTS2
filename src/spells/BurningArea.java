@@ -48,7 +48,7 @@ public class BurningArea extends SpellEffect{
 
 
 
-	public void action(){
+	public void action(Plateau plateau){
 		this.remainingTime-=10f*Main.increment;
 		if(this.remainingTime<=0f){
 			this.lifePoints = -1f;

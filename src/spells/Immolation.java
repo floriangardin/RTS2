@@ -1,17 +1,15 @@
 package spells;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Shape;
 
 import data.Attributs;
-import display.DisplayRessources;
 import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -23,7 +21,7 @@ public class Immolation extends SpellEffect{
 	public float lifepointStart;
 	
 	public boolean active = false;
-	public Immolation(Character launcher, Objet t){
+	public Immolation(Character launcher, Objet t, Plateau plateau){
 		launcher.canMove = false;
 		launcher.etats.add(Etats.Immolated);
 		this.type = 1;
@@ -41,10 +39,10 @@ public class Immolation extends SpellEffect{
 		this.lifePoints = 1f;
 		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher.id;
-		this.setTeam(launcher.getTeam());
+		this.team = launcher.getTeam();
 	}
 
-	public void action(){
+	public void action(Plateau plateau){
 		
 		this.remainingTime-=1f/Main.framerate;
 		Objet owner = this.getOwner();

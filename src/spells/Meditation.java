@@ -3,19 +3,17 @@ package spells;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Shape;
 
 import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
-import display.DisplayRessources;
 import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
 import utils.ObjetsList;
-import utils.Utils;
 
 public class Meditation extends SpellEffect{
 
@@ -35,10 +33,10 @@ public class Meditation extends SpellEffect{
 		this.lifePoints = 1f;
 		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher.id;
-		this.setTeam(launcher.getTeam());
+		this.team = launcher.getTeam();
 	}
 
-	public void action(){
+	public void action(Plateau plateau){
 		this.remainingTime-=1f/Main.framerate;
 		if(getOwner()==null)
 			this.lifePoints=-1f;

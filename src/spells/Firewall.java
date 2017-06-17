@@ -9,6 +9,8 @@ import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
 import utils.ObjetsList;
 
 public class Firewall extends SpellEffect{
@@ -24,7 +26,7 @@ public class Firewall extends SpellEffect{
 	public float animationMax=4f;
 	public float x2,y2;
 
-	public Firewall( Character launcher, Objet t,float width){
+	public Firewall( Character launcher, Objet t,float width, Plateau plateau){
 
 		this.type = 1;
 		this.x = launcher.getX();
@@ -36,7 +38,7 @@ public class Firewall extends SpellEffect{
 		this.lifePoints = 1f;
 		Game.gameSystem.plateau.addSpell(this);
 		image = "explosion";
-		this.setTeam(launcher.getTeam());
+		this.team = launcher.getTeam();
 		owner = launcher;
 		this.collisionBox = createShape(launcher, t, width) ;
 		this.createAnimation(t, launcher);
@@ -72,7 +74,7 @@ public class Firewall extends SpellEffect{
 		}
 	}
 
-	public void action(){
+	public void action(Plateau plateau){
 
 		this.remainingTime-=10f*Main.increment;
 		if(this.remainingTime<=0f)

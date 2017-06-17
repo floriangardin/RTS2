@@ -20,17 +20,17 @@ public class SpellConversion extends Spell{
 		this.name = ObjetsList.Conversion;
 	}
 
-	public void launch(Objet target, Character launcher){
-		Objet t = Game.gameSystem.plateau.findTarget(target.x, target.y,launcher.getTeam());
+	public void launch(Objet target, Character launcher, Plateau plateau){
+		Objet t = plateau.findTarget(target.x, target.y,launcher.team.id);
 		if(t instanceof Character && t.getTeam()!=launcher.getTeam()){
-			((Character)t).changeTeam(launcher.getTeam());
+			((Character)t).team = launcher.getTeam();
 		}
 	}
 
 
 
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		if(target instanceof Character){
 			this.drawTargetUnit(g, (Character)target);
 		}

@@ -11,6 +11,7 @@ import plateau.Building;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Objet;
+import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 import utils.Utils;;
@@ -18,14 +19,14 @@ import utils.Utils;;
 public abstract class Spell {
 
 	public ObjetsList name;
-	public int team;
+	public Team team;
 
 	public static Color colorOk = new Color(0f,1f,0.3f,0.5f);
 	public static Color colorPasOk = new Color(1f,.01f,0.1f,0.5f);
 
-	public abstract void launch(Objet target, Character launcher);
+	public abstract void launch(Objet target, Character launcher, Plateau plateau);
 
-	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok){
+	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau){
 		if(ok){
 			g.setColor(Spell.colorOk);
 		} else {
@@ -34,9 +35,9 @@ public abstract class Spell {
 		if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.range)){
 			this.drawRange(g, launcher);
 		}
-		this.drawCast(g, target, x, y, launcher, ok);
+		this.drawCast(g, target, x, y, launcher, ok, plateau);
 	}
-	public abstract void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok);
+	public abstract void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau);
 
 	public float getAttribut(Attributs attribut){
 		return this.getGameTeam().data.getAttribut(this.name,attribut);
@@ -48,17 +49,17 @@ public abstract class Spell {
 		return this.getGameTeam().data.getAttributList(this.name,attribut);
 	}
 
-	public static Objet realTarget(Objet target, Character launcher, float range, boolean checkpoint){
+	public static Objet realTarget(Objet target, Character launcher, float range, boolean checkpoint, Plateau plateau){
 		if(Utils.distance(target,launcher)>range){
 			float ux = target.getX() - launcher.getX();
 			float uy = target.getY() - launcher.getY();
 			float norm = (float) Math.sqrt(ux*ux+uy*uy);
 			ux = ux*range/norm;
 			uy = uy*range/norm;
-			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
+			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy, plateau);
 		} else {
 			if(checkpoint && !(target instanceof Checkpoint)){
-				return new Checkpoint(target.x, target.y);
+				return new Checkpoint(target.x, target.y, plateau);
 			} else {
 				return target;
 			}
@@ -66,11 +67,11 @@ public abstract class Spell {
 	}
 
 	public Team getGameTeam(){
-		return Game.g.teams.get(team);
+		return team;
 	}
 
 
-	public static Spell createSpell(ObjetsList s, int team) {
+	public static Spell createSpell(ObjetsList s, Team team) {
 		Spell spell = null;
 		switch(s){
 		case BlessedArea: spell = new SpellBlessedArea();break;

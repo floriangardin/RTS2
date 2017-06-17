@@ -68,7 +68,7 @@ public class BlessedArea extends SpellEffect{
 		animationY[3] = this.getY()-size/4f;
 	}
 
-	public void action(){
+	public void action(Plateau plateau){
 		this.remainingTime-=10f*Main.increment;
 		for(AttributsChange ac : this.ac){
 			ac.remainingTime = this.remainingTime;

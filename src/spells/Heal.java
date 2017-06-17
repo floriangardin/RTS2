@@ -8,6 +8,7 @@ import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class Heal extends SpellEffect{
@@ -38,13 +39,13 @@ public class Heal extends SpellEffect{
 
 
 
-	public void action(){
+	public void action(Plateau plateau){
 
 		this.remainingTime-=Main.increment;
 		if(remainingTime<0.5f){
 			if(!active){
-				Game.g.sounds.get("frozenActive").play(1f,Game.g.options.soundVolume);
-				Game.g.sounds.get("frozen").stop();
+//				Game.g.sounds.get("frozenActive").play(1f,Game.g.options.soundVolume);
+//				Game.g.sounds.get("frozen").stop();
 			}
 			this.active = true;
 		}

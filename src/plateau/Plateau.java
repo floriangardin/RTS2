@@ -71,7 +71,7 @@ public class Plateau implements java.io.Serializable {
 	public MapGrid mapGrid;
 
 	public HashMap<Integer,Objet> objets;
-	
+
 	// players
 	public Vector<Team> teams;
 
@@ -89,7 +89,7 @@ public class Plateau implements java.io.Serializable {
 		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
 		this.maxX = maxX;
 		this.maxY = maxY;
-		
+
 		// CHARACTERS
 		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
@@ -180,7 +180,7 @@ public class Plateau implements java.io.Serializable {
 			if (!o.isAlive()) {
 				if(o.getAttribut(Attributs.autoImmolation)==1f && !isImmolating(o) ){
 					o.lifePoints = 10f;
-					o.launchSpell(o,ObjetsList.Immolation);
+					o.launchSpell(o,ObjetsList.Immolation, this);
 					continue;
 				}
 				this.removeCharacter(o);
@@ -420,6 +420,12 @@ public class Plateau implements java.io.Serializable {
 		float x = im.x;
 		float y = im.y;
 		int team = im.team;
+		for (Objet c : getById(im.selection)) {
+			updateTarget(c,x,y,team,mode,plateau);
+		}
+	}
+
+	public void updateTarget(Objet c, float x, float y, int team, int mode, Plateau plateau ) {
 
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
@@ -427,50 +433,47 @@ public class Plateau implements java.io.Serializable {
 			target = new Checkpoint(x, y,true, this);
 		}
 
-		for (Objet c : getById(im.selection)) {
-
-			if(c instanceof Building && mode==Character.DESTROY_BUILDING){
-				((Building) c).giveUpProcess = true;
-				continue;
+//		if(c instanceof Building && mode==Character.DESTROY_BUILDING){
+//			((Building) c).giveUpProcess = true;
+//			return;
+//		}
+		if (c instanceof Character) {
+			Character o = (Character) c;
+			o.setTarget(null);
+			o.stop(this);
+			o.secondaryTargets.clear();
+			o.mode = mode;
+			if (o.getGroup(this) != null && o.getGroup(this).size() > 1) {
+				for (Character c1 : o.getGroup(this))
+					if (c1 != o)
+						c1.removeFromGroup(o.id);
 			}
-			if (c instanceof Character) {
-				Character o = (Character) c;
-				o.setTarget(null);
-				o.stop(this);
-				o.secondaryTargets.clear();
-				o.mode = mode;
-				if (o.getGroup(this) != null && o.getGroup(this).size() > 1) {
-					for (Character c1 : o.getGroup(this))
-						if (c1 != o)
-							c1.removeFromGroup(o.id);
-				}
-				// Then we create its new group
-				o.setGroup(new Vector<Character>());
-				Vector<Integer> waypoints = null;
-				for (Objet c1 : InputHandler.getSelection(team).selection) {
+			// Then we create its new group
+			o.setGroup(new Vector<Character>());
+			Vector<Integer> waypoints = null;
+			for (Objet c1 : InputHandler.getSelection(team).selection) {
 
-					if (c1 == c)
-						continue;
-					if (c1 instanceof Character) {
-						o.addInGroup(c1.id);
-						// System.out.println("Plateau line 507: " +
-						// (waypoints!=null) +" "+(c.c==c1.c)+"
-						// "+(((Character)c1).waypoints.size()>0));
-						if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget(this) != null
-								&& c1.getTarget(this).idCase == target.idCase) {
-							// System.out.println("Plateau line 508 : copie
-							// d'une chemin");
-							waypoints = ((Character) c1).waypoints;
-						}
+				if (c1 == c)
+					continue;
+				if (c1 instanceof Character) {
+					o.addInGroup(c1.id);
+					// System.out.println("Plateau line 507: " +
+					// (waypoints!=null) +" "+(c.c==c1.c)+"
+					// "+(((Character)c1).waypoints.size()>0));
+					if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget(this) != null
+							&& c1.getTarget(this).idCase == target.idCase) {
+						// System.out.println("Plateau line 508 : copie
+						// d'une chemin");
+						waypoints = ((Character) c1).waypoints;
 					}
 				}
-				if(target instanceof Building){
-					mode = Character.TAKE_BUILDING;
-				}
-
-				o.setTarget(target, waypoints, mode, this);
-				o.secondaryTargets.clear();
 			}
+			if(target instanceof Building){
+				mode = Character.TAKE_BUILDING;
+			}
+
+			o.setTarget(target, waypoints, mode, this);
+			o.secondaryTargets.clear();
 		}
 	}
 
@@ -551,7 +554,7 @@ public class Plateau implements java.io.Serializable {
 	public Objet findTarget(float x, float y,int team) {
 		Point point = new Point(x, y);
 		Objet target = null;
-		
+
 		// looking for the object on the target
 		for (Character i : this.characters) {
 			// looking amongst other characters
@@ -622,7 +625,7 @@ public class Plateau implements java.io.Serializable {
 			this.handleActionOnInterface(im, player);
 
 		}
-		
+
 		// 2 - For everyone
 		// Sort by id
 
@@ -763,7 +766,7 @@ public class Plateau implements java.io.Serializable {
 						Spell s = c.getSpell(number);
 						if (s.getAttribut(Attributs.needToClick)==0) {
 							if(s.name!=ObjetsList.Immolation || imo){
-								s.launch(new Checkpoint(im.x,im.y, this), c);
+								s.launch(new Checkpoint(im.x,im.y, this), c, this);
 								c.spellsState.set(number, 0f);
 
 							}
@@ -782,9 +785,9 @@ public class Plateau implements java.io.Serializable {
 			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
 			Character c = ((Character) selection.selection.get(0));
 			if(im.idObjetMouse!=-1){
-				s.launch(getById(im.idObjetMouse), c);
+				s.launch(getById(im.idObjetMouse), c, this);
 			} else {
-				s.launch(new Checkpoint(im.x,im.y, this), c);				
+				s.launch(new Checkpoint(im.x,im.y, this), c, this);				
 			}
 			for(int i=0; i<c.getSpells().size(); i++){
 				if(c.getSpells().get(i).name==im.spell){

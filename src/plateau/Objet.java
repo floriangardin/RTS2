@@ -43,7 +43,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Vector<Etats> etats = new Vector<Etats>();
 	
 	
-	protected Team team;
+	public Team team;
 
 	// Bonus, équipements, potions et autres stuff
 	public Vector<AttributsChange> attributsChanges = new Vector<AttributsChange>();
@@ -281,9 +281,9 @@ public abstract class Objet implements java.io.Serializable {
 		return null;
 	}
 	
-	public void launchSpell(Objet target,ObjetsList spell){
+	public void launchSpell(Objet target,ObjetsList spell, Plateau plateau){
 		if(this instanceof Character){
-			this.getSpell(spell).launch(target, (Character)this);
+			this.getSpell(spell).launch(target, (Character)this, plateau);
 			this.resetSpellState(spell);
 		}
 		

@@ -11,6 +11,7 @@ import events.EventNames;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class SpellDash extends Spell{
@@ -21,21 +22,21 @@ public class SpellDash extends Spell{
 		
 	}
 
-	public void launch(Objet target, Character launcher){
+	public void launch(Objet target, Character launcher, Plateau plateau){
 		launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
 		launcher.attributsChanges.add(new AttributsChange(Attributs.maxVelocity,Change.SET,this.getAttribut(Attributs.bonusSpeed),this.getAttribut(Attributs.totalTime)));
 		Vector<Objet> v = new Vector<Objet>();
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
 		if(target!=null && launcher!=null){			
-			Game.gameSystem.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
+			plateau.updateTarget(launcher, target.x,target.y,launcher.getTeam().id,Character.MOVE,plateau);		
 		}
-		Game.g.triggerEvent(EventNames.Dash, launcher);
+//		Game.g.triggerEvent(EventNames.Dash, launcher);
 	}
 
 
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk, Plateau plateau) {
 		// TODO Auto-generated method stub
 		if(spellOk){
 			g.setColor(Spell.colorOk);

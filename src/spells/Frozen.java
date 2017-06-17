@@ -9,6 +9,7 @@ import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class Frozen extends SpellEffect{
@@ -17,7 +18,7 @@ public class Frozen extends SpellEffect{
 	public float damage;
 	public Character owner;
 	public boolean active = false;
-	public Frozen(Character launcher, Objet t, float radius){
+	public Frozen(Character launcher, Objet t, float radius, Plateau plateau){
 
 		launcher.etats.add(Etats.Frozen);
 		this.type = 1;
@@ -29,10 +30,10 @@ public class Frozen extends SpellEffect{
 		this.lifePoints = 1f;
 		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher;
-		this.setTeam(launcher.getTeam());
+		this.team = launcher.getTeam();
 
 		this.collisionBox = createShape(launcher, t, radius);
-		Game.g.sounds.get("frozen").play(1f,Game.g.options.soundVolume);
+//		Game.g.sounds.get("frozen").play(1f,Game.g.options.soundVolume);
 	}
 
 	public static Shape createShape(Character launcher, Objet t, float radius){
@@ -42,13 +43,13 @@ public class Frozen extends SpellEffect{
 
 
 
-	public void action(){
+	public void action(Plateau plateau){
 
 		this.remainingTime-=Main.increment;
 		if(remainingTime<0.5f){
 			if(!active){
-				Game.g.sounds.get("frozenActive").play(1f,Game.g.options.soundVolume);
-				Game.g.sounds.get("frozen").stop();
+//				Game.g.sounds.get("frozenActive").play(1f,Game.g.options.soundVolume);
+//				Game.g.sounds.get("frozen").stop();
 			}
 			this.active = true;
 		}
