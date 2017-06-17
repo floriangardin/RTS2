@@ -21,7 +21,7 @@ public class RenderEngine {
 	
 	public static final int FOGOFWARLAYER = 3;
 	public static final int BACKGROUNDLAYER = 0;
-
+	public static final int NORMALLAYER = 2;
 
 	public static void render(Graphics g, Plateau plateau, Camera camera){
 

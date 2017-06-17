@@ -19,7 +19,7 @@ import ressources.Images;
 public class RenderCharacter {
 	
 	public static void render(Character character, Vector<GraphicLayer> gl, Plateau plateau){
-		Graphics g = gl.get(2).getGraphics();
+		Graphics g = gl.get(RenderEngine.NORMALLAYER).getGraphics();
 		float r = 60f*Main.ratioSpace;
 		int direction = (character.orientation/2-1);
 		// inverser gauche et droite
