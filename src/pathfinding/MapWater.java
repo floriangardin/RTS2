@@ -33,8 +33,8 @@ public class MapWater {
 			}
 		}
 		this.update();
-		this.waterImage = Game.g.images.get("waterTile");
-		this.water2Image = Game.g.images.get("waterTile2");
+		this.waterImage = Images.get("waterTile");
+		this.water2Image = Images.get("waterTile2");
 	}
 
 	public void setTerrain(int x, int y, int terrain){
@@ -69,7 +69,7 @@ public class MapWater {
 		}
 
 		public void draw(Graphics g, int stepGrid){
-			g.drawImage(Game.g.images.getSand(im), x*stepGrid, y*stepGrid);
+			g.drawImage(Images.getSand(im), x*stepGrid, y*stepGrid);
 		}
 
 		//		public void draw(Graphics g){
@@ -176,8 +176,8 @@ public class MapWater {
 		//				g.drawImage(water2Image,(x)*stepGrid,(y)*stepGrid);
 		//			}
 		//		}
-		water2Image = Game.g.images.get("waterTile2");
-		Image e = Game.g.images.getSand("E");
+		water2Image = Images.get("waterTile2");
+		Image e = Images.getSand("E");
 		for(int x = xmin; x<xmax; x++){
 			for(int y = ymin; y<ymax; y++){
 				if(idTerrain[x][y]==0){

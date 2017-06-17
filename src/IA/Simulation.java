@@ -9,10 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import data.Attributs;
-import model.Character;
 import model.Game;
-import model.Plateau;
 import pathfinding.MapGrid;
+import plateau.Character;
+import plateau.Plateau;
 public class Simulation {
 
 	public boolean render= true;

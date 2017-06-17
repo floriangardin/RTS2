@@ -5,9 +5,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class Heal extends SpellEffect{
@@ -27,7 +27,7 @@ public class Heal extends SpellEffect{
 		this.y = t.getY();
 		this.team = launcher.getTeam();
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);

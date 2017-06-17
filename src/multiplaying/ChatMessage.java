@@ -7,6 +7,7 @@ import model.Game;
 
 public class ChatMessage {
 
+	public String nickname;
 	public String message;
 	public int remainingTime;
 	public Color color;
@@ -19,6 +20,7 @@ public class ChatMessage {
 	public ChatMessage(String message, int idPlayer) {
 		this.message = message;
 		this.idPlayer = idPlayer;
+		this.nickname = "";
 		switch(idPlayer){
 		case 0: this.color = Color.white; this.remainingTime = basicTime; break;
 		case 1: this.color = Color.blue; this.remainingTime = multiTime; break;
@@ -53,36 +55,36 @@ public class ChatMessage {
 
 	public static ChatMessage getById(String s){
 		switch(s){
-		case "food" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Pas assez de nourriture", 0,Color.red);
-		case "building taken":
-			Game.g.sounds.get("buildingTaken").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Bâtiment capturé", 0,Color.green);
-		case "gold" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Pas assez d'or", 0,Color.red);
-		case "faith" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Pas assez de foi", 0,Color.red);
-		case "research" : 
-			Game.g.sounds.get("techDiscovered").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Technologie découverte", 0,Color.green);
-		case "mana" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Pas assez de mana", 0,Color.red);
-		case "pop" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Limite de population atteinte", 0,Color.red);
-		case "building" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Capture impossible", 0,Color.red);
-		case "attack" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Vous êtes attaqué !", 0,Color.red);
-		case "unit created" :
-			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-			return new ChatMessage("Unité produite", 0,Color.green);
+//		case "food" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Pas assez de nourriture", 0,Color.red);
+//		case "building taken":
+//			Game.g.sounds.get("buildingTaken").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Bâtiment capturé", 0,Color.green);
+//		case "gold" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Pas assez d'or", 0,Color.red);
+//		case "faith" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Pas assez de foi", 0,Color.red);
+//		case "research" : 
+//			Game.g.sounds.get("techDiscovered").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Technologie découverte", 0,Color.green);
+//		case "mana" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Pas assez de mana", 0,Color.red);
+//		case "pop" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Limite de population atteinte", 0,Color.red);
+//		case "building" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Capture impossible", 0,Color.red);
+//		case "attack" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Vous êtes attaqué !", 0,Color.red);
+//		case "unit created" :
+//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
+//			return new ChatMessage("Unité produite", 0,Color.green);
 		default : 
 			return null;
 		}

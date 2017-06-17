@@ -3,9 +3,9 @@ package spells;
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
-import model.Character;
-import model.Checkpoint;
-import model.Objet;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class SpellFrozen extends Spell{

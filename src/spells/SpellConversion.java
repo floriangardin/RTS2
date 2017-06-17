@@ -5,12 +5,12 @@ import org.newdawn.slick.Graphics;
 import control.InputObject;
 import data.Attributs;
 import main.Main;
-import model.Character;
 import model.Game;
-import model.GameTeam;
-import model.Objet;
-import model.Plateau;
 import multiplaying.ChatMessage;
+import plateau.Character;
+import plateau.Objet;
+import plateau.Plateau;
+import plateau.Team;
 import utils.ObjetsList;
 
 public class SpellConversion extends Spell{
@@ -21,7 +21,7 @@ public class SpellConversion extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher){
-		Objet t = Game.g.plateau.findTarget(target.x, target.y,launcher.getTeam());
+		Objet t = Game.gameSystem.plateau.findTarget(target.x, target.y,launcher.getTeam());
 		if(t instanceof Character && t.getTeam()!=launcher.getTeam()){
 			((Character)t).changeTeam(launcher.getTeam());
 		}

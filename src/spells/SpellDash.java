@@ -8,9 +8,9 @@ import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
 import events.EventNames;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class SpellDash extends Spell{
@@ -28,7 +28,7 @@ public class SpellDash extends Spell{
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
 		if(target!=null && launcher!=null){			
-			Game.g.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
+			Game.gameSystem.plateau.updateTarget(target.x,target.y,launcher.getTeam(),Character.MOVE,v);		
 		}
 		Game.g.triggerEvent(EventNames.Dash, launcher);
 	}

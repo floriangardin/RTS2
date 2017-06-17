@@ -4,11 +4,11 @@ package madness;
 import events.Event;
 import events.EventNames;
 import model.Game;
-import model.GameTeam;
+import plateau.Team;
 
 public class ObjectiveImmolation  extends Objective{
 
-	public ObjectiveImmolation(GameTeam gameTeam,int[] value, boolean madness) {
+	public ObjectiveImmolation(Team gameTeam,int[] value, boolean madness) {
 		super(gameTeam,value, madness);
 	}
 

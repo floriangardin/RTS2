@@ -11,33 +11,31 @@ import org.newdawn.slick.Input;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import main.Main;
-import menu.Menu_TextScanner;
+import menuutils.Menu_TextScanner;
 import model.Game;
+import ressources.GraphicElements;
+import ressources.Images;
+import system.Debug;
 
 public class ChatHandler {
 
-	public Vector<ChatMessage> messages;
-	public Game game;
-	public boolean typingMessage;
-	public Menu_TextScanner textScanner;
-	public float startY;
+	public static Vector<ChatMessage> messages;
+	public static boolean typingMessage;
+	public static Menu_TextScanner textScanner;
+	public static float startY;
 	public static float remainingTimeNotEnoughRoom = 0f;
 	public static float remainingTimeBeingAttacked = 0f;
 
-	public ChatHandler(Game game){
-		this.game = game;
-		this.messages = new Vector<ChatMessage>();
-		this.textScanner = new Menu_TextScanner("", game.resX/2f, game.resY-2f*game.font.getHeight("Pg"), game.resX/3f, game.font.getHeight("Pg"), game);
-		this.textScanner.isSelected = true;
-		this.startY = game.resY/3f;
+	public static void init(){
+		messages = new Vector<ChatMessage>();
+		textScanner = new Menu_TextScanner("", 
+				Game.resX/2f, Game.resY-2f*GraphicElements.font_main.getHeight("Pg"), 
+				Game.resX/3f, GraphicElements.font_main.getHeight("Pg"));
+		textScanner.isSelected = true;
+		startY = Game.resY/3f;
 	}
 
-	public void action(Input in, InputObject im){
-		//		for(int i=1; i<256; i++){
-		//			if(in.isKeyDown(i)){
-		//				System.out.println(i);
-		//			}
-		//		}
+	public static void action(Input in, InputObject im){
 		if(remainingTimeNotEnoughRoom>0f){
 			remainingTimeNotEnoughRoom-=Main.increment;
 		}
@@ -48,37 +46,37 @@ public class ChatHandler {
 		Vector<ChatMessage> toRemove = new Vector<ChatMessage>();
 		ChatMessage m;
 		int k=0;
-		while(k<this.messages.size()){
-			m = this.messages.get(k);
+		while(k<messages.size()){
+			m = messages.get(k);
 			m.remainingTime--;
 			if(m.remainingTime<0){
 				toRemove.add(m);
 			}
 			k++;
 		}
-		this.messages.removeAll(toRemove);
+		messages.removeAll(toRemove);
 		if(im.isPressed(KeyEnum.Enter)){
-			this.typingMessage = !this.typingMessage;
+			typingMessage = !typingMessage;
 		}
-		if(!this.typingMessage){
-			this.sendTypedMessage();
+		if(!typingMessage){
+			sendTypedMessage();
 			return;
 		}
 		textScanner.update(in,im);
 	}
 
-	public void draw(Graphics g){
+	public static void draw(Graphics g){
 		// Draw messages
 		ChatMessage m;
 		Font f = g.getFont();
 		float height = f.getHeight("Pg");
 		int k=0;
 		String nickname = "";
-		while(k<this.messages.size()){
-			m = this.messages.get(k);
+		while(k<messages.size()){
+			m = messages.get(k);
 			g.setColor(m.color);
 			if(m.idPlayer!=0){
-				nickname = game.players.get(m.idPlayer).nickname+ " : ";
+				nickname = m.nickname+ " : ";
 				g.drawString(nickname, 20f, startY+2f*height*k);
 			}
 			g.setColor(m.colorBody);
@@ -91,48 +89,47 @@ public class ChatHandler {
 		}
 	}
 
-	public void sendTypedMessage(){
+	public static void sendTypedMessage(){
 		if(textScanner.s.length()>0){
 			// checking if not adding an ip n menumapchoice
 			InetAddress ia = null;
 			// activate GdB mode
-			if(textScanner.s.equals("/gilles") && Game.gillesModeEnable){
-				this.game.activateGdBMode();
-				if(Game.g.GdB)
-					this.messages.addElement(new ChatMessage("Gilles de Bouard mode activé",0));
-				else
-					this.messages.addElement(new ChatMessage("Gilles de Bouard mode desactivé",0));
+			if(textScanner.s.equals("/gilles") && Debug.gillesModeEnable){
+				if(!Images.gillesModeEnable){
+					Images.activateGdBMode();
+					messages.addElement(new ChatMessage("Gilles de Bouard mode activé",0));
+				} else {
+					Images.deactivateGdBMode();
+					messages.addElement(new ChatMessage("Gilles de Bouard mode desactivé",0));
+				}
 				//System.out.println("Gilles de Bouard Mode activé");
 				textScanner.s="";
 				return;
 			}
-			if(textScanner.s.equals("/marcopolo") && Game.marcoPoloModeEnable){
-				this.game.activateMarcoPoloMode();
-				if(Game.g.marcoPolo)
-					this.messages.addElement(new ChatMessage("Mode Marco Polo activé",0));
-				else
-					this.messages.addElement(new ChatMessage("Mode Marco Polo desactivé",0));
-				//System.out.println("Gilles de Bouard Mode activé");
-				textScanner.s="";
-				return;
+			if(textScanner.s.equals("/marcopolo") && Debug.marcoPoloModeEnable){
+//				game.activateMarcoPoloMode();
+//				if(Game.g.marcoPolo)
+//					messages.addElement(new ChatMessage("Mode Marco Polo activé",0));
+//				else
+//					messages.addElement(new ChatMessage("Mode Marco Polo desactivé",0));
+//				//System.out.println("Gilles de Bouard Mode activé");
+//				textScanner.s="";
+//				return;
 			}
-			if(Game.g.isInMenu){
-				if(textScanner.s.contains(".")){
+			if(Game.isInMenu()){
+				if(Game.menuSystem.currentMenu == Game.menuSystem.menuMapChoice && textScanner.s.contains(".")){
 					try {
 						ia = InetAddress.getByName(textScanner.s);
+						Game.menuSystem.menuMapChoice.lobby.addressesInvites.addElement(ia);
+						messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
+						textScanner.s="";
 					} catch (IOException e) {}
-				} else {
-					this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
-					textScanner.s="";
-				}
-				if(Game.g.menuCurrent == Game.g.menuMapChoice && ia!=null){
-					Game.g.menuMapChoice.addressesInvites.addElement(ia);
-					this.messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
-					textScanner.s="";
 					return;
 				}
+				Communications.sendMessage(new ChatMessage(textScanner.s,0));
+				textScanner.s="";
 			} else {
-				this.game.sendMessage(new ChatMessage(textScanner.s,this.game.currentPlayer.id));
+				Communications.sendMessage(new ChatMessage(textScanner.s,0));
 				textScanner.s="";
 			}
 		}

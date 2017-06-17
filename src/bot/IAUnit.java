@@ -3,9 +3,9 @@ package bot;
 import java.util.Vector;
 
 import data.Attributs;
-import model.Building;
-import model.Objet;
-import model.Character;
+import plateau.Building;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class IAUnit {
@@ -41,8 +41,8 @@ public class IAUnit {
 		return objet.lifePoints;
 	}
 	public int getGameTeam(){
-		if(this.objet.getGameTeam() != null){
-			return this.objet.getGameTeam().id;
+		if(this.objet.getTeam() != null){
+			return this.objet.getTeam().id;
 		}
 		return 0;
 		

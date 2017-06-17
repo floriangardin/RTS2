@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import model.Character;
+import plateau.Character;
 import utils.Utils;
 
 public class MapGrid implements java.io.Serializable {

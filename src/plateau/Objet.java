@@ -1,4 +1,4 @@
-package model;
+package plateau;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -21,7 +21,7 @@ import utils.ObjetsList;
 public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
-	public int id=Game.g.plateau.id++;
+	public int id;
 	public int mode;
 	public int orientation=2;
 	public int increment;
@@ -43,7 +43,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Vector<Etats> etats = new Vector<Etats>();
 	
 	
-	protected int team;
+	protected Team team;
 
 	// Bonus, équipements, potions et autres stuff
 	public Vector<AttributsChange> attributsChanges = new Vector<AttributsChange>();
@@ -68,12 +68,15 @@ public abstract class Objet implements java.io.Serializable {
 	// spells attributs
 	public float inDash = 0f;
 
-	public void action(){}
-	public void move(){}
-	public boolean canAttack(){
-		boolean b= (getTarget()!=null && getTarget().getGameTeam().id!=this.getGameTeam().id);
+	public void action(Plateau plateau){}
+	
+	public void move(Plateau plateau){}
+	
+	public boolean canAttack(Plateau plateau){
+		boolean b= (getTarget(plateau)!=null && getTarget(plateau).getTeam()!=this.getTeam());
 		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
 	}
+	
 	public void updateAttributsChange(){
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
@@ -108,16 +111,17 @@ public abstract class Objet implements java.io.Serializable {
 	public void drawIsSelected(Graphics g) {
 
 	}
-	public Vector<Integer> computeWay(){
-		if(this.getTarget()==null){
+	
+	public Vector<Integer> computeWay(Plateau plateau){
+		if(this.getTarget(plateau)==null){
 			return new Vector<Integer>();
 		}
-		if(this.getTarget() instanceof Building && !(this.getTarget() instanceof Bonus)){
-			Building b = (Building)this.getTarget();
-			return Game.g.plateau.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
+		if(this.getTarget(plateau) instanceof Building && !(this.getTarget(plateau) instanceof Bonus)){
+			Building b = (Building)this.getTarget(plateau);
+			return plateau.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
 		} else {
-			float xEnd = this.getTarget().x, yEnd = this.getTarget().y;
-			return Game.g.plateau.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
+			float xEnd = this.getTarget(plateau).x, yEnd = this.getTarget(plateau).y;
+			return plateau.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 		}
 	}
 
@@ -132,16 +136,10 @@ public abstract class Objet implements java.io.Serializable {
 
 
 	
-	public int getTeam(){
+	public Team getTeam(){
 		return this.team;
 	}
-	public GameTeam getGameTeam(){
-		return Game.g.teams.get(this.team);
-	}
-	public void setTeam(int i){
-		this.team = i;
-	}
-
+	
 
 	protected void destroy(){
 		this.lifePoints = -10;
@@ -149,27 +147,32 @@ public abstract class Objet implements java.io.Serializable {
 		this.x = -10f;
 		this.y = -10f;
 	}
+	
 	public Graphics draw(Graphics g){
 		return g;
 	}
+	
 	public void drawBasicImage(Graphics g){}
+	
 	protected void collision(Objet o){}
-	public abstract void collision(Character c);
+	
+	public abstract void collision(Character c, Plateau plateau);
+	
 	public float getX(){
 		return x;
 	}
 	public float getY(){
 		return y;
 	}
-	protected void setXY(float x, float y){
+	protected void setXY(float x, float y, Plateau plateau){
 
 		if(this instanceof Bullet){
 			this.x = x;
 			this.y = y;
 		} else {
 
-			float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
-			float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
+			float xt = Math.min(plateau.maxX-1f, Math.max(1f, x));
+			float yt = Math.min(plateau.maxY-1f, Math.max(1f, y));
 
 			this.x = xt;
 			this.y = yt;
@@ -177,7 +180,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.collisionBox.setCenterX(x);
 		this.collisionBox.setCenterY(y);
 		try{
-			this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
+			this.idCase = plateau.mapGrid.getCase(x, y).id;
 		} catch(Exception e){
 			this.idCase = -1;
 		}
@@ -208,7 +211,7 @@ public abstract class Objet implements java.io.Serializable {
 
 	// Attributs
 	public float getAttribut(Attributs attribut){
-		float a = this.getGameTeam().data.getAttribut(this.name,attribut);
+		float a = this.getTeam().data.getAttribut(this.name,attribut);
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
 				a = ac.apply(a);
@@ -221,7 +224,7 @@ public abstract class Objet implements java.io.Serializable {
 		/**
 		 * remove the corresponding attributes change if its with usage unique
 		 */
-		float a = this.getGameTeam().data.getAttribut(this.name,attribut);
+		float a = this.getTeam().data.getAttribut(this.name,attribut);
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
@@ -237,10 +240,10 @@ public abstract class Objet implements java.io.Serializable {
 		return a;
 	}
 	public String getAttributString(Attributs attribut){
-		return this.getGameTeam().data.getAttributString(this.name,attribut);
+		return this.getTeam().data.getAttributString(this.name,attribut);
 	}
 	public Vector<String> getAttributList(Attributs attribut){
-		return this.getGameTeam().data.getAttributList(this.name,attribut);
+		return this.getTeam().data.getAttributList(this.name,attribut);
 	}
 
 	// Spells
@@ -251,8 +254,8 @@ public abstract class Objet implements java.io.Serializable {
 
 		
 		if(this.spells.size()>i){
-			if(this.getGameTeam().data.spells.containsKey(this.spells.get(i))){
-				return this.getGameTeam().data.spells.get(this.spells.get(i));
+			if(this.getTeam().data.spells.containsKey(this.spells.get(i))){
+				return this.getTeam().data.spells.get(this.spells.get(i));
 			}
 		} else {
 			System.out.println("vous essayez d'accéder à un spell inexistant");
@@ -316,19 +319,19 @@ public abstract class Objet implements java.io.Serializable {
 	
 	// Autres
 	public float getVisibleSize(){
-		if(this.getGameTeam().data.datas.containsKey(this.name)){
-			if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.size)){
+		if(this.getTeam().data.datas.containsKey(this.name)){
+			if(this.getTeam().data.datas.get(this.name).attributs.containsKey(Attributs.size)){
 				return getAttribut(Attributs.size)+getAttribut(Attributs.sight);
-			} else if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.sizeX)){
-				float sizeX=this.getGameTeam().data.getAttribut(this.name,Attributs.sizeX);
-				float sizeY=this.getGameTeam().data.getAttribut(this.name,Attributs.sizeY);
+			} else if(this.getTeam().data.datas.get(this.name).attributs.containsKey(Attributs.sizeX)){
+				float sizeX=this.getTeam().data.getAttribut(this.name,Attributs.sizeX);
+				float sizeY=this.getTeam().data.getAttribut(this.name,Attributs.sizeY);
 				return (float) Math.sqrt(sizeX*sizeX+sizeY*sizeY)+getAttribut(Attributs.sight);
 			}
 		}
 		return 1f;
 	}
-	public Objet getTarget() {
-		return Game.g.plateau.getById(target);
+	public Objet getTarget(Plateau plateau) {
+		return plateau.getById(target);
 	}
 	public void setSpells(Vector<ObjetsList> spells) {
 		this.spells = spells;

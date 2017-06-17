@@ -6,6 +6,8 @@ import java.util.Vector;
 import bot.IA;
 import control.InputObject;
 import madness.Objective;
+import plateau.Objet;
+import plateau.Team;
 
 public class Player {
 	public Vector<Objet> selection;
@@ -15,7 +17,7 @@ public class Player {
 	public Vector<InputObject> inputs;
 	
 	public int id;
-	private GameTeam gameteam;
+	private Team gameteam;
 	public String nickname;
 	
 //	public BottomBar bottomBar;
@@ -24,12 +26,12 @@ public class Player {
 	public InetAddress address;
 	// IA
 	public IA ia;
-	public Player(int id,String name, GameTeam gameteam) {
+	public Player(int id,String name, Team gameteam) {
 		this.initialize(id, name, gameteam);
 		
 	}
 
-	public void initialize(int id , String name , GameTeam gameteam){
+	public void initialize(int id , String name , Team gameteam){
 		this.id = id;
 		this.nickname = name;
 		this.selection = new Vector<Objet>();
@@ -40,7 +42,7 @@ public class Player {
 	public int getTeam(){
 		return gameteam.id;
 	}
-	public GameTeam getGameTeam(){
+	public Team getGameTeam(){
 		return gameteam;
 	}
 	public void setTeam(int team){

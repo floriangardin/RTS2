@@ -2,7 +2,7 @@ package IA;
 
 import java.util.Vector;
 
-import model.Character;
+import plateau.Character;
 
 public class Group {
 

@@ -18,10 +18,10 @@ import utils.ObjetsList;
 public class KeyMapper {
 
 	private static String location = "././ressources/data/keymapping.rtsfile";
-	public HashMap<KeyEnum, Vector<Integer>> mapping;
-	public HashMap<Integer, KeyEnum> mouseMapping;
+	public static HashMap<KeyEnum, Vector<Integer>> mapping;
+	public static HashMap<Integer, KeyEnum> mouseMapping;
 
-	public KeyMapper(){
+	public static void init(){
 		String fichier = location;
 		mapping = new HashMap<KeyEnum,  Vector<Integer>>();
 		for(KeyEnum ke : KeyEnum.values()){
@@ -58,13 +58,13 @@ public class KeyMapper {
 
 	}
 
-	public void saveMapping(){
+	public static void saveMapping(){
 		try {
 			FileWriter fw = new FileWriter(location);
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
-			for(KeyEnum ke : this.mapping.keySet()){
-				for(Integer i : this.mapping.get(ke)){
+			for(KeyEnum ke : mapping.keySet()){
+				for(Integer i : mapping.get(ke)){
 					fichierSortie.println (i+"_"+ke);
 				}
 			}

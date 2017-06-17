@@ -1,8 +1,8 @@
 package bonus;
 import data.Attributs;
 import main.Main;
-import model.Character;
 import model.Game;
+import plateau.Character;
 import utils.ObjetsList;
 public class BonusLifepoints extends Bonus{
 

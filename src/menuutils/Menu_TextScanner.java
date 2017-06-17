@@ -1,4 +1,4 @@
-package menu;
+package menuutils;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -9,7 +9,9 @@ import org.newdawn.slick.Input;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import menu.MenuMapChoice;
 import model.Game;
+import ressources.GraphicElements;
 
 public class Menu_TextScanner extends Menu_Item{
 
@@ -26,8 +28,7 @@ public class Menu_TextScanner extends Menu_Item{
 	public Vector<String> autocompletion = new Vector<String>();
 	public Vector<String> autocompletionTEMP = new Vector<String>();
 
-	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY, Game g){
-		this.game = g;
+	public Menu_TextScanner(String s, float x, float y, float sizeX, float sizeY){
 		if(s!=null)
 			this.s = s;
 		else 
@@ -162,8 +163,8 @@ public class Menu_TextScanner extends Menu_Item{
 			}
 			return;
 		}
-		if((!game.isInMenu && !game.inEditor) || isSelected || (game.menuCurrent instanceof MenuMapChoice && game.inMultiplayer)){
-			if(this.game.font.getWidth(s)<this.sizeX){
+		if((Game.isInMenu() && Game.isInEditor()) || isSelected || (Game.menuSystem.currentMenu instanceof MenuMapChoice && Game.menuSystem.menuMapChoice.lobby.multiplayer)){
+			if(GraphicElements.font_main.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
 					if(i.isKeyDown(k)){
@@ -212,7 +213,7 @@ public class Menu_TextScanner extends Menu_Item{
 	}
 
 	public void draw(Graphics g){
-		if(!game.isInMenu){
+		if(!Game.isInMenu()){
 			g.setColor(Color.black);
 			g.fillRect(x-sizeX/2f-10f, y-sizeY/2f, sizeX+20f, sizeY);
 		}
@@ -233,7 +234,7 @@ public class Menu_TextScanner extends Menu_Item{
 	}
 	public void draw(Graphics g, int i){
 		//dessiner depuis le coin haut gauche
-		if(!game.isInMenu){
+		if(!Game.isInMenu()){
 			g.setColor(Color.black);
 			g.fillRect(x, y, sizeX+20f, sizeY);
 		}

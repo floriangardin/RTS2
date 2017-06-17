@@ -2,12 +2,11 @@ package menu;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
+import menuutils.Menu_Item;
 import model.Game;
-import ressources.Map;
+import system.MenuSystem.MenuNames;
 
 public class MenuIntro extends Menu {
 
@@ -22,21 +21,20 @@ public class MenuIntro extends Menu {
 	public int selected = -1;
 
 
-	public MenuIntro(Game game){
-		super(game);
-		this.game = game;
+	public MenuIntro(){
+		super();
 		this.items = new Vector<Menu_Item>();
-		float startY = 0.45f*this.game.resY;
-		float stepY = 0.09f*this.game.resY;
-		float startX = this.game.resX/2;
+		float startY = 0.45f*Game.resY;
+		float stepY = 0.09f*Game.resY;
+		float startX = Game.resX/2;
 		
 		// handling items
-		this.items.addElement(new Menu_Item(startX,startY,"Unjoueur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"Multijoueur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"Editeur",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"Options",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"Credits",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"Quitter",this.game,true));
+		this.items.addElement(new Menu_Item(startX,startY,"Unjoueur",true));
+		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"Multijoueur",true));
+		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"Editeur",true));
+		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"Options",true));
+		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"Credits",true));
+		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"Quitter",true));
 
 		//		}
 		
@@ -49,29 +47,22 @@ public class MenuIntro extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 0:
-			this.game.inMultiplayer = false;
-			this.game.initializePlayers();
-			game.menuMapChoice.initializeMenuPlayer();
-			Map.updateMap(0, game);
-			this.game.setMenu(this.game.menuMapChoice);
+			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
+			Game.menuSystem.menuMapChoice.lobby.initSingle();
 			break;
 		case 1:
-			this.game.setMenu(this.game.menuMulti);
+			Game.menuSystem.setMenu(MenuNames.MenuMulti);
 			break;
 		case 2:
-			this.game.inEditor = true;
-			this.game.editor.plateau = null;
-			this.game.isInMenu = false;
 			break;
 		case 3:
-			this.game.setMenu(this.game.menuOptions);
+			Game.menuSystem.setMenu(MenuNames.MenuOptions);
 			break;
 		case 4:
-			this.game.credits.initialize();
-			this.game.setMenu(this.game.credits);
+			Game.menuSystem.setMenu(MenuNames.Credits);
 			break;
 		case 5: 
-			this.game.app.exit();
+			Game.app.exit();
 			break;
 		default:		
 		}

@@ -7,9 +7,9 @@ import org.newdawn.slick.Graphics;
 import control.InputObject;
 import data.Attributs;
 import events.EventNames;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class SpellMeditation extends Spell{

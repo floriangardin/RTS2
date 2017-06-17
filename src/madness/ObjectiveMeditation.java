@@ -3,11 +3,11 @@ package madness;
 import events.Event;
 import events.EventNames;
 import model.Game;
-import model.GameTeam;
+import plateau.Team;
 
 public class ObjectiveMeditation  extends Objective{
 
-	public ObjectiveMeditation(GameTeam gameTeam,int[] value, boolean madness) {
+	public ObjectiveMeditation(Team gameTeam,int[] value, boolean madness) {
 		super(gameTeam,value, madness);
 	}
 	

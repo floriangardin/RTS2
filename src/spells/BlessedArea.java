@@ -12,10 +12,12 @@ import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
-import model.Character;
-import model.Checkpoint;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
 import utils.ObjetsList;
 
 public class BlessedArea extends SpellEffect{
@@ -31,18 +33,18 @@ public class BlessedArea extends SpellEffect{
 	public float size;
 	public Vector<Character> targeted = new Vector<Character>();
 
-	public BlessedArea(Character launcher, Checkpoint t, float size){
+	public BlessedArea(Character launcher, Checkpoint t, float size, Plateau plateau){
 
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		Game.gameSystem.plateau.addSpell(this);
 		this.image = "blessedArea";
 		this.ac = new Vector<AttributsChange>();
 		ac.add(new AttributsChange(Attributs.chargeTime,Change.MUL,0.5f,this.remainingTime));
 		owner = launcher;
-		this.setTeam(launcher.getTeam());
+		this.team = launcher.getTeam();
 		this.collisionBox = createShape(launcher, t, size);
 		this.x = t.getX();
 		this.y = t.getY();
@@ -90,7 +92,7 @@ public class BlessedArea extends SpellEffect{
 		if(this.animationState>animationMax)
 			animationState = 0f;
 		float x,y,r,currentAnimation;
-		Image im = Game.g.images.get(this.image);
+		Image im = Images.get(this.image);
 		for(int i=0;i<4;i++){
 			r = im.getWidth()/4f;
 			x = this.animationX[i];

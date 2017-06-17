@@ -4,7 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import main.Main;
-import model.Objet;
+import plateau.Objet;
 
 public class EventBlood extends Event{
 

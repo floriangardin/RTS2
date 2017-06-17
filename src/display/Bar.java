@@ -3,8 +3,8 @@ package display;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import model.Plateau;
 import model.Player;
+import plateau.Plateau;
 
 public abstract class Bar {
 

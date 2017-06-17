@@ -8,13 +8,16 @@ import org.newdawn.slick.Image;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import menuutils.Menu_Curseur;
+import menuutils.Menu_Item;
 import model.Game;
+import ressources.Images;
+import ressources.Sounds;
 
 public abstract class Menu {
 
 	public Image backGround ;
 	public Vector<Menu_Item> items;
-	public Game game;
 	public Image title;
 
 	public float xMouseTemp, yMouseTemp;
@@ -23,11 +26,10 @@ public abstract class Menu {
 	public boolean arrowPressed = false;
 	public boolean escPressed = false;
 
-	public Menu(Game g){
-		this.game = g;
+	public Menu(){
 		this.items = new Vector<Menu_Item>();
-		this.title = game.images.get("menuTitle01").getScaledCopy(0.35f*this.game.resY/650);
-		this.backGround = game.images.get("backgroundMenu").getScaledCopy(0.35f*this.game.resY/650);
+		this.title = Images.get("menuTitle01").getScaledCopy(0.35f*Game.resY/650);
+		this.backGround = Images.get("backgroundMenu").getScaledCopy(0.35f*Game.resY/650);
 	}
 
 	public void callItem(int i){
@@ -42,9 +44,6 @@ public abstract class Menu {
 		 * render function
 		 */
 		this.drawItems(g);
-		//		if(this instanceof MenuIntro)
-		//			g.drawImage(((MenuIntro)this).im, 20, 20);
-
 	}
 
 
@@ -52,11 +51,11 @@ public abstract class Menu {
 		/**
 		 * function called on each game loop
 		 */
-		if(!game.musics.get("themeMenu").playing()){
-			game.musics.get("themeMenu").play();
-			game.musics.get("themeMenu").setVolume(game.options.musicVolume);
-		}
 		this.updateItems(im);
+	}
+	
+	public void init(){
+		
 	}
 
 	public void updateItems(InputObject im){
@@ -98,11 +97,11 @@ public abstract class Menu {
 				for(int i=0; i<this.items.size(); i++){
 					if(i==this.itemSelected){
 						if(flag)
-							this.game.sounds.get("menuMouseOverItem").play(1f,this.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						item = this.items.get(i);
 						item.setMouseOver(true);
 						if(im.isPressed(KeyEnum.Enter)){
-							this.game.sounds.get("menuMouseOverItem").play(1f,this.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 							this.callItem(i);
 						}
 					} else {
@@ -121,7 +120,7 @@ public abstract class Menu {
 					}
 					if((im.isPressed(KeyEnum.Enter) || im.isPressed(KeyEnum.LeftClick)) && item.mouseOver){
 						this.callItem(i);
-						this.game.sounds.get("menuItemSelected").play(1f,game.options.soundVolume);
+						Sounds.playSound("menuItemSelected");
 					}
 				}			
 			}
@@ -133,10 +132,11 @@ public abstract class Menu {
 			if(escPressed && !im.isPressed(KeyEnum.Escape)){
 				this.escPressed = false;
 				this.callItem(this.items.size()-1);
-				this.game.sounds.get("menuItemSelected").play(1f,game.options.soundVolume);
+				Sounds.playSound("menuItemSelected");
 			}
 		}
 	}
+	
 	public void deselectItems(){
 		for(int i=0; i<this.items.size(); i++){
 			this.items.get(i).toDraw = this.items.get(i).image;
@@ -145,12 +145,12 @@ public abstract class Menu {
 
 	public void drawItems(Graphics g){
 		// draw background
-		g.drawImage(this.backGround, 0,0,this.game.resX,this.game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		// draw items
 		for(Menu_Item item: this.items){
 			item.draw(g);
 		}
 		// draw title
-		g.drawImage(this.title, this.game.resX/2-this.title.getWidth()/2, 10f);
+		g.drawImage(this.title, Game.resX/2-this.title.getWidth()/2, 10f);
 	}
 }

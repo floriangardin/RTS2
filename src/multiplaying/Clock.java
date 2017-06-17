@@ -16,9 +16,8 @@ public class Clock {
 	public long ping;
 	public long lastPing;
 	
-	public Clock(Game g){
-		this.game = g;
-		this.isMaster = this.game.host;
+	public Clock(){
+//		this.isMaster = Game.host;
 		this.originTime = System.nanoTime();
 		this.origins = new Vector<Long>();
 	}

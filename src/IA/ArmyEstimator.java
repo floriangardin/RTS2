@@ -3,7 +3,7 @@ package IA;
 import java.util.Vector;
 
 import data.Attributs;
-import model.Character;
+import plateau.Character;
 public class ArmyEstimator {
 
 

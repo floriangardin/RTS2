@@ -1,4 +1,4 @@
-package model;
+package plateau;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -7,25 +7,23 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
 import bonus.Bonus;
+import bullets.Arrow;
 import bullets.Bullet;
-import bullets.CollisionBullet;
+import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import control.Selection;
 import data.Attributs;
-import display.BottomBar;
+import display.Camera;
 import events.EventNames;
-import javafx.scene.input.InputMethodHighlight;
-import madness.Act;
-import madness.ActCard;
-import madness.ActRule;
-import main.Main;
+import model.Game;
 import pathfinding.MapGrid;
 import render.EndRender;
 import ressources.Map;
 import spells.Etats;
 import spells.Spell;
 import spells.SpellEffect;
+import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -73,39 +71,27 @@ public class Plateau implements java.io.Serializable {
 	public MapGrid mapGrid;
 
 	public HashMap<Integer,Objet> objets;
+	
+	// players
+	public Vector<Team> teams;
 
-
+	// round
+	public int round = 0;
 
 	// Hold ids of objects
 	public int id = 0;
 
-//	// About Acts
-	//TODO:acts
-//	public Vector<Act> acts;
-//	public int currentAct = -1;
-//	private float currentActTime = 0f;
 
 
-	// Quick accessors 
 
-	//TODO : Objet pool
-
-
-	public Plateau(float maxX, float maxY, Game g) {
-
-		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
+	public Plateau(float maxX, float maxY) {
 		// GENERAL
+		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
 		this.maxX = maxX;
 		this.maxY = maxY;
-
-		initializePlateau(g);
 		
-	}
-
-	public void initializePlateau(Game g) {
 		// CHARACTERS
 		this.characters = new Vector<Character>();
-
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
 		// WEAPONS
@@ -136,19 +122,6 @@ public class Plateau implements java.io.Serializable {
 		objets = new HashMap<Integer,Objet>();
 		id = 0;
 
-//		// Acts
-		//TODO:acts
-//		this.acts = new Vector<Act>();
-
-
-
-	}
-
-	public void setMaxXMaxY(float MaxX, float MaxY) {
-		this.maxX = MaxX;
-		this.maxY = MaxY;
-		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
-		Game.g.bottomBar = new BottomBar();
 	}
 
 	public void addCharacterObjets(Character o) {
@@ -157,13 +130,6 @@ public class Plateau implements java.io.Serializable {
 
 	private void removeCharacter(Character o) {
 		toRemoveCharacters.addElement(o);
-
-		for (Selection s : Game.g.inputsHandler.selection) {
-			if (s.selection.contains(o)) {
-				s.selection.remove(o);
-			}
-		}
-
 	}
 
 	public void addBulletObjets(Bullet o) {
@@ -218,8 +184,8 @@ public class Plateau implements java.io.Serializable {
 					continue;
 				}
 				this.removeCharacter(o);
-
-				Game.g.triggerEvent(EventNames.Death, o);
+				//TODO:001
+				Game.gameSystem.triggerEvent(EventNames.Death, o);
 			}
 		}
 
@@ -243,7 +209,7 @@ public class Plateau implements java.io.Serializable {
 				this.removeSpell(o);
 			}
 		}
-		if(Game.debugMemory){
+		if(Debug.debugMemory){
 			System.out.println("\n nouveau tour ");
 			//			System.out.println("characters : " + characters.size());
 			//			System.out.println("bullets : " + bullets.size());
@@ -341,7 +307,7 @@ public class Plateau implements java.io.Serializable {
 		for (Character o : characters) {
 			// Handle collision between Objets and action objects
 			if (o.idCase != -1) {
-				for (Character i : Game.g.plateau.mapGrid.getCase(o.idCase).surroundingChars) {
+				for (Character i : mapGrid.getCase(o.idCase).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
 						i.collision(o);
@@ -356,7 +322,7 @@ public class Plateau implements java.io.Serializable {
 					b.collision(o);
 				}
 				if (Utils.distance(b, o) < (b.getAttribut(Attributs.size) + range.radius)) {
-					b.collisionWeapon(o);
+					b.collisionWeapon(o, this);
 				}
 			}
 			// between Characters and Natural objects
@@ -367,7 +333,7 @@ public class Plateau implements java.io.Serializable {
 			}
 			// Between Characters and bullets
 			for (Bullet i : bullets) {
-				if (i instanceof CollisionBullet && Utils.distance(i, o) < (i.size + o.getAttribut(Attributs.size))) {
+				if (i instanceof Arrow && Utils.distance(i, o) < (i.size + o.getAttribut(Attributs.size))) {
 					i.collision(o);
 				}
 			}
@@ -376,7 +342,7 @@ public class Plateau implements java.io.Serializable {
 
 			for (Building e : buildings) {
 				if (e.collisionBox.intersects(range)) {
-					e.collisionWeapon(o);
+					e.collisionWeapon(o, this);
 				}
 				if (e.collisionBox.intersects(o.collisionBox)) {
 					boolean doCollision = true;
@@ -417,44 +383,51 @@ public class Plateau implements java.io.Serializable {
 
 	public void action() {
 		for (Checkpoint a : this.checkpoints) {
-			a.action();
+			a.action(this);
 		}
 		for (Checkpoint a : this.markersBuilding) {
-			a.action();
+			a.action(this);
 		}
 		for (Character o : this.characters) {
-			o.action();
+			o.action(this);
 		}
 		for (Bullet o : bullets) {
-			o.action();
+			o.action(this);
 		}
 		for (Building e : this.buildings) {
-			e.action();
+			e.action(this);
 		}
 		for (Objet a : this.spells) {
-			a.action();
+			a.action(this);
 		}
 		for (Bonus a : this.bonus) {
-			a.action();
+			a.action(this);
 		}
-		for (GameTeam gt : Game.g.teams){
-			gt.civ.update();
+
+	}
+
+	public Vector<Objet> getById(Vector<Integer> vo){
+		Vector<Objet> resultat = new Vector<Objet>();
+		for(Integer i : vo ){
+			resultat.add(getById(i));
 		}
+		return resultat;
 	}
 
 
-
-
 	// handling the input
-	public void updateTarget(float x, float y, int team, int mode, Vector<Objet> vo) {
+	public void updateTarget(InputObject im, int mode, Plateau plateau ) {
+		float x = im.x;
+		float y = im.y;
+		int team = im.team;
+
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(x, y,true);
+			target = new Checkpoint(x, y,true, this);
 		}
-		int i = 0;
 
-		for (Objet c : vo) {
+		for (Objet c : getById(im.selection)) {
 
 			if(c instanceof Building && mode==Character.DESTROY_BUILDING){
 				((Building) c).giveUpProcess = true;
@@ -463,32 +436,18 @@ public class Plateau implements java.io.Serializable {
 			if (c instanceof Character) {
 				Character o = (Character) c;
 				o.setTarget(null);
-				o.stop();
+				o.stop(this);
 				o.secondaryTargets.clear();
 				o.mode = mode;
-				if (o.getGroup() != null && o.getGroup().size() > 1) {
-					for (Character c1 : o.getGroup())
+				if (o.getGroup(this) != null && o.getGroup(this).size() > 1) {
+					for (Character c1 : o.getGroup(this))
 						if (c1 != o)
 							c1.removeFromGroup(o.id);
 				}
 				// Then we create its new group
 				o.setGroup(new Vector<Character>());
-
-
-				if (i == 0 && Math.random() > 0.3) {
-					if (c.getTeam() == Game.g.currentPlayer.id && target instanceof Character
-							&& (c.getTeam() != target.getTeam() || c.getAttribut(Attributs.damage)<0)) {
-						Game.g.triggerEvent(EventNames.MoveAttack, o);
-					} else if (c.getTeam() == Game.g.currentPlayer.id) {
-						Game.g.triggerEvent(EventNames.MoveTarget, o);
-					}
-				}
-
-				i++;
-
-
 				Vector<Integer> waypoints = null;
-				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection) {
+				for (Objet c1 : InputHandler.getSelection(team).selection) {
 
 					if (c1 == c)
 						continue;
@@ -497,8 +456,8 @@ public class Plateau implements java.io.Serializable {
 						// System.out.println("Plateau line 507: " +
 						// (waypoints!=null) +" "+(c.c==c1.c)+"
 						// "+(((Character)c1).waypoints.size()>0));
-						if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget() != null
-								&& c1.getTarget().idCase == target.idCase) {
+						if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget(this) != null
+								&& c1.getTarget(this).idCase == target.idCase) {
 							// System.out.println("Plateau line 508 : copie
 							// d'une chemin");
 							waypoints = ((Character) c1).waypoints;
@@ -509,33 +468,36 @@ public class Plateau implements java.io.Serializable {
 					mode = Character.TAKE_BUILDING;
 				}
 
-				o.setTarget(target, waypoints, mode);
+				o.setTarget(target, waypoints, mode, this);
 				o.secondaryTargets.clear();
 			}
 		}
 	}
 
-	public void updateSecondaryTarget(float x, float y, int team) {
+	public void updateSecondaryTarget(InputObject im) {
+		float x = im.x;
+		float y = im.y;
+		int team = im.team;
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			target = new Checkpoint(x, y);
+			target = new Checkpoint(x, y, this);
 		}
-
-		for (Objet c : Game.g.inputsHandler.getSelection(team).selection) {
-
+		Objet c;
+		for (Integer d : im.selection) {
+			c = this.getById(d);
 			if (c instanceof Character) {
 				Character o = (Character) c;
 				// first we deal with o's elder group
-				if (o.getGroup() != null && o.getGroup().size() > 1) {
-					for (Character c1 : o.getGroup())
+				if (o.getGroup(this) != null && o.getGroup(this).size() > 1) {
+					for (Character c1 : o.getGroup(this))
 						if (c1 != o)
 							c1.removeFromGroup(o.id);
 				}
 				// Then we create its new group
 				o.setGroup(new Vector<Character>());
 
-				for (Objet c1 : Game.g.inputsHandler.getSelection(team).selection)
+				for (Objet c1 : InputHandler.getSelection(team).selection)
 
 					if (c1 instanceof Character)
 						o.addInGroup(c1.id);
@@ -558,7 +520,7 @@ public class Plateau implements java.io.Serializable {
 	public Vector<Character> getEnnemiesInSight(Building caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : characters) {
-			if (o.getTeam() != caller.potentialTeam && Utils.distance(o, caller) < caller.getAttribut(Attributs.sight)) {
+			if (o.getTeam().id != caller.potentialTeam && Utils.distance(o, caller) < caller.getAttribut(Attributs.sight)) {
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -586,13 +548,14 @@ public class Plateau implements java.io.Serializable {
 		return ennemies_in_sight;
 	}
 
-	public Objet findTarget(float x, float y,int player) {
+	public Objet findTarget(float x, float y,int team) {
 		Point point = new Point(x, y);
 		Objet target = null;
+		
 		// looking for the object on the target
 		for (Character i : this.characters) {
 			// looking amongst other characters
-			if (i.selectionBox.contains(point) && i.getTeam()!=Game.g.getPlayerById(player).getTeam()) {
+			if (i.selectionBox.contains(point) && i.getTeam().id!=team) {
 				target = i;
 				break;
 			}
@@ -600,7 +563,7 @@ public class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (Character i : this.characters) {
 				// looking amongst other characters
-				if (i.selectionBox.contains(point) && i.getTeam()==Game.g.getPlayerById(player).getTeam()) {
+				if (i.selectionBox.contains(point) && i.getTeam().id==team) {
 					target = i;
 					break;
 				}
@@ -640,67 +603,43 @@ public class Plateau implements java.io.Serializable {
 
 
 	public void update(Vector<InputObject> ims) {
-		Utils.triId(this.characters);
+		round ++;
 
-		for (Player p : Game.g.players) {
-			Utils.triIdActionObjet(p.selection);
-		}
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
 			int player = im.idplayer;
 
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
-				EndRender.initEnd(Game.g.players.get(player).getTeam());
+				EndRender.initEnd(im.team);
 				return;
 			}
 
-			this.handleInterface(im);
+			// Handling the right click
+			this.handleRightClick(im);
+
 			// Handling action bar
 			this.handleActionOnInterface(im, player);
 
-			// Handling the right click
-			this.handleRightClick(im, player);
-
-			this.handleMinimap(im, player);
-
-
-
 		}
 		
-		Game.g.inputsHandler.updateSelection(ims);
+		// 2 - For everyone
+		// Sort by id
 
-		//TODO:acts
-//		// 2 - Handling acts and objectives
-//		this.currentActTime-=1f/Main.framerate;
-//		//		if(this.currentAct<3f){
-//		//			Game.g.musicPlaying.fade(1, 0f, true);
-//		//			Game.g.sounds.get("trompette").play(1f, Game.g.options.soundVolume);
-//		//		}
-//		if(this.currentActTime<=0 || this.currentAct==this.acts.size()-1){
-//			// changement d'acte
-//			if(this.currentAct>=0){
-//				// on gère le choix des cartes
-//				for(GameTeam team : Game.g.teams){
-//					if(team.id==0){
-//						continue;
-//					}
-//					Vector<ActCard> v = new Vector<ActCard>();
-//					v.addAll(team.civ.getChoices(this.currentAct+1, false, false));
-//					if(team.civ.objectiveMadness.isCompleted(this.currentAct)){
-//						v.addAll(team.civ.getChoices(this.currentAct+1, true, false));
-//					}
-//					if(team.civ.objectiveWisdom.isCompleted(this.currentAct)){
-//						v.addAll(team.civ.getChoices(this.currentAct+1, false, true));
-//					}
-//					team.currentChoices.add(v);
-//				}
-//			}
-//			this.currentAct += 1;
-//			this.currentActTime = this.getCurrentAct().getTime();
-//		}
-		if (Game.debugTimeSteps)
-			System.out.println(" - plateau: fin input : " + (System.currentTimeMillis() - Game.g.timeSteps));
+		this.collision();
+		this.clean();
+		this.action();
+
+
+		// 4- handling victory
+		for(Team team : teams){
+			if(team.id==0){
+				continue;
+			}
+			if(((Building)this.getById(team.hq)).constructionPoints<=0){
+				EndRender.initEnd(team.id);
+			}
+		}
 
 	}
 
@@ -731,62 +670,30 @@ public class Plateau implements java.io.Serializable {
 	}
 
 
-	public void updatePlateauState() {
-		// 2 - For everyone
-		// Sort by id
-
-		this.collision();
-		if (Game.debugTimeSteps)
-			System.out.println(" - plateau: fin collision : " + (System.currentTimeMillis() - Game.g.timeSteps));
-		this.clean();
-		if (Game.debugTimeSteps)
-			System.out.println(" - plateau: fin clean : " + (System.currentTimeMillis() - Game.g.timeSteps));
-		this.action();
-		if (Game.debugTimeSteps)
-			System.out.println(" - plateau: fin action : " + (System.currentTimeMillis() - Game.g.timeSteps));
-
-		// 3 - handling visibility
-		this.updateVisibility();
-
-		if (Game.debugTimeSteps)
-			System.out.println(" - plateau: fin visibility : " + (System.currentTimeMillis() - Game.g.timeSteps));
-
-		if (Game.debugTimeSteps)
-			System.out.println(" - plateau: fin message : " + (System.currentTimeMillis() - Game.g.timeSteps));
-
-		// 4- handling victory
-		for(GameTeam team : Game.g.teams){
-			if(team.id==0){
-				continue;
-			}
-			if(team.hq.constructionPoints<=0){
-				EndRender.initEnd(team.id);
-
-			}
-		}
-	}
 
 
 
-	private void handleRightClick(InputObject im, int player) {
-		Vector<Objet> selection = im.getSelection();
+
+	private void handleRightClick(InputObject im) {
+		int team = im.team;
+		Vector<Objet> selection = im.getSelection(this);
 		if (im.isPressed(KeyEnum.RightClick)) {
 			// RALLY POINT
 
 			if (selection.size() > 0
 					&& selection.get(0) instanceof Building) {
-				Objet target = findTarget(im.x, im.y,player);
+				Objet target = findTarget(im.x, im.y,team);
 				if(target instanceof Building || target instanceof Character){
-					((Building) selection.get(0)).setRallyPoint(target.x, target.y);;
+					((Building) selection.get(0)).setRallyPoint(target.x, target.y, this);;
 				}
 				if(target==null){
-					((Building) selection.get(0)).setRallyPoint(im.x, im.y);
+					((Building) selection.get(0)).setRallyPoint(im.x, im.y,this);
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
 
-				updateSecondaryTarget(im.x, im.y, player);
+				updateSecondaryTarget(im);
 			} else {
-				updateTarget(im.x, im.y, player, Character.MOVE,Game.g.inputsHandler.getSelection(player).selection);
+				updateTarget(im, Character.MOVE, this);
 			}
 		}
 		if (im.isPressed(KeyEnum.StopperMouvement)) {
@@ -795,23 +702,23 @@ public class Plateau implements java.io.Serializable {
 			for (Objet c : selection) {
 
 				if (c instanceof Character) {
-					((Character) c).stop();
+					((Character) c).stop(this);
 					((Character) c).mode = Character.NORMAL;
 				}
 			}
 		}
 		if (im.isPressed(KeyEnum.DeplacementOffensif)) {
-			updateTarget(im.x, im.y, player, Character.AGGRESSIVE,Game.g.inputsHandler.getSelection(player).selection);
+			updateTarget(im, Character.AGGRESSIVE, this);
 		}
 		if (im.isPressed(KeyEnum.TenirPosition)) {
 			// Hold position
-			updateTarget(im.x, im.y, player, Character.HOLD_POSITION,Game.g.inputsHandler.getSelection(player).selection);
+			updateTarget(im, Character.HOLD_POSITION, this);
 		}
 		if (im.isPressed(KeyEnum.GlobalRallyPoint)) {
 			//Update rally point
 			for(Building b : buildings){
-				if(b.getTeam()==Game.g.players.get(player).getTeam() && b instanceof Building){
-					((Building) b).setRallyPoint(im.x, im.y);
+				if(b.getTeam().id==im.team && b instanceof Building){
+					((Building) b).setRallyPoint(im.x, im.y, this);
 				}
 			}
 		}
@@ -819,7 +726,7 @@ public class Plateau implements java.io.Serializable {
 
 	private void handleActionOnInterface(InputObject im, int player) {
 		// Action bar
-		Selection selection = Game.g.inputsHandler.getSelection(player);
+		Selection selection = InputHandler.getSelection(player);
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
 
@@ -828,15 +735,15 @@ public class Plateau implements java.io.Serializable {
 				for(int i=0; i<4; i++){
 					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
 
-						((Building) selection.selection.get(0)).product(i);
+						((Building) selection.selection.get(0)).product(i, this);
 					}
 					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
 
-						((Building) selection.selection.get(0)).productTech(i);
+						((Building) selection.selection.get(0)).productTech(i, this);
 					}
 				}
 				if (im.isPressed(KeyEnum.Escape))
-					((Building) selection.selection.get(0)).removeProd();
+					((Building) selection.selection.get(0)).removeProd(this);
 			} else
 				if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Character) {
 					int number = -1;
@@ -856,7 +763,7 @@ public class Plateau implements java.io.Serializable {
 						Spell s = c.getSpell(number);
 						if (s.getAttribut(Attributs.needToClick)==0) {
 							if(s.name!=ObjetsList.Immolation || imo){
-								s.launch(new Checkpoint(im.x,im.y), c);
+								s.launch(new Checkpoint(im.x,im.y, this), c);
 								c.spellsState.set(number, 0f);
 
 							}
@@ -872,12 +779,12 @@ public class Plateau implements java.io.Serializable {
 				}
 		}
 		if(im.spell!=null && selection.selection.size()>0){
-			Spell s = Game.g.getPlayerById(im.idplayer).getGameTeam().data.getSpell(im.spell);
+			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
 			Character c = ((Character) selection.selection.get(0));
 			if(im.idObjetMouse!=-1){
-				s.launch(Game.g.plateau.getById(im.idObjetMouse), c);
+				s.launch(getById(im.idObjetMouse), c);
 			} else {
-				s.launch(new Checkpoint(im.x,im.y), c);				
+				s.launch(new Checkpoint(im.x,im.y, this), c);				
 			}
 			for(int i=0; i<c.getSpells().size(); i++){
 				if(c.getSpells().get(i).name==im.spell){
@@ -892,16 +799,6 @@ public class Plateau implements java.io.Serializable {
 			selection.selection.insertElementAt(c, compteur);
 			selection.selection.remove(0);
 		}
-//		// Top Bar
-//		if(Game.g.bottomBar.iconChoice!=null && !im.isOnMiniMap){
-//			for(int i=0; i<Game.g.bottomBar.iconChoice.size(); i++){
-//				if(im.isPressed(KeyEnum.valueOf("ActCard"+i))){
-//					chooseActCard(i);
-//					break;
-//				}
-//			}
-//		}
-
 
 	}
 
@@ -909,68 +806,22 @@ public class Plateau implements java.io.Serializable {
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
 
 	// updating rectangle
-	public void handleView(InputObject im, int player) {
-		// Handle the display (camera movement & minimap)
 
-		// camera movement
-		if (player == Game.g.currentPlayer.id && Game.g.inputsHandler.getSelection(player).rectangleSelection == null && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
-			// Handling sliding
-			if(Game.g.slidingCam==true){
-				int deltaX = (int) (Game.g.objectiveCam.getX()-Game.g.Xcam);
-				int deltaY = (int) (Game.g.objectiveCam.getY()-Game.g.Ycam);
-				Game.g.Xcam += deltaX/5;
-				Game.g.Ycam += deltaY/5;
-				if(Math.abs(deltaX)<2)
-					Game.g.slidingCam = false;
-			}
-			//			boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
-			// Move camera according to inputs :
-			if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.y < Game.g.Ycam + 5) && Game.g.Ycam > -Game.g.resY / 2) {
-				Game.g.Ycam -= (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-			if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.y > Game.g.Ycam + Game.g.resY - 5))
-					&& Game.g.Ycam < this.maxY - Game.g.resY / 2) {
-				Game.g.Ycam += (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-			if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.x < Game.g.Xcam + 5)) && Game.g.Xcam > -Game.g.resX / 2) {
-				Game.g.Xcam -= (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-			if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.x > Game.g.Xcam + Game.g.resX - 5))
-					&& Game.g.Xcam < this.maxX - Game.g.resX / 2) {
-				Game.g.Xcam += (int) (80 * 30 / Main.framerate);
-				Game.g.slidingCam = false;
-			}
-
-			// TODO : Centrer la selection sur un groupe d'unité
-			//			for (int to = 0; to < 10; to++) {
-			//				if (im.isPressed(KeyEnum.valueOf("Key"+to)) && Game.g.players.get(player).groupSelection == to
-			//						&& this.selection.get(player).size() > 0) {
-			//					float xmoy = this.selection.get(player).get(0).getX();
-			//					float ymoy = this.selection.get(player).get(0).getY();
-			//					this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
-			//					this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
-			//				}
-			//			}
-		}
-	}
 
 	public void handleInterface(InputObject im){
 		// display for the action bar
-		BottomBar bb = Game.g.bottomBar;
-		float relativeXMouse = (im.x - Game.g.Xcam);
-		float relativeYMouse = (im.y - Game.g.Ycam);
-		bb.update(relativeXMouse, relativeYMouse);
+		float relativeXMouse = (im.x - Camera.Xcam);
+		float relativeYMouse = (im.y - Camera.Ycam);
+		Game.gameSystem.bottombar.update(relativeXMouse, relativeYMouse);
 
 	}
 
 	private void handleMinimap(InputObject im, int player) {
-		if (im.isDown(KeyEnum.LeftClick) && player == Game.g.currentPlayer.id && im.isOnMiniMap) {
+		if (im.isDown(KeyEnum.LeftClick) && player == Game.gameSystem.getCurrentPlayer().id && im.isOnMiniMap) {
 			// Put camera where the click happened
-			Game.g.objectiveCam = new Point((int) (im.x - Game.g.resX / 2f),(int) (im.y - Game.g.resY / 2f));
-			Game.g.slidingCam = true;
+			Camera.objXcam = (int) (im.x - Game.resX / 2f);
+			Camera.objYcam = (int) (im.y - Game.resY / 2f);
+			Camera.slidingCam = true;
 			//			System.out.println(slidingCam);
 		}
 	}
@@ -981,60 +832,62 @@ public class Plateau implements java.io.Serializable {
 		// return all objects from a team in the camera view
 		Vector<Objet> obj = new Vector<Objet>();
 		for (Character c : this.characters)
-			if (c.getTeam() == team && c.visibleByCamera || Game.g.marcoPolo)
+			if (c.getTeam().id == team && c.visibleByCamera)
 				obj.add(c);
 		for (Building c : this.buildings)
-			if (c.getTeam() == team && c.visibleByCamera || Game.g.marcoPolo)
+			if (c.getTeam().id == team && c.visibleByCamera)
 				obj.add(c);
 		return obj;
 	}
 
 	public boolean isVisibleByTeam(int team, Objet objet) {
-		if (objet.getGameTeam() != null && objet.getTeam() == team)
+		if (objet.getTeam() != null && objet.getTeam().id == team)
 			return true;
 		float r = 1f;
 		if(objet.collisionBox!=null){
 			r = objet.collisionBox.getBoundingCircleRadius();
 		} 
 		for (Character c : this.characters)
-			if (c.getTeam() == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
+			if (c.getTeam().id == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
 				return true;
 		for (Building b : this.buildings)
-			if (b.getTeam() == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
+			if (b.getTeam().id == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
 				return true;
 		return false;
 	}
-
+	public Building getHQ(Team team){
+		return (Building)this.getById(team.hq);
+	}
 	public boolean isVisibleByCamera(Objet objet) {
 		float sight = objet.getVisibleSize();
-		return objet.x + sight > Game.g.Xcam && objet.x - sight < Game.g.Xcam + Game.g.resX && objet.y + sight > Game.g.Ycam
-				&& objet.y - sight < Game.g.Ycam + Game.g.resY;
+		return objet.x + sight > Camera.Xcam && objet.x - sight < Camera.Xcam + Game.resX && objet.y + sight > Camera.Ycam
+				&& objet.y - sight < Camera.Ycam + Game.resY;
 
 	}
 
 	public void updateVisibility() {
 		for (Character c : this.characters) {
-			c.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), c);
+			c.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), c);
 			c.visibleByCamera = this.isVisibleByCamera(c);
 		}
 		for (Building b : this.buildings) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 		for (Bullet b : this.bullets) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 		for (SpellEffect b : this.spells) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 		for (NaturalObjet n : this.naturalObjets) {
-			n.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), n);
+			n.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), n);
 			n.visibleByCamera = this.isVisibleByCamera(n);
 		}
 		for (Bonus b : this.bonus) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.g.currentPlayer.getTeam(), b);
+			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
 			b.visibleByCamera = this.isVisibleByCamera(b);
 		}
 	}
@@ -1045,40 +898,6 @@ public class Plateau implements java.io.Serializable {
 			return this.objets.get(id);
 		}
 		return null;
-	}
-
-
-	// getter, setter and act handler
-
-	public Act getCurrentAct(){
-		//TODO:acts
-//		if(this.acts.size()>=0 && this.currentAct>=0 && this.currentAct<this.acts.size()){
-//			return this.acts.get(this.currentAct);
-//		} else {
-//			return null;
-//		}
-		return null;
-	}
-	
-	public float getCurrentActTime(){
-		//TODO:acts
-//		return this.currentActTime;
-		return 0f;
-	}
-	//TODO:acts
-//	public void chooseActCard(int i){
-//		// sélection de la carte
-//
-//		Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i).applyEffect();
-//		Game.g.bottomBar.addCardChoice(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
-//		Game.g.currentPlayer.getGameTeam().choices.addElement(Game.g.currentPlayer.getGameTeam().currentChoices.get(0).get(i));
-//		Game.g.currentPlayer.getGameTeam().currentChoices.remove(0);
-//		Game.g.bottomBar.iconChoice=null;
-//	}
-//
-
-	public boolean isRuleActive(ActRule rule) {
-		return this.getCurrentAct()!=null && this.getCurrentAct().isRuleActive(rule);
 	}
 
 }

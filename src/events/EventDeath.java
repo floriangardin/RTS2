@@ -8,9 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 
 public class EventDeath extends Event{
 
@@ -25,7 +25,7 @@ public class EventDeath extends Event{
 		super(parent);
 		x = parent.x;
 		y = parent.y;
-		color = parent.getGameTeam().color;
+		color = parent.getTeam().color;
 		delta_y = 0;
 		int direction = 0;
 		if(parent instanceof Character){
@@ -36,13 +36,13 @@ public class EventDeath extends Event{
 			}
 			
 		}
-		im = Game.g.images.getUnit(parent.name, direction, 0, parent.getGameTeam().id, false);
+		im = Images.getUnit(parent.name, direction, 0, parent.getTeam().id, false);
 		this.sounds = Game.g.sounds.getSoundVector(parent.name, "death");
-		if(parent.getGameTeam().id==Game.g.currentPlayer.getGameTeam().id){
+		if(parent.getTeam().id==Game.gameSystem.getCurrentTeam()){
 			Game.g.sounds.get("deathAlly").play(1f,0.9f*Game.g.options.soundVolume*ratioDistance());
 		} else {
 			Game.g.sounds.get("deathEnemy").play(1f,0.9f*Game.g.options.soundVolume*ratioDistance());
-			Game.g.currentPlayer.getGameTeam().addNewKill();
+			Game.g.currentPlayer.getTeam().addNewKill();
 		}
 	}
 

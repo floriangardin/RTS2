@@ -6,9 +6,9 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class Frozen extends SpellEffect{
@@ -27,7 +27,7 @@ public class Frozen extends SpellEffect{
 
 		this.name = ObjetsList.FrozenEffect;
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher;
 		this.setTeam(launcher.getTeam());
 

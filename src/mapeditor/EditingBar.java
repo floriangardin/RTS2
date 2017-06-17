@@ -10,7 +10,7 @@ import org.newdawn.slick.Input;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
-import menu.Menu_TextScanner;
+import menuutils.Menu_TextScanner;
 import model.Game;
 
 public class EditingBar {
@@ -73,18 +73,18 @@ public class EditingBar {
 		this.textScanner.autocompletion = mapNames;
 		this.scannerSizeX = new Menu_TextScanner(sizeXs, sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f, editor.game);
 		this.scannerSizeY = new Menu_TextScanner(sizeYs, 4*sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f, editor.game);
-		this.iconExit = Game.g.images.get("iconExit").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconNewFile = Game.g.images.get("iconNewFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconOpenFile = Game.g.images.get("iconOpenFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconSaveFile = Game.g.images.get("iconSaveFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconGridOff = Game.g.images.get("iconGridOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconCamOn = Game.g.images.get("iconCamOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconCamOff = Game.g.images.get("iconCamOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconCollisionOff = Game.g.images.get("iconCollisionOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconGridOn = Game.g.images.get("iconGridOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconCollisionOn = Game.g.images.get("iconCollisionOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconZoomPlus = Game.g.images.get("iconZoomPlus").getScaledCopy((int)sizeY-2, (int)sizeY-2);
-		this.iconZoomMoins = Game.g.images.get("iconZoomMoins").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconExit = Images.get("iconExit").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconNewFile = Images.get("iconNewFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconOpenFile = Images.get("iconOpenFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconSaveFile = Images.get("iconSaveFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconGridOff = Images.get("iconGridOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCamOn = Images.get("iconCamOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCamOff = Images.get("iconCamOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCollisionOff = Images.get("iconCollisionOff").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconGridOn = Images.get("iconGridOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconCollisionOn = Images.get("iconCollisionOn").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconZoomPlus = Images.get("iconZoomPlus").getScaledCopy((int)sizeY-2, (int)sizeY-2);
+		this.iconZoomMoins = Images.get("iconZoomMoins").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 
 	}
 

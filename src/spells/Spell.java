@@ -6,12 +6,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
-import model.Building;
-import model.Character;
-import model.Checkpoint;
 import model.Game;
-import model.GameTeam;
-import model.Objet;
+import plateau.Building;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
+import plateau.Team;
 import utils.ObjetsList;
 import utils.Utils;;
 
@@ -65,7 +65,7 @@ public abstract class Spell {
 		}
 	}
 
-	public GameTeam getGameTeam(){
+	public Team getGameTeam(){
 		return Game.g.teams.get(team);
 	}
 

@@ -10,10 +10,12 @@ import data.Attributs;
 import data.AttributsChange;
 import events.EventAttackDamage;
 import main.Main;
-import model.Character;
-import model.Checkpoint;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
 import utils.ObjetsList;
 
 public class BurningArea extends SpellEffect{
@@ -24,23 +26,23 @@ public class BurningArea extends SpellEffect{
 	public float endTime = 0.3f;
 	public float size;
 
-	public BurningArea(Objet launcher, Checkpoint t, float size){
+	public BurningArea(int launcher, Checkpoint t, float size, Plateau plateau){
 
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;
-		this.id = Game.g.plateau.id;
+		this.id = plateau.id;
 		this.toDrawOnGround = true;
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		plateau.addSpell(this);
 		this.image = "magma";
-		this.setTeam(launcher.getTeam());
-		this.collisionBox = createShape(launcher, t, size);
+		this.team = plateau.getById(launcher).getTeam();
+		this.collisionBox = createShape(t, size);
 		this.x = t.getX();
 		this.y = t.getY();
 	}
 	
-	public static Shape createShape(Objet launcher, Objet t, float size){
+	public static Shape createShape(Objet t, float size){
 		return new Circle(t.getX(),t.getY(),size);
 	}
 
@@ -54,7 +56,7 @@ public class BurningArea extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-		Image im = Game.g.images.get(this.image).getScaledCopy((int)(2*size), (int)(2*size));
+		Image im = Images.get(this.image).getScaledCopy((int)(2*size), (int)(2*size));
 		float alpha = (totalTime-remainingTime)/(startTime*remainingTime);
 		alpha = (float)Math.min(alpha, remainingTime/(endTime*totalTime));
 		alpha = (float)Math.min(alpha, 1f);

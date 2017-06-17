@@ -2,10 +2,10 @@ package spells;
 
 import java.util.HashMap;
 
-import model.Character;
-import model.Checkpoint;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
 import utils.Utils;
 import data.Data;
 public class SpellEffect extends Objet{
@@ -23,7 +23,7 @@ public class SpellEffect extends Objet{
 	}
 	
 	public Objet getOwner(){
-		return Game.g.plateau.getById(owner);
+		return Game.gameSystem.plateau.getById(owner);
 	}
 
 	

@@ -7,18 +7,19 @@ import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
 import events.EventAttackDamage;
-import events.EventNames;
 import main.Main;
-import model.Building;
-import model.Character;
 import model.Game;
+import plateau.Building;
+import plateau.Character;
+import plateau.Plateau;
+import ressources.Images;
 import utils.ObjetsList;
 
-public class Arrow extends CollisionBullet{
+public class Arrow extends Bullet{
 
 	protected float angle= 0f;
 	public float life = 6f;
-	public Arrow(Character owner,float vx,float vy,float damage){
+	public Arrow(Character owner,float vx,float vy,float damage, Plateau plateau){
 		//MULTI 
 	
 		// Parameters
@@ -26,13 +27,13 @@ public class Arrow extends CollisionBullet{
 
 		this.name = ObjetsList.Arrow;
 		this.damage = damage;
-		Game.g.plateau.addBulletObjets(this);
+		Game.gameSystem.plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
-		this.owner = owner;
-		this.setTeam(owner.getTeam());
+		this.owner = owner.id;
+		this.team = plateau.getById(owner.id).getTeam();
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
-		this.setXY(owner.getX(),owner.getY());
+		this.setXY(owner.getX(),owner.getY(), plateau);
 		this.vx = vx;
 		this.vy = vy;
 		//Normalize speed : 
@@ -47,18 +48,18 @@ public class Arrow extends CollisionBullet{
 			this.angle+=360;
 		
 		this.soundLaunch = "arrow";
-		Game.g.triggerEvent(EventNames.ArrowLaunched, this);
+//		Game.g.triggerEvent(EventNames.ArrowLaunched, this);
 	}
 
-	public void collision(Character c){
-		if(c.getTeam()!=this.owner.getTeam()){
+	public void collision(Character c, Plateau plateau){
+		if(c.getTeam()!=this.team){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
 			if(!c.horse){
-				damage = damage * this.getGameTeam().data.bonusBowFoot;
+				damage = damage * this.getTeam().data.bonusBowFoot;
 			}
 			if(c.getAttribut(Attributs.armor)<=damage){
-				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
+//				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
 			}
 			c.isAttacked();
@@ -67,14 +68,15 @@ public class Arrow extends CollisionBullet{
 
 	}
 
-	public void collision(Building c){
+	public void collision(Building c, Plateau plateau){
 		this.lifePoints = -1f;
 	}
+	
 	public Graphics draw(Graphics g){
-		Game.g.images.get("arrow").rotate(angle);
-		g.drawImage(Game.g.images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
-		Game.g.images.get("arrow").rotate(-angle);
-		Image shadow = Game.g.images.get("arrow").getScaledCopy(Main.ratioSpace);
+		Images.get("arrow").rotate(angle);
+		g.drawImage(Images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
+		Images.get("arrow").rotate(-angle);
+		Image shadow = Images.get("arrow").getScaledCopy(Main.ratioSpace);
 		shadow.rotate(this.angle);
 		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
 		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);
@@ -83,15 +85,15 @@ public class Arrow extends CollisionBullet{
 		//		g.draw(this.collisionBox);
 		return g;
 	}
-	public void action(){
+	public void action(Plateau plateau){
 		//MULTI 
 		this.life  -= Main.increment;
 		if(life<0f){
 			this.lifePoints = -1f;
 		}
 		
-		this.setXY(this.getX()+this.vx, this.getY()+this.vy);
-		if(this.x>Game.g.plateau.maxX || this.x<0 || this.y>Game.g.plateau.maxY||this.y<0){
+		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
+		if(this.x>Game.gameSystem.plateau.maxX || this.x<0 || this.y>Game.gameSystem.plateau.maxY||this.y<0){
 			this.setLifePoints(-1f);
 		}
 	}
@@ -101,4 +103,5 @@ public class Arrow extends CollisionBullet{
 	public Arrow(){
 
 	}
+
 }

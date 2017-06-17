@@ -6,9 +6,9 @@ import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class Firewall extends SpellEffect{
@@ -34,7 +34,7 @@ public class Firewall extends SpellEffect{
 
 		this.name = ObjetsList.FirewallEffect;
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		Game.gameSystem.plateau.addSpell(this);
 		image = "explosion";
 		this.setTeam(launcher.getTeam());
 		owner = launcher;
@@ -92,7 +92,7 @@ public class Firewall extends SpellEffect{
 				this.animationState[k]=0f;
 		}
 		float x,y,r;
-		Image im = Game.g.images.get(this.image).getScaledCopy(Main.ratioSpace);
+		Image im = Images.get(this.image).getScaledCopy(Main.ratioSpace);
 		for(int i=0;i<nbFire;i++){
 			if(this.animationState[i]>0f){
 				r = im.getWidth()/5f;

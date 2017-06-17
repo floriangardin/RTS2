@@ -11,8 +11,13 @@ import org.newdawn.slick.Image;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import menuutils.Menu_Item;
+import menuutils.Menu_Map;
 import model.Game;
+import multiplaying.Communications;
+import ressources.GraphicElements;
 import ressources.Map;
+import system.MenuSystem.MenuNames;
 import utils.Utils;
 
 public class MenuMulti extends Menu {
@@ -38,27 +43,26 @@ public class MenuMulti extends Menu {
 	float stepY;
 	float ratioReso;
 
-	public Vector<Menu_MapChoice> gamesList;
+	public Vector<Menu_Map> gamesList;
 	public Vector<OpenGames> openGames;
 	public int Nplayer;
 	public int gameSelected = -1;
 
-	public MenuMulti(Game game){
-		super(game);
-		this.game = game;
+	public MenuMulti(){
+		super();
 		this.items = new Vector<Menu_Item>();
-		this.gamesList = new Vector<Menu_MapChoice>();
+		this.gamesList = new Vector<Menu_Map>();
 		this.openGames = new  Vector<OpenGames>();
-		startX = 2f*this.game.resX/8;
-		startY = 0.39f*this.game.resY;
-		stepY = 0.10f*this.game.resY;
-		startXGames = 3f*this.game.resX/8;
-		sizeXGames = this.game.resX/2;
-		startYGames = 0.37f*this.game.resY;
-		sizeYGames = this.game.resY*(0.95f-0.37f);
-		this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Heberger",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Rejoindre",this.game,true));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",this.game,true));
+		startX = 2f*Game.resX/8;
+		startY = 0.39f*Game.resY;
+		stepY = 0.10f*Game.resY;
+		startXGames = 3f*Game.resX/8;
+		sizeXGames = Game.resX/2;
+		startYGames = 0.37f*Game.resY;
+		sizeYGames = Game.resY*(0.95f-0.37f);
+		this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Heberger",true));
+		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Rejoindre",true));
+		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",true));
 
 	}
 
@@ -68,56 +72,49 @@ public class MenuMulti extends Menu {
 			// Heberger
 			this.openGames.clear();
 			this.gamesList.clear();
-			game.host = true;
-			game.inMultiplayer = true;
 			try {
-				game.addressHost = InetAddress.getLocalHost();
+				Communications.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
-			game.initializePlayers();
-			Map.updateMap(0, game);
-			game.clearPlayer();
-			game.addPlayer(game.options.nickname,this.game.addressHost,(int)this.game.resX,(int) this.game.resY);
-			game.currentPlayer = game.players.get(1);
-			game.menuMapChoice.initializeMenuPlayer();
-			game.setMenu(game.menuMapChoice);
+			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
+			Game.menuSystem.menuMapChoice.lobby.initMulti();
 			break;
 		case 1:
 			// Rejoindre
-			if(gameSelected!=-1){
-				//System.out.println("connexion au serveur : " + (System.currentTimeMillis())%10000);
-				this.game.menuMapChoice.seconds = 6;
-				this.game.menuMapChoice.messageDropped = 0;
-				game.host = false;
-				game.inMultiplayer = true;
-				game.initializePlayers();
-				Map.updateMap(0, game);
-				game.clearPlayer();
-				OpenGames opengame = openGames.get(gameSelected);
-
-				this.game.addressHost = opengame.hostAddress;
-				// and now, we can create a kyonet connection
-				if(Game.g.usingKryonet){
-					Game.g.kryonetClient.connect(game.addressHost, Game.portTCP, Game.portUDPKryonet, Game.portTCPResynchro, Game.portUDPKryonetResynchro);
-				}
-				for(int j=1; j<opengame.nPlayers; j++){
-					game.addPlayer("unknown",null,1,1);
-				}
-				this.game.getPlayerById(1).address=opengame.hostAddress;
-				game.addPlayer(this.game.options.nickname,null,(int)game.resX,(int)game.resY);
-				game.currentPlayer = game.players.lastElement();
-				game.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
-				try {
-					this.game.currentPlayer.address = InetAddress.getLocalHost();
-				} catch (UnknownHostException e) {}
-				game.menuMapChoice.initializeMenuPlayer();
-				this.openGames.clear();
-				this.gamesList.clear();
-				game.setMenu(game.menuMapChoice);
-			}
+//			if(gameSelected!=-1){
+//				//System.out.println("connexion au serveur : " + (System.currentTimeMillis())%10000);
+//				Game.MenuMapChoice.seconds = 6;
+//				Game.MenuMapChoice.messageDropped = 0;
+//				game.host = false;
+//				game.inMultiplayer = true;
+//				game.initializePlayers();
+//				Map.updateMap(0, game);
+//				game.clearPlayer();
+//				OpenGames opengame = openGames.get(gameSelected);
+//
+//				Game.addressHost = opengame.hostAddress;
+//				// and now, we can create a kyonet connection
+//				if(Game.g.usingKryonet){
+//					Game.g.kryonetClient.connect(game.addressHost, Game.portTCP, Game.portUDPKryonet, Game.portTCPResynchro, Game.portUDPKryonetResynchro);
+//				}
+//				for(int j=1; j<opengame.nPlayers; j++){
+//					game.addPlayer("unknown",null,1,1);
+//				}
+//				Game.getPlayerById(1).address=opengame.hostAddress;
+//				game.addPlayer(Game.options.nickname,null,(int)game.resX,(int)game.resY);
+//				game.currentPlayer = game.players.lastElement();
+//				game.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
+//				try {
+//					Game.currentPlayer.address = InetAddress.getLocalHost();
+//				} catch (UnknownHostException e) {}
+//				game.menuMapChoice.initializeMenuPlayer();
+//				this.openGames.clear();
+//				this.gamesList.clear();
+//				game.setMenu(game.menuMapChoice);
+//			}
 			break;
 		case 2:
 			// Retour 
-			this.game.setMenu(this.game.menuIntro);
+			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.openGames.clear();
 			this.gamesList.clear();
 			break;
@@ -129,18 +126,18 @@ public class MenuMulti extends Menu {
 		this.drawItems(g);
 		g.setColor(Color.white);
 		g.drawString("Parties disponibles: ", this.startXGames+70f, startY+50f);
-		g.fillRect(this.startXGames+40f, startY+80f+this.game.font.getHeight("R"),2, sizeYGames/2f - 60f+this.game.font.getHeight("R"));
-		for(Menu_MapChoice s : this.gamesList)
+		g.fillRect(this.startXGames+40f, startY+80f+GraphicElements.font_main.getHeight("R"),2, sizeYGames/2f - 60f+GraphicElements.font_main.getHeight("R"));
+		for(Menu_Map s : this.gamesList)
 			s.draw(g);
 		// drawing local ip
 		g.setColor(Color.white);
-		g.drawString("IP Locale : "+game.addressLocal.getHostAddress(), 15f, game.resY-15f-game.font.getHeight("IP"));
+		g.drawString("IP Locale : "+Communications.addressLocal.getHostAddress(), 15f, Game.resY-15f-GraphicElements.font_main.getHeight("IP"));
 
 	}
 
 	public void update(InputObject im){
-		while(this.game.receivedConnexion.size()>0){
-			String s = this.game.receivedConnexion.remove(0);
+		while(Communications.receivedConnexion.size()>0){
+			String s = Communications.receivedConnexion.remove(0);
 			HashMap<String, String> hashmap = Utils.preParse(s);
 			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
 				try {
@@ -155,7 +152,7 @@ public class MenuMulti extends Menu {
 							t = Integer.parseInt(idTeam[1]);
 						}
 						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
-						gamesList.add(new Menu_MapChoice(game, ""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), sizeXGames/2f, 40f));
+						gamesList.add(new Menu_Map(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), sizeXGames/2f, 40f));
 					} else {
 						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
 						String[] idTeam =hashmap.get("idT").split(",");
@@ -181,10 +178,10 @@ public class MenuMulti extends Menu {
 		}
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
-			Menu_MapChoice item = this.gamesList.get(i);
+			Menu_Map item = this.gamesList.get(i);
 			item.update(im);
 			if(item.mouseOver && im.isPressed(KeyEnum.LeftClick)){
-				for(Menu_MapChoice it : this.gamesList){
+				for(Menu_Map it : this.gamesList){
 					it.isSelected = false;
 				}
 				this.gameSelected = i;

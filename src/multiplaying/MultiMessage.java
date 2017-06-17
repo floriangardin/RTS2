@@ -6,7 +6,7 @@ import java.net.InetAddress;
 import java.util.Vector;
 
 import control.InputObject;
-import model.Plateau;
+import plateau.Plateau;
 
 public class MultiMessage implements java.io.Serializable{
 

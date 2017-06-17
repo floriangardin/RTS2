@@ -4,8 +4,8 @@ import java.util.Vector;
 
 import main.Main;
 import model.Game;
-import model.Objet;
 import model.Player;
+import plateau.Objet;
 
 import org.newdawn.slick.SlickException;
 
@@ -14,24 +14,24 @@ import tests.Test;
 
 public class InputHandler {
 
-	private Vector<InputObject> inputs;
+	private static Vector<InputObject> inputs;
 	
-	public Vector<Selection> selection;
+	public static Vector<Selection> selection;
 	// Gestion du rectangle de selection
 
 
-	public InputHandler(){
-		this.inputs = new Vector<InputObject>();
-		this.selection = new Vector<Selection>();
+	public static void init(){
+		inputs = new Vector<InputObject>();
+		selection = new Vector<Selection>();
 	}
 	
-	public void initSelection(){
+	public static void initSelection(){
 		for(Player p : Game.g.players){
-			this.selection.addElement(new Selection(p.id));
+			selection.addElement(new Selection(p.id));
 		}
 	}
 	
-	public Selection getSelection(int player){
+	public static Selection getSelection(int player){
 		for(Selection s  : selection){
 			if(s.player==player){
 				return s;
@@ -40,14 +40,14 @@ public class InputHandler {
 		return null;
 	}
 
-	public void validate(int round,int player,int val){
+	public static void validate(int round,int player,int val){
 		// 
 		
 		int idx = 0;
-		while(idx<this.inputs.size()){
-			if(player==this.inputs.get(idx).idplayer && round==this.inputs.get(idx).round){
+		while(idx<inputs.size()){
+			if(player==inputs.get(idx).idplayer && round==inputs.get(idx).round){
 				//System.out.println("Input handler line 30 :Validation reussiz for  round "+round+ " "+player);
-				this.inputs.get(idx).validate(Game.g.getPlayerById(val));
+				inputs.get(idx).validate(Game.g.getPlayerById(val));
 				break;
 			}
 			idx++;
@@ -55,7 +55,7 @@ public class InputHandler {
 	
 	}
 
-	public Vector<InputObject> getInputsForRound(int round){
+	public static Vector<InputObject> getInputsForRound(int round){
 		
 
 		// Check if good round to apply and messages validated
@@ -64,8 +64,8 @@ public class InputHandler {
 		Vector<InputObject> toReturn = new Vector<InputObject>();
 		Vector<InputObject> toRemove = new Vector<InputObject>();
 		int i = 0;
-		while(i<this.inputs.size()){
-			InputObject in = this.inputs.get(i);
+		while(i<inputs.size()){
+			InputObject in = inputs.get(i);
 			//If right round and validated add it to player inputs to play
 			if(round==(in.round+Main.nDelay) && in.isValidated()  && in.toPlay){
 				//ADD inputs in player
@@ -81,7 +81,7 @@ public class InputHandler {
 			i++;
 		}
 		//Remove mark as treated inputs
-		this.inputs.removeAll(toRemove);
+		inputs.removeAll(toRemove);
 		boolean toPlay;
 		for(int k=1; k<Game.g.players.size(); k++){
 			toPlay = false;
@@ -92,7 +92,7 @@ public class InputHandler {
 			}
 			if(!toPlay){
 				
-//				System.out.println("Round drop "+this.g.round+" à cause du joueur "+k);
+//				System.out.println("Round drop "+g.round+" à cause du joueur "+k);
 				Game.g.toDrawDrop = true;
 				return new Vector<InputObject>();				
 			}
@@ -101,16 +101,16 @@ public class InputHandler {
 		return toReturn;
 	}
 	
-	public Vector<InputObject> getInputs(){
-		return this.inputs;
+	public static Vector<InputObject> getInputs(){
+		return inputs;
 	}
 	
-	public void addToInputs(InputObject io) throws SlickException{
-		this.inputs.addElement(io);
+	public static void addToInputs(InputObject io) throws SlickException{
+		inputs.addElement(io);
 		if(Game.tests) Test.testRoundInputHandler(this, Game.g);
 	}
 
-	public void updateSelection(Vector<InputObject> ims) {
+	public static void updateSelection(Vector<InputObject> ims) {
 		
 		for(InputObject im : ims){
 			if(im.idplayer!=Game.g.currentPlayer.id){	
@@ -119,22 +119,22 @@ public class InputHandler {
 		}
 	}
 	
-	public void updateSelection(InputObject im){
+	public static void updateSelection(InputObject im){
 		
-		this.getSelection(im.idplayer).handleSelection(im);
+		getSelection(im.idplayer).handleSelection(im);
 		/// Put it in input model
-		for(Objet o :this.getSelection(im.idplayer).selection){
+		for(Objet o :getSelection(im.idplayer).selection){
 			im.selection.add(o.id);
 		}
 
 	}
 	
-	public void setSelection(int idPlayer, Vector<Integer> selection){
-		for(Selection s: this.selection){
+	public static void setSelection(int idPlayer, Vector<Integer> selection){
+		for(Integer s: selection){
 			if(idPlayer == s.player){
 				s.selection.clear();
 				for(Integer i : selection){
-					s.selection.addElement(Game.g.plateau.getById(i));
+					s.selection.addElement(Game.gameSystem.plateau.getById(i));
 				}
 			}
 		}

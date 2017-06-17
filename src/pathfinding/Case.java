@@ -2,7 +2,7 @@ package pathfinding;
 
 import java.util.Vector;
 
-import model.Character;
+import plateau.Character;
 
 public class Case implements java.io.Serializable {
 	

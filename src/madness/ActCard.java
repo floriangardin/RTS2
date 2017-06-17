@@ -5,11 +5,11 @@ import java.util.Vector;
 import org.newdawn.slick.Font;
 
 import data.Attributs;
-import model.Building;
-import model.Character;
 import model.Game;
-import model.GameTeam;
-import model.Technologie;
+import plateau.Building;
+import plateau.Character;
+import plateau.Team;
+import plateau.Technologie;
 import utils.ObjetsList;
 
 public abstract class ActCard implements java.io.Serializable{
@@ -22,7 +22,7 @@ public abstract class ActCard implements java.io.Serializable{
 	public String displayName = "";
 
 	public abstract void applyEffect();
-	public GameTeam getGameTeam(){
+	public Team getGameTeam(){
 		return Game.g.teams.get(this.team);
 	}
 

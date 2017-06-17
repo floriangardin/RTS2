@@ -493,7 +493,7 @@ public class EditorPlateau {
 			default:	
 			}
 		}
-		//Game.g.images.updateScaleSend(stepGrid);
+		//Images.updateScaleSend(stepGrid);
 	}
 
 	public void setCollision(EditorObject o, boolean toSet){

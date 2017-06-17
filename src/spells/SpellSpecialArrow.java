@@ -5,9 +5,9 @@ import org.newdawn.slick.Graphics;
 import bullets.Arrow;
 import control.InputObject;
 import data.Attributs;
-import model.Character;
-import model.Checkpoint;
-import model.Objet;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
 import utils.ObjetsList;
 
 public class SpellSpecialArrow extends Spell{

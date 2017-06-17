@@ -10,8 +10,16 @@ import org.newdawn.slick.Image;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import menuutils.Menu_Curseur;
+import menuutils.Menu_Item;
+import menuutils.Menu_TextScanner;
 import model.Game;
+import model.Options;
+import ressources.GraphicElements;
+import ressources.Images;
 import ressources.Map;
+import ressources.Musics;
+import system.MenuSystem.MenuNames;
 
 public class MenuOptions extends Menu {
 
@@ -38,23 +46,22 @@ public class MenuOptions extends Menu {
 	public Menu_TextScanner textscanner;
 
 
-	public MenuOptions(Game game){
-		super(game);
-		this.volume = Game.g.images.get("menuVolume").getScaledCopy(game.ratioResolution);
-		this.curseur = Game.g.images.get("menuCurseur").getScaledCopy(game.ratioResolution);
-		this.game = game;
+	public MenuOptions(){
+		super();
+		this.volume = Images.get("menuVolume").getScaledCopy(Game.ratioResolution);
+		this.curseur = Images.get("menuCurseur").getScaledCopy(Game.ratioResolution);
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
-		float startY = 0.50f*this.game.resY;
-		float stepY = 0.12f*this.game.resY;
-		float startX = this.game.resX/2;
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+0*stepY,"Musique",this.game,false));
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+1*stepY,"Son",this.game,false));
-		this.items.addElement(new Menu_Item(this.game.resX/3f,startY+2*stepY,"Pseudo",this.game,false));
-		this.textscanner = new Menu_TextScanner(game.options.nickname,2*this.game.resX/3f,startY+2f*stepY,this.game.font.getWidth("Gilles de Bouard "),this.game.font.getHeight("R")*2f+2f, this.game);
-		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,this.game,this.game.options.musicVolume));
-		this.items.addElement(new Menu_Curseur(2*this.game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,this.game,this.game.options.soundVolume*5));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",this.game,true));
+		float startY = 0.50f*Game.resY;
+		float stepY = 0.12f*Game.resY;
+		float startX = Game.resX/2;
+		this.items.addElement(new Menu_Item(Game.resX/3f,startY+0*stepY,"Musique",false));
+		this.items.addElement(new Menu_Item(Game.resX/3f,startY+1*stepY,"Son",false));
+		this.items.addElement(new Menu_Item(Game.resX/3f,startY+2*stepY,"Pseudo",false));
+		this.textscanner = new Menu_TextScanner(Options.nickname,2*Game.resX/3f,startY+2f*stepY,GraphicElements.font_main.getWidth("Gilles de Bouard "),GraphicElements.font_main.getHeight("R")*2f+2f);
+		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,Options.musicVolume));
+		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,Options.soundVolume*5));
+		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",true));
 		//		}
 	}
 
@@ -62,24 +69,24 @@ public class MenuOptions extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 5: 
-			this.game.setMenu(game.menuIntro);
+			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.updateOptions();
 			break;
 		default:		
 		}
-		this.game.options.musicVolume = Math.min(Math.max(this.game.options.musicVolume, 0f), 1f);
-		this.game.options.soundVolume = Math.min(Math.max(this.game.options.soundVolume, 0f), 0.2f);
+		Options.musicVolume = Math.min(Math.max(Options.musicVolume, 0f), 1f);
+		Options.soundVolume = Math.min(Math.max(Options.soundVolume, 0f), 0.5f);
 	}
 
 	public void update(InputObject im){
 		this.updateItems(im);
-		this.textscanner.update(this.game.app.getInput(),im);
+		this.textscanner.update(Game.app.getInput(),im);
 		if(im.isPressed(KeyEnum.LeftClick)){
 			textscanner.isSelected = textscanner.isMouseOver(im);
 		} 
-		this.game.options.musicVolume = ((Menu_Curseur)this.items.get(3)).value;
-		this.game.options.soundVolume = ((Menu_Curseur)this.items.get(4)).value/5f;
-		this.game.musics.get("themeMenu").setVolume(game.options.musicVolume);
+		Options.musicVolume = ((Menu_Curseur)this.items.get(3)).value;
+		Options.soundVolume = ((Menu_Curseur)this.items.get(4)).value/2f;
+		Musics.getPlayingMusic().setVolume(Options.musicVolume);
 	}
 
 	public void updateOptions(){
@@ -87,12 +94,11 @@ public class MenuOptions extends Menu {
 			FileWriter fw = new FileWriter ("././options.opts");
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
-			fichierSortie.println ("musics:-" + game.options.musicVolume);
-			fichierSortie.println ("sounds:-" + game.options.soundVolume); 
-			this.game.options.nickname = ((Menu_TextScanner)this.textscanner).s;
-			fichierSortie.println ("nickname:-" + game.options.nickname); 
+			fichierSortie.println ("musics:-" + Options.musicVolume);
+			fichierSortie.println ("sounds:-" + Options.soundVolume); 
+			Options.nickname = ((Menu_TextScanner)this.textscanner).s;
+			fichierSortie.println ("nickname:-" + Options.nickname); 
 			fichierSortie.close();
-			Map.initializePlateau(game, 1f, 1f);
 		}
 		catch (Exception e){
 			System.out.println(e.toString());

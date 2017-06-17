@@ -7,15 +7,15 @@ import org.newdawn.slick.Sound;
 
 import model.Colors;
 import model.Game;
-import model.Objet;
-import model.Character;
+import plateau.Character;
+import plateau.Objet;
 
 public class EventDash extends Event{
 	
 	public EventDash(Objet parent) {
 		super(parent);
 		// TODO Auto-generated constructor stub
-		if(parent.getTarget()!=null && parent.getTarget() instanceof Character && parent.getTarget().getGameTeam()!=parent.getGameTeam()){
+		if(parent.getTarget()!=null && parent.getTarget() instanceof Character && parent.getTarget().getTeam()!=parent.getTeam()){
 			Game.g.sounds.get("dash_shot").play(1f, Game.g.options.soundVolume);
 		}else{
 			Game.g.sounds.get("dash").play(1f, Game.g.options.soundVolume);

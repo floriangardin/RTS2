@@ -1,6 +1,8 @@
-package model;
+package plateau;
 
 import main.Main;
+import model.Colors;
+import model.Game;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -16,8 +18,8 @@ public class MarkerBuilding extends Checkpoint{
 	float delta = 20f;
 	
 
-	public MarkerBuilding(float x, float y,Building b) {
-		super(x, y);
+	public MarkerBuilding(float x, float y,Building b, Plateau plateau) {
+		super(x, y, plateau);
 		
 		this.x = x;
 		this.y = y;
@@ -35,25 +37,25 @@ public class MarkerBuilding extends Checkpoint{
 		drawShape2.setCenterY(y);
 		this.state = this.maxDuration+1f;
 		this.selectionBox = null;
-		this.setXY(x, y);
+		this.setXY(x, y, plateau);
 		this.printed=0f;
 		
 	}
 
 	
-	public void action(){
+	public void action(Plateau plateau){
 		this.toDraw = this.state<this.maxDuration;
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
 		}
 		
 	}
-	public Graphics draw(Graphics g){
+	public Graphics draw(Graphics g, Plateau plateau){
 		
 		if(!toDraw && !alwaysDraw){
 			return g;
 		}
-		if(this.lastRoundUpdate==Game.g.round){
+		if(this.lastRoundUpdate==plateau.round){
 			return g;
 		}
 
@@ -81,7 +83,7 @@ public class MarkerBuilding extends Checkpoint{
 			g.draw(drawShape2);
 			g.setColor(color);
 			g.draw(drawShape);
-			this.lastRoundUpdate = Game.g.round;
+			this.lastRoundUpdate = plateau.round;
 		}
 		g.setAntiAlias(false);
 		return g;

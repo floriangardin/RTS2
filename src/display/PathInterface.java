@@ -4,9 +4,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
-import model.Building;
 import model.Game;
-import model.NaturalObjet;
+import plateau.Building;
+import plateau.NaturalObjet;
 
 public class PathInterface extends Bar {
 	// Minimap caract
@@ -19,14 +19,14 @@ public class PathInterface extends Bar {
 	public boolean toDraw;
 
 
-	public PathInterface(BottomBar parent){
+	public PathInterface(Interface parent){
 	
 		this.startX = Game.g.resX/4;
 		this.startY = Game.g.resY/4;
 		this.w = Game.g.resX/2;
 		this.h = Game.g.resY/2;
-		rw = w/Game.g.plateau.maxX;
-		rh = h/Game.g.plateau.maxY;
+		rw = w/Game.gameSystem.plateau.maxX;
+		rh = h/Game.gameSystem.plateau.maxY;
 		this.toDraw = false;
 	}
 
@@ -46,21 +46,21 @@ public class PathInterface extends Bar {
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.fillRect(startX, startY, w, h);
 		// Draw water
-		for(NaturalObjet q : Game.g.plateau.naturalObjets){
+		for(NaturalObjet q : Game.gameSystem.plateau.naturalObjets){
 			g.setColor(Color.cyan);
 			g.fillRect(startX+rw*q.x-rw*q.sizeX/2f, startY+rh*q.y-rh*q.sizeY/2f,rw*q.sizeX , rh*q.sizeY);
 		}
 		
 		g.setColor(Color.black);
-		for(float f : Game.g.plateau.mapGrid.Xcoord){
+		for(float f : Game.gameSystem.plateau.mapGrid.Xcoord){
 			g.drawLine(startX+rw*f, startY, startX+rw*f, startY+h);
 		}
-		for(float f : Game.g.plateau.mapGrid.Ycoord){
+		for(float f : Game.gameSystem.plateau.mapGrid.Ycoord){
 			g.drawLine(startX, startY+rh*f, startX+w, startY+rh*f);
 		}
 		
 		
-		for(Building c : Game.g.plateau.buildings){
+		for(Building c : Game.gameSystem.plateau.buildings){
 			g.setColor(Color.gray);
 			
 			g.fillRect(startX+rw*c.x-rw*c.getAttribut(Attributs.sizeX)/2f, startY+rh*c.y-rh*c.getAttribut(Attributs.sizeY)/2f, rw*c.getAttribut(Attributs.sizeX), rh*c.getAttribut(Attributs.sizeY));

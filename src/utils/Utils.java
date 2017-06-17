@@ -15,12 +15,12 @@ import org.newdawn.slick.ImageBuffer;
 
 import com.google.gson.Gson;
 
-import model.Building;
-import model.Character;
 import model.Game;
-import model.Objet;
-import model.Plateau;
 import model.Player;
+import plateau.Building;
+import plateau.Objet;
+import plateau.Plateau;
+import plateau.Character;
 
 // Class for static methods
 public class Utils {
@@ -322,24 +322,24 @@ public class Utils {
 		System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Players");
-		if(Game.g.players==null)
-			System.out.println("-> bug: players est null");
-		else{
-			for(Player c:Game.g.players)
-				System.out.println(c.toString());
-		}
-		System.out.println("currentplayer: " + Game.g.currentPlayer);
+//		if(Game.g.players==null)
+//			System.out.println("-> bug: players est null");
+//		else{
+//			for(Player c:Game.g.players)
+//				System.out.println(c.toString());
+//		}
+//		System.out.println("currentplayer: " + Game.g.currentPlayer);
 		System.out.println();System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Characters");
 		if(p.characters==null)
 			System.out.println("-> bug: characters est null");
 		else{
-			for(Character c:p.characters)
-				if(c.getTarget()!=null)
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.getTarget().x);
-				else
-					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
+//			for(Character c:p.characters)
+//				if(c.getTarget()!=null)
+//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints+" t:"+c.getTarget().x);
+//				else
+//					System.out.println(c.name+" "+ c.x+ " " +c.y + " " +c.id +" "+c.getTeam() +" "+c.lifePoints);
 		}
 		System.out.println();
 		//		System.out.println("========================================");

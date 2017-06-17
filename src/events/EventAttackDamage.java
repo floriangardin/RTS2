@@ -6,9 +6,9 @@ import org.newdawn.slick.Image;
 
 import main.Main;
 import model.Game;
-import model.Character;
-import model.Objet;
-import ressources.Fonts;
+import plateau.Character;
+import plateau.Objet;
+import ressources.GraphicElements;
 
 public class EventAttackDamage extends Event {
 
@@ -33,7 +33,7 @@ public class EventAttackDamage extends Event {
 		this.y+=vy;
 		this.x+=vx;
 		this.remainingTime--;
-		Fonts.font_main_red.drawString(x-Fonts.font_main_red.getWidth(""+value)/2, y-Fonts.font_main_red.getHeight(""+value)/2, ""+value);
+		GraphicElements.font_main_red.drawString(x-GraphicElements.font_main_red.getWidth(""+value)/2, y-GraphicElements.font_main_red.getHeight(""+value)/2, ""+value);
 		try{
 			Color color = new Color(1f,0f,0f,(this.remainingTime+10f-this.totalRemainingTime)/10f);
 			((Character)(this.parent)).drawFlash(g, color);

@@ -1,18 +1,18 @@
-package menu;
+package menuutils;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import model.Game;
 
-public class Menu_MapChoice extends Menu_Item {
+public class Menu_Map extends Menu_Item {
 
-	String name;
+	public String name;
 	public boolean isSelected;
 
-	public Menu_MapChoice(Game game, String name, float x, float y, float sizeX, float sizeY){
-		this.game = game;
+	public Menu_Map(String name, float x, float y, float sizeX, float sizeY){
 		this.x = x;
 		this.y = y;
 		this.sizeX = sizeX;
@@ -23,7 +23,7 @@ public class Menu_MapChoice extends Menu_Item {
 	public void draw(Graphics g){
 		g.setColor(Color.white);
 		if(isSelected)
-			g.drawRect(x-5f, y-5f, sizeX, sizeY);
+			g.drawRect(x-5f, y-5f, sizeX+10f, sizeY+10f);
 		if(mouseOver)
 			g.setColor(Color.gray);
 		g.drawString(name, x, y);
@@ -32,7 +32,11 @@ public class Menu_MapChoice extends Menu_Item {
 	public boolean isMouseOver(InputObject im){
 		float xMouse = im.x;
 		float yMouse = im.y;
-		return (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
+		boolean b = (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
+		if(b && im.isPressed(KeyEnum.LeftClick)){
+			this.isSelected = true;
+		}
+		return b;
 	}
 
 }

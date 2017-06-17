@@ -2,25 +2,22 @@ package ressources;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Vector;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import model.Game;
+import model.Options;
 
 public class Taunts {
 
 
 
-	private HashMap<String, Sound> taunts;
+	private static HashMap<String, Sound> taunts;
 
-	public boolean isPlaying = false;
+	public static boolean isPlaying = false;
 
-	private Game game;
 
-	public Taunts(Game game){
-		this.game = game;
+	public static void init(){
 		taunts = new HashMap<String, Sound>();
 		File repertoire = new File("ressources/taunts/");
 		File[] files=repertoire.listFiles();
@@ -36,12 +33,12 @@ public class Taunts {
 		}
 	}
 
-	public void playTaunt(String s){
-		if(taunts.containsKey(s)){
-			this.game.musicPlaying.setVolume(0.05f);
+	public static void playTaunt(String s){
+		if(taunts.containsKey(s) && !isPlaying){
+			Musics.getPlayingMusic().setVolume(0.05f);
 //			this.game.musics.multi.setVolume(0.05f);
-			taunts.get(s).play(1f, game.options.musicVolume);
-			game.taunts.isPlaying = true;
+			taunts.get(s).play(1f, Options.musicVolume);
+			isPlaying = true;
 		}
 	}
 
@@ -49,12 +46,12 @@ public class Taunts {
 		if(isPlaying==false){
 			return;
 		}
-		for(Sound s : this.taunts.values()){
+		for(Sound s : taunts.values()){
 			if(s.playing()){
 				return;
 			}
 		}
-		this.isPlaying = false;
-		this.game.musicPlaying.setVolume(this.game.options.musicVolume);
+		isPlaying = false;
+		Musics.getPlayingMusic().setVolume(Options.musicVolume);
 	}
 }

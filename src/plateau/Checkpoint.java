@@ -1,6 +1,8 @@
-package model;
+package plateau;
 
 import main.Main;
+import model.Colors;
+import model.Game;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -11,7 +13,7 @@ public class Checkpoint extends Objet {
 	public float maxDuration=30f*60/Main.framerate;
 	public float state;
 	public float animationState;
-	transient float maxRadius = 20f;
+	protected transient float maxRadius = 20f;
 	int lastRoundUpdate =0;
 	Circle drawShape;
 	Circle drawShape2;
@@ -19,15 +21,15 @@ public class Checkpoint extends Objet {
 	public boolean alwaysDraw = false;
 	public boolean neverEnding = false;
 	
-	public Checkpoint(float x, float y){
+	public Checkpoint(float x, float y, Plateau plateau){
 
-		this.initialize(x, y);
+		this.initialize(x, y, plateau);
 	}
 	
-	public void initialize(float x, float y){
+	public void initialize(float x, float y, Plateau plateau){
 		this.lifePoints=1f;
-		Game.g.plateau.checkpoints.addElement(this);
-		Game.g.plateau.objets.put(this.id,this);
+		plateau.checkpoints.addElement(this);
+		plateau.objets.put(this.id,this);
 		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
@@ -40,20 +42,18 @@ public class Checkpoint extends Objet {
 		this.drawShape2 = new Circle(x,y,0);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
-		this.setXY(x, y);
+		this.setXY(x, y, plateau);
 		this.selectionBox = null;
 		this.x = x;
 		this.y = y;
 		this.printed=0f;
 	}
 	
-	public Checkpoint(float x, float y,boolean neverEnding){
+	public Checkpoint(float x, float y,boolean neverEnding, Plateau plateau){
 
-		this.initialize(x, y);
+		this.initialize(x, y, plateau);
 		this.neverEnding = neverEnding;
 	}
-	
-
 	
 
 	
@@ -74,7 +74,7 @@ public class Checkpoint extends Objet {
 		if(!toDraw && !alwaysDraw){
 			return g;
 		}
-		if(this.lastRoundUpdate==Game.g.round){
+		if(this.lastRoundUpdate==Game.gameSystem.round){
 			return g;
 		}
 
@@ -100,14 +100,14 @@ public class Checkpoint extends Objet {
 			g.draw(drawShape2);
 			g.setColor(color);
 			g.draw(drawShape);
-			this.lastRoundUpdate = Game.g.round;
+			this.lastRoundUpdate = Game.gameSystem.round;
 		}
 		g.setAntiAlias(false);
 		return g;
 	}
 
 	@Override
-	public void collision(Character c) {
+	public void collision(Character c, Plateau plateau) {
 		// TODO Auto-generated method stub
 		
 	}

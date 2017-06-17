@@ -11,9 +11,9 @@ import data.AttributsChange;
 import data.AttributsChange.Change;
 import display.DisplayRessources;
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -33,7 +33,7 @@ public class Meditation extends SpellEffect{
 		remainingTime = this.getAttribut(Attributs.totalTime);	
 		// Calculate step of lifepoints
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher.id;
 		this.setTeam(launcher.getTeam());
 	}
@@ -46,7 +46,7 @@ public class Meditation extends SpellEffect{
 		if(this.remainingTime<=0f){
 			// Test if special capacity explosion
 			if(getOwner().getAttribut(Attributs.ressourceAfterMeditation)==1f){
-				getOwner().getGameTeam().food = getOwner().getGameTeam().food+20;
+				getOwner().getTeam().food = getOwner().getTeam().food+20;
 			}
 			if(getOwner().getAttribut(Attributs.attackBonusAfterMeditation)==1f){
 				getOwner().attributsChanges.add(new AttributsChange(Attributs.damage,Change.ADD,1,0));
@@ -69,7 +69,7 @@ public class Meditation extends SpellEffect{
 				direction = ((direction-1)*(-1)+2);
 			}
 			Image im;
-			im = Game.g.images.getUnit(owner.name, direction, owner.animation, getGameTeam().id, owner.isAttacking);
+			im = Images.getUnit(owner.name, direction, owner.animation, getTeam().id, owner.isAttacking);
 			g.drawImage(im,owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4);
 			im.drawFlash(owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);			
 		}

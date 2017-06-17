@@ -4,7 +4,7 @@ import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
-import model.Character;
+import plateau.Character;
 import utils.ObjetsList;
 
 public class BonusDamage extends Bonus{

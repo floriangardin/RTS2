@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import main.Main;
 import model.Game;
-import model.Objet;
+import plateau.Objet;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
@@ -38,7 +38,7 @@ public abstract class Event {
 	}
 
 	public int getGameTeam(){
-		return parent.getGameTeam().id;
+		return parent.getTeam().id;
 	}
 
 

@@ -2,12 +2,12 @@ package bot;
 
 import java.util.Vector;
 
-import model.Building;
-import model.Character;
-import model.Checkpoint;
 import model.Game;
-import model.Objet;
 import multiplaying.ChatMessage;
+import plateau.Building;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Objet;
 import spells.Spell;
 import utils.ObjetsList;
 
@@ -59,7 +59,7 @@ public class IAAllyObject extends IAUnit{
 			rightClick(x,y);
 			objet.mode = Character.MOVE;
 		}else{
-			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to move a building ..."));
+			Communications.sendMessage(new ChatMessage("1|Warning : Tried to move a building ..."));
 		}
 	}; // classic move
 	public  void attack(float x , float y){
@@ -73,14 +73,14 @@ public class IAAllyObject extends IAUnit{
 				((Building) objet).product(this.getProductionList().indexOf(production));
 			}
 		}else{
-			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
+			Communications.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
 		}
 	}; // Produce unit
 	public  void produceTechnology(ObjetsList tech){
 		if(objet instanceof Building){
 			
 		}else{
-			Game.g.sendMessage(new ChatMessage("1|Warning : Tried to research not in a building ..."));
+			Communications.sendMessage(new ChatMessage("1|Warning : Tried to research not in a building ..."));
 		}
 	}; // Produce research
 	

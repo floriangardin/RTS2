@@ -6,22 +6,24 @@ import java.util.HashMap;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
+import model.Options;
 import tests.FatalGillesError;
 
 public class Musics {
 	
-	private HashMap<String, Music> musics;
+	private static Music musicPlaying = null;
 	
-	public Musics(){
+	private static HashMap<String, Music> musics;
+	
+	public static void init(){
 		// loading musics
-		this.musics = new HashMap<String, Music>();
-		this.loadRepertoire("ressources/musics/");
+		musics = new HashMap<String, Music>();
+		loadRepertoire("ressources/musics/");
 	}
 
-
-	public Music get(String name) {
-		if(this.musics.containsKey(name.toLowerCase())){
-			return this.musics.get(name.toLowerCase());
+	public static Music get(String name) {
+		if(musics.containsKey(name.toLowerCase())){
+			return musics.get(name.toLowerCase());
 		} else {
 			//System.out.println("Error : trying to load an non-existing sound : "+name);
 			try {
@@ -33,7 +35,7 @@ public class Musics {
 		}
 	}
 
-	private void loadRepertoire(String name){
+	private static void loadRepertoire(String name){
 		File repertoire = new File(name);
 		File[] files=repertoire.listFiles();
 		String s;
@@ -45,10 +47,10 @@ public class Musics {
 					// on charge la musique
 					s = s.substring(0, s.length()-4);
 					music = new Music(name+s+".ogg");
-					this.musics.put(s.toLowerCase(),music);
+					musics.put(s.toLowerCase(),music);
 				} else if (!s.contains(".")){
 					// nouveau répertoire à charger
-					this.loadRepertoire(name+s+"/");
+					loadRepertoire(name+s+"/");
 				}
 			} 
 		} catch (SlickException | SecurityException | IllegalArgumentException  e) {
@@ -56,4 +58,32 @@ public class Musics {
 		}
 	}
 
+	public static void playMusic(String name){
+		Music music = get(name);
+		if(music != null){
+			if(musicPlaying != null){
+				musicPlaying.stop();
+			}
+			musicPlaying = music;
+			musicPlaying.play(1f, 1f);
+		}
+	}
+	
+	public static void playMusicFading(String name){
+		int durationFade = 1000;
+		Music m = get(name);
+		if(m==musicPlaying){
+			return;
+		}
+		if(musicPlaying!=null){
+			musicPlaying.fade(durationFade,0,true);
+		}
+		playMusic(name);
+		musicPlaying.setVolume(0);
+		musicPlaying.fade(durationFade,Options.musicVolume,false);
+	}
+	
+	public static Music getPlayingMusic(){
+		return musicPlaying;
+	}
 }

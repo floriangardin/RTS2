@@ -5,27 +5,27 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import utils.ObjetsList;
-import model.Character;
 import model.Game;
-import model.NaturalObjet;
-import model.Objet;
-import model.Plateau;
+import plateau.Character;
+import plateau.NaturalObjet;
+import plateau.Objet;
+import plateau.Plateau;
 
 public class Water extends NaturalObjet {
 	
 	
 	
-	public Water(float x, float y, float sizeX, float sizeY) {
+	public Water(float x, float y, float sizeX, float sizeY, Plateau plateau) {
 		this.name = ObjetsList.Water;
-		this.setTeam(0);
+		this.team = plateau.teams.get(0);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 //		this.image= this.p.g.images.get("water");
 		this.collisionBox = new Rectangle(x-sizeX/2,y-sizeY/2,sizeX,sizeY);
 		this.color = Color.blue;
 		this.lifePoints = 1.0f;
-		this.setXY(x, y);
-		Game.g.plateau.addNaturalObjets(this);
+		this.setXY(x, y, plateau);
+		Game.gameSystem.plateau.addNaturalObjets(this);
 	}
 	
 	public void collision(Objet o){
@@ -46,7 +46,7 @@ public class Water extends NaturalObjet {
 	}
 
 	@Override
-	public void collision(Character c) {
+	public void collision(Character c, Plateau plateau) {
 		// TODO Auto-generated method stub
 		
 	}

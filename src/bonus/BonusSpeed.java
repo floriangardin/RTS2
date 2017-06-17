@@ -2,9 +2,9 @@ package bonus;
 
 
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Plateau;
+import plateau.Character;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class BonusSpeed extends Bonus{

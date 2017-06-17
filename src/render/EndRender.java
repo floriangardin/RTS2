@@ -9,8 +9,8 @@ import org.newdawn.slick.Image;
 
 import events.EventDestructionHQ;
 import main.Main;
-import model.Building;
 import model.Game;
+import plateau.Building;
 import ressources.Map;
 
 public class EndRender {
@@ -39,15 +39,15 @@ public class EndRender {
 	public static void initEnd(int loosingTeamId){
 		Game.g.endGame = true;
 		time = 0;
-		image_background = Game.g.images.get("victoire_fond").getScaledCopy(3f);
-		if(loosingTeamId!=Game.g.currentPlayer.getTeam()){
+		image_background = Images.get("victoire_fond").getScaledCopy(3f);
+		if(loosingTeamId!=Game.gameSystem.getCurrentTeam()){
 			victory = true;
-			image_text = Game.g.images.get("victoire_texte");
-			image_texture = Game.g.images.get("victoire_fond_texture");
+			image_text = Images.get("victoire_texte");
+			image_texture = Images.get("victoire_fond_texture");
 		} else{
 			victory = false;
-			image_text = Game.g.images.get("defaite_texte");
-			image_texture = Game.g.images.get("defaite_fond_texture");
+			image_text = Images.get("defaite_texte");
+			image_texture = Images.get("defaite_fond_texture");
 		}
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
@@ -64,7 +64,7 @@ public class EndRender {
 		if((destroyedHQ.x-Xcam-resX/2)*(destroyedHQ.x-Xcam-resX/2)+(destroyedHQ.y-Ycam-resY/2)*(destroyedHQ.y-Ycam-resY/2)>450f){
 			Game.g.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
 			Game.g.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
-			Game.g.plateau.updateVisibility();
+			Game.gameSystem.plateau.updateVisibility();
 			return;
 		} 
 		time ++;
@@ -108,7 +108,7 @@ public class EndRender {
 			return;
 		}
 		if(time<=timeDropBackground){
-			image_background = Game.g.images.get("victoire_fond").getScaledCopy(3f-2f*time/timeDropBackground);
+			image_background = Images.get("victoire_fond").getScaledCopy(3f-2f*time/timeDropBackground);
 		} else if(time<=timeDropBackground+timeFadeTitle){
 			image_text.setAlpha(1f*(time-timeDropBackground)/(timeFadeTitle));
 			image_texture.setAlpha(0.5f*(time-timeDropBackground)/(timeFadeTitle));
@@ -166,9 +166,9 @@ public class EndRender {
 		public Rond(boolean victory){
 			float scale = (float) (Math.random()+0.2f)/1.5f;
 			if(victory){
-				image = Game.g.images.get("victoire_rond").getScaledCopy(scale);
+				image = Images.get("victoire_rond").getScaledCopy(scale);
 			} else {
-				image = Game.g.images.get("defaite_rond").getScaledCopy(scale);
+				image = Images.get("defaite_rond").getScaledCopy(scale);
 			}
 			x = Game.g.resX/2f;
 			y = Game.g.resY/2f;

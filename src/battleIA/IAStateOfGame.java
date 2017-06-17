@@ -3,10 +3,10 @@ package battleIA;
 import java.util.Vector;
 
 import data.Attributs;
-import model.Building;
-import model.Character;
-import model.Objet;
-import model.Plateau;
+import plateau.Building;
+import plateau.Character;
+import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 import utils.ObjetsList;
 

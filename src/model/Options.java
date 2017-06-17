@@ -7,11 +7,11 @@ import java.io.InputStreamReader;
 
 public class Options {
 	
-	public float soundVolume;
-	public float musicVolume;
-	public String nickname;
+	public static float soundVolume;
+	public static float musicVolume;
+	public static String nickname;
 	
-	public Options(){
+	public static void init(){
 		String fichier ="././options.opts";
 		//lecture du fichier texte	
 		try{

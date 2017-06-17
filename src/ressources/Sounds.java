@@ -7,28 +7,29 @@ import java.util.Vector;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+import model.Options;
 import tests.FatalGillesError;
 import utils.ObjetsList;
 
 public class Sounds {
 	// STORE ALL THE SOUNDS
 
-	private HashMap<String, Sound> sounds;
-	private HashMap<String, HashMap<String, Vector<Sound>>> soundsUnit;
+	private static HashMap<String, Sound> sounds;
+	private static HashMap<String, HashMap<String, Vector<Sound>>> soundsUnit;
 
-	public Sounds(){
+	public static void init(){
 		// loading sounds
-		this.sounds = new HashMap<String, Sound>();
-		this.loadRepertoire("ressources/sounds/");
+		sounds = new HashMap<String, Sound>();
+		loadRepertoire("ressources/sounds/");
 
 		// loading soundsUnit
-		this.soundsUnit = new HashMap<String,HashMap<String,Vector<Sound>>>();
-		this.loadSoundsUnit();
+		soundsUnit = new HashMap<String,HashMap<String,Vector<Sound>>>();
+		loadSoundsUnit();
 	}
 
-	public Sound get(String name) {
-		if(this.sounds.containsKey(name.toLowerCase())){
-			return this.sounds.get(name.toLowerCase());
+	public static Sound get(String name) {
+		if(sounds.containsKey(name.toLowerCase())){
+			return sounds.get(name.toLowerCase());
 		} else {
 			//System.out.println("Error : trying to load an non-existing sound : "+name);
 			try {
@@ -40,11 +41,11 @@ public class Sounds {
 		}
 	}
 
-	public Sound getRandomSoundUnit(String unit2, String soundType2){
+	public static Sound getRandomSoundUnit(String unit2, String soundType2){
 		String unit = unit2.toLowerCase(), soundType = soundType2.toLowerCase();
 		if(soundsUnit.containsKey(unit) && soundsUnit.get(unit).containsKey(soundType)){
-			if(this.soundsUnit.get(unit).get(soundType).size()>0){
-				return this.soundsUnit.get(unit).get(soundType).get((int)(Math.random()*this.soundsUnit.get(unit).get(soundType).size()));
+			if(soundsUnit.get(unit).get(soundType).size()>0){
+				return soundsUnit.get(unit).get(soundType).get((int)(Math.random()*soundsUnit.get(unit).get(soundType).size()));
 			}
 		} else {				
 			try {
@@ -56,23 +57,23 @@ public class Sounds {
 		return null;
 	}
 	
-	public Vector<Sound> getSoundVector(ObjetsList unit,String type){
-		return this.soundsUnit.get(unit.name().toLowerCase()).get(type.toLowerCase());
+	public static Vector<Sound> getSoundVector(ObjetsList unit,String type){
+		return soundsUnit.get(unit.name().toLowerCase()).get(type.toLowerCase());
 	}
 
-	private void loadSoundsUnit(){
+	private static void loadSoundsUnit(){
 		// creating vectors
-		this.soundsUnit.put("spearman", new HashMap<String,Vector<Sound>>());
-		this.soundsUnit.put("crossbowman", new HashMap<String,Vector<Sound>>());
-		this.soundsUnit.put("knight", new HashMap<String,Vector<Sound>>());
-		this.soundsUnit.put("priest", new HashMap<String,Vector<Sound>>());
-		this.soundsUnit.put("inquisitor", new HashMap<String,Vector<Sound>>());
-		this.soundsUnit.put("archange", new HashMap<String,Vector<Sound>>());
-		for(String s1 : this.soundsUnit.keySet()){
-			this.soundsUnit.get(s1).put("death", new Vector<Sound>());
-			this.soundsUnit.get(s1).put("selection", new Vector<Sound>());
-			this.soundsUnit.get(s1).put("attack", new Vector<Sound>());
-			this.soundsUnit.get(s1).put("target", new Vector<Sound>());
+		soundsUnit.put("spearman", new HashMap<String,Vector<Sound>>());
+		soundsUnit.put("crossbowman", new HashMap<String,Vector<Sound>>());
+		soundsUnit.put("knight", new HashMap<String,Vector<Sound>>());
+		soundsUnit.put("priest", new HashMap<String,Vector<Sound>>());
+		soundsUnit.put("inquisitor", new HashMap<String,Vector<Sound>>());
+		soundsUnit.put("archange", new HashMap<String,Vector<Sound>>());
+		for(String s1 : soundsUnit.keySet()){
+			soundsUnit.get(s1).put("death", new Vector<Sound>());
+			soundsUnit.get(s1).put("selection", new Vector<Sound>());
+			soundsUnit.get(s1).put("attack", new Vector<Sound>());
+			soundsUnit.get(s1).put("target", new Vector<Sound>());
 		}
 		// prepare for loading
 		File repertoire = new File("ressources/sounds/soundsUnit/");
@@ -86,9 +87,9 @@ public class Sounds {
 					// loading
 					s = s.substring(0, s.length()-4);
 					sound = new Sound("ressources/sounds/soundsUnit/"+s+".ogg");
-					for(String s1 : this.soundsUnit.keySet()){
+					for(String s1 : soundsUnit.keySet()){
 						if(s.toLowerCase().contains(s1)){
-							this.soundsUnit.get(s1).get(s.split("_")[0]).add(sound);
+							soundsUnit.get(s1).get(s.split("_")[0]).add(sound);
 						}
 					}
 				}
@@ -105,7 +106,7 @@ public class Sounds {
 //		}
 	}
 
-	private void loadRepertoire(String name){
+	private static void loadRepertoire(String name){
 		File repertoire = new File(name);
 		File[] files=repertoire.listFiles();
 		String s;
@@ -117,18 +118,25 @@ public class Sounds {
 					// on load le son
 					s = s.substring(0, s.length()-4);
 					sound = new Sound(name+s+".ogg");
-					this.sounds.put(s.toLowerCase(),sound);
+					sounds.put(s.toLowerCase(),sound);
 					//					f = Images.class.getField(s);
 					//					f.set(this, im);
 					//this.images.put(s, new Image(name+s+".png"));
 				} else if (!s.contains(".") && !s.equals("soundsUnit")){
 					// nouveau répertoire
-					this.loadRepertoire(name+s+"/");
+					loadRepertoire(name+s+"/");
 
 				}
 			} 
 		} catch (SlickException | SecurityException | IllegalArgumentException  e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void playSound(String name){
+		Sound s = get(name);
+		if(s!=null){
+			s.play(1f, Options.soundVolume);
 		}
 	}
 }

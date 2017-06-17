@@ -1,4 +1,4 @@
-package menu;
+package menuutils;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -15,8 +15,8 @@ public class Menu_Curseur extends Menu_Item{
 	public float decalage;
 	public boolean isSelected;
 
-	public Menu_Curseur(float x, float y, String name, Image im, Image curseur, Game g,float value){
-		super(x,y,name,im,im,g);
+	public Menu_Curseur(float x, float y, String name, Image im, Image curseur,float value){
+		super(x,y,name,im,im);
 		this.curseur = curseur;
 		this.value = value;
 		this.name = "image manquante";

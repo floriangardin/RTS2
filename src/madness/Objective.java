@@ -1,7 +1,8 @@
 package madness;
 
 import model.Civilisation.AttributsCiv;
-import model.GameTeam;
+import plateau.Team;
+
 import java.util.Vector;
 import utils.ObjetsList;
 public abstract class Objective {
@@ -9,9 +10,9 @@ public abstract class Objective {
 	public int[] objective;
 	public boolean madness;
 	public AttributsCiv cardList;
-	public GameTeam gameTeam;
+	public Team gameTeam;
 	public Vector<ObjetsList> techAllowed = new Vector<ObjetsList>();
-	public Objective(GameTeam gameTeam,int[] value, boolean madness){
+	public Objective(Team gameTeam,int[] value, boolean madness){
 		this.gameTeam = gameTeam;
 		objective = value; 
 		this.madness = madness;

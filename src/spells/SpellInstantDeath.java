@@ -4,10 +4,10 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import data.Attributs;
-import model.Character;
 import model.Game;
-import model.GameTeam;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
+import plateau.Team;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -22,7 +22,7 @@ public class SpellInstantDeath extends Spell{
 		// Check if target intersect an ennemy
 		Objet h = target;
 		
-		for(Character c : Game.g.plateau.characters){
+		for(Character c : Game.gameSystem.plateau.characters){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}

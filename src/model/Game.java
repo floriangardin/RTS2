@@ -1,113 +1,83 @@
 
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.util.Timer;
-import java.util.Vector;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.geom.Point;
-import org.newdawn.slick.loading.DeferredResource;
-import org.newdawn.slick.loading.LoadingList;
 
-import bonus.Bonus;
-import bullets.Bullet;
-import control.InputHandler;
-import control.InputObject;
-import control.KeyMapper;
-import control.KeyMapper.KeyEnum;
-import control.Selection;
-import data.Attributs;
-import data.Data;
-import display.BottomBar;
-import display.DisplayRessources;
-import events.EventNames;
-import events.EventQueue;
-import main.Main;
-import mapeditor.MapEditor;
-import menu.Credits;
-import menu.Menu;
-import menu.MenuIntro;
-import menu.MenuMapChoice;
-import menu.MenuMulti;
-import menu.MenuOptions;
-import multiplaying.ChatHandler;
-import multiplaying.ChatMessage;
-import multiplaying.Checksum;
-import multiplaying.Clock;
-import multiplaying.MultiMessage;
-import pathfinding.Case;
-import render.EndRender;
-import ressources.Fonts;
-import ressources.Images;
-import ressources.IntroMovie;
-import ressources.Map;
-import ressources.Musics;
-import ressources.Sounds;
-import ressources.Taunts;
-import spells.SpellEffect;
-import tests.FatalGillesError;
-import tests.Test;
-import utils.ObjetsList;
-import utils.Utils;
+import ressources.GraphicElements;
+import system.ClassSystem;
+import system.GameSystem;
+import system.IntroSystem;
+import system.MenuSystem;
+
+
 public class Game extends BasicGame 
 {
-	/////////////
-	/// DEBUG ///
-	/////////////
+	
+	public static int resX, resY;
+	public static float ratioResolution;
+	
+	public static AppGameContainer app; 
 
-	public static boolean tests = false;
-	public static Game g;
-	public static boolean debugInputs = false;
-	public static boolean debugTimeSteps = false;
-	public static boolean debugPaquet = false;
-	public static boolean debugValidation = false;
-	public static boolean debugReceiver = false;
-	public static boolean debugSender = false;
-	public static boolean debugTourEnCours = false;
-	public static boolean debugThread = false;
-	public static boolean debugDisplayDebug = true;
-	public static boolean debugMemory = false;
-	public static boolean debugFog = false;
+	public static ClassSystem system;
+	public static GameSystem gameSystem;
+	public static MenuSystem menuSystem;
+	public static ClassSystem editorSystem;
 
-	public static boolean deplacementGroupIntelligent = false;
-	public static boolean debugGroup = false;
+	public Game(int resX, int resY) {
+		super("RTS Ultramythe");
+		Game.resX = resX;
+		Game.resY = resY;
+		Game.ratioResolution = 1f*resX/1920f;
+		Game.gameSystem = new GameSystem();
+	}
 
-	public boolean displayMapGrid = false;
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		if(system!=null){
+			g.setFont(GraphicElements.font_main);
+			system.render(gc, g);
+		} else {
+			throw new SlickException("Game - System missing error");
+		}
+	}
 
-	public static boolean showUpdateLogicInterval = false;
+	@Override
+	public void init(GameContainer arg0) throws SlickException {
+		system = new IntroSystem();
+	}
+
+	@Override
+	public void update(GameContainer arg0, int arg1) throws SlickException {
+		if(system!=null){
+			system.update(arg0, arg1);
+		} else {
+			throw new SlickException("Game - System missing error");
+		}
+	}
+	
+	public static boolean isInGame(){
+		return system==gameSystem;
+	}
+	
+	public static boolean isInMenu(){
+		return system==menuSystem;
+	}
+	
+	public static boolean isInEditor(){
+		return system==editorSystem;
+	}
+	
+
+	
+}
 
 
-	///////////////////////
-	/// BONUS DISABLING ///
-	///////////////////////
-
-	public static boolean gillesBombeEnable = true;
-	public static boolean gillesEspaceEnable = true;
-	public static boolean gillesSurCentEnable = true;
-	public static boolean gillesModeEnable = true;
-	public static boolean marcoPoloModeEnable = true;
-	public static boolean conseilChargementEnable = true;
-
+	
+/*
 	
 
 	// debugging tools
@@ -132,11 +102,7 @@ public class Game extends BasicGame
 	public int secondsGong;
 
 
-	// Cursors
-	Image attackCursor ; 
-	Image cursor;
-	private Image currentCursor;
-
+	
 	// Font 
 	public UnicodeFont font;
 
@@ -153,11 +119,8 @@ public class Game extends BasicGame
 	/// RENDER ATTRIBUTES ///
 	/////////////////////////
 	
-	public static Image fog;
-	public static Image transparence;
-	public static Graphics gf;
-	public static Graphics gt;
-	public Cosmetic cosmetic;
+
+	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 
 	// colors
 	public static Color couleurJoueur0 = new Color(25,25,25);
@@ -184,13 +147,9 @@ public class Game extends BasicGame
 	public boolean new_selection;
 	public Vector<Objet> objets_selection= new Vector<Objet>();
 
-	// Resolution : 
-	public float resX;
-	public float resY;
 
 	// Plateau
 	public Plateau plateau ;
-	public AppGameContainer app;
 
 	// Handling selection
 	public InputHandler inputsHandler;
@@ -218,48 +177,6 @@ public class Game extends BasicGame
 	public Vector<Player> players = new Vector<Player>();
 	public Player currentPlayer;
 	public Vector<GameTeam> teams = new Vector<GameTeam>();
-
-
-	/////////////////////////////
-	/// NETWORK & MULTIPLAYING///
-	/////////////////////////////
-
-	//Clock
-	public Clock clock;
-	public boolean inMultiplayer;
-	public boolean host = false;
-	public long startTime;
-	// Host and client
-	public InetAddress addressHost;
-	public InetAddress addressBroadcast;
-	public InetAddress addressLocal;
-	// port
-	public static int portUDP = 2302;
-	public static int portUDPKryonet = 2303;
-	public static int portTCP = 54555;
-	public static int portUDPKryonetResynchro = 2304;
-	public static int portTCPResynchro = 54556;
-	// depots for senders
-	public boolean usingKryonet = true;
-	public DatagramSocket normalServer;
-	DatagramSocket normalClient;
-	KryonetServer kryonetServer;
-	public KryonetClient kryonetClient;
-	public Vector<MultiMessage> kryonetBuffer = new Vector<MultiMessage>();
-	int nbReception, tempsReception;
-	// depots for receivers
-	public Vector<String> receivedConnexion = new Vector<String>();
-	public Vector<String> receivedValidation = new Vector<String>();
-	public Vector<String> receivedPing = new Vector<String>();
-	public Vector<Checksum> receivedChecksum = new Vector<Checksum>();
-	public Vector<String> receivedChat = new Vector<String>();
-	// Sender
-	// public MultiSender sender;
-	// Receiver
-	// public MultiReceiver receiver;
-	// Chat
-	public ChatHandler chatHandler;
-	private Plateau toParse;
 
 
 
@@ -315,31 +232,6 @@ public class Game extends BasicGame
 
 	public Replay replay = null;
 
-
-
-	//////////////////////////////
-	// INITIALIZING GAME ENGINE //
-	//////////////////////////////
-
-	public static int nbLoadedThing = 0;
-	public boolean thingsLoaded = false;
-	public boolean plateauLoaded = false;
-	public boolean allLoaded = false;
-	private boolean special = false;
-	private boolean gilles = false;
-	private boolean rate = false;
-	private int gillesPasse = -1;
-	public Image loadingSpearman;
-	public Image loadingGilles;
-	public Image loadingTitle;
-	public Image loadingBackground;
-	public float toGoTitle = -0f;
-	public int animationLoadingSpearman=0;
-	private String lastThing;
-	private boolean waitLoading;
-	private DeferredResource nextResource;
-	private Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
-	String adviceToDisplay;
 
 
 
@@ -410,9 +302,7 @@ public class Game extends BasicGame
 	// functions that handle buffers
 
 	public void clearPlayer(){
-		/**
-		 * function that remove all players but the nature (player 0)
-		 */
+		// function that remove all players but the nature (player 0)
 		while(players.size()>1){
 			removePlayer(players.size()-1);
 		}
@@ -447,18 +337,10 @@ public class Game extends BasicGame
 	/// RENDER ///
 	//////////////
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException 
-	{
+	public void renderOld(GameContainer gc, Graphics g) throws SlickException {
 
 		g.setFont(this.font);
-		if(!thingsLoaded){
-			this.renderIntro(g);
-			return;
-		} else if (this.introMovieEnd==false){
-			this.introMovie.render(g);
-			return;
-		}
+
 		if(isInMenu){
 			if(hasAlreadyPlay){
 				g.translate(+Game.g.Xcam,+ Game.g.Ycam);
@@ -666,75 +548,11 @@ public class Game extends BasicGame
 
 	}
 
-	// drawing ecran chargement
-	public void renderIntro(Graphics g){
-		g.setColor(Color.black);
-		g.fillRect(0, 0, resX, resY);
-		float toGoTitle2 = Math.max(0f,toGoTitle);
-		if(lastThing!=null && toGoTitle2==0f){
-			int startBarX = (int) (resX/10);
-			int startBarY = (int) (18*resY/20);
-			int sizeBarX = (int) (resX - 2*startBarX);
-			int sizeBarY = (int)(resY/40);
-			g.setColor(Color.white);
-			g.fillRect(startBarX-2, startBarY-2,sizeBarX+4, sizeBarY+4);
-			if(Game.conseilChargementEnable)
-				g.drawString(adviceToDisplay, resX/2-font.getWidth(adviceToDisplay)/2, resY-20-font.getHeight(adviceToDisplay));
-			g.setColor(Color.black);
-			g.fillRect(startBarX, startBarY,sizeBarX, sizeBarY);
-			float x = 1f*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
-			g.setColor(new Color(1f-x,0f,x));
-			g.fillRect(startBarX, startBarY,sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing, sizeBarY);
-			if(LoadingList.get().getRemainingResources() > 0){
-				g.setColor(Color.white);
-				g.drawString(""+lastThing, startBarX+20f, startBarY+sizeBarY/2-font.getHeight("Hg")/2);
-			}
-			int xanimation = startBarX + sizeBarX*(nbLoadedThing-LoadingList.get().getRemainingResources())/nbLoadedThing;
-			if(special){
-				int height = this.loadingSpearman.getHeight();
-				int width = this.loadingSpearman.getWidth();
-				g.drawImage(this.loadingSpearman,xanimation-width/2,startBarY-sizeBarY-height);					
-			} else {
-				this.animationLoadingSpearman++;
-				this.animationLoadingSpearman=this.animationLoadingSpearman%(Main.framerate/2);
-				int height = this.loadingSpearman.getHeight()/4;
-				int width = this.loadingSpearman.getWidth()/5;
-				int w = animationLoadingSpearman*8/Main.framerate+1;
-				g.drawImage(this.loadingSpearman.getSubImage(w*width,height,width,height),xanimation-width/2,startBarY-sizeBarY-height);
-			}	
-			if(this.rate){
-				g.setColor(Color.white);
-				String s;
-				if(this.gilles){
-					s = "Trop tard";
-				} else {
-					s = "Trop tôt";
-				}
-				g.drawString(s, resX-10-font.getWidth(s), resY-20-font.getHeight(s));
-			}
-			//g.drawImage(this.loadingSpearman.getSubImage(((w+2)%4)*width,height,width,height),startBarX/2-width/2,startBarY+sizeBarY/2-height/2);
-			//				g.setColor(Color.white);
-			//				String s = "Chargement...";
-			//				g.drawString(s, 7*resX/8,16*resY/20+height/2-font.getHeight(s)/2);
-		}
-		Image temp = this.loadingBackground;
-//		temp.setAlpha(toGoTitle2);
-//		g.drawImage(temp, 0,0,resX,resY,0,0,temp.getWidth(),temp.getHeight()-60f);
-//		temp = this.loadingTitle.getScaledCopy(0.5f+toGoTitle2/2f);
-//		float xTitle = (this.resX/2-temp.getWidth()/2) ;
-//		float yTitle = toGoTitle2*(10f) + (1f-toGoTitle2)*(resY/3);
-//		g.drawImage(temp, xTitle, yTitle);
-		temp = this.loadingTitle.getScaledCopy(0.5f);
-		temp.setAlpha(1-toGoTitle2);
-		float xTitle = (this.resX/2-temp.getWidth()/2) ;
-		float yTitle = (resY/3);
-		g.drawImage(temp, xTitle, yTitle);
-		return;
-	}
+
 	// drawing fog of war method
 	public void drawFogOfWar(Graphics g) {
 		Vector<Objet> visibleObjet = new Vector<Objet>();
-		visibleObjet = this.plateau.getInCamObjets(Game.g.currentPlayer.getTeam());
+		visibleObjet = this.plateau.getInCamObjets(Game.gameSystem.getCurrentTeam());
 		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
 		gf.setColor(new Color(50, 50, 50));
@@ -811,7 +629,7 @@ public class Game extends BasicGame
 						if(direction==1 || direction==2){
 							direction = ((direction-1)*(-1)+2);
 						}
-						im = Game.g.images.getUnit(c.name, direction, c.animation, c.getGameTeam().id, c.isAttacking);
+						im = Images.getUnit(c.name, direction, c.animation, c.getGameTeam().id, c.isAttacking);
 
 						gt.drawImage(im,c.x-im.getWidth()/2,c.y-3*im.getHeight()/4, Color.blue);
 					}
@@ -837,14 +655,10 @@ public class Game extends BasicGame
 	/// UPDATE ///
 	//////////////
 
-	@Override
-	public void update(GameContainer gc, int t) throws SlickException{
+	public void updateOld(GameContainer gc, int t) throws SlickException{
 		// Initializing engine
 		if(!thingsLoaded){
 			this.initializeEngine(gc);
-			return;
-		} else if (this.introMovieEnd==false){
-			this.introMovie.update(gc);
 			return;
 		}
 		// Handling multiReceiver
@@ -1031,6 +845,7 @@ public class Game extends BasicGame
 
 	// INITIALIZING ENGINE
 	private void initializeEngine(GameContainer gc) {
+
 		if (LoadingList.get().getRemainingResources() > 0) { 
 			if(waitLoading == false){
 				waitLoading = true;
@@ -1298,9 +1113,7 @@ public class Game extends BasicGame
 
 
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void init(GameContainer gc) throws SlickException {	
+	public void initOld(GameContainer gc) throws SlickException {	
 		cursor = new Image("ressources/images/cursor.png").getSubImage(0, 0, 24, 64);
 		attackCursor = new Image("ressources/images/swordCursor.png");
 		java.awt.Font fe = new java.awt.Font("Candara",java.awt.Font.PLAIN,(int)(25*resX/1920));
@@ -1308,7 +1121,7 @@ public class Game extends BasicGame
 		font.getEffects().add(new ColorEffect(java.awt.Color.white));
 		this.font.addAsciiGlyphs();
 		this.font.loadGlyphs();
-		Fonts.init();
+		GraphicElements.init();
 		this.currentCursor = cursor;
 		if(gc!=null)
 			gc.setMouseCursor(currentCursor,5,16);
@@ -1421,14 +1234,6 @@ public class Game extends BasicGame
 
 
 
-	public Game (float resX,float resY){
-		super("Ultra Mythe RTS 3.0");
-		this.resX = resX;
-		this.resY = resY;
-		this.ratioResolution = this.resX/2800f;
-		Game.g = this;
-
-	}
 
 	// AUXILIARY FUNCTIONS FOR MULTIPLAYER
 	// DANGER
@@ -1732,4 +1537,4 @@ public class Game extends BasicGame
 	}
 
 
-}
+*/

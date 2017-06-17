@@ -9,20 +9,20 @@ import control.KeyMapper.KeyEnum;
 // Handle cosmetic for lan game to avoid feeling of latency
 public class Cosmetic {
 	
-	Rectangle selection;
-	float recX;
-	float recY;
+	static Rectangle selection;
+	static float recX;
+	static float recY;
 	
 	
 	
-	public Cosmetic(){
+	public static void init(){
 
 	}
 	
-	public void update(InputObject im){
+	public static void update(InputObject im){
 		//SELECTION RECTANGLE
 		if (im.idplayer == Game.g.currentPlayer.id) {
-			Game.g.plateau.handleMouseHover(im);
+			Game.gameSystem.plateau.handleMouseHover(im);
 		}
 		if (im.isDown(KeyEnum.LeftClick)) {
 
@@ -45,7 +45,7 @@ public class Cosmetic {
 		
 	}
 	
-	public Graphics draw(Graphics g){
+	public static Graphics draw(Graphics g){
 		g.setLineWidth(1f);
 		g.draw(selection);
 		

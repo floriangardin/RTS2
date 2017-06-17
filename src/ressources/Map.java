@@ -15,13 +15,13 @@ import bonus.BonusSpeed;
 import data.Data;
 import madness.Act;
 import main.Main;
-import model.Building;
-import model.Character;
 import model.Game;
-import model.GameTeam;
-import model.Plateau;
 import nature.Tree;
 import pathfinding.MapGrid;
+import plateau.Building;
+import plateau.Character;
+import plateau.Plateau;
+import plateau.Team;
 import utils.ObjetsList;
 
 public class Map {
@@ -47,37 +47,9 @@ public class Map {
 		return maps;
 	}
 
-	public static void createMap(int id, Game game){
-		Vector<String> maps = Map.maps();
-		Map.createMap(maps.get(id), game);
-	}
-	public static void createMap(String name, Game game){
-		initializePlateau(game, 2000f, 3000f);
-		updateMap(name, game);
-	}
 
-
-	public static void updateMap(int id, Game game){
-		changeMap(Map.maps().get(id),game);
-	}
-
-	public static void changeMap(String name, Game game){
-		game.plateau.initializePlateau(game);
-		updateMap(name, game);
-	}
-
-	public static void updateMap(String name, Game game){
-		loadMap(name,game);
-	}
-
-	public static void initializePlateau(Game game, float maxX, float maxY){
-		game.plateau = new Plateau(maxX,maxY,game);
-		game.plateau.mapGrid = new MapGrid(0f, game.plateau.maxX,0f, game.plateau.maxY);
-		
-	}
-
-	public static void loadMap(String name, Game game){
-		String fichier = "ressources/maps/"+name+".rtsmap";
+	public static void createPlateau(String nameMap, Plateau plateau){
+		String fichier = "ressources/maps/"+nameMap+".rtsmap";
 		try{
 			//lecture du fichier texte	
 			InputStream ips=new FileInputStream(fichier); 
@@ -88,9 +60,6 @@ public class Map {
 			Vector<String> naturalObjects = new Vector<String>();
 			Vector<String> headquarters = new Vector<String>();
 			Vector<String> currentVector = null;
-			// Acts
-			//TODO:acts
-//			game.plateau.acts = new Vector<Act>();
 
 			String ligne;
 			int sizeX = 0, sizeY = 0;
@@ -135,17 +104,9 @@ public class Map {
 			}
 			br.close(); 
 			// Création de la map
-			game.plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
-			Data data1 = game.teams.get(1).data;
-			Data data2 = game.teams.get(2).data;
-			// Ajout des actes au plateau
-			//TODO:acts
-//			game.plateau.acts.add(Act.HAINE);
-//			game.plateau.acts.add(Act.GUERRE);
-//			game.plateau.acts.add(Act.DESTRUCTION);
-//			game.plateau.acts.add(Act.MORT);
-//			game.plateau.acts.add(Act.NEUTRE);
-//			game.plateau.acts.add(Act.MORT);
+			plateau.setMaxXMaxY(sizeX*stepGrid, sizeY*stepGrid);
+			Data data1 = plateau.teams.get(1).data;
+			Data data2 = plateau.teams.get(2).data;
 			// Headquarters
 			for(int i=0;i<headquarters.size(); i++){
 				// format:

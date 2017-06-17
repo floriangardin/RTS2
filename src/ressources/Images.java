@@ -8,73 +8,76 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
+import data.Data;
 import display.DisplayRessources;
 import main.Main;
-import model.Building;
-import model.Game;
 import nature.Tree;
+import plateau.Building;
 import tests.FatalGillesError;
 import utils.ObjetsList;
 
 
 public class Images {
 
-	private HashMap<String, Image> images;
-	private HashMap<String, Image> oldimages;
-	private HashMap<ObjetsList, HashMap<String, Image>> imagesUnits;
-	private HashMap<String, Image> sand;	
+	private static HashMap<String, Image> images;
+	private static HashMap<String, Image> oldimages;
+	private static HashMap<ObjetsList, HashMap<String, Image>> imagesUnits;
+	private static HashMap<String, Image> sand;	
 
+	private static Data data;
+	public static boolean gillesModeEnable = false;
 
-	public Images(){
-		this.images = new HashMap<String, Image>();
-		this.loadRepertoire("ressources/images/");
-		this.initialize();
-		this.initializeUnits();
+	public static void init(){
+		images = new HashMap<String, Image>();
+		data = new Data(0,"dualists");
+		loadRepertoire("ressources/images/");
+		initialize();
+		initializeUnits();
 	}
 
-	private void initialize() {
+	private static void initialize() {
 		// import other images that will serve during the game
 		// icons
 		HashMap<String, Image> toPut = new HashMap<String, Image>();
-		for(String im : this.images.keySet()){
+		for(String im : images.keySet()){
 			if(im.contains("icon") || im.contains("tech")){
-				toPut.put(im+"buildingsize", this.images.get(im).getScaledCopy(Building.sizeXIcon,Building.sizeXIcon));
+				toPut.put(im+"buildingsize", images.get(im).getScaledCopy(Building.sizeXIcon,Building.sizeXIcon));
 			}
 		}
-		this.images.putAll(toPut);
+		images.putAll(toPut);
 		// ressources
 		int taille = DisplayRessources.taille;
-		this.images.put("imagegolddisplayressources",this.images.get("imagegold").getSubImage(7*taille ,15*taille ,taille, taille));
-		this.images.put("imagefooddisplayressources",this.images.get("imagegold").getSubImage(7*taille ,taille ,taille, taille));
-		this.images.put("rectselectsizebuilding",this.images.get("rectselect").getScaledCopy(4f));
-		this.images.put("imagepop", this.images.get("imagepop").getScaledCopy(32,32));
+		images.put("imagegolddisplayressources",images.get("imagegold").getSubImage(7*taille ,15*taille ,taille, taille));
+		images.put("imagefooddisplayressources",images.get("imagegold").getSubImage(7*taille ,taille ,taille, taille));
+		images.put("rectselectsizebuilding",images.get("rectselect").getScaledCopy(4f));
+		images.put("imagepop", images.get("imagepop").getScaledCopy(32,32));
 
 		// buildings
-		this.resizeBuilding("academy");
-		this.resizeBuilding("barracks");
-		this.resizeBuilding("headquarters");
-//		this.resizeBuilding("mill");
-		this.resizeBuilding("mine");
-		this.resizeBuilding("stable");
-		this.resizeBuilding("tower");
-		this.resizeBuilding("university");
+		resizeBuilding("academy");
+		resizeBuilding("barracks");
+		resizeBuilding("headquarters");
+//		resizeBuilding("mill");
+		resizeBuilding("mine");
+		resizeBuilding("stable");
+		resizeBuilding("tower");
+		resizeBuilding("university");
 
 		// bullets
-		this.images.put("arrow",this.images.get("arrow").getScaledCopy(2f*Main.ratioSpace));
+		images.put("arrow",images.get("arrow").getScaledCopy(2f*Main.ratioSpace));
 
 		// trees
-		for(String im : this.images.keySet()){
+		for(String im : images.keySet()){
 			if(im.contains("tree")){		
-				this.images.put(im, this.images.get(im).getScaledCopy(Tree.coeffDraw));
+				images.put(im, images.get(im).getScaledCopy(Tree.coeffDraw));
 			}
 		}
-		//this.initializeSand();
+		//initializeSand();
 	}
 
 	public void initializeSand(){
 
-		Image im = this.images.get("sandtile");
-		this.sand = new HashMap<String, Image> ();
+		Image im = images.get("sandtile");
+		sand = new HashMap<String, Image> ();
 		HashMap<String, Image> temp = new HashMap<String, Image>();
 		temp.put("3", im.getSubImage(128*0, 128*0, 128, 128));
 		temp.put("4", im.getSubImage(128*8, 128*2, 128, 128));
@@ -87,7 +90,7 @@ public class Images {
 
 		// special earth
 		//sand.put("A111", im.getSubImage(128*4+50, 128*4+50, 128, 128).getScaledCopy((int)Map.stepGrid, (int)Map.stepGrid));
-		this.sand.put("E", im.getSubImage(256, 256, 256, 256));
+		sand.put("E", im.getSubImage(256, 256, 256, 256));
 		int w = 256;
 		int h = 256;
 
@@ -110,7 +113,7 @@ public class Images {
 								g.drawImage(temp.get(""+d), 0, h/2);
 								temp.get(""+d).rotate(-270);
 								g.flush();
-								this.sand.put(""+a+""+b+""+c+""+d, im);
+								sand.put(""+a+""+b+""+c+""+d, im);
 							} catch (SlickException e) {
 								e.printStackTrace();
 							}   
@@ -122,11 +125,11 @@ public class Images {
 		}
 	}
 
-	private boolean isValid(int a, int b, int c, int d){
+	private static boolean isValid(int a, int b, int c, int d){
 		return isValid(a,b) && isValid(b,c) && isValid(c,d) && isValid(d,a);
 	}
 
-	private boolean isValid(int a, int b){
+	private static boolean isValid(int a, int b){
 		switch(a){
 		case 1: return b==2 || b==3;
 		case 2: return b==1 || b==4 || b==5 || b==8;
@@ -140,18 +143,18 @@ public class Images {
 		return false;
 	}
 
-	public void resizeBuilding(String s){
-		Point p = Game.g.data.getSize(ObjetsList.get(s));
-		this.images.put("building"+s+"blue",this.images.get("building"+s+"blue")
+	public static void resizeBuilding(String s){
+		Point p = data.getSize(ObjetsList.get(s));
+		images.put("building"+s+"blue",images.get("building"+s+"blue")
 				.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
 		if(!s.equals("headquarters"))
-			this.images.put("building"+s+"neutral",this.images.get("building"+s+"neutral")
+			images.put("building"+s+"neutral",images.get("building"+s+"neutral")
 					.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
-		this.images.put("building"+s+"red",this.images.get("building"+s+"red")
+		images.put("building"+s+"red",images.get("building"+s+"red")
 				.getScaledCopy((int)(2*p.getX()/1.8), (int)(3*p.getY()/(2))));
 	}
 
-	private void loadRepertoire(String name){
+	private static void loadRepertoire(String name){
 		File repertoire = new File(name);
 		File[] files=repertoire.listFiles();
 		String s;
@@ -163,25 +166,25 @@ public class Images {
 					// on load l'image
 					s = s.substring(0, s.length()-4);
 					im = new Image(name+s+".png");
-					this.images.put(s.toLowerCase(),im);
+					images.put(s.toLowerCase(),im);
 					//					f = Images.class.getField(s);
 					//					f.set(this, im);
-					//this.images.put(s, new Image(name+s+".png"));
+					//images.put(s, new Image(name+s+".png"));
 				} else if(s.contains(".jpg")){
 					// on load l'image
 					s = s.substring(0, s.length()-4);
 					im = new Image(name+s+".jpg");
-					this.images.put(s,im);
-					//this.images.put(s, new Image(name+s+".jpg"));
+					images.put(s,im);
+					//images.put(s, new Image(name+s+".jpg"));
 				} else if(s.contains(".svg")){
 					// on load l'image
 					s = s.substring(0, s.length()-4);
 					im = new Image(name+s+".svg");
-					this.images.put(s,im);
-					//this.images.put(s, new Image(name+s+".svg"));
+					images.put(s,im);
+					//images.put(s, new Image(name+s+".svg"));
 				} else if (!s.contains(".") && !s.equals("unit")){
 					// nouveau répertoire
-					this.loadRepertoire(name+s+"/");
+					loadRepertoire(name+s+"/");
 
 				}
 			} 
@@ -190,9 +193,9 @@ public class Images {
 		}
 	}
 
-	public Image get(String name){
-		if(this.images.containsKey(name.toLowerCase())){
-			return this.images.get(name.toLowerCase());
+	public static  Image get(String name){
+		if(images.containsKey(name.toLowerCase())){
+			return images.get(name.toLowerCase());
 		} else {
 			System.out.println("Error : trying to load an non-existing image : "+name);
 //			try {
@@ -200,17 +203,17 @@ public class Images {
 //			} catch (FatalGillesError e) {
 //				e.printStackTrace();
 //			}
-			return this.images.get("image_manquante");
+			return images.get("image_manquante");
 		}
 	}
 
-	private void initializeUnits(){
+	private static void initializeUnits(){
 		File repertoire = new File("ressources/images/unit");
 		File[] files=repertoire.listFiles();
 		String s,s2,s4;
-		this.imagesUnits = new HashMap<ObjetsList, HashMap<String, Image>>();
+		imagesUnits = new HashMap<ObjetsList, HashMap<String, Image>>();
 		for(ObjetsList o : ObjetsList.getUnits()){
-			this.imagesUnits.put(o, new HashMap<String, Image>());
+			imagesUnits.put(o, new HashMap<String, Image>());
 		}
 		Image im;
 		int imageHeight, imageWidth;
@@ -223,40 +226,40 @@ public class Images {
 					imageHeight = im.getHeight()/4;
 					imageWidth = im.getWidth()/5;
 					s = s.substring(0, s.length()-4);
-					for(ObjetsList s1 : this.imagesUnits.keySet()){
+					for(ObjetsList s1 : imagesUnits.keySet()){
 						if(s.toLowerCase().contains(s1.name().toLowerCase())){
 							s2 = (s.toLowerCase().startsWith("attack") ? "1" : "0");
 							s4 = (s.toLowerCase().endsWith("blue") ? "1" : "2");
 							for(int orientation =0; orientation<4; orientation++){
 								for(int animation=0; animation<5; animation++){
-									this.imagesUnits.get(s1).put(s2+""+orientation+""+animation+""+s4, 
+									imagesUnits.get(s1).put(s2+""+orientation+""+animation+""+s4, 
 											im.getSubImage(imageWidth*animation,imageHeight*(int)orientation,imageWidth,imageHeight)
 											.getScaledCopy(120*Main.ratioSpace/imageWidth));
 								}
 							}
 						}
 					}
-					this.images.put(s.toLowerCase(),im);
+					images.put(s.toLowerCase(),im);
 				}
 			} 
 			HashMap<String, Image> toAdd = new HashMap<String, Image>();
-			for(ObjetsList s1 : this.imagesUnits.keySet()){
+			for(ObjetsList s1 : imagesUnits.keySet()){
 				toAdd.clear();
-				if(this.imagesUnits.get(s1).size()==40){
-					for(String s3 : this.imagesUnits.get(s1).keySet()){
-						toAdd.put("1"+s3.substring(1), this.imagesUnits.get(s1).get(s3));
+				if(imagesUnits.get(s1).size()==40){
+					for(String s3 : imagesUnits.get(s1).keySet()){
+						toAdd.put("1"+s3.substring(1), imagesUnits.get(s1).get(s3));
 					}
 				}
-				this.imagesUnits.get(s1).putAll(toAdd);
+				imagesUnits.get(s1).putAll(toAdd);
 			}
 		} catch (SlickException | SecurityException | IllegalArgumentException  e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Image getUnit(ObjetsList name, int direction, int animation, int team, boolean attack){
-		if(this.imagesUnits.containsKey(name) && this.imagesUnits.get(name).containsKey((attack?"1":"0")+direction+""+animation+"" +team)){
-			return this.imagesUnits.get(name).get((attack?"1":"0")+direction+""+animation+"" +team);
+	public static Image getUnit(ObjetsList name, int direction, int animation, int team, boolean attack){
+		if(imagesUnits.containsKey(name) && imagesUnits.get(name).containsKey((attack?"1":"0")+direction+""+animation+"" +team)){
+			return imagesUnits.get(name).get((attack?"1":"0")+direction+""+animation+"" +team);
 		} else {
 			try {
 				throw new FatalGillesError("images d'unité non existante : "+name+":"+animation+" "+direction+" " +attack+" "+team);
@@ -267,33 +270,35 @@ public class Images {
 		return null;
 	}
 
-	public void activateGdBMode() {
-		Image GdB = this.images.get("gilles");
-		this.oldimages = images;
-		this.images = new HashMap<String, Image>();
-		for(String s : this.oldimages.keySet()){
-			this.images.put(s,GdB);
+	public static void activateGdBMode() {
+		Image GdB = images.get("gilles");
+		oldimages = images;
+		images = new HashMap<String, Image>();
+		for(String s : oldimages.keySet()){
+			images.put(s,GdB);
 		}
+		gillesModeEnable = true;
 	}
 
-	public void deactivateGdBMode(){
-		this.images.clear();
-		this.images = this.oldimages;
+	public static void deactivateGdBMode(){
+		gillesModeEnable = false;
+		images.clear();
+		images = oldimages;
 	}
 
 	// about sand tiles
 
-	public Image getSand(String s){
-		return this.sand.get(s);
+	public static Image getSand(String s){
+		return sand.get(s);
 	}
 
-	public void updateScaleSend(float stepGrid) {
+	public static void updateScaleSend(float stepGrid) {
 		HashMap<String, Image> temp = new HashMap<String, Image>();
-		for(String s : this.sand.keySet()){
+		for(String s : sand.keySet()){
 			temp.put(s, sand.get(s).getScaledCopy((int)(stepGrid), (int)(stepGrid)));
 		}
-		this.sand = temp;
-		this.images.put("watertile", this.images.get("watertile").getScaledCopy((int)(2*stepGrid), (int)(2*stepGrid)));
-		this.images.put("watertile2", this.images.get("watertile2").getScaledCopy((int)(stepGrid), (int)(stepGrid)));
+		sand = temp;
+		images.put("watertile", images.get("watertile").getScaledCopy((int)(2*stepGrid), (int)(2*stepGrid)));
+		images.put("watertile2", images.get("watertile2").getScaledCopy((int)(stepGrid), (int)(stepGrid)));
 	}
 }

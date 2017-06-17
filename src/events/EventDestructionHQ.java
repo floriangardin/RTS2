@@ -8,8 +8,8 @@ import org.newdawn.slick.Image;
 
 import main.Main;
 import model.Game;
-import model.Building;
-import model.Objet;
+import plateau.Building;
+import plateau.Objet;
 import ressources.Map;
 
 public class EventDestructionHQ extends Event{
@@ -31,11 +31,11 @@ public class EventDestructionHQ extends Event{
 
 	public EventDestructionHQ(Objet parent) {
 		super(parent);
-		width = (int) (Game.g.images.get("animation-explosion").getWidth()/5f);
-		height = (int) (Game.g.images.get("animation-explosion").getHeight()/2f);
+		width = (int) (Images.get("animation-explosion").getWidth()/5f);
+		height = (int) (Images.get("animation-explosion").getHeight()/2f);
 		this.images = new Vector<Image>();
 		for(int i=0; i<4; i++){
-			this.images.add(Game.g.images.get("animation-explosion").getSubImage(width*i, 0, width, height));
+			this.images.add(Images.get("animation-explosion").getSubImage(width*i, 0, width, height));
 		}
 		Game.g.Xcam += (Math.random()*3)-1f;
 		Game.g.Ycam += (Math.random()*3)-1f;

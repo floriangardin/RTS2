@@ -1,4 +1,4 @@
-package model;
+package plateau;
 
 
 import java.util.Vector;
@@ -12,11 +12,16 @@ import org.newdawn.slick.geom.Rectangle;
 import bullets.Arrow;
 import bullets.Fireball;
 import data.Attributs;
+import display.DisplayHandler;
 import events.EventAttackDamage;
 import main.Main;
+import model.Colors;
 import nature.Tree;
 import pathfinding.Case;
+import ressources.Images;
+import ressources.Sounds;
 import spells.SpellEffect;
+import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -75,18 +80,18 @@ public class Character extends Objet{
 	public Vector<Integer> waypoints = new Vector<Integer>();
 
 	// Copy constructor , to really create an unit
-	public Character(float x,float y,ObjetsList name, int team){
-		Game.g.plateau.addCharacterObjets(this);
+	public Character(float x,float y,ObjetsList name, Team team, Plateau plateau){
+		plateau.addCharacterObjets(this);
 		this.name= name;
 		this.setTarget(null);
-		this.setTeam(team);
+		this.team = team;
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(1f,1f,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
 		this.sightBox = new Circle(1f,1f,this.getAttribut(Attributs.sight));
-		this.setXY(x, y);
+		this.setXY(x, y, plateau);
 		this.setGroup(new Vector<Character>());
-		this.getGroup().add(this);
+		this.getGroup(plateau).add(this);
 		
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
@@ -105,9 +110,9 @@ public class Character extends Objet{
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
 	}
-	public void setXY(float x, float y){
-		float xt = Math.min(Game.g.plateau.maxX-1f, Math.max(1f, x));
-		float yt = Math.min(Game.g.plateau.maxY-1f, Math.max(1f, y));
+	public void setXY(float x, float y, Plateau plateau){
+		float xt = Math.min(plateau.maxX-1f, Math.max(1f, x));
+		float yt = Math.min(plateau.maxY-1f, Math.max(1f, y));
 		//		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
 		this.selectionBox.setCenterX(xt);
 		this.selectionBox.setCenterY(yt);
@@ -118,29 +123,29 @@ public class Character extends Objet{
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
 		int oldc = this.idCase;
-		this.idCase = Game.g.plateau.mapGrid.getCase(x, y).id;
+		this.idCase = plateau.mapGrid.getCase(x, y).id;
 		//Updating the case
 		if(idCase==-1){
 			return;
 		}
 		if(oldc==-1 || idCase!=oldc){
-			Case c = Game.g.plateau.mapGrid.getCase(oldc);
+			Case c = plateau.mapGrid.getCase(oldc);
 			if(c!=null && c.characters.contains(this))
 				c.characters.remove(this);
-			Game.g.plateau.mapGrid.getCase(this.idCase).characters.addElement(this);
+			plateau.mapGrid.getCase(this.idCase).characters.addElement(this);
 		}
 
 	}
-	public void setVXVY(float vx, float vy){
+	public void setVXVY(float vx, float vy, Plateau plateau){
 		this.vx = vx;
 		this.vy = vy;
 		int sector = 0;
 		if(vx==0 && vy==0){
 			//Orientation toward target
 
-			if(this.getTarget()!=null){
-				vx =this.getTarget().x-this.x;
-				vy = this.getTarget().y-this.y;
+			if(this.getTarget(plateau)!=null){
+				vx =this.getTarget(plateau).x-this.x;
+				vy = this.getTarget(plateau).y-this.y;
 				if(vx>0f){
 					if(vy>vx){
 						sector = 2;
@@ -187,35 +192,34 @@ public class Character extends Objet{
 	// Main method called on every time loop
 	// define the behavior of the character according to the attributes
 	// ATTACK METHOD IF AT RANGE AND CHARGE TIME OK
-	public void useWeapon(){
-		if(!(this.getTarget() instanceof Character)){
+	public void useWeapon(Plateau plateau){
+		if(!(this.getTarget(plateau) instanceof Character)){
 			return ;
 		}
 		String weapon = this.getAttributString(Attributs.weapon);
 
 		//arme de corps à corps
-		if(Game.g.data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
-			Character c = (Character) this.getTarget();
+		if(plateau.teams.get(0).data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
+			Character c = (Character) this.getTarget(plateau);
 			c.isAttacked();
 			// Attack sound
-			if(Game.g.sounds!=null)
-				Game.g.sounds.get(this.getAttributString(Attributs.weapon)).play(1f,Game.g.options.soundVolume);
+			Sounds.playSound(this.getAttributString(Attributs.weapon));
 
 			// compute damages
 			float damage = computeDamage(c);
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
-				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
+				DisplayHandler.addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 			}			
 		} else {
 			// autres armes
 			switch(weapon){
 			case "bow" :
-				new Arrow(this,this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage));
+				new Arrow(this,this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
 				break;
 			case "wand" :
-				new Fireball(this,this.getTarget().getX(),this.getTarget().getY(),this.getTarget().getX()-this.getX(),this.getTarget().getY()-this.getY(),this.getAttribut(Attributs.damage));
+				new Fireball(this,this.getTarget(plateau).getX(),this.getTarget(plateau).getY(),this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
 				break;
 			default:
 			}
@@ -228,13 +232,13 @@ public class Character extends Objet{
 	public float computeDamage(Character target){
 		float damage = this.getAttributAndRemoveUsageUnique(Attributs.damage);
 		if(this.getAttributString(Attributs.weapon)=="spear" && target.horse)
-			damage = damage*this.getGameTeam().data.bonusSpearHorse;
+			damage = damage*this.getTeam().data.bonusSpearHorse;
 		if(this.getAttributString(Attributs.weapon)=="bow" && !target.horse)
-			damage = damage*this.getGameTeam().data.bonusBowFoot;
+			damage = damage*this.getTeam().data.bonusBowFoot;
 		return damage;
 	}
 
-	public void action(){
+	public void action(Plateau plateau){
 		if(this.frozen>0f){
 			this.frozen-=Main.increment;
 			return;
@@ -246,7 +250,7 @@ public class Character extends Objet{
 		// Update spell effects
 		Vector<Integer> toRemove = new Vector<Integer>();
 		for(Integer i : spellsEffect){
-			SpellEffect e = (SpellEffect) Game.g.plateau.getById(i);
+			SpellEffect e = (SpellEffect) plateau.getById(i);
 			if(e==null){
 				toRemove.add(i);
 				continue;
@@ -255,7 +259,7 @@ public class Character extends Objet{
 		}
 		
 		if(canMove){
-			this.actionIAScript();
+			this.actionIAScript(plateau);
 			this.updateAnimation();
 			this.updateAttributsChange();
 		}
@@ -264,56 +268,56 @@ public class Character extends Objet{
 
 	// Movement method
 	// the character move toward its target
-	public void move(){
-		Objet target = this.getTarget();
+	public void move(Plateau plateau){
+		Objet target = this.getTarget(plateau);
 		// rustine debug mode : collision with trees
 		if(target!=null){
-			if( this.getTarget() instanceof Tree){
+			if( this.getTarget(plateau) instanceof Tree){
 				if(Utils.distance(this, target)<(target.collisionBox.getBoundingCircleRadius()+this.collisionBox.getBoundingCircleRadius()+2f)){
-					this.stop();
+					this.stop(plateau);
 					return;
 				}
 			}
 		}
 		if(mode == AGGRESSIVE){
-			Vector<Character> targets  = Game.g.plateau.getEnnemiesInSight(this);
+			Vector<Character> targets  = plateau.getEnnemiesInSight(this);
 			if(targets.size()>0){
-				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL);
+				this.setTarget(Utils.nearestObject(targets, this),null,NORMAL, plateau);
 			}
 		}
-		if(this.getTarget()==null ){
+		if(this.getTarget(plateau)==null ){
 			return;
 		}
 		if(this.moveAhead){
-			this.moveToward(target.x,target.y);
+			this.moveToward(target.x,target.y, plateau);
 			return;
 		}
 		if(this.idCase == target.idCase){
-			this.moveToward(target.x,target.y);
+			this.moveToward(target.x,target.y, plateau);
 		} else if(this.waypoints.size()>0){
 			if(this.idCase==this.waypoints.get(0)){
 				this.waypoints.remove(0);
-				this.move();
+				this.move(plateau);
 			} else if(this.waypoints.size()>1 && this.idCase==this.waypoints.get(1)){
 				this.waypoints.remove(1);
 				this.waypoints.remove(0);
-				this.move();
+				this.move(plateau);
 			} else if(this.waypoints.size()>2 && this.idCase==this.waypoints.get(2)){
 				this.waypoints.remove(2);
 				this.waypoints.remove(1);
 				this.waypoints.remove(0);
-				this.move();
+				this.move(plateau);
 			} else {
-				this.moveToward(this.waypoints.get(0));
+				this.moveToward(this.waypoints.get(0), plateau);
 			}
 		} else {
-			this.waypoints = Game.g.plateau.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget().getX(),this.getTarget().getY());
+			this.waypoints = plateau.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget(plateau).getX(),this.getTarget(plateau).getY());
 		}
 	}
 	// Moving toward method method
-	public void moveToward(int idCase){
-		Case c0 = Game.g.plateau.mapGrid.getCase(this.idCase);
-		Case c1 = Game.g.plateau.mapGrid.getCase(idCase);
+	public void moveToward(int idCase, Plateau plateau){
+		Case c0 = plateau.mapGrid.getCase(this.idCase);
+		Case c1 = plateau.mapGrid.getCase(idCase);
 		// il faut vérifier que l'intersection ne se fait pas trop près du bord de la case
 		float a, b, c, d;
 		float newX, newY;
@@ -350,9 +354,9 @@ public class Character extends Objet{
 			newY = (float)(Math.min(Math.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
 		}
 
-		moveToward(newX,newY);
+		moveToward(newX,newY, plateau);
 	}
-	private void moveToward(float x , float y){
+	private void moveToward(float x , float y, Plateau plateau){
 
 		float newvx, newvy;
 		newvx = x-this.getX();
@@ -360,18 +364,18 @@ public class Character extends Objet{
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.getAttribut(Attributs.maxVelocity)/(Main.framerate);
 		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
-		if(Game.deplacementGroupIntelligent && this.getGroup()!=null){
+		if(Debug.deplacementGroupIntelligent && this.getGroup(plateau)!=null){
 			//System.out.println("héhé");
-			for(Character c : this.getGroup()){
+			for(Character c : this.getGroup(plateau)){
 				maxVNorm = Math.min(maxVNorm, c.getAttribut(Attributs.maxVelocity)/(Main.framerate));
 			}
 		}
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
-		if((this.getGroup().size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
+		if((this.getGroup(plateau).size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
-			this.stop();
+			this.stop(plateau);
 			return;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
@@ -393,22 +397,22 @@ public class Character extends Objet{
 			newY = this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.max(newvy, 0f);
 		}
-		if(newX>Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = Game.g.plateau.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
+			newX = plateau.maxX-this.collisionBox.getBoundingCircleRadius();
 			newvx = Math.min(0f, newvx);
 		}
-		if(newY>Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = Game.g.plateau.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
+			newY = plateau.maxY-this.collisionBox.getBoundingCircleRadius();
 			newvy = Math.min(0f, newvy);
 		}
 
 		//eventually we reassign the position and velocity variables
-		this.setVXVY(newvx, newvy);
+		this.setVXVY(newvx, newvy, plateau);
 
-		this.setXY(newX, newY);
+		this.setXY(newX, newY, plateau);
 
 
-		this.animationValue+=this.getAttribut(Attributs.animStep)/(float)this.getGameTeam().data.FRAMERATE;
+		this.animationValue+=this.getAttribut(Attributs.animStep)/(float)this.getTeam().data.FRAMERATE;
 		if(this.animationValue>=4f){
 			this.animationValue = 0f;
 			this.animation = (this.animation+1)%5;
@@ -420,24 +424,24 @@ public class Character extends Objet{
 
 
 	}
-	public void stop(){
+	public void stop(Plateau plateau){
 		this.animation = 0;
 		if(this.mode!=TAKE_BUILDING ){
 			this.mode = NORMAL;
 		}
-		if(this.getTarget() instanceof Checkpoint){
+		if(this.getTarget(plateau) instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
-				this.getTarget().lifePoints = -1f;
+				this.getTarget(plateau).lifePoints = -1f;
 				this.setTarget(null);
 				this.animationValue=0f;
 			}else{
-				this.setTarget(Game.g.plateau.getById(this.secondaryTargets.firstElement()));
+				this.setTarget(plateau.getById(this.secondaryTargets.firstElement()));
 				this.secondaryTargets.remove(0);
 				return;
 			}
 
 		}
-		this.setVXVY(0, 0);
+		this.setVXVY(0, 0, plateau);
 	}
 
 
@@ -462,10 +466,10 @@ public class Character extends Objet{
 			direction = ((direction-1)*(-1)+2);
 		}
 		Image im;
-		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
-		if(mouseOver && frozen<=0f && Game.g.round>Game.nbRoundInit){
+		im = Images.getUnit(name, direction, animation, getTeam().id, isAttacking);
+		if(mouseOver && frozen<=0f){
 			Color color = Color.darkGray;
-			if(this.getGameTeam().id==1){
+			if(this.getTeam().id==1){
 				color = new Color(0,0,205,0.4f);
 			}
 			else{
@@ -503,19 +507,19 @@ public class Character extends Objet{
 			direction = ((direction-1)*(-1)+2);
 		}
 		Image im;
-		im = Game.g.images.getUnit(name, direction, animation, getGameTeam().id, isAttacking);
+		im = Images.getUnit(name, direction, animation, getTeam().id, isAttacking);
 		im.drawFlash(x-im.getWidth()/2,y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 	}
 
 
-	public void drawIsSelected(Graphics g){
+	public void drawIsSelected(Graphics g, Plateau plateau){
 
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
 		g.draw(this.collisionBox);
 		
-		Objet target = this.getTarget();
+		Objet target = this.getTarget(plateau);
 		if(target !=null && target instanceof Checkpoint){
 			target.draw(g);
 		}
@@ -533,17 +537,17 @@ public class Character extends Objet{
 			g.setColor(Colors.buildingTaking);
 		}
 		g.setLineWidth(2f);
-		if(this.getTarget() instanceof Character){
+		if(this.getTarget(plateau) instanceof Character){
 			g.setLineWidth(2f*Main.ratioSpace);
 			g.setColor(Colors.aggressive);
-			g.draw(this.getTarget().collisionBox);
+			g.draw(this.getTarget(plateau).collisionBox);
 		}
-		if(this.getTarget() instanceof Checkpoint){
-			((Checkpoint) getTarget()).toDraw = true;
+		if(this.getTarget(plateau) instanceof Checkpoint){
+			((Checkpoint) getTarget(plateau)).toDraw = true;
 			//this.target.draw(g);
 		}
-		if(this.getTarget() instanceof Building){
-			((Building) getTarget()).marker.toDraw = true;
+		if(this.getTarget(plateau) instanceof Building){
+			((Building) getTarget(plateau)).marker.toDraw = true;
 			//this.target.draw(g);
 		}
 		//		//Draw the building which is being conquered
@@ -561,7 +565,7 @@ public class Character extends Objet{
 	//// COLLISIONS
 
 	// Collision with other Characters
-	public void collision(Character o) {
+	public void collision(Character o, Plateau plateau) {
 		// If collision test who have the highest velocity
 		// The highest velocity continues 
 		// The lowest velocity move away ( he is pushed instead of the other ) 
@@ -592,16 +596,16 @@ public class Character extends Objet{
 			float newx = this.getX()+1.5f*sign*(o.vy)/2;
 			float newy = this.getY()+1.5f*sign*(-o.vx)/2;
 			//			this.setVXVY(newx-x, newy-y);
-			this.setXY(newx,newy);
+			this.setXY(newx,newy, plateau);
 		}
 		else{
 
-			this.setXY(this.getX()+toleranceCollision*(this.getX()-o.getX()),this.getY()+toleranceCollision*(this.getY()-o.getY()));
+			this.setXY(this.getX()+toleranceCollision*(this.getX()-o.getX()),this.getY()+toleranceCollision*(this.getY()-o.getY()), plateau);
 		}
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
 	// Collision with other round object inamovible
-	public void collision(Circle c) {
+	public void collision(Circle c, Plateau plateau) {
 		float cx = c.getCenterX();
 		float cy = c.getCenterY();
 		float x = this.x - this.vx;
@@ -613,23 +617,23 @@ public class Character extends Objet{
 		// get the mediatrice of both object
 		float newx = x+vx*v/n;
 		float newy = y+vy*v/n;
-		this.setXY(newx,newy);
+		this.setXY(newx,newy,plateau);
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
 	// Collision with NaturalObjets
-	public void collision(NaturalObjet o) {
+	public void collision(NaturalObjet o, Plateau plateau) {
 		if(o instanceof Tree){
-			this.collision((Circle)o.collisionBox);
+			this.collision((Circle)o.collisionBox, plateau);
 		} else {
-			this.collisionRect((Rectangle)o.collisionBox);
+			this.collisionRect((Rectangle)o.collisionBox, plateau);
 		}
 	}
 	// Collision with EnemyGenerator
-	public void collision(Building o) {
-		this.collisionRect((Rectangle)o.collisionBox);
+	public void collision(Building o, Plateau plateau) {
+		this.collisionRect((Rectangle)o.collisionBox, plateau);
 	}
 
-	public void collisionRect(Rectangle o) {
+	public void collisionRect(Rectangle o, Plateau plateau) {
 
 		/*On considï¿½re pour l'instant que nos natural objets sont carrï¿½s
 		 * il faut dans un premier temps dï¿½terminer de quel cï¿½tï¿½ ï¿½jecter l'objet
@@ -690,7 +694,7 @@ public class Character extends Objet{
 			switch(Math.floorMod(sector, 2)){
 			case 1: 
 				// ï¿½ droite ou ï¿½ gauche
-				b = this.getTarget()!=null && (this.getTarget().getY()<o.getMaxY() && this.getTarget().getY()>o.getMinY());
+				b = this.getTarget(plateau)!=null && (this.getTarget(plateau).getY()<o.getMaxY() && this.getTarget(plateau).getY()>o.getMinY());
 				float ya,yb;
 				ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
 				yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
@@ -705,11 +709,11 @@ public class Character extends Objet{
 					finalX = this.getX();
 				if(Float.isNaN(finalY))
 					finalY = this.getY();
-				this.setVXVY(finalX-x0, 0f);
+				this.setVXVY(finalX-x0, 0f, plateau);
 				break;
 			case 0:
 				// en haut ou en bas
-				b = this.getTarget()!=null && (this.getTarget().getX()<o.getMaxX() && this.getTarget().getX()>o.getMinX());
+				b = this.getTarget(plateau)!=null && (this.getTarget(plateau).getX()<o.getMaxX() && this.getTarget(plateau).getX()>o.getMinX());
 				float xa,xb;
 				xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
 				xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
@@ -724,31 +728,28 @@ public class Character extends Objet{
 					finalX = this.getX();
 				if(Float.isNaN(finalY))
 					finalY = this.getY();
-				this.setVXVY(0f, finalY-y0);
+				this.setVXVY(0f, finalY-y0, plateau);
 				break;
 			default:
 			}
 		}
-		this.setXY(finalX, finalY);
+		this.setXY(finalX, finalY, plateau);
 
 	}
 
-	//// Changing the team
-	public void changeTeam(int newTeam){
-		this.setTeam( newTeam);
-	}
+
 
 	//// UPDATE FUNCTIONS
 
 
-	public void setTarget(Objet t, Vector<Integer> waypoints,int mode){
+	public void setTarget(Objet t, Vector<Integer> waypoints,int mode, Plateau plateau){
 
 		this.mode = mode;
-		if(this.getTarget()!=null && this.getTarget() instanceof Checkpoint ){
-			((Checkpoint)this.getTarget()).lifePoints =-1f;
+		if(this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Checkpoint ){
+			((Checkpoint)this.getTarget(plateau)).lifePoints =-1f;
 		}
-		if(this.getTarget()!=null && this.getTarget() instanceof Building){
-			((Building) this.getTarget()).marker.state = ((Building) this.getTarget()).marker.maxDuration+1f;
+		if(this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Building){
+			((Building) this.getTarget(plateau)).marker.state = ((Building) this.getTarget(plateau)).marker.maxDuration+1f;
 		}
 		if(t!=null && t instanceof Building){
 			((Building) t).marker.state = 0;
@@ -756,9 +757,9 @@ public class Character extends Objet{
 		this.setTarget(t);
 		if(t!=null){
 			if(waypoints==null){
-				this.moveAhead = (Game.g.plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				this.moveAhead = (plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
-					this.waypoints = this.computeWay();
+					this.waypoints = this.computeWay(plateau);
 				else
 					this.waypoints = new Vector<Integer>();
 			}else{
@@ -784,64 +785,64 @@ public class Character extends Objet{
 	}
 
 
-	public void actionIAScript(){
-		this.updateSetTarget();
+	public void actionIAScript(Plateau plateau){
+		this.updateSetTarget(plateau);
 		Circle range = new Circle(this.getX(), this.getY(), this.getAttribut(Attributs.range));
-		if(!isAttacking && this.getTarget()!=null && 
-				(this.getTarget() instanceof Checkpoint || 
-					!range.intersects(this.getTarget().collisionBox) ||
-					(!(this.getTarget() instanceof Building) && Game.g.plateau.mapGrid.isLineOk(getX(), getY(), getTarget().getX(), getTarget().getY()).size()==0)
+		if(!isAttacking && this.getTarget(plateau)!=null && 
+				(this.getTarget(plateau) instanceof Checkpoint || 
+					!range.intersects(this.getTarget(plateau).collisionBox) ||
+					(!(this.getTarget(plateau) instanceof Building) && plateau.mapGrid.isLineOk(getX(), getY(), getTarget(plateau).getX(), getTarget(plateau).getY()).size()==0)
 						)
 			){
 			if(this.mode!=Character.HOLD_POSITION)
-				this.move();
+				this.move(plateau);
 			if(!this.isMobile())
 				return;
-			if(this.getGroup()!=null){
+			if(this.getGroup(plateau)!=null){
 				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				if(Utils.distance(this, this.getTarget())<(float)(2*Math.log(this.getGroup().size())+1)*1*this.getAttribut(Attributs.size)){
-					for(Character c: this.getGroup()){
+				if(Utils.distance(this, this.getTarget(plateau))<(float)(2*Math.log(this.getGroup(plateau).size())+1)*1*this.getAttribut(Attributs.size)){
+					for(Character c: this.getGroup(plateau)){
 						if(c!=null && c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
-						if(c!=null && Utils.distance(c, this.getTarget())< c.collisionBox.getBoundingCircleRadius()+2f)
+						if(c!=null && Utils.distance(c, this.getTarget(plateau))< c.collisionBox.getBoundingCircleRadius()+2f)
 							oneHasArrived = true;
 					}
-					//				if(nextToStop && Utils.distance(this, this.getTarget())>200f)
+					//				if(nextToStop && Utils.distance(this, this.getTarget(plateau))>200f)
 					//					nextToStop = false;
 					if(nextToStop && oneHasArrived){
-						this.stop();
+						this.stop(plateau);
 						return;
 					}
 				}
 				// avoiding problem if two members of the group are close to the target
-				if(Utils.distance(this, this.getTarget())<2*this.getAttribut(Attributs.size)){
-					for(Character c:this.getGroup()){
-						if(Utils.distance(c, c.getTarget())<2*c.getAttribut(Attributs.size)){
-							this.stop();
-							c.stop();
+				if(Utils.distance(this, this.getTarget(plateau))<2*this.getAttribut(Attributs.size)){
+					for(Character c:this.getGroup(plateau)){
+						if(Utils.distance(c, c.getTarget(plateau))<2*c.getAttribut(Attributs.size)){
+							this.stop(plateau);
+							c.stop(plateau);
 						}
 					}
 				}
 			}
 		}else{
-			if(this.getTarget()==null){
+			if(this.getTarget(plateau)==null){
 				return;
 			}else{
-				//System.out.println("stop2 " +(this.getTarget() instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
+				//System.out.println("stop2 " +(this.getTarget(plateau) instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
 			}
 			if(!isAttacking)
-				this.stop();
-			if(state>=getAttribut(Attributs.chargeTime) && this.getTarget()!=null && this.getTarget() instanceof Character && canAttack() ){
+				this.stop(plateau);
+			if(state>=getAttribut(Attributs.chargeTime) && this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Character && canAttack(plateau) ){
 				if(!this.isAttacking){
-					this.stop();
+					this.stop(plateau);
 					this.attackState = 0f;
 					this.isAttacking = true;
 				}
 			}
-			if(this.getTarget()!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING &&  canAttack()){
-				this.useWeapon();
+			if(this.getTarget(plateau)!=null && this.isAttacking && this.attackState>this.getAttribut(Attributs.attackDuration)-2*Main.increment && this.mode!=TAKE_BUILDING &&  canAttack(plateau)){
+				this.useWeapon(plateau);
 				this.attackState = 0f;
 				this.isAttacking= false;
 			}
@@ -880,23 +881,23 @@ public class Character extends Objet{
 
 	}
 
-	public void updateSetTarget(){
+	public void updateSetTarget(Plateau plateau){
 
-		if(this.getTarget()!=null 
-				&& !this.getTarget().isAlive()
-				&& (this.getAttribut(Attributs.damage)>0 && this.getTarget().getTeam()!=this.getTeam())){
+		if(this.getTarget(plateau)!=null 
+				&& !this.getTarget(plateau).isAlive()
+				&& (this.getAttribut(Attributs.damage)>0 && this.getTarget(plateau).getTeam()!=this.getTeam())){
 			this.setTarget(null);
 		}
-		if(this.getTarget()==null && this.secondaryTargets.size()>0){
-			this.setTarget(Game.g.plateau.getById(this.secondaryTargets.get(0)));
+		if(this.getTarget(plateau)==null && this.secondaryTargets.size()>0){
+			this.setTarget(plateau.getById(this.secondaryTargets.get(0)));
 		}
-		if(this.getTarget()==null){
+		if(this.getTarget(plateau)==null){
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
 			if(this.getAttribut(Attributs.damage)>0f) {
-				potential_targets = Game.g.plateau.getEnnemiesInSight(this);
+				potential_targets = plateau.getEnnemiesInSight(this);
 			} else if (this.getAttribut(Attributs.damage)<0f) {
-				potential_targets = Game.g.plateau.getWoundedAlliesInSight(this);
+				potential_targets = plateau.getWoundedAlliesInSight(this);
 			} else{
 				potential_targets = new Vector<Character>();
 			}
@@ -907,10 +908,10 @@ public class Character extends Objet{
 			//			this.setTarget(null);
 			//			return;
 		}
-		if(this.getTarget() instanceof Character){
-			Character c =(Character) this.getTarget();
+		if(this.getTarget(plateau) instanceof Character){
+			Character c =(Character) this.getTarget(plateau);
 			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
-				this.setTarget(new Checkpoint(this.getTarget().x,this.getTarget().y,true),null,this.mode);
+				this.setTarget(new Checkpoint(this.getTarget(plateau).x,this.getTarget(plateau).y,true, plateau),null,this.mode, plateau);
 			}
 		}
 	}
@@ -926,11 +927,11 @@ public class Character extends Objet{
 		this.timerAttacked = this.timerMaxValueAttacked;
 	}
 
-	public Vector<Character> getGroup() {
+	public Vector<Character> getGroup(Plateau plateau) {
 		Vector<Character> result = new Vector<Character>();
 		
 		for(Integer i : this.group){
-			Objet o =  Game.g.plateau.getById(i);
+			Objet o =  plateau.getById(i);
 			if(o!=null && o instanceof Character){
 				result.add((Character)o );
 			}

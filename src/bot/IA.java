@@ -3,12 +3,12 @@ package bot;
 import java.util.Vector;
 
 import data.Attributs;
-import model.Building;
-import model.Character;
 import model.Game;
-import model.GameTeam;
 import model.Player;
 import multiplaying.ChatMessage;
+import plateau.Building;
+import plateau.Character;
+import plateau.Team;
 import utils.ObjetsList;
 public abstract class IA {
 	
@@ -20,7 +20,7 @@ public abstract class IA {
 	private Vector<IAUnit> enemies;
 	private Vector<IAUnit> nature;
 	
-	private GameTeam player;
+	private Team player;
 		
 	public IA(Player p) {
 		this.player = p.getGameTeam();
@@ -31,7 +31,7 @@ public abstract class IA {
 		// Contain all the objects visible by the IA
 	}
 	public void sendMessage(String message){
-		Game.g.sendMessage(new ChatMessage(this.player.id+"|"+message),this.player.id);
+		Communications.sendMessage(new ChatMessage(this.player.id+"|"+message),this.player.id);
 	}
 	/*
 	 * Renvoie les units , peut-être faire une copie du vecteur à terme par sécurité
@@ -75,21 +75,21 @@ public abstract class IA {
 			return;
 		}
 		//Update IA Objects
-		for(Character c : Game.g.plateau.characters){
-			if(c.getGameTeam().id ==0 ||Game.g.plateau.isVisibleByTeam(this.player.id, c)){
-				if(c.getGameTeam().id==this.player.id){					
+		for(Character c : Game.gameSystem.plateau.characters){
+			if(c.getTeam().id ==0 ||Game.gameSystem.plateau.isVisibleByTeam(this.player.id, c)){
+				if(c.getTeam().id==this.player.id){					
 					this.units.addElement(new IAAllyObject(c,this));
-				}else if( c.getGameTeam().id ==0){
+				}else if( c.getTeam().id ==0){
 					this.nature.addElement(new IAUnit(c,this));
 				}else{
 					this.enemies.addElement(new IAUnit(c, this));
 				}
 			}
 		}
-		for(Building b : Game.g.plateau.buildings){
-			if(b.getGameTeam().id==this.player.id){					
+		for(Building b : Game.gameSystem.plateau.buildings){
+			if(b.getTeam().id==this.player.id){					
 				this.units.addElement(new IAAllyObject(b,this));
-			}else if(b.getGameTeam().id == 0 || !Game.g.plateau.isVisibleByTeam(this.player.id, b)){
+			}else if(b.getTeam().id == 0 || !Game.gameSystem.plateau.isVisibleByTeam(this.player.id, b)){
 				this.nature.addElement(new IAUnit(b,this));
 			}else{
 				this.enemies.addElement(new IAUnit(b,this));
@@ -134,10 +134,10 @@ public abstract class IA {
 	
 	
 	protected void print(String s){
-		Game.g.sendMessage(new ChatMessage("0|"+s));
+		Communications.sendMessage(new ChatMessage("0|"+s));
 	}
 	protected void alert(String s){
-		Game.g.sendMessage(new ChatMessage("2|"+s));
+		Communications.sendMessage(new ChatMessage("2|"+s));
 	}
 	
 
@@ -218,7 +218,7 @@ public abstract class IA {
 	public Vector<ObjetsList> getTechsDiscovered(){
 		return player.hq.techsDiscovered;
 	}
-	public GameTeam getPlayer(){
+	public Team getPlayer(){
 		return player;
 	}
 	

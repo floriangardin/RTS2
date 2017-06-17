@@ -41,7 +41,7 @@ public class Main {
 		try {
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
-			game.app = app;
+			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);

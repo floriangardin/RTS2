@@ -22,9 +22,9 @@ public class DisplayRessources {
 	
 	public DisplayRessources(float price, String ressource, float x2, float y2){
 		switch(ressource){
-		case "gold" : this.image = Game.g.images.get("imageGolddisplayressources");break;
-		case "food" : this.image = Game.g.images.get("imageFooddisplayressources");break;
-		case "faith" : this.image = Game.g.images.get("imageSpecial");break;
+		case "gold" : this.image = Images.get("imageGolddisplayressources");break;
+		case "food" : this.image = Images.get("imageFooddisplayressources");break;
+		case "faith" : this.image = Images.get("imageSpecial");break;
 		default:
 		}
 		if(price>0){

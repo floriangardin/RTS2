@@ -5,11 +5,11 @@ import java.util.Vector;
 import battleIA.IAStateOfGame.BuildingIA;
 import battleIA.IAStateOfGame.ObjetIA;
 import battleIA.IAStateOfGame.UnitIA;
-import model.Building;
-import model.Character;
-import model.Checkpoint;
 import model.Game;
-import model.Plateau;
+import plateau.Building;
+import plateau.Character;
+import plateau.Checkpoint;
+import plateau.Plateau;
 import utils.ObjetsList;
 import utils.ObjetsList;
 

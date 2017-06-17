@@ -2,7 +2,7 @@ package events;
 
 import data.Attributs;
 import model.Game;
-import model.Objet;
+import plateau.Objet;
 
 public enum EventNames {
 

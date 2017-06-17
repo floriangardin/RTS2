@@ -1,4 +1,4 @@
-package menu;
+package menuutils;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -6,11 +6,13 @@ import org.newdawn.slick.Image;
 
 import control.InputObject;
 import model.Game;
+import ressources.GraphicElements;
+import ressources.Images;
+import ressources.Sounds;
 
 public class Menu_Item {
 
 	public float sizeX;
-	public Game game;
 	public float sizeY;
 	public float x;
 	public float y;
@@ -26,11 +28,10 @@ public class Menu_Item {
 
 	}
 
-	public Menu_Item(float x, float y, String name,Image im, Image selectedImage, Game game) {
+	public Menu_Item(float x, float y, String name,Image im, Image selectedImage) {
 		this.image = im;
 		this.name = name;
 		this.selectedImage = selectedImage;
-		this.game = game;
 		this.toDraw = this.image;
 		this.x = x;
 		this.y = y;
@@ -40,14 +41,13 @@ public class Menu_Item {
 		}
 	}
 
-	public Menu_Item(float x, float y, String name, Game game, boolean selectionnable){
-		this.game = game;
+	public Menu_Item(float x, float y, String name, boolean selectionnable){
 		this.x = x;
 		this.y = y;
 		this.selectionable = selectionnable;
-		this.image = Game.g.images.get("menu"+name).getScaledCopy(game.ratioResolution);
+		this.image = Images.get("menu"+name).getScaledCopy(0.6f*Game.ratioResolution);
 		if(selectionnable)
-			this.selectedImage = Game.g.images.get("menu"+name+"selected").getScaledCopy(game.ratioResolution);
+			this.selectedImage = Images.get("menu"+name+"selected").getScaledCopy(0.8f*Game.ratioResolution);
 		this.toDraw = this.image;
 		this.sizeX = this.image.getWidth();
 		this.sizeY = this.image.getHeight();
@@ -63,11 +63,11 @@ public class Menu_Item {
 
 	public void draw(Graphics g){
 		if(this.image!=null){
-			g.drawImage(this.toDraw,x-this.image.getWidth()/2f, y-this.image.getHeight()/2f);
+			g.drawImage(this.toDraw,x-this.toDraw.getWidth()/2f, y-this.toDraw.getHeight()/2f);
 		}
 		else{
 			g.setColor(Color.white);
-			g.drawString(this.name, x, y-this.game.font.getHeight(this.name)/2f);
+			g.drawString(this.name, x, y-GraphicElements.font_main.getHeight(this.name)/2f);
 		}
 
 	}
@@ -77,7 +77,7 @@ public class Menu_Item {
 		if(this.selectionable){
 			if(this.isMouseOver(im)){
 				if(!mouseOver){
-					this.game.sounds.get("menuMouseOverItem").play(1f,this.game.options.soundVolume);
+					Sounds.playSound("menuMouseOverItem");
 					mouseOver = true;
 				}
 				this.toDraw = this.selectedImage;

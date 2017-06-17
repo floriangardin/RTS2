@@ -4,7 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
 import model.Game;
-import model.Objet;
+import plateau.Objet;
 
 public class EventDefault extends Event{
 

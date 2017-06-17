@@ -4,9 +4,9 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import data.Attributs;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 
 // TODO : Sort
@@ -21,7 +21,7 @@ public class SpellEclair extends Spell{
 	public void launch(Objet target, Character launcher){
 		// Check if target intersect an ennemy
 		Objet h = target;
-		for(Character c : Game.g.plateau.characters){
+		for(Character c : Game.gameSystem.plateau.characters){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}

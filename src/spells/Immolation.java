@@ -9,9 +9,9 @@ import org.newdawn.slick.geom.Shape;
 import data.Attributs;
 import display.DisplayRessources;
 import main.Main;
-import model.Character;
 import model.Game;
-import model.Objet;
+import plateau.Character;
+import plateau.Objet;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -39,7 +39,7 @@ public class Immolation extends SpellEffect{
 		System.out.println("step "+step);
 		this.name = ObjetsList.Immolation;
 		this.lifePoints = 1f;
-		Game.g.plateau.addSpell(this);
+		Game.gameSystem.plateau.addSpell(this);
 		owner = launcher.id;
 		this.setTeam(launcher.getTeam());
 	}
@@ -54,7 +54,7 @@ public class Immolation extends SpellEffect{
 		if(owner!=null && this.remainingTime-1f/Main.framerate<=0f){
 			// Test if explosion
 			if(getOwner().getAttribut(Attributs.explosionWhenImmolate)==1){
-				for(Character c : Game.g.plateau.characters){
+				for(Character c : Game.gameSystem.plateau.characters){
 					if(Utils.distance(c, this.getOwner())<100f && c!=this.getOwner()){
 						c.setLifePoints(c.lifePoints-20f);
 					}
@@ -70,7 +70,7 @@ public class Immolation extends SpellEffect{
 
 	public Graphics draw(Graphics g){
 		float r = 60f*Main.ratioSpace;
-		Image fire = Game.g.images.get("explosion").getScaledCopy(Main.ratioSpace);
+		Image fire = Images.get("explosion").getScaledCopy(Main.ratioSpace);
 		r = fire.getWidth()/5f;
 		x = this.getX();
 		y = this.getY();
