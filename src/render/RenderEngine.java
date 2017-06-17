@@ -17,18 +17,32 @@ import utils.Utils;
 
 public class RenderEngine {
 
-	public static Vector<GraphicLayer> layers;
+	public static Vector<GraphicLayer> layers ;
 	
 	public static final int FOGOFWARLAYER = 3;
 	public static final int BACKGROUNDLAYER = 0;
 	public static final int NORMALLAYER = 2;
 
+	public static void init(Camera camera){
+		layers = new Vector<GraphicLayer>();
+		for(int i =0; i<5; i++){
+			layers.add(new GraphicLayer(camera.resX, camera.resY, i==FOGOFWARLAYER ? Graphics.MODE_NORMAL : Graphics.MODE_COLOR_MULTIPLY));
+		}
+		
+	}
 	public static void render(Graphics g, Plateau plateau, Camera camera){
-
+		g.setColor(Color.black);
+		g.translate(-camera.Xcam,-camera.Ycam);
+		
 		for(GraphicLayer layer : layers){
 			layer.resetImage();
 		}
-		Vector<Objet> objets = Utils.triY((Vector<Objet>) plateau.objets.values());
+		
+		Vector<Objet> objets = new Vector<Objet>();
+		for(Objet o : plateau.objets.values()){
+			objets.add(o);
+		}
+		objets = Utils.triY(objets);
 		Vector<Objet> visibleObjets = new Vector<Objet>();
 		for(Objet o : objets){
 			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){

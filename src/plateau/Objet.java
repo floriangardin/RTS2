@@ -45,6 +45,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Team team;
 	public Objet(Plateau plateau){
 		this.id = plateau.id++;
+		this.team = plateau.teams.get(0);
 	}
 	// Bonus, équipements, potions et autres stuff
 	public Vector<AttributsChange> attributsChanges = new Vector<AttributsChange>();

@@ -66,6 +66,23 @@ public class Data implements java.io.Serializable {
 			this.spells.put(s, (Spell)Spell.createSpell(s, team));
 		}
 	}
+	
+	public Data(){
+		this.team = 0;
+		this.ratioSpaceObjet = new Vector<Attributs>();
+		this.ratioSpaceObjet.addElement(Attributs.sight);
+		this.ratioSpaceObjet.addElement(Attributs.range);
+		this.ratioSpaceObjet.addElement(Attributs.size);
+		this.ratioSpaceObjet.addElement(Attributs.width);
+		this.ACC = 40f;
+		this.FROT = 1f;
+		this.FRAMERATE = Main.framerate;
+		datas = new HashMap<ObjetsList, DataObjet>();
+		// add the objets
+		this.initHashMap();
+		// init the spells
+		
+	}
 
 	public void initHashMap(){
 		// création de la hashmap d'attributs
@@ -143,7 +160,13 @@ public class Data implements java.io.Serializable {
 			}
 		}
 	}
-
+	public float getAttribut(ObjetsList name,Attributs attribut, float defaultValue){
+		try{
+			return getAttribut(name, attribut);
+		}catch (Exception e){
+			return defaultValue;
+		}
+	}
 	// getting and setting attributs
 	public float getAttribut(ObjetsList name, Attributs attribut){
 		if(!this.datas.containsKey(name)){

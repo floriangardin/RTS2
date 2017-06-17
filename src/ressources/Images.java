@@ -29,7 +29,7 @@ public class Images {
 
 	public static void init(){
 		images = new HashMap<String, Image>();
-		data = new Data(0,"dualists");
+		data = new Data();
 		loadRepertoire("ressources/images/");
 		initialize();
 		initializeUnits();
