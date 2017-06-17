@@ -19,9 +19,15 @@ public class Camera {
 	public int objXcam;
 	public int objYcam;
 	
-	public Camera(){
-		
+	public Camera(int resX, int resY, int x, int y){
+		this.resX = resX;
+		this.resY = resY;
+		this.Xcam = x;
+		this.Ycam = y;
 	}	
+	public boolean visibleByCamera(float x, float y, float size){
+		return x + size/2 > Xcam && x - size/2 < Xcam + resX && size/2 > Ycam && y - size/2 < Ycam + resY;
+	}
 	
 	public void update(InputObject im) {
 		// Handle the display (camera movement & minimap)

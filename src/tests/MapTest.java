@@ -7,11 +7,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.Vector;
 
 import org.junit.Test;
+import org.newdawn.slick.Graphics;
 
 import control.InputObject;
+import display.Camera;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Plateau;
+import render.RenderEngine;
 import ressources.Map;
 
 public class MapTest {
@@ -78,5 +81,8 @@ public class MapTest {
 		assertTrue(Math.abs(c.x - xObjectif)<50);
 		assertTrue(Math.abs(c.y - yObjectif)<50);
 	}
+	
+
+
 
 }

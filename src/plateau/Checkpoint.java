@@ -38,7 +38,6 @@ public class Checkpoint extends Objet {
 		this.drawShape = new Circle(x,y,maxRadius);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
-
 		this.drawShape2 = new Circle(x,y,0);
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);

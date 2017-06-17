@@ -23,6 +23,7 @@ public class MarkerBuilding extends Checkpoint{
 		
 		this.x = x;
 		this.y = y;
+		this.team = b.getTeam();
 		this.toDraw = true;
 		this.alwaysDraw = true;
 		this.maxRadius = 200f;
