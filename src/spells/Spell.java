@@ -11,6 +11,7 @@ import plateau.Building;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Objet;
+import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 import utils.Utils;;
@@ -23,9 +24,9 @@ public abstract class Spell {
 	public static Color colorOk = new Color(0f,1f,0.3f,0.5f);
 	public static Color colorPasOk = new Color(1f,.01f,0.1f,0.5f);
 
-	public abstract void launch(Objet target, Character launcher);
+	public abstract void launch(Objet target, Character launcher, Plateau plateau);
 
-	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok){
+	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau){
 		if(ok){
 			g.setColor(Spell.colorOk);
 		} else {
@@ -34,9 +35,9 @@ public abstract class Spell {
 		if(this.getGameTeam().data.datas.get(this.name).attributs.containsKey(Attributs.range)){
 			this.drawRange(g, launcher);
 		}
-		this.drawCast(g, target, x, y, launcher, ok);
+		this.drawCast(g, target, x, y, launcher, ok, plateau);
 	}
-	public abstract void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok);
+	public abstract void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau);
 
 	public float getAttribut(Attributs attribut){
 		return this.getGameTeam().data.getAttribut(this.name,attribut);

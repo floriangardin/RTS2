@@ -2,11 +2,10 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
-import control.InputObject;
-import data.Attributs;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 // TODO : Sort
@@ -18,7 +17,7 @@ public class SpellEclair extends Spell{
 		this.name = ObjetsList.Eclair;
 	}
 
-	public void launch(Objet target, Character launcher){
+	public void launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		Objet h = target;
 		for(Character c : Game.gameSystem.plateau.characters){
@@ -27,7 +26,7 @@ public class SpellEclair extends Spell{
 			}
 		}
 
-		if(h instanceof Character && h.getTeam()!=team){
+		if(h instanceof Character && h.getTeam().id!=team){
 			((Character)h).isBolted = true;
 			//TODO add a sound
 		}
@@ -36,7 +35,7 @@ public class SpellEclair extends Spell{
 
 
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		if(target instanceof Character){
 			this.drawTargetUnit(g, (Character)target);
 		}

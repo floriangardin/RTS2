@@ -4,12 +4,12 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 
-import control.InputObject;
 import data.Attributs;
 import events.EventNames;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class SpellImmolation extends Spell{
@@ -19,12 +19,12 @@ public class SpellImmolation extends Spell{
 		this.name = ObjetsList.Immolation;
 	}
 
-	public void launch(Objet target, Character launcher){
+	public void launch(Objet target, Character launcher, Plateau plateau){
 		
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.setSpells(new Vector<ObjetsList>());
 		launcher.addSpellEffect(new Immolation(launcher,target));
-		Game.g.triggerEvent(EventNames.Immolation, launcher);
+//		Game.g.triggerEvent(EventNames.Immolation, launcher);
 	}
 
 	
@@ -32,7 +32,7 @@ public class SpellImmolation extends Spell{
 
 	
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		// TODO Auto-generated method stub
 		
 	}

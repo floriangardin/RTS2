@@ -2,11 +2,11 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
-import control.InputObject;
 import data.Attributs;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 //TODO : sort
@@ -17,7 +17,7 @@ public class SpellProduct extends Spell{
 		this.name = ObjetsList.Product;
 	}
 
-	public void launch(Objet target, Character launcher){
+	public void launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		if(target instanceof Building && ((Building) target).getQueue().size()>0){
 			Building p = (Building) target;
@@ -27,7 +27,7 @@ public class SpellProduct extends Spell{
 			}
 		}else if(target instanceof Building && ((Building) target).getQueueTechnologie()!=null){
 			Building p = (Building) target;
-			p.techTerminate(p.getQueueTechnologie());
+			p.techTerminate(p.getQueueTechnologie(), plateau);
 		}
 		
 		
@@ -35,7 +35,7 @@ public class SpellProduct extends Spell{
 
 
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		// TODO Auto-generated method stub
 		
 	}

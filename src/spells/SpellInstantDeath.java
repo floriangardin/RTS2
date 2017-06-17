@@ -2,12 +2,11 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
-import control.InputObject;
 import data.Attributs;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
-import plateau.Team;
+import plateau.Plateau;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -18,7 +17,7 @@ public class SpellInstantDeath extends Spell{
 		this.name = ObjetsList.InstantDeath;
 	}
 
-	public void launch(Objet target, Character launcher){
+	public void launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		Objet h = target;
 		
@@ -35,7 +34,7 @@ public class SpellInstantDeath extends Spell{
 	}
 
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		if(target instanceof Character){
 			this.drawTargetUnit(g, (Character)target);
 		}
