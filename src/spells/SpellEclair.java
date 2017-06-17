@@ -26,7 +26,7 @@ public class SpellEclair extends Spell{
 			}
 		}
 
-		if(h instanceof Character && h.getTeam().id!=team){
+		if(h instanceof Character && h.getTeam()!=team){
 			((Character)h).isBolted = true;
 			//TODO add a sound
 		}

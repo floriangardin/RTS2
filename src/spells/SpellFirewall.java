@@ -17,8 +17,8 @@ public class SpellFirewall extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher, Plateau plateau){
-		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true);
-		Firewall f = new Firewall(launcher,t, getAttribut(Attributs.width));
+		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true, plateau);
+		Firewall f = new Firewall(launcher,t, getAttribut(Attributs.width), plateau);
 		f.damage = this.getAttribut(Attributs.damage);
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.stop(plateau);
@@ -29,7 +29,7 @@ public class SpellFirewall extends Spell{
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		g.setLineWidth(3f);
-		Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, this.getAttribut(Attributs.range),true);
+		Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, this.getAttribut(Attributs.range),true, plateau);
 		g.draw(Firewall.createShape(launcher, t, getAttribut(Attributs.width)));
 	}
 

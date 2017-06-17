@@ -2,6 +2,9 @@ package main;
 
 import org.newdawn.slick.SlickException;
 
+import plateau.Plateau;
+import ressources.Map;
+
 public class mainTestCalculDegueu {
 	public static class Test1 {
 		
@@ -13,11 +16,6 @@ public class mainTestCalculDegueu {
 		
 	}
 	public static void main(String[] args) throws SlickException {
-		int[] tab = new int[]{12,1,3};
-		System.out.println(tab);
-		if(null instanceof int[]){
-			System.out.println("Ok");
-		}
-		
+		Plateau plateau = Map.createPlateau("testIA");
 	}
 }

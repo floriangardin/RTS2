@@ -30,7 +30,7 @@ public class SpellSpecialArrow extends Spell{
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk, Plateau plateau) {
 		// TODO Auto-generated method stub
-		Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, this.getAttribut(Attributs.range),true);
+		Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, this.getAttribut(Attributs.range),true, plateau);
 		if(spellOk){
 			g.setColor(Spell.colorOk);
 		} else {
