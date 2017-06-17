@@ -30,7 +30,7 @@ public class RenderEngine {
 		}
 		Vector<Objet> objets = Utils.triY((Vector<Objet>) plateau.objets.values());
 		for(Objet o : objets){
-			renderObjet(o, layers);
+			renderObjet(o, layers, plateau);
 		}
 		for(GraphicLayer layer : layers){
 			layer.mergeToGraphics(g);
@@ -64,9 +64,9 @@ public class RenderEngine {
 		}
 	}
 	
-	public static void renderObjet(Objet o, Vector<GraphicLayer> gl){
+	public static void renderObjet(Objet o, Vector<GraphicLayer> gl, Plateau plateau){
 		if(o instanceof Character){
-			RenderCharacter.render((Character)o, gl);
+			RenderCharacter.render((Character)o, gl, plateau);
 		} else if(o instanceof Building){
 			RenderBuilding.render((Building)o, gl);
 		}
