@@ -878,19 +878,6 @@ public class Plateau implements java.io.Serializable {
 //}
 	
 
-	// Handling visibility
-	public Vector<Objet> getInCamObjets(int team) {
-		// return all objects from a team in the camera view
-		Vector<Objet> obj = new Vector<Objet>();
-		for (Character c : this.characters)
-			if (c.getTeam().id == team && c.visibleByCamera)
-				obj.add(c);
-		for (Building c : this.buildings)
-			if (c.getTeam().id == team && c.visibleByCamera)
-				obj.add(c);
-		return obj;
-	}
-
 	public boolean isVisibleByTeam(int team, Objet objet) {
 		if (objet.getTeam() != null && objet.getTeam().id == team)
 			return true;

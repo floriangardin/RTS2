@@ -29,16 +29,23 @@ public class RenderEngine {
 			layer.resetImage();
 		}
 		Vector<Objet> objets = Utils.triY((Vector<Objet>) plateau.objets.values());
+		Vector<Objet> visibleObjets = new Vector<Objet>();
+		for(Objet o : objets){
+			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
+				visibleObjets.add(o);
+			}
+		}
 		for(Objet o : objets){
 			renderObjet(o, layers, plateau);
 		}
+		renderDomain(plateau, layers, camera, visibleObjets);
 		for(GraphicLayer layer : layers){
 			layer.mergeToGraphics(g);
 		}
 		
 	}
 	
-	public static void renderDomain(Plateau plateau, Vector<GraphicLayer> gl, Camera camera){
+	public static void renderDomain(Plateau plateau, Vector<GraphicLayer> gl, Camera camera, Vector<Objet> visibleObjets){
 		// draw background
 		gl.get(BACKGROUNDLAYER).getGraphics().drawImage(Images.get("seaBackground"), -plateau.maxX, -plateau.maxY,
 				2*plateau.maxX, 2*plateau.maxY, 0, 0, Images.get("seaBackground").getWidth(),Images.get("seaBackground").getHeight());
@@ -47,8 +54,7 @@ public class RenderEngine {
 		
 		// draw fog of war
 		Graphics gf = gl.get(FOGOFWARLAYER).getGraphics();
-		Vector<Objet> visibleObjet = new Vector<Objet>();
-		visibleObjet = plateau.getInCamObjets(Game.gameSystem.getCurrentTeam());
+
 		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-plateau.maxX, -plateau.maxY, plateau.maxX + camera.resX, plateau.maxY + camera.resX);
 		gf.setColor(new Color(50, 50, 50));
@@ -58,7 +64,7 @@ public class RenderEngine {
 		float ymax = Math.min(camera.resY + plateau.maxY, 2 * plateau.maxY - camera.Ycam);
 		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		gf.setColor(Color.white);
-		for (Objet o : visibleObjet) {
+		for (Objet o : visibleObjets) {
 			float sight = o.getAttribut(Attributs.sight);
 			gf.fillOval(o.x - camera.Xcam - sight, o.y - camera.Ycam - sight, sight * 2f, sight * 2f);
 		}
