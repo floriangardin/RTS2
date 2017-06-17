@@ -3,11 +3,11 @@ package spells;
 import org.newdawn.slick.Graphics;
 
 import bullets.Arrow;
-import control.InputObject;
 import data.Attributs;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class SpellSpecialArrow extends Spell{
@@ -18,19 +18,19 @@ public class SpellSpecialArrow extends Spell{
 		this.name = ObjetsList.SpecialArrow;
 	}
 
-	public void launch(Objet target, Character launcher){
+	public void launch(Objet target, Character launcher, Plateau plateau){
 		if(target!=null && launcher!=null){			
-			new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage));
+			new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage), plateau);
 		}	
-		launcher.stop();
+		launcher.stop(plateau);
 	}
 
 
 
 	@Override
-	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk) {
+	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk, Plateau plateau) {
 		// TODO Auto-generated method stub
-		Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, this.getAttribut(Attributs.range),true);
+		Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, this.getAttribut(Attributs.range),true);
 		if(spellOk){
 			g.setColor(Spell.colorOk);
 		} else {
