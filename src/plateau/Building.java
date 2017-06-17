@@ -51,10 +51,10 @@ public class Building extends Objet{
 	public Vector<Circle> corners=new Vector<Circle>();
 
 
-	private Technologie queueTechnology;
+	public Technologie queueTechnology;
 
 
-	private Vector<ObjetsList> queue ;
+	public Vector<ObjetsList> queue ;
 	public float random=0f;
 	//TOWER
 	public float chargeAttack;
@@ -528,171 +528,7 @@ public class Building extends Objet{
 		}
 	}
 
-	public void drawIsSelected(Graphics g, Plateau plateau){
-		g.setColor(Colors.selection);
-		g.setLineWidth(2f);
-		g.draw(this.collisionBox);
-		this.drawRallyPoint(g, plateau);
-		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
-	}	
-
-	public void drawBasicImage(Graphics g){
-		if(visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)){
-			g.drawImage(Images.get("building"+name+this.getTeam().colorName),this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY));
-		}else{
-			g.drawImage(Images.get("building"+name+"neutral"), this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY));
-		}
-	}
-	public void drawBasicImageNewDesign(Graphics g){
-		Image im = Images.get("building"+name+this.getTeam().colorName);
-		if(visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)){
-			if(this.getTeam().id==0){
-				if(this.constructionPoints*4<this.getAttribut(Attributs.maxLifepoints))
-					im = Images.get("building"+name+"neutral");
-				else if(this.constructionPoints*2<this.getAttribut(Attributs.maxLifepoints))
-					im = Images.get("building"+name+"neutral_1");
-				else if(this.constructionPoints*4<this.getAttribut(Attributs.maxLifepoints)*3)
-					im = Images.get("building"+name+"neutral_2");
-				else
-					im = Images.get("building"+name+"neutral_3");
-			} else {
-				im = Images.get("building"+name+this.getTeam().colorName);
-			}
-		}else{
-			im = Images.get("building"+name+"neutral");
-		}
-		g.drawImage(im,this.x-im.getWidth()/2f, this.y+this.getAttribut(Attributs.sizeY)/2-im.getHeight());
-	}
-
-	public void drawFlash(Graphics g, Color color){
-		Image im = Images.get("building"+name+"neutral");
-		im.drawFlash(this.x-im.getWidth()/2f, this.y+this.getAttribut(Attributs.sizeY)/2-im.getHeight(), im.getWidth(), im.getHeight(), color);
-	}
 	
-	public Graphics draw(Graphics g, Plateau plateau){
-		return draw(g, false, plateau);
-	}
-	public Graphics draw(Graphics g, boolean isCurrentTeam, Plateau plateau){
-		if(this.getAttribut(Attributs.newdesign)==0){
-			drawBasicImageNewDesign(g);
-			if((visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)) && mouseOver){
-				Color color = new Color(this.getTeam().color.getRed(),this.getTeam().color.getGreen(),this.getTeam().color.getBlue(),0.1f);
-				drawFlash(g, color);
-			}
-		} else {
-			drawBasicImage(g);
-			if((visibleByCurrentTeam || name.equals(ObjetsList.Headquarters)) && mouseOver){
-				Color color = new Color(this.getTeam().color.getRed(),this.getTeam().color.getGreen(),this.getTeam().color.getBlue(),0.1f);
-				Images.get("building"+name+this.getTeam().colorName).drawFlash(this.x-this.getAttribut(Attributs.sizeX)/1.8f, this.y-this.getAttribut(Attributs.sizeY), 2*getAttribut(Attributs.sizeX)/1.8f, 3*getAttribut(Attributs.sizeY)/2,color);
-			}
-		}
-		if(visibleByCurrentTeam)
-			this.drawAnimation(g);
-
-		g.setAntiAlias(false);
-		g.setLineWidth(25f);
-		// Construction points
-		if(this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && this.visibleByCurrentTeam && this.constructionPoints>0){
-			g.setColor(Color.black);
-			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
-			g.fillRect(-1f+this.getX()-getAttribut(Attributs.sizeX)/4,-1f+this.getY()-3*this.getAttribut(Attributs.sizeY)/4,getAttribut(Attributs.sizeX)/2+2f,12f);
-			float x = this.constructionPoints/this.getAttribut(Attributs.maxLifepoints);
-			if(this.potentialTeam==1)
-				g.setColor(Colors.team1);
-			else if(this.potentialTeam==2)
-				g.setColor(Colors.team2);
-			else if(this.potentialTeam==0){
-				g.setColor(Colors.team0);
-			}
-			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
-			g.fillRect(this.getX()-getAttribut(Attributs.sizeX)/4,this.getY()-3*this.getAttribut(Attributs.sizeY)/4,x*getAttribut(Attributs.sizeX)/2,10f);
-		}
-		g.setAntiAlias(true);
-		// draw production
-		if(this instanceof Building && isCurrentTeam){
-			Building bp = ((Building) this);
-			if(bp.queue.size()>0){
-				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bp.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(bp.getProductionList(plateau).get(0),Attributs.prodTime));
-				float opacity = 50*bp.charge/this.getAttribut(bp.queue.get(0),Attributs.prodTime);
-				Image icone = Images.get("icon"+bp.getQueue().get(0)+"buildingsize");
-				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
-				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
-				//g.setColor(new Color(0f,0f,0f,opacity));
-				//g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
-				//						g.setColor(Color.white);
-				//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
-				g.setColor(new Color(bp.getTeam().color.r,bp.getTeam().color.g,bp.getTeam().color.b,opacity));
-				float startAngle = 270f;
-				float sizeAngle = (float)(1f*bp.charge*(360f)/this.getAttribut(bp.getQueue().get(0),Attributs.prodTime));
-				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
-				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);
-				icone.setAlpha(opacity);
-				g.drawImage(icone, x-sizeXIcon/2, y-offsetY-sizeXIcon/2);
-
-			}
-		}
-		if(isCurrentTeam){
-			Building bt = ((Building) this);
-			if(bt.queueTechnology!=null){
-				float offsetY = Math.min(2*getAttribut(Attributs.sizeY)/3, bt.charge*(64*getAttribut(Attributs.sizeY))/this.getAttribut(this.queueTechnology.objet, Attributs.prodTime));
-				float opacity = 50*bt.charge/this.getAttribut(this.queueTechnology.objet, Attributs.prodTime);
-				Image icone = Images.get(this.getAttributString(this.queueTechnology.objet, Attributs.nameIcon)+"buildingsize");
-				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
-				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(x-r-10f, y-offsetY-r-10f, 2*r+20f, 2*r+20f);
-				g.setColor(new Color(bt.getTeam().color.r,bt.getTeam().color.g,bt.getTeam().color.b,opacity));
-				float startAngle = 270f;
-				float sizeAngle = (float)(1f*bt.charge*(360f)/this.getAttribut(this.queueTechnology.objet, Attributs.prodTime));
-				g.fillArc(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
-				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(x-r, y-offsetY-r, 2*r, 2*r);
-				icone.setAlpha(opacity);
-				g.drawImage(icone, x-sizeXIcon/2, y-offsetY-sizeXIcon/2);
-
-			}
-		}
-
-
-		//TOWER
-		if(this.getTeam().data.getAttribut(this.name, Attributs.canAttack)>0){
-			this.drawAnimationTower(g);
-		}
-
-		g.setAntiAlias(false);
-		g.setLineWidth(2f);
-		return g;
-	}
-
-	public void drawAnimationTower(Graphics g){
-		float sizeX = getAttribut(Attributs.sizeX);
-		float sizeY = getAttribut(Attributs.sizeY);
-		if(getTeam().id==1){
-			g.drawImage(Images.get(this.animationBleu), this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animationTower/30f)*100, 0, ((int)(animationTower/30f)+1)*100, 100);
-		}
-		if(getTeam().id==2){
-			g.drawImage(Images.get(this.animationRouge), this.x-(sizeX/1.8f)/3, this.y-sizeY,this.x+(sizeX/1.8f)/3, this.y-sizeY+sizeY*3f/8f, (int)(animationTower/30f)*100, 0, ((int)(animationTower/30f)+1)*100, 100);
-		}
-	}
-	public Graphics drawRallyPoint(Graphics g, Plateau plateau){
-		Objet rallyPoint = getRallyPoint(plateau);
-		g.setColor(Colors.team0);
-		g.setAntiAlias(true);
-		g.setLineWidth(2f);
-		g.fill(new Circle(rallyPoint.x,rallyPoint.y,3f));
-		g.draw(new Circle(rallyPoint.x,rallyPoint.y,10f));
-		g.setAntiAlias(false);
-		g.setLineWidth(1f);
-		return g;
-	}
-
-
-	public void drawAnimation(Graphics g){
-
-	}
-
-
 
 	public void setCharge(float charge){
 		if(this.queue!=null && this.queue.size()>0 && charge>this.getAttribut(this.getQueue().get(0),Attributs.prodTime)){
