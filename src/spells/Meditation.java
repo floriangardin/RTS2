@@ -21,8 +21,8 @@ public class Meditation extends SpellEffect{
 
 	
 	public boolean active = false;
-	public Meditation(Character launcher, Objet t){
-		
+	public Meditation(Character launcher, Objet t, Plateau plateau){
+		super(plateau);
 		this.type = 1;
 		this.name = ObjetsList.Meditation;
 		launcher.etats.add(Etats.Meditating);

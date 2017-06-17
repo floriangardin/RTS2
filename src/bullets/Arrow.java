@@ -21,7 +21,7 @@ public class Arrow extends Bullet{
 	public float life = 6f;
 	public Arrow(Character owner,float vx,float vy,float damage, Plateau plateau){
 		//MULTI 
-	
+		super(plateau);
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
 
@@ -100,8 +100,8 @@ public class Arrow extends Bullet{
 
 
 	// For MenuArrow
-	public Arrow(){
-
+	public Arrow(Plateau plateau){
+		super(plateau);
 	}
 
 }

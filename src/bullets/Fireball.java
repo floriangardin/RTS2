@@ -28,6 +28,7 @@ public class Fireball extends Bullet {
 	public Fireball( Objet owner,float targetX,float targetY,float vx,float vy,float damage, Plateau plateau){
 		//MULTI 
 		// Parameters
+		super(plateau);
 		this.altitude = 0f;
 		this.name = ObjetsList.Fireball;
 		//
@@ -60,7 +61,9 @@ public class Fireball extends Bullet {
 //		Game.g.triggerEvent(EventNames.FireBallLaunched, this);
 	}
 
-	public Fireball(){}
+	public Fireball(Plateau plateau){
+		super(plateau);
+	}
 	public void action(Plateau plateau){
 
 		if(explosion){

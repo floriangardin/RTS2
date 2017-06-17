@@ -19,7 +19,7 @@ public class SpellMeditation extends Spell{
 		if(launcher.etats.contains(Etats.Meditating)){
 			return;
 		}
-		launcher.addSpellEffect(new Meditation(launcher,target));
+		launcher.addSpellEffect(new Meditation(launcher,target, plateau));
 		launcher.canMove = false;
 //		Game.g.triggerEvent(EventNames.Meditation, launcher);
 	}

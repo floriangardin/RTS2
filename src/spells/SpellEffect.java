@@ -6,6 +6,13 @@ import plateau.Objet;
 import plateau.Plateau;
 public class SpellEffect extends Objet{
 
+	public SpellEffect(Plateau plateau) {
+		super(plateau);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public int type;
 	public String image;
 	public Integer owner;
@@ -14,9 +21,7 @@ public class SpellEffect extends Objet{
 
 	}
 
-	public SpellEffect(){
 
-	}
 	
 	public Objet getOwner(){
 		return Game.gameSystem.plateau.getById(owner);

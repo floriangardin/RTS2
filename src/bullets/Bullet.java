@@ -10,8 +10,14 @@ import model.Game;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 
 public abstract class Bullet extends Objet {
+	public Bullet(Plateau plateau) {
+		super(plateau);
+		// TODO Auto-generated constructor stub
+	}
+
 	public float damage;
 	public float areaEffect;
 	public int owner;

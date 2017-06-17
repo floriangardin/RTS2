@@ -22,6 +22,7 @@ public class Immolation extends SpellEffect{
 	
 	public boolean active = false;
 	public Immolation(Character launcher, Objet t, Plateau plateau){
+		super(plateau);
 		launcher.canMove = false;
 		launcher.etats.add(Etats.Immolated);
 		this.type = 1;

@@ -27,7 +27,7 @@ public class BurningArea extends SpellEffect{
 	public float size;
 
 	public BurningArea(int launcher, Checkpoint t, float size, Plateau plateau){
-
+		super(plateau);
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;

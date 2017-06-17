@@ -27,7 +27,7 @@ public class Firewall extends SpellEffect{
 	public float x2,y2;
 
 	public Firewall( Character launcher, Objet t,float width, Plateau plateau){
-
+		super(plateau);
 		this.type = 1;
 		this.x = launcher.getX();
 		this.y = launcher.getY();

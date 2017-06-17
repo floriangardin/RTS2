@@ -34,7 +34,7 @@ public class BlessedArea extends SpellEffect{
 	public Vector<Character> targeted = new Vector<Character>();
 
 	public BlessedArea(Character launcher, Checkpoint t, float size, Plateau plateau){
-
+		super(plateau);
 		this.name = ObjetsList.BlessedAreaEffect;
 		this.type = 2;
 		this.size = size;

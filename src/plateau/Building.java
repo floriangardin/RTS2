@@ -72,7 +72,7 @@ public class Building extends Objet{
 
 	public Building(ObjetsList name, float x, float y, Team team, Plateau plateau){
 		// SET UP TECH LIST ET PRODUCTION LIST
-
+		super(plateau);
 		this.name = name;
 
 		this.x = x;

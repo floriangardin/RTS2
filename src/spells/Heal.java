@@ -18,8 +18,8 @@ public class Heal extends SpellEffect{
 	public float damage;
 	public Character owner;
 	public boolean active = false;
-	public Heal(Character launcher, Objet t){
-
+	public Heal(Character launcher, Objet t, Plateau plateau){
+		super(plateau);
 
 		this.type = 1;
 

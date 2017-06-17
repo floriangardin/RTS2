@@ -22,7 +22,7 @@ public class Checkpoint extends Objet {
 	public boolean neverEnding = false;
 	
 	public Checkpoint(float x, float y, Plateau plateau){
-
+		super(plateau);
 		this.initialize(x, y, plateau);
 	}
 	
@@ -50,7 +50,7 @@ public class Checkpoint extends Objet {
 	}
 	
 	public Checkpoint(float x, float y,boolean neverEnding, Plateau plateau){
-
+		super(plateau);
 		this.initialize(x, y, plateau);
 		this.neverEnding = neverEnding;
 	}

@@ -81,6 +81,7 @@ public class Character extends Objet{
 
 	// Copy constructor , to really create an unit
 	public Character(float x,float y,ObjetsList name, Team team, Plateau plateau){
+		super(plateau);
 		plateau.addCharacterObjets(this);
 		this.name= name;
 		this.setTarget(null);
