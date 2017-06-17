@@ -21,6 +21,7 @@ public class Tree extends NaturalObjet {
 	public int type;
 
 	public Tree(float x, float y, int type, Plateau plateau) {
+		super(plateau);
 		this.type = type;
 		this.name = ObjetsList.get("tree0"+type);
 		this.team = plateau.teams.get(0);
@@ -30,7 +31,7 @@ public class Tree extends NaturalObjet {
 		this.color = Color.gray;
 		this.lifePoints = 1.0f;
 		this.setXY(x*Map.stepGrid+sizeX/2f, y*Map.stepGrid+sizeY/2f, plateau);
-		Game.gameSystem.plateau.addNaturalObjets(this);
+		plateau.addNaturalObjets(this);
 	}
 	
 	

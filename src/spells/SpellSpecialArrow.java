@@ -2,8 +2,8 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
-import bullets.Arrow;
 import data.Attributs;
+import plateau.Arrow;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Objet;

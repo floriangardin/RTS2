@@ -3,13 +3,13 @@ package data;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Point;
 
 import main.Main;
+import plateau.Plateau;
+import plateau.Team;
 import ressources.Map;
 import spells.Spell;
-import utils.ObjetsList;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -47,8 +47,8 @@ public class Data implements java.io.Serializable {
 	public Vector<Attributs> ratioSpaceObjet;
 
 
-	public Data(int team){
-		this.team = team;
+	public Data(Team team, Plateau plateau){
+		this.team = team.id;
 		this.ratioSpaceObjet = new Vector<Attributs>();
 		this.ratioSpaceObjet.addElement(Attributs.sight);
 		this.ratioSpaceObjet.addElement(Attributs.range);
@@ -63,7 +63,7 @@ public class Data implements java.io.Serializable {
 		// init the spells
 		this.spells = new HashMap<ObjetsList, Spell>();
 		for(ObjetsList s : ObjetsList.getSpells()){
-			this.spells.put(s, (Spell)Spell.createSpell(s,this.team));
+			this.spells.put(s, (Spell)Spell.createSpell(s, team));
 		}
 	}
 

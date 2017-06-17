@@ -1,4 +1,4 @@
-package bullets;
+package plateau;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -8,11 +8,6 @@ import data.Attributs;
 import events.EventNames;
 import main.Main;
 import model.Game;
-import plateau.Building;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Objet;
-import plateau.Plateau;
 import ressources.Images;
 import spells.BurningArea;
 import utils.ObjetsList;
@@ -33,7 +28,7 @@ public class Fireball extends Bullet {
 		this.name = ObjetsList.Fireball;
 		//
 		this.size = 10f*Main.ratioSpace;
-		Game.gameSystem.plateau.addBulletObjets(this);
+		plateau.addBulletObjets(this);
 		this.damage = damage;
 		this.animation = 0;
 		this.lifePoints = 30f;

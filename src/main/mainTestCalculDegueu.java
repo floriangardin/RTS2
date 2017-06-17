@@ -1,7 +1,10 @@
 package main;
 
+import java.util.Vector;
+
 import org.newdawn.slick.SlickException;
 
+import control.InputObject;
 import plateau.Plateau;
 import ressources.Map;
 
@@ -17,5 +20,10 @@ public class mainTestCalculDegueu {
 	}
 	public static void main(String[] args) throws SlickException {
 		Plateau plateau = Map.createPlateau("testIA");
+		while(true){
+			plateau.update(new Vector<InputObject>());
+			plateau.print();
+		}
+		//System.out.println("J'ai réussi youpi ...");
 	}
 }

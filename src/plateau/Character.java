@@ -9,8 +9,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-import bullets.Arrow;
-import bullets.Fireball;
 import data.Attributs;
 import display.DisplayHandler;
 import events.EventAttackDamage;
@@ -204,14 +202,14 @@ public class Character extends Objet{
 			Character c = (Character) this.getTarget(plateau);
 			c.isAttacked();
 			// Attack sound
-			Sounds.playSound(this.getAttributString(Attributs.weapon));
+			//Sounds.playSound(this.getAttributString(Attributs.weapon));
 
 			// compute damages
 			float damage = computeDamage(c);
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
-				DisplayHandler.addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
+				//DisplayHandler.addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 			}			
 		} else {
 			// autres armes

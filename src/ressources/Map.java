@@ -13,7 +13,7 @@ import bonus.BonusDamage;
 import bonus.BonusLifepoints;
 import bonus.BonusSpeed;
 import data.Data;
-import madness.Act;
+
 import main.Main;
 import model.Game;
 import nature.Tree;
@@ -48,8 +48,11 @@ public class Map {
 	}
 
 
-	public static Plateau createPlateau(String nameMap){
-		String fichier = "ressources/maps/"+nameMap+".rtsmap";
+	public static Plateau createPlateau(String nameMap, String dossier){
+		String fichier = "ressources/"+dossier+"/"+nameMap+".rtsmap";
+		return createPlateau(fichier);
+	}
+	public static Plateau createPlateau(String fichier){
 		try{
 			//lecture du fichier texte	
 			InputStream ips=new FileInputStream(fichier); 

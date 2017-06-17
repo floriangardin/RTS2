@@ -2,12 +2,11 @@ package pathfinding;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import model.Game;
-import ressources.Map;
+import ressources.Images;
 import tests.FatalGillesError;
 
 public class MapWater {
@@ -154,9 +153,9 @@ public class MapWater {
 
 	public void draw(Graphics g, float stepGrid, int Xcam, int Ycam, int maxX, int maxY){
 		int xmin = (int) (Math.max(0,Xcam) / stepGrid);
-		int xmax = (int) Math.min(maxX,(Xcam+Game.g.resX)/stepGrid+1);
+		int xmax = (int) Math.min(maxX,(Xcam+Game.resX)/stepGrid+1);
 		int ymin = (int) (Math.max(0,Ycam) / stepGrid);
-		int ymax = (int) Math.min(maxY,(Ycam+Game.g.resY) / stepGrid+1);
+		int ymax = (int) Math.min(maxY,(Ycam+Game.resY) / stepGrid+1);
 		//waterImage = waterImage.getScaledCopy((int)(2*stepGrid), (int)(2*stepGrid));
 		//water2Image = water2Image.getScaledCopy((int)(stepGrid), (int)(stepGrid));
 		//		for(int x = xmin; x<xmax; x++){

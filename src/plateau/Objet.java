@@ -9,7 +9,6 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import bonus.Bonus;
-import bullets.Bullet;
 import data.Attributs;
 import data.AttributsChange;
 import events.EventNames;
@@ -337,6 +336,12 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	public void setSpells(Vector<ObjetsList> spells) {
 		this.spells = spells;
+	}
+	
+	public String toString(){
+		String result = "";
+		result+=this.lifePoints+" "+this.x+" "+this.y+" "+this.id+" "+this.name;
+		return result;
 	}
 	
 

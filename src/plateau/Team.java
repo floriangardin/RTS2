@@ -31,11 +31,10 @@ public class Team {
 	public float timerMaxKill = 15f;
 
 
-	public Team(Vector<Player> players, int id, int civ) {
+	public Team(int id, Plateau plateau) {
 		this.id = id;
-		
-
-		this.data = new Data(id);
+	
+		this.data = new Data(this, plateau);
 		if(id==0){
 			color = Colors.team0;
 			colorName = "neutral";

@@ -7,8 +7,6 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
 import bonus.Bonus;
-import bullets.Arrow;
-import bullets.Bullet;
 import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
@@ -89,7 +87,11 @@ public class Plateau implements java.io.Serializable {
 		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
 		this.maxX = maxX;
 		this.maxY = maxY;
-
+		// TEAMS
+		this.teams = new Vector<Team>();
+		for(int id=0 ; id<3; id++){
+			this.teams.add(new Team(id, this));
+		}
 		// CHARACTERS
 		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
@@ -123,7 +125,19 @@ public class Plateau implements java.io.Serializable {
 		id = 0;
 
 	}
-
+	
+	public void print(){
+		System.out.println("Size checkpoints : "+checkpoints.size());
+		System.out.println("Size characters : "+characters.size());
+		System.out.println("Size buildings : "+buildings.size());
+		System.out.println("Size bullets : "+bullets.size());
+		System.out.println("Size total : "+(checkpoints.size()+bullets.size() + buildings.size()+characters.size()) );
+		System.out.println("Size hashmap : "+this.objets.size());
+		System.out.println("\n\n== Characters");
+		for(Character c : this.characters){
+			System.out.println(c.id+" "+c.x+" "+c.y);
+		}
+	}
 	public void addCharacterObjets(Character o) {
 		toAddCharacters.addElement(o);
 	}
@@ -185,7 +199,7 @@ public class Plateau implements java.io.Serializable {
 				}
 				this.removeCharacter(o);
 				//TODO:001
-				Game.gameSystem.triggerEvent(EventNames.Death, o);
+				//Game.gameSystem.triggerEvent(EventNames.Death, o);
 			}
 		}
 
@@ -902,5 +916,24 @@ public class Plateau implements java.io.Serializable {
 		}
 		return null;
 	}
+	
+	public String toString(){
+		String s = "";
+		Vector<Objet> concatenation = new Vector<Objet>();
+		concatenation.addAll(this.characters);
+		concatenation.addAll(this.buildings);
+		for(Objet o : concatenation){
+			s+=o;
+		}
+		return s;
+		
+	}
+	public boolean equals(Object o){
+		if(!(o instanceof Plateau)){
+			return false;
+		}
+		return this.toString().equals(((Plateau)o).toString());
+	}
+
 
 }

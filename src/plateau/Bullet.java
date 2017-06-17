@@ -1,4 +1,4 @@
-package bullets;
+package plateau;
 
 
 
@@ -7,10 +7,6 @@ import java.util.HashMap;
 
 import data.Attributs;
 import model.Game;
-import plateau.Building;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 
 public abstract class Bullet extends Objet {
 	public Bullet(Plateau plateau) {

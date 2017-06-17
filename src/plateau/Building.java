@@ -10,12 +10,11 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import bonus.Bonus;
-import bullets.Fireball;
 import data.Attributs;
 import display.DisplayHandler;
 import display.DisplayRessources;
 import events.EventNames;
-import madness.ActRule;
+
 import main.Main;
 import model.Colors;
 import multiplaying.ChatHandler;

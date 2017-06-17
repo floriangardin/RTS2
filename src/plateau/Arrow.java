@@ -1,4 +1,4 @@
-package bullets;
+package plateau;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -9,9 +9,6 @@ import data.Attributs;
 import events.EventAttackDamage;
 import main.Main;
 import model.Game;
-import plateau.Building;
-import plateau.Character;
-import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
@@ -24,10 +21,9 @@ public class Arrow extends Bullet{
 		super(plateau);
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
-
 		this.name = ObjetsList.Arrow;
 		this.damage = damage;
-		Game.gameSystem.plateau.addBulletObjets(this);
+		plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
 		this.owner = owner.id;
 		this.team = plateau.getById(owner.id).getTeam();
@@ -93,7 +89,7 @@ public class Arrow extends Bullet{
 		}
 		
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
-		if(this.x>Game.gameSystem.plateau.maxX || this.x<0 || this.y>Game.gameSystem.plateau.maxY||this.y<0){
+		if(this.x>plateau.maxX || this.x<0 || this.y>plateau.maxY||this.y<0){
 			this.setLifePoints(-1f);
 		}
 	}
