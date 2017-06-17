@@ -19,6 +19,8 @@ public class mainTestCalculDegueu {
 		
 	}
 	public static void main(String[] args) throws SlickException {
+		
+		
 		Plateau plateau = Map.createPlateau("testIA");
 		while(true){
 			plateau.update(new Vector<InputObject>());

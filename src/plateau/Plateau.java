@@ -825,24 +825,58 @@ public class Plateau implements java.io.Serializable {
 	// updating rectangle
 
 
-	public void handleInterface(InputObject im){
-		// display for the action bar
-		float relativeXMouse = (im.x - Camera.Xcam);
-		float relativeYMouse = (im.y - Camera.Ycam);
-		Game.gameSystem.bottombar.update(relativeXMouse, relativeYMouse);
+//	public void handleInterface(InputObject im){
+//		// display for the action bar
+//		float relativeXMouse = (im.x - Camera.Xcam);
+//		float relativeYMouse = (im.y - Camera.Ycam);
+//		Game.gameSystem.bottombar.update(relativeXMouse, relativeYMouse);
+//
+//	}
+//
+//	private void handleMinimap(InputObject im, int player) {
+//		if (im.isDown(KeyEnum.LeftClick) && player == Game.gameSystem.getCurrentPlayer().id && im.isOnMiniMap) {
+//			// Put camera where the click happened
+//			Camera.objXcam = (int) (im.x - Game.resX / 2f);
+//			Camera.objYcam = (int) (im.y - Game.resY / 2f);
+//			Camera.slidingCam = true;
+//			//			System.out.println(slidingCam);
+//		}
+//	}
+	
+//	public boolean isVisibleByCamera(Objet objet) {
+//	float sight = objet.getVisibleSize();
+//	return objet.x + sight > Camera.Xcam && objet.x - sight < Camera.Xcam + Game.resX && objet.y + sight > Camera.Ycam
+//			&& objet.y - sight < Camera.Ycam + Game.resY;
+//
+//}
 
-	}
-
-	private void handleMinimap(InputObject im, int player) {
-		if (im.isDown(KeyEnum.LeftClick) && player == Game.gameSystem.getCurrentPlayer().id && im.isOnMiniMap) {
-			// Put camera where the click happened
-			Camera.objXcam = (int) (im.x - Game.resX / 2f);
-			Camera.objYcam = (int) (im.y - Game.resY / 2f);
-			Camera.slidingCam = true;
-			//			System.out.println(slidingCam);
-		}
-	}
-
+//	public void updateVisibility() {
+//	for (Character c : this.characters) {
+//		c.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), c);
+//		c.visibleByCamera = this.isVisibleByCamera(c);
+//	}
+//	for (Building b : this.buildings) {
+//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
+//		b.visibleByCamera = this.isVisibleByCamera(b);
+//	}
+//	for (Bullet b : this.bullets) {
+//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
+//		b.visibleByCamera = this.isVisibleByCamera(b);
+//	}
+//	for (SpellEffect b : this.spells) {
+//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
+//		b.visibleByCamera = this.isVisibleByCamera(b);
+//	}
+//	for (NaturalObjet n : this.naturalObjets) {
+//		n.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), n);
+//		n.visibleByCamera = this.isVisibleByCamera(n);
+//	}
+//	for (Bonus b : this.bonus) {
+//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
+//		b.visibleByCamera = this.isVisibleByCamera(b);
+//	}
+//}
+	
 
 	// Handling visibility
 	public Vector<Objet> getInCamObjets(int team) {
@@ -875,39 +909,10 @@ public class Plateau implements java.io.Serializable {
 	public Building getHQ(Team team){
 		return (Building)this.getById(team.hq);
 	}
-	public boolean isVisibleByCamera(Objet objet) {
-		float sight = objet.getVisibleSize();
-		return objet.x + sight > Camera.Xcam && objet.x - sight < Camera.Xcam + Game.resX && objet.y + sight > Camera.Ycam
-				&& objet.y - sight < Camera.Ycam + Game.resY;
 
-	}
 
-	public void updateVisibility() {
-		for (Character c : this.characters) {
-			c.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), c);
-			c.visibleByCamera = this.isVisibleByCamera(c);
-		}
-		for (Building b : this.buildings) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-			b.visibleByCamera = this.isVisibleByCamera(b);
-		}
-		for (Bullet b : this.bullets) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-			b.visibleByCamera = this.isVisibleByCamera(b);
-		}
-		for (SpellEffect b : this.spells) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-			b.visibleByCamera = this.isVisibleByCamera(b);
-		}
-		for (NaturalObjet n : this.naturalObjets) {
-			n.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), n);
-			n.visibleByCamera = this.isVisibleByCamera(n);
-		}
-		for (Bonus b : this.bonus) {
-			b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-			b.visibleByCamera = this.isVisibleByCamera(b);
-		}
-	}
+
+
 
 	public Objet getById(int id){
 

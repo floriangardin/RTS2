@@ -184,9 +184,9 @@ public class Utils {
 		return bimage.getImage();
 	}
 
-	public static void triY(Vector<Objet> liste){
+	public static Vector<Objet> triY(Vector<Objet> liste){
 		if(liste.size()<=1)
-			return;
+			return liste;
 		Vector<Objet> liste1 = new Vector<Objet>(), liste2= new Vector<Objet>();
 		for(int i=0;i<liste.size();i++){
 			if(i<liste.size()/2)
@@ -224,7 +224,7 @@ public class Utils {
 				liste2.remove(0);
 			}
 		}
-
+		return liste;
 	}
 	
 	

@@ -26,11 +26,6 @@ public class GraphicElements {
 	public static Image cursor;
 	public static Image currentCursor;
 	
-	// Fog of War
-	public static Image fog;
-	public static Image transparence;
-	public static Graphics gf;
-	public static Graphics gt;
 
 
 	

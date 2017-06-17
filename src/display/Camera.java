@@ -8,17 +8,22 @@ import model.Game;
 
 public class Camera {
 
-	public static int Xcam;
-	public static int Ycam;
+	public int Xcam;
+	public int Ycam;
 	
-	public static int minX, minY, maxX, maxY;
+	public int resX, resY;
 	
-	public static boolean slidingCam;
-	public static int objXcam;
-	public static int objYcam;
+	public int minX, minY, maxX, maxY;
 	
+	public boolean slidingCam;
+	public int objXcam;
+	public int objYcam;
 	
-	public static void update(InputObject im) {
+	public Camera(){
+		
+	}	
+	
+	public void update(InputObject im) {
 		// Handle the display (camera movement & minimap)
 		int player = Game.gameSystem.getCurrentPlayer().id;
 		// camera movement

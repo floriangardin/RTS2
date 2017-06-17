@@ -49,21 +49,6 @@ public enum ObjetsList {
 	DualistExplosion("Technology"), 
 	DualistEagleView("Technology"),
 	DualistImmolationAuto("Technology"),
-	// ActCard
-
-	AgeIr("ActCard"),
-	AgeIIa("ActCard"),
-	AgeIIb("ActCard"),
-	AgeIIm("ActCard"),
-	AgeIIr("ActCard"),
-
-	AgeICrossbowman("ActCard"),
-	AgeISpearman("ActCard"),
-	AgeIExplosion("ActCard"),
-	AgeIImmolationAuto("ActCard"),
-	AgeIRessource("ActCard"),
-	Age1AttackBonusMeditation("ActCard"),
-	
 	
 	
 	// Bullets
