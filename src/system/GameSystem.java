@@ -59,13 +59,13 @@ public class GameSystem extends ClassSystem{
 
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im);
-		System.out.println(p.selection.selection.size());
+		
 		// 3 : Update plateau
 		plateau.update(InputHandler.getInputsForRound(plateau.round));
 		
 		// 4 : Update the camera
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
-		
+//		
 		
 //		// TODO Auto-generated method stub
 //

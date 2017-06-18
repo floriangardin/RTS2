@@ -23,6 +23,7 @@ public class RenderEngine {
 	public static final int BACKGROUNDLAYER = 0;
 	public static final int SELECTIONLAYER = 4;
 	public static final int NORMALLAYER = 2;
+	public static final int GROUNDLAYER = 1;
 
 	public static int i;
 
@@ -97,6 +98,18 @@ public class RenderEngine {
 					player.selection.rectangleSelection.getWidth(),
 					player.selection.rectangleSelection.getHeight());	
 		}
+		
+		
+		// draw rectangle of selection
+		gf = gl.get(GROUNDLAYER).getGraphics();
+			for(Objet o : player.selection.selection){
+				if(o instanceof Character){
+					RenderCharacter.drawIsSelected(gf, (Character)o, plateau);
+				}else if(o instanceof Building){
+					RenderBuilding.drawIsSelected(gf, (Building)o, plateau);
+				}
+				
+			}
 	}
 
 	public static void renderObjet(Objet o, Vector<GraphicLayer> gl, Plateau plateau){

@@ -109,7 +109,7 @@ public class RenderBuilding {
 	}
 	
 	
-	public void drawIsSelected(Graphics g, Building b, Plateau plateau){
+	public static void drawIsSelected(Graphics g, Building b, Plateau plateau){
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f);
 		g.draw(b.collisionBox);

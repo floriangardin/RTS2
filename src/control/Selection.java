@@ -38,6 +38,7 @@ public class Selection {
 			return;
 		if(im.isDown(KeyEnum.LeftClick)){
 			if (this.rectangleSelection == null) {
+				this.selection.clear() ;// A appeler quand le rectangle est crée
 				recX=(float) im.x;
 				recY= (float) im.y;
 				rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
@@ -52,74 +53,47 @@ public class Selection {
 		
 		// Update in rectangle
 		inRectangle.clear();
-		for(Character o : Game.gameSystem.plateau.objets.values()){
-			if(rectangleIntersect(o.x, o.y, o.getAttribut(Attributs.sight))){
+		for(Character o : Game.gameSystem.plateau.characters){
+			if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
 				inRectangle.add(o);
 			}
 		}
-		System.out.println(inRectangle.size());
+		if(inRectangle.size()==0){
+			for(Building o : Game.gameSystem.plateau.buildings){
+				if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
+					inRectangle.add(o);
+				}
+			}
+		}
 	}
 
-	public boolean rectangleIntersect(float x, float y, float size){
+	public boolean rectangleIntersect(float xMin, float yMin, float xMax, float yMax, float size){
 		if(this.rectangleSelection== null){
 			return false;
 		}
-		return x + size/2 >= this.rectangleSelection.getMinX() && 
-				x - size/2 <= this.rectangleSelection.getMaxX() &&
-				y + size/2 >= this.rectangleSelection.getMinY() && 
-				y - size/2 <= this.rectangleSelection.getMaxY() ;
+		double interX = Math.min(xMax, this.rectangleSelection.getMaxX()) - Math.max(xMin, this.rectangleSelection.getMinX());
+		double interY = Math.min(yMax, this.rectangleSelection.getMaxY()) - Math.max(yMin, this.rectangleSelection.getMinY());
+		return interX>0 && interY>0;
 	}
 
-	public void updateSelection(InputObject im) {
-		if (rectangleSelection != null) {
-			for (Objet a : this.inRectangle) {
-				this.selection.remove(a);
-			}
-			this.inRectangle.clear();
-			for (Character o : Game.gameSystem.plateau.characters) {
-				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)
-						|| rectangleSelection.contains(o.selectionBox)) && o.getTeam().id == im.team) {
-					this.selection.add(o);
-					this.inRectangle.addElement(o);
-					if (Math.max(rectangleSelection.getWidth(), rectangleSelection.getHeight()) < 2f) {
-						break;
-					}
-
-				}
-			}
-			if (this.selection.size() == 0) {
-				for (Building o : Game.gameSystem.plateau.buildings) {
-					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id == im.team) {
-						this.selection.add(o);
-						this.inRectangle.addElement(o);
-					}
-				}
-
-			} else {
-				Vector<Character> chars = new Vector<Character>();
-				for(Objet o : this.selection){
-					if(o instanceof Character){
-						chars.add((Character) o);
-					}
-				}
-
-				Utils.triId(chars);
-				this.selection.clear();
-
-				for(Character c : chars)
-					this.selection.add(c);
-			}
-			
-		}
-	}
-
-
-
+	
 	public void handleSelection(InputObject im) {
 		// This method put selection in im ...
 		
 		// As long as the button is pressed, the selection is updated
 		this.updateRectangle(im);
+		// Put the content of inRectangle in selection
+		if(inRectangle.size()>0 || rectangleSelection!=null){
+			this.selection.clear();
+			for(Objet o : inRectangle){
+				this.selection.add(o);
+			}
+		}
+		
+		im.selection = new Vector<Integer>();
+		for(Objet o : selection){
+			im.selection.add(o.id);
+		}
 		// Handling groups of units
 //		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
 //		KeyEnum  pressed = null;
@@ -168,8 +142,6 @@ public class Selection {
 //		}
 
 		
-		this.inRectangle.clear();
-		
 		// Handling hotkeys for gestion of selection
 //		if (im.isPressed(KeyEnum.Tab)) {
 //			if (this.selection.size() > 0) {
@@ -182,29 +154,65 @@ public class Selection {
 
 		// we update the selection according to the rectangle wherever is the
 		// mouse
-		if(!im.isOnMiniMap){
-			if (im.isPressed(KeyEnum.LeftClick) && !im.isPressed(KeyEnum.Tab)) {
-				this.selection.clear();
-		
-			}
-		}
-		if (!im.isPressed(KeyEnum.ToutSelection)) {
-			this.updateSelection(im);
+//		if(!im.isOnMiniMap){
+//			if (im.isPressed(KeyEnum.LeftClick) && !im.isPressed(KeyEnum.Tab)) {
+//				this.selection.clear();
+//		
+//			}
+//		}
+//		if (!im.isPressed(KeyEnum.ToutSelection)) {
+//			this.updateSelection(im);
+//
+//		} else {
+//			this.updateSelectionCTRL(im);
+//		}
 
-		} else {
-			this.updateSelectionCTRL(im);
-		}
-		// Update the selections of the players
-		selection.clear();
-		for (Objet c : this.selection)
-			selection.addElement( c);
 		
-		im.selection = new Vector<Integer>();
-		for(Objet o : selection){
-			im.selection.add(o.id);
-		}
+
 		
 	}
+//	public void updateSelection(InputObject im) {
+//		if (rectangleSelection != null) {
+//			for (Objet a : this.inRectangle) {
+//				this.selection.remove(a);
+//			}
+//			this.inRectangle.clear();
+//			for (Character o : Game.gameSystem.plateau.characters) {
+//				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)
+//						|| rectangleSelection.contains(o.selectionBox)) && o.getTeam().id == im.team) {
+//					this.selection.add(o);
+//					this.inRectangle.addElement(o);
+//					if (Math.max(rectangleSelection.getWidth(), rectangleSelection.getHeight()) < 2f) {
+//						break;
+//					}
+//
+//				}
+//			}
+//			if (this.selection.size() == 0) {
+//				for (Building o : Game.gameSystem.plateau.buildings) {
+//					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id == im.team) {
+//						this.selection.add(o);
+//						this.inRectangle.addElement(o);
+//					}
+//				}
+//
+//			} else {
+//				Vector<Character> chars = new Vector<Character>();
+//				for(Objet o : this.selection){
+//					if(o instanceof Character){
+//						chars.add((Character) o);
+//					}
+//				}
+//
+//				Utils.triId(chars);
+//				this.selection.clear();
+//
+//				for(Character c : chars)
+//					this.selection.add(c);
+//			}
+//			
+//		}
+//	}
 
 
 	public void updateSelectionCTRL(InputObject im) {

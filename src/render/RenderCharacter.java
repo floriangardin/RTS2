@@ -20,6 +20,10 @@ public class RenderCharacter {
 	
 	public static void render(Character character, Vector<GraphicLayer> gl, Plateau plateau){
 		Graphics g = gl.get(RenderEngine.NORMALLAYER).getGraphics();
+		Graphics g2 = gl.get(RenderEngine.SELECTIONLAYER).getGraphics();
+		g2.setColor(Color.blue);
+		// Debug
+		g2.drawRect(character.selectionBox.getX(), character.selectionBox.getY(),character.selectionBox.getWidth(), character.selectionBox.getHeight());
 		float r = 60f*Main.ratioSpace;
 		int direction = (character.orientation/2-1);
 		// inverser gauche et droite
