@@ -80,7 +80,14 @@ public class Selection {
 	
 	public void handleSelection(InputObject im) {
 		// This method put selection in im ...
-		
+		// Remove death and not team from selection
+		Vector<Objet> toRemove = new Vector<Objet>();
+		for(Objet o : selection){
+			if(!o.isAlive() || o.team.id!=im.team){
+				toRemove.add(o);
+			}
+		}
+		selection.removeAll(toRemove);
 		// As long as the button is pressed, the selection is updated
 		this.updateRectangle(im);
 		// Put the content of inRectangle in selection

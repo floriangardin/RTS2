@@ -617,15 +617,11 @@ public class Plateau implements java.io.Serializable {
 		return target;
 	}
 
-
-
-
 	public void update(Vector<InputObject> ims) {
 		round ++;
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
 			int player = im.idplayer;
-
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
 				EndRender.initEnd(im.team);
@@ -650,9 +646,7 @@ public class Plateau implements java.io.Serializable {
 				EndRender.initEnd(team.id);
 			}
 		}
-
 	}
-
 
 	void handleMouseHover(InputObject im) {
 		for (Character c : this.characters) {
@@ -683,7 +677,6 @@ public class Plateau implements java.io.Serializable {
 		Vector<Objet> selection = im.getSelection(this);
 		if (im.isPressed(KeyEnum.RightClick)) {
 			// RALLY POINT
-
 			if (selection.size() > 0
 					&& selection.get(0) instanceof Building) {
 				Objet target = findTarget(im.x, im.y,team);
@@ -694,7 +687,6 @@ public class Plateau implements java.io.Serializable {
 					((Building) selection.get(0)).setRallyPoint(im.x, im.y,this);
 				}
 			} else if (im.isPressed(KeyEnum.AjouterSelection)) {
-
 				updateSecondaryTarget(im);
 			} else {
 				updateTarget(im, Character.MOVE, this);
