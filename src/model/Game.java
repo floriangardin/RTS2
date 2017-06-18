@@ -32,7 +32,6 @@ public class Game extends BasicGame
 		Game.resX = resX;
 		Game.resY = resY;
 		Game.ratioResolution = 1f*resX/1920f;
-		Game.gameSystem = new GameSystem();
 	}
 
 	@Override

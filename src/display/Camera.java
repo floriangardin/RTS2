@@ -19,21 +19,22 @@ public class Camera {
 	public int objXcam;
 	public int objYcam;
 	
-	public Camera(int resX, int resY, int x, int y){
+	public Camera(int resX, int resY, int x, int y, int maxX, int maxY){
 		this.resX = resX;
 		this.resY = resY;
 		this.Xcam = x;
 		this.Ycam = y;
+		this.maxX = maxX;
+		this.maxY = maxY;
 	}	
 	public boolean visibleByCamera(float x, float y, float size){
-		return x + size/2 > Xcam && x - size/2 < Xcam + resX && size/2 > Ycam && y - size/2 < Ycam + resY;
+		return x + size > Xcam && x - size < Xcam + resX && y + size > Ycam && y - size < Ycam + resY;
 	}
 	
-	public void update(InputObject im) {
+	public void update(InputObject im, boolean rectangleSelection) {
 		// Handle the display (camera movement & minimap)
-		int player = Game.gameSystem.getCurrentPlayer().id;
 		// camera movement
-		if (InputHandler.getSelection(player).rectangleSelection == null && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
+		if (!rectangleSelection && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
 			// Handling sliding
 			if(slidingCam==true){
 				int deltaX = (int) (objXcam-Xcam);
@@ -44,21 +45,21 @@ public class Camera {
 					slidingCam = false;
 			}
 			// Move camera according to inputs :
-			if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.y < Ycam + 5) && Ycam > minY-Game.resY / 2) {
+			if ((im.isDown(KeyEnum.Up)  || !im.isOnMiniMap && im.yOnScreen < 5) && Ycam > minY-resY / 2) {
 				Ycam -= (int) (80 * 30 / Main.framerate);
 				slidingCam = false;
 			}
-			if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.y > Ycam + Game.resY - 5))
-					&& Ycam < maxY - Game.resY / 2) {
+			if ((im.isDown(KeyEnum.Down) || (!im.isOnMiniMap && im.yOnScreen > resY - 5))
+					&& Ycam < maxY - resY / 2) {
 				Ycam += (int) (80 * 30 / Main.framerate);
 				slidingCam = false;
 			}
-			if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.x < Xcam + 5)) && Xcam > minX-Game.resX / 2) {
+			if ((im.isDown(KeyEnum.Left) ||(!im.isOnMiniMap && im.xOnScreen < 5)) && Xcam > minX-resX / 2) {
 				Xcam -= (int) (80 * 30 / Main.framerate);
 				slidingCam = false;
 			}
-			if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.x > Xcam + Game.resX - 5))
-					&& Xcam < maxX - Game.resX / 2) {
+			if ((im.isDown(KeyEnum.Right) ||(!im.isOnMiniMap && im.xOnScreen > resX - 5))
+					&& Xcam < maxX - resX / 2) {
 				Xcam += (int) (80 * 30 / Main.framerate);
 				slidingCam = false;
 			}

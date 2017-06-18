@@ -16,6 +16,7 @@ import control.InputObject;
 import display.Camera;
 import model.Game;
 import plateau.Plateau;
+import render.GraphicLayer;
 import render.RenderEngine;
 import ressources.Map;
 import ressources.Images;
@@ -29,6 +30,8 @@ public class TestRender extends BasicGame{
 	Plateau plateau ;
 	RenderEngine renderEngine ;
 	Camera camera ; 
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -57,13 +60,14 @@ public class TestRender extends BasicGame{
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
 		RenderEngine.render(g, plateau, camera);
+
 	}
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
 		// TODO Auto-generated method stub
 		Images.init();
-		camera = new Camera(800, 600, 0, 0);	
+		camera = new Camera(1920, 1080, 0, 0);	
 		RenderEngine.init(camera);
 		plateau = Map.createPlateau("test01", "maptests");
 	}

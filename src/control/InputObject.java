@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.newdawn.slick.Input;
 
 import control.KeyMapper.KeyEnum;
+import display.Camera;
 import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
@@ -39,8 +40,8 @@ public class InputObject implements java.io.Serializable{
 
 	public Vector<KeyEnum> down;
 	public Vector<KeyEnum> pressed;
-	public float x;
-	public float y;
+	public float x, xOnScreen;
+	public float y, yOnScreen;
 
 	public InputObject (){
 		this.id= 0;
@@ -57,8 +58,11 @@ public class InputObject implements java.io.Serializable{
 		this.validated = new Vector<Boolean>();
 	}
 	
-	public InputObject(Input input){
-		initInput(input);
+	public InputObject(Input input, Camera camera){
+		initInput(input, camera);
+		this.toPlay = false;
+		this.isOnMiniMap = false;
+		this.validated = new Vector<Boolean>();
 	}
 	
 	public Vector<Objet> getSelection(Plateau plateau){
@@ -207,9 +211,11 @@ public class InputObject implements java.io.Serializable{
 //		Game.g.inputsHandler.updateSelection(this);
 //	}
 	
-	public void initInput(Input input){
-		x = input.getMouseX();
-		y = input.getMouseY();
+	public void initInput(Input input, Camera camera){
+		x = input.getMouseX() + camera.Xcam;
+		y = input.getMouseY() + camera.Ycam;
+		xOnScreen = input.getMouseX();
+		yOnScreen = input.getMouseY();
 		this.pressed = new Vector<KeyEnum>();
 		this.down = new Vector<KeyEnum>();
 		// Keyboard
@@ -235,14 +241,14 @@ public class InputObject implements java.io.Serializable{
 		}
 	}
 
-//	public void validate(Player player){
-//		if(validated.size()>player.id){
-//			validated.set(player.id-1,true);
+	public void validate(int player){
+		if(validated.size()>player){
+			validated.set(player,true);
 //			if(Game.debugValidation)
 //				System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
-//		}
-//	}
-//
+		}
+	}
+
 //	public void validate(){
 //		/** Validate everything (when it comes from other player)
 //		 * 
@@ -257,14 +263,14 @@ public class InputObject implements java.io.Serializable{
 //		return ""+this.round+"|"+this.idplayer+"|"+g.currentPlayer.id+"|";
 //	}
 
-//	public boolean isValidated() {
-//		int n = 0;
-//		for(Boolean b: this.validated){
-//			if(b)
-//				n++;
-//		}
-//		return n>=this.validated.size()-2;
-//	}
+	public boolean isValidated() {
+		int n = 0;
+		for(Boolean b: this.validated){
+			if(b)
+				n++;
+		}
+		return n>=this.validated.size();
+	}
 
 	public void eraseLetter(){
 		this.pressed.clear();

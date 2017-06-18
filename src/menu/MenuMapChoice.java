@@ -18,6 +18,7 @@ import multiplaying.ChatHandler;
 import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Musics;
+import system.GameSystem;
 import system.MenuSystem.MenuNames;
 import tests.FatalGillesError;
 
@@ -292,10 +293,14 @@ public class MenuMapChoice extends Menu {
 	}
 
 	public void launchGame(){
+		// Init gameSystem
+		Game.gameSystem = new GameSystem(lobby);
+		Game.system = Game.gameSystem;
 //		Camera.maxX = (int) MaxX;
 //		Camera.maxY = (int) MaxY;
-		Camera.minX = 0;
-		Camera.minY = 0;
+//		Camera.minX = 0;
+//		Camera.minY = 0;
+		
 	}
 
 

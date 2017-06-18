@@ -64,14 +64,6 @@ public class GraphicElements {
 			Game.app.setMouseCursor(cursor,5,16);
 		} catch (SlickException e) {}
 		
-		// fog of war
-		try{
-			fog = new Image((int) (Game.resX), (int) (Game.resY));
-			gf = fog.getGraphics();
-			transparence = new Image((int) (Game.resX), (int) (Game.resY));
-			gt = transparence.getGraphics();
-		} catch (SlickException e) {}
-		
 	}
 	
 }

@@ -35,8 +35,8 @@ public class Plateau implements java.io.Serializable {
 
 
 
-	public float maxX;
-	public float maxY;
+	public int maxX;
+	public int maxY;
 
 	// si le plateau est une photo, le round auquel synchroniser
 	public int roundToSynchro;
@@ -82,7 +82,7 @@ public class Plateau implements java.io.Serializable {
 
 
 
-	public Plateau(float maxX, float maxY) {
+	public Plateau(int maxX, int maxY) {
 		// GENERAL
 		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
 		this.maxX = maxX;
@@ -435,11 +435,11 @@ public class Plateau implements java.io.Serializable {
 		float y = im.y;
 		int team = im.team;
 		for (Objet c : getById(im.selection)) {
-			updateTarget(c,x,y,team,mode,plateau);
+			updateTarget(c,x,y,team,mode,im.selection);
 		}
 	}
 
-	public void updateTarget(Objet c, float x, float y, int team, int mode, Plateau plateau ) {
+	public void updateTarget(Objet c, float x, float y, int team, int mode, Vector<Integer> selection ) {
 
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
@@ -465,8 +465,9 @@ public class Plateau implements java.io.Serializable {
 			// Then we create its new group
 			o.setGroup(new Vector<Character>());
 			Vector<Integer> waypoints = null;
-			for (Objet c1 : InputHandler.getSelection(team).selection) {
-
+			Objet c1;
+			for (Integer i1 : selection) {
+				c1 = getById(i1);
 				if (c1 == c)
 					continue;
 				if (c1 instanceof Character) {
@@ -501,6 +502,7 @@ public class Plateau implements java.io.Serializable {
 			target = new Checkpoint(x, y, this);
 		}
 		Objet c;
+		Objet o1 = null;
 		for (Integer d : im.selection) {
 			c = this.getById(d);
 			if (c instanceof Character) {
@@ -513,11 +515,10 @@ public class Plateau implements java.io.Serializable {
 				}
 				// Then we create its new group
 				o.setGroup(new Vector<Character>());
-
-				for (Objet c1 : InputHandler.getSelection(team).selection)
-
-					if (c1 instanceof Character)
-						o.addInGroup(c1.id);
+				for (Integer i1 : im.selection)
+					o1 = getById(i1);
+					if(o1 instanceof Character)
+						o.addInGroup(o1.id);
 				o.secondaryTargets.add(target.id);
 			}
 		}
@@ -743,79 +744,78 @@ public class Plateau implements java.io.Serializable {
 
 	private void handleActionOnInterface(InputObject im, int player) {
 		// Action bar
-		Selection selection = InputHandler.getSelection(player);
-		boolean imo = false;
-		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
-
-			if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Building) {
-
-				for(int i=0; i<4; i++){
-					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
-
-						((Building) selection.selection.get(0)).product(i, this);
-					}
-					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
-
-						((Building) selection.selection.get(0)).productTech(i, this);
-					}
-				}
-				if (im.isPressed(KeyEnum.Escape))
-					((Building) selection.selection.get(0)).removeProd(this);
-			} else
-				if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Character) {
-					int number = -1;
-					for(int i=0; i<4; i++){
-						if (im.isPressed(KeyEnum.valueOf("Prod"+i)))
-							number = i;
-					}
-					if (im.isPressed(KeyEnum.Immolation)){
-
-						number = 0;
-						imo = true;
-					}
-
-					Character c = ((Character) selection.selection.get(0));
-					if (-1 != number && number < c.getSpells().size()
-							&& c.canLaunch(number)) {
-						Spell s = c.getSpell(number);
-						if (s.getAttribut(Attributs.needToClick)==0) {
-							if(s.name!=ObjetsList.Immolation || imo){
-								s.launch(new Checkpoint(im.x,im.y, this), c, this);
-								c.spellsState.set(number, 0f);
-
-							}
-							// switching selection
-							int compteur = 0;
-							while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
-								compteur++;
-							}
-							selection.selection.insertElementAt(c, compteur);
-							selection.selection.remove(0);
-						}
-					}
-				}
-		}
-		if(im.spell!=null && selection.selection.size()>0){
-			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
-			Character c = ((Character) selection.selection.get(0));
-			if(im.idObjetMouse!=-1){
-				s.launch(getById(im.idObjetMouse), c, this);
-			} else {
-				s.launch(new Checkpoint(im.x,im.y, this), c, this);				
-			}
-			for(int i=0; i<c.getSpells().size(); i++){
-				if(c.getSpells().get(i).name==im.spell){
-					c.spellsState.set(i, 0f);
-				}
-			}
-			// switching selection
-			int compteur = 0;
-			while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
-				compteur++;
-			}
-			selection.selection.insertElementAt(c, compteur);
-			selection.selection.remove(0);
-		}
+//		boolean imo = false;
+//		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
+//
+//			if (im.selection.size() > 0 && im.selection.get(0) instanceof Building) {
+//
+//				for(int i=0; i<4; i++){
+//					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
+//
+//						((Building) selection.selection.get(0)).product(i, this);
+//					}
+//					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
+//
+//						((Building) selection.selection.get(0)).productTech(i, this);
+//					}
+//				}
+//				if (im.isPressed(KeyEnum.Escape))
+//					((Building) selection.selection.get(0)).removeProd(this);
+//			} else
+//				if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Character) {
+//					int number = -1;
+//					for(int i=0; i<4; i++){
+//						if (im.isPressed(KeyEnum.valueOf("Prod"+i)))
+//							number = i;
+//					}
+//					if (im.isPressed(KeyEnum.Immolation)){
+//
+//						number = 0;
+//						imo = true;
+//					}
+//
+//					Character c = ((Character) selection.selection.get(0));
+//					if (-1 != number && number < c.getSpells().size()
+//							&& c.canLaunch(number)) {
+//						Spell s = c.getSpell(number);
+//						if (s.getAttribut(Attributs.needToClick)==0) {
+//							if(s.name!=ObjetsList.Immolation || imo){
+//								s.launch(new Checkpoint(im.x,im.y, this), c, this);
+//								c.spellsState.set(number, 0f);
+//
+//							}
+//							// switching selection
+//							int compteur = 0;
+//							while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
+//								compteur++;
+//							}
+//							selection.selection.insertElementAt(c, compteur);
+//							selection.selection.remove(0);
+//						}
+//					}
+//				}
+//		}
+//		if(im.spell!=null && selection.selection.size()>0){
+//			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
+//			Character c = ((Character) selection.selection.get(0));
+//			if(im.idObjetMouse!=-1){
+//				s.launch(getById(im.idObjetMouse), c, this);
+//			} else {
+//				s.launch(new Checkpoint(im.x,im.y, this), c, this);				
+//			}
+//			for(int i=0; i<c.getSpells().size(); i++){
+//				if(c.getSpells().get(i).name==im.spell){
+//					c.spellsState.set(i, 0f);
+//				}
+//			}
+//			// switching selection
+//			int compteur = 0;
+//			while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
+//				compteur++;
+//			}
+//			selection.selection.insertElementAt(c, compteur);
+//			selection.selection.remove(0);
+//		}
 
 	}
 
@@ -925,6 +925,17 @@ public class Plateau implements java.io.Serializable {
 			return false;
 		}
 		return this.toString().equals(((Plateau)o).toString());
+	}
+
+	public Vector<Objet> getInCamObjets(Camera camera) {
+		Vector<Objet> res = new Vector<Objet>();
+		
+		for(Objet o : this.objets.values()){
+			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
+				res.add(o);
+			}
+		}
+		return res;
 	}
 
 

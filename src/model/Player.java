@@ -1,20 +1,15 @@
 package model;
 import java.net.InetAddress;
-import java.util.HashMap;
 import java.util.Vector;
 
 import bot.IA;
-import control.InputObject;
-import madness.Objective;
+import control.Selection;
+import menuutils.Menu_Player;
 import plateau.Objet;
 import plateau.Team;
 
 public class Player {
-	public Vector<Objet> selection;
 
-	
-	//INPUTS TO BE APPLIED ON THIS ROUND
-	public Vector<InputObject> inputs;
 	
 	public int id;
 	private Team gameteam;
@@ -26,18 +21,26 @@ public class Player {
 	public InetAddress address;
 	// IA
 	public IA ia;
+	
+	// Selection (to be used if current Player)
+	public Selection selection;
+	
+	
 	public Player(int id,String name, Team gameteam) {
 		this.initialize(id, name, gameteam);
-		
+	}
+
+	public Player(Menu_Player mp, Team team) {
+		// TODO Auto-generated constructor stub
+		this.initialize(mp.id, mp.name, team);
 	}
 
 	public void initialize(int id , String name , Team gameteam){
 		this.id = id;
 		this.nickname = name;
-		this.selection = new Vector<Objet>();
 		this.gameteam = gameteam;
+		this.selection = new Selection(id);
 		
-		this.inputs = new Vector<InputObject>();
 	}
 	public int getTeam(){
 		return gameteam.id;
@@ -45,9 +48,9 @@ public class Player {
 	public Team getGameTeam(){
 		return gameteam;
 	}
-	public void setTeam(int team){
-		
-		this.gameteam = Game.g.teams.get(team);
+	
+	public boolean hasRectangleSelection(){
+		return this.selection.rectangleSelection!=null;
 	}
 	
 	public void action(){
@@ -83,9 +86,6 @@ public class Player {
 		
 	}
 	
-	public void addToPlay(InputObject in){
-		this.inputs.addElement(in);
-	}
 
 	public boolean equals(Player p){
 		return this.id==p.id;

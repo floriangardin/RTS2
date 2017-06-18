@@ -20,6 +20,7 @@ import org.newdawn.slick.loading.LoadingList;
 import control.InputHandler;
 import control.KeyMapper;
 import main.Main;
+import menu.Lobby;
 import model.Cosmetic;
 import model.Game;
 import model.Options;
@@ -113,11 +114,10 @@ public class IntroSystem extends ClassSystem{
 		}
 
 		LoadingList.setDeferredLoading(true);
-		Musics.init();
-		Sounds.init();
+//		Musics.init();
+//		Sounds.init();
 		GraphicElements.init();
 		Images.init();
-		InputHandler.init();
 		Cosmetic.init();
 		Communications.init();
 		Options.init();
@@ -245,10 +245,14 @@ public class IntroSystem extends ClassSystem{
 		Game.app.setMaximumLogicUpdateInterval(1000/Main.framerate);
 		Game.app.setTargetFrameRate(Main.framerate);
 		LoadingList.setDeferredLoading(false);
-
-		Game.gameSystem = new GameSystem();
-		Game.menuSystem = new MenuSystem();
-		Game.system = Game.menuSystem;
+		
+		Lobby lobby = new Lobby();
+		lobby.initSingle();
+		Game.gameSystem = new GameSystem(lobby);
+		Game.system = Game.gameSystem;
+		
+//		Game.menuSystem = new MenuSystem();
+//		Game.system = Game.menuSystem;
 	}
 
 	

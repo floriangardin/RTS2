@@ -107,7 +107,7 @@ public class Map {
 			}
 			br.close(); 
 			// Création de la map
-			Plateau plateau = new Plateau(sizeX*stepGrid, sizeY*stepGrid);
+			Plateau plateau = new Plateau((int)(sizeX*stepGrid), (int)(sizeY*stepGrid));
 			Data data1 = plateau.teams.get(1).data;
 			Data data2 = plateau.teams.get(2).data;
 			// Headquarters
