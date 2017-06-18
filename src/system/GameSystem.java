@@ -62,8 +62,7 @@ public class GameSystem extends ClassSystem{
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im);
 
-		
-		
+
 		// 3 : Update interface
 		bottombar.update(im);
 
