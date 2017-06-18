@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 
 import data.Attributs;
 import display.Camera;
+import display.Interface;
 import model.Player;
 import plateau.Building;
 import plateau.Character;
@@ -22,6 +23,7 @@ public class RenderEngine {
 	public static final int FOGOFWARLAYER = 3;
 	public static final int BACKGROUNDLAYER = 0;
 	public static final int SELECTIONLAYER = 4;
+	public static final int INTERFACELAYER = 5;
 	public static final int NORMALLAYER = 2;
 	public static final int GROUNDLAYER = 1;
 
@@ -29,12 +31,12 @@ public class RenderEngine {
 
 	public static void init(Plateau plateau){
 		layers = new Vector<GraphicLayer>();
-		for(int i =0; i<5; i++){
+		for(int i =0; i<6; i++){
 			layers.add(new GraphicLayer(plateau.maxX, plateau.maxY, i==FOGOFWARLAYER ? Graphics.MODE_COLOR_MULTIPLY : Graphics.MODE_NORMAL));
 		}
 
 	}
-	public static void render(Graphics g, Plateau plateau, Camera camera, Player player){
+	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
 		g.setColor(Color.black);
 		g.translate(-camera.Xcam,-camera.Ycam);
 
@@ -56,7 +58,7 @@ public class RenderEngine {
 		for(Objet o : objets){
 			renderObjet(o, layers, plateau);
 		}
-		renderDomain(plateau, layers, camera, visibleObjets, player);
+		renderDomain(plateau, layers, camera, visibleObjets, player, bottombar);
 		for(GraphicLayer layer : layers){
 			layer.mergeToGraphics(g);
 		}
@@ -64,7 +66,7 @@ public class RenderEngine {
 
 	}
 
-	public static void renderDomain(Plateau plateau, Vector<GraphicLayer> gl, Camera camera, Vector<Objet> visibleObjets, Player player){
+	public static void renderDomain(Plateau plateau, Vector<GraphicLayer> gl, Camera camera, Vector<Objet> visibleObjets, Player player, Interface bottombar){
 		// draw background
 		gl.get(BACKGROUNDLAYER).getGraphics().drawImage(Images.get("seaBackground"), -plateau.maxX, -plateau.maxY,
 				2*plateau.maxX, 2*plateau.maxY, 0, 0, Images.get("seaBackground").getWidth(),Images.get("seaBackground").getHeight());
@@ -99,7 +101,6 @@ public class RenderEngine {
 					player.selection.rectangleSelection.getHeight());	
 		}
 		
-		
 		// draw rectangle of selection
 		gf = gl.get(GROUNDLAYER).getGraphics();
 			for(Objet o : player.selection.selection){
@@ -110,6 +111,8 @@ public class RenderEngine {
 				}
 				
 			}
+		// draw interface
+		bottombar.draw(gl.get(INTERFACELAYER).getGraphics(), camera);
 	}
 
 	public static void renderObjet(Objet o, Vector<GraphicLayer> gl, Plateau plateau){

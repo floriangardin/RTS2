@@ -75,6 +75,15 @@ public class Camera {
 			//				}
 			//			}
 		}
+		if(im.isOnMiniMap && im.isPressed(KeyEnum.LeftClick)){
+			this.setSliding((int)im.x, (int)im.y);
+		}
+	}
+	
+	public void setSliding(int xObj, int yObj){
+		this.slidingCam = true;
+		this.objXcam = xObj-resX/2;
+		this.objYcam = yObj-resY/2;
 	}
 	
 }

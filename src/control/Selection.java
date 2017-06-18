@@ -65,6 +65,7 @@ public class Selection {
 				}
 			}
 		}
+
 	}
 
 	public boolean rectangleIntersect(float xMin, float yMin, float xMax, float yMax, float size){
