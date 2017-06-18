@@ -730,78 +730,78 @@ public class Plateau implements java.io.Serializable {
 
 	private void handleActionOnInterface(InputObject im, int player) {
 		// Action bar
-//		boolean imo = false;
-//		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
-//
-//			if (im.selection.size() > 0 && im.selection.get(0) instanceof Building) {
-//
-//				for(int i=0; i<4; i++){
-//					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
-//
-//						((Building) selection.selection.get(0)).product(i, this);
-//					}
-//					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
-//
-//						((Building) selection.selection.get(0)).productTech(i, this);
-//					}
-//				}
-//				if (im.isPressed(KeyEnum.Escape))
-//					((Building) selection.selection.get(0)).removeProd(this);
-//			} else
-//				if (selection.selection.size() > 0 && selection.selection.get(0) instanceof Character) {
-//					int number = -1;
-//					for(int i=0; i<4; i++){
-//						if (im.isPressed(KeyEnum.valueOf("Prod"+i)))
-//							number = i;
-//					}
-//					if (im.isPressed(KeyEnum.Immolation)){
-//
-//						number = 0;
-//						imo = true;
-//					}
-//
-//					Character c = ((Character) selection.selection.get(0));
-//					if (-1 != number && number < c.getSpells().size()
-//							&& c.canLaunch(number)) {
-//						Spell s = c.getSpell(number);
-//						if (s.getAttribut(Attributs.needToClick)==0) {
-//							if(s.name!=ObjetsList.Immolation || imo){
-//								s.launch(new Checkpoint(im.x,im.y, this), c, this);
-//								c.spellsState.set(number, 0f);
-//
-//							}
-//							// switching selection
-//							int compteur = 0;
-//							while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
-//								compteur++;
-//							}
-//							selection.selection.insertElementAt(c, compteur);
-//							selection.selection.remove(0);
-//						}
-//					}
-//				}
-//		}
-//		if(im.spell!=null && selection.selection.size()>0){
-//			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
-//			Character c = ((Character) selection.selection.get(0));
-//			if(im.idObjetMouse!=-1){
-//				s.launch(getById(im.idObjetMouse), c, this);
-//			} else {
-//				s.launch(new Checkpoint(im.x,im.y, this), c, this);				
-//			}
-//			for(int i=0; i<c.getSpells().size(); i++){
-//				if(c.getSpells().get(i).name==im.spell){
-//					c.spellsState.set(i, 0f);
-//				}
-//			}
-//			// switching selection
-//			int compteur = 0;
-//			while(selection.selection.size()>compteur && selection.selection.get(compteur).name==c.name){
-//				compteur++;
-//			}
-//			selection.selection.insertElementAt(c, compteur);
-//			selection.selection.remove(0);
-//		}
+		boolean imo = false;
+		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
+
+			if (im.selection.size() > 0 && this.getById(im.selection.get(0)) instanceof Building) {
+
+				for(int i=0; i<4; i++){
+					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
+
+						((Building) this.getById(im.selection.get(0))).product(i, this);
+					}
+					else if(im.isPressed(KeyEnum.valueOf("Tech"+i))){
+
+						((Building) this.getById(im.selection.get(0))).productTech(i, this);
+					}
+				}
+				if (im.isPressed(KeyEnum.Escape))
+					((Building) this.getById(im.selection.get(0))).removeProd(this);
+			} else
+				if (im.selection.size() > 0 && this.getById(im.selection.get(0)) instanceof Character) {
+					int number = -1;
+					for(int i=0; i<4; i++){
+						if (im.isPressed(KeyEnum.valueOf("Prod"+i)))
+							number = i;
+					}
+					if (im.isPressed(KeyEnum.Immolation)){
+
+						number = 0;
+						imo = true;
+					}
+
+					Character c = ((Character) this.getById(im.selection.get(0)));
+					if (-1 != number && number < c.getSpells().size()
+							&& c.canLaunch(number)) {
+						Spell s = c.getSpell(number);
+						if (s.getAttribut(Attributs.needToClick)==0) {
+							if(s.name!=ObjetsList.Immolation || imo){
+								s.launch(new Checkpoint(im.x,im.y, this), c, this);
+								c.spellsState.set(number, 0f);
+
+							}
+							// switching selection
+							int compteur = 0;
+							while(im.selection.size()>compteur && this.getById(im.selection.get(compteur)).name==c.name){
+								compteur++;
+							}
+							im.selection.insertElementAt(c.id, compteur);
+							im.selection.remove(0);
+						}
+					}
+				}
+		}
+		if(im.spell!=null && im.selection.size()>0){
+			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
+			Character c = ((Character) this.getById(im.selection.get(0)));
+			if(im.idObjetMouse!=-1){
+				s.launch(getById(im.idObjetMouse), c, this);
+			} else {
+				s.launch(new Checkpoint(im.x,im.y, this), c, this);				
+			}
+			for(int i=0; i<c.getSpells().size(); i++){
+				if(c.getSpells().get(i).name==im.spell){
+					c.spellsState.set(i, 0f);
+				}
+			}
+			// switching selection
+			int compteur = 0;
+			while(im.selection.size()>compteur && this.getById(im.selection.get(0)).name==c.name){
+				compteur++;
+			}
+			im.selection.insertElementAt(c.id, compteur);
+			im.selection.remove(0);
+		}
 
 	}
 
@@ -882,10 +882,6 @@ public class Plateau implements java.io.Serializable {
 	public Building getHQ(Team team){
 		return (Building)this.getById(team.hq);
 	}
-
-
-
-
 
 	public Objet getById(int id){
 
