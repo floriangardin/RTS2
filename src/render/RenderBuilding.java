@@ -19,10 +19,10 @@ public class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
 
-	public static void render(Building b, Vector<GraphicLayer> gl, Plateau plateau){
+	public static void render(Building b, Graphics g, Plateau plateau){
 		boolean visibleByCurrentTeam = true;
 		boolean isCurrentTeam = true;
-		Graphics g = gl.get(BUILDINGLAYER).getGraphics();
+		
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g,b,visibleByCurrentTeam);
@@ -109,7 +109,7 @@ public class RenderBuilding {
 	}
 	
 	
-	public static void drawIsSelected(Graphics g, Building b, Plateau plateau){
+	public static void renderSelection(Graphics g, Building b, Plateau plateau){
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f);
 		g.draw(b.collisionBox);

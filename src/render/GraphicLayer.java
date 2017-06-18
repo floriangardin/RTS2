@@ -54,7 +54,8 @@ public class GraphicLayer {
 	}
 	
 	public void resetImage(Camera camera){
-		gf.clear();
+		//gf.clear();
+		//gf.copyArea(image, 0, 0);
 		gf.flush();
 		if(translated){
 			gf.translate(-camera.Xcam,-camera.Ycam);

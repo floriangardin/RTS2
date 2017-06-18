@@ -18,12 +18,10 @@ import ressources.Images;
 
 public class RenderCharacter {
 	
-	public static void render(Character character, Vector<GraphicLayer> gl, Plateau plateau){
-		Graphics g = gl.get(RenderEngine.NORMALLAYER).getGraphics();
-		Graphics g2 = gl.get(RenderEngine.SELECTIONLAYER).getGraphics();
-		g2.setColor(Color.blue);
-		// Debug
-		g2.drawRect(character.selectionBox.getX(), character.selectionBox.getY(),character.selectionBox.getWidth(), character.selectionBox.getHeight());
+	public static void render(Character character, Graphics g, Plateau plateau){
+		
+		//g.setColor(Color.blue); // Draw selection box : 
+		//g.drawRect(character.selectionBox.getX(), character.selectionBox.getY(),character.selectionBox.getWidth(), character.selectionBox.getHeight());
 		float r = 60f*Main.ratioSpace;
 		int direction = (character.orientation/2-1);
 		// inverser gauche et droite
@@ -64,7 +62,7 @@ public class RenderCharacter {
 			drawLifePoints(g,r, character, plateau);
 		}
 	}
-
+	
 	//// GRAPHISMS
 	public static void drawLifePoints(Graphics g,float r, Character character, Plateau plateau){
 		//Draw lifepoints
@@ -88,7 +86,7 @@ public class RenderCharacter {
 	}
 
 
-	public static void drawIsSelected(Graphics g, Character character, Plateau plateau){
+	public static void renderSelection(Graphics g, Character character, Plateau plateau){
 
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);

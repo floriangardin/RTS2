@@ -18,8 +18,6 @@ import utils.Utils;
 
 public class RenderEngine {
 
-	public static Vector<GraphicLayer> layers ;
-
 	public static final int FOGOFWARLAYER = 3;
 	public static final int BACKGROUNDLAYER = 0;
 	public static final int SELECTIONLAYER = 4;
@@ -30,22 +28,12 @@ public class RenderEngine {
 	public static int i;
 
 	public static void init(Plateau plateau){
-		layers = new Vector<GraphicLayer>();
-		for(int i =0; i<6; i++){
-			layers.add(new GraphicLayer(plateau.maxX, plateau.maxY, 
-					i==FOGOFWARLAYER ? Graphics.MODE_COLOR_MULTIPLY : Graphics.MODE_NORMAL, 
-							i==INTERFACELAYER));
-		}
 
 	}
 	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
-		g.setColor(Color.black);
-
-
-		for(GraphicLayer layer : layers){
-			layer.resetImage(camera);
-		}
-
+		
+		g.translate(-camera.Xcam, -camera.Ycam);
+		renderBackground(g, plateau);
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.objets.values()){
 			objets.add(o);
@@ -57,77 +45,80 @@ public class RenderEngine {
 				visibleObjets.add(o);
 			}
 		}
+		// Draw is selected
+		for(Objet o: player.selection.selection){
+			renderSelection(o, g, plateau);
+		}
 		for(Objet o : objets){
 			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.size))){
-				renderObjet(o, layers, plateau);
+				renderObjet(o, g, plateau);
 			}
 		}
-		renderDomain(plateau, layers, camera, visibleObjets, player, bottombar);
-		for(GraphicLayer layer : layers){
-			layer.mergeToGraphics(g, camera);
-		}
+		renderDomain(plateau, g, camera, visibleObjets, player, bottombar);
+		g.translate(camera.Xcam, camera.Ycam);
+		// draw interface
+		bottombar.draw(g, camera);
 
 	}
+	
+	public static void renderBackground(Graphics g, Plateau plateau){
+		g.drawImage(Images.get("islandTexture"),0, 0, plateau.maxX, plateau.maxY,
+				0, 0, Images.get("islandTexture").getWidth(),  Images.get("islandTexture").getHeight());
 
-	public static void renderDomain(Plateau plateau, Vector<GraphicLayer> gl, Camera camera, Vector<Objet> visibleObjets, Player player, Interface bottombar){
+	}
+	public static void renderDomain(Plateau plateau, Graphics g, Camera camera, Vector<Objet> visibleObjets, Player player, Interface bottombar){
 		// draw background
 //		gl.get(BACKGROUNDLAYER).getGraphics().drawImage(Images.get("seaBackground"), -plateau.maxX, -plateau.maxY,
 //				2*plateau.maxX, 2*plateau.maxY, 0, 0, Images.get("seaBackground").getWidth(),Images.get("seaBackground").getHeight());
-		gl.get(BACKGROUNDLAYER).getGraphics().drawImage(Images.get("islandTexture"),0, 0, plateau.maxX, plateau.maxY,
-				0, 0, Images.get("islandTexture").getWidth(),  Images.get("islandTexture").getHeight());
+		
+		
 
-		// draw fog of war
-		Graphics gf = gl.get(FOGOFWARLAYER).getGraphics();
-
-		gf.setColor(new Color(255, 255, 255));
-		gf.fillRect(-plateau.maxX, -plateau.maxY, plateau.maxX + camera.resX, plateau.maxY + camera.resX);
-		gf.setColor(new Color(50, 50, 50));
+		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+		g.setColor(new Color(255, 255, 255));
+		g.fillRect(-plateau.maxX, -plateau.maxY, plateau.maxX + camera.resX, plateau.maxY + camera.resX);
+		g.setColor(new Color(50, 50, 50));
 		float xmin = Math.max(-plateau.maxX, -plateau.maxX - camera.Xcam);
 		float ymin = Math.max(-plateau.maxY, -plateau.maxY - camera.Ycam);
 		float xmax = Math.min(camera.resX + plateau.maxX, 2 * plateau.maxX - camera.Xcam);
 		float ymax = Math.min(camera.resY + plateau.maxY, 2 * plateau.maxY - camera.Ycam);
-		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
-		gf.setColor(Color.white);
+		g.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
+		g.setColor(Color.white);
 		int nbrond = 0;
 		for (Objet o : visibleObjets) {
 			float sight = o.getAttribut(Attributs.sight);
 			if(sight>5){
-				gf.fillOval(o.x - sight, o.y - sight, sight * 2f, sight * 2f);
+				g.fillOval(o.x - sight, o.y - sight, sight * 2f, sight * 2f);
 				nbrond+=1;
 			}
 		}
-		System.out.println(nbrond);
 
 		// draw rectangle of selection
-		gf = gl.get(SELECTIONLAYER).getGraphics();
+		g.setDrawMode(Graphics.MODE_NORMAL);
 		if(player.selection.rectangleSelection != null){
-			gf.setLineWidth(1f);
-			gf.setColor(Color.green);
-			gf.drawRect(player.selection.rectangleSelection.getMinX(),
+			g.setLineWidth(1f);
+			g.setColor(Color.green);
+			g.drawRect(player.selection.rectangleSelection.getMinX(),
 					player.selection.rectangleSelection.getMinY(),
 					player.selection.rectangleSelection.getWidth(),
 					player.selection.rectangleSelection.getHeight());	
 		}
 
-		// draw rectangle of selection
-		gf = gl.get(GROUNDLAYER).getGraphics();
-		for(Objet o : player.selection.selection){
-			if(o instanceof Character){
-				RenderCharacter.drawIsSelected(gf, (Character)o, plateau);
-			}else if(o instanceof Building){
-				RenderBuilding.drawIsSelected(gf, (Building)o, plateau);
-			}
 
-		}
-		// draw interface
-		bottombar.draw(gl.get(INTERFACELAYER).getGraphics(), camera);
 	}
 
-	public static void renderObjet(Objet o, Vector<GraphicLayer> gl, Plateau plateau){
+	public static void renderObjet(Objet o, Graphics g, Plateau plateau){
 		if(o instanceof Character){
-			RenderCharacter.render((Character)o, gl, plateau);
+			RenderCharacter.render((Character)o, g, plateau);
 		} else if(o instanceof Building){
-			RenderBuilding.render((Building)o, gl, plateau);
+			RenderBuilding.render((Building)o, g, plateau);
+		}
+	}
+	
+	public static void renderSelection(Objet o, Graphics g, Plateau plateau){
+		if(o instanceof Character){
+			RenderCharacter.renderSelection(g,(Character)o,  plateau);
+		} else if(o instanceof Building){
+			RenderBuilding.renderSelection(g, (Building)o, plateau);
 		}
 	}
 
