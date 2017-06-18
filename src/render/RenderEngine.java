@@ -68,11 +68,6 @@ public class RenderEngine {
 	}
 	public static void renderDomain(Plateau plateau, Graphics g, Camera camera, Vector<Objet> visibleObjets, Player player, Interface bottombar){
 		// draw background
-//		gl.get(BACKGROUNDLAYER).getGraphics().drawImage(Images.get("seaBackground"), -plateau.maxX, -plateau.maxY,
-//				2*plateau.maxX, 2*plateau.maxY, 0, 0, Images.get("seaBackground").getWidth(),Images.get("seaBackground").getHeight());
-		
-		
-
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(-plateau.maxX, -plateau.maxY, plateau.maxX + camera.resX, plateau.maxY + camera.resX);

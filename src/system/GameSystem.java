@@ -13,6 +13,7 @@ import display.Camera;
 import display.DisplayHandler;
 import display.Interface;
 import events.EventNames;
+import main.Main;
 import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Game;
@@ -55,24 +56,21 @@ public class GameSystem extends ClassSystem{
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// 1 : Get Control
-		InputObject im = new InputObject(gc.getInput(), camera);
+		InputObject im = new InputObject(gc.getInput(), camera, currentPlayer);
 		InputHandler.addToInputs(im, true);
 		Player p = players.get(currentPlayer);
-
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im);
-
-
 		// 3 : Update interface
 		bottombar.update(im);
-
-		// 3 : Update plateau
-		plateau.update(InputHandler.getInputsForRound(plateau.round));
+		// 3 : Update plateau (singleplayer = Main.nDelay==0)
+		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
 		
+		
+		plateau.update(inputs);
 		// 4 : Update the camera
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
 //		
-		
 //		// TODO Auto-generated method stub
 //
 //		this.handleInterface(im);

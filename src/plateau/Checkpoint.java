@@ -69,11 +69,11 @@ public class Checkpoint extends Objet {
 		
 	}
 	
-	public Graphics draw(Graphics g){
+	public Graphics draw(Graphics g, Plateau plateau){
 		if(!toDraw && !alwaysDraw){
 			return g;
 		}
-		if(this.lastRoundUpdate==Game.gameSystem.round){
+		if(this.lastRoundUpdate==plateau.round){
 			return g;
 		}
 
@@ -99,7 +99,7 @@ public class Checkpoint extends Objet {
 			g.draw(drawShape2);
 			g.setColor(color);
 			g.draw(drawShape);
-			this.lastRoundUpdate = Game.gameSystem.round;
+			this.lastRoundUpdate = plateau.round;
 		}
 		g.setAntiAlias(false);
 		return g;

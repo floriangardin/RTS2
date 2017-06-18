@@ -87,14 +87,19 @@ public class Selection {
 		if(inRectangle.size()>0 || rectangleSelection!=null){
 			this.selection.clear();
 			for(Objet o : inRectangle){
-				this.selection.add(o);
+				if(o.team.id==im.team){
+					this.selection.add(o);
+				}
 			}
 		}
-		
 		im.selection = new Vector<Integer>();
 		for(Objet o : selection){
 			im.selection.add(o.id);
 		}
+		
+		// Ajout du clique droit
+		
+		
 		// Handling groups of units
 //		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
 //		KeyEnum  pressed = null;

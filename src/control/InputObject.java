@@ -58,11 +58,12 @@ public class InputObject implements java.io.Serializable{
 		this.validated = new Vector<Boolean>();
 	}
 	
-	public InputObject(Input input, Camera camera){
+	public InputObject(Input input, Camera camera, int team){
 		initInput(input, camera);
 		this.toPlay = false;
 		this.isOnMiniMap = false;
 		this.validated = new Vector<Boolean>();
+		this.team = team;
 	}
 	
 	public Vector<Objet> getSelection(Plateau plateau){

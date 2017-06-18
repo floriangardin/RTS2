@@ -16,7 +16,7 @@ public class InputHandler {
 
 	public static int nbPlayers;
 
-	private static Vector<InputObject> inputs;
+	public static Vector<InputObject> inputs;
 
 	// Gestion du rectangle de selection
 
@@ -41,7 +41,16 @@ public class InputHandler {
 		}
 	}
 
-	public static Vector<InputObject> getInputsForRound(int round){
+	public static Vector<InputObject> getInputsForRound(int round, boolean multi){
+		
+		if(!multi){
+			Vector<InputObject> toReturn = new Vector<InputObject>();
+			for(InputObject i : inputs){
+				toReturn.add(i);
+			}
+			inputs.clear();
+			return toReturn;
+		}
 		// Check if good round to apply and messages validated
 		//Good round if current round = message round +delay
 		//If good round but not validated remove the message
@@ -88,11 +97,11 @@ public class InputHandler {
 		return inputs;
 	}
 
-	public static void addToInputs(InputObject io) throws SlickException{
+	public static void addToInputs(InputObject io){
 		inputs.addElement(io);
 	}
 
-	public static void addToInputs(InputObject io, boolean toValidate) throws SlickException{
+	public static void addToInputs(InputObject io, boolean toValidate){
 		addToInputs(io);
 		if(toValidate){
 			validate(io.round, io.idplayer, io.idplayer);

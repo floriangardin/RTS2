@@ -622,7 +622,6 @@ public class Plateau implements java.io.Serializable {
 
 	public void update(Vector<InputObject> ims) {
 		round ++;
-
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
 			int player = im.idplayer;
@@ -632,23 +631,16 @@ public class Plateau implements java.io.Serializable {
 				EndRender.initEnd(im.team);
 				return;
 			}
-
 			// Handling the right click
 			this.handleRightClick(im);
-
-			// Handling action bar
+			// Handling action bar TODO : ça n'a rien à faire là, à dégager
 			this.handleActionOnInterface(im, player);
-
 		}
-
 		// 2 - For everyone
 		// Sort by id
-
 		this.collision();
 		this.clean();
 		this.action();
-
-
 		// 4- handling victory
 		for(Team team : teams){
 			if(team.id==0){
