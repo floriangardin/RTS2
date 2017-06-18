@@ -52,11 +52,11 @@ public class Selection {
 		
 		// Update in rectangle
 		inRectangle.clear();
-		for(Character o : Game.gameSystem.plateau.objets.values()){
-			if(rectangleIntersect(o.x, o.y, o.getAttribut(Attributs.sight))){
-				inRectangle.add(o);
-			}
-		}
+//		for(Character o : Game.gameSystem.plateau.objets.values()){
+//			if(rectangleIntersect(o.x, o.y, o.getAttribut(Attributs.sight))){
+//				inRectangle.add(o);
+//			}
+//		}
 		System.out.println(inRectangle.size());
 	}
 
