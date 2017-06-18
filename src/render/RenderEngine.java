@@ -32,16 +32,18 @@ public class RenderEngine {
 	public static void init(Plateau plateau){
 		layers = new Vector<GraphicLayer>();
 		for(int i =0; i<6; i++){
-			layers.add(new GraphicLayer(plateau.maxX, plateau.maxY, i==FOGOFWARLAYER ? Graphics.MODE_COLOR_MULTIPLY : Graphics.MODE_NORMAL));
+			layers.add(new GraphicLayer(plateau.maxX, plateau.maxY, 
+										i==FOGOFWARLAYER ? Graphics.MODE_COLOR_MULTIPLY : Graphics.MODE_NORMAL, 
+										i==INTERFACELAYER));
 		}
 
 	}
 	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
 		g.setColor(Color.black);
-		g.translate(-camera.Xcam,-camera.Ycam);
+		
 
 		for(GraphicLayer layer : layers){
-			layer.resetImage();
+			layer.resetImage(camera);
 		}
 
 		Vector<Objet> objets = new Vector<Objet>();
@@ -56,13 +58,14 @@ public class RenderEngine {
 			}
 		}
 		for(Objet o : objets){
-			renderObjet(o, layers, plateau);
+			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.size))){
+				renderObjet(o, layers, plateau);
+			}
 		}
 		renderDomain(plateau, layers, camera, visibleObjets, player, bottombar);
 		for(GraphicLayer layer : layers){
-			layer.mergeToGraphics(g);
+			layer.mergeToGraphics(g, camera);
 		}
-		g.translate(camera.Xcam,camera.Ycam);
 
 	}
 

@@ -18,7 +18,7 @@ public class Main {
 	///////\\\\\\\\\
 	
 	public static float increment = 0.1f*30/Main.framerate;
-	public static boolean pleinEcran = false;
+	public static boolean pleinEcran = true;
 	
 	// debug direct
 	public static boolean debugRapid = false;

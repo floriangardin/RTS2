@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
 
+import display.Camera;
 import ressources.Images;
 
 public class GraphicLayer {
@@ -16,13 +17,15 @@ public class GraphicLayer {
 	private ImageBuffer bi;
 	private Graphics gf;
 	private int renderMode;
+	private boolean translated;
 	
 	private int resX, resY;
 	
-	public GraphicLayer(int resX, int resY, int renderMode){
+	public GraphicLayer(int resX, int resY, int renderMode, boolean translated){
 		bi = new ImageBuffer(resX, resY);
 		image = new Image(bi);
 		this.renderMode = renderMode;
+		this.translated = translated;
 		try {
 			gf = image.getGraphics();
 		} catch (SlickException e) {
@@ -32,10 +35,17 @@ public class GraphicLayer {
 		this.resY = resY;
 	}
 	
-	public void mergeToGraphics(Graphics g){
+	public void mergeToGraphics(Graphics g, Camera camera){
+		if(translated){
+			gf.translate(camera.Xcam,camera.Ycam);
+		}
 		gf.flush();
 		g.setDrawMode(renderMode);
-		g.drawImage(image,0,0);
+		if(translated){
+			g.drawImage(image.getSubImage(0, 0, camera.resX, camera.resY),0,0);			
+		} else {
+			g.drawImage(image.getSubImage(camera.Xcam, camera.Ycam, camera.resX, camera.resY),0,0);			
+		}
 //		g.drawImage(image,0,0);
 	}
 	
@@ -43,9 +53,12 @@ public class GraphicLayer {
 		return gf;
 	}
 	
-	public void resetImage(){
+	public void resetImage(Camera camera){
 		gf.clear();
 		gf.flush();
+		if(translated){
+			gf.translate(-camera.Xcam,-camera.Ycam);
+		}
 	}
 	
 }

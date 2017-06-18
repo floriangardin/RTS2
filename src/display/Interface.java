@@ -199,7 +199,6 @@ public class Interface {
 		// Draw image according to size
 
 		//g.drawImage(this.background,x,y-6f);
-		g.translate(camera.Xcam,camera.Ycam);
 
 		// ACTIONS, Spells  and production
 		this.drawActionInterface(g);
@@ -208,7 +207,6 @@ public class Interface {
 		this.drawMiniMap(g, camera);
 
 		//spell.draw(g);
-		g.translate(-camera.Xcam,-camera.Ycam);
 
 
 		return g;
