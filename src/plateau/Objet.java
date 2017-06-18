@@ -340,9 +340,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public String toString(){
-		String result = "";
-		result+=this.lifePoints+" "+this.x+" "+this.y+" "+this.id+" "+this.name;
-		return result;
+		return this.name.toString();
 	}
 	
 

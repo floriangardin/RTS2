@@ -54,12 +54,8 @@ public class Checkpoint extends Objet {
 		this.neverEnding = neverEnding;
 	}
 	
-
-	
 	public void action(){
-
 		//toDraw = false;
-
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
 			animationState+=3f*Main.increment;
@@ -76,7 +72,6 @@ public class Checkpoint extends Objet {
 		if(this.lastRoundUpdate==plateau.round){
 			return g;
 		}
-
 		g.setAntiAlias(true);
 		g.setColor(Colors.team0);
 		if(state<=maxDuration){

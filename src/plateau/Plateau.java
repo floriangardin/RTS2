@@ -676,13 +676,7 @@ public class Plateau implements java.io.Serializable {
 				c.mouseOver = false;
 			}
 		}
-
 	}
-
-
-
-
-
 
 	private void handleRightClick(InputObject im) {
 		int team = im.team;
