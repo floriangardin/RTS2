@@ -69,9 +69,6 @@ public class Game extends BasicGame
 	public static boolean isInEditor(){
 		return system==editorSystem;
 	}
-	
-
-	
 }
 
 

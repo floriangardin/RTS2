@@ -31,21 +31,21 @@ public class Lobby {
 		this.players = new Vector<Menu_Player>();
 		this.maps = Map.maps();
 		this.idCurrentMap = maps.get(0);
-		this.idCurrentPlayer = 1;
+		this.idCurrentPlayer = 0;
 	}
 	
 	public void initMulti(){
 		multiplayer = true;
 		host = true;
 		this.players = new Vector<Menu_Player>();
-		this.players.add(new Menu_Player(1,1,Options.nickname));
+		this.players.add(new Menu_Player(0,0,Options.nickname));
 	}
 	
 	public void initSingle(){
 		multiplayer = false;
 		this.players = new Vector<Menu_Player>();
-		this.players.add(new Menu_Player(1,1,Options.nickname));
-		this.players.add(new Menu_Player(2,2,"IA"));
+		this.players.add(new Menu_Player(0,1,Options.nickname));
+		this.players.add(new Menu_Player(1,2,"IA"));
 	}
 	
 	public void initMulti(Lobby l){

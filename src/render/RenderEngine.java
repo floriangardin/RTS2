@@ -45,18 +45,21 @@ public class RenderEngine {
 				visibleObjets.add(o);
 			}
 		}
-		// Draw is selected
+		// 1) Draw selection
 		for(Objet o: player.selection.selection){
 			renderSelection(o, g, plateau);
 		}
+		// 2) Draw Objects
 		for(Objet o : objets){
 			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.size))){
 				renderObjet(o, g, plateau);
 			}
 		}
+		// 3) Draw fog of war
 		renderDomain(plateau, g, camera, visibleObjets, player, bottombar);
 		g.translate(camera.Xcam, camera.Ycam);
 		// draw interface
+		// 4) Draw bottom bar
 		bottombar.draw(g, camera);
 
 	}
@@ -77,7 +80,7 @@ public class RenderEngine {
 		float xmax = Math.min(camera.resX + plateau.maxX, 2 * plateau.maxX - camera.Xcam);
 		float ymax = Math.min(camera.resY + plateau.maxY, 2 * plateau.maxY - camera.Ycam);
 		g.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
-		g.setColor(Color.white);
+		g.setColor(new Color(255, 255, 255));
 		int nbrond = 0;
 		for (Objet o : visibleObjets) {
 			float sight = o.getAttribut(Attributs.sight);

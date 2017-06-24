@@ -56,9 +56,9 @@ public class GameSystem extends ClassSystem{
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// 1 : Get Control
-		InputObject im = new InputObject(gc.getInput(), camera, currentPlayer);
-		InputHandler.addToInputs(im, true);
 		Player p = players.get(currentPlayer);
+		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam());
+		InputHandler.addToInputs(im, true);
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im);
 		// 3 : Update interface
