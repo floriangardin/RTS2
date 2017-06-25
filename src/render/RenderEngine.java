@@ -12,6 +12,7 @@ import model.Player;
 import plateau.Building;
 import plateau.Bullet;
 import plateau.Character;
+import plateau.Checkpoint;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
@@ -51,6 +52,10 @@ public class RenderEngine {
 		// 1) Draw selection
 		for(Objet o: player.selection.selection){
 			renderSelection(o, g, plateau);
+		}
+		// Draw checkpoints
+		for(Checkpoint c : plateau.checkpoints ){
+			RenderCheckpoint.render(c, g, plateau);
 		}
 		// 2) Draw Objects
 		for(Objet o : objets){

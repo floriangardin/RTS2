@@ -13,10 +13,10 @@ public class Checkpoint extends Objet {
 	public float maxDuration=30f*60/Main.framerate;
 	public float state;
 	public float animationState;
-	protected transient float maxRadius = 20f;
-	int lastRoundUpdate =0;
-	Circle drawShape;
-	Circle drawShape2;
+	public transient float maxRadius = 20f;
+	public int lastRoundUpdate =0;
+	public Circle drawShape;
+	public Circle drawShape2;
 	public boolean toDraw=false;
 	public boolean alwaysDraw = false;
 	public boolean neverEnding = false;
@@ -65,40 +65,6 @@ public class Checkpoint extends Objet {
 		
 	}
 	
-	public Graphics draw(Graphics g, Plateau plateau){
-		if(!toDraw && !alwaysDraw){
-			return g;
-		}
-		if(this.lastRoundUpdate==plateau.round){
-			return g;
-		}
-		g.setAntiAlias(true);
-		g.setColor(Colors.team0);
-		if(state<=maxDuration){
-			if(color!=null){
-				
-				g.setLineWidth(2f*Main.ratioSpace);
-				
-			}
-			g.setLineWidth(2f);
-			drawShape.setRadius(maxRadius*(1-2*(animationState)/maxDuration));
-			drawShape.setCenterX(x);
-			drawShape.setCenterY(y);
-			
-			
-			drawShape2.setRadius((maxRadius)*((animationState)/maxDuration));
-			drawShape2.setCenterX(x);
-			drawShape2.setCenterY(y);
-			g.fill(new Circle(x,y,2f));
-			
-			g.draw(drawShape2);
-			g.setColor(color);
-			g.draw(drawShape);
-			this.lastRoundUpdate = plateau.round;
-		}
-		g.setAntiAlias(false);
-		return g;
-	}
 
 	@Override
 	public void collision(Character c, Plateau plateau) {
