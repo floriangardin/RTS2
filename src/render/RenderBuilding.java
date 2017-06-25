@@ -1,7 +1,5 @@
 package render;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,10 +16,12 @@ import utils.ObjetsList;
 public class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
-
+	
 	public static void render(Building b, Graphics g, Plateau plateau){
-		boolean visibleByCurrentTeam = true;
-		boolean isCurrentTeam = true;
+		render(b,g,plateau, true, true);
+	}
+
+	public static void render(Building b, Graphics g, Plateau plateau, boolean visibleByCurrentTeam, boolean isCurrentTeam){
 		
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){

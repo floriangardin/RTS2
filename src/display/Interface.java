@@ -632,14 +632,14 @@ public class Interface {
 		g.setAntiAlias(true);
 		for(Character c : plateau.characters){		
 			if(c.getTeam().id==2){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(camera.isVisibleByTeam(player.getTeam(), c, plateau)){
 					g.setColor(Colors.team2);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 			else if(c.getTeam().id==1){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(camera.isVisibleByTeam(player.getTeam(), c, plateau)){
 					g.setColor(Colors.team1);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
@@ -654,7 +654,7 @@ public class Interface {
 
 			}
 			if(c.getTeam().id==2){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(camera.isVisibleByTeam(player.getTeam(), c, plateau)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -662,7 +662,7 @@ public class Interface {
 				}
 			}
 			else if(c.getTeam().id==1){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(camera.isVisibleByTeam(player.getTeam(), c, plateau)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -681,7 +681,7 @@ public class Interface {
 
 			}
 			if(c.getTeam().id==2){
-				if(plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog){
+				if(camera.isVisibleByTeam(player.getTeam(), c, plateau) || Debug.debugFog){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -689,7 +689,7 @@ public class Interface {
 				}
 			}
 			else if(c.getTeam().id==1){
-				if(plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog){
+				if(camera.isVisibleByTeam(player.getTeam(), c, plateau) || Debug.debugFog){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -698,8 +698,8 @@ public class Interface {
 			}
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 
-			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog)){
-				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints);
+			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (camera.isVisibleByTeam(player.getTeam(), c, plateau) || Debug.debugFog)){
+				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints); 
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);
 				}

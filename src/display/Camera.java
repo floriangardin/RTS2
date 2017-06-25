@@ -1,24 +1,28 @@
 package display;
 
-import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import data.Attributs;
 import main.Main;
-import model.Game;
+import plateau.Building;
+import plateau.Character;
+import plateau.Objet;
+import plateau.Plateau;
+import utils.Utils;
 
 public class Camera {
 
 	public int Xcam;
 	public int Ycam;
-	
+
 	public int resX, resY;
-	
+
 	public int minX, minY, maxX, maxY;
-	
+
 	public boolean slidingCam;
 	public int objXcam;
 	public int objYcam;
-	
+
 	public Camera(int resX, int resY, int x, int y, int maxX, int maxY){
 		this.resX = resX;
 		this.resY = resY;
@@ -30,7 +34,21 @@ public class Camera {
 	public boolean visibleByCamera(float x, float y, float size){
 		return x + size > Xcam && x - size < Xcam + resX && y + size > Ycam && y - size < Ycam + resY;
 	}
-	
+
+	public boolean isVisibleByTeam(int team, Objet objet, Plateau plateau) {
+		if (objet.getTeam() != null && objet.getTeam().id == team)
+			return true;
+		float r = Math.max(objet.getAttribut(Attributs.size),objet.getAttribut(Attributs.sizeX))/2;
+		for (Character c : plateau.characters)
+			if (c.getTeam().id == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
+				return true;
+		for (Building b : plateau.buildings)
+			if (b.getTeam().id == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
+				return true;
+		return false;
+	}
+
+
 	public void update(InputObject im, boolean rectangleSelection) {
 		// Handle the display (camera movement & minimap)
 		// camera movement
@@ -79,11 +97,11 @@ public class Camera {
 			this.setSliding((int)im.x, (int)im.y);
 		}
 	}
-	
+
 	public void setSliding(int xObj, int yObj){
 		this.slidingCam = true;
 		this.objXcam = xObj-resX/2;
 		this.objYcam = yObj-resY/2;
 	}
-	
+
 }

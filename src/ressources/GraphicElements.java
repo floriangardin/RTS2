@@ -26,6 +26,10 @@ public class GraphicElements {
 	public static Image cursor;
 	public static Image currentCursor;
 	
+	
+	// Draw fog of war
+	public static Image imageFogOfWar;
+	public static Graphics graphicFogOfWar;
 
 
 	
@@ -62,8 +66,11 @@ public class GraphicElements {
 			cursor = new Image("ressources/images/cursor.png").getSubImage(0, 0, 24, 64);
 			attackCursor = new Image("ressources/images/swordCursor.png");
 			Game.app.setMouseCursor(cursor,5,16);
+			imageFogOfWar = new Image(Game.resX,Game.resY);
+			graphicFogOfWar = imageFogOfWar.getGraphics();
 		} catch (SlickException e) {}
 		
 	}
+	
 	
 }

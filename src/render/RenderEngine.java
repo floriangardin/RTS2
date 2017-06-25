@@ -13,6 +13,7 @@ import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
+import ressources.GraphicElements;
 import ressources.Images;
 import utils.Utils;
 
@@ -31,7 +32,7 @@ public class RenderEngine {
 
 	}
 	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
-		
+
 		g.translate(-camera.Xcam, -camera.Ycam);
 		renderBackground(g, plateau);
 		Vector<Objet> objets = new Vector<Objet>();
@@ -51,8 +52,14 @@ public class RenderEngine {
 		}
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.size))){
-				renderObjet(o, g, plateau);
+			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+				if(o.getTeam().id==player.getTeam()){
+					renderObjet(o, g, plateau);
+				} else if (camera.isVisibleByTeam(player.getTeam(), o, plateau)){
+					renderObjet(o, g, plateau);
+				} else if (o instanceof Building){
+					RenderBuilding.render((Building)o, g, plateau, false, false);
+				}
 			}
 		}
 		// 3) Draw fog of war
@@ -63,32 +70,35 @@ public class RenderEngine {
 		bottombar.draw(g, camera);
 
 	}
-	
+
 	public static void renderBackground(Graphics g, Plateau plateau){
 		g.drawImage(Images.get("islandTexture"),0, 0, plateau.maxX, plateau.maxY,
 				0, 0, Images.get("islandTexture").getWidth(),  Images.get("islandTexture").getHeight());
 
 	}
 	public static void renderDomain(Plateau plateau, Graphics g, Camera camera, Vector<Objet> visibleObjets, Player player, Interface bottombar){
-		// draw background
-		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
-		g.setColor(new Color(255, 255, 255));
-		g.fillRect(-plateau.maxX, -plateau.maxY, plateau.maxX + camera.resX, plateau.maxY + camera.resX);
-		g.setColor(new Color(50, 50, 50));
-		float xmin = Math.max(-plateau.maxX, -plateau.maxX - camera.Xcam);
-		float ymin = Math.max(-plateau.maxY, -plateau.maxY - camera.Ycam);
-		float xmax = Math.min(camera.resX + plateau.maxX, 2 * plateau.maxX - camera.Xcam);
-		float ymax = Math.min(camera.resY + plateau.maxY, 2 * plateau.maxY - camera.Ycam);
-		g.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
-		g.setColor(new Color(255, 255, 255));
-		int nbrond = 0;
+		// draw fog of war
+		Graphics g1 = GraphicElements.graphicFogOfWar;
+		g1.setColor(new Color(255, 255, 255));
+		g1.fillRect(0, 0, camera.resX, camera.resX);
+		g1.setColor(new Color(50, 50, 50));
+		float xmin = Math.max(0, -camera.Xcam);
+		float ymin = Math.max(0, -camera.Ycam);
+		float xmax = Math.min(camera.resX, plateau.maxX - camera.Xcam);
+		float ymax = Math.min(camera.resY, plateau.maxY - camera.Ycam);
+		g1.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
+		g1.setColor(new Color(255, 255, 255));
 		for (Objet o : visibleObjets) {
 			float sight = o.getAttribut(Attributs.sight);
 			if(sight>5){
-				g.fillOval(o.x - sight, o.y - sight, sight * 2f, sight * 2f);
-				nbrond+=1;
+				g1.fillOval(o.x - sight - camera.Xcam, o.y - sight - camera.Ycam, sight * 2f, sight * 2f);
 			}
 		}
+		g1.flush();
+		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+		g.translate(camera.Xcam, camera.Ycam);
+		g.drawImage(GraphicElements.imageFogOfWar,0,0);
+		g.translate(-camera.Xcam, -camera.Ycam);
 
 		// draw rectangle of selection
 		g.setDrawMode(Graphics.MODE_NORMAL);
@@ -111,7 +121,7 @@ public class RenderEngine {
 			RenderBuilding.render((Building)o, g, plateau);
 		}
 	}
-	
+
 	public static void renderSelection(Objet o, Graphics g, Plateau plateau){
 		if(o instanceof Character){
 			RenderCharacter.renderSelection(g,(Character)o,  plateau);
