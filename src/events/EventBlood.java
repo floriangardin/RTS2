@@ -3,13 +3,15 @@ package events;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import display.Camera;
 import main.Main;
 import plateau.Objet;
+import plateau.Plateau;
 
 public class EventBlood extends Event{
 
-	public EventBlood(Objet parent) {
-		super(parent);
+	public EventBlood(Objet parent, Plateau plateau, Camera camera) {
+		super(parent, plateau, camera);
 		this.duration = 20f;
 		// TODO Auto-generated constructor stub
 	}

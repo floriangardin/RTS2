@@ -3,18 +3,20 @@ package events;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
-import model.Game;
+import display.Camera;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Sounds;
 
 public class EventDefault extends Event{
 
-	public EventDefault(Objet parent, String s){
-		super(parent);
-		this.sounds.add(Game.g.sounds.get(s));
+	public EventDefault(Objet parent, String s, Plateau plateau, Camera camera){
+		super(parent, plateau, camera);
+		this.sounds.add(Sounds.get(s));
 	}
 	
-	public EventDefault(Objet parent, Sound s){
-		super(parent);
+	public EventDefault(Objet parent, Sound s, Plateau plateau, Camera camera){
+		super(parent, plateau, camera);
 		this.sounds.add(s);
 	}
 	

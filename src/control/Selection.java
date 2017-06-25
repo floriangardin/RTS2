@@ -29,7 +29,6 @@ public class Selection {
 		this.inRectangle = new Vector<Objet>();
 		this.selection = new Vector<Objet>();
 		this.player = player;
-
 	}
 
 	public void updateRectangle(InputObject im) {

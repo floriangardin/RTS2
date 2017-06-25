@@ -3,13 +3,15 @@ package events;
 import java.util.Random;
 import java.util.Vector;
 
-import main.Main;
-import model.Game;
-import plateau.Objet;
-
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
+import display.Camera;
+import main.Main;
+import model.Game;
+import plateau.Objet;
+import plateau.Plateau;
+import ressources.Sounds;
 import utils.Utils;
 
 public abstract class Event {
@@ -22,10 +24,14 @@ public abstract class Event {
 	float power;
 	float duration;
 	boolean playSound = false;
+	Plateau plateau;
+	Camera camera;
 
-	public Event(final Objet parent){
+	public Event(final Objet parent, Plateau plateau, Camera camera){
 		this.parent = parent;
-		this.roundLaunched = Game.g.round;
+		this.roundLaunched = plateau.round;
+		this.plateau = plateau;
+		this.camera = camera;
 		// TODO : Make it generic with dataFile
 
 	}
@@ -34,7 +40,7 @@ public abstract class Event {
 		return this.getName().name();
 	}
 	public boolean isNewEvent(){
-		return Game.g.round-roundLaunched==0;
+		return plateau.round-roundLaunched==0;
 	}
 
 	public int getGameTeam(){
@@ -64,9 +70,9 @@ public abstract class Event {
 			soundPlaying = getRandomSound(this.sounds);
 			if(soundPlaying != null){
 				if(this instanceof EventDeath){
-					soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance(((EventDeath)this).x,((EventDeath)this).y));
+					Sounds.playSound(name.name(), ratioDistance(((EventDeath)this).x,((EventDeath)this).y));
 				} else {
-					soundPlaying.play(1f,Game.g.options.soundVolume*ratioDistance());
+					Sounds.playSound(name.name(),ratioDistance());
 				}
 			}
 		playSound = true;
@@ -75,10 +81,10 @@ public abstract class Event {
 
 
 	protected float ratioDistance(){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
+		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (camera.Xcam+camera.resX/2), (camera.Ycam+camera.resY/2))));
 	}
 	protected float ratioDistance(float x, float y){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Game.g.Xcam+Game.g.resX/2), (Game.g.Ycam+Game.g.resY/2))));
+		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (camera.Xcam+camera.resX/2), (camera.Ycam+camera.resY/2))));
 	}
 
 	public EventNames getName(){

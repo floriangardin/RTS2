@@ -2,15 +2,17 @@ package events;
 
 import java.util.Vector;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import display.Camera;
 import main.Main;
 import model.Game;
-import plateau.Building;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
 import ressources.Map;
+import ressources.Sounds;
 
 public class EventDestructionHQ extends Event{
 	
@@ -29,16 +31,16 @@ public class EventDestructionHQ extends Event{
 	private int dureeExplosion =(int) (0.5*Main.framerate);
 	private int width, height;
 
-	public EventDestructionHQ(Objet parent) {
-		super(parent);
+	public EventDestructionHQ(Objet parent, Plateau plateau, Camera camera) {
+		super(parent, plateau, camera);
 		width = (int) (Images.get("animation-explosion").getWidth()/5f);
 		height = (int) (Images.get("animation-explosion").getHeight()/2f);
 		this.images = new Vector<Image>();
 		for(int i=0; i<4; i++){
 			this.images.add(Images.get("animation-explosion").getSubImage(width*i, 0, width, height));
 		}
-		Game.g.Xcam += (Math.random()*3)-1f;
-		Game.g.Ycam += (Math.random()*3)-1f;
+		camera.Xcam += ((Math.random()-0.5f)*3);
+		camera.Ycam += ((Math.random()-0.5f)*3);
 		xExplosion = new float[]{parent.x-Map.stepGrid, 
 								 parent.x, 
 								 parent.x+Map.stepGrid*2f,
@@ -59,14 +61,14 @@ public class EventDestructionHQ extends Event{
 	@Override
 	public boolean play(Graphics g) {
 		if(this.remainingTime==this.totalRemainingTime){
-			Game.g.sounds.get("destructionBuilding").play(1f, Game.g.options.soundVolume);
+			Sounds.playSound("destructionBuilding");
 		}
 		int startTime;
 		int idImage;
 		for(int i=0; i<startExplosionTime.length; i++){
 			startTime = startExplosionTime[i];
 			if(startTime==this.remainingTime){
-				Game.g.sounds.get("explosionBuilding").play(1f, Game.g.options.soundVolume);
+				Sounds.playSound("explosionBuilding");
 			}
 			if(this.remainingTime<startTime && this.remainingTime>startTime-dureeExplosion){
 				idImage = (int)(4*(this.remainingTime - this.startExplosionTime[i])/(-dureeExplosion));

@@ -139,4 +139,10 @@ public class Sounds {
 			s.play(1f, Options.soundVolume);
 		}
 	}
+	public static void playSound(String name, float volume){
+		Sound s = get(name);
+		if(s!=null){
+			s.play(1f, Options.soundVolume*volume);
+		}
+	}
 }
