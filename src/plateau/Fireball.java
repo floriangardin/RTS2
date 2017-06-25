@@ -15,10 +15,10 @@ import utils.Utils;
 
 public class Fireball extends Bullet {
 
-	protected float altitude;
-	protected int animation;
-	protected float angle;
-	protected boolean explosion= false;
+	public float altitude;
+	public int animation;
+	public float angle;
+	public boolean explosion= false;
 
 	public Fireball( Objet owner,float targetX,float targetY,float vx,float vy,float damage, Plateau plateau){
 		//MULTI 
@@ -101,41 +101,7 @@ public class Fireball extends Bullet {
 
 	}
 
-	public Graphics draw(Graphics g){
-
-		if(this.explosion){
-			Image boom = Images.get("explosion").getScaledCopy(Main.ratioSpace);
-			float r = boom.getWidth()/5f;
-			if(lifePoints>=24f)
-				g.drawImage(boom, this.getX()-40f*Main.ratioSpace, this.getY()-40f*Main.ratioSpace, this.getX()+40f*Main.ratioSpace, this.getY()+40f*Main.ratioSpace,0f,0f,r,r);
-			else if(lifePoints>=18f)
-				g.drawImage(boom, this.getX()-40f*Main.ratioSpace, this.getY()-40f*Main.ratioSpace, this.getX()+40f*Main.ratioSpace, this.getY()+40f*Main.ratioSpace,r,0f,2*r,r);
-			else if(lifePoints>=12f)
-				g.drawImage(boom, this.getX()-40f*Main.ratioSpace, this.getY()-40f*Main.ratioSpace, this.getX()+40f*Main.ratioSpace, this.getY()+40f*Main.ratioSpace,2*r,0f,3*r,r);
-			else if(lifePoints>=6f)
-				g.drawImage(boom, this.getX()-40f*Main.ratioSpace, this.getY()-40f*Main.ratioSpace, this.getX()+40f*Main.ratioSpace, this.getY()+40f*Main.ratioSpace,3*r,0f,4*r,r);
-			else 
-				g.drawImage(boom, this.getX()-40f*Main.ratioSpace, this.getY()-40f*Main.ratioSpace, this.getX()+40f*Main.ratioSpace, this.getY()+40f*Main.ratioSpace,4*r,0f,5*r,r);
-
-		} else {
-			if(animation<3)	{
-				Image image = (Images.get("fireball")).getSubImage(0, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-				image.rotate(this.angle);
-				g.drawImage(image, this.getX()-28*Main.ratioSpace, this.getY()-28*Main.ratioSpace, this.getX()+28*Main.ratioSpace, this.getY()+28*Main.ratioSpace,0f,0f,image.getWidth(),image.getHeight());
-			}else if(animation<6)	{
-				Image image1 = (Images.get("fireball")).getSubImage(75, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-				image1.rotate(this.angle);
-				g.drawImage(image1, this.getX()-28*Main.ratioSpace, this.getY()-28*Main.ratioSpace, this.getX()+28*Main.ratioSpace, this.getY()+28*Main.ratioSpace,0f,0f,image1.getWidth(),image1.getHeight());
-			}else	{
-				Image image2 = (Images.get("fireball")).getSubImage(150, 150, 75, 75).getScaledCopy(Main.ratioSpace);
-				image2.rotate(this.angle);
-				g.drawImage(image2, this.getX()-28*Main.ratioSpace, this.getY()-28*Main.ratioSpace, this.getX()+28*Main.ratioSpace, this.getY()+28*Main.ratioSpace,0f,0f,image2.getWidth(),image2.getHeight());
-			}
-		}
-		//g.setColor(Color.black);
-		//g.fill(new Circle(this.collisionBox.getCenterX(),this.collisionBox.getCenterY(),this.collisionBox.getBoundingCircleRadius()));
-		return g;
-	}
+	
 
 
 

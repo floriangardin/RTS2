@@ -286,10 +286,11 @@ public class Plateau implements java.io.Serializable {
 			bullets.addElement(o);
 		}
 		for (NaturalObjet o : toRemoveNaturalObjets) {
+			objets.remove(o.id);
 			naturalObjets.remove(o);
 		}
 		for (NaturalObjet o : toAddNaturalObjets) {
-
+			objets.put(o.id,o);
 			naturalObjets.addElement(o);
 		}
 		for (Building o : toRemoveBuildings) {
@@ -323,8 +324,8 @@ public class Plateau implements java.io.Serializable {
 				for (Character i : mapGrid.getCase(o.idCase).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
-						i.collision(o);
-						o.collision(i);
+						i.collision(o, this);
+						o.collision(i, this);
 					}
 				}
 			}
@@ -332,7 +333,7 @@ public class Plateau implements java.io.Serializable {
 			// Between bonus and characters
 			for (Bonus b : this.bonus) {
 				if (Utils.distance(b, o) < b.hitBoxSize) {
-					b.collision(o);
+					b.collision(o, this);
 				}
 				if (Utils.distance(b, o) < (b.getAttribut(Attributs.size) + range.radius)) {
 					b.collisionWeapon(o, this);
@@ -341,13 +342,13 @@ public class Plateau implements java.io.Serializable {
 			// between Characters and Natural objects
 			for (NaturalObjet i : naturalObjets) {
 				if (i.collisionBox.intersects(o.collisionBox)) {
-					o.collision(i);
+					o.collision(i, this);
 				}
 			}
 			// Between Characters and bullets
 			for (Bullet i : bullets) {
 				if (i instanceof Arrow && Utils.distance(i, o) < (i.size + o.getAttribut(Attributs.size))) {
-					i.collision(o);
+					i.collision(o, this);
 				}
 			}
 
@@ -365,7 +366,7 @@ public class Plateau implements java.io.Serializable {
 						}
 					}
 					if(doCollision)
-						o.collision(e);
+						o.collision(e, this);
 				}
 				else{
 
@@ -375,7 +376,7 @@ public class Plateau implements java.io.Serializable {
 			for (SpellEffect s : this.spells) {
 				if (s.collisionBox != null) {
 					if (s.collisionBox.intersects(o.collisionBox)) {
-						s.collision(o);
+						s.collision(o, this);
 					}
 				}
 			}
