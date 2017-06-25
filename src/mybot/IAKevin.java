@@ -8,6 +8,7 @@ import bot.IAAllyObject;
 import bot.IAUnit;
 import data.Attributs;
 import model.Player;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class IAKevin extends IA {
@@ -48,8 +49,8 @@ public class IAKevin extends IA {
 	public IAUnit enemyHQ;
 
 
-	public IAKevin(Player p) {
-		super(p);
+	public IAKevin(Player p, Plateau plateau) {
+		super(p, plateau);
 		vectors.add(defCaserne);
 		vectors.add(defFarm);
 		vectors.add(defMine);

@@ -6,6 +6,7 @@ import data.Attributs;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
 import utils.ObjetsList;
 
 public class IAUnit {
@@ -13,11 +14,12 @@ public class IAUnit {
 	
 	protected Objet objet;
 	private IA ia;
+	protected Plateau plateau;
 	
-	
-	public IAUnit(Objet o, IA ia){
+	public IAUnit(Objet o, IA ia, Plateau plateau){
 		this.objet = o;
 		this.ia = ia;
+		this.plateau = plateau;
 
 	}
 
@@ -70,14 +72,14 @@ public class IAUnit {
 	public Vector<ObjetsList> getProductionList(){
 		
 		if(objet instanceof Building){
-			return ((Building) objet).getProductionList();
+			return ((Building) objet).getProductionList(plateau);
 		}
 		return new Vector<ObjetsList>();
 	}
 	public Vector<ObjetsList> getResearchList(){
 		
 		if(objet instanceof Building){
-			return ((Building) objet).getTechnologyList();
+			return ((Building) objet).getTechnologyList(plateau);
 		}
 		return new Vector<ObjetsList>();
 	}
@@ -187,10 +189,10 @@ public class IAUnit {
 		return this.objet==null;
 	}
 	public IAUnit getTarget(){
-		return new IAUnit(this.objet.getTarget(),this.ia);
+		return new IAUnit(this.objet.getTarget(plateau),this.ia, plateau);
 	}
 	public boolean hasTarget(){
-		return objet.getTarget()!=null;
+		return objet.getTarget(plateau)!=null;
 	}
 	
 	public boolean equals(Object o){
