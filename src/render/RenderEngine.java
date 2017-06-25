@@ -55,7 +55,7 @@ public class RenderEngine {
 			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				if(o.getTeam().id==player.getTeam()){
 					renderObjet(o, g, plateau);
-				} else if (camera.isVisibleByTeam(player.getTeam(), o, plateau)){
+				} else if (plateau.isVisibleByTeam(player.getTeam(), o)){
 					renderObjet(o, g, plateau);
 				} else if (o instanceof Building){
 					RenderBuilding.render((Building)o, g, plateau, false, false);

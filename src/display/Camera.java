@@ -35,18 +35,7 @@ public class Camera {
 		return x + size > Xcam && x - size < Xcam + resX && y + size > Ycam && y - size < Ycam + resY;
 	}
 
-	public boolean isVisibleByTeam(int team, Objet objet, Plateau plateau) {
-		if (objet.getTeam() != null && objet.getTeam().id == team)
-			return true;
-		float r = Math.max(objet.getAttribut(Attributs.size),objet.getAttribut(Attributs.sizeX))/2;
-		for (Character c : plateau.characters)
-			if (c.getTeam().id == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
-				return true;
-		for (Building b : plateau.buildings)
-			if (b.getTeam().id == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
-				return true;
-		return false;
-	}
+
 
 
 	public void update(InputObject im, boolean rectangleSelection) {

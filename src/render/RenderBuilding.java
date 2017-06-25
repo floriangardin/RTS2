@@ -43,7 +43,7 @@ public class RenderBuilding {
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
 		// Construction points
-		if(b.constructionPoints<b.getAttribut(Attributs.maxLifepoints) && b.visibleByCurrentTeam && b.constructionPoints>0){
+		if(b.constructionPoints<b.getAttribut(Attributs.maxLifepoints) && visibleByCurrentTeam && b.constructionPoints>0){
 			g.setColor(Color.black);
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
 			g.fillRect(-1f+b.getX()-b.getAttribut(Attributs.sizeX)/4,-1f+b.getY()-3*b.getAttribut(Attributs.sizeY)/4,b.getAttribut(Attributs.sizeX)/2+2f,12f);
