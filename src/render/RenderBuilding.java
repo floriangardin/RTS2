@@ -1,7 +1,5 @@
 package render;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,10 +16,12 @@ import utils.ObjetsList;
 public class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
-
+	
 	public static void render(Building b, Graphics g, Plateau plateau){
-		boolean visibleByCurrentTeam = true;
-		boolean isCurrentTeam = true;
+		render(b,g,plateau, true, true);
+	}
+
+	public static void render(Building b, Graphics g, Plateau plateau, boolean visibleByCurrentTeam, boolean isCurrentTeam){
 		
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
@@ -43,7 +43,7 @@ public class RenderBuilding {
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
 		// Construction points
-		if(b.constructionPoints<b.getAttribut(Attributs.maxLifepoints) && b.visibleByCurrentTeam && b.constructionPoints>0){
+		if(b.constructionPoints<b.getAttribut(Attributs.maxLifepoints) && visibleByCurrentTeam && b.constructionPoints>0){
 			g.setColor(Color.black);
 			//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,360);
 			g.fillRect(-1f+b.getX()-b.getAttribut(Attributs.sizeX)/4,-1f+b.getY()-3*b.getAttribut(Attributs.sizeY)/4,b.getAttribut(Attributs.sizeX)/2+2f,12f);

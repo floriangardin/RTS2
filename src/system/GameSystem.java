@@ -21,6 +21,7 @@ import mybot.IAFlo;
 import plateau.Objet;
 import plateau.Plateau;
 import render.RenderEngine;
+import ressources.GraphicElements;
 import ressources.Map;
 
 public class GameSystem extends ClassSystem{

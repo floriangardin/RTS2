@@ -698,8 +698,8 @@ public class Interface {
 			}
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 
-			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog)){
-				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints);
+			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(player.getTeam(), cq) || Debug.debugFog)){
+				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints); 
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);
 				}

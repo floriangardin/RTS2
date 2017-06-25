@@ -66,6 +66,13 @@ public class InputObject implements java.io.Serializable{
 		this.team = team;
 	}
 	
+	public InputObject(Input input){
+		initInput(input);
+		this.toPlay = false;
+		this.isOnMiniMap = false;
+		this.validated = new Vector<Boolean>();
+	}
+	
 	public Vector<Objet> getSelection(Plateau plateau){
 		Vector<Objet> res = new Vector<Objet>();
 		for(Integer i : selection){
@@ -213,8 +220,14 @@ public class InputObject implements java.io.Serializable{
 //	}
 	
 	public void initInput(Input input, Camera camera){
+		initInput(input);
 		x = input.getMouseX() + camera.Xcam;
 		y = input.getMouseY() + camera.Ycam;
+	}
+	
+	public void initInput(Input input){
+		x = input.getMouseX();
+		y = input.getMouseY();
 		xOnScreen = input.getMouseX();
 		yOnScreen = input.getMouseY();
 		this.pressed = new Vector<KeyEnum>();

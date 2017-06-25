@@ -821,56 +821,20 @@ public class Plateau implements java.io.Serializable {
 //		}
 //	}
 	
-//	public boolean isVisibleByCamera(Objet objet) {
-//	float sight = objet.getVisibleSize();
-//	return objet.x + sight > Camera.Xcam && objet.x - sight < Camera.Xcam + Game.resX && objet.y + sight > Camera.Ycam
-//			&& objet.y - sight < Camera.Ycam + Game.resY;
-//
-//}
-
-//	public void updateVisibility() {
-//	for (Character c : this.characters) {
-//		c.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), c);
-//		c.visibleByCamera = this.isVisibleByCamera(c);
-//	}
-//	for (Building b : this.buildings) {
-//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-//		b.visibleByCamera = this.isVisibleByCamera(b);
-//	}
-//	for (Bullet b : this.bullets) {
-//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-//		b.visibleByCamera = this.isVisibleByCamera(b);
-//	}
-//	for (SpellEffect b : this.spells) {
-//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-//		b.visibleByCamera = this.isVisibleByCamera(b);
-//	}
-//	for (NaturalObjet n : this.naturalObjets) {
-//		n.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), n);
-//		n.visibleByCamera = this.isVisibleByCamera(n);
-//	}
-//	for (Bonus b : this.bonus) {
-//		b.visibleByCurrentTeam = this.isVisibleByTeam(Game.gameSystem.getCurrentTeam(), b);
-//		b.visibleByCamera = this.isVisibleByCamera(b);
-//	}
-//}
-	
-
 	public boolean isVisibleByTeam(int team, Objet objet) {
 		if (objet.getTeam() != null && objet.getTeam().id == team)
 			return true;
-		float r = 1f;
-		if(objet.collisionBox!=null){
-			r = objet.collisionBox.getBoundingCircleRadius();
-		} 
-		for (Character c : this.characters)
+		float r = Math.max(objet.getAttribut(Attributs.size),objet.getAttribut(Attributs.sizeX))/2;
+		for (Character c : characters)
 			if (c.getTeam().id == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
 				return true;
-		for (Building b : this.buildings)
+		for (Building b : buildings)
 			if (b.getTeam().id == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
 				return true;
 		return false;
 	}
+
+	
 	public Building getHQ(Team team){
 		return (Building)this.getById(team.hq);
 	}
