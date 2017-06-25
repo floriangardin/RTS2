@@ -1,18 +1,18 @@
 package bonus;
 import data.Attributs;
-import main.Main;
-import model.Game;
 import plateau.Character;
+import plateau.Plateau;
+import plateau.Team;
 import utils.ObjetsList;
 public class BonusLifepoints extends Bonus{
 
 
 
 
-	public BonusLifepoints(float x , float y){
-		super(ObjetsList.BonusLifepoints,x,y);
+	public BonusLifepoints(float x , float y, Team team, Plateau plateau){
+		super(ObjetsList.BonusLifepoints,x,y, team, plateau);
 		this.name = ObjetsList.BonusLifepoints;
-		this.initialize(x, y);
+		this.initialize(x, y, plateau);
 		this.bonus = 50f;
 
 	}
@@ -30,13 +30,12 @@ public class BonusLifepoints extends Bonus{
 		}
 	}
 
-	public void collision(Character c){
+	public void collision(Character c, Plateau plateau){
 		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.getAttribut(Attributs.maxLifepoints)){
 			c.setLifePoints(c.lifePoints+this.bonus);
 			this.bonusPresent =false;
 			this.state = 0f;
-			
-			this.setTeam(0);
+			this.setTeam(0, plateau);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;
 		}

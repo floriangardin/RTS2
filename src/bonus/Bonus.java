@@ -6,22 +6,22 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-
-
-import events.EventNames;
 import data.Attributs;
+import events.EventHandler;
+import events.EventNames;
 import main.Main;
 import model.Colors;
-import model.Game;
 import plateau.Building;
 import plateau.Plateau;
+import plateau.Team;
+import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
 
 public abstract class Bonus extends Building{
 
-	public Bonus(ObjetsList name, float x, float y) {
-		super(name, x, y,0);
+	public Bonus(ObjetsList name, float x, float y,Team team, Plateau plateau) {
+		super(name, x, y,team, plateau);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -38,15 +38,15 @@ public abstract class Bonus extends Building{
 	public void initialize(Plateau p , float x , float y){
 		this.lifePoints = 1f;
 		this.constructionPoints=0f;
-		this.setTeam(0);
+		this.setTeam(0, p);
 		p.bonus.addElement(this);
 		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,collisionBox.getWidth(),collisionBox.getHeight());
 		this.hitBoxSize = 30f*Main.ratioSpace;
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
-		this.setXY(x*Map.stepGrid, y*Map.stepGrid);
+		this.setXY(x*Map.stepGrid, y*Map.stepGrid, p);
 		this.soundTaken = "bonusTaken";
-		Game.g.triggerEvent(EventNames.BonusTaken, this);
+		EventHandler.addEvent(EventNames.BonusTaken, this);
 	}
 	
 	public Graphics draw(Graphics g){
