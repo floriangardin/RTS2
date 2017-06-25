@@ -6,11 +6,16 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import display.Camera;
 import main.Main;
 import model.Game;
 import plateau.Building;
 import plateau.Objet;
+import plateau.Plateau;
+import render.RenderBuilding;
+import ressources.Images;
 import ressources.Map;
+import ressources.Sounds;
 
 public class EventDestructionTour extends Event{
 	
@@ -23,8 +28,8 @@ public class EventDestructionTour extends Event{
 	private int dureeExplosion =(int) (0.5*Main.framerate);
 	private int width, height;
 
-	public EventDestructionTour(Objet parent) {
-		super(parent);
+	public EventDestructionTour(Objet parent, Plateau plateau, Camera camera) {
+		super(parent, plateau, camera);
 		width = (int) (Images.get("animation-explosion").getWidth()/5f);
 		height = (int) (Images.get("animation-explosion").getHeight()/2f);
 		this.images = new Vector<Image>();
@@ -40,15 +45,15 @@ public class EventDestructionTour extends Event{
 	@Override
 	public boolean play(Graphics g) {
 		if(this.remainingTime==this.totalRemainingTime){
-			Game.g.sounds.get("destructionBuilding").play(1f, Game.g.options.soundVolume);
+			Sounds.playSound("destructionBuilding");
 		}
 		int startTime;
 		int idImage;
 		for(int i=0; i<startExplosionTime.length; i++){
 			startTime = startExplosionTime[i];
 			if(startTime==this.remainingTime){
-				Game.g.sounds.get("explosionBuilding").play(1f, Game.g.options.soundVolume);
-				((Building)(parent)).drawFlash(g, Color.white);
+				Sounds.playSound("explosionBuilding");
+				RenderBuilding.drawFlash(g, (Building) parent,Color.white);
 			}
 			if(this.remainingTime<startTime && this.remainingTime>startTime-dureeExplosion){
 				idImage = (int)(4*(this.remainingTime - this.startExplosionTime[i])/(-dureeExplosion));

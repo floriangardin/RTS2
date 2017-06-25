@@ -2,12 +2,13 @@ package events;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
+import display.Camera;
 import main.Main;
-import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
+import render.RenderCharacter;
 import ressources.GraphicElements;
 
 public class EventAttackDamage extends Event {
@@ -17,8 +18,8 @@ public class EventAttackDamage extends Event {
 	private int remainingTime = totalRemainingTime;
 	private float x, y, vx, vy;
 	
-	public EventAttackDamage(Objet parent, int value) {
-		super(parent);
+	public EventAttackDamage(Objet parent, int value, Plateau plateau, Camera camera) {
+		super(parent, plateau, camera);
 		this.value = value;
 		this.x = parent.x;
 		this.y = parent.y;
@@ -33,10 +34,10 @@ public class EventAttackDamage extends Event {
 		this.y+=vy;
 		this.x+=vx;
 		this.remainingTime--;
-		GraphicElements.font_main_red.drawString(x-GraphicElements.font_main_red.getWidth(""+value)/2, y-GraphicElements.font_main_red.getHeight(""+value)/2, ""+value);
+		GraphicElements.font_red.drawString(x-GraphicElements.font_red.getWidth(""+value)/2, y-GraphicElements.font_red.getHeight(""+value)/2, ""+value);
 		try{
 			Color color = new Color(1f,0f,0f,(this.remainingTime+10f-this.totalRemainingTime)/10f);
-			((Character)(this.parent)).drawFlash(g, color);
+			RenderCharacter.drawFlash(g, color, (Character)(this.parent), plateau);
 		}catch(Exception e){
 			
 		}

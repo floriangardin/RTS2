@@ -3,22 +3,22 @@ package events;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Sound;
 
-import model.Colors;
-import model.Game;
+import display.Camera;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Sounds;
 
 public class EventDash extends Event{
 	
-	public EventDash(Objet parent) {
-		super(parent);
+	public EventDash(Objet parent, Plateau plateau, Camera camera) {
+		super(parent, plateau, camera);
 		// TODO Auto-generated constructor stub
-		if(parent.getTarget()!=null && parent.getTarget() instanceof Character && parent.getTarget().getTeam()!=parent.getTeam()){
-			Game.g.sounds.get("dash_shot").play(1f, Game.g.options.soundVolume);
+		if(parent.getTarget(plateau)!=null && parent.getTarget(plateau) instanceof Character && parent.getTarget(plateau).getTeam()!=parent.getTeam()){
+			Sounds.playSound("dash_shot");
 		}else{
-			Game.g.sounds.get("dash").play(1f, Game.g.options.soundVolume);
+			Sounds.playSound("dash");
 		}
 		
 	}

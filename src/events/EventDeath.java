@@ -1,16 +1,17 @@
 package events;
 
-import java.util.Vector;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Sound;
 
+import display.Camera;
 import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Objet;
+import plateau.Plateau;
+import ressources.Images;
+import ressources.Sounds;
 
 public class EventDeath extends Event{
 
@@ -21,8 +22,8 @@ public class EventDeath extends Event{
 	private Image im;
 	private float duration = 5f;
 	
-	public EventDeath(Objet parent) {
-		super(parent);
+	public EventDeath(Objet parent, Plateau plateau, Camera camera) {
+		super(parent, plateau, camera);
 		x = parent.x;
 		y = parent.y;
 		color = parent.getTeam().color;
@@ -34,15 +35,13 @@ public class EventDeath extends Event{
 			if(direction==1 || direction==2){
 				direction = ((direction-1)*(-1)+2);
 			}
-			
 		}
 		im = Images.getUnit(parent.name, direction, 0, parent.getTeam().id, false);
-		this.sounds = Game.g.sounds.getSoundVector(parent.name, "death");
 		if(parent.getTeam().id==Game.gameSystem.getCurrentTeam()){
-			Game.g.sounds.get("deathAlly").play(1f,0.9f*Game.g.options.soundVolume*ratioDistance());
+			Sounds.playSound("deathAlly", ratioDistance());
 		} else {
-			Game.g.sounds.get("deathEnemy").play(1f,0.9f*Game.g.options.soundVolume*ratioDistance());
-			Game.g.currentPlayer.getTeam().addNewKill();
+			Sounds.playSound("deathEnemy", ratioDistance());
+			//GameSystem.currentPlayer.getTeam().addNewKill();
 		}
 	}
 
