@@ -5,19 +5,19 @@ import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
 import plateau.Character;
+import plateau.Plateau;
+import plateau.Team;
 import utils.ObjetsList;
 
 public class BonusDamage extends Bonus{
 
-	
-	public BonusDamage(float x , float y){
-		
-		super(ObjetsList.BonusDamage,x,y);
-		this.name = ObjetsList.BonusDamage;
-		this.initialize( x, y);
+	public BonusDamage(float x, float y,Team team, Plateau plateau) {
+		super(ObjetsList.BonusDamage, x, y,team, plateau);
+		// TODO Auto-generated constructor stub
+		this.initialize(x, y, plateau);
 		this.bonus = 5f;
-
 	}
+
 
 	public void action(){
 		this.state+=0.1f*30/Main.framerate;
@@ -31,13 +31,13 @@ public class BonusDamage extends Bonus{
 		}
 	}
 
-	public void collision(Character c){
+	public void collision(Character c, Plateau plateau){
 		if(this.bonusPresent && c.getTeam()==this.getTeam()){
 			c.attributsChanges.add(new AttributsChange(Attributs.damage, Change.ADD, 3f, 0f));
 			this.bonusPresent =false;
 			this.state = 0f;
 			
-			this.setTeam(0);
+			this.setTeam(0, plateau);
 			this.potentialTeam = 0;
 			this.constructionPoints=0f;
 		}
