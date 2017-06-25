@@ -65,8 +65,6 @@ public class GameSystem extends ClassSystem{
 		bottombar.update(im);
 		// 3 : Update plateau (singleplayer = Main.nDelay==0)
 		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
-		
-		
 		plateau.update(inputs);
 		// 4 : Update the camera
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());

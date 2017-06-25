@@ -6,8 +6,10 @@ import data.Attributs;
 import model.Game;
 import model.Player;
 import multiplaying.ChatMessage;
+import multiplaying.Communications;
 import plateau.Building;
 import plateau.Character;
+import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 public abstract class IA {
@@ -19,14 +21,17 @@ public abstract class IA {
 	private Vector<IAAllyObject> units;
 	private Vector<IAUnit> enemies;
 	private Vector<IAUnit> nature;
+	Plateau plateau;
 	
 	private Team player;
 		
-	public IA(Player p) {
+	public IA(Player p, Plateau plateau) {
 		this.player = p.getGameTeam();
 		units = new Vector<IAAllyObject>();
 		enemies = new Vector<IAUnit>();
 		nature = new Vector<IAUnit>();
+		this.plateau = plateau;
+		
 		// Create ennemy static IA
 		// Contain all the objects visible by the IA
 	}
@@ -71,28 +76,28 @@ public abstract class IA {
 		this.units.clear();
 		this.nature.clear();
 		this.enemies.clear();
-		if(Game.g.round<5){
+		if(plateau.round<5){
 			return;
 		}
 		//Update IA Objects
-		for(Character c : Game.gameSystem.plateau.characters){
-			if(c.getTeam().id ==0 ||Game.gameSystem.plateau.isVisibleByTeam(this.player.id, c)){
+		for(Character c : plateau.characters){
+			if(c.getTeam().id ==0 ||plateau.isVisibleByTeam(this.player.id, c)){
 				if(c.getTeam().id==this.player.id){					
 					this.units.addElement(new IAAllyObject(c,this));
 				}else if( c.getTeam().id ==0){
-					this.nature.addElement(new IAUnit(c,this));
+					this.nature.addElement(new IAUnit(c,this, plateau));
 				}else{
-					this.enemies.addElement(new IAUnit(c, this));
+					this.enemies.addElement(new IAUnit(c, this, plateau));
 				}
 			}
 		}
 		for(Building b : Game.gameSystem.plateau.buildings){
 			if(b.getTeam().id==this.player.id){					
 				this.units.addElement(new IAAllyObject(b,this));
-			}else if(b.getTeam().id == 0 || !Game.gameSystem.plateau.isVisibleByTeam(this.player.id, b)){
-				this.nature.addElement(new IAUnit(b,this));
+			}else if(b.getTeam().id == 0 || !plateau.isVisibleByTeam(this.player.id, b)){
+				this.nature.addElement(new IAUnit(b,this, plateau));
 			}else{
-				this.enemies.addElement(new IAUnit(b,this));
+				this.enemies.addElement(new IAUnit(b,this, plateau));
 			}
 		}
 		
@@ -216,7 +221,7 @@ public abstract class IA {
 	}
 	
 	public Vector<ObjetsList> getTechsDiscovered(){
-		return player.hq.techsDiscovered;
+		return ((Building) plateau.getById(player.hq)).techsDiscovered;
 	}
 	public Team getPlayer(){
 		return player;

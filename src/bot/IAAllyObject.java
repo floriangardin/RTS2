@@ -2,29 +2,26 @@ package bot;
 
 import java.util.Vector;
 
-import model.Game;
 import multiplaying.ChatMessage;
+import multiplaying.Communications;
 import plateau.Building;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Objet;
-import spells.Spell;
 import utils.ObjetsList;
 
 public class IAAllyObject extends IAUnit{
 
 	
-
-	
 	public IAAllyObject(Objet o, IA ia) {
-		super(o, ia);
+		super(o, ia, ia.plateau);
 		// TODO Auto-generated constructor stub
 	}
 
 
 	public void rightClick(float x, float y){
 		if(objet instanceof Building){
-			((Building)this.objet).setRallyPoint(x, y);
+			((Building)this.objet).setRallyPoint(x, y, plateau);
 			return;
 		}
 		IAUnit u = this.getIA().findUnit(x,y);
@@ -32,7 +29,7 @@ public class IAAllyObject extends IAUnit{
 			this.rightClick(u);
 		}else{
 			if(objet instanceof Character){
-				((Character)this.objet).setTarget(new Checkpoint(x,y),null,Character.NORMAL);
+				((Character)this.objet).setTarget(new Checkpoint(x,y, plateau), null, Character.NORMAL, plateau);
 			}
 
 		}
@@ -46,7 +43,7 @@ public class IAAllyObject extends IAUnit{
 			return;
 		}
 		if(objet instanceof Character){
-			((Character)this.objet).setTarget(u.getObjet(),null,(u.objet instanceof Building)? Character.TAKE_BUILDING:Character.NORMAL);
+			((Character)this.objet).setTarget(u.getObjet(),null,(u.objet instanceof Building)? Character.TAKE_BUILDING:Character.NORMAL, plateau);
 		}
 		if(objet instanceof Building){
 			((Building)this.objet).setTarget(u.getObjet());
@@ -70,7 +67,7 @@ public class IAAllyObject extends IAUnit{
 		// Check price of unit first
 		if(objet instanceof Building){
 			if(this.getProductionList().contains(production)){
-				((Building) objet).product(this.getProductionList().indexOf(production));
+				((Building) objet).product(this.getProductionList().indexOf(production), plateau);
 			}
 		}else{
 			Communications.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
@@ -107,7 +104,7 @@ public class IAAllyObject extends IAUnit{
 		if(this.getObjet() instanceof Character ){
 			Character c = (Character) getObjet();
 			if(c.getSpellsName().contains(spell)){
-				c.launchSpell(new Checkpoint(x,y),spell);
+				c.launchSpell(new Checkpoint(x,y, plateau),spell, plateau);
 				
 			}
 			
@@ -119,7 +116,7 @@ public class IAAllyObject extends IAUnit{
 		if(this.getObjet() instanceof Character ){
 			Character c = (Character) getObjet();
 			if(c.getSpellsName().contains(spell)){
-				c.getSpell(spell).launch(target.getObjet(), c);
+				c.getSpell(spell).launch(target.getObjet(), c, plateau);
 			}
 			
 		}
