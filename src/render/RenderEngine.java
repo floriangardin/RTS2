@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import data.Attributs;
 import display.Camera;
 import display.Interface;
+import events.EventHandler;
 import model.Player;
 import plateau.Building;
 import plateau.Bullet;
@@ -66,6 +67,7 @@ public class RenderEngine {
 		}
 		// 3) Draw fog of war
 		renderDomain(plateau, g, camera, visibleObjets, player, bottombar);
+		EventHandler.render(g);
 		g.translate(camera.Xcam, camera.Ycam);
 		// draw interface
 		// 4) Draw bottom bar

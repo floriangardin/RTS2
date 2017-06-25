@@ -52,7 +52,7 @@ public class EventDeath extends Event{
 		delta_y+=3.5f;
 		alpha*=0.95f;
 		im.setAlpha(alpha);
-		im.draw(x-im.getWidth()/2,y-delta_y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
+		g.drawImage(im, x-im.getWidth()/2,y-delta_y-3*im.getHeight()/4,color);
 		im.setAlpha(1.0f);
 		this.duration -= Main.increment;
 		return this.duration>0f;
