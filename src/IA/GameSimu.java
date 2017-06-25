@@ -13,12 +13,12 @@ import ressources.Images;
 import ressources.Musics;
 import ressources.Sounds;
 
-public class GameSimu extends Game	{
+public class GameSimu 	{
 	
 	public Simulator simu;
 
-	public GameSimu(float resX, float resY) {
-		super(resX, resY);
+	public GameSimu() {
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -29,10 +29,7 @@ public class GameSimu extends Game	{
 	{}
 	
 	public void init(GameContainer gc) throws SlickException {	
-		this.sounds = new Sounds();
-		this.options = new Options();
-		this.images = new Images();
-		this.musics = new Musics();
+
 		simu.run();
 
 	}
