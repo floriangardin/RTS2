@@ -2,8 +2,7 @@ package bot;
 
 import java.util.Vector;
 
-import multiplaying.ChatMessage;
-import multiplaying.Communications;
+
 import plateau.Building;
 import plateau.Character;
 import plateau.Checkpoint;
@@ -12,12 +11,9 @@ import utils.ObjetsList;
 
 public class IAAllyObject extends IAUnit{
 
-	
 	public IAAllyObject(Objet o, IA ia) {
 		super(o, ia, ia.plateau);
-		// TODO Auto-generated constructor stub
 	}
-
 
 	public void rightClick(float x, float y){
 		if(objet instanceof Building){
@@ -56,7 +52,7 @@ public class IAAllyObject extends IAUnit{
 			rightClick(x,y);
 			objet.mode = Character.MOVE;
 		}else{
-			Communications.sendMessage(new ChatMessage("1|Warning : Tried to move a building ..."));
+			//Communications.sendMessage(new ChatMessage("1|Warning : Tried to move a building ..."));
 		}
 	}; // classic move
 	public  void attack(float x , float y){
@@ -70,14 +66,14 @@ public class IAAllyObject extends IAUnit{
 				((Building) objet).product(this.getProductionList().indexOf(production), plateau);
 			}
 		}else{
-			Communications.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
+			//Communications.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
 		}
 	}; // Produce unit
 	public  void produceTechnology(ObjetsList tech){
 		if(objet instanceof Building){
 			
 		}else{
-			Communications.sendMessage(new ChatMessage("1|Warning : Tried to research not in a building ..."));
+			//Communications.sendMessage(new ChatMessage("1|Warning : Tried to research not in a building ..."));
 		}
 	}; // Produce research
 	

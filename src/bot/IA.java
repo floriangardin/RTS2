@@ -5,8 +5,6 @@ import java.util.Vector;
 import data.Attributs;
 import model.Game;
 import model.Player;
-import multiplaying.ChatMessage;
-import multiplaying.Communications;
 import plateau.Building;
 import plateau.Character;
 import plateau.Plateau;
@@ -36,7 +34,7 @@ public abstract class IA {
 		// Contain all the objects visible by the IA
 	}
 	public void sendMessage(String message){
-		Communications.sendMessage(new ChatMessage(this.player.id+"|"+message),this.player.id);
+		//Communications.sendMessage(new ChatMessage(this.player.id+"|"+message),this.player.id);
 	}
 	/*
 	 * Renvoie les units , peut-être faire une copie du vecteur à terme par sécurité
@@ -106,7 +104,7 @@ public abstract class IA {
 			this.update();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			alert("Error in IA ... "+e.toString());
+			//alert("Error in IA ... "+e.toString());
 			e.printStackTrace();
 		}
 	}
@@ -138,12 +136,12 @@ public abstract class IA {
 
 	
 	
-	protected void print(String s){
-		Communications.sendMessage(new ChatMessage("0|"+s));
-	}
-	protected void alert(String s){
-		Communications.sendMessage(new ChatMessage("2|"+s));
-	}
+//	protected void print(String s){
+//		Communications.sendMessage(new ChatMessage("0|"+s));
+//	}
+//	protected void alert(String s){
+//		Communications.sendMessage(new ChatMessage("2|"+s));
+//	}
 	
 
 	protected int getFood(){
