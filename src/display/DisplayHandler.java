@@ -42,7 +42,7 @@ public class DisplayHandler {
 
 	
 	public static void addEvent(EventNames name,Objet parent){
-		events.addElement(name.createEvent(parent));
+//		events.addElement(name.createEvent(parent));
 	}
 	
 	public static void addDisplayRessources(DisplayRessources dr){

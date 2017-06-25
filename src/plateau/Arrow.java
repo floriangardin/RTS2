@@ -14,8 +14,9 @@ import utils.ObjetsList;
 
 public class Arrow extends Bullet{
 
-	protected float angle= 0f;
+	public float angle= 0f;
 	public float life = 6f;
+	
 	public Arrow(Character owner,float vx,float vy,float damage, Plateau plateau){
 		//MULTI 
 		super(plateau);
@@ -68,19 +69,7 @@ public class Arrow extends Bullet{
 		this.lifePoints = -1f;
 	}
 	
-	public Graphics draw(Graphics g){
-		Images.get("arrow").rotate(angle);
-		g.drawImage(Images.get("arrow"),this.getX()-5f*Main.ratioSpace,this.getY()-75f*Main.ratioSpace);
-		Images.get("arrow").rotate(-angle);
-		Image shadow = Images.get("arrow").getScaledCopy(Main.ratioSpace);
-		shadow.rotate(this.angle);
-		shadow.drawFlash(this.getX()-5f*Main.ratioSpace,this.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
-		//g.drawImage(i ,this.getX()-5f,this.getY()-5f);
-		//g.setColor(Color.white);
-		//		g.setColor(new Color(5,5,5,0.2f));
-		//		g.draw(this.collisionBox);
-		return g;
-	}
+	
 	public void action(Plateau plateau){
 		//MULTI 
 		this.life  -= Main.increment;

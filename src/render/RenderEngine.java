@@ -10,7 +10,9 @@ import display.Camera;
 import display.Interface;
 import model.Player;
 import plateau.Building;
+import plateau.Bullet;
 import plateau.Character;
+import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.GraphicElements;
@@ -57,8 +59,8 @@ public class RenderEngine {
 					renderObjet(o, g, plateau);
 				} else if (plateau.isVisibleByTeam(player.getTeam(), o)){
 					renderObjet(o, g, plateau);
-				} else if (o instanceof Building){
-					RenderBuilding.render((Building)o, g, plateau, false, false);
+				} else if (o instanceof Building || o instanceof NaturalObjet){
+					renderObjet(o, g, plateau, false);
 				}
 			}
 		}
@@ -68,7 +70,6 @@ public class RenderEngine {
 		// draw interface
 		// 4) Draw bottom bar
 		bottombar.draw(g, camera);
-
 	}
 
 	public static void renderBackground(Graphics g, Plateau plateau){
@@ -119,7 +120,19 @@ public class RenderEngine {
 			RenderCharacter.render((Character)o, g, plateau);
 		} else if(o instanceof Building){
 			RenderBuilding.render((Building)o, g, plateau);
+		} else if(o instanceof NaturalObjet){
+			RenderNaturalObjet.render((NaturalObjet) o, g, plateau);
+		} else if(o instanceof Bullet){
+			RenderBullet.render((Bullet) o, g, plateau);
 		}
+	}
+	
+	public static void renderObjet(Objet o, Graphics g, Plateau plateau, boolean visible){
+		if(o instanceof Building){
+			RenderBuilding.render((Building)o, g, plateau, false, false);
+		} else if(o instanceof NaturalObjet){
+			RenderNaturalObjet.render((NaturalObjet) o, g, plateau);
+		} 
 	}
 
 	public static void renderSelection(Objet o, Graphics g, Plateau plateau){

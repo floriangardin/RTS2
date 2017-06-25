@@ -38,19 +38,7 @@ public class Tree extends NaturalObjet {
 	public void collision(Objet o){
 	}
 	
-	public void drawBasicImage(Graphics g){
-		Image i = Images.get(this.name.name());
-		float x1 = this.x-i.getWidth()/2f;
-		float y1 = this.y-i.getHeight()+2*size;
-		g.drawImage(i,x1,y1);
-	}
-	
-	public Graphics draw(Graphics g){
-		this.drawBasicImage(g);
-		//g.setColor(this.color);
-		//g.fill(this.collisionBox);
-		return g;
-	}
+
 	@Override
 	public void collision(Character c, Plateau plateau) {
 		// TODO Auto-generated method stub
