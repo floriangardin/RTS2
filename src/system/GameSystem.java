@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 
 import control.InputHandler;
 import control.InputObject;
-import control.Selection;
 import display.Camera;
 import display.DisplayHandler;
 import display.Interface;
@@ -18,6 +17,7 @@ import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Game;
 import model.Player;
+import mybot.IAFlo;
 import plateau.Objet;
 import plateau.Plateau;
 import render.RenderEngine;
@@ -39,7 +39,11 @@ public class GameSystem extends ClassSystem{
 		this.plateau = Map.createPlateau(lobby.idCurrentMap, "maps");
 		this.players = new Vector<Player>();
 		for(Menu_Player mp : lobby.players){
-			this.players.add(new Player(mp, this.plateau.teams.get(mp.team)));
+			Player player = new Player(mp, this.plateau.teams.get(mp.team));
+			this.players.add(player);
+			if(mp.id!=lobby.idCurrentPlayer){	
+				player.initIA(new IAFlo(player, plateau));
+			}
 		}
 		this.camera = new Camera(Game.resX, Game.resY, 0, 0, (int)this.plateau.maxX, (int)this.plateau.maxY);
 		this.bottombar = new Interface(plateau, players.get(currentPlayer));
@@ -55,6 +59,12 @@ public class GameSystem extends ClassSystem{
 
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
+		// 0 : Update ia's 
+		for(Player p : players){
+			if(p.ia!=null){
+				p.ia.action();
+			}
+		}
 		// 1 : Get Control
 		Player p = players.get(currentPlayer);
 		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam());
