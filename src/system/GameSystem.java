@@ -9,8 +9,8 @@ import org.newdawn.slick.SlickException;
 import control.InputHandler;
 import control.InputObject;
 import display.Camera;
-import display.DisplayHandler;
 import display.Interface;
+import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import menu.Lobby;
@@ -30,7 +30,7 @@ public class GameSystem extends ClassSystem{
 	public Plateau plateau;
 	public Interface bottombar;
 	public int currentPlayer;
-	public DisplayHandler events;
+	public EventHandler events;
 	public Camera camera;
 	
 
@@ -50,6 +50,7 @@ public class GameSystem extends ClassSystem{
 		this.bottombar = new Interface(plateau, players.get(currentPlayer));
 		InputHandler.init(this.players.size());
 		RenderEngine.init(plateau);
+		EventHandler.init(plateau, camera);
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class GameSystem extends ClassSystem{
 	public void triggerEvent(EventNames name,Objet o){
 		events.addEvent(name, o);
 	}
-	public DisplayHandler getEvents(){
+	public EventHandler getEvents(){
 		return events;
 	}
 

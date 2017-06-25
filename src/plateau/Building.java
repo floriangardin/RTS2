@@ -11,8 +11,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 import bonus.Bonus;
 import data.Attributs;
-import display.DisplayHandler;
 import display.DisplayRessources;
+import events.EventHandler;
 import events.EventNames;
 
 import main.Main;
@@ -495,7 +495,7 @@ public class Building extends Objet{
 			if(this.constructionPoints<=0f){
 				if(this.getAttribut(Attributs.defendable)==0){
 					if(this.getTeam().id!=0 && this.name==ObjetsList.Tower){
-						DisplayHandler.addEvent(EventNames.DestructionTower, this);
+						EventHandler.addEvent(EventNames.DestructionTower, this);
 					}
 					this.isDestroyed = true;
 					if(this.name!=ObjetsList.Headquarters){

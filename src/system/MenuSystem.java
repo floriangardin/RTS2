@@ -12,7 +12,6 @@ import menu.MenuIntro;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
-import model.Game;
 import multiplaying.ChatHandler;
 import ressources.Musics;
 

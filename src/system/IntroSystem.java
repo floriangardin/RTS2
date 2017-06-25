@@ -114,8 +114,8 @@ public class IntroSystem extends ClassSystem{
 		}
 
 		LoadingList.setDeferredLoading(true);
-//		Musics.init();
-//		Sounds.init();
+		Musics.init();
+		Sounds.init();
 		GraphicElements.init();
 		Images.init();
 		Cosmetic.init();

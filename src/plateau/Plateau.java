@@ -7,12 +7,11 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
 
 import bonus.Bonus;
-import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
-import control.Selection;
 import data.Attributs;
 import display.Camera;
+import events.EventHandler;
 import events.EventNames;
 import model.Game;
 import pathfinding.MapGrid;
@@ -199,7 +198,7 @@ public class Plateau implements java.io.Serializable {
 				}
 				this.removeCharacter(o);
 				//TODO:001
-				//Game.gameSystem.triggerEvent(EventNames.Death, o);
+				EventHandler.addEvent(EventNames.Death, o);
 			}
 		}
 

@@ -1,21 +1,26 @@
-package display;
+package events;
 
 import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 
-import events.Event;
-import events.EventNames;
+import display.Camera;
+import display.DisplayRessources;
 import plateau.Objet;
+import plateau.Plateau;
 
-public class DisplayHandler {
+public class EventHandler {
 
 	private static Vector<Event> events;
 	private static Vector<DisplayRessources> displayRessources;
+	private static Plateau plateau;
+	private static Camera camera;
 
-	public static void init(){
+	public static void init(Plateau plateau, Camera camera){
 		events = new Vector<Event>();
 		displayRessources = new Vector<DisplayRessources>();
+		EventHandler.plateau= plateau;
+		EventHandler.camera = camera;
 	}
 	
 	public static void render(Graphics g){
@@ -37,12 +42,11 @@ public class DisplayHandler {
 		displayRessources.removeAll(toRemove2);
 	}
 	
-
-	
-
-	
 	public static void addEvent(EventNames name,Objet parent){
-		events.addElement(name.createEvent(parent));
+		if(plateau==null){
+			return;
+		}
+		events.addElement(name.createEvent(parent, plateau, camera));
 	}
 	
 	public static void addDisplayRessources(DisplayRessources dr){

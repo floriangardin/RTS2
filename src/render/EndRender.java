@@ -11,6 +11,7 @@ import events.EventDestructionHQ;
 import main.Main;
 import model.Game;
 import plateau.Building;
+import ressources.Images;
 import ressources.Map;
 
 public class EndRender {

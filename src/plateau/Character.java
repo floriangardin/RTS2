@@ -10,8 +10,8 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import data.Attributs;
-import display.DisplayHandler;
 import events.EventAttackDamage;
+import events.EventHandler;
 import main.Main;
 import model.Colors;
 import nature.Tree;

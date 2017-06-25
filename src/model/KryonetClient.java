@@ -37,7 +37,6 @@ public class KryonetClient {
 				if (object instanceof SerializedMessage) {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
 					Game.g.kryonetBuffer.add(request);
-
 				}
 			}
 		});
