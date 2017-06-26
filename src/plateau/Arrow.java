@@ -7,6 +7,8 @@ import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
 import events.EventAttackDamage;
+import events.EventHandler;
+import events.EventNames;
 import main.Main;
 import model.Game;
 import ressources.Images;
@@ -45,7 +47,7 @@ public class Arrow extends Bullet{
 			this.angle+=360;
 		
 		this.soundLaunch = "arrow";
-//		Game.g.triggerEvent(EventNames.ArrowLaunched, this);
+		EventHandler.addEvent(EventNames.ArrowLaunched, this);
 	}
 
 	public void collision(Character c, Plateau plateau){

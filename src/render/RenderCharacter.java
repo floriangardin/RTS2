@@ -101,13 +101,13 @@ public class RenderCharacter {
 		if(target !=null && target instanceof Building){
 			RenderCheckpoint.render(((Building) target).marker, g, plateau);
 		}
-		if(character.mode==character.MOVE || character.mode==character.NORMAL){
+		if(character.mode==Character.MOVE || character.mode==Character.NORMAL){
 			g.setColor(Colors.team0);
 		}
-		else if(character.mode==character.AGGRESSIVE){
+		else if(character.mode==Character.AGGRESSIVE){
 			g.setColor(Colors.aggressive);
 		}
-		else if(character.mode==character.TAKE_BUILDING){
+		else if(character.mode==Character.TAKE_BUILDING){
 			g.setColor(Colors.buildingTaking);
 		}
 		g.setLineWidth(2f);

@@ -10,12 +10,13 @@ import ressources.Sounds;
 
 public class EventDefault extends Event{
 
-	public EventDefault(Objet parent, String s, Plateau plateau, Camera camera){
+	public EventDefault(Objet parent, String s, Plateau plateau, Camera camera, EventNames name){
 		super(parent, plateau, camera);
-		this.sounds.add(Sounds.get(s));
+		this.name = name;
+		this.sounds.add(s);
 	}
 	
-	public EventDefault(Objet parent, Sound s, Plateau plateau, Camera camera){
+	public EventDefault(Objet parent, String s, Plateau plateau, Camera camera){
 		super(parent, plateau, camera);
 		this.sounds.add(s);
 	}
