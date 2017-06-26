@@ -16,8 +16,8 @@ import utils.Utils;
 
 public abstract class Event {
 
-	Vector<Sound> sounds = new Vector<Sound>();
-	Sound soundPlaying;
+	Vector<String> sounds = new Vector<String>();
+	String soundPlaying;
 	EventNames name;
 	int roundLaunched;
 	public Objet parent;
@@ -53,8 +53,7 @@ public abstract class Event {
 
 	//	public abstract void draw(Graphics g);
 
-
-	public static Sound getRandomSound (Vector<Sound> v) {
+	public static String getRandomSound (Vector<String> v) {
 		Random generator = new Random();
 		//Filter by not is playing
 
@@ -64,21 +63,20 @@ public abstract class Event {
 		int rnd = generator.nextInt(v.size() - 1);
 		return v.get(rnd); // Cast the vector value into a String object
 	}
-
+	
 	public void playSound(){
 		if(this.sounds.size()>0 && !playSound){
 			soundPlaying = getRandomSound(this.sounds);
 			if(soundPlaying != null){
 				if(this instanceof EventDeath){
-					Sounds.playSound(name.name(), ratioDistance(((EventDeath)this).x,((EventDeath)this).y));
+					Sounds.playSound(soundPlaying, ratioDistance(((EventDeath)this).x,((EventDeath)this).y));
 				} else {
-					Sounds.playSound(name.name(),ratioDistance());
+					Sounds.playSound(soundPlaying,ratioDistance());
 				}
 			}
 		playSound = true;
 		}
 	}
-
 
 	protected float ratioDistance(){
 		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (camera.Xcam+camera.resX/2), (camera.Ycam+camera.resY/2))));

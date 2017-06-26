@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
+import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import model.Game;
@@ -37,7 +38,7 @@ public class Fireball extends Bullet {
 		this.areaEffect = getAttribut(Attributs.size)*Main.ratioSpace;
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		float size = 10f*Main.ratioSpace;
-		this.setTarget(new Checkpoint(targetX,targetY, plateau));
+		this.setTarget(new Checkpoint(targetX,targetY, plateau), plateau);
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude, plateau);
 		this.vx = vx;
@@ -53,7 +54,7 @@ public class Fireball extends Bullet {
 		if(this.angle<0)
 			this.angle+=360;
 		this.soundLaunch = "fireball";
-//		Game.g.triggerEvent(EventNames.FireBallLaunched, this);
+		EventHandler.addEvent(EventNames.FireBallLaunched, this);
 	}
 
 	public Fireball(Plateau plateau){

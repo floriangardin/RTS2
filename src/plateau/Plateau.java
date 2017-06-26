@@ -445,6 +445,7 @@ public class Plateau implements java.io.Serializable {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
+			
 			target = new Checkpoint(x, y,true, this);
 		}
 
@@ -454,7 +455,7 @@ public class Plateau implements java.io.Serializable {
 //		}
 		if (c instanceof Character) {
 			Character o = (Character) c;
-			o.setTarget(null);
+			o.setTarget(null, this);
 			o.stop(this);
 			o.secondaryTargets.clear();
 			o.mode = mode;

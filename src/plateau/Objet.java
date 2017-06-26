@@ -62,7 +62,7 @@ public abstract class Objet implements java.io.Serializable {
 	public int animation = 0;
 	public float vx;
 	public float vy;
-	private int target = NO_TARGET;
+	protected int target = NO_TARGET;
 //	public int checkpointTarget = NO_TARGET;
 
 	public boolean mouseOver = false;
@@ -100,7 +100,11 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 
-	public void setTarget(Objet t){
+	public void setTarget(Objet t, Plateau plateau){
+		Objet target = this.getTarget(plateau);
+		if(target !=null && target instanceof Checkpoint){
+			target.destroy();
+		}
 		if(t!=null){
 			this.target = t.id;
 			

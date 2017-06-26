@@ -82,7 +82,7 @@ public class Character extends Objet{
 		super(plateau);
 		plateau.addCharacterObjets(this);
 		this.name= name;
-		this.setTarget(null);
+		this.setTarget(null, plateau);
 		this.team = team;
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
@@ -363,12 +363,6 @@ public class Character extends Objet{
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.getAttribut(Attributs.maxVelocity)/(Main.framerate);
 		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
-		if(Debug.deplacementGroupIntelligent && this.getGroup(plateau)!=null){
-			//System.out.println("héhé");
-			for(Character c : this.getGroup(plateau)){
-				maxVNorm = Math.min(maxVNorm, c.getAttribut(Attributs.maxVelocity)/(Main.framerate));
-			}
-		}
 		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
@@ -431,10 +425,10 @@ public class Character extends Objet{
 		if(this.getTarget(plateau) instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
 				this.getTarget(plateau).lifePoints = -1f;
-				this.setTarget(null);
+				this.setTarget(null, plateau);
 				this.animationValue=0f;
 			}else{
-				this.setTarget(plateau.getById(this.secondaryTargets.firstElement()));
+				this.setTarget(plateau.getById(this.secondaryTargets.firstElement()), plateau);
 				this.secondaryTargets.remove(0);
 				return;
 			}
@@ -625,7 +619,12 @@ public class Character extends Objet{
 
 
 	public void setTarget(Objet t, Vector<Integer> waypoints,int mode, Plateau plateau){
-
+//		if(t!=null)
+//			System.out.println("id "+t.id);
+//		
+//		System.out.println(this.getTarget(plateau));
+//		System.out.println(this.waypoints.size());
+//		System.out.println(this.secondaryTargets.size());
 		this.mode = mode;
 		if(this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Checkpoint ){
 			((Checkpoint)this.getTarget(plateau)).lifePoints =-1f;
@@ -636,7 +635,8 @@ public class Character extends Objet{
 		if(t!=null && t instanceof Building){
 			((Building) t).marker.state = 0;
 		}
-		this.setTarget(t);
+		this.setTarget(t, plateau);
+		
 		if(t!=null){
 			if(waypoints==null){
 				this.moveAhead = (plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
@@ -650,6 +650,7 @@ public class Character extends Objet{
 					this.waypoints.addElement(cas);
 			}
 		}
+		//System.out.println("target" +target+" this "+this.id);
 	}
 
 	public boolean encounters(Character c){
@@ -768,10 +769,11 @@ public class Character extends Objet{
 		if(this.getTarget(plateau)!=null 
 				&& !this.getTarget(plateau).isAlive()
 				&& (this.getAttribut(Attributs.damage)>0 && this.getTarget(plateau).getTeam()!=this.getTeam())){
-			this.setTarget(null);
+			
+			this.setTarget(null, plateau);
 		}
 		if(this.getTarget(plateau)==null && this.secondaryTargets.size()>0){
-			this.setTarget(plateau.getById(this.secondaryTargets.get(0)));
+			this.setTarget(plateau.getById(this.secondaryTargets.get(0)), plateau);
 		}
 		if(this.getTarget(plateau)==null){
 			// The character has no target, we look for a new one
@@ -784,7 +786,7 @@ public class Character extends Objet{
 				potential_targets = new Vector<Character>();
 			}
 			if(potential_targets.size()>0){
-				this.setTarget(Utils.nearestObject(potential_targets, this));
+				this.setTarget(Utils.nearestObject(potential_targets, this), plateau);
 			} 
 			//			move();
 			//			this.setTarget(null);

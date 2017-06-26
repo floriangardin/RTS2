@@ -13,6 +13,7 @@ import model.Player;
 import plateau.Building;
 import plateau.Bullet;
 import plateau.Character;
+import plateau.Checkpoint;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
@@ -53,6 +54,7 @@ public class RenderEngine {
 		for(Objet o: player.selection.selection){
 			renderSelection(o, g, plateau);
 		}
+		
 		// 2) Draw Objects
 		for(Objet o : objets){
 			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){

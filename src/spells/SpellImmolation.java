@@ -5,8 +5,8 @@ import java.util.Vector;
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
+import events.EventHandler;
 import events.EventNames;
-import model.Game;
 import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
@@ -24,7 +24,7 @@ public class SpellImmolation extends Spell{
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.setSpells(new Vector<ObjetsList>());
 		launcher.addSpellEffect(new Immolation(launcher,target,plateau));
-//		Game.g.triggerEvent(EventNames.Immolation, launcher);
+		EventHandler.addEvent(EventNames.Immolation, launcher);
 	}
 
 	

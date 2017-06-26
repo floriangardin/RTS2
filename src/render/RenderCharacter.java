@@ -92,22 +92,22 @@ public class RenderCharacter {
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
 		g.draw(character.collisionBox);
-		
 		Objet target = character.getTarget(plateau);
+		
 		if(target !=null && target instanceof Checkpoint){
-			target.draw(g);
+			RenderCheckpoint.render((Checkpoint) target, g, plateau);
 		}
 		
 		if(target !=null && target instanceof Building){
-			((Building)target).marker.draw(g);
+			RenderCheckpoint.render(((Building) target).marker, g, plateau);
 		}
-		if(character.mode==character.MOVE || character.mode==character.NORMAL){
+		if(character.mode==Character.MOVE || character.mode==Character.NORMAL){
 			g.setColor(Colors.team0);
 		}
-		else if(character.mode==character.AGGRESSIVE){
+		else if(character.mode==Character.AGGRESSIVE){
 			g.setColor(Colors.aggressive);
 		}
-		else if(character.mode==character.TAKE_BUILDING){
+		else if(character.mode==Character.TAKE_BUILDING){
 			g.setColor(Colors.buildingTaking);
 		}
 		g.setLineWidth(2f);

@@ -1,22 +1,20 @@
 package plateau;
 
+import org.newdawn.slick.geom.Circle;
+
 import main.Main;
 import model.Colors;
-import model.Game;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Circle;
+import utils.ObjetsList;
 
 public class Checkpoint extends Objet {
 	float printed;
 	public float maxDuration=30f*60/Main.framerate;
 	public float state;
 	public float animationState;
-	protected transient float maxRadius = 20f;
-	int lastRoundUpdate =0;
-	Circle drawShape;
-	Circle drawShape2;
+	public transient float maxRadius = 20f;
+	public int lastRoundUpdate =0;
+	public Circle drawShape;
+	public Circle drawShape2;
 	public boolean toDraw=false;
 	public boolean alwaysDraw = false;
 	public boolean neverEnding = false;
@@ -28,9 +26,9 @@ public class Checkpoint extends Objet {
 	
 	public void initialize(float x, float y, Plateau plateau){
 		this.lifePoints=1f;
+		this.name = ObjetsList.Checkpoint;
 		plateau.checkpoints.addElement(this);
 		plateau.objets.put(this.id,this);
-		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
 		color = Colors.team2;
@@ -54,55 +52,18 @@ public class Checkpoint extends Objet {
 		this.neverEnding = neverEnding;
 	}
 	
-	public void action(){
+	public void action(Plateau plateau){
 		//toDraw = false;
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
 			animationState+=3f*Main.increment;
 		}else if(!neverEnding){
 			this.lifePoints=-1f;
-		}
-		
-	}
-	
-	public Graphics draw(Graphics g, Plateau plateau){
-		if(!toDraw && !alwaysDraw){
-			return g;
-		}
-		if(this.lastRoundUpdate==plateau.round){
-			return g;
-		}
-		g.setAntiAlias(true);
-		g.setColor(Colors.team0);
-		if(state<=maxDuration){
-			if(color!=null){
-				
-				g.setLineWidth(2f*Main.ratioSpace);
-				
-			}
-			g.setLineWidth(2f);
-			drawShape.setRadius(maxRadius*(1-2*(animationState)/maxDuration));
-			drawShape.setCenterX(x);
-			drawShape.setCenterY(y);
-			
-			
-			drawShape2.setRadius((maxRadius)*((animationState)/maxDuration));
-			drawShape2.setCenterX(x);
-			drawShape2.setCenterY(y);
-			g.fill(new Circle(x,y,2f));
-			
-			g.draw(drawShape2);
-			g.setColor(color);
-			g.draw(drawShape);
-			this.lastRoundUpdate = plateau.round;
-		}
-		g.setAntiAlias(false);
-		return g;
+		}	
 	}
 
 	@Override
 	public void collision(Character c, Plateau plateau) {
 		// TODO Auto-generated method stub
-		
 	}
 }

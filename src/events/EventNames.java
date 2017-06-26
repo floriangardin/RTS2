@@ -48,14 +48,14 @@ public enum EventNames {
 			sound = "meditation";
 			break;
 		case MoveAttack:
-			return new EventDefault(parent, Sounds.getRandomSoundUnit(parent.name.name(), "attack"), plateau, camera);
+			return new EventDefault(parent, "attack_Spearman01", plateau, camera);
 		case MoveTarget:
-			return new EventDefault(parent, Sounds.getRandomSoundUnit(parent.name.name(), "target"), plateau, camera);
+			return new EventDefault(parent, "attack_Spearman01", plateau, camera);
 		case BuildingSelected:
 			sound = "selection"+parent.name;
 			break;
 		case CharacterSelected:
-			return new EventDefault(parent, Sounds.getRandomSoundUnit(parent.name.name(), "selection"), plateau, camera);
+			return new EventDefault(parent, "selection_Crossbowman01", plateau, camera);
 		case Attack:
 			sound = parent.getAttributString(Attributs.weapon);
 		case Dash:
@@ -69,6 +69,6 @@ public enum EventNames {
 		default:
 			sound = "arrow";
 		}
-		return new EventDefault(parent, sound, plateau, camera);
+		return new EventDefault(parent, sound, plateau, camera, this);
 	}
 }

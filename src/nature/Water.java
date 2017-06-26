@@ -16,6 +16,7 @@ public class Water extends NaturalObjet {
 	
 	
 	public Water(float x, float y, float sizeX, float sizeY, Plateau plateau) {
+		super(plateau);
 		this.name = ObjetsList.Water;
 		this.team = plateau.teams.get(0);
 		this.sizeX = sizeX;

@@ -2,6 +2,8 @@ package spells;
 
 import org.newdawn.slick.Graphics;
 
+import events.EventHandler;
+import events.EventNames;
 import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
@@ -21,7 +23,7 @@ public class SpellMeditation extends Spell{
 		}
 		launcher.addSpellEffect(new Meditation(launcher,target, plateau));
 		launcher.canMove = false;
-//		Game.g.triggerEvent(EventNames.Meditation, launcher);
+		EventHandler.addEvent(EventNames.Meditation, launcher);
 	}
 
 	@Override

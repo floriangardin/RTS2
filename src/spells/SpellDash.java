@@ -7,8 +7,8 @@ import org.newdawn.slick.Graphics;
 import data.Attributs;
 import data.AttributsChange;
 import data.AttributsChange.Change;
+import events.EventHandler;
 import events.EventNames;
-import model.Game;
 import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
@@ -32,7 +32,7 @@ public class SpellDash extends Spell{
 			// TODO : Reparer le déplacement en groupe
 			plateau.updateTarget(launcher, target.x,target.y,launcher.getTeam().id, Character.MOVE, new Vector<Integer>());		
 		}
-//		Game.g.triggerEvent(EventNames.Dash, launcher);
+		EventHandler.addEvent(EventNames.Dash, launcher);
 	}
 
 
