@@ -23,7 +23,8 @@ public enum EventNames {
 	Blood,
 	Meditation, 
 	AttackDamageNormal, 
-	DestructionTower;
+	DestructionTower, 
+	DestructionHQ;
 	
 	
 	public Event createEvent(Objet parent, Plateau plateau, Camera camera){
@@ -63,6 +64,8 @@ public enum EventNames {
 			return new EventBlood(parent, plateau, camera);
 		case DestructionTower:
 			return new EventDestructionTour(parent, plateau, camera);
+		case DestructionHQ:
+			return new EventDestructionHQ(parent, plateau, camera);
 		default:
 			sound = "arrow";
 		}

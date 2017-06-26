@@ -31,10 +31,4 @@ public class SpellBlessedArea extends Spell{
 		g.setLineWidth(1f);
 	}
 
-
-
-
-
-	
-	
 }

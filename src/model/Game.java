@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import render.EndSystem;
 import ressources.GraphicElements;
 import system.ClassSystem;
 import system.GameSystem;
@@ -26,6 +27,7 @@ public class Game extends BasicGame
 	public static GameSystem gameSystem;
 	public static MenuSystem menuSystem;
 	public static ClassSystem editorSystem;
+	public static EndSystem endSystem;
 
 	public Game(int resX, int resY) {
 		super("RTS Ultramythe");

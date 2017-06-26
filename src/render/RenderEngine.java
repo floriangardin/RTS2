@@ -73,6 +73,25 @@ public class RenderEngine {
 		// 4) Draw bottom bar
 		bottombar.draw(g, camera);
 	}
+	
+	public static void render(Graphics g, Plateau plateau, Camera camera){
+		g.translate(-camera.Xcam, -camera.Ycam);
+		renderBackground(g, plateau);
+		Vector<Objet> objets = new Vector<Objet>();
+		for(Objet o : plateau.objets.values()){
+			objets.add(o);
+		}
+		objets = Utils.triY(objets);
+		// 2) Draw Objects
+		for(Objet o : objets){
+			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+				renderObjet(o, g, plateau);
+			}
+		}
+		EventHandler.render(g);
+		g.translate(camera.Xcam, camera.Ycam);
+		// draw interface
+	}
 
 	public static void renderBackground(Graphics g, Plateau plateau){
 		g.drawImage(Images.get("islandTexture"),0, 0, plateau.maxX, plateau.maxY,

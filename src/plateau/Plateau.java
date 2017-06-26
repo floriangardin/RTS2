@@ -15,7 +15,7 @@ import events.EventHandler;
 import events.EventNames;
 import model.Game;
 import pathfinding.MapGrid;
-import render.EndRender;
+import render.EndSystem;
 import ressources.Map;
 import spells.Etats;
 import spells.Spell;
@@ -32,7 +32,7 @@ public class Plateau implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = -4212262274818996077L;
 
-
+	public int teamLooser = 0;
 
 	public int maxX;
 	public int maxY;
@@ -137,6 +137,7 @@ public class Plateau implements java.io.Serializable {
 			System.out.println(c.id+" "+c.x+" "+c.y);
 		}
 	}
+
 	public void addCharacterObjets(Character o) {
 		toAddCharacters.addElement(o);
 	}
@@ -624,7 +625,7 @@ public class Plateau implements java.io.Serializable {
 			int player = im.idplayer;
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
-				EndRender.initEnd(im.team);
+				this.teamLooser = im.team;
 				return;
 			}
 			// Handling the right click
@@ -643,7 +644,7 @@ public class Plateau implements java.io.Serializable {
 				continue;
 			}
 			if(((Building)this.getById(team.hq)).constructionPoints<=0){
-				EndRender.initEnd(team.id);
+				this.teamLooser = team.id;
 			}
 		}
 	}
@@ -739,8 +740,7 @@ public class Plateau implements java.io.Serializable {
 				}
 				if (im.isPressed(KeyEnum.Escape))
 					((Building) this.getById(im.selection.get(0))).removeProd(this);
-			} else
-				if (im.selection.size() > 0 && this.getById(im.selection.get(0)) instanceof Character) {
+			} else if (im.selection.size() > 0 && this.getById(im.selection.get(0)) instanceof Character) {
 					int number = -1;
 					for(int i=0; i<4; i++){
 						if (im.isPressed(KeyEnum.valueOf("Prod"+i)))

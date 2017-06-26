@@ -20,8 +20,8 @@ import model.Player;
 import mybot.IAFlo;
 import plateau.Objet;
 import plateau.Plateau;
+import render.EndSystem;
 import render.RenderEngine;
-import ressources.GraphicElements;
 import ressources.Map;
 
 public class GameSystem extends ClassSystem{
@@ -32,6 +32,7 @@ public class GameSystem extends ClassSystem{
 	public int currentPlayer;
 	public EventHandler events;
 	public Camera camera;
+	
 	
 
 	
@@ -72,15 +73,21 @@ public class GameSystem extends ClassSystem{
 		Player p = players.get(currentPlayer);
 		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam());
 		InputHandler.addToInputs(im, true);
-		// 2: Update selection in im.selection
-		p.selection.handleSelection(im);
 		// 3 : Update interface
 		bottombar.update(im);
+		// 2: Update selection in im.selection
+		p.selection.handleSelection(im);
 		// 3 : Update plateau (singleplayer = Main.nDelay==0)
 		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
 		plateau.update(inputs);
 		// 4 : Update the camera
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
+		
+		// Checking end condition
+		if(plateau.teamLooser>0){
+			Game.endSystem = new EndSystem(plateau, camera, plateau.teamLooser);
+			Game.system = Game.endSystem;
+		}
 //		
 //		// TODO Auto-generated method stub
 //

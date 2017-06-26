@@ -11,7 +11,7 @@ import tests.FatalGillesError;
 
 public class Musics {
 	
-	private static Music musicPlaying = null;
+	public static Music musicPlaying = null;
 	
 	private static HashMap<String, Music> musics;
 	
@@ -66,6 +66,12 @@ public class Musics {
 			}
 			musicPlaying = music;
 			musicPlaying.play(1f, 1f);
+		}
+	}
+	
+	public static void stopMusic(){
+		if(musicPlaying != null){
+			musicPlaying.stop();
 		}
 	}
 	

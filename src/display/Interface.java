@@ -109,6 +109,7 @@ public class Interface {
 
 	// Spell with click handling
 	public boolean spellOk = true;
+	public boolean spellRelease = false;
 	public Character spellLauncher;
 	public Objet spellTarget;
 	public float spellX,spellY;
@@ -126,28 +127,93 @@ public class Interface {
 	///////
 
 	public void update(InputObject im){
-		this.updateActionInterface(im.xOnScreen, im.yOnScreen);
+		this.updateActionInterface(im);
 		this.updateTopInterface(im.xOnScreen, im.yOnScreen);
 		this.updateMinimap(im);
 	}
 
-	public void updateActionInterface(float xMouse, float yMouse){
+	public void updateActionInterface(InputObject im){
+		for(int i = 0 ; i<prodIconNbY;i++){
+			for(int j = 0 ; j<prodIconNbX; j++){
+				toDrawDescription[i][j] = false;
+			}
+		}
+		float xMouse = im.xOnScreen;
+		float yMouse = im.yOnScreen;
+		// draw items descriptions
 		if (isMouseOnActionBar(xMouse, yMouse)) {
 			int mouseOnItem = (int) ((yMouse - startYActionBar) / (sizeYActionBar / prodIconNbY));
 			int yItem = xMouse>startXActionBar + sizeXActionBar? 1:0;
-			for(int i = 0 ; i<prodIconNbY;i++){
-				for(int j = 0 ; j<prodIconNbX; j++){
-					toDrawDescription[i][j] = false;
+			if (mouseOnItem >= 0 && mouseOnItem < prodIconNbY){
+				toDrawDescription[mouseOnItem][yItem] = true;
+				if(im.isPressed(KeyEnum.LeftClick)){
+					im.pressed.remove(KeyEnum.LeftClick);
+					if(player.selection.selection.size()>0 && player.selection.selection.get(0) instanceof Character){
+						Character c = (Character) player.selection.selection.get(0); 
+						Spell s = c.getSpell(mouseOnItem);
+						if(s != null && s.getAttribut(Attributs.needToClick)>0){
+							spellLauncher = c;
+							spellCurrent = s.name;
+						}
+					} else {
+						im.pressProd(mouseOnItem);
+					}
+				}
+				if(im.isDown(KeyEnum.LeftClick)){
+					im.down.remove(KeyEnum.LeftClick);
 				}
 			}
-
-			if (mouseOnItem >= 0 && mouseOnItem < prodIconNbY)
-				toDrawDescription[mouseOnItem][yItem] = true;
-		} else {
-			for(int i = 0 ; i<prodIconNbY;i++){
-				for(int j = 0 ; j<prodIconNbX; j++){
-					toDrawDescription[i][j] = false;
+		}
+		
+		// handle spell
+		if(player.selection.selection.size()>0 && player.selection.selection.get(0) instanceof Character){
+			for(int i = 0; i<prodIconNbY; i++){
+				if(im.isPressedProd(i)){
+					Character c = (Character) player.selection.selection.get(0); 
+					Spell s = c.getSpell(i);
+					if(s!=null && s.getAttribut(Attributs.needToClick)>0){
+						spellLauncher = c;
+						spellCurrent = s.name;
+					}
+					im.pressed.remove(KeyEnum.valueOf("Prod"+i));
 				}
+			}
+		}
+		if(this.spellCurrent!=null){
+			this.spellX = im.x;
+			this.spellY = im.y;
+		}
+		if(im.pressed.size()>0 && spellCurrent!=null){
+			if(im.isPressed(KeyEnum.LeftClick)){
+				// check if launch spell
+				Character c = (Character) player.selection.selection.get(0); 
+				if(c.getSpellState(this.spellCurrent)>=c.getSpell(this.spellCurrent).getAttribut(Attributs.chargeTime)){
+					im.spell = spellCurrent;
+					im.idSpellLauncher = spellLauncher.id;
+					if(this.spellTarget!=null){
+						im.idObjetMouse = this.spellTarget.id;
+					} else {
+						im.idObjetMouse = -1;
+					}
+					im.pressed.remove(KeyEnum.LeftClick);
+					this.spellRelease = true;
+					this.resetCurrentSpell();
+				}
+			} else {
+				this.resetCurrentSpell();
+			}
+			if(im.isDown(KeyEnum.LeftClick)){
+				im.down.remove(KeyEnum.LeftClick);
+			}
+		}
+		if(this.spellRelease==true){
+			if(im.down.contains(KeyEnum.LeftClick)){
+				im.down.remove(KeyEnum.LeftClick);
+			} else {
+				this.spellRelease = false;
+			}
+			if(im.pressed.contains(KeyEnum.LeftClick)){
+				im.pressed.remove(KeyEnum.LeftClick);
 			}
 		}
 	}
@@ -201,6 +267,7 @@ public class Interface {
 		//g.drawImage(this.background,x,y-6f);
 
 		// ACTIONS, Spells  and production
+		this.drawSpell(g, camera);
 		this.drawActionInterface(g);
 		this.drawSelectionInterface(g);
 		this.drawTopInterface(g);
@@ -428,6 +495,7 @@ public class Interface {
 
 		// Draw Production/Effect Bar
 		if(selection.size()>0 && selection.get(0) instanceof Building){
+			System.out.println(selection.get(0).getClass());
 			mouseOnActionBar = true;
 			Building b =(Building) selection.get(0);
 			//Print building capacities
@@ -455,7 +523,6 @@ public class Interface {
 					g.drawString("T: ",x + 6f*(sizeXActionBar+400f)/7, yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name())/2f);
 					g.drawString(Float.toString(prodTime),x + 6.35f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name())/2f);
 					g.translate(-sizeXActionBar, 0f);
-
 				}
 			}
 
@@ -472,11 +539,12 @@ public class Interface {
 				float faithCost = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.faithCost);
 				float prodTime = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.prodTime);
 				String icon = getAttributString(b.getTechnologyList(plateau).get(i),Attributs.nameIcon);
+				System.out.println(icon);
 				g.drawImage(Images.get(icon), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				// CHANGE PUT PRICES
 				g.setColor( player.getGameTeam().color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
-				if(ul.size()>i && toDrawDescription[i][1]){
+				if(ul2.size()>i && toDrawDescription[i][1]){
 					g.setColor(Color.white);
 					g.drawString(ul2.get(i).name(), x + ratio*sizeYActionBar+10f, yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul2.get(i).name())/2f);
 					g.drawImage(imageFood,x + 3.6f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul2.get(i).name())/2f);
@@ -484,7 +552,7 @@ public class Interface {
 					g.drawImage(imageGold,x + 4.8f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul2.get(i).name())/2f);
 					g.drawString(": "+(int)goldCost,x + 5.15f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul2.get(i).name())/2f);
 					g.drawString("T: ",x + 6f*(sizeXActionBar+400f)/7, yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul2.get(i).name())/2f);
-					g.drawString(Integer.toString(((int)prodTime)),x + 6.35f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name())/2f);
+					g.drawString(Integer.toString(((int)prodTime)),x + 6.35f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul2.get(i).name())/2f);
 				}
 			}
 			g.translate(-sizeXActionBar, 0f);
@@ -520,6 +588,7 @@ public class Interface {
 				g.setColor(Color.white);
 
 				if(ul.size()>i && toDrawDescription[i][0]){
+					g.translate(sizeXActionBar, 0f);
 					g.setColor(Color.white);
 					if(ul.get(i).getAttribut(Attributs.chargeTime)>0)
 						if(state.get(i)>=ul.get(i).getAttribut(Attributs.chargeTime))
@@ -528,6 +597,7 @@ public class Interface {
 							g.drawString(ul.get(i).name+" - "+(int)(100*state.get(i)/ul.get(i).getAttribut(Attributs.chargeTime))+"%", x + ratio*sizeYActionBar+10f, yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name.name())/2f);
 					else
 						g.drawString(ul.get(i).name.name(), x + ratio*sizeYActionBar+10f, yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name.name())/2f);
+					g.translate(-sizeXActionBar, 0f);
 				}
 
 			}
@@ -715,7 +785,14 @@ public class Interface {
 		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
 	}
 
-
+	public void drawSpell(Graphics g, Camera camera){
+		if(this.spellCurrent!=null){
+			g.translate(-camera.Xcam, -camera.Ycam);
+			Spell s = this.spellLauncher.getSpell(this.spellCurrent);
+			s.drawCast(g, spellTarget, spellX, spellY, spellLauncher, true, plateau);
+			g.translate(camera.Xcam, camera.Ycam);
+		}
+	}
 
 	//////
 	// Utils
@@ -745,6 +822,14 @@ public class Interface {
 				&& yMouse > startYMiniMap && yMouse < startYMiniMap + heightMiniMap;
 	}
 
+	public void resetCurrentSpell(){
+		this.spellCurrent = null;
+		this.spellOk = false;
+		this.spellLauncher = null;
+		this.spellX = 0;
+		this.spellY = 0;
+	}
+	
 	///////
 	// Icone
 	///////

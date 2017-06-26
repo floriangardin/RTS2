@@ -253,6 +253,44 @@ public class InputObject implements java.io.Serializable{
 				down.addElement(KeyMapper.mouseMapping.get(i));
 			}
 		}
+//		// Spells
+//		if(pressed.size()>0){
+//			if(pressed.contains(KeyEnum.LeftClick) && Game.g.spellCurrent!=null){
+//				int i = Game.g.spellLauncher.getSpellsName().indexOf(Game.g.spellCurrent);
+//				if(Game.g.spellLauncher.getSpellState(i)>=Game.g.data.spells.get(Game.g.spellCurrent).getAttribut(Attributs.chargeTime)){
+//					this.spell = Game.g.spellCurrent;
+//					this.idSpellLauncher = Game.g.spellLauncher.id;
+//					if(Game.g.spellTarget!=null){
+//						this.idObjetMouse = Game.g.spellTarget.id;
+//					} else {
+//						this.idObjetMouse = -1;
+//					}
+//					Game.g.spellCurrent = null;
+//					Game.g.spellLauncher = null;
+//					Game.g.spellTarget = null;
+//				}
+//				pressed.remove(KeyEnum.LeftClick);
+//				down.remove(KeyEnum.LeftClick);
+//			} else {
+//				Game.g.spellCurrent = null;
+//				Game.g.spellLauncher = null;
+//				Game.g.spellTarget = null;
+//			}
+//			
+//		
+//			// ATTACK CLICK
+//			if(pressed.contains(KeyEnum.DeplacementOffensif) && !Game.g.attackClick){
+//				Game.g.attackClick = true;
+//				pressed.remove(KeyEnum.DeplacementOffensif);
+//			}
+//			else if(pressed.contains(KeyEnum.LeftClick) && Game.g.attackClick){
+//				pressed.remove(KeyEnum.LeftClick);
+//				Game.g.attackClick = false;
+//				pressed.add(KeyEnum.DeplacementOffensif);
+//			} else {
+//				Game.g.attackClick = false;
+//			}
+//		}
 	}
 
 	public void validate(int player){
@@ -301,7 +339,17 @@ public class InputObject implements java.io.Serializable{
 	}
 
 	public boolean isPressedProd(int i){
-		return this.pressed.contains(KeyEnum.valueOf("Prod"+i));
+		try{
+			return this.pressed.contains(KeyEnum.valueOf("Prod"+i));
+		} catch(IllegalArgumentException a){
+			return false;
+		}
+	}
+	
+	public void pressProd(int i){
+		if(!this.pressed.contains(KeyEnum.valueOf("Prod"+i))){
+			this.pressed.add(KeyEnum.valueOf("Prod"+i));
+		}
 	}
 
 
