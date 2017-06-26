@@ -53,7 +53,6 @@ public abstract class Event {
 
 	//	public abstract void draw(Graphics g);
 
-
 	public static String getRandomSound (Vector<String> v) {
 		Random generator = new Random();
 		//Filter by not is playing
@@ -64,7 +63,7 @@ public abstract class Event {
 		int rnd = generator.nextInt(v.size() - 1);
 		return v.get(rnd); // Cast the vector value into a String object
 	}
-
+	
 	public void playSound(){
 		if(this.sounds.size()>0 && !playSound){
 			soundPlaying = getRandomSound(this.sounds);
