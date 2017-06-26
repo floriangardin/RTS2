@@ -54,7 +54,6 @@ public class Checkpoint extends Objet {
 	
 	public void action(Plateau plateau){
 		//toDraw = false;
-		
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
 			animationState+=3f*Main.increment;
