@@ -1,12 +1,10 @@
 package plateau;
 
+import org.newdawn.slick.geom.Circle;
+
 import main.Main;
 import model.Colors;
-import model.Game;
-
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Circle;
+import utils.ObjetsList;
 
 public class Checkpoint extends Objet {
 	float printed;
@@ -28,9 +26,9 @@ public class Checkpoint extends Objet {
 	
 	public void initialize(float x, float y, Plateau plateau){
 		this.lifePoints=1f;
+		this.name = ObjetsList.Checkpoint;
 		plateau.checkpoints.addElement(this);
 		plateau.objets.put(this.id,this);
-		//p.addEquipmentObjets(this);
 		this.x = x;
 		this.y = y;
 		color = Colors.team2;
@@ -54,21 +52,19 @@ public class Checkpoint extends Objet {
 		this.neverEnding = neverEnding;
 	}
 	
-	public void action(){
+	public void action(Plateau plateau){
 		//toDraw = false;
+		
 		if(state<=maxDuration){
 			state+=3f*Main.increment;
 			animationState+=3f*Main.increment;
 		}else if(!neverEnding){
 			this.lifePoints=-1f;
-		}
-		
+		}	
 	}
-	
 
 	@Override
 	public void collision(Character c, Plateau plateau) {
 		// TODO Auto-generated method stub
-		
 	}
 }

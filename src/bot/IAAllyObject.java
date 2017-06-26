@@ -32,7 +32,7 @@ public class IAAllyObject extends IAUnit{
 	}; // simulate right click
 	
 	public void stop(){
-		this.objet.setTarget(null);
+		this.objet.setTarget(null, plateau);
 	}
 	public void rightClick(IAUnit u){
 		if(u==null || u.isNull()){
@@ -42,7 +42,7 @@ public class IAAllyObject extends IAUnit{
 			((Character)this.objet).setTarget(u.getObjet(),null,(u.objet instanceof Building)? Character.TAKE_BUILDING:Character.NORMAL, plateau);
 		}
 		if(objet instanceof Building){
-			((Building)this.objet).setTarget(u.getObjet());
+			((Building)this.objet).setTarget(u.getObjet(), plateau);
 		}
 	}; // simulate right click on unit
 

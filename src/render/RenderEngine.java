@@ -54,10 +54,7 @@ public class RenderEngine {
 		for(Objet o: player.selection.selection){
 			renderSelection(o, g, plateau);
 		}
-		// Draw checkpoints
-		for(Checkpoint c : plateau.checkpoints ){
-			RenderCheckpoint.render(c, g, plateau);
-		}
+		
 		// 2) Draw Objects
 		for(Objet o : objets){
 			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){

@@ -28,7 +28,7 @@ public class RenderCheckpoint {
 			c.drawShape.setRadius(c.maxRadius*(1-2*(c.animationState)/c.maxDuration));
 			c.drawShape.setCenterX(c.x);
 			c.drawShape.setCenterY(c.y);
-			System.out.println(c.animationState);
+			
 			
 			c.drawShape2.setRadius((c.maxRadius)*((c.animationState)/c.maxDuration));
 			c.drawShape2.setCenterX(c.x);

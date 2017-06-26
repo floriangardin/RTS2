@@ -239,7 +239,7 @@ public class Building extends Objet{
 			this.animationTower = 1;
 
 		if(target!=null && target.getTeam()==this.getTeam()){
-			this.setTarget(null);
+			this.setTarget(null, plateau);
 		}
 		if(!this.canAttack)
 			this.chargeAttack = (this.chargeAttack+Main.increment);
@@ -252,7 +252,7 @@ public class Building extends Objet{
 			if(target==null || this.getTarget(plateau).lifePoints<0f ||Utils.distance(this, target)>getAttribut(Attributs.sight)){
 				Vector<Character> target1= plateau.getEnnemiesInSight(this);
 				if(target1.size()>0){
-					this.setTarget(target1.get(0));
+					this.setTarget(target1.get(0), plateau);
 				}
 			}
 
@@ -302,7 +302,7 @@ public class Building extends Objet{
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
 
-						c.setTarget(new Checkpoint(rallyPoint.x,rallyPoint.y,true, plateau));
+						c.setTarget(new Checkpoint(rallyPoint.x,rallyPoint.y,true, plateau), plateau);
 					}
 					else if(rallyPoint instanceof Character){
 						c.setTarget(rallyPoint,null,Character.AGGRESSIVE, plateau);

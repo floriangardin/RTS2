@@ -94,8 +94,10 @@ public class RenderCharacter {
 		g.draw(character.collisionBox);
 		
 		Objet target = character.getTarget(plateau);
+		
 		if(target !=null && target instanceof Checkpoint){
-			target.draw(g);
+			
+			RenderCheckpoint.render((Checkpoint) target, g, plateau);
 		}
 		
 		if(target !=null && target instanceof Building){

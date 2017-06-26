@@ -37,7 +37,7 @@ public class Fireball extends Bullet {
 		this.areaEffect = getAttribut(Attributs.size)*Main.ratioSpace;
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		float size = 10f*Main.ratioSpace;
-		this.setTarget(new Checkpoint(targetX,targetY, plateau));
+		this.setTarget(new Checkpoint(targetX,targetY, plateau), plateau);
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY()-altitude, plateau);
 		this.vx = vx;

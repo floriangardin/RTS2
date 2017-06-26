@@ -12,6 +12,7 @@ public enum ObjetsList {
 	Bullet("Bullet"),
 	Technology("Technology"),
 	Bonus("Building"),
+	Checkpoint("Checkpoint"),
 	// Units
 	Knight("Character"),
 	Crossbowman("Character"),
