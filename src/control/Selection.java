@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.Camera;
+import display.Interface;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
@@ -14,6 +15,7 @@ import plateau.Plateau;
 
 public class Selection {
 	public Rectangle rectangleSelection;
+	public boolean waitForPressedBeforeUpdate=false;
 	public Float recX;
 	public Float recY;
 
@@ -31,7 +33,11 @@ public class Selection {
 	}
 
 	public void updateRectangle(InputObject im) {
-
+		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
+			return;
+		}else{
+			waitForPressedBeforeUpdate = false;
+		}
 		if(im.isOnMiniMap && this.rectangleSelection==null)
 			return;
 		if(im.isDown(KeyEnum.LeftClick)){
@@ -76,9 +82,13 @@ public class Selection {
 	}
 
 	
-	public void handleSelection(InputObject im) {
+	public void handleSelection(InputObject im, Interface bottombar) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
+		Vector<Objet> select = new Vector<Objet>();
+		if(bottombar.spellCurrent != null){
+			select.addAll(selection);
+		}
 		Vector<Objet> toRemove = new Vector<Objet>();
 		for(Objet o : selection){
 			if(!o.isAlive() || o.team.id!=im.team){
@@ -91,16 +101,23 @@ public class Selection {
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 || rectangleSelection!=null){
 			this.selection.clear();
-			for(Objet o : inRectangle){
-				if(o.team.id==im.team){
-					this.selection.add(o);
-				}
+			
+			}
+			if(select.size()>0){
+				this.selection = select;
+				waitForPressedBeforeUpdate = true;
+			}else{
+				for(Objet o : inRectangle){
+					if(o.team.id==im.team){
+						this.selection.add(o);
+					}
 			}
 		}
 		im.selection = new Vector<Integer>();
 		for(Objet o : selection){
 			im.selection.add(o.id);
 		}
+		
 		
 		// Ajout du clique droit
 		
