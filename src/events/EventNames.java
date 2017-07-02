@@ -58,6 +58,7 @@ public enum EventNames {
 			return new EventDefault(parent, "selection_Crossbowman01", plateau, camera);
 		case Attack:
 			sound = parent.getAttributString(Attributs.weapon);
+			break;
 		case Dash:
 			return new EventDash(parent, plateau, camera);
 		case Blood:

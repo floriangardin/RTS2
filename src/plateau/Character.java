@@ -12,6 +12,7 @@ import org.newdawn.slick.geom.Rectangle;
 import data.Attributs;
 import events.EventAttackDamage;
 import events.EventHandler;
+import events.EventNames;
 import main.Main;
 import model.Colors;
 import nature.Tree;
@@ -202,14 +203,13 @@ public class Character extends Objet{
 			Character c = (Character) this.getTarget(plateau);
 			c.isAttacked();
 			// Attack sound
-			//Sounds.playSound(this.getAttributString(Attributs.weapon));
-
+			EventHandler.addEvent(EventNames.Attack, this);
 			// compute damages
 			float damage = computeDamage(c);
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
-				//DisplayHandler.addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
+			
 			}			
 		} else {
 			// autres armes
