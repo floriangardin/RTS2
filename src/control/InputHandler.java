@@ -3,13 +3,7 @@ package control;
 import java.util.Vector;
 
 import main.Main;
-import model.Game;
-import model.Player;
-import plateau.Objet;
 
-import org.newdawn.slick.SlickException;
-
-import tests.Test;
 
 
 public class InputHandler {

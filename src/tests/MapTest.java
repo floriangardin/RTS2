@@ -74,7 +74,7 @@ public class MapTest {
 		float xObjectif = 10;
 		float yObjectif = 90;
 		Checkpoint checkpoint = new Checkpoint(xObjectif, yObjectif, plateau);
-		c.setTarget(checkpoint);
+		c.setTarget(checkpoint, plateau);
 		for(int i=0; i<5000; i++){
 			plateau.update(new Vector<InputObject>());
 		}

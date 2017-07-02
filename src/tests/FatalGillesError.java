@@ -9,7 +9,7 @@ public class FatalGillesError extends SlickException{
 	
 	
 	public FatalGillesError(String message){
-		super("Gilles pas content ===> round : "+Game.g.round+" TEST FAILED : "+ message);
+		super("Gilles pas content ===>  TEST FAILED : "+ message);
 	}
 
 }

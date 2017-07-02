@@ -65,7 +65,7 @@ public class Musics {
 				musicPlaying.stop();
 			}
 			musicPlaying = music;
-			musicPlaying.play(1f, 1f);
+			musicPlaying.loop(1f, 1f);
 		}
 	}
 	

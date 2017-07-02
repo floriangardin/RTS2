@@ -11,7 +11,9 @@ import org.newdawn.slick.Input;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import menuutils.Menu_TextScanner;
-import model.Game;
+import ressources.GraphicElements;
+import ressources.Images;
+import ressources.Sounds;
 
 public class EditingBar {
 
@@ -57,8 +59,8 @@ public class EditingBar {
 		this.editor = editor;
 		this.x = 0f;
 		this.y = 0f;
-		this.sizeX = editor.game.resX;
-		this.sizeY = editor.game.resY/20f;
+		this.sizeX = editor.camera.resX;
+		this.sizeY = editor.camera.resY/20f;
 		this.spaceY = this.sizeY/3;
 		name = "";
 		mapNames = new Vector<String>();
@@ -69,10 +71,10 @@ public class EditingBar {
 				mapNames.add(files[i].getName().substring(0, files[i].getName().length()-7));
 			}
 		}
-		this.textScanner = new Menu_TextScanner(name, 3f, sizeY+3f, sizeX/6f-30f, sizeY-6f, editor.game);
+		this.textScanner = new Menu_TextScanner(name, 3f, sizeY+3f, sizeX/6f-30f, sizeY-6f);
 		this.textScanner.autocompletion = mapNames;
-		this.scannerSizeX = new Menu_TextScanner(sizeXs, sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f, editor.game);
-		this.scannerSizeY = new Menu_TextScanner(sizeYs, 4*sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f, editor.game);
+		this.scannerSizeX = new Menu_TextScanner(sizeXs, sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f);
+		this.scannerSizeY = new Menu_TextScanner(sizeYs, 4*sizeX/40f , sizeY+3f, sizeX/40f, sizeY-6f);
 		this.iconExit = Images.get("iconExit").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 		this.iconNewFile = Images.get("iconNewFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
 		this.iconOpenFile = Images.get("iconOpenFile").getScaledCopy((int)sizeY-2, (int)sizeY-2);
@@ -106,10 +108,10 @@ public class EditingBar {
 			fileSelected = i;
 			break;
 		case 3: 
-			//exit
-			this.editor.game.menuMapChoice.initialize();
-			this.editor.game.inEditor = false;
-			this.editor.game.setMenu(editor.game.menuIntro);
+			//FIXME : exit
+//			this.editor.camera.menuMapChoice.initialize();
+//			this.editor.camera.inEditor = false;
+//			this.editor.camera.setMenu(editor.camera.menuIntro);
 			break;
 		}
 	}
@@ -175,11 +177,11 @@ public class EditingBar {
 				for(int i=0; i<4; i++){
 					if(im.x>=(sizeY+spaceY)*i && im.x<(sizeY+spaceY)*(i+1)){
 						if(this.mouseOver!=i){
-							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						}
 						this.mouseOver = i;
 						if(im.isPressed(KeyEnum.LeftClick)){
-							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuItemSelected");
 							this.callItem(i);
 						}
 					}
@@ -196,11 +198,11 @@ public class EditingBar {
 				for(int i=0; i<5; i++){
 					if(im.x>=editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*i && im.x<editor.objectBar.startX-(sizeY+spaceY)*(5)+(sizeY+spaceY)*(i+1)){
 						if(this.mouseOverBis!=i){
-							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						}
 						this.mouseOverBis = i;
 						if(im.isPressed(KeyEnum.LeftClick)){
-							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuItemSelected");
 							if(editor.plateau!=null)
 								this.callItemBis(i);
 						}
@@ -288,7 +290,7 @@ public class EditingBar {
 			case 3: s= "Quitter"; break;
 			default: 
 			}
-			gc.drawString(s, (sizeY+spaceY)*(4.2f), sizeY/2f-editor.game.font.getHeight("Ry")/2f);
+			gc.drawString(s, (sizeY+spaceY)*(4.2f), sizeY/2f-GraphicElements.font_main.getHeight("Ry")/2f);
 		}
 		if(mouseOverBis!=-1){
 			gc.setColor(Color.white);
@@ -317,15 +319,15 @@ public class EditingBar {
 			case 4: s= "Zoom moins"; break;
 			default: 
 			}
-			gc.drawString(s, editor.objectBar.startX-(sizeY+spaceY)*(5.2f)-editor.game.font.getWidth(s), sizeY/2f-editor.game.font.getHeight("Ry")/2f);
+			gc.drawString(s, editor.objectBar.startX-(sizeY+spaceY)*(5.2f)-GraphicElements.font_main.getWidth(s), sizeY/2f-GraphicElements.font_main.getHeight("Ry")/2f);
 		}
 		gc.setColor(Color.white);
-		gc.drawString("RTS Ultra Mythe Editor", (editor.objectBar.startX)/2-editor.game.font.getWidth("RTS Ultra Mythe Editor")/2f,sizeY/2f-editor.game.font.getHeight("Ry")/2f);
+		gc.drawString("RTS Ultra Mythe Editor", (editor.objectBar.startX)/2-GraphicElements.font_main.getWidth("RTS Ultra Mythe Editor")/2f,sizeY/2f-GraphicElements.font_main.getHeight("Ry")/2f);
 		if(nameEnter){
 			if(fileSelected==0){
 				gc.setColor(Color.white);
-				gc.drawString("X :", 2f, sizeY*3f/2f-editor.game.font.getHeight("X")/2f);
-				gc.drawString("Y :", 3*sizeX/40f+2f, sizeY*3f/2f-editor.game.font.getHeight("X")/2f);
+				gc.drawString("X :", 2f, sizeY*3f/2f-GraphicElements.font_main.getHeight("X")/2f);
+				gc.drawString("Y :", 3*sizeX/40f+2f, sizeY*3f/2f-GraphicElements.font_main.getHeight("X")/2f);
 				this.scannerSizeX.draw(gc,0);
 				this.scannerSizeY.draw(gc,0);
 			} else {

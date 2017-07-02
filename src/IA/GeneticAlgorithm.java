@@ -1,10 +1,10 @@
 package IA;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 import data.Attributs;
 import plateau.Character;
+import plateau.Plateau;
 
 public class GeneticAlgorithm {
 	//N_POP should be 0%4
@@ -15,10 +15,10 @@ public class GeneticAlgorithm {
 	public float[][][] X ;
 	public GameSimu game;
 	public float[] objective;
-
+	public Plateau plateau;
 	public boolean debug = false;
 
-	public GeneticAlgorithm(int N_POP, int N_PARAMS, int N_FEATURES,float proba_muta,GameSimu game){
+	public GeneticAlgorithm(Plateau plateau, int N_POP, int N_PARAMS, int N_FEATURES,float proba_muta,GameSimu game){
 		this.N_POP = N_POP;
 		this.N_PARAMS = N_PARAMS;
 		this.N_FEATURES = N_FEATURES;
@@ -26,6 +26,7 @@ public class GeneticAlgorithm {
 		this.objective = new float[N_POP];
 		this.proba_muta = proba_muta;
 		this.game = game;
+		this.plateau = plateau;
 	}
 
 	public void init(){
@@ -130,7 +131,7 @@ public class GeneticAlgorithm {
 			if(this.objective[i]==0){
 				//			System.out.println("i" + i);
 				//			print(X[i]);
-				s = new Simulation(game);
+				s = new Simulation(plateau);
 //				s.armies.get(0).get(0).ia = new IAUnit(s.armies.get(0).get(0),copy(X[i]));
 				s.simulate();
 				//TODO CALL SIMULATION AND RETURN OBJECTIVE
@@ -147,7 +148,7 @@ public class GeneticAlgorithm {
 		Simulation s;
 		// RUN SIMU FOR THE NEW N/2 MATRICES
 		for(int i=0;i<N_POP;i++){
-			s = new Simulation(game);
+			s = new Simulation(plateau);
 //			s.armies.get(0).get(0).ia = new IAUnit(s.armies.get(0).get(0),copy(X[i]));
 			s.simulate();
 			//TODO CALL SIMULATION AND RETURN OBJECTIVE

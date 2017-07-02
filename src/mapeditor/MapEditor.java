@@ -5,12 +5,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
 import control.InputObject;
-import model.Game;
+import display.Camera;
+import ressources.Musics;
 
 public class MapEditor {
 
 	
-	public Game game;
 
 	public EditingBar editingBar;
 	public ObjectBar objectBar;
@@ -25,16 +25,18 @@ public class MapEditor {
 	public float decX, decY;
 	public float tempX, tempY;
 	
-	public MapEditor(Game g){
-		this.game = g;
+	public Camera camera;
+	
+	public MapEditor(Camera camera){
 		this.editingBar = new EditingBar(this);
 		this.objectBar = new ObjectBar(this);
 		this.plateau = null;
+		this.camera = camera;
 	}
 	
 	public void draw(Graphics gc){
 		gc.setColor(Color.gray);
-		gc.fillRect(0, 0, game.resX, game.resY);
+		gc.fillRect(0, 0, camera.resX, camera.resY);
 		if(this.plateau!=null){
 			this.plateau.draw(gc);
 		}
@@ -43,16 +45,16 @@ public class MapEditor {
 	}
 	
 	public void update(InputObject im, Input i){
-		if(this.game.musics.get("themeMenu").playing()){
-			this.game.musics.get("themeMenu").stop();
+		if(Musics.get("themeMenu").playing()){
+			Musics.get("themeMenu").stop();
 		}
-		if(!this.game.musics.get("themeMapEditor").playing()){
-			this.game.musics.get("themeMapEditor").loop(1f,this.game.options.musicVolume);
+		if(!Musics.get("themeMapEditor").playing()){
+			Musics.playMusic("themeMapEditor");
 		}
-		if(im.x>Math.min(this.objectBar.startX,game.resX-10f)){
-			this.objectBar.startX = Math.max(4*game.resX/5, this.objectBar.startX-35f);
+		if(im.x>Math.min(this.objectBar.startX,camera.resX-10f)){
+			this.objectBar.startX = Math.max(4*camera.resX/5, this.objectBar.startX-35f);
 		} else {
-			this.objectBar.startX = Math.min(game.resX, this.objectBar.startX+35f);
+			this.objectBar.startX = Math.min(camera.resX, this.objectBar.startX+35f);
 		}
 		this.editingBar.update(im,i);
 		this.objectBar.update(im);

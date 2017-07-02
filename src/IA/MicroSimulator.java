@@ -3,6 +3,8 @@ package IA;
 import java.io.File;
 import java.io.FileWriter;
 
+import plateau.Plateau;
+
 public class MicroSimulator extends Simulator{
 
 	public GeneticAlgorithm gen;
@@ -13,9 +15,9 @@ public class MicroSimulator extends Simulator{
 	public float proba_muta = 0.001f;
 	
 	
-	public MicroSimulator (){
-		game = new GameSimu(1600,1600);
-		gen = new GeneticAlgorithm(N_POP,N_PARAMS,N_FEATURES,proba_muta,game);
+	public MicroSimulator (Plateau plateau){
+		game = new GameSimu();
+		gen = new GeneticAlgorithm(plateau, N_POP,N_PARAMS,N_FEATURES,proba_muta,game);
 		gen.init();
 	}
 	

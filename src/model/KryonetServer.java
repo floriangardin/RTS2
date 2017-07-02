@@ -10,7 +10,7 @@ import com.esotericsoftware.kryonet.Server;
 import multiplaying.MultiMessage;
 import multiplaying.SerializedMessage;
 
-public class KryonetServer {
+public class KryonetServer extends Kryonet{
 
 	public Server server;
 	public Server serverResynchro;
@@ -26,11 +26,12 @@ public class KryonetServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		KryonetServer self = this;
 		this.server.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
 				if (object instanceof SerializedMessage) {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
-					Game.g.kryonetBuffer.add(request);
+					self.buffer.add(request);
 //					MultiMessage response = new MultiMessage(null);
 //					response.text = "Thanks";
 //					connection.sendTCP(response);

@@ -11,12 +11,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-
 import control.InputObject;
 import display.Camera;
 import model.Game;
 import plateau.Plateau;
-import render.GraphicLayer;
 import render.RenderEngine;
 import ressources.Map;
 import ressources.Images;
@@ -67,9 +65,9 @@ public class TestRender extends BasicGame{
 	public void init(GameContainer arg0) throws SlickException {
 		// TODO Auto-generated method stub
 		Images.init();
-		camera = new Camera(1920, 1080, 0, 0);	
-		RenderEngine.init(camera);
 		plateau = Map.createPlateau("test01", "maptests");
+		camera = new Camera(1920, 1080, 0, 0, plateau.maxX, plateau.maxY);
+		RenderEngine.init(plateau);
 	}
 
 	@Override

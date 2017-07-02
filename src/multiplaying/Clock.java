@@ -32,7 +32,7 @@ public class Clock {
 		long calculatedPing = this.getCurrentTime()-messageTime;
 		if((calculatedPing>40*1e6)|| calculatedPing<0 ){
 //			System.out.println("Ping de batard : "+calculatedPing);
-			game.pingPeak=true;
+			
 			return;
 		}
 
@@ -74,7 +74,7 @@ public class Clock {
 //		
 //		long roundDuration = (long) ((1000000000f/Main.framerate));
 //		this.game.round = (int) (this.getCurrentTime()/roundDuration);
-		this.game.round++;
+		
 		
 	}
 	

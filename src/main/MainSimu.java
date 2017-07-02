@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 
 import IA.FightSimulator;
 import IA.MicroSimulator;
+import plateau.Plateau;
 
 public class MainSimu {
 	int framerate = 60;
@@ -29,12 +30,9 @@ public class MainSimu {
 //		System.out.println(simu.report.toString());
 
 //		FightSimulator simu = new FightSimulator();
-		MicroSimulator simu = new MicroSimulator();
+		Plateau plateau = new Plateau(100, 100);
+		MicroSimulator simu = new MicroSimulator(plateau);
 		
-		AppGameContainer app = new AppGameContainer( simu.game );
-		app.setDisplayMode(1, 1,false);
-		simu.game.simu = simu;
-		app.start();
 
 
 		AL.destroy();

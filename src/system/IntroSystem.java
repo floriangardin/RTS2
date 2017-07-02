@@ -21,7 +21,6 @@ import control.InputHandler;
 import control.KeyMapper;
 import main.Main;
 import menu.Lobby;
-import model.Cosmetic;
 import model.Game;
 import model.Options;
 import multiplaying.Communications;
@@ -118,7 +117,6 @@ public class IntroSystem extends ClassSystem{
 		Sounds.init();
 		GraphicElements.init();
 		Images.init();
-		Cosmetic.init();
 		Communications.init();
 		Options.init();
 		KeyMapper.init();

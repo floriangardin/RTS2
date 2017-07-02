@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Vector;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -11,11 +12,12 @@ import com.esotericsoftware.kryonet.Listener;
 import multiplaying.MultiMessage;
 import multiplaying.SerializedMessage;
 
-public class KryonetClient {
+public class KryonetClient extends Kryonet{
 
 	public Client client;
 	public Client clientResynchro;
 	private boolean isConnected;
+	
 	
 	public KryonetClient(){
 		this.client = new Client();
@@ -32,11 +34,12 @@ public class KryonetClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		KryonetClient self = this;
 		this.client.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
 				if (object instanceof SerializedMessage) {
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
-					Game.g.kryonetBuffer.add(request);
+					self.buffer.add(request);
 				}
 			}
 		});
@@ -44,11 +47,12 @@ public class KryonetClient {
 			public void received (Connection connection, Object object) {
 //				System.out.println("Kryonet client l47 : has received resynchro message");
 //				System.out.println(object.getClass());
+				
 				if (object instanceof SerializedMessage) {
 //					System.out.println("message Resynchro recu 1");
 					MultiMessage request = MultiMessage.getMessageFromString(((SerializedMessage)object).msg);
 //					System.out.println("message Resynchro recu 2");
-					Game.g.kryonetBuffer.add(request);
+					self.buffer.add(request);
 				}
 			}
 		});

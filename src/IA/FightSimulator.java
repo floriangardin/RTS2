@@ -3,6 +3,8 @@ package IA;
 import java.io.File;
 import java.io.FileWriter;
 
+import plateau.Plateau;
+
 public class FightSimulator extends Simulator{
 
 	public int simulationNumber;
@@ -10,19 +12,22 @@ public class FightSimulator extends Simulator{
 	public float[][] observations;
 	public float[] results;
 	
-	public FightSimulator (){
+	public Plateau plateau;
+	
+	public FightSimulator (Plateau plateau){
 		simulationNumber = 15;
 		numberParameters = ArmyComparator.numberParameters;
 		observations = new float[simulationNumber][numberParameters];
 		results = new float[simulationNumber];
-		game = new GameSimu(1600,1600);
+		this.plateau = plateau;
+		game = new GameSimu();
 	}
 	
 	public void run(){
 		ArmyComparator ac;
 		Simulation s;
 		for(int i=0; i<simulationNumber; i++){
-			s = new Simulation(game);
+			s = new Simulation(plateau);
 			ac = new ArmyComparator(s.armies.get(0), s.armies.get(1));
 			s.simulate();
 			Report r = s.report;

@@ -19,10 +19,12 @@ import data.Attributs;
 import data.Data;
 import model.Game;
 import pathfinding.MapWater;
+import plateau.Plateau;
+import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class EditorPlateau {
+public class EditorPlateau extends Plateau{
 
 	public MapEditor editor;
 
@@ -72,9 +74,8 @@ public class EditorPlateau {
 	public boolean downZ, downY;
 
 	public EditorPlateau(MapEditor editor, int maxX, int maxY){
+		super(maxX, maxY);
 		this.editor = editor;
-		this.sizeX = editor.game.resX;
-		this.sizeY = editor.game.resY;
 		this.maxX = maxX;
 		this.maxY = maxY;
 		//this.mapWater = new MapWater(maxX, maxY);
@@ -82,8 +83,8 @@ public class EditorPlateau {
 		collision = new boolean[maxX][maxY];
 		Xcam = 0;
 		Ycam = 0;
-		this.seaBackground = editor.game.images.get("seaBackground");
-		this.grassTexture = editor.game.images.get("islandTexture");
+		this.seaBackground = Images.get("seaBackground");
+		this.grassTexture = Images.get("islandTexture");
 		this.units = new Vector<EditorObject>();
 		this.buildings = new Vector<EditorObject>();
 		this.nature = new Vector<EditorObject>();
@@ -197,7 +198,7 @@ public class EditorPlateau {
 				}
 			} else{
 				if(editor.draggedObject!=null){
-					if(editor.objectBar.startX<editor.game.resX && !editor.optionCam){
+					if(editor.objectBar.startX<editor.camera.resX && !editor.optionCam){
 						//suppression de l'objet
 						editor.draggedObject.x = editor.tempX;
 						editor.draggedObject.y = editor.tempY;
@@ -445,18 +446,18 @@ public class EditorPlateau {
 	public void updateScale(float newScale){
 		float oldScale = this.stepGrid;
 		float scale = Math.min(200f, Math.max(20f, newScale));
-		float midX = (this.Xcam + this.editor.game.resX/2)/oldScale;
-		this.Xcam = midX*scale-this.editor.game.resX/2;
-		float midY = (this.Ycam + this.editor.game.resY/2)/oldScale;
-		this.Ycam = midY*scale-this.editor.game.resY/2;
+		float midX = (this.Xcam + this.editor.camera.resX/2)/oldScale;
+		this.Xcam = midX*scale-this.editor.camera.resX/2;
+		float midY = (this.Ycam + this.editor.camera.resY/2)/oldScale;
+		this.Ycam = midY*scale-this.editor.camera.resY/2;
 		this.stepGrid = scale;
 		for(EditorObject o : units){
 			o.image = o.image.getScaledCopy(stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;
 		}
-		Data data = new Data(0,"dualists");
+		Data data = new Data();
 		for(EditorObject o : buildings){
-			sizeX = Game.g.data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
+			sizeX = data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
 			o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
 			o.stepGrid = newScale;
 		}
@@ -481,7 +482,7 @@ public class EditorPlateau {
 				break;
 			case 1: 
 			case 2: //building
-				sizeX = Game.g.data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
+				sizeX = data.getAttribut(ObjetsList.get(o.name), Attributs.sizeX)/Map.stepGrid;
 				
 				o.image = o.image.getScaledCopy(sizeX*stepGrid/o.image.getWidth());
 				o.stepGrid = newScale;
@@ -599,7 +600,7 @@ public class EditorPlateau {
 			}
 			br.close(); 
 			// Création de la map
-			Data data = new Data(0,"dualists");
+			Data data = new Data();
 			this.cams = new Vector<EditorObject>();
 			this.cams.add(Zcam);
 			this.cams.add(Qcam);
@@ -610,13 +611,13 @@ public class EditorPlateau {
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				float sizeX = Game.g.data.getAttribut(ObjetsList.Headquarters, Attributs.sizeX)/Map.stepGrid;
-				float sizeY = Game.g.data.getAttribut(ObjetsList.Headquarters, Attributs.sizeY)/Map.stepGrid;
+				float sizeX = data.getAttribut(ObjetsList.Headquarters, Attributs.sizeX)/Map.stepGrid;
+				float sizeY = data.getAttribut(ObjetsList.Headquarters, Attributs.sizeY)/Map.stepGrid;
 				if(tab[0].equals("1")){
-					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(sizeX),(int)(sizeY)));
+					headquartersBlue.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,Images.get("buildingheadQuartersBlue"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(sizeX),(int)(sizeY)));
 					this.setCollision(headquartersBlue.get(0), true);
 				} else {
-					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,editor.game.images.get("buildingheadQuartersRed"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(sizeX),(int)(sizeY)));
+					headquartersRed.addElement(new EditorObject("Headquarters",(int)Float.parseFloat(tab[0]),1,Images.get("buildingheadQuartersRed"),(int)Float.parseFloat(tab[1]),(int)Float.parseFloat(tab[2]),(int)(sizeX),(int)(sizeY)));
 					this.setCollision(headquartersRed.get(0), true);
 				}
 			}
@@ -634,17 +635,17 @@ public class EditorPlateau {
 					case "Academy" : 
 					case "University" : 
 					case "Tower" :
-						this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Neutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
+						this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,Images.get("building"+tab[0]+"Neutral"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
 						break;
-					case "BonusLifePoints" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusLifePoints"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
-					case "BonusDamage" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusDamage"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
-					case "BonusSpeed" : this.addBuilding(new EditorObject(tab[0],0,2,editor.game.images.get("bonusSpeed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
+					case "BonusLifePoints" : this.addBuilding(new EditorObject(tab[0],0,2,Images.get("bonusLifePoints"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
+					case "BonusDamage" : this.addBuilding(new EditorObject(tab[0],0,2,Images.get("bonusDamage"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
+					case "BonusSpeed" : this.addBuilding(new EditorObject(tab[0],0,2,Images.get("bonusSpeed"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),1,1));break;
 					default : 
 					}
 				} else if(tab[1].equals("1")){
-					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Blue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
+					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,Images.get("building"+tab[0]+"Blue"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
 				} else if(tab[1].equals("2")){
-					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,editor.game.images.get("building"+tab[0]+"Red"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(Game.g.data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
+					this.addBuilding(new EditorObject(tab[0],(int)Float.parseFloat(tab[1]),1,Images.get("building"+tab[0]+"Red"),(int)Float.parseFloat(tab[2]),(int)Float.parseFloat(tab[3]),(int)(data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeX)/Map.stepGrid), (int)(data.getAttribut(ObjetsList.get(tab[0]), Attributs.sizeY)/Map.stepGrid)));
 				}
 			}
 			// Units
@@ -652,21 +653,21 @@ public class EditorPlateau {
 				String[] tab = units.get(i).split(" ");
 				if(tab[1].equals("1")){
 					switch(tab[0]){
-					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("spearmanBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("crossbowmanBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("knightBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("priestBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("inquisitorBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("archangeBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("spearmanBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("crossbowmanBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("knightBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("priestBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("inquisitorBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("archangeBlue"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
 					}
 				} else if(tab[1].equals("2")){
 					switch(tab[0]){
-					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("spearmanRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("crossbowmanRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("knightRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("priestRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("inquisitorRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
-					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, editor.game.images.get("archangeRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Spearman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("spearmanRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Crossbowman": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("crossbowmanRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Knight": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("knightRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Priest": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("priestRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Inquisitor": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("inquisitorRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
+					case "Archange": this.units.addElement(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 0, Images.get("archangeRed"), Float.parseFloat(tab[2]), Float.parseFloat(tab[3]),1,1));break;
 					}
 				} else {
 
@@ -679,8 +680,8 @@ public class EditorPlateau {
 				switch(tab[0]){
 				case "Tree": 
 					switch((int)Float.parseFloat(tab[1])){
-					case 1:	this.addNature(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 3, editor.game.images.get("tree01"), (int)Float.parseFloat(tab[2]), (int)Float.parseFloat(tab[3]),1,1));break;
-					case 2: this.addNature(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 3, editor.game.images.get("tree02"), (int)Float.parseFloat(tab[2]), (int)Float.parseFloat(tab[3]),1,1)); break;
+					case 1:	this.addNature(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 3, Images.get("tree01"), (int)Float.parseFloat(tab[2]), (int)Float.parseFloat(tab[3]),1,1));break;
+					case 2: this.addNature(new EditorObject(tab[0], (int)Float.parseFloat(tab[1]), 3, Images.get("tree02"), (int)Float.parseFloat(tab[2]), (int)Float.parseFloat(tab[3]),1,1)); break;
 					} break;
 				}
 			}
@@ -704,7 +705,7 @@ public class EditorPlateau {
 			fichierSortie.println ("###########################");
 			fichierSortie.println ();
 			fichierSortie.println ();
-			fichierSortie.println ("#Creator: " + this.editor.game.options.nickname);
+			fichierSortie.println ("#Creator: Gilles");
 			String format = "dd/MM/yyyy";
 			java.text.SimpleDateFormat formater = new java.text.SimpleDateFormat( format );
 			java.util.Date date = new java.util.Date();

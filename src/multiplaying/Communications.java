@@ -89,8 +89,8 @@ public class Communications {
 		//si on est sur le point de commencer à jouer, on n'envoit plus de requête de ping
 		if(Game.isInMenu()){
 			// on gère les connexions de menumapchoice
-
-			if(Game.gameSystem.host){
+			if(true){
+			//if(Game.gameSystem.host){  // FIXME : Put this again
 				MultiMessage m = new MultiMessage(addressBroadcast);
 				m.connexion.add(message);
 				send(m);
@@ -127,8 +127,9 @@ public class Communications {
 		//			timeToSend= System.nanoTime();
 		//		}
 		idPaquetSend++;
-		if(usingKryonet && !Game.isInMenu()){	
-			if(Game.gameSystem.host){
+		if(usingKryonet && !Game.isInMenu()){
+			if(true){
+			//if(Game.gameSystem.host){//FIXME : Put this again
 				if(m.resynchro!=null){
 					kryonetServer.sendResynchro(m);
 				}else {

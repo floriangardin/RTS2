@@ -21,11 +21,10 @@ public class Simulation {
 	public JPanel panel;
 	public JFrame window;
 	public Vector<Vector<Character>> armiesInitial;
-	public Plateau p;
 	public boolean end;
 	public int victory;
 	public Report report;
-	public Game game;
+	public Plateau plateau;
 	public int framerate ;
 	public float sizeX = 1000;
 	public float sizeY = 1000;
@@ -41,10 +40,10 @@ public class Simulation {
 
 	public boolean sleep = false;
 
-	public Simulation (Game game){
+	public Simulation (Plateau plateau){
 
 		// creating the simulation environment
-		this.game = game;
+		this.plateau = plateau;
 		this.initializeSimulation();
 
 		// creating the simulation characters
@@ -85,11 +84,11 @@ public class Simulation {
 
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, (int) (sizeX*ratio),(int) (sizeY*ratio));
-		for(Character c : this.p.characters){
-			if(c.getTeam() ==1 ){
+		for(Character c : this.plateau.characters){
+			if(c.getTeam().id ==1 ){
 				g.setColor(Color.blue);
 			}
-			if(c.getTeam() == 2 ){
+			if(c.getTeam().id== 2 ){
 				g.setColor(Color.red);	
 			}
 
@@ -98,8 +97,8 @@ public class Simulation {
 
 			g.setColor(Color.BLACK);
 			g.drawString(c.id+ ""+c.getAttributString(Attributs.weapon), (int) c.x*ratio,(int) c.y*ratio);
-			if(c.getTarget()!=null){
-				g.drawLine((int) (c.x*ratio), (int) (c.y*ratio), (int) (c.getTarget().x*ratio), (int) (c.getTarget().y*ratio));
+			if(c.getTarget(plateau)!=null){
+				g.drawLine((int) (c.x*ratio), (int) (c.y*ratio), (int) (c.getTarget(plateau).x*ratio), (int) (c.getTarget(plateau).y*ratio));
 			}
 
 
@@ -116,9 +115,9 @@ public class Simulation {
 	}
 	public void update(){
 		//Call action on each character until end of fight
-		this.p.collision();
-		this.p.clean();
-		this.p.action();
+		this.plateau.collision();
+		this.plateau.clean();
+		this.plateau.action();
 
 
 		// Remove characters if death
@@ -129,10 +128,10 @@ public class Simulation {
 		for(Vector<Character> cs : armies){
 			for(Character c : cs){
 				if(c.lifePoints>0){
-					if(c.getTeam()==1){
+					if(c.getTeam().id==1){
 						victory2=false;
 					}
-					if(c.getTeam()==2){
+					if(c.getTeam().id==2){
 						victory1=false;
 					}
 				}
@@ -166,9 +165,6 @@ public class Simulation {
 		this.framerate = 60;
 		this.ratio = 800f/sizeX;
 		end = false;
-		this.p = new Plateau(sizeX,sizeY,this.game);
-		this.game.plateau = this.p;
-
 
 		//INIT ARMIES
 		armies = new Vector<Vector<Character>>();
@@ -176,7 +172,7 @@ public class Simulation {
 		armies.add(new Vector<Character>());
 		//Utils.printCurrentState(p);
 		// INIT GRID
-		p.mapGrid = new MapGrid(0f, p.maxX,0f, p.maxY);
+		plateau.mapGrid = new MapGrid(0f, plateau.maxX,0f, plateau.maxY);
 		//INIT RENDER
 		if(render){
 			window = new JFrame();

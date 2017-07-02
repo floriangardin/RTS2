@@ -10,7 +10,10 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import data.Data;
 import model.Game;
+import ressources.GraphicElements;
+import ressources.Images;
 import ressources.Map;
+import ressources.Sounds;
 import utils.ObjetsList;
 
 public class ObjectBar {
@@ -55,14 +58,14 @@ public class ObjectBar {
 	public ObjectBar(MapEditor editor){
 		this.editor = editor;
 
-		this.startX = 5*editor.game.resX/5f;
-		this.sizeX = editor.game.resX/5f;
-		this.sizeY = editor.game.resY;
+		this.startX = 5*editor.camera.resX/5f;
+		this.sizeX = editor.camera.resX/5f;
+		this.sizeY = editor.camera.resY;
 
 		this.startYClass = 0f;
-		this.startYCiv = 2f*editor.game.resY/20f;
-		this.startYColor = 4f*editor.game.resY/20f;
-		this.startYObjects = 6f*editor.game.resY/20f;
+		this.startYCiv = 2f*editor.camera.resY/20f;
+		this.startYColor = 4f*editor.camera.resY/20f;
+		this.startYObjects = 6f*editor.camera.resY/20f;
 
 		unitsDualistsBlue = new Vector<EditorObject>();
 		unitsZinaidsBlue = new Vector<EditorObject>();
@@ -83,19 +86,19 @@ public class ObjectBar {
 
 		this.objects = unitsDualistsNeutral;
 
-		Data data = new Data(0,"dualists");
+		Data data = new Data();
 
 		// dualists
 		// blue
-		unitsDualistsBlue.add(new EditorObject("Spearman", 1, 0,this.editor.game.images.get("spearmanBlue"),0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Crossbowman", 1, 0,this.editor.game.images.get("crossbowmanBlue"),0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Knight", 1, 0,this.editor.game.images.get("knightBlue"),0,0,this,1,1));
-		unitsDualistsBlue.add(new EditorObject("Inquisitor", 1, 0,this.editor.game.images.get("inquisitorBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Spearman", 1, 0,Images.get("spearmanBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Crossbowman", 1, 0,Images.get("crossbowmanBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Knight", 1, 0,Images.get("knightBlue"),0,0,this,1,1));
+		unitsDualistsBlue.add(new EditorObject("Inquisitor", 1, 0,Images.get("inquisitorBlue"),0,0,this,1,1));
 		// red
-		unitsDualistsRed.add(new EditorObject("Spearman", 2,0, this.editor.game.images.get("spearmanRed"),0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Crossbowman", 2, 0,this.editor.game.images.get("crossbowmanRed"),0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Knight", 2, 0,this.editor.game.images.get("knightRed"),0,0,this,1,1));
-		unitsDualistsRed.add(new EditorObject("Inquisitor", 2,0, this.editor.game.images.get("inquisitorRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Spearman", 2,0, Images.get("spearmanRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Crossbowman", 2, 0,Images.get("crossbowmanRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Knight", 2, 0,Images.get("knightRed"),0,0,this,1,1));
+		unitsDualistsRed.add(new EditorObject("Inquisitor", 2,0, Images.get("inquisitorRed"),0,0,this,1,1));
 
 		// buildings
 		// neutral
@@ -103,20 +106,20 @@ public class ObjectBar {
 		for(String s : new String[]{"Mill","Mine","Barracks","Stable","University","Tower"}){			
 			if(!s.equals("Headquarters")){
 				 o = ObjetsList.get(s);
-				buildingsNeutral.add(new EditorObject(s, 0, 1,this.editor.game.images.get("building"+s+"Neutral"),0,0,this,(int)(Game.g.data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
-				buildingsBlue.add(new EditorObject(s, 1, 1,this.editor.game.images.get("building"+s+"blue"),0,0,this,(int)(Game.g.data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
-				buildingsRed.add(new EditorObject(s, 2, 1,this.editor.game.images.get("building"+s+"red"),0,0,this,(int)(Game.g.data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(Game.g.data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
+				buildingsNeutral.add(new EditorObject(s, 0, 1,Images.get("building"+s+"Neutral"),0,0,this,(int)(data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
+				buildingsBlue.add(new EditorObject(s, 1, 1,Images.get("building"+s+"blue"),0,0,this,(int)(data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
+				buildingsRed.add(new EditorObject(s, 2, 1,Images.get("building"+s+"red"),0,0,this,(int)(data.getAttribut(o, Attributs.sizeX)/Map.stepGrid),(int)(data.getAttribut(o, Attributs.sizeY)/Map.stepGrid)));
 			}
 		}
 		
 		// others
-		others.add(new EditorObject("BonusLifePoints", 0, 2,this.editor.game.images.get("bonusLifePoints"),0,0,this,1,1));
-		others.add(new EditorObject("BonusDamage", 0,2, this.editor.game.images.get("bonusDamage"),0,0,this,1,1));
-		others.add(new EditorObject("BonusSpeed", 0, 2,this.editor.game.images.get("bonusSpeed"),0,0,this,1,1));
+		others.add(new EditorObject("BonusLifePoints", 0, 2,Images.get("bonusLifePoints"),0,0,this,1,1));
+		others.add(new EditorObject("BonusDamage", 0,2, Images.get("bonusDamage"),0,0,this,1,1));
+		others.add(new EditorObject("BonusSpeed", 0, 2,Images.get("bonusSpeed"),0,0,this,1,1));
 
 		// nature
-		nature.add(new EditorObject("Tree", 0, 3,this.editor.game.images.get("tree01"), 0, 0,this,1,1));
-		nature.add(new EditorObject("Tree", 1, 3,this.editor.game.images.get("tree02"), 0, 0,this,1,1));
+		nature.add(new EditorObject("Tree", 0, 3,Images.get("tree01"), 0, 0,this,1,1));
+		nature.add(new EditorObject("Tree", 1, 3,Images.get("tree02"), 0, 0,this,1,1));
 
 	}
 
@@ -130,11 +133,11 @@ public class ObjectBar {
 		gc.fillRect(startX, startYColor-1f, sizeX, 2f);
 		gc.fillRect(startX, startYObjects-1f, sizeX, 2f);
 
-		if(this.startX>=editor.game.resX){
+		if(this.startX>=editor.camera.resX){
 			gc.setColor(Color.white);
-			gc.fillRect(39*editor.game.resX/40f-2f, editor.game.resY/2-editor.game.resY/10-2f, editor.game.resX/40f+2f, editor.game.resY/5+4f);
+			gc.fillRect(39*editor.camera.resX/40f-2f, editor.camera.resY/2-editor.camera.resY/10-2f, editor.camera.resX/40f+2f, editor.camera.resY/5+4f);
 			gc.setColor(Color.black);
-			gc.fillRect(39*editor.game.resX/40f, editor.game.resY/2-editor.game.resY/10, editor.game.resX/40f, editor.game.resY/5);
+			gc.fillRect(39*editor.camera.resX/40f, editor.camera.resY/2-editor.camera.resY/10, editor.camera.resX/40f, editor.camera.resY/5);
 		}
 		//classes
 		String s = "";
@@ -152,12 +155,12 @@ public class ObjectBar {
 				gc.setColor(Color.yellow);
 			else
 				gc.setColor(Color.gray);
-			gc.drawString(s, startX+(sizeX*(i%2))/2f+sizeX/4f-editor.game.font.getWidth(s)/2f, (sizeY*((int)(i/2))/20f+sizeY/40f-editor.game.font.getHeight("Ry")/2f));
+			gc.drawString(s, startX+(sizeX*(i%2))/2f+sizeX/4f-GraphicElements.font_main.getWidth(s)/2f, (sizeY*((int)(i/2))/20f+sizeY/40f-GraphicElements.font_main.getHeight("Ry")/2f));
 		}
 
 		// civs
 		gc.setColor(Color.white);
-		gc.drawString("Civilisation:", startX+10f, startYCiv+sizeY/40f-editor.game.font.getHeight("Ry")/2f);
+		gc.drawString("Civilisation:", startX+10f, startYCiv+sizeY/40f-GraphicElements.font_main.getHeight("Ry")/2f);
 		for(int i=0; i<4; i++){
 			switch(i){
 			case 0: s = "Dualists";break;
@@ -171,12 +174,12 @@ public class ObjectBar {
 				gc.setColor(Color.yellow);
 			else
 				gc.setColor(Color.gray);
-			gc.drawString(s, startX+i*sizeX/3f+sizeX/6f-editor.game.font.getWidth(s)/2f, startYCiv+3*sizeY/40f-editor.game.font.getHeight("Ry")/2f);
+			gc.drawString(s, startX+i*sizeX/3f+sizeX/6f-GraphicElements.font_main.getWidth(s)/2f, startYCiv+3*sizeY/40f-GraphicElements.font_main.getHeight("Ry")/2f);
 		}
 
 		// color
 		gc.setColor(Color.white);
-		gc.drawString("Equipe:", startX+10f, startYColor+sizeY/40f-editor.game.font.getHeight("Ry")/2f);
+		gc.drawString("Equipe:", startX+10f, startYColor+sizeY/40f-GraphicElements.font_main.getHeight("Ry")/2f);
 		for(int i=0; i<3; i++){
 			if(selectedColor==i)
 				gc.setColor(Color.white);
@@ -197,7 +200,7 @@ public class ObjectBar {
 		// objects
 		if(this.objects.size()==0){
 			gc.setColor(Color.white);
-			gc.drawString("aucun objet", startX+sizeX/2f-editor.game.font.getWidth("aucun objet")/2f, startYObjects+20f);
+			gc.drawString("aucun objet", startX+sizeX/2f-GraphicElements.font_main.getWidth("aucun objet")/2f, startYObjects+20f);
 		}
 		for(int i=0; i<this.objects.size() ;i++){
 			this.objects.get(i).draw(gc, startX + (i%2)*sizeX/2f+sizeX/4f, startYObjects+((int)(i/2))*sizeY/6f+sizeY/12f);
@@ -215,12 +218,12 @@ public class ObjectBar {
 				for(int i=0; i<4; i++){
 					if(im.x>startX+(i%2)*sizeX/2f && im.x<startX+(i%2+1)*sizeX/2f && im.y>(i/2)*sizeY/20f && im.y<(i/2+1)*sizeY/20f){
 						if(this.overClass!=i){
-							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						}
 						overClass = i;
 						if(im.isPressed(KeyEnum.LeftClick)){
 							selectedClass = i;
-							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuItemSelected");
 							updateObjects();
 						}
 					}
@@ -233,12 +236,12 @@ public class ObjectBar {
 				for(int i=0; i<3; i++){
 					if(im.x>startX+(i)*sizeX/3f && im.x<startX+(i+1)*sizeX/3f){
 						if(this.overCiv!=i){
-							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						}
 						overCiv = i;
 						if(im.isPressed(KeyEnum.LeftClick)){
 							selectedCiv = i;
-							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuItemSelected");
 							updateObjects();
 						}
 					}
@@ -251,12 +254,12 @@ public class ObjectBar {
 				for(int i=0; i<3; i++){
 					if(im.x>startX+(i)*sizeX/3f && im.x<startX+(i+1)*sizeX/3f){
 						if(this.overColor!=i){
-							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						}
 						overColor = i;
 						if(im.isPressed(KeyEnum.LeftClick)){
 							selectedColor = i;
-							this.editor.game.sounds.get("menuItemSelected").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuItemSelected");
 							updateObjects();
 						}
 					}
@@ -270,7 +273,7 @@ public class ObjectBar {
 					if(im.x>startX+(i%2)*sizeX/2f && im.x<startX+(i%2+1)*sizeX/2f 
 							&& im.y>startYObjects+(i/2)*sizeY/6f && im.y<startYObjects+(i/2+1)*sizeY/6f){
 						if(this.overObject!=i){
-							this.editor.game.sounds.get("menuMouseOverItem").play(1f,editor.game.options.soundVolume);
+							Sounds.playSound("menuMouseOverItem");
 						}
 						if(im.isPressed(KeyEnum.LeftClick)){
 							EditorObject e = this.objects.get(overObject);

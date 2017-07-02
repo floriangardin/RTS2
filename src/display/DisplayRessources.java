@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 
 import main.Main;
 import model.Game;
+import ressources.GraphicElements;
+import ressources.Images;
 
 
 public class DisplayRessources {
@@ -48,12 +50,13 @@ public class DisplayRessources {
 	}
 	
 	public void draw(Graphics g){
+		
 //		Utils.drawNiceRect(g, color, x-(Game.g.font.getWidth(string)+image.getWidth())/2-2, y-Game.g.font.getHeight(string)/2-2, (Game.g.font.getWidth(string)+image.getWidth())+4, Game.g.font.getHeight(string)+4);
 		Color c = new Color(color.r,color.g,color.b,2f*this.remainingTime/totalRemainingTime);
 		g.setColor(c);
-		g.drawString(string, x-(Game.g.font.getWidth(string)+image.getWidth())/2, y-Game.g.font.getHeight(string)/2);
+		g.drawString(string, x-(GraphicElements.font_main.getWidth(string)+image.getWidth())/2, y-GraphicElements.font_main.getHeight(string)/2);
 		this.image.setAlpha(2f*this.remainingTime/totalRemainingTime);
-		g.drawImage(image, x+(Game.g.font.getWidth(string)-image.getWidth())/2, y - image.getHeight()/2);
+		g.drawImage(image, x+(GraphicElements.font_main.getWidth(string)-image.getWidth())/2, y - image.getHeight()/2);
 		this.image.setAlpha(1f);
 	}
 	

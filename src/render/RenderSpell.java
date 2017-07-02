@@ -1,12 +1,13 @@
 package render;
 
-import java.util.Vector;
+import org.newdawn.slick.Graphics;
 
-import spells.Spell;
+import plateau.Plateau;
+import spells.SpellEffect;
 
 public class RenderSpell {
 
-	public static void render(Spell c, Vector<GraphicLayer> gl){
+	public static void render(SpellEffect s, Graphics g, Plateau plateau){
 		//TODO
 	}
 	
