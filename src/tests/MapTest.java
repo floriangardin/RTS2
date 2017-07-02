@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import org.junit.Test;
@@ -11,6 +12,7 @@ import org.newdawn.slick.Graphics;
 
 import control.InputObject;
 import display.Camera;
+import model.Serializer;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Plateau;
@@ -80,6 +82,13 @@ public class MapTest {
 		}
 		assertTrue(Math.abs(c.x - xObjectif)<50);
 		assertTrue(Math.abs(c.y - yObjectif)<50);
+	}
+	
+	@Test
+	public void testPlateauSerializable() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		byte[] serializedPlateau = Serializer.serialize(plateau);
+		Plateau plateau2 = Serializer.deserializePlateau(serializedPlateau);
 	}
 	
 

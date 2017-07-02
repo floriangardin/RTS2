@@ -48,8 +48,8 @@ public class RenderEngine {
 			}
 		}
 		// 1) Draw selection
-		for(Objet o: player.selection.selection){
-			renderSelection(o, g, plateau);
+		for(Integer o: player.selection.selection){
+			renderSelection(plateau.getById(o), g, plateau);
 		}
 		
 		// 2) Draw Objects

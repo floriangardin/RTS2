@@ -15,9 +15,9 @@ public class SimpleRenderEngine {
 		
 		g.translate(-camera.Xcam, -camera.Ycam);
 		// Render everything rawest way ...
-		for(Objet o: player.selection.selection){
+		for(Integer o: player.selection.selection){
 			g.setColor(Color.green);
-			g.draw(o.selectionBox);
+			g.draw(plateau.getById(o).selectionBox);
 		}
 		for(Objet o : plateau.objets.values()){
 			g.setColor(o.getTeam().color);

@@ -27,10 +27,12 @@ public class SimpleGame extends BasicGame {
 	Camera camera;
 	Interface bottombar;
 	final int currentPlayer;
+	SimpleClient client;
 	
 	public SimpleGame(int currentPlayer) {
 		super("RTS ULTRAMYTHE");
 		this.currentPlayer = currentPlayer;
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -51,12 +53,14 @@ public class SimpleGame extends BasicGame {
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im, bottombar);
 		// Multiplayer .. Send input
-		// 3 : Update plateau (singleplayer = Main.nDelay==0)
-		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
-		plateau.update(inputs, players);
+		client.send(im);
+		Vector<InputObject> ims = client.getInputs();
+		// 3 : Update plateau (singleplayer = Main.nDelay==0) FIXME : InputHandler
+		//Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
+		plateau.update(ims, players);
 		// 4 : Update the camera
+		p.selection.plateau = plateau;
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
-		
 	}
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
@@ -80,6 +84,9 @@ public class SimpleGame extends BasicGame {
 		this.bottombar = new Interface(plateau, players.get(currentPlayer));
 		InputHandler.init(this.players.size());
 		KeyMapper.init();
+		this.client = new SimpleClient();
+		client.connect();
+		client.setPlateau(plateau);
 	}
 
 

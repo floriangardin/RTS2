@@ -143,8 +143,8 @@ public class Interface {
 				toDrawDescription[mouseOnItem][yItem] = true;
 				if(im.isPressed(KeyEnum.LeftClick)){
 					im.pressed.remove(KeyEnum.LeftClick);
-					if(player.selection.selection.size()>0 && player.selection.selection.get(0) instanceof Character){
-						Character c = (Character) player.selection.selection.get(0); 
+					if(player.selection.selection.size()>0 && plateau.getById(player.selection.selection.get(0)) instanceof Character){
+						Character c = (Character) plateau.getById(player.selection.selection.get(0)); 
 						Spell s = c.getSpell(mouseOnItem);
 						if(s != null && s.getAttribut(Attributs.needToClick)>0){
 							spellLauncher = c;
@@ -161,10 +161,10 @@ public class Interface {
 		}
 		
 		// handle spell
-		if(player.selection.selection.size()>0 && player.selection.selection.get(0) instanceof Character){
+		if(player.selection.selection.size()>0 && plateau.getById(player.selection.selection.get(0)) instanceof Character){
 			for(int i = 0; i<prodIconNbY; i++){
 				if(im.isPressedProd(i)){
-					Character c = (Character) player.selection.selection.get(0); 
+					Character c = (Character) plateau.getById(player.selection.selection.get(0)); 
 					Spell s = c.getSpell(i);
 					
 					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
@@ -180,9 +180,9 @@ public class Interface {
 			this.spellY = im.y;
 		}
 		if(im.pressed.size()>0 && spellCurrent!=null ){
-			if(im.isPressed(KeyEnum.LeftClick) && player.selection.selection.size()>0 && player.selection.selection.get(0) instanceof Character){
+			if(im.isPressed(KeyEnum.LeftClick) && player.selection.selection.size()>0 && plateau.getById(player.selection.selection.get(0)) instanceof Character){
 				// check if launch spell
-				Character c = (Character) player.selection.selection.get(0); 
+				Character c = (Character) plateau.getById(player.selection.selection.get(0)); 
 				if(c.getSpellState(this.spellCurrent)>=c.getSpell(this.spellCurrent).getAttribut(Attributs.chargeTime)){
 					im.spell = spellCurrent;
 					im.idSpellLauncher = spellLauncher.id;
@@ -288,10 +288,10 @@ public class Interface {
 
 
 		// Draw building state
-		Vector<Objet> selection = player.selection.selection;
-		if(selection.size()>0 && selection.get(0) instanceof Building ){
+		Vector<Integer> selection = player.selection.selection;
+		if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Building ){
 
-			Building b = (Building) selection.get(0);
+			Building b = (Building) plateau.getById(selection.get(0));
 
 			sizeXBar = (Math.min(4,b.getQueue().size()+1))*(sVB+2)+3;
 			Utils.drawNiceRect(g, player.getGameTeam().color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
@@ -360,7 +360,7 @@ public class Interface {
 			//				String s = b.getAttributString(Attributs.printName);
 			//				g.drawString(s, startX+Game.resX/2-GraphicElements.font_main.getWidth(s)/2f, startY+sizeY/8f-GraphicElements.font_main.getHeight(s)/2f);
 			//			}
-		}else if(selection.size()>0 && selection.get(0) instanceof Character ){
+		}else if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Character ){
 
 			Character c;
 			int compteur = 0;
@@ -371,8 +371,9 @@ public class Interface {
 					startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, player.getGameTeam().color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
-			for(Objet a : selection){
-				c = (Character) a;
+			for(Integer id : selection){
+				Character a = (Character) plateau.getById(id);
+				c = (Character) plateau.getById(id);
 				Image icone = Images.get(c.name+"blue");
 				int imageWidth = icone.getWidth()/5;
 				int imageHeight = icone.getHeight()/4;
@@ -487,13 +488,13 @@ public class Interface {
 		}
 		g.setColor(Color.white);
 
-		Vector<Objet> selection = player.selection.selection;
+		Vector<Integer> selection = player.selection.selection;
 
 		// Draw Production/Effect Bar
-		if(selection.size()>0 && selection.get(0) instanceof Building){
+		if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Building){
 			System.out.println(selection.get(0).getClass());
 			mouseOnActionBar = true;
-			Building b =(Building) selection.get(0);
+			Building b =(Building) plateau.getById(selection.get(0));
 			//Print building capacities
 			Vector<ObjetsList> ul = b.getProductionList(plateau);
 			int limit = Math.min(5, ul.size());
@@ -553,9 +554,9 @@ public class Interface {
 			}
 			g.translate(-sizeXActionBar, 0f);
 		}
-		else if(selection.size()>0 && selection.get(0) instanceof Character){
+		else if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Character){
 			mouseOnActionBar = true;
-			Character b =(Character) selection.get(0);
+			Character b =(Character) plateau.getById(selection.get(0));
 			//Print building capacities
 			Vector<Spell> ul = b.getSpells();
 			int limit = Math.min(5, ul.size());

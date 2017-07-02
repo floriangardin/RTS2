@@ -20,14 +20,14 @@ public class Selection {
 	public Float recY;
 
 	public int player;
-	public Vector<Objet> inRectangle; // Je sais pas ce que c'est
-	public Vector<Objet> selection;
+	public Vector<Integer> inRectangle; // Je sais pas ce que c'est
+	public Vector<Integer> selection;
 	public Plateau plateau;
 
 	public Selection(int player, Plateau plateau){
 		this.rectangleSelection = null;
-		this.inRectangle = new Vector<Objet>();
-		this.selection = new Vector<Objet>();
+		this.inRectangle = new Vector<Integer>();
+		this.selection = new Vector<Integer>();
 		this.player = player;
 		this.plateau = plateau;
 	}
@@ -59,13 +59,13 @@ public class Selection {
 		inRectangle.clear();
 		for(Character o : plateau.characters){
 			if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
-				inRectangle.add(o);
+				inRectangle.add(o.id);
 			}
 		}
 		if(inRectangle.size()==0){
 			for(Building o : plateau.buildings){
 				if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
-					inRectangle.add(o);
+					inRectangle.add(o.id);
 				}
 			}
 		}
@@ -85,13 +85,13 @@ public class Selection {
 	public void handleSelection(InputObject im, Interface bottombar) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
-		Vector<Objet> select = new Vector<Objet>();
+		Vector<Integer> select = new Vector<Integer>();
 		if(bottombar.spellCurrent != null){
 			select.addAll(selection);
 		}
-		Vector<Objet> toRemove = new Vector<Objet>();
-		for(Objet o : selection){
-			if(!o.isAlive() || o.team.id!=im.team){
+		Vector<Integer> toRemove = new Vector<Integer>();
+		for(Integer o : selection){
+			if(!plateau.getById(o).isAlive() || plateau.getById(o).team.id!=im.team){
 				toRemove.add(o);
 			}
 		}
@@ -107,15 +107,15 @@ public class Selection {
 				this.selection = select;
 				waitForPressedBeforeUpdate = true;
 			}else{
-				for(Objet o : inRectangle){
-					if(o.team.id==im.team){
+				for(Integer o : inRectangle){
+					if(plateau.getById(o).team.id==im.team){
 						this.selection.add(o);
 					}
 			}
 		}
 		im.selection = new Vector<Integer>();
-		for(Objet o : selection){
-			im.selection.add(o.id);
+		for(Integer o : selection){
+			im.selection.add(o);
 		}
 		
 		
@@ -250,7 +250,7 @@ public class Selection {
 			for (Character o : plateau.characters) {
 				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)) && o.getTeam().id == im.team) {
 					// add character to team selection
-					this.selection.add(o);
+					this.selection.add(o.id);
 				}
 			}
 
@@ -259,25 +259,25 @@ public class Selection {
 				for (Building o : plateau.buildings) {
 					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id ==im.team) {
 						// add character to team selection
-						this.selection.addElement(o);
+						this.selection.addElement(o.id);
 					}
 				}
 			}
 			Vector<Objet> visibles = plateau.getInCamObjets(camera);
 			if (this.selection.size() == 1) {
-				Objet ao = this.selection.get(0);
+				Objet ao = plateau.getById(this.selection.get(0));
 				if (ao instanceof Character) {
 					for (Character o : plateau.characters) {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
-							this.selection.addElement(o);
+							this.selection.addElement(o.id);
 						}
 					}
 				} else if (ao instanceof Building) {
 					for (Building o : plateau.buildings) {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
-							this.selection.addElement(o);
+							this.selection.addElement(o.id);
 						}
 					}
 				}

@@ -23,7 +23,6 @@ public class InputObject implements java.io.Serializable{
 	public int round;
 	public int idplayer;
 	public int team;
-
 	// Spells
 	public int idObjetMouse;
 	public int idSpellLauncher;
@@ -33,9 +32,7 @@ public class InputObject implements java.io.Serializable{
 	public Vector<Integer> selection = new Vector<Integer>();
 	public Vector<Boolean> validated;
 	public boolean toPlay;
-
 	public boolean isOnMiniMap;
-
 	private transient final  static  boolean debugTouche = false;
 
 	public Vector<KeyEnum> down;

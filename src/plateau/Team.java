@@ -1,5 +1,6 @@
 package plateau;
 
+import java.io.Serializable;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -12,9 +13,12 @@ import model.Game;
 import model.Player;
 import utils.ObjetsList;
 import ressources.Sounds;
-public class Team {
+public class Team implements Serializable {
 
 
+	/**
+	 * 
+	 */
 	public Data data;
 
 	public int id;
