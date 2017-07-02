@@ -23,8 +23,8 @@ public class SpellEffect extends Objet{
 
 
 	
-	public Objet getOwner(){
-		return Game.gameSystem.plateau.getById(owner);
+	public Objet getOwner(Plateau plateau){
+		return plateau.getById(owner);
 	}
 
 	

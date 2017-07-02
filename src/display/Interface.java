@@ -60,12 +60,7 @@ public class Interface {
 	public boolean[][] toDrawDescription = new boolean[prodIconNbY][prodIconNbX];
 
 	// top bar
-	Image imageGold = Images.get("imagegolddisplayressources");
-	Image imageFood = Images.get("imagefooddisplayressources");
-	Image imageMadness = Images.get("iconeMadness");
-	Image imageWisdom = Images.get("iconeWisdom");
-	Image imagePop = Images.get("imagePop");
-	Image imageTimer;
+
 	private int gold, food;
 
 	public float ratioSizeGoldX = 1/13f;
@@ -171,7 +166,8 @@ public class Interface {
 				if(im.isPressedProd(i)){
 					Character c = (Character) player.selection.selection.get(0); 
 					Spell s = c.getSpell(i);
-					if(s!=null && s.getAttribut(Attributs.needToClick)>0){
+					
+					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
 						spellLauncher = c;
 						spellCurrent = s.name;
 					}
@@ -183,8 +179,8 @@ public class Interface {
 			this.spellX = im.x;
 			this.spellY = im.y;
 		}
-		if(im.pressed.size()>0 && spellCurrent!=null){
-			if(im.isPressed(KeyEnum.LeftClick)){
+		if(im.pressed.size()>0 && spellCurrent!=null ){
+			if(im.isPressed(KeyEnum.LeftClick) && player.selection.selection.size()>0 && player.selection.selection.get(0) instanceof Character){
 				// check if launch spell
 				Character c = (Character) player.selection.selection.get(0); 
 				if(c.getSpellState(this.spellCurrent)>=c.getSpell(this.spellCurrent).getAttribut(Attributs.chargeTime)){
@@ -622,23 +618,21 @@ public class Interface {
 
 		// pop
 		Utils.drawNiceRect(g, player.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+player.getGameTeam().getPop() + "/" + player.getGameTeam().getMaxPop();
-		if(player.getGameTeam().getPop()==player.getGameTeam().getMaxPop()){
+		s = ""+player.getGameTeam().getPop(plateau) + "/" + player.getGameTeam().getMaxPop(plateau);
+		if(player.getGameTeam().getPop(plateau)==player.getGameTeam().getMaxPop(plateau)){
 			g.setColor(Color.red);
 		}else{
 			g.setColor(Color.white);
 		}
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX-10f-GraphicElements.font_main.getWidth(s), y1+ratioSizeGoldY*rY/2f-GraphicElements.font_main.getHeight("0")/2-3f);
-		g.drawImage(this.imagePop, (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
+		g.drawImage(Images.get("imagePop"), (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// food
 		Utils.drawNiceRect(g, player.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+food;
 		g.setColor(Color.white);
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-GraphicElements.font_main.getWidth(s), y1+ratioSizeGoldY*rY/2f-GraphicElements.font_main.getHeight("0")/2-3f);
-		g.drawImage(this.imageFood, (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-this.imageFood.getHeight()/2);
-
-
+		g.drawImage(Images.get("imagefooddisplayressources"), (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// timer
 		Utils.drawNiceRect(g, player.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);

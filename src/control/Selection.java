@@ -6,14 +6,11 @@ import org.newdawn.slick.geom.Rectangle;
 
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
-import events.EventNames;
-import model.Game;
+import display.Camera;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
-import utils.ObjetsList;
-import utils.ObjetsList;
-import utils.Utils;
+import plateau.Plateau;
 
 public class Selection {
 	public Rectangle rectangleSelection;
@@ -23,12 +20,14 @@ public class Selection {
 	public int player;
 	public Vector<Objet> inRectangle; // Je sais pas ce que c'est
 	public Vector<Objet> selection;
+	public Plateau plateau;
 
-	public Selection(int player){
+	public Selection(int player, Plateau plateau){
 		this.rectangleSelection = null;
 		this.inRectangle = new Vector<Objet>();
 		this.selection = new Vector<Objet>();
 		this.player = player;
+		this.plateau = plateau;
 	}
 
 	public void updateRectangle(InputObject im) {
@@ -52,13 +51,13 @@ public class Selection {
 		
 		// Update in rectangle
 		inRectangle.clear();
-		for(Character o : Game.gameSystem.plateau.characters){
+		for(Character o : plateau.characters){
 			if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
 				inRectangle.add(o);
 			}
 		}
 		if(inRectangle.size()==0){
-			for(Building o : Game.gameSystem.plateau.buildings){
+			for(Building o : plateau.buildings){
 				if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
 					inRectangle.add(o);
 				}
@@ -118,12 +117,12 @@ public class Selection {
 //
 //		if(pressed!=null){
 //			this.selection = new Vector<Objet>();
-//			for(Character o : Game.gameSystem.plateau.characters){
+//			for(Character o : plateau.characters){
 //				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
 //					this.selection.add(o);
 //				}
 //			}
-//			for(Building o : Game.gameSystem.plateau.buildings){
+//			for(Building o : plateau.buildings){
 //				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
 //					this.selection.add(o);
 //				}
@@ -189,7 +188,7 @@ public class Selection {
 //				this.selection.remove(a);
 //			}
 //			this.inRectangle.clear();
-//			for (Character o : Game.gameSystem.plateau.characters) {
+//			for (Character o : plateau.characters) {
 //				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)
 //						|| rectangleSelection.contains(o.selectionBox)) && o.getTeam().id == im.team) {
 //					this.selection.add(o);
@@ -201,7 +200,7 @@ public class Selection {
 //				}
 //			}
 //			if (this.selection.size() == 0) {
-//				for (Building o : Game.gameSystem.plateau.buildings) {
+//				for (Building o : plateau.buildings) {
 //					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id == im.team) {
 //						this.selection.add(o);
 //						this.inRectangle.addElement(o);
@@ -227,11 +226,11 @@ public class Selection {
 //	}
 
 
-	public void updateSelectionCTRL(InputObject im) {
+	public void updateSelectionCTRL(InputObject im, Camera camera) {
 		if (rectangleSelection != null) {
 			this.selection.clear();;
 			// handling the selection
-			for (Character o : Game.gameSystem.plateau.characters) {
+			for (Character o : plateau.characters) {
 				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)) && o.getTeam().id == im.team) {
 					// add character to team selection
 					this.selection.add(o);
@@ -240,25 +239,25 @@ public class Selection {
 
 			if (this.selection.size() == 0) {
 
-				for (Building o : Game.gameSystem.plateau.buildings) {
+				for (Building o : plateau.buildings) {
 					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id ==im.team) {
 						// add character to team selection
 						this.selection.addElement(o);
 					}
 				}
 			}
-			Vector<Objet> visibles = Game.gameSystem.plateau.getInCamObjets(Game.gameSystem.camera);
+			Vector<Objet> visibles = plateau.getInCamObjets(camera);
 			if (this.selection.size() == 1) {
 				Objet ao = this.selection.get(0);
 				if (ao instanceof Character) {
-					for (Character o : Game.gameSystem.plateau.characters) {
+					for (Character o : plateau.characters) {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
 							this.selection.addElement(o);
 						}
 					}
 				} else if (ao instanceof Building) {
-					for (Building o : Game.gameSystem.plateau.buildings) {
+					for (Building o : plateau.buildings) {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
 							this.selection.addElement(o);

@@ -21,7 +21,6 @@ public class IAFlo extends IA{
 	
 	public IAFlo(Player p, Plateau plateau) {
 		super(p, plateau);
-		
 	}
 
 	

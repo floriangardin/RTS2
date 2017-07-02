@@ -7,7 +7,6 @@ import main.Main;
 import model.Game;
 
 public class Clock {
-	Game game;
 	boolean isMaster;
 	public long originTime;
 	Vector<Long> origins;
@@ -63,19 +62,7 @@ public class Clock {
 	}
 	
 	public void setRoundFromTime(){
-//		long roundDuration = (long) ((1000000000f/Main.framerate));
-//		if(this.game.round == (int) (this.getCurrentTime()/roundDuration)){
-//			this.game.round++;
-//		}
-//		else{
-//			this.game.round =(int) (this.getCurrentTime()/roundDuration);	
-//		}
-//		
-//		
-//		long roundDuration = (long) ((1000000000f/Main.framerate));
-//		this.game.round = (int) (this.getCurrentTime()/roundDuration);
-		
-		
+
 	}
 	
 	public long getOrigin(){

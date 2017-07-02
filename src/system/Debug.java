@@ -21,7 +21,7 @@ public class Debug {
 	public static boolean debugDisplayDebug = true;
 	public static boolean debugMemory = false;
 	public static boolean debugFog = false;
-
+	
 	public static boolean deplacementGroupIntelligent = false;
 	public static boolean debugGroup = false;
 
@@ -29,7 +29,8 @@ public class Debug {
 
 	public static boolean showUpdateLogicInterval = false;
 	
-
+	// RENDERING OPTIONS
+	public static boolean simpleRender = true;
 	
 	///////////////////////
 	/// BONUS DISABLING ///

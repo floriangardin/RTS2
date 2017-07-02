@@ -1,11 +1,10 @@
 package model;
 import java.net.InetAddress;
-import java.util.Vector;
 
 import bot.IA;
 import control.Selection;
 import menuutils.Menu_Player;
-import plateau.Objet;
+import plateau.Plateau;
 import plateau.Team;
 
 public class Player {
@@ -26,20 +25,20 @@ public class Player {
 	public Selection selection;
 	
 	
-	public Player(int id,String name, Team gameteam) {
-		this.initialize(id, name, gameteam);
+	public Player(int id,String name, Team gameteam, Plateau plateau) {
+		this.initialize(id, name, gameteam, plateau);
 	}
 
-	public Player(Menu_Player mp, Team team) {
+	public Player(Menu_Player mp, Team team, Plateau plateau) {
 		// TODO Auto-generated constructor stub
-		this.initialize(mp.id, mp.name, team);
+		this.initialize(mp.id, mp.name, team, plateau);
 	}
 
-	public void initialize(int id , String name , Team gameteam){
+	public void initialize(int id , String name , Team gameteam, Plateau plateau){
 		this.id = id;
 		this.nickname = name;
 		this.gameteam = gameteam;
-		this.selection = new Selection(id);
+		this.selection = new Selection(id, plateau);
 		
 	}
 	public int getTeam(){

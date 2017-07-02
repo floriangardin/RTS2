@@ -28,7 +28,7 @@ public class Frozen extends SpellEffect{
 
 		this.name = ObjetsList.FrozenEffect;
 		this.lifePoints = 1f;
-		Game.gameSystem.plateau.addSpell(this);
+		plateau.addSpell(this);
 		owner = launcher;
 		this.team = launcher.getTeam();
 

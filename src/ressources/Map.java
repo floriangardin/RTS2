@@ -31,9 +31,7 @@ public class Map {
 	public static float sizeX;
 	public static float sizeY;
 
-	public Map(){
 
-	}
 
 	public static Vector<String> maps(){
 		Vector<String> maps = new Vector<String>();

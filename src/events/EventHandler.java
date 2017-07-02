@@ -50,10 +50,16 @@ public class EventHandler {
 	}
 	
 	public static void addDisplayRessources(DisplayRessources dr){
+		if(plateau==null){
+			return;
+		}
 		displayRessources.addElement(dr);
 	}
 	
 	public static void addEvent(Event event){
+		if(plateau==null){
+			return;
+		}
 		events.addElement(event);
 	}
 	

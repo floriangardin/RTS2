@@ -28,7 +28,7 @@ public class Heal extends SpellEffect{
 		this.y = t.getY();
 		this.team = launcher.getTeam();
 		this.lifePoints = 1f;
-		Game.gameSystem.plateau.addSpell(this);
+		plateau.addSpell(this);
 		owner = launcher;
 
 		this.collisionBox = new Circle(x,y,radius);

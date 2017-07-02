@@ -36,7 +36,7 @@ public class Firewall extends SpellEffect{
 
 		this.name = ObjetsList.FirewallEffect;
 		this.lifePoints = 1f;
-		Game.gameSystem.plateau.addSpell(this);
+		plateau.addSpell(this);
 		image = "explosion";
 		this.team = launcher.getTeam();
 		owner = launcher;

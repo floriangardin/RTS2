@@ -11,14 +11,12 @@ import control.InputObject;
 import display.Camera;
 import display.Interface;
 import events.EventHandler;
-import events.EventNames;
 import main.Main;
 import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Game;
 import model.Player;
 import mybot.IAFlo;
-import plateau.Objet;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
@@ -30,27 +28,25 @@ public class GameSystem extends ClassSystem{
 	public Plateau plateau;
 	public Interface bottombar;
 	public int currentPlayer;
-	public EventHandler events;
+	//public EventHandler events;
 	public Camera camera;
 	
-	
-
 	
 	public GameSystem(Lobby lobby){
 		currentPlayer = lobby.idCurrentPlayer;
 		this.plateau = Map.createPlateau(lobby.idCurrentMap, "maps");
 		this.players = new Vector<Player>();
 		for(Menu_Player mp : lobby.players){
-			Player player = new Player(mp, this.plateau.teams.get(mp.team));
+			Player player = new Player(mp, this.plateau.teams.get(mp.team), plateau);
 			this.players.add(player);
 			if(mp.id!=lobby.idCurrentPlayer){	
+				//FIXME : Generic way to put ia ...
 				player.initIA(new IAFlo(player, plateau));
 			}
 		}
 		this.camera = new Camera(Game.resX, Game.resY, 0, 0, (int)this.plateau.maxX, (int)this.plateau.maxY);
 		this.bottombar = new Interface(plateau, players.get(currentPlayer));
 		InputHandler.init(this.players.size());
-		RenderEngine.init(plateau);
 		EventHandler.init(plateau, camera);
 	}
 
@@ -77,9 +73,10 @@ public class GameSystem extends ClassSystem{
 		bottombar.update(im);
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im);
+		// Multiplayer .. Send input
 		// 3 : Update plateau (singleplayer = Main.nDelay==0)
 		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
-		plateau.update(inputs);
+		plateau.update(inputs, players);
 		// 4 : Update the camera
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
 		
@@ -112,11 +109,5 @@ public class GameSystem extends ClassSystem{
 		return this.players.get(currentPlayer).getGameTeam().id;
 	}
 	
-	public void triggerEvent(EventNames name,Objet o){
-		events.addEvent(name, o);
-	}
-	public EventHandler getEvents(){
-		return events;
-	}
 
 }

@@ -31,47 +31,47 @@ public class Meditation extends SpellEffect{
 		remainingTime = this.getAttribut(Attributs.totalTime);	
 		// Calculate step of lifepoints
 		this.lifePoints = 1f;
-		Game.gameSystem.plateau.addSpell(this);
+		plateau.addSpell(this);
 		owner = launcher.id;
 		this.team = launcher.getTeam();
 	}
 
 	public void action(Plateau plateau){
 		this.remainingTime-=1f/Main.framerate;
-		if(getOwner()==null)
+		if(getOwner(plateau)==null)
 			this.lifePoints=-1f;
 		
 		if(this.remainingTime<=0f){
 			// Test if special capacity explosion
-			if(getOwner().getAttribut(Attributs.ressourceAfterMeditation)==1f){
-				getOwner().getTeam().food = getOwner().getTeam().food+20;
+			if(getOwner(plateau).getAttribut(Attributs.ressourceAfterMeditation)==1f){
+				getOwner(plateau).getTeam().food = getOwner(plateau).getTeam().food+20;
 			}
-			if(getOwner().getAttribut(Attributs.attackBonusAfterMeditation)==1f){
-				getOwner().attributsChanges.add(new AttributsChange(Attributs.damage,Change.ADD,1,0));
+			if(getOwner(plateau).getAttribut(Attributs.attackBonusAfterMeditation)==1f){
+				getOwner(plateau).attributsChanges.add(new AttributsChange(Attributs.damage,Change.ADD,1,0));
 			}
 			
 			this.lifePoints=-1f;
-			getOwner().canMove = true;
-			getOwner().etats.remove(Etats.Meditating);
+			getOwner(plateau).canMove = true;
+			getOwner(plateau).etats.remove(Etats.Meditating);
 		}
 	}
 
-	public Graphics draw(Graphics g){
-		Color color = Color.darkGray;
-		color = new Color(100,150,255,0.4f);
-		Character owner = (Character) getOwner();
-		if(owner!=null){
-			int direction = (owner.orientation/2-1);
-			// inverser gauche et droite
-			if(direction==1 || direction==2){
-				direction = ((direction-1)*(-1)+2);
-			}
-			Image im;
-			im = Images.getUnit(owner.name, direction, owner.animation, getTeam().id, owner.isAttacking);
-			g.drawImage(im,owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4);
-			im.drawFlash(owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);			
-		}
-		return g;
-	}
+//	public Graphics draw(Graphics g){
+//		Color color = Color.darkGray;
+//		color = new Color(100,150,255,0.4f);
+//		Character owner = (Character) getOwner(plateau);
+//		if(owner!=null){
+//			int direction = (owner.orientation/2-1);
+//			// inverser gauche et droite
+//			if(direction==1 || direction==2){
+//				direction = ((direction-1)*(-1)+2);
+//			}
+//			Image im;
+//			im = Images.getUnit(owner.name, direction, owner.animation, getTeam().id, owner.isAttacking);
+//			g.drawImage(im,owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4);
+//			im.drawFlash(owner.getX()-im.getWidth()/2,owner.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);			
+//		}
+//		return g;
+//	}
 
 }

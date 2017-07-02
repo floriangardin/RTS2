@@ -21,7 +21,7 @@ public class SpellInstantHealth extends Spell{
 		// Check if target intersect an ennemy
 		Objet h = target;
 		
-		for(Character c : Game.gameSystem.plateau.characters){
+		for(Character c : plateau.characters){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}

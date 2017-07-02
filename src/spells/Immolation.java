@@ -38,7 +38,7 @@ public class Immolation extends SpellEffect{
 		System.out.println("step "+step);
 		this.name = ObjetsList.Immolation;
 		this.lifePoints = 1f;
-		Game.gameSystem.plateau.addSpell(this);
+		plateau.addSpell(this);
 		owner = launcher.id;
 		this.team = launcher.getTeam();
 	}
@@ -46,23 +46,23 @@ public class Immolation extends SpellEffect{
 	public void action(Plateau plateau){
 		
 		this.remainingTime-=1f/Main.framerate;
-		Objet owner = this.getOwner();
+		Objet owner = this.getOwner(plateau);
 		if(owner!=null){			
 			owner.setLifePoints(owner.lifePoints-step);
 		}
 		if(owner!=null && this.remainingTime-1f/Main.framerate<=0f){
 			// Test if explosion
-			if(getOwner().getAttribut(Attributs.explosionWhenImmolate)==1){
-				for(Character c : Game.gameSystem.plateau.characters){
-					if(Utils.distance(c, this.getOwner())<100f && c!=this.getOwner()){
+			if(getOwner(plateau).getAttribut(Attributs.explosionWhenImmolate)==1){
+				for(Character c : plateau.characters){
+					if(Utils.distance(c, this.getOwner(plateau))<100f && c!=this.getOwner(plateau)){
 						c.setLifePoints(c.lifePoints-20f);
 					}
 				}
 			}
-			getOwner().lifePoints = -1f;
+			getOwner(plateau).lifePoints = -1f;
 			this.lifePoints=-1f;
 		}
-		if(this.getOwner()==null){
+		if(this.getOwner(plateau)==null){
 			this.lifePoints=-1f;
 		}
 	}

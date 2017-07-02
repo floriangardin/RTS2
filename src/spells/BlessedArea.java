@@ -39,7 +39,7 @@ public class BlessedArea extends SpellEffect{
 		this.type = 2;
 		this.size = size;
 		this.lifePoints = 1f;
-		Game.gameSystem.plateau.addSpell(this);
+		plateau.addSpell(this);
 		this.image = "blessedArea";
 		this.ac = new Vector<AttributsChange>();
 		ac.add(new AttributsChange(Attributs.chargeTime,Change.MUL,0.5f,this.remainingTime));

@@ -26,7 +26,7 @@ public class Water extends NaturalObjet {
 		this.color = Color.blue;
 		this.lifePoints = 1.0f;
 		this.setXY(x, y, plateau);
-		Game.gameSystem.plateau.addNaturalObjets(this);
+		plateau.addNaturalObjets(this);
 	}
 	
 	public void collision(Objet o){

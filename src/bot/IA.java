@@ -89,7 +89,7 @@ public abstract class IA {
 				}
 			}
 		}
-		for(Building b : Game.gameSystem.plateau.buildings){
+		for(Building b : plateau.buildings){
 			if(b.getTeam().id==this.player.id){					
 				this.units.addElement(new IAAllyObject(b,this));
 			}else if(b.getTeam().id == 0 || !plateau.isVisibleByTeam(this.player.id, b)){
@@ -150,10 +150,10 @@ public abstract class IA {
 	
 
 	protected int getPop(){
-		return player.getPop();
+		return player.getPop(plateau);
 	}
 	protected int getMaxPop(){
-		return player.getMaxPop();
+		return player.getMaxPop(plateau);
 	}
 	
 	protected boolean canProduce(ObjetsList o){

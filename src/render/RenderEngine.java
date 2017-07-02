@@ -32,9 +32,6 @@ public class RenderEngine {
 
 	public static int i;
 
-	public static void init(Plateau plateau){
-
-	}
 	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
 
 		g.translate(-camera.Xcam, -camera.Ycam);

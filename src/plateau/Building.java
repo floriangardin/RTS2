@@ -140,7 +140,7 @@ public class Building extends Objet{
 			float foodCost = getAttribut(getProductionList(plateau).get(unit),Attributs.foodCost);
 
 			if(foodCost<=this.getTeam().food
-					 && this.getTeam().enoughPop(getProductionList(plateau).get(unit))){
+					 && this.getTeam().enoughPop(getProductionList(plateau).get(unit), plateau)){
 				this.queue.add(getProductionList(plateau).get(unit));
 				
 				this.getTeam().food-=foodCost;
@@ -289,7 +289,7 @@ public class Building extends Objet{
 		}
 		if(this.queue.size()>0){
 			this.setCharge(this.charge+Main.increment);
-			if(this.getTeam().enoughPop(getQueue().get(0)) && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
+			if(this.getTeam().enoughPop(getQueue().get(0), plateau) && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
 				this.setCharge(0f);
 				float dirX = this.random+getRallyPoint(plateau).x-this.x;
 				float dirY = this.random+getRallyPoint(plateau).y - this.y;
@@ -516,7 +516,7 @@ public class Building extends Objet{
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			if(this.potentialTeam!=this.getTeam().id  ){
-				if(this.getTeam().enoughPop(this.name)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
+				if(this.getTeam().enoughPop(this.name, plateau)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam, plateau);
 

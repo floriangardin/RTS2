@@ -13,9 +13,8 @@ import data.Attributs;
 import display.Camera;
 import events.EventHandler;
 import events.EventNames;
-import model.Game;
+import model.Player;
 import pathfinding.MapGrid;
-import render.EndSystem;
 import ressources.Map;
 import spells.Etats;
 import spells.Spell;
@@ -618,8 +617,11 @@ public class Plateau implements java.io.Serializable {
 		}
 		return target;
 	}
-
-	public void update(Vector<InputObject> ims) {
+	
+	public void update(Vector<InputObject> ims){
+		update(ims, new Vector<Player>());
+	}
+	public void update(Vector<InputObject> ims, Vector<Player> players) {
 		round ++;
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
@@ -632,7 +634,8 @@ public class Plateau implements java.io.Serializable {
 			// Handling the right click
 			this.handleRightClick(im);
 			// Handling action bar TODO : ça n'a rien à faire là, à dégager
-			this.handleActionOnInterface(im, player);
+			this.handleActionOnInterface(im, player, players);
+
 		}
 		// 2 - For everyone
 		// Sort by id
@@ -722,7 +725,7 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 
-	private void handleActionOnInterface(InputObject im, int player) {
+	private void handleActionOnInterface(InputObject im, int player, Vector<Player> players) {
 		// Action bar
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
@@ -775,7 +778,7 @@ public class Plateau implements java.io.Serializable {
 				}
 		}
 		if(im.spell!=null && im.selection.size()>0){
-			Spell s = Game.gameSystem.players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
+			Spell s = players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
 			Character c = ((Character) this.getById(im.selection.get(0)));
 			if(im.idObjetMouse!=-1){
 				s.launch(getById(im.idObjetMouse), c, this);

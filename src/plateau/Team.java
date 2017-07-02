@@ -54,22 +54,22 @@ public class Team {
 	}
 
 
-	public boolean enoughPop(ObjetsList o){
-		return (getPop()+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop()|| this.data.getAttribut(o, Attributs.popTaken)==0 );
+	public boolean enoughPop(ObjetsList o, Plateau plateau){
+		return (getPop(plateau)+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop(plateau)|| this.data.getAttribut(o, Attributs.popTaken)==0 );
 	}
 
-	public int getPop() {
+	public int getPop(Plateau plateau) {
 
 		int result = 0;
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : Game.gameSystem.plateau.buildings){
+		for(Building b : plateau.buildings){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
 		}
-		for(Character b : Game.gameSystem.plateau.characters){
+		for(Character b : plateau.characters){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
@@ -80,13 +80,13 @@ public class Team {
 
 
 
-	public int getMaxPop() {
+	public int getMaxPop(Plateau plateau) {
 
 		int result = 0;
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : Game.gameSystem.plateau.buildings){
+		for(Building b : plateau.buildings){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popGiven);
 			}
