@@ -73,11 +73,11 @@ public class SimpleServer extends Listener {
 			if(m.getType()==Message.CHECKSUM){
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
+					System.out.println("desyncrho");
 					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
 				}
 			}else{
 				// Broadcast inputs to all (including host)
-				System.out.println("youpi aut chose");
 				server.sendToAllTCP(o);
 			}
 		}else if(o instanceof String){
@@ -90,17 +90,27 @@ public class SimpleServer extends Listener {
 	}
 
 	private static boolean isSynchro() {
+		int minRound = -1;
+		int maxRound = -1;
 		for(Checksum c : checksums){
 			for(Checksum d: checksums){
+				if(c.round<minRound || minRound==-1){
+					minRound = c.round;
+				}
+				if(c.round>maxRound){
+					maxRound = c.round;
+				}
 				if(!c.equals(d)){
 					return false;
 				}
 			}
 		}
-		if(checksums.size()>5){
+		if(checksums.size()>delay){
 			clearChecksum();
 		}
-		return true;
+		int deltaRound = (maxRound-minRound);
+		
+		return deltaRound<=delay; // If delta too high there is delay desynchro or desynchro
 	}
 
 	public void disconnected(Connection c){
