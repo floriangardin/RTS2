@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import control.InputObject;
+import multiplaying.Checksum;
 import plateau.Plateau;
 
 
@@ -28,8 +29,8 @@ public class SimpleClient extends Listener {
 		client = new Client(5000000, 5000000);
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
-		client.getKryo().register(Message.class);
 		client.getKryo().register(String.class);
+		client.getKryo().register(Message.class);
 		client.addListener(new Listener(){
 			public void received(Connection c, Object o){
 				
@@ -61,6 +62,10 @@ public class SimpleClient extends Listener {
 		client.sendTCP(m);
 	}
 	
+	public static void send(Checksum checksum){
+		Message m = new Message(checksum);
+		client.sendTCP(m);
+	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
 		client.sendTCP(Serializer.serialize(m));

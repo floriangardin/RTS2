@@ -16,6 +16,7 @@ import control.KeyMapper;
 import display.Camera;
 import display.Interface;
 import main.Main;
+import multiplaying.Checksum;
 import mybot.IAFlo;
 import plateau.Plateau;
 import render.SimpleRenderEngine;
@@ -36,11 +37,7 @@ public class SimpleGame extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// 0 : Update ia's 
-		for(Player p : players){
-			if(p.ia!=null){
-				p.ia.action();
-			}
-		}
+
 		// Init Round
 		Player p = players.get(currentPlayer);
 		// Get Control
@@ -50,14 +47,20 @@ public class SimpleGame extends BasicGame {
 		Plateau plateau = SimpleClient.getPlateau();
 		// Update interface
 		bottombar.update(im);
-		// 2: Update selection in im.selection
+		// Update selection in im.selection
 		p.selection.handleSelection(im, bottombar, plateau);
 		// Send input for round
 		SimpleClient.send(im);
+		// Send checksum to server for checking synchro
+		SimpleClient.send(new Checksum(plateau.round, plateau.toString()));
 		// Get new inputs for round
 		Vector<InputObject> ims = SimpleClient.getInputs();
-		// 3 : Update plateau (singleplayer = Main.nDelay==0) FIXME : InputHandler
-		//Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
+		// Update IA from plateau 
+		for(Player player : players){
+			if(player.ia!=null){
+				player.ia.action(plateau);
+			}
+		}
 		plateau.update(ims, players);
 		// 4 : Update the camera given current input
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());

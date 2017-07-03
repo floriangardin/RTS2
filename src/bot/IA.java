@@ -69,8 +69,8 @@ public abstract class IA {
 	/*
 	 * Method always called when IA is awaken
 	 */
-	public void action(){
-		
+	public void action(Plateau plateau){
+		this.plateau = plateau;
 		this.units.clear();
 		this.nature.clear();
 		this.enemies.clear();

@@ -52,25 +52,11 @@ public class Player {
 		return this.selection.rectangleSelection!=null;
 	}
 	
-	public void action(){
+	public void action(Plateau plateau){
 		if(ia!=null){			
-			this.ia.action();
+			this.ia.action(plateau);
 		}	
-		
-		
-//		// Handle madness objectives
-//		Vector<Objective> toRemove = new Vector<ObjectiveMadness>();
-//		for(Objective m : this.getGameTeam().getObjectiveMadness()){
-//			m.action();
-//			
-//			if(m.isCompleted()){
-//				// Add all tech choices 
-//				this.getGameTeam().civ.cardSelection.addAll(m.techAllowed);
-//				toRemove.add(m);
-//			}
-//		}
-//
-//		this.getGameTeam().successObjectives(toRemove);
+
 	}
 	
 	public void initIA(IA ia){

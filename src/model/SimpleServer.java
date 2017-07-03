@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.util.Vector;
+import multiplaying.Checksum;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -16,11 +17,10 @@ public class SimpleServer extends Listener {
 
 	static Server server;
 	static final int port = 27960;
-	static Vector<Integer> players = new Vector<Integer>();
-	
+	static final int delay = 2; // Number of delay rounds
+	// State
 	static Vector<InputObject> inputs = new Vector<InputObject>();
-	static boolean p2p = true;
-	
+	static Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 
 	public static void init(){
@@ -28,8 +28,8 @@ public class SimpleServer extends Listener {
 		// Choose between byte and plateau
 		server.getKryo().register(byte[].class);
 		server.getKryo().register(Integer.class);
-		server.getKryo().register(Message.class);
 		server.getKryo().register(String.class);
+		server.getKryo().register(Message.class);
 		try {
 			server.bind(port, port);
 		} catch (IOException e) {
@@ -40,7 +40,10 @@ public class SimpleServer extends Listener {
 		server.addListener(new SimpleServer());
 		System.out.println("The server is ready");
 	}
-	
+
+	public synchronized static void addChecksum(Checksum c){
+		checksums.add(c);
+	}
 	public synchronized void addInput(InputObject im){
 		inputs.add(im);
 	}
@@ -60,28 +63,48 @@ public class SimpleServer extends Listener {
 		System.out.println("Connection received.");
 		server.sendToTCP(c.getID(), new Message(SimpleClient.getPlateau()));
 		server.sendToAllExceptTCP(c.getID(), c.getID());
-		players.add(c.getID());
 		System.out.println(c.getID());
 	}
 	
-
 	public void received(Connection c, Object o){
 		if(o instanceof Message){
-			// Broadcast inputs to all
-			server.sendToAllTCP(o);
-			if(!p2p){				
-				addInput((InputObject) Serializer.deserialize((byte[])o));
+			// Check if it is a checksum
+			Message m = (Message) o;
+			if(m.getType()==Message.CHECKSUM){
+				addChecksum((Checksum) m.get());
+				if(!isSynchro()){
+					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
+				}
+			}else{
+				// Broadcast inputs to all (including host)
+				System.out.println("youpi aut chose");
+				server.sendToAllTCP(o);
 			}
 		}else if(o instanceof String){
 			server.sendToAllExceptTCP(c.getID(), o);
 		}
 	}
 	
-	
+	public synchronized static void clearChecksum(){
+		checksums.clear();
+	}
+
+	private static boolean isSynchro() {
+		for(Checksum c : checksums){
+			for(Checksum d: checksums){
+				if(!c.equals(d)){
+					return false;
+				}
+			}
+		}
+		if(checksums.size()>5){
+			clearChecksum();
+		}
+		return true;
+	}
 
 	public void disconnected(Connection c){
 		System.out.println("Connection dropped.");
-		players.removeElement(c.getID());
 		server.sendToAllExceptTCP(c.getID(), "Disconnected|"+c.getID());
 	}
 }

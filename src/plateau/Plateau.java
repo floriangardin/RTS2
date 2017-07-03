@@ -857,10 +857,9 @@ public class Plateau implements java.io.Serializable {
 		concatenation.addAll(this.characters);
 		concatenation.addAll(this.buildings);
 		for(Objet o : concatenation){
-			s+=o;
+			s+=o.hash();
 		}
 		return s;
-		
 	}
 	public boolean equals(Object o){
 		if(!(o instanceof Plateau)){

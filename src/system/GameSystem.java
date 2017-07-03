@@ -62,7 +62,7 @@ public class GameSystem extends ClassSystem{
 		// 0 : Update ia's 
 		for(Player p : players){
 			if(p.ia!=null){
-				p.ia.action();
+				p.ia.action(plateau);
 			}
 		}
 		// 1 : Get Control
