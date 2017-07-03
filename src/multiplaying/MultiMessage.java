@@ -24,16 +24,6 @@ public class MultiMessage implements java.io.Serializable{
 	public String text = "vaneau";
 	
 	
-	/**
-	 * 0 connexion
-	 * 1 input
-	 * 2 validation
-	 * 3 resynchro
-	 * 4 ping
-	 * 5 checksum
-	 * 6 chat
-	 * 
-	 */
 	
 	public MultiMessage(InetAddress address) {
 		this.address = address;

@@ -23,11 +23,9 @@ import ressources.Map;
 
 public class SimpleGame extends BasicGame {
 	Vector<Player> players = new Vector<Player>();
-	Plateau plateau ;
 	Camera camera;
 	Interface bottombar;
 	final int currentPlayer;
-	SimpleClient client;
 	
 	public SimpleGame(int currentPlayer) {
 		super("RTS ULTRAMYTHE");
@@ -43,59 +41,57 @@ public class SimpleGame extends BasicGame {
 				p.ia.action();
 			}
 		}
-		// 1 : Get Control
+		// Init Round
 		Player p = players.get(currentPlayer);
+		// Get Control
 		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam());
 		InputHandler.addToInputs(im, true);
-		// 3 : Update interface
+		// Get the plateau from server
+		Plateau plateau = SimpleClient.getPlateau();
+		// Update interface
 		bottombar.update(im);
 		// 2: Update selection in im.selection
-		p.selection.handleSelection(im, bottombar);
-		// Multiplayer .. Send input
-		client.send(im);
-		Vector<InputObject> ims = client.getInputs();
+		p.selection.handleSelection(im, bottombar, plateau);
+		// Send input for round
+		SimpleClient.send(im);
+		// Get new inputs for round
+		Vector<InputObject> ims = SimpleClient.getInputs();
 		// 3 : Update plateau (singleplayer = Main.nDelay==0) FIXME : InputHandler
 		//Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);
 		plateau.update(ims, players);
-		// 4 : Update the camera
-		p.selection.plateau = plateau;
+		// 4 : Update the camera given current input
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
 	}
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
-		SimpleRenderEngine.render(g, plateau, camera, players.get(currentPlayer));
+		SimpleRenderEngine.render(g, SimpleClient.getPlateau(), camera, players.get(currentPlayer));
 	}
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
 		// TODO Auto-generated method stub
-		this.plateau = Map.createPlateau(Map.maps().get(0), "maps");
+		SimpleClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+		Plateau plateau = SimpleClient.getPlateau();
 		this.players = new Vector<Player>();
 		for(int i=0; i<2; i++){
-			Player player = new Player(i, "Test"+i, this.plateau.teams.get(i+1), plateau);
+			Player player = new Player(i, "Test"+i, plateau.teams.get(i+1), plateau);
 			this.players.add(player);
 			if(i!=currentPlayer){	
 				//FIXME : Generic way to put ia ...
 				player.initIA(new IAFlo(player, plateau));
 			}
 		}
-		this.camera = new Camera(800, 600, 0, 0, (int)this.plateau.maxX, (int)this.plateau.maxY);
+		this.camera = new Camera(800, 600, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		this.bottombar = new Interface(plateau, players.get(currentPlayer));
 		InputHandler.init(this.players.size());
 		KeyMapper.init();
-		// Launch server
+		// Launch server if it doesnt exist, otherwise continue, bind to host plateau !
 		try{
-			SimpleServer.launch(plateau);
+			SimpleServer.init();
 		}catch(Exception e){
 			System.out.println("Server already exist !");
 		}
-		
-		// Launch client
-		this.client = new SimpleClient();
-		client.connect();
-		client.setPlateau(plateau);
-		// Try to launch a server, do nothing if adress already in use
-		
+		SimpleClient.init(plateau);
 	}
 
 

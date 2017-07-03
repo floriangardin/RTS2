@@ -19,17 +19,16 @@ public class SimpleServer extends Listener {
 	static Vector<Integer> players = new Vector<Integer>();
 	
 	static Vector<InputObject> inputs = new Vector<InputObject>();
-	// Hold Game State just in case 
-	static Plateau plateau;
 	static boolean p2p = true;
 	
 	// Le serveur a juste pour role de faire passer des inputs ...
-	public static void launch(Plateau plateau){
-		SimpleServer.plateau = plateau;
+
+	public static void init(){
 		server = new Server(5000000, 5000000);
 		// Choose between byte and plateau
 		server.getKryo().register(byte[].class);
-		server.getKryo().register(Plateau.class);
+		server.getKryo().register(Integer.class);
+		server.getKryo().register(Message.class);
 		server.getKryo().register(String.class);
 		try {
 			server.bind(port, port);
@@ -53,26 +52,21 @@ public class SimpleServer extends Listener {
 	}
 	
 	public static void main(String[] args) throws IOException{
-		if(!p2p){
-			SimpleServer.launch(Map.createPlateau(Map.maps().get(0), "maps"));
-		}else{
-			SimpleServer.launch(null);
-		}
-		while(!p2p){ // Play plateau serverside
-			play(16);
-		}
+		SimpleServer.init();
 	}
 	
 	public void connected(Connection c){
-		server.sendToAllExceptTCP(c.getID(), "Connected"+c.getID());
+		// If connection send plateau to id
+		System.out.println("Connection received.");
+		server.sendToTCP(c.getID(), new Message(SimpleClient.getPlateau()));
+		server.sendToAllExceptTCP(c.getID(), c.getID());
 		players.add(c.getID());
 		System.out.println(c.getID());
-		System.out.println("Connection received.");
 	}
 	
 
 	public void received(Connection c, Object o){
-		if(o instanceof byte[]){
+		if(o instanceof Message){
 			// Broadcast inputs to all
 			server.sendToAllTCP(o);
 			if(!p2p){				
@@ -83,30 +77,8 @@ public class SimpleServer extends Listener {
 		}
 	}
 	
-	public static void play(int sleepMillis){
-		Vector<InputObject> toPlay = getInputs();
-		System.out.println("Inputs size  : "+toPlay.size());
-		plateau.update(toPlay);
-		// Send plateau if necessary
-		server.sendToAllTCP(Serializer.serialize(plateau));
-		// Send Other inputs
-		
-		// Sleep until next turn
-		try {
-			Thread.sleep(sleepMillis);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
-	public static byte[] serialize(InputObject im){
-		return Serializer.serialize(im);
-	}
-	public static InputObject serialize(byte[] im){
-		return Serializer.deserialize(im);
-	}
-	
+
 	public void disconnected(Connection c){
 		System.out.println("Connection dropped.");
 		players.removeElement(c.getID());

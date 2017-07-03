@@ -88,7 +88,7 @@ public class MapTest {
 	public void testPlateauSerializable() throws ClassNotFoundException, IOException {
 		Plateau plateau = Map.createPlateau("test01", "maptests");
 		byte[] serializedPlateau = Serializer.serialize(plateau);
-		Plateau plateau2 = Serializer.deserializePlateau(serializedPlateau);
+		Plateau plateau2 = (Plateau)Serializer.deserialize(serializedPlateau);
 	}
 	
 

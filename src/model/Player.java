@@ -38,7 +38,7 @@ public class Player {
 		this.id = id;
 		this.nickname = name;
 		this.gameteam = gameteam;
-		this.selection = new Selection(id, plateau);
+		this.selection = new Selection(id);
 		
 	}
 	public int getTeam(){

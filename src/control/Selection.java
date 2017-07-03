@@ -22,17 +22,16 @@ public class Selection {
 	public int player;
 	public Vector<Integer> inRectangle; // Je sais pas ce que c'est
 	public Vector<Integer> selection;
-	public Plateau plateau;
+	
 
-	public Selection(int player, Plateau plateau){
+	public Selection(int player){
 		this.rectangleSelection = null;
 		this.inRectangle = new Vector<Integer>();
 		this.selection = new Vector<Integer>();
 		this.player = player;
-		this.plateau = plateau;
 	}
 
-	public void updateRectangle(InputObject im) {
+	public void updateRectangle(InputObject im, Plateau plateau) {
 		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
 			return;
 		}else{
@@ -82,7 +81,7 @@ public class Selection {
 	}
 
 	
-	public void handleSelection(InputObject im, Interface bottombar) {
+	public void handleSelection(InputObject im, Interface bottombar, Plateau plateau) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
 		Vector<Integer> select = new Vector<Integer>();
@@ -97,7 +96,7 @@ public class Selection {
 		}
 		selection.removeAll(toRemove);
 		// As long as the button is pressed, the selection is updated
-		this.updateRectangle(im);
+		this.updateRectangle(im, plateau);
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 || rectangleSelection!=null){
 			this.selection.clear();
@@ -242,8 +241,18 @@ public class Selection {
 //		}
 //	}
 
+	public Vector<Objet> getInCamObjets(Camera camera, Plateau plateau) {
+		Vector<Objet> res = new Vector<Objet>();
+		
+		for(Objet o : plateau.objets.values()){
+			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
+				res.add(o);
+			}
+		}
+		return res;
+	}
 
-	public void updateSelectionCTRL(InputObject im, Camera camera) {
+	public void updateSelectionCTRL(InputObject im, Camera camera, Plateau plateau) {
 		if (rectangleSelection != null) {
 			this.selection.clear();;
 			// handling the selection
@@ -263,7 +272,7 @@ public class Selection {
 					}
 				}
 			}
-			Vector<Objet> visibles = plateau.getInCamObjets(camera);
+			Vector<Objet> visibles = getInCamObjets(camera, plateau);
 			if (this.selection.size() == 1) {
 				Objet ao = plateau.getById(this.selection.get(0));
 				if (ao instanceof Character) {

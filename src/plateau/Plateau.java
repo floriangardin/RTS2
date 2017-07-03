@@ -869,16 +869,6 @@ public class Plateau implements java.io.Serializable {
 		return this.toString().equals(((Plateau)o).toString());
 	}
 
-	public Vector<Objet> getInCamObjets(Camera camera) {
-		Vector<Objet> res = new Vector<Objet>();
-		
-		for(Objet o : this.objets.values()){
-			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
-				res.add(o);
-			}
-		}
-		return res;
-	}
 
 
 }

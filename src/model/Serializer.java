@@ -30,28 +30,19 @@ public class Serializer {
 		return serializedObject;		
 	}
 	
-	public static InputObject deserialize(byte[] serializedObject){
+	public static Object deserialize(byte[] serializedObject){
 		// deserialize the object
-		try {
-			ByteArrayInputStream bi = new ByteArrayInputStream(serializedObject);
-			ObjectInputStream si = new ObjectInputStream(bi);
-			return (InputObject) si.readObject();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new InputObject();
-		}
-
-	}
-	
-	public static Plateau deserializePlateau(byte[] serializedObject) throws IOException, ClassNotFoundException{
-		// deserialize the object
-		
-	
 		ByteArrayInputStream bi = new ByteArrayInputStream(serializedObject);
 		ObjectInputStream si;
-		si = new ObjectInputStream(bi);
-		return (Plateau) si.readObject();
-		
+		try {
+			si = new ObjectInputStream(bi);
+			return si.readObject();
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 		
 	}
+	
 }

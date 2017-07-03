@@ -72,7 +72,7 @@ public class GameSystem extends ClassSystem{
 		// 3 : Update interface
 		bottombar.update(im);
 		// 2: Update selection in im.selection
-		p.selection.handleSelection(im, bottombar);
+		p.selection.handleSelection(im, bottombar, plateau);
 		// Multiplayer .. Send input
 		// 3 : Update plateau (singleplayer = Main.nDelay==0)
 		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);

@@ -13,39 +13,40 @@ import plateau.Plateau;
 
 
 public class SimpleClient extends Listener {
-
-	Client client;
-	String ip = "localhost";
-	int port = 27960;
-	Plateau plateau;
-	Vector<InputObject> inputs = new Vector<InputObject>();
 	
-	public static void main(String[] args) throws IOException, InterruptedException{
-		SimpleClient client = new SimpleClient();
-		client.connect();
-		byte[] input = Serializer.serialize(new InputObject());
-		while(true){
-			client.client.sendTCP(input);
-			Thread.sleep(100);
-		}	
-	}
-	
-	public void send(InputObject im){
-		client.sendTCP(Serializer.serialize(im));
-	}
+	//OPTIONS
+	private static Client client;
+	private static String ip = "localhost"; //FOR SINGLEPLAYER
+	private static int port = 27960;
+	// STATE
+	private static Plateau plateau; // Mutable State side effect ...
+	private static Vector<InputObject> inputs = new Vector<InputObject>();
 
-	public synchronized Plateau getPlateau(){
-		return plateau;
-	}
-	public synchronized void setPlateau(Plateau plateau){
-		this.plateau = plateau;
-	}
 
-	public void connect(){
+	public static void init(Plateau plateau){
+		SimpleClient.plateau = plateau;
 		client = new Client(5000000, 5000000);
 		client.getKryo().register(byte[].class);
+		client.getKryo().register(Integer.class);
+		client.getKryo().register(Message.class);
 		client.getKryo().register(String.class);
-		client.addListener(this);
+		client.addListener(new Listener(){
+			public void received(Connection c, Object o){
+				
+				if(o instanceof Message){
+					Message m = (Message) o;
+					int type = m.getType();
+					if(type==Message.PLATEAU){
+						System.out.println("Youpi un plateau");
+						Plateau plateau = (Plateau) m.get();
+						SimpleClient.setPlateau(plateau);
+					}else if(type==Message.INPUTOBJECT){
+						InputObject im = (InputObject)m.get();
+						SimpleClient.addInput(im);
+					}
+				}
+			}
+		});
 		client.start();
 		try {
 			client.connect(5000, ip, port, port);
@@ -53,30 +54,33 @@ public class SimpleClient extends Listener {
 			e.printStackTrace();
 		}
 	}
-	public synchronized void addInput(InputObject im){
+	
+	
+	public static void send(InputObject im){
+		Message m = new Message(im);
+		client.sendTCP(m);
+	}
+	
+	public static void send(Plateau plateau){
+		Message m = new Message(plateau);
+		client.sendTCP(Serializer.serialize(m));
+	}
+
+	public synchronized static Plateau getPlateau(){
+		return plateau;
+	}
+	public synchronized static void setPlateau(Plateau plateau){
+		SimpleClient.plateau = plateau;
+	}
+	public synchronized static void addInput(InputObject im){
 		inputs.add(im);
 	}
-	public synchronized Vector<InputObject> getInputs(){
+	public synchronized static Vector<InputObject> getInputs(){
 		Vector<InputObject> res = new Vector<InputObject>();
 		res.addAll(inputs);
 		inputs.clear();
 		return res;
 	}
-	public void received(Connection c, Object o){
-		if(o instanceof byte[]){
-			InputObject im= Serializer.deserialize((byte[])o); 
-			addInput(im);
-			
-//			try {
-//				this.setPlateau((Plateau) Serializer.deserializePlateau((byte[])o) );
-//			} catch (ClassNotFoundException | IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			
-		}else if(o instanceof String){
-			String s = (String) o;
-			System.out.println(s);
-		}
-	}
+	
+	
 }
