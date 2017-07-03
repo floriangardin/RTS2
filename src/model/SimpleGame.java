@@ -32,7 +32,6 @@ public class SimpleGame extends BasicGame {
 	public SimpleGame(int currentPlayer) {
 		super("RTS ULTRAMYTHE");
 		this.currentPlayer = currentPlayer;
-		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -84,9 +83,19 @@ public class SimpleGame extends BasicGame {
 		this.bottombar = new Interface(plateau, players.get(currentPlayer));
 		InputHandler.init(this.players.size());
 		KeyMapper.init();
+		// Launch server
+		try{
+			SimpleServer.launch(plateau);
+		}catch(Exception e){
+			System.out.println("Server already exist !");
+		}
+		
+		// Launch client
 		this.client = new SimpleClient();
 		client.connect();
 		client.setPlateau(plateau);
+		// Try to launch a server, do nothing if adress already in use
+		
 	}
 
 

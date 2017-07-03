@@ -40,8 +40,7 @@ public class SimpleClient extends Listener {
 	public synchronized void setPlateau(Plateau plateau){
 		this.plateau = plateau;
 	}
-	
-	
+
 	public void connect(){
 		client = new Client(5000000, 5000000);
 		client.getKryo().register(byte[].class);

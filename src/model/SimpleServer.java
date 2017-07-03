@@ -70,6 +70,7 @@ public class SimpleServer extends Listener {
 		System.out.println("Connection received.");
 	}
 	
+
 	public void received(Connection c, Object o){
 		if(o instanceof byte[]){
 			// Broadcast inputs to all
