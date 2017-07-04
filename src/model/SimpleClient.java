@@ -70,7 +70,7 @@ public class SimpleClient extends Listener {
 	}
 	public static Vector<InputObject> getInputForRound(){
 		Vector<InputObject> res = new Vector<InputObject>();
-		for(InputObject im : inputs){
+		for(InputObject im: inputs){
 			
 		}
 		return res;
@@ -85,7 +85,7 @@ public class SimpleClient extends Listener {
 	}
 
 	public synchronized static Plateau getPlateau(){
-		return plateau;
+		return SimpleClient.plateau;
 	}
 	public synchronized static void setPlateau(Plateau plateau){
 		SimpleClient.plateau = plateau;

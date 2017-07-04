@@ -53,8 +53,7 @@ public class GameSystem extends ClassSystem{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		RenderEngine.render(g, plateau, camera, players.get(currentPlayer), bottombar);
-		
+		RenderEngine.render(g, plateau, camera, players.get(currentPlayer), bottombar);	
 	}
 
 	@Override
