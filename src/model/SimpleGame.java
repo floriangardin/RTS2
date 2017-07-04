@@ -36,17 +36,16 @@ public class SimpleGame extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
-		// 0 : Update ia's 
-
-		// Init Round
 		Player p = players.get(currentPlayer);
-		// Get Control
-		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam());
-		InputHandler.addToInputs(im, true);
-		// Get the plateau from server
+		// Get the plateau from client
 		Plateau plateau = SimpleClient.getPlateau();
+		// Get Control
+		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam(), SimpleClient.roundForInput());
+		InputHandler.addToInputs(im, true);
+//		byte[] ser = Serializer.serialize(plateau);
+//		System.out.println("Size of plateau : "+ser.length);
 		// Update interface
-		bottombar.update(im);
+		bottombar.update(im, plateau);
 		// Update selection in im.selection
 		p.selection.handleSelection(im, bottombar, plateau);
 		// Send input for round
@@ -55,12 +54,12 @@ public class SimpleGame extends BasicGame {
 		SimpleClient.send(new Checksum(plateau.round, plateau.toString()));
 		// Get new inputs for round
 		Vector<InputObject> ims = SimpleClient.getInputs();
-		// Update IA from plateau 
-		for(Player player : players){
-			if(player.ia!=null){
-				player.ia.action(plateau);
-			}
-		}
+//		// Update IA from plateau 
+//		for(Player player : players){
+//			if(player.ia!=null){
+//				player.ia.action(plateau);
+//			}
+//		}
 		plateau.update(ims, players);
 		// 4 : Update the camera given current input
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());

@@ -33,7 +33,7 @@ public class MapTest {
 	public void testIdDifferentes() {
 		Plateau plateau = Map.createPlateau("test02", "maptests");
 		plateau.update(new Vector<InputObject>());
-		plateau.print();
+		//plateau.print();
 		for(int i=0; i<5; i++){
 			System.out.println(i);
 			assertEquals(plateau.characters.get(i).id,i+6);
@@ -90,6 +90,36 @@ public class MapTest {
 		byte[] serializedPlateau = Serializer.serialize(plateau);
 		Plateau plateau2 = (Plateau)Serializer.deserialize(serializedPlateau);
 	}
+	
+	@Test
+	public void testPlateauSerializableSizeStatic() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		int refSize = 0;
+		for(int i=0; i<10; i++){
+			plateau.update(new Vector<InputObject>());
+			byte[] serializedPlateau = Serializer.serialize(plateau);
+			if(refSize==0){
+				refSize=serializedPlateau.length;
+			}
+			assertTrue(refSize==serializedPlateau.length);
+		}
+	}
+	@Test
+	public void testPlateauSerializableDontGrowTooMuch() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		int refSize = 0;
+		for(int i=0; i<100; i++){
+			byte[] serializedPlateau = Serializer.serialize(plateau);
+			
+			if(refSize==0){
+				refSize=serializedPlateau.length;
+			}
+			plateau.update(new Vector<InputObject>());
+			plateau.characters.get(0).setTarget(new Checkpoint(100+(float)Math.random(), 100+(float)Math.random(), plateau), plateau);
+			assertTrue(2*refSize>serializedPlateau.length);
+		}
+	}
+	
 	
 
 

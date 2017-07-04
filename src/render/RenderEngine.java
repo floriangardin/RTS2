@@ -70,7 +70,7 @@ public class RenderEngine {
 		g.translate(camera.Xcam, camera.Ycam);
 		// draw interface
 		// 4) Draw bottom bar
-		bottombar.draw(g, camera);
+		bottombar.draw(g, camera, plateau);
 	}
 	
 	public static void render(Graphics g, Plateau plateau, Camera camera){

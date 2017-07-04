@@ -55,12 +55,13 @@ public class InputObject implements java.io.Serializable{
 		this.validated = new Vector<Boolean>();
 	}
 	
-	public InputObject(Input input, Camera camera, int team){
+	public InputObject(Input input, Camera camera, int team, int round){
 		initInput(input, camera);
 		this.toPlay = false;
 		this.isOnMiniMap = false;
 		this.validated = new Vector<Boolean>();
 		this.team = team;
+		this.round = round;
 	}
 	
 	public InputObject(Input input){

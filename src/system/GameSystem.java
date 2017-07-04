@@ -67,10 +67,10 @@ public class GameSystem extends ClassSystem{
 		}
 		// 1 : Get Control
 		Player p = players.get(currentPlayer);
-		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam());
+		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam(), plateau.round);
 		InputHandler.addToInputs(im, true);
 		// 3 : Update interface
-		bottombar.update(im);
+		bottombar.update(im, plateau);
 		// 2: Update selection in im.selection
 		p.selection.handleSelection(im, bottombar, plateau);
 		// Multiplayer .. Send input

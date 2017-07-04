@@ -17,7 +17,7 @@ public class SimpleServer extends Listener {
 
 	static Server server;
 	static final int port = 27960;
-	static final int delay = 2; // Number of delay rounds
+	
 	// State
 	static Vector<InputObject> inputs = new Vector<InputObject>();
 	static Vector<Checksum> checksums = new Vector<Checksum>();
@@ -105,12 +105,12 @@ public class SimpleServer extends Listener {
 				}
 			}
 		}
-		if(checksums.size()>delay){
+		if(checksums.size()>SimpleClient.delay){
 			clearChecksum();
 		}
 		int deltaRound = (maxRound-minRound);
 		
-		return deltaRound<=delay; // If delta too high there is delay desynchro or desynchro
+		return deltaRound<=SimpleClient.delay; // If delta too high there is delay desynchro or desynchro
 	}
 
 	public void disconnected(Connection c){

@@ -30,7 +30,6 @@ import utils.Utils;
 
 public class Interface {
 
-	public Plateau plateau;
 
 	public Player player;
 
@@ -112,8 +111,8 @@ public class Interface {
 
 
 	public Interface(Plateau plateau, Player player){
-		this.plateau = plateau;
-		this.updateRatioMiniMap();
+		
+		this.updateRatioMiniMap(plateau);
 		this.player = player;
 	}
 
@@ -121,13 +120,13 @@ public class Interface {
 	// Update mathods
 	///////
 
-	public void update(InputObject im){
-		this.updateActionInterface(im);
-		this.updateTopInterface(im.xOnScreen, im.yOnScreen);
-		this.updateMinimap(im);
+	public void update(InputObject im, Plateau plateau){
+		this.updateActionInterface(im, plateau);
+		this.updateTopInterface(im.xOnScreen, im.yOnScreen, plateau);
+		this.updateMinimap(im, plateau);
 	}
 
-	public void updateActionInterface(InputObject im){
+	public void updateActionInterface(InputObject im, Plateau plateau){
 		for(int i = 0 ; i<prodIconNbY;i++){
 			for(int j = 0 ; j<prodIconNbX; j++){
 				toDrawDescription[i][j] = false;
@@ -214,7 +213,7 @@ public class Interface {
 		}
 	}
 
-	public void updateTopInterface(float xMouse, float yMouse){
+	public void updateTopInterface(float xMouse, float yMouse, Plateau plateau){
 		mouseOnTopBar = isMouseOnTopBar(xMouse, yMouse);
 		if(iconChoice==null){
 			return;
@@ -224,7 +223,7 @@ public class Interface {
 		}
 	}
 
-	public void updateMinimap(InputObject im){
+	public void updateMinimap(InputObject im, Plateau plateau){
 		if(isMouseOnMiniMap(im.xOnScreen, im.yOnScreen)){
 			im.isOnMiniMap = true;
 
@@ -233,7 +232,7 @@ public class Interface {
 		}
 	}
 
-	public void updateRatioMiniMap(){
+	public void updateRatioMiniMap(Plateau plateau){
 
 		if(plateau.maxX>plateau.maxY){
 			this.widthMiniMap = this.sizeXMiniMap;
@@ -254,7 +253,7 @@ public class Interface {
 	// Draw mathods
 	///////
 
-	public Graphics draw(Graphics g, Camera camera){
+	public Graphics draw(Graphics g, Camera camera, Plateau plateau){
 		// Draw Background :
 
 
@@ -263,11 +262,11 @@ public class Interface {
 		//g.drawImage(this.background,x,y-6f);
 
 		// ACTIONS, Spells  and production
-		this.drawSpell(g, camera);
-		this.drawActionInterface(g);
-		this.drawSelectionInterface(g);
-		this.drawTopInterface(g);
-		this.drawMiniMap(g, camera);
+		this.drawSpell(g, camera, plateau);
+		this.drawActionInterface(g, plateau);
+		this.drawSelectionInterface(g, plateau);
+		this.drawTopInterface(g, plateau);
+		this.drawMiniMap(g, camera, plateau);
 
 		//spell.draw(g);
 
@@ -275,7 +274,7 @@ public class Interface {
 		return g;
 	}
 
-	public void drawSelectionInterface(Graphics g){
+	public void drawSelectionInterface(Graphics g, Plateau plateau){
 
 		float sizeXBar;
 		float x = 0;
@@ -442,7 +441,7 @@ public class Interface {
 
 	}
 
-	public void drawActionInterface(Graphics g){
+	public void drawActionInterface(Graphics g, Plateau plateau){
 		float startY2;
 		Image imageGold ;
 		Image imageFood;
@@ -604,7 +603,7 @@ public class Interface {
 
 	}
 
-	public void drawTopInterface(Graphics g){
+	public void drawTopInterface(Graphics g, Plateau plateau){
 		String s;
 		float rX = Game.resX;
 		float rY = Game.resY;
@@ -674,7 +673,7 @@ public class Interface {
 
 	}
 
-	public void drawMiniMap(Graphics g, Camera camera){
+	public void drawMiniMap(Graphics g, Camera camera, Plateau plateau){
 		this.offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
 		Utils.drawNiceRect(g,  player.getGameTeam().color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
@@ -780,7 +779,7 @@ public class Interface {
 		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
 	}
 
-	public void drawSpell(Graphics g, Camera camera){
+	public void drawSpell(Graphics g, Camera camera, Plateau plateau){
 		if(this.spellCurrent!=null){
 			g.translate(-camera.Xcam, -camera.Ycam);
 			Spell s = this.spellLauncher.getSpell(this.spellCurrent);

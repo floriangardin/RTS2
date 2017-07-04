@@ -22,7 +22,7 @@ public class SimpleClient extends Listener {
 	// STATE
 	private static Plateau plateau; // Mutable State side effect ...
 	private static Vector<InputObject> inputs = new Vector<InputObject>();
-
+	static final int delay = 2; // Number of delay rounds
 
 	public static void init(Plateau plateau){
 		SimpleClient.plateau = plateau;
@@ -62,6 +62,19 @@ public class SimpleClient extends Listener {
 		client.sendTCP(m);
 	}
 	
+	public static int roundForInput(){
+		return plateau.round+delay;
+	}
+	public static int getRound(){
+		return plateau.round;
+	}
+	public static Vector<InputObject> getInputForRound(){
+		Vector<InputObject> res = new Vector<InputObject>();
+		for(InputObject im : inputs){
+			
+		}
+		return res;
+	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
 		client.sendTCP(m);
@@ -82,7 +95,15 @@ public class SimpleClient extends Listener {
 	}
 	public synchronized static Vector<InputObject> getInputs(){
 		Vector<InputObject> res = new Vector<InputObject>();
-		res.addAll(inputs);
+		Vector<InputObject> toRemove = new Vector<InputObject>();
+		for(InputObject im : inputs){
+			if(im.round==plateau.round+delay){
+				res.add(im);
+			}else if(im.round<plateau.round+delay){
+				toRemove.add(im);
+			}
+		}
+		inputs.removeAll(res);
 		inputs.clear();
 		return res;
 	}
