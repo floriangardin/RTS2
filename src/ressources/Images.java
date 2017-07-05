@@ -26,6 +26,8 @@ public class Images {
 
 	private static Data data;
 	public static boolean gillesModeEnable = false;
+	
+	private static boolean isInitialized = false;
 
 	public static void init(){
 		images = new HashMap<String, Image>();
@@ -33,6 +35,11 @@ public class Images {
 		loadRepertoire("ressources/images/");
 		initialize();
 		initializeUnits();
+		isInitialized = true;
+	}
+	
+	public static boolean isInitialized(){
+		return isInitialized;
 	}
 
 	private static void initialize() {

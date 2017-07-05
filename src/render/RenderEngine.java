@@ -29,8 +29,25 @@ public class RenderEngine {
 	public static final int INTERFACELAYER = 5;
 	public static final int NORMALLAYER = 2;
 	public static final int GROUNDLAYER = 1;
+	
+	private static boolean isReady = false;
+	private static boolean hasChecked = false;
 
 	public static int i;
+	
+	public static boolean isReady(){
+		if(!hasChecked){
+			checkIfReady();
+		}
+		return isReady;
+	}
+	
+	private static void checkIfReady(){
+		boolean b = true;
+		b = b && Images.isInitialized();
+		isReady = b;
+		hasChecked = true;
+	}
 
 	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
 

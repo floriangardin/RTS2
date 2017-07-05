@@ -64,6 +64,7 @@ public class SimpleGame extends BasicGame {
 		// 4 : Update the camera given current input
 		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
 	}
+	
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
 		SimpleRenderEngine.render(g, SimpleClient.getPlateau(), camera, players.get(currentPlayer));

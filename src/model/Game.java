@@ -35,6 +35,7 @@ public class Game extends BasicGame
 		Game.resY = resY;
 		Game.ratioResolution = 1f*resX/1920f;
 	}
+	
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -48,7 +49,9 @@ public class Game extends BasicGame
 
 	@Override
 	public void init(GameContainer arg0) throws SlickException {
-		system = new IntroSystem();
+		if(system==null){
+			system = new IntroSystem();
+		}
 	}
 
 	@Override

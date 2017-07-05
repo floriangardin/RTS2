@@ -18,26 +18,15 @@ public class Main {
 	///////\\\\\\\\\
 	
 	public static float increment = 0.1f*30/Main.framerate;
-	public static boolean pleinEcran = false;
 	
-	// debug direct
-	public static boolean debugRapid = false;
-	public static int nameMap = 0;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX;
-		int resolutionY;
-		if(pleinEcran){
-			resolutionX = (int)screenSize.getWidth();		
-			resolutionY = (int)screenSize.getHeight();
-		}  else {
-			resolutionX = 800;		
-			resolutionY = 600;
-		}
+		int resolutionX = (int)screenSize.getWidth();
+		int resolutionY = (int)screenSize.getHeight();
 		try {
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
@@ -45,7 +34,7 @@ public class Main {
 			app.setIcon("ressources/images/danger/iconeJeu.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
-			app.setDisplayMode(resolutionX, resolutionY,pleinEcran);
+			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setAlwaysRender(false);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
