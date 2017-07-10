@@ -15,7 +15,7 @@ import plateau.Plateau;
 public class SimpleClient extends Listener {
 	//OPTIONS
 	private static Client client;
-	private static String ip = "localhost"; //FOR SINGLEPLAYER
+	private static String ip = "0.0.0.0"; //FOR SINGLEPLAYER
 	private static int port = 27960;
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
