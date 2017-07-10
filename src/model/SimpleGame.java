@@ -70,8 +70,10 @@ public class SimpleGame extends BasicGame {
 		Camera.init(800, 600, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
 		KeyMapper.init();
-		// Launch server if it doesnt exist, otherwise continue, bind to host plateau !
-		SimpleServer.init(); // En vrai il faudra le lancer à part
+		// Try to find a server else launch one ...
+		if(SimpleClient.getIP()==null){			
+			SimpleServer.init(); // En vrai il faudra le lancer à part
+		}
 		Player.init(plateau.teams.get(SimpleServer.hasLaunched ? 1 : 2));
 		SimpleClient.init(plateau);
 		gc.setMaximumLogicUpdateInterval(16);

@@ -17,8 +17,8 @@ import plateau.Plateau;
 
 public class SimpleClient extends Listener {
 	//OPTIONS
-	private static Client client;
-	private static String ip = "0.0.0.0"; //FOR SINGLEPLAYER
+	private final static Client client = new Client(500000, 500000);
+	private static String ip = null; //FOR SINGLEPLAYER
 	private static int port = 27960;
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
@@ -27,7 +27,6 @@ public class SimpleClient extends Listener {
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(Plateau plateau){
 		SimpleClient.plateau = plateau;
-		client = new Client(500000, 500000);
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
 		client.getKryo().register(String.class);
@@ -57,8 +56,13 @@ public class SimpleClient extends Listener {
 		}
 	}
 	public static String getIP() {
-		InetAddress host = client.discoverHost(port, 5000); 
-		return host.getHostAddress();
+		try{
+			InetAddress host = client.discoverHost(port, 5000); 
+			return host.getHostAddress();
+		}catch(Exception e ){
+			return null;
+		}
+
 	}
 	public static void send(InputObject im){
 		Message m = new Message(im);
