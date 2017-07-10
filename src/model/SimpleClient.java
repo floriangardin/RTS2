@@ -70,7 +70,7 @@ public class SimpleClient extends Listener {
 	}
 	public static void send(InputObject im){
 		Message m = new Message(im);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 
 	public static int roundForInput(){
@@ -99,11 +99,11 @@ public class SimpleClient extends Listener {
 	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
-		client.sendUDP(Serializer.serialize(m));
+		client.sendTCP(Serializer.serialize(m));
 	}
 
 	public static Plateau getPlateau(){	
