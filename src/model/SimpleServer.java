@@ -82,10 +82,12 @@ public class SimpleServer extends Listener {
 					System.out.println("desynchro");
 					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
 				}
-			}else{
+			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
 				server.sendToAllUDP(o);
 			}
+		}else if(o instanceof Integer){
+			server.sendToAllExceptUDP(c.getID(), o);
 		}
 	}
 	

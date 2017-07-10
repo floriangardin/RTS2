@@ -31,6 +31,15 @@ public class SimpleGame extends BasicGame {
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// Get the plateau from client	
 		// Get Control
+		if(SimpleClient.slowDown>0){
+			System.out.println("Slowing down : "+SimpleClient.slowDown);
+			gc.setMinimumLogicUpdateInterval((1+SimpleClient.slowDown)*16);
+			gc.setMaximumLogicUpdateInterval((1+SimpleClient.slowDown)*16);
+			SimpleClient.slowDown=0;
+		}else{
+			gc.setMinimumLogicUpdateInterval(16);
+			gc.setMaximumLogicUpdateInterval(16);
+		}
 		SimpleClient.mutex.lock();
 		try{
 			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), SimpleClient.roundForInput());
@@ -52,6 +61,7 @@ public class SimpleGame extends BasicGame {
 		}finally{
 			SimpleClient.mutex.unlock();
 		}
+		
 		gc.sleep(1);
 
 	}
