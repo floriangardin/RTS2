@@ -16,7 +16,6 @@ import org.newdawn.slick.ImageBuffer;
 import com.google.gson.Gson;
 
 import model.Game;
-import model.Player;
 import plateau.Building;
 import plateau.Objet;
 import plateau.Plateau;

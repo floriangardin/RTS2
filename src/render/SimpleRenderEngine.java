@@ -3,40 +3,47 @@ package render;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import control.Player;
 import display.Camera;
-import model.Player;
 import plateau.Objet;
 import plateau.Plateau;
+import plateau.Character;
 
 public class SimpleRenderEngine {
 
 	// Debug rendering
-	public static void render(Graphics g, Plateau plateau, Camera camera, Player player){
-		
-		g.translate(-camera.Xcam, -camera.Ycam);
+	public static void render(Graphics g, Plateau plateau){
+		g.setColor(Color.white);
+		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
+		g.translate(-Camera.Xcam, -Camera.Ycam);
 		// Render everything rawest way ...
-		for(Integer o: player.selection.selection){
+		for(Integer o: Player.selection){
 			g.setColor(Color.green);
 			g.draw(plateau.getById(o).selectionBox);
 		}
 		for(Objet o : plateau.objets.values()){
 			g.setColor(o.getTeam().color);
-			if(o.collisionBox != null){				
-				g.fill(o.collisionBox);
+			if(o.collisionBox != null){
+				if(o instanceof Character){
+					g.setAntiAlias(true);
+					g.draw(o.collisionBox);
+					g.setAntiAlias(false);
+					g.fill(o.collisionBox);
+				}else{
+					g.fill(o.collisionBox);
+				}
 			}
 		}
-		
 		// Rectangle of selection
-		if(player.selection.rectangleSelection != null){
+		if(Player.rectangleSelection != null){
 			g.setLineWidth(1f);
 			g.setColor(Color.green);
-			g.drawRect(player.selection.rectangleSelection.getMinX(),
-					player.selection.rectangleSelection.getMinY(),
-					player.selection.rectangleSelection.getWidth(),
-					player.selection.rectangleSelection.getHeight());	
+			g.drawRect(Player.rectangleSelection.getMinX(),
+					Player.rectangleSelection.getMinY(),
+					Player.rectangleSelection.getWidth(),
+					Player.rectangleSelection.getHeight());	
 		}
 		// Render selection 
-		
-		g.translate(camera.Xcam, camera.Ycam);
+		g.translate(Camera.Xcam, Camera.Ycam);
 	}
 }

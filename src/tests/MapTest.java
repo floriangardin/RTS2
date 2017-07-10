@@ -8,15 +8,13 @@ import java.io.IOException;
 import java.util.Vector;
 
 import org.junit.Test;
-import org.newdawn.slick.Graphics;
 
 import control.InputObject;
-import display.Camera;
 import model.Serializer;
+import multiplaying.Checksum;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Plateau;
-import render.RenderEngine;
 import ressources.Map;
 
 public class MapTest {
@@ -77,7 +75,7 @@ public class MapTest {
 		float yObjectif = 90;
 		Checkpoint checkpoint = new Checkpoint(xObjectif, yObjectif, plateau);
 		c.setTarget(checkpoint, plateau);
-		for(int i=0; i<5000; i++){
+		for(int i=0; i<1000; i++){
 			plateau.update(new Vector<InputObject>());
 		}
 		assertTrue(Math.abs(c.x - xObjectif)<50);
@@ -120,6 +118,58 @@ public class MapTest {
 		}
 	}
 	
+	
+	@Test
+	public void testChecksum() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		plateau.update(new Vector<InputObject>());
+		assertTrue(new Checksum(plateau).equals(new Checksum(plateau)));
+	}
+	@Test
+	public void testPlateauSerializableChecksum() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		plateau.update(new Vector<InputObject>());
+		int refSize = 0;
+		for(int i=0; i<100; i++){
+			byte[] serializedPlateau1 = Serializer.serialize(plateau);
+			byte[] serializedPlateau2 = Serializer.serialize(plateau);
+			Plateau plateau1 = (Plateau) Serializer.deserialize(serializedPlateau1);
+			Plateau plateau2 = (Plateau) Serializer.deserialize(serializedPlateau2);
+			assertTrue(new Checksum(plateau1).equals(new Checksum(plateau2)));
+		}
+	}
+	
+	@Test
+	public void testChecksumRoundDifferentEqual() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		Checksum check1 = new Checksum(plateau);
+		plateau.update(new Vector<InputObject>());
+		plateau.characters.get(0).x += 2;
+		Checksum check2 = new Checksum(plateau);
+		assertTrue(check1.equals(check2));
+	}
+	@Test
+	public void testChecksumEqualDifferentPlateau() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		plateau.update();
+		Checksum check1 = new Checksum(plateau);
+		Plateau plateau2 = Map.createPlateau("test01", "maptests");
+		plateau2.update();
+		Checksum check2 = new Checksum(plateau2);
+		assertTrue(check1.equals(check2));
+	}
+	
+	@Test
+	public void testChecksumDesynchro() throws ClassNotFoundException, IOException {
+		Plateau plateau = Map.createPlateau("test01", "maptests");
+		plateau.update();
+		Checksum check1 = new Checksum(plateau);
+		Plateau plateau2 = Map.createPlateau("test01", "maptests");
+		plateau2.update();
+		plateau2.characters.get(0).x +=2;
+		Checksum check2 = new Checksum(plateau2);
+		assertFalse(check1.equals(check2));
+	}
 	
 
 

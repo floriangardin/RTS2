@@ -7,7 +7,6 @@ import menuutils.Menu_Map;
 import menuutils.Menu_Player;
 import model.Game;
 import model.Options;
-import model.Player;
 import ressources.GraphicElements;
 import ressources.Map;
 

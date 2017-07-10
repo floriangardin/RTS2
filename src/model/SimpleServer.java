@@ -17,14 +17,14 @@ public class SimpleServer extends Listener {
 
 	static Server server;
 	static final int port = 27960;
-	
+	static boolean hasLaunched = false;
 	// State
 	static Vector<InputObject> inputs = new Vector<InputObject>();
 	static Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 
 	public static void init(){
-		server = new Server(5000000, 5000000);
+		server = new Server(500000, 500000);
 		// Choose between byte and plateau
 		server.getKryo().register(byte[].class);
 		server.getKryo().register(Integer.class);
@@ -32,25 +32,42 @@ public class SimpleServer extends Listener {
 		server.getKryo().register(Message.class);
 		try {
 			server.bind(port, port);
+			hasLaunched = true;
+			server.start();
+			server.addListener(new SimpleServer());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		server.start();
-		server.addListener(new SimpleServer());
-		System.out.println("The server is ready");
+
+		
 	}
 
-	public synchronized static void addChecksum(Checksum c){
-		checksums.add(c);
+	public static void addChecksum(Checksum c){
+		SimpleClient.mutex.lock();
+		try{
+			checksums.add(c);
+		}finally{
+			SimpleClient.mutex.unlock();
+		}
 	}
-	public synchronized void addInput(InputObject im){
-		inputs.add(im);
+	public void addInput(InputObject im){
+		SimpleClient.mutex.lock();
+		try{			
+			inputs.add(im);
+		}finally{
+			SimpleClient.mutex.unlock();
+		}
 	}
-	public synchronized static Vector<InputObject> getInputs(){
+	public static Vector<InputObject> getInputs(){
+		SimpleClient.mutex.lock();
 		Vector<InputObject> result = new Vector<InputObject>();
-		result.addAll(inputs);
-		inputs.clear();
+		try{			
+			result.addAll(inputs);
+			inputs.clear();
+		}finally{
+			SimpleClient.mutex.unlock();
+		}
 		return result;
 	}
 	
@@ -73,7 +90,7 @@ public class SimpleServer extends Listener {
 			if(m.getType()==Message.CHECKSUM){
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
-					System.out.println("desyncrho");
+					System.out.println("desynchro");
 					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
 				}
 			}else{
@@ -85,15 +102,31 @@ public class SimpleServer extends Listener {
 		}
 	}
 	
-	public synchronized static void clearChecksum(){
-		checksums.clear();
+	public static void clearChecksum(){
+		SimpleClient.mutex.lock();
+		try{			
+			checksums.clear();
+		}finally{
+			SimpleClient.mutex.unlock();
+		}
+		
 	}
+	public static Vector<Checksum> getChecksums(){
+		SimpleClient.mutex.lock();
+		try{			
+			return checksums;
+		}finally{
+			SimpleClient.mutex.unlock();
+		}
+	}
+	
+	
 
 	private static boolean isSynchro() {
 		int minRound = -1;
 		int maxRound = -1;
-		for(Checksum c : checksums){
-			for(Checksum d: checksums){
+		for(Checksum c : getChecksums()){
+			for(Checksum d: getChecksums()){
 				if(c.round<minRound || minRound==-1){
 					minRound = c.round;
 				}
@@ -101,16 +134,19 @@ public class SimpleServer extends Listener {
 					maxRound = c.round;
 				}
 				if(!c.equals(d)){
+					System.out.println("Inequalities in round "+c.round+" "+d.round);
+					clearChecksum();
 					return false;
 				}
 			}
 		}
-		if(checksums.size()>SimpleClient.delay){
+		if(getChecksums().size()>2*SimpleClient.delay){
 			clearChecksum();
 		}
-		int deltaRound = (maxRound-minRound);
-		
-		return deltaRound<=SimpleClient.delay; // If delta too high there is delay desynchro or desynchro
+		//System.out.println("Size checksms "+getChecksums().size());
+		//int deltaRound = (maxRound-minRound);
+		//System.out.println("max round : "+maxRound+ " min : "+minRound+ " d "+deltaRound);
+		return true; // If delta too high there is delay desynchro or desynchro
 	}
 
 	public void disconnected(Connection c){

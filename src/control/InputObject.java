@@ -21,7 +21,6 @@ public class InputObject implements java.io.Serializable{
 	private static final long serialVersionUID = 371933210691238615L;
 	public int id;
 	public int round;
-	public int idplayer;
 	public int team;
 	// Spells
 	public int idObjetMouse;
@@ -33,7 +32,7 @@ public class InputObject implements java.io.Serializable{
 	public Vector<Boolean> validated;
 	public boolean toPlay;
 	public boolean isOnMiniMap;
-	private transient final  static  boolean debugTouche = false;
+
 
 	public Vector<KeyEnum> down;
 	public Vector<KeyEnum> pressed;
@@ -42,7 +41,6 @@ public class InputObject implements java.io.Serializable{
 
 	public InputObject (){
 		this.id= 0;
-		this.idplayer = -1;
 		this.round = 0;
 		
 		down = new Vector<KeyEnum>();
@@ -55,8 +53,8 @@ public class InputObject implements java.io.Serializable{
 		this.validated = new Vector<Boolean>();
 	}
 	
-	public InputObject(Input input, Camera camera, int team, int round){
-		initInput(input, camera);
+	public InputObject(Input input, int team, int round){
+		initInput(input);
 		this.toPlay = false;
 		this.isOnMiniMap = false;
 		this.validated = new Vector<Boolean>();
@@ -217,13 +215,12 @@ public class InputObject implements java.io.Serializable{
 //		Game.g.inputsHandler.updateSelection(this);
 //	}
 	
-	public void initInput(Input input, Camera camera){
-		initInput(input);
-		x = input.getMouseX() + camera.Xcam;
-		y = input.getMouseY() + camera.Ycam;
-	}
-	
 	public void initInput(Input input){
+		initInitInput(input);
+		x = input.getMouseX() + Camera.Xcam;
+		y = input.getMouseY() + Camera.Ycam;
+	}
+	public void initInitInput(Input input){
 		x = input.getMouseX();
 		y = input.getMouseY();
 		xOnScreen = input.getMouseX();

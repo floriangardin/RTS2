@@ -528,7 +528,6 @@ public class Building extends Objet{
 		}
 	}
 
-	
 
 	public void setCharge(float charge){
 		if(this.queue!=null && this.queue.size()>0 && charge>this.getAttribut(this.getQueue().get(0),Attributs.prodTime)){

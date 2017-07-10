@@ -6,8 +6,8 @@ import bot.IA;
 import bot.IAAllyObject;
 import bot.IAUnit;
 import data.Attributs;
-import model.Player;
 import plateau.Plateau;
+import plateau.Team;
 import utils.ObjetsList;
 
 public class IAFlo extends IA{
@@ -19,8 +19,8 @@ public class IAFlo extends IA{
 	private boolean hasSendMessagePhilippe;
 	private boolean missionRogerLaventurierDone;
 	
-	public IAFlo(Player p, Plateau plateau) {
-		super(p, plateau);
+	public IAFlo(Team team, Plateau plateau) {
+		super(team, plateau);
 	}
 
 	

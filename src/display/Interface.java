@@ -10,11 +10,11 @@ import org.newdawn.slick.Image;
 import bonus.Bonus;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import control.Player;
 import data.Attributs;
 import main.Main;
 import model.Colors;
 import model.Game;
-import model.Player;
 import plateau.Building;
 import plateau.Character;
 import plateau.NaturalObjet;
@@ -30,103 +30,94 @@ import utils.Utils;
 
 public class Interface {
 
+	public static float ratioMinimapX = 1/6f;
+	public static float ratioSelectionX = 1/8f;
+	public static float ratioSpellX = 1/12f;
+	public static float ratioBarVertX = 1/32f;
 
-	public Player player;
-
-	public float ratioMinimapX = 1/6f;
-	public float ratioSelectionX = 1/8f;
-	public float ratioSpellX = 1/12f;
-	public float ratioBarVertX = 1/32f;
-
-	public float nbRoundInit = 3*Main.framerate;
-	public float debut = nbRoundInit/4, duree = debut;
+	public static float nbRoundInit = 3*Main.framerate;
+	public static float debut = nbRoundInit/4, duree = debut;
 
 	// selection bar
-	public float startXSelectionBar = 0;
-	public float startYSelectionBar = Game.resY-Game.resX*this.ratioSelectionX;
-	public float sizeXSelectionBar = Game.resX*this.ratioSelectionX;
-	public float sizeYSelectionBar = sizeXSelectionBar;
+	public static float startXSelectionBar = 0;
+	public static float startYSelectionBar = Game.resY-Game.resX*ratioSelectionX;
+	public static float sizeXSelectionBar = Game.resX*ratioSelectionX;
+	public static float sizeYSelectionBar = sizeXSelectionBar;
 
 	// action bar
-	public float startXActionBar = 0;
-	public float sizeXActionBar = this.ratioBarVertX*Game.resX;
-	public float sizeYActionBar = 5*this.ratioBarVertX*Game.resX;
-	public float startYActionBar = Game.resY - sizeYActionBar - this.sizeYSelectionBar;
-	public float yActionBar = startYActionBar+sizeYActionBar;
-	public boolean mouseOnActionBar;
-	public int prodIconNbY = 5;
-	public int prodIconNbX = 2;
-	public boolean[][] toDrawDescription = new boolean[prodIconNbY][prodIconNbX];
+	public static float startXActionBar = 0;
+	public static float sizeXActionBar = ratioBarVertX*Game.resX;
+	public static float sizeYActionBar = 5*ratioBarVertX*Game.resX;
+	public static float startYActionBar = Game.resY - sizeYActionBar - sizeYSelectionBar;
+	public static float yActionBar = startYActionBar+sizeYActionBar;
+	public static boolean mouseOnActionBar;
+	public static int prodIconNbY = 5;
+	public static int prodIconNbX = 2;
+	public static boolean[][] toDrawDescription = new boolean[prodIconNbY][prodIconNbX];
 
 	// top bar
 
-	private int gold, food;
+	private static int gold, food;
 
-	public float ratioSizeGoldX = 1/13f;
-	public float ratioSizeTimerX = 1/12f;
-	public float ratioSizeGoldY = 1/19f;
-	public float ratioSizeTimerY = 1/15f;
+	public static float ratioSizeGoldX = 1/13f;
+	public static float ratioSizeTimerX = 1/12f;
+	public static float ratioSizeGoldY = 1/19f;
+	public static float ratioSizeTimerY = 1/15f;
 
-	public float startYDescription = 0;
-	public float ratioSizeDescriptionX = 1/3f;
-	public float ratioSizeChoiceX = 1/6f;
-	public boolean mouseOnTopBar;
-	public Vector<Icon> iconChoice;
+	public static float startYDescription = 0;
+	public static float ratioSizeDescriptionX = 1/3f;
+	public static float ratioSizeChoiceX = 1/6f;
+	public static boolean mouseOnTopBar;
+	public static Vector<Icon> iconChoice;
 
-	private float debutC = nbRoundInit/4;
-	private float debut1 = 3*nbRoundInit/8;
-	private float debut2 = nbRoundInit/2;
-	private float dureeDescente = nbRoundInit/8;
+	private static float debutC = nbRoundInit/4;
+	private static float debut1 = 3*nbRoundInit/8;
+	private static float debut2 = nbRoundInit/2;
+	private static float dureeDescente = nbRoundInit/8;
 
 	// minimap
-	public float startXMiniMap = Game.resX*(1-ratioMinimapX)+3; 
-	public float startX2MiniMap = Game.resX*(1-ratioMinimapX)+3;
-	public float offsetDrawX;
-	public float sizeXMiniMap = Game.resX*ratioMinimapX-6, sizeYMiniMap = sizeXMiniMap;
-	public float startYMiniMap, startY2MiniMap = Game.resY-ratioMinimapX*Game.resX+3;
-	public float widthMiniMap;
-	public float heightMiniMap;
-	public float ratioWidthMiniMap;
-	public float ratioHeightMiniMap;
-	private float debutGlissade = nbRoundInit/4;
-	private float dureeGlissade = nbRoundInit/4;
+	public static float startXMiniMap = Game.resX*(1-ratioMinimapX)+3; 
+	public static float startX2MiniMap = Game.resX*(1-ratioMinimapX)+3;
+	public static float offsetDrawX;
+	public static float sizeXMiniMap = Game.resX*ratioMinimapX-6, sizeYMiniMap = sizeXMiniMap;
+	public static float startYMiniMap, startY2MiniMap = Game.resY-ratioMinimapX*Game.resX+3;
+	public static float widthMiniMap;
+	public static float heightMiniMap;
+	public static float ratioWidthMiniMap;
+	public static float ratioHeightMiniMap;
+	private static float debutGlissade = nbRoundInit/4;
+	private static float dureeGlissade = nbRoundInit/4;
 
 	//card choice
-	private float startYCardChoiceBar;
-	private float sizeXCardChoiceBar = sizeXActionBar;
-	private float sizeYCardChoiceBar;
-	public Vector<Icon> cardChoice = new Vector<Icon>();
+	private static float startYCardChoiceBar;
+	private static float sizeXCardChoiceBar = sizeXActionBar;
+	private static float sizeYCardChoiceBar;
+	public static Vector<Icon> cardChoice = new Vector<Icon>();
 
 	//killing spree offest
-	public float offsetYkillingSpree = -150f;
+	public static float offsetYkillingSpree = -150f;
 
 
 	// Spell with click handling
-	public boolean spellOk = true;
-	public boolean spellRelease = false;
-	public Character spellLauncher;
-	public Objet spellTarget;
-	public float spellX,spellY;
-	public ObjetsList spellCurrent = null;
+	public static boolean spellOk = true;
+	public static boolean spellRelease = false;
+	public static Integer spellLauncher;
+	public static Integer spellTarget;
+	public static float spellX,spellY;
+	public static ObjetsList spellCurrent = null;
 
-
-	public Interface(Plateau plateau, Player player){
-		
-		this.updateRatioMiniMap(plateau);
-		this.player = player;
-	}
 
 	///////
 	// Update mathods
 	///////
 
-	public void update(InputObject im, Plateau plateau){
-		this.updateActionInterface(im, plateau);
-		this.updateTopInterface(im.xOnScreen, im.yOnScreen, plateau);
-		this.updateMinimap(im, plateau);
+	public static void update(InputObject im, Plateau plateau){
+		updateActionInterface(im, plateau);
+		updateTopInterface(im.xOnScreen, im.yOnScreen, plateau);
+		updateMinimap(im, plateau);
 	}
 
-	public void updateActionInterface(InputObject im, Plateau plateau){
+	public static void updateActionInterface(InputObject im, Plateau plateau){
 		for(int i = 0 ; i<prodIconNbY;i++){
 			for(int j = 0 ; j<prodIconNbX; j++){
 				toDrawDescription[i][j] = false;
@@ -142,11 +133,11 @@ public class Interface {
 				toDrawDescription[mouseOnItem][yItem] = true;
 				if(im.isPressed(KeyEnum.LeftClick)){
 					im.pressed.remove(KeyEnum.LeftClick);
-					if(player.selection.selection.size()>0 && plateau.getById(player.selection.selection.get(0)) instanceof Character){
-						Character c = (Character) plateau.getById(player.selection.selection.get(0)); 
+					if(Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
+						Character c = (Character) plateau.getById(Player.selection.get(0)); 
 						Spell s = c.getSpell(mouseOnItem);
 						if(s != null && s.getAttribut(Attributs.needToClick)>0){
-							spellLauncher = c;
+							spellLauncher = c.id;
 							spellCurrent = s.name;
 						}
 					} else {
@@ -160,52 +151,52 @@ public class Interface {
 		}
 		
 		// handle spell
-		if(player.selection.selection.size()>0 && plateau.getById(player.selection.selection.get(0)) instanceof Character){
+		if(Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
 			for(int i = 0; i<prodIconNbY; i++){
 				if(im.isPressedProd(i)){
-					Character c = (Character) plateau.getById(player.selection.selection.get(0)); 
+					Character c = (Character) plateau.getById(Player.selection.get(0)); 
 					Spell s = c.getSpell(i);
 					
 					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
-						spellLauncher = c;
+						spellLauncher = c.id;
 						spellCurrent = s.name;
 					}
 					im.pressed.remove(KeyEnum.valueOf("Prod"+i));
 				}
 			}
 		}
-		if(this.spellCurrent!=null){
-			this.spellX = im.x;
-			this.spellY = im.y;
+		if(spellCurrent!=null){
+			spellX = im.x;
+			spellY = im.y;
 		}
 		if(im.pressed.size()>0 && spellCurrent!=null ){
-			if(im.isPressed(KeyEnum.LeftClick) && player.selection.selection.size()>0 && plateau.getById(player.selection.selection.get(0)) instanceof Character){
+			if(im.isPressed(KeyEnum.LeftClick) && Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
 				// check if launch spell
-				Character c = (Character) plateau.getById(player.selection.selection.get(0)); 
-				if(c.getSpellState(this.spellCurrent)>=c.getSpell(this.spellCurrent).getAttribut(Attributs.chargeTime)){
+				Character c = (Character) plateau.getById(Player.selection.get(0)); 
+				if(c.getSpellState(spellCurrent)>=c.getSpell(spellCurrent).getAttribut(Attributs.chargeTime)){
 					im.spell = spellCurrent;
-					im.idSpellLauncher = spellLauncher.id;
-					if(this.spellTarget!=null){
-						im.idObjetMouse = this.spellTarget.id;
+					im.idSpellLauncher = spellLauncher;
+					if(spellTarget!=null){
+						im.idObjetMouse = spellTarget;
 					} else {
 						im.idObjetMouse = -1;
 					}
 					im.pressed.remove(KeyEnum.LeftClick);
-					this.spellRelease = true;
-					this.resetCurrentSpell();
+					spellRelease = true;
+					resetCurrentSpell();
 				}
 			} else {
-				this.resetCurrentSpell();
+				resetCurrentSpell();
 			}
 			if(im.isDown(KeyEnum.LeftClick)){
 				im.down.remove(KeyEnum.LeftClick);
 			}
 		}
-		if(this.spellRelease==true){
+		if(spellRelease==true){
 			if(im.down.contains(KeyEnum.LeftClick)){
 				im.down.remove(KeyEnum.LeftClick);
 			} else {
-				this.spellRelease = false;
+				spellRelease = false;
 			}
 			if(im.pressed.contains(KeyEnum.LeftClick)){
 				im.pressed.remove(KeyEnum.LeftClick);
@@ -213,7 +204,7 @@ public class Interface {
 		}
 	}
 
-	public void updateTopInterface(float xMouse, float yMouse, Plateau plateau){
+	public static void updateTopInterface(float xMouse, float yMouse, Plateau plateau){
 		mouseOnTopBar = isMouseOnTopBar(xMouse, yMouse);
 		if(iconChoice==null){
 			return;
@@ -223,27 +214,27 @@ public class Interface {
 		}
 	}
 
-	public void updateMinimap(InputObject im, Plateau plateau){
+	public static void updateMinimap(InputObject im, Plateau plateau){
 		if(isMouseOnMiniMap(im.xOnScreen, im.yOnScreen)){
 			im.isOnMiniMap = true;
 
-			im.x = (int) Math.floor((im.xOnScreen-this.startXMiniMap)/this.ratioWidthMiniMap);
-			im.y = (int) Math.floor((im.yOnScreen-this.startYMiniMap)/this.ratioHeightMiniMap);
+			im.x = (int) Math.floor((im.xOnScreen-startXMiniMap)/ratioWidthMiniMap);
+			im.y = (int) Math.floor((im.yOnScreen-startYMiniMap)/ratioHeightMiniMap);
 		}
 	}
 
-	public void updateRatioMiniMap(Plateau plateau){
+	public static void updateRatioMiniMap(Plateau plateau){
 
 		if(plateau.maxX>plateau.maxY){
-			this.widthMiniMap = this.sizeXMiniMap;
-			this.heightMiniMap = this.widthMiniMap*plateau.maxY/plateau.maxX;
-			this.startXMiniMap = this.startX2MiniMap;
-			this.startYMiniMap = this.startY2MiniMap + (this.sizeYMiniMap-heightMiniMap)/2;
+			widthMiniMap = sizeXMiniMap;
+			heightMiniMap = widthMiniMap*plateau.maxY/plateau.maxX;
+			startXMiniMap = startX2MiniMap;
+			startYMiniMap = startY2MiniMap + (sizeYMiniMap-heightMiniMap)/2;
 		} else {
-			this.heightMiniMap = this.sizeYMiniMap;			
-			this.widthMiniMap = this.heightMiniMap*plateau.maxX/plateau.maxY;
-			this.startXMiniMap = this.startX2MiniMap + (this.sizeXMiniMap-widthMiniMap)/2;
-			this.startYMiniMap = this.startY2MiniMap;
+			heightMiniMap = sizeYMiniMap;			
+			widthMiniMap = heightMiniMap*plateau.maxX/plateau.maxY;
+			startXMiniMap = startX2MiniMap + (sizeXMiniMap-widthMiniMap)/2;
+			startYMiniMap = startY2MiniMap;
 		}
 		ratioWidthMiniMap = widthMiniMap/plateau.maxX;
 		ratioHeightMiniMap = heightMiniMap/plateau.maxY;
@@ -253,20 +244,20 @@ public class Interface {
 	// Draw mathods
 	///////
 
-	public Graphics draw(Graphics g, Camera camera, Plateau plateau){
+	public static Graphics draw(Graphics g, Camera camera, Plateau plateau){
 		// Draw Background :
 
 
 		// Draw image according to size
 
-		//g.drawImage(this.background,x,y-6f);
+		//g.drawImage(background,x,y-6f);
 
 		// ACTIONS, Spells  and production
-		this.drawSpell(g, camera, plateau);
-		this.drawActionInterface(g, plateau);
-		this.drawSelectionInterface(g, plateau);
-		this.drawTopInterface(g, plateau);
-		this.drawMiniMap(g, camera, plateau);
+		drawSpell(g, camera, plateau);
+		drawActionInterface(g, plateau);
+		drawSelectionInterface(g, plateau);
+		drawTopInterface(g, plateau);
+		drawMiniMap(g, camera, plateau);
 
 		//spell.draw(g);
 
@@ -274,7 +265,7 @@ public class Interface {
 		return g;
 	}
 
-	public void drawSelectionInterface(Graphics g, Plateau plateau){
+	public static void drawSelectionInterface(Graphics g, Plateau plateau){
 
 		float sizeXBar;
 		float x = 0;
@@ -283,18 +274,18 @@ public class Interface {
 
 		// variable de travail sizeVerticalBar
 		g.setLineWidth(1f);
-		float sVB = this.ratioBarVertX*Game.resX;
+		float sVB = ratioBarVertX*Game.resX;
 
 
 		// Draw building state
-		Vector<Integer> selection = player.selection.selection;
+		Vector<Integer> selection = Player.selection;
 		if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Building ){
 
 			Building b = (Building) plateau.getById(selection.get(0));
 
 			sizeXBar = (Math.min(4,b.getQueue().size()+1))*(sVB+2)+3;
-			Utils.drawNiceRect(g, player.getGameTeam().color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
-			Utils.drawNiceRect(g, player.getGameTeam().color, startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
+			Utils.drawNiceRect(g, Player.getTeam().color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
+			Utils.drawNiceRect(g, Player.getTeam().color, startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 
 			int compteur = 0;
 			if(b.getQueue().size()>0){
@@ -303,28 +294,28 @@ public class Interface {
 					if(compteur ==0){
 						//Show icons
 						//Show production bar
-						g.drawImage(icone,startXSelectionBar+this.sizeXSelectionBar/4, 
-								startYSelectionBar+this.sizeYSelectionBar/4,
+						g.drawImage(icone,startXSelectionBar+sizeXSelectionBar/4, 
+								startYSelectionBar+sizeYSelectionBar/4,
 								startXSelectionBar+sizeXSelectionBar-5, startYSelectionBar + sizeYSelectionBar-5,0,0,512,512);
 						g.setColor(Color.white);
-						String s = player.getGameTeam().data.getAttributString(q, Attributs.printName);
-						Float prodTime = player.getGameTeam().data.getAttribut(q, Attributs.prodTime);
+						String s = Player.getTeam().data.getAttributString(q, Attributs.printName);
+						Float prodTime = Player.getTeam().data.getAttribut(q, Attributs.prodTime);
 						g.drawString(s, startXSelectionBar+sizeXSelectionBar/2-GraphicElements.font_main.getWidth(s)/2f, 
 								startYSelectionBar+sizeYSelectionBar/8f-GraphicElements.font_main.getHeight(s)/2f);
-						g.fillRect(startXSelectionBar+this.sizeXSelectionBar/16, 
-								startYSelectionBar+this.sizeYSelectionBar/4 +10f, sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
+								startYSelectionBar+sizeYSelectionBar/4 +10f, sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
 						g.setColor(Color.gray);
-						g.fillRect(startXSelectionBar+this.sizeXSelectionBar/16, 
-								startYSelectionBar+this.sizeYSelectionBar/4 +10f, sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-						g.setColor(player.getGameTeam().color);
-						g.fillRect(startXSelectionBar+this.sizeXSelectionBar/16, 
-								startYSelectionBar+this.sizeYSelectionBar/4+10f+b.charge*(3*sizeYSelectionBar/4-20f)/prodTime, 
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
+								startYSelectionBar+sizeYSelectionBar/4 +10f, sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
+						g.setColor(Player.getTeam().color);
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
+								startYSelectionBar+sizeYSelectionBar/4+10f+b.charge*(3*sizeYSelectionBar/4-20f)/prodTime, 
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f-b.charge*(3*sizeYSelectionBar/4-20)/prodTime);
 					}
 					else{
-						g.drawImage(icone,this.sizeXSelectionBar+5+(sVB)*(compteur-1), 
+						g.drawImage(icone,sizeXSelectionBar+5+(sVB)*(compteur-1), 
 								Game.resY-sVB+3f, 
-								this.sizeXSelectionBar+(sVB)*(compteur), 
+								sizeXSelectionBar+(sVB)*(compteur), 
 								Game.resY-1,0f,0f,512f,512f);
 					}
 					compteur ++;
@@ -337,23 +328,23 @@ public class Interface {
 			}
 			//		} else if(selection.size()>0 && selection.get(0) instanceof Building  ){
 			//			Building b = (Building) selection.get(0);
-			////			this.sizeXBar = (b.queue.size()+1)*(sVB+2);
+			////			sizeXBar = (b.queue.size()+1)*(sVB+2);
 			////			Utils.drawNiceRect(g, game.currentPlayer.getGameTeam().color, startX+Game.resX-4, parent.p.g.resY-sVB, 5*(sVB+2), sVB+4);
-			//			Utils.drawNiceRect(g,  player.getGameTeam().color, startX-4, startY, Game.resX+4, sizeY+4);
+			//			Utils.drawNiceRect(g,  Selection.getTeam().color, startX-4, startY, Game.resX+4, sizeY+4);
 			//			if(b.getQueueTechnologie()!=null){
 			//				Image icone = Images.get(b.getQueueTechnologie().getIcon());
 			//				//Show icons
 			//				//Show production bar
-			//				g.drawImage(icone,startX+this.Game.resX/4, startY+this.sizeY/4,startX+Game.resX-5, startY + sizeY-5,0,0,512,512);
+			//				g.drawImage(icone,startX+Game.resX/4, startY+sizeY/4,startX+Game.resX-5, startY + sizeY-5,0,0,512,512);
 			//				g.setColor(Color.white);
 			//				String s = b.getQueueTechnologie().getName();
 			//
 			//				g.drawString(s, startX+Game.resX/2-GraphicElements.font_main.getWidth(s)/2f, startY+sizeY/8f-GraphicElements.font_main.getHeight(s)/2f);
-			//				g.fillRect(startX+this.Game.resX/16, startY+this.sizeY/4 +10f, Game.resX/8f,3*sizeY/4-20f);
+			//				g.fillRect(startX+Game.resX/16, startY+sizeY/4 +10f, Game.resX/8f,3*sizeY/4-20f);
 			//				g.setColor(Color.gray);
-			//				g.fillRect(startX+this.Game.resX/16, startY+this.sizeY/4 +10f, Game.resX/8f,3*sizeY/4-20f);
-			//				g.setColor( player.getGameTeam().color);
-			//				g.fillRect(startX+this.Game.resX/16, startY+this.sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost), Game.resX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost));
+			//				g.fillRect(startX+Game.resX/16, startY+sizeY/4 +10f, Game.resX/8f,3*sizeY/4-20f);
+			//				g.setColor( Selection.getTeam().color);
+			//				g.fillRect(startX+Game.resX/16, startY+sizeY/4+10f+b.charge*(3*sizeY/4-20f)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost), Game.resX/8f,3*sizeY/4-20f-b.charge*(3*sizeY/4-20)/b.getAttribut(b.getQueueTechnologie().objet, Attributs.foodCost));
 			//			} else {
 			//				g.setColor(Color.white);
 			//				String s = b.getAttributString(Attributs.printName);
@@ -366,9 +357,9 @@ public class Interface {
 			int nb = selection.size()-1;
 
 			sizeXBar = (Math.min(nb+1, 5))*(sVB+2)+2;
-			Utils.drawNiceRect(g, player.getGameTeam().color, 
+			Utils.drawNiceRect(g, Player.getTeam().color, 
 					startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
-			Utils.drawNiceRect(g, player.getGameTeam().color, 
+			Utils.drawNiceRect(g, Player.getTeam().color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 			for(Integer id : selection){
 				Character a = (Character) plateau.getById(id);
@@ -434,14 +425,14 @@ public class Interface {
 				compteur ++;
 			}
 		} else {
-			Utils.drawNiceRect(g,  player.getGameTeam().color, 
+			Utils.drawNiceRect(g,  Player.getTeam().color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 		}
 
 
 	}
 
-	public void drawActionInterface(Graphics g, Plateau plateau){
+	public static void drawActionInterface(Graphics g, Plateau plateau){
 		float startY2;
 		Image imageGold ;
 		Image imageFood;
@@ -452,7 +443,7 @@ public class Interface {
 
 		offset = sizeXSelectionBar;
 		float x = 0;
-		startYActionBar = Game.resY - sizeYActionBar - this.sizeYSelectionBar;
+		startYActionBar = Game.resY - sizeYActionBar - sizeYSelectionBar;
 		startY2 = Game.resY - sizeYSelectionBar;
 
 		//		for(int i= 0 ; i<prodIconNbY; i++){
@@ -478,7 +469,7 @@ public class Interface {
 		if(!mouseOnActionBar && yActionBar<startY2)
 			yActionBar = startY2+(yActionBar-startY2)/5;
 
-		Utils.drawNiceRect(g,  player.getGameTeam().color, x-4, yActionBar-5, 2*sizeXActionBar+4, sizeYActionBar+9);
+		Utils.drawNiceRect(g,  Player.getTeam().color, x-4, yActionBar-5, 2*sizeXActionBar+4, sizeYActionBar+9);
 		g.setColor(Color.darkGray);
 		for(int i=0; i<5; i++){
 			g.setColor(Color.darkGray);
@@ -487,7 +478,7 @@ public class Interface {
 		}
 		g.setColor(Color.white);
 
-		Vector<Integer> selection = player.selection.selection;
+		Vector<Integer> selection = Player.selection;
 
 		// Draw Production/Effect Bar
 		if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Building){
@@ -501,7 +492,7 @@ public class Interface {
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(Images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				g.setColor(Color.white);
-				g.setColor( player.getGameTeam().color);
+				g.setColor( Player.getTeam().color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
 				if(ul.size()>i && toDrawDescription[i][0]){
 					// GET PRICE
@@ -538,7 +529,7 @@ public class Interface {
 				System.out.println(icon);
 				g.drawImage(Images.get(icon), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				// CHANGE PUT PRICES
-				g.setColor( player.getGameTeam().color);
+				g.setColor( Player.getTeam().color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
 				if(ul2.size()>i && toDrawDescription[i][1]){
 					g.setColor(Color.white);
@@ -566,7 +557,7 @@ public class Interface {
 				if(state.get(i)==ul.get(i).getAttribut(Attributs.chargeTime)){
 					g.setColor(Color.white);
 				} else {
-					g.setColor( player.getGameTeam().color);
+					g.setColor( Player.getTeam().color);
 				}
 				if(spellCurrent==b.getSpells().get(i).name){
 					g.setColor(Color.orange);
@@ -574,7 +565,7 @@ public class Interface {
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
 				im = Images.get("spell"+ul.get(i).name);
 				g.drawImage(im, x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
-				Color c =  player.getGameTeam().color;
+				Color c =  Player.getTeam().color;
 				c.a = 0.8f;
 				g.setColor(c);
 				if(state.get(i)>10){
@@ -603,7 +594,7 @@ public class Interface {
 
 	}
 
-	public void drawTopInterface(Graphics g, Plateau plateau){
+	public static void drawTopInterface(Graphics g, Plateau plateau){
 		String s;
 		float rX = Game.resX;
 		float rY = Game.resY;
@@ -613,13 +604,13 @@ public class Interface {
 		float y1 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut1-dureeDescente)/dureeDescente));
 		float y2 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut2-dureeDescente)/dureeDescente));
 
-		if(food != player.getGameTeam().food)
-			food += (player.getGameTeam().food-food)/5+Math.signum(player.getGameTeam().food-food);
+		if(food != Player.getTeam().food)
+			food += (Player.getTeam().food-food)/5+Math.signum(Player.getTeam().food-food);
 
 		// pop
-		Utils.drawNiceRect(g, player.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+player.getGameTeam().getPop(plateau) + "/" + player.getGameTeam().getMaxPop(plateau);
-		if(player.getGameTeam().getPop(plateau)==player.getGameTeam().getMaxPop(plateau)){
+		Utils.drawNiceRect(g, Player.getTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		s = ""+Player.getTeam().getPop(plateau) + "/" + Player.getTeam().getMaxPop(plateau);
+		if(Player.getTeam().getPop(plateau)==Player.getTeam().getMaxPop(plateau)){
 			g.setColor(Color.red);
 		}else{
 			g.setColor(Color.white);
@@ -628,21 +619,21 @@ public class Interface {
 		g.drawImage(Images.get("imagePop"), (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// food
-		Utils.drawNiceRect(g, player.getGameTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g, Player.getTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+food;
 		g.setColor(Color.white);
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-GraphicElements.font_main.getWidth(s), y1+ratioSizeGoldY*rY/2f-GraphicElements.font_main.getHeight("0")/2-3f);
 		g.drawImage(Images.get("imagefooddisplayressources"), (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// timer
-		Utils.drawNiceRect(g, player.getGameTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
+		Utils.drawNiceRect(g, Player.getTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
 		g.setColor(Color.white);
 		s = "todo : timer";
 		//		s = ""+Utils.displayTime((int) ((System.currentTimeMillis()-Game.gameSystem.startTime)/1000));
 		g.drawString(s, rX/2-GraphicElements.font_main.getWidth(s)/2f, yCentral+2*ratioSizeTimerY*rY/3f-GraphicElements.font_main.getHeight(s)/2f);
 
 		// timer kill
-		Team gt = player.getGameTeam();
+		Team gt = Player.getTeam();
 		float opacity = 255f;
 		float centerx = 70, centery = 70;
 		float r = 25f;
@@ -673,11 +664,11 @@ public class Interface {
 
 	}
 
-	public void drawMiniMap(Graphics g, Camera camera, Plateau plateau){
-		this.offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
-		Utils.drawNiceRect(g,  player.getGameTeam().color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
+	public static void drawMiniMap(Graphics g, Camera camera, Plateau plateau){
+		offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
+		Utils.drawNiceRect(g,  Player.getTeam().color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
-		g.fillRect(this.startX2MiniMap+offsetDrawX, this.startY2MiniMap, this.sizeXMiniMap, this.sizeYMiniMap);
+		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
 		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*camera.Xcam);
 		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*camera.Ycam);
@@ -696,14 +687,14 @@ public class Interface {
 		g.setAntiAlias(true);
 		for(Character c : plateau.characters){		
 			if(c.getTeam().id==2){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 			else if(c.getTeam().id==1){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team1);
 					float r = c.collisionBox.getBoundingCircleRadius();
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
@@ -718,7 +709,7 @@ public class Interface {
 
 			}
 			if(c.getTeam().id==2){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -726,7 +717,7 @@ public class Interface {
 				}
 			}
 			else if(c.getTeam().id==1){
-				if(plateau.isVisibleByTeam(player.getTeam(), c)){
+				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -745,7 +736,7 @@ public class Interface {
 
 			}
 			if(c.getTeam().id==2){
-				if(plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog){
+				if(plateau.isVisibleByTeam(Player.getTeamId(), c) || Debug.debugFog){
 					g.setColor(Colors.team2);
 				} else {
 					g.setColor(Colors.team0);
@@ -753,7 +744,7 @@ public class Interface {
 				}
 			}
 			else if(c.getTeam().id==1){
-				if(plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog){
+				if(plateau.isVisibleByTeam(Player.getTeamId(), c) || Debug.debugFog){
 					g.setColor(Colors.team1);
 				} else {
 					g.setColor(Colors.team0);
@@ -762,7 +753,7 @@ public class Interface {
 			}
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 
-			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(player.getTeam(), c) || Debug.debugFog)){
+			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(Player.getTeamId(), c) || Debug.debugFog)){
 				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints); 
 				if(c.potentialTeam==1){
 					g.setColor(Colors.team1);
@@ -779,11 +770,12 @@ public class Interface {
 		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
 	}
 
-	public void drawSpell(Graphics g, Camera camera, Plateau plateau){
-		if(this.spellCurrent!=null){
+	public static void drawSpell(Graphics g, Camera camera, Plateau plateau){
+		if(spellCurrent!=null){
+			Character characterSpellLauncher = (Character) plateau.getById(spellLauncher);
 			g.translate(-camera.Xcam, -camera.Ycam);
-			Spell s = this.spellLauncher.getSpell(this.spellCurrent);
-			s.drawCast(g, spellTarget, spellX, spellY, spellLauncher, true, plateau);
+			Spell s = characterSpellLauncher.getSpell(spellCurrent);
+			s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
 			g.translate(camera.Xcam, camera.Ycam);
 		}
 	}
@@ -792,36 +784,36 @@ public class Interface {
 	// Utils
 	//////
 
-	public Float getAttribut(ObjetsList o, Attributs a){
-		return player.getGameTeam().data.getAttribut(o, a);
+	public static Float getAttribut(ObjetsList o, Attributs a){
+		return Player.getTeam().data.getAttribut(o, a);
 	}
 
-	public String getAttributString(ObjetsList o, Attributs a){
-		return player.getGameTeam().data.getAttributString(o, a);
+	public static String getAttributString(ObjetsList o, Attributs a){
+		return Player.getTeam().data.getAttributString(o, a);
 	}
 
-	public boolean isMouseOnActionBar(float xMouse, float yMouse){
+	public static boolean isMouseOnActionBar(float xMouse, float yMouse){
 		return xMouse > startXActionBar && xMouse < startXActionBar + 2*sizeXActionBar
 				&& yMouse > startYActionBar && yMouse < startYActionBar + sizeYActionBar;
 	}
 
-	public boolean isMouseOnTopBar(float xMouse, float yMouse){
+	public static boolean isMouseOnTopBar(float xMouse, float yMouse){
 		return xMouse > (1-ratioSizeTimerX)*Game.resX/2-2*ratioSizeGoldX*Game.resX 
 				&& xMouse < (1+ratioSizeTimerX)*Game.resX/2+2*ratioSizeGoldX*Game.resX
 				&& yMouse >0 && yMouse < ratioSizeTimerY*Game.resY;
 	}
 
-	public boolean isMouseOnMiniMap(float xMouse, float yMouse){
+	public static boolean isMouseOnMiniMap(float xMouse, float yMouse){
 		return xMouse > startXMiniMap + offsetDrawX && xMouse < startXMiniMap+ widthMiniMap
 				&& yMouse > startYMiniMap && yMouse < startYMiniMap + heightMiniMap;
 	}
 
-	public void resetCurrentSpell(){
-		this.spellCurrent = null;
-		this.spellOk = false;
-		this.spellLauncher = null;
-		this.spellX = 0;
-		this.spellY = 0;
+	public static void resetCurrentSpell(){
+		spellCurrent = null;
+		spellOk = false;
+		spellLauncher = null;
+		spellX = 0;
+		spellY = 0;
 	}
 	
 	///////
@@ -844,14 +836,14 @@ public class Interface {
 		private Image imagetemp;
 
 		public Icon(float x, float y, float sizeX, float sizeY, String image, Vector<String> texte, int foodCost, int popCost){
-			this.x = x;
-			this.y = y;
-			this.sizeX = sizeX;
-			this.sizeY = sizeY;
-			this.image = image;
-			this.texte = texte;
-			this.foodCost = foodCost;
-			this.popCost = popCost;
+			x = x;
+			y = y;
+			sizeX = sizeX;
+			sizeY = sizeY;
+			image = image;
+			texte = texte;
+			foodCost = foodCost;
+			popCost = popCost;
 			if(x<Game.resX/2){
 				if(y<Game.resY/2){
 					quartdecran = 7;
@@ -872,10 +864,10 @@ public class Interface {
 		}
 
 		public void changeXY(float x, float y){
-			this.x = x;
-			this.y = y;
-			this.startXBulle = x-(quartdecran%6>1?sizeXBulle:0);
-			this.startYBulle = y-(quartdecran/6>1?sizeYBulle:0);
+			x = x;
+			y = y;
+			startXBulle = x-(quartdecran%6>1?sizeXBulle:0);
+			startYBulle = y-(quartdecran/6>1?sizeYBulle:0);
 		}
 
 		public void update(float xMouse, float yMouse){
@@ -898,18 +890,22 @@ public class Interface {
 
 		public void drawAfter(Graphics g){
 			if(isMouseOnIt){
-				Utils.drawNiceRect(g,  player.getGameTeam().color, startXBulle, startYBulle, sizeXBulle, sizeYBulle);
+				Utils.drawNiceRect(g,  Player.getTeam().color, startXBulle, startYBulle, sizeXBulle, sizeYBulle);
 				g.setColor(Color.darkGray);
 				g.fillRect(startXBulle+5, startYBulle+5, sizeYBulle-10, sizeYBulle-10);
 				g.drawImage(imagetemp, startXBulle+10, startYBulle+10, startXBulle+sizeYBulle-10, startYBulle+sizeYBulle-10, 
 						0, 0, imagetemp.getWidth(), imagetemp.getHeight());
 				g.setColor(Color.white);
 				int i=0;
-				for(String s : this.texte){
+				for(String s : texte){
 					g.drawString(s, startXBulle+sizeYBulle+10, startYBulle+5+i*g.getFont().getHeight("Hj"));
 					i+=1;
 				}
 			}
 		}
+	}
+
+	public static void init(Plateau plateau) {
+		updateRatioMiniMap(plateau);
 	}
 }

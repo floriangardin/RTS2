@@ -17,7 +17,6 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
-import control.InputHandler;
 import control.KeyMapper;
 import main.Main;
 import menu.Lobby;

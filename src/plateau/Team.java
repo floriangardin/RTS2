@@ -10,7 +10,6 @@ import data.Data;
 import main.Main;
 import model.Colors;
 import model.Game;
-import model.Player;
 import utils.ObjetsList;
 import ressources.Sounds;
 public class Team implements Serializable {

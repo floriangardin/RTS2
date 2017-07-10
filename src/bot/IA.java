@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import data.Attributs;
 import model.Game;
-import model.Player;
 import plateau.Building;
 import plateau.Character;
 import plateau.Plateau;
@@ -23,8 +22,8 @@ public abstract class IA {
 	
 	private Team player;
 		
-	public IA(Player p, Plateau plateau) {
-		this.player = p.getGameTeam();
+	public IA(Team team, Plateau plateau) {
+		this.player = team;
 		units = new Vector<IAAllyObject>();
 		enemies = new Vector<IAUnit>();
 		nature = new Vector<IAUnit>();

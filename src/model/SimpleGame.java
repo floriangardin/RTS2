@@ -9,93 +9,73 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-
-import control.InputHandler;
 import control.InputObject;
 import control.KeyMapper;
+import control.Player;
 import display.Camera;
 import display.Interface;
-import main.Main;
 import multiplaying.Checksum;
 import mybot.IAFlo;
 import plateau.Plateau;
+import plateau.Team;
 import render.SimpleRenderEngine;
 import ressources.Map;
 
 public class SimpleGame extends BasicGame {
-	Vector<Player> players = new Vector<Player>();
-	Camera camera;
-	Interface bottombar;
-	final int currentPlayer;
 	
-	public SimpleGame(int currentPlayer) {
+	public SimpleGame() {
 		super("RTS ULTRAMYTHE");
-		this.currentPlayer = currentPlayer;
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
-		Player p = players.get(currentPlayer);
-		// Get the plateau from client
-		Plateau plateau = SimpleClient.getPlateau();
+		// Get the plateau from client	
 		// Get Control
-		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam(), SimpleClient.roundForInput());
-		InputHandler.addToInputs(im, true);
-//		byte[] ser = Serializer.serialize(plateau);
-//		System.out.println("Size of plateau : "+ser.length);
-		// Update interface
-		bottombar.update(im, plateau);
-		// Update selection in im.selection
-		p.selection.handleSelection(im, bottombar, plateau);
-		// Send input for round
-		SimpleClient.send(im);
-		// Send checksum to server for checking synchro
-		SimpleClient.send(new Checksum(plateau.round, plateau.toString()));
-		// Get new inputs for round
-		Vector<InputObject> ims = SimpleClient.getInputs();
-//		// Update IA from plateau 
-//		for(Player player : players){
-//			if(player.ia!=null){
-//				player.ia.action(plateau);
-//			}
-//		}
-		plateau.update(ims, players);
-		// 4 : Update the camera given current input
-		camera.update(im, players.get(currentPlayer).hasRectangleSelection());
+		SimpleClient.mutex.lock();
+		try{
+			InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), SimpleClient.roundForInput());
+			// Update selection in im.selection
+			Player.handleSelection(im, SimpleClient.getPlateau());
+			// Update interface
+			Interface.update(im, SimpleClient.getPlateau());
+			// Send input for round
+			SimpleClient.send(im);
+			// Send checksum to server for checking synchro
+			if(SimpleClient.getRound()>30 && SimpleClient.getRound()%100==0){			
+				SimpleClient.send(new Checksum(SimpleClient.getPlateau()));
+			}
+			// Get new inputs for round
+			Vector<InputObject> ims = SimpleClient.getInputForRound();
+				SimpleClient.getPlateau().update(ims);
+			// 4 : Update the camera given current input
+			Camera.update(im);
+		}finally{
+			SimpleClient.mutex.unlock();
+		}
+
 	}
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
-		SimpleRenderEngine.render(g, SimpleClient.getPlateau(), camera, players.get(currentPlayer));
+		SimpleRenderEngine.render(g, SimpleClient.getPlateau());
 	}
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException {
+	public void init(GameContainer gc) throws SlickException {
 		// TODO Auto-generated method stub
 		SimpleClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		Plateau plateau = SimpleClient.getPlateau();
-		this.players = new Vector<Player>();
-		for(int i=0; i<2; i++){
-			Player player = new Player(i, "Test"+i, plateau.teams.get(i+1), plateau);
-			this.players.add(player);
-			if(i!=currentPlayer){	
-				//FIXME : Generic way to put ia ...
-				player.initIA(new IAFlo(player, plateau));
-			}
-		}
-		this.camera = new Camera(800, 600, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
-		this.bottombar = new Interface(plateau, players.get(currentPlayer));
-		InputHandler.init(this.players.size());
+		plateau.update(new Vector<InputObject>());
+		Camera.init(800, 600, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		Interface.init(plateau);
 		KeyMapper.init();
 		// Launch server if it doesnt exist, otherwise continue, bind to host plateau !
-		try{
-			SimpleServer.init();
-		}catch(Exception e){
-			System.out.println("Server already exist !");
-		}
+		SimpleServer.init(); // En vrai il faudra le lancer à part
+		Player.init(plateau.teams.get(SimpleServer.hasLaunched ? 1 : 2));
 		SimpleClient.init(plateau);
+		gc.setMaximumLogicUpdateInterval(16);
+		gc.setMinimumLogicUpdateInterval(16);
 	}
-
 
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -103,7 +83,7 @@ public class SimpleGame extends BasicGame {
 		int resolutionX = 800;
 		int resolutionY = 600;
 		try {
-			SimpleGame game = new SimpleGame(0);
+			SimpleGame game = new SimpleGame();
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
@@ -111,6 +91,7 @@ public class SimpleGame extends BasicGame {
 			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,false);
 			app.setAlwaysRender(false);
+			app.supportsMultiSample();
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
 			app.setVSync(true);

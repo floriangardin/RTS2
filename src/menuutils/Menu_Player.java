@@ -7,7 +7,6 @@ import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import model.Colors;
 import model.Game;
-import model.Player;
 import ressources.GraphicElements;
 import ressources.Images;
 

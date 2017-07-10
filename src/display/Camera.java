@@ -2,6 +2,7 @@ package display;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
+import control.Player;
 import data.Attributs;
 import main.Main;
 import plateau.Building;
@@ -12,36 +13,36 @@ import utils.Utils;
 
 public class Camera {
 
-	public int Xcam;
-	public int Ycam;
+	public static int Xcam;
+	public static int Ycam;
 
-	public int resX, resY;
+	public static int resX, resY;
 
-	public int minX, minY, maxX, maxY;
+	public static int minX, minY, maxX, maxY;
 
-	public boolean slidingCam;
-	public int objXcam;
-	public int objYcam;
+	public static boolean slidingCam;
+	public static int objXcam;
+	public static int objYcam;
 
-	public Camera(int resX, int resY, int x, int y, int maxX, int maxY){
-		this.resX = resX;
-		this.resY = resY;
-		this.Xcam = x;
-		this.Ycam = y;
-		this.maxX = maxX;
-		this.maxY = maxY;
+	public static void init(int resX, int resY, int x, int y, int maxX, int maxY){
+		Camera.resX = resX;
+		Camera.resY = resY;
+		Camera.Xcam = x;
+		Camera.Ycam = y;
+		Camera.maxX = maxX;
+		Camera.maxY = maxY;
 	}	
-	public boolean visibleByCamera(float x, float y, float size){
+	public static boolean visibleByCamera(float x, float y, float size){
 		return x + size > Xcam && x - size < Xcam + resX && y + size > Ycam && y - size < Ycam + resY;
 	}
 
 
 
 
-	public void update(InputObject im, boolean rectangleSelection) {
+	public static void update(InputObject im) {
 		// Handle the display (camera movement & minimap)
 		// camera movement
-		if (!rectangleSelection && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
+		if (!Player.hasRectangleSelection() && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
 			// Handling sliding
 			if(slidingCam==true){
 				int deltaX = (int) (objXcam-Xcam);
@@ -83,14 +84,14 @@ public class Camera {
 			//			}
 		}
 		if(im.isOnMiniMap && im.isPressed(KeyEnum.LeftClick)){
-			this.setSliding((int)im.x, (int)im.y);
+			setSliding((int)im.x, (int)im.y);
 		}
 	}
 
-	public void setSliding(int xObj, int yObj){
-		this.slidingCam = true;
-		this.objXcam = xObj-resX/2;
-		this.objYcam = yObj-resY/2;
+	public static void setSliding(int xObj, int yObj){
+		slidingCam = true;
+		objXcam = xObj-resX/2;
+		objYcam = yObj-resY/2;
 	}
 
 }

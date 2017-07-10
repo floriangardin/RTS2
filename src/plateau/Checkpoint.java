@@ -11,7 +11,7 @@ public class Checkpoint extends Objet {
 	public float maxDuration=30f*60/Main.framerate;
 	public float state;
 	public float animationState;
-	public transient float maxRadius = 20f;
+	public float maxRadius = 20f;
 	public int lastRoundUpdate =0;
 	public Circle drawShape;
 	public Circle drawShape2;

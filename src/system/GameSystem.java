@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 
 import control.InputHandler;
 import control.InputObject;
+import control.Player;
 import display.Camera;
 import display.Interface;
 import events.EventHandler;
@@ -53,7 +54,7 @@ public class GameSystem extends ClassSystem{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		RenderEngine.render(g, plateau, camera, players.get(currentPlayer), bottombar);	
+		RenderEngine.render(g, plateau, camera, bottombar);	
 	}
 
 	@Override
@@ -65,13 +66,12 @@ public class GameSystem extends ClassSystem{
 			}
 		}
 		// 1 : Get Control
-		Player p = players.get(currentPlayer);
-		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam(), plateau.round);
+		InputObject im = new InputObject(gc.getInput(), camera, Player.getTeamId(), plateau.round);
 		InputHandler.addToInputs(im, true);
 		// 3 : Update interface
 		bottombar.update(im, plateau);
 		// 2: Update selection in im.selection
-		p.selection.handleSelection(im, bottombar, plateau);
+		Player.handleSelection(im, bottombar, plateau);
 		// Multiplayer .. Send input
 		// 3 : Update plateau (singleplayer = Main.nDelay==0)
 		Vector<InputObject> inputs = InputHandler.getInputsForRound(plateau.round, Main.nDelay>0);

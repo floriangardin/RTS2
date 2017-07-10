@@ -10,10 +10,9 @@ import bonus.Bonus;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
-import display.Camera;
 import events.EventHandler;
 import events.EventNames;
-import model.Player;
+import model.SimpleClient;
 import pathfinding.MapGrid;
 import ressources.Map;
 import spells.Etats;
@@ -22,8 +21,6 @@ import spells.SpellEffect;
 import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
-
-
 
 public class Plateau implements java.io.Serializable {
 	/**
@@ -35,9 +32,6 @@ public class Plateau implements java.io.Serializable {
 
 	public int maxX;
 	public int maxY;
-
-	// si le plateau est une photo, le round auquel synchroniser
-	public int roundToSynchro;
 
 	// ADD ALL OBJETS
 	public Vector<Character> characters;
@@ -65,15 +59,11 @@ public class Plateau implements java.io.Serializable {
 	public Vector<SpellEffect> toRemoveSpells;
 
 	public MapGrid mapGrid;
-
 	public HashMap<Integer,Objet> objets;
-
 	// players
 	public Vector<Team> teams;
-
 	// round
 	public int round = 0;
-
 	// Hold ids of objects
 	public int id = 0;
 
@@ -255,8 +245,6 @@ public class Plateau implements java.io.Serializable {
 		checkpoints.removeAll(toremove);
 
 		// Update selection and groups
-
-
 		// Remove objets from lists and streams
 		for (Character o : toRemoveCharacters) {
 			characters.remove(o);
@@ -266,7 +254,6 @@ public class Plateau implements java.io.Serializable {
 		}
 		for (Character o : toAddCharacters) {
 			objets.put(o.id,o);
-
 			characters.addElement(o);
 		}
 		for (SpellEffect o : toAddSpells) {
@@ -618,14 +605,15 @@ public class Plateau implements java.io.Serializable {
 		return target;
 	}
 	
-	public void update(Vector<InputObject> ims){
-		update(ims, new Vector<Player>());
+	public void update(){
+		update(new Vector<InputObject>());
 	}
-	public void update(Vector<InputObject> ims, Vector<Player> players) {
+	public void update(Vector<InputObject> ims) {
+		
 		round ++;
 		// 1 - Handling inputs
+		
 		for (InputObject im : ims) {
-			int player = im.idplayer;
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
 				this.teamLooser = im.team;
@@ -634,13 +622,16 @@ public class Plateau implements java.io.Serializable {
 			// Handling the right click
 			this.handleRightClick(im);
 			// Handling action bar TODO : ça n'a rien à faire là, à dégager
-			this.handleActionOnInterface(im, player, players);
+			this.handleActionOnInterface(im);
 
 		}
+		
 		// 2 - For everyone
 		// Sort by id
 		this.collision();
+		
 		this.clean();
+		
 		this.action();
 		// 4- handling victory
 		for(Team team : teams){
@@ -651,6 +642,7 @@ public class Plateau implements java.io.Serializable {
 				this.teamLooser = team.id;
 			}
 		}
+		
 	}
 
 	void handleMouseHover(InputObject im) {
@@ -725,7 +717,7 @@ public class Plateau implements java.io.Serializable {
 		}
 	}
 
-	private void handleActionOnInterface(InputObject im, int player, Vector<Player> players) {
+	private void handleActionOnInterface(InputObject im) {
 		// Action bar
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
@@ -778,7 +770,7 @@ public class Plateau implements java.io.Serializable {
 				}
 		}
 		if(im.spell!=null && im.selection.size()>0){
-			Spell s = players.get(im.idplayer).getGameTeam().data.getSpell(im.spell);
+			Spell s = teams.get(im.team).data.getSpell(im.spell);
 			Character c = ((Character) this.getById(im.selection.get(0)));
 			if(im.idObjetMouse!=-1){
 				s.launch(getById(im.idObjetMouse), c, this);

@@ -5,15 +5,14 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import control.Player;
 import data.Attributs;
 import display.Camera;
 import display.Interface;
 import events.EventHandler;
-import model.Player;
 import plateau.Building;
 import plateau.Bullet;
 import plateau.Character;
-import plateau.Checkpoint;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
@@ -32,7 +31,7 @@ public class RenderEngine {
 
 	public static int i;
 
-	public static void render(Graphics g, Plateau plateau, Camera camera, Player player, Interface bottombar){
+	public static void render(Graphics g, Plateau plateau, Camera camera, Interface bottombar){
 
 		g.translate(-camera.Xcam, -camera.Ycam);
 		renderBackground(g, plateau);
@@ -43,21 +42,21 @@ public class RenderEngine {
 		objets = Utils.triY(objets);
 		Vector<Objet> visibleObjets = new Vector<Objet>();
 		for(Objet o : objets){
-			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team==player.getGameTeam()){
+			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
 				visibleObjets.add(o);
 			}
 		}
 		// 1) Draw selection
-		for(Integer o: player.selection.selection){
+		for(Integer o: Player.selection){
 			renderSelection(plateau.getById(o), g, plateau);
 		}
 		
 		// 2) Draw Objects
 		for(Objet o : objets){
 			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
-				if(o.getTeam().id==player.getTeam()){
+				if(o.getTeam().id==Player.getTeamId()){
 					renderObjet(o, g, plateau);
-				} else if (plateau.isVisibleByTeam(player.getTeam(), o)){
+				} else if (plateau.isVisibleByTeam(Player.getTeamId(), o)){
 					renderObjet(o, g, plateau);
 				} else if (o instanceof Building || o instanceof NaturalObjet){
 					renderObjet(o, g, plateau, false);
@@ -65,7 +64,7 @@ public class RenderEngine {
 			}
 		}
 		// 3) Draw fog of war
-		renderDomain(plateau, g, camera, visibleObjets, player, bottombar);
+		renderDomain(plateau, g, camera, visibleObjets, bottombar);
 		EventHandler.render(g);
 		g.translate(camera.Xcam, camera.Ycam);
 		// draw interface
@@ -97,7 +96,7 @@ public class RenderEngine {
 				0, 0, Images.get("islandTexture").getWidth(),  Images.get("islandTexture").getHeight());
 
 	}
-	public static void renderDomain(Plateau plateau, Graphics g, Camera camera, Vector<Objet> visibleObjets, Player player, Interface bottombar){
+	public static void renderDomain(Plateau plateau, Graphics g, Camera camera, Vector<Objet> visibleObjets, Interface bottombar){
 		// draw fog of war
 		Graphics g1 = GraphicElements.graphicFogOfWar;
 		g1.setColor(new Color(255, 255, 255));
@@ -123,13 +122,13 @@ public class RenderEngine {
 
 		// draw rectangle of selection
 		g.setDrawMode(Graphics.MODE_NORMAL);
-		if(player.selection.rectangleSelection != null){
+		if(Player.rectangleSelection != null){
 			g.setLineWidth(1f);
 			g.setColor(Color.green);
-			g.drawRect(player.selection.rectangleSelection.getMinX(),
-					player.selection.rectangleSelection.getMinY(),
-					player.selection.rectangleSelection.getWidth(),
-					player.selection.rectangleSelection.getHeight());	
+			g.drawRect(Player.rectangleSelection.getMinX(),
+					Player.rectangleSelection.getMinY(),
+					Player.rectangleSelection.getWidth(),
+					Player.rectangleSelection.getHeight());	
 		}
 
 

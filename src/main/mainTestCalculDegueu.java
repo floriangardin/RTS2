@@ -23,7 +23,7 @@ public class mainTestCalculDegueu {
 		
 		Plateau plateau = Map.createPlateau("testIA");
 		while(true){
-			plateau.update(new Vector<InputObject>());
+			//plateau.update();
 			plateau.print();
 		}
 		//System.out.println("J'ai réussi youpi ...");
