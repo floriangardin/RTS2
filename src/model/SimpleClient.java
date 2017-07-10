@@ -23,7 +23,7 @@ public class SimpleClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	static final int delay = 8; // Number of delay rounds
+	static final int delay = 20; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(Plateau plateau){
 		SimpleClient.plateau = plateau;
