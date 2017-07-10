@@ -45,6 +45,9 @@ public class SimpleClient extends Listener {
 //						if(ping>0 && ping<10000){							
 //							System.out.println("Ping : "+ ping+" ms");
 //						}
+						if(im.round>getRound()){
+							System.out.println("input recu trop tard ...");
+						}
 						SimpleClient.addInput(im);
 					}
 				}
