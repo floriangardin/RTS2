@@ -19,7 +19,7 @@ public class SimpleClient extends Listener {
 	//OPTIONS
 	private final static Client client = new Client(500000, 500000);
 	private static String ip = null; //FOR SINGLEPLAYER
-	private static int port = 27960;
+	public final static int port = 27960;
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
@@ -72,7 +72,7 @@ public class SimpleClient extends Listener {
 	}
 	public static void send(InputObject im){
 		Message m = new Message(im);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 
 	public static int roundForInput(){
@@ -101,11 +101,11 @@ public class SimpleClient extends Listener {
 	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
-		client.sendTCP(Serializer.serialize(m));
+		client.sendUDP(Serializer.serialize(m));
 	}
 
 	public static Plateau getPlateau(){	

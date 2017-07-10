@@ -16,7 +16,7 @@ import ressources.Map;
 public class SimpleServer extends Listener {
 
 	static Server server;
-	static final int port = 27960;
+	
 	static boolean hasLaunched = false;
 	// State
 	static final Vector<InputObject> inputs = new Vector<InputObject>();
@@ -30,7 +30,7 @@ public class SimpleServer extends Listener {
 		server.getKryo().register(Integer.class);
 		server.getKryo().register(Message.class);
 		try {
-			server.bind(port, port);
+			server.bind(SimpleClient.port, SimpleClient.port);
 			hasLaunched = true;
 			server.start();
 			server.addListener(new SimpleServer());
@@ -80,11 +80,11 @@ public class SimpleServer extends Listener {
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
 					System.out.println("desynchro");
-					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
+					server.sendToAllUDP(new Message(SimpleClient.getPlateau()));
 				}
 			}else{
 				// Broadcast inputs to all (including host)
-				server.sendToAllTCP(o);
+				server.sendToAllUDP(o);
 			}
 		}
 	}
