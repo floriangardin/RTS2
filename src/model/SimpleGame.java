@@ -57,7 +57,7 @@ public class SimpleGame extends BasicGame {
 	}
 	
 	@Override
-	public void render(GameContainer arg0, Graphics g) throws SlickException {
+	public void render(GameContainer gc, Graphics g) throws SlickException {
 		SimpleClient.mutex.lock();
 		try{
 		SimpleRenderEngine.render(g, SimpleClient.getPlateau());
@@ -65,6 +65,7 @@ public class SimpleGame extends BasicGame {
 		finally{
 			SimpleClient.mutex.unlock();
 		}
+		gc.sleep(1);
 	}
 
 	@Override

@@ -42,9 +42,9 @@ public class SimpleClient extends Listener {
 					}else if(type==Message.INPUTOBJECT){
 						InputObject im = (InputObject)m.get();
 						int ping = (int)(1e-6*(System.nanoTime()-im.time));
-						if(ping>0 && ping<10000){							
-							System.out.println("Ping : "+ ping+" ms");
-						}
+//						if(ping>0 && ping<10000){							
+//							System.out.println("Ping : "+ ping+" ms");
+//						}
 						SimpleClient.addInput(im);
 					}
 				}
