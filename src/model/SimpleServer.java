@@ -67,7 +67,7 @@ public class SimpleServer extends Listener {
 	public void connected(Connection c){
 		// If connection send plateau to id
 		System.out.println("Connection received.");
-		server.sendToTCP(c.getID(), new Message(SimpleClient.getPlateau()));
+		server.sendToAllTCP( new Message(SimpleClient.getPlateau()));
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		System.out.println(c.getID());
 	}
