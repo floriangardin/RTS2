@@ -10,4 +10,5 @@ public abstract class ClassSystem {
 	
 	public abstract void update(GameContainer arg0, int arg1) throws SlickException;
 	
+
 }

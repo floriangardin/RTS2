@@ -55,6 +55,7 @@ public class SimpleGame extends BasicGame {
 		}
 
 	}
+	
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
 		SimpleRenderEngine.render(g, SimpleClient.getPlateau());

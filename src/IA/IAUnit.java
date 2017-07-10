@@ -99,9 +99,9 @@ public class IAUnit {
 		// distance according to y
 		features.get(1).add(c.y-unit.y);
 		// relative to the boundary
-		features.get(2).add(1/(Game.gameSystem.plateau.maxX-c.x));
+		//features.get(2).add(1/(Game.gameSystem.plateau.maxX-c.x));
 		features.get(3).add(1/c.x);
-		features.get(4).add(1/(Game.gameSystem.plateau.maxY-c.y));
+		//features.get(4).add(1/(Game.gameSystem.plateau.maxY-c.y));
 		features.get(5).add(1/c.y);
 	}
 	
