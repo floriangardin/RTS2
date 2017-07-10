@@ -68,7 +68,7 @@ public class SimpleServer extends Listener {
 		// If connection send plateau to id
 		System.out.println("Connection received.");
 		server.sendToTCP(c.getID(), new Message(SimpleClient.getPlateau()));
-		server.sendToAllExceptTCP(c.getID(), c.getID());
+		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		System.out.println(c.getID());
 	}
 	
@@ -80,7 +80,7 @@ public class SimpleServer extends Listener {
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
 					System.out.println("desynchro");
-					server.sendToAllUDP(new Message(SimpleClient.getPlateau()));
+					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
 				}
 			}else{
 				// Broadcast inputs to all (including host)
@@ -133,6 +133,6 @@ public class SimpleServer extends Listener {
 
 	public void disconnected(Connection c){
 		System.out.println("Connection dropped.");
-		server.sendToAllExceptTCP(c.getID(), "Disconnected|"+c.getID());
+		//server.sendToAllExceptTCP(c.getID(), "Disconnected|"+c.getID());
 	}
 }
