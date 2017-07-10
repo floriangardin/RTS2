@@ -29,7 +29,6 @@ public class SimpleClient extends Listener {
 		SimpleClient.plateau = plateau;
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
-		client.getKryo().register(String.class);
 		client.getKryo().register(Message.class);
 		client.addListener(new Listener(){
 			public void received(Connection c, Object o){

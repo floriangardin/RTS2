@@ -28,7 +28,6 @@ public class SimpleServer extends Listener {
 		// Choose between byte and plateau
 		server.getKryo().register(byte[].class);
 		server.getKryo().register(Integer.class);
-		server.getKryo().register(String.class);
 		server.getKryo().register(Message.class);
 		try {
 			server.bind(port, port);
@@ -39,36 +38,26 @@ public class SimpleServer extends Listener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		
 	}
 
 	public static void addChecksum(Checksum c){
-		SimpleClient.mutex.lock();
-		try{
+		synchronized(checksums){			
 			checksums.add(c);
-		}finally{
-			SimpleClient.mutex.unlock();
 		}
 	}
 	public void addInput(InputObject im){
-		SimpleClient.mutex.lock();
-		try{			
+		synchronized(inputs){			
 			inputs.add(im);
-		}finally{
-			SimpleClient.mutex.unlock();
 		}
 	}
 	public static Vector<InputObject> getInputs(){
-		SimpleClient.mutex.lock();
-		Vector<InputObject> result = new Vector<InputObject>();
-		try{			
+		synchronized(inputs){
+			Vector<InputObject> result = new Vector<InputObject>();
 			result.addAll(inputs);
 			inputs.clear();
-		}finally{
-			SimpleClient.mutex.unlock();
+			return result;
+			
 		}
-		return result;
 	}
 	
 	public static void main(String[] args) throws IOException{
@@ -101,20 +90,15 @@ public class SimpleServer extends Listener {
 	}
 	
 	public static void clearChecksum(){
-		SimpleClient.mutex.lock();
-		try{			
+		synchronized(checksums){			
 			checksums.clear();
-		}finally{
-			SimpleClient.mutex.unlock();
 		}
+		
 		
 	}
 	public static Vector<Checksum> getChecksums(){
-		SimpleClient.mutex.lock();
-		try{			
+		synchronized(checksums){
 			return checksums;
-		}finally{
-			SimpleClient.mutex.unlock();
 		}
 	}
 	
