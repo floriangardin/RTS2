@@ -33,13 +33,13 @@ public class SimpleGame extends BasicGame {
 		// Get Control
 		SimpleClient.mutex.lock();
 		try{
-			InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), SimpleClient.roundForInput());
+			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), SimpleClient.roundForInput());
 			// Update selection in im.selection
 			Player.handleSelection(im, SimpleClient.getPlateau());
-			// Update interface
-			Interface.update(im, SimpleClient.getPlateau());
 			// Send input for round
 			SimpleClient.send(im);
+			// Update interface
+			Interface.update(im, SimpleClient.getPlateau());
 			// Send checksum to server for checking synchro
 			if(SimpleClient.getRound()>30 && SimpleClient.getRound()%100==0){			
 				SimpleClient.send(new Checksum(SimpleClient.getPlateau()));
@@ -83,8 +83,8 @@ public class SimpleGame extends BasicGame {
 		}
 		Player.init(plateau.teams.get(SimpleServer.hasLaunched ? 1 : 2));
 		SimpleClient.init(plateau);
-		gc.setMaximumLogicUpdateInterval(32);
-		gc.setMinimumLogicUpdateInterval(32);
+		gc.setMaximumLogicUpdateInterval(16);
+		gc.setMinimumLogicUpdateInterval(16);
 	}
 
 	public static void main(String[] args) {
