@@ -31,7 +31,7 @@ public class SimpleGame extends BasicGame {
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// Get the plateau from client	
 		// Get Control
-		if(SimpleClient.slowDown>0){
+		if(SimpleClient.slowDown>0){// Make it generic for n players 
 			System.out.println("Slowing down : "+SimpleClient.slowDown);
 			gc.setMinimumLogicUpdateInterval((1+SimpleClient.slowDown)*16);
 			gc.setMaximumLogicUpdateInterval((1+SimpleClient.slowDown)*16);
@@ -88,7 +88,7 @@ public class SimpleGame extends BasicGame {
 		Interface.init(plateau);
 		KeyMapper.init();
 		// Try to find a server else launch one ...
-		if(SimpleClient.getIP()==null){			
+		if(SimpleClient.getExistingServerIP()==null){			
 			SimpleServer.init(); // En vrai il faudra le lancer à part
 		}
 		Player.init(plateau.teams.get(SimpleServer.hasLaunched ? 1 : 2));

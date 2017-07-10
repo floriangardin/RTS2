@@ -60,14 +60,14 @@ public class SimpleClient extends Listener {
 		});
 		client.start();
 		try {
-			ip  = getIP();
+			ip  = getExistingServerIP();
 			System.out.println("IP of server : " +ip);
 			client.connect(5000, ip, port, port);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public static String getIP() {
+	public static String getExistingServerIP() {
 		try{
 			InetAddress host = client.discoverHost(port, 5000); 
 			return host.getHostAddress();
