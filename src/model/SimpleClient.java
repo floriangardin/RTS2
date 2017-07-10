@@ -40,12 +40,15 @@ public class SimpleClient extends Listener {
 						SimpleClient.setPlateau(plateau);
 					}else if(type==Message.INPUTOBJECT){
 						InputObject im = (InputObject)m.get();
+						
 						//int ping = (int)(1e-6*(System.nanoTime()-im.time));
 //						if(ping>0 && ping<10000){							
 //							System.out.println("Ping : "+ ping+" ms");
 //						}
 						if(im.round<getRound()){
-							System.out.println("input recu trop tard ..."+(getRound()-im.round));
+							System.out.println("input recu trop tard : "+(getRound()-im.round));
+						}if(im.round>getRound()+SimpleClient.delay){
+							System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
 						}
 						SimpleClient.addInput(im);
 					}
