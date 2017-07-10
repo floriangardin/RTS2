@@ -52,6 +52,7 @@ public class SimpleGame extends BasicGame {
 		}finally{
 			SimpleClient.mutex.unlock();
 		}
+		gc.sleep(1);
 
 	}
 	
