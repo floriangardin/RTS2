@@ -23,7 +23,7 @@ public class SimpleClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	static final int delay = 20; // Number of delay rounds
+	static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(Plateau plateau){
 		SimpleClient.plateau = plateau;
@@ -41,7 +41,7 @@ public class SimpleClient extends Listener {
 						SimpleClient.setPlateau(plateau);
 					}else if(type==Message.INPUTOBJECT){
 						InputObject im = (InputObject)m.get();
-						int ping = (int)(1e-6*(System.nanoTime()-im.time));
+						//int ping = (int)(1e-6*(System.nanoTime()-im.time));
 //						if(ping>0 && ping<10000){							
 //							System.out.println("Ping : "+ ping+" ms");
 //						}
