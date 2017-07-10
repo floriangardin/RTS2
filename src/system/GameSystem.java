@@ -14,8 +14,8 @@ import main.Main;
 import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Game;
-import model.SimpleClient;
-import model.SimpleServer;
+import model.GameClient;
+import model.GameServer;
 import multiplaying.Checksum;
 import mybot.IAFlo;
 import plateau.Plateau;
@@ -34,8 +34,8 @@ public class GameSystem extends ClassSystem{
 
 
 	public GameSystem(Lobby lobby){
-		SimpleClient.setPlateau(Map.createPlateau(lobby.idCurrentMap, "maps"));
-		Plateau plateau = SimpleClient.getPlateau();
+		GameClient.setPlateau(Map.createPlateau(lobby.idCurrentMap, "maps"));
+		Plateau plateau = GameClient.getPlateau();
 		currentPlayer = lobby.idCurrentPlayer;
 		this.players = new Vector<Player>();
 		for(Menu_Player mp : lobby.players){
@@ -53,11 +53,11 @@ public class GameSystem extends ClassSystem{
 //		EventHandler.init(plateau, camera);
 		// Launch server if it doesnt exist, otherwise continue, bind to host plateau !
 		try{
-			SimpleServer.init();
+			GameServer.init();
 		}catch(Exception e){
 			System.out.println("Server already exist !");
 		}
-		SimpleClient.init(plateau);
+		GameClient.init(plateau);
 	}
 
 	@Override
@@ -65,9 +65,9 @@ public class GameSystem extends ClassSystem{
 		// TODO Auto-generated method stub
 
 		if(RenderEngine.isReady()){
-			RenderEngine.render(g, SimpleClient.getPlateau(), camera, players.get(currentPlayer), bottombar);	
+			RenderEngine.render(g, GameClient.getPlateau(), camera, players.get(currentPlayer), bottombar);	
 		} else {
-			SimpleRenderEngine.render(g, SimpleClient.getPlateau(), camera, players.get(currentPlayer));
+			SimpleRenderEngine.render(g, GameClient.getPlateau(), camera, players.get(currentPlayer));
 		}
 
 	}
@@ -85,9 +85,9 @@ public class GameSystem extends ClassSystem{
 		InputObject im = new InputObject(gc.getInput(), camera, Player.getTeamId(), plateau.round);
 		Player p = players.get(currentPlayer);
 		// Get the plateau from client
-		Plateau plateau = SimpleClient.getPlateau();
+		Plateau plateau = GameClient.getPlateau();
 		// Get Control
-		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam(), SimpleClient.roundForInput());
+		InputObject im = new InputObject(gc.getInput(), camera, p.getTeam(), GameClient.roundForInput());
 
 		// 2: Update selection in im.selection
 		Player.handleSelection(im, bottombar, plateau);

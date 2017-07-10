@@ -12,7 +12,7 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
-import model.SimpleClient;
+import model.GameClient;
 import pathfinding.MapGrid;
 import ressources.Map;
 import spells.Etats;
@@ -756,7 +756,7 @@ public class Plateau implements java.io.Serializable {
 							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y, this), c, this);
 								c.spellsState.set(number, 0f);
-
+								
 							}
 							// switching selection
 							int compteur = 0;

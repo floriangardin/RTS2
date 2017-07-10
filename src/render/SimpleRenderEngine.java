@@ -4,16 +4,20 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import control.Player;
+import data.Attributs;
 import display.Camera;
+import plateau.Building;
+import plateau.Character;
+import plateau.Checkpoint;
 import plateau.Objet;
 import plateau.Plateau;
-import plateau.Character;
 
 public class SimpleRenderEngine {
 
 	// Debug rendering
 	public static void render(Graphics g, Plateau plateau){
 		g.setColor(Color.white);
+		g.setAntiAlias(true);
 		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
 		// Render everything rawest way ...
@@ -28,13 +32,27 @@ public class SimpleRenderEngine {
 			g.setColor(o.getTeam().color);
 			if(o.collisionBox != null){
 				if(o instanceof Character){
-					g.setAntiAlias(true);
 					g.draw(o.collisionBox);
-					g.setAntiAlias(false);
 					g.fill(o.collisionBox);
-				}else{
+					g.setColor(Color.red);
+					g.fillRect(o.collisionBox.getCenterX()-50, o.collisionBox.getY()+10, 100, 10);
+					g.setColor(Color.green);
+					g.fillRect(o.collisionBox.getCenterX()-50, o.collisionBox.getY()+10, 100*(o.lifePoints/o.getAttribut(Attributs.maxLifepoints)), 10);
+				}else if(o instanceof Building){
+					Building b = (Building) o;
+					g.setColor(Color.gray);
+					g.fill(o.collisionBox);
+					g.setColor(plateau.teams.get(b.potentialTeam).color);
+					g.fillRect(o.collisionBox.getX(), o.collisionBox.getY(), o.collisionBox.getWidth()*(b.constructionPoints/o.getAttribut(Attributs.maxLifepoints)), o.collisionBox.getHeight());
+				}
+				else{
 					g.fill(o.collisionBox);
 				}
+				if(!(o instanceof Checkpoint)){					
+					g.setColor(Color.white);
+					g.drawString(o.name.toString().substring(0, 3), o.x-10, o.y-10);
+				}
+				
 			}
 		}
 		// Rectangle of selection
@@ -48,5 +66,6 @@ public class SimpleRenderEngine {
 		}
 		// Render selection 
 		g.translate(Camera.Xcam, Camera.Ycam);
+		g.setAntiAlias(false);
 	}
 }

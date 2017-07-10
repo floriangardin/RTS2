@@ -13,7 +13,7 @@ import plateau.Plateau;
 import ressources.Map;
 
 
-public class SimpleServer extends Listener {
+public class GameServer extends Listener {
 
 	static Server server;
 	
@@ -30,10 +30,10 @@ public class SimpleServer extends Listener {
 		server.getKryo().register(Integer.class);
 		server.getKryo().register(Message.class);
 		try {
-			server.bind(SimpleClient.port, SimpleClient.port);
+			server.bind(GameClient.port, GameClient.port);
 			hasLaunched = true;
 			server.start();
-			server.addListener(new SimpleServer());
+			server.addListener(new GameServer());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,13 +61,13 @@ public class SimpleServer extends Listener {
 	}
 	
 	public static void main(String[] args) throws IOException{
-		SimpleServer.init();
+		GameServer.init();
 	}
 	
 	public void connected(Connection c){
 		// If connection send plateau to id
 		System.out.println("Connection received.");
-		server.sendToAllTCP( new Message(SimpleClient.getPlateau()));
+		server.sendToAllTCP( new Message(GameClient.getPlateau()));
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		System.out.println(c.getID());
 	}
@@ -80,7 +80,7 @@ public class SimpleServer extends Listener {
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
 					System.out.println("desynchro");
-					server.sendToAllTCP(new Message(SimpleClient.getPlateau()));
+					server.sendToAllTCP(new Message(GameClient.getPlateau()));
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
@@ -124,7 +124,7 @@ public class SimpleServer extends Listener {
 				}
 			}
 		}
-		if(getChecksums().size()>2*SimpleClient.delay){
+		if(getChecksums().size()>2*GameClient.delay){
 			clearChecksum();
 		}
 		//System.out.println("Size checksms "+getChecksums().size());

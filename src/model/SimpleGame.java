@@ -31,35 +31,35 @@ public class SimpleGame extends BasicGame {
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// Get the plateau from client	
 		// Get Control
-		if(SimpleClient.slowDown>0){// Make it generic for n players 
-			System.out.println("Slowing down : "+SimpleClient.slowDown);
-			gc.setMinimumLogicUpdateInterval((1+SimpleClient.slowDown)*16);
-			gc.setMaximumLogicUpdateInterval((1+SimpleClient.slowDown)*16);
-			SimpleClient.slowDown=0;
+		if(GameClient.slowDown>0){// Make it generic for n players 
+			System.out.println("Slowing down : "+GameClient.slowDown);
+			gc.setMinimumLogicUpdateInterval((1+GameClient.slowDown)*16);
+			gc.setMaximumLogicUpdateInterval((1+GameClient.slowDown)*16);
+			GameClient.slowDown=0;
 		}else{
 			gc.setMinimumLogicUpdateInterval(16);
 			gc.setMaximumLogicUpdateInterval(16);
 		}
-		SimpleClient.mutex.lock();
+		GameClient.mutex.lock();
 		try{
-			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), SimpleClient.roundForInput());
+			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), GameClient.roundForInput());
 			// Update selection in im.selection
-			Player.handleSelection(im, SimpleClient.getPlateau());
-			// Send input for round
-			SimpleClient.send(im);
+			Player.handleSelection(im, GameClient.getPlateau());
 			// Update interface
-			Interface.update(im, SimpleClient.getPlateau());
+			Interface.update(im, GameClient.getPlateau());
+			// Send input for round
+			GameClient.send(im);
 			// Send checksum to server for checking synchro
-			if(SimpleClient.getRound()>30 && SimpleClient.getRound()%100==0){			
-				SimpleClient.send(new Checksum(SimpleClient.getPlateau()));
+			if(GameClient.getRound()>30 && GameClient.getRound()%100==0){			
+				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round
-			Vector<InputObject> ims = SimpleClient.getInputForRound();
-				SimpleClient.getPlateau().update(ims);
+			Vector<InputObject> ims = GameClient.getInputForRound();
+				GameClient.getPlateau().update(ims);
 			// 4 : Update the camera given current input
 			Camera.update(im);
 		}finally{
-			SimpleClient.mutex.unlock();
+			GameClient.mutex.unlock();
 		}
 		
 		gc.sleep(1);
@@ -68,12 +68,12 @@ public class SimpleGame extends BasicGame {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		SimpleClient.mutex.lock();
+		GameClient.mutex.lock();
 		try{
-		SimpleRenderEngine.render(g, SimpleClient.getPlateau());
+		SimpleRenderEngine.render(g, GameClient.getPlateau());
 		}
 		finally{
-			SimpleClient.mutex.unlock();
+			GameClient.mutex.unlock();
 		}
 		gc.sleep(1);
 	}
@@ -81,18 +81,18 @@ public class SimpleGame extends BasicGame {
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		// TODO Auto-generated method stub
-		SimpleClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
-		Plateau plateau = SimpleClient.getPlateau();
+		GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+		Plateau plateau = GameClient.getPlateau();
 		plateau.update(new Vector<InputObject>());
 		Camera.init(800, 600, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
 		KeyMapper.init();
 		// Try to find a server else launch one ...
-		if(SimpleClient.getExistingServerIP()==null){			
-			SimpleServer.init(); // En vrai il faudra le lancer à part
+		if(GameClient.getExistingServerIP()==null){			
+			GameServer.init(); // En vrai il faudra le lancer à part
 		}
-		Player.init(plateau.teams.get(SimpleServer.hasLaunched ? 1 : 2));
-		SimpleClient.init(plateau);
+		Player.init(plateau.teams.get(GameServer.hasLaunched ? 1 : 2));
+		GameClient.init(plateau);
 		gc.setMaximumLogicUpdateInterval(16);
 		gc.setMinimumLogicUpdateInterval(16);
 	}

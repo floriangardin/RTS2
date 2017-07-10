@@ -15,7 +15,7 @@ import control.InputObject;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
-public class SimpleClient extends Listener {
+public class GameClient extends Listener {
 	//OPTIONS
 	private final static Client client = new Client(500000, 500000);
 	private static String ip = null; //FOR SINGLEPLAYER
@@ -27,7 +27,7 @@ public class SimpleClient extends Listener {
 	static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(Plateau plateau){
-		SimpleClient.plateau = plateau;
+		GameClient.plateau = plateau;
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
 		client.getKryo().register(Message.class);
@@ -38,20 +38,14 @@ public class SimpleClient extends Listener {
 					int type = m.getType();
 					if(type==Message.PLATEAU){
 						Plateau plateau = (Plateau) m.get();
-						SimpleClient.setPlateau(plateau);
+						GameClient.setPlateau(plateau);
 					}else if(type==Message.INPUTOBJECT){
 						InputObject im = (InputObject)m.get();
-						//int ping = (int)(1e-6*(System.nanoTime()-im.time));
-//						if(ping>0 && ping<10000){							
-//							System.out.println("Ping : "+ ping+" ms");
-//						}
-						if(im.round<getRound()){
-							//System.out.println("input recu trop tard : "+(getRound()-im.round));
-						}if(im.round>getRound()+SimpleClient.delay){
+						if(im.round>getRound()+GameClient.delay){
 							//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
 							client.sendUDP((im.round-delay-getRound()));
 						}
-						SimpleClient.addInput(im);
+						GameClient.addInput(im);
 					}
 				}else if(o instanceof Integer){
 					slowDown = (Integer) o;
@@ -68,13 +62,13 @@ public class SimpleClient extends Listener {
 		}
 	}
 	public static String getExistingServerIP() {
+		// Method to move on the lobby .
 		try{
 			InetAddress host = client.discoverHost(port, 5000); 
 			return host.getHostAddress();
 		}catch(Exception e ){
 			return null;
 		}
-
 	}
 	public static void send(InputObject im){
 		Message m = new Message(im);
@@ -115,13 +109,13 @@ public class SimpleClient extends Listener {
 	}
 
 	public static Plateau getPlateau(){	
-		return SimpleClient.plateau;
+		return GameClient.plateau;
 	}
 	public static void setPlateau(Plateau plateau){
 		mutex.lock();
 		try {
 			System.out.println("New plateau");
-			SimpleClient.plateau = plateau;
+			GameClient.plateau = plateau;
 		} finally {
 		    mutex.unlock();
 		}
