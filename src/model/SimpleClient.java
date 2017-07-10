@@ -1,6 +1,9 @@
 package model;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Collections;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -46,12 +49,17 @@ public class SimpleClient extends Listener {
 		});
 		client.start();
 		try {
+			ip  = getIP();
+			System.out.println("IP of server : " +ip);
 			client.connect(5000, ip, port, port);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	public static String getIP() {
+		InetAddress host = client.discoverHost(port, 5000); 
+		return host.getHostAddress();
+	}
 	public static void send(InputObject im){
 		Message m = new Message(im);
 		client.sendUDP(m);
