@@ -83,8 +83,8 @@ public class SimpleGame extends BasicGame {
 		}
 		Player.init(plateau.teams.get(SimpleServer.hasLaunched ? 1 : 2));
 		SimpleClient.init(plateau);
-		gc.setMaximumLogicUpdateInterval(16);
-		gc.setMinimumLogicUpdateInterval(16);
+		gc.setMaximumLogicUpdateInterval(32);
+		gc.setMinimumLogicUpdateInterval(32);
 	}
 
 	public static void main(String[] args) {
