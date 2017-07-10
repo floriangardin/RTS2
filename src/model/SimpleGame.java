@@ -105,6 +105,7 @@ public class SimpleGame extends BasicGame {
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
 			app.setVSync(true);
+			//app.setTargetFrameRate(30);
 			//app.setSmoothDeltas(true);
 			app.start();
 		} catch (SlickException e) {
