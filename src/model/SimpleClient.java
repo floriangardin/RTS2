@@ -41,6 +41,7 @@ public class SimpleClient extends Listener {
 						SimpleClient.setPlateau(plateau);
 					}else if(type==Message.INPUTOBJECT){
 						InputObject im = (InputObject)m.get();
+						System.out.println("Ping : "+ 1e-6*(System.nanoTime()-im.time));
 						SimpleClient.addInput(im);
 					}
 				}

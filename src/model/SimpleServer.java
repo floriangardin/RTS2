@@ -19,8 +19,8 @@ public class SimpleServer extends Listener {
 	static final int port = 27960;
 	static boolean hasLaunched = false;
 	// State
-	static Vector<InputObject> inputs = new Vector<InputObject>();
-	static Vector<Checksum> checksums = new Vector<Checksum>();
+	static final Vector<InputObject> inputs = new Vector<InputObject>();
+	static final Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 
 	public static void init(){
@@ -97,8 +97,6 @@ public class SimpleServer extends Listener {
 				// Broadcast inputs to all (including host)
 				server.sendToAllTCP(o);
 			}
-		}else if(o instanceof String){
-			server.sendToAllExceptTCP(c.getID(), o);
 		}
 	}
 	
@@ -146,7 +144,7 @@ public class SimpleServer extends Listener {
 		//System.out.println("Size checksms "+getChecksums().size());
 		//int deltaRound = (maxRound-minRound);
 		//System.out.println("max round : "+maxRound+ " min : "+minRound+ " d "+deltaRound);
-		return true; // If delta too high there is delay desynchro or desynchro
+		return true;
 	}
 
 	public void disconnected(Connection c){

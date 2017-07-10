@@ -38,19 +38,10 @@ public class InputObject implements java.io.Serializable{
 	public Vector<KeyEnum> pressed;
 	public float x, xOnScreen;
 	public float y, yOnScreen;
+	public long time;
 
 	public InputObject (){
-		this.id= 0;
-		this.round = 0;
-		
-		down = new Vector<KeyEnum>();
-		pressed = new Vector<KeyEnum>();
-		
-		x = 0;
-		y = 0;
-		this.toPlay = false;
-		this.isOnMiniMap = false;
-		this.validated = new Vector<Boolean>();
+
 	}
 	
 	public InputObject(Input input, int team, int round){
@@ -221,6 +212,7 @@ public class InputObject implements java.io.Serializable{
 		y = input.getMouseY() + Camera.Ycam;
 	}
 	public void initInitInput(Input input){
+		time = System.nanoTime();
 		x = input.getMouseX();
 		y = input.getMouseY();
 		xOnScreen = input.getMouseX();

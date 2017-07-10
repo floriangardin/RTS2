@@ -27,7 +27,6 @@ public class SimpleGame extends BasicGame {
 		super("RTS ULTRAMYTHE");
 		// TODO Auto-generated constructor stub
 	}
-
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		// Get the plateau from client	
