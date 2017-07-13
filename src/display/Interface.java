@@ -100,7 +100,7 @@ public class Interface {
 
 	// Spell with click handling
 	public static boolean spellOk = true;
-	public static boolean spellRelease = false;
+	private static boolean spellRelease = false;
 	public static Integer spellLauncher;
 	public static Integer spellTarget;
 	public static float spellX,spellY;
@@ -184,23 +184,25 @@ public class Interface {
 					}
 					im.pressed.remove(KeyEnum.LeftClick);
 					spellRelease = true;
+					
 					resetCurrentSpell();
 				}
 			} else {
 				resetCurrentSpell();
 			}
-			if(im.isDown(KeyEnum.LeftClick)){
-				im.down.remove(KeyEnum.LeftClick);
-			}
+			
 		}
-		if(im.down.contains(KeyEnum.LeftClick)){
+		if(im.isDown(KeyEnum.LeftClick)){
 			//System.out.println("vaneau1");
 			
 		}
+		//System.out.println(spellRelease);
 		if(spellRelease==true){
+			Player.rectangleSelection = null;
 			//System.out.println("vaneau");
 			if(im.down.contains(KeyEnum.LeftClick)){
 				im.down.remove(KeyEnum.LeftClick);
+				//System.out.println("Vanneaux" +im.isDown(KeyEnum.LeftClick));
 			} else {
 				spellRelease = false;
 			}
@@ -488,7 +490,6 @@ public class Interface {
 
 		// Draw Production/Effect Bar
 		if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Building){
-			System.out.println(selection.get(0).getClass());
 			mouseOnActionBar = true;
 			Building b =(Building) plateau.getById(selection.get(0));
 			//Print building capacities
@@ -532,7 +533,6 @@ public class Interface {
 				float faithCost = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.faithCost);
 				float prodTime = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.prodTime);
 				String icon = getAttributString(b.getTechnologyList(plateau).get(i),Attributs.nameIcon);
-				System.out.println(icon);
 				g.drawImage(Images.get(icon), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				// CHANGE PUT PRICES
 				g.setColor( Player.getTeam().color);

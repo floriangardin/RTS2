@@ -30,11 +30,11 @@ public class Player {
 		Player.team = team;
 	}
 	public static void updateRectangle(InputObject im, Plateau plateau) {
-		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
-			return;
-		}else{
-			waitForPressedBeforeUpdate = false;
-		}
+//		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
+//			return;
+//		}else{
+//			waitForPressedBeforeUpdate = false;
+//		}
 		if(im.isOnMiniMap && Player.rectangleSelection==null)
 			return;
 		if(im.isDown(KeyEnum.LeftClick)){
@@ -82,8 +82,9 @@ public class Player {
 	public static void handleSelection(InputObject im, Plateau plateau) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
+		
 		Vector<Integer> select = new Vector<Integer>();
-		if(Interface.spellCurrent != null){
+		if(rectangleSelection == null){
 			select.addAll(selection);
 		}
 		Vector<Integer> toRemove = new Vector<Integer>();
@@ -98,15 +99,11 @@ public class Player {
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 || rectangleSelection!=null){
 			Player.selection.clear();
-
 		}
 		if(select.size()>0){
-			
 			Player.selection = select;
-			waitForPressedBeforeUpdate = true;
 		}else{
 			for(Integer o : inRectangle){
-
 				if(plateau.getById(o).team.id==im.team){
 					Player.selection.add(o);
 				}
@@ -117,7 +114,7 @@ public class Player {
 			im.selection.add(o);
 		}
 
-
+		//System.out.println("Vanneau4"+ im.selection.size());
 		// Ajout du clique droit
 
 

@@ -56,10 +56,11 @@ public class WholeGame extends BasicGame {
 		GameClient.mutex.lock();
 		try{
 			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), GameClient.roundForInput());
-			// Update selection in im.selection
-			Player.handleSelection(im, GameClient.getPlateau());
+
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
+			// Update selection in im.selection
+			Player.handleSelection(im, GameClient.getPlateau());
 			// Send input for round
 			GameClient.send(im);
 			// Send checksum to server for checking synchro
@@ -129,7 +130,6 @@ public class WholeGame extends BasicGame {
 		gc.setMinimumLogicUpdateInterval(16);
 		
 	}
-
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
