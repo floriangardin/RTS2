@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.util.Vector;
 
@@ -114,7 +116,7 @@ public class WholeGame extends BasicGame {
 		GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update(new Vector<InputObject>());
-		Camera.init(800, 600, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
 		KeyMapper.init();
 		// Try to find a server else launch one ...
@@ -130,11 +132,13 @@ public class WholeGame extends BasicGame {
 
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 800;
-		int resolutionY = 600;
-		Game.resX = 800;
-		Game.resY = 600;
+		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
+		int resolutionX = (int)screenSize.getWidth();
+		int resolutionY = (int)screenSize.getHeight();
+		Game.resX = resolutionX;
+		Game.resY = resolutionY;
 		try {
 			WholeGame game = new WholeGame();
 			AppGameContainer app = new AppGameContainer(game);
