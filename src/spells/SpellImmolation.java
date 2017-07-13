@@ -24,7 +24,7 @@ public class SpellImmolation extends Spell{
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.setSpells(new Vector<ObjetsList>());
 		launcher.addSpellEffect(new Immolation(launcher,target,plateau));
-		EventHandler.addEvent(EventNames.Immolation, launcher);
+		EventHandler.addEvent(EventNames.Immolation, launcher, plateau);
 	}
 
 	

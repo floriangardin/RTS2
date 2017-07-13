@@ -9,26 +9,37 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.loading.LoadingList;
+
 import control.InputObject;
 import control.KeyMapper;
 import control.Player;
 import display.Camera;
 import display.Interface;
 import multiplaying.Checksum;
-import mybot.IAFlo;
+import multiplaying.Communications;
 import plateau.Plateau;
-import plateau.Team;
-import render.SimpleRenderEngine;
+import render.EndSystem;
+import render.RenderEngine;
+import ressources.GraphicElements;
+import ressources.Images;
 import ressources.Map;
+import ressources.Musics;
+import ressources.Sounds;
+import ressources.Taunts;
 
-public class SimpleGame extends BasicGame {
+public class WholeGame extends BasicGame {
 	
-	public SimpleGame() {
+	public WholeGame() {
 		super("RTS ULTRAMYTHE");
 		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
+		if(Game.endSystem != null){
+			Game.endSystem.update(gc, arg1);
+			return;
+		}
 		// Get the plateau from client	
 		// Get Control
 		if(GameClient.slowDown>0){// Make it generic for n players 
@@ -61,25 +72,44 @@ public class SimpleGame extends BasicGame {
 		}finally{
 			GameClient.mutex.unlock();
 		}
-		
-		gc.sleep(1);
-
+		if(GameClient.getPlateau().teamLooser>0){
+			Game.endSystem = new EndSystem(GameClient.getPlateau());
+			Game.system = Game.endSystem;
+		}
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		if(Game.endSystem != null){
+			Game.endSystem.render(gc, g);
+			return;
+		}
+		Plateau p = null;
 		GameClient.mutex.lock();
 		try{
-		SimpleRenderEngine.render(g, GameClient.getPlateau());
+			p = GameClient.getPlateau();
 		}
 		finally{
 			GameClient.mutex.unlock();
+			RenderEngine.render(g, p);
 		}
-		gc.sleep(1);
+		
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		
+		// Classic init
+		LoadingList.setDeferredLoading(false);
+		Musics.init();
+		Sounds.init();
+		GraphicElements.init();
+		Images.init();
+		Communications.init();
+		Options.init();
+		KeyMapper.init();
+		Taunts.init();
+		
 		// TODO Auto-generated method stub
 		GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		Plateau plateau = GameClient.getPlateau();
@@ -95,6 +125,7 @@ public class SimpleGame extends BasicGame {
 		GameClient.init(plateau);
 		gc.setMaximumLogicUpdateInterval(16);
 		gc.setMinimumLogicUpdateInterval(16);
+		
 	}
 
 	public static void main(String[] args) {
@@ -102,8 +133,10 @@ public class SimpleGame extends BasicGame {
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		int resolutionX = 800;
 		int resolutionY = 600;
+		Game.resX = 800;
+		Game.resY = 600;
 		try {
-			SimpleGame game = new SimpleGame();
+			WholeGame game = new WholeGame();
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");

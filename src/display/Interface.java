@@ -160,6 +160,7 @@ public class Interface {
 					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
 						spellLauncher = c.id;
 						spellCurrent = s.name;
+						
 					}
 					im.pressed.remove(KeyEnum.valueOf("Prod"+i));
 				}
@@ -192,7 +193,12 @@ public class Interface {
 				im.down.remove(KeyEnum.LeftClick);
 			}
 		}
+		if(im.down.contains(KeyEnum.LeftClick)){
+			//System.out.println("vaneau1");
+			
+		}
 		if(spellRelease==true){
+			//System.out.println("vaneau");
 			if(im.down.contains(KeyEnum.LeftClick)){
 				im.down.remove(KeyEnum.LeftClick);
 			} else {
@@ -244,7 +250,7 @@ public class Interface {
 	// Draw mathods
 	///////
 
-	public static Graphics draw(Graphics g, Camera camera, Plateau plateau){
+	public static Graphics draw(Graphics g, Plateau plateau){
 		// Draw Background :
 
 
@@ -253,11 +259,11 @@ public class Interface {
 		//g.drawImage(background,x,y-6f);
 
 		// ACTIONS, Spells  and production
-		drawSpell(g, camera, plateau);
+		drawSpell(g, plateau);
 		drawActionInterface(g, plateau);
 		drawSelectionInterface(g, plateau);
 		drawTopInterface(g, plateau);
-		drawMiniMap(g, camera, plateau);
+		drawMiniMap(g, plateau);
 
 		//spell.draw(g);
 
@@ -664,16 +670,16 @@ public class Interface {
 
 	}
 
-	public static void drawMiniMap(Graphics g, Camera camera, Plateau plateau){
+	public static void drawMiniMap(Graphics g, Plateau plateau){
 		offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
 		Utils.drawNiceRect(g,  Player.getTeam().color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
-		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*camera.Xcam);
-		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*camera.Ycam);
-		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(camera.Xcam+Game.resX));
-		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(camera.Ycam+Game.resY));
+		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam);
+		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam);
+		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX));
+		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY));
 		// Find the bottom right corner
 
 		// Draw background
@@ -683,7 +689,7 @@ public class Interface {
 			g.setColor(Color.green);
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.x-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.y-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
 		}
-		// Draw units on camera 
+		// Draw units on Camera 
 		g.setAntiAlias(true);
 		for(Character c : plateau.characters){		
 			if(c.getTeam().id==2){
@@ -765,21 +771,24 @@ public class Interface {
 			}
 		}
 
-		// Draw rect of camera 
+		// Draw rect of Camera 
 		g.setColor(Color.white);
 		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
 	}
 
-	public static void drawSpell(Graphics g, Camera camera, Plateau plateau){
+	public static void drawSpell(Graphics g, Plateau plateau){
 		if(spellCurrent!=null){
 			Character characterSpellLauncher = (Character) plateau.getById(spellLauncher);
-			g.translate(-camera.Xcam, -camera.Ycam);
+			g.translate(-Camera.Xcam, -Camera.Ycam);
 			Spell s = characterSpellLauncher.getSpell(spellCurrent);
-			s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
-			g.translate(camera.Xcam, camera.Ycam);
+			if(spellTarget!=null){	
+				s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
+			}else{
+				s.drawCast(g, null, spellX, spellY, characterSpellLauncher, true, plateau);	
+			}
+			g.translate(Camera.Xcam, Camera.Ycam);
 		}
 	}
-
 	//////
 	// Utils
 	//////

@@ -47,7 +47,7 @@ public class Arrow extends Bullet{
 			this.angle+=360;
 		
 		this.soundLaunch = "arrow";
-		EventHandler.addEvent(EventNames.ArrowLaunched, this);
+		EventHandler.addEvent(EventNames.ArrowLaunched, this, plateau);
 	}
 
 	public void collision(Character c, Plateau plateau){

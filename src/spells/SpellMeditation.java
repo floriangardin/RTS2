@@ -23,7 +23,7 @@ public class SpellMeditation extends Spell{
 		}
 		launcher.addSpellEffect(new Meditation(launcher,target, plateau));
 		launcher.canMove = false;
-		EventHandler.addEvent(EventNames.Meditation, launcher);
+		EventHandler.addEvent(EventNames.Meditation, launcher, plateau);
 	}
 
 	@Override

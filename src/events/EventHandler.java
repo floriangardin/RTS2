@@ -11,16 +11,16 @@ import plateau.Plateau;
 
 public class EventHandler {
 
-	private static Vector<Event> events;
-	private static Vector<DisplayRessources> displayRessources;
-	private static Plateau plateau;
+	private static Vector<Event> events = new Vector<Event>();
+	private static Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 	private static Camera camera;
+	private static boolean isInit;
 
 	public static void init(Plateau plateau, Camera camera){
 		events = new Vector<Event>();
 		displayRessources = new Vector<DisplayRessources>();
-		EventHandler.plateau= plateau;
 		EventHandler.camera = camera;
+		isInit=true;
 	}
 	
 	public static void render(Graphics g){
@@ -42,21 +42,21 @@ public class EventHandler {
 		displayRessources.removeAll(toRemove2);
 	}
 	
-	public static void addEvent(EventNames name,Objet parent){
-		if(plateau==null){
+	public static void addEvent(EventNames name,Objet parent, Plateau plateau){
+		if(!isInit){
 			return;
 		}
 		events.addElement(name.createEvent(parent, plateau, camera));
 	}
 	
-	public static void addDisplayRessources(DisplayRessources dr){
+	public static void addDisplayRessources(DisplayRessources dr, Plateau plateau){
 		if(plateau==null){
 			return;
 		}
 		displayRessources.addElement(dr);
 	}
 	
-	public static void addEvent(Event event){
+	public static void addEvent(Event event, Plateau plateau){
 		if(plateau==null){
 			return;
 		}

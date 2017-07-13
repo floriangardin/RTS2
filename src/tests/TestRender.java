@@ -57,7 +57,7 @@ public class TestRender extends BasicGame{
 	@Override
 	public void render(GameContainer arg0, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		RenderEngine.render(g, plateau, camera);
+		RenderEngine.render(g, plateau);
 
 	}
 

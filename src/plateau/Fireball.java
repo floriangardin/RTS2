@@ -54,7 +54,7 @@ public class Fireball extends Bullet {
 		if(this.angle<0)
 			this.angle+=360;
 		this.soundLaunch = "fireball";
-		EventHandler.addEvent(EventNames.FireBallLaunched, this);
+		EventHandler.addEvent(EventNames.FireBallLaunched, this, plateau);
 	}
 
 	public Fireball(Plateau plateau){

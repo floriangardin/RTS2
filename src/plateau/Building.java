@@ -495,7 +495,7 @@ public class Building extends Objet{
 			if(this.constructionPoints<=0f){
 				if(this.getAttribut(Attributs.defendable)==0){
 					if(this.getTeam().id!=0 && this.name==ObjetsList.Tower){
-						EventHandler.addEvent(EventNames.DestructionTower, this);
+						EventHandler.addEvent(EventNames.DestructionTower, this, plateau);
 					}
 					this.isDestroyed = true;
 					if(this.name!=ObjetsList.Headquarters){

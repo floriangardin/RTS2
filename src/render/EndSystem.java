@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import control.Player;
 import display.Camera;
 import events.EventHandler;
 import events.EventNames;
@@ -21,7 +22,6 @@ import system.ClassSystem;
 public class EndSystem extends ClassSystem{
 
 	private Building destroyedHQ;
-	private Camera camera;
 	private Plateau plateau;
 	private boolean victory;
 	private int time = 0;
@@ -43,10 +43,10 @@ public class EndSystem extends ClassSystem{
 	
 	private Vector<Rond> vector;
 	
-	public EndSystem(Plateau plateau, Camera camera, int loosingTeamId){
+	public EndSystem(Plateau plateau){
 		time = 0;
 		image_background = Images.get("victoire_fond").getScaledCopy(3f);
-		if(loosingTeamId!=Game.gameSystem.getCurrentTeam()){
+		if(plateau.teamLooser!=Player.getTeamId()){
 			victory = true;
 			image_text = Images.get("victoire_texte");
 			image_texture = Images.get("victoire_fond_texture");
@@ -57,21 +57,20 @@ public class EndSystem extends ClassSystem{
 		}
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
-		destroyedHQ = (Building)plateau.getById(plateau.teams.get(loosingTeamId).hq);
-		EventHandler.addEvent(EventNames.DestructionHQ, destroyedHQ);
+		destroyedHQ = (Building)plateau.getById(plateau.teams.get(plateau.teamLooser).hq);
+		EventHandler.addEvent(EventNames.DestructionHQ, destroyedHQ, plateau);
 		vector = new Vector<Rond>();
-		this.camera = camera;
 		this.plateau = plateau;
 	}
 	
 	public void update(GameContainer gc, int arg1){
-		// moving camera
-		int Xcam = camera.Xcam, Ycam = camera.Ycam;
-		float resX = camera.resX, resY = camera.resY;
-		sizeBandes = Math.min(sizeBandes+2, camera.resY/7f);
+		// moving Camera
+		int Xcam = Camera.Xcam, Ycam = Camera.Ycam;
+		float resX = Camera.resX, resY = Camera.resY;
+		sizeBandes = Math.min(sizeBandes+2, Camera.resY/7f);
 		if((destroyedHQ.x-Xcam-resX/2)*(destroyedHQ.x-Xcam-resX/2)+(destroyedHQ.y-Ycam-resY/2)*(destroyedHQ.y-Ycam-resY/2)>450f){
-			camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
-			camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
+			Camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
+			Camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
 			return;
 		} 
 		time ++;
@@ -107,11 +106,11 @@ public class EndSystem extends ClassSystem{
 	}
 	
 	public void render(GameContainer gc, Graphics g){
-		RenderEngine.render(g, plateau, camera);
+		RenderEngine.render(g, plateau);
 		if(time==0){
 			g.setColor(Color.black);
-			g.fillRect(0, 0, camera.resX, sizeBandes);
-			g.fillRect(0, camera.resY, camera.resX, -sizeBandes);
+			g.fillRect(0, 0, Camera.resX, sizeBandes);
+			g.fillRect(0, Camera.resY, Camera.resX, -sizeBandes);
 			return;
 		}
 		if(time<=timeDropBackground){
@@ -123,19 +122,19 @@ public class EndSystem extends ClassSystem{
 		for(Rond r : vector){
 			r.render(g);
 		}
-		g.drawImage(image_background, camera.resX/2-image_background.getWidth()/2, 
-				camera.resY/2-image_background.getHeight()/2);
-		g.drawImage(image_texture, camera.resX/2-image_texture.getWidth()/2, 
-				camera.resY/2-image_texture.getHeight()/2);
-		g.drawImage(image_text, camera.resX/2-image_text.getWidth()/2, 
-				camera.resY/2-image_text.getHeight()/2);
+		g.drawImage(image_background, Camera.resX/2-image_background.getWidth()/2, 
+				Camera.resY/2-image_background.getHeight()/2);
+		g.drawImage(image_texture, Camera.resX/2-image_texture.getWidth()/2, 
+				Camera.resY/2-image_texture.getHeight()/2);
+		g.drawImage(image_text, Camera.resX/2-image_text.getWidth()/2, 
+				Camera.resY/2-image_text.getHeight()/2);
 		float ratio = 1f*(time-timeDropBackground-timeFadeTitle-timeWaiting)/(timeBlackFade);
 		g.setColor(Color.black);
-		g.fillRect(0, 0, camera.resX, sizeBandes);
-		g.fillRect(0, camera.resY, camera.resX, -sizeBandes);
+		g.fillRect(0, 0, Camera.resX, sizeBandes);
+		g.fillRect(0, Camera.resY, Camera.resX, -sizeBandes);
 		Color color = new Color(0f,0f,0f,2*ratio);
 		g.setColor(color);
-		g.fillOval(camera.resX*(0.5f-ratio*0.75f), camera.resY*0.5f-camera.resX*ratio*0.75f, camera.resX*ratio*1.5f, camera.resX*ratio*1.5f);
+		g.fillOval(Camera.resX*(0.5f-ratio*0.75f), Camera.resY*0.5f-Camera.resX*ratio*0.75f, Camera.resX*ratio*1.5f, Camera.resX*ratio*1.5f);
 	}
 	
 	private void updateRonds(){
@@ -165,8 +164,8 @@ public class EndSystem extends ClassSystem{
 			} else {
 				image = Images.get("defaite_rond").getScaledCopy(scale);
 			}
-			x = camera.resX/2f;
-			y = camera.resY/2f;
+			x = Camera.resX/2f;
+			y = Camera.resY/2f;
 			vx = (float) (Math.random()*2f-1f)*4f;
 			vy = (float) (Math.random()*2f-1f)*0.7f;
 			alpha = (float) (0.5f+Math.random());

@@ -203,7 +203,7 @@ public class Character extends Objet{
 			Character c = (Character) this.getTarget(plateau);
 			c.isAttacked();
 			// Attack sound
-			EventHandler.addEvent(EventNames.Attack, this);
+			EventHandler.addEvent(EventNames.Attack, this, plateau);
 			// compute damages
 			float damage = computeDamage(c);
 

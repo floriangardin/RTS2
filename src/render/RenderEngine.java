@@ -48,9 +48,9 @@ public class RenderEngine {
 		hasChecked = true;
 	}
 
-	public static void render(Graphics g, Plateau plateau, Camera camera, Interface bottombar){
+	public static void render(Graphics g, Plateau plateau){
 
-		g.translate(-camera.Xcam, -camera.Ycam);
+		g.translate(-Camera.Xcam, -Camera.Ycam);
 		renderBackground(g, plateau);
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.objets.values()){
@@ -70,7 +70,7 @@ public class RenderEngine {
 		
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				if(o.getTeam().id==Player.getTeamId()){
 					renderObjet(o, g, plateau);
 				} else if (plateau.isVisibleByTeam(Player.getTeamId(), o)){
@@ -81,16 +81,16 @@ public class RenderEngine {
 			}
 		}
 		// 3) Draw fog of war
-		renderDomain(plateau, g, camera, visibleObjets, bottombar);
+		renderDomain(plateau, g, visibleObjets);
 		EventHandler.render(g);
-		g.translate(camera.Xcam, camera.Ycam);
+		g.translate(Camera.Xcam, Camera.Ycam);
 		// draw interface
 		// 4) Draw bottom bar
-		bottombar.draw(g, camera, plateau);
+		Interface.draw(g, plateau);
 	}
 	
-	public static void render(Graphics g, Plateau plateau, Camera camera){
-		g.translate(-camera.Xcam, -camera.Ycam);
+	public static void render2(Graphics g, Plateau plateau){
+		g.translate(-Camera.Xcam, -Camera.Ycam);
 		renderBackground(g, plateau);
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.objets.values()){
@@ -99,12 +99,12 @@ public class RenderEngine {
 		objets = Utils.triY(objets);
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				renderObjet(o, g, plateau);
 			}
 		}
 		EventHandler.render(g);
-		g.translate(camera.Xcam, camera.Ycam);
+		g.translate(Camera.Xcam, Camera.Ycam);
 		// draw interface
 	}
 
@@ -113,29 +113,29 @@ public class RenderEngine {
 				0, 0, Images.get("islandTexture").getWidth(),  Images.get("islandTexture").getHeight());
 
 	}
-	public static void renderDomain(Plateau plateau, Graphics g, Camera camera, Vector<Objet> visibleObjets, Interface bottombar){
+	public static void renderDomain(Plateau plateau, Graphics g, Vector<Objet> visibleObjets){
 		// draw fog of war
 		Graphics g1 = GraphicElements.graphicFogOfWar;
 		g1.setColor(new Color(255, 255, 255));
-		g1.fillRect(0, 0, camera.resX, camera.resX);
+		g1.fillRect(0, 0, Camera.resX, Camera.resX);
 		g1.setColor(new Color(50, 50, 50));
-		float xmin = Math.max(0, -camera.Xcam);
-		float ymin = Math.max(0, -camera.Ycam);
-		float xmax = Math.min(camera.resX, plateau.maxX - camera.Xcam);
-		float ymax = Math.min(camera.resY, plateau.maxY - camera.Ycam);
+		float xmin = Math.max(0, -Camera.Xcam);
+		float ymin = Math.max(0, -Camera.Ycam);
+		float xmax = Math.min(Camera.resX, plateau.maxX - Camera.Xcam);
+		float ymax = Math.min(Camera.resY, plateau.maxY - Camera.Ycam);
 		g1.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		g1.setColor(new Color(255, 255, 255));
 		for (Objet o : visibleObjets) {
 			float sight = o.getAttribut(Attributs.sight);
 			if(sight>5){
-				g1.fillOval(o.x - sight - camera.Xcam, o.y - sight - camera.Ycam, sight * 2f, sight * 2f);
+				g1.fillOval(o.x - sight - Camera.Xcam, o.y - sight - Camera.Ycam, sight * 2f, sight * 2f);
 			}
 		}
 		g1.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
-		g.translate(camera.Xcam, camera.Ycam);
+		g.translate(Camera.Xcam, Camera.Ycam);
 		g.drawImage(GraphicElements.imageFogOfWar,0,0);
-		g.translate(-camera.Xcam, -camera.Ycam);
+		g.translate(-Camera.Xcam, -Camera.Ycam);
 
 		// draw rectangle of selection
 		g.setDrawMode(Graphics.MODE_NORMAL);
@@ -182,7 +182,7 @@ public class RenderEngine {
 
 	//	// g repr�sente le pinceau
 	//	//g.setColor(Color.black);
-	//	g.translate(-camera.Xcam,-camera.Ycam);
+	//	g.translate(-Camera.Xcam,-Camera.Ycam);
 	//	//Draw background
 	//
 	//	// Draw ground effects

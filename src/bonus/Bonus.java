@@ -46,7 +46,7 @@ public abstract class Bonus extends Building{
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid, p);
 		this.soundTaken = "bonusTaken";
-		EventHandler.addEvent(EventNames.BonusTaken, this);
+		//EventHandler.addEvent(EventNames.BonusTaken, this);
 	}
 	
 	public Graphics draw(Graphics g){
@@ -54,7 +54,6 @@ public abstract class Bonus extends Building{
 		int imageWidth = im.getWidth()/5;
 		float r =this.getAttribut(Attributs.size);
 		Color color = Colors.team0;
-
 		color = new Color(0,0,0,0.4f);
 		Image i;
 		if(!bonusPresent){
