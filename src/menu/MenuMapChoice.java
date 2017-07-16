@@ -200,6 +200,9 @@ public class MenuMapChoice extends Menu {
 		// Init gameSystem
 		Game.gameSystem = new WholeGame();
 		Game.system = Game.gameSystem;
+		
+		// Send Plateau to all
+		
 //		Camera.maxX = (int) MaxX;
 //		Camera.maxY = (int) MaxY;
 //		Camera.minX = 0;

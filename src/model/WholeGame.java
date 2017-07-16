@@ -38,13 +38,9 @@ public class WholeGame extends ClassSystem{
 		GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
-		
 		Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
-		// Try to find a server else launch one ...
-		if(GameClient.getExistingServerIP()==null){			
-			GameServer.init(); // En vrai il faudra le lancer à part
-		}
+		
 	}
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
