@@ -77,7 +77,7 @@ public class Player {
 		} else {
 			Player.rectangleSelection = null;
 		}
-
+		
 		// Update in rectangle
 		inRectangle.clear();
 		for(Character o : plateau.characters){
