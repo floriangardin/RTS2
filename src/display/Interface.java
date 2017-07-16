@@ -434,8 +434,6 @@ public class Interface {
 				compteur ++;
 			}
 		} else {
-			System.out.println("vaneau");
-			System.out.println(startXSelectionBar+" "+startYSelectionBar+" "+sizeXSelectionBar+" "+sizeYSelectionBar);
 			Utils.drawNiceRect(g,  team.color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 		}
