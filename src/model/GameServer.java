@@ -71,7 +71,7 @@ public class GameServer extends Listener {
 			server.sendToAllTCP( new Message(GameClient.getPlateau()));
 		}
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
-		//server.sendToTCP(c.getID(), new Message(c.getID()));
+		server.sendToTCP(c.getID(), "");
 	}
 	
 	public void received(Connection c, Object o){
