@@ -105,6 +105,8 @@ public class Menu_Player extends Menu_Item implements Serializable{
 	public void update(Menu_Player mp){
 		this.team = mp.team;
 		this.nickname = mp.nickname;
+		this.isReady = mp.isReady;
+		this.updatePosition(mp.id);
 	}
 
 
