@@ -24,19 +24,21 @@ public class GameServer extends Listener {
 	// Le serveur a juste pour role de faire passer des inputs ...
 
 	public static void init(){
-		server = new Server(500000, 500000);
-		// Choose between byte and plateau
-		server.getKryo().register(byte[].class);
-		server.getKryo().register(Integer.class);
-		server.getKryo().register(Message.class);
-		try {
-			server.bind(GameClient.port, GameClient.port);
-			hasLaunched = true;
-			server.start();
-			server.addListener(new GameServer());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(!hasLaunched){
+			server = new Server(500000, 500000);
+			// Choose between byte and plateau
+			server.getKryo().register(byte[].class);
+			server.getKryo().register(Integer.class);
+			server.getKryo().register(Message.class);
+			try {
+				server.bind(GameClient.port, GameClient.port);
+				hasLaunched = true;
+				server.start();
+				server.addListener(new GameServer());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

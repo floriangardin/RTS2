@@ -96,12 +96,7 @@ public class MenuMapChoice extends Menu {
 			break;
 		case 1:
 			// retour
-			if(Lobby.multiplayer){
-				Game.menuSystem.setMenu(MenuNames.MenuMulti);
-				ChatHandler.messages.clear();
-			}else{
-				Game.menuSystem.setMenu(MenuNames.MenuIntro);
-			}
+			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			break;
 		default:		
 		}
