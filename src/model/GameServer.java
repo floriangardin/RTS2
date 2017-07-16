@@ -17,7 +17,7 @@ public class GameServer extends Listener {
 
 	static Server server;
 	
-	static boolean hasLaunched = false;
+	public static boolean hasLaunched = false;
 	// State
 	static final Vector<InputObject> inputs = new Vector<InputObject>();
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
