@@ -30,7 +30,7 @@ public class Player {
 
 	public static void init(int idConnexion){
 		Player.idConnexion = idConnexion;
-		System.out.println("Player line 33 : init player");
+//		System.out.println("Player line 33 : init player");
 		boolean toCreate = true;
 		for(Menu_Player mp : Lobby.getPlayers()){
 			if(mp.id == idConnexion){
