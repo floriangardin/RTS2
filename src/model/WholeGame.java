@@ -40,7 +40,6 @@ public class WholeGame extends ClassSystem{
 		plateau.update();
 		Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
-		
 	}
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
