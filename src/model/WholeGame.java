@@ -22,6 +22,7 @@ import multiplaying.Communications;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
+import render.SimpleRenderEngine;
 import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Map;
@@ -105,7 +106,11 @@ public class WholeGame extends ClassSystem{
 		}
 		finally{
 			GameClient.mutex.unlock();
-			RenderEngine.render(g, p);
+			if(RenderEngine.isReady()){
+				RenderEngine.render(g, GameClient.getPlateau());	
+			} else {
+				SimpleRenderEngine.render(g, GameClient.getPlateau());
+			}
 		}
 		
 	}

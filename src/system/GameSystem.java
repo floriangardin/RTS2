@@ -64,11 +64,6 @@ public class GameSystem extends ClassSystem{
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
 
-		if(RenderEngine.isReady()){
-			RenderEngine.render(g, GameClient.getPlateau(), camera, players.get(currentPlayer), bottombar);	
-		} else {
-			SimpleRenderEngine.render(g, GameClient.getPlateau(), camera, players.get(currentPlayer));
-		}
 
 	}
 

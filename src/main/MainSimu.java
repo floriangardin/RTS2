@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException;
 
 import menu.Lobby;
 import model.Game;
-import system.GameSystem;
+import model.WholeGame;
 
 public class MainSimu {
 	
@@ -20,7 +20,7 @@ public class MainSimu {
 			Game game = new Game(resolutionX,resolutionY);
 			Lobby lobby = new Lobby();
 			lobby.initSingle();
-			Game.system = new GameSystem(lobby);
+			Game.system = new WholeGame();
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setShowFPS(true);
