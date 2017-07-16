@@ -182,11 +182,11 @@ public class Interface {
 					} else {
 						im.idObjetMouse = -1;
 					}
-					im.pressed.remove(KeyEnum.LeftClick);
-					spellRelease = true;
-					
+
 					resetCurrentSpell();
 				}
+				im.pressed.remove(KeyEnum.LeftClick);
+				spellRelease = true;
 			} else {
 				resetCurrentSpell();
 			}
