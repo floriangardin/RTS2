@@ -42,8 +42,9 @@ public class Lobby {
 	}
 
 	public static void addPlayer(Menu_Player mpMessage) {
-		synchronized(players){			
-			Lobby.players.add(mpMessage);
+		synchronized(players){
+			Menu_Player mp = new Menu_Player(mpMessage.id, mpMessage.team, mpMessage.nickname);
+			Lobby.players.add(mp);
 		}
 	}
 
