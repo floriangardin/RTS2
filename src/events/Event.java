@@ -24,14 +24,12 @@ public abstract class Event {
 	float power;
 	float duration;
 	boolean playSound = false;
-	Plateau plateau;
-	Camera camera;
 
-	public Event(final Objet parent, Plateau plateau, Camera camera){
+
+	public Event(final Objet parent, Plateau plateau){
 		this.parent = parent;
 		this.roundLaunched = plateau.round;
-		this.plateau = plateau;
-		this.camera = camera;
+
 		// TODO : Make it generic with dataFile
 
 	}
@@ -39,7 +37,7 @@ public abstract class Event {
 	public String toString(){
 		return this.getName().name();
 	}
-	public boolean isNewEvent(){
+	public boolean isNewEvent(Plateau plateau){
 		return plateau.round-roundLaunched==0;
 	}
 
@@ -48,7 +46,7 @@ public abstract class Event {
 	}
 
 
-	public abstract boolean play(Graphics g);
+	public abstract boolean play(Graphics g, Plateau plateau);
 
 
 	//	public abstract void draw(Graphics g);
@@ -79,10 +77,10 @@ public abstract class Event {
 	}
 
 	protected float ratioDistance(){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (camera.Xcam+camera.resX/2), (camera.Ycam+camera.resY/2))));
+		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 	protected float ratioDistance(float x, float y){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (camera.Xcam+camera.resX/2), (camera.Ycam+camera.resY/2))));
+		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 
 	public EventNames getName(){

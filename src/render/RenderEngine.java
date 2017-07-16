@@ -82,7 +82,7 @@ public class RenderEngine {
 		}
 		// 3) Draw fog of war
 		renderDomain(plateau, g, visibleObjets);
-		EventHandler.render(g);
+		EventHandler.render(g, plateau);
 		g.translate(Camera.Xcam, Camera.Ycam);
 		// draw interface
 		// 4) Draw bottom bar
@@ -103,7 +103,7 @@ public class RenderEngine {
 				renderObjet(o, g, plateau);
 			}
 		}
-		EventHandler.render(g);
+		EventHandler.render(g, plateau);
 		g.translate(Camera.Xcam, Camera.Ycam);
 		// draw interface
 	}

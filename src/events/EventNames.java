@@ -27,7 +27,7 @@ public enum EventNames {
 	DestructionHQ;
 	
 	
-	public Event createEvent(Objet parent, Plateau plateau, Camera camera){
+	public Event createEvent(Objet parent, Plateau plateau){
 		String sound;
 		switch(this){
 		case ArrowLaunched:
@@ -40,7 +40,7 @@ public enum EventNames {
 			sound = "bonusTaken";
 			break;
 		case Death:
-			return new EventDeath(parent, plateau, camera);
+			return new EventDeath(parent, plateau);
 		case Immolation:
 			sound = "fire";
 			break;
@@ -48,28 +48,28 @@ public enum EventNames {
 			sound = "meditation";
 			break;
 		case MoveAttack:
-			return new EventDefault(parent, "attack_Spearman01", plateau, camera);
+			return new EventDefault(parent, "attack_Spearman01", plateau);
 		case MoveTarget:
-			return new EventDefault(parent, "attack_Spearman01", plateau, camera);
+			return new EventDefault(parent, "attack_Spearman01", plateau);
 		case BuildingSelected:
 			sound = "selection"+parent.name;
 			break;
 		case CharacterSelected:
-			return new EventDefault(parent, "selection_Crossbowman01", plateau, camera);
+			return new EventDefault(parent, "selection_Crossbowman01", plateau);
 		case Attack:
 			sound = parent.getAttributString(Attributs.weapon);
 			break;
 		case Dash:
-			return new EventDash(parent, plateau, camera);
+			return new EventDash(parent, plateau);
 		case Blood:
-			return new EventBlood(parent, plateau, camera);
+			return new EventBlood(parent, plateau);
 		case DestructionTower:
-			return new EventDestructionTour(parent, plateau, camera);
+			return new EventDestructionTour(parent, plateau);
 		case DestructionHQ:
-			return new EventDestructionHQ(parent, plateau, camera);
+			return new EventDestructionHQ(parent, plateau);
 		default:
 			sound = "arrow";
 		}
-		return new EventDefault(parent, sound, plateau, camera, this);
+		return new EventDefault(parent, sound, plateau, this);
 	}
 }

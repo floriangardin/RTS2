@@ -19,7 +19,7 @@ public class EventAttackDamage extends Event {
 	private float x, y, vx, vy;
 	
 	public EventAttackDamage(Objet parent, int value, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+		super(parent, plateau);
 		this.value = value;
 		this.x = parent.x;
 		this.y = parent.y;
@@ -29,7 +29,7 @@ public class EventAttackDamage extends Event {
 	
 
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		this.vy += 3f/Main.framerate;
 		this.y+=vy;
 		this.x+=vx;

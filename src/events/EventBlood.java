@@ -10,14 +10,14 @@ import plateau.Plateau;
 
 public class EventBlood extends Event{
 
-	public EventBlood(Objet parent, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+	public EventBlood(Objet parent, Plateau plateau) {
+		super(parent, plateau);
 		this.duration = 20f;
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		g.setColor(new Color(256-(int)(100f*Math.random()),0,0,0.5f+(float)Math.random()*0.5f));
 		g.fillOval(parent.x+100f*((float)Math.random()-0.5f), parent.y+100f*((float)Math.random()-0.5f), 3f, 3f);
 		this.duration -= Main.increment;

@@ -10,6 +10,7 @@ import control.InputObject;
 import control.Player;
 import display.Camera;
 import display.Interface;
+import events.Event;
 import menu.Lobby;
 import multiplaying.Checksum;
 import plateau.Objet;
@@ -37,7 +38,9 @@ public class WholeGame extends ClassSystem{
 		int yHQ = (int)hq.y;
 		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
+		
 	}
+	
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		if(Game.endSystem != null){

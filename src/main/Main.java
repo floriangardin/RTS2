@@ -8,6 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
 
+import events.EventHandler;
 import model.Game;
 
 public class Main {
@@ -32,6 +33,7 @@ public class Main {
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
+			
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,true);

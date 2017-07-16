@@ -18,6 +18,7 @@ import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
 import control.KeyMapper;
+import events.EventHandler;
 import main.Main;
 import model.Game;
 import model.Options;
@@ -107,9 +108,9 @@ public class IntroSystem extends ClassSystem{
 				e.printStackTrace();
 			}
 		}
-
 		LoadingList.setDeferredLoading(true);
 		Musics.init();
+		EventHandler.init();
 		Sounds.init();
 		GraphicElements.init();
 		Images.init();

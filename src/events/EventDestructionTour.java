@@ -28,8 +28,8 @@ public class EventDestructionTour extends Event{
 	private int dureeExplosion =(int) (0.5*Main.framerate);
 	private int width, height;
 
-	public EventDestructionTour(Objet parent, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+	public EventDestructionTour(Objet parent, Plateau plateau) {
+		super(parent, plateau);
 		width = (int) (Images.get("animation-explosion").getWidth()/5f);
 		height = (int) (Images.get("animation-explosion").getHeight()/2f);
 		this.images = new Vector<Image>();
@@ -43,7 +43,7 @@ public class EventDestructionTour extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		if(this.remainingTime==this.totalRemainingTime){
 			Sounds.playSound("destructionBuilding");
 		}
