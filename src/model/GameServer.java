@@ -16,9 +16,7 @@ import ressources.Map;
 public class GameServer extends Listener {
 
 	static Server server;
-	
 	public static boolean hasLaunched = false;
-
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 
@@ -47,8 +45,6 @@ public class GameServer extends Listener {
 		}
 	}
 
-	
-	
 	public static void main(String[] args) throws IOException{
 		GameServer.init();
 	}

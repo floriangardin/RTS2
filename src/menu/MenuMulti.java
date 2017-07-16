@@ -114,8 +114,7 @@ public class MenuMulti extends Menu {
 //				game.setMenu(game.menuMapChoice);
 //			}
 			
-			this.openGames.clear();
-			this.gamesList.clear();
+
 			
 			if(this.openGames.size()>0) {
 				//FIXME: ajouter la selection de partie à rejoindre
