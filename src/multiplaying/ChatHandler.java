@@ -11,6 +11,7 @@ import org.newdawn.slick.Input;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import main.Main;
+import menu.Lobby;
 import menuutils.Menu_TextScanner;
 import model.Game;
 import ressources.GraphicElements;
@@ -120,7 +121,7 @@ public class ChatHandler {
 				if(Game.menuSystem.currentMenu == Game.menuSystem.menuMapChoice && textScanner.s.contains(".")){
 					try {
 						ia = InetAddress.getByName(textScanner.s);
-						Game.menuSystem.menuMapChoice.lobby.addressesInvites.addElement(ia);
+						Lobby.addressesInvites.addElement(ia);
 						messages.addElement(new ChatMessage("IP ajoutée : " + ia.getHostName(),0));
 						textScanner.s="";
 					} catch (IOException e) {}

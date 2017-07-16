@@ -19,11 +19,8 @@ import org.newdawn.slick.loading.LoadingList;
 
 import control.KeyMapper;
 import main.Main;
-import menu.Lobby;
 import model.Game;
 import model.Options;
-import model.WholeGame;
-import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Musics;
@@ -116,7 +113,6 @@ public class IntroSystem extends ClassSystem{
 		Sounds.init();
 		GraphicElements.init();
 		Images.init();
-		Communications.init();
 		Options.init();
 		KeyMapper.init();
 		Taunts.init();
@@ -243,12 +239,11 @@ public class IntroSystem extends ClassSystem{
 		Game.app.setTargetFrameRate(Main.framerate);
 		LoadingList.setDeferredLoading(false);
 		
-		Lobby lobby = new Lobby();
-		lobby.initSingle();
-		Game.gameSystem = new WholeGame();
-		Game.system = Game.gameSystem;
-//		Game.menuSystem = new MenuSystem();
-//		Game.system = Game.menuSystem;
+//		Lobby.init();
+//		Game.gameSystem = new WholeGame();
+//		Game.system = Game.gameSystem;
+		Game.menuSystem = new MenuSystem();
+		Game.system = Game.menuSystem;
 	}
 
 	

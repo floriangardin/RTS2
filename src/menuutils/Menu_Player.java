@@ -55,7 +55,7 @@ public class Menu_Player extends Menu_Item{
 	}
 
 	public void updatePosition(int id){
-		this.id = id;
+		this.id = 0;
 		this.x = startXPlayers+ 1f/10f*sizeXPlayers;
 //		this.y = startYPlayers+1f*(id+1)/6f*sizeYPlayers-GraphicElements.font_main.getHeight("Pg")/2f;
 		this.sizeX = 600f;
@@ -98,6 +98,11 @@ public class Menu_Player extends Menu_Item{
 			isOverCiv = false;
 		}
 	}
+	
+	public void update(Menu_Player mp){
+		this.team = mp.team;
+		this.name = mp.name;
+	}
 
 
 	public void draw(Graphics g) {
@@ -121,8 +126,7 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.white);
 		g.drawString("", startXciv, startYciv);
 		g.setColor(Color.white);
-		if(Game.menuSystem.menuMapChoice.lobby.multiplayer)
-			g.drawString(this.isReady ? "Prêt":"" ,startXready , startYready);
+		g.drawString(this.isReady ? "Prêt":"" ,startXready , startYready);
 //		g.drawImage(Images.get("spell"+p.getGameTeam().civ.uniqueSpell.name).getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-18 , startYcolor);
 
 
