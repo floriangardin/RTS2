@@ -98,6 +98,11 @@ public class Menu_Player extends Menu_Item{
 			isOverCiv = false;
 		}
 	}
+	
+	public void update(Menu_Player mp){
+		this.team = mp.team;
+		this.name = mp.name;
+	}
 
 
 	public void draw(Graphics g) {
@@ -121,8 +126,7 @@ public class Menu_Player extends Menu_Item{
 			g.setColor(Color.white);
 		g.drawString("", startXciv, startYciv);
 		g.setColor(Color.white);
-		if(Game.menuSystem.menuMapChoice.lobby.multiplayer)
-			g.drawString(this.isReady ? "Prêt":"" ,startXready , startYready);
+		g.drawString(this.isReady ? "Prêt":"" ,startXready , startYready);
 //		g.drawImage(Images.get("spell"+p.getGameTeam().civ.uniqueSpell.name).getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-18 , startYcolor);
 
 

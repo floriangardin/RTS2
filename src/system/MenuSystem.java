@@ -43,7 +43,7 @@ public class MenuSystem extends ClassSystem {
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		Input in = gc.getInput();
 		InputObject im = new InputObject(in);
-		if((currentMenu instanceof MenuMapChoice && ((MenuMapChoice) currentMenu).lobby.multiplayer) || currentMenu instanceof MenuMulti){
+		if(currentMenu instanceof MenuMapChoice || currentMenu instanceof MenuMulti){
 			ChatHandler.action(in,im);
 		}
 		currentMenu.update(im);

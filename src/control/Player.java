@@ -20,12 +20,19 @@ public class Player {
 	public static Float recY;
 	public static int player;
 	public static int team;
+	private static int idConnexion;
 	public static Vector<Integer> inRectangle = new Vector<Integer>();
 	public static Vector<Integer> selection= new Vector<Integer>();
 
 
-	public static void init(int team){
+	public static void init(int idConnexion){
+		Player.idConnexion = idConnexion;
+	}
+	public static void setTeam(int team){
 		Player.team = team;
+	}
+	public static int getID(){
+		return Player.idConnexion;
 	}
 	public static void updateRectangle(InputObject im, Plateau plateau) {
 //		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){

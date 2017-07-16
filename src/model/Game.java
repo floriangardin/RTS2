@@ -10,7 +10,6 @@ import org.newdawn.slick.SlickException;
 import render.EndSystem;
 import ressources.GraphicElements;
 import system.ClassSystem;
-import system.GameSystem;
 import system.IntroSystem;
 import system.MenuSystem;
 

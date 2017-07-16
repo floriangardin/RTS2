@@ -14,6 +14,8 @@ import control.KeyMapper.KeyEnum;
 import menuutils.Menu_Item;
 import menuutils.Menu_Map;
 import model.Game;
+import model.GameClient;
+import model.GameServer;
 import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Map;
@@ -75,8 +77,12 @@ public class MenuMulti extends Menu {
 			try {
 				Communications.addressHost = InetAddress.getLocalHost();
 			} catch (UnknownHostException e) {}
+			
+			GameServer.init();
+			GameClient.init(Communications.addressHost.toString());
+			Lobby.init();
+			
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
-			Game.menuSystem.menuMapChoice.lobby.initMulti();
 			break;
 		case 1:
 			// Rejoindre

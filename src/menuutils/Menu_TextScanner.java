@@ -163,7 +163,7 @@ public class Menu_TextScanner extends Menu_Item{
 			}
 			return;
 		}
-		if((Game.isInMenu() && Game.isInEditor()) || isSelected || (Game.menuSystem.currentMenu instanceof MenuMapChoice && Game.menuSystem.menuMapChoice.lobby.multiplayer)){
+		if((Game.isInMenu() && Game.isInEditor()) || isSelected || Game.menuSystem.currentMenu instanceof MenuMapChoice){
 			if(GraphicElements.font_main.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){

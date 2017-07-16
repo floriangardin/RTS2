@@ -243,12 +243,11 @@ public class IntroSystem extends ClassSystem{
 		Game.app.setTargetFrameRate(Main.framerate);
 		LoadingList.setDeferredLoading(false);
 		
-		Lobby lobby = new Lobby();
-		lobby.initSingle();
-		Game.gameSystem = new WholeGame();
-		Game.system = Game.gameSystem;
-//		Game.menuSystem = new MenuSystem();
-//		Game.system = Game.menuSystem;
+//		Lobby.init();
+//		Game.gameSystem = new WholeGame();
+//		Game.system = Game.gameSystem;
+		Game.menuSystem = new MenuSystem();
+		Game.system = Game.menuSystem;
 	}
 
 	

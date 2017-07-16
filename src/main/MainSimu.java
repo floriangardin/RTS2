@@ -20,8 +20,7 @@ public class MainSimu {
 		int resolutionY = 600;
 		try {
 			Game game = new Game(resolutionX,resolutionY);
-			Lobby lobby = new Lobby();
-			lobby.initSingle();
+			Lobby.init();
 			Game.system = new WholeGame();
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;

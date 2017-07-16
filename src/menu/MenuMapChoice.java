@@ -7,6 +7,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import control.InputObject;
+import control.Player;
 import control.KeyMapper.KeyEnum;
 import display.Camera;
 import main.Main;
@@ -14,17 +15,16 @@ import menuutils.Menu_Item;
 import menuutils.Menu_Map;
 import menuutils.Menu_Player;
 import model.Game;
+import model.WholeGame;
 import multiplaying.ChatHandler;
 import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Musics;
-import system.GameSystem;
 import system.MenuSystem.MenuNames;
 import tests.FatalGillesError;
 
 public class MenuMapChoice extends Menu {
 
-	public Lobby lobby;
 
 	public int selected = 0;
 
@@ -52,8 +52,8 @@ public class MenuMapChoice extends Menu {
 
 	public MenuMapChoice(){
 
+		Lobby.init();
 		this.items = new Vector<Menu_Item>();
-		this.lobby = new Lobby();
 
 		startY = Game.resY*0.37f;
 		stepY = 0.12f*Game.resY;
@@ -71,9 +71,9 @@ public class MenuMapChoice extends Menu {
 		this.items.addElement(new Menu_Item(1f/3f*Game.resX,Game.resY*0.9f,"Demarrer",true));
 		this.items.addElement(new Menu_Item(2f/3f*Game.resX,Game.resY*0.9f,"Retour",true));
 
-		for(int i=0; i<lobby.maps.size(); i++){
-			mapchoices.addElement(new Menu_Map(lobby.maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2,200f,30f));
-			if(mapchoices.get(i).name.equals(lobby.idCurrentMap)){
+		for(int i=0; i<Lobby.maps.size(); i++){
+			mapchoices.addElement(new Menu_Map(Lobby.maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2,200f,30f));
+			if(mapchoices.get(i).name.equals(Lobby.idCurrentMap)){
 				mapchoices.get(i).isSelected = true;
 			}
 		}
@@ -85,7 +85,7 @@ public class MenuMapChoice extends Menu {
 		switch(i){
 		case 0: 
 			// demarrer
-			if(!lobby.multiplayer && lobby.checkStartGame()){
+			if(!Lobby.multiplayer && Lobby.checkStartGame()){
 				this.launchGameSinglePlayer();
 			} else {
 				
@@ -93,7 +93,7 @@ public class MenuMapChoice extends Menu {
 			break;
 		case 1:
 			// retour
-			if(lobby.multiplayer){
+			if(Lobby.multiplayer){
 				Game.menuSystem.setMenu(MenuNames.MenuMulti);
 				ChatHandler.messages.clear();
 			}else{
@@ -120,8 +120,8 @@ public class MenuMapChoice extends Menu {
 		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-GraphicElements.font_main.getHeight("P")/2f,2f,3f/6f*sizeYPlayers+GraphicElements.font_main.getHeight("P")/2f);
 		g.drawString("Terrain :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
 		g.fillRect(startXMapChoice + 1f/15f*sizeXMapChoice,startYMapChoice+1f*(3f)/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2,2f,6f/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2);
-		for(int i=0;i<this.lobby.players.size();i++){
-			lobby.players.get(i).draw(g);
+		for(int i=0;i<Lobby.players.size();i++){
+			Lobby.players.get(i).draw(g);
 		}
 		// draw items
 		for(Menu_Item item: this.items){
@@ -133,7 +133,7 @@ public class MenuMapChoice extends Menu {
 			item.draw(g);
 		}
 		// drawing local ip
-		if(lobby.multiplayer){
+		if(Lobby.multiplayer){
 			g.setColor(Color.white);
 			g.drawString("IP Locale : "+Communications.addressLocal.getHostAddress(), 15f, Game.resY-15f-GraphicElements.font_main.getHeight("IP"));
 		}
@@ -159,56 +159,12 @@ public class MenuMapChoice extends Menu {
 
 	public void update(InputObject im){
 		// handling connexions
-		if(lobby.multiplayer){
-			if(lobby.host){
-				// sending to all players only if the game isn't about to start
-				//				this.messageToClient = this.messageToClient();
-				if(this.startGame==0 || this.seconds>2){
-					//					try {
-					//						Communications.sendFromMenu(messageToClient);
-					//					} catch (FatalGillesError e) {
-					//						e.printStackTrace();
-					//					}
-				}
-				// parsing if received anything
-				while(Communications.receivedConnexion.size()>0){
-					//					this.parseForHost(Utils.preParse(Communications.receivedConnexion.remove(0)));
-				}
-			} else {
-				// sending to host only if the game isn't about to start
-				if(this.startGame==0 || this.seconds>2){
-					//					try {
-					//						Communications.sendFromMenu(this.messageToHost());	
-					//					} catch (FatalGillesError e) {
-					//						e.printStackTrace();
-					//					}
-				}
-				messageDropped++;	
-				// parsing if received anything
-				if(Communications.receivedConnexion.size()>0){
-					//					messageDropped=0;
-					//					this.parseForClient(Utils.preParse(Communications.receivedConnexion.lastElement()));
-					//					Communications.receivedConnexion.clear();
-				}		
-				//checking if game still exists
-				if(this.startGame==0 && messageDropped>2f*Main.framerate && seconds>2){
-					this.callItem(0);
-				}
-				// requete de ping
-				if(roundForPingRequest==0){
-					Communications.pingRequest();
-					//					System.out.println("MMC 204 ping");
-					roundForPingRequest++;
-				}else {
-					roundForPingRequest++;
-					roundForPingRequest%=Main.framerate/2;
-				}
-			}
+		
 			// checking disconnecting players
 			//			if(Game.gameSystem.host && this.startGame==0 && seconds>2){
 			//				int toRemove = -1;
-			//				for(int i=2 ; i<this.lobby.players.size(); i++){
-			//					Menu_Player mp = this.lobby.players.get(i);
+			//				for(int i=2 ; i<this.Lobby.players.size(); i++){
+			//					Menu_Player mp = this.Lobby.players.get(i);
 			//					if(mp!=null && mp.hasBeenUpdated){
 			//						mp.messageDropped=0;
 			//						mp.hasBeenUpdated = false;
@@ -222,46 +178,40 @@ public class MenuMapChoice extends Menu {
 			//				}
 			//				if(toRemove!=-1){
 			//					int k = toRemove;
-			//					lobby.removePlayer(k);
+			//					Lobby.removePlayer(k);
 			//					for(int i=0; i<Game.players.size(); i++){
 			//						Game.players.get(i).id = i;
 			//					}
 			//					this.initializeMenuPlayer();
 			//				}
 			//			}
-			//Checking starting of the game
-			if(lobby.checkStartGame()){
-				if(startGame==0){
-					this.startGame = Communications.clock.getCurrentTime()+5000000000L;
-					this.deselectItems();
-				}
+		//Checking starting of the game
+		if(Lobby.checkStartGame()){
+			if(startGame==0){
+				this.startGame = Communications.clock.getCurrentTime()+5000000000L;
+				this.deselectItems();
 			}
-			if(startGame!=0){
-				this.handleStartGame();
-				return;
-			}
-		} else {
-			if(startGame!=0){
-				this.handleStartGame();
-				return;
-			}
+		}
+		if(startGame!=0){
+			this.handleStartGame();
+			return;
 		}
 		// Checking if all players are ready then launch the game
 		// Updating items
-		for(Menu_Player mp : this.lobby.players){
-			if(mp.id==lobby.idCurrentPlayer){
+		for(Menu_Player mp : Lobby.players){
+			if(mp.id==Player.getID()){
 				mp.update(im);
 			}
 		}
 		this.updateItems(im);
 		// Updating map choices
-		if(lobby.host || !lobby.multiplayer){
-			for(int i=0; i<this.lobby.maps.size(); i++){
+		if(Lobby.host){
+			for(int i=0; i<Lobby.maps.size(); i++){
 				Menu_Map item = mapchoices.get(i);
 				item.update(im);
 				if(item.isSelected){
-					lobby.idCurrentMap = lobby.maps.get(i);
-					for(int j=0; j<lobby.maps.size(); j++){
+					Lobby.idCurrentMap = Lobby.maps.get(i);
+					for(int j=0; j<Lobby.maps.size(); j++){
 						if(j!=i){
 							mapchoices.get(j).isSelected = false;
 						}
@@ -294,7 +244,7 @@ public class MenuMapChoice extends Menu {
 
 	public void launchGame(){
 		// Init gameSystem
-		Game.gameSystem = new GameSystem(lobby);
+		Game.gameSystem = new WholeGame();
 		Game.system = Game.gameSystem;
 //		Camera.maxX = (int) MaxX;
 //		Camera.maxY = (int) MaxY;

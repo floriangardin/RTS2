@@ -12,6 +12,9 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import control.InputObject;
+import control.Player;
+import menu.Lobby;
+import menuutils.Menu_Player;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
@@ -26,13 +29,13 @@ public class GameClient extends Listener {
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
 	static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
-	public static void init(Plateau plateau){
-		GameClient.plateau = plateau;
+	public static void init(String ip){
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
 		client.getKryo().register(Message.class);
 		client.addListener(new Listener(){
 			public void received(Connection c, Object o){
+				Player.init(c.getID());
 				if(o instanceof Message){
 					Message m = (Message) o;
 					int type = m.getType();
@@ -46,6 +49,18 @@ public class GameClient extends Listener {
 							client.sendUDP((im.round-delay-getRound()));
 						}
 						GameClient.addInput(im);
+					}else if(type==Message.MENUPLAYER){
+						Menu_Player mpMessage = (Menu_Player)m.get();
+						boolean found = false;
+						for(Menu_Player mp : Lobby.players){
+							if(mp.id==mpMessage.id){
+								mp.update(mpMessage);
+								found = true;
+							}
+						}
+						if(!found){
+							Lobby.players.add(mpMessage);
+						}
 					}
 				}else if(o instanceof Integer){
 					slowDown = (Integer) o;
@@ -54,13 +69,13 @@ public class GameClient extends Listener {
 		});
 		client.start();
 		try {
-			ip  = getExistingServerIP();
 			System.out.println("IP of server : " +ip);
 			client.connect(5000, ip, port, port);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public static String getExistingServerIP() {
 		// Method to move on the lobby .
 		try{

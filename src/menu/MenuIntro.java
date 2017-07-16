@@ -1,11 +1,16 @@
 package menu;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Vector;
 
 import org.newdawn.slick.Image;
 
 import menuutils.Menu_Item;
 import model.Game;
+import model.GameClient;
+import model.GameServer;
+import multiplaying.Communications;
 import system.MenuSystem.MenuNames;
 
 public class MenuIntro extends Menu {
@@ -48,7 +53,12 @@ public class MenuIntro extends Menu {
 		switch(i){
 		case 0:
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
-			Game.menuSystem.menuMapChoice.lobby.initSingle();
+			try {
+				Communications.addressHost = InetAddress.getLocalHost();
+			} catch (UnknownHostException e) {}
+			GameServer.init();
+			GameClient.init(Communications.addressHost.toString());
+			Lobby.init();
 			break;
 		case 1:
 			Game.menuSystem.setMenu(MenuNames.MenuMulti);
