@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 
 import control.InputObject;
+import menuutils.Menu_Player;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
@@ -29,7 +30,7 @@ public class Message implements Serializable{
 		objet = Serializer.serialize(checksum);
 		type = CHECKSUM;
 	}
-	public Message(int connectionId){
+	public Message(Menu_Player connectionId){
 		objet = Serializer.serialize(connectionId);
 		type = MENUPLAYER;
 	}
