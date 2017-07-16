@@ -72,7 +72,7 @@ public class GameServer extends Listener {
 				// Broadcast inputs to all (including host)
 				server.sendToAllUDP(o);
 			}else if(m.getType()==Message.MENUPLAYER){
-				server.sendToAllTCP(o);
+				server.sendToAllUDP(o);
 			}
 		}else if(o instanceof Integer){
 			server.sendToAllExceptUDP(c.getID(), o);
