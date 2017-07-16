@@ -51,6 +51,7 @@ public class GameClient extends Listener {
 						GameClient.addInput(im);
 					}else if(type==Message.MENUPLAYER){
 						Menu_Player mpMessage = (Menu_Player)m.get();
+						System.out.println("GameClient 54 : message mp recu id :"+mpMessage.id);
 						boolean found = false;
 						for(Menu_Player mp : Lobby.players){
 							if(mp.id==mpMessage.id){

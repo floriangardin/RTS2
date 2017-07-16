@@ -78,8 +78,6 @@ public class MenuMulti extends Menu {
 				GameClient.init(addressHost);
 				Lobby.init();
 			} catch (UnknownHostException e) {}
-			
-			
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			break;
 		case 1:
@@ -122,6 +120,7 @@ public class MenuMulti extends Menu {
 			if(this.openGames.size()>0) {
 				//FIXME: ajouter la selection de partie à rejoindre
 				String addressHost = this.openGames.get(0);
+				System.out.println("je suis le client et j'essai de me connecter à "+addressHost);
 				GameClient.init(addressHost);
 				Lobby.init();
 			}
