@@ -48,7 +48,7 @@ public class Menu_Player extends Menu_Item implements Serializable{
 	float startYPlayers = startY;
 	float sizeXPlayers = Game.resX*(2f/3f)-2*startXPlayers;
 	float sizeYPlayers = Game.resY*0.80f-startY;
-	private String nickname;
+	public String nickname;
 
 
 	public Menu_Player(int id, int team, String name){
@@ -106,7 +106,7 @@ public class Menu_Player extends Menu_Item implements Serializable{
 		this.team = mp.team;
 		this.nickname = mp.nickname;
 		this.isReady = mp.isReady;
-		this.updatePosition(mp.id);
+		this.updatePosition(this.id);
 	}
 
 
@@ -133,7 +133,6 @@ public class Menu_Player extends Menu_Item implements Serializable{
 		g.setColor(Color.white);
 		g.drawString(this.isReady ? "Prêt":"" ,startXready , startYready);
 //		g.drawImage(Images.get("spell"+p.getGameTeam().civ.uniqueSpell.name).getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-18 , startYcolor);
-
 
 	}
 
