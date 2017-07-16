@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import control.InputObject;
-import multiplaying.MultiMessage;
 import plateau.Plateau;
 
 public class Serializer {
@@ -20,9 +19,6 @@ public class Serializer {
 			so.writeObject(o);
 			so.flush();
 			serializedObject = bo.toByteArray();
-			if(o instanceof MultiMessage && ((MultiMessage)o).resynchro!=null ){
-				System.out.println("Serializer line 16 size of buffer : "+ serializedObject.length);
-			}
 		
 		} catch (Exception e) {
 			System.out.println(e);

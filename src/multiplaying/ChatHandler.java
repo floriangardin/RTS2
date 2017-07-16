@@ -126,10 +126,11 @@ public class ChatHandler {
 					} catch (IOException e) {}
 					return;
 				}
-				Communications.sendMessage(new ChatMessage(textScanner.s,0));
+				//Communications.sendMessage(new ChatMessage(textScanner.s,0));
+				//FIXME : Class communication
 				textScanner.s="";
 			} else {
-				Communications.sendMessage(new ChatMessage(textScanner.s,0));
+				//Communications.sendMessage(new ChatMessage(textScanner.s,0));
 				textScanner.s="";
 			}
 		}

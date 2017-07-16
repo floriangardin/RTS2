@@ -18,7 +18,6 @@ import control.Player;
 import display.Camera;
 import display.Interface;
 import multiplaying.Checksum;
-import multiplaying.Communications;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
