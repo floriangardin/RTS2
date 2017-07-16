@@ -161,10 +161,6 @@ public class MenuMapChoice extends Menu {
 			//					this.initializeMenuPlayer();
 			//				}
 			//			}
-		//Checking starting of the game
-		if(Lobby.checkStartGame()){
-			launchGame();
-		}
 		// Checking if all players are ready then launch the game
 		// Updating items
 		synchronized(Lobby.players){
@@ -177,6 +173,10 @@ public class MenuMapChoice extends Menu {
 			}
 		}
 		this.updateItems(im);
+		//Checking starting of the game
+		if(Lobby.checkStartGame()){
+			launchGame();
+		}
 		// Updating map choices
 		if(GameServer.hasLaunched){
 			for(int i=0; i<Lobby.maps.size(); i++){
