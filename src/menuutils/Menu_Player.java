@@ -55,7 +55,7 @@ public class Menu_Player extends Menu_Item{
 	}
 
 	public void updatePosition(int id){
-		this.id = id;
+		this.id = 0;
 		this.x = startXPlayers+ 1f/10f*sizeXPlayers;
 //		this.y = startYPlayers+1f*(id+1)/6f*sizeYPlayers-GraphicElements.font_main.getHeight("Pg")/2f;
 		this.sizeX = 600f;

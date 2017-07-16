@@ -2,7 +2,6 @@ package menu;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -16,11 +15,8 @@ import menuutils.Menu_Map;
 import model.Game;
 import model.GameClient;
 import model.GameServer;
-import multiplaying.Communications;
 import ressources.GraphicElements;
-import ressources.Map;
 import system.MenuSystem.MenuNames;
-import utils.Utils;
 
 public class MenuMulti extends Menu {
 
@@ -75,12 +71,12 @@ public class MenuMulti extends Menu {
 			this.openGames.clear();
 			this.gamesList.clear();
 			try {
-				Communications.addressHost = InetAddress.getLocalHost();
+				GameServer.init();
+				String addressHost = InetAddress.getLocalHost().toString();
+				GameClient.init(addressHost);
+				Lobby.init();
 			} catch (UnknownHostException e) {}
 			
-			GameServer.init();
-			GameClient.init(Communications.addressHost.toString());
-			Lobby.init();
 			
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			break;
@@ -135,53 +131,50 @@ public class MenuMulti extends Menu {
 		g.fillRect(this.startXGames+40f, startY+80f+GraphicElements.font_main.getHeight("R"),2, sizeYGames/2f - 60f+GraphicElements.font_main.getHeight("R"));
 		for(Menu_Map s : this.gamesList)
 			s.draw(g);
-		// drawing local ip
-		g.setColor(Color.white);
-		g.drawString("IP Locale : "+Communications.addressLocal.getHostAddress(), 15f, Game.resY-15f-GraphicElements.font_main.getHeight("IP"));
 
 	}
 
 	public void update(InputObject im){
-		while(Communications.receivedConnexion.size()>0){
-			String s = Communications.receivedConnexion.remove(0);
-			HashMap<String, String> hashmap = Utils.preParse(s);
-			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
-				try {
-					OpenGames o = null;
-					for(OpenGames g : this.openGames)
-						if(g.hostName.equals(hashmap.get("hst")))
-							o = g;
-					if(o==null){
-						int t = 1;
-						if(hashmap.containsKey("idT")){
-							String[] idTeam =hashmap.get("idT").split(",");
-							t = Integer.parseInt(idTeam[1]);
-						}
-						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
-						gamesList.add(new Menu_Map(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), sizeXGames/2f, 40f));
-					} else {
-						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
-						String[] idTeam =hashmap.get("idT").split(",");
-						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
-						o.messageDropped=0;
-					}
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		Vector<Integer> toRemove= new Vector<Integer>();
-		for(int i=0; i<this.openGames.size(); i++){
-			OpenGames o = this.openGames.get(i);
-			o.messageDropped++;
-			if(o.messageDropped>25){
-				toRemove.add(i);
-			}
-		}
-		for(Integer i : toRemove){
-			this.openGames.removeElementAt(i);
-			this.gamesList.removeElementAt(i);
-		}
+//		while(Communications.receivedConnexion.size()>0){
+//			String s = Communications.receivedConnexion.remove(0);
+//			HashMap<String, String> hashmap = Utils.preParse(s);
+//			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
+//				try {
+//					OpenGames o = null;
+//					for(OpenGames g : this.openGames)
+//						if(g.hostName.equals(hashmap.get("hst")))
+//							o = g;
+//					if(o==null){
+//						int t = 1;
+//						if(hashmap.containsKey("idT")){
+//							String[] idTeam =hashmap.get("idT").split(",");
+//							t = Integer.parseInt(idTeam[1]);
+//						}
+//						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
+//						gamesList.add(new Menu_Map(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), sizeXGames/2f, 40f));
+//					} else {
+//						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
+//						String[] idTeam =hashmap.get("idT").split(",");
+//						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
+//						o.messageDropped=0;
+//					}
+//				} catch (UnknownHostException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		Vector<Integer> toRemove= new Vector<Integer>();
+//		for(int i=0; i<this.openGames.size(); i++){
+//			OpenGames o = this.openGames.get(i);
+//			o.messageDropped++;
+//			if(o.messageDropped>25){
+//				toRemove.add(i);
+//			}
+//		}
+//		for(Integer i : toRemove){
+//			this.openGames.removeElementAt(i);
+//			this.gamesList.removeElementAt(i);
+//		}
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_Map item = this.gamesList.get(i);

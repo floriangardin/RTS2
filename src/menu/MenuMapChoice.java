@@ -17,7 +17,6 @@ import menuutils.Menu_Player;
 import model.Game;
 import model.WholeGame;
 import multiplaying.ChatHandler;
-import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Musics;
 import system.MenuSystem.MenuNames;
@@ -85,10 +84,8 @@ public class MenuMapChoice extends Menu {
 		switch(i){
 		case 0: 
 			// demarrer
-			if(!Lobby.multiplayer && Lobby.checkStartGame()){
-				this.launchGameSinglePlayer();
-			} else {
-				
+			if(Lobby.checkStartGame()){
+				launchGame();
 			}
 			break;
 		case 1:
@@ -102,12 +99,6 @@ public class MenuMapChoice extends Menu {
 			break;
 		default:		
 		}
-	}
-
-	private void launchGameSinglePlayer() {
-		this.startGame = Communications.clock.getCurrentTime()+5000000000L;
-		this.deselectItems();
-		//		this.menuPlayers.get(game.currentPlayer.id).isOverColor = false;
 	}
 
 
@@ -132,29 +123,8 @@ public class MenuMapChoice extends Menu {
 		for(Menu_Item item: mapchoices){
 			item.draw(g);
 		}
-		// drawing local ip
-		if(Lobby.multiplayer){
-			g.setColor(Color.white);
-			g.drawString("IP Locale : "+Communications.addressLocal.getHostAddress(), 15f, Game.resY-15f-GraphicElements.font_main.getHeight("IP"));
-		}
-		// drawing title
-		if(startGame!=0){
-			float f = Math.max(0f, Math.min(1f,1f-(1f*((float)(startGame-Communications.clock.getCurrentTime())/2000000000f))));
-			//			System.out.println(startGame-Game.clock.getCurrentTime());
-			g.setColor(new Color(0f,0f,0f,f));
-			g.fillRect(0, 0, Game.resX, Game.resY);
-			// draw title
-			g.drawImage(this.title, Game.resX/2-this.title.getWidth()/2, 10f+(Game.resY/2-this.title.getHeight()/2-10f)*f);
-			// drawing countdown to launch game
-			g.setColor(Color.white);
-			int sec = (int) ((startGame-Communications.clock.getCurrentTime())/1000000000L);
-			String s = "Début de la partie dans "+(sec+1)+" s.";
-			String s1 = "Début de la partie dans 5 s.";
-			g.drawString(s,Game.resX-GraphicElements.font_main.getWidth(s1)-15f,Game.resY-GraphicElements.font_main.getHeight(s1)-15f);
-		} else {
-			// draw title
-			g.drawImage(this.title, Game.resX/2-this.title.getWidth()/2, 10f);
-		}
+		// draw title
+		g.drawImage(this.title, Game.resX/2-this.title.getWidth()/2, 10f);
 	}
 
 	public void update(InputObject im){
@@ -187,14 +157,7 @@ public class MenuMapChoice extends Menu {
 			//			}
 		//Checking starting of the game
 		if(Lobby.checkStartGame()){
-			if(startGame==0){
-				this.startGame = Communications.clock.getCurrentTime()+5000000000L;
-				this.deselectItems();
-			}
-		}
-		if(startGame!=0){
-			this.handleStartGame();
-			return;
+			launchGame();
 		}
 		// Checking if all players are ready then launch the game
 		// Updating items
@@ -222,25 +185,6 @@ public class MenuMapChoice extends Menu {
 	}
 
 
-	public void handleStartGame(){
-		/**
-		 * function that checks if the game is about to start
-		 * ie. if the startTime has been defined
-		 * 
-		 * then plays sounds each seconds then launches the game
-		 */
-		if(startGame-Communications.clock.getCurrentTime()<=this.seconds*1000000000L && seconds!=0){
-			if(seconds==2){
-				Musics.getPlayingMusic().fade(3000, 0, true);
-			}
-			//System.out.println("debut de la partie dans :" + seconds + "heure de la clock" + Game.clock.getOrigin());
-			//System.out.println("Current time: "+Game.clock.getCurrentTime());
-			//Game.sounds.get("menuItemSelected").play();
-			seconds--;
-		} else if (startGame<=Communications.clock.getCurrentTime()) {
-			launchGame();
-		}
-	}
 
 	public void launchGame(){
 		// Init gameSystem

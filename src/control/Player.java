@@ -8,6 +8,9 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.Camera;
 import display.Interface;
+import menu.Lobby;
+import menuutils.Menu_Player;
+import model.Options;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
@@ -27,6 +30,16 @@ public class Player {
 
 	public static void init(int idConnexion){
 		Player.idConnexion = idConnexion;
+		boolean toCreate = true;
+		for(Menu_Player mp : Lobby.players){
+			if(mp.id == idConnexion){
+				toCreate = false;
+				break;
+			}
+		}
+		if(toCreate){
+			Lobby.players.add(new Menu_Player(idConnexion, 0, Options.nickname));
+		}
 	}
 	public static void setTeam(int team){
 		Player.team = team;

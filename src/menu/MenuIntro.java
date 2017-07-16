@@ -10,7 +10,6 @@ import menuutils.Menu_Item;
 import model.Game;
 import model.GameClient;
 import model.GameServer;
-import multiplaying.Communications;
 import system.MenuSystem.MenuNames;
 
 public class MenuIntro extends Menu {
@@ -54,11 +53,11 @@ public class MenuIntro extends Menu {
 		case 0:
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			try {
-				Communications.addressHost = InetAddress.getLocalHost();
+				GameServer.init();
+				String addressHost = InetAddress.getLocalHost().getHostAddress();
+				GameClient.init(addressHost);
+				Lobby.init();
 			} catch (UnknownHostException e) {}
-			GameServer.init();
-			GameClient.init(Communications.addressHost.toString());
-			Lobby.init();
 			break;
 		case 1:
 			Game.menuSystem.setMenu(MenuNames.MenuMulti);

@@ -19,11 +19,8 @@ import org.newdawn.slick.loading.LoadingList;
 
 import control.KeyMapper;
 import main.Main;
-import menu.Lobby;
 import model.Game;
 import model.Options;
-import model.WholeGame;
-import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Musics;
@@ -116,7 +113,6 @@ public class IntroSystem extends ClassSystem{
 		Sounds.init();
 		GraphicElements.init();
 		Images.init();
-		Communications.init();
 		Options.init();
 		KeyMapper.init();
 		Taunts.init();
