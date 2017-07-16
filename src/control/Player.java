@@ -16,7 +16,6 @@ import plateau.Team;
 
 public class Player {
 	public static Rectangle rectangleSelection;
-	public static boolean waitForPressedBeforeUpdate=false;
 	public static Float recX;
 	public static Float recY;
 	public static int player;
@@ -34,15 +33,16 @@ public class Player {
 //		}else{
 //			waitForPressedBeforeUpdate = false;
 //		}
-		if(im.isOnMiniMap && Player.rectangleSelection==null)
+		if(im.isOnMiniMap && rectangleSelection != null){			
 			return;
+		}
 		if(im.isDown(KeyEnum.LeftClick)){
-			if (Player.rectangleSelection == null) {
+			if (Player.rectangleSelection == null && !im.isOnMiniMap) {
 				Player.selection.clear() ;// A appeler quand le rectangle est crée
 				recX=(float) im.x;
 				recY= (float) im.y;
 				rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
-			} else {
+			} else if(Player.rectangleSelection != null){
 				rectangleSelection.setBounds((float) Math.min(recX, im.x),
 						(float) Math.min(recY, im.y), (float) Math.abs(im.x - recX) + 0.1f,
 						(float) Math.abs(im.y - recY) + 0.1f);
