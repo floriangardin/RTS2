@@ -86,7 +86,7 @@ public class MenuMapChoice extends Menu {
 		switch(i){
 		case 0: 
 			// demarrer
-			for(Menu_Player mp : Lobby.players){
+			for(Menu_Player mp : Lobby.getPlayers()){
 				if(mp.id==Player.getID()){
 					mp.isReady = true;
 				}
@@ -113,8 +113,8 @@ public class MenuMapChoice extends Menu {
 		g.fillRect(startXPlayers+ 1f/15f*sizeXPlayers,startYPlayers+2f/6f*sizeYPlayers-GraphicElements.font_main.getHeight("P")/2f,2f,3f/6f*sizeYPlayers+GraphicElements.font_main.getHeight("P")/2f);
 		g.drawString("Terrain :" , startXMapChoice + 1f/30f*sizeXMapChoice,startYPlayers+1f/6f*sizeYPlayers-g.getFont().getHeight("P")/2f);
 		g.fillRect(startXMapChoice + 1f/15f*sizeXMapChoice,startYMapChoice+1f*(3f)/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2,2f,6f/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2);
-		for(int i=0;i<Lobby.players.size();i++){
-			Lobby.players.get(i).draw(g);
+		for(Menu_Player player : Lobby.getPlayers()){
+			player.draw(g);
 		}
 		// draw items
 		for(Menu_Item item: this.items){
@@ -163,7 +163,7 @@ public class MenuMapChoice extends Menu {
 		}
 		// Checking if all players are ready then launch the game
 		// Updating items
-		for(Menu_Player mp : Lobby.players){
+		for(Menu_Player mp : Lobby.getPlayers()){
 			if(mp.id==Player.getID()){
 				mp.update(im);
 				Player.setTeam(mp.team);
