@@ -71,6 +71,13 @@ public class GraphicElements {
 		} catch (SlickException e) {}
 		
 	}
+
+
+
+	public static boolean isInit() {
+		// TODO Auto-generated method stub
+		return font_main!=null;
+	}
 	
 	
 }

@@ -5,9 +5,11 @@ import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import control.KeyMapper;
 import menu.Lobby;
 import model.Game;
 import model.WholeGame;
+import ressources.GraphicElements;
 
 public class MainSimu {
 	
@@ -23,6 +25,8 @@ public class MainSimu {
 			Game.system = new WholeGame();
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
+			KeyMapper.init();
+			
 			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,false);
 			app.setAlwaysRender(false);

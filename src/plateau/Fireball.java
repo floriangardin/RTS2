@@ -77,14 +77,17 @@ public class Fireball extends Bullet {
 		}
 	}
 	public void explode(Plateau plateau){
-		Circle area = new Circle(this.getX(),this.getY(),this.areaEffect);
-
-//		for(Character c : Game.gameSystem.plateau.characters){
-//			if(c.collisionBox.intersects(area) && c.getTeam()!=this.owner.getTeam()){
-//				this.boom(c);
-//
-//			}
-//		}
+		for(Character c : plateau.characters){
+			if(c.getTeam().id!=this.owner){
+				boolean isIntersected = ((c.getX()-this.getX())*(c.getX()-this.getX())+
+						(c.getY()-this.getY())*(c.getY()-this.getY()))< 
+						(0.5f*c.collisionBox.getWidth()+this.areaEffect)*
+						(0.5f*c.collisionBox.getWidth()+this.areaEffect);
+				if(isIntersected){					
+					this.boom(c);
+				}
+			}
+		}
 
 		new BurningArea(this.owner, new Checkpoint(x,y, plateau), this.areaEffect, plateau);
 		this.explosion = true;

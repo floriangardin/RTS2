@@ -50,7 +50,9 @@ public class SimpleRenderEngine {
 				}
 				if(!(o instanceof Checkpoint)){					
 					g.setColor(Color.white);
-					g.drawString(o.name.toString().substring(0, 3), o.x-10, o.y-10);
+					if(o.name!=null){
+						g.drawString(o.name.toString().substring(0, 3), o.x-10, o.y-10);
+					}
 				}
 				
 			}
