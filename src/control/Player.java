@@ -88,7 +88,8 @@ public class Player {
 		}
 		Vector<Integer> toRemove = new Vector<Integer>();
 		for(Integer o : selection){
-			if(!plateau.getById(o).isAlive() || plateau.getById(o).team.id!=im.team){
+			Objet ob = plateau.getById(o);
+			if(ob==null || !ob.isAlive() || ob.team.id!=im.team){
 				toRemove.add(o);
 			}
 		}
