@@ -85,6 +85,20 @@ public class GameClient extends Listener {
 			return null;
 		}
 	}
+	
+	public static Vector<String> getExistingServerIPS() {
+		// Method to move on the lobby .
+		try{
+			Vector<String> result = new Vector<String>();
+			for(InetAddress host : client.discoverHosts(port, 5000)){
+				result.add(host.getHostAddress());
+			}
+			return result;
+		}catch(Exception e ){
+			return new Vector<String>();
+		}
+	}
+	
 	public static void send(InputObject im){
 		Message m = new Message(im);
 		client.sendUDP(m);
