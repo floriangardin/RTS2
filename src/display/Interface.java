@@ -112,7 +112,9 @@ public class Interface {
 	public static void update(InputObject im, Plateau plateau){
 		updateActionInterface(im, plateau);
 		updateTopInterface(im.xOnScreen, im.yOnScreen, plateau);
-		updateMinimap(im, plateau);
+		if(Player.rectangleSelection ==null){			
+			updateMinimap(im, plateau);
+		}
 	}
 
 	public static void updateActionInterface(InputObject im, Plateau plateau){

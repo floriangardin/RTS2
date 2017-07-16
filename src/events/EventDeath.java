@@ -4,9 +4,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import control.Player;
 import display.Camera;
 import main.Main;
-import model.Game;
 import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
@@ -37,7 +37,7 @@ public class EventDeath extends Event{
 			}
 		}
 		im = Images.getUnit(parent.name, direction, 0, parent.getTeam().id, false);
-		if(parent.getTeam().id==Game.gameSystem.getCurrentTeam()){
+		if(parent.getTeam().id==Player.getTeamId()){
 			Sounds.playSound("deathAlly", ratioDistance());
 		} else {
 			Sounds.playSound("deathEnemy", ratioDistance());
