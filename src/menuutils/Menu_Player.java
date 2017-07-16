@@ -48,12 +48,13 @@ public class Menu_Player extends Menu_Item implements Serializable{
 	float startYPlayers = startY;
 	float sizeXPlayers = Game.resX*(2f/3f)-2*startXPlayers;
 	float sizeYPlayers = Game.resY*0.80f-startY;
+	private String nickname;
 
 
 	public Menu_Player(int id, int team, String name){
 		this.updatePosition(id);
 		this.team = team;
-		this.name = name;
+		this.nickname = name;
 	}
 
 	public void updatePosition(int id){
@@ -103,13 +104,13 @@ public class Menu_Player extends Menu_Item implements Serializable{
 	
 	public void update(Menu_Player mp){
 		this.team = mp.team;
-		this.name = mp.name;
+		this.nickname = mp.nickname;
 	}
 
 
 	public void draw(Graphics g) {
 		g.setColor(Color.white);
-		String s = "Joueur "+id+" : "+this.name+"   ";
+		String s = "Joueur "+id+" : "+this.nickname+"   ";
 		g.drawString(s, x, y);
 		if(isOverColor)
 			g.setColor(Color.gray);
