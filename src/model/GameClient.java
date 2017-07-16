@@ -85,7 +85,6 @@ public class GameClient extends Listener {
 			return null;
 		}
 	}
-	
 	public static Vector<String> getExistingServerIPS() {
 		// Method to move on the lobby .
 		try{
