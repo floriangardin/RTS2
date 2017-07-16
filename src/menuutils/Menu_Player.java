@@ -1,5 +1,7 @@
 package menuutils;
 
+import java.io.Serializable;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -10,7 +12,7 @@ import model.Game;
 import ressources.GraphicElements;
 import ressources.Images;
 
-public class Menu_Player extends Menu_Item{
+public class Menu_Player extends Menu_Item implements Serializable{
 
 	public int id;
 	public int team;
