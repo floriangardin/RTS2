@@ -7,7 +7,6 @@ import java.util.Vector;
 
 import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -29,12 +28,24 @@ import ressources.Map;
 import ressources.Musics;
 import ressources.Sounds;
 import ressources.Taunts;
+import system.ClassSystem;
 
-public class WholeGame extends BasicGame {
+public class WholeGame extends ClassSystem{
 	
 	public WholeGame() {
-		super("RTS ULTRAMYTHE");
-		// TODO Auto-generated constructor stub
+		// TODO Auto-generated method stub
+				GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+				Plateau plateau = GameClient.getPlateau();
+				plateau.update();
+				
+				Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+				Interface.init(plateau);
+				// Try to find a server else launch one ...
+				if(GameClient.getExistingServerIP()==null){			
+					GameServer.init(); // En vrai il faudra le lancer à part
+				}
+				Player.init(plateau.teams.get(GameServer.hasLaunched ? 1 : 2));
+				GameClient.init(plateau); 
 	}
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
@@ -99,65 +110,6 @@ public class WholeGame extends BasicGame {
 		
 	}
 
-	@Override
-	public void init(GameContainer gc) throws SlickException {
-		
-		// Classic init
-		LoadingList.setDeferredLoading(false);
-		Musics.init();
-		Sounds.init();
-		GraphicElements.init();
-		Images.init();
-		Communications.init();
-		Options.init();
-		KeyMapper.init();
-		Taunts.init();
-		
-		// TODO Auto-generated method stub
-		GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
-		Plateau plateau = GameClient.getPlateau();
-		plateau.update(new Vector<InputObject>());
-		Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
-		Interface.init(plateau);
-		KeyMapper.init();
-		// Try to find a server else launch one ...
-		if(GameClient.getExistingServerIP()==null){			
-			GameServer.init(); // En vrai il faudra le lancer à part
-		}
-		Player.init(plateau.teams.get(GameServer.hasLaunched ? 1 : 2));
-		GameClient.init(plateau);
-		gc.setMaximumLogicUpdateInterval(16);
-		gc.setMinimumLogicUpdateInterval(16);
-		
-	}
-	public static void main(String[] args) {
-//		Log.setLogSystem(new NullLogSystem()); 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = (int)screenSize.getWidth();
-		int resolutionY = (int)screenSize.getHeight();
-		Game.resX = resolutionX;
-		Game.resY = resolutionY;
-		try {
-			WholeGame game = new WholeGame();
-			AppGameContainer app = new AppGameContainer(game);
-			Game.app = app;
-			app.setIcon("ressources/images/danger/iconeJeu.png");
-//			app.setDisplayMode(resolutionX, resolutionY,true);
-			app.setShowFPS(true);
-			app.setDisplayMode(resolutionX, resolutionY,false);
-			app.setAlwaysRender(false);
-			app.supportsMultiSample();
-			app.setUpdateOnlyWhenVisible(false);
-			app.setClearEachFrame(true);
-			app.setVSync(true);
-			//app.setTargetFrameRate(30);
-			//app.setSmoothDeltas(true);
-			app.start();
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 }

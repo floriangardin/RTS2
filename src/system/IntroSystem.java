@@ -22,10 +22,10 @@ import main.Main;
 import menu.Lobby;
 import model.Game;
 import model.Options;
+import model.WholeGame;
 import multiplaying.Communications;
 import ressources.GraphicElements;
 import ressources.Images;
-import ressources.Map;
 import ressources.Musics;
 import ressources.Sounds;
 import ressources.Taunts;
@@ -245,9 +245,8 @@ public class IntroSystem extends ClassSystem{
 		
 		Lobby lobby = new Lobby();
 		lobby.initSingle();
-		Game.gameSystem = new GameSystem(lobby);
+		Game.gameSystem = new WholeGame();
 		Game.system = Game.gameSystem;
-		
 //		Game.menuSystem = new MenuSystem();
 //		Game.system = Game.menuSystem;
 	}

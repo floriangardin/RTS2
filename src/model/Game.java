@@ -24,7 +24,7 @@ public class Game extends BasicGame
 	public static AppGameContainer app; 
 
 	public static ClassSystem system;
-	public static GameSystem gameSystem;
+	public static ClassSystem gameSystem;
 	public static MenuSystem menuSystem;
 	public static ClassSystem editorSystem;
 	public static EndSystem endSystem;

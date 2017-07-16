@@ -21,7 +21,6 @@ public class Player {
 	public static Float recY;
 	public static int player;
 	public static Team team;
-
 	public static Vector<Integer> inRectangle = new Vector<Integer>();
 	public static Vector<Integer> selection= new Vector<Integer>();
 

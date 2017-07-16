@@ -181,7 +181,7 @@ public class Interface {
 						im.idObjetMouse = spellTarget;
 					} else {
 						im.idObjetMouse = -1;
-					}
+					} 
 
 					resetCurrentSpell();
 				}
