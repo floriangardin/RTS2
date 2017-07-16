@@ -132,6 +132,10 @@ public class GameClient extends Listener {
 		Message m = new Message(checksum);
 		client.sendUDP(m);
 	}
+	public static void send(Menu_Player menu_player){
+		Message m = new Message(menu_player);
+		client.sendUDP(m);
+	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
 		client.sendUDP(Serializer.serialize(m));
