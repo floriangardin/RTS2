@@ -29,19 +29,22 @@ public class Player {
 
 
 	public static void init(int idConnexion){
+		
 		Player.idConnexion = idConnexion;
 //		System.out.println("Player line 33 : init player");
 		boolean toCreate = true;
-		synchronized (Lobby.players) {
-			for(Menu_Player mp : Lobby.players){
-				if(mp.id == idConnexion){
-					toCreate = false;
-					break;
+		if(Lobby.isInit()){			
+			synchronized (Lobby.players) {
+				for(Menu_Player mp : Lobby.players){
+					if(mp.id == idConnexion){
+						toCreate = false;
+						break;
+					}
 				}
-			}
-			if(toCreate){
-				Lobby.players.add(new Menu_Player(idConnexion, 1, Options.nickname));
-				setTeam(1);
+				if(toCreate){
+					Lobby.players.add(new Menu_Player(idConnexion, 1, Options.nickname));
+					setTeam(1);
+				}
 			}
 		}
 	}

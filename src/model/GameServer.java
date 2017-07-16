@@ -124,4 +124,7 @@ public class GameServer extends Listener {
 		System.out.println("Connection dropped.");
 		//server.sendToAllExceptTCP(c.getID(), "Disconnected|"+c.getID());
 	}
+
+	
+	
 }

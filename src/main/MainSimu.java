@@ -6,8 +6,11 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 import control.KeyMapper;
+import control.Player;
 import menu.Lobby;
 import model.Game;
+import model.GameClient;
+import model.GameServer;
 import model.WholeGame;
 import ressources.GraphicElements;
 
@@ -20,12 +23,15 @@ public class MainSimu {
 		int resolutionY = 600;
 		try {
 			Game game = new Game(resolutionX,resolutionY);
-			Lobby.init();
+			// INIT SYSTEMS
+			KeyMapper.init();
+			GameServer.init();
+			GameClient.init("localhost");
+			Player.setTeam(1);
 			Game.system = new WholeGame();
+			
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
-			KeyMapper.init();
-			
 			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,false);
 			app.setAlwaysRender(false);
