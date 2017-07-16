@@ -15,6 +15,7 @@ import menuutils.Menu_Item;
 import menuutils.Menu_Map;
 import menuutils.Menu_Player;
 import model.Game;
+import model.GameClient;
 import model.GameServer;
 import model.WholeGame;
 import multiplaying.ChatHandler;
@@ -166,6 +167,7 @@ public class MenuMapChoice extends Menu {
 			if(mp.id==Player.getID()){
 				mp.update(im);
 				Player.setTeam(mp.team);
+				GameClient.send(mp);
 			}
 		}
 		this.updateItems(im);
