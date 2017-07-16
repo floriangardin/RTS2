@@ -57,7 +57,9 @@ public class GameClient extends Listener {
 						synchronized (Lobby.players) {
 							for(Menu_Player mp : Lobby.players){
 								if(mp.id==mpMessage.id){
-									mp.update(mpMessage);
+									if(mp.id!=Player.getID()){
+										mp.update(mpMessage);
+									}
 									found = true;
 								}
 							}
