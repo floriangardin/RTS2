@@ -1,34 +1,23 @@
 package model;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.io.File;
 import java.util.Vector;
 
-import org.lwjgl.LWJGLUtil;
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.loading.LoadingList;
 
 import control.InputObject;
-import control.KeyMapper;
 import control.Player;
 import display.Camera;
 import display.Interface;
 import menu.Lobby;
 import multiplaying.Checksum;
+import plateau.Objet;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
-import ressources.GraphicElements;
-import ressources.Images;
 import ressources.Map;
-import ressources.Musics;
-import ressources.Sounds;
-import ressources.Taunts;
 import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
@@ -42,7 +31,11 @@ public class WholeGame extends ClassSystem{
 		}
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
-		Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		// Put camera at the center of headquarter
+		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
+		int xHQ =(int) hq.x;
+		int yHQ = (int)hq.y;
+		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
 	}
 	@Override
