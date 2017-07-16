@@ -66,7 +66,7 @@ public class BurningArea extends SpellEffect{
 		return g;
 	}
 
-	public void collision(Character c){
+	public void collision(Character c, Plateau plateau){
 		if(this.lifePoints>0 && c.getTeam()!=this.team){
 			c.setLifePoints(c.lifePoints-0.05f);
 		}
