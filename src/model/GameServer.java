@@ -67,7 +67,9 @@ public class GameServer extends Listener {
 	public void connected(Connection c){
 		// If connection send plateau to id
 		System.out.println("Connection received.");
-		server.sendToAllTCP( new Message(GameClient.getPlateau()));
+		if(GameClient.getPlateau() != null){			
+			server.sendToAllTCP( new Message(GameClient.getPlateau()));
+		}
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		//server.sendToTCP(c.getID(), new Message(c.getID()));
 	}
