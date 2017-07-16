@@ -18,8 +18,7 @@ public class GameServer extends Listener {
 	static Server server;
 	
 	public static boolean hasLaunched = false;
-	// State
-	static final Vector<InputObject> inputs = new Vector<InputObject>();
+
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 
@@ -47,20 +46,8 @@ public class GameServer extends Listener {
 			checksums.add(c);
 		}
 	}
-	public void addInput(InputObject im){
-		synchronized(inputs){			
-			inputs.add(im);
-		}
-	}
-	public static Vector<InputObject> getInputs(){
-		synchronized(inputs){
-			Vector<InputObject> result = new Vector<InputObject>();
-			result.addAll(inputs);
-			inputs.clear();
-			return result;
-			
-		}
-	}
+
+	
 	
 	public static void main(String[] args) throws IOException{
 		GameServer.init();
