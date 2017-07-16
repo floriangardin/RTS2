@@ -42,7 +42,7 @@ public class MenuMulti extends Menu {
 	float ratioReso;
 
 	public Vector<Menu_Map> gamesList;
-	public Vector<OpenGames> openGames;
+	public Vector<String> openGames;
 	public int Nplayer;
 	public int gameSelected = -1;
 
@@ -50,7 +50,7 @@ public class MenuMulti extends Menu {
 		super();
 		this.items = new Vector<Menu_Item>();
 		this.gamesList = new Vector<Menu_Map>();
-		this.openGames = new  Vector<OpenGames>();
+		this.openGames = new  Vector<String>();
 		startX = 2f*Game.resX/8;
 		startY = 0.39f*Game.resY;
 		stepY = 0.10f*Game.resY;
@@ -113,6 +113,19 @@ public class MenuMulti extends Menu {
 //				this.gamesList.clear();
 //				game.setMenu(game.menuMapChoice);
 //			}
+			
+			this.openGames.clear();
+			this.gamesList.clear();
+			
+			if(this.openGames.size()>0) {
+				//FIXME: ajouter la selection de partie à rejoindre
+				String addressHost = this.openGames.get(0);
+				GameClient.init(addressHost);
+				Lobby.init();
+			}
+			
+			
+			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			break;
 		case 2:
 			// Retour 
@@ -129,52 +142,27 @@ public class MenuMulti extends Menu {
 		g.setColor(Color.white);
 		g.drawString("Parties disponibles: ", this.startXGames+70f, startY+50f);
 		g.fillRect(this.startXGames+40f, startY+80f+GraphicElements.font_main.getHeight("R"),2, sizeYGames/2f - 60f+GraphicElements.font_main.getHeight("R"));
-		for(Menu_Map s : this.gamesList)
-			s.draw(g);
+		for(String s : this.openGames)
+			g.drawString(s, this.startXGames+80f, startY+80f);
 
 	}
 
 	public void update(InputObject im){
-//		while(Communications.receivedConnexion.size()>0){
-//			String s = Communications.receivedConnexion.remove(0);
-//			HashMap<String, String> hashmap = Utils.preParse(s);
-//			if(hashmap.containsKey("ip") && hashmap.containsKey("hst") && hashmap.containsKey("npl")){
-//				try {
-//					OpenGames o = null;
-//					for(OpenGames g : this.openGames)
-//						if(g.hostName.equals(hashmap.get("hst")))
-//							o = g;
-//					if(o==null){
-//						int t = 1;
-//						if(hashmap.containsKey("idT")){
-//							String[] idTeam =hashmap.get("idT").split(",");
-//							t = Integer.parseInt(idTeam[1]);
-//						}
-//						openGames.add(new OpenGames(hashmap.get("hst"), InetAddress.getByName(hashmap.get("ip")),Integer.parseInt(hashmap.get("npl")),t));
-//						gamesList.add(new Menu_Map(""+openGames.lastElement().hostName +"'s games", startXGames+80f, startY + 50f + 50f*openGames.size(), sizeXGames/2f, 40f));
-//					} else {
-//						o.nPlayers = Integer.parseInt(hashmap.get("npl"));
-//						String[] idTeam =hashmap.get("idT").split(",");
-//						o.teamFirstPlayer = Integer.parseInt(idTeam[1]);
-//						o.messageDropped=0;
-//					}
-//				} catch (UnknownHostException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		Vector<Integer> toRemove= new Vector<Integer>();
-//		for(int i=0; i<this.openGames.size(); i++){
-//			OpenGames o = this.openGames.get(i);
-//			o.messageDropped++;
-//			if(o.messageDropped>25){
-//				toRemove.add(i);
-//			}
-//		}
-//		for(Integer i : toRemove){
-//			this.openGames.removeElementAt(i);
-//			this.gamesList.removeElementAt(i);
-//		}
+		Vector<String> existingServers = GameClient.getExistingServerIPS();
+		for(String s : existingServers){
+			if(openGames.contains(s)){
+				continue;
+			} else {
+				this.openGames.add(s);
+			}
+		}
+		Vector<String> toRemove = new Vector<String>();
+		for(String s : openGames){
+			if(!existingServers.contains(s)){
+				toRemove.add(s);
+			}
+		}
+		openGames.removeAll(toRemove);
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_Map item = this.gamesList.get(i);
@@ -190,21 +178,4 @@ public class MenuMulti extends Menu {
 
 	} 
 
-	public class OpenGames{
-
-		String hostName;
-		InetAddress hostAddress;
-		int nPlayers;
-		int teamFirstPlayer;
-		int messageDropped;
-
-		public OpenGames(String hostName, InetAddress hostAddress, int nPlayers, int teamF) {
-			this.hostName = hostName;
-			this.nPlayers = nPlayers;
-			this.hostAddress = hostAddress;
-			this.teamFirstPlayer = teamF;
-			this.messageDropped = 0;
-		}
-
-	}
 }

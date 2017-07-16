@@ -15,6 +15,7 @@ import menuutils.Menu_Item;
 import menuutils.Menu_Map;
 import menuutils.Menu_Player;
 import model.Game;
+import model.GameServer;
 import model.WholeGame;
 import multiplaying.ChatHandler;
 import ressources.GraphicElements;
@@ -161,14 +162,17 @@ public class MenuMapChoice extends Menu {
 		}
 		// Checking if all players are ready then launch the game
 		// Updating items
+		System.out.println(Player.getID());
 		for(Menu_Player mp : Lobby.players){
+			System.out.println(mp.id);
 			if(mp.id==Player.getID()){
 				mp.update(im);
 			}
 		}
+		System.out.println();
 		this.updateItems(im);
 		// Updating map choices
-		if(Lobby.host){
+		if(GameServer.hasLaunched){
 			for(int i=0; i<Lobby.maps.size(); i++){
 				Menu_Map item = mapchoices.get(i);
 				item.update(im);

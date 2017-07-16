@@ -55,19 +55,19 @@ public class Menu_Player extends Menu_Item{
 	}
 
 	public void updatePosition(int id){
-		this.id = 0;
+		this.id = id;
 		this.x = startXPlayers+ 1f/10f*sizeXPlayers;
-//		this.y = startYPlayers+1f*(id+1)/6f*sizeYPlayers-GraphicElements.font_main.getHeight("Pg")/2f;
+		this.y = startYPlayers+1f*(id+1)/6f*sizeYPlayers-GraphicElements.font_main.getHeight("Pg")/2f;
 		this.sizeX = 600f;
 		this.sizeY = 50f;
 		String s1 = "Player  "+id+" :  "+"Gilles de Bouard   ";
-//		this.startXcolor = x + GraphicElements.font_main.getWidth(s1);
+		this.startXcolor = x + GraphicElements.font_main.getWidth(s1);
 		this.startYcolor = y;
 		this.sizeXcolor = 90f*Game.resX/1920f;
 		this.sizeYcolor = 40f*Game.resY/1080f;
-//		this.startXciv = startXcolor+sizeXcolor+GraphicElements.font_main.getWidth("      ");
-//		this.sizeXciv = GraphicElements.font_main.getWidth("Zinaids    ");
-//		this.startXready = startXciv+GraphicElements.font_main.getWidth("Zinaids                        ");
+		this.startXciv = startXcolor+sizeXcolor+GraphicElements.font_main.getWidth("      ");
+		this.sizeXciv = GraphicElements.font_main.getWidth("Zinaids    ");
+		this.startXready = startXciv+GraphicElements.font_main.getWidth("Zinaids                        ");
 		this.startYciv = y;
 		this.startYready = y;
 	}

@@ -38,7 +38,8 @@ public class Player {
 			}
 		}
 		if(toCreate){
-			Lobby.players.add(new Menu_Player(idConnexion, 0, Options.nickname));
+			Lobby.players.add(new Menu_Player(idConnexion, 1, Options.nickname));
+			setTeam(1);
 		}
 	}
 	public static void setTeam(int team){

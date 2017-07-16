@@ -28,39 +28,15 @@ public class Lobby {
 		
 	public static boolean checkStartGame(){
 		boolean toGame = true;
-		if(multiplayer){
-			if(host){
-				// checking if all players are ready
-				for(int j=1;j<Lobby.players.size(); j++){
-					if(!Lobby.players.get(j).isReady){
-						toGame = false;
-					}
-				}
-			} else {
+		for(int j=1;j<Lobby.players.size(); j++){
+			if(!Lobby.players.get(j).isReady){
 				toGame = false;
 			}
 		}
 		if(!toGame){
 			return false;
 		}
-		// Checking if at least one player is present by team
-		boolean present1 = false;
-		boolean present2 = false;
-		if(toGame){
-			for(Menu_Player mp : Lobby.players){
-				if(mp.team==1){
-					present1 = true;
-				}
-				if(mp.team==2){
-					present2 = true;
-				}
-			}
-			if (present1 && present2){
-				// Launch Game
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 
 }
