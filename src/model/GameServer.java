@@ -81,7 +81,6 @@ public class GameServer extends Listener {
 			if(m.getType()==Message.CHECKSUM){
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
-					System.out.println("desynchro");
 					server.sendToAllTCP(new Message(GameClient.getPlateau()));
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
@@ -107,7 +106,6 @@ public class GameServer extends Listener {
 			return checksums;
 		}
 	}
-	
 	
 
 	private static boolean isSynchro() {

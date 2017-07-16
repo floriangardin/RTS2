@@ -19,7 +19,6 @@ import main.Main;
 import model.Colors;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
-import multiplaying.Communications;
 import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
@@ -522,7 +521,7 @@ public class Building extends Objet{
 
 				}else if(ChatHandler.remainingTimeNotEnoughRoom<=0f){
 					ChatHandler.remainingTimeNotEnoughRoom=10f;
-					Communications.sendMessage(ChatMessage.getById("pop"));
+					//Communications.sendMessage(ChatMessage.getById("pop"));
 				}
 			}
 		}
