@@ -48,8 +48,8 @@ public class WholeGame extends ClassSystem{
 		// Get Control
 		if(GameClient.slowDown>0){// Make it generic for n players 
 			System.out.println("Slowing down : "+GameClient.slowDown);
-			gc.setMinimumLogicUpdateInterval((1+1)*16);
-			gc.setMaximumLogicUpdateInterval((1+1)*16);
+			gc.setMinimumLogicUpdateInterval(32);
+			gc.setMaximumLogicUpdateInterval(32);
 			GameClient.slowDown=0;
 		}else{
 			gc.setMinimumLogicUpdateInterval(16);
