@@ -41,6 +41,7 @@ public class MenuMulti extends Menu {
 	float stepY;
 	float ratioReso;
 
+	
 	public Vector<Menu_Map> gamesList;
 	public Vector<String> openGames;
 	public int Nplayer;
@@ -60,7 +61,8 @@ public class MenuMulti extends Menu {
 		sizeYGames = Game.resY*(0.95f-0.37f);
 		this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Heberger",true));
 		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Rejoindre",true));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",true));
+		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Rafraîchir",true));
+		this.items.addElement(new Menu_Item(startX,startY+4*stepY,"Retour",true));
 
 	}
 
@@ -128,6 +130,25 @@ public class MenuMulti extends Menu {
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			break;
 		case 2:
+			// Rafraîchir
+			Vector<String> existingServers = new Vector<String>();
+			existingServers = GameClient.getExistingServerIPS();
+			for(String s : existingServers){
+				if(openGames.contains(s)){
+					continue;
+				} else {
+					this.openGames.add(s);
+				}
+			}
+			Vector<String> toRemove = new Vector<String>();
+			for(String s : openGames){
+				if(!existingServers.contains(s)){
+					toRemove.add(s);
+				}
+			}
+			openGames.removeAll(toRemove);
+			break;
+		case 3:
 			// Retour 
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.openGames.clear();
@@ -148,21 +169,6 @@ public class MenuMulti extends Menu {
 	}
 
 	public void update(InputObject im){
-		Vector<String> existingServers = GameClient.getExistingServerIPS();
-		for(String s : existingServers){
-			if(openGames.contains(s)){
-				continue;
-			} else {
-				this.openGames.add(s);
-			}
-		}
-		Vector<String> toRemove = new Vector<String>();
-		for(String s : openGames){
-			if(!existingServers.contains(s)){
-				toRemove.add(s);
-			}
-		}
-		openGames.removeAll(toRemove);
 		this.updateItems(im);
 		for(int i=0; i<this.gamesList.size(); i++){
 			Menu_Map item = this.gamesList.get(i);

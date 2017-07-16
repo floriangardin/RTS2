@@ -85,6 +85,11 @@ public class MenuMapChoice extends Menu {
 		switch(i){
 		case 0: 
 			// demarrer
+			for(Menu_Player mp : Lobby.players){
+				if(mp.id==Player.getID()){
+					mp.isReady = true;
+				}
+			}
 			if(Lobby.checkStartGame()){
 				launchGame();
 			}
@@ -162,14 +167,12 @@ public class MenuMapChoice extends Menu {
 		}
 		// Checking if all players are ready then launch the game
 		// Updating items
-		System.out.println(Player.getID());
 		for(Menu_Player mp : Lobby.players){
-			System.out.println(mp.id);
 			if(mp.id==Player.getID()){
 				mp.update(im);
+				Player.setTeam(mp.team);
 			}
 		}
-		System.out.println();
 		this.updateItems(im);
 		// Updating map choices
 		if(GameServer.hasLaunched){

@@ -28,12 +28,12 @@ public class Lobby {
 		
 	public static boolean checkStartGame(){
 		boolean toGame = true;
-		for(int j=1;j<Lobby.players.size(); j++){
+		for(int j=0;j<Lobby.players.size(); j++){
 			if(!Lobby.players.get(j).isReady){
 				toGame = false;
 			}
 		}
-		if(!toGame){
+		if(!toGame || Lobby.players.size()==0){
 			return false;
 		}
 		return true;
