@@ -74,7 +74,7 @@ public class MenuMulti extends Menu {
 			this.gamesList.clear();
 			try {
 				GameServer.init();
-				String addressHost = InetAddress.getLocalHost().toString();
+				String addressHost = InetAddress.getLocalHost().getHostAddress();
 				GameClient.init(addressHost);
 				Lobby.init();
 			} catch (UnknownHostException e) {}
