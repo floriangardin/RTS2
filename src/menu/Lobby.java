@@ -12,7 +12,7 @@ import ressources.Map;
 
 public class Lobby {
 	
-	private static Vector<Menu_Player> players;
+	private final static Vector<Menu_Player> players = new Vector<Menu_Player>();
 	public static Vector<String> maps;
 	public static Vector<InetAddress> addressesInvites = new Vector<InetAddress>();
 	public static boolean multiplayer = false;
@@ -21,7 +21,7 @@ public class Lobby {
 	
 	
 	public static void init(){
-		players = new Vector<Menu_Player>();
+		//players = new Vector<Menu_Player>();
 		maps = Map.maps();
 		idCurrentMap = maps.get(0);
 	}
@@ -33,12 +33,12 @@ public class Lobby {
 	}
 	public static boolean checkStartGame(){
 		boolean toGame = true;
-		for(int j=0;j<Lobby.players.size(); j++){
-			if(!Lobby.players.get(j).isReady){
+		for(Menu_Player player : Lobby.getPlayers()){
+			if(!player.isReady){
 				toGame = false;
 			}
 		}
-		if(!toGame || Lobby.players.size()==0){
+		if(!toGame || Lobby.getPlayers().size()==0){
 			return false;
 		}
 		return true;

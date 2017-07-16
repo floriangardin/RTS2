@@ -29,6 +29,7 @@ public class GameClient extends Listener {
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
 	static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
+	
 	public static void init(String ip){
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
