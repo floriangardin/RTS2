@@ -11,6 +11,8 @@ public class Message implements Serializable{
 	public final transient static int PLATEAU = 0;
 	public final transient static int INPUTOBJECT = 1;
 	public final transient static int CHECKSUM = 2;
+	public final transient static int CONNECTION = 3;
+	
 	private byte[] objet ;
 	private int type = -1;
 	
@@ -26,6 +28,10 @@ public class Message implements Serializable{
 	public Message(Checksum checksum){
 		objet = Serializer.serialize(checksum);
 		type = CHECKSUM;
+	}
+	public Message(int connectionId){
+		objet = Serializer.serialize(connectionId);
+		type = CONNECTION;
 	}
 	
 	public int getType(){
