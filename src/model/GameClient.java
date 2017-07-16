@@ -54,14 +54,16 @@ public class GameClient extends Listener {
 						Menu_Player mpMessage = (Menu_Player)m.get();
 						System.out.println("GameClient 54 : message mp recu id :"+mpMessage.id);
 						boolean found = false;
-						for(Menu_Player mp : Lobby.getPlayers()){
-							if(mp.id==mpMessage.id){
-								mp.update(mpMessage);
-								found = true;
+						synchronized (Lobby.players) {
+							for(Menu_Player mp : Lobby.players){
+								if(mp.id==mpMessage.id){
+									mp.update(mpMessage);
+									found = true;
+								}
 							}
-						}
-						if(!found){
-							Lobby.addPlayer(mpMessage);
+							if(!found){
+								Lobby.addPlayer(mpMessage);
+							}
 						}
 					}
 				}else if(o instanceof Integer){
