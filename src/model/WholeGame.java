@@ -45,7 +45,7 @@ public class WholeGame extends ClassSystem{
 				if(GameClient.getExistingServerIP()==null){			
 					GameServer.init(); // En vrai il faudra le lancer à part
 				}
-				Player.init(plateau.teams.get(GameServer.hasLaunched ? 1 : 2));
+				Player.init(GameServer.hasLaunched ? 1 : 2);
 				GameClient.init(plateau); 
 	}
 	@Override

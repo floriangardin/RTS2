@@ -68,7 +68,6 @@ public class Interface {
 	public static float ratioSizeDescriptionX = 1/3f;
 	public static float ratioSizeChoiceX = 1/6f;
 	public static boolean mouseOnTopBar;
-	public static Vector<Icon> iconChoice;
 
 	private static float debutC = nbRoundInit/4;
 	private static float debut1 = 3*nbRoundInit/8;
@@ -92,7 +91,6 @@ public class Interface {
 	private static float startYCardChoiceBar;
 	private static float sizeXCardChoiceBar = sizeXActionBar;
 	private static float sizeYCardChoiceBar;
-	public static Vector<Icon> cardChoice = new Vector<Icon>();
 
 	//killing spree offest
 	public static float offsetYkillingSpree = -150f;
@@ -143,7 +141,11 @@ public class Interface {
 							spellCurrent = s.name;
 						}
 					} else {
-						im.pressProd(mouseOnItem);
+						if(yItem==0){
+							im.pressProd(mouseOnItem);
+						} else if (yItem==1){
+							im.pressTech(mouseOnItem);
+						}
 					}
 				}
 				if(im.isDown(KeyEnum.LeftClick)){
@@ -216,12 +218,6 @@ public class Interface {
 
 	public static void updateTopInterface(float xMouse, float yMouse, Plateau plateau){
 		mouseOnTopBar = isMouseOnTopBar(xMouse, yMouse);
-		if(iconChoice==null){
-			return;
-		}
-		for(Icon icon : iconChoice){
-			icon.update(xMouse, yMouse);
-		}
 	}
 
 	public static void updateMinimap(InputObject im, Plateau plateau){
@@ -276,16 +272,19 @@ public class Interface {
 	}
 
 	public static void drawSelectionInterface(Graphics g, Plateau plateau){
-
+		
 		float sizeXBar;
 		float x = 0;
 		if(plateau.round<nbRoundInit)
 			startXSelectionBar = Math.max(-Game.resX-10, Math.min(0, Game.resX*(plateau.round-debut-duree)/duree));
+		else
+			startXSelectionBar = 0;
 
 		// variable de travail sizeVerticalBar
 		g.setLineWidth(1f);
 		float sVB = ratioBarVertX*Game.resX;
 
+		Team team = Player.getTeam(plateau);
 
 		// Draw building state
 		Vector<Integer> selection = Player.selection;
@@ -294,8 +293,8 @@ public class Interface {
 			Building b = (Building) plateau.getById(selection.get(0));
 
 			sizeXBar = (Math.min(4,b.getQueue().size()+1))*(sVB+2)+3;
-			Utils.drawNiceRect(g, Player.getTeam().color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
-			Utils.drawNiceRect(g, Player.getTeam().color, startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
+			Utils.drawNiceRect(g, team.color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
+			Utils.drawNiceRect(g, team.color, startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 
 			int compteur = 0;
 			if(b.getQueue().size()>0){
@@ -308,8 +307,8 @@ public class Interface {
 								startYSelectionBar+sizeYSelectionBar/4,
 								startXSelectionBar+sizeXSelectionBar-5, startYSelectionBar + sizeYSelectionBar-5,0,0,512,512);
 						g.setColor(Color.white);
-						String s = Player.getTeam().data.getAttributString(q, Attributs.printName);
-						Float prodTime = Player.getTeam().data.getAttribut(q, Attributs.prodTime);
+						String s = team.data.getAttributString(q, Attributs.printName);
+						Float prodTime = team.data.getAttribut(q, Attributs.prodTime);
 						g.drawString(s, startXSelectionBar+sizeXSelectionBar/2-GraphicElements.font_main.getWidth(s)/2f, 
 								startYSelectionBar+sizeYSelectionBar/8f-GraphicElements.font_main.getHeight(s)/2f);
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
@@ -317,7 +316,7 @@ public class Interface {
 						g.setColor(Color.gray);
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
 								startYSelectionBar+sizeYSelectionBar/4 +10f, sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-						g.setColor(Player.getTeam().color);
+						g.setColor(team.color);
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
 								startYSelectionBar+sizeYSelectionBar/4+10f+b.charge*(3*sizeYSelectionBar/4-20f)/prodTime, 
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f-b.charge*(3*sizeYSelectionBar/4-20)/prodTime);
@@ -367,9 +366,9 @@ public class Interface {
 			int nb = selection.size()-1;
 
 			sizeXBar = (Math.min(nb+1, 5))*(sVB+2)+2;
-			Utils.drawNiceRect(g, Player.getTeam().color, 
+			Utils.drawNiceRect(g, team.color, 
 					startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
-			Utils.drawNiceRect(g, Player.getTeam().color, 
+			Utils.drawNiceRect(g, team.color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 			for(Integer id : selection){
 				Character a = (Character) plateau.getById(id);
@@ -435,7 +434,9 @@ public class Interface {
 				compteur ++;
 			}
 		} else {
-			Utils.drawNiceRect(g,  Player.getTeam().color, 
+			System.out.println("vaneau");
+			System.out.println(startXSelectionBar+" "+startYSelectionBar+" "+sizeXSelectionBar+" "+sizeYSelectionBar);
+			Utils.drawNiceRect(g,  team.color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 		}
 
@@ -450,7 +451,7 @@ public class Interface {
 		float offset;
 		// Production Bar
 		float ratio =1f/prodIconNbY;
-
+		Team team = Player.getTeam(plateau);
 		offset = sizeXSelectionBar;
 		float x = 0;
 		startYActionBar = Game.resY - sizeYActionBar - sizeYSelectionBar;
@@ -479,7 +480,7 @@ public class Interface {
 		if(!mouseOnActionBar && yActionBar<startY2)
 			yActionBar = startY2+(yActionBar-startY2)/5;
 
-		Utils.drawNiceRect(g,  Player.getTeam().color, x-4, yActionBar-5, 2*sizeXActionBar+4, sizeYActionBar+9);
+		Utils.drawNiceRect(g,  team.color, x-4, yActionBar-5, 2*sizeXActionBar+4, sizeYActionBar+9);
 		g.setColor(Color.darkGray);
 		for(int i=0; i<5; i++){
 			g.setColor(Color.darkGray);
@@ -501,15 +502,15 @@ public class Interface {
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(Images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				g.setColor(Color.white);
-				g.setColor( Player.getTeam().color);
+				g.setColor( team.color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
 				if(ul.size()>i && toDrawDescription[i][0]){
 					// GET PRICE
 					g.translate(sizeXActionBar, 0f);
-					Float foodPrice = getAttribut(ul.get(i), Attributs.foodCost);
-					Float goldPrice = getAttribut(ul.get(i), Attributs.goldCost);
-					Float faithPrice = getAttribut(ul.get(i), Attributs.faithCost);
-					Float prodTime = getAttribut(ul.get(i), Attributs.prodTime);
+					Float foodPrice = team.data.getAttribut(ul.get(i), Attributs.foodCost);
+					Float goldPrice = team.data.getAttribut(ul.get(i), Attributs.goldCost);
+					Float faithPrice = team.data.getAttribut(ul.get(i), Attributs.faithCost);
+					Float prodTime = team.data.getAttribut(ul.get(i), Attributs.prodTime);
 					g.setColor(Color.white);
 					g.drawString(ul.get(i).name(), x + ratio*sizeYActionBar+10f, yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name())/2f);
 					g.drawImage(imageFood,x + 3.6f*(sizeXActionBar+400f)/7 , yActionBar + ratio*i*sizeYActionBar + ratio/2f*sizeYActionBar - f.getHeight(ul.get(i).name())/2f);
@@ -530,14 +531,14 @@ public class Interface {
 			Vector<ObjetsList> ul2 = b.getTechnologyList(plateau);
 			limit = Math.min(5, ul2.size());
 			for(int i=0; i<limit;i++){
-				float goldCost = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.goldCost);
-				float foodCost = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.foodCost);
-				float faithCost = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.faithCost);
-				float prodTime = getAttribut(b.getTechnologyList(plateau).get(i),Attributs.prodTime);
-				String icon = getAttributString(b.getTechnologyList(plateau).get(i),Attributs.nameIcon);
+				float goldCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.goldCost);
+				float foodCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.foodCost);
+				float faithCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.faithCost);
+				float prodTime = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.prodTime);
+				String icon = team.data.getAttributString(b.getTechnologyList(plateau).get(i),Attributs.nameIcon);
 				g.drawImage(Images.get(icon), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
 				// CHANGE PUT PRICES
-				g.setColor( Player.getTeam().color);
+				g.setColor( team.color);
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
 				if(ul2.size()>i && toDrawDescription[i][1]){
 					g.setColor(Color.white);
@@ -565,7 +566,7 @@ public class Interface {
 				if(state.get(i)==ul.get(i).getAttribut(Attributs.chargeTime)){
 					g.setColor(Color.white);
 				} else {
-					g.setColor( Player.getTeam().color);
+					g.setColor( team.color);
 				}
 				if(spellCurrent==b.getSpells().get(i).name){
 					g.setColor(Color.orange);
@@ -573,7 +574,7 @@ public class Interface {
 				g.drawRect(x+1f, yActionBar+1f + i*sizeXActionBar, -6f+sizeXActionBar, -6f+sizeXActionBar);
 				im = Images.get("spell"+ul.get(i).name);
 				g.drawImage(im, x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
-				Color c =  Player.getTeam().color;
+				Color c =  team.color;
 				c.a = 0.8f;
 				g.setColor(c);
 				if(state.get(i)>10){
@@ -611,14 +612,15 @@ public class Interface {
 		offset = ratioSizeGoldY*rY;
 		float y1 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut1-dureeDescente)/dureeDescente));
 		float y2 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut2-dureeDescente)/dureeDescente));
-
-		if(food != Player.getTeam().food)
-			food += (Player.getTeam().food-food)/5+Math.signum(Player.getTeam().food-food);
+		Team team = Player.getTeam(plateau);
+		if(food != team.food){
+			food += (team.food-food)/5+Math.signum(team.food-food);
+		}
 
 		// pop
-		Utils.drawNiceRect(g, Player.getTeam().color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
-		s = ""+Player.getTeam().getPop(plateau) + "/" + Player.getTeam().getMaxPop(plateau);
-		if(Player.getTeam().getPop(plateau)==Player.getTeam().getMaxPop(plateau)){
+		Utils.drawNiceRect(g, team.color,(1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		s = ""+team.getPop(plateau) + "/" + team.getMaxPop(plateau);
+		if(team.getPop(plateau)==team.getMaxPop(plateau)){
 			g.setColor(Color.red);
 		}else{
 			g.setColor(Color.white);
@@ -627,25 +629,24 @@ public class Interface {
 		g.drawImage(Images.get("imagePop"), (1-ratioSizeTimerX)*rX/2-2*ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// food
-		Utils.drawNiceRect(g, Player.getTeam().color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
+		Utils.drawNiceRect(g, team.color,(1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX,y1,ratioSizeGoldX*rX+4,ratioSizeGoldY*rY);
 		s = ""+food;
 		g.setColor(Color.white);
 		g.drawString(s, (1-ratioSizeTimerX)*rX/2-10f-GraphicElements.font_main.getWidth(s), y1+ratioSizeGoldY*rY/2f-GraphicElements.font_main.getHeight("0")/2-3f);
 		g.drawImage(Images.get("imagefooddisplayressources"), (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// timer
-		Utils.drawNiceRect(g, Player.getTeam().color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
+		Utils.drawNiceRect(g, team.color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
 		g.setColor(Color.white);
 		s = "todo : timer";
 		//		s = ""+Utils.displayTime((int) ((System.currentTimeMillis()-Game.gameSystem.startTime)/1000));
 		g.drawString(s, rX/2-GraphicElements.font_main.getWidth(s)/2f, yCentral+2*ratioSizeTimerY*rY/3f-GraphicElements.font_main.getHeight(s)/2f);
 
 		// timer kill
-		Team gt = Player.getTeam();
 		float opacity = 255f;
 		float centerx = 70, centery = 70;
 		float r = 25f;
-		if(gt.nbKill>0){
+		if(team.nbKill>0){
 			if(offsetYkillingSpree!=0){
 				offsetYkillingSpree*=0.5f;
 				if(offsetYkillingSpree>-1){
@@ -658,14 +659,14 @@ public class Interface {
 			//g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
 			//						g.setColor(Color.white);
 			//						g.fillOval(x-r-2f, y-sizeY/2-r-2f, 2*r+4f, 2*r+4f);
-			g.setColor(new Color(gt.color.r,gt.color.g,gt.color.b,opacity));
+			g.setColor(new Color(team.color.r,team.color.g,team.color.b,opacity));
 			float startAngle = 270f;
-			float sizeAngle = (float)(1f*gt.timerKill*(360f)/gt.timerMaxKill);
+			float sizeAngle = (float)(1f*team.timerKill*(360f)/team.timerMaxKill);
 			g.fillArc(centerx-r-8f, centery+offsetYkillingSpree-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
 			g.setColor(new Color(0f,0f,0f,opacity));
 			g.fillOval(centerx-r, centery+offsetYkillingSpree-r, 2*r, 2*r);
 			g.setColor(new Color(1f,1f,1f,opacity));
-			g.drawString(""+gt.nbKill, centerx-GraphicElements.font_main.getWidth(""+gt.nbKill)/2, centery+offsetYkillingSpree-GraphicElements.font_main.getHeight(""+gt.nbKill)/2);
+			g.drawString(""+team.nbKill, centerx-GraphicElements.font_main.getWidth(""+team.nbKill)/2, centery+offsetYkillingSpree-GraphicElements.font_main.getHeight(""+team.nbKill)/2);
 		} else {
 			offsetYkillingSpree = -150f;
 		}
@@ -673,8 +674,9 @@ public class Interface {
 	}
 
 	public static void drawMiniMap(Graphics g, Plateau plateau){
+		Team team = Player.getTeam(plateau);
 		offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
-		Utils.drawNiceRect(g,  Player.getTeam().color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
+		Utils.drawNiceRect(g,  team.color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
@@ -795,14 +797,6 @@ public class Interface {
 	// Utils
 	//////
 
-	public static Float getAttribut(ObjetsList o, Attributs a){
-		return Player.getTeam().data.getAttribut(o, a);
-	}
-
-	public static String getAttributString(ObjetsList o, Attributs a){
-		return Player.getTeam().data.getAttributString(o, a);
-	}
-
 	public static boolean isMouseOnActionBar(float xMouse, float yMouse){
 		return xMouse > startXActionBar && xMouse < startXActionBar + 2*sizeXActionBar
 				&& yMouse > startYActionBar && yMouse < startYActionBar + sizeYActionBar;
@@ -831,90 +825,7 @@ public class Interface {
 	// Icone
 	///////
 
-	public class Icon{
-		private float x, y, sizeX, sizeY;
-		private String image;
-		private Vector<String> texte;
-		private int foodCost, popCost;
-		private int quartdecran;
-		private float startXBulle, startYBulle, sizeXBulle, sizeYBulle;
-
-		private static final float ratioSizeX=1/4f;
-		private static final float ratioSizeY=1/8f;
-
-		public boolean isMouseOnIt;
-
-		private Image imagetemp;
-
-		public Icon(float x, float y, float sizeX, float sizeY, String image, Vector<String> texte, int foodCost, int popCost){
-			x = x;
-			y = y;
-			sizeX = sizeX;
-			sizeY = sizeY;
-			image = image;
-			texte = texte;
-			foodCost = foodCost;
-			popCost = popCost;
-			if(x<Game.resX/2){
-				if(y<Game.resY/2){
-					quartdecran = 7;
-				} else {
-					quartdecran = 1;					
-				}
-			} else {
-				if(y<Game.resY/2){
-					quartdecran = 9;
-				} else {
-					quartdecran = 3;					
-				}
-			}
-			sizeXBulle = ratioSizeX*Game.resX;
-			sizeYBulle = ratioSizeY*Game.resY;
-			startXBulle = x-(quartdecran%6>1?sizeXBulle:0);
-			startYBulle = y-(quartdecran/6>1?0:sizeYBulle);
-		}
-
-		public void changeXY(float x, float y){
-			x = x;
-			y = y;
-			startXBulle = x-(quartdecran%6>1?sizeXBulle:0);
-			startYBulle = y-(quartdecran/6>1?sizeYBulle:0);
-		}
-
-		public void update(float xMouse, float yMouse){
-			isMouseOnIt = xMouse>x-sizeX/2 && xMouse<x+sizeX/2 && yMouse>y-sizeY/2 && yMouse<y+sizeY/2;
-		}
-
-		public void draw(Graphics g){
-			if(isMouseOnIt){
-				g.setColor(Color.darkGray);
-			} else {
-				g.setColor(Color.white);
-			}
-			g.fillRect(x-sizeX/2, y-sizeY/2, sizeX, sizeY);
-			imagetemp = Images.get(image);
-			g.drawImage(imagetemp, x-sizeX/2, y-sizeY/2, x+sizeX/2, y+sizeY/2, 
-					0, 0, imagetemp.getWidth(), imagetemp.getHeight());
-
-
-		}
-
-		public void drawAfter(Graphics g){
-			if(isMouseOnIt){
-				Utils.drawNiceRect(g,  Player.getTeam().color, startXBulle, startYBulle, sizeXBulle, sizeYBulle);
-				g.setColor(Color.darkGray);
-				g.fillRect(startXBulle+5, startYBulle+5, sizeYBulle-10, sizeYBulle-10);
-				g.drawImage(imagetemp, startXBulle+10, startYBulle+10, startXBulle+sizeYBulle-10, startYBulle+sizeYBulle-10, 
-						0, 0, imagetemp.getWidth(), imagetemp.getHeight());
-				g.setColor(Color.white);
-				int i=0;
-				for(String s : texte){
-					g.drawString(s, startXBulle+sizeYBulle+10, startYBulle+5+i*g.getFont().getHeight("Hj"));
-					i+=1;
-				}
-			}
-		}
-	}
+	
 
 	public static void init(Plateau plateau) {
 		updateRatioMiniMap(plateau);
