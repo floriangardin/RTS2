@@ -43,7 +43,7 @@ public class MenuMapChoice extends Menu {
 	float sizeYPlayers;
 
 	long startGame = 0;
-	public int seconds = 4;
+	public float seconds = 4;
 
 	public int cooldown;
 	public int messageDropped;
@@ -89,12 +89,10 @@ public class MenuMapChoice extends Menu {
 			synchronized(Lobby.players){
 				for(Menu_Player mp : Lobby.players){
 					if(mp.id==Player.getID()){
-						mp.isReady = true;
+						mp.isReady = !mp.isReady;
+						this.seconds = 3f;
 					}
 				}
-			}
-			if(Lobby.checkStartGame()){
-				launchGame();
 			}
 			break;
 		case 1:
@@ -175,7 +173,10 @@ public class MenuMapChoice extends Menu {
 		this.updateItems(im);
 		//Checking starting of the game
 		if(Lobby.checkStartGame()){
-			launchGame();
+			this.seconds-=60f/Main.framerate;
+			if(this.seconds<=0){
+				launchGame();
+			}
 		}
 		// Updating map choices
 		if(GameServer.hasLaunched){
@@ -212,7 +213,7 @@ public class MenuMapChoice extends Menu {
 
 
 	public void init(){
-		this.seconds = 3;
+		this.seconds = 3f;
 		this.startGame = 0;
 		this.selected = 0;
 	}
