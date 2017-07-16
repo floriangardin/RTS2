@@ -20,12 +20,12 @@ public class Player {
 	public static Float recX;
 	public static Float recY;
 	public static int player;
-	public static Team team;
+	public static int team;
 	public static Vector<Integer> inRectangle = new Vector<Integer>();
 	public static Vector<Integer> selection= new Vector<Integer>();
 
 
-	public static void init(Team team){
+	public static void init(int team){
 		Player.team = team;
 	}
 	public static void updateRectangle(InputObject im, Plateau plateau) {
@@ -293,10 +293,15 @@ public class Player {
 
 	public static int getTeamId() {
 		// TODO Auto-generated method stub
-		return Player.team.id;
+		return Player.team;
 	}
-	public static Team getTeam(){
-		return team;
+	public static Team getTeam(Plateau plateau){
+		for(Team team : plateau.teams){
+			if(team.id == Player.team){
+				return team;
+			}
+		}
+		return null;
 	}
 
 	public static boolean hasRectangleSelection() {

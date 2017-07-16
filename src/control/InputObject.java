@@ -338,6 +338,20 @@ public class InputObject implements java.io.Serializable{
 			this.pressed.add(KeyEnum.valueOf("Prod"+i));
 		}
 	}
+	
+	public boolean isPressedTech(int i){
+		try{
+			return this.pressed.contains(KeyEnum.valueOf("Tech"+i));
+		} catch(IllegalArgumentException a){
+			return false;
+		}
+	}
+	
+	public void pressTech(int i){
+		if(!this.pressed.contains(KeyEnum.valueOf("Tech"+i))){
+			this.pressed.add(KeyEnum.valueOf("Tech"+i));
+		}
+	}
 
 
 
