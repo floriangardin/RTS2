@@ -110,11 +110,11 @@ public class IntroSystem extends ClassSystem{
 			}
 		}
 		LoadingList.setDeferredLoading(true);
-		Musics.init();
+		//Musics.init();
 		EventHandler.init();
-		ChatHandler.init();
-		Sounds.init();
+		//Sounds.init();
 		GraphicElements.init();
+		ChatHandler.init();
 		Images.init();
 		Options.init();
 		KeyMapper.init();
