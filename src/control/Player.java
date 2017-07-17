@@ -2,6 +2,7 @@ package control;
 
 import java.util.Vector;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
 import control.KeyMapper.KeyEnum;
@@ -9,6 +10,7 @@ import data.Attributs;
 import display.Camera;
 import menu.Lobby;
 import menuutils.Menu_Player;
+import model.Colors;
 import model.Options;
 import plateau.Building;
 import plateau.Character;
@@ -26,6 +28,7 @@ public class Player {
 	private static int idConnexion;
 	public static Vector<Integer> inRectangle = new Vector<Integer>();
 	public static Vector<Integer> selection= new Vector<Integer>();
+	public static Color color;
 
 
 	public static void init(int idConnexion){
@@ -44,12 +47,24 @@ public class Player {
 				if(toCreate){
 					Lobby.players.add(new Menu_Player(idConnexion, 1, Options.nickname));
 					setTeam(1);
+					color = Color.blue;
 				}
 			}
 		}
 	}
 	public static void setTeam(int team){
 		Player.team = team;
+		switch(team){
+		case 0:
+			color = Colors.team0;
+			break;
+		case 1:
+			color = Colors.team1;
+			break;
+		case 2:
+			color = Colors.team2;
+			break;
+		}
 	}
 	public static int getID(){
 		return Player.idConnexion;

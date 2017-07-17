@@ -14,6 +14,7 @@ import menu.MenuMulti;
 import menu.MenuOptions;
 import multiplaying.ChatHandler;
 import ressources.Musics;
+import ressources.Taunts;
 
 public class MenuSystem extends ClassSystem {
 	
@@ -37,6 +38,10 @@ public class MenuSystem extends ClassSystem {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		currentMenu.draw(g);
+		if(currentMenu == menuMapChoice){
+			// Updating chat
+			ChatHandler.draw(g);
+		}
 	}
 
 	@Override
@@ -47,6 +52,13 @@ public class MenuSystem extends ClassSystem {
 //			ChatHandler.action(in,im);
 //		}
 		currentMenu.update(im);
+		if(currentMenu == menuMapChoice){
+			// Updating chat
+			ChatHandler.action(in, im);
+		}
+		if(Taunts.isInit()){
+			Taunts.update();
+		}
 		//this.send();
 	}
 	

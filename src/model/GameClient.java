@@ -15,6 +15,8 @@ import control.InputObject;
 import control.Player;
 import menu.Lobby;
 import menuutils.Menu_Player;
+import multiplaying.ChatHandler;
+import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
@@ -52,7 +54,6 @@ public class GameClient extends Listener {
 						GameClient.addInput(im);
 					}else if(type==Message.MENUPLAYER){
 						Menu_Player mpMessage = (Menu_Player)m.get();
-						//System.out.println("GameClient 54 : message mp recu id :"+mpMessage.id);
 						boolean found = false;
 						synchronized (Lobby.players) {
 							for(Menu_Player mp : Lobby.players){
@@ -70,6 +71,8 @@ public class GameClient extends Listener {
 						if(mpMessage.isHost && mpMessage.id!=Player.getID()){
 							Lobby.idCurrentMap = mpMessage.idMap;
 						}
+					}else if(type==Message.CHATMESSAGE){
+						ChatHandler.addMessage((ChatMessage)m.get());
 					}
 				}else if(o instanceof Integer){
 					slowDown = (Integer) o;
@@ -153,6 +156,10 @@ public class GameClient extends Listener {
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
 		client.sendUDP(Serializer.serialize(m));
+	}
+	public static void send(ChatMessage message){
+		Message m = new Message(message);
+		client.sendUDP(m);
 	}
 
 	public static Plateau getPlateau(){	

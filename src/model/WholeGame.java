@@ -22,6 +22,7 @@ import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
 import ressources.Map;
+import ressources.Taunts;
 import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
@@ -90,6 +91,9 @@ public class WholeGame extends ClassSystem{
 			}
 			Game.endSystem = new EndSystem(GameClient.getPlateau());
 			Game.system = Game.endSystem;
+		}
+		if(Taunts.isInit()){
+			Taunts.update();
 		}
 	}
 	
