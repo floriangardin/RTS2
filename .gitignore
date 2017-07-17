@@ -1,4 +1,5 @@
 options.opts
 ressources/data/keymapping.rtsfile
 *.class
+*.rtsreplay
 bin/

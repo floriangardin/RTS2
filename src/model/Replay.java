@@ -34,7 +34,7 @@ public class Replay implements Serializable{
 	}
 	
 	public void save() throws FileNotFoundException{
-		save("lastReplay");
+		save("lastReplay.rtsreplay");
 	}
 	public void save(String file) throws FileNotFoundException{
 	    FileOutputStream fos;

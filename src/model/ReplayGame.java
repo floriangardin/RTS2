@@ -28,7 +28,7 @@ public class ReplayGame extends ClassSystem{
 	
 	
 	public ReplayGame(){
-		init("lastReplay");
+		init("lastReplay.rtsreplay");
 	}
 	public ReplayGame(String file) {
 		init(file);
