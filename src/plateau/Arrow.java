@@ -67,7 +67,8 @@ public class Arrow extends Bullet{
 
 	}
 
-	public void collision(Building c, Plateau plateau){
+	@Override
+	public void collision(Objet c, Plateau plateau){
 		this.lifePoints = -1f;
 	}
 	

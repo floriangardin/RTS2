@@ -372,11 +372,11 @@ public class Plateau implements java.io.Serializable {
 		for (Bullet b : bullets) {
 			for (NaturalObjet n : naturalObjets) {
 				if (b.collisionBox.intersects(n.collisionBox))
-					b.collision(n);
+					b.collision(n, this);
 			}
 			for (Building c : buildings) {
 				if (b.collisionBox.intersects(c.collisionBox))
-					b.collision(c);
+					b.collision(c, this);
 			}
 		}
 

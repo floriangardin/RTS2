@@ -136,7 +136,7 @@ public class Interface {
 					if(Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
 						Character c = (Character) plateau.getById(Player.selection.get(0)); 
 						Spell s = c.getSpell(mouseOnItem);
-						if(s != null && s.getAttribut(Attributs.needToClick)>0){
+						if(s != null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(mouseOnItem)){
 							spellLauncher = c.id;
 							spellCurrent = s.name;
 						}
