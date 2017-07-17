@@ -26,7 +26,7 @@ public class ChatHandler {
 	public static float startY;
 	public static float remainingTimeNotEnoughRoom = 0f;
 	public static float remainingTimeBeingAttacked = 0f;
-
+	public static boolean isInit = false;
 	public static void init(){
 		messages = new Vector<ChatMessage>();
 		textScanner = new Menu_TextScanner("", 
@@ -34,9 +34,13 @@ public class ChatHandler {
 				Game.resX/3f, GraphicElements.font_main.getHeight("Pg"));
 		textScanner.isSelected = true;
 		startY = Game.resY/3f;
+		isInit = true;
 	}
 
 	public static void action(Input in, InputObject im){
+		if(!isInit){
+			return ;
+		}
 		if(remainingTimeNotEnoughRoom>0f){
 			remainingTimeNotEnoughRoom-=Main.increment;
 		}

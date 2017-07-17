@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.util.Vector;
 
 import org.newdawn.slick.GameContainer;
@@ -23,6 +24,7 @@ import ressources.Map;
 import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
+	private Replay replay= new Replay();
 	
 	public WholeGame() {
 		// TODO Auto-generated method stub
@@ -48,23 +50,12 @@ public class WholeGame extends ClassSystem{
 			Game.endSystem.update(gc, arg1);
 			return;
 		}
-		// Get the plateau from client	
-		// Get Control
-		if(GameClient.slowDown>0){// Make it generic for n players 
-			System.out.println("Slowing down : "+GameClient.slowDown);
-			gc.setMinimumLogicUpdateInterval(32);
-			gc.setMaximumLogicUpdateInterval(32);
-			GameClient.slowDown=0;
-		}else{
-			gc.setMinimumLogicUpdateInterval(16);
-			gc.setMaximumLogicUpdateInterval(16);
-		}
+		handleSlowDown(gc);
 		GameClient.mutex.lock();
 		try{
 			Input in = gc.getInput();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
 			ChatHandler.action(in, im);
-			
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
 			// Update selection in im.selection
@@ -77,18 +68,41 @@ public class WholeGame extends ClassSystem{
 			}
 			// Get new inputs for round
 			Vector<InputObject> ims = GameClient.getInputForRound();
-				GameClient.getPlateau().update(ims);
+			// Update replay
+			Replay.handleReplay(replay, ims, GameClient.getPlateau() );
+			//Update Plateau
+			GameClient.getPlateau().update(ims);
 			// 4 : Update the camera given current input
 			Camera.update(im);
 		}finally{
 			GameClient.mutex.unlock();
 		}
 		if(GameClient.getPlateau().teamLooser>0){
+			try {
+				replay.save();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Game.endSystem = new EndSystem(GameClient.getPlateau());
 			Game.system = Game.endSystem;
 		}
 	}
 	
+	private void handleSlowDown(GameContainer gc) {
+		if(GameClient.slowDown>0){
+			System.out.println("Slowing down : "+GameClient.slowDown);
+			gc.setMinimumLogicUpdateInterval(32);
+			gc.setMaximumLogicUpdateInterval(32);
+			GameClient.slowDown=0;
+		}else{
+			gc.setMinimumLogicUpdateInterval(16);
+			gc.setMaximumLogicUpdateInterval(16);
+		}
+		
+		
+	}
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		if(Game.endSystem != null){
@@ -103,10 +117,10 @@ public class WholeGame extends ClassSystem{
 		finally{
 			GameClient.mutex.unlock();
 			if(RenderEngine.isReady()){
-				RenderEngine.render(g, GameClient.getPlateau());
+				RenderEngine.render(g, p);
 				
 			} else {
-				SimpleRenderEngine.render(g, GameClient.getPlateau());
+				SimpleRenderEngine.render(g, p);
 				
 			}
 		}
