@@ -10,6 +10,7 @@ import data.Attributs;
 import display.Camera;
 import display.Interface;
 import events.EventHandler;
+import multiplaying.ChatHandler;
 import plateau.Building;
 import plateau.Bullet;
 import plateau.Character;
@@ -22,13 +23,6 @@ import utils.Utils;
 
 public class RenderEngine {
 
-	public static final int FOGOFWARLAYER = 3;
-	public static final int BACKGROUNDLAYER = 0;
-	public static final int SELECTIONLAYER = 4;
-	public static final int INTERFACELAYER = 5;
-	public static final int NORMALLAYER = 2;
-	public static final int GROUNDLAYER = 1;
-	
 	private static boolean isReady = false;
 	private static boolean hasChecked = false;
 
@@ -87,6 +81,7 @@ public class RenderEngine {
 		// draw interface
 		// 4) Draw bottom bar
 		Interface.draw(g, plateau);
+		ChatHandler.draw(g);
 	}
 	
 	public static void render2(Graphics g, Plateau plateau){

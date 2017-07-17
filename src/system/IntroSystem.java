@@ -22,6 +22,7 @@ import events.EventHandler;
 import main.Main;
 import model.Game;
 import model.Options;
+import multiplaying.ChatHandler;
 import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Musics;
@@ -111,6 +112,7 @@ public class IntroSystem extends ClassSystem{
 		LoadingList.setDeferredLoading(true);
 		Musics.init();
 		EventHandler.init();
+		ChatHandler.init();
 		Sounds.init();
 		GraphicElements.init();
 		Images.init();

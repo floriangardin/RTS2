@@ -4,14 +4,15 @@ import java.util.Vector;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import control.InputObject;
 import control.Player;
 import display.Camera;
 import display.Interface;
-import events.Event;
 import menu.Lobby;
+import multiplaying.ChatHandler;
 import multiplaying.Checksum;
 import plateau.Objet;
 import plateau.Plateau;
@@ -60,8 +61,10 @@ public class WholeGame extends ClassSystem{
 		}
 		GameClient.mutex.lock();
 		try{
-			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), GameClient.roundForInput());
-
+			Input in = gc.getInput();
+			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
+			ChatHandler.action(in, im);
+			
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
 			// Update selection in im.selection
@@ -100,9 +103,11 @@ public class WholeGame extends ClassSystem{
 		finally{
 			GameClient.mutex.unlock();
 			if(RenderEngine.isReady()){
-				RenderEngine.render(g, GameClient.getPlateau());	
+				RenderEngine.render(g, GameClient.getPlateau());
+				
 			} else {
 				SimpleRenderEngine.render(g, GameClient.getPlateau());
+				
 			}
 		}
 		
