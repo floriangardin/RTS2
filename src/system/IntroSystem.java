@@ -112,14 +112,14 @@ public class IntroSystem extends ClassSystem{
 		LoadingList.setDeferredLoading(true);
 		//Musics.init();
 		EventHandler.init();
-		//Sounds.init();
+		Sounds.init();
 		GraphicElements.init();
 		ChatHandler.init();
 		Images.init();
 		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
-		Taunts.init();
+		//Taunts.init();
 		
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}

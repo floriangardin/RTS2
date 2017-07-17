@@ -847,6 +847,11 @@ public class Plateau implements java.io.Serializable {
 		return this.toString().equals(((Plateau)o).toString());
 	}
 
+	public int getRound() {
+		
+		return round;
+	}
+
 
 
 }
