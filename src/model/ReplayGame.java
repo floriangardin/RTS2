@@ -66,7 +66,6 @@ public class ReplayGame extends ClassSystem{
 		replay.update();
 		// 4 : Update the camera given current input
 		Camera.update(im);
-		
 		if(replay.getCurrentPlateau().teamLooser>0){
 			Game.endSystem = new EndSystem(replay.getCurrentPlateau());
 			Game.system = Game.endSystem;

@@ -22,14 +22,20 @@ public class EventHandler {
 	}
 	
 
-	public static void render(Graphics g, Plateau plateau){
+	public static void render(Graphics g, Plateau plateau, boolean topLayer){
 		Vector<Event> toRemove1 = new Vector<Event>();
 		for(Event e : events){
+			if(e.topLayer!=topLayer){
+				continue;
+			}
 			if(!e.play(g, plateau)){
 				toRemove1.addElement(e);
 			}
 		}
 		events.removeAll(toRemove1);
+		if(!topLayer){
+			return;
+		}
 		Vector<DisplayRessources> toRemove2 = new Vector<DisplayRessources>();
 		for(DisplayRessources dr : displayRessources ){
 			dr.update();

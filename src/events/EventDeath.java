@@ -24,6 +24,7 @@ public class EventDeath extends Event{
 	
 	public EventDeath(Objet parent, Plateau plateau) {
 		super(parent, plateau);
+		this.topLayer = true;
 		x = parent.x;
 		y = parent.y;
 		color = parent.getTeam().color;

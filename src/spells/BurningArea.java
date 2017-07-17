@@ -9,6 +9,8 @@ import org.newdawn.slick.geom.Shape;
 import data.Attributs;
 import data.AttributsChange;
 import events.EventAttackDamage;
+import events.EventHandler;
+import events.EventNames;
 import main.Main;
 import model.Game;
 import plateau.Character;
@@ -28,18 +30,18 @@ public class BurningArea extends SpellEffect{
 
 	public BurningArea(int launcher, Checkpoint t, float size, Plateau plateau){
 		super(plateau);
-		this.name = ObjetsList.BlessedAreaEffect;
+		this.name = ObjetsList.BurningAreaEffect;
 		this.type = 2;
 		this.size = size;
 		this.id = plateau.id;
 		this.toDrawOnGround = true;
 		this.lifePoints = 1f;
 		plateau.addSpell(this);
-		this.image = "magma";
 		this.team = plateau.getById(launcher).getTeam();
 		this.collisionBox = createShape(t, size);
 		this.x = t.getX();
 		this.y = t.getY();
+		EventHandler.addEvent(EventNames.BurningArea, this, plateau);
 	}
 	
 	public static Shape createShape(Objet t, float size){
@@ -55,20 +57,9 @@ public class BurningArea extends SpellEffect{
 		}
 	}
 
-	public Graphics draw(Graphics g){
-		Image im = Images.get(this.image).getScaledCopy((int)(2*size), (int)(2*size));
-		float alpha = (totalTime-remainingTime)/(startTime*remainingTime);
-		alpha = (float)Math.min(alpha, remainingTime/(endTime*totalTime));
-		alpha = (float)Math.min(alpha, 1f);
-		alpha = (float)Math.max(alpha, 0f);
-		im.setAlpha(alpha);
-		g.drawImage(im, x-im.getWidth()/2f, y-im.getHeight()/2f);
-		return g;
-	}
-
 	public void collision(Character c, Plateau plateau){
-		if(this.lifePoints>0 && c.getTeam()!=this.team){
-			c.setLifePoints(c.lifePoints-0.05f);
+		if(this.lifePoints>0 && c.getTeam()!=this.team && plateau.round%20==0){
+			c.setLifePoints(c.lifePoints-1f, plateau);
 		}
 	}
 

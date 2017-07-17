@@ -18,12 +18,13 @@ public class EventAttackDamage extends Event {
 	private int remainingTime = totalRemainingTime;
 	private float x, y, vx, vy;
 	
-	public EventAttackDamage(Objet parent, int value, Plateau plateau, Camera camera) {
+	public EventAttackDamage(Objet parent, int value, Plateau plateau) {
 		super(parent, plateau);
+		this.topLayer = true;
 		this.value = value;
 		this.x = parent.x;
 		this.y = parent.y;
-		this.vy = (float) (-2f+0.5f*Math.random()-0.25);
+		this.vy = (float) (-3f+0.5f*Math.random()-0.25);
 		this.vx = 0.7f*((float) (2f*Math.random()-1f));
 	}
 	

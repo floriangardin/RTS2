@@ -116,6 +116,7 @@ public class IntroSystem extends ClassSystem{
 		GraphicElements.init();
 		ChatHandler.init();
 		Images.init();
+		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
 		//Taunts.init();

@@ -8,16 +8,20 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import control.Player;
+import data.Attributs;
 import display.Camera;
 import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import model.Game;
 import plateau.Building;
+import plateau.NaturalObjet;
+import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
 import ressources.Musics;
 import system.ClassSystem;
+import utils.Utils;
 
 public class EndSystem extends ClassSystem{
 
@@ -25,15 +29,12 @@ public class EndSystem extends ClassSystem{
 	private Plateau plateau;
 	private boolean victory;
 	private int time = 0;
-	private int time_period;
 	
 	private int timeDropBackground = Main.framerate/4;
 	private int timeFadeTitle = Main.framerate;
 	private int timeWaiting = 7*Main.framerate;
 	private int timeBlackFade = 1*Main.framerate;
 	
-	private int period_length = Main.framerate*2/3;
-	private boolean period_fading = true;
 	
 	private Image image_background;
 	private Image image_text;
@@ -89,7 +90,9 @@ public class EndSystem extends ClassSystem{
 			} 
 			updateRonds();
 		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting+timeBlackFade+Main.framerate*2){
-			Musics.musicPlaying.fade(1500, 0f, true);
+			if(Musics.musicPlaying!=null){
+				Musics.musicPlaying.fade(1500, 0f, true);
+			}
 		} else {
 //			Game.g.isInMenu = true;
 //			Game.g.hasAlreadyPlay = true;
@@ -106,7 +109,32 @@ public class EndSystem extends ClassSystem{
 	}
 	
 	public void render(GameContainer gc, Graphics g){
-		RenderEngine.render(g, plateau);
+		g.translate(-Camera.Xcam, -Camera.Ycam);
+		// Draw background
+		RenderEngine.renderBackground(g, plateau);
+		// Draw first layer of event
+		EventHandler.render(g, plateau, false);
+		Vector<Objet> objets = new Vector<Objet>();
+		for(Objet o : plateau.objets.values()){
+			objets.add(o);
+		}
+		objets = Utils.triY(objets);
+		Vector<Objet> visibleObjets = new Vector<Objet>();
+		for(Objet o : objets){
+			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
+				visibleObjets.add(o);
+			}
+		}		
+		// 2) Draw Objects
+		for(Objet o : objets){
+			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+				RenderEngine.renderObjet(o, g, plateau);
+			}
+		}
+		// Draw second layer of event
+		EventHandler.render(g, plateau, true);
+		g.translate(Camera.Xcam, Camera.Ycam);
+		
 		if(time==0){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, Camera.resX, sizeBandes);

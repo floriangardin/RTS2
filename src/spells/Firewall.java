@@ -120,9 +120,9 @@ public class Firewall extends SpellEffect{
 		return g;
 	}
 
-	public void collision(Character c){
+	public void collision(Character c, Plateau plateau){
 		if(c!=owner){
-			c.setLifePoints(c.lifePoints-this.damage);
+			c.setLifePoints(c.lifePoints-this.damage, plateau);
 		}
 	}
 

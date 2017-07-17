@@ -13,6 +13,7 @@ public class EventDefault extends Event{
 	public EventDefault(Objet parent, String s, Plateau plateau, EventNames name){
 		super(parent, plateau);
 		this.name = name;
+		this.topLayer = true;
 		this.sounds.add(s);
 	}
 	

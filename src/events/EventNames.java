@@ -24,6 +24,7 @@ public enum EventNames {
 	Meditation, 
 	AttackDamageNormal, 
 	DestructionTower, 
+	BurningArea,
 	DestructionHQ;
 	
 	
@@ -63,6 +64,8 @@ public enum EventNames {
 			return new EventDash(parent, plateau);
 		case Blood:
 			return new EventBlood(parent, plateau);
+		case BurningArea:
+			return new EventBurningArea(parent, plateau);
 		case DestructionTower:
 			return new EventDestructionTour(parent, plateau);
 		case DestructionHQ:

@@ -30,6 +30,7 @@ public class EventDestructionTour extends Event{
 
 	public EventDestructionTour(Objet parent, Plateau plateau) {
 		super(parent, plateau);
+		this.topLayer = true;
 		width = (int) (Images.get("animation-explosion").getWidth()/5f);
 		height = (int) (Images.get("animation-explosion").getHeight()/2f);
 		this.images = new Vector<Image>();

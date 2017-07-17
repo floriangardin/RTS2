@@ -63,7 +63,7 @@ public class Fireball extends Bullet {
 	public void action(Plateau plateau){
 
 		if(explosion){
-			this.setLifePoints(lifePoints-10f*Main.increment);
+			this.setLifePoints(lifePoints-10f*Main.increment, plateau);
 			return;
 		}
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
@@ -84,7 +84,7 @@ public class Fireball extends Bullet {
 						(0.5f*c.collisionBox.getWidth()+this.areaEffect)*
 						(0.5f*c.collisionBox.getWidth()+this.areaEffect);
 				if(isIntersected){					
-					this.boom(c);
+					this.boom(c, plateau);
 				}
 			}
 		}
@@ -92,11 +92,11 @@ public class Fireball extends Bullet {
 		new BurningArea(this.owner, new Checkpoint(x,y, plateau), this.areaEffect, plateau);
 		this.explosion = true;
 	}
-	public void boom(Character c){
+	public void boom(Character c, Plateau plateau){
 		float damage = this.damage;
 		if(c.getAttributString(Attributs.weapon)!= null && c.getAttributString(Attributs.weapon) == "bow")
 			damage = damage * this.getTeam().data.bonusBowFoot;
-		c.setLifePoints(c.lifePoints-damage);
+		c.setLifePoints(c.lifePoints-damage, plateau);
 		c.isAttacked();
 
 	}

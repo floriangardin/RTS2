@@ -36,7 +36,7 @@ public class EventDash extends Event{
 			//g.fillRect(parent.x+100*signe-50*Math.abs(i-2)*signe+((float)Math.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
 		}
 		
-		g.rotate(parent.x, parent.y, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
+		g.rotate(parent.x, parent.y-50f, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
 
 		return parent.inDash>0f;
 	}

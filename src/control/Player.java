@@ -7,7 +7,6 @@ import org.newdawn.slick.geom.Rectangle;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.Camera;
-import display.Interface;
 import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Options;
@@ -16,6 +15,7 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 import plateau.Team;
+import utils.Utils;
 
 public class Player {
 	public static Rectangle rectangleSelection;
@@ -31,7 +31,7 @@ public class Player {
 	public static void init(int idConnexion){
 		
 		Player.idConnexion = idConnexion;
-//		System.out.println("Player line 33 : init player");
+		//		System.out.println("Player line 33 : init player");
 		boolean toCreate = true;
 		if(Lobby.isInit()){			
 			synchronized (Lobby.players) {
@@ -55,16 +55,16 @@ public class Player {
 		return Player.idConnexion;
 	}
 	public static void updateRectangle(InputObject im, Plateau plateau) {
-//		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
-//			return;
-//		}else{
-//			waitForPressedBeforeUpdate = false;
-//		}
+		//		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
+		//			return;
+		//		}else{
+		//			waitForPressedBeforeUpdate = false;
+		//		}
 		if(im.isOnMiniMap && rectangleSelection != null){			
 			return;
 		}
 		if(im.isDown(KeyEnum.LeftClick)){
-			if (Player.rectangleSelection == null && !im.isOnMiniMap) {
+			if (Player.rectangleSelection == null && !im.isOnMiniMap && !im.isPressed(KeyEnum.ToutSelection)) {
 				Player.selection.clear() ;// A appeler quand le rectangle est crée
 				recX=(float) im.x;
 				recY= (float) im.y;
@@ -108,7 +108,7 @@ public class Player {
 	public static void handleSelection(InputObject im, Plateau plateau) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
-		
+
 		Vector<Integer> select = new Vector<Integer>();
 		if(rectangleSelection == null){
 			select.addAll(selection);
@@ -123,6 +123,10 @@ public class Player {
 		selection.removeAll(toRemove);
 		// As long as the button is pressed, the selection is updated
 		Player.updateRectangle(im, plateau);
+		if(im.isPressed(KeyEnum.LeftClick) && im.isDown(KeyEnum.ToutSelection)){
+			System.out.println("mythe on appuie sur controle");
+			Player.updateSelectionCTRL(im, plateau);
+		}
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 || rectangleSelection!=null){
 			Player.selection.clear();
@@ -141,154 +145,66 @@ public class Player {
 			im.selection.add(o);
 		}
 
-		//System.out.println("Vanneau4"+ im.selection.size());
-		// Ajout du clique droit
+//		 Handling groups of units
+		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
+		KeyEnum  pressed = null;
+		for(KeyEnum key : tab){
+			if(im.isPressed(key)){
+				pressed=key;
+				break;
+			}
+		}
 
-
-		// Handling groups of units
-		//		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
-		//		KeyEnum  pressed = null;
-		//		for(KeyEnum key : tab){
-		//			if(im.isPressed(key)){
-		//				pressed=key;
-		//				break;
-		//			}
-		//		}
-		//
-		//		if(pressed!=null){
-		//			Selection.selection = new Vector<Objet>();
-		//			for(Character o : plateau.characters){
-		//				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
-		//					Selection.selection.add(o);
-		//				}
-		//			}
-		//			for(Building o : plateau.buildings){
-		//				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
-		//					Selection.selection.add(o);
-		//				}
-		//			}
-		//		}
-
-		// Selection des batiments
-
-
-		// Cleaning the rectangle and buffer if mouse is released
-		//		boolean isOnMiniMap = im.xMouse>(1-im.player.bottomBar.ratioMinimapX)*g.resX && im.yMouse>(g.resY-im.player.bottomBar.ratioMinimapX*g.resX);
-		//
-		//		
-		//		if (Selection.rectangleSelection != null) {
-		//			if (Selection.selection.size() > 0
-		//					&& Selection.selection.get(0) instanceof Character) {
-		//				Character c = (Character) Selection.selection.get(0);
-		//				
-		//
-		//			}
-		//			if (player == im.idplayer && Selection.selection.size() > 0
-		//					&& Selection.selection.get(0) instanceof Building) {
-		//				Building c = (Building) Selection.selection.get(0);
-		//
-		//			}
-
-
-		//		}
-
+		if(pressed!=null){
+			Player.selection = new Vector<Integer>();
+			for(Character o : plateau.characters){
+				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
+					Player.selection.add(o.id);
+				}
+			}
+			for(Building o : plateau.buildings){
+				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
+					Player.selection.add(o.id);
+				}
+			}
+		}
 
 		// Handling hotkeys for gestion of selection
-		//		if (im.isPressed(KeyEnum.Tab)) {
-		//			if (Selection.selection.size() > 0) {
-		//				Utils.switchTriName(Selection.selection);
-		//			}
-		//
-		//		}
+		if (im.isPressed(KeyEnum.Tab)) {
+			if (selection.size() > 0) {
+				Utils.switchTriName(selection, plateau);
+			}
 
-
-
-		// we update the selection according to the rectangle wherever is the
-		// mouse
-		//		if(!im.isOnMiniMap){
-		//			if (im.isPressed(KeyEnum.LeftClick) && !im.isPressed(KeyEnum.Tab)) {
-		//				Selection.selection.clear();
-		//		
-		//			}
-		//		}
-		//		if (!im.isPressed(KeyEnum.ToutSelection)) {
-		//			Selection.updateSelection(im);
-		//
-		//		} else {
-		//			Selection.updateSelectionCTRL(im);
-		//		}
-
-
-
+		}
 
 	}
-	//	public void updateSelection(InputObject im) {
-	//		if (rectangleSelection != null) {
-	//			for (Objet a : Selection.inRectangle) {
-	//				Selection.selection.remove(a);
-	//			}
-	//			Selection.inRectangle.clear();
-	//			for (Character o : plateau.characters) {
-	//				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)
-	//						|| rectangleSelection.contains(o.selectionBox)) && o.getTeam().id == im.team) {
-	//					Selection.selection.add(o);
-	//					Selection.inRectangle.addElement(o);
-	//					if (Math.max(rectangleSelection.getWidth(), rectangleSelection.getHeight()) < 2f) {
-	//						break;
-	//					}
-	//
-	//				}
-	//			}
-	//			if (Selection.selection.size() == 0) {
-	//				for (Building o : plateau.buildings) {
-	//					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id == im.team) {
-	//						Selection.selection.add(o);
-	//						Selection.inRectangle.addElement(o);
-	//					}
-	//				}
-	//
-	//			} else {
-	//				Vector<Character> chars = new Vector<Character>();
-	//				for(Objet o : Selection.selection){
-	//					if(o instanceof Character){
-	//						chars.add((Character) o);
-	//					}
-	//				}
-	//
-	//				Utils.triId(chars);
-	//				Selection.selection.clear();
-	//
-	//				for(Character c : chars)
-	//					Selection.selection.add(c);
-	//			}
-	//			
-	//		}
-	//	}
 
-	public static Vector<Objet> getInCamObjets(Camera camera, Plateau plateau) {
+	public static Vector<Objet> getInCamObjets(Plateau plateau) {
 		Vector<Objet> res = new Vector<Objet>();
 
 		for(Objet o : plateau.objets.values()){
-			if(camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
+			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
 				res.add(o);
 			}
 		}
 		return res;
 	}
 
-	public static void updateSelectionCTRL(InputObject im, Camera camera, Plateau plateau) {
-		if (rectangleSelection != null) {
-			Player.selection.clear();;
+	public static void updateSelectionCTRL(InputObject im, Plateau plateau) {
+		if (rectangleSelection == null) {
+			recX=(float) im.x;
+			recY= (float) im.y;
+			rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
+			Player.selection.clear();
 			// handling the selection
 			for (Character o : plateau.characters) {
 				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)) && o.getTeam().id == im.team) {
 					// add character to team selection
 					Player.selection.add(o.id);
+					System.out.println("  characlead");
 				}
 			}
-
 			if (Player.selection.size() == 0) {
-
 				for (Building o : plateau.buildings) {
 					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id ==im.team) {
 						// add character to team selection
@@ -296,7 +212,7 @@ public class Player {
 					}
 				}
 			}
-			Vector<Objet> visibles = getInCamObjets(camera, plateau);
+			Vector<Objet> visibles = getInCamObjets(plateau);
 			if (Player.selection.size() == 1) {
 				Objet ao = plateau.getById(Player.selection.get(0));
 				if (ao instanceof Character) {
@@ -304,6 +220,7 @@ public class Player {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
 							Player.selection.addElement(o.id);
+							System.out.println("    mythe!");
 						}
 					}
 				} else if (ao instanceof Building) {

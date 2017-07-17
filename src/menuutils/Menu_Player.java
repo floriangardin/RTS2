@@ -49,6 +49,10 @@ public class Menu_Player extends Menu_Item implements Serializable{
 	float sizeXPlayers = Game.resX*(2f/3f)-2*startXPlayers;
 	float sizeYPlayers = Game.resY*0.80f-startY;
 	public String nickname;
+	
+	// map for communication
+	public boolean isHost = false;
+	public String idMap = null;
 
 
 	public Menu_Player(int id, int team, String name){

@@ -45,7 +45,12 @@ public class RenderEngine {
 	public static void render(Graphics g, Plateau plateau){
 
 		g.translate(-Camera.Xcam, -Camera.Ycam);
+		// Draw background
 		renderBackground(g, plateau);
+
+		// Draw first layer of event
+		EventHandler.render(g, plateau, false);
+		
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.objets.values()){
 			objets.add(o);
@@ -74,34 +79,17 @@ public class RenderEngine {
 				}
 			}
 		}
-		// 3) Draw fog of war
+		// Draw second layer of event
+		EventHandler.render(g, plateau, true);
+		// Draw fog of war
 		renderDomain(plateau, g, visibleObjets);
-		EventHandler.render(g, plateau);
+		// Draw interface
 		g.translate(Camera.Xcam, Camera.Ycam);
-		// draw interface
-		// 4) Draw bottom bar
 		Interface.draw(g, plateau);
 		ChatHandler.draw(g);
 	}
 	
-	public static void render2(Graphics g, Plateau plateau){
-		g.translate(-Camera.Xcam, -Camera.Ycam);
-		renderBackground(g, plateau);
-		Vector<Objet> objets = new Vector<Objet>();
-		for(Objet o : plateau.objets.values()){
-			objets.add(o);
-		}
-		objets = Utils.triY(objets);
-		// 2) Draw Objects
-		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
-				renderObjet(o, g, plateau);
-			}
-		}
-		EventHandler.render(g, plateau);
-		g.translate(Camera.Xcam, Camera.Ycam);
-		// draw interface
-	}
+	
 
 	public static void renderBackground(Graphics g, Plateau plateau){
 		g.drawImage(Images.get("islandTexture"),0, 0, plateau.maxX, plateau.maxY,

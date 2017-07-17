@@ -23,7 +23,7 @@ public abstract class Bullet extends Objet {
 	public float size;
 	public String soundLaunch;
 
-	public void collision(Building c){
+	public void collision(Objet c, Plateau plateau){
 
 	}
 
