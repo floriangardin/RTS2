@@ -27,7 +27,7 @@ public class GameClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	static final int delay = 4; // Number of delay rounds
+	public static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	
 	public static void init(String ip){
@@ -110,6 +110,12 @@ public class GameClient extends Listener {
 	public static void send(InputObject im){
 		Message m = new Message(im);
 		client.sendUDP(m);
+	}
+	public static void send(Vector<InputObject> ims){
+		for(InputObject im : ims ){			
+			Message m = new Message(im);
+			client.sendUDP(m);
+		}
 	}
 
 	public static int roundForInput(){

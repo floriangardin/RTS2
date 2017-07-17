@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import bot.IA;
 import control.InputObject;
 import control.Player;
 import display.Camera;
@@ -41,7 +42,6 @@ public class WholeGame extends ClassSystem{
 		int yHQ = (int)hq.y;
 		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
-		
 	}
 	
 	@Override
@@ -55,6 +55,8 @@ public class WholeGame extends ClassSystem{
 		try{
 			Input in = gc.getInput();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
+			final Vector<InputObject> iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
+			System.out.println(iaIms.get(0).selection.size());
 			ChatHandler.action(in, im);
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
@@ -62,6 +64,8 @@ public class WholeGame extends ClassSystem{
 			Player.handleSelection(im, GameClient.getPlateau());
 			// Send input for round
 			GameClient.send(im);
+			// Send IA Inputs
+			GameClient.send(iaIms);
 			// Send checksum to server for checking synchro
 			if(GameClient.getRound()>30 && GameClient.getRound()%100==0){			
 				GameClient.send(new Checksum(GameClient.getPlateau()));

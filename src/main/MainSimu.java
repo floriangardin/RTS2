@@ -1,18 +1,19 @@
 package main;
 import java.io.File;
+import java.util.Vector;
 
 import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import bot.IA;
 import control.KeyMapper;
 import control.Player;
-import menu.Lobby;
 import model.Game;
 import model.GameClient;
 import model.GameServer;
 import model.WholeGame;
-import ressources.GraphicElements;
+import mybot.IAInputs;
 
 public class MainSimu {
 	
@@ -28,8 +29,10 @@ public class MainSimu {
 			GameServer.init();
 			GameClient.init("localhost");
 			Player.setTeam(1);
+			Vector<IA> ias = new Vector<IA>();
+			ias.add(new IAInputs(2));
+			IA.init(ias);
 			Game.system = new WholeGame();
-			
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setShowFPS(true);

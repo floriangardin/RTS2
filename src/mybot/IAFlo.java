@@ -5,6 +5,7 @@ import java.util.Vector;
 import bot.IA;
 import bot.IAAllyObject;
 import bot.IAUnit;
+import control.InputObject;
 import data.Attributs;
 import plateau.Plateau;
 import plateau.Team;
@@ -19,13 +20,13 @@ public class IAFlo extends IA{
 	private boolean hasSendMessagePhilippe;
 	private boolean missionRogerLaventurierDone;
 	
-	public IAFlo(Team team, Plateau plateau) {
-		super(team, plateau);
+	public IAFlo(Team team) {
+		super(team);
 	}
 
 	
 	@Override
-	public void update() {
+	public void update(InputObject im) {
 		if(round==30){
 			this.sendMessage("Tu es un traître, tu as vendu des informations aux Japonais");
 		}
@@ -36,27 +37,27 @@ public class IAFlo extends IA{
 			if(target.isNotUnit()){
 				// Si j'ai pas de caserne et que personne n'en target une
 				if(this.getPop()>=this.getMaxPop()){
-					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mine));
+					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mine), im);
 				}
 				else if(!this.has(ObjetsList.Barracks) && !isAlreadyTargeted(ObjetsList.Barracks)){
-					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Barracks));
+					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Barracks), im);
 				}else if(!this.has(ObjetsList.Mill) && !isAlreadyTargeted(ObjetsList.Mill)){
-					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mill));
+					unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mill), im);
 				}else{
 					// Occupy a tower
 					IAUnit nearestTower = unit.getNearestNeutralorEnnemy(ObjetsList.Tower);
 					if(!hasTakenTower && unit.getName()==ObjetsList.Spearman && nearestTower!=null && nearestTower.getGameTeam()!=0 && !this.isAlreadyTargeted(ObjetsList.Tower)){
-						unit.rightClick(nearestTower);
+						unit.rightClick(nearestTower, im);
 					}
 					// Else Attack Head Quarters with all spearmans
 					else if(unit.getName()==ObjetsList.Spearman){
-						unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Headquarters));
+						unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Headquarters), im);
 					}
 					// With archer attack at sight
 					else{
 						IAUnit enemy = unit.getNearestEnemyCharacter();
 						if(enemy!=null){
-							unit.rightClick(enemy);
+							unit.rightClick(enemy, im);
 						}
 					}
 				}
@@ -66,17 +67,17 @@ public class IAFlo extends IA{
 				// Si batiment pris alors arreter et ne rien faire ...
 				if(target.getGameTeam()==this.getPlayer().id){
 					if(target.getName()==ObjetsList.Mill && !missionRogerLaventurierDone ){
-						unit.stop();
-						unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mill));
+						unit.stop(im);
+						unit.rightClick(unit.getNearestNeutralorEnnemy(ObjetsList.Mill), im);
 						this.sendMessage("La mission secrète de Roger commence");
 						missionRogerLaventurierDone = true;
 					}else{
-						unit.stop();
+						unit.stop(im);
 					}
 				}
 				if(target.getName()==ObjetsList.Tower && target.getGameTeam()==0){
 					hasTakenTower = true;
-					unit.stop();
+					unit.stop(im);
 				}
 			}
 		}
@@ -89,7 +90,7 @@ public class IAFlo extends IA{
 				Vector<ObjetsList> productionList = unit.getProductionList();
 				ObjetsList o = findWhatToProduce(productionList);
 				if(this.getAttribut(o,Attributs.foodCost)<this.getFood() && this.getAttribut(o, Attributs.popTaken)<= this.getMaxPop() - this.getPop() ){
-					unit.produce(o);
+					unit.produce(o, im);
 				}
 			}
 		}
@@ -106,7 +107,7 @@ public class IAFlo extends IA{
 			for(IAAllyObject u : inquisitors){
 				// TODO : Find first lancier ?
 				if(u.getTarget()!=enemiesAttackingBarrack.get(0)){
-					u.rightClick(enemiesAttackingBarrack.get(0));
+					u.rightClick(enemiesAttackingBarrack.get(0), im);
 				}
 			}
 		}
@@ -122,7 +123,7 @@ public class IAFlo extends IA{
 			for(IAAllyObject u : inquisitors){
 				// TODO : Find first lancier ?
 				if(u.getTarget()!=enemiesAttackingFarm.get(0)){
-					u.rightClick(enemiesAttackingFarm.get(0));
+					u.rightClick(enemiesAttackingFarm.get(0), im);
 				}	
 			}
 		}
@@ -132,7 +133,8 @@ public class IAFlo extends IA{
 		for(IAAllyObject u: getUnits(ObjetsList.Spearman)){
 			
 		}
-		round++;	
+		round++;
+		return im;	
 	}
 	private ObjetsList findWhatToProduce(Vector<ObjetsList> productionList){
 		//TODO
@@ -154,7 +156,7 @@ public class IAFlo extends IA{
 	}
 	private Vector<IAAllyObject> getMyBuildings(){
 		Vector<IAAllyObject> result = new Vector<IAAllyObject>();
-		for(IAAllyObject u : getUnits()){
+		for(IAAllyObject u : getMyUnits()){
 			if(ObjetsList.getBuildings().contains(u.getName())){
 				result.add(u);
 			}
@@ -163,7 +165,7 @@ public class IAFlo extends IA{
 	}
 	private Vector<IAAllyObject> getMyCharacters(){
 		Vector<IAAllyObject> result = new Vector<IAAllyObject>();
-		for(IAAllyObject u : getUnits()){
+		for(IAAllyObject u : getMyUnits()){
 			if(ObjetsList.getUnits().contains(u.getName())){
 				result.add(u);
 			}
@@ -172,7 +174,7 @@ public class IAFlo extends IA{
 	}
 	private Vector<IAAllyObject> getUnits(ObjetsList o){
 		Vector<IAAllyObject> result = new Vector<IAAllyObject>();
-		for(IAAllyObject u: getUnits()){
+		for(IAAllyObject u: getMyUnits()){
 			if(u.getName()==o){
 				result.add(u);
 			}
@@ -181,7 +183,7 @@ public class IAFlo extends IA{
 	}
 
 	private boolean isAlreadyTargeted(ObjetsList o){
-		for(IAAllyObject u : getUnits()){
+		for(IAAllyObject u : getMyUnits()){
 			if(!u.getTarget().isNull() && u.getTarget().getName()==o){
 				return true;
 			}
@@ -204,6 +206,13 @@ public class IAFlo extends IA{
 			result.add(unit);
 		}
 		return result;
+	}
+
+
+	@Override
+	public InputObject select(InputObject im) throws Exception {
+		// SELECT MY UNITS 
+		return null;
 	}
 	
 	
