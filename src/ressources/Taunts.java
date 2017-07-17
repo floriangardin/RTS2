@@ -16,6 +16,8 @@ public class Taunts {
 
 	public static boolean isPlaying = false;
 
+	private static boolean isInit;
+
 
 	public static void init(){
 		taunts = new HashMap<String, Sound>();
@@ -28,6 +30,7 @@ public class Taunts {
 					//System.out.println("taunt créé : " + files[i].getName());
 				}	
 			} 
+			isInit = true;
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -35,14 +38,16 @@ public class Taunts {
 
 	public static void playTaunt(String s){
 		if(taunts.containsKey(s) && !isPlaying){
-			Musics.getPlayingMusic().setVolume(0.05f);
+			if(Musics.getPlayingMusic()!=null){
+				Musics.getPlayingMusic().setVolume(0.05f);
+			}
 //			this.game.musics.multi.setVolume(0.05f);
 			taunts.get(s).play(1f, Options.musicVolume);
 			isPlaying = true;
 		}
 	}
 
-	public void update(){
+	public static void update(){
 		if(isPlaying==false){
 			return;
 		}
@@ -52,6 +57,13 @@ public class Taunts {
 			}
 		}
 		isPlaying = false;
-		Musics.getPlayingMusic().setVolume(Options.musicVolume);
+		if(Musics.getPlayingMusic()!=null){
+			Musics.getPlayingMusic().setVolume(Options.musicVolume);
+		}
+	}
+
+	public static boolean isInit() {
+		// TODO Auto-generated method stub
+		return isInit;
 	}
 }

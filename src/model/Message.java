@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import control.InputObject;
 import menuutils.Menu_Player;
+import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
@@ -13,6 +14,7 @@ public class Message implements Serializable{
 	public final transient static int INPUTOBJECT = 1;
 	public final transient static int CHECKSUM = 2;
 	public final transient static int MENUPLAYER = 3;
+	public final transient static int CHATMESSAGE = 4;
 	
 	private byte[] objet ;
 	private int type = -1;
@@ -33,6 +35,10 @@ public class Message implements Serializable{
 	public Message(Menu_Player connectionId){
 		objet = Serializer.serialize(connectionId);
 		type = MENUPLAYER;
+	}
+	public Message(ChatMessage message){
+		objet = Serializer.serialize(message);
+		type = CHATMESSAGE;
 	}
 	
 	public int getType(){
