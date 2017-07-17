@@ -57,7 +57,6 @@ public class WholeGame extends ClassSystem{
 			Input in = gc.getInput();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
 			final Vector<InputObject> iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
-			System.out.println(iaIms.get(0).selection.size());
 			ChatHandler.action(in, im);
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
