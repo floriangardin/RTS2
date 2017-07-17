@@ -14,14 +14,15 @@ public class EventBurningArea extends Event{
 	
 	public float size;
 
-	public EventBurningArea(Objet parent, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+	public EventBurningArea(Objet parent, Plateau plateau) {
+		super(parent, plateau);
 		// TODO Auto-generated constructor stub
 		this.size = ((BurningArea)parent).size;
 	}
 
+
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		// TODO Auto-generated method stub
 		Image im = Images.get("magma").getScaledCopy((int)(2*size), (int)(2*size));
 		float alpha = (((BurningArea)parent).totalTime-((BurningArea)parent).remainingTime)/(((BurningArea)parent).startTime*((BurningArea)parent).remainingTime);

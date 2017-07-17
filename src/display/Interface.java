@@ -439,8 +439,6 @@ public class Interface {
 			Utils.drawNiceRect(g,  team.color, 
 					startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 		}
-
-
 	}
 
 	public static void drawActionInterface(Graphics g, Plateau plateau){
@@ -456,7 +454,6 @@ public class Interface {
 		float x = 0;
 		startYActionBar = Game.resY - sizeYActionBar - sizeYSelectionBar;
 		startY2 = Game.resY - sizeYSelectionBar;
-
 		//		for(int i= 0 ; i<prodIconNbY; i++){
 		//			for(int j= 0 ; j<prodIconNbX; j++){
 		//				toDrawDescription[i][j] = false;
@@ -465,7 +462,6 @@ public class Interface {
 
 		imageGold = Images.get("imagegolddisplayressources");
 		imageFood = Images.get("imagefooddisplayressources");
-
 
 		// Draw the potential actions
 		// Draw Separation (1/3 1/3 1/3) : 
@@ -488,9 +484,7 @@ public class Interface {
 			g.fillRect(x+2f+sizeXActionBar, yActionBar+2f + i*sizeXActionBar, -7f+sizeXActionBar, -7f+sizeXActionBar);
 		}
 		g.setColor(Color.white);
-
 		Vector<Integer> selection = Player.selection;
-
 		// Draw Production/Effect Bar
 		if(selection.size()>0 && plateau.getById(selection.get(0)) instanceof Building){
 			mouseOnActionBar = true;
@@ -522,7 +516,6 @@ public class Interface {
 					g.translate(-sizeXActionBar, 0f);
 				}
 			}
-
 
 
 			g.translate(sizeXActionBar, 0f);

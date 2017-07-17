@@ -18,12 +18,14 @@ public class Lobby {
 	public static boolean multiplayer = false;
 	public static boolean host = false;
 	public static String idCurrentMap;
+	private static boolean isInit = false;
 	
 	
 	public static void init(){
 		//players = new Vector<Menu_Player>();
 		maps = Map.maps();
 		idCurrentMap = maps.get(0);
+		isInit = true;
 	}
 	
 	public static boolean checkStartGame(){
@@ -44,6 +46,11 @@ public class Lobby {
 			Menu_Player mp = new Menu_Player(mpMessage.id, mpMessage.team, mpMessage.nickname);
 			Lobby.players.add(mp);
 		}
+	}
+
+	public static boolean isInit() {
+		// TODO Auto-generated method stub
+		return isInit;
 	}
 
 }

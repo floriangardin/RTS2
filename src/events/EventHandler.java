@@ -13,7 +13,6 @@ public class EventHandler {
 
 	private static Vector<Event> events = new Vector<Event>();
 	private static Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
-	private static Camera camera;
 	private static boolean isInit;
 
 	public static void init(){
@@ -22,14 +21,21 @@ public class EventHandler {
 		isInit=true;
 	}
 	
-	public static void render(Graphics g){
+
+	public static void render(Graphics g, Plateau plateau, boolean topLayer){
 		Vector<Event> toRemove1 = new Vector<Event>();
 		for(Event e : events){
-			if(!e.play(g)){
+			if(e.topLayer!=topLayer){
+				continue;
+			}
+			if(!e.play(g, plateau)){
 				toRemove1.addElement(e);
 			}
 		}
 		events.removeAll(toRemove1);
+		if(!topLayer){
+			return;
+		}
 		Vector<DisplayRessources> toRemove2 = new Vector<DisplayRessources>();
 		for(DisplayRessources dr : displayRessources ){
 			dr.update();
@@ -45,7 +51,7 @@ public class EventHandler {
 		if(!isInit){
 			return;
 		}
-		events.addElement(name.createEvent(parent, plateau, camera));
+		events.addElement(name.createEvent(parent, plateau));
 	}
 	
 	public static void addDisplayRessources(DisplayRessources dr, Plateau plateau){
@@ -62,10 +68,10 @@ public class EventHandler {
 		events.addElement(event);
 	}
 	
-	public static Vector<Event> getNewEvents(){
+	public static Vector<Event> getNewEvents(Plateau plateau){
 		Vector<Event> res = new Vector<Event>();
 		for(Event e: events){
-			if(e.isNewEvent()){
+			if(e.isNewEvent(plateau)){
 				res.add(e);
 			}
 		}

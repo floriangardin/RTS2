@@ -22,8 +22,9 @@ public class EventDeath extends Event{
 	private Image im;
 	private float duration = 5f;
 	
-	public EventDeath(Objet parent, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+	public EventDeath(Objet parent, Plateau plateau) {
+		super(parent, plateau);
+		this.topLayer = true;
 		x = parent.x;
 		y = parent.y;
 		color = parent.getTeam().color;
@@ -46,7 +47,7 @@ public class EventDeath extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		// draw shadow of unit
 		this.playSound();
 		delta_y+=3.5f;

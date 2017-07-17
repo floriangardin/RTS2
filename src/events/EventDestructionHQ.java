@@ -31,16 +31,17 @@ public class EventDestructionHQ extends Event{
 	private int dureeExplosion =(int) (0.5*Main.framerate);
 	private int width, height;
 
-	public EventDestructionHQ(Objet parent, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+	public EventDestructionHQ(Objet parent, Plateau plateau) {
+		super(parent, plateau);
+		this.topLayer = true;
 		width = (int) (Images.get("animation-explosion").getWidth()/5f);
 		height = (int) (Images.get("animation-explosion").getHeight()/2f);
 		this.images = new Vector<Image>();
 		for(int i=0; i<4; i++){
 			this.images.add(Images.get("animation-explosion").getSubImage(width*i, 0, width, height));
 		}
-		camera.Xcam += ((Math.random()-0.5f)*3);
-		camera.Ycam += ((Math.random()-0.5f)*3);
+		Camera.Xcam += ((Math.random()-0.5f)*3);
+		Camera.Ycam += ((Math.random()-0.5f)*3);
 		xExplosion = new float[]{parent.x-Map.stepGrid, 
 								 parent.x, 
 								 parent.x+Map.stepGrid*2f,
@@ -59,7 +60,7 @@ public class EventDestructionHQ extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		if(this.remainingTime==this.totalRemainingTime){
 			Sounds.playSound("destructionBuilding");
 		}

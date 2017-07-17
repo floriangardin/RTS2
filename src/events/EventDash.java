@@ -12,8 +12,8 @@ import ressources.Sounds;
 
 public class EventDash extends Event{
 	
-	public EventDash(Objet parent, Plateau plateau, Camera camera) {
-		super(parent, plateau, camera);
+	public EventDash(Objet parent, Plateau plateau) {
+		super(parent, plateau);
 		// TODO Auto-generated constructor stub
 		if(parent.getTarget(plateau)!=null && parent.getTarget(plateau) instanceof Character && parent.getTarget(plateau).getTeam()!=parent.getTeam()){
 			Sounds.playSound("dash_shot");
@@ -24,7 +24,7 @@ public class EventDash extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g) {
+	public boolean play(Graphics g, Plateau plateau) {
 		// TODO Auto-generated method stub
 		// On fait des lignes blanches derrière le mec
 		// Get direction vector
@@ -36,7 +36,7 @@ public class EventDash extends Event{
 			//g.fillRect(parent.x+100*signe-50*Math.abs(i-2)*signe+((float)Math.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
 		}
 		
-		g.rotate(parent.x, parent.y, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
+		g.rotate(parent.x, parent.y-50f, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
 
 		return parent.inDash>0f;
 	}

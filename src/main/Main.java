@@ -8,6 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.Log;
 
+import events.EventHandler;
 import model.Game;
 
 public class Main {
@@ -16,9 +17,7 @@ public class Main {
 	public static int framerate = 60;
 	public static int nDelay = 0;
 	///////\\\\\\\\\
-	
 	public static float increment = 0.1f*30/Main.framerate;
-	
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -32,6 +31,7 @@ public class Main {
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
+			
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
 			app.setDisplayMode(resolutionX, resolutionY,false);

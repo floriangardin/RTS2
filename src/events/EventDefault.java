@@ -10,24 +10,27 @@ import ressources.Sounds;
 
 public class EventDefault extends Event{
 
-	public EventDefault(Objet parent, String s, Plateau plateau, Camera camera, EventNames name){
-		super(parent, plateau, camera);
+	public EventDefault(Objet parent, String s, Plateau plateau, EventNames name){
+		super(parent, plateau);
 		this.name = name;
+		this.topLayer = true;
 		this.sounds.add(s);
 	}
 	
-	public EventDefault(Objet parent, String s, Plateau plateau, Camera camera){
-		super(parent, plateau, camera);
+	public EventDefault(Objet parent, String s, Plateau plateau){
+		super(parent, plateau);
 		this.sounds.add(s);
 	}
 	
-	public boolean play(Graphics g){
+	@Override
+	public boolean play(Graphics g, Plateau plateau){
 		// Calculate intensity in function of options and distance to scene
 		playSound();
 		return false;
 	}
 
 	public void draw(Graphics g) {}
+
 	
 	
 }

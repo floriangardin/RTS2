@@ -13,11 +13,10 @@ public class Musics {
 	
 	public static Music musicPlaying = null;
 	
-	private static HashMap<String, Music> musics;
+	private final static HashMap<String, Music> musics = new HashMap<String, Music>();
 	
 	public static void init(){
 		// loading musics
-		musics = new HashMap<String, Music>();
 		loadRepertoire("ressources/musics/");
 	}
 

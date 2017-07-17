@@ -1,46 +1,47 @@
 package model;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.io.File;
 import java.util.Vector;
 
-import org.lwjgl.LWJGLUtil;
-import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.loading.LoadingList;
 
 import control.InputObject;
-import control.KeyMapper;
 import control.Player;
 import display.Camera;
 import display.Interface;
 import menu.Lobby;
+import multiplaying.ChatHandler;
 import multiplaying.Checksum;
+import plateau.Objet;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
-import ressources.GraphicElements;
-import ressources.Images;
 import ressources.Map;
-import ressources.Musics;
-import ressources.Sounds;
-import ressources.Taunts;
 import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
 	
 	public WholeGame() {
 		// TODO Auto-generated method stub
-		GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
+		if(Lobby.isInit()){			
+			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
+		}else{
+			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+		}
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
-		Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		// Put camera at the center of headquarter
+		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
+		int xHQ =(int) hq.x;
+		int yHQ = (int)hq.y;
+		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
 		Interface.init(plateau);
+		
 	}
+	
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		if(Game.endSystem != null){
@@ -51,8 +52,8 @@ public class WholeGame extends ClassSystem{
 		// Get Control
 		if(GameClient.slowDown>0){// Make it generic for n players 
 			System.out.println("Slowing down : "+GameClient.slowDown);
-			gc.setMinimumLogicUpdateInterval((1+1)*16);
-			gc.setMaximumLogicUpdateInterval((1+1)*16);
+			gc.setMinimumLogicUpdateInterval(32);
+			gc.setMaximumLogicUpdateInterval(32);
 			GameClient.slowDown=0;
 		}else{
 			gc.setMinimumLogicUpdateInterval(16);
@@ -60,8 +61,10 @@ public class WholeGame extends ClassSystem{
 		}
 		GameClient.mutex.lock();
 		try{
-			final InputObject im = new InputObject(gc.getInput(), Player.getTeamId(), GameClient.roundForInput());
-
+			Input in = gc.getInput();
+			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
+			ChatHandler.action(in, im);
+			
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
 			// Update selection in im.selection
@@ -100,9 +103,11 @@ public class WholeGame extends ClassSystem{
 		finally{
 			GameClient.mutex.unlock();
 			if(RenderEngine.isReady()){
-				RenderEngine.render(g, GameClient.getPlateau());	
+				RenderEngine.render(g, GameClient.getPlateau());
+				
 			} else {
 				SimpleRenderEngine.render(g, GameClient.getPlateau());
+				
 			}
 		}
 		

@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Shape;
 import bonus.Bonus;
 import data.Attributs;
 import data.AttributsChange;
+import events.EventAttackDamage;
 import events.EventHandler;
 import events.EventNames;
 import main.Main;
@@ -200,7 +201,7 @@ public abstract class Objet implements java.io.Serializable {
 
 	public void setLifePoints(float lifepoints, Plateau plateau){
 		if(lifepoints<this.lifePoints && this instanceof Character){
-			EventHandler.addEvent(EventNames.Blood, this, plateau);
+			EventHandler.addEvent(new EventAttackDamage(this, (int)(this.lifePoints-lifepoints), plateau), plateau);
 		}
 		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
 			this.lifePoints= lifepoints;

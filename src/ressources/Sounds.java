@@ -14,12 +14,11 @@ import utils.ObjetsList;
 public class Sounds {
 	// STORE ALL THE SOUNDS
 
-	private static HashMap<String, Sound> sounds;
+	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 	private static HashMap<String, HashMap<String, Vector<Sound>>> soundsUnit;
 
 	public static void init(){
 		// loading sounds
-		sounds = new HashMap<String, Sound>();
 		loadRepertoire("ressources/sounds/");
 
 		// loading soundsUnit
