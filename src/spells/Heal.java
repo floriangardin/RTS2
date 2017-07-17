@@ -67,10 +67,11 @@ public class Heal extends SpellEffect{
 		return g;
 	}
 
-	public void collision(Character c){
+	@Override
+	public void collision(Character c, Plateau plateau){
 		// Si on est suffisamment dedans on reste bloqué
 		if(c.getTeam()==this.getTeam()){
-			c.setLifePoints(c.lifePoints+1f);
+			c.setLifePoints(c.lifePoints+1f, plateau);
 		}
 	}
 

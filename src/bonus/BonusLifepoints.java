@@ -32,7 +32,7 @@ public class BonusLifepoints extends Bonus{
 
 	public void collision(Character c, Plateau plateau){
 		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.getAttribut(Attributs.maxLifepoints)){
-			c.setLifePoints(c.lifePoints+this.bonus);
+			c.setLifePoints(c.lifePoints+this.bonus, plateau);
 			this.bonusPresent =false;
 			this.state = 0f;
 			this.setTeam(0, plateau);

@@ -48,14 +48,14 @@ public class Immolation extends SpellEffect{
 		this.remainingTime-=1f/Main.framerate;
 		Objet owner = this.getOwner(plateau);
 		if(owner!=null){			
-			owner.setLifePoints(owner.lifePoints-step);
+			owner.setLifePoints(owner.lifePoints-step, plateau);
 		}
 		if(owner!=null && this.remainingTime-1f/Main.framerate<=0f){
 			// Test if explosion
 			if(getOwner(plateau).getAttribut(Attributs.explosionWhenImmolate)==1){
 				for(Character c : plateau.characters){
 					if(Utils.distance(c, this.getOwner(plateau))<100f && c!=this.getOwner(plateau)){
-						c.setLifePoints(c.lifePoints-20f);
+						c.setLifePoints(c.lifePoints-20f, plateau);
 					}
 				}
 			}

@@ -67,6 +67,9 @@ public class GameClient extends Listener {
 								Lobby.addPlayer(mpMessage);
 							}
 						}
+						if(mpMessage.isHost && mpMessage.id!=Player.getID()){
+							Lobby.idCurrentMap = mpMessage.idMap;
+						}
 					}
 				}else if(o instanceof Integer){
 					slowDown = (Integer) o;

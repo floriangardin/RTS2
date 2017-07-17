@@ -758,20 +758,13 @@ public class Plateau implements java.io.Serializable {
 								c.spellsState.set(number, 0f);
 								
 							}
-							// switching selection
-							int compteur = 0;
-							while(im.selection.size()>compteur && this.getById(im.selection.get(compteur)).name==c.name){
-								compteur++;
-							}
-							im.selection.insertElementAt(c.id, compteur);
-							im.selection.remove(0);
 						}
 					}
 				}
 		}
-		if(im.spell!=null && im.selection.size()>0){
+		if(im.spell!=null && im.idSpellLauncher > -1){
 			Spell s = teams.get(im.team).data.getSpell(im.spell);
-			Character c = ((Character) this.getById(im.selection.get(0)));
+			Character c = ((Character) this.getById(im.idSpellLauncher));
 			if(im.idObjetMouse!=-1){
 				s.launch(getById(im.idObjetMouse), c, this);
 			} else {
@@ -782,13 +775,7 @@ public class Plateau implements java.io.Serializable {
 					c.spellsState.set(i, 0f);
 				}
 			}
-			// switching selection
-			int compteur = 0;
-			while(im.selection.size()>compteur && this.getById(im.selection.get(0)).name==c.name){
-				compteur++;
-			}
-			im.selection.insertElementAt(c.id, compteur);
-			im.selection.remove(0);
+
 		}
 
 	}

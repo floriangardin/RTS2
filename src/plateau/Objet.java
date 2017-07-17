@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Shape;
 import bonus.Bonus;
 import data.Attributs;
 import data.AttributsChange;
+import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import spells.Etats;
@@ -197,9 +198,9 @@ public abstract class Objet implements java.io.Serializable {
 		return this.lifePoints>0f;
 	}
 
-	public void setLifePoints(float lifepoints){
+	public void setLifePoints(float lifepoints, Plateau plateau){
 		if(lifepoints<this.lifePoints && this instanceof Character){
-			//Game.g.triggerEvent(EventNames.Blood, this);
+			EventHandler.addEvent(EventNames.Blood, this, plateau);
 		}
 		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
 			this.lifePoints= lifepoints;

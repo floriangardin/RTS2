@@ -59,10 +59,10 @@ public class Arrow extends Bullet{
 			}
 			if(c.getAttribut(Attributs.armor)<=damage){
 //				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
-				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
+				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
 			}
 			c.isAttacked();
-			this.setLifePoints(-1f);
+			this.setLifePoints(-1f, plateau);
 		}
 
 	}
@@ -81,7 +81,7 @@ public class Arrow extends Bullet{
 		
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
 		if(this.x>plateau.maxX || this.x<0 || this.y>plateau.maxY||this.y<0){
-			this.setLifePoints(-1f);
+			this.setLifePoints(-1f, plateau);
 		}
 	}
 

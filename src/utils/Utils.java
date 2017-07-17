@@ -471,25 +471,25 @@ public class Utils {
 		}
 	}
 
-	public static void switchTriName(Vector<Objet> liste){
+	public static void switchTriName(Vector<Integer> liste, Plateau plateau){
 		if(liste == null || liste.size()==0){
 			return;
 		}
-		String name = liste.get(0).name.name();
+		String name = plateau.getById(liste.get(0)).name.name();
 		boolean useful = false;
-		for(Objet a: liste)
-			if(!a.name.name().equals(name))
+		for(Integer a: liste)
+			if(!plateau.getById(a).name.name().equals(name))
 				useful = true;
-		Objet buffer;
+		Integer buffer;
 		if(!useful){
 			buffer = liste.get(0);
 			liste.remove(0);
 			liste.add(buffer);
 			return;
 		}
-		while(liste.get(0).name.name().equals(name)){
+		while(plateau.getById(liste.get(0)).name.name().equals(name)){
 			buffer = liste.get(0);
-			liste.remove(0);
+			liste.removeElementAt(0);
 			liste.add(buffer);
 		}
 

@@ -208,7 +208,7 @@ public class Character extends Objet{
 			float damage = computeDamage(c);
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
-				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage);
+				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
 			
 			}			
 		} else {

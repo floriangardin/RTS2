@@ -18,6 +18,7 @@ import org.newdawn.slick.loading.DeferredResource;
 import org.newdawn.slick.loading.LoadingList;
 
 import control.KeyMapper;
+import events.EventHandler;
 import main.Main;
 import model.Game;
 import model.Options;
@@ -113,6 +114,7 @@ public class IntroSystem extends ClassSystem{
 		Sounds.init();
 		GraphicElements.init();
 		Images.init();
+		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
 		Taunts.init();

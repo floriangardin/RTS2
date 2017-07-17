@@ -186,7 +186,9 @@ public class Interface {
 					} else {
 						im.idObjetMouse = -1;
 					} 
-
+					Integer buffer = Player.selection.get(0);
+					Player.selection.removeElementAt(0);
+					Player.selection.add(buffer);
 					resetCurrentSpell();
 				}
 				im.pressed.remove(KeyEnum.LeftClick);

@@ -98,6 +98,7 @@ public class MenuMapChoice extends Menu {
 		case 1:
 			// retour
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
+			GameServer.close();
 			break;
 		default:		
 		}
@@ -166,6 +167,10 @@ public class MenuMapChoice extends Menu {
 				if(mp.id==Player.getID()){
 					mp.update(im);
 					Player.setTeam(mp.team);
+					if(GameServer.hasLaunched){
+						mp.isHost = true;
+						mp.idMap = Lobby.idCurrentMap;
+					}
 					GameClient.send(mp);
 				}
 			}

@@ -16,10 +16,9 @@ public class EventHandler {
 	private static Camera camera;
 	private static boolean isInit;
 
-	public static void init(Plateau plateau, Camera camera){
+	public static void init(){
 		events = new Vector<Event>();
 		displayRessources = new Vector<DisplayRessources>();
-		EventHandler.camera = camera;
 		isInit=true;
 	}
 	

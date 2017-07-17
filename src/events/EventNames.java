@@ -24,6 +24,7 @@ public enum EventNames {
 	Meditation, 
 	AttackDamageNormal, 
 	DestructionTower, 
+	BurningArea,
 	DestructionHQ;
 	
 	
@@ -65,6 +66,8 @@ public enum EventNames {
 			return new EventBlood(parent, plateau, camera);
 		case DestructionTower:
 			return new EventDestructionTour(parent, plateau, camera);
+		case BurningArea:
+			return new EventBurningArea(parent, plateau, camera);
 		case DestructionHQ:
 			return new EventDestructionHQ(parent, plateau, camera);
 		default:

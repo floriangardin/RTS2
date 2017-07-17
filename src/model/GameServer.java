@@ -49,6 +49,11 @@ public class GameServer extends Listener {
 		GameServer.init();
 	}
 	
+	public static void close(){
+		server.close();
+		hasLaunched = false;
+	}
+	
 	public void connected(Connection c){
 		// If connection send plateau to id
 		System.out.println("Connection received.");
@@ -119,6 +124,7 @@ public class GameServer extends Listener {
 		//System.out.println("max round : "+maxRound+ " min : "+minRound+ " d "+deltaRound);
 		return true;
 	}
+	
 
 	public void disconnected(Connection c){
 		System.out.println("Connection dropped.");

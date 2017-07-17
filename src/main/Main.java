@@ -25,8 +25,8 @@ public class Main {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = (int)screenSize.getWidth();
-		int resolutionY = (int)screenSize.getHeight();
+		int resolutionX = (int)screenSize.getWidth()/2;
+		int resolutionY = (int)screenSize.getHeight()/2;
 		try {
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
@@ -34,8 +34,8 @@ public class Main {
 			app.setIcon("ressources/images/danger/iconeJeu.png");
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
-			app.setDisplayMode(resolutionX, resolutionY,true);
-			app.setAlwaysRender(false);
+			app.setDisplayMode(resolutionX, resolutionY,false);
+			app.setAlwaysRender(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
 			app.setVSync(true);
