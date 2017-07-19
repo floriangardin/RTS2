@@ -2,32 +2,53 @@ package bot;
 
 import java.util.Vector;
 
+import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import data.Attributs;
-import model.Game;
 import plateau.Building;
 import plateau.Character;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
-public abstract class IA {
-	
+public abstract class IA{
 	/*
 	 * Tous les objectifs sont réalisés en même temps mais ne peut réalisé qu'un objectif à la fois
 	 */
-	
+	public final static Vector<IA> ias = new Vector<IA>();
+	public static boolean isInit = false;
 	private Vector<IAAllyObject> units;
 	private Vector<IAUnit> enemies;
 	private Vector<IAUnit> nature;
-	Plateau plateau;
 	
+	private Vector<IAAllyObject> selection;
+	Plateau plateau;
+	private int teamId;
 	private Team player;
-		
-	public IA(Team team, Plateau plateau) {
-		this.player = team;
+	
+	InputObject im;
+	public static Vector<InputObject> play(Plateau plateau, int roundToPlay){
+		Vector<InputObject> ims = new Vector<InputObject>();
+		for(IA ia : ias){
+			ims.add(ia.action(plateau, roundToPlay));
+		}
+		return ims;
+	}
+	public static void init(Vector<IA> toAdd){
+		for(IA ia : toAdd){
+			ias.add(ia);
+		}
+		isInit = true;
+	}
+	
+	public Vector<IAAllyObject> getSelection(){
+		return selection;
+	}
+	public IA(int teamid)  {
+		this.teamId= teamid;
 		units = new Vector<IAAllyObject>();
 		enemies = new Vector<IAUnit>();
 		nature = new Vector<IAUnit>();
-		this.plateau = plateau;
+		selection = new Vector<IAAllyObject>();
 		
 		// Create ennemy static IA
 		// Contain all the objects visible by the IA
@@ -38,11 +59,24 @@ public abstract class IA {
 	/*
 	 * Renvoie les units , peut-être faire une copie du vecteur à terme par sécurité
 	 */
-	public Vector<IAAllyObject> getUnits(){
+	public Vector<IAAllyObject> getMyUnits(){
 		/*
 		 * Return objects of my team
 		 */
 		return units;
+	}
+	
+	public Vector<IAAllyObject> getMyUnits(ObjetsList filter){
+		/*
+		 * Return objects of my team
+		 */
+		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
+		for(IAAllyObject unit: units ){
+			if(unit.getName() == filter){
+				res.add(unit);
+			}
+		}
+		return res;
 	}
 	
 	public Vector<IAUnit> getEnemies(){
@@ -50,6 +84,19 @@ public abstract class IA {
 		 * Return objects of enemy team
 		 */
 		return enemies;
+	}
+	
+	public Vector<IAUnit> getEnnemies(ObjetsList filter){
+		/*
+		 * Return objects of my team
+		 */
+		Vector<IAUnit> res = new Vector<IAUnit>();
+		for(IAUnit unit: this.enemies ){
+			if(unit.getName() == filter){
+				res.add(unit);
+			}
+		}
+		return res;
 	}
 	public Vector<IAUnit> getNature(){
 		/*
@@ -68,13 +115,22 @@ public abstract class IA {
 	/*
 	 * Method always called when IA is awaken
 	 */
-	public void action(Plateau plateau){
+	public InputObject initForRound(Plateau plateau, int roundToPlay){
+		if(player==null){
+			for(Team team : plateau.teams){
+				if(team.id==teamId){
+					this.player = team;
+				}
+			}
+		}
+		InputObject toReturn = new InputObject(player.id, roundToPlay);
 		this.plateau = plateau;
+		this.selection.clear();
 		this.units.clear();
 		this.nature.clear();
 		this.enemies.clear();
 		if(plateau.round<5){
-			return;
+			return toReturn;
 		}
 		//Update IA Objects
 		for(Character c : plateau.characters){
@@ -97,24 +153,139 @@ public abstract class IA {
 				this.enemies.addElement(new IAUnit(b,this, plateau));
 			}
 		}
-		
+		return toReturn;
+	}
+	
+	public InputObject action(Plateau plateau, int roundToPlay){
+		im = initForRound(plateau, roundToPlay); // Input object to return at the end of turn
 		// Call abstract method to overrides
 		try {
-			this.update();
+			this.selection = this.select();
+			this.selectUnits(this.selection);
+			if(this.selection.size()>0){				
+				this.update(this.getSelection());
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			//alert("Error in IA ... "+e.toString());
 			e.printStackTrace();
 		}
+		return im;
 	}
 	
-
 	public float getAttributs(ObjetsList o, Attributs a){
 		return this.player.data.getAttribut(o, a);
 	}
+	public void selectUnits(Vector<IAAllyObject> units){
+		im.selection = new Vector<Integer>();
+		for(IAAllyObject unit : units){
+			im.selection.add(unit.getId());
+		}
+	}
+	public void rightClick(float x, float y){
+		im.rightClick(x, y);
+	}
+	public void rightClick(IAUnit unit){
+		im.rightClick(unit.getX(), unit.getY());
+	}
+	public void stopMove(){
+		im.pressed.add(KeyEnum.StopperMouvement);
+	}
+	public  void attack(float x , float y){
+		im.attack(x, y);
+	}; // attack move
 	
-	public abstract void update() throws Exception;
+	public  void produceUnit(ObjetsList production){
+		// Check price of unit first
+		if(this.selection.get(0).objet instanceof Building){
+			if(this.selection.get(0).getProductionList().contains(production)){
+				int index = this.selection.get(0).getProductionList().indexOf(production);
+				switch(index){
+				case 0:
+					im.pressed.add(KeyEnum.Prod0);
+					break;
+				case 1:
+					im.pressed.add(KeyEnum.Prod1);
+					break;
+				case 2:
+					im.pressed.add(KeyEnum.Prod2);
+					break;
+				case 3:
+					im.pressed.add(KeyEnum.Prod3);
+					break;
+				default:
+					break;
+				}
+			}
+		}else{
+			//Communications.sendMessage(new ChatMessage("1|Warning : Tried to produce not in a building ..."));
+		}
+	}; // Produce unit
+	public  void produceTechnology(ObjetsList tech){
+		if(this.selection.get(0).objet instanceof Building){
+			int index = this.selection.get(0).getResearchList().indexOf(tech);
+			switch(index){
+			case 0:
+				im.pressed.add(KeyEnum.Tech0);
+				break;
+			case 1:
+				im.pressed.add(KeyEnum.Tech1);
+				break;
+			case 2:
+				im.pressed.add(KeyEnum.Tech2);
+				break;
+			case 3:
+				im.pressed.add(KeyEnum.Tech3);
+				break;
+			default:
+				break;
+			}
+		}else{
+			//Communications.sendMessage(new ChatMessage("1|Warning : Tried to research not in a building ..."));
+		}
+	}; // Produce research
 	
+	public void produce(ObjetsList o, InputObject im){
+		produceUnit(o);
+		produceTechnology(o);
+	}
+	
+	public void launchSpell(float x , float y,ObjetsList spell){
+		
+		if(this.selection.get(0).objet instanceof Character ){
+			Character c = (Character) this.selection.get(0).objet;
+			if(c.getSpellsName().contains(spell)){
+				int index = this.selection.get(0).getSpells().indexOf(spell);
+				im.x = x;
+				im.y = y;
+				switch(index){
+				case 0:
+					im.pressed.add(KeyEnum.Prod0);
+					break;
+				case 1:
+					im.pressed.add(KeyEnum.Prod1);
+					break;
+				case 2:
+					im.pressed.add(KeyEnum.Prod2);
+					break;
+				case 3:
+					im.pressed.add(KeyEnum.Prod3);
+					break;
+				default:
+					break;
+				}
+				
+			}
+			
+		}
+	}
+	
+	public void launchSpell(IAUnit target,ObjetsList spell){
+		launchSpell(target.getX(), target.getY(), spell);
+	}
+	
+	public abstract void update(Vector<IAAllyObject> selection) throws Exception;
+	public abstract Vector<IAAllyObject> select() throws Exception;
 	
 	/*Find an unit on a mouse click
 	 * 
@@ -240,7 +411,7 @@ public abstract class IA {
 	public Vector<IAAllyObject> getMyProducers(ObjetsList o){
 		Vector<ObjetsList> res = getProducers(o);
 		Vector<IAAllyObject> toReturn = new Vector<IAAllyObject>();
-		for(IAAllyObject u : getUnits()){
+		for(IAAllyObject u : getMyUnits()){
 			for(ObjetsList ol : res){
 				if(u.getName()==ol ){
 					toReturn.add(u);
@@ -257,7 +428,7 @@ public abstract class IA {
 	 * Look if we have the object or the tech
 	 */
 	public boolean has(ObjetsList o){
-		for(IAUnit u : getUnits()){
+		for(IAUnit u : getMyUnits()){
 			if(u.getName()==o){
 				return true;
 			}
@@ -275,7 +446,7 @@ public abstract class IA {
 	 * Check if we have at least one of the Object at our command
 	 */
 	public boolean hasOneOf(Vector<ObjetsList> o){
-		for(IAUnit u : getUnits()){
+		for(IAUnit u : getMyUnits()){
 			for(ObjetsList ol : o){
 				if(u.getName()==ol){
 					return true;

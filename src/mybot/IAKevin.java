@@ -62,7 +62,7 @@ public class IAKevin extends IA {
 	}
 
 	public void initBuildings(){
-		IAUnit iau = this.getUnits().get(0);
+		IAUnit iau = this.getMyUnits().get(0);
 		allyCaserne = iau.getNearestNeutral(ObjetsList.Barracks);
 		allyMine = iau.getNearestNeutral(ObjetsList.Mine);
 		allyFarm = iau.getNearestNeutral(ObjetsList.Mill);
@@ -142,7 +142,7 @@ public class IAKevin extends IA {
 		}
 		//handle dead people
 		Vector<Integer> alive = new Vector<Integer>();
-		for(IAAllyObject iao : this.getUnits()){
+		for(IAAllyObject iao : this.getMyUnits()){
 			alive.add(iao.getId());
 		}
 		Vector<Integer> toRemove = new Vector<Integer>();
@@ -156,7 +156,7 @@ public class IAKevin extends IA {
 				v.removeElement(i);
 			}
 		}
-		for(IAAllyObject iao : this.getUnits()){
+		for(IAAllyObject iao : this.getMyUnits()){
 			if(iao.getName()!=ObjetsList.Spearman){
 				unemployed.add(iao);
 				continue;
@@ -245,7 +245,7 @@ public class IAKevin extends IA {
 
 	public void refreshIsOnFire(){
 		isOnFire.clear();
-		for(IAAllyObject iao : getUnits()){
+		for(IAAllyObject iao : getMyUnits()){
 			if(iao.getName()==ObjetsList.Inquisitor){
 				if(temp.containsKey(iao.getId())){
 					if(temp.get(iao.getId())!=iao.getLifepoints()){
@@ -260,12 +260,12 @@ public class IAKevin extends IA {
 	@Override
 	public void update() {
 		round++;
-		if(getUnits().size()==0){
+		if(getMyUnits().size()==0){
 			return;
 		}
 		nbInquisitor=0;
 		nbSpearman=0;
-		for(IAAllyObject iao : getUnits()){
+		for(IAAllyObject iao : getMyUnits()){
 			if(iao.getName()==ObjetsList.Spearman)
 				nbSpearman+=1;
 			if(iao.getName()==ObjetsList.Inquisitor)
@@ -289,7 +289,7 @@ public class IAKevin extends IA {
 		if(enemyHQ!=null && enemyHQ.getLifepoints()<10){
 			this.launchTaunt("philippe");
 		}
-		Vector<IAAllyObject> v = this.getUnits();
+		Vector<IAAllyObject> v = this.getMyUnits();
 		if(!initedBuilding){
 			initedBuilding = true;
 			initBuildings();
@@ -297,7 +297,7 @@ public class IAKevin extends IA {
 		refreshUnemployed();
 		refreshBuildings();
 		int compt1 = 0;
-		for(IAAllyObject iao : getUnits()){
+		for(IAAllyObject iao : getMyUnits()){
 			if(iao.getName()==ObjetsList.Tower || iao.getName()==ObjetsList.Headquarters){
 				continue;
 			}
@@ -321,9 +321,9 @@ public class IAKevin extends IA {
 				defCaserne.add(iao.getId());
 			}else if(attCaserne.size()>-1 && hasEnnemyCaserne){
 				attCaserne.add(iao.getId());
-			}else if(getUnits().size()<4 && hasEnnemyTour){
+			}else if(getMyUnits().size()<4 && hasEnnemyTour){
 				attTour.add(iao.getId());
-			}else if(getUnits().size()<4){
+			}else if(getMyUnits().size()<4){
 				attHQ.add(iao.getId());
 			}
 			//			System.out.println("defFarm:"+defFarm.size());
@@ -332,7 +332,7 @@ public class IAKevin extends IA {
 		}
 		//		System.out.println(compt1);
 		// on vérifie que les ordres sont obéis
-		for(IAAllyObject iao : getUnits()){
+		for(IAAllyObject iao : getMyUnits()){
 			if(iao.getName()==ObjetsList.Inquisitor){
 //				if(isOnFire.contains(iao.getId())&&round%100!=0){
 //					iao.rightClick(650,1000);

@@ -12,9 +12,6 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 public class InputObject implements java.io.Serializable{
-
-
-
 	/**
 	 * 
 	 */
@@ -29,19 +26,23 @@ public class InputObject implements java.io.Serializable{
 	
 	// Selection
 	public Vector<Integer> selection = new Vector<Integer>();
-	public Vector<Boolean> validated;
+	public Vector<Boolean> validated= new Vector<Boolean>();
 	public boolean toPlay;
 	public boolean isOnMiniMap;
 
 
-	public Vector<KeyEnum> down;
-	public Vector<KeyEnum> pressed;
+	public Vector<KeyEnum> down= new Vector<KeyEnum>();
+	public Vector<KeyEnum> pressed= new Vector<KeyEnum>();
 	public float x, xOnScreen;
 	public float y, yOnScreen;
 	public long time;
 
 	public InputObject (){
 
+	}
+	public InputObject(int team, int round){
+		this.team = team;
+		this.round = round;
 	}
 	
 	public InputObject(Input input, int team, int round){
@@ -67,7 +68,21 @@ public class InputObject implements java.io.Serializable{
 		}
 		return res;
 	}
-
+	
+	public void rightClick(float x, float y){
+		this.x = x;
+		this.y = y;
+		if(!this.pressed.contains(KeyEnum.RightClick)){			
+			this.pressed.addElement(KeyEnum.RightClick);
+		}
+	}
+	public void attack(float x2, float y2) {
+		this.x = x2;
+		this.y = y2;
+		if(!this.pressed.contains(KeyEnum.DeplacementOffensif)){			
+			this.pressed.addElement(KeyEnum.DeplacementOffensif);
+		}
+	}
 //	public InputObject (int idplayer, Input input, boolean toPlay){
 //		this.id= Communications.idInput;
 //		Communications.idInput ++;
@@ -352,6 +367,7 @@ public class InputObject implements java.io.Serializable{
 			this.pressed.add(KeyEnum.valueOf("Tech"+i));
 		}
 	}
+
 
 
 

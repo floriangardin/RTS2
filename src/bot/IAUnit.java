@@ -126,7 +126,7 @@ public class IAUnit {
 	}
 	
 	public IAUnit getNearestAlly(ObjetsList o){
-		Vector<IAAllyObject> enemies = getIA().getUnits();
+		Vector<IAAllyObject> enemies = getIA().getMyUnits();
 		float minDist = -1;
 		IAUnit best =null;
 		for(IAAllyObject enemy : enemies){
@@ -171,7 +171,7 @@ public class IAUnit {
 	
 	public IAUnit getNearest(ObjetsList o ){
 		Vector<IAUnit> enemies = new Vector<IAUnit>();
-		enemies.addAll(getIA().getUnits());
+		enemies.addAll(getIA().getMyUnits());
 		enemies.addAll(getIA().getEnemies());
 		enemies.addAll(getIA().getNature());
 		float minDist = -1;
