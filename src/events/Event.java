@@ -24,7 +24,7 @@ public abstract class Event {
 	float power;
 	float duration;
 	boolean playSound = false;
-	boolean topLayer = false;
+	public boolean topLayer = false;
 
 
 	public Event(final Objet parent, Plateau plateau){

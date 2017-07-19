@@ -31,39 +31,44 @@ public class ChatMessage implements Serializable{
 		this.remainingTime = basicTime;
 	}
 	
+	public enum MessageType{
+		NOTENOUGHFOOD,
+		BUILDINGTAKEN,
+		RESEARCHCOMPLETE,
+		NOTENOUGHMANA,
+		NOTENOUGHPOP,
+		BUILDINGUNTAKABLE,
+		UNDERATTACK,
+		UNITCOMPLETE;
+		
+	}
 
-	public static ChatMessage getById(String s){
+	public static ChatMessage getById(MessageType s){
 		switch(s){
-//		case "food" :
+		case NOTENOUGHFOOD :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Pas assez de nourriture", 0,Color.red);
-//		case "building taken":
+			return new ChatMessage("Pas assez de nourriture");
+		case BUILDINGTAKEN:
 //			Game.g.sounds.get("buildingTaken").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Bâtiment capturé", 0,Color.green);
-//		case "gold" :
-//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Pas assez d'or", 0,Color.red);
-//		case "faith" :
-//			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Pas assez de foi", 0,Color.red);
-//		case "research" : 
+			return new ChatMessage("Bâtiment capturé");
+		case RESEARCHCOMPLETE : 
 //			Game.g.sounds.get("techDiscovered").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Technologie découverte", 0,Color.green);
-//		case "mana" :
+			return new ChatMessage("Technologie découverte");
+		case NOTENOUGHMANA :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Pas assez de mana", 0,Color.red);
-//		case "pop" :
+			return new ChatMessage("Pas assez de mana");
+		case NOTENOUGHPOP :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Limite de population atteinte", 0,Color.red);
-//		case "building" :
+			return new ChatMessage("Limite de population atteinte");
+		case BUILDINGUNTAKABLE :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Capture impossible", 0,Color.red);
-//		case "attack" :
+			return new ChatMessage("Capture impossible");
+		case UNDERATTACK :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Vous êtes attaqué !", 0,Color.red);
-//		case "unit created" :
+			return new ChatMessage("Vous êtes attaqué !");
+		case UNITCOMPLETE :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
-//			return new ChatMessage("Unité produite", 0,Color.green);
+			return new ChatMessage("Unité produite");
 		default : 
 			return null;
 		}

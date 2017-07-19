@@ -25,7 +25,8 @@ public enum EventNames {
 	AttackDamageNormal, 
 	DestructionTower, 
 	BurningArea,
-	DestructionHQ;
+	DestructionHQ, 
+	BuildingTakingGlobal;
 	
 	
 	public Event createEvent(Objet parent, Plateau plateau){
@@ -70,6 +71,8 @@ public enum EventNames {
 			return new EventDestructionTour(parent, plateau);
 		case DestructionHQ:
 			return new EventDestructionHQ(parent, plateau);
+		case BuildingTakingGlobal:
+			return new EventBuildingTakingGlobal(parent, plateau);
 		default:
 			sound = "arrow";
 		}

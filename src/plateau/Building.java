@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
 import bonus.Bonus;
+import control.Player;
 import data.Attributs;
 import display.DisplayRessources;
 import events.EventHandler;
@@ -19,6 +20,7 @@ import main.Main;
 import model.Colors;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
+import multiplaying.ChatMessage.MessageType;
 import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
@@ -91,6 +93,9 @@ public class Building extends Objet{
 			this.animationBleu ="buildingTowerBlueAnimation";
 			this.animationRouge = "buildingTowerRedAnimation";
 		}
+		// Add an event
+		EventHandler.addEvent(EventNames.BuildingTakingGlobal, this, plateau);
+		
 
 
 
@@ -143,26 +148,24 @@ public class Building extends Objet{
 				this.queue.add(getProductionList(plateau).get(unit));
 				System.out.println(this.getTeam().food+" "+foodCost);
 				this.getTeam().food-=foodCost;
-//				if(this.team.id==Game.gameSystem.getCurrentTeam()){
-//					DisplayHandler.addDisplayRessources(new DisplayRessources(-foodCost,"food",this.x,this.y));
-//				}
+				if(this.team.id==Player.team){
+					EventHandler.addEvent(new DisplayRessources(this, plateau,-foodCost,"food"), plateau);
+				}
 				return true;
 			}else {
 
 				// Messages
-//				if(this.getTeam()==Game.gameSystem.getCurrentTeam()){
-//					if(foodCost>this.getTeam().food){
-//						Communications.sendMessage(ChatMessage.getById("food"));
-//					}  else {
-//						Communications.sendMessage(ChatMessage.getById("pop"));
-//					}
-//				}
+				if(this.team.id==Player.team){
+					if(foodCost>this.getTeam().food){
+						ChatHandler.addMessage(ChatMessage.getById(MessageType.NOTENOUGHFOOD));
+					}  else {
+						ChatHandler.addMessage(ChatMessage.getById(MessageType.NOTENOUGHPOP));
+					}
+				}
 			}
 		}
 
 		return false;
-
-
 
 	}
 
@@ -178,29 +181,24 @@ public class Building extends Objet{
 		}
 		if(this.queueTechnology==null && unit<getTechnologyList(plateau).size()){
 
-			float goldCost = getAttribut(getTechnologyList(plateau).get(unit),Attributs.goldCost);
 			float foodCost = getAttribut(getTechnologyList(plateau).get(unit),Attributs.foodCost);
-			float faithCost = getAttribut(getTechnologyList(plateau).get(unit),Attributs.faithCost);
-			float prodTime = getAttribut(getTechnologyList(plateau).get(unit),Attributs.prodTime);
 			if(foodCost<=this.getTeam().food ){
-
 				this.queueTechnology = Technologie.technologie(getTechnologyList(plateau).get(unit), this.getTeam(), plateau);
 				this.getTeam().food-=foodCost;
-//				if(this.team==Game.gameSystem.getCurrentTeam(plateau)){
-//					DisplayHandler.addDisplayRessources(new DisplayRessources(-foodCost,"food",this.x,this.y));
-//				}
+				if(this.team.id==Player.team){
+					EventHandler.addEvent(new DisplayRessources(this, plateau,-foodCost,"food"), plateau);
+				}
 				getHQ(plateau).currentTechsProduced.add(getTechnologyList(plateau).get(unit));
-
 				return true;
 			} else {
 				// Messages
-//				if(this.getTeam()==Game.gameSystem.getCurrentTeam()){
-//					if(foodCost>this.getTeam().food){
-//						Communications.sendMessage(ChatMessage.getById("food"));
-//					} else {
-//						Communications.sendMessage(ChatMessage.getById("pop"));
-//					}
-//				}
+				if(this.team.id==Player.team){
+					if(foodCost>this.getTeam().food){
+						ChatHandler.addMessage(ChatMessage.getById(MessageType.NOTENOUGHFOOD));
+					}  else {
+						ChatHandler.addMessage(ChatMessage.getById(MessageType.NOTENOUGHPOP));
+					}
+				}
 			}
 		}
 		return false;
@@ -332,10 +330,9 @@ public class Building extends Objet{
 		if(stateRessourceFood >= this.getAttribut(Attributs.frequencyProduceFood) && getTeam().id!=0){
 			getTeam().food+=this.getAttribut(this.name,Attributs.produceFood)*getTeam().data.prodFood;
 			stateRessourceFood = 0;
-//			if(this.team==Game.gameSystem.getCurrentTeam() && this.getAttribut(this.name,Attributs.produceFood)==1 ){
-//				DisplayHandler.addDisplayRessources(new DisplayRessources(getTeam().data.prodFood, "food", this.x, this.y));
-//
-//			}
+			if(this.team.id==Player.team && this.getAttribut(this.name,Attributs.produceFood)!=0){
+				EventHandler.addEvent(new DisplayRessources(this, plateau,this.getAttribut(this.name,Attributs.produceFood)*getTeam().data.prodFood,"food"), plateau);
+			}
 		}
 
 		//TOWER
@@ -355,10 +352,7 @@ public class Building extends Objet{
 
 		}
 		if(this.queue.size()>0){
-			float goldCost = getAttribut(getProductionList(plateau).get(this.queue.size()-1),Attributs.goldCost);
 			float foodCost = getAttribut(getProductionList(plateau).get(this.queue.size()-1),Attributs.foodCost);
-			float faithCost = getAttribut(getProductionList(plateau).get(this.queue.size()-1),Attributs.faithCost);
-			float prodTime = getAttribut(getProductionList(plateau).get(this.queue.size()-1),Attributs.prodTime);
 			this.getTeam().food += foodCost;
 
 			this.queue.remove(this.queue.size()-1);
@@ -445,9 +439,9 @@ public class Building extends Objet{
 		}
 		// Message research complete
 
-//		if(this.getTeam(plateau).id==Game.gameSystem.getCurrentTeam()){
-//			Communications.sendMessage(ChatMessage.getById("research"));
-//		}
+		if(this.team.id==Player.team){
+			ChatHandler.addMessage(ChatMessage.getById(MessageType.RESEARCHCOMPLETE));
+		}
 		this.setCharge(0f);
 		getHQ(plateau).techsDiscovered.addElement(q.objet);
 		getHQ(plateau).currentTechsProduced.remove(q.objet);
@@ -507,11 +501,13 @@ public class Building extends Objet{
 			}
 			this.chargeAttack = Math.max(this.chargeAttack-2*Main.increment, 0);
 			if(!this.isDestroyed){
+				EventHandler.addEventBuildingTaking(c, this, plateau);
 				this.constructionPoints-=Main.increment;
 			}
 		}
 		if(this.potentialTeam==c.getTeam().id && this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			this.constructionPoints+=Main.increment;
+			EventHandler.addEventBuildingTaking(c, this, plateau);
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			if(this.potentialTeam!=this.getTeam().id  ){
@@ -521,7 +517,7 @@ public class Building extends Objet{
 
 				}else if(ChatHandler.remainingTimeNotEnoughRoom<=0f){
 					ChatHandler.remainingTimeNotEnoughRoom=10f;
-					//Communications.sendMessage(ChatMessage.getById("pop"));
+					ChatHandler.addMessage(ChatMessage.getById(MessageType.NOTENOUGHPOP));
 				}
 			}
 		}
@@ -559,9 +555,9 @@ public class Building extends Objet{
 	public void setTeam(int i, Plateau plateau){
 
 
-//		if(i==Game.gameSystem.getCurrentTeam() && !(name.equals(ObjetsList.Headquarters))){
-//			Communications.sendMessage(ChatMessage.getById("building taken"));
-//		}
+		if(i==Player.team && !(name.equals(ObjetsList.Headquarters))){
+			ChatHandler.addMessage(ChatMessage.getById(MessageType.BUILDINGTAKEN));
+		}
 		this.team = plateau.teams.get(i);
 		this.setTeamExtra();
 		this.giveUpProcess = false;

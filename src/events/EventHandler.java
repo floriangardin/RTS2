@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import display.Camera;
 import display.DisplayRessources;
 import plateau.Objet;
+import plateau.Character;
 import plateau.Plateau;
 
 public class EventHandler {
@@ -36,15 +37,6 @@ public class EventHandler {
 		if(!topLayer){
 			return;
 		}
-		Vector<DisplayRessources> toRemove2 = new Vector<DisplayRessources>();
-		for(DisplayRessources dr : displayRessources ){
-			dr.update();
-			if(dr.isDead())
-				toRemove2.add(dr);
-			else
-				dr.draw(g);
-		}
-		displayRessources.removeAll(toRemove2);
 	}
 	
 	public static void addEvent(EventNames name,Objet parent, Plateau plateau){
@@ -54,13 +46,6 @@ public class EventHandler {
 		events.addElement(name.createEvent(parent, plateau));
 	}
 	
-	public static void addDisplayRessources(DisplayRessources dr, Plateau plateau){
-		if(plateau==null){
-			return;
-		}
-		displayRessources.addElement(dr);
-	}
-	
 	public static void addEvent(Event event, Plateau plateau){
 		if(plateau==null){
 			return;
@@ -68,20 +53,28 @@ public class EventHandler {
 		events.addElement(event);
 	}
 	
-	public static Vector<Event> getNewEvents(Plateau plateau){
-		Vector<Event> res = new Vector<Event>();
-		for(Event e: events){
-			if(e.isNewEvent(plateau)){
-				res.add(e);
+	public static void addEventBuildingTaking(Character parent, Objet building, Plateau plateau){
+		if(!isInit){
+			return;
+		}
+		EventBuildingTakingGlobal ebgt = null;
+		for(Event e : events){
+			if(e instanceof EventBuildingTakingGlobal && ((EventBuildingTakingGlobal)e).parent.id==building.id){
+				ebgt = ((EventBuildingTakingGlobal)e);
+				break;
 			}
 		}
-		return res;
+		for(Event e : events){
+			if(e instanceof EventBuildingTaking && e.parent.id == parent.id && ((EventBuildingTaking)e).idTarget == building.id){
+				if(!((EventBuildingTaking)e).isActive){
+					((EventBuildingTaking)e).isActive = true;
+					ebgt.addAttacker(parent.team.id);
+				}
+				return;
+			}
+		}
+		ebgt.addAttacker(parent.team.id);
+		events.addElement(new EventBuildingTaking(parent, plateau, ebgt));
 	}
-	
-	public static Vector<Event> getEvents(){
-		return events;
-	}
-
-	
 	
 }

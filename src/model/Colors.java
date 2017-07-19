@@ -11,4 +11,14 @@ public class Colors {
 	public static Color buildingTaking = new Color(204,153,0);
 	public static Color aggressive = new Color(153,0,0);
 	
+	public static Color getTeamColor(int team){
+		switch(team){
+		case 0 : return team0;
+		case 1 : return team1;
+		case 2 : return team2;
+		default:
+			return new Color(0,0,0);
+		}
+	}
+	
 }

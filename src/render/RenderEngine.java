@@ -67,6 +67,16 @@ public class RenderEngine {
 			renderSelection(plateau.getById(o), g, plateau);
 		}
 		
+		// 2) Draw Neutral Objects
+		for(Objet o : objets){
+			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+				if (o instanceof Building || o instanceof NaturalObjet){
+					renderObjet(o, g, plateau, false);
+				}
+			}
+		}
+		// Draw fog of war
+		renderDomain(plateau, g, visibleObjets);
 		// 2) Draw Objects
 		for(Objet o : objets){
 			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
@@ -74,15 +84,11 @@ public class RenderEngine {
 					renderObjet(o, g, plateau);
 				} else if (plateau.isVisibleByTeam(Player.getTeamId(), o)){
 					renderObjet(o, g, plateau);
-				} else if (o instanceof Building || o instanceof NaturalObjet){
-					renderObjet(o, g, plateau, false);
 				}
 			}
 		}
 		// Draw second layer of event
 		EventHandler.render(g, plateau, true);
-		// Draw fog of war
-		renderDomain(plateau, g, visibleObjets);
 		// Draw interface
 		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);
