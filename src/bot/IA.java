@@ -39,6 +39,13 @@ public abstract class IA{
 		}
 		isInit = true;
 	}
+	public static void addIA(IA toAdd){
+		ias.add(toAdd);
+		isInit = true;
+	}
+	public static void removeIA(int id){
+		ias.remove(id);
+	}
 	
 	public Vector<IAAllyObject> getSelection(){
 		return selection;
@@ -73,6 +80,18 @@ public abstract class IA{
 		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
 		for(IAAllyObject unit: units ){
 			if(unit.getName() == filter){
+				res.add(unit);
+			}
+		}
+		return res;
+	}
+	public Vector<IAAllyObject> getMyFreeUnits(ObjetsList filter){
+		/*
+		 * Return objects of my team
+		 */
+		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
+		for(IAAllyObject unit: units ){
+			if(unit.getName() == filter && !unit.hasTarget()){
 				res.add(unit);
 			}
 		}
@@ -273,10 +292,8 @@ public abstract class IA{
 					break;
 				default:
 					break;
-				}
-				
-			}
-			
+				}	
+			}	
 		}
 	}
 	
@@ -306,40 +323,40 @@ public abstract class IA{
 
 	
 	
-//	protected void print(String s){
+//	public void print(String s){
 //		Communications.sendMessage(new ChatMessage("0|"+s));
 //	}
-//	protected void alert(String s){
+//	public void alert(String s){
 //		Communications.sendMessage(new ChatMessage("2|"+s));
 //	}
 	
 
-	protected int getFood(){
+	public int getFood(){
 		return player.food;
 	}
 	
 
-	protected int getPop(){
+	public int getPop(){
 		return player.getPop(plateau);
 	}
-	protected int getMaxPop(){
+	public int getMaxPop(){
 		return player.getMaxPop(plateau);
 	}
 	
-	protected boolean canProduce(ObjetsList o){
+	public boolean canProduce(ObjetsList o){
 		
 		return this.getFood()>this.getAttribut(o, Attributs.foodCost)
 				&& (this.getMaxPop()-this.getPop())>=1; //FIXME : Not generic 
 	}
 	
-	protected float getAttribut(ObjetsList o , Attributs a){
+	public float getAttribut(ObjetsList o , Attributs a){
 		return player.data.getAttribut(o, a);
 	}
 	
-	protected String getAttributString(ObjetsList o , Attributs a){
+	public String getAttributString(ObjetsList o , Attributs a){
 		return player.data.getAttributString(o, a);
 	}
-	protected Vector<String> getAttributList(ObjetsList o , Attributs a){
+	public Vector<String> getAttributList(ObjetsList o , Attributs a){
 		return player.data.getAttributList(o, a);
 	}
 	
@@ -391,9 +408,10 @@ public abstract class IA{
 	public Vector<ObjetsList> getTechsDiscovered(){
 		return ((Building) plateau.getById(player.hq)).techsDiscovered;
 	}
-	public Team getPlayer(){
+	private Team getPlayer(){
 		return player;
 	}
+
 	
 	public Vector<ObjetsList> getProducers(ObjetsList o){
 		Vector<ObjetsList> res = new Vector<ObjetsList>();

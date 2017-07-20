@@ -39,14 +39,11 @@ public class IntroSystem extends ClassSystem{
 	public DeferredResource nextResource;
 
 	public boolean hasPressKey = false;
-
 	public int cooldownTotal = 920;
 	public int cooldownMid = 820;
 	public int cooldownMusic = 880;
 	public int cooldownIntro = cooldownTotal;
 	
-
-
 
 	//////////////////////////////
 	// INITIALIZING GAME ENGINE //
@@ -68,9 +65,7 @@ public class IntroSystem extends ClassSystem{
 	private boolean waitLoading;
 	String adviceToDisplay;
 
-
 	public IntroSystem(){
-		
 		double rdm = Math.random();
 		try{
 			if(rdm<0.20){
@@ -119,8 +114,7 @@ public class IntroSystem extends ClassSystem{
 		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
-		//Taunts.init();
-		
+		Taunts.init();
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}
 
