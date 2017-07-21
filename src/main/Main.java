@@ -24,6 +24,7 @@ public class Main {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
+		
 		try {
 			int resolutionX = (int)screenSize.getWidth()/2;
 			int resolutionY = (int)screenSize.getHeight()/2;
@@ -37,6 +38,7 @@ public class Main {
 			app.setDisplayMode(resolutionX, resolutionY,false);
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
+			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setAlwaysRender(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);

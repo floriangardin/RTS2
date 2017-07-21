@@ -6,10 +6,9 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import bot.IA;
 import control.InputObject;
 import control.Player;
-import control.KeyMapper.KeyEnum;
-import display.Camera;
 import main.Main;
 import menuutils.Menu_Item;
 import menuutils.Menu_Map;
@@ -18,11 +17,9 @@ import model.Game;
 import model.GameClient;
 import model.GameServer;
 import model.WholeGame;
-import multiplaying.ChatHandler;
+import mybot.IAInputs;
 import ressources.GraphicElements;
-import ressources.Musics;
 import system.MenuSystem.MenuNames;
-import tests.FatalGillesError;
 
 public class MenuMapChoice extends Menu {
 
@@ -104,7 +101,9 @@ public class MenuMapChoice extends Menu {
 		}
 	}
 
-
+	public void addIA(){
+		IA.addIA(new IAInputs(1));
+	}
 	public void drawItems(Graphics g){
 		// draw background
 		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
