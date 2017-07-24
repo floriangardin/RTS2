@@ -153,18 +153,18 @@ public class Interface {
 				}
 			}
 		}
-		
+
 		// handle spell
 		if(Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
 			for(int i = 0; i<prodIconNbY; i++){
 				if(im.isPressedProd(i)){
 					Character c = (Character) plateau.getById(Player.selection.get(0)); 
 					Spell s = c.getSpell(i);
-					
+
 					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
 						spellLauncher = c.id;
 						spellCurrent = s.name;
-						
+
 					}
 					im.pressed.remove(KeyEnum.valueOf("Prod"+i));
 				}
@@ -196,11 +196,11 @@ public class Interface {
 			} else {
 				resetCurrentSpell();
 			}
-			
+
 		}
 		if(im.isDown(KeyEnum.LeftClick)){
 			//System.out.println("vaneau1");
-			
+
 		}
 		//System.out.println(spellRelease);
 		if(spellRelease==true){
@@ -274,7 +274,7 @@ public class Interface {
 	}
 
 	public static void drawSelectionInterface(Graphics g, Plateau plateau){
-		
+
 		float sizeXBar;
 		float x = 0;
 		if(plateau.round<nbRoundInit)
@@ -375,65 +375,70 @@ public class Interface {
 			for(Integer id : selection){
 				Character a = (Character) plateau.getById(id);
 				c = (Character) plateau.getById(id);
-				Image icone = Images.get(c.name+"blue");
-				int imageWidth = icone.getWidth()/5;
-				int imageHeight = icone.getHeight()/4;
-				//float r = a.collisionBox.getBoundingCircleRadius();
-				if(compteur ==0){
-					//Show icons
-					//Show production bar
-					g.setColor(Color.darkGray);
-					g.fillRect(startXSelectionBar+sizeXSelectionBar/4, startYSelectionBar+sizeYSelectionBar/4,
-							3*sizeXSelectionBar/4-5, 3*sizeYSelectionBar/4-5);
-					g.setColor(Color.white);
-					g.drawRect(startXSelectionBar+sizeXSelectionBar/4, startYSelectionBar+sizeYSelectionBar/4,
-							3*sizeXSelectionBar/4-5, 3*sizeYSelectionBar/4-5);
-					g.drawImage(icone,startXSelectionBar+sizeXSelectionBar/4, startYSelectionBar+sizeYSelectionBar/4,
-							startXSelectionBar+sizeXSelectionBar-5, startYSelectionBar + sizeYSelectionBar-5,
-							imageWidth*c.animation,0,imageWidth*c.animation+imageWidth,imageHeight);
-					g.setColor(Color.white);
-					String s = a.getAttributString(Attributs.printName);
-					g.drawString(s, startXSelectionBar+sizeXSelectionBar/2-GraphicElements.font_main.getWidth(s)/2f, 
-							startYSelectionBar+sizeYSelectionBar/8f-GraphicElements.font_main.getHeight(s)/2f);
-					g.fillRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f,
-							sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-					g.setColor(Color.darkGray);
-					g.fillRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f, 
-							sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-					float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
-					g.setColor(new Color((1f-x_temp),x_temp,0));
-					g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
-							startYSelectionBar+sizeYSelectionBar/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints), 
-							sizeXSelectionBar/8f,
-							3*sizeYSelectionBar/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints));
-					g.setColor(Color.white);
-					g.drawRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f,
-							sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-				}
-				else{
-					int x1,y1,x2,y2;
-					if(nb>5){
-						x1 = (int) (x+sizeXSelectionBar+5+(sVB)*(compteur-1)*4/(nb-1));
-						y1 = (int) (Game.resY-sVB+3f);
-						x2 = (int) (x1+sVB);
-						y2 = (int) (y1+sVB);						
-					} else {
-						x1 = (int) (x+sizeXSelectionBar+5+(sVB)*(compteur-1));
-						y1 = (int) (Game.resY-sVB+3f);
-						x2 = (int) (x1+sVB);
-						y2 = (int) (y1+sVB);
+				if(c!=null){
+
+
+					Image icone = Images.get(c.name+"blue");
+					int imageWidth = icone.getWidth()/5;
+					int imageHeight = icone.getHeight()/4;
+					//float r = a.collisionBox.getBoundingCircleRadius();
+					if(compteur ==0){
+						//Show icons
+						//Show production bar
+						g.setColor(Color.darkGray);
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/4, startYSelectionBar+sizeYSelectionBar/4,
+								3*sizeXSelectionBar/4-5, 3*sizeYSelectionBar/4-5);
+						g.setColor(Color.white);
+						g.drawRect(startXSelectionBar+sizeXSelectionBar/4, startYSelectionBar+sizeYSelectionBar/4,
+								3*sizeXSelectionBar/4-5, 3*sizeYSelectionBar/4-5);
+						g.drawImage(icone,startXSelectionBar+sizeXSelectionBar/4, startYSelectionBar+sizeYSelectionBar/4,
+								startXSelectionBar+sizeXSelectionBar-5, startYSelectionBar + sizeYSelectionBar-5,
+								imageWidth*c.animation,0,imageWidth*c.animation+imageWidth,imageHeight);
+						g.setColor(Color.white);
+						String s = a.getAttributString(Attributs.printName);
+						g.drawString(s, startXSelectionBar+sizeXSelectionBar/2-GraphicElements.font_main.getWidth(s)/2f, 
+								startYSelectionBar+sizeYSelectionBar/8f-GraphicElements.font_main.getHeight(s)/2f);
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f,
+								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
+						g.setColor(Color.darkGray);
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f, 
+								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
+						float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
+						g.setColor(new Color((1f-x_temp),x_temp,0));
+						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
+								startYSelectionBar+sizeYSelectionBar/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints), 
+								sizeXSelectionBar/8f,
+								3*sizeYSelectionBar/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints));
+						g.setColor(Color.white);
+						g.drawRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f,
+								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
+
 					}
-					float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
-					g.setColor(Color.darkGray);
-					g.fillRect(x1, y1, x2-x1, y2-y1);
-					g.setColor(new Color((1f-x_temp),x_temp,0));
-					float diff = x_temp*(y2-y1);
-					g.fillRect(x1, y1-diff+(y2-y1), (x2-x1)/5, diff);
-					g.drawImage(icone,x1, y1, x2, y2, imageWidth*c.animation, 0, imageWidth*c.animation+imageWidth, imageHeight);
-					g.setColor(Color.white);
-					g.drawRect(x1, y1, x2-x1, y2-y1);
+					else{
+						int x1,y1,x2,y2;
+						if(nb>5){
+							x1 = (int) (x+sizeXSelectionBar+5+(sVB)*(compteur-1)*4/(nb-1));
+							y1 = (int) (Game.resY-sVB+3f);
+							x2 = (int) (x1+sVB);
+							y2 = (int) (y1+sVB);						
+						} else {
+							x1 = (int) (x+sizeXSelectionBar+5+(sVB)*(compteur-1));
+							y1 = (int) (Game.resY-sVB+3f);
+							x2 = (int) (x1+sVB);
+							y2 = (int) (y1+sVB);
+						}
+						float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
+						g.setColor(Color.darkGray);
+						g.fillRect(x1, y1, x2-x1, y2-y1);
+						g.setColor(new Color((1f-x_temp),x_temp,0));
+						float diff = x_temp*(y2-y1);
+						g.fillRect(x1, y1-diff+(y2-y1), (x2-x1)/5, diff);
+						g.drawImage(icone,x1, y1, x2, y2, imageWidth*c.animation, 0, imageWidth*c.animation+imageWidth, imageHeight);
+						g.setColor(Color.white);
+						g.drawRect(x1, y1, x2-x1, y2-y1);
+					}
+					compteur ++;
 				}
-				compteur ++;
 			}
 		} else {
 			Utils.drawNiceRect(g,  team.color, 
@@ -813,12 +818,12 @@ public class Interface {
 		spellX = 0;
 		spellY = 0;
 	}
-	
+
 	///////
 	// Icone
 	///////
 
-	
+
 
 	public static void init(Plateau plateau) {
 		updateRatioMiniMap(plateau);

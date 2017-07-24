@@ -40,4 +40,7 @@ public class IAAllyObject extends IAUnit{
 		
 		return res;
 	}
+	public int roundsSinceLastAttack(){
+		return this.getObjet().roundSinceLastAttack(plateau.getRound());
+	}
 }

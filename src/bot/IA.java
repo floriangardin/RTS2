@@ -98,6 +98,20 @@ public abstract class IA{
 		return res;
 	}
 	
+	public Vector<IAAllyObject> getMyAttackedUnits(ObjetsList filter, int tolerance){
+		/*
+		 * Return objects of my team
+		 */
+		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
+		for(IAAllyObject unit: units ){
+			if(unit.getName() == filter && unit.roundsSinceLastAttack() <= tolerance){
+				res.add(unit);
+			}
+		}
+		return res;
+	}
+	
+	
 	public Vector<IAUnit> getEnemies(){
 		/*
 		 * Return objects of enemy team

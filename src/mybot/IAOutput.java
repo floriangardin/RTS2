@@ -37,5 +37,10 @@ public enum IAOutput {
 		return values().length;
 	}
 	
-
+	
+	//MAIN FOR TEST
+	public static void main(String[] args){
+		System.out.println(IAOutput.get(9));
+		System.out.println(IAOutput.attackHeadQuarters.value);
+	}
 }

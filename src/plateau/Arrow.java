@@ -61,7 +61,7 @@ public class Arrow extends Bullet{
 //				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
 			}
-			c.isAttacked();
+			
 			this.setLifePoints(-1f, plateau);
 		}
 

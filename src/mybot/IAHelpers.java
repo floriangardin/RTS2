@@ -1,6 +1,9 @@
 package mybot;
 
+import java.util.Vector;
+
 import bot.IA;
+import bot.IAAllyObject;
 import utils.ObjetsList;
 
 public class IAHelpers {
@@ -46,21 +49,51 @@ public class IAHelpers {
 		res[IAState.FREEPRIEST.value] = ia.getMyFreeUnits(ObjetsList.Priest).size();
 		res[IAState.FREEKNIGHT.value] = ia.getMyFreeUnits(ObjetsList.Knight).size();
 		
+		// ATTACKED
+		int toleranceAttack =50;
+		res[IAState.ATTACKEDBARRACK.value] = ia.getMyAttackedUnits(ObjetsList.Barracks, toleranceAttack).size();
+		res[IAState.ATTACKEDSTABLES.value] = ia.getMyAttackedUnits(ObjetsList.Stable, toleranceAttack).size();
+		res[IAState.ATTACKEDSPEARMAN.value] = ia.getMyAttackedUnits(ObjetsList.Barracks, toleranceAttack).size();
+		res[IAState.ATTACKEDSPEARMAN.value] = ia.getMyAttackedUnits(ObjetsList.Spearman, toleranceAttack).size();
+		res[IAState.ATTACKEDCROSSBOWMAN.value] = ia.getMyAttackedUnits(ObjetsList.Crossbowman, toleranceAttack).size();
+		res[IAState.ATTACKEDINQUISITOR.value] = ia.getMyAttackedUnits(ObjetsList.Inquisitor, toleranceAttack).size();
+		res[IAState.ATTACKEDPRIEST.value] = ia.getMyAttackedUnits(ObjetsList.Priest, toleranceAttack).size();
+		res[IAState.ATTACKEDKNIGHT.value] = ia.getMyAttackedUnits(ObjetsList.Knight, toleranceAttack).size();
+		res[IAState.ATTACKEDTOWER.value] = ia.getMyAttackedUnits(ObjetsList.Tower, toleranceAttack).size();
+		res[IAState.ATTACKEDHEADQUARTERS.value] = ia.getMyAttackedUnits(ObjetsList.Headquarters, toleranceAttack).size();
+		
+		//ENNEMIES
+		// VISIBLE
+		res[IAState.VISIBLEBARRACK.value] = ia.getEnnemies(ObjetsList.Barracks).size();
+		res[IAState.VISIBLESTABLES.value] = ia.getEnnemies(ObjetsList.Stable).size();
+		res[IAState.VISIBLESPEARMAN.value] = ia.getEnnemies(ObjetsList.Barracks).size();
+		res[IAState.VISIBLESPEARMAN.value] = ia.getEnnemies(ObjetsList.Spearman).size();
+		res[IAState.VISIBLECROSSBOWMAN.value] = ia.getEnnemies(ObjetsList.Crossbowman).size();
+		res[IAState.VISIBLEINQUISITOR.value] = ia.getEnnemies(ObjetsList.Inquisitor).size();
+		res[IAState.VISIBLEPRIEST.value] = ia.getEnnemies(ObjetsList.Priest).size();
+		res[IAState.VISIBLEKNIGHT.value] = ia.getEnnemies(ObjetsList.Knight).size();
+		res[IAState.VISIBLETOWER.value] = ia.getEnnemies(ObjetsList.Tower).size();
+		res[IAState.VISIBLEHEADQUARTERS.value] = ia.getEnnemies(ObjetsList.Headquarters).size();
+
 		return res;
 	}
-	public static int getMaxOutput(float[] output){
+	public static int getMaxOutput(float[] output, IAOutput currentMission){
 		float max = 0;
 		int maxIdx = 0;
 		for(int i = 0; i<output.length; i++){
-			if(output[i]>=max){
+			if(output[i]>=max && i!=currentMission.value){
 				max= output[i];
 				maxIdx = i;
 			}
 		}
 		return maxIdx;
 	}
-	public static int objectiveFunction(int[] state){
-		// Estimate the actual position
-		return 0;
+	public static int objectiveFunction(int[] state, IA ia){
+		// Estimate the actual position given plateau
+		float score = 0;
+		score += state[IAState.FOOD.value];
+		score += Math.abs(state[IAState.MAXPOP.value]-state[IAState.POP.value]);
+		//score += Math.abs(state[IAState.]);
+		return (int) score;
 	}
 }

@@ -13,8 +13,10 @@ public class IAInputs extends IA {
 	final static int sizeOutput = IAOutput.size();
 	int[] state = new int[sizeState];
 	float[][] boMatrix = new float[sizeOutput][sizeState];
+	float[] bias = new float[sizeOutput];
 	float[] output = new float[sizeOutput];
 	IAOutput mission;
+	boolean newMission = false;
 
 	public IAInputs(int teamid) {
 		super(teamid);
@@ -29,25 +31,29 @@ public class IAInputs extends IA {
 	public Vector<IAAllyObject> select() throws Exception {
 		state = IAHelpers.getState(sizeState, this);
 		output = IAHelpers.getOutputVector(boMatrix, state);
+		// Check that macro mission is realisable
+		// If yes select units to perform mission
 		setMission();
 		return selectForMission();
 	}
 	@Override
 	public void update(Vector<IAAllyObject> selection) throws Exception {
-		this.rightClick(selection.get(0).getNearestNeutralorEnnemy(ObjetsList.Barracks));
+		clickForMission(selection);
 	}
 
 	public void setMission(){
-		// GET MAX MISSION
-		int idxMax = IAHelpers.getMaxOutput(output);
-		mission = IAOutput.get(idxMax);
-
+		// GET MAX MISSION THAT IS NOT CURRENT MISSION
+		int idxMax = IAHelpers.getMaxOutput(output, mission);
+		IAOutput newMission = IAOutput.get(idxMax);
+		mission = newMission;
 	}
 
 	public Vector<IAAllyObject> selectForMission(){
 		Vector<IAAllyObject> selection = new Vector<IAAllyObject>();
+		// TODO
 		switch(mission){
 		case attackBarrack:
+			
 			break;
 		case attackCrossBowman:
 			break;
@@ -89,14 +95,15 @@ public class IAInputs extends IA {
 			break;
 		case produceSpearman:
 			break;
+
 		default:
 			break;
-
+		
 		}
 		return selection;
 	}
 
-	public void clickForMission(){
+	public void clickForMission(Vector<IAAllyObject> selection){
 		switch(mission){
 		case attackBarrack:
 			break;

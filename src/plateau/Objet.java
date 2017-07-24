@@ -56,7 +56,10 @@ public abstract class Objet implements java.io.Serializable {
 	// Spells ( what should appear in the bottom bar
 	private Vector<ObjetsList> spells = new Vector<ObjetsList>();
 	protected Vector<Float> spellsState = new Vector<Float>();
-
+	
+	private int roundLastAttack = -100;
+	private static final float timerMaxValueAttacked = 100f;
+	
 	// visibility boolean 
 	public boolean visibleByCurrentTeam;
 	public boolean visibleByCamera;
@@ -201,6 +204,7 @@ public abstract class Objet implements java.io.Serializable {
 
 	public void setLifePoints(float lifepoints, Plateau plateau){
 		if(lifepoints<this.lifePoints && this instanceof Character){
+			this.roundLastAttack = plateau.getRound();
 			EventHandler.addEvent(new EventAttackDamage(this, (int)(this.lifePoints-lifepoints), plateau), plateau);
 		}
 		if(lifepoints<this.getAttribut(Attributs.maxLifepoints))
@@ -351,6 +355,10 @@ public abstract class Objet implements java.io.Serializable {
 	
 	public String hash(){
 		return ""+x+""+y+""+lifePoints+""+name;
+	}
+
+	public int roundSinceLastAttack(int currentRound){
+		return currentRound - this.roundLastAttack;
 	}
 
 

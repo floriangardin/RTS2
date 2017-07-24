@@ -97,7 +97,6 @@ public class Fireball extends Bullet {
 		if(c.getAttributString(Attributs.weapon)!= null && c.getAttributString(Attributs.weapon) == "bow")
 			damage = damage * this.getTeam().data.bonusBowFoot;
 		c.setLifePoints(c.lifePoints-damage, plateau);
-		c.isAttacked();
 
 	}
 

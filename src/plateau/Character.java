@@ -32,10 +32,7 @@ public class Character extends Objet{
 	 */
 	private static final long serialVersionUID = -6156105360565271761L;
 
-	//Isattackec
-	public boolean isAttacked;
-	public float timerAttacked = 0f;
-	public float timerMaxValueAttacked = 10f;
+
 
 
 	public static int MOVE=0;
@@ -201,7 +198,7 @@ public class Character extends Objet{
 		//arme de corps à corps
 		if(plateau.teams.get(0).data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
 			Character c = (Character) this.getTarget(plateau);
-			c.isAttacked();
+			
 			// Attack sound
 			EventHandler.addEvent(EventNames.Attack, this, plateau);
 			// compute damages
@@ -756,11 +753,7 @@ public class Character extends Objet{
 		for(int i=0; i<this.getSpells().size(); i++){
 			this.spellsState.set(i,Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
-		this.timerAttacked-=Main.increment;
-		if(this.timerAttacked<0f){
-			this.timerAttacked=0f;
-			this.isAttacked = false;
-		}
+		
 
 	}
 
@@ -805,11 +798,6 @@ public class Character extends Objet{
 		}
 	}
 	
-
-	public void isAttacked() {
-		this.isAttacked=true;
-		this.timerAttacked = this.timerMaxValueAttacked;
-	}
 
 	public Vector<Character> getGroup(Plateau plateau) {
 		Vector<Character> result = new Vector<Character>();
