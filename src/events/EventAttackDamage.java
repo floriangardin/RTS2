@@ -35,13 +35,13 @@ public class EventAttackDamage extends Event {
 		this.y+=vy;
 		this.x+=vx;
 		this.remainingTime--;
-		GraphicElements.font_red.drawString(x-GraphicElements.font_red.getWidth(""+value)/2, y-GraphicElements.font_red.getHeight(""+value)/2, ""+value);
 		try{
 			Color color = new Color(1f,0f,0f,(this.remainingTime+10f-this.totalRemainingTime)/10f);
 			RenderCharacter.drawFlash(g, color, (Character)(this.parent), plateau);
 		}catch(Exception e){
 			
 		}
+		GraphicElements.font_red.drawString(x-GraphicElements.font_red.getWidth(""+value)/2, y-GraphicElements.font_red.getHeight(""+value)/2, ""+value);
 		return this.remainingTime>0;
 	}
 
