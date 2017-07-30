@@ -1,6 +1,10 @@
 package bot;
 
+
+import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
@@ -11,16 +15,11 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 public abstract class IA{
-	/*
-	 * Tous les objectifs sont réalisés en même temps mais ne peut réalisé qu'un objectif à la fois
-	 */
+
 	public final static Vector<IA> ias = new Vector<IA>();
 	public static boolean isInit = false;
-	private Vector<IAAllyObject> units;
-	private Vector<IAUnit> enemies;
-	private Vector<IAUnit> nature;
-	
-	private Vector<IAAllyObject> selection;
+	private Vector<IAUnit> units;
+	private List<IAUnit> selection;
 	Plateau plateau;
 	private int teamId;
 	private Team player;
@@ -33,6 +32,10 @@ public abstract class IA{
 		}
 		return ims;
 	}
+	public int getTeamId(){
+		return player.id;
+	}
+	
 	public static void init(Vector<IA> toAdd){
 		for(IA ia : toAdd){
 			ias.add(ia);
@@ -47,50 +50,36 @@ public abstract class IA{
 		ias.remove(id);
 	}
 	
-	public Vector<IAAllyObject> getSelection(){
-		return selection;
-	}
 	public IA(int teamid)  {
 		this.teamId= teamid;
-		units = new Vector<IAAllyObject>();
-		enemies = new Vector<IAUnit>();
-		nature = new Vector<IAUnit>();
-		selection = new Vector<IAAllyObject>();
+		units = new Vector<IAUnit>();
 		
 		// Create ennemy static IA
 		// Contain all the objects visible by the IA
 	}
-	public void sendMessage(String message){
-		//Communications.sendMessage(new ChatMessage(this.player.id+"|"+message),this.player.id);
-	}
-	/*
-	 * Renvoie les units , peut-être faire une copie du vecteur à terme par sécurité
-	 */
-	public Vector<IAAllyObject> getMyUnits(){
-		/*
-		 * Return objects of my team
-		 */
-		return units;
+
+	public Stream<IAUnit> getUnits(){
+		return units.stream();
 	}
 	
-	public Vector<IAAllyObject> getMyUnits(ObjetsList filter){
+	public Vector<IAUnit> getMyUnits(ObjetsList filter){
 		/*
 		 * Return objects of my team
 		 */
-		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
-		for(IAAllyObject unit: units ){
+		Vector<IAUnit> res = new Vector<IAUnit>();
+		for(IAUnit unit: units ){
 			if(unit.getName() == filter){
 				res.add(unit);
 			}
 		}
 		return res;
 	}
-	public Vector<IAAllyObject> getMyFreeUnits(ObjetsList filter){
+	public Vector<IAUnit> getMyFreeUnits(ObjetsList filter){
 		/*
 		 * Return objects of my team
 		 */
-		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
-		for(IAAllyObject unit: units ){
+		Vector<IAUnit> res = new Vector<IAUnit>();
+		for(IAUnit unit: units ){
 			if(unit.getName() == filter && !unit.hasTarget()){
 				res.add(unit);
 			}
@@ -98,52 +87,21 @@ public abstract class IA{
 		return res;
 	}
 	
-	public Vector<IAAllyObject> getMyAttackedUnits(ObjetsList filter, int tolerance){
-		/*
-		 * Return objects of my team
-		 */
-		Vector<IAAllyObject> res = new Vector<IAAllyObject>();
-		for(IAAllyObject unit: units ){
-			if(unit.getName() == filter && unit.roundsSinceLastAttack() <= tolerance){
-				res.add(unit);
-			}
-		}
-		return res;
-	}
 	
 	
-	public Vector<IAUnit> getEnemies(){
-		/*
-		 * Return objects of enemy team
-		 */
-		return enemies;
+	public void select(List<IAUnit> units){
+		this.selection = units.stream()
+		.filter(x-> x.getGameTeam()==this.getTeamId())
+		.collect(Collectors.toList());
+		this.selectUnits(this.selection);
+		
 	}
-	
-	public Vector<IAUnit> getEnnemies(ObjetsList filter){
-		/*
-		 * Return objects of my team
-		 */
-		Vector<IAUnit> res = new Vector<IAUnit>();
-		for(IAUnit unit: this.enemies ){
-			if(unit.getName() == filter){
-				res.add(unit);
-			}
-		}
-		return res;
-	}
-	public Vector<IAUnit> getNature(){
-		/*
-		 * Return object of nature
-		 * 
-		 */
-		return nature;
-	}
-	
-	public Vector<IAUnit> getNatureAndEnemies(){
-		Vector<IAUnit> result = new Vector<IAUnit>();
-		result.addAll(enemies);
-		result.addAll(nature);
-		return result;
+	public void selectByIds(List<Integer> units){
+		this.select(units.stream()
+				.map(x-> getById(x))
+				.filter(x-> x!=null)
+				.collect(Collectors.toList()));
+		
 	}
 	/*
 	 * Method always called when IA is awaken
@@ -158,46 +116,28 @@ public abstract class IA{
 		}
 		InputObject toReturn = new InputObject(player.id, roundToPlay);
 		this.plateau = plateau;
-		this.selection.clear();
 		this.units.clear();
-		this.nature.clear();
-		this.enemies.clear();
+		
 		if(plateau.round<5){
 			return toReturn;
 		}
 		//Update IA Objects
 		for(Character c : plateau.characters){
-			if(c.getTeam().id ==0 ||plateau.isVisibleByTeam(this.player.id, c)){
-				if(c.getTeam().id==this.player.id){					
-					this.units.addElement(new IAAllyObject(c,this));
-				}else if( c.getTeam().id ==0){
-					this.nature.addElement(new IAUnit(c,this, plateau));
-				}else{
-					this.enemies.addElement(new IAUnit(c, this, plateau));
-				}
+			if(plateau.isVisibleByTeam(this.player.id, c)){			
+				this.units.addElement(new IAUnit(c,this, plateau));
 			}
 		}
-		for(Building b : plateau.buildings){
-			if(b.getTeam().id==this.player.id){					
-				this.units.addElement(new IAAllyObject(b,this));
-			}else if(b.getTeam().id == 0 || !plateau.isVisibleByTeam(this.player.id, b)){
-				this.nature.addElement(new IAUnit(b,this, plateau));
-			}else{
-				this.enemies.addElement(new IAUnit(b,this, plateau));
-			}
+		for(Building b : plateau.buildings){			
+			this.units.addElement(new IAUnit(b,this, plateau));
 		}
 		return toReturn;
 	}
-	
+
 	public InputObject action(Plateau plateau, int roundToPlay){
 		im = initForRound(plateau, roundToPlay); // Input object to return at the end of turn
 		// Call abstract method to overrides
-		try {
-			this.selection = this.select();
-			this.selectUnits(this.selection);
-			if(this.selection.size()>0){				
-				this.update(this.getSelection());
-			}
+		try {		
+			this.update();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			//alert("Error in IA ... "+e.toString());
@@ -209,11 +149,10 @@ public abstract class IA{
 	public float getAttributs(ObjetsList o, Attributs a){
 		return this.player.data.getAttribut(o, a);
 	}
-	public void selectUnits(Vector<IAAllyObject> units){
+	public void selectUnits(List<IAUnit> units){
 		im.selection = new Vector<Integer>();
-		for(IAAllyObject unit : units){
-			im.selection.add(unit.getId());
-		}
+		units.forEach(x ->  im.selection.add(x.getId()));
+		
 	}
 	public void rightClick(float x, float y){
 		im.rightClick(x, y);
@@ -315,8 +254,7 @@ public abstract class IA{
 		launchSpell(target.getX(), target.getY(), spell);
 	}
 	
-	public abstract void update(Vector<IAAllyObject> selection) throws Exception;
-	public abstract Vector<IAAllyObject> select() throws Exception;
+	public abstract void update() throws Exception;
 	
 	/*Find an unit on a mouse click
 	 * 
@@ -324,10 +262,7 @@ public abstract class IA{
 	public IAUnit findUnit(float x,  float y){
 		Vector<IAUnit> units = new Vector<IAUnit>();
 		units.addAll(this.units);
-		units.addAll(nature);
-		units.addAll(enemies);
 		for(IAUnit u : units){
-			
 			if(u.clickIn(x, y)){
 				return u;
 			}
@@ -335,21 +270,11 @@ public abstract class IA{
 		return null;
 	}
 
-	
-	
-//	public void print(String s){
-//		Communications.sendMessage(new ChatMessage("0|"+s));
-//	}
-//	public void alert(String s){
-//		Communications.sendMessage(new ChatMessage("2|"+s));
-//	}
-	
 
 	public int getFood(){
 		return player.food;
 	}
 	
-
 	public int getPop(){
 		return player.getPop(plateau);
 	}
@@ -373,138 +298,145 @@ public abstract class IA{
 	public Vector<String> getAttributList(ObjetsList o , Attributs a){
 		return player.data.getAttributList(o, a);
 	}
-	
-	
-	
-	
-	
-	// High levels functions For IA Strategy
-	
-	
-	public Vector<ObjetsList> getTechsRequired(ObjetsList o){
-		return player.data.getAttributListAtt(o, Attributs.techsRequired);
-	}
-	
-	/*
-	 * Liste et/ou
-	 */
-	public Vector<Vector<ObjetsList>> getRequirements(ObjetsList o ){
-		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
-		res.add(getProducers(o));
-		for(ObjetsList ol : getTechsRequired(o)){
-			Vector<ObjetsList> tech = new Vector<ObjetsList>();
-			tech.add(ol);
-			res.add(tech);
-		}
-		return res;
-	}
-
-	
-	public Vector<Vector<ObjetsList>> getUnsatisfiedRequirements(ObjetsList o){
-		
-		Vector<Vector<ObjetsList>> req = getRequirements(o);
-		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
-		for(Vector<ObjetsList> v : req){
-			boolean toAdd = true;
-			for(ObjetsList h : v){
-				if(has(h)){
-					toAdd = false;
-					break;
-				}
-			}
-			if(toAdd){				
-				res.add(v);
-			}
-		}
-		return res;
-	}
-	
-	public Vector<ObjetsList> getTechsDiscovered(){
-		return ((Building) plateau.getById(player.hq)).techsDiscovered;
-	}
-	private Team getPlayer(){
-		return player;
-	}
-
-	
-	public Vector<ObjetsList> getProducers(ObjetsList o){
-		Vector<ObjetsList> res = new Vector<ObjetsList>();
-		for(ObjetsList ol : ObjetsList.values()){
-			if(getPlayer().data.getAttributListAtt(ol, Attributs.units).contains(o)){
-				res.add(ol);
-			}
-			if(getPlayer().data.getAttributListAtt(ol, Attributs.technologies).contains(o)){
-				res.add(ol);
-			}
-		}
-		return res;
-	}
-	
-	public Vector<IAAllyObject> getMyProducers(ObjetsList o){
-		Vector<ObjetsList> res = getProducers(o);
-		Vector<IAAllyObject> toReturn = new Vector<IAAllyObject>();
-		for(IAAllyObject u : getMyUnits()){
-			for(ObjetsList ol : res){
-				if(u.getName()==ol ){
-					toReturn.add(u);
-				}
-			}
-		}
-		
-		return toReturn;
+	public IAUnit getById(int id) {
+		// TODO Auto-generated method stub
+		return getUnits()
+				.filter(x-> x.getId()==id)
+				.findFirst()
+				.orElse(null);
 	}
 	
 	
-	
-	/*
-	 * Look if we have the object or the tech
-	 */
-	public boolean has(ObjetsList o){
-		for(IAUnit u : getMyUnits()){
-			if(u.getName()==o){
-				return true;
-			}
-		}
-		
-		//Now check if we have a technology of this name
-		if(getTechsDiscovered().contains(o)){
-			return true;
-		}
-		return false;
-	}
-	
-	
-	/*
-	 * Check if we have at least one of the Object at our command
-	 */
-	public boolean hasOneOf(Vector<ObjetsList> o){
-		for(IAUnit u : getMyUnits()){
-			for(ObjetsList ol : o){
-				if(u.getName()==ol){
-					return true;
-				}
-			}
-
-		}
-		
-		//Now check if we have a technology of this name
-		if(getTechsDiscovered().contains(o)){
-			return true;
-		}
-		return false;
-	}
-	
-	/*
-	 * Look if we have the requirements for producing the object or the tech
-	 */
-	public boolean hasRequirements(ObjetsList o){
-		for(Vector<ObjetsList> ol : getRequirements(o)){
-			if(!hasOneOf(ol)){
-				return false;
-			}
-		}
-		return true;
-	}
+//	
+//	
+//	
+//	// High levels functions For IA Strategy
+//	
+//	
+//	public Vector<ObjetsList> getTechsRequired(ObjetsList o){
+//		return player.data.getAttributListAtt(o, Attributs.techsRequired);
+//	}
+//	
+//	/*
+//	 * Liste et/ou
+//	 */
+//	public Vector<Vector<ObjetsList>> getRequirements(ObjetsList o ){
+//		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
+//		res.add(getProducers(o));
+//		for(ObjetsList ol : getTechsRequired(o)){
+//			Vector<ObjetsList> tech = new Vector<ObjetsList>();
+//			tech.add(ol);
+//			res.add(tech);
+//		}
+//		return res;
+//	}
+//
+//	
+//	public Vector<Vector<ObjetsList>> getUnsatisfiedRequirements(ObjetsList o){
+//		
+//		Vector<Vector<ObjetsList>> req = getRequirements(o);
+//		Vector<Vector<ObjetsList>> res = new Vector<Vector<ObjetsList>>();
+//		for(Vector<ObjetsList> v : req){
+//			boolean toAdd = true;
+//			for(ObjetsList h : v){
+//				if(has(h)){
+//					toAdd = false;
+//					break;
+//				}
+//			}
+//			if(toAdd){				
+//				res.add(v);
+//			}
+//		}
+//		return res;
+//	}
+//	
+//	public Vector<ObjetsList> getTechsDiscovered(){
+//		return ((Building) plateau.getById(player.hq)).techsDiscovered;
+//	}
+//	private Team getPlayer(){
+//		return player;
+//	}
+//
+//	
+//	public Vector<ObjetsList> getProducers(ObjetsList o){
+//		Vector<ObjetsList> res = new Vector<ObjetsList>();
+//		for(ObjetsList ol : ObjetsList.values()){
+//			if(getPlayer().data.getAttributListAtt(ol, Attributs.units).contains(o)){
+//				res.add(ol);
+//			}
+//			if(getPlayer().data.getAttributListAtt(ol, Attributs.technologies).contains(o)){
+//				res.add(ol);
+//			}
+//		}
+//		return res;
+//	}
+//	
+//	public Vector<IAUnit> getMyProducers(ObjetsList o){
+//		Vector<ObjetsList> res = getProducers(o);
+//		Vector<IAUnit> toReturn = new Vector<IAUnit>();
+//		for(IAUnit u : getMyUnits()){
+//			for(ObjetsList ol : res){
+//				if(u.getName()==ol ){
+//					toReturn.add(u);
+//				}
+//			}
+//		}
+//		
+//		return toReturn;
+//	}
+//	
+//	
+//	
+//	/*
+//	 * Look if we have the object or the tech
+//	 */
+//	public boolean has(ObjetsList o){
+//		for(IAUnit u : getMyUnits()){
+//			if(u.getName()==o){
+//				return true;
+//			}
+//		}
+//		
+//		//Now check if we have a technology of this name
+//		if(getTechsDiscovered().contains(o)){
+//			return true;
+//		}
+//		return false;
+//	}
+//	
+//	
+//	/*
+//	 * Check if we have at least one of the Object at our command
+//	 */
+//	public boolean hasOneOf(Vector<ObjetsList> o){
+//		for(IAUnit u : getMyUnits()){
+//			for(ObjetsList ol : o){
+//				if(u.getName()==ol){
+//					return true;
+//				}
+//			}
+//
+//		}
+//		
+//		//Now check if we have a technology of this name
+//		if(getTechsDiscovered().contains(o)){
+//			return true;
+//		}
+//		return false;
+//	}
+//	
+//	/*
+//	 * Look if we have the requirements for producing the object or the tech
+//	 */
+//	public boolean hasRequirements(ObjetsList o){
+//		for(Vector<ObjetsList> ol : getRequirements(o)){
+//			if(!hasOneOf(ol)){
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 	
 
 	

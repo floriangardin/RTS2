@@ -1,5 +1,6 @@
 package bot;
 
+import java.util.List;
 import java.util.Vector;
 
 import data.Attributs;
@@ -10,21 +11,50 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 public class IAUnit {
-
-	
 	protected Objet objet;
 	private IA ia;
+	boolean free = true;
 	protected Plateau plateau;
-	
+	protected Role role= Role.noRole;
+	public enum Role{
+		noRole,
+		build,
+		product,
+		recon,
+		war;
+		public static List<Role> getRoles(){
+			List<Role> res= new Vector<Role>();
+			for(Role role : Role.values()){
+				res.add(role);
+			}
+			return res;
+		}
+	}
 	public IAUnit(Objet o, IA ia, Plateau plateau){
 		this.objet = o;
 		this.ia = ia;
 		this.plateau = plateau;
-
+		if(objet instanceof Building){
+			setRole(Role.product);
+		}
 	}
-
+	public Role getRole(){
+		return role;
+	}
+	public void setRole(Role role){
+		this.role = role;
+	}
 	public ObjetsList getName(){
 		return objet.name;
+	}
+	public void setFree(){
+		this.free = true;
+	}
+	public void setBusy(){
+		this.free = false;
+	}
+	public boolean isFree(){
+		return this.free;
 	}
 	public Class<? extends Objet> getType(){
 		return objet.getClass();
@@ -47,7 +77,31 @@ public class IAUnit {
 			return this.objet.getTeam().id;
 		}
 		return 0;
+	}
+	public boolean canLaunch(ObjetsList spell){
+		if(getObjet() instanceof Character){
+			Character c = (Character) getObjet();
+			int index = c.getSpellsName().indexOf(spell);
+			if(index>=0){
+				return c.canLaunch(index);
+			}
+			
+		}
+
+		return false;
+	}
+
+	public Vector<ObjetsList> getQueue(){
+		Vector<ObjetsList> res = new Vector<ObjetsList>();
+		if(getObjet() instanceof Building){
+			Building b = (Building) getObjet();
+			res.addAll(b.getQueue());
+		}
 		
+		return res;
+	}
+	public int roundsSinceLastAttack(){
+		return this.getObjet().roundSinceLastAttack(plateau.getRound());
 	}
 	Objet getObjet(){
 		return this.objet;
@@ -77,15 +131,10 @@ public class IAUnit {
 		return new Vector<ObjetsList>();
 	}
 	public Vector<ObjetsList> getResearchList(){
-		
 		if(objet instanceof Building){
 			return ((Building) objet).getTechnologyList(plateau);
 		}
 		return new Vector<ObjetsList>();
-	}
-	
-	public static float distance(IAUnit u1,IAUnit u2){
-		return (float) Math.sqrt((u1.getX()-u2.getX())*(u1.getX()-u2.getX())+(u1.getY()-u2.getY())*(u1.getY()-u2.getY()));
 	}
 	
 	
@@ -96,98 +145,24 @@ public class IAUnit {
 		return new Vector<ObjetsList>();
 	}
 	
-	
-	public IAUnit getNearestNeutral(ObjetsList o){
-		Vector<IAUnit> enemies = getIA().getNature();
-		float minDist = -1;
-		IAUnit best =null;
-		for(IAUnit enemy : enemies){
-			float dist = IAUnit.distance(enemy, this);
-			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
-				minDist = dist;
-				best = enemy;
-			}
-		}
-		return best;
-	}
-	public IAUnit getNearestNeutralorEnnemy(ObjetsList o){
-		Vector<IAUnit> enemies = getIA().getNature();
-		enemies.addAll(getIA().getEnemies());
-		float minDist = -1;
-		IAUnit best =null;
-		for(IAUnit enemy : enemies){
-			float dist = IAUnit.distance(enemy, this);
-			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
-				minDist = dist;
-				best = enemy;
-			}
-		}
-		return best;
+
+	public IAUnit getNearest(ObjetsList o){ 
+		return ia.getUnits()
+				.filter(x -> x.getName()==o)
+				.sorted((x,y) -> Float.compare(Utils.distance2(x,this), Utils.distance2(y,this)) )
+				.findFirst()
+				.orElse(null);	
 	}
 	
-	public IAUnit getNearestAlly(ObjetsList o){
-		Vector<IAAllyObject> enemies = getIA().getMyUnits();
-		float minDist = -1;
-		IAUnit best =null;
-		for(IAAllyObject enemy : enemies){
-			float dist = IAUnit.distance(enemy, this);
-			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
-				minDist = dist;
-				best = enemy;
-			}
-		}
-		return best;
+	public IAUnit getNearestEnemy(ObjetsList o){ 
+		return ia.getUnits()
+				.filter(x -> x.getName()==o)
+				.filter(x ->x.getGameTeam()!=ia.getTeamId() && x.getGameTeam()!=0)
+				.sorted((x,y) -> Float.compare(Utils.distance2(x,this), Utils.distance2(y,this)) )
+				.findFirst()
+				.orElse(null);	
 	}
-	
-	public IAUnit getNearestEnemy(ObjetsList o){
-		Vector<IAUnit> enemies = getIA().getEnemies();
-		float minDist = -1;
-		IAUnit best =null;
-		for(IAUnit enemy : enemies){
-			float dist = IAUnit.distance(enemy, this);
-			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
-				minDist = dist;
-				best = enemy;
-			}
-		}
-		return best;
-	}
-	public IAUnit getNearestEnemyCharacter(){
-		Vector<IAUnit> enemies = getIA().getEnemies();
-		float minDist = -1;
-		IAUnit best =null;
-		for(IAUnit enemy : enemies){
-			float dist = IAUnit.distance(enemy, this);
-			if(ObjetsList.getUnits().contains(enemy.getName()) && (minDist==-1 || dist<minDist)){
-				minDist = dist;
-				best = enemy;
-			}
-		}
-		return best;
-	}
-	public boolean isNotUnit(){
-		return this.objet==null || (!(this.objet instanceof Building) && !(this.objet instanceof Character));
-	}
-	
-	public IAUnit getNearest(ObjetsList o ){
-		Vector<IAUnit> enemies = new Vector<IAUnit>();
-		enemies.addAll(getIA().getMyUnits());
-		enemies.addAll(getIA().getEnemies());
-		enemies.addAll(getIA().getNature());
-		float minDist = -1;
-		IAUnit best =null;
-		for(IAUnit enemy : enemies){
-			float dist = IAUnit.distance(enemy, this);
-			if(enemy.getName()==o && (minDist==-1 || dist<minDist)){
-				minDist = dist;
-				best = enemy;
-			}
-		}
-		return best;	
-	}
-	public boolean isNull(){
-		return this.objet==null;
-	}
+
 	public IAUnit getTarget(){
 		return new IAUnit(this.objet.getTarget(plateau),this.ia, plateau);
 	}
@@ -210,8 +185,6 @@ public class IAUnit {
 		result.addAll(getSpells());
 		return result;
 	}
-	
-	
 	
 	
 }

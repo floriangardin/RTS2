@@ -53,7 +53,6 @@ public class InputObject implements java.io.Serializable{
 		this.team = team;
 		this.round = round;
 	}
-	
 	public InputObject(Input input){
 		initInput(input);
 		this.toPlay = false;

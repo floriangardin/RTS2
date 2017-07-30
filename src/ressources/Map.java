@@ -143,7 +143,7 @@ public class Map {
 				case "Tree": new Tree(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1]), plateau);break;
 				}
 			}
-
+			plateau.update();
 			return plateau;
 		} catch (Exception e){
 			System.out.print("erreur");
