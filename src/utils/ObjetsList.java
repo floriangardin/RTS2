@@ -20,7 +20,6 @@ public enum ObjetsList {
 	Inquisitor("Character"),
 	Spearman("Character"),
 	Archange("Character"),
-	Test("Character"),
 	// Buildings
 	Headquarters("Building"),
 	Mill("Building"),
@@ -60,7 +59,6 @@ public enum ObjetsList {
 	Tree01("NatureObject"),
 	Tree02("NatureObject"),
 	Tree03("NatureObject"),
-	Water("NatureObject"), 
 	// SpellEffects
 	BlessedAreaEffect("SpellEffect"), 
 	BurningAreaEffect("SpellEffect"), 
@@ -86,7 +84,7 @@ public enum ObjetsList {
 	;
 	
 	
-	String type;
+	public String type;
 	
 	private ObjetsList(String type){
 		this.type = type;

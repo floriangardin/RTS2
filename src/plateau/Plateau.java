@@ -144,11 +144,12 @@ public class Plateau implements java.io.Serializable {
 	}
 
 	public void addNaturalObjets(NaturalObjet o) {
-		this.mapGrid.insertNewRec(o.x, o.y, Map.stepGrid,Map.stepGrid);
+		this.mapGrid.insertNewRec(o.x-o.sizeX/2, o.y-o.sizeY/2, Map.stepGrid,Map.stepGrid);
 		toAddNaturalObjets.addElement(o);
 	}
 
 	private void removeNaturalObjets(NaturalObjet o) {
+		this.mapGrid.setRec(o.x-o.sizeX/2, o.y-o.sizeY/2, Map.stepGrid,Map.stepGrid, true);
 		toRemoveNaturalObjets.addElement(o);
 	}
 

@@ -8,6 +8,8 @@ public class Case implements java.io.Serializable {
 	
 	public boolean ok;
 	
+	private IdTerrain idTerrain;
+	
 	public int id;
 	
 	public float x;
@@ -24,6 +26,16 @@ public class Case implements java.io.Serializable {
 	public Case(boolean ok, int id, MapGrid map){
 		this.ok = ok;
 		this.id = id;
+		this.idTerrain = IdTerrain.GRASS;
+	}
+	
+	public void setIdTerrain(IdTerrain idTerrain){
+		this.ok = (!this.idTerrain.ok || this.ok) & idTerrain.ok;
+		this.idTerrain = idTerrain;
+	}
+
+	public IdTerrain getIdTerrain(){
+		return this.idTerrain;
 	}
 
 	public void updateX(float x, float x1){
@@ -48,6 +60,16 @@ public class Case implements java.io.Serializable {
 		return s;
 	}
 	
+	public enum IdTerrain{
+		WATER(false),
+		GRASS(true),
+		SAND(true);
+		
+		public final boolean ok;
+		private IdTerrain(boolean ok){
+			this.ok = ok;
+		}
+	}
 	
 	
 }

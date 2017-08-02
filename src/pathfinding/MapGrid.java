@@ -38,6 +38,7 @@ public class MapGrid implements java.io.Serializable {
 		Ycoord = new Vector<Float>();
 		Ycoord.add(minY);
 		Ycoord.add(maxY);
+		updateSurroundingChars();
 		this.minX = minX;
 		this.minY = minY;
 		this.maxX = maxX;
@@ -46,8 +47,9 @@ public class MapGrid implements java.io.Serializable {
 
 	public void insertNewX(float f){
 		//		System.out.println(this);
-		if(Xcoord.contains(f) || f<0f || f>Xcoord.get(Xcoord.size()-1))
+		if(Xcoord.contains(f) || f<0f || f>Xcoord.get(Xcoord.size()-1)){
 			return;
+		}
 		int i=0;
 		while(i<Xcoord.size() && Xcoord.get(i)<f)
 			i++;
@@ -65,14 +67,16 @@ public class MapGrid implements java.io.Serializable {
 			grid.get(i-1).get(j).updateY(Ycoord.get(j),Ycoord.get(j+1));
 			grid.get(i).get(j).updateX(f, f2);
 		}
+		updateIndices();
 		//		for(int k =0; k<this.grid.size(); k++)
 		//			System.out.println(grid.get(k).get(0));
 	}
 
 	public void insertNewY(float f){
 		//		System.out.println(this);
-		if(Ycoord.contains(f) || f<0f || f>Ycoord.get(Ycoord.size()-1))
+		if(Ycoord.contains(f) || f<0f || f>Ycoord.get(Ycoord.size()-1)){
 			return;
+		}
 		int j=0;
 		while(j<Ycoord.size() && Ycoord.get(j)<f)
 			j++;
@@ -89,6 +93,7 @@ public class MapGrid implements java.io.Serializable {
 			grid.get(i).get(j-1).updateY(f1,f);
 			grid.get(i).get(j).updateY(f, f2);
 		}
+		updateIndices();
 		//		for(int k =0; k<this.grid.get(0).size(); k++)
 		//			System.out.println(grid.get(0).get(k));
 	}
@@ -112,24 +117,23 @@ public class MapGrid implements java.io.Serializable {
 	}
 
 	public void insertNewRec(float X, float Y, float sizeX, float sizeY){
-		float delta = 0f;
-		insertNewX(X-sizeX/2f-delta);
-		insertNewX(X+sizeX/2f+delta);
-		insertNewY(Y-sizeY/2f-delta);
-		insertNewY(Y+sizeY/2f+delta);
+		insertNewX(X);
+		insertNewX(X+sizeX);
+		insertNewY(Y);
+		insertNewY(Y+sizeY);
 		updateIndices();
-		//		int imin = (X-sizeX/2f<0 ? 0: Xcoord.indexOf(X-sizeX/2f));
-		//		int imax = (X+sizeX/2f>maxX ? grid.size()-1 : Xcoord.indexOf(X+sizeX/2f));
-		//		int jmin = (Y-sizeY/2f<0 ? 0: Ycoord.indexOf(Y-sizeY/2f));
-		//		int jmax = (Y+sizeY/2f>maxY ? grid.get(0).size()-1 : Ycoord.indexOf(Y+sizeY/2f));
-		int imin = (Xcoord.indexOf(X-sizeX/2f-delta));
-		int imax = (Xcoord.indexOf(X+sizeX/2f+delta));
-		int jmin = (Ycoord.indexOf(Y-sizeY/2f-delta));
-		int jmax = (Ycoord.indexOf(Y+sizeY/2f+delta));
+		setRec(X,Y,sizeX,sizeY,false);
+	}
+	
+	public void setRec(float X, float Y, float sizeX, float sizeY, boolean toSet){
+		int imin = (Xcoord.indexOf(X));
+		int imax = (Xcoord.indexOf(X+sizeX));
+		int jmin = (Ycoord.indexOf(Y));
+		int jmax = (Ycoord.indexOf(Y+sizeY));
 		for(int i = imin;i<imax;i++ )
 			for(int j = jmin; j<jmax; j++)
 				if(i>=0 && i<grid.size() && j>=0 && j<grid.get(0).size())
-					grid.get(i).get(j).ok = false;
+					grid.get(i).get(j).ok = toSet;
 	}
 
 	public Case getCase(float x, float y){
