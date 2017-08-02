@@ -8,21 +8,20 @@ import utils.ObjetsList;
 
 public class IAHelpers {
 
-	
-	public static float[] getOutputVector(float[][] boMatrix, int[] state){
+	public static float[] getOutputVector(float[][] boMatrix, float[] state, float[] bias){
 		float[] output = new float[boMatrix.length];
 		for(int i=0; i<boMatrix.length; i++){
 			int temp = 0;
 			for(int j=0; j<state.length; j++){
 				temp+= boMatrix[i][j]*state[j];
 			}
-			output[i] = temp;
+			output[i] = temp+bias[i];
 		}
 		return output;
 	}
 	
-	public static int[] getState(int sizeState, IA ia){
-		int[] res = new int[sizeState];
+	public static float[] getState(int sizeState, IA ia){
+		float[] res = new float[sizeState];
 		// TODO : 
 		res[IAState.FOOD.value] = ia.getFood();
 		res[IAState.POP.value] = ia.getPop();
@@ -77,23 +76,23 @@ public class IAHelpers {
 
 		return res;
 	}
-	public static int getMaxOutput(float[] output, IAOutput currentMission){
+	public static int getMaxOutput(float[] output){
 		float max = 0;
 		int maxIdx = 0;
 		for(int i = 0; i<output.length; i++){
-			if(output[i]>=max && i!=currentMission.value){
+			if(output[i]>=max){
 				max= output[i];
 				maxIdx = i;
 			}
 		}
 		return maxIdx;
 	}
-	public static int objectiveFunction(int[] state, IA ia){
+	public static float objectiveFunction(int[] state, IA ia){ // fitness fonction
 		// Estimate the actual position given plateau
 		float score = 0;
 		score += state[IAState.FOOD.value];
 		score += Math.abs(state[IAState.MAXPOP.value]-state[IAState.POP.value]);
 		//score += Math.abs(state[IAState.]);
-		return (int) score;
+		return score;
 	}
 }

@@ -80,7 +80,9 @@ public enum ObjetsList {
 	SpecialArrow("Spell"),
 	Product("Spell"),
 	// Others
-	ContactWeapon("Weapon"), 
+	ContactWeapon("Weapon"),
+	Food("Ressource"),
+	Population("Ressource")
 	;
 	
 	
