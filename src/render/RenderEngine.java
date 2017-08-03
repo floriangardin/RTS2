@@ -11,6 +11,7 @@ import display.Camera;
 import display.Interface;
 import events.EventHandler;
 import multiplaying.ChatHandler;
+import pathfinding.Case;
 import plateau.Building;
 import plateau.Bullet;
 import plateau.Character;
@@ -89,6 +90,15 @@ public class RenderEngine {
 		}
 		// Draw second layer of event
 		EventHandler.render(g, plateau, true);
+//		// draw mapgrid
+//		for(Case c : plateau.mapGrid.idcases.values()){
+//			g.setLineWidth(1);
+//			g.setColor(c.ok ? new Color(100,100,100,25) : new Color(255,0,0,100));
+//			g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
+//			g.setColor(Color.darkGray);
+//			g.drawRect(c.x, c.y, c.sizeX, c.sizeY);
+//			
+//		}
 		// Draw interface
 		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);

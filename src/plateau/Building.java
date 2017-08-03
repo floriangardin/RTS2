@@ -41,6 +41,7 @@ public class Building extends Objet{
 	public boolean underAttack;
 	public float underAttackRemaining=0;
 	public float state;
+	public int i, j;
 
 	public static int sizeXIcon = 30;
 	public float chargeTime;
@@ -65,18 +66,18 @@ public class Building extends Objet{
 	private float animationTower;
 
 
-	private float stateRessourceGold;
 	private float stateRessourceFood;
-	private float stateRessourceFaith;
 
 
-	public Building(ObjetsList name, float x, float y, Team team, Plateau plateau){
+	public Building(ObjetsList name, int i, int j, Team team, Plateau plateau){
 		// SET UP TECH LIST ET PRODUCTION LIST
 		super(plateau);
 		this.name = name;
 
-		this.x = x;
-		this.y = y;
+		this.x = (i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2);
+		this.y = (j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2);
+		this.i = i;
+		this.j = j;
 		teamCapturing= 0;
 		this.team = team;
 		this.initialize(x, y, plateau);
@@ -322,9 +323,7 @@ public class Building extends Objet{
 
 		//MINE
 
-		this.stateRessourceGold+=Main.increment;
 		this.stateRessourceFood+=Main.increment;
-		this.stateRessourceFaith+=Main.increment;
 
 
 		if(stateRessourceFood >= this.getAttribut(Attributs.frequencyProduceFood) && getTeam().id!=0){
@@ -363,9 +362,6 @@ public class Building extends Objet{
 	}
 
 	public void initialize(float f, float h, Plateau plateau){
-
-		this.x = f*Map.stepGrid+getAttribut(Attributs.sizeX)/2f;
-		this.y = h*Map.stepGrid+getAttribut(Attributs.sizeY)/2f;
 
 		plateau.addBuilding(this);
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);

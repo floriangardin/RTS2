@@ -113,7 +113,7 @@ public class Map {
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				new Building(ObjetsList.Headquarters,Float.parseFloat(tab[1]),Float.parseFloat(tab[2]),plateau.teams.get((int)Float.parseFloat(tab[0])), plateau);
+				new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.teams.get((int)Float.parseFloat(tab[0])), plateau);
 			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
@@ -121,7 +121,7 @@ public class Map {
 				// typeBuilding_team_x_y
 				String[] tab = buildings.get(i).split(" ");
 				//System.out.println(tab[2]);
-				new Building(ObjetsList.valueOf(tab[0]),Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),plateau.teams.get((int)Float.parseFloat(tab[1])),plateau);
+				new Building(ObjetsList.valueOf(tab[0]),(int)(float)(Float.parseFloat(tab[2])),(int)(float)(Float.parseFloat(tab[3])),plateau.teams.get((int)Float.parseFloat(tab[1])),plateau);
 			}
 			// Units
 			for(int i=0; i<units.size(); i++){
