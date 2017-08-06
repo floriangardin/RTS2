@@ -72,7 +72,7 @@ public class Plateau implements java.io.Serializable {
 
 	public Plateau(int maxX, int maxY) {
 		// GENERAL
-		this.mapGrid = new MapGrid(0f, maxX, 0f, maxY);
+		this.mapGrid = new MapGrid(maxX, maxY);
 		this.maxX = maxX;
 		this.maxY = maxY;
 		// TEAMS
@@ -144,21 +144,22 @@ public class Plateau implements java.io.Serializable {
 	}
 
 	public void addNaturalObjets(NaturalObjet o) {
-		this.mapGrid.insertNewRec(o.x-o.sizeX/2, o.y-o.sizeY/2, Map.stepGrid,Map.stepGrid);
+		this.mapGrid.addNaturalObject(o);
 		toAddNaturalObjets.addElement(o);
 	}
 
 	private void removeNaturalObjets(NaturalObjet o) {
-		this.mapGrid.setRec(o.x-o.sizeX/2, o.y-o.sizeY/2, Map.stepGrid,Map.stepGrid, true);
+		this.mapGrid.removeNaturalObject(o);
 		toRemoveNaturalObjets.addElement(o);
 	}
 
 	public void addBuilding(Building o) {
-		this.mapGrid.insertNewRec(o.x, o.y, o.getAttribut(Attributs.sizeX), o.getAttribut(Attributs.sizeY));
+		this.mapGrid.addBuilding(o);
 		toAddBuildings.addElement(o);
 	}
 
 	private void removeBuilding(Building o) {
+		this.mapGrid.removeBuilding(o);
 		toRemoveBuildings.addElement(o);
 	}
 

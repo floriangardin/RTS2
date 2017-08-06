@@ -80,16 +80,16 @@ public class EventBuildingTaking extends Event{
 		
 		public boolean play(Graphics g){
 			float a = (x-xEnd)*ix+(y-yEnd)*iy;
-			if(a>-5f){
+			if(a>-15f){
 				return false;
 			}
-			aj = -0.01f*((x-xEnd)*jx+(y-yEnd)*jy)-0.05f*vj;
+			aj = -0.01f*((x-xEnd)*jx+(y-yEnd)*jy)+0.0005f*vj;
 			vi = Math.max(1f,-a/30f);
 			vj += aj;
 			x += vi*ix + vj*jx;
 			y += vi*iy + vj*jy;
 			Color c = Colors.getTeamColor(parent.team.id);
-			g.setColor(new Color(c.r,c.g,c.b,Math.min(0.7f, 1.0f+a/v)));
+			g.setColor(new Color(c.r,c.g,c.b,Math.min(0.6f, 1.0f+a/v)));
 			float size = Math.max(25f, 40f*(1f+a/v));
 			g.fillOval(x-size/2f, y-size/2f, size, size);
 			return true;

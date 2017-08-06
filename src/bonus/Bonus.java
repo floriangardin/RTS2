@@ -20,8 +20,8 @@ import utils.ObjetsList;
 
 public abstract class Bonus extends Building{
 
-	public Bonus(ObjetsList name, float x, float y,Team team, Plateau plateau) {
-		super(name, x, y,team, plateau);
+	public Bonus(ObjetsList name, int i, int j,Team team, Plateau plateau) {
+		super(name, i, j, team, plateau);
 		// TODO Auto-generated constructor stub
 	}
 

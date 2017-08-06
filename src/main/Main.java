@@ -38,7 +38,7 @@ public class Main {
 			app.setDisplayMode(resolutionX, resolutionY,false);
 //			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setShowFPS(true);
-			app.setDisplayMode(resolutionX, resolutionY,true);
+//			app.setDisplayMode(resolutionX, resolutionY,true);
 			app.setAlwaysRender(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);

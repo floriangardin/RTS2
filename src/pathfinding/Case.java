@@ -2,7 +2,9 @@ package pathfinding;
 
 import java.util.Vector;
 
+import plateau.Building;
 import plateau.Character;
+import plateau.NaturalObjet;
 
 public class Case implements java.io.Serializable {
 	
@@ -22,6 +24,8 @@ public class Case implements java.io.Serializable {
 
 	public Vector<Character> characters = new Vector<Character>();
 	public Vector<Character> surroundingChars = new Vector<Character>();
+	public Vector<NaturalObjet> naturesObjet = new Vector<NaturalObjet>(); 
+	public Building building;
 	
 	public Case(boolean ok, int id, MapGrid map){
 		this.ok = ok;
@@ -36,6 +40,10 @@ public class Case implements java.io.Serializable {
 
 	public IdTerrain getIdTerrain(){
 		return this.idTerrain;
+	}
+	
+	public void update(){
+		this.ok = this.idTerrain.ok && building == null && naturesObjet.size()==0;
 	}
 
 	public void updateX(float x, float x1){

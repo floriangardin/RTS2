@@ -4,7 +4,11 @@ import java.util.Vector;
 
 import org.newdawn.slick.geom.Rectangle;
 
+import data.Attributs;
+import plateau.Building;
 import plateau.Character;
+import plateau.NaturalObjet;
+import ressources.Map;
 import utils.Utils;
 
 public class MapGrid implements java.io.Serializable {
@@ -14,7 +18,7 @@ public class MapGrid implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 6785502878817282410L;
 
-	public float minX, maxX, minY, maxY;
+	public float maxX, maxY;
 
 	public int idCase = 0;
 
@@ -23,7 +27,9 @@ public class MapGrid implements java.io.Serializable {
 	public Vector<Float> Xcoord;
 	public Vector<Float> Ycoord;
 
-	public MapGrid(float minX, float maxX, float minY, float maxY){
+	public MapGrid(float sizeX, float sizeY){
+		this.maxX = sizeX;
+		this.maxY = sizeY;
 		idcases = new HashMap<Integer, Case>();
 		grid = new Vector<Vector<Case>>();
 		grid.add(new Vector<Case>());
@@ -31,18 +37,20 @@ public class MapGrid implements java.io.Serializable {
 		grid.get(0).add(c);
 		idcases.put(c.id, c);
 		idCase++;
-		grid.get(0).get(0).update(minX, minY, maxX, maxY);
+		grid.get(0).get(0).update(0, 0, maxX, maxY);
 		Xcoord = new Vector<Float>();
-		Xcoord.add(minX);
+		Xcoord.add(0f);
 		Xcoord.add(maxX);
 		Ycoord = new Vector<Float>();
-		Ycoord.add(minY);
+		Ycoord.add(0f);
 		Ycoord.add(maxY);
+		for(float mg = Map.stepGrid; mg<this.maxX; mg+=Map.stepGrid){
+			insertNewX(mg);
+		}
+		for(float mg = Map.stepGrid; mg<this.maxY; mg+=Map.stepGrid){
+			insertNewY(mg);
+		}
 		updateSurroundingChars();
-		this.minX = minX;
-		this.minY = minY;
-		this.maxX = maxX;
-		this.maxY = maxY;
 	}
 
 	public void insertNewX(float f){
@@ -116,28 +124,42 @@ public class MapGrid implements java.io.Serializable {
 		return s;
 	}
 
-	public void insertNewRec(float X, float Y, float sizeX, float sizeY){
-		insertNewX(X);
-		insertNewX(X+sizeX);
-		insertNewY(Y);
-		insertNewY(Y+sizeY);
-		updateIndices();
-		setRec(X,Y,sizeX,sizeY,false);
+	public void addBuilding(Building b){
+		for(int i = b.i;i<b.i + (int)(b.getAttribut(Attributs.sizeX)/Map.stepGrid);i++ )
+			for(int j = b.j; j<b.j + (int)(b.getAttribut(Attributs.sizeY)/Map.stepGrid); j++)
+				if(i>=0 && i<grid.size() && j>=0 && j<grid.get(0).size())
+					grid.get(i).get(j).building = b;
+		update();
 	}
 	
-	public void setRec(float X, float Y, float sizeX, float sizeY, boolean toSet){
-		int imin = (Xcoord.indexOf(X));
-		int imax = (Xcoord.indexOf(X+sizeX));
-		int jmin = (Ycoord.indexOf(Y));
-		int jmax = (Ycoord.indexOf(Y+sizeY));
-		for(int i = imin;i<imax;i++ )
-			for(int j = jmin; j<jmax; j++)
+	public void addNaturalObject(NaturalObjet n){
+		Case c = this.getCase(n.x, n.y);
+		c.naturesObjet.add(n);
+		c.update();
+	}
+	
+	public void removeBuilding(Building b){
+		for(int i = b.i;i<b.i + (int)b.getAttribut(Attributs.sizeX);i++ )
+			for(int j = b.j; j<b.j + (int)b.getAttribut(Attributs.sizeY); j++)
 				if(i>=0 && i<grid.size() && j>=0 && j<grid.get(0).size())
-					grid.get(i).get(j).ok = toSet;
+					grid.get(i).get(j).building = null;
+		update();
+	}
+	
+	public void removeNaturalObject(NaturalObjet n){
+		Case c = this.getCase(n.x, n.y);
+		c.naturesObjet.remove(n);
+		c.update();
+	}
+		
+	public void update(){
+		for(Case c: this.idcases.values()){
+			c.update();
+		}
 	}
 
 	public Case getCase(float x, float y){
-		if(x<minX || x>=maxX || y<minY||y>=maxY)
+		if(x<0 || x>=maxX || y<0||y>=maxY)
 			return null;
 		int i=0, j=0;
 		while(x>Xcoord.get(i+1))
@@ -445,9 +467,9 @@ public class MapGrid implements java.io.Serializable {
 		if(Utils.distance(x1, y1, x2, y2)>1000f)
 			return new Vector<Case>();
 		boolean ok = true;
-		if(x1<minX || x1>=maxX || y1<minY||y1>=maxY)
+		if(x1<0 || x1>=maxX || y1<0||y1>=maxY)
 			return new Vector<Case>();
-		if(x2<minX || x2>=maxX || y2<minY||y2>=maxY)
+		if(x2<0 || x2>=maxX || y2<0||y2>=maxY)
 			return new Vector<Case>();
 		int i=0, j=0;
 		float x = x1, y = y1;

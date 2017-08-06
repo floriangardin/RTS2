@@ -9,7 +9,7 @@ import utils.ObjetsList;
 public class BonusSpeed extends Bonus{
 
 
-	public BonusSpeed( float x , float y, Team team, Plateau plateau){
+	public BonusSpeed( int x , int y, Team team, Plateau plateau){
 		super(ObjetsList.BonusSpeed,x,y, team, plateau);
 		this.initialize( x, y, plateau);
 		this.bonus = 20f;
