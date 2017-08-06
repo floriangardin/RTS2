@@ -8,35 +8,39 @@ import bot.IA;
 import iamission.MissionBuilding;
 import utils.ObjetsList;
 
-public class BuildCommander {
+public class BuildCommander extends Commander{
 
 	public List<ObjetsList> orders;
+	public MissionBuilding mission;
 	public List<Boolean> ok;
 	public int cursor;
-	public BuildCommander(){
-		
-	}
-	public BuildCommander(List<ObjetsList> orders){
-		this.orders = orders;
-		this.ok = orders.stream()
-				.map(x-> false)
-				.collect(Collectors.toList());
+	public BuildCommander(IA ia){
+		super(ia);
 	}
 	
-	public static BuildCommander classicBo(){
+	
+	public static BuildCommander classicBo(IA ia){
 		Vector<ObjetsList> bo = new Vector<ObjetsList>();
 		bo.add(ObjetsList.Barracks);
 		bo.add(ObjetsList.Mill);
 		bo.add(ObjetsList.Mine);
-		return new BuildCommander(bo);
+		bo.add(ObjetsList.Tower);
+		bo.add(ObjetsList.Tower);
+		bo.add(ObjetsList.Headquarters);
+		BuildCommander b = new BuildCommander(ia);
+		b.orders = bo;
+		return b;
 	}
 	
-	public  MissionBuilding getOrder(IA ia){
+	public void play(){
 		if(cursor>=orders.size()){
-			return null;
+			return;
 		}
-		MissionBuilding res = new MissionBuilding(ia, orders.get(cursor));
-		cursor++;
-		return res;
+		if(mission==null || mission.isFinished()){
+			mission = new MissionBuilding(this.ia, orders.get(cursor));
+			cursor++;
+		}
+		
+		
 	}
 }

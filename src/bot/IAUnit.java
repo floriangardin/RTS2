@@ -38,6 +38,10 @@ public class IAUnit {
 			setRole(Role.product);
 		}
 	}
+	
+	public boolean isinstance(Class<?> classe){
+		return classe.isInstance(this.objet);
+	}
 	public Role getRole(){
 		return role;
 	}

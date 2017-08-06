@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import bot.IA;
 import bot.IAUnit;
 import bot.Utils;
+import bot.IAUnit.Role;
 import utils.ObjetsList;
 
 public class MissionBuilding {
@@ -15,7 +16,6 @@ public class MissionBuilding {
 	IA ia;
 	ObjetsList objective;
 	List<Integer> ressources;
-	Behaviour behaviour;
 	int target;
 	boolean finished;
 	boolean hasStarted;
@@ -25,6 +25,10 @@ public class MissionBuilding {
 		this.setRessources();
 		this.setObjective(objective);
 		ia.selectByIds(ressources);
+		List<IAUnit> units = ressources.stream()
+				.map(x-> ia.getById(x))
+				.collect(Collectors.toList());
+		ia.select(units);
 		ia.rightClick(ia.getById(target));
 	}
 	public boolean isFinished(){
@@ -41,11 +45,13 @@ public class MissionBuilding {
 				.findFirst()
 				.map(x-> x.getId())
 				.orElse(-1);
+		
 		return this;
 	}
 	public MissionBuilding setRessources(){
 		this.ressources = ia.getUnits()
 				.filter(x-> x.isFree())
+				.filter(x-> x.getRole()==Role.build)
 				.filter(x-> x.getGameTeam()==ia.getTeamId())
 				.filter(x -> x.getName()==ObjetsList.Spearman)
 				.peek(x -> x.setBusy())

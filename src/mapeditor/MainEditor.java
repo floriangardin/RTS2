@@ -19,12 +19,7 @@ public class MainEditor {
 	public static boolean collision = true;
 	public static boolean grid = true;
 	public static TeamSelected teamSelected = TeamSelected.Neutral;
-	
-	
-
 	private static Vector<SheetPanel> sheets;
-	
-	
 	
 	public static void main(String[] args) {
 		try {
@@ -39,7 +34,6 @@ public class MainEditor {
 			e.printStackTrace();
 		}
 	}
-	
 	public static SheetPanel getSheet(){
 		return ((SheetPanel) (SwingMain.getSheetsPane().getSelectedComponent()));
 	}

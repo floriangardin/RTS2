@@ -2,10 +2,12 @@ package bot;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import bot.IAUnit.Role;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
@@ -93,6 +95,16 @@ public abstract class IA{
 		this.selection = units.stream()
 		.filter(x-> x.getGameTeam()==this.getTeamId())
 		.collect(Collectors.toList());
+		
+		this.selectUnits(this.selection);
+		
+	}
+	public void select(IAUnit unit){
+		Vector<IAUnit> units = new Vector<IAUnit>();
+		if(unit.getGameTeam()==this.getTeamId()){
+			units.add(unit);
+		}
+		this.selection = units;
 		this.selectUnits(this.selection);
 		
 	}
@@ -116,6 +128,7 @@ public abstract class IA{
 		}
 		InputObject toReturn = new InputObject(player.id, roundToPlay);
 		this.plateau = plateau;
+		Map<Integer, Role> roles = getUnits().collect(Collectors.toMap(IAUnit::getId, IAUnit::getRole));
 		this.units.clear();
 		
 		if(plateau.round<5){
@@ -123,8 +136,12 @@ public abstract class IA{
 		}
 		//Update IA Objects
 		for(Character c : plateau.characters){
-			if(plateau.isVisibleByTeam(this.player.id, c)){			
-				this.units.addElement(new IAUnit(c,this, plateau));
+			if(plateau.isVisibleByTeam(this.player.id, c)){
+				IAUnit newUnit = new IAUnit(c,this, plateau);
+				if(roles.containsKey(newUnit.getId())){
+					newUnit.setRole(roles.get(newUnit.getId()));
+				}
+				this.units.addElement(newUnit);
 			}
 		}
 		for(Building b : plateau.buildings){			
@@ -136,7 +153,7 @@ public abstract class IA{
 	public InputObject action(Plateau plateau, int roundToPlay){
 		im = initForRound(plateau, roundToPlay); // Input object to return at the end of turn
 		// Call abstract method to overrides
-		try {		
+		try {
 			this.update();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -158,7 +175,12 @@ public abstract class IA{
 		im.rightClick(x, y);
 	}
 	public void rightClick(IAUnit unit){
+		
 		im.rightClick(unit.getX(), unit.getY());
+	}
+	
+	public int getRound(){
+		return plateau.round;
 	}
 	public void stopMove(){
 		im.pressed.add(KeyEnum.StopperMouvement);
@@ -217,7 +239,7 @@ public abstract class IA{
 		}
 	}; // Produce research
 	
-	public void produce(ObjetsList o, InputObject im){
+	public void produce(ObjetsList o){
 		produceUnit(o);
 		produceTechnology(o);
 	}

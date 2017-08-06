@@ -28,7 +28,7 @@ public class MainSimu {
 			KeyMapper.init();
 			GameServer.init();
 			GameClient.init("localhost");
-			Player.setTeam(1);
+			Player.setTeam(2);
 			Vector<IA> ias = new Vector<IA>();
 			ias.add(new IAInputs(2));
 			IA.init(ias);

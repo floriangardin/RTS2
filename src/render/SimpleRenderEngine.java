@@ -52,6 +52,7 @@ public class SimpleRenderEngine {
 					g.setColor(Color.white);
 					if(o.name!=null){
 						g.drawString(o.name.toString().substring(0, 3), o.x-10, o.y-10);
+						g.drawString(""+o.id, o.x-10, o.y-20);
 					}
 				}
 				
