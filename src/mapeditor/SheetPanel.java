@@ -27,6 +27,7 @@ import mapeditor.MainEditor.Mode;
 import mapeditor.TerrainObjectPanel.BrushStyle;
 import pathfinding.Case;
 import pathfinding.Case.IdTerrain;
+import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.ImagesAwt;
@@ -41,7 +42,8 @@ public class SheetPanel extends JPanel {
 	int offsetX, offsetY;
 	int mouseClickX, mouseClickY;
 	boolean mouseIn;
-	
+	boolean actionOK;
+
 	public Objet mouseOver;
 
 	private String name;
@@ -114,40 +116,37 @@ public class SheetPanel extends JPanel {
 				MainEditor.frame.repaint();
 			}
 			public void mousePressed(MouseEvent arg0) {
-				// check mode
+				// if actionOk performAction
 				mouseClickX = arg0.getX();
 				mouseClickY = arg0.getY();
-				Case c;
-				switch(MainEditor.mode){
-				case MOVE:
-					break;
-				case TERRAIN:
-					updateHighlightedCases();
-					for(Case c1 : highlightedCases){
-						if(c1!=null && c1.getIdTerrain()!=TerrainObjectPanel.groundStyle){
-							doAction(new ActionPaintTerrain(plateau, highlightedCases, TerrainObjectPanel.groundStyle));
-							break;
+				if(actionOK){
+					switch(MainEditor.mode){
+					case MOVE:
+						break;
+					case TERRAIN:
+						for(Case c1 : highlightedCases){
+							if(c1!=null && c1.getIdTerrain()!=TerrainObjectPanel.groundStyle){
+								System.out.println("vaneau");
+								doAction(new ActionPaintTerrain(plateau, highlightedCases, TerrainObjectPanel.groundStyle));
+								break;
+							}
 						}
-					}
-					break;
-				case NATURE:
-				case CHARACTER:
-					c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
-					if(c.ok && PlateauObjectPanel.selectedObject!=null){
+						break;
+					case NATURE:
+					case CHARACTER:
 						doAction(new ActionCreateObjet(plateau, PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(mouseClickX-offsetX), (int)(mouseClickY-offsetY)));
+						break;
+					case ERASE:
+						if(mouseOver!=null){
+							doAction(new ActionDeleteObjet(plateau, mouseOver));
+							mouseOver = null;
+						}
+						break;
+					default:
+						break;
 					}
-					break;
-				case ERASE:
-					if(mouseOver!=null){
-						doAction(new ActionDeleteObjet(plateau, mouseOver));
-						mouseOver = null;
-					}
-					break;
-				default:
-					break;
-
+					MainEditor.frame.repaint();
 				}
-				MainEditor.frame.repaint();
 			}
 			public void mouseReleased(MouseEvent arg0) {
 
@@ -183,33 +182,69 @@ public class SheetPanel extends JPanel {
 			public void mouseMoved(MouseEvent arg0) {
 				mouseClickX = arg0.getX();
 				mouseClickY = arg0.getY();
+				// update actionOK
+				Case c;
+				actionOK = false; 
+				float min = 60f, d;
 				switch(MainEditor.mode){
 				case TERRAIN:
 					updateHighlightedCases();
+					actionOK = highlightedCases.size()>0;
+					break;
 				case CHARACTER:
+					c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
+					actionOK = c!=null && c.ok;
+					if(actionOK){
+						for(Objet ch : getPlateau().mapGrid.getSurroundingChars(c)){
+							d = Utils.distance(ch.x, ch.y, mouseClickX-offsetX, mouseClickY-offsetY);
+							if(d<min){
+								actionOK = false;
+								break;
+							}
+						}
+					}
+					break;
 				case NATURE:
-					MainEditor.frame.repaint();
+					c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
+					actionOK = c!=null && (c.ok || c.naturesObjet.size()>0) && c.characters.size()==0;
+					if(actionOK){
+						for(NaturalObjet ch : getPlateau().mapGrid.getSurroundingNaturalObjet(c)){
+							d = Utils.distance(ch.x, ch.y, mouseClickX-offsetX, mouseClickY-offsetY);
+							if(d<min){
+								actionOK = false;
+								break;
+							}
+						}
+					}
 					break;
 				case ERASE:
 					mouseOver = null;
 					getPlateau().mapGrid.updateSurroundingChars();
-					Case c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
+					c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
 					if(c==null){
 						break;
 					}
-					float min = 30f, d;
 					for(Objet ch : getPlateau().mapGrid.getSurroundingChars(c)){
 						d = Utils.distance(ch.x, ch.y, mouseClickX-offsetX, mouseClickY-offsetY);
 						if(d<min){
 							mouseOver = ch;
+							actionOK = true;
 							min = d;
 						}
 					}
-					MainEditor.frame.repaint();
+					for(NaturalObjet ch : c.naturesObjet){
+						d = Utils.distance(ch.x, ch.y, mouseClickX-offsetX, mouseClickY-offsetY);
+						if(d<min){
+							mouseOver = ch;
+							actionOK = true;
+							min = d;
+						}
+					}
 					break;
 				default:
 					break;
 				}
+				MainEditor.frame.repaint();
 			}
 		};
 	}
@@ -236,24 +271,29 @@ public class SheetPanel extends JPanel {
 		if(getPlateau() == null || getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY)==null){
 			return;
 		}
+		Case c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
+		if(!TerrainObjectPanel.groundStyle.ok && (c.characters.size()>0 || c.building!=null || c.naturesObjet.size()>0)){
+			return;
+		}
 		switch(TerrainObjectPanel.brushStyle){
 		case FILL:
 			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY));
 			IdTerrain idTerrain = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY).getIdTerrain();
 			boolean newCases;
 			int i,j;
-			Case c1;
 			do{
 				newCases = false;
-				for(Case c : getPlateau().mapGrid.idcases.values()){
-					if(highlightedCases.contains(c)){
+				Case c1;
+				for(Case c2 : getPlateau().mapGrid.idcases.values()){
+					if(highlightedCases.contains(c2)){
 						for(Integer u : new int[]{-1, +1}){
 							for(Integer v : new int[]{-1, +1}){
-								i = c.i+(u-v)/2;
-								j = c.j+(u+v)/2;
+								i = c2.i+(u-v)/2;
+								j = c2.j+(u+v)/2;
 								if(i>=0 && j>=0 && i<getPlateau().mapGrid.grid.size() && j<getPlateau().mapGrid.grid.get(0).size()){
 									c1 = getPlateau().mapGrid.grid.get(i).get(j);
-									if(!highlightedCases.contains(c1) && c1.getIdTerrain()==idTerrain){
+									if(!highlightedCases.contains(c1) && c1.getIdTerrain()==idTerrain 
+											&& (TerrainObjectPanel.groundStyle.ok || (c1.characters.size()==0 && c1.building==null && c1.naturesObjet.size()==0))){
 										newCases = true;
 										highlightedCases.add(c1);
 									}
@@ -265,23 +305,34 @@ public class SheetPanel extends JPanel {
 			} while(newCases);
 			break;
 		case SIZE1:
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY));
+			if(c!=null && (TerrainObjectPanel.groundStyle.ok || (c.characters.size()==0 && c.building==null && c.naturesObjet.size()==0))){
+				highlightedCases.add(c);
+			}
 			break;
 		case SIZE2:
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid/2, mouseClickY-offsetY-Map.stepGrid/2));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid/2, mouseClickY-offsetY+Map.stepGrid/2));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid/2, mouseClickY-offsetY-Map.stepGrid/2));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid/2, mouseClickY-offsetY+Map.stepGrid/2));
+			for(Case c1 : new Case[]{getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid/2, mouseClickY-offsetY-Map.stepGrid/2),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid/2, mouseClickY-offsetY+Map.stepGrid/2),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid/2, mouseClickY-offsetY-Map.stepGrid/2),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid/2, mouseClickY-offsetY+Map.stepGrid/2)}){
+				if(c1!=null && (TerrainObjectPanel.groundStyle.ok || (c1.characters.size()==0 && c1.building==null && c1.naturesObjet.size()==0))){
+					highlightedCases.add(c1);
+				}
+			}
 			break;
 		case SIZE3:
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY-Map.stepGrid));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY-Map.stepGrid));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY+Map.stepGrid));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY+Map.stepGrid));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY-Map.stepGrid));
-			highlightedCases.add(getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY+Map.stepGrid));
+			for(Case c1 : new Case[]{getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY+Map.stepGrid),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY-Map.stepGrid),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY+Map.stepGrid),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY+Map.stepGrid),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY-Map.stepGrid),
+					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY-Map.stepGrid)
+					}){
+				if(c1!=null && (TerrainObjectPanel.groundStyle.ok || (c1.characters.size()==0 && c1.building==null && c1.naturesObjet.size()==0))){
+					highlightedCases.add(c1);
+				}
+			}
 			break;
 		case RECT:
 		default:
@@ -337,7 +388,7 @@ public class SheetPanel extends JPanel {
 			g2.setColor(Color.green);
 			g2.drawOval((int)mouseOver.x-30, (int)mouseOver.y-20,60,40);
 		}
-		
+
 		// rendering objects
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.objets.values()){
@@ -358,7 +409,7 @@ public class SheetPanel extends JPanel {
 				g2.fillRect((int)c.x, (int)c.y, (int)c.sizeX, (int)c.sizeY);
 			}
 			// collision ok ?
-			if(MainEditor.collision && !c.ok){
+			if(MainEditor.collision && (!c.ok && (MainEditor.mode != Mode.NATURE || c.naturesObjet.size()==0))){
 				g2.setColor(Color.red);
 				for(int k=0; k<Map.stepGrid*2; k+=10){
 					g2.drawLine((int)(c.x+Math.max(0,k-Map.stepGrid)), 
@@ -375,8 +426,7 @@ public class SheetPanel extends JPanel {
 		}
 		// creation item
 		if(MainEditor.mode==Mode.CHARACTER || MainEditor.mode==Mode.NATURE){
-			Case c = getPlateau().mapGrid.getCase(mouseClickX-offsetX, mouseClickY-offsetY);
-			if(c != null && c.ok && PlateauObjectPanel.selectedObject!=null && mouseIn){
+			if(actionOK & mouseIn & PlateauObjectPanel.selectedObject!=null){
 				im = ImagesAwt.getImage(PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team);
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 				g2.drawImage(im, (int)(mouseClickX-offsetX-im.getWidth(null)/2), (int)(mouseClickY-offsetY-im.getHeight(null)*2/3), null);

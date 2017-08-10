@@ -72,7 +72,9 @@ public class RenderEngine {
 		for(Objet o : objets){
 			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				if (o instanceof Building || o instanceof NaturalObjet){
-					renderObjet(o, g, plateau, false);
+					if(o.getTeam().id!=Player.getTeamId() && !plateau.isVisibleByTeam(Player.getTeamId(), o)){
+						renderObjet(o, g, plateau, false);
+					}
 				}
 			}
 		}
@@ -81,9 +83,7 @@ public class RenderEngine {
 		// 2) Draw Objects
 		for(Objet o : objets){
 			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
-				if(o.getTeam().id==Player.getTeamId()){
-					renderObjet(o, g, plateau);
-				} else if (plateau.isVisibleByTeam(Player.getTeamId(), o)){
+				if(o.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), o)){
 					renderObjet(o, g, plateau);
 				}
 			}

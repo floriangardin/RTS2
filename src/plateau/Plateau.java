@@ -128,10 +128,12 @@ public class Plateau implements java.io.Serializable {
 	}
 
 	public void addCharacterObjets(Character o) {
+		((Character)o).setXY(o.x,o.y, this);
 		toAddCharacters.addElement(o);
 	}
 
 	private void removeCharacter(Character o) {
+		((Character)o).setXY(-1,-1, this);
 		toRemoveCharacters.addElement(o);
 	}
 

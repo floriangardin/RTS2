@@ -175,7 +175,7 @@ public abstract class Objet implements java.io.Serializable {
 	public float getY(){
 		return y;
 	}
-	protected void setXY(float x, float y, Plateau plateau){
+	public void setXY(float x, float y, Plateau plateau){
 
 		if(this instanceof Bullet){
 			this.x = x;

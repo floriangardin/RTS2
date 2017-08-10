@@ -20,7 +20,7 @@ public class Actions {
 		
 		ObjetsList ol;
 		int x, y, team;
-		int idObjet = -1;
+		Objet o;
 		
 		public ActionCreateObjet(Plateau plateau, ObjetsList ol, int team, int x, int y){
 			super(ActionType.CreateObjet, plateau);
@@ -32,7 +32,6 @@ public class Actions {
 
 		@Override
 		public void undo() {
-			Objet o = plateau.getById(idObjet);
 			if(o!=null){
 				o.lifePoints = -1;
 				plateau.clean();
@@ -41,10 +40,9 @@ public class Actions {
 
 		@Override
 		public void redo() {
-			Objet o = null;
 			switch(ol.type){
 			case "NatureObject":
-				o = new Tree((int)(x/Map.stepGrid),(int)(y/Map.stepGrid),Integer.parseInt(ol.name().substring(5)),plateau);
+				o = new Tree(x,y,Integer.parseInt(ol.name().substring(5)),plateau);
 				break;
 			case "Character":
 				o = new Character(x, y, ol, plateau.teams.get(team), plateau);
@@ -52,7 +50,6 @@ public class Actions {
 			default:
 				break;
 			}
-			this.idObjet = o.id;
 			plateau.clean();
 		}
 	}
@@ -78,13 +75,13 @@ public class Actions {
 			o.y = y;
 			switch(o.name.type){
 			case "Character":
-				plateau.toAddCharacters.add((Character)o);
+				plateau.addCharacterObjets((Character)o);
 				break;
 			case "NatureObjet":
-				plateau.toAddNaturalObjets.add((NaturalObjet)o);
+				plateau.addNaturalObjets((NaturalObjet)o);
 				break;
 			case "Building":
-				plateau.toAddBuildings.add((Building)o);
+				plateau.addBuilding((Building)o);
 				break;
 			}
 			plateau.clean();

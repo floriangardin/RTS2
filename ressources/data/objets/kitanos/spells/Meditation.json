@@ -1,8 +1,8 @@
 {
 prototype:"Spell",
-printName:"Immolation",
+printName:"Meditation",
 chargeTime:0,
-faithCost:1,
-totalTime:5,
+faithCost:0,
+totalTime:20,
 needToClick:0
 }
