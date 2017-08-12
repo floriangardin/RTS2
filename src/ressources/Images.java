@@ -19,7 +19,7 @@ import utils.ObjetsList;
 
 public class Images {
 
-	private static HashMap<String, Image> images;
+	private static HashMap<String, Image> images= new HashMap<String, Image>();;
 	private static HashMap<String, Image> oldimages;
 	private static HashMap<ObjetsList, HashMap<String, Image>> imagesUnits;
 	private static HashMap<String, Image> sand;	
@@ -30,7 +30,6 @@ public class Images {
 	private static boolean isInitialized = false;
 
 	public static void init(){
-		images = new HashMap<String, Image>();
 		data = new Data();
 		loadRepertoire("ressources/images/");
 		initialize();

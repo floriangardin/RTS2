@@ -43,6 +43,9 @@ public class ChatHandler {
 	}
 
 	public static void addMessage(ChatMessage m){
+		if(!isInit){
+			return;
+		}
 		if(m.message.startsWith("/")){
 			Taunts.playTaunt(m.message.substring(1));
 			return;

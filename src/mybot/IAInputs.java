@@ -29,34 +29,25 @@ public class IAInputs extends IA {
 	@Override
 	public void update() throws Exception {
 		// General attribute roles to everyone
-		//general.assignRoles();
+		general.assignRoles();
 		
 		if(getUnits().count()==0){
 			return;
 		}
-		IAUnit selected = getUnits()
-				.filter(x->x.getId()==77)
-				.findFirst()
-				.orElse(null);
-		this.select(selected);
-		this.rightClick(getUnits()
-				.filter(x->x.getId()==63)
-				.findFirst()
-				.orElse(null));
 		int roleToPlay = general.roleToPlay();
 		switch(roleToPlay){
 		case General.BUILD:
-			//bo.play();
+			bo.play();
 			break;
-//		case General.RECON:
-//			recon.play();
-//			break;
-//		case General.WAR:
-//			war.play();
-//			break;
-//		case General.PROD:
-//			prod.play();
-//			break;
+		case General.RECON:
+			recon.play();
+			break;
+		case General.WAR:
+			war.play();
+			break;
+		case General.PROD:
+			prod.play();
+			break;
 		}
 
 
