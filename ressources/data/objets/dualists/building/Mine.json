@@ -1,11 +1,12 @@
 {
 printName:"Mine",
 prototype:"Building",
-sizeX:3,
+sizeX:2,
 sizeY:2,
 maxChargetime:10,
 technologies:DualistBonusGold,
-produceGold:1,
+produceGold:0,
 popGiven:5,
-popTaken:0
+popTaken:0,
+newdesign:0
 }

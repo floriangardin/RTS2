@@ -60,11 +60,11 @@ public class Images {
 
 		// buildings
 		resizeBuilding("academy");
-		resizeBuilding("barracks");
+//		resizeBuilding("barracks");
 		resizeBuilding("headquarters");
 //		resizeBuilding("mill");
-		resizeBuilding("mine");
-		resizeBuilding("stable");
+//		resizeBuilding(q"mine");
+//		resizeBuilding("stable");
 		resizeBuilding("tower");
 		resizeBuilding("university");
 

@@ -13,7 +13,7 @@ animStep:20,
 prodTime:20,
 faithCost:0,
 range:70,
-spells:Immolation-Conversion,
+spells:Immolation-Meditation-Conversion,
 explosionWhenImmolate:0,
 size:30
 }

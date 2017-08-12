@@ -18,5 +18,6 @@ produceFood:0,
 produceFaith:0,
 frequencyProduceGold:5,
 frequencyProduceFood:5,
-frequencyProduceFaith:5
+frequencyProduceFaith:5,
+popGiven:0
 }

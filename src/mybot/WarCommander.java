@@ -39,7 +39,9 @@ public class WarCommander extends Commander{
 				.filter(x-> x.getGameTeam()==0)
 				.filter(x-> x.getType().isInstance(Character.class))
 				.collect(Collectors.toList());
-		
+		if(enemies.size()==0){
+			return;
+		}
 		// Attack nearest ennemy from team leader
 		ia.select(units);
 		ia.rightClick(getNearestEnemy(leader, enemies));

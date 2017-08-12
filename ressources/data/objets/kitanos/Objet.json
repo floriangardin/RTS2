@@ -5,6 +5,8 @@ foodCost:0,
 faithCost:0,
 prodTime:2,
 sight:1,
-spells:""
+spells:"",
+popTaken:1,
+popGiven:0
 
 }

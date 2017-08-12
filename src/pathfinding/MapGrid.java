@@ -574,6 +574,33 @@ public class MapGrid implements java.io.Serializable {
 			chars.addAll(grid.get(c.i+1).get(c.j+1).characters);
 		return chars;
 	}
+	
+	public Vector<NaturalObjet> getSurroundingNaturalObjet(Case c){
+		Vector<NaturalObjet> chars = new Vector<NaturalObjet>();
+		chars.addAll(c.naturesObjet);
+		boolean leftisok = c.x>0;
+		boolean upisok = c.y>0;
+		boolean rightisok = c.x+c.sizeX<this.maxX;
+		boolean downisok = c.y+c.sizeY<this.maxY;
+		if(leftisok)
+			chars.addAll(grid.get(c.i-1).get(c.j).naturesObjet);
+		if(rightisok)
+			chars.addAll(grid.get(c.i+1).get(c.j).naturesObjet);
+		if(upisok)
+			chars.addAll(grid.get(c.i).get(c.j-1).naturesObjet);
+		if(downisok)
+			chars.addAll(grid.get(c.i).get(c.j+1).naturesObjet);
+		if(leftisok && upisok)
+			chars.addAll(grid.get(c.i-1).get(c.j-1).naturesObjet);
+		if(leftisok && downisok)
+			chars.addAll(grid.get(c.i-1).get(c.j+1).naturesObjet);
+		if(rightisok && upisok)
+			chars.addAll(grid.get(c.i+1).get(c.j-1).naturesObjet);
+		if(rightisok && downisok)
+			chars.addAll(grid.get(c.i+1).get(c.j+1).naturesObjet);
+		return chars;
+	}
+	
 
 	public void updateSurroundingChars(){
 		for(int i=0; i<grid.size(); i++){

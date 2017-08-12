@@ -199,16 +199,13 @@ public class Interface {
 
 		}
 		if(im.isDown(KeyEnum.LeftClick)){
-			//System.out.println("vaneau1");
 
 		}
 		//System.out.println(spellRelease);
 		if(spellRelease==true){
 			Player.rectangleSelection = null;
-			//System.out.println("vaneau");
 			if(im.down.contains(KeyEnum.LeftClick)){
 				im.down.remove(KeyEnum.LeftClick);
-				//System.out.println("Vanneaux" +im.isDown(KeyEnum.LeftClick));
 			} else {
 				spellRelease = false;
 			}

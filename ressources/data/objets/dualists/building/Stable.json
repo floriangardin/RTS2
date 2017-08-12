@@ -1,8 +1,8 @@
 {
 printName:"Stable",
 prototype:"Building",
-techsRequired:DualistAge2,
 sizeX:4,
-sizeY:3,
-units:Knight-Priest-Crossbowman
+sizeY:2,
+units:Knight-Priest,
+newdesign:0
 }

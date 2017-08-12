@@ -78,7 +78,6 @@ public class Character extends Objet{
 	// Copy constructor , to really create an unit
 	public Character(float x,float y,ObjetsList name, Team team, Plateau plateau){
 		super(plateau);
-		plateau.addCharacterObjets(this);
 		this.name= name;
 		this.setTarget(null, plateau);
 		this.team = team;
@@ -86,9 +85,11 @@ public class Character extends Objet{
 		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(1f,1f,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
 		this.sightBox = new Circle(1f,1f,this.getAttribut(Attributs.sight));
-		this.setXY(x, y, plateau);
+		this.x = x;
+		this.y = y;
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
+		plateau.addCharacterObjets(this);
 		
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
@@ -108,6 +109,7 @@ public class Character extends Objet{
 		return vx*vx+vy*vy>0.01f;
 	}
 	public void setXY(float x, float y, Plateau plateau){
+		System.out.println(x);
 		float xt = Math.min(plateau.maxX-1f, Math.max(1f, x));
 		float yt = Math.min(plateau.maxY-1f, Math.max(1f, y));
 		//		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
@@ -119,17 +121,20 @@ public class Character extends Objet{
 		this.collisionBox.setCenterY(this.y);
 		this.sightBox.setCenterX(this.getX());
 		this.sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
-		int oldc = this.idCase;
-		this.idCase = plateau.mapGrid.getCase(x, y).id;
 		//Updating the case
-		if(idCase==-1){
-			return;
+		int oldc = this.idCase;
+		Case c = plateau.mapGrid.getCase(oldc);
+		if(c!=null && c.characters.contains(this)){
+			c.characters.remove(this);
 		}
-		if(oldc==-1 || idCase!=oldc){
-			Case c = plateau.mapGrid.getCase(oldc);
-			if(c!=null && c.characters.contains(this))
-				c.characters.remove(this);
+		c = plateau.mapGrid.getCase(x, y);
+		System.out.println(x + " " + y + " " + c);
+		if(c!=null){
+			this.idCase = c.id;
 			plateau.mapGrid.getCase(this.idCase).characters.addElement(this);
+			System.out.println("vaneau");
+		} else {
+			this.idCase = -1;
 		}
 
 	}

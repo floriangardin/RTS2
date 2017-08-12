@@ -7,6 +7,8 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.newdawn.slick.Graphics;
+
 import bot.IAUnit.Role;
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
@@ -328,6 +330,9 @@ public abstract class IA{
 				.orElse(null);
 	}
 	
+	public void draw(Graphics g){
+		
+	}
 	
 //	
 //	

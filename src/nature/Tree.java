@@ -30,7 +30,7 @@ public class Tree extends NaturalObjet {
 		this.sizeY = 1*Map.stepGrid;
 		this.color = Color.gray;
 		this.lifePoints = 1.0f;
-		this.setXY(x*Map.stepGrid+sizeX/2f, y*Map.stepGrid+sizeY/2f, plateau);
+		this.setXY(x, y, plateau);
 		plateau.addNaturalObjets(this);
 	}
 	
