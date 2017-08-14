@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
+	<classpathentry kind="lib" path="/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/javaws.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/ws/rs/javax.ws.rs-api/2.1-m09/javax.ws.rs-api-2.1-m09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1/javax.inject-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/json/bind/javax.json.bind-api/1.0/javax.json.bind-api-1.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/json/javax.json-api/1.1/javax.json-api-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/enterprise/cdi-api/2.0/cdi-api-2.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/el/javax.el-api/3.0.0/javax.el-api-3.0.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/interceptor/javax.interceptor-api/1.2/javax.interceptor-api-1.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/net/java/jinput/jinput/2.0.5/jinput-2.0.5.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/java/jutils/jutils/1.0.0/jutils-1.0.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-linux.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-windows.jar"/>
+	<classpathentry kind="var" path="M2_REPO/net/java/jinput/jinput-platform/2.0.5/jinput-platform-2.0.5-natives-osx.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jcraft/jorbis/0.0.17/jorbis-0.0.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/containers/jersey-container-grizzly2-http/2.26-b09/jersey-container-grizzly2-http-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/hk2/external/javax.inject/2.5.0-b42/javax.inject-2.5.0-b42.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-http-server/2.4.0/grizzly-http-server-2.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-http/2.4.0/grizzly-http-2.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-framework/2.4.0/grizzly-framework-2.4.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/core/jersey-common/2.26-b09/jersey-common-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/hk2/osgi-resource-locator/1.0.1/osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/core/jersey-server/2.26-b09/jersey-server-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/core/jersey-client/2.26-b09/jersey-client-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/media/jersey-media-jaxb/2.26-b09/jersey-media-jaxb-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/inject/jersey-hk2/2.26-b09/jersey-hk2-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/hk2/hk2-locator/2.5.0-b42/hk2-locator-2.5.0-b42.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/hk2/external/aopalliance-repackaged/2.5.0-b42/aopalliance-repackaged-2.5.0-b42.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/hk2/hk2-api/2.5.0-b42/hk2-api-2.5.0-b42.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/hk2/hk2-utils/2.5.0-b42/hk2-utils-2.5.0-b42.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/javassist/javassist/3.22.0-CR2/javassist-3.22.0-CR2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/jersey/media/jersey-media-json-binding/2.26-b09/jersey-media-json-binding-2.26-b09.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/javax.json/1.1/javax.json-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/eclipse/yasson/1.0/yasson-1.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.9/junit-4.9.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.8.1/gson-2.8.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/esotericsoftware/kryonet/2.22.0-RC1/kryonet-2.22.0-RC1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/esotericsoftware/kryo/kryo/2.24.0/kryo-2.24.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/esotericsoftware/minlog/minlog/1.2/minlog-1.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/objenesis/objenesis/2.1/objenesis-2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/esotericsoftware/jsonbeans/0.7/jsonbeans-0.7.jar"/>
+	<classpathentry kind="lib" path="RTS_lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="RTS_lib/slick.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

@@ -1,0 +1,9 @@
+{
+printName:"Tower",
+prototype:"Building",
+damage:3,
+sizeX:2,
+sizeY:2,
+canAttack:1,
+defendable:0
+}

@@ -1,0 +1,15 @@
+{
+prototype:"Unit",
+printName:"Inquisitor",
+foodCost:60,
+attackDuration:2,
+maxLifepoints:60,
+maxVelocity:100,
+armor:1,
+damage:12,
+weapon:"wand",
+range:200,
+explosionWhenImmolate:1,
+spells:Immolation-Meditation-Firewall-BlessedArea,
+size:35
+}

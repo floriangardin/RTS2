@@ -1,0 +1,10 @@
+{
+printName:"HeadQuarters",
+prototype:"Building",
+units:"",
+technologies:DualistAge2-DualistAge3-DualistShield2-DualistShield3-DualistHealth2-DualistHealth3,
+sizeX:3,
+sizeY:2,
+defendable:0,
+popGiven:10
+}

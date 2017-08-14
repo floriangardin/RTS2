@@ -1,0 +1,5 @@
+*.opts
+replays/
+*.class
+target/
+.idea/*

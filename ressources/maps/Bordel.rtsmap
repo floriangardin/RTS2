@@ -1,0 +1,85 @@
+###########################
+# Map bordel #
+###########################
+
+
+#Creator: Gilles
+# date: 23/03/2016
+
+& sizeX 50
+& sizeY 50
+& Zcam 13.0 7.0
+& Qcam 6.0 10.0
+& Scam 12.0 9.0
+& Dcam 20.0 8.0
+
+
+##############
+= headquarters
+##############
+
+1 10.0 5.0
+2 10.0 14.0
+
+##############
+= buildings
+##############
+
+Stable 0 5.0 5.0
+Barracks 0 6.0 8.0
+Barracks 0 27.0 5.0
+Tower 0 25.0 10.0
+Tower 0 17.0 8.0
+Barracks 0 24.0 15.0
+Mill 0 27.0 9.0
+Mill 0 9.0 11.0
+Mine 0 32.0 3.0
+Mine 0 23.0 3.0
+Mine 0 13.0 9.0
+Mine 0 21.0 8.0
+Mill 0 15.0 15.0
+Mine 0 32.0 12.0
+
+#######
+= units
+#######
+
+Spearman 1 23.0 5.0
+Spearman 1 19.0 5.0
+Spearman 1 18.0 6.0
+Spearman 1 16.0 6.0
+Spearman 1 15.0 6.0
+Spearman 1 14.0 6.0
+Spearman 1 14.0 4.0
+Priest 1 17.0 4.0
+Inquisitor 2 17.0 13.0
+Inquisitor 2 20.0 13.0
+Inquisitor 2 19.0 12.0
+Crossbowman 2 20.0 11.0
+Crossbowman 2 21.0 12.0
+Crossbowman 2 19.0 11.0
+Crossbowman 2 16.0 12.0
+Knight 1 17.0 5.0
+Inquisitor 1 20.0 5.0
+Spearman 1 25.0 6.0
+Spearman 1 18.0 5.0
+Knight 1 19.0 6.0
+Spearman 1 19.0 3.0
+Knight 2 21.0 11.0
+Crossbowman 2 18.0 11.0
+Knight 2 17.0 12.0
+Inquisitor 2 22.0 12.0
+Knight 2 22.0 11.0
+Knight 2 23.0 11.0
+Crossbowman 2 23.0 12.0
+Crossbowman 1 20.0 6.0
+Crossbowman 1 21.0 6.0
+Crossbowman 1 22.0 6.0
+Inquisitor 1 23.0 6.0
+Crossbowman 2 24.0 12.0
+Inquisitor 2 24.0 11.0
+
+###########
+= naturalObjects
+###########
+
