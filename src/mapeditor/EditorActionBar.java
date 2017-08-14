@@ -69,6 +69,7 @@ public class EditorActionBar extends JPanel{
 		items = new Vector<ActionType>();
 		items.add(ActionType.SelectToolNature);
 		items.add(ActionType.SelectToolCharacter);
+		items.add(ActionType.SelectToolBuilding);
 		addItems(bar2, items);
 		
 		GroupLayout gl = new GroupLayout(this);

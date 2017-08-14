@@ -3,6 +3,7 @@ package mapeditor;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import data.Attributs;
 import nature.Tree;
 import pathfinding.Case;
 import pathfinding.Case.IdTerrain;
@@ -46,6 +47,9 @@ public class Actions {
 				break;
 			case "Character":
 				o = new Character(x, y, ol, plateau.teams.get(team), plateau);
+				break;
+			case "Building":
+				o = new Building(ol, x, y, plateau.teams.get(team), plateau);
 				break;
 			default:
 				break;

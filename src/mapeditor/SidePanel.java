@@ -50,6 +50,9 @@ public class SidePanel extends JPanel{
 		case CHARACTER:
 			PlateauObjectPanel.createCharacterPanel(objectPanel);
 			break;
+		case BUILDING:
+			PlateauObjectPanel.createBuildingPanel(objectPanel);
+			break;
 		case MOVE:
 		case SELECTION:
 		default:

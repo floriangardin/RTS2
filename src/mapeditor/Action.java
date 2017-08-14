@@ -236,6 +236,7 @@ public abstract class Action {
 		case SelectToolTerrain:
 		case SelectToolNature:
 		case SelectToolCharacter:
+		case SelectToolBuilding:
 			MainEditor.mode = Mode.valueOf(type.name().substring(10).toUpperCase());
 			SwingMain.getItemBarPanel().update();
 			SwingMain.getSidePanel().update();

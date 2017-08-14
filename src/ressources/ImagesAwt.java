@@ -59,11 +59,11 @@ public class ImagesAwt {
 
 		// buildings
 		resizeBuilding("academy");
-		resizeBuilding("barracks");
+//		resizeBuilding("barracks");
 		resizeBuilding("headquarters");
 //		resizeBuilding("mill");
-		resizeBuilding("mine");
-		resizeBuilding("stable");
+//		resizeBuilding("mine");
+//		resizeBuilding("stable");
 		resizeBuilding("tower");
 		resizeBuilding("university");
 		
@@ -129,32 +129,47 @@ public class ImagesAwt {
 //			} catch (FatalGillesError e) {
 //				e.printStackTrace();
 //			}
-			return images.get("image_manquante");
+			return get("image_manquante");
 		}
 	}
 
-	public static Image getImage(ObjetsList o, int team){
-		if(ImagesAwt.imagesEditor.containsKey(o) && ImagesAwt.imagesEditor.get(o).containsKey(team)){
-			return ImagesAwt.imagesEditor.get(o).get(team);
+	public static Image getImage(ObjetsList o, int team, boolean icon){
+		if(ImagesAwt.imagesEditor.containsKey(o) && ImagesAwt.imagesEditor.get(o).containsKey(team)  && ImagesAwt.imagesEditor.get(o).get(team).containsKey(icon) ){
+			return ImagesAwt.imagesEditor.get(o).get(team).get(icon);
 		}
 		Image im = null;
-		switch(o.type){
-		case "Character":
-			BufferedImage bi = (BufferedImage) get(o.name()+TeamSelected.getText(team));
-			im = bi.getSubimage(0, 0, bi.getWidth()/5, bi.getHeight()/4).getScaledInstance(PlateauObjectPanel.buttonDimension.width, PlateauObjectPanel.buttonDimension.height, Image.SCALE_SMOOTH);
-			break;
-		default:
-			im = get(o.name()).getScaledInstance(PlateauObjectPanel.buttonDimension.width, PlateauObjectPanel.buttonDimension.height, Image.SCALE_SMOOTH);
-			break;
+		BufferedImage bi;
+		try{
+			switch(o.type){
+			case "Character":
+				bi = (BufferedImage) get(o.name()+TeamSelected.getText(team));
+				im = bi.getSubimage(0, 0, bi.getWidth()/5, bi.getHeight()/4);
+				break;
+			case "Building":
+				im = get("building"+o.name()+TeamSelected.getText(team));
+				break;
+			default:
+				im = get(o.name());
+				break;
+			}
+		} catch(Exception e){
+			im = get("image_manquante");
+		}
+		if(icon){
+			im = im.getScaledInstance(PlateauObjectPanel.buttonDimension.width, PlateauObjectPanel.buttonDimension.height, Image.SCALE_SMOOTH);
 		}
 		if(!ImagesAwt.imagesEditor.containsKey(o)){
-			ImagesAwt.imagesEditor.put(o,  new HashMap<Integer, Image>());
+			ImagesAwt.imagesEditor.put(o, new HashMap<Integer, HashMap<Boolean, Image>>());
 		}
-		ImagesAwt.imagesEditor.get(o).put(team, im);
+		if(!ImagesAwt.imagesEditor.get(o).containsKey(team)){
+			ImagesAwt.imagesEditor.get(o).put(team, new HashMap<Boolean, Image>());
+		}
+		ImagesAwt.imagesEditor.get(o).get(team).put(icon, im);
+		System.out.println(o+" "+icon+"   "+im.getWidth(null)+" "+im.getHeight(null));
 		return im;
 	}
 
-	public static HashMap<ObjetsList, HashMap<Integer, Image>> imagesEditor = new HashMap<ObjetsList, HashMap<Integer, Image>>();
+	public static HashMap<ObjetsList, HashMap<Integer, HashMap<Boolean, Image>>> imagesEditor = new HashMap<ObjetsList, HashMap<Integer, HashMap<Boolean, Image>>>();
 
 	
 }

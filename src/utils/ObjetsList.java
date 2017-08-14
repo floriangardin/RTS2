@@ -11,7 +11,7 @@ public enum ObjetsList {
 	Building("Building"),
 	Bullet("Bullet"),
 	Technology("Technology"),
-	Bonus("Building"),
+	Bonus("Bonus"),
 	Checkpoint("Checkpoint"),
 	// Units
 	Knight("Character"),
@@ -30,9 +30,9 @@ public enum ObjetsList {
 	University("Building"),
 	Tower("Building"),
 	// Bonus
-	BonusLifepoints("Building"),
-	BonusSpeed("Building"),
-	BonusDamage("Building"),
+	BonusLifepoints("Bonus"),
+	BonusSpeed("Bonus"),
+	BonusDamage("Bonus"),
 	// Technologies
 	DualistAge2("Technology"), 
 	DualistAge3("Technology"), 

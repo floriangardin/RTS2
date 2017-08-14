@@ -38,7 +38,7 @@ public class PlateauObjectPanel extends JPanel {
 				vectors.lastElement().setOpaque(false);
 				vectors.lastElement().setBorder(null);
 			}
-			ImageIcon icon = new ImageIcon(ImagesAwt.getImage(o, MainEditor.teamSelected.team));
+			ImageIcon icon = new ImageIcon(ImagesAwt.getImage(o, MainEditor.teamSelected.team, true));
 			JButton bouton = new JButton(icon);
 			bouton.setPreferredSize(buttonDimension);
 			bouton.setMinimumSize(buttonDimension);
@@ -88,6 +88,15 @@ public class PlateauObjectPanel extends JPanel {
 		Vector<ObjetsList> objets = new Vector<ObjetsList>();
 		for(ObjetsList ol : ObjetsList.values()){
 			if(ol.getType().equals("Character") && ol!=ObjetsList.Unit){
+				objets.add(ol);
+			}
+		}
+		createPlateauObjectPanel(panel, objets);		
+	}
+	public static void createBuildingPanel(JPanel panel){
+		Vector<ObjetsList> objets = new Vector<ObjetsList>();
+		for(ObjetsList ol : ObjetsList.values()){
+			if(ol.getType().equals("Building") && ol!=ObjetsList.Building){
 				objets.add(ol);
 			}
 		}

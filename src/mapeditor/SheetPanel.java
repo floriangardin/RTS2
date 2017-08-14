@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import data.Attributs;
 import mapeditor.Actions.ActionCreateObjet;
 import mapeditor.Actions.ActionDeleteObjet;
 import mapeditor.Actions.ActionPaintTerrain;
@@ -27,6 +28,8 @@ import mapeditor.MainEditor.Mode;
 import mapeditor.TerrainObjectPanel.BrushStyle;
 import pathfinding.Case;
 import pathfinding.Case.IdTerrain;
+import plateau.Building;
+import plateau.Checkpoint;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
@@ -136,6 +139,11 @@ public class SheetPanel extends JPanel {
 					case CHARACTER:
 						doAction(new ActionCreateObjet(plateau, PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(mouseClickX-offsetX), (int)(mouseClickY-offsetY)));
 						break;
+					case BUILDING:
+						float sizeX = getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+						float sizeY = getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+						doAction(new ActionCreateObjet(plateau, PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((mouseClickX-offsetX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((mouseClickY-offsetY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
+						break;
 					case ERASE:
 						if(mouseOver!=null){
 							doAction(new ActionDeleteObjet(plateau, mouseOver));
@@ -200,6 +208,25 @@ public class SheetPanel extends JPanel {
 							if(d<min){
 								actionOK = false;
 								break;
+							}
+						}
+					}
+					break;
+				case BUILDING:
+					float sizeX = getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+					float sizeY = getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+					highlightedCases.clear();
+					c = getPlateau().mapGrid.getCase(mouseClickX-offsetX-sizeX/2+Map.stepGrid/2, mouseClickY-offsetY-sizeY/2+Map.stepGrid/2);
+					actionOK = c!=null;
+					if(actionOK){
+						for(int i = c.i;i<c.i + (int)(sizeX/Map.stepGrid);i++){
+							for(int j = c.j; j<c.j + (int)(sizeY/Map.stepGrid); j++){
+								if(i>=0 && i<getPlateau().mapGrid.grid.size() && j>=0 && j<getPlateau().mapGrid.grid.get(0).size()){
+									highlightedCases.add(getPlateau().mapGrid.grid.get(i).get(j));
+									actionOK = actionOK && getPlateau().mapGrid.grid.get(i).get(j).ok;
+								} else {
+									actionOK = false;
+								}
 							}
 						}
 					}
@@ -328,7 +355,7 @@ public class SheetPanel extends JPanel {
 					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY+Map.stepGrid),
 					getPlateau().mapGrid.getCase(mouseClickX-offsetX-Map.stepGrid, mouseClickY-offsetY-Map.stepGrid),
 					getPlateau().mapGrid.getCase(mouseClickX-offsetX+Map.stepGrid, mouseClickY-offsetY-Map.stepGrid)
-					}){
+			}){
 				if(c1!=null && (TerrainObjectPanel.groundStyle.ok || (c1.characters.size()==0 && c1.building==null && c1.naturesObjet.size()==0))){
 					highlightedCases.add(c1);
 				}
@@ -392,13 +419,20 @@ public class SheetPanel extends JPanel {
 		// rendering objects
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.objets.values()){
+			if(o instanceof Checkpoint){
+				continue;
+			}
 			objets.add(o);
 		}
 		objets = Utils.triY(objets);
 		// rendering plateau
 		for(Objet o : objets){
-			im = ImagesAwt.getImage(o.name, o.team.id);
-			g2.drawImage(im, (int)(o.x-im.getWidth(null)/2), (int)(o.y-im.getHeight(null)*2/3), null);
+			im = ImagesAwt.getImage(o.name, o.team.id, false);
+			if(o.name.type.equals("Building") && getPlateau().teams.get(0).data.getAttribut(o.name, Attributs.newdesign)==0){
+				g2.drawImage(im, (int)(o.x-im.getWidth(null)/2), (int)(o.y-im.getHeight(null)+o.getAttribut(Attributs.sizeY)/2), null);
+			} else {
+				g2.drawImage(im, (int)(o.x-im.getWidth(null)/2), (int)(o.y-im.getHeight(null)*2/3), null);
+			}
 		}
 
 		// rendering overlay
@@ -406,6 +440,12 @@ public class SheetPanel extends JPanel {
 			// highlighted cases
 			if(MainEditor.mode == Mode.TERRAIN && highlightedCases.contains(c) && mouseIn){
 				g2.setColor(new Color(255,52,0,105));
+				g2.fillRect((int)c.x, (int)c.y, (int)c.sizeX, (int)c.sizeY);
+			} else if(MainEditor.mode == Mode.BUILDING && highlightedCases.contains(c) && mouseIn){
+				if(actionOK)
+					g2.setColor(new Color(52,255,0,105));
+				else
+					g2.setColor(new Color(255,52,0,105));
 				g2.fillRect((int)c.x, (int)c.y, (int)c.sizeX, (int)c.sizeY);
 			}
 			// collision ok ?
@@ -427,7 +467,7 @@ public class SheetPanel extends JPanel {
 		// creation item
 		if(MainEditor.mode==Mode.CHARACTER || MainEditor.mode==Mode.NATURE){
 			if(actionOK & mouseIn & PlateauObjectPanel.selectedObject!=null){
-				im = ImagesAwt.getImage(PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team);
+				im = ImagesAwt.getImage(PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, false);
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 				g2.drawImage(im, (int)(mouseClickX-offsetX-im.getWidth(null)/2), (int)(mouseClickY-offsetY-im.getHeight(null)*2/3), null);
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
