@@ -16,6 +16,7 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 
 import ressources.ImagesAwt;
+import utils.ObjetType;
 import utils.ObjetsList;
 
 
@@ -78,7 +79,7 @@ public class PlateauObjectPanel extends JPanel {
 	public static void createNaturalObjectPanel(JPanel panel){
 		Vector<ObjetsList> objets = new Vector<ObjetsList>();
 		for(ObjetsList ol : ObjetsList.values()){
-			if(ol.getType().equals("NatureObject")){
+			if(ol.getType().equals(ObjetType.NatureObject)){
 				objets.add(ol);
 			}
 		}
@@ -87,7 +88,7 @@ public class PlateauObjectPanel extends JPanel {
 	public static void createCharacterPanel(JPanel panel){
 		Vector<ObjetsList> objets = new Vector<ObjetsList>();
 		for(ObjetsList ol : ObjetsList.values()){
-			if(ol.getType().equals("Character") && ol!=ObjetsList.Unit){
+			if(ol.getType().equals(ObjetType.Character) && ol!=ObjetsList.Unit){
 				objets.add(ol);
 			}
 		}
@@ -96,7 +97,7 @@ public class PlateauObjectPanel extends JPanel {
 	public static void createBuildingPanel(JPanel panel){
 		Vector<ObjetsList> objets = new Vector<ObjetsList>();
 		for(ObjetsList ol : ObjetsList.values()){
-			if(ol.getType().equals("Building") && ol!=ObjetsList.Building){
+			if(ol.getType().equals(ObjetType.Building) && ol!=ObjetsList.Building){
 				objets.add(ol);
 			}
 		}

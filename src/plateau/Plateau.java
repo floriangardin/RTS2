@@ -13,6 +13,7 @@ import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
 import model.GameClient;
+import pathfinding.Case;
 import pathfinding.MapGrid;
 import ressources.Map;
 import spells.Etats;
@@ -128,12 +129,21 @@ public class Plateau implements java.io.Serializable {
 	}
 
 	public void addCharacterObjets(Character o) {
-		((Character)o).setXY(o.x,o.y, this);
+		Case c = mapGrid.getCase(o.x, o.y);
+		if(c!=null){
+			o.idCase = c.id;
+			mapGrid.getCase(o.idCase).characters.add(o);
+		} else {
+			o.idCase = -1;
+		}
 		toAddCharacters.addElement(o);
 	}
 
-	private void removeCharacter(Character o) {
-		((Character)o).setXY(-1,-1, this);
+	public void removeCharacter(Character o) {
+		Case c = mapGrid.getCase(o.idCase);
+		if(c!=null && c.characters.contains(o)){
+			c.characters.remove(o);
+		}
 		toRemoveCharacters.addElement(o);
 	}
 
@@ -150,7 +160,7 @@ public class Plateau implements java.io.Serializable {
 		toAddNaturalObjets.addElement(o);
 	}
 
-	private void removeNaturalObjets(NaturalObjet o) {
+	public void removeNaturalObjets(NaturalObjet o) {
 		this.mapGrid.removeNaturalObject(o);
 		toRemoveNaturalObjets.addElement(o);
 	}
@@ -160,7 +170,7 @@ public class Plateau implements java.io.Serializable {
 		toAddBuildings.addElement(o);
 	}
 
-	private void removeBuilding(Building o) {
+	public void removeBuilding(Building o) {
 		this.mapGrid.removeBuilding(o);
 		toRemoveBuildings.addElement(o);
 	}
@@ -253,7 +263,6 @@ public class Plateau implements java.io.Serializable {
 		for (Character o : toRemoveCharacters) {
 			characters.remove(o);
 			objets.remove(o.id);
-			o.destroy();
 
 		}
 		for (Character o : toAddCharacters) {

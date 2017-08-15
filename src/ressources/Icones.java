@@ -21,10 +21,14 @@ public class Icones {
 	}
 	
 	public static ImageIcon getIcone(String name){
-		if(images.containsKey(name.toLowerCase())){
-			return images.get(name.toLowerCase());
+		if(isInit){
+			if(images.containsKey(name.toLowerCase())){
+				return images.get(name.toLowerCase());
+			} else {
+				return images.get("default");
+			}
 		} else {
-			return images.get("default");
+			return null;
 		}
 //		return images.get("default");
 	}

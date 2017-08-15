@@ -14,7 +14,7 @@ public class BonusDamage extends Bonus{
 	public BonusDamage(int x, int y,Team team, Plateau plateau) {
 		super(ObjetsList.BonusDamage, x, y,team, plateau);
 		// TODO Auto-generated constructor stub
-		this.initialize(x, y, plateau);
+//		this.initialize(x, y, plateau);
 		this.bonus = 5f;
 	}
 

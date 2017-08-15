@@ -11,7 +11,7 @@ public class BonusSpeed extends Bonus{
 
 	public BonusSpeed( int x , int y, Team team, Plateau plateau){
 		super(ObjetsList.BonusSpeed,x,y, team, plateau);
-		this.initialize( x, y, plateau);
+//		this.initialize( x, y, plateau);
 		this.bonus = 20f;
 	}
 

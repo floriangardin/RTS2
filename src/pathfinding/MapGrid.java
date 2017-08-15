@@ -134,13 +134,14 @@ public class MapGrid implements java.io.Serializable {
 	
 	public void addNaturalObject(NaturalObjet n){
 		Case c = this.getCase(n.x, n.y);
+		n.idCase = c.id;
 		c.naturesObjet.add(n);
-		c.update();
+		update();
 	}
 	
 	public void removeBuilding(Building b){
-		for(int i = b.i;i<b.i + (int)b.getAttribut(Attributs.sizeX);i++ )
-			for(int j = b.j; j<b.j + (int)b.getAttribut(Attributs.sizeY); j++)
+		for(int i = b.i;i<b.i + (int)b.getAttribut(Attributs.sizeX)/Map.stepGrid;i++ )
+			for(int j = b.j; j<b.j + (int)b.getAttribut(Attributs.sizeY)/Map.stepGrid; j++)
 				if(i>=0 && i<grid.size() && j>=0 && j<grid.get(0).size())
 					grid.get(i).get(j).building = null;
 		update();
@@ -149,7 +150,7 @@ public class MapGrid implements java.io.Serializable {
 	public void removeNaturalObject(NaturalObjet n){
 		Case c = this.getCase(n.x, n.y);
 		c.naturesObjet.remove(n);
-		c.update();
+		update();
 	}
 		
 	public void update(){

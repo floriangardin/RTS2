@@ -90,7 +90,6 @@ public class Character extends Objet{
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
 		plateau.addCharacterObjets(this);
-		
 		this.mode = NORMAL;
 		// TODO : ajouter les sorts
 		for(String s: this.getAttributList(Attributs.spells)){
@@ -107,36 +106,6 @@ public class Character extends Objet{
 
 	public boolean isMobile(){
 		return vx*vx+vy*vy>0.01f;
-	}
-	public void setXY(float x, float y, Plateau plateau){
-		System.out.println(x);
-		float xt = Math.min(plateau.maxX-1f, Math.max(1f, x));
-		float yt = Math.min(plateau.maxY-1f, Math.max(1f, y));
-		//		this.selectionBox = (Rectangle) this.selectionBox.transform(Transform.createTranslateTransform(xt-this.x, yt-this.y));
-		this.selectionBox.setCenterX(xt);
-		this.selectionBox.setCenterY(yt);
-		this.x = xt;
-		this.y = yt;
-		this.collisionBox.setCenterX(this.x);
-		this.collisionBox.setCenterY(this.y);
-		this.sightBox.setCenterX(this.getX());
-		this.sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
-		//Updating the case
-		int oldc = this.idCase;
-		Case c = plateau.mapGrid.getCase(oldc);
-		if(c!=null && c.characters.contains(this)){
-			c.characters.remove(this);
-		}
-		c = plateau.mapGrid.getCase(x, y);
-		System.out.println(x + " " + y + " " + c);
-		if(c!=null){
-			this.idCase = c.id;
-			plateau.mapGrid.getCase(this.idCase).characters.addElement(this);
-			System.out.println("vaneau");
-		} else {
-			this.idCase = -1;
-		}
-
 	}
 	public void setVXVY(float vx, float vy, Plateau plateau){
 		this.vx = vx;

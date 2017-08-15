@@ -141,11 +141,11 @@ public class ImagesAwt {
 		BufferedImage bi;
 		try{
 			switch(o.type){
-			case "Character":
+			case Character:
 				bi = (BufferedImage) get(o.name()+TeamSelected.getText(team));
 				im = bi.getSubimage(0, 0, bi.getWidth()/5, bi.getHeight()/4);
 				break;
-			case "Building":
+			case Building:
 				im = get("building"+o.name()+TeamSelected.getText(team));
 				break;
 			default:
@@ -165,7 +165,6 @@ public class ImagesAwt {
 			ImagesAwt.imagesEditor.get(o).put(team, new HashMap<Boolean, Image>());
 		}
 		ImagesAwt.imagesEditor.get(o).get(team).put(icon, im);
-		System.out.println(o+" "+icon+"   "+im.getWidth(null)+" "+im.getHeight(null));
 		return im;
 	}
 

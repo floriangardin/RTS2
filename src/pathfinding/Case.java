@@ -1,5 +1,6 @@
 package pathfinding;
 
+import java.util.HashSet;
 import java.util.Vector;
 
 import plateau.Building;
@@ -22,9 +23,9 @@ public class Case implements java.io.Serializable {
 	public float sizeX;
 	public float sizeY;
 
-	public Vector<Character> characters = new Vector<Character>();
+	public HashSet<Character> characters = new HashSet<Character>();
 	public Vector<Character> surroundingChars = new Vector<Character>();
-	public Vector<NaturalObjet> naturesObjet = new Vector<NaturalObjet>(); 
+	public HashSet<NaturalObjet> naturesObjet = new HashSet<NaturalObjet>(); 
 	public Building building;
 	
 	public Case(boolean ok, int id, MapGrid map){
