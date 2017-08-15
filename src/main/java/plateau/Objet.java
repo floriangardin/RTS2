@@ -368,9 +368,18 @@ public abstract class Objet implements java.io.Serializable {
 		HashMap<String, Object> res = new HashMap<String, Object>();
 		res.put("x", this.getX());
 		res.put("y", this.getY());
+		res.put("id", this.getId());
+		res.put("team", this.getTeam().id);
+		res.put("sizeY", this.collisionBox.getHeight());
+		res.put("sizeX", this.collisionBox.getWidth());
 		res.put("lifepoints", this.lifePoints);
+		res.put("maxLifepoints", this.getAttribut(Attributs.maxLifepoints));
+		res.put("damage", this.getAttribut(Attributs.damage));
+		res.put("armor", this.getAttribut(Attributs.armor));
+		res.put("speed", this.getAttribut(Attributs.maxVelocity));
 		res.put("target", this.getTarget());
 		res.put("name", this.getName().toString());
+		res.put("sight", this.getAttribut(Attributs.sight));
 		// Pour chaque objet json
 		return res;
 	}

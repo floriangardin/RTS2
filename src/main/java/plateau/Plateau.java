@@ -908,12 +908,25 @@ public class Plateau implements java.io.Serializable {
 		this.checkpoints = checkpoints;
 	}
 	
-	public HashMap<Integer, HashMap<String, Object>> toJson(){
+	public Object toJson(){
 		
 		HashMap<Integer, HashMap<String, Object>> res = new HashMap<Integer, HashMap<String, Object>>();
+		HashMap<String, HashMap<?,?>> finalResult = new HashMap<String, HashMap<?,?>>();
+		finalResult.put("teams", null);
+		// Get teams state
+		HashMap<Integer, HashMap<String, Integer>> toPut = new HashMap<Integer, HashMap<String, Integer>>();
+		for(Team t : teams){
+			HashMap<String, Integer> stats = new HashMap<String, Integer>();
+			stats.put("pop", t.getPop(this));
+			stats.put("maxPop", t.getMaxPop(this));
+			stats.put("food", t.food);
+			toPut.put(t.id, stats);
+		}
 		this.objets.forEach((key,value) -> res.put(key, value.toJson()));
+		finalResult.put("teams", toPut );
+		finalResult.put("plateau", res);
 		// Pour chaque objet json
-		return res;
+		return finalResult;
 	}
 
 

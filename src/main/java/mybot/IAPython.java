@@ -64,9 +64,7 @@ public class IAPython extends IA {
 					}
 					String res = buf.toString();
 					synchronized(actions){	
-						System.out.println("will do parse");
 						actions.addAll(Action.parse(res));
-						System.out.println("finished parse");
 					}
 					
 					br.close();
