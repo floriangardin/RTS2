@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import time
-
+from collections import defaultdict
 
 
 class ObjectClass:
@@ -24,44 +24,51 @@ class QLearner:
         self.alpha = alpha
         self.gamma = gamma # discount
         self.epsilon = epsilon
-        self.L = {}
+        self.L = defaultdict(list)
         self.is_init = True
 
     def learn_from_one_game(self):
         s = self.s0
-        self.L = {}
+        self.L = defaultdict(list)
+        self.sc = '0'
+        self.ac = 'no_action'
         while not self.end_condition(): # While game not finished
             self.step()
         # After the game is over, update the q-tables
         r = self.get_reward() # Get global cumulative reward at the end of the game
+        # Pour toutes les unités et pour toutes les actions on ajuste les poids de Q
+        # TODO : A modifier parcourir tous les L
         for C in self.classes.keys():
             Q = self.Qglobal[C]
             for c in C:
-                for s, a, s1 in self.L[c]:
+                for s, a, s1, C in self.L[c.name]:
                     Q[s, a] += self.alpha * (r + self.gamma * np.max((Q[s1, self.A])) - Q[s, a])  # Pas sûr pour cette ligne
         return self.Qglobal
 
-
     def end_condition(self):
         return False
+
     def step(self):
         time.sleep(self.delta)
         s_global = self.get_state()
         for C in self.classes.keys():
             s1 = self.get_abstract_states(s_global, C)  # Customizing the global state for class c, different class need different kind of info
-            Ac = self.get_valid_actions(self.classes[C].get_actions(), s1)  # Get the set of possible actions for the step to reduce search space
+            Ac = self.get_valid_actions(self.classes[C], s1)  # Get the set of possible actions for the step to reduce search space
             Q = self.Qglobal[C]  # get the current Q function for this specific class
             for index, c in self.classes[C]:  # For each characters of the class
                 if not c['hasTarget']:
                     if np.random.random() >= self.epsilon:
-                        a = Ac[np.argmax(Q[s1, Ac])]
+                        state_index = s1.get_state(c.name)
+                        actions_index = [ac_.name for ac_ in Ac]
+                        # Find max idx
+                        a = Ac[np.argmax([Q[state_index, act] for act in actions_index])]
                     else:
-                        a = Ac[np.random.random(len(self.Ac))]
-                    self.execute_action(index, a) # Output to the world
-                    sc = s1
-                    ac = a
-                    self.L[c].append((sc, ac, s1)) # Keep trace of actions
-
+                        a = Ac[np.random.random(len(Ac))]
+                    self.execute_action(index, a)  # Output to the world
+                    
+                    self.L[c.name].append((self.sc, self.ac, s1.get_state(c.name), C))  # Keep trace of actions
+                    self.sc = s1.get_state(c.name)
+                    self.ac = a.name
 
     def get_state(self):
         """

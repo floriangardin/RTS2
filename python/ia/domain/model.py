@@ -1,56 +1,7 @@
 import pandas as pd
 import numpy as np
-
-
-"""
-Modelling performing an action
-"""
-
-class Action:
-    def __init__(self, verb, target=-1, df=None, x=None, y=None):
-        """
-        Given a DataFrame find the corresponding action
-        :param subject:
-        :param verb:
-        :param df:
-        :param target:
-        :param x:
-        :param y:
-        """
-        self.df = df
-        self.subject = None
-        self.verb = verb
-        self.target = target
-        self.x = x
-        self.y = y
-
-    def can_perform(self, subject):
-        return True
-    def set_subject(self, subject):
-        self.subject = subject
-    def get_action_from_verb(self):
-        if self.verb == "attack_nearest":
-            self.verb = "attack"
-            # Use target as a name to retrieve building or character ...
-            # FIXME : Implement proper behaviour
-            subject_team = self.df.loc[self.subject, 'team']
-            x = self.df.loc[self.subject, 'x']
-            y = self.df.loc[self.subject, 'y']
-            potential_target = self.df[(self.df['team']!= subject_team) & (self.df['name']== self.target)]
-            potential_target['distance'] = (potential_target['x']-x)**2 + (potential_target['y']-x)**2
-            potential_target.sort_values(by="distance")
-            self.target = potential_target.iloc[0].index
-
-    def perform_action(self, subject):
-        self.set_subject(subject)
-        self.get_action_from_verb()
-        return self.to_dict()
-
-    def to_dict(self):
-        return {'subject' : self.subject,
-                'verb': self.verb,
-                'target': self.target
-                }
+from .actions import Action
+from .classes import Spearmans, Crossbowman, Barracks
 
 """
 Modelling global state
@@ -79,131 +30,6 @@ class State:
                 self.C[c] = Crossbowman(df)
             elif c == "Barracks":
                 self.C[c] = Barracks(df)
-
-
-"""
-Modellling class
-State provider with world and action list provider
-"""
-class Spearmans:
-
-    def __iter__(self):
-        for index, row in self.df.iterrows():
-            yield index, row
-    def __init__(self, w):
-        self.w = w
-        self.name = "Spearman"
-        self.df = w.df[(w.df['name'] == self.name)]
-        team = w.team_
-        teams = w.teams
-        # features :
-        # food_between_0_50
-        self.df['food_between_0_50'] = (w.teams.loc[team, 'food'] >= 0) & (w.teams.loc[team, 'food']<50)
-        # food_between_50_100
-        self.df['food_between_50_100'] = (w.teams.loc[team, 'food'] >= 50) & (w.teams.loc[team, 'food'] < 100)
-        # food_between_100_200
-        self.df['food_between_100_200'] = (w.teams.loc[team, 'food'] >= 100) & (w.teams.loc[team, 'food'] < 200)
-        # food_superior_200
-        self.df['food_superior_200'] = (w.teams.loc[team, 'food'] >= 200)
-        # no_barracks
-        self.df['no_barracks'] = w.df[(w.df['name'] == "Barracks") & w.df['team'] == team].shape[0] == 0
-        # no_mill
-        self.df['no_mill'] = w.df[(w.df['name'] == "Mill") & w.df['team'] == team].shape[0] == 0
-        # no_farm
-        self.df['no_farm'] = w.df[(w.df['name'] == "Mine") & w.df['team'] == team].shape[0] == 0
-        # remaining_pop_inferior_2
-        self.df["remaining_pop_inferior_2"] = (w.teams.loc[team, 'maxPop'] - w.teams.loc[team, 'pop'] <= 2)
-        # remaining_pop_inferior_5
-        self.df["remaining_pop_inferior_5"] = ~self.df["remaining_pop_inferior_2"] & (w.teams.loc[team, 'maxPop'] - w.teams.loc[team, 'pop'] <= 5)
-        # target_same_team
-        ## TODO : FIXME : HERE BUG BECAUSE loc[self.df['target'] does not work
-        self.df['target_same_team'] = (self.df['hasTarget'] == True) & (w.df.loc[self.df['target'], 'team'] == team)
-        # Redefinition of hasTarget
-        self.df['hasTarget'] = (~self.df['target_same_team']) & (self.df['hasTarget'])
-        # crossbowman_two_range
-        # has_target
-        # ennemy_towers_2
-        # ennemy_towers_1
-        # ennemy_towers_0
-
-        # On ne garde que les objets de notre équipe
-        self.df = self.df[self.df['team'] == team]
-        self.df = self.df['food_between_0_50', 'food_between_50_100', 'food_between_100_200',
-                          'food_superior_200', 'no_barracks', 'no_mill', 'no_farm',
-                            'remaining_pop_inferior_2', "remaining_pop_inferior_5", 'isPopFull',
-                            'hasTarget', 'target_same_team']
-    def get_state(self, idx):
-        return self.df.loc[idx]
-    def get_actions(self):
-        return [
-            Action("attack_nearest", "Barracks", self.w),
-            Action("attack_nearest", "Mill", self.w),
-            Action("attack_nearest", "Mine", self.w),
-            Action("attack_nearest", "Headquarters", self.w),
-            Action("attack_nearest", "Tower", self.w),
-        ]
-
-    def get_valid_actions(self):
-        return self.get_actions()
-
-class Crossbowman:
-    def __iter__(self):
-        for index, row in self.df.iterrows():
-            yield index, row
-    def __init__(self, w):
-        self.name = "Crossbowman"
-        self.df = w[w['name'] == self.name]
-        # features :
-        # ennemy_spearman_half_range
-        # ennemy_crossbowman_half_range
-        # threat_up
-        # threat_down
-        # threat_right
-        # threat_left
-        # ennemy_in_sight
-        self.df = self.df[self.df['team'] == w.df.team_]
-        self.df = self.df[self.df['hasTarget']]
-    def get_state(self, idx):
-        return self.df.loc[idx]
-
-    def get_actions(self):
-        return [
-            Action("attack_nearest", "Spearman", self.w),
-            Action("attack_nearest", "Crossbowman", self.w)
-        ]
-
-    def get_valid_actions(self):
-        return self.get_actions() # Temporary
-
-class Barracks:
-    def __iter__(self):
-        for index, row in self.df.iterrows():
-            yield index, row
-    def __init__(self, w):
-        self.name = "Barracks"
-        self.df = w[w['name'] == self.name]
-        # food_between_0_50
-        # food_between_50_100
-        # food_between_100_200
-        # food_superior_200
-        # remaining_pop_inferior_2
-        # remaining_pop_inferior_5
-
-    def get_state(self, idx):
-        return self.df.loc[idx]
-
-    def get_actions(self):
-        return [
-            Action("produce", "Spearman", self.w),
-            Action("produce", "Crossbowman", self.w),
-            Action("produce", "Inquisitor", self.w)
-        ]
-
-    def get_valid_actions(self):
-        return self.get_actions()
-
-
-
 
 class World:
     """
@@ -261,6 +87,9 @@ class World:
         return self.df[item]
 
 
+
+
+#deprecated
 def reward(world):
         """
         Reward as R[t] = F(world[t])

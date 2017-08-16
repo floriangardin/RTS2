@@ -31,6 +31,7 @@ public class Action {
 	List<IAUnit> complement;
 	public static List<Action> parse(String data){
 		Vector<Map<String, Object>> d = gson.fromJson(data, new Vector<HashMap<String, Object>>().getClass());
+		
 		List<Action> actions = new Vector<Action>();
 		for(int i=0; i<d.size(); i++){
 			actions.add(new Action(d.get(i)));
@@ -48,7 +49,7 @@ public class Action {
 				case "y":
 					this.x = (float) toParse.get(key);
 					break;
-				case "action":
+				case "verb":
 					this.action = Verb.valueOf(((String) toParse.get(key)));
 					break;
 				case "target":
@@ -66,7 +67,9 @@ public class Action {
 
 	public void play(IA ia){
 		ia.select(subject);
+
 		if(action==Verb.attack){
+
 			ia.rightClick(target);							
 		}
 	}

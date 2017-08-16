@@ -62,11 +62,12 @@ public class IAPython extends IA {
 					while ((b = br.read()) != -1) {
 					    buf.append((char) b);
 					}
+					
 					String res = buf.toString();
 					synchronized(actions){	
 						actions.addAll(Action.parse(res));
 					}
-					
+					System.out.println("success parse");
 					br.close();
 					isr.close();
 					t.sendResponseHeaders(200, 10);

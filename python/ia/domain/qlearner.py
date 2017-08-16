@@ -1,6 +1,7 @@
 from ..api.qlearning import QLearner
 from ..api.api import get,post
 from .model import World, State
+from collections import defaultdict
 import pandas as pd
 
 class UltraMytheQLearner(QLearner):
@@ -9,14 +10,14 @@ class UltraMytheQLearner(QLearner):
     def init(self, s0=None, delta=1, Qglobal={}, classes={}, A=[], alpha=0.01, gamma=0.9, epsilon=0.01):
         self.s0 = s0
         self.delta = delta
-        self.Qglobal = Qglobal
         self.classes = {"Barracks": None, "Crossbowman": None, "Spearman": None}
-        self.Qglobal = {"Barracks": pd.DataFrame(), "Crossbowman": pd.DataFrame(), "Spearman": pd.DataFrame()}
+        self.Qglobal = {"Barracks": defaultdict(int), "Crossbowman": defaultdict(int), "Spearman": defaultdict(int)}
+        # Init Q with actions and states
         self.A = A # Set of all possible actions for each class (it is a dict with key class and value list of actions)
         self.alpha = alpha
         self.gamma = gamma # discount
         self.epsilon = epsilon
-        self.L = {}
+        self.L = defaultdict(list)
         self.is_init = True
 
     def get_state(self):
