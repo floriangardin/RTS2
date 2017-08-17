@@ -1,11 +1,447 @@
 import pandas as pd
 import numpy as np
 from .actions import Action
-from .classes import Spearmans, Crossbowman, Barracks
+
+from ..api.api import get,post
+import time
+from collections import defaultdict
 
 """
 Modelling global state
 """
+
+BARRACKS = "Barracks"
+CROSSBOWMAN = "Crossbowman"
+SPEARMAN = "Spearman"
+MILL = "Mill"
+MINE = "Mine"
+HEADQUARTERS = "Headquarters"
+TOWER = "Tower"
+INQUISITOR = "Inquisitor"
+
+### ACTIONS
+
+ATTACK = "attack"
+NEAREST = "nearest"
+NEARESTFROMHEADQUARTERS = "nearestfromheadquarters"
+NEARESTENEMY = "nearestenemy"
+STOP = "stop"
+PRODUCE = "produce"
+
+"""
+0) QLearner
+"""
+
+class QLearnerClean:
+
+    # CLASSQ-L implementation
+    def __init__(self):
+        self.is_init = False
+
+    def init(self, delta=1, alpha=0.01, gamma=0.9, epsilon=0.01):
+        self.delta = delta
+        self.Qglobal = {BARRACKS: defaultdict(int), CROSSBOWMAN: defaultdict(int), SPEARMAN: defaultdict(int)}
+        self.alpha = alpha
+        self.gamma = gamma # discount
+        self.epsilon = epsilon
+        self.is_init = True
+
+    def learn_from_one_game(self, team=2):
+        self.state_manager = StateManager(team=team)
+
+        self.L = defaultdict(list)
+        self.sc = '0'
+        self.ac = 'no_action'
+        while not self.end_condition(): # While game not finished
+            self.step()
+        # After the game is over, update the q-tables
+        r = self.get_reward() # Get global cumulative reward at the end of the game
+        # Pour toutes les unités et pour toutes les actions on ajuste les poids de Q
+        # TODO : A modifier ne marche pas tel quel
+        for C in self.classes.keys():
+            Q = self.Qglobal[C]
+            for c in C:
+                for s, a, s1, C in self.L[c.name]:
+                    Q[s, a] += self.alpha * (r + self.gamma * np.max((Q[s1, self.A])) - Q[s, a])  # Pas sûr pour cette ligne
+        return self.Qglobal
+
+    def end_condition(self):
+        return False
+
+    def step(self):
+        time.sleep(self.delta)
+        self.state_manager.update()
+        for obj, name, state, valid_actions in self.state_manager:
+            Q = self.Qglobal[name]  # get the current Q function for this specific class
+            if state[0] == '1' and len(valid_actions) > 0: # IS not Idle
+                if np.random.random() >= self.epsilon:
+                    actions_index = [ac_.name for ac_ in valid_actions]
+                    # Find max idx
+                    a = valid_actions[np.argmax([Q[state, act] for act in actions_index])]
+                else:
+                    a = valid_actions[np.random.random(len(valid_actions))]
+                a(obj)
+                self.do_action(a)  # Output to the world
+                self.L[name].append((self.sc, self.ac, state, name))  # Keep trace of actions
+                self.sc = state
+                self.ac = a.name
+
+    def do_action(self, a):
+        post(a.to_dict())
+
+
+"""
+1) Handle states and inputs
+"""
+
+class StateManager:
+
+    def __iter__(self):
+        for obj in self.objets:
+            yield obj, obj.name, obj.state, obj.valid_actions
+
+    def __init__(self, team=2):
+        self.team = team
+        self.objets = []
+        self.has_won = False
+        self.has_lost = False
+
+    def check_victory(self, players):
+        self.has_lost = players[self.team]['hasLost'] == 1
+        for key in players.keys():
+            if players[key]['hasLost'] == 1 and key != self.team:
+                self.has_won = True
+        return self.has_won, self.has_lost
+
+    def update(self):
+        data = get()
+        # Create state for each character
+        plateau = data['plateau']
+        players = data['teams']
+        # Create objects and filter by spearman, crossbowman and barracks
+        self.objets = [ObjetManager(plateau, players, idx) for idx in plateau.keys() if self.team == plateau[idx]['team'] and plateau[idx]['name'] in [SPEARMAN, CROSSBOWMAN, BARRACKS]]
+
+    def handle_end_game(self):
+        # Calculate reward etc ....
+        pass
+
+class ObjetManager:
+
+    def __new__(cls, plateau, players, idx):
+        """
+        :param data: Raw Data from get data
+        """
+        if plateau[idx]['name'] == BARRACKS:
+            objet = Barracks()
+        elif plateau[idx]['name'] == CROSSBOWMAN:
+            objet = Crossbowman()
+        elif plateau[idx]['name'] == SPEARMAN:
+            objet = Spearman()
+        else:
+            objet = DefaultObjet()
+        # Create features of state
+        objet.init(plateau, players, idx)
+        return objet
+
+
+
+"""
+2) Represent Objets, their states and associated actions
+"""
+class Objet:
+    def init(self, plateau, players, idx):
+        self.plateau = plateau
+        self.teams = players
+        self.idx = idx
+        self.id = idx
+        self.objet = self.plateau[idx]
+        self.team = self.objet['team']
+        self.state_name = []
+        self.states_ = self.compute_states()
+        self.actions_ = self.compute_actions()
+
+    def compute_states(self):
+        pass
+    def compute_actions(self):
+        pass
+
+    @property
+    def state(self):
+        return str.join('', [i() for i in self.states_])
+
+    @property
+    def valid_actions(self):
+        return [action for action in self.actions_ if action.can_do(self)]
+
+    @property
+    def name(self):
+        return self.objet['name']
+
+class Spearman(Objet):
+
+    def compute_states(self):
+        return [
+            IsIdle(self),
+            FoodBetween(self, 0, 50),
+            FoodBetween(self, 50, 100),
+            FoodBetween(self, 100, 200),
+            FoodBetween(self, 200, 200000),
+            NbMyObjetsBetween(self, MILL, 0, 1),
+            NbMyObjetsBetween(self, BARRACKS, 0, 1),
+            NbMyObjetsBetween(self, MINE, 0, 1),
+            NbMyObjetsBetween(self, TOWER, 0, 1)
+        ]
+    def compute_actions(self):
+        return [
+            ActionAttackNearestFromHeadquarters(BARRACKS),
+            ActionAttackNearestFromHeadquarters(MILL),
+            ActionAttackNearestFromHeadquarters(MINE),
+            ActionAttackNearestEnemy(TOWER),
+            ActionAttackNearestEnemy(HEADQUARTERS),
+            ActionAttackNearestEnemy(BARRACKS),
+            ActionAttackNearestEnemy(MINE),
+            ActionAttackNearestEnemy(MILL)
+        ]
+
+class Crossbowman(Objet):
+    def compute_states(self):
+        return [
+            IsIdle(self),
+            FoodBetween(self, 0, 50),
+            FoodBetween(self, 50, 100),
+            FoodBetween(self, 100, 200),
+            FoodBetween(self, 200, 200000),
+            NbMyObjetsBetween(self, MILL, 0, 1),
+            NbMyObjetsBetween(self, BARRACKS, 0, 1),
+            NbMyObjetsBetween(self, MINE, 0, 1),
+            NbMyObjetsBetween(self, TOWER, 0, 1)
+        ]
+
+    def compute_actions(self):
+        return [
+            ActionAttackNearestEnemy(SPEARMAN),
+            ActionAttackNearestEnemy(CROSSBOWMAN)
+        ]
+
+class Barracks(Objet):
+    def compute_states(self):
+        return [
+            IsIdle(self),
+            FoodBetween(self, 0, 50),
+            FoodBetween(self, 50, 100),
+            FoodBetween(self, 100, 200),
+            FoodBetween(self, 200, 200000),
+            NbMyObjetsBetween(self, SPEARMAN, 0, 1),
+            NbMyObjetsBetween(self, CROSSBOWMAN, 0, 1),
+            NbMyObjetsBetween(self, SPEARMAN, 1, 2),
+            NbMyObjetsBetween(self, CROSSBOWMAN, 1, 2),
+            NbMyObjetsBetween(self, TOWER, 0, 1)
+        ]
+    def compute_actions(self):
+        return [
+            ActionProduce(SPEARMAN),
+            ActionProduce(CROSSBOWMAN)
+        ]
+class DefaultObjet(Objet):
+    def compute_states(self):
+        return []
+
+
+"""
+3) Features used in States , they are boolean features only
+"""
+
+class Feature:
+    def __call__(self):
+        return self.state
+
+    def __add__(self, other):
+        if isinstance(other, Feature):
+            return self()+other
+        else:
+            return self()+other()
+    def __radd__(self, other):
+        return self.__add__(other)
+
+class FoodBetween(Feature):
+    def __init__(self, objet, low, up):
+        self.state = '1' if low <= objet.teams[objet.team]['food'] < up else '0'
+class PopBetween(Feature):
+    def __init__(self, objet, low, up):
+        self.state = '1' if low <= objet.teams[objet.team]['pop'] < up else '0'
+
+class MaxPopBetween(Feature):
+    def __init__(self, objet, low, up):
+        self.state = '1' if low <= objet.teams[objet.team]['maxPop'] < up else '0'
+class PopRemainingBetween(Feature):
+    def __init__(self, objet, low, up):
+        self.state = '1' if low <= objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop'] < up else '0'
+
+class NbMyObjetsBetween(Feature):
+    def __init__(self, objet, to_count, low, up):
+        quantity = len([val for key, val in objet.plateau.items() if val['name'] == to_count and val['team'] == objet.team])
+        self.state = '1' if low <= quantity < up else '0'
+
+class NbObjetsBetween(Feature):
+    def __init__(self, objet, to_count, team, low, up):
+        quantity = len([val for key, val in objet.plateau if val['name'] == to_count and val['team'] == team])
+        self.state = '1' if low <= quantity < up else '0'
+
+class IsIdle(Feature):
+    def __init__(self, objet):
+
+        has_target = objet.objet['target'] > -1
+        if has_target:
+            if objet.objet['target'] in objet.plateau:
+                if objet.plateau[objet.objet['target']]['team'] != objet.team:
+                    self.state = '0'
+                    return
+        self.state = '1'
+
+"""
+4) Actions for output in game, part of the policy
+"""
+
+class Action:
+    def __init__(self, verb=None, adverb=None, target=None, produce=None):
+        self.verb = verb
+        self.adverb = adverb
+        self.target = target
+        self.produce = produce
+        self.name = self.get_name()
+
+    def __call__(self, objet):
+        pass
+
+    def can_do(self, objet):
+        return True
+
+    def get_name(self):
+        """
+        Very important : name of the action to be accounted in Q
+        :return:
+        """
+        result = ''
+        if self.verb is not None:
+            result += str(self.verb)
+        if self.adverb is not None:
+            result += str(self.adverb)
+        if self.target is not None:
+            result += str(self.target)
+        if self.produce is not None:
+            result += str(self.produce)
+        return result
+
+    def to_dict(self):
+        result = {}
+        if self.subject is not None:
+            result['subject'] = self.subject
+        if self.verb is not None:
+            result['verb'] = self.verb
+        if self.target is not None:
+            result['target'] = self.target
+        if self.produce is not None:
+            result['produce'] = self.produce
+        return result
+
+class ActionAttackNearest(Action):
+    def __call__(self, objet):
+        pass
+
+class NoAction(Action):
+    def __init__(self):
+        self.final_target = -1
+        self.final_verb = STOP
+
+    def can_do(self, objet):
+        return True
+    def __call__(self, objet):
+        return
+
+class ActionProduce(Action):
+    def __init__(self, to_produce):
+        super().__init__(verb=PRODUCE, target=to_produce)
+
+    def can_do(self, objet):
+        return  objet.teams[objet.team]['food'] > 50 and ( objet.teams[objet.team]['maxPop']- objet.teams[objet.team]['pop']) > 0
+
+    def __call__(self, objet):
+        self.subject = objet.id
+        pass
+
+def find_one(plateau, objet, team):
+    return find_all(plateau, objet, team)[0]
+def find_all(objet, name, team):
+    return [val for key, val in objet.plateau.items() if val['team'] == team and val['name'] == name]
+def find_all_not_team(objet, name, team):
+    return [val for key, val in objet.plateau.items() if val['team'] != team and val['name'] == name]
+
+def find_all_enemy(objet, name, team):
+    return [val for key, val in objet.plateau.items() if val['team'] != team and val['team'] != 0 and val['name'] == name]
+
+
+class ActionAttackNearestFromHeadquarters(Action):
+    def __init__(self, target):
+        super().__init__(verb=ATTACK, adverb=NEARESTFROMHEADQUARTERS, target=target)
+
+    def can_do(self, objet):
+        return ((objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop']) > 0) \
+               or (self.target in [MINE, SPEARMAN, CROSSBOWMAN, INQUISITOR])
+
+    def __call__(self, objet):
+        # Find nearest neutral or enemy from HQ
+        hq = find_one(objet, HEADQUARTERS, objet.team)
+        x = hq['x']
+        y = hq['y']
+        # On recherche les target ennemies ou neutres
+        filtered = find_all_not_team(objet, self.target, objet.team)
+        filtered = [(i['id'], (i['x']-x)**2 + (i['y']-y)**2) for i in filtered]
+        filtered = sorted(filtered, key=lambda x: x[1])
+        self.subject = objet.idx
+        self.target = filtered[0][0]
+
+
+class ActionAttackNearest(Action):
+    def __init__(self, target):
+        super().__init__(verb=ATTACK, adverb=NEAREST, target=target)
+
+    def can_do(self, objet):
+        return ((objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop']) > 0 ) \
+               or (self.target in [MINE, SPEARMAN, CROSSBOWMAN, INQUISITOR])\
+                  and len(find_all_not_team(objet, self.target, objet.team)) > 0
+
+    def __call__(self, objet):
+        # Find nearest neutral or enemy from HQ
+        x = objet.objet['x']
+        y = objet.objet['y']
+        # On recherche les target ennemies ou neutres
+        filtered = find_all_not_team(objet, self.target, objet.team)
+        filtered = [(i['id'], (i['x']-x)**2 + (i['y']-y)**2) for i in filtered]
+        filtered = sorted(filtered, key=lambda x: x[1])
+        self.subject = objet.id
+        self.target = filtered[0][0]
+
+class ActionAttackNearestEnemy(Action):
+    def __init__(self, target):
+        super().__init__(verb=ATTACK, adverb=NEARESTENEMY, target=target)
+
+    def can_do(self, objet):
+        return len(find_all_enemy(objet, self.target, objet.team)) > 0
+
+    def __call__(self, objet):
+        # Find nearest neutral or enemy from HQ
+        x = objet.objet['x']
+        y = objet.objet['y']
+        # On recherche les target ennemies ou neutres
+        filtered = find_all_enemy(objet, self.target, objet.team)
+        filtered = [(i['id'], (i['x'] - x) ** 2 + (i['y'] - y) ** 2) for i in filtered]
+        filtered = sorted(filtered, key=lambda x: x[1])
+        self.subject = objet.id
+        self.target = filtered[0][0]
+
+###################################################################
+###### WARNING : ULTRA DEPRECATED PAS TOUCHE ######################
+###################################################################
 
 class State:
     """
@@ -37,8 +473,6 @@ class World:
     So World only need present world for initialisation
     You can interact with world as you will do in a pandas DataFrame using composition
     """
-
-
     def __init__(self, data, team=2, previous_world=None):
         self.reward = None
         self.team_ = team

@@ -920,6 +920,7 @@ public class Plateau implements java.io.Serializable {
 			stats.put("pop", t.getPop(this));
 			stats.put("maxPop", t.getMaxPop(this));
 			stats.put("food", t.food);
+			stats.put("hasLost", (t.id==this.teamLooser) && t.id!=0 ? 1 : 0);
 			toPut.put(t.id, stats);
 		}
 		this.objets.forEach((key,value) -> res.put(key, value.toJson()));

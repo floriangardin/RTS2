@@ -18,8 +18,10 @@ def get():
     Get the state of plateau
     :return:
     """
-    return json.loads(requests.get("http://localhost:8000/get").text)
-
+    res = json.loads(requests.get("http://localhost:8000/get").text)
+    res['plateau'] = {int(idx) : val for idx,val in res['plateau'].items()}
+    res['teams'] = {int(idx): val for idx, val in res['teams'].items()}
+    return res
 def post(data):
     """
     Send action to game

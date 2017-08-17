@@ -1,5 +1,5 @@
-from ia import get, post
-from ia.domain.qlearner import UltraMytheQLearner
+
+from ia.domain.model import QLearnerClean
 import time
 
 """
@@ -16,9 +16,9 @@ def think():
             "target": 69
       }]
 
-learner = UltraMytheQLearner()
+learner = QLearnerClean()
 learner.init()
-learner.learn_from_one_game()
+learner.learn_from_one_game(team=2)
 # Add world to state and calculate reward
 
 # plan = think()

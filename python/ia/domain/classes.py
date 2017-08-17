@@ -51,7 +51,6 @@ class Spearmans(ObjectClass):
         # remaining_pop_inferior_5
         self.df["remaining_pop_inferior_5"] = ~self.df["remaining_pop_inferior_2"] & ((w.teams.loc[team, 'maxPop'] - w.teams.loc[team, 'pop']) <= 5)
         # target_same_team
-        ## TODO : FIXME : HERE BUG BECAUSE loc[self.df['target'] does not work
         self.df['target_same_team'] = (self.df['hasTarget'] == True)
         self.df['target_same_team'] &= (self.df['target'].apply(lambda x: (w.df.loc[x, 'team'] == team) if x in w.df.index else False))
         # Redefinition of hasTarget
@@ -79,7 +78,6 @@ class Spearmans(ObjectClass):
             Action("attack_nearest", "Headquarters", self.w),
             Action("attack_nearest", "Tower", self.w),
         ]
-
 
 class Crossbowman(ObjectClass):
 

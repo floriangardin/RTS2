@@ -65,7 +65,7 @@ class QLearner:
                     else:
                         a = Ac[np.random.random(len(Ac))]
                     self.execute_action(index, a)  # Output to the world
-                    
+
                     self.L[c.name].append((self.sc, self.ac, s1.get_state(c.name), C))  # Keep trace of actions
                     self.sc = s1.get_state(c.name)
                     self.ac = a.name

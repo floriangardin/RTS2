@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import bot.IA;
 import bot.IAUnit;
+import utils.ObjetsList;
 
 public class Action {
 	final static GsonBuilder builder = new GsonBuilder();
@@ -20,6 +19,7 @@ public class Action {
 	float x;
 	float y;
 	int target = -1;
+	ObjetsList toProduce;
 	int subject = -1;
 	public Verb action;
 	public enum Verb{
@@ -27,6 +27,7 @@ public class Action {
 		move,
 		produce,
 		build,
+		stop
 	}
 	List<IAUnit> complement;
 	public static List<Action> parse(String data){
@@ -58,6 +59,8 @@ public class Action {
 				case "subject" :
 					this.subject  =  (int) Math.round((double)toParse.get(key));
 					break;
+				case "produce":
+					this.toProduce = ObjetsList.valueOf((String) toParse.get(key));
 			}
 		}
 	}
@@ -67,10 +70,10 @@ public class Action {
 
 	public void play(IA ia){
 		ia.select(subject);
-
 		if(action==Verb.attack){
-
 			ia.rightClick(target);							
+		}else if(action==Verb.produce){
+			ia.produce(this.toProduce);
 		}
 	}
 }
