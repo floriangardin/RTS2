@@ -82,11 +82,11 @@ public class Character extends Objet{
 		this.setTarget(null, plateau);
 		this.team = team;
 		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
-		this.collisionBox = new Circle(1f,1f,this.getAttribut(Attributs.size));
-		this.selectionBox = new Rectangle(1f,1f,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
-		this.sightBox = new Circle(1f,1f,this.getAttribut(Attributs.sight));
 		this.x = x;
 		this.y = y;
+		this.collisionBox = new Circle(this.x,this.y,this.getAttribut(Attributs.size));
+		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-3*this.getAttribut(Attributs.size)/2,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
+		this.sightBox = new Circle(this.x,this.y,this.getAttribut(Attributs.sight));
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
 		plateau.addCharacterObjets(this);
@@ -609,6 +609,7 @@ public class Character extends Objet{
 		this.setTarget(t, plateau);
 		
 		if(t!=null){
+			
 			if(waypoints==null){
 				this.moveAhead = (plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
@@ -743,6 +744,7 @@ public class Character extends Objet{
 			this.setTarget(plateau.getById(this.secondaryTargets.get(0)), plateau);
 		}
 		if(this.getTarget(plateau)==null){
+			System.out.println("vaneau !");
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
 			if(this.getAttribut(Attributs.damage)>0f) {

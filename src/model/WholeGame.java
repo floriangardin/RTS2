@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import bot.IA;
 import control.InputObject;
 import control.Player;
+import control.KeyMapper.KeyEnum;
 import display.Camera;
 import display.Interface;
 import menu.Lobby;
@@ -33,7 +34,8 @@ public class WholeGame extends ClassSystem{
 		if(Lobby.isInit()){			
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
 		}else{
-			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+			GameClient.setPlateau(Map.createPlateau("redemption", "maps"));
+//			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		}
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();

@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import control.Player;
 import data.Attributs;
 import display.Camera;
+import pathfinding.Case;
+import pathfinding.Case.IdTerrain;
 import plateau.Building;
 import plateau.Character;
 import plateau.Checkpoint;
@@ -21,6 +23,12 @@ public class SimpleRenderEngine {
 		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
 		// Render everything rawest way ...
+		g.setColor(Color.cyan);
+		for(Case c : plateau.mapGrid.idcases.values()){
+			if(c.getIdTerrain()==IdTerrain.WATER){
+				g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
+			}
+		}
 		for(Integer o: Player.selection){
 			Objet obj = plateau.getById(o);
 			if(obj!=null){				

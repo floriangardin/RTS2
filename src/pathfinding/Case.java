@@ -39,6 +39,15 @@ public class Case implements java.io.Serializable {
 		this.idTerrain = idTerrain;
 	}
 
+	public void setIdTerrain(char id){
+		for(IdTerrain it : IdTerrain.values()){
+			if(it.id == id){
+				this.setIdTerrain(it);
+				return;
+			}
+		}
+	}
+
 	public IdTerrain getIdTerrain(){
 		return this.idTerrain;
 	}
@@ -70,13 +79,16 @@ public class Case implements java.io.Serializable {
 	}
 	
 	public enum IdTerrain{
-		WATER(false),
-		GRASS(true),
-		SAND(true);
+		WATER(false, 'w'),
+		GRASS(true, ' '),
+		SAND(true, 's');
 		
 		public final boolean ok;
-		private IdTerrain(boolean ok){
+		public final char id;
+		
+		private IdTerrain(boolean ok, char id){
 			this.ok = ok;
+			this.id = id;
 		}
 	}
 	

@@ -28,10 +28,10 @@ public class MainSimu {
 			KeyMapper.init();
 			GameServer.init();
 			GameClient.init("localhost");
-			Player.setTeam(2);
+			Player.setTeam(1);
 			Vector<IA> ias = new Vector<IA>();
-			ias.add(new IAInputs(2));
-			IA.init(ias);
+//			ias.add(new IAInputs(2));
+//			IA.init(ias);
 			Game.system = new WholeGame();
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;

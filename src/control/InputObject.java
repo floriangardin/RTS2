@@ -236,11 +236,12 @@ public class InputObject implements java.io.Serializable{
 		// Keyboard
 		for(KeyEnum ke : KeyMapper.mapping.keySet()){
 			for(Integer i : KeyMapper.mapping.get(ke)){
-				
 				if(input.isKeyPressed(i)){
+					System.out.println("pressed : "+ke);
 					this.pressed.addElement(ke);
 				}
 				if(input.isKeyDown(i)){
+					System.out.println("down : "+ke);
 					this.down.addElement(ke);
 				}
 			}

@@ -459,12 +459,6 @@ public class Building extends Objet{
 		}
 		if( c.getAttributString(Attributs.weapon).equals("bow") || c.getAttributString(Attributs.weapon).equals("wand") || c.getAttributString(Attributs.weapon).equals("bible"))
 			return;
-		if(this.name.equals(ObjetsList.Stable) && this.getHQ(plateau).age<2){
-			return;
-		}
-		if(this.name.equals(ObjetsList.Academy) && this.getHQ(plateau).age<3){
-			return;
-		}
 
 		if(this.potentialTeam!=c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			this.underAttack = true;

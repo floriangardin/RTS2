@@ -28,6 +28,7 @@ import mapeditor.MainEditor.TeamSelected;
 import mapeditor.TerrainObjectPanel.BrushStyle;
 import pathfinding.Case.IdTerrain;
 import plateau.Plateau;
+import ressources.Map;
 
 public abstract class Action {
 
@@ -154,7 +155,7 @@ public abstract class Action {
 			} else {
 				FileOutputStream fout;
 				try {
-					fout = new FileOutputStream(MainEditor.getSheet().getFileToSave());
+					fout = new FileOutputStream(MainEditor.getSheet().getFileToSave().getAbsolutePath()+"2");
 					ObjectOutputStream oos = new ObjectOutputStream(fout);
 					oos.writeObject(MainEditor.getSheet().getPlateau());
 					oos.close();
@@ -162,6 +163,7 @@ public abstract class Action {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				Map.savePlateau(MainEditor.getSheet().getFileToSave().getAbsolutePath(), MainEditor.getSheet().getPlateau());
 			}
 			break;
 		case SaveCurrentSheetAs:
@@ -194,15 +196,20 @@ public abstract class Action {
 			if (userSelection == JFileChooser.APPROVE_OPTION) {
 				try{
 					File fileToSave = fileChooser.getSelectedFile();
-					ObjectInputStream objectinputstream = null;
-					FileInputStream streamIn = new FileInputStream(fileToSave);
-					objectinputstream = new ObjectInputStream(streamIn);
-					Plateau p = (Plateau) objectinputstream.readObject();
-					if(objectinputstream != null){
-						objectinputstream .close();
-					} 
+					Plateau p = Map.createPlateau(fileToSave.getAbsolutePath());
+					if(p == null){
+						throw new Exception();
+					}
 					MainEditor.openSheet(p, fileToSave);
+//					ObjectInputStream objectinputstream = null;
+//					FileInputStream streamIn = new FileInputStream(fileToSave);
+//					objectinputstream = new ObjectInputStream(streamIn);
+//					Plateau p = (Plateau) objectinputstream.readObject();
+//					if(objectinputstream != null){
+//						objectinputstream .close();
+//					} 
 				} catch(Exception e){
+					e.printStackTrace();
 					JOptionPane.showMessageDialog(MainEditor.frame,
 							"Corrupted file - unable to parse.",
 							"Open file error",

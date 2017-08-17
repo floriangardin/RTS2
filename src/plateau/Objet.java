@@ -113,7 +113,7 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		if(t!=null){
 			this.target = t.id;
-			
+			System.out.println(this.name+" "+team.id+" "+x+" "+ y+" "+t.name+" "+t.id+" "+t.team.id+" "+t.x+" "+ t.y);
 		}
 		if(t==null){
 			this.target = NO_TARGET;
@@ -181,11 +181,6 @@ public abstract class Objet implements java.io.Serializable {
 		// handling old cases
 		Case c = plateau.mapGrid.getCase(this.idCase);
 		if(this instanceof Character){
-			//FIXME: on vire cette histoire de sight box ?
-			((Character)this).sightBox.setCenterX(this.getX());
-			((Character)this).sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
-			this.selectionBox.setCenterX(this.x);
-			this.selectionBox.setCenterY(this.y);
 			if(c!=null && c.characters.contains((Character)this)){
 				c.characters.remove((Character)this);
 			}
@@ -225,6 +220,11 @@ public abstract class Objet implements java.io.Serializable {
 			this.idCase = -1;
 		}
 		if(this instanceof Character){
+			//FIXME: on vire cette histoire de sight box ?
+			((Character)this).sightBox.setCenterX(this.getX());
+			((Character)this).sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
+			this.selectionBox.setCenterX(this.x);
+			this.selectionBox.setCenterY(this.y);
 			plateau.mapGrid.getCase(this.idCase).characters.add((Character)this);
 		} else if(this instanceof NaturalObjet){
 			plateau.mapGrid.getCase(this.idCase).naturesObjet.add((NaturalObjet)this);

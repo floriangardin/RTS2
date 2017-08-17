@@ -24,7 +24,7 @@ public class Team implements Serializable {
 
 	public String colorName;
 	public int food;
-	public int hq ;
+	public int hq = -1 ;
 	public Color color;
 
 

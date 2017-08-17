@@ -18,6 +18,7 @@ public class Main {
 	public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
+	public static boolean fullscreen;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -26,16 +27,18 @@ public class Main {
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		
 		try {
-			int resolutionX = (int)screenSize.getWidth();
-			int resolutionY = (int)screenSize.getHeight();
-
+			
+//			int resolutionX = (int)screenSize.getWidth();
+//			int resolutionY = (int)screenSize.getHeight();
+//			fullscreen = true;
+			int resolutionX = (int)screenSize.getWidth()/2;
+			int resolutionY = (int)screenSize.getHeight()/2;
+			fullscreen = false;
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
-			
-//			app.setDisplayMode(resolutionX, resolutionY,false);
-			app.setDisplayMode(resolutionX, resolutionY,true);
+			app.setDisplayMode(resolutionX, resolutionY, fullscreen);
 			app.setShowFPS(true);
 			app.setAlwaysRender(true);
 			app.setUpdateOnlyWhenVisible(false);

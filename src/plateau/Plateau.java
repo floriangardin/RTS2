@@ -12,6 +12,8 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
+import main.Main;
+import model.Game;
 import model.GameClient;
 import pathfinding.Case;
 import pathfinding.MapGrid;
@@ -655,6 +657,31 @@ public class Plateau implements java.io.Serializable {
 				this.teamLooser = team.id;
 			}
 		}
+//		if(round>10){
+//			Case c;
+//			for(int i=0; i<mapGrid.grid.get(0).size(); i++){
+//				for(int j=0; j<mapGrid.grid.size(); j++){
+//					c = mapGrid.grid.get(j).get(i);
+//					if(c.building!=null){
+//						System.out.print("X");
+//					} else if(c.naturesObjet.size()>0){
+//						System.out.print("V");
+//					} else if(c.characters.size()>0){
+//						System.out.print(c.characters.size());
+//					} else {
+//						System.out.print(" ");
+//					}
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
+//			System.out.println(naturalObjets.size());
+//			System.out.println(characters.size());
+//			System.out.println(buildings.size());
+//			while(true){
+//				
+//			}
+//		}
 		
 	}
 

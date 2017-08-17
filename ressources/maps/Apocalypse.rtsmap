@@ -1,80 +1,73 @@
 ###########################
-# Map Apocalypse #
-###########################
-
-
-#Creator: G.
-# date: 22/08/2016
-
 & sizeX 31
 & sizeY 31
-& Zcam 15.0 7.0
-& Qcam 9.0 15.0
-& Scam 15.0 23.0
-& Dcam 21.0 15.0
-
-
-##############
+###########################
 = headquarters
-##############
-
-1 14.0 2.0
-2 14.0 27.0
-
-##############
+1 14 2
+2 14 27
+###########################
 = buildings
-##############
-
-Mine 0 25.0 3.0
-Mill 0 3.0 27.0
-Mine 0 25.0 27.0
-Mill 0 9.0 28.0
-Mine 0 19.0 28.0
-Mill 0 9.0 1.0
-Mine 0 19.0 1.0
-Mill 0 3.0 3.0
-Stable 0 8.0 7.0
-Tower 1 9.0 4.0
-Tower 1 20.0 4.0
-Tower 1 17.0 7.0
-Tower 1 12.0 7.0
-Tower 2 9.0 24.0
-Tower 2 20.0 24.0
-Tower 2 12.0 21.0
-Tower 2 17.0 21.0
-Barracks 0 3.0 14.0
-Barracks 0 23.0 14.0
-Stable 0 19.0 21.0
-University 0 14.0 14.0
-Barracks 0 7.0 21.0
-Barracks 0 19.0 7.0
-
-#######
+Mine 0 25 3
+Mill 0 3 26
+Mine 0 25 26
+Mill 0 9 28
+Mine 0 19 28
+Mill 0 9 1
+Mine 0 19 1
+Mill 0 3 3
+Stable 0 8 7
+Tower 1 9 4
+Tower 1 20 4
+Tower 1 17 7
+Tower 1 12 7
+Tower 2 9 25
+Tower 2 20 25
+Tower 2 12 22
+Tower 2 17 22
+Barracks 0 3 14
+Barracks 0 23 15
+Stable 0 19 22
+University 0 14 14
+Barracks 0 8 22
+Barracks 0 19 7
+###########################
 = units
-#######
-
-Spearman 1 14.0 5.0
-Spearman 1 16.0 5.0
-Spearman 2 14.0 25.0
-Spearman 2 16.0 25.0
-
-###########
+Spearman 1 1458.0 544.0
+Spearman 1 1660.0 542.0
+Spearman 2 1441.0 2537.0
+Spearman 2 1644.0 2541.0
+###########################
 = naturalObjects
-###########
-
-Tree 1 27.0 8.0
-Tree 1 3.0 8.0
-Tree 2 4.0 22.0
-Tree 1 3.0 21.0
-Tree 1 3.0 22.0
-Tree 2 3.0 23.0
-Tree 1 26.0 23.0
-Tree 1 26.0 21.0
-Tree 2 26.0 22.0
-Tree 1 27.0 23.0
-Tree 2 27.0 9.0
-Tree 2 26.0 8.0
-Tree 2 26.0 7.0
-Tree 2 4.0 8.0
-Tree 2 5.0 8.0
-Tree 1 3.0 9.0
+###########################
+= mapGround
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
+                               
