@@ -2,6 +2,7 @@ package render;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Circle;
 
 import control.Player;
 import data.Attributs;
@@ -15,13 +16,16 @@ import plateau.Objet;
 import plateau.Plateau;
 
 public class SimpleRenderEngine {
+	
+	public static float ux, uy, vx, vy, d, h, signu, signv, old_vx, old_vy;
+	public static Circle circle;
 
 	// Debug rendering
 	public static void render(Graphics g, Plateau plateau){
-		g.setColor(Color.white);
 		g.setAntiAlias(true);
-		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
+		g.setColor(Color.white);
+		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
 		// Render everything rawest way ...
 		g.setColor(Color.cyan);
 		for(Case c : plateau.mapGrid.idcases.values()){
@@ -35,6 +39,15 @@ public class SimpleRenderEngine {
 				g.setColor(Color.green);
 				g.draw(obj.selectionBox);
 			}
+			if(obj instanceof Character){
+				Character c = (Character)obj;
+				g.setColor(Color.red);
+				for(Integer i : c.waypoints){
+					Case ca = plateau.mapGrid.idcases.get(i);
+					g.drawRect(ca.x,ca.y, ca.sizeX, ca.sizeY);
+				}
+			}
+			
 		}
 		for(Objet o : plateau.objets.values()){
 			g.setColor(o.getTeam().color);
@@ -42,6 +55,19 @@ public class SimpleRenderEngine {
 				if(o instanceof Character){
 					g.draw(o.collisionBox);
 					g.fill(o.collisionBox);
+					if(Player.selection.contains(o.id)){
+						g.setLineWidth(3f);
+						g.setColor(Color.red);
+						g.drawLine(o.x, o.y, o.x+20*d*signu*ux, o.y+20*d*signu*uy);
+						g.setColor(Color.green);
+						g.drawLine(o.x, o.y, o.x+20*h*signv*vx, o.y+20*h*signv*vy);
+						g.setLineWidth(4f);
+						g.setColor(Color.black);
+						g.drawLine(o.x, o.y, o.x+62*old_vx, o.y+62*old_vy);
+						g.setLineWidth(3f);
+						g.setColor(Color.white);
+						g.drawLine(o.x, o.y, o.x+60*old_vx, o.y+60*old_vy);
+					}
 					g.setColor(Color.red);
 					g.fillRect(o.collisionBox.getCenterX()-50, o.collisionBox.getY()+10, 100, 10);
 					g.setColor(Color.green);
@@ -65,6 +91,10 @@ public class SimpleRenderEngine {
 				}
 				
 			}
+		}
+		if(circle!=null){
+			g.setColor(Color.darkGray);
+			g.fill(circle);
 		}
 		// Rectangle of selection
 		if(Player.rectangleSelection != null){

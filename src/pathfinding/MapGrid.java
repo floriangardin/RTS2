@@ -216,7 +216,8 @@ public class MapGrid implements java.io.Serializable {
 			u = openList.firstElement();
 			openList.remove(0);
 			// voisin de droite
-			for(int k=0;k<8;k++){
+			for(int k=0;k<4;k++){
+//				for(int k=0;k<8;k++){
 				switch(k){
 				case 0: //� droite
 					iTrav = u.i+1; jTrav = u.j;break;

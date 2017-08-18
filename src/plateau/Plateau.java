@@ -327,7 +327,7 @@ public class Plateau implements java.io.Serializable {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
 						i.collision(o, this);
-						o.collision(i, this);
+//						o.collision(i, this);
 					}
 				}
 			}
@@ -355,23 +355,21 @@ public class Plateau implements java.io.Serializable {
 			}
 
 			// Between characters and buildings
-
+			Circle c;
 			for (Building e : buildings) {
 				if (e.collisionBox.intersects(range)) {
 					e.collisionWeapon(o, this);
 				}
 				if (e.collisionBox.intersects(o.collisionBox)) {
-					boolean doCollision = true;
-					for(Circle c : e.corners){
+					int collisionCorner = 0;
+					for(int i=0; i<e.corners.size(); i++){
+						c = e.corners.get(i);
 						if(Utils.distance(o,c.getCenterX(),c.getCenterY())<(30f+o.getAttribut(Attributs.size))){
-							doCollision = false;
+							collisionCorner = i+1;
+							break;
 						}
 					}
-					if(doCollision)
-						o.collision(e, this);
-				}
-				else{
-
+					o.collision(e, collisionCorner, this);
 				}
 			}
 			// Between spells and characters
@@ -446,7 +444,6 @@ public class Plateau implements java.io.Serializable {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			
 			target = new Checkpoint(x, y,true, this);
 		}
 
@@ -611,7 +608,7 @@ public class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (NaturalObjet i : naturalObjets) {
 				// looking amongst natural object
-				if (Math.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<4*i.collisionBox.getBoundingCircleRadius()) {
+				if (Math.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<i.collisionBox.getBoundingCircleRadius()) {
 					target = i;
 					break;
 				}

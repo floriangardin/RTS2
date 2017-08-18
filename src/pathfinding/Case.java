@@ -54,6 +54,7 @@ public class Case implements java.io.Serializable {
 	
 	public void update(){
 		this.ok = this.idTerrain.ok && building == null && naturesObjet.size()==0;
+		this.ok = this.idTerrain.ok && building == null;
 	}
 
 	public void updateX(float x, float x1){

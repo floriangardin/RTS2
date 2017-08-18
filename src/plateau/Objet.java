@@ -113,10 +113,12 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		if(t!=null){
 			this.target = t.id;
-			System.out.println(this.name+" "+team.id+" "+x+" "+ y+" "+t.name+" "+t.id+" "+t.team.id+" "+t.x+" "+ t.y);
 		}
 		if(t==null){
 			this.target = NO_TARGET;
+			if(this instanceof Character){
+				((Character)this).distanceToTarget = -1f;
+			}
 		}
 	}
 
@@ -213,7 +215,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.collisionBox.setCenterY(this.y);
 		
 		// handling new cases
-		c = plateau.mapGrid.getCase(x, y);
+		c = plateau.mapGrid.getCase(this.x, this.y);
 		if(c!=null){
 			this.idCase = c.id;
 		} else {

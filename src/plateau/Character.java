@@ -17,6 +17,7 @@ import main.Main;
 import model.Colors;
 import nature.Tree;
 import pathfinding.Case;
+import render.SimpleRenderEngine;
 import ressources.Images;
 import ressources.Sounds;
 import spells.SpellEffect;
@@ -46,24 +47,25 @@ public class Character extends Objet{
 	public Circle sightBox;
 
 	public boolean moveAhead;
+	public float distanceToTarget=-1f;
 	public float state;
 	public boolean isAttacking  = false;
 	public float attackState = 0f;
-	
 
-	
+
+
 	private Vector<Integer> group = new Vector<Integer>();
-	
+
 	// Equipment attributes
 	public boolean horse;
 
 	// About drawing
 	public float animationValue=0f;
-	
-	
+
+
 	// Vecteur de spells
 	public Vector<Integer> spellsEffect = new Vector<Integer>();
-	
+
 	// Special Abilities or subisse
 
 	public boolean isBolted = false;
@@ -110,6 +112,9 @@ public class Character extends Objet{
 	public void setVXVY(float vx, float vy, Plateau plateau){
 		this.vx = vx;
 		this.vy = vy;
+		float R2 = vx*vx+vy*vy;
+		SimpleRenderEngine.old_vx = (float) (this.vx/Math.sqrt(R2));
+		SimpleRenderEngine.old_vy = (float) (this.vy/Math.sqrt(R2));
 		int sector = 0;
 		if(vx==0 && vy==0){
 			//Orientation toward target
@@ -172,7 +177,7 @@ public class Character extends Objet{
 		//arme de corps à corps
 		if(plateau.teams.get(0).data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
 			Character c = (Character) this.getTarget(plateau);
-			
+
 			// Attack sound
 			EventHandler.addEvent(EventNames.Attack, this, plateau);
 			// compute damages
@@ -180,7 +185,7 @@ public class Character extends Objet{
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
-			
+
 			}			
 		} else {
 			// autres armes
@@ -225,9 +230,9 @@ public class Character extends Objet{
 				toRemove.add(i);
 				continue;
 			}
-			
+
 		}
-		
+
 		if(canMove){
 			this.actionIAScript(plateau);
 			this.updateAnimation();
@@ -240,15 +245,6 @@ public class Character extends Objet{
 	// the character move toward its target
 	public void move(Plateau plateau){
 		Objet target = this.getTarget(plateau);
-		// rustine debug mode : collision with trees
-		if(target!=null){
-			if( this.getTarget(plateau) instanceof Tree){
-				if(Utils.distance(this, target)<(target.collisionBox.getBoundingCircleRadius()+this.collisionBox.getBoundingCircleRadius()+2f)){
-					this.stop(plateau);
-					return;
-				}
-			}
-		}
 		if(mode == AGGRESSIVE){
 			Vector<Character> targets  = plateau.getEnnemiesInSight(this);
 			if(targets.size()>0){
@@ -265,21 +261,25 @@ public class Character extends Objet{
 		if(this.idCase == target.idCase){
 			this.moveToward(target.x,target.y, plateau);
 		} else if(this.waypoints.size()>0){
+			if(plateau.round%20==this.id%20){
+				this.waypoints = this.computeWay(plateau);
+			}
 			if(this.idCase==this.waypoints.get(0)){
 				this.waypoints.remove(0);
-				this.move(plateau);
-			} else if(this.waypoints.size()>1 && this.idCase==this.waypoints.get(1)){
-				this.waypoints.remove(1);
-				this.waypoints.remove(0);
-				this.move(plateau);
-			} else if(this.waypoints.size()>2 && this.idCase==this.waypoints.get(2)){
-				this.waypoints.remove(2);
-				this.waypoints.remove(1);
-				this.waypoints.remove(0);
-				this.move(plateau);
-			} else {
-				this.moveToward(this.waypoints.get(0), plateau);
-			}
+				Case co;
+				while(this.waypoints.size()>1){
+					co = plateau.mapGrid.getCase(this.waypoints.get(1));
+					if(plateau.mapGrid.isLineOk(this.x, this.y, co.x+co.sizeX/2, co.y+co.sizeY/2).size()>0){
+						this.waypoints.remove(0);
+					} else {
+						break;
+					}
+				}
+				if(this.waypoints.size()==1){
+					this.moveAhead = true;
+				}
+			} 
+			this.moveToward(this.waypoints.get(0), plateau);
 		} else {
 			this.waypoints = plateau.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget(plateau).getX(),this.getTarget(plateau).getY());
 		}
@@ -306,8 +306,9 @@ public class Character extends Objet{
 				a = c0.y-y;
 				newY = c0.y-getAttribut(Attributs.maxVelocity);
 			}
-			newX = (float)(Math.min(Math.max(c+d*a/b, c1.x+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.x+c1.sizeX-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
-		} else {
+			newX = c1.x+c1.sizeX/2;
+			//			newX = (float)(Math.min(Math.max(c+d*a/b, c1.x+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.x+c1.sizeX-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+		} else if (c0.y==c1.y) {
 			// déplacement horizontal
 			b = c1.x+c1.sizeX/2f-x;
 			c = y;
@@ -321,7 +322,12 @@ public class Character extends Objet{
 				a = c0.x-x;
 				newX = c0.x-getAttribut(Attributs.maxVelocity);
 			} 
-			newY = (float)(Math.min(Math.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+			newY = c1.y+c1.sizeY/2;
+			//			newY = (float)(Math.min(Math.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+		}else {
+			// déplacement azimut brutal
+			newX = c1.x+c1.sizeX/2f;
+			newY = c1.y+c1.sizeY/2f;
 		}
 
 		moveToward(newX,newY, plateau);
@@ -340,6 +346,7 @@ public class Character extends Objet{
 		if((this.getGroup(plateau).size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop(plateau);
+			System.out.println("stop 1");
 			return;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
@@ -420,7 +427,7 @@ public class Character extends Objet{
 		// set the tolerance for collision:
 		//   - 0: collision is totally authorized
 		//   - 1: no collision but clipping
-		float toleranceCollision = 0.03f;
+		float toleranceCollision = 0.01f;
 		// get the mediatrice of both object
 		float y_med = this.getX()-o.getX();
 		float x_med = o.getY()-this.getY();
@@ -453,18 +460,61 @@ public class Character extends Objet{
 	}
 	// Collision with other round object inamovible
 	public void collision(Circle c, Plateau plateau) {
-		float cx = c.getCenterX();
-		float cy = c.getCenterY();
-		float x = this.x - this.vx;
-		float y = this.y - this.vy;
-		float v = (float)Math.sqrt(vx*vx+vy*vy);
-		float vx = y - cy;
-		float vy = cx - x;
-		float n = (float)Math.sqrt(vx*vx+vy*vy);
-		// get the mediatrice of both object
-		float newx = x+vx*v/n;
-		float newy = y+vy*v/n;
+		float xi = c.getCenterX();
+		float yi = c.getCenterY();
+		float x0 = this.x - this.vx;
+		float y0 = this.y - this.vy;
+		float x1 = this.x;
+		float y1 = this.y;
+		float R2 = vx*vx+vy*vy;
+		float ux = xi - x0;
+		float uy = yi - y0;
+		float n = (float) Math.sqrt(ux*ux+uy*uy);
+		ux /= n;
+		uy /= n;
+		float newx, newy;
+		float Z = this.getAttribut(Attributs.size)+c.radius+1;
+		float D2 = (xi-x0)*(xi-x0)+(yi-y0)*(yi-y0);
+		if(R2==0){
+			newx = xi - Z*ux;
+			newy = yi - Z*uy;
+		} else {
+			R2 = (float) Math.max(R2, 0.1+(Z-Math.sqrt(D2))*(Z-Math.sqrt(D2)));
+			float A2 = (Z*Z+D2-R2)*(Z*Z+D2-R2)/(4*Z*Z*D2);
+			float h = (float) (Z*Math.sqrt(1-A2));
+			float d = 0f;
+			if(h*h<=R2){
+				d = (float) Math.sqrt(R2-h*h);	
+			}
+			float vx = uy;
+			float vy = -ux;
+			float signv = Math.signum((x1-x0)*vx+(y1-y0)*vy);
+			float signu = Math.signum(D2-Z*Z);
+			newx = x0 + signu*d*ux + signv*h*vx;
+			newy = y0 + signu*d*uy + signv*h*vy;
+			System.out.println(Z+" "+Math.sqrt(R2)+" "+Math.sqrt(D2)+" "+A2);
+			System.out.println(Z*Z+D2-R2+" "+2*Z*Math.sqrt(D2));
+			System.out.println(h+" "+d);
+			System.out.println(ux+" "+uy+" "+vx+" "+vy);
+			System.out.println(this.x+" "+this.y+" "+newx+" "+newy);
+			System.out.println(signv);
+			System.out.println(Utils.distance(newx, newy, xi, yi)+" "+Z);
+			System.out.println();
+			SimpleRenderEngine.ux = ux;
+			SimpleRenderEngine.vx = vx;
+			SimpleRenderEngine.old_vx = (float) (this.vx/Math.sqrt(R2));
+			SimpleRenderEngine.old_vy = (float) (this.vy/Math.sqrt(R2));
+			SimpleRenderEngine.uy = uy;
+			SimpleRenderEngine.vy = vy;
+			SimpleRenderEngine.d = d;
+			SimpleRenderEngine.h = h;
+			SimpleRenderEngine.signv = signv;
+			SimpleRenderEngine.signu = signu;
+			System.out.println();
+		}
 		this.setXY(newx,newy,plateau);
+		this.vx = this.x - x0;
+		this.vy = this.y - y0;
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
 	// Collision with NaturalObjets
@@ -476,12 +526,29 @@ public class Character extends Objet{
 		}
 	}
 	// Collision with EnemyGenerator
-	public void collision(Building o, Plateau plateau) {
-		this.collisionRect((Rectangle)o.collisionBox, plateau);
+	public void collision(Building o, int corner, Plateau plateau) {
+		if(corner>0){
+			Circle c;
+			System.out.println(corner);
+			float xi=0, yi=0;
+			float r = 50f;
+			switch(corner){
+			case 1: xi = o.x-o.getAttribut(Attributs.sizeX)/2f+r; yi = o.y-o.getAttribut(Attributs.sizeY)/2f+r; break;
+			case 2: xi = o.x+o.getAttribut(Attributs.sizeX)/2f-r; yi = o.y-o.getAttribut(Attributs.sizeY)/2f+r; break;
+			case 3: xi = o.x+o.getAttribut(Attributs.sizeX)/2f-r; yi = o.y+o.getAttribut(Attributs.sizeY)/2f-r; break;
+			case 4: xi = o.x-o.getAttribut(Attributs.sizeX)/2f+r; yi = o.y+o.getAttribut(Attributs.sizeY)/2f-r; break;
+			}
+			if(Utils.distance(xi, yi, x, y)<=r+getAttribut(Attributs.size)){
+				c = new Circle(xi, yi, r);
+				SimpleRenderEngine.circle = c;
+				this.collision(c, plateau);
+			}
+		} else {
+			this.collisionRect((Rectangle)o.collisionBox, plateau);
+		}
 	}
 
 	public void collisionRect(Rectangle o, Plateau plateau) {
-
 		/*On considï¿½re pour l'instant que nos natural objets sont carrï¿½s
 		 * il faut dans un premier temps dï¿½terminer de quel cï¿½tï¿½ ï¿½jecter l'objet
 		 * pour cela on dï¿½limite 4 secteurs:
@@ -518,13 +585,13 @@ public class Character extends Objet{
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
-		case 1: newX = o.getMaxX()+this.collisionBox.getBoundingCircleRadius();
+		case 1: newX = o.getMaxX()+this.collisionBox.getBoundingCircleRadius()+1;
 		break;
-		case 2:	newY = o.getMaxY()+this.collisionBox.getBoundingCircleRadius();
+		case 2:	newY = o.getMaxY()+this.collisionBox.getBoundingCircleRadius()+1;
 		break;
-		case 3: newX = o.getMinX()-this.collisionBox.getBoundingCircleRadius();
+		case 3: newX = o.getMinX()-this.collisionBox.getBoundingCircleRadius()-1;
 		break;
-		case 4: newY = o.getMinY()-this.collisionBox.getBoundingCircleRadius();
+		case 4: newY = o.getMinY()-this.collisionBox.getBoundingCircleRadius()-1;
 		break;
 		default:
 		}
@@ -590,12 +657,12 @@ public class Character extends Objet{
 
 
 	public void setTarget(Objet t, Vector<Integer> waypoints,int mode, Plateau plateau){
-//		if(t!=null)
-//			System.out.println("id "+t.id);
-//		
-//		System.out.println(this.getTarget(plateau));
-//		System.out.println(this.waypoints.size());
-//		System.out.println(this.secondaryTargets.size());
+		//		if(t!=null)
+		//			System.out.println("id "+t.id);
+		//		
+		//		System.out.println(this.getTarget(plateau));
+		//		System.out.println(this.waypoints.size());
+		//		System.out.println(this.secondaryTargets.size());
 		this.mode = mode;
 		if(this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Checkpoint ){
 			((Checkpoint)this.getTarget(plateau)).lifePoints =-1f;
@@ -607,9 +674,9 @@ public class Character extends Objet{
 			((Building) t).marker.state = 0;
 		}
 		this.setTarget(t, plateau);
-		
+
 		if(t!=null){
-			
+
 			if(waypoints==null){
 				this.moveAhead = (plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
@@ -643,21 +710,32 @@ public class Character extends Objet{
 	public void actionIAScript(Plateau plateau){
 		this.updateSetTarget(plateau);
 		Circle range = new Circle(this.getX(), this.getY(), this.getAttribut(Attributs.range));
+		// move toward target ?
 		if(!isAttacking && this.getTarget(plateau)!=null && 
 				(this.getTarget(plateau) instanceof Checkpoint || 
-					!range.intersects(this.getTarget(plateau).collisionBox) ||
-					(!(this.getTarget(plateau) instanceof Building) && plateau.mapGrid.isLineOk(getX(), getY(), getTarget(plateau).getX(), getTarget(plateau).getY()).size()==0)
+						!range.intersects(this.getTarget(plateau).collisionBox) ||
+						(!(this.getTarget(plateau) instanceof Building) && plateau.mapGrid.isLineOk(getX(), getY(), getTarget(plateau).getX(), getTarget(plateau).getY()).size()==0)
 						)
-			){
-			if(this.mode!=Character.HOLD_POSITION)
+				){
+			if(this.mode!=Character.HOLD_POSITION){
 				this.move(plateau);
+				if(this.getTarget(plateau)!=null){
+					float newDistanceToTarget = (this.getTarget(plateau).x-this.x)*(this.getTarget(plateau).x-this.x)+(this.getTarget(plateau).y-this.y)*(this.getTarget(plateau).y-this.y);
+					if(this.distanceToTarget>=0f){
+						if(this.distanceToTarget<this.getAttribut(Attributs.size)*this.getAttribut(Attributs.size) && distanceToTarget<=newDistanceToTarget){
+							this.stop(plateau);
+						}
+					}
+					this.distanceToTarget = newDistanceToTarget;
+				}
+			}
 			if(!this.isMobile())
 				return;
 			if(this.getGroup(plateau)!=null){
 				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				if(Utils.distance(this, this.getTarget(plateau))<(float)(2*Math.log(this.getGroup(plateau).size())+1)*1*this.getAttribut(Attributs.size)){
+				if(Utils.distance(this, this.getTarget(plateau))<(float)(2*Math.log(this.getGroup(plateau).size()+1)*1*this.getAttribut(Attributs.size))){
 					for(Character c: this.getGroup(plateau)){
 						if(c!=null && c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
@@ -684,11 +762,10 @@ public class Character extends Objet{
 		}else{
 			if(this.getTarget(plateau)==null){
 				return;
-			}else{
-				//System.out.println("stop2 " +(this.getTarget(plateau) instanceof Checkpoint)+" "+(!range.intersects(this.target.collisionBox)));
 			}
-			if(!isAttacking)
+			if(!isAttacking){
 				this.stop(plateau);
+			}
 			if(state>=getAttribut(Attributs.chargeTime) && this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Character && canAttack(plateau) ){
 				if(!this.isAttacking){
 					this.stop(plateau);
@@ -706,7 +783,7 @@ public class Character extends Objet{
 
 
 	}
-	
+
 
 
 
@@ -728,7 +805,7 @@ public class Character extends Objet{
 		for(int i=0; i<this.getSpells().size(); i++){
 			this.spellsState.set(i,Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
-		
+
 
 	}
 
@@ -737,14 +814,13 @@ public class Character extends Objet{
 		if(this.getTarget(plateau)!=null 
 				&& !this.getTarget(plateau).isAlive()
 				&& (this.getAttribut(Attributs.damage)>0 && this.getTarget(plateau).getTeam()!=this.getTeam())){
-			
+
 			this.setTarget(null, plateau);
 		}
 		if(this.getTarget(plateau)==null && this.secondaryTargets.size()>0){
 			this.setTarget(plateau.getById(this.secondaryTargets.get(0)), plateau);
 		}
 		if(this.getTarget(plateau)==null){
-			System.out.println("vaneau !");
 			// The character has no target, we look for a new one
 			Vector<Character> potential_targets;
 			if(this.getAttribut(Attributs.damage)>0f) {
@@ -773,17 +849,17 @@ public class Character extends Objet{
 			this.animation = Math.max(0, Math.min(4,(int)(this.getAttribut(Attributs.attackDuration)/this.attackState)));
 		}
 	}
-	
+
 
 	public Vector<Character> getGroup(Plateau plateau) {
 		Vector<Character> result = new Vector<Character>();
-		
+
 		for(Integer i : this.group){
 			Objet o =  plateau.getById(i);
 			if(o!=null && o instanceof Character){
 				result.add((Character)o );
 			}
-			
+
 		}
 		return result;
 	}
@@ -794,11 +870,11 @@ public class Character extends Objet{
 			this.group.add(c.id);
 		}
 	}
-	
+
 	public void addInGroup(int id ){
 		this.group.addElement(id);
 	}
-	
+
 	public void removeFromGroup(int id){
 		this.group.removeElement(id);
 	}

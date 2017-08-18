@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
+import data.Attributs;
 import model.Game;
 import plateau.Character;
 import plateau.NaturalObjet;
@@ -25,9 +26,7 @@ public class Tree extends NaturalObjet {
 		this.type = type;
 		this.name = ObjetsList.get("tree0"+type);
 		this.team = plateau.teams.get(0);
-		this.collisionBox = new Circle(x-sizeX/2,y-sizeY/2,size);
-		this.sizeX = 1*Map.stepGrid;
-		this.sizeY = 1*Map.stepGrid;
+		this.collisionBox = new Circle(x,y,this.getAttribut(Attributs.size));
 		this.color = Color.gray;
 		this.lifePoints = 1.0f;
 		this.x = x;

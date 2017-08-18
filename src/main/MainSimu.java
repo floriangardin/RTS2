@@ -20,8 +20,8 @@ public class MainSimu {
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 800;
-		int resolutionY = 600;
+		int resolutionX = 1800;
+		int resolutionY = 900;
 		try {
 			Game game = new Game(resolutionX,resolutionY);
 			// INIT SYSTEMS

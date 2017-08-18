@@ -153,17 +153,17 @@ public abstract class Action {
 			if(MainEditor.getSheet().getFileToSave()==null){
 				redoAction(ActionType.SaveCurrentSheetAs);
 			} else {
-				FileOutputStream fout;
-				try {
-					fout = new FileOutputStream(MainEditor.getSheet().getFileToSave().getAbsolutePath()+"2");
-					ObjectOutputStream oos = new ObjectOutputStream(fout);
-					oos.writeObject(MainEditor.getSheet().getPlateau());
-					oos.close();
-					fout.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 				Map.savePlateau(MainEditor.getSheet().getFileToSave().getAbsolutePath(), MainEditor.getSheet().getPlateau());
+//				FileOutputStream fout;
+//				try {
+//					fout = new FileOutputStream(MainEditor.getSheet().getFileToSave().getAbsolutePath()+"2");
+//					ObjectOutputStream oos = new ObjectOutputStream(fout);
+//					oos.writeObject(MainEditor.getSheet().getPlateau());
+//					oos.close();
+//					fout.close();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 			}
 			break;
 		case SaveCurrentSheetAs:
