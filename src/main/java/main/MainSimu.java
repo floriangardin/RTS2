@@ -31,8 +31,9 @@ public class MainSimu {
 			Player.setTeam(2);
 			Vector<IA> ias = new Vector<IA>();
 			ias.add(new IAPython(2));
+			ias.add(new IAPython(1));
 			IA.init(ias);
-			Game.system = new WholeGame();
+			Game.system = new WholeGame(true);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setShowFPS(true);

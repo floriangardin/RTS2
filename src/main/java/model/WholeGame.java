@@ -27,6 +27,29 @@ import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();
+	private boolean repeat = false;
+	private int repeatNumber = 100;
+	private String currentMap = null;
+	
+	public WholeGame(boolean repeat) {
+		// TODO Auto-generated method stub
+		this.repeat = true;
+		if(Lobby.isInit()){
+			currentMap = Lobby.idCurrentMap;
+			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
+		}else{
+			currentMap = Map.maps().get(0);
+			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+		}
+		Plateau plateau = GameClient.getPlateau();
+		plateau.update();
+		// Put camera at the center of headquarter
+		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
+		int xHQ =(int) hq.x;
+		int yHQ = (int)hq.y;
+		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		Interface.init(plateau);
+	}
 	
 	public WholeGame() {
 		// TODO Auto-generated method stub
@@ -54,6 +77,7 @@ public class WholeGame extends ClassSystem{
 		handleSlowDown(gc);
 		GameClient.mutex.lock();
 		try{
+			
 			Input in = gc.getInput();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
 			final Vector<InputObject> iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
@@ -82,14 +106,24 @@ public class WholeGame extends ClassSystem{
 			GameClient.mutex.unlock();
 		}
 		if(GameClient.getPlateau().teamLooser>0){
-			try {
-				replay.save();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+			if(this.repeat){
+				if(this.repeatNumber--<0){
+					this.repeatNumber = 100;
+					GameClient.setPlateau(Map.createPlateau(this.currentMap, "maps"));
+				}
+				
+			}else{
+				Game.endSystem = new EndSystem(GameClient.getPlateau());
+				Game.system = Game.endSystem;
+				try {
+					replay.save();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			Game.endSystem = new EndSystem(GameClient.getPlateau());
-			Game.system = Game.endSystem;
+
 		}
 		if(Taunts.isInit()){
 			Taunts.update();

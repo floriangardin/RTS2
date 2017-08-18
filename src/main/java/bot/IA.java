@@ -26,7 +26,7 @@ public abstract class IA{
 	public final static Vector<IA> ias = new Vector<IA>();
 	public static boolean isInit = false;
 	private Vector<IAUnit> units;
-	private List<IAUnit> selection;
+	private List<IAUnit> selection = new Vector<IAUnit>();
 	public Plateau plateau;
 	private int teamId;
 	private Team player;
@@ -95,7 +95,12 @@ public abstract class IA{
 	}
 	
 	public void select(Integer id){
-		im.selection.add(id);
+		IAUnit unit = getUnits().filter(x-> x.getId()==id).findFirst().orElse(null);
+		if(unit!=null){
+			this.selection.add(unit);
+			im.selection.add(id);
+		}
+
 	}
 	
 	public void select(List<IAUnit> units){
@@ -175,6 +180,7 @@ public abstract class IA{
 	}
 	public void selectUnits(List<IAUnit> units){
 		im.selection = new Vector<Integer>();
+		//units.forEach(x-> this.selection.add(x));
 		units.forEach(x ->  im.selection.add(x.getId()));
 		
 	}
@@ -204,9 +210,14 @@ public abstract class IA{
 	
 	public  void produceUnit(ObjetsList production){
 		// Check price of unit first
-		if(this.selection.get(0).objet instanceof Building){
-			if(this.selection.get(0).getProductionList().contains(production)){
-				int index = this.selection.get(0).getProductionList().indexOf(production);
+		if(this.plateau.getById(this.im.selection.get(0)) instanceof Building){
+			System.out.println("Will produce");
+			System.out.println(production);
+			System.out.println(this.plateau.getById(this.im.selection.get(0)).name);
+			System.out.println(this.selection.get(0).getName());
+			if(((Building)this.plateau.getById(this.im.selection.get(0))).getProductionList(this.plateau).contains(production)){
+				int index = ((Building)this.plateau.getById(this.im.selection.get(0))).getProductionList(this.plateau).indexOf(production);
+				System.out.println(index);
 				switch(index){
 				case 0:
 					im.pressed.add(KeyEnum.Prod0);

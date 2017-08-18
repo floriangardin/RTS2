@@ -13,20 +13,22 @@ class MyEncoder(json.JSONEncoder):
         else:
             return super(MyEncoder, self).default(obj)
 
-def get():
+def get(team=2):
     """
     Get the state of plateau
     :return:
     """
-    res = json.loads(requests.get("http://localhost:8000/get").text)
+    port = str(8000+team)
+    res = json.loads(requests.get("http://localhost:"+port+"/get").text)
     res['plateau'] = {int(idx) : val for idx,val in res['plateau'].items()}
     res['teams'] = {int(idx): val for idx, val in res['teams'].items()}
     return res
-def post(data):
+def post(data, team=2):
     """
     Send action to game
     :param data:
     :return:
     """
+    port = str(8000 + team)
     print("posting :", json.dumps([data], cls=MyEncoder) )
-    return requests.post("http://localhost:8000/post", data=json.dumps([data], cls=MyEncoder))
+    return requests.post("http://localhost:"+port+"/post", data=json.dumps([data], cls=MyEncoder))

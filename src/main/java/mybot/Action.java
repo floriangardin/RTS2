@@ -42,7 +42,7 @@ public class Action {
 	public Action(Map<String, Object> toParse){
 
 		for(String key : toParse.keySet()){
-			System.out.println(key);
+			
 			switch(key){
 				case "x":
 					this.x = (float) toParse.get(key);
@@ -60,6 +60,7 @@ public class Action {
 					this.subject  =  (int) Math.round((double)toParse.get(key));
 					break;
 				case "produce":
+
 					this.toProduce = ObjetsList.valueOf((String) toParse.get(key));
 			}
 		}
@@ -73,6 +74,7 @@ public class Action {
 		if(action==Verb.attack){
 			ia.rightClick(target);							
 		}else if(action==Verb.produce){
+
 			ia.produce(this.toProduce);
 		}
 	}

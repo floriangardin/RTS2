@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from .actions import Action
 
+import pickle
 from ..api.api import get,post
 import time
 from collections import defaultdict
@@ -46,9 +46,13 @@ class QLearnerClean:
         self.epsilon = epsilon
         self.is_init = True
 
+    def learn(self, team=2):
+        while True:
+            self.learn_from_one_game(team=team)
+            pickle.dump(self, open('data/model'+'_'+str(team)+'_'+str(time.time(), 'wb')))
+
     def learn_from_one_game(self, team=2):
         self.state_manager = StateManager(team=team)
-
         self.L = defaultdict(list)
         self.sc = '0'
         self.ac = 'no_action'
@@ -58,20 +62,22 @@ class QLearnerClean:
         r = self.get_reward() # Get global cumulative reward at the end of the game
         # Pour toutes les unités et pour toutes les actions on ajuste les poids de Q
         # TODO : A modifier ne marche pas tel quel
-        for C in self.classes.keys():
-            Q = self.Qglobal[C]
-            for c in C:
-                for s, a, s1, C in self.L[c.name]:
-                    Q[s, a] += self.alpha * (r + self.gamma * np.max((Q[s1, self.A])) - Q[s, a])  # Pas sûr pour cette ligne
+        for obj, name, state, actions, valid_actions in self.state_manager:
+            Q = self.Qglobal[name]
+            for s, a, s1, C in self.L[name]:
+                Q[s, a] += self.alpha * (r + self.gamma * np.max(([Q[s1, a.name] for a in actions])) - Q[s, a])  # Pas sûr pour cette ligne
         return self.Qglobal
 
     def end_condition(self):
-        return False
+        return self.state_manager.has_won or self.state_manager.has_lost
+
+    def get_reward(self):
+        return 1 if self.state_manager.has_won else -1
 
     def step(self):
         time.sleep(self.delta)
         self.state_manager.update()
-        for obj, name, state, valid_actions in self.state_manager:
+        for obj, name, state, actions, valid_actions in self.state_manager:
             Q = self.Qglobal[name]  # get the current Q function for this specific class
             if state[0] == '1' and len(valid_actions) > 0: # IS not Idle
                 if np.random.random() >= self.epsilon:
@@ -79,7 +85,7 @@ class QLearnerClean:
                     # Find max idx
                     a = valid_actions[np.argmax([Q[state, act] for act in actions_index])]
                 else:
-                    a = valid_actions[np.random.random(len(valid_actions))]
+                    a = valid_actions[np.random.randint(len(valid_actions))]
                 a(obj)
                 self.do_action(a)  # Output to the world
                 self.L[name].append((self.sc, self.ac, state, name))  # Keep trace of actions
@@ -87,8 +93,7 @@ class QLearnerClean:
                 self.ac = a.name
 
     def do_action(self, a):
-        post(a.to_dict())
-
+        post(a.to_dict(), self.state_manager.team)
 
 """
 1) Handle states and inputs
@@ -98,13 +103,14 @@ class StateManager:
 
     def __iter__(self):
         for obj in self.objets:
-            yield obj, obj.name, obj.state, obj.valid_actions
+            yield obj, obj.name, obj.state, obj.actions, obj.valid_actions
 
     def __init__(self, team=2):
         self.team = team
         self.objets = []
         self.has_won = False
         self.has_lost = False
+
 
     def check_victory(self, players):
         self.has_lost = players[self.team]['hasLost'] == 1
@@ -114,16 +120,14 @@ class StateManager:
         return self.has_won, self.has_lost
 
     def update(self):
-        data = get()
+        data = get(self.team)
         # Create state for each character
         plateau = data['plateau']
         players = data['teams']
+        self.check_victory(players)
         # Create objects and filter by spearman, crossbowman and barracks
         self.objets = [ObjetManager(plateau, players, idx) for idx in plateau.keys() if self.team == plateau[idx]['team'] and plateau[idx]['name'] in [SPEARMAN, CROSSBOWMAN, BARRACKS]]
 
-    def handle_end_game(self):
-        # Calculate reward etc ....
-        pass
 
 class ObjetManager:
 
@@ -168,6 +172,10 @@ class Objet:
     @property
     def state(self):
         return str.join('', [i() for i in self.states_])
+
+    @property
+    def actions(self):
+        return self.actions_
 
     @property
     def valid_actions(self):
@@ -367,6 +375,8 @@ class ActionProduce(Action):
 
     def __call__(self, objet):
         self.subject = objet.id
+        self.produce = self.target
+        self.target = None
         pass
 
 def find_one(plateau, objet, team):
@@ -385,8 +395,8 @@ class ActionAttackNearestFromHeadquarters(Action):
         super().__init__(verb=ATTACK, adverb=NEARESTFROMHEADQUARTERS, target=target)
 
     def can_do(self, objet):
-        return ((objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop']) > 0) \
-               or (self.target in [MINE, SPEARMAN, CROSSBOWMAN, INQUISITOR])
+        return (((objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop']) > 0) \
+               or (self.target in [MINE, SPEARMAN, CROSSBOWMAN, INQUISITOR]) ) and len(find_all_not_team(objet, self.target, objet.team))>0
 
     def __call__(self, objet):
         # Find nearest neutral or enemy from HQ

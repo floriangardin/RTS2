@@ -27,13 +27,19 @@ public class IAPython extends IA {
 	public final Gson gson = builder.create();
 	
 	public List<Action> actions = new Vector<Action>();
-	
+
 	public IAPython(int teamid) {
 		super(teamid);
 		// IA qui fournit une api rest pour un script python
         HttpServer server=null;
 		try {
-			server = HttpServer.create(new InetSocketAddress(8000), 0);
+			int port = 0;
+			if(teamid==1){
+				port = 8001;
+			}else{
+				port = 8002;
+			}
+			server = HttpServer.create(new InetSocketAddress(port), 0);
 			IAPython self = this;
 			
 			// API : GET STATE OF PLATEAU
@@ -55,7 +61,7 @@ public class IAPython extends IA {
 				@Override
 				public void handle(HttpExchange t) throws IOException {
 					int b;
-					System.out.println("Get post");
+					
 					InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
 					BufferedReader br = new BufferedReader(isr);
 					StringBuilder buf = new StringBuilder(512);
@@ -67,7 +73,7 @@ public class IAPython extends IA {
 					synchronized(actions){	
 						actions.addAll(Action.parse(res));
 					}
-					System.out.println("success parse");
+					
 					br.close();
 					isr.close();
 					t.sendResponseHeaders(200, 10);

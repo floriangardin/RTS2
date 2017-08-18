@@ -1,6 +1,7 @@
 
 from ia.domain.model import QLearnerClean
 import time
+import sys
 
 """
 Trois applications potentiels à une api :
@@ -9,6 +10,7 @@ Trois applications potentiels à une api :
 3) Outil pour développer l'IA avec le confort de python
 """
 
+team = int(sys.argv[1])
 def think():
     return [{
             "subject": 77,
@@ -18,7 +20,11 @@ def think():
 
 learner = QLearnerClean()
 learner.init()
-learner.learn_from_one_game(team=2)
+learner.learn_from_one_game(team=team)
+
+# Second learner
+
+
 # Add world to state and calculate reward
 
 # plan = think()
