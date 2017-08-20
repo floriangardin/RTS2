@@ -50,7 +50,7 @@ public abstract class Objet implements java.io.Serializable {
 		this.id = plateau.id++;
 		this.team = plateau.teams.get(0);
 	}
-	// Bonus, équipements, potions et autres stuff
+	// Bonus, ï¿½quipements, potions et autres stuff
 	public Vector<AttributsChange> attributsChanges = new Vector<AttributsChange>();
 
 
@@ -265,7 +265,7 @@ public abstract class Objet implements java.io.Serializable {
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
 				a = ac.apply(a);
-//				System.out.println("valeur modiiée "+attribut+" "+a);
+//				System.out.println("valeur modiiï¿½e "+attribut+" "+a);
 			}
 		}
 		return a;
@@ -308,7 +308,7 @@ public abstract class Objet implements java.io.Serializable {
 				return this.getTeam().data.spells.get(this.spells.get(i));
 			}
 		} else {
-			System.out.println("vous essayez d'accéder à un spell inexistant");
+			System.out.println("vous essayez d'accï¿½der ï¿½ un spell inexistant");
 		}
 		return null;
 	}
@@ -398,7 +398,34 @@ public abstract class Objet implements java.io.Serializable {
 	public int roundSinceLastAttack(int currentRound){
 		return currentRound - this.roundLastAttack;
 	}
-
+	public int getTarget(){
+		return this.target;
+	}
+	public int getId(){
+		return id;
+	}
+	public ObjetsList getName(){
+		return this.name;
+	}
+	public HashMap<String, Object> toJson(){
+		HashMap<String, Object> res = new HashMap<String, Object>();
+		res.put("x", this.getX());
+		res.put("y", this.getY());
+		res.put("id", this.getId());
+		res.put("team", this.getTeam().id);
+		res.put("sizeY", this.collisionBox.getHeight());
+		res.put("sizeX", this.collisionBox.getWidth());
+		res.put("lifepoints", this.lifePoints);
+		res.put("maxLifepoints", this.getAttribut(Attributs.maxLifepoints));
+		res.put("damage", this.getAttribut(Attributs.damage));
+		res.put("armor", this.getAttribut(Attributs.armor));
+		res.put("speed", this.getAttribut(Attributs.maxVelocity));
+		res.put("target", this.getTarget());
+		res.put("name", this.getName().toString());
+		res.put("sight", this.getAttribut(Attributs.sight));
+		// Pour chaque objet json
+		return res;
+	}
 
 }
 

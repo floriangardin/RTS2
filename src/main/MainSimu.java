@@ -13,26 +13,27 @@ import model.Game;
 import model.GameClient;
 import model.GameServer;
 import model.WholeGame;
-import mybot.IAInputs;
+import mybot.IAPython;
 
 public class MainSimu {
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		int resolutionX = 1800;
-		int resolutionY = 900;
+		int resolutionX = 800;
+		int resolutionY = 600;
 		try {
 			Game game = new Game(resolutionX,resolutionY);
 			// INIT SYSTEMS
 			KeyMapper.init();
 			GameServer.init();
 			GameClient.init("localhost");
-			Player.setTeam(1);
+			Player.setTeam(2);
 			Vector<IA> ias = new Vector<IA>();
-//			ias.add(new IAInputs(2));
-//			IA.init(ias);
-			Game.system = new WholeGame();
+			ias.add(new IAPython(2));
+			ias.add(new IAPython(1));
+			IA.init(ias);
+			Game.system = new WholeGame(true);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setShowFPS(true);

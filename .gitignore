@@ -2,4 +2,6 @@ options.opts
 ressources/data/keymapping.rtsfile
 *.class
 *.rtsreplay
-bin/
+bin
+.idea/
+target/

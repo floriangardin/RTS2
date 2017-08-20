@@ -317,7 +317,13 @@ public class Plateau implements java.io.Serializable {
 		toAddBuildings.clear();
 
 	}
-
+	
+	public Vector<Character> getCharacters(){
+		return this.characters;
+	}
+	public Vector<Building> getBuildings(){
+		return buildings;
+	}
 	public void collision() {
 		this.mapGrid.updateSurroundingChars();
 		for (Character o : characters) {
@@ -633,7 +639,7 @@ public class Plateau implements java.io.Serializable {
 			}
 			// Handling the right click
 			this.handleRightClick(im);
-			// Handling action bar TODO : ça n'a rien à faire là, à dégager
+			// Handling action bar TODO : ï¿½a n'a rien ï¿½ faire lï¿½, ï¿½ dï¿½gager
 			this.handleActionOnInterface(im);
 
 		}
@@ -887,6 +893,32 @@ public class Plateau implements java.io.Serializable {
 	public int getRound() {
 		
 		return round;
+	}
+	
+	
+	public Object toJson(){
+		
+		HashMap<Integer, HashMap<String, Object>> res = new HashMap<Integer, HashMap<String, Object>>();
+		HashMap<String, HashMap<?,?>> finalResult = new HashMap<String, HashMap<?,?>>();
+		finalResult.put("teams", null);
+		// Get teams state
+		HashMap<Integer, HashMap<String, Integer>> toPut = new HashMap<Integer, HashMap<String, Integer>>();
+		for(Team t : teams){
+			HashMap<String, Integer> stats = new HashMap<String, Integer>();
+			stats.put("pop", t.getPop(this));
+			stats.put("maxPop", t.getMaxPop(this));
+			stats.put("food", t.food);
+			stats.put("hasLost", (t.id==this.teamLooser) && t.id!=0 ? 1 : 0);
+			if((t.id==this.teamLooser) && t.id!=0){
+				System.out.println("has lost");
+			}
+			toPut.put(t.id, stats);
+		}
+		this.objets.forEach((key,value) -> res.put(key, value.toJson()));
+		finalResult.put("teams", toPut );
+		finalResult.put("plateau", res);
+		// Pour chaque objet json
+		return finalResult;
 	}
 
 
