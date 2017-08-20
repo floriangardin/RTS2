@@ -8,6 +8,5 @@ armor:4,
 damage:10,
 weapon:"sword",
 range:50,
-spells:InstantDeath-InstantHealth,
-size:40
+spells:InstantDeath-InstantHealth
 }

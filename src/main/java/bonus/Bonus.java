@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
+
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
@@ -16,6 +17,7 @@ import plateau.Team;
 import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
+
 public abstract class Bonus extends Building{
 
 	public Bonus(ObjetsList name, int i, int j,Team team, Plateau plateau) {
@@ -37,7 +39,7 @@ public abstract class Bonus extends Building{
 		this.lifePoints = 1f;
 		this.constructionPoints=0f;
 		this.setTeam(0, p);
-		p.getBonus().addElement(this);
+		p.bonus.addElement(this);
 		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,collisionBox.getWidth(),collisionBox.getHeight());
 		this.hitBoxSize = 30f*Main.ratioSpace;

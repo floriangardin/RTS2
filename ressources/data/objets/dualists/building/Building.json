@@ -1,6 +1,6 @@
 {
 printName:"Building",
-maxLifepoints:10,
+maxLifepoints:80,
 sight:500,
 sizeX:5,
 sizeY:3,

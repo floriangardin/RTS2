@@ -331,7 +331,7 @@ public class Utils {
 		System.out.println();System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Characters");
-		if(p.getCharacters()==null)
+		if(p.characters==null)
 			System.out.println("-> bug: characters est null");
 		else{
 //			for(Character c:p.characters)

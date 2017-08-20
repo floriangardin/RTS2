@@ -72,7 +72,7 @@ public class IAHelpers {
 //		res[IAState.VISIBLEKNIGHT.value] = ia.getEnnemies(ObjetsList.Knight).size();
 //		res[IAState.VISIBLETOWER.value] = ia.getEnnemies(ObjetsList.Tower).size();
 //		res[IAState.VISIBLEHEADQUARTERS.value] = ia.getEnnemies(ObjetsList.Headquarters).size();
-//
+
 		return res;
 	}
 	public static int getMaxOutput(float[] output){

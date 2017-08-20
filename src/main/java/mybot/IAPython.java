@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +18,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import bot.IA;
-@Path("/hello")
+
 public class IAPython extends IA {
 	final GsonBuilder builder = new GsonBuilder();
 	public final Gson gson = builder.create();

@@ -80,15 +80,30 @@ public class Building extends Objet{
 		this.j = j;
 		teamCapturing= 0;
 		this.team = team;
-		this.initialize(x, y, plateau);
+		plateau.addBuilding(this);
+		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
+		
+		this.collisionBox= new Rectangle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,getAttribut(Attributs.sizeX),getAttribut(Attributs.sizeY));
+		this.marker = new MarkerBuilding(x,y,this, plateau);
+		this.selectionBox = (Rectangle)this.collisionBox;
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2,true, plateau).id;
+		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
+		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
+		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
+		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
+
+		// Initialize production
+		this.queue = new Vector<ObjetsList>();
+		this.queueTechnology = null;
+		this.constructionPoints = 0f;
+		this.potentialTeam = this.getTeam().id;
+		teamCapturing= getTeam().id;
 		if(this.team.id>0){
 			this.constructionPoints = this.getAttribut(Attributs.maxLifepoints);
 		}
-
 		if(name.equals(ObjetsList.Headquarters)){
 			initHQ();
 		}
-
 		//TODO : Animations should be generic !
 		if(name.equals(ObjetsList.Tower)){
 			this.animationBleu ="buildingTowerBlueAnimation";
@@ -96,9 +111,6 @@ public class Building extends Objet{
 		}
 		// Add an event
 		EventHandler.addEvent(EventNames.BuildingTakingGlobal, this, plateau);
-		
-
-
 
 	}
 
@@ -299,6 +311,7 @@ public class Building extends Objet{
 
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
+
 						c.setTarget(new Checkpoint(rallyPoint.x,rallyPoint.y,true, plateau), plateau);
 					}
 					else if(rallyPoint instanceof Character){
@@ -360,30 +373,7 @@ public class Building extends Objet{
 		}
 	}
 
-	public void initialize(float f, float h, Plateau plateau){
 
-		plateau.addBuilding(this);
-		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
-		this.collisionBox= new Rectangle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,getAttribut(Attributs.sizeX),getAttribut(Attributs.sizeY));
-		this.marker = new MarkerBuilding(x,y,this, plateau);
-		this.selectionBox = (Rectangle)this.collisionBox;
-		this.setXY(x, y, plateau);
-		this.constructionPoints = 0f;
-		this.potentialTeam = this.getTeam().id;
-		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
-		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
-		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
-		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
-
-		this.rallyPoint = new Checkpoint(this.x,this.y+10+this.getAttribut(Attributs.sizeY)/2,true, plateau).id;
-		// Initialize production
-		this.queue = new Vector<ObjetsList>();
-		this.queueTechnology = null;
-
-
-		teamCapturing= getTeam().id;
-
-	}
 
 	public void setRallyPoint(float x , float y, Plateau plateau){
 		Objet rp = this.getRallyPoint(plateau);
@@ -469,12 +459,6 @@ public class Building extends Objet{
 		}
 		if( c.getAttributString(Attributs.weapon).equals("bow") || c.getAttributString(Attributs.weapon).equals("wand") || c.getAttributString(Attributs.weapon).equals("bible"))
 			return;
-		if(this.name.equals(ObjetsList.Stable) && this.getHQ(plateau).age<2){
-			return;
-		}
-		if(this.name.equals(ObjetsList.Academy) && this.getHQ(plateau).age<3){
-			return;
-		}
 
 		if(this.potentialTeam!=c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			this.underAttack = true;

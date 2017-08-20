@@ -88,7 +88,7 @@ public class MapWater {
 				d = getIdCorner(down, downleft, left);
 				return a+""+b+""+c+""+d;
 			} catch (FatalGillesError e){
-				//System.out.println( left+" "+ upleft+" "+ up+" "+ upright+" "+ right+" "+ downright+" "+ down+" "+ downleft);
+				System.out.println( left+" "+ upleft+" "+ up+" "+ upright+" "+ right+" "+ downright+" "+ down+" "+ downleft);
 				e.printStackTrace();
 			}
 			return "";

@@ -50,8 +50,11 @@ public class SidePanel extends JPanel{
 		case CHARACTER:
 			PlateauObjectPanel.createCharacterPanel(objectPanel);
 			break;
+		case BUILDING:
+			PlateauObjectPanel.createBuildingPanel(objectPanel);
+			break;
 		case MOVE:
-		case SELECTION:
+		case SELECT:
 		default:
 			break;
 		}
@@ -143,6 +146,12 @@ public class SidePanel extends JPanel{
 					default:
 						color = Color.black;
 						break;
+					}
+					if(c.building != null){
+						color = new Color(c.building.team.color.r,c.building.team.color.g,c.building.team.color.b);
+					}
+					if(c.naturesObjet.size()>0){
+						color = new Color(30,120,10);
 					}
 					g2.setColor(color);
 					g2.fillRect((int)(c.x*ratio+offsetX), (int)(c.y*ratio+offsetY),(int)(Map.stepGrid*ratio),(int)(Map.stepGrid*ratio));

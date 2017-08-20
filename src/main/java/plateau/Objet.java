@@ -8,16 +8,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import bonus.Bonus;
 import data.Attributs;
 import data.AttributsChange;
 import events.EventAttackDamage;
 import events.EventHandler;
-import events.EventNames;
 import main.Main;
+import pathfinding.Case;
+import ressources.Map;
 import spells.Etats;
 import spells.Spell;
 import utils.ObjetsList;
@@ -115,10 +113,12 @@ public abstract class Objet implements java.io.Serializable {
 		}
 		if(t!=null){
 			this.target = t.id;
-			
 		}
 		if(t==null){
 			this.target = NO_TARGET;
+			if(this instanceof Character){
+				((Character)this).distanceToTarget = -1f;
+			}
 		}
 	}
 
@@ -180,23 +180,58 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	public void setXY(float x, float y, Plateau plateau){
 
+		// handling old cases
+		Case c = plateau.mapGrid.getCase(this.idCase);
+		if(this instanceof Character){
+			if(c!=null && c.characters.contains((Character)this)){
+				c.characters.remove((Character)this);
+			}
+		} else if(this instanceof NaturalObjet){
+			if(c!=null && c.naturesObjet.contains((NaturalObjet)this)){
+				c.naturesObjet.remove((NaturalObjet)this);
+			}
+		} else if(this instanceof Building){
+			plateau.mapGrid.removeBuilding((Building)this);
+		}
+		
+		// changing position
 		if(this instanceof Bullet){
 			this.x = x;
 			this.y = y;
+		} else if(this instanceof Building){
+			float sizeX = plateau.teams.get(0).data.getAttribut(this.name, Attributs.sizeX);
+			float sizeY = plateau.teams.get(0).data.getAttribut(this.name, Attributs.sizeY);
+			((Building)this).i = plateau.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).i;
+			((Building)this).j = plateau.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).j;
+			this.x = (((Building)this).i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2);
+			this.y = (((Building)this).j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2);
 		} else {
-
-			float xt = Math.min(plateau.maxX-1f, Math.max(1f, x));
-			float yt = Math.min(plateau.maxY-1f, Math.max(1f, y));
-
-			this.x = xt;
-			this.y = yt;
+			this.x = Math.min(plateau.maxX-1f, Math.max(1f, x));
+			this.y = Math.min(plateau.maxY-1f, Math.max(1f, y));
 		}
-		this.collisionBox.setCenterX(x);
-		this.collisionBox.setCenterY(y);
-		try{
-			this.idCase = plateau.mapGrid.getCase(x, y).id;
-		} catch(Exception e){
+		
+		//handling boxes
+		this.collisionBox.setCenterX(this.x);
+		this.collisionBox.setCenterY(this.y);
+		
+		// handling new cases
+		c = plateau.mapGrid.getCase(this.x, this.y);
+		if(c!=null){
+			this.idCase = c.id;
+		} else {
 			this.idCase = -1;
+		}
+		if(this instanceof Character){
+			//FIXME: on vire cette histoire de sight box ?
+			((Character)this).sightBox.setCenterX(this.getX());
+			((Character)this).sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
+			this.selectionBox.setCenterX(this.x);
+			this.selectionBox.setCenterY(this.y);
+			plateau.mapGrid.getCase(this.idCase).characters.add((Character)this);
+		} else if(this instanceof NaturalObjet){
+			plateau.mapGrid.getCase(this.idCase).naturesObjet.add((NaturalObjet)this);
+		}else if(this instanceof Building){
+			plateau.mapGrid.addBuilding((Building)this);
 		}
 
 	}
@@ -363,7 +398,15 @@ public abstract class Objet implements java.io.Serializable {
 	public int roundSinceLastAttack(int currentRound){
 		return currentRound - this.roundLastAttack;
 	}
-	
+	public int getTarget(){
+		return this.target;
+	}
+	public int getId(){
+		return id;
+	}
+	public ObjetsList getName(){
+		return this.name;
+	}
 	public HashMap<String, Object> toJson(){
 		HashMap<String, Object> res = new HashMap<String, Object>();
 		res.put("x", this.getX());
@@ -382,15 +425,6 @@ public abstract class Objet implements java.io.Serializable {
 		res.put("sight", this.getAttribut(Attributs.sight));
 		// Pour chaque objet json
 		return res;
-	}
-	public int getTarget(){
-		return this.target;
-	}
-	public int getId(){
-		return id;
-	}
-	public ObjetsList getName(){
-		return this.name;
 	}
 
 }

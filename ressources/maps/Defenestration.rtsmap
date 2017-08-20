@@ -1,0 +1,37 @@
+###########################
+& sizeX 15
+& sizeY 15
+###########################
+= headquarters
+1 1 12
+2 4 12
+###########################
+= buildings
+Stable 2 0 5
+###########################
+= units
+Knight 1 788.0 399.0
+Knight 1 217.0 299.0
+Crossbowman 1 673.0 421.0
+Spearman 1 464.0 432.0
+Archange 2 298.0 471.0
+###########################
+= naturalObjects
+Tree 1 658.0 202.0
+###########################
+= mapGround
+sssss  ssssssss
+sssss  ssssssss
+ss s   ssssssss
+sssss  ssssssss
+ssss ssssssssss
+sssssssssssssss
+ss s ssssssssss
+sss sssssssssss
+sssssssssssssss
+ssswwssssssssss
+ssswwwwssssssss
+ssswwwwssssssss
+sssssssssssssss
+sssssssssssssss
+sssssssssssssss

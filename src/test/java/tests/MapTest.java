@@ -23,8 +23,8 @@ public class MapTest {
 	public void test() {
 		Plateau plateau = Map.createPlateau("test01", "maptests");
 		plateau.update(new Vector<InputObject>());
-		assertEquals(plateau.getCharacters().size(),1);
-		assertEquals(plateau.getBuildings().size(),2);
+		assertEquals(plateau.characters.size(),1);
+		assertEquals(plateau.buildings.size(),2);
 	}
 	
 	@Test
@@ -34,7 +34,7 @@ public class MapTest {
 		//plateau.print();
 		for(int i=0; i<5; i++){
 			System.out.println(i);
-			assertEquals(plateau.getCharacters().get(i).id,i+6);
+			assertEquals(plateau.characters.get(i).id,i+6);
 		}
 	}
 
@@ -49,28 +49,28 @@ public class MapTest {
 		}
 	}
 	
-	@Test
-	public void testDeplacementVersEnnemi() {
-		Plateau plateau = Map.createPlateau("test04", "maptests");
-		plateau.update(new Vector<InputObject>());
-		float f = plateau.getById(7).x;
-		float f1 = f;
-		for(int i=0; i<1000; i++){
-			plateau.update(new Vector<InputObject>());
-			if(plateau.getCharacters().size()<3){
-				break;
-			}
-		} 
-		f = plateau.getById(7).x;
-		assertFalse(f==f1);
-	}
+//	@Test
+//	public void testDeplacementVersEnnemi() {
+//		Plateau plateau = Map.createPlateau("test04", "maptests");
+//		plateau.update(new Vector<InputObject>());
+//		float f = plateau.getById(7).x;
+//		float f1 = f;
+//		for(int i=0; i<1000; i++){
+//			plateau.update(new Vector<InputObject>());
+//			if(plateau.characters.size()<3){
+//				break;
+//			}
+//		} 
+//		f = plateau.getById(7).x;
+//		assertFalse(f==f1);
+//	}
 	
-
+//
 //	@Test
 //	public void testMoveToward() {
 //		Plateau plateau = Map.createPlateau("test01", "maptests");
 //		plateau.update(new Vector<InputObject>());
-//		Character c =(Character) plateau.getCharacters().get(0);
+//		Character c =(Character) plateau.characters.get(0);
 //		float xObjectif = 10;
 //		float yObjectif = 90;
 //		Checkpoint checkpoint = new Checkpoint(xObjectif, yObjectif, plateau);
@@ -113,7 +113,7 @@ public class MapTest {
 				refSize=serializedPlateau.length;
 			}
 			plateau.update(new Vector<InputObject>());
-			plateau.getCharacters().get(0).setTarget(new Checkpoint(100+(float)Math.random(), 100+(float)Math.random(), plateau), plateau);
+			plateau.characters.get(0).setTarget(new Checkpoint(100+(float)Math.random(), 100+(float)Math.random(), plateau), plateau);
 			assertTrue(2*refSize>serializedPlateau.length);
 		}
 	}
@@ -144,7 +144,7 @@ public class MapTest {
 		Plateau plateau = Map.createPlateau("test01", "maptests");
 		Checksum check1 = new Checksum(plateau);
 		plateau.update(new Vector<InputObject>());
-		plateau.getCharacters().get(0).x += 2;
+		plateau.characters.get(0).x += 2;
 		Checksum check2 = new Checksum(plateau);
 		assertTrue(check1.equals(check2));
 	}
@@ -166,7 +166,7 @@ public class MapTest {
 		Checksum check1 = new Checksum(plateau);
 		Plateau plateau2 = Map.createPlateau("test01", "maptests");
 		plateau2.update();
-		plateau2.getCharacters().get(0).x +=2;
+		plateau2.characters.get(0).x +=2;
 		Checksum check2 = new Checksum(plateau2);
 		assertFalse(check1.equals(check2));
 	}

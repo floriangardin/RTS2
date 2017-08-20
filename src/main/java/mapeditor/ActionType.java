@@ -26,10 +26,12 @@ public enum ActionType {
 	SelectTeam1("iconTeam1","Select Team 1"),  
 	SelectTeam2("iconTeam2","Select Team 2"),
 	SelectToolMove("iconMoveTool","Tool Move"),
+	SelectToolSelect("iconSelectMode","Tool Select"),
 	SelectToolErase("iconEraseTool","Tool Erase"),
 	SelectToolTerrain("iconGroundTool","Tool Terrain"),
 	SelectToolNature("iconNatureTool","Tool Nature"),
 	SelectToolCharacter("iconCharacterTool","Tool Character"),
+	SelectToolBuilding("iconBuildingTool","Tool Building"),
 	// Ground Tool Actions
 	SelectBrushSize1("iconBrushSize1","Brush Size 1"),
 	SelectBrushSize2("iconBrushSize2","Brush Size 2"),
@@ -41,6 +43,8 @@ public enum ActionType {
 	// Actions with non generic effects
 	CreateObjet, 
 	PaintTerrain, 
+	MoveObjet,
+	Test("iconTest", "Test"); 
 	;
 
 	private ActionType(String iconname, String name){

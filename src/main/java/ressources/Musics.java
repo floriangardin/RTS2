@@ -17,11 +17,10 @@ public class Musics {
 	
 	public static void init(){
 		// loading musics
-		loadRepertoire(System.getProperty("user.dir")+"/ressources/musics/");
+		loadRepertoire("ressources/musics/");
 	}
 
 	public static Music get(String name) {
-		
 		if(musics.containsKey(name.toLowerCase())){
 			return musics.get(name.toLowerCase());
 		} else {

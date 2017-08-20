@@ -28,8 +28,8 @@ public class SwingMain extends JFrame {
 	public SwingMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("RTS Ultra Mythe Editor");
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setBounds(0, 0, 1920, 1080);
+//		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setBounds(0, 0, 1280, 720);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 

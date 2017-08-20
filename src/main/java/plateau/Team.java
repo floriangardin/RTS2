@@ -24,7 +24,7 @@ public class Team implements Serializable {
 
 	public String colorName;
 	public int food;
-	public int hq ;
+	public int hq = -1 ;
 	public Color color;
 
 
@@ -67,12 +67,12 @@ public class Team implements Serializable {
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : plateau.getBuildings()){
+		for(Building b : plateau.buildings){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
 		}
-		for(Character b : plateau.getCharacters()){
+		for(Character b : plateau.characters){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
@@ -89,7 +89,7 @@ public class Team implements Serializable {
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : plateau.getBuildings()){
+		for(Building b : plateau.buildings){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popGiven);
 			}

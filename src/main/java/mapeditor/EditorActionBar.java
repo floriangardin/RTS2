@@ -53,6 +53,9 @@ public class EditorActionBar extends JPanel{
 		items.add(ActionType.SelectTeam1);
 		items.add(ActionType.SelectTeam2);
 		addItems(bar1, items);
+		items = new Vector<ActionType>();
+		items.add(ActionType.Test);
+		addItems(bar1, items);
 		
 		bar2 = new JToolBar();
 		bar2.setFloatable(false);
@@ -61,6 +64,7 @@ public class EditorActionBar extends JPanel{
 		bar2.setOpaque(false);
 		items = new Vector<ActionType>();
 		items.add(ActionType.SelectToolMove);
+		items.add(ActionType.SelectToolSelect);
 		items.add(ActionType.SelectToolErase);
 		addItems(bar2, items);
 		items = new Vector<ActionType>();
@@ -69,6 +73,7 @@ public class EditorActionBar extends JPanel{
 		items = new Vector<ActionType>();
 		items.add(ActionType.SelectToolNature);
 		items.add(ActionType.SelectToolCharacter);
+		items.add(ActionType.SelectToolBuilding);
 		addItems(bar2, items);
 		
 		GroupLayout gl = new GroupLayout(this);

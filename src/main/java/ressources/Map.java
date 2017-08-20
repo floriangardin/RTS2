@@ -1,25 +1,24 @@
 package ressources;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Point;
 
-import bonus.BonusDamage;
-import bonus.BonusLifepoints;
-import bonus.BonusSpeed;
 import data.Data;
-
 import main.Main;
-import model.Game;
 import nature.Tree;
-import pathfinding.MapGrid;
 import plateau.Building;
 import plateau.Character;
+import plateau.NaturalObjet;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
@@ -60,6 +59,7 @@ public class Map {
 			Vector<String> units = new Vector<String>();
 			Vector<String> naturalObjects = new Vector<String>();
 			Vector<String> headquarters = new Vector<String>();
+			Vector<String> mapGround = new Vector<String>();
 			Vector<String> currentVector = null;
 
 			String ligne;
@@ -80,6 +80,7 @@ public class Map {
 					case "units": currentVector = units; break;
 					case "naturalObjects": currentVector = naturalObjects; break;
 					case "headquarters": currentVector = headquarters; break;
+					case "mapGround": currentVector = mapGround; break;
 					default:
 					} continue;
 				default: 
@@ -115,6 +116,9 @@ public class Map {
 				String[] tab = headquarters.get(i).split(" ");
 				new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.teams.get((int)Float.parseFloat(tab[0])), plateau);
 			}
+			for(Team team : plateau.teams){
+				System.out.println(team.id+" "+team.hq);
+			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
 				//format
@@ -134,7 +138,7 @@ public class Map {
 				} else {
 					throw new Exception();
 				}
-				new Character(Float.parseFloat(tab[2])*Map.stepGrid, Float.parseFloat(tab[3])*Map.stepGrid, ObjetsList.valueOf(tab[0]), plateau.teams.get(Integer.parseInt(tab[1])),plateau);
+				new Character(Float.parseFloat(tab[2]), Float.parseFloat(tab[3]), ObjetsList.valueOf(tab[0]), plateau.teams.get(Integer.parseInt(tab[1])),plateau);
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){
@@ -143,12 +147,68 @@ public class Map {
 				case "Tree": new Tree(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1]), plateau);break;
 				}
 			}
+			// Map ground
+			for(int i=0; i<mapGround.size(); i++){
+				for(int j=0; j<mapGround.get(i).length(); j++){
+					plateau.mapGrid.grid.get(i).get(j).setIdTerrain(mapGround.get(i).charAt(j));
+				}
+			}
 			plateau.update();
 			return plateau;
 		} catch (Exception e){
 			System.out.print("erreur");
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public static void savePlateau(String fichier, Plateau plateau){
+		try{
+			//lecture du fichier texte	
+			OutputStream ips=new FileOutputStream(fichier); 
+			OutputStreamWriter ipsr=new OutputStreamWriter(ips);
+			BufferedWriter br=new BufferedWriter(ipsr);
+			br.write("###########################\n");
+			br.write("& sizeX "+(int)(plateau.maxX/Map.stepGrid)+"\n");
+			br.write("& sizeY "+(int)(plateau.maxY/Map.stepGrid)+"\n");
+			br.write("###########################\n");
+			br.write("= headquarters\n");
+			for(Team team : plateau.teams){
+				if(team.hq!=-1){
+					br.write(""+team.id+" "+((Building)plateau.getById(team.hq)).i+" "+((Building)plateau.getById(team.hq)).j+"\n");
+				}
+			}
+			br.write("###########################\n");
+			br.write("= buildings\n");
+			for(Building b : plateau.buildings){
+				if(b.name!=ObjetsList.Headquarters){
+					br.write(""+b.name+" "+b.team.id+" "+b.i+" "+b.j+"\n");
+				}
+			}
+			br.write("###########################\n");
+			br.write("= units\n");
+			for(Character b : plateau.characters){
+				br.write(""+b.name+" "+b.team.id+" "+b.x+" "+b.y+"\n");
+			}
+			br.write("###########################\n");
+			br.write("= naturalObjects\n");
+			for(NaturalObjet b : plateau.naturalObjets){
+				br.write("Tree "+Integer.parseInt(b.name.name().substring(4))+" "+b.x+" "+b.y+"\n");
+			}
+			br.write("###########################\n");
+			br.write("= mapGround\n");
+			for(int i=0; i<plateau.mapGrid.grid.size(); i++){
+				for(int j=0; j<plateau.mapGrid.grid.get(0).size(); j++){
+					br.write(plateau.mapGrid.grid.get(i).get(j).getIdTerrain().id);
+				}
+				br.write("\n");
+			}
+			br.close();
+			ipsr.close();
+			ips.close();
+		} catch (Exception e){
+			System.out.print("erreur");
+			e.printStackTrace();
 		}
 	}
 

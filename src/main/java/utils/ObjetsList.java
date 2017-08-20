@@ -5,95 +5,93 @@ import java.util.Vector;
 public enum ObjetsList {
 
 	// Prototypes
-	Objet("Objet"),
-	Spell("Objet"),
-	Unit("Character"),
-	Building("Building"),
-	Bullet("Bullet"),
-	Technology("Technology"),
-	Bonus("Building"),
-	Checkpoint("Checkpoint"),
+	Objet(ObjetType.Objet),
+	Spell(ObjetType.Objet),
+	Unit(ObjetType.Character),
+	Building(ObjetType.Building),
+	Bullet(ObjetType.Bullet),
+	Technology(ObjetType.Technology),
+	Bonus(ObjetType.Bonus),
+	Checkpoint(ObjetType.Checkpoint),
 	// Units
-	Knight("Character"),
-	Crossbowman("Character"),
-	Priest("Character"),
-	Inquisitor("Character"),
-	Spearman("Character"),
-	Archange("Character"),
+	Knight(ObjetType.Character),
+	Crossbowman(ObjetType.Character),
+	Priest(ObjetType.Character),
+	Inquisitor(ObjetType.Character),
+	Spearman(ObjetType.Character),
+	Archange(ObjetType.Character),
 	// Buildings
-	Headquarters("Building"),
-	Mill("Building"),
-	Mine("Building"),
-	Barracks("Building"),
-	Stable("Building"),
-	Academy("Building"),
-	University("Building"),
-	Tower("Building"),
+	Headquarters(ObjetType.Building),
+	Mill(ObjetType.Building),
+	Mine(ObjetType.Building),
+	Barracks(ObjetType.Building),
+	Stable(ObjetType.Building),
+	Academy(ObjetType.Building),
+	University(ObjetType.Building),
+	Tower(ObjetType.Building),
 	// Bonus
-	BonusLifepoints("Building"),
-	BonusSpeed("Building"),
-	BonusDamage("Building"),
+	BonusLifepoints(ObjetType.Bonus),
+	BonusSpeed(ObjetType.Bonus),
+	BonusDamage(ObjetType.Bonus),
 	// Technologies
-	DualistAge2("Technology"), 
-	DualistAge3("Technology"), 
-	DualistBonusFood("Technology"), 
-	DualistBonusGold("Technology"), 
-	DualistShield2("Technology"), 
-	DualistHealth2("Technology"), 
-	DualistShield3("Technology"), 
-	DualistHealth3("Technology"), 
-	DualistContactAttack2("Technology"), 
-	DualistRangeAttack2("Technology"), 
-	DualistContactAttack3("Technology"), 
-	DualistRangeAttack3("Technology"), 
-	DualistExplosion("Technology"), 
-	DualistEagleView("Technology"),
-	DualistImmolationAuto("Technology"),
+	DualistAge2(ObjetType.Technology), 
+	DualistAge3(ObjetType.Technology), 
+	DualistBonusFood(ObjetType.Technology), 
+	DualistBonusGold(ObjetType.Technology), 
+	DualistShield2(ObjetType.Technology), 
+	DualistHealth2(ObjetType.Technology), 
+	DualistShield3(ObjetType.Technology), 
+	DualistHealth3(ObjetType.Technology), 
+	DualistContactAttack2(ObjetType.Technology), 
+	DualistRangeAttack2(ObjetType.Technology), 
+	DualistContactAttack3(ObjetType.Technology), 
+	DualistRangeAttack3(ObjetType.Technology), 
+	DualistExplosion(ObjetType.Technology), 
+	DualistEagleView(ObjetType.Technology),
+	DualistImmolationAuto(ObjetType.Technology),
 	
 	
 	// Bullets
-	Arrow("Bullet"),
-	Fireball("Bullet"),
+	Arrow(ObjetType.Bullet),
+	Fireball(ObjetType.Bullet),
 	// Nature
-	Tree00("NatureObject"),
-	Tree01("NatureObject"),
-	Tree02("NatureObject"),
-	Tree03("NatureObject"),
+	Tree00(ObjetType.NatureObject),
+	Tree01(ObjetType.NatureObject),
+	Tree02(ObjetType.NatureObject),
+	Tree03(ObjetType.NatureObject),
 	// SpellEffects
-	BlessedAreaEffect("SpellEffect"), 
-	BurningAreaEffect("SpellEffect"), 
-	FirewallEffect("SpellEffect"), 
-	FrozenEffect("SpellEffect"), 
-	HealEffect("SpellEffect"),
+	BlessedAreaEffect(ObjetType.SpellEffect), 
+	BurningAreaEffect(ObjetType.SpellEffect), 
+	FirewallEffect(ObjetType.SpellEffect), 
+	FrozenEffect(ObjetType.SpellEffect), 
+	HealEffect(ObjetType.SpellEffect),
 	// Spells
-	BlessedArea("Spell"),
-	Conversion("Spell"),
-	Dash("Spell"),
-	Eclair("Spell"),
-	Firewall("Spell"),
-	Frozen("Spell"),
-	Heal("Spell"),
-	Immolation("Spell"),
-	Meditation("Spell"),
-	InstantDeath("Spell"),
-	InstantHealth("Spell"),
-	SpecialArrow("Spell"),
-	Product("Spell"),
-	// Others
-	ContactWeapon("Weapon"),
-	Food("Ressource"),
-	Population("Ressource")
+	BlessedArea(ObjetType.Spell),
+	Conversion(ObjetType.Spell),
+	Dash(ObjetType.Spell),
+	Eclair(ObjetType.Spell),
+	Firewall(ObjetType.Spell),
+	Frozen(ObjetType.Spell),
+	Heal(ObjetType.Spell),
+	Immolation(ObjetType.Spell),
+	Meditation(ObjetType.Spell),
+	InstantDeath(ObjetType.Spell),
+	InstantHealth(ObjetType.Spell),
+	SpecialArrow(ObjetType.Spell),
+	Product(ObjetType.Spell),
+	// Weapons
+	
+	ContactWeapon(ObjetType.Weapon),
 	;
 	
+	public ObjetType type;
 	
-	public String type;
-	
-	private ObjetsList(String type){
+	private ObjetsList(ObjetType type){
 		this.type = type;
 	}
-	public String getType(){
-		
-		
+	
+	
+	public ObjetType getType(){
 		return type;
 	}
 

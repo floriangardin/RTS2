@@ -60,7 +60,7 @@ public class MainEditor {
 	}
 	
 	public enum Mode{
-		SELECTION, MOVE, ERASE, TERRAIN, NATURE, CHARACTER;
+		SELECT, MOVE, ERASE, TERRAIN, NATURE, CHARACTER, BUILDING;
 	}
 	
 	public enum TeamSelected{

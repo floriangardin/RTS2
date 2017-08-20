@@ -14,6 +14,5 @@ prodTime:20,
 faithCost:0,
 range:70,
 spells:Immolation-Meditation-Conversion,
-explosionWhenImmolate:0,
-size:30
+explosionWhenImmolate:0
 }

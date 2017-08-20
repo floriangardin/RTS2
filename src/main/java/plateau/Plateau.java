@@ -1,16 +1,10 @@
 package plateau;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.sun.glass.ui.CommonDialogs.Type;
 
 import bonus.Bonus;
 import control.InputObject;
@@ -18,7 +12,12 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
+import main.Main;
+import model.Game;
+import model.GameClient;
+import pathfinding.Case;
 import pathfinding.MapGrid;
+import ressources.Map;
 import spells.Etats;
 import spells.Spell;
 import spells.SpellEffect;
@@ -38,28 +37,30 @@ public class Plateau implements java.io.Serializable {
 	public int maxY;
 
 	// ADD ALL OBJETS
-	private Vector<Character> characters;
-	private Vector<Character> toAddCharacters;
-	private Vector<Character> toRemoveCharacters;
+	public Vector<Character> characters;
+	public Vector<Character> toAddCharacters;
+	public Vector<Character> toRemoveCharacters;
 
-	private Vector<Bullet> bullets;
-	private Vector<Bullet> toAddBullets;
-	private Vector<Bullet> toRemoveBullets;
+	public Vector<Bullet> bullets;
+	public Vector<Bullet> toAddBullets;
+	public Vector<Bullet> toRemoveBullets;
 
-	private Vector<Building> buildings;
-	private Vector<Building> toAddBuildings;
-	private Vector<Building> toRemoveBuildings;
+	public Vector<Building> buildings;
+	public Vector<Building> toAddBuildings;
+	public Vector<Building> toRemoveBuildings;
 
-	private Vector<Checkpoint> checkpoints;
-	private Vector<Checkpoint> markersBuilding; 
-	private Vector<Bonus> bonus;
+	public Vector<Checkpoint> checkpoints;
+	public Vector<Checkpoint> markersBuilding; 
+	public Vector<Bonus> bonus;
 
-	private Vector<NaturalObjet> naturalObjets;
-	private Vector<NaturalObjet> toAddNaturalObjets;
-	private Vector<NaturalObjet> toRemoveNaturalObjets;
-	private Vector<SpellEffect> spells;
-	private Vector<SpellEffect> toAddSpells;
-	private Vector<SpellEffect> toRemoveSpells;
+	public Vector<NaturalObjet> naturalObjets;
+	public Vector<NaturalObjet> toAddNaturalObjets;
+	public Vector<NaturalObjet> toRemoveNaturalObjets;
+
+	public Vector<SpellEffect> spells;
+	public Vector<SpellEffect> toAddSpells;
+	public Vector<SpellEffect> toRemoveSpells;
+
 	public MapGrid mapGrid;
 	public HashMap<Integer,Objet> objets;
 	// players
@@ -68,6 +69,9 @@ public class Plateau implements java.io.Serializable {
 	public int round = 0;
 	// Hold ids of objects
 	public int id = 0;
+
+
+
 
 	public Plateau(int maxX, int maxY) {
 		// GENERAL
@@ -80,7 +84,7 @@ public class Plateau implements java.io.Serializable {
 			this.teams.add(new Team(id, this));
 		}
 		// CHARACTERS
-		this.setCharacters(new Vector<Character>());
+		this.characters = new Vector<Character>();
 		this.toAddCharacters = new Vector<Character>();
 		this.toRemoveCharacters = new Vector<Character>();
 		// WEAPONS
@@ -88,7 +92,7 @@ public class Plateau implements java.io.Serializable {
 		this.toAddBullets = new Vector<Bullet>();
 		this.toRemoveBullets = new Vector<Bullet>();
 		// NATURALOBJETS
-		this.setNaturalObjets(new Vector<NaturalObjet>());
+		this.naturalObjets = new Vector<NaturalObjet>();
 		this.toAddNaturalObjets = new Vector<NaturalObjet>();
 		this.toRemoveNaturalObjets = new Vector<NaturalObjet>();
 		// SPELLS
@@ -97,14 +101,14 @@ public class Plateau implements java.io.Serializable {
 		this.toRemoveSpells = new Vector<SpellEffect>();
 
 		// BONUS
-		this.setBonus(new Vector<Bonus>());
+		this.bonus = new Vector<Bonus>();
 
 		// ENEMYGENERATOR
-		this.setBuildings(new Vector<Building>());
+		this.buildings = new Vector<Building>();
 		this.toAddBuildings = new Vector<Building>();
 		this.toRemoveBuildings = new Vector<Building>();
 		//temporary Checkpoints ( markers )
-		this.setCheckpoints(new Vector<Checkpoint>());
+		this.checkpoints = new Vector<Checkpoint>();
 		this.markersBuilding = new Vector<Checkpoint>();
 
 		// All objects
@@ -114,26 +118,34 @@ public class Plateau implements java.io.Serializable {
 	}
 	
 	public void print(){
-		System.out.println("Size checkpoints : "+getCheckpoints().size());
-		System.out.println("Size characters : "+getCharacters().size());
-		System.out.println("Size buildings : "+getBuildings().size());
+		System.out.println("Size checkpoints : "+checkpoints.size());
+		System.out.println("Size characters : "+characters.size());
+		System.out.println("Size buildings : "+buildings.size());
 		System.out.println("Size bullets : "+bullets.size());
-		System.out.println("Size total : "+(getCheckpoints().size()+bullets.size() + getBuildings().size()+getCharacters().size()) );
+		System.out.println("Size total : "+(checkpoints.size()+bullets.size() + buildings.size()+characters.size()) );
 		System.out.println("Size hashmap : "+this.objets.size());
 		System.out.println("\n\n== Characters");
-		for(Character c : this.getCharacters()){
+		for(Character c : this.characters){
 			System.out.println(c.id+" "+c.x+" "+c.y);
 		}
 	}
 
 	public void addCharacterObjets(Character o) {
-		((Character)o).setXY(o.x,o.y, this);
+		Case c = mapGrid.getCase(o.x, o.y);
+		if(c!=null){
+			o.idCase = c.id;
+			mapGrid.getCase(o.idCase).characters.add(o);
+		} else {
+			o.idCase = -1;
+		}
 		toAddCharacters.addElement(o);
 	}
 
-	private void removeCharacter(Character o) {
-		((Character)o).setXY(-1,-1, this);
-		System.out.println("line 132 characters : removed "+this.id);
+	public void removeCharacter(Character o) {
+		Case c = mapGrid.getCase(o.idCase);
+		if(c!=null && c.characters.contains(o)){
+			c.characters.remove(o);
+		}
 		toRemoveCharacters.addElement(o);
 	}
 
@@ -150,7 +162,7 @@ public class Plateau implements java.io.Serializable {
 		toAddNaturalObjets.addElement(o);
 	}
 
-	private void removeNaturalObjets(NaturalObjet o) {
+	public void removeNaturalObjets(NaturalObjet o) {
 		this.mapGrid.removeNaturalObject(o);
 		toRemoveNaturalObjets.addElement(o);
 	}
@@ -160,7 +172,7 @@ public class Plateau implements java.io.Serializable {
 		toAddBuildings.addElement(o);
 	}
 
-	private void removeBuilding(Building o) {
+	public void removeBuilding(Building o) {
 		this.mapGrid.removeBuilding(o);
 		toRemoveBuildings.addElement(o);
 	}
@@ -183,7 +195,7 @@ public class Plateau implements java.io.Serializable {
 	public void clean() {
 		// Clean the buffers and handle die
 		// Remove and add considering alive
-		for (Character o : getCharacters()) {
+		for (Character o : characters) {
 			if (!o.isAlive()) {
 				if(o.getAttribut(Attributs.autoImmolation)==1f && !isImmolating(o) ){
 					o.lifePoints = 10f;
@@ -201,12 +213,12 @@ public class Plateau implements java.io.Serializable {
 				this.removeBullet(o);
 			}
 		}
-		for (NaturalObjet o : getNaturalObjets()) {
+		for (NaturalObjet o : naturalObjets) {
 			if (!o.isAlive()) {
 				this.removeNaturalObjets(o);
 			}
 		}
-		for (Building o : getBuildings()) {
+		for (Building o : buildings) {
 			if (!o.isAlive()) {
 				this.removeBuilding(o);
 			}
@@ -227,11 +239,11 @@ public class Plateau implements java.io.Serializable {
 			//			System.out.println("markers building : " + markersBuilding.size());
 
 			// DEBUG SIZE 
-			System.out.println("Plateau 285 : Size checkpoints : "+getCheckpoints().size());
-			System.out.println("Plateau 285 : Size characters : "+getCharacters().size());
-			System.out.println("Plateau 285 : Size buildings : "+getBuildings().size());
+			System.out.println("Plateau 285 : Size checkpoints : "+checkpoints.size());
+			System.out.println("Plateau 285 : Size characters : "+characters.size());
+			System.out.println("Plateau 285 : Size buildings : "+buildings.size());
 			System.out.println("Plateau 285 : Size bullets : "+bullets.size());
-			System.out.println("Plateau 285 : Size total : "+(getCheckpoints().size()+bullets.size() + getBuildings().size()+getCharacters().size()) );
+			System.out.println("Plateau 285 : Size total : "+(checkpoints.size()+bullets.size() + buildings.size()+characters.size()) );
 
 			System.out.println("PLateau 299 : size hashmap : "+this.objets.size());
 
@@ -240,25 +252,24 @@ public class Plateau implements java.io.Serializable {
 		}
 
 		Vector<Checkpoint> toremove = new Vector<Checkpoint>();
-		for (Checkpoint o : getCheckpoints()) {
+		for (Checkpoint o : checkpoints) {
 			if (!o.isAlive()) {
 				toremove.add(o);
 				objets.remove(o.id);
 			}
 		}
-		getCheckpoints().removeAll(toremove);
+		checkpoints.removeAll(toremove);
 
 		// Update selection and groups
 		// Remove objets from lists and streams
 		for (Character o : toRemoveCharacters) {
-			getCharacters().remove(o);
+			characters.remove(o);
 			objets.remove(o.id);
-			o.destroy();
 
 		}
 		for (Character o : toAddCharacters) {
 			objets.put(o.id,o);
-			getCharacters().addElement(o);
+			characters.addElement(o);
 		}
 		for (SpellEffect o : toAddSpells) {
 			objets.put(o.id,o);
@@ -278,19 +289,19 @@ public class Plateau implements java.io.Serializable {
 		}
 		for (NaturalObjet o : toRemoveNaturalObjets) {
 			objets.remove(o.id);
-			getNaturalObjets().remove(o);
+			naturalObjets.remove(o);
 		}
 		for (NaturalObjet o : toAddNaturalObjets) {
 			objets.put(o.id,o);
-			getNaturalObjets().addElement(o);
+			naturalObjets.addElement(o);
 		}
 		for (Building o : toRemoveBuildings) {
 			objets.remove(o.id);
-			getBuildings().remove(o);
+			buildings.remove(o);
 		}
 		for (Building o : toAddBuildings) {
 			objets.put(o.id,o);
-			getBuildings().addElement(o);
+			buildings.addElement(o);
 		}
 
 
@@ -304,37 +315,31 @@ public class Plateau implements java.io.Serializable {
 		toAddBullets.clear();
 		toAddNaturalObjets.clear();
 		toAddBuildings.clear();
-		
-		// Assertion objets equals character ==> Bug du siecle bizarre ++
-//		for(Character c : getCharacters()){
-//			if(this.getById(c.id)==null){
-//				try {
-//					throw new Exception();
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		}
 
 	}
-
+	
+	public Vector<Character> getCharacters(){
+		return this.characters;
+	}
+	public Vector<Building> getBuildings(){
+		return buildings;
+	}
 	public void collision() {
 		this.mapGrid.updateSurroundingChars();
-		for (Character o : getCharacters()) {
+		for (Character o : characters) {
 			// Handle collision between Objets and action objects
 			if (o.idCase != -1) {
 				for (Character i : mapGrid.getCase(o.idCase).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
 						i.collision(o, this);
-						o.collision(i, this);
+//						o.collision(i, this);
 					}
 				}
 			}
 			Circle range = new Circle(o.x, o.y, o.getAttribut(Attributs.range));
 			// Between bonus and characters
-			for (Bonus b : this.getBonus()) {
+			for (Bonus b : this.bonus) {
 				if (Utils.distance(b, o) < b.hitBoxSize) {
 					b.collision(o, this);
 				}
@@ -343,7 +348,7 @@ public class Plateau implements java.io.Serializable {
 				}
 			}
 			// between Characters and Natural objects
-			for (NaturalObjet i : getNaturalObjets()) {
+			for (NaturalObjet i : naturalObjets) {
 				if (i.collisionBox.intersects(o.collisionBox)) {
 					o.collision(i, this);
 				}
@@ -356,23 +361,21 @@ public class Plateau implements java.io.Serializable {
 			}
 
 			// Between characters and buildings
-
-			for (Building e : getBuildings()) {
+			Circle c;
+			for (Building e : buildings) {
 				if (e.collisionBox.intersects(range)) {
 					e.collisionWeapon(o, this);
 				}
 				if (e.collisionBox.intersects(o.collisionBox)) {
-					boolean doCollision = true;
-					for(Circle c : e.corners){
+					int collisionCorner = 0;
+					for(int i=0; i<e.corners.size(); i++){
+						c = e.corners.get(i);
 						if(Utils.distance(o,c.getCenterX(),c.getCenterY())<(30f+o.getAttribut(Attributs.size))){
-							doCollision = false;
+							collisionCorner = i+1;
+							break;
 						}
 					}
-					if(doCollision)
-						o.collision(e, this);
-				}
-				else{
-
+					o.collision(e, collisionCorner, this);
 				}
 			}
 			// Between spells and characters
@@ -386,11 +389,11 @@ public class Plateau implements java.io.Serializable {
 		}
 		// Between bullets and natural objets
 		for (Bullet b : bullets) {
-			for (NaturalObjet n : getNaturalObjets()) {
+			for (NaturalObjet n : naturalObjets) {
 				if (b.collisionBox.intersects(n.collisionBox))
 					b.collision(n, this);
 			}
-			for (Building c : getBuildings()) {
+			for (Building c : buildings) {
 				if (b.collisionBox.intersects(c.collisionBox))
 					b.collision(c, this);
 			}
@@ -399,25 +402,25 @@ public class Plateau implements java.io.Serializable {
 	}
 
 	public void action() {
-		for (Checkpoint a : this.getCheckpoints()) {
+		for (Checkpoint a : this.checkpoints) {
 			a.action(this);
 		}
 		for (Checkpoint a : this.markersBuilding) {
 			a.action(this);
 		}
-		for (Character o : this.getCharacters()) {
+		for (Character o : this.characters) {
 			o.action(this);
 		}
 		for (Bullet o : bullets) {
 			o.action(this);
 		}
-		for (Building e : this.getBuildings()) {
+		for (Building e : this.buildings) {
 			e.action(this);
 		}
 		for (Objet a : this.spells) {
 			a.action(this);
 		}
-		for (Bonus a : this.getBonus()) {
+		for (Bonus a : this.bonus) {
 			a.action(this);
 		}
 
@@ -447,7 +450,6 @@ public class Plateau implements java.io.Serializable {
 		// called when right click on the mouse
 		Objet target = this.findTarget(x, y,team);
 		if (target == null) {
-			
 			target = new Checkpoint(x, y,true, this);
 		}
 
@@ -531,7 +533,7 @@ public class Plateau implements java.io.Serializable {
 	// calling method to the environment
 	public Vector<Character> getEnnemiesInSight(Character caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
-		for (Character o : getCharacters()) {
+		for (Character o : characters) {
 			if (o.getTeam() != caller.getTeam() && o.collisionBox.intersects(caller.sightBox)) {
 				ennemies_in_sight.add(o);
 			}
@@ -541,7 +543,7 @@ public class Plateau implements java.io.Serializable {
 
 	public Vector<Character> getEnnemiesInSight(Building caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
-		for (Character o : getCharacters()) {
+		for (Character o : characters) {
 			if (o.getTeam().id != caller.potentialTeam && Utils.distance(o, caller) < caller.getAttribut(Attributs.sight)) {
 				ennemies_in_sight.add(o);
 			}
@@ -551,7 +553,7 @@ public class Plateau implements java.io.Serializable {
 
 	public Vector<Objet> getAlliesInSight(Character caller) {
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
-		for (Character o : getCharacters()) {
+		for (Character o : characters) {
 			if (o != caller && o.getTeam() == caller.getTeam() && o.collisionBox.intersects(caller.sightBox)) {
 				ennemies_in_sight.add(o);
 			}
@@ -561,7 +563,7 @@ public class Plateau implements java.io.Serializable {
 
 	public Vector<Character> getWoundedAlliesInSight(Character caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
-		for (Character o : getCharacters()) {
+		for (Character o : characters) {
 			if (o != caller && o.getTeam() == caller.getTeam() && o.lifePoints < o.getAttribut(Attributs.maxLifepoints)
 					&& o.collisionBox.intersects(caller.sightBox)) {
 				ennemies_in_sight.add(o);
@@ -575,7 +577,7 @@ public class Plateau implements java.io.Serializable {
 		Objet target = null;
 
 		// looking for the object on the target
-		for (Character i : this.getCharacters()) {
+		for (Character i : this.characters) {
 			// looking amongst other characters
 			if (i.selectionBox.contains(point) && i.getTeam().id!=team) {
 				target = i;
@@ -583,7 +585,7 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 		if (target == null) {
-			for (Character i : this.getCharacters()) {
+			for (Character i : this.characters) {
 				// looking amongst other characters
 				if (i.selectionBox.contains(point) && i.getTeam().id==team) {
 					target = i;
@@ -592,7 +594,7 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 		if (target == null) {
-			for (Building i : this.getBuildings()) {
+			for (Building i : this.buildings) {
 				// looking amongst natural object
 				if (i.collisionBox.contains(point)) {
 					target = i;
@@ -601,7 +603,7 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 		if (target == null) {
-			for (Bonus i : this.getBonus()) {
+			for (Bonus i : this.bonus) {
 				// looking amongst natural object
 				if (i.collisionBox.contains(point)) {
 					target = i;
@@ -610,9 +612,9 @@ public class Plateau implements java.io.Serializable {
 			}
 		}
 		if (target == null) {
-			for (NaturalObjet i : getNaturalObjets()) {
+			for (NaturalObjet i : naturalObjets) {
 				// looking amongst natural object
-				if (Math.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<4*i.collisionBox.getBoundingCircleRadius()) {
+				if (Math.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<i.collisionBox.getBoundingCircleRadius()) {
 					target = i;
 					break;
 				}
@@ -637,7 +639,7 @@ public class Plateau implements java.io.Serializable {
 			}
 			// Handling the right click
 			this.handleRightClick(im);
-			// Handling action bar TODO : ça n'a rien à faire là, à dégager
+			// Handling action bar TODO : ï¿½a n'a rien ï¿½ faire lï¿½, ï¿½ dï¿½gager
 			this.handleActionOnInterface(im);
 
 		}
@@ -658,25 +660,50 @@ public class Plateau implements java.io.Serializable {
 				this.teamLooser = team.id;
 			}
 		}
+//		if(round>10){
+//			Case c;
+//			for(int i=0; i<mapGrid.grid.get(0).size(); i++){
+//				for(int j=0; j<mapGrid.grid.size(); j++){
+//					c = mapGrid.grid.get(j).get(i);
+//					if(c.building!=null){
+//						System.out.print("X");
+//					} else if(c.naturesObjet.size()>0){
+//						System.out.print("V");
+//					} else if(c.characters.size()>0){
+//						System.out.print(c.characters.size());
+//					} else {
+//						System.out.print(" ");
+//					}
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
+//			System.out.println(naturalObjets.size());
+//			System.out.println(characters.size());
+//			System.out.println(buildings.size());
+//			while(true){
+//				
+//			}
+//		}
 		
 	}
 
 	void handleMouseHover(InputObject im) {
-		for (Character c : this.getCharacters()) {
+		for (Character c : this.characters) {
 			if (c.selectionBox.contains(im.x, im.y)) {
 				c.mouseOver = true;
 			} else {
 				c.mouseOver = false;
 			}
 		}
-		for (Bonus c : this.getBonus()) {
+		for (Bonus c : this.bonus) {
 			if (c.selectionBox.contains(im.x, im.y)) {
 				c.mouseOver = true;
 			} else {
 				c.mouseOver = false;
 			}
 		}
-		for (Building c : this.getBuildings()) {
+		for (Building c : this.buildings) {
 			if (c.selectionBox.contains(im.x, im.y)) {
 				c.mouseOver = true;
 			} else {
@@ -725,7 +752,7 @@ public class Plateau implements java.io.Serializable {
 		}
 		if (im.isPressed(KeyEnum.GlobalRallyPoint)) {
 			//Update rally point
-			for(Building b : getBuildings()){
+			for(Building b : buildings){
 				if(b.getTeam().id==im.team && b instanceof Building){
 					((Building) b).setRallyPoint(im.x, im.y, this);
 				}
@@ -824,10 +851,10 @@ public class Plateau implements java.io.Serializable {
 		if (objet.getTeam() != null && objet.getTeam().id == team)
 			return true;
 		float r = Math.max(objet.getAttribut(Attributs.size),objet.getAttribut(Attributs.sizeX))/2;
-		for (Character c : getCharacters())
+		for (Character c : characters)
 			if (c.getTeam().id == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
 				return true;
-		for (Building b : getBuildings())
+		for (Building b : buildings)
 			if (b.getTeam().id == team && Utils.distance(b, objet) < b.getAttribut(Attributs.sight) + r)
 				return true;
 		return false;
@@ -849,8 +876,8 @@ public class Plateau implements java.io.Serializable {
 	public String toString(){
 		String s = "";
 		Vector<Objet> concatenation = new Vector<Objet>();
-		concatenation.addAll(this.getCharacters());
-		concatenation.addAll(this.getBuildings());
+		concatenation.addAll(this.characters);
+		concatenation.addAll(this.buildings);
 		for(Objet o : concatenation){
 			s+=o.hash();
 		}
@@ -867,46 +894,7 @@ public class Plateau implements java.io.Serializable {
 		
 		return round;
 	}
-
-	public Vector<Character> getCharacters() {
-		return characters;
-	}
-
-	private void setCharacters(Vector<Character> characters) {
-		this.characters = characters;
-	}
-
-	public Vector<NaturalObjet> getNaturalObjets() {
-		return naturalObjets;
-	}
-
-	public void setNaturalObjets(Vector<NaturalObjet> naturalObjets) {
-		this.naturalObjets = naturalObjets;
-	}
-
-	public Vector<Bonus> getBonus() {
-		return bonus;
-	}
-
-	public void setBonus(Vector<Bonus> bonus) {
-		this.bonus = bonus;
-	}
-
-	public Vector<Building> getBuildings() {
-		return buildings;
-	}
-
-	public void setBuildings(Vector<Building> buildings) {
-		this.buildings = buildings;
-	}
-
-	public Vector<Checkpoint> getCheckpoints() {
-		return checkpoints;
-	}
-
-	public void setCheckpoints(Vector<Checkpoint> checkpoints) {
-		this.checkpoints = checkpoints;
-	}
+	
 	
 	public Object toJson(){
 		
@@ -932,6 +920,7 @@ public class Plateau implements java.io.Serializable {
 		// Pour chaque objet json
 		return finalResult;
 	}
+
 
 
 }

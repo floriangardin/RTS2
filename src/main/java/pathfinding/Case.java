@@ -1,5 +1,6 @@
 package pathfinding;
 
+import java.util.HashSet;
 import java.util.Vector;
 
 import plateau.Building;
@@ -22,9 +23,9 @@ public class Case implements java.io.Serializable {
 	public float sizeX;
 	public float sizeY;
 
-	public Vector<Character> characters = new Vector<Character>();
+	public HashSet<Character> characters = new HashSet<Character>();
 	public Vector<Character> surroundingChars = new Vector<Character>();
-	public Vector<NaturalObjet> naturesObjet = new Vector<NaturalObjet>(); 
+	public HashSet<NaturalObjet> naturesObjet = new HashSet<NaturalObjet>(); 
 	public Building building;
 	
 	public Case(boolean ok, int id, MapGrid map){
@@ -38,12 +39,22 @@ public class Case implements java.io.Serializable {
 		this.idTerrain = idTerrain;
 	}
 
+	public void setIdTerrain(char id){
+		for(IdTerrain it : IdTerrain.values()){
+			if(it.id == id){
+				this.setIdTerrain(it);
+				return;
+			}
+		}
+	}
+
 	public IdTerrain getIdTerrain(){
 		return this.idTerrain;
 	}
 	
 	public void update(){
 		this.ok = this.idTerrain.ok && building == null && naturesObjet.size()==0;
+		this.ok = this.idTerrain.ok && building == null;
 	}
 
 	public void updateX(float x, float x1){
@@ -69,13 +80,16 @@ public class Case implements java.io.Serializable {
 	}
 	
 	public enum IdTerrain{
-		WATER(false),
-		GRASS(true),
-		SAND(true);
+		WATER(false, 'w'),
+		GRASS(true, ' '),
+		SAND(true, 's');
 		
 		public final boolean ok;
-		private IdTerrain(boolean ok){
+		public final char id;
+		
+		private IdTerrain(boolean ok, char id){
 			this.ok = ok;
+			this.id = id;
 		}
 	}
 	

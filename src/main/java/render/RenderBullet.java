@@ -13,7 +13,9 @@ import ressources.Images;
 
 public class RenderBullet {
 	
+	
 	public static void render(Bullet b, Graphics g, Plateau plateau){
+		
 		if(b instanceof Arrow){
 			Images.get("arrow").rotate(((Arrow)b).angle);
 			g.drawImage(Images.get("arrow"),b.getX()-5f*Main.ratioSpace,b.getY()-75f*Main.ratioSpace);

@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 import bot.IA;
 import control.InputObject;
 import control.Player;
+import control.KeyMapper.KeyEnum;
 import display.Camera;
 import display.Interface;
 import menu.Lobby;
@@ -56,7 +57,8 @@ public class WholeGame extends ClassSystem{
 		if(Lobby.isInit()){			
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
 		}else{
-			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
+			GameClient.setPlateau(Map.createPlateau("testcollision2", "maps"));
+//			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		}
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
@@ -70,6 +72,9 @@ public class WholeGame extends ClassSystem{
 	
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
+		if(SimpleRenderEngine.ux!=0){
+//			return;
+		}
 		if(Game.endSystem != null){
 			Game.endSystem.update(gc, arg1);
 			return;
@@ -77,7 +82,6 @@ public class WholeGame extends ClassSystem{
 		handleSlowDown(gc);
 		GameClient.mutex.lock();
 		try{
-			
 			Input in = gc.getInput();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
 			final Vector<InputObject> iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
@@ -123,7 +127,6 @@ public class WholeGame extends ClassSystem{
 					e.printStackTrace();
 				}
 			}
-
 		}
 		if(Taunts.isInit()){
 			Taunts.update();
@@ -168,6 +171,4 @@ public class WholeGame extends ClassSystem{
 		
 	}
 
-	
-	
 }
