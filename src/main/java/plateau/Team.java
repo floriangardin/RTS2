@@ -33,6 +33,8 @@ public class Team implements Serializable {
 	public float timerKill = 0;
 	public float timerMaxKill = 15f;
 
+	public boolean hasGaveUp;
+
 
 	public Team(int id, Plateau plateau) {
 		this.id = id;

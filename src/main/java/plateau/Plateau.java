@@ -69,7 +69,8 @@ public class Plateau implements java.io.Serializable {
 	public int round = 0;
 	// Hold ids of objects
 	public int id = 0;
-
+	
+	public EndCondition endCondition;
 
 
 
@@ -110,7 +111,9 @@ public class Plateau implements java.io.Serializable {
 		//temporary Checkpoints ( markers )
 		this.checkpoints = new Vector<Checkpoint>();
 		this.markersBuilding = new Vector<Checkpoint>();
-
+		
+		// End condition 
+		this.endCondition = new NormalEndCondition();
 		// All objects
 		objets = new HashMap<Integer,Objet>();
 		id = 0;
@@ -634,16 +637,15 @@ public class Plateau implements java.io.Serializable {
 		for (InputObject im : ims) {
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
-				this.teamLooser = im.team;
+				Team team = this.getTeamById(im.team);
+				team.hasGaveUp = true;
 				return;
 			}
 			// Handling the right click
 			this.handleRightClick(im);
 			// Handling action bar TODO : �a n'a rien � faire l�, � d�gager
 			this.handleActionOnInterface(im);
-
 		}
-		
 		// 2 - For everyone
 		// Sort by id
 		this.collision();
@@ -656,10 +658,11 @@ public class Plateau implements java.io.Serializable {
 			if(team.id==0){
 				continue;
 			}
-			if(((Building)this.getById(team.hq)).constructionPoints<=0){
+			if(this.endCondition.hasLost(this, team)){
 				this.teamLooser = team.id;
 			}
 		}
+		
 //		if(round>10){
 //			Case c;
 //			for(int i=0; i<mapGrid.grid.get(0).size(); i++){
@@ -686,6 +689,11 @@ public class Plateau implements java.io.Serializable {
 //			}
 //		}
 		
+	}
+
+	private Team getTeamById(int team) {
+		// TODO Auto-generated method stub
+		return teams.stream().filter(x-> x.id==team).findFirst().orElse(null);
 	}
 
 	void handleMouseHover(InputObject im) {

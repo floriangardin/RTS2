@@ -28,6 +28,7 @@ import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();
+	// Pour conditions de victoire
 	private boolean repeat = false;
 	private int repeatNumber = 100;
 	private String currentMap = null;
