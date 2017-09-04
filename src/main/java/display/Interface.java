@@ -675,10 +675,10 @@ public class Interface {
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
-		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam);
-		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam);
-		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX));
-		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY));
+		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam/Game.ratioX);
+		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam/Game.ratioY);
+		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX)/Game.ratioX);
+		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY)/Game.ratioY);
 		// Find the bottom right corner
 
 		// Draw background
@@ -779,6 +779,7 @@ public class Interface {
 		if(spellCurrent!=null){
 			Character characterSpellLauncher = (Character) plateau.getById(spellLauncher);
 			g.translate(-Camera.Xcam, -Camera.Ycam);
+			g.scale(Game.resX/1920f, Game.resY/1080f);
 			if(characterSpellLauncher!=null){
 				
 				Spell s = characterSpellLauncher.getSpell(spellCurrent);
@@ -788,6 +789,7 @@ public class Interface {
 					s.drawCast(g, null, spellX, spellY, characterSpellLauncher, true, plateau);	
 				}
 			}
+			g.scale(1920f/Game.resX, 1080f/Game.resY);
 			g.translate(Camera.Xcam, Camera.Ycam);
 		}
 	}

@@ -30,8 +30,8 @@ public class Menu_Map extends Menu_Item {
 	}
 	
 	public boolean isMouseOver(InputObject im){
-		float xMouse = im.x;
-		float yMouse = im.y;
+		float xMouse = im.xOnScreen;
+		float yMouse = im.yOnScreen;
 		boolean b = (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
 		if(b && im.isPressed(KeyEnum.LeftClick)){
 			this.isSelected = true;

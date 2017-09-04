@@ -75,7 +75,7 @@ public class WholeGame extends ClassSystem{
 		if(hq!=null){
 			int xHQ =(int) hq.x;
 			int yHQ = (int)hq.y;
-			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
+			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
 		}else{
 			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		}
@@ -118,6 +118,8 @@ public class WholeGame extends ClassSystem{
 			GameClient.getPlateau().update(ims);
 			// 4 : Update the camera given current input
 			Camera.update(im);
+			RenderEngine.xmouse = im.x;
+			RenderEngine.ymouse = im.y;
 		}finally{
 			GameClient.mutex.unlock();
 		}

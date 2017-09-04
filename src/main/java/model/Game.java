@@ -18,6 +18,7 @@ public class Game extends BasicGame
 {
 	
 	public static int resX, resY;
+	public static float ratioX, ratioY;
 	public static float ratioResolution;
 	
 	public static AppGameContainer app; 
@@ -32,6 +33,8 @@ public class Game extends BasicGame
 		super("RTS Ultramythe");
 		Game.resX = resX;
 		Game.resY = resY;
+		Game.ratioX = resX/1920f;
+		Game.ratioY = resY/1080f;
 		Game.ratioResolution = 1f*resX/1920f;
 	}
 	

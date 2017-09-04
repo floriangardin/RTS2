@@ -10,6 +10,7 @@ import data.Attributs;
 import display.Camera;
 import display.Interface;
 import events.EventHandler;
+import model.Game;
 import multiplaying.ChatHandler;
 import pathfinding.Case;
 import plateau.Building;
@@ -26,6 +27,8 @@ public class RenderEngine {
 
 	private static boolean isReady = false;
 	private static boolean hasChecked = false;
+	
+	public static float xmouse, ymouse;
 
 	public static int i;
 	
@@ -46,6 +49,7 @@ public class RenderEngine {
 	public static void render(Graphics g, Plateau plateau){
 
 		g.translate(-Camera.Xcam, -Camera.Ycam);
+		g.scale(Game.resX/1920f, Game.resY/1080f);
 		//g.scale(0.5f,0.5f);
 		// Draw background
 		renderBackground(g, plateau);
@@ -101,6 +105,9 @@ public class RenderEngine {
 //			
 //		}
 		// Draw interface
+		g.setColor(Color.white);
+		g.fillOval(xmouse-10, ymouse-10,20,20);
+		g.scale(1920f/Game.resX, 1080f/Game.resY);
 		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);
 		ChatHandler.draw(g);
@@ -121,21 +128,23 @@ public class RenderEngine {
 		g1.setColor(new Color(50, 50, 50));
 		float xmin = Math.max(0, -Camera.Xcam);
 		float ymin = Math.max(0, -Camera.Ycam);
-		float xmax = Math.min(Camera.resX, plateau.maxX - Camera.Xcam);
-		float ymax = Math.min(Camera.resY, plateau.maxY - Camera.Ycam);
+		float xmax = Math.min(Camera.resX, plateau.maxX*Game.ratioX - Camera.Xcam);
+		float ymax = Math.min(Camera.resY, plateau.maxY*Game.ratioY - Camera.Ycam);
 		g1.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		g1.setColor(new Color(255, 255, 255));
 		for (Objet o : visibleObjets) {
 			float sight = o.getAttribut(Attributs.sight);
 			if(sight>5){
-				g1.fillOval(o.x - sight - Camera.Xcam, o.y - sight - Camera.Ycam, sight * 2f, sight * 2f);
+				g1.fillOval((o.x - sight)*Game.ratioX - Camera.Xcam, (o.y - sight)*Game.ratioY - Camera.Ycam, sight * 2f * Game.ratioX, sight * 2f * Game.ratioY);
 			}
 		}
 		g1.flush();
 		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+		g.scale(1920f/Game.resX, 1080f/Game.resY);
 		g.translate(Camera.Xcam, Camera.Ycam);
 		g.drawImage(GraphicElements.imageFogOfWar,0,0);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
+		g.scale(Game.resX/1920f, Game.resY/1080f);
 
 		// draw rectangle of selection
 		g.setDrawMode(Graphics.MODE_NORMAL);

@@ -3,39 +3,36 @@
 & sizeY 31
 ###########################
 = headquarters
-1 14 2
-2 14 27
+1 14 0
+2 14 29
 ###########################
 = buildings
 Mine 0 25 3
 Mill 0 3 26
 Mine 0 25 26
-Mill 0 9 28
-Mine 0 19 28
-Mill 0 9 1
-Mine 0 19 1
+Mill 0 9 29
+Mine 0 19 29
+Mill 0 9 0
+Mine 0 19 0
 Mill 0 3 3
-Stable 0 8 7
-Tower 1 10 4
-Tower 1 20 4
-Tower 1 17 7
-Tower 1 13 7
-Tower 2 10 25
-Tower 2 20 25
-Tower 2 13 23
-Tower 2 17 23
+Stable 0 9 5
+Tower 1 12 3
+Tower 1 18 3
+Tower 1 15 5
+Tower 2 12 27
+Tower 2 18 27
+Tower 2 15 25
 Barracks 0 3 14
 Barracks 0 23 15
-Stable 0 19 22
-University 0 14 14
-Barracks 0 8 22
-Barracks 0 19 7
+Stable 0 18 24
+Barracks 0 9 24
+Barracks 0 18 5
 ###########################
 = units
-Spearman 1 1458.0 544.0
-Spearman 1 1660.0 542.0
-Spearman 2 1441.0 2537.0
-Spearman 2 1644.0 2541.0
+Spearman 1 1451.0 341.0
+Spearman 1 1653.0 338.0
+Spearman 2 1454.0 2738.0
+Spearman 2 1653.0 2732.0
 ###########################
 = naturalObjects
 ###########################

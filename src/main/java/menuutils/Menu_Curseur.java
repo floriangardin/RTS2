@@ -39,10 +39,10 @@ public class Menu_Curseur extends Menu_Item{
 
 	public void update(InputObject im){
 		if(this.isMouseOver(im) && im.isPressed(KeyEnum.LeftClick)){
-			value = Math.min(1, Math.max(0,(im.x-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
+			value = Math.min(1, Math.max(0,(im.xOnScreen-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
 			isSelected = true;
 		} else if (isSelected && im.isDown(KeyEnum.LeftClick)){
-			value = Math.min(1, Math.max(0,(im.x-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
+			value = Math.min(1, Math.max(0,(im.xOnScreen-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
 		} else {
 			isSelected = false;
 		}

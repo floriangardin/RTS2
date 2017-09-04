@@ -489,14 +489,6 @@ public class Character extends Objet{
 			float signu = Math.signum(D2-Z*Z);
 			newx = x0 + signu*d*ux + signv*h*vx;
 			newy = y0 + signu*d*uy + signv*h*vy;
-			System.out.println(Z+" "+Math.sqrt(R2)+" "+Math.sqrt(D2)+" "+A2);
-			System.out.println(Z*Z+D2-R2+" "+2*Z*Math.sqrt(D2));
-			System.out.println(h+" "+d);
-			System.out.println(ux+" "+uy+" "+vx+" "+vy);
-			System.out.println(this.x+" "+this.y+" "+newx+" "+newy);
-			System.out.println(signv);
-			System.out.println(Utils.distance(newx, newy, xi, yi)+" "+Z);
-			System.out.println();
 			SimpleRenderEngine.ux = ux;
 			SimpleRenderEngine.vx = vx;
 			SimpleRenderEngine.old_vx = (float) (this.vx/Math.sqrt(R2));
@@ -507,7 +499,6 @@ public class Character extends Objet{
 			SimpleRenderEngine.h = h;
 			SimpleRenderEngine.signv = signv;
 			SimpleRenderEngine.signu = signu;
-			System.out.println();
 		}
 		this.setXY(newx,newy,plateau);
 		this.vx = this.x - x0;
@@ -526,7 +517,6 @@ public class Character extends Objet{
 	public void collision(Building o, int corner, Plateau plateau) {
 		if(corner>0){
 			Circle c;
-			System.out.println(corner);
 			float xi=0, yi=0;
 			float r = 50f;
 			switch(corner){
