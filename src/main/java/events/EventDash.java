@@ -28,16 +28,18 @@ public class EventDash extends Event{
 		// TODO Auto-generated method stub
 		// On fait des lignes blanches derrière le mec
 		// Get direction vector
-		g.setColor(new Color(256, 256, 256, 0.5f));
-		g.rotate(parent.x, parent.y-50f, (float)(180f/Math.PI*Math.atan(parent.vy/parent.vx)));
-		float signe = ((float)Math.signum(parent.vx));
-		for(int i=0; i<5; i++){
-			g.fillRect(parent.x-150*signe+50*Math.abs(i-2)*signe+((float)Math.random()*50f)*signe, parent.y-50f-(i-2)*12+((float)Math.random()*20f), -60*signe, 2);
-			//g.fillRect(parent.x+100*signe-50*Math.abs(i-2)*signe+((float)Math.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
-		}
 		
-		g.rotate(parent.x, parent.y-50f, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
-
+		g.setColor(new Color(256, 256, 256, 0.5f));
+		if(parent.vx>0){
+			g.rotate(parent.x, parent.y-50f, (float)(180f/Math.PI*Math.atan(parent.vy/parent.vx)));
+			float signe = ((float)Math.signum(parent.vx));
+			for(int i=0; i<5; i++){
+				g.fillRect(parent.x-150*signe+50*Math.abs(i-2)*signe+((float)Math.random()*50f)*signe, parent.y-50f-(i-2)*12+((float)Math.random()*20f), -60*signe, 2);
+				//g.fillRect(parent.x+100*signe-50*Math.abs(i-2)*signe+((float)Math.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
+			}
+			
+			g.rotate(parent.x, parent.y-50f, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
+		}
 		return parent.inDash>0f;
 	}
 

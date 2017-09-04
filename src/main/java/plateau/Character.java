@@ -236,7 +236,7 @@ public class Character extends Objet{
 		if(canMove){
 			this.actionIAScript(plateau);
 			this.updateAnimation();
-			this.updateAttributsChange();
+			this.updateAttributsChange(plateau);
 		}
 
 	}
@@ -346,7 +346,6 @@ public class Character extends Objet{
 		if((this.getGroup(plateau).size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop(plateau);
-			System.out.println("stop 1");
 			return;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);

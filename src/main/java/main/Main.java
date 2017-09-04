@@ -6,9 +6,6 @@ import java.io.File;
 import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.util.Log;
-
-import events.EventHandler;
 import model.Game;
 
 public class Main {
@@ -18,7 +15,7 @@ public class Main {
 	public static int nDelay = 2;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
-	public static boolean fullscreen=true;
+	public static boolean fullscreen=false;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -28,12 +25,12 @@ public class Main {
 		
 		try {
 			
-			int resolutionX = (int)screenSize.getWidth();
-			int resolutionY = (int)screenSize.getHeight();
+//			int resolutionX = (int)screenSize.getWidth();
+//			int resolutionY = (int)screenSize.getHeight();
 //			fullscreen = true;
-//			int resolutionX = (int)screenSize.getWidth()/2;
-//			int resolutionY = (int)screenSize.getHeight()/2;
-			//fullscreen = false;
+			int resolutionX = (int)screenSize.getWidth()/2;
+			int resolutionY = (int)screenSize.getHeight()/2;
+			fullscreen = false;
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
