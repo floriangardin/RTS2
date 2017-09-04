@@ -99,9 +99,9 @@ public abstract class Objet implements java.io.Serializable {
 		// handling end of dash
 		if(this.inDash>0f){
 			this.inDash-=1f*Main.increment;
-			if(this.inDash<=0f && this.getTarget(plateau)!=null && (this.getTarget(plateau) instanceof Checkpoint)){
-				this.mode = Character.AGGRESSIVE;
-			}
+//			if(this.inDash<=0f && this.getTarget(plateau)!=null && (this.getTarget(plateau) instanceof Checkpoint)){
+//				this.mode = Character.AGGRESSIVE;
+//			}
 		}
 	}
 	
