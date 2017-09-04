@@ -19,6 +19,7 @@ import model.GameServer;
 import model.WholeGame;
 import mybot.IAInputs;
 import ressources.GraphicElements;
+import ressources.Musics;
 import system.MenuSystem.MenuNames;
 
 public class MenuMapChoice extends Menu {
@@ -208,6 +209,7 @@ public class MenuMapChoice extends Menu {
 	public void launchGame(){
 		// Init gameSystem
 		Game.gameSystem = new WholeGame();
+		Musics.playMusic("themeImperial");
 		Game.system = Game.gameSystem;
 
 		// Send Plateau to all

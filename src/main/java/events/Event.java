@@ -47,7 +47,7 @@ public abstract class Event {
 	}
 
 
-	public abstract boolean play(Graphics g, Plateau plateau);
+	public abstract boolean play(Graphics g, Plateau plateau, boolean toDraw);
 
 
 	//	public abstract void draw(Graphics g);

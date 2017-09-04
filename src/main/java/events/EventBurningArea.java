@@ -22,7 +22,7 @@ public class EventBurningArea extends Event{
 
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		// TODO Auto-generated method stub
 		Image im = Images.get("magma").getScaledCopy((int)(2*size), (int)(2*size));
 		float alpha = (((BurningArea)parent).totalTime-((BurningArea)parent).remainingTime)/(((BurningArea)parent).startTime*((BurningArea)parent).remainingTime);
@@ -30,10 +30,12 @@ public class EventBurningArea extends Event{
 		alpha = (float)Math.min(alpha, 1f);
 		alpha = (float)Math.max(alpha, 0f);
 		im.setAlpha(alpha);
-		g.drawImage(im, ((BurningArea)parent).x-im.getWidth()/2f, ((BurningArea)parent).y-im.getHeight()/2f);
-		g.setColor(new Color(1f,0.1f,0f,0.2f));
-		g.setLineWidth(1f);
-		g.draw(((BurningArea)parent).collisionBox);
+		if(toDraw){
+			g.drawImage(im, ((BurningArea)parent).x-im.getWidth()/2f, ((BurningArea)parent).y-im.getHeight()/2f);
+			g.setColor(new Color(1f,0.1f,0f,0.2f));
+			g.setLineWidth(1f);
+			g.draw(((BurningArea)parent).collisionBox);
+		}
 		return parent.isAlive();
 	}
 

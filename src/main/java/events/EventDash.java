@@ -24,7 +24,7 @@ public class EventDash extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		// TODO Auto-generated method stub
 		// On fait des lignes blanches derrière le mec
 		// Get direction vector
@@ -34,7 +34,9 @@ public class EventDash extends Event{
 			g.rotate(parent.x, parent.y-50f, (float)(180f/Math.PI*Math.atan(parent.vy/parent.vx)));
 			float signe = ((float)Math.signum(parent.vx));
 			for(int i=0; i<5; i++){
-				g.fillRect(parent.x-150*signe+50*Math.abs(i-2)*signe+((float)Math.random()*50f)*signe, parent.y-50f-(i-2)*12+((float)Math.random()*20f), -60*signe, 2);
+				if(toDraw){
+					g.fillRect(parent.x-150*signe+50*Math.abs(i-2)*signe+((float)Math.random()*50f)*signe, parent.y-50f-(i-2)*12+((float)Math.random()*20f), -60*signe, 2);
+				}
 				//g.fillRect(parent.x+100*signe-50*Math.abs(i-2)*signe+((float)Math.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
 			}
 			

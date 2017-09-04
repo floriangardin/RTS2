@@ -23,8 +23,11 @@ public class EventBuildingTakingGlobal extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		int value1 = 0, value2 = 0;
+		if(!toDraw){
+			return true;
+		}
 		if(numberOfAttackers.containsKey(plateau.teams.get(1).id)){
 			value1 = numberOfAttackers.get(plateau.teams.get(1).id);
 		}

@@ -4,10 +4,12 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 
+import control.Player;
 import display.Camera;
 import display.DisplayRessources;
 import plateau.Objet;
 import plateau.Character;
+import plateau.Checkpoint;
 import plateau.Plateau;
 
 public class EventHandler {
@@ -25,11 +27,13 @@ public class EventHandler {
 
 	public static void render(Graphics g, Plateau plateau, boolean topLayer){
 		Vector<Event> toRemove1 = new Vector<Event>();
+		boolean isVisible;
 		for(Event e : events){
 			if(e.topLayer!=topLayer){
 				continue;
 			}
-			if(!e.play(g, plateau)){
+			isVisible = plateau.isVisibleByTeam(Player.team, e.parent);
+			if(!e.play(g, plateau, isVisible)){
 				toRemove1.addElement(e);
 			}
 		}

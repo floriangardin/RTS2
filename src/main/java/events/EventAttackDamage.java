@@ -30,7 +30,7 @@ public class EventAttackDamage extends Event {
 	
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		this.vy += 3f/Main.framerate;
 		this.y+=vy;
 		this.x+=vx;

@@ -79,7 +79,7 @@ public class Player {
 			return;
 		}
 		if(im.isDown(KeyEnum.LeftClick)){
-			if (Player.rectangleSelection == null && !im.isOnMiniMap && !im.isPressed(KeyEnum.ToutSelection)) {
+			if (Player.rectangleSelection == null && !im.isOnMiniMap && !im.isDown(KeyEnum.ToutSelection)) {
 				Player.selection.clear() ;// A appeler quand le rectangle est crée
 				recX=(float) im.x;
 				recY= (float) im.y;
@@ -138,10 +138,6 @@ public class Player {
 		selection.removeAll(toRemove);
 		// As long as the button is pressed, the selection is updated
 		Player.updateRectangle(im, plateau);
-		if(im.isPressed(KeyEnum.LeftClick) && im.isDown(KeyEnum.ToutSelection)){
-			System.out.println("mythe on appuie sur controle");
-			Player.updateSelectionCTRL(im, plateau);
-		}
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 || rectangleSelection!=null){
 			Player.selection.clear();
@@ -155,11 +151,9 @@ public class Player {
 				}
 			}
 		}
-		im.selection = new Vector<Integer>();
-		for(Integer o : selection){
-			im.selection.add(o);
+		if(im.isPressed(KeyEnum.LeftClick) && im.isDown(KeyEnum.ToutSelection)){
+			Player.updateSelectionCTRL(im, plateau);
 		}
-
 //		 Handling groups of units
 		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
 		KeyEnum  pressed = null;
@@ -169,7 +163,6 @@ public class Player {
 				break;
 			}
 		}
-
 		if(pressed!=null){
 			Player.selection = new Vector<Integer>();
 			for(Character o : plateau.getCharacters()){
@@ -183,15 +176,16 @@ public class Player {
 				}
 			}
 		}
-
 		// Handling hotkeys for gestion of selection
 		if (im.isPressed(KeyEnum.Tab)) {
 			if (selection.size() > 0) {
 				Utils.switchTriName(selection, plateau);
 			}
-
 		}
-
+		im.selection = new Vector<Integer>();
+		for(Integer o : selection){
+			im.selection.add(o);
+		}
 	}
 
 	public static Vector<Objet> getInCamObjets(Plateau plateau) {
@@ -212,42 +206,26 @@ public class Player {
 			rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
 			Player.selection.clear();
 			// handling the selection
+			Character c = null;
+			float distmin = 15f, disttemp;
 			for (Character o : plateau.getCharacters()) {
-				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)) && o.getTeam().id == im.team) {
+				disttemp = Utils.distance(o, recX, recY);
+				if (disttemp<distmin && o.getTeam().id == im.team) {
 					// add character to team selection
-					Player.selection.add(o.id);
-					System.out.println("  characlead");
+					c = o;
+					rectangleSelection = null;
+					distmin = disttemp;
 				}
 			}
-			if (Player.selection.size() == 0) {
-				for (Building o : plateau.getBuildings()) {
-					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id ==im.team) {
+			Vector<Objet> visibles = getInCamObjets(plateau);
+			if (c != null) {
+				for (Character o : plateau.getCharacters()) {
+					if (o.getTeam().id == im.team && o.name == c.name && visibles.contains(o) && !Player.selection.contains(o.id)) {
 						// add character to team selection
 						Player.selection.addElement(o.id);
 					}
 				}
 			}
-			Vector<Objet> visibles = getInCamObjets(plateau);
-			if (Player.selection.size() == 1) {
-				Objet ao = plateau.getById(Player.selection.get(0));
-				if (ao instanceof Character) {
-					for (Character o : plateau.getCharacters()) {
-						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
-							// add character to team selection
-							Player.selection.addElement(o.id);
-							System.out.println("    mythe!");
-						}
-					}
-				} else if (ao instanceof Building) {
-					for (Building o : plateau.getBuildings()) {
-						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
-							// add character to team selection
-							Player.selection.addElement(o.id);
-						}
-					}
-				}
-			}
-
 		}
 	}
 

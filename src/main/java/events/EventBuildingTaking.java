@@ -33,7 +33,7 @@ public class EventBuildingTaking extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		if(this.isActive){
 			if(parent.getTarget(plateau)!=null && this.idTarget == parent.getTarget(plateau).id && parent.getTarget(plateau).getTeam().id!=parent.team.id){
 				if(plateau.round%10==0 || ronds.size()==0){
@@ -48,7 +48,7 @@ public class EventBuildingTaking extends Event{
 		}
 		Vector<Rond> toRemove = new Vector<Rond>();
 		for(Rond r : ronds){
-			if(!r.play(g)){
+			if(!r.play(g, toDraw)){
 				toRemove.add(r);
 			}
 		}
@@ -78,7 +78,7 @@ public class EventBuildingTaking extends Event{
 			this.vj = (float) (Math.random()-0.5f)*10f;
 		}
 		
-		public boolean play(Graphics g){
+		public boolean play(Graphics g, boolean toDraw){
 			float a = (x-xEnd)*ix+(y-yEnd)*iy;
 			if(a>-15f){
 				return false;
@@ -88,10 +88,12 @@ public class EventBuildingTaking extends Event{
 			vj += aj;
 			x += vi*ix + vj*jx;
 			y += vi*iy + vj*jy;
-			Color c = Colors.getTeamColor(parent.team.id);
-			g.setColor(new Color(c.r,c.g,c.b,Math.min(0.6f, 1.0f+a/v)));
-			float size = Math.max(25f, 40f*(1f+a/v));
-			g.fillOval(x-size/2f, y-size/2f, size, size);
+			if(toDraw){
+				Color c = Colors.getTeamColor(parent.team.id);
+				g.setColor(new Color(c.r,c.g,c.b,Math.min(0.6f, 1.0f+a/v)));
+				float size = Math.max(25f, 40f*(1f+a/v));
+				g.fillOval(x-size/2f, y-size/2f, size, size);
+			}				
 			return true;
 		}
 		

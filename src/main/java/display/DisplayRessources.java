@@ -49,7 +49,7 @@ public class DisplayRessources extends Event{
 	
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		this.vy += 6f/Main.framerate;
 		this.y+=vy;
 		this.x+=vx;
