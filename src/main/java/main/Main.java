@@ -15,7 +15,7 @@ public class Main {
 	// A REGLER \\
 	public static float ratioSpace = 1f;
 	public static int framerate = 60;
-	public static int nDelay = 0;
+	public static int nDelay = 2;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
 	public static boolean fullscreen=true;
@@ -33,7 +33,7 @@ public class Main {
 //			fullscreen = true;
 //			int resolutionX = (int)screenSize.getWidth()/2;
 //			int resolutionY = (int)screenSize.getHeight()/2;
-			fullscreen = false;
+			//fullscreen = false;
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;

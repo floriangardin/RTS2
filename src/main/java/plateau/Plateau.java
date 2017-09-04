@@ -29,15 +29,9 @@ public class Plateau implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4212262274818996077L;
-
 	public int teamLooser = 0;
-
 	public int maxX;
 	public int maxY;
-
-
-	
-
 	public EndCondition getEndCondition() {
 		return endCondition;
 	}
@@ -45,12 +39,8 @@ public class Plateau implements java.io.Serializable {
 	public void setEndCondition(EndCondition endCondition) {
 		this.endCondition = endCondition;
 	}
-
-
-
 	private Vector<Objet> toAddObjet;
 	private Vector<Objet> toRemoveObjet;
-	
 	public MapGrid mapGrid;
 	private HashMap<Integer,Objet> objets;
 	// players
@@ -59,11 +49,7 @@ public class Plateau implements java.io.Serializable {
 	public int round = 0;
 	// Hold ids of objects
 	public int id = 0;
-	
 	private EndCondition endCondition;
-
-
-
 	public Plateau(int maxX, int maxY) {
 		// GENERAL
 		this.mapGrid = new MapGrid(maxX, maxY);
@@ -823,7 +809,11 @@ public class Plateau implements java.io.Serializable {
 
 	
 	public Building getHQ(Team team){
-		return (Building)this.getById(team.hq);
+		return (Building)this.getValues().stream()
+			.filter(x -> x.team.id==team.id)
+			.filter(x -> x.name==ObjetsList.Headquarters)
+			.findFirst()
+			.orElse(null);
 	}
 
 	public Objet getById(int id){

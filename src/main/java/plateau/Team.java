@@ -24,7 +24,7 @@ public class Team implements Serializable {
 
 	public String colorName;
 	public int food;
-	public int hq = -1 ;
+	//public int hq = -1 ;
 	public Color color;
 
 
@@ -34,6 +34,9 @@ public class Team implements Serializable {
 	public float timerMaxKill = 15f;
 
 	public boolean hasGaveUp;
+
+	public Vector<ObjetsList> techsDiscovered;
+	public Vector<ObjetsList> currentTechsProduced;
 
 
 	public Team(int id, Plateau plateau) {

@@ -27,6 +27,11 @@ public class MenuSystem extends ClassSystem {
 	public Credits credits;
 	
 	public MenuSystem(){
+		init();
+	}
+	
+	
+	public void init(){
 		menuIntro = new MenuIntro();
 		menuMapChoice = new MenuMapChoice();
 		menuMulti = new MenuMulti();
@@ -34,7 +39,7 @@ public class MenuSystem extends ClassSystem {
 		credits = new Credits();
 		setMenu(MenuNames.MenuIntro);
 	}
-
+	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		currentMenu.draw(g);

@@ -117,7 +117,7 @@ public class Map {
 				new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.teams.get((int)Float.parseFloat(tab[0])), plateau);
 			}
 			for(Team team : plateau.teams){
-				System.out.println(team.id+" "+team.hq);
+				System.out.println(team.id+" "+plateau.getHQ(team));
 			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
@@ -174,8 +174,8 @@ public class Map {
 			br.write("###########################\n");
 			br.write("= headquarters\n");
 			for(Team team : plateau.teams){
-				if(team.hq!=-1){
-					br.write(""+team.id+" "+((Building)plateau.getById(team.hq)).i+" "+((Building)plateau.getById(team.hq)).j+"\n");
+				if(plateau.getHQ(team)!=null){
+					br.write(""+team.id+" "+(plateau.getHQ(team)).i+" "+(plateau.getHQ(team)).j+"\n");
 				}
 			}
 			br.write("###########################\n");

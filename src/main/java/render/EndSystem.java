@@ -21,6 +21,7 @@ import plateau.Plateau;
 import ressources.Images;
 import ressources.Musics;
 import system.ClassSystem;
+import system.MenuSystem;
 import utils.Utils;
 
 public class EndSystem extends ClassSystem{
@@ -58,7 +59,7 @@ public class EndSystem extends ClassSystem{
 		}
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
-		destroyedHQ = (Building)plateau.getById(plateau.teams.get(plateau.teamLooser).hq);
+		destroyedHQ = (Building)plateau.getHQ(plateau.teams.get(plateau.teamLooser));
 		EventHandler.addEvent(EventNames.DestructionHQ, destroyedHQ, plateau);
 		vector = new Vector<Rond>();
 		this.plateau = plateau;
@@ -94,17 +95,10 @@ public class EndSystem extends ClassSystem{
 				Musics.musicPlaying.fade(1500, 0f, true);
 			}
 		} else {
-//			Game.g.isInMenu = true;
-//			Game.g.hasAlreadyPlay = true;
-//			Game.g.endGame = false;
-//			try {
-//				Game.g.normalServer.setBroadcast(true);
-//			} catch (SocketException e) {
-//				e.printStackTrace();
-//			}
-//			Map.initializePlateau(Game.g, 1, 1);
-//			Game.g.setMenu(Game.g.menuIntro);
+
+			Game.menuSystem.init();
 			Game.system = Game.menuSystem;
+			
 		}
 	}
 	

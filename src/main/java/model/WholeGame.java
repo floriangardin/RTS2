@@ -17,6 +17,7 @@ import display.Interface;
 import menu.Lobby;
 import multiplaying.ChatHandler;
 import multiplaying.Checksum;
+import plateau.Building;
 import plateau.Objet;
 import plateau.Plateau;
 import render.EndSystem;
@@ -45,11 +46,16 @@ public class WholeGame extends ClassSystem{
 		}
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
-		// Put camera at the center of headquarter
-		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
-		int xHQ =(int) hq.x;
-		int yHQ = (int)hq.y;
-		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		// Put camera at the center of headquarter if exists
+		Building hq = plateau.getHQ(Player.getTeam(plateau));
+		if(hq!=null){
+			int xHQ =(int) hq.x;
+			int yHQ = (int)hq.y;
+			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		}else{
+			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		}
+		
 		Interface.init(plateau);
 	}
 	
@@ -64,10 +70,14 @@ public class WholeGame extends ClassSystem{
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
 		// Put camera at the center of headquarter
-		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
-		int xHQ =(int) hq.x;
-		int yHQ = (int)hq.y;
-		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		Building hq =plateau.getHQ(Player.getTeam(plateau));
+		if(hq!=null){
+			int xHQ =(int) hq.x;
+			int yHQ = (int)hq.y;
+			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
+		}else{
+			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		}
 		Interface.init(plateau);
 	}
 	

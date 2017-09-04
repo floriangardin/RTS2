@@ -76,11 +76,8 @@ public class Game extends BasicGame
 	}
 }
 
-
-	
 /*
 	
-
 	// debugging tools
 	long timeSteps = 0;
 	public int nbGameTurn = 0;

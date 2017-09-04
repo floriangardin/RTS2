@@ -47,8 +47,7 @@ public class Building extends Objet{
 	public float chargeTime;
 	public int age=1;
 
-	public Vector<ObjetsList> techsDiscovered;
-	public Vector<ObjetsList> currentTechsProduced;
+
 	public MarkerBuilding marker;
 	public Vector<Circle> corners=new Vector<Circle>();
 
@@ -127,7 +126,7 @@ public class Building extends Objet{
 
 		// Remove units which not match tech required
 
-		Vector<ObjetsList> techDiscovered = getHQ(plateau).techsDiscovered;
+		Vector<ObjetsList> techDiscovered = team.techsDiscovered;
 		for(ObjetsList o : result){
 			Vector<ObjetsList> techsRequired =  this.getTeam().data.getAttributListAtt(o, Attributs.techsRequired);
 			if(techDiscovered.containsAll(techsRequired)){
@@ -201,7 +200,7 @@ public class Building extends Objet{
 				if(this.team.id==Player.team){
 					EventHandler.addEvent(new DisplayRessources(this, plateau,-foodCost,"food"), plateau);
 				}
-				getHQ(plateau).currentTechsProduced.add(getTechnologyList(plateau).get(unit));
+				team.currentTechsProduced.add(getTechnologyList(plateau).get(unit));
 				return true;
 			} else {
 				// Messages
@@ -227,11 +226,11 @@ public class Building extends Objet{
 
 	public void initHQ(){
 
-		this.techsDiscovered = new Vector<ObjetsList>();
+		this.team.techsDiscovered = new Vector<ObjetsList>();
 
-		this.currentTechsProduced = new Vector<ObjetsList>();
+		this.team.currentTechsProduced = new Vector<ObjetsList>();
 		
-		this.getTeam().hq = this.id;
+		
 		// List of potential production 
 
 
@@ -357,7 +356,7 @@ public class Building extends Objet{
 		if(this.queueTechnology!=null){
 
 			this.getTeam().food += this.getAttribut(this.queueTechnology.objet, Attributs.foodCost);
-			getHQ(plateau).currentTechsProduced.remove(this.queueTechnology.objet);
+			team.currentTechsProduced.remove(this.queueTechnology.objet);
 			this.queueTechnology=null;
 			this.setCharge(0f);
 
@@ -389,7 +388,7 @@ public class Building extends Objet{
 		Vector<ObjetsList> toReturn = new Vector<ObjetsList>();
 		for(ObjetsList t:getRawTechnologyList()){
 			boolean ok = true;
-			if(getHQ(plateau).currentTechsProduced.contains(t) || getHQ(plateau).techsDiscovered.contains(t)){	
+			if(team.currentTechsProduced.contains(t) || team.techsDiscovered.contains(t)){	
 				continue;
 			}
 
@@ -399,7 +398,7 @@ public class Building extends Objet{
 			for(String techRequired : techsRequired){
 				// Check we already have the techno required  discovered
 				boolean hasTech=false;
-				for(ObjetsList tech : getHQ(plateau).techsDiscovered){
+				for(ObjetsList tech : team.techsDiscovered){
 					if(tech.getName().equals(techRequired.toLowerCase())){
 						hasTech = true;
 						break;
@@ -428,8 +427,8 @@ public class Building extends Objet{
 			ChatHandler.addMessage(ChatMessage.getById(MessageType.RESEARCHCOMPLETE));
 		}
 		this.setCharge(0f);
-		getHQ(plateau).techsDiscovered.addElement(q.objet);
-		getHQ(plateau).currentTechsProduced.remove(q.objet);
+		team.techsDiscovered.addElement(q.objet);
+		team.currentTechsProduced.remove(q.objet);
 		q.applyEffect();
 		this.queueTechnology=null;
 
