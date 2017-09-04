@@ -146,7 +146,7 @@ public class Player {
 		
 		// If we click on nothing, just keep the current selection
 		if(rectangleSelection!=null && inRectangle.size()==0 && select.size()>0 && im.isDown(KeyEnum.LeftClick)){
-			System.out.println(select.size());
+			
 			im.selection = new Vector<Integer>();
 			for(Integer o : selectForEmptyClick){
 				im.selection.add(o);
@@ -157,8 +157,6 @@ public class Player {
 		}
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 && rectangleSelection!=null){
-
-			System.out.println(inRectangle.size());
 			Player.selection.clear();
 		}
 		if(select.size()>0){
