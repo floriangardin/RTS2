@@ -89,6 +89,7 @@ public abstract class Spell implements java.io.Serializable{
 		case SpecialArrow: spell = new SpellSpecialArrow(); break;
 		case Product: spell = new SpellProduct(); break;
 		case SpellFireball: spell = new SpellFireball();break;
+		case Health: spell = new SpellHealth(); break;
 		default:
 			System.out.println(s);
 		}
