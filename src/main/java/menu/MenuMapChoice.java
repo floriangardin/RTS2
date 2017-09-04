@@ -177,6 +177,7 @@ public class MenuMapChoice extends Menu {
 		//Checking starting of the game
 		if(Lobby.checkStartGame()){
 			this.seconds-=1f/Main.framerate;
+			this.seconds-=100f/Main.framerate;
 			if(this.seconds<=0){
 				launchGame();
 			}

@@ -5,6 +5,7 @@ import control.KeyMapper.KeyEnum;
 import control.Player;
 import data.Attributs;
 import main.Main;
+import model.Game;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
@@ -33,7 +34,8 @@ public class Camera {
 		Camera.maxY = maxY;
 	}	
 	public static boolean visibleByCamera(float x, float y, float size){
-		return x + size > Xcam && x - size < Xcam + resX && y + size > Ycam && y - size < Ycam + resY;
+		return (x + size)*Game.ratioX > Xcam && (x - size)*Game.ratioX < Xcam + resX 
+				&& (y + size)*Game.ratioY > Ycam && (y - size)*Game.ratioY < Ycam + resY;
 	}
 
 

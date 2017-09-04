@@ -7,6 +7,7 @@ import org.newdawn.slick.Input;
 
 import control.KeyMapper.KeyEnum;
 import display.Camera;
+import model.Game;
 import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
@@ -221,11 +222,6 @@ public class InputObject implements java.io.Serializable{
 //	}
 	
 	public void initInput(Input input){
-		initInitInput(input);
-		x = input.getMouseX() + Camera.Xcam;
-		y = input.getMouseY() + Camera.Ycam;
-	}
-	public void initInitInput(Input input){
 		time = System.nanoTime();
 		x = input.getMouseX();
 		y = input.getMouseY();
@@ -253,45 +249,10 @@ public class InputObject implements java.io.Serializable{
 				down.addElement(KeyMapper.mouseMapping.get(i));
 			}
 		}
-//		// Spells
-//		if(pressed.size()>0){
-//			if(pressed.contains(KeyEnum.LeftClick) && Game.g.spellCurrent!=null){
-//				int i = Game.g.spellLauncher.getSpellsName().indexOf(Game.g.spellCurrent);
-//				if(Game.g.spellLauncher.getSpellState(i)>=Game.g.data.spells.get(Game.g.spellCurrent).getAttribut(Attributs.chargeTime)){
-//					this.spell = Game.g.spellCurrent;
-//					this.idSpellLauncher = Game.g.spellLauncher.id;
-//					if(Game.g.spellTarget!=null){
-//						this.idObjetMouse = Game.g.spellTarget.id;
-//					} else {
-//						this.idObjetMouse = -1;
-//					}
-//					Game.g.spellCurrent = null;
-//					Game.g.spellLauncher = null;
-//					Game.g.spellTarget = null;
-//				}
-//				pressed.remove(KeyEnum.LeftClick);
-//				down.remove(KeyEnum.LeftClick);
-//			} else {
-//				Game.g.spellCurrent = null;
-//				Game.g.spellLauncher = null;
-//				Game.g.spellTarget = null;
-//			}
-//			
-//		
-//			// ATTACK CLICK
-//			if(pressed.contains(KeyEnum.DeplacementOffensif) && !Game.g.attackClick){
-//				Game.g.attackClick = true;
-//				pressed.remove(KeyEnum.DeplacementOffensif);
-//			}
-//			else if(pressed.contains(KeyEnum.LeftClick) && Game.g.attackClick){
-//				pressed.remove(KeyEnum.LeftClick);
-//				Game.g.attackClick = false;
-//				pressed.add(KeyEnum.DeplacementOffensif);
-//			} else {
-//				Game.g.attackClick = false;
-//			}
-//		}
+		x = (input.getMouseX() + Camera.Xcam)/Game.ratioX;
+		y = (input.getMouseY() + Camera.Ycam)/Game.ratioY;
 	}
+	
 
 	public void validate(int player){
 		if(validated.size()>player){

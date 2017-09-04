@@ -55,8 +55,8 @@ public class Menu_Item {
 
 
 	public boolean isMouseOver(InputObject im){
-		float xMouse = im.x;
-		float yMouse = im.y;
+		float xMouse = im.xOnScreen;
+		float yMouse = im.yOnScreen;
 		return (x-sizeX/2f<xMouse && xMouse<x+sizeX/2f && y-sizeY/2f<yMouse && yMouse<y+sizeY/2f);
 	}
 
