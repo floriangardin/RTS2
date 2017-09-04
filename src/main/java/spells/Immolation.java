@@ -53,7 +53,7 @@ public class Immolation extends SpellEffect{
 		if(owner!=null && this.remainingTime-1f/Main.framerate<=0f){
 			// Test if explosion
 			if(getOwner(plateau).getAttribut(Attributs.explosionWhenImmolate)==1){
-				for(Character c : plateau.characters){
+				for(Character c : plateau.getCharacters()){
 					if(Utils.distance(c, this.getOwner(plateau))<100f && c!=this.getOwner(plateau)){
 						c.setLifePoints(c.lifePoints-20f, plateau);
 					}

@@ -684,13 +684,13 @@ public class Interface {
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		g.drawImage(Images.get("islandTexture"),startXMiniMap+offsetDrawX, startYMiniMap, startXMiniMap+offsetDrawX+widthMiniMap, startYMiniMap+heightMiniMap,0,0,Images.get("islandTexture").getWidth(),Images.get("islandTexture").getHeight());
-		for(NaturalObjet q : plateau.naturalObjets){
+		for(NaturalObjet q : plateau.getNaturalObjets()){
 			g.setColor(Color.green);
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.x-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.y-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
 		}
 		// Draw units on Camera 
 		g.setAntiAlias(true);
-		for(Character c : plateau.characters){		
+		for(Character c : plateau.getCharacters()){		
 			if(c.getTeam().id==2){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
@@ -708,7 +708,7 @@ public class Interface {
 		}
 
 
-		for(Bonus c : plateau.bonus){
+		for(Bonus c : plateau.getBonus()){
 			if(c.getTeam().id==0){
 				g.setColor(Colors.team0);
 
@@ -735,7 +735,7 @@ public class Interface {
 					ratioHeightMiniMap*c.getAttribut(Attributs.size));
 		}
 		g.setAntiAlias(false);
-		for(Building c : plateau.buildings){
+		for(Building c : plateau.getBuildings()){
 			if(c.getTeam().id==0){
 				g.setColor(Colors.team0);
 

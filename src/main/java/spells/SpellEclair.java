@@ -20,7 +20,7 @@ public class SpellEclair extends Spell{
 	public void launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		Objet h = target;
-		for(Character c : plateau.characters){
+		for(Character c : plateau.getCharacters()){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}

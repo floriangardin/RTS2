@@ -39,7 +39,6 @@ public abstract class Bonus extends Building{
 		this.lifePoints = 1f;
 		this.constructionPoints=0f;
 		this.setTeam(0, p);
-		p.bonus.addElement(this);
 		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,collisionBox.getWidth(),collisionBox.getHeight());
 		this.hitBoxSize = 30f*Main.ratioSpace;

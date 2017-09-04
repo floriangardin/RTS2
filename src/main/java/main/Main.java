@@ -18,7 +18,7 @@ public class Main {
 	public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
-	public static boolean fullscreen;
+	public static boolean fullscreen=true;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -28,17 +28,18 @@ public class Main {
 		
 		try {
 			
-//			int resolutionX = (int)screenSize.getWidth();
-//			int resolutionY = (int)screenSize.getHeight();
+			int resolutionX = (int)screenSize.getWidth();
+			int resolutionY = (int)screenSize.getHeight();
 //			fullscreen = true;
-			int resolutionX = (int)screenSize.getWidth()/2;
-			int resolutionY = (int)screenSize.getHeight()/2;
+//			int resolutionX = (int)screenSize.getWidth()/2;
+//			int resolutionY = (int)screenSize.getHeight()/2;
 			fullscreen = false;
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setIcon("ressources/images/danger/iconeJeu.png");
 			app.setDisplayMode(resolutionX, resolutionY, fullscreen);
+			app.setFullscreen(fullscreen);
 			app.setShowFPS(true);
 			app.setAlwaysRender(true);
 			app.setUpdateOnlyWhenVisible(false);

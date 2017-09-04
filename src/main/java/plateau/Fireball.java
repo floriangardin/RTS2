@@ -77,7 +77,7 @@ public class Fireball extends Bullet {
 		}
 	}
 	public void explode(Plateau plateau){
-		for(Character c : plateau.characters){
+		for(Character c : plateau.getCharacters()){
 			if(c.getTeam().id!=this.owner){
 				boolean isIntersected = ((c.getX()-this.getX())*(c.getX()-this.getX())+
 						(c.getY()-this.getY())*(c.getY()-this.getY()))< 

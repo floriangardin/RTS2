@@ -53,7 +53,7 @@ public class RenderEngine {
 		EventHandler.render(g, plateau, false);
 		
 		Vector<Objet> objets = new Vector<Objet>();
-		for(Objet o : plateau.objets.values()){
+		for(Objet o : plateau.getObjets().values()){
 			objets.add(o);
 		}
 		objets = Utils.triY(objets);

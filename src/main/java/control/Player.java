@@ -95,13 +95,13 @@ public class Player {
 		
 		// Update in rectangle
 		inRectangle.clear();
-		for(Character o : plateau.characters){
+		for(Character o : plateau.getCharacters()){
 			if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
 				inRectangle.add(o.id);
 			}
 		}
 		if(inRectangle.size()==0){
-			for(Building o : plateau.buildings){
+			for(Building o : plateau.getBuildings()){
 				if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
 					inRectangle.add(o.id);
 				}
@@ -172,12 +172,12 @@ public class Player {
 
 		if(pressed!=null){
 			Player.selection = new Vector<Integer>();
-			for(Character o : plateau.characters){
+			for(Character o : plateau.getCharacters()){
 				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
 					Player.selection.add(o.id);
 				}
 			}
-			for(Building o : plateau.buildings){
+			for(Building o : plateau.getBuildings()){
 				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
 					Player.selection.add(o.id);
 				}
@@ -197,7 +197,7 @@ public class Player {
 	public static Vector<Objet> getInCamObjets(Plateau plateau) {
 		Vector<Objet> res = new Vector<Objet>();
 
-		for(Objet o : plateau.objets.values()){
+		for(Objet o : plateau.getObjets().values()){
 			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
 				res.add(o);
 			}
@@ -212,7 +212,7 @@ public class Player {
 			rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
 			Player.selection.clear();
 			// handling the selection
-			for (Character o : plateau.characters) {
+			for (Character o : plateau.getCharacters()) {
 				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)) && o.getTeam().id == im.team) {
 					// add character to team selection
 					Player.selection.add(o.id);
@@ -220,7 +220,7 @@ public class Player {
 				}
 			}
 			if (Player.selection.size() == 0) {
-				for (Building o : plateau.buildings) {
+				for (Building o : plateau.getBuildings()) {
 					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id ==im.team) {
 						// add character to team selection
 						Player.selection.addElement(o.id);
@@ -231,7 +231,7 @@ public class Player {
 			if (Player.selection.size() == 1) {
 				Objet ao = plateau.getById(Player.selection.get(0));
 				if (ao instanceof Character) {
-					for (Character o : plateau.characters) {
+					for (Character o : plateau.getCharacters()) {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
 							Player.selection.addElement(o.id);
@@ -239,7 +239,7 @@ public class Player {
 						}
 					}
 				} else if (ao instanceof Building) {
-					for (Building o : plateau.buildings) {
+					for (Building o : plateau.getBuildings()) {
 						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
 							// add character to team selection
 							Player.selection.addElement(o.id);

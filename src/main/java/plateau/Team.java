@@ -69,12 +69,12 @@ public class Team implements Serializable {
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : plateau.buildings){
+		for(Building b : plateau.getBuildings()){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
 		}
-		for(Character b : plateau.characters){
+		for(Character b : plateau.getCharacters()){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
@@ -91,7 +91,7 @@ public class Team implements Serializable {
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : plateau.buildings){
+		for(Building b : plateau.getBuildings()){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popGiven);
 			}
