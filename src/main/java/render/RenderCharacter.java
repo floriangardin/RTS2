@@ -99,7 +99,6 @@ public class RenderCharacter {
 		if(target !=null && target instanceof Checkpoint){
 			RenderCheckpoint.render((Checkpoint) target, g, plateau);
 		}
-		
 		if(target !=null && target instanceof Building){
 			RenderCheckpoint.render(((Building) target).marker, g, plateau);
 		}

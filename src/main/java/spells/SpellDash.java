@@ -23,6 +23,10 @@ public class SpellDash extends Spell{
 	}
 
 	public void launch(Objet target, Character launcher, Plateau plateau){
+		if(launcher==null || target==null){
+			return;
+		}
+		
 		launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
 		launcher.attributsChanges.add(new AttributsChange(Attributs.maxVelocity,Change.SET,this.getAttribut(Attributs.bonusSpeed),this.getAttribut(Attributs.totalTime)));
 		Vector<Objet> v = new Vector<Objet>();
