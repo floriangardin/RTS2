@@ -85,7 +85,7 @@ public abstract class Objet implements java.io.Serializable {
 		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
 	}
 	
-	public void updateAttributsChange(){
+	public void updateAttributsChange(Plateau plateau){
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
 			ac.remainingTime-=1f*Main.increment;
@@ -99,9 +99,9 @@ public abstract class Objet implements java.io.Serializable {
 		// handling end of dash
 		if(this.inDash>0f){
 			this.inDash-=1f*Main.increment;
-//			if(this.inDash<=0f && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint)){
-//				this.mode = Character.AGGRESSIVE;
-//			}
+			if(this.inDash<=0f && this.getTarget(plateau)!=null && (this.getTarget(plateau) instanceof Checkpoint)){
+				this.mode = Character.AGGRESSIVE;
+			}
 		}
 	}
 	

@@ -280,7 +280,7 @@ public class Building extends Objet{
 	public void action(Plateau plateau){
 		Objet rallyPoint = getRallyPoint(plateau);
 		// PRODUCTION	
-		this.updateAttributsChange();
+		this.updateAttributsChange(plateau);
 		giveUpProcess(plateau);
 
 		if(underAttackRemaining>0f){
