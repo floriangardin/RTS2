@@ -1,8 +1,0 @@
-{
-prototype:"Spell",
-printName:"Soin",
-chargeTime:15,
-range:400,
-faithCost:2,
-totalTime:8
-}

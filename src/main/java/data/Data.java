@@ -86,7 +86,7 @@ public class Data implements java.io.Serializable {
 
 	public void initHashMap(){
 		// création de la hashmap d'attributs
-		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/dualists/", "json");
+		HashMap<String, String> files = Utils.loadRepertoire("ressources/data/objets/all/", "json");
 		files.putAll(Utils.loadRepertoire("ressources/data/objets/0_nature/", "json"));
 		for(String name : files.keySet()){
 			this.datas.put(ObjetsList.get(name), new DataObjet(files.get(name)));

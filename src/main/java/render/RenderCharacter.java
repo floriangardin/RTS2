@@ -22,7 +22,6 @@ public class RenderCharacter {
 		
 		//g.setColor(Color.blue); // Draw selection box : 
 		//g.drawRect(character.selectionBox.getX(), character.selectionBox.getY(),character.selectionBox.getWidth(), character.selectionBox.getHeight());
-		g.draw(character.selectionBox);
 		float r = 60f*Main.ratioSpace;
 		int direction = (character.orientation/2-1);
 		// inverser gauche et droite
