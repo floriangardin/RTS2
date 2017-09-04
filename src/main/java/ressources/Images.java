@@ -188,7 +188,7 @@ public class Images {
 					im = new Image(name+s+".svg");
 					images.put(s,im);
 					//images.put(s, new Image(name+s+".svg"));
-				} else if (!s.contains(".") && !s.equals("unit")){
+				} else if (!s.contains(".") && !s.equals("unit") && !s.equals("ignore")){
 					// nouveau répertoire
 					loadRepertoire(name+s+"/");
 
