@@ -12,6 +12,7 @@ weapon:"bible",
 animStep:20,
 prodTime:20,
 faithCost:0,
+foodCost:70,
 range:70,
 spells:Health,
 explosionWhenImmolate:0
