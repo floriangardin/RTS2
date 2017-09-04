@@ -98,8 +98,6 @@ public class Character extends Objet{
 			this.addSpell(ObjetsList.valueOf(s));
 			this.spellsState.addElement(0f);
 		}
-
-
 	}
 
 	public void addSpellEffect(SpellEffect e){
