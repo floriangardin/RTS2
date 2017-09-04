@@ -46,6 +46,7 @@ public class RenderEngine {
 	public static void render(Graphics g, Plateau plateau){
 
 		g.translate(-Camera.Xcam, -Camera.Ycam);
+		//g.scale(0.5f,0.5f);
 		// Draw background
 		renderBackground(g, plateau);
 
