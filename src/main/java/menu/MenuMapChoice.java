@@ -164,9 +164,11 @@ public class MenuMapChoice extends Menu {
 		// Updating items
 		synchronized(Lobby.players){
 			for(Menu_Player mp : Lobby.players){
-				if(mp.id==Player.getID() && !mp.isReady){
-					mp.update(im);
-					Player.setTeam(mp.team);
+				if(mp.id==Player.getID()){
+					if(!mp.isReady){
+						mp.update(im);
+						Player.setTeam(mp.team);
+					}
 					if(GameServer.hasLaunched){
 						mp.isHost = true;
 						mp.idMap = Lobby.idCurrentMap;
