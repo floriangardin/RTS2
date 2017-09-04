@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
 
 import data.Attributs;
 import main.Main;
@@ -89,7 +90,10 @@ public class RenderCharacter {
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
-		g.draw(character.collisionBox);
+		Circle collision = (Circle)character.collisionBox;
+		float ratio = 1.5f;
+		collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
+		g.draw(collision);
 		Objet target = character.getTarget(plateau);
 		
 		if(target !=null && target instanceof Checkpoint){
