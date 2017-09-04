@@ -639,7 +639,6 @@ public class Plateau implements java.io.Serializable {
 	void handleMouseHover(InputObject im) {
 		for (Character c : getCharacters()) {
 			if (c.selectionBox.contains(im.x, im.y)) {
-				System.out.println("Mouse is over");
 				c.mouseOver = true;
 			} else {
 				c.mouseOver = false;
