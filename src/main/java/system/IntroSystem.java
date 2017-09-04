@@ -105,7 +105,7 @@ public class IntroSystem extends ClassSystem{
 			}
 		}
 		LoadingList.setDeferredLoading(true);
-		//Musics.init();
+		Musics.init();
 		EventHandler.init();
 		Sounds.init();
 		GraphicElements.init();
