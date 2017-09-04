@@ -72,6 +72,7 @@ public abstract class Spell implements java.io.Serializable{
 
 
 	public static Spell createSpell(ObjetsList s, Team team) {
+
 		Spell spell = null;
 		switch(s){
 		case BlessedArea: spell = new SpellBlessedArea();break;
@@ -87,6 +88,7 @@ public abstract class Spell implements java.io.Serializable{
 		case InstantHealth: spell = new SpellInstantHealth(); break;
 		case SpecialArrow: spell = new SpellSpecialArrow(); break;
 		case Product: spell = new SpellProduct(); break;
+		case SpellFireball: spell = new SpellFireball();break;
 		default:
 			System.out.println(s);
 		}
