@@ -50,7 +50,9 @@ public class GameServer extends Listener {
 	}
 	
 	public static void close(){
-		server.close();
+		if(server!=null){
+			server.close();
+		}
 		hasLaunched = false;
 	}
 	
@@ -58,7 +60,7 @@ public class GameServer extends Listener {
 		// If connection send plateau to id
 		System.out.println("Connection received.");
 		if(GameClient.getPlateau() != null){			
-			server.sendToAllTCP( new Message(GameClient.getPlateau()));
+			server.sendToAllTCP(new Message(GameClient.getPlateau()));
 		}
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		server.sendToTCP(c.getID(), "");

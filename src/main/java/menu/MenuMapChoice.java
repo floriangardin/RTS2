@@ -24,9 +24,7 @@ import system.MenuSystem.MenuNames;
 
 public class MenuMapChoice extends Menu {
 
-
 	public int selected = 0;
-
 	float startY;
 	float stepY;
 
@@ -34,12 +32,10 @@ public class MenuMapChoice extends Menu {
 	float startYMapChoice;
 	float sizeXMapChoice;
 	float sizeYMapChoice;
-
 	float startXPlayers;
 	float startYPlayers;
 	float sizeXPlayers;
 	float sizeYPlayers;
-
 	long startGame = 0;
 	public float seconds = 4;
 
