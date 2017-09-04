@@ -22,7 +22,6 @@ public class RenderCharacter {
 		
 		//g.setColor(Color.blue); // Draw selection box : 
 		//g.drawRect(character.selectionBox.getX(), character.selectionBox.getY(),character.selectionBox.getWidth(), character.selectionBox.getHeight());
-		g.draw(character.selectionBox);
 		float r = 60f*Main.ratioSpace;
 		int direction = (character.orientation/2-1);
 		// inverser gauche et droite
@@ -40,6 +39,7 @@ public class RenderCharacter {
 				color = new Color(250,0,0,0.4f);
 			}
 			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
+			System.out.println("will draw mouse over");
 			drawFlash(g, color, character, plateau);
 		}
 		else{
