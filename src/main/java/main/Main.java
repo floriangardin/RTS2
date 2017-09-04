@@ -15,7 +15,7 @@ public class Main {
 	public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
-	public static boolean fullscreen=false;
+	public static boolean fullscreen=true;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -24,13 +24,14 @@ public class Main {
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		
 		try {
-			
-			int resolutionX = (int)screenSize.getWidth();
-			int resolutionY = (int)screenSize.getHeight();
-			fullscreen = true;
-//			int resolutionX = (int)screenSize.getWidth()*2/3;
-//			int resolutionY = (int)screenSize.getHeight()*2/3;
-//			fullscreen = false;
+			int resolutionX, resolutionY;
+			if(fullscreen){
+				resolutionX = (int)screenSize.getWidth();
+				resolutionY = (int)screenSize.getHeight();
+			} else {
+				resolutionX = (int)screenSize.getWidth()*2/3;
+				resolutionY = (int)screenSize.getHeight()*2/3;
+			}
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;

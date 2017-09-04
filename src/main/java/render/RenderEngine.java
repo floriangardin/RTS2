@@ -105,8 +105,6 @@ public class RenderEngine {
 //			
 //		}
 		// Draw interface
-		g.setColor(Color.white);
-		g.fillOval(xmouse-10, ymouse-10,20,20);
 		g.scale(1920f/Game.resX, 1080f/Game.resY);
 		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);
