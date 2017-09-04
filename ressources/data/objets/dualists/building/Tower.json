@@ -2,8 +2,9 @@
 printName:"Tower",
 prototype:"Building",
 damage:3,
-sizeX:2,
-sizeY:2,
+sizeX:1,
+sizeY:1,
 canAttack:1,
-defendable:0
+defendable:0,
+newdesign:0
 }

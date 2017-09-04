@@ -63,7 +63,7 @@ public class GraphicElements {
 		
 		// cursors
 		try {
-			cursor = new Image("ressources/images/cursor.png").getSubImage(0, 0, 24, 64);
+			cursor = new Image("ressources/images/cursor.png").getSubImage(0, 0, 24, 64);	
 			Game.app.setMouseCursor(cursor,5,16);
 			imageFogOfWar = new Image(Game.resX,Game.resY);
 			graphicFogOfWar = imageFogOfWar.getGraphics();

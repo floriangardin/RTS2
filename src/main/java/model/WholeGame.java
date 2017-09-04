@@ -67,6 +67,7 @@ public class WholeGame extends ClassSystem{
 			GameClient.setPlateau(Map.createPlateau("testcollision2", "maps"));
 //			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		}
+		Game.endSystem = null;
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
 		// Put camera at the center of headquarter

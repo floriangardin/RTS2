@@ -133,37 +133,37 @@ public class MenuMapChoice extends Menu {
 
 	public void update(InputObject im){
 		// handling connexions
-		
-			// checking disconnecting players
-			//			if(Game.gameSystem.host && this.startGame==0 && seconds>2){
-			//				int toRemove = -1;
-			//				for(int i=2 ; i<this.Lobby.players.size(); i++){
-			//					Menu_Player mp = this.Lobby.players.get(i);
-			//					if(mp!=null && mp.hasBeenUpdated){
-			//						mp.messageDropped=0;
-			//						mp.hasBeenUpdated = false;
-			//					} else {
-			//						mp.messageDropped++;
-			//						if(mp.messageDropped>2f*Main.framerate){
-			//							//System.out.println("disconnecting player:"+i);
-			//							toRemove=i;
-			//						}
-			//					}
-			//				}
-			//				if(toRemove!=-1){
-			//					int k = toRemove;
-			//					Lobby.removePlayer(k);
-			//					for(int i=0; i<Game.players.size(); i++){
-			//						Game.players.get(i).id = i;
-			//					}
-			//					this.initializeMenuPlayer();
-			//				}
-			//			}
+
+		// checking disconnecting players
+		//			if(Game.gameSystem.host && this.startGame==0 && seconds>2){
+		//				int toRemove = -1;
+		//				for(int i=2 ; i<this.Lobby.players.size(); i++){
+		//					Menu_Player mp = this.Lobby.players.get(i);
+		//					if(mp!=null && mp.hasBeenUpdated){
+		//						mp.messageDropped=0;
+		//						mp.hasBeenUpdated = false;
+		//					} else {
+		//						mp.messageDropped++;
+		//						if(mp.messageDropped>2f*Main.framerate){
+		//							//System.out.println("disconnecting player:"+i);
+		//							toRemove=i;
+		//						}
+		//					}
+		//				}
+		//				if(toRemove!=-1){
+		//					int k = toRemove;
+		//					Lobby.removePlayer(k);
+		//					for(int i=0; i<Game.players.size(); i++){
+		//						Game.players.get(i).id = i;
+		//					}
+		//					this.initializeMenuPlayer();
+		//				}
+		//			}
 		// Checking if all players are ready then launch the game
 		// Updating items
 		synchronized(Lobby.players){
 			for(Menu_Player mp : Lobby.players){
-				if(mp.id==Player.getID()){
+				if(mp.id==Player.getID() && !mp.isReady){
 					mp.update(im);
 					Player.setTeam(mp.team);
 					if(GameServer.hasLaunched){
@@ -177,25 +177,29 @@ public class MenuMapChoice extends Menu {
 		this.updateItems(im);
 		//Checking starting of the game
 		if(Lobby.checkStartGame()){
-			this.seconds-=60f/Main.framerate;
+			this.seconds-=1f/Main.framerate;
 			if(this.seconds<=0){
 				launchGame();
 			}
 		}
 		// Updating map choices
-		if(GameServer.hasLaunched){
-			for(int i=0; i<Lobby.maps.size(); i++){
-				Menu_Map item = mapchoices.get(i);
-				item.update(im);
-				if(item.isSelected){
-					Lobby.idCurrentMap = Lobby.maps.get(i);
-					for(int j=0; j<Lobby.maps.size(); j++){
-						if(j!=i){
-							mapchoices.get(j).isSelected = false;
+		for(Menu_Player mp : Lobby.players){
+			if(mp.id==Player.getID() && !mp.isReady){
+				if(GameServer.hasLaunched){
+					for(int i=0; i<Lobby.maps.size(); i++){
+						Menu_Map item = mapchoices.get(i);
+						item.update(im);
+						if(item.isSelected){
+							Lobby.idCurrentMap = Lobby.maps.get(i);
+							for(int j=0; j<Lobby.maps.size(); j++){
+								if(j!=i){
+									mapchoices.get(j).isSelected = false;
+								}
+							}
 						}
 					}
 				}
-			}	
+			}
 		}
 	}
 
@@ -205,14 +209,14 @@ public class MenuMapChoice extends Menu {
 		// Init gameSystem
 		Game.gameSystem = new WholeGame();
 		Game.system = Game.gameSystem;
-		
+
 		// Send Plateau to all
-		
-//		Camera.maxX = (int) MaxX;
-//		Camera.maxY = (int) MaxY;
-//		Camera.minX = 0;
-//		Camera.minY = 0;
-		
+
+		//		Camera.maxX = (int) MaxX;
+		//		Camera.maxY = (int) MaxY;
+		//		Camera.minX = 0;
+		//		Camera.minY = 0;
+
 	}
 
 

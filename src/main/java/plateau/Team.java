@@ -63,7 +63,7 @@ public class Team implements Serializable {
 
 
 	public boolean enoughPop(ObjetsList o, Plateau plateau){
-		return (getPop(plateau)+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop(plateau)|| this.data.getAttribut(o, Attributs.popTaken)==0 );
+		return (getPop(plateau)+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop(plateau))|| this.data.getAttribut(o, Attributs.popTaken)==0;
 	}
 
 	public int getPop(Plateau plateau) {

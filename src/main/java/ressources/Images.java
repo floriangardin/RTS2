@@ -65,7 +65,7 @@ public class Images {
 //		resizeBuilding("mill");
 //		resizeBuilding(q"mine");
 //		resizeBuilding("stable");
-		resizeBuilding("tower");
+//		resizeBuilding("tower");
 		resizeBuilding("university");
 
 		// bullets

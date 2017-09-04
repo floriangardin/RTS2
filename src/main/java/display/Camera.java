@@ -93,5 +93,13 @@ public class Camera {
 		objXcam = xObj-resX/2;
 		objYcam = yObj-resY/2;
 	}
+	public static void reset() {
+		Camera.resX = 0;
+		Camera.resY = 0;
+		Camera.Xcam = 0;
+		Camera.Ycam = 0;
+		Camera.maxX = 0;
+		Camera.maxY = 0;
+	}	
 
 }

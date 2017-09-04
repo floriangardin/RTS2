@@ -14,6 +14,7 @@ import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import model.Game;
+import model.GameServer;
 import plateau.Building;
 import plateau.NaturalObjet;
 import plateau.Objet;
@@ -95,8 +96,9 @@ public class EndSystem extends ClassSystem{
 				Musics.musicPlaying.fade(1500, 0f, true);
 			}
 		} else {
-
 			Game.menuSystem.init();
+			Camera.reset();
+			GameServer.close();
 			Game.system = Game.menuSystem;
 			
 		}

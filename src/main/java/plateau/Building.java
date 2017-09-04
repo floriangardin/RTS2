@@ -489,7 +489,7 @@ public class Building extends Objet{
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			if(this.potentialTeam!=this.getTeam().id  ){
-				if(this.getTeam().enoughPop(this.name, plateau)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
+				if(plateau.teams.get(this.potentialTeam).enoughPop(this.name, plateau)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam, plateau);
 
