@@ -16,12 +16,10 @@ import utils.ObjetsList;
 
 public class SpellDash extends Spell{
 
-	
+
 	public SpellDash(){
 		this.name = ObjetsList.Dash;
-		
 	}
-
 	public void launch(Objet target, Character launcher, Plateau plateau){
 		if(launcher==null || target==null){
 			return;
@@ -38,7 +36,6 @@ public class SpellDash extends Spell{
 		}
 		EventHandler.addEvent(EventNames.Dash, launcher, plateau);
 	}
-
 
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk, Plateau plateau) {
