@@ -4,4 +4,5 @@ replays/
 target/
 .idea/
 .classpath
+*.rtsfile
 
