@@ -15,6 +15,7 @@ import main.Main;
 import model.Game;
 import plateau.Character;
 import plateau.Checkpoint;
+import plateau.Fireball;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
@@ -28,7 +29,7 @@ public class BurningArea extends SpellEffect{
 	public float endTime = 0.3f;
 	public float size;
 
-	public BurningArea(int launcher, Checkpoint t, float size, Plateau plateau){
+	public BurningArea(int launcher, Objet fireball, float size, Plateau plateau){
 		super(plateau);
 		this.name = ObjetsList.BurningAreaEffect;
 		this.type = 2;
@@ -38,9 +39,10 @@ public class BurningArea extends SpellEffect{
 		this.lifePoints = 1f;
 		plateau.addSpell(this);
 		this.team = plateau.getById(launcher).getTeam();
-		this.collisionBox = createShape(t, size);
-		this.x = t.getX();
-		this.y = t.getY();
+		this.collisionBox = createShape(fireball, size);
+		this.x = fireball.getX();
+		this.y = fireball.getY();
+		this.remainingTime = this.totalTime;
 		EventHandler.addEvent(EventNames.BurningArea, this, plateau);
 	}
 	

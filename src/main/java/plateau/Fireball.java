@@ -87,8 +87,7 @@ public class Fireball extends Bullet {
 				}
 			}
 		}
-
-		new BurningArea(this.owner, new Checkpoint(x,y, plateau), this.areaEffect, plateau);
+		new BurningArea(this.owner, this, this.areaEffect, plateau);
 		this.explosion = true;
 	}
 	public void boom(Character c, Plateau plateau){
@@ -103,7 +102,7 @@ public class Fireball extends Bullet {
 
 	}
 
-	
+
 
 
 

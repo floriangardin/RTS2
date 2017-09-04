@@ -25,12 +25,12 @@ public class Main {
 		
 		try {
 			
-			int resolutionX = (int)screenSize.getWidth();
-			int resolutionY = (int)screenSize.getHeight();
-			fullscreen = true;
-//			int resolutionX = (int)screenSize.getWidth()*2/3;
-//			int resolutionY = (int)screenSize.getHeight()*2/3;
-//			fullscreen = false;
+//			int resolutionX = (int)screenSize.getWidth();
+//			int resolutionY = (int)screenSize.getHeight();
+//			fullscreen = true;
+			int resolutionX = (int)screenSize.getWidth()*2/3;
+			int resolutionY = (int)screenSize.getHeight()*2/3;
+			fullscreen = false;
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;

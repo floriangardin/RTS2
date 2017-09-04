@@ -161,7 +161,6 @@ public class Plateau implements java.io.Serializable {
 					}
 					EventHandler.addEvent(EventNames.Death, o, this);
 				}
-				
 				this.toRemoveObjet.add(obj);
 			}
 		}
