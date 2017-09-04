@@ -96,22 +96,23 @@ public class Player {
 		// Update in rectangle
 		inRectangle.clear();
 		for(Character o : plateau.getCharacters()){
-			if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
+			if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
 				inRectangle.add(o.id);
 			}
 		}
 		if(inRectangle.size()==0){
 			for(Building o : plateau.getBuildings()){
-				if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
+				if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
 					inRectangle.add(o.id);
 				}
 			}
 		}
+		
 
 	}
 
 	public static boolean rectangleIntersect(float xMin, float yMin, float xMax, float yMax, float size){
-		if(Player.rectangleSelection== null){
+		if(Player.rectangleSelection == null){
 			return false;
 		}
 		double interX = Math.min(xMax, Player.rectangleSelection.getMaxX()) - Math.max(xMin, Player.rectangleSelection.getMinX());
@@ -125,9 +126,11 @@ public class Player {
 		// Remove death and not team from selection
 
 		Vector<Integer> select = new Vector<Integer>();
+		Vector<Integer> selectForEmptyClick = new Vector<Integer>();
 		if(rectangleSelection == null){
 			select.addAll(selection);
 		}
+		selectForEmptyClick.addAll(selection);
 		Vector<Integer> toRemove = new Vector<Integer>();
 		for(Integer o : selection){
 			Objet ob = plateau.getById(o);
@@ -136,10 +139,24 @@ public class Player {
 			}
 		}
 		selection.removeAll(toRemove);
+		select.removeAll(toRemove);
+		
 		// As long as the button is pressed, the selection is updated
 		Player.updateRectangle(im, plateau);
+		
+		// If we click on nothing, just keep the current selection
+		if(rectangleSelection!=null && inRectangle.size()==0 && select.size()>0 && im.isDown(KeyEnum.LeftClick)){
+			
+			im.selection = new Vector<Integer>();
+			for(Integer o : selectForEmptyClick){
+				im.selection.add(o);
+			}
+			selection = selectForEmptyClick;
+			inRectangle.clear();
+			return;
+		}
 		// Put the content of inRectangle in selection
-		if(inRectangle.size()>0 || rectangleSelection!=null){
+		if(inRectangle.size()>0 && rectangleSelection!=null){
 			Player.selection.clear();
 		}
 		if(select.size()>0){
@@ -154,6 +171,7 @@ public class Player {
 		if(im.isPressed(KeyEnum.LeftClick) && im.isDown(KeyEnum.ToutSelection)){
 			Player.updateSelectionCTRL(im, plateau);
 		}
+		
 //		 Handling groups of units
 		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
 		KeyEnum  pressed = null;
