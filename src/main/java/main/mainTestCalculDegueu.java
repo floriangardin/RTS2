@@ -21,11 +21,7 @@ public class mainTestCalculDegueu {
 	public static void main(String[] args) throws SlickException {
 		
 		
-		Plateau plateau = Map.createPlateau("testIA");
-		while(true){
-			//plateau.update();
-			plateau.print();
-		}
-		//System.out.println("J'ai réussi youpi ...");
+		//Plateau plateau = Map.createPlateau("testIA");
+		
 	}
 }

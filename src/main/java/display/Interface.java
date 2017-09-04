@@ -178,7 +178,7 @@ public class Interface {
 			if(im.isPressed(KeyEnum.LeftClick) && Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
 				// check if launch spell
 				Character c = (Character) plateau.getById(Player.selection.get(0)); 
-				if(c.getSpellState(spellCurrent)>=c.getSpell(spellCurrent).getAttribut(Attributs.chargeTime)){
+				if(c.getSpell(spellCurrent)!=null && c.getSpellState(spellCurrent)>=c.getSpell(spellCurrent).getAttribut(Attributs.chargeTime)){
 					im.spell = spellCurrent;
 					im.idSpellLauncher = spellLauncher;
 					if(spellTarget!=null){
