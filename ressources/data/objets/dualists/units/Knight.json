@@ -9,5 +9,5 @@ damage:8,
 weapon:"sword",
 animStep:30,
 range:55,
-spells:Immolation-Meditation-Frozen
+spells:Frozen
 }

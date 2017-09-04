@@ -71,7 +71,6 @@ public class Fireball extends Bullet {
 		if(this.animation>=9)
 			this.animation = 0;
 
-
 		if(Utils.distance(this, this.getTarget(plateau))<this.size){
 			this.explode(plateau);
 		}
