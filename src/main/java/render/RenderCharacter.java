@@ -39,7 +39,6 @@ public class RenderCharacter {
 				color = new Color(250,0,0,0.4f);
 			}
 			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
-			System.out.println("will draw mouse over");
 			drawFlash(g, color, character, plateau);
 		}
 		else{
