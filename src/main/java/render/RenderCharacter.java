@@ -74,7 +74,6 @@ public class RenderCharacter {
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
 		g.fillRect(character.getX()-r/2,-46f+character.getY()-r,x*r,6f);
 	}
-
 	
 	public static void drawFlash(Graphics g, Color color, Character character, Plateau plateau){
 		int direction = (character.orientation/2-1);
@@ -85,7 +84,6 @@ public class RenderCharacter {
 		im = Images.getUnit(character.name, direction, character.animation, character.getTeam().id, character.isAttacking);
 		im.drawFlash(character.x-im.getWidth()/2,character.y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 	}
-
 
 	public static void renderSelection(Graphics g, Character character, Plateau plateau){
 
