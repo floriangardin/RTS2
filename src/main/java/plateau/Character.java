@@ -87,7 +87,7 @@ public class Character extends Objet{
 		this.x = x;
 		this.y = y;
 		this.collisionBox = new Circle(this.x,this.y,this.getAttribut(Attributs.size));
-		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-3*this.getAttribut(Attributs.size)/2,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
+		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-5*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 6*this.getAttribut(Attributs.size));
 		this.sightBox = new Circle(this.x,this.y,this.getAttribut(Attributs.sight));
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);

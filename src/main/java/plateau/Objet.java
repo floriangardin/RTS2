@@ -179,7 +179,8 @@ public abstract class Objet implements java.io.Serializable {
 		return y;
 	}
 	public void setXY(float x, float y, Plateau plateau){
-
+		float oldx = this.x  ;
+		float oldy = this.y ;
 		// handling old cases
 		Case c = plateau.mapGrid.getCase(this.idCase);
 		if(this instanceof Character){
@@ -226,7 +227,7 @@ public abstract class Objet implements java.io.Serializable {
 			((Character)this).sightBox.setCenterX(this.getX());
 			((Character)this).sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
 			this.selectionBox.setCenterX(this.x);
-			this.selectionBox.setCenterY(this.y);
+			this.selectionBox.setCenterY(this.y-2f*this.getAttribut(Attributs.size));
 			plateau.mapGrid.getCase(this.idCase).characters.add((Character)this);
 		} else if(this instanceof NaturalObjet){
 			plateau.mapGrid.getCase(this.idCase).naturesObjet.add((NaturalObjet)this);
