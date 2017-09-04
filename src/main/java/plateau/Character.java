@@ -802,11 +802,9 @@ public class Character extends Objet{
 			this.attackState-=2*Main.increment;
 		}
 
-		for(int i=0; i<this.getSpells().size(); i++){
-			this.spellsState.set(i,Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
+		for(int i=0; i<this.getSpells().size(); i++){	
+			this.spellsState.set(i, Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
-
-
 	}
 
 	public void updateSetTarget(Plateau plateau){

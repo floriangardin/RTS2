@@ -79,6 +79,7 @@ public enum ObjetsList {
 	InstantHealth(ObjetType.Spell),
 	SpecialArrow(ObjetType.Spell),
 	Product(ObjetType.Spell),
+	SpellFireball(ObjetType.Spell),
 	// Weapons
 	
 	ContactWeapon(ObjetType.Weapon),
@@ -149,6 +150,7 @@ public enum ObjetsList {
 		v.add(InstantHealth);
 		v.add(SpecialArrow);
 		v.add(Product);
+		v.add(SpellFireball);
 		return v;
 	}
 

@@ -779,11 +779,14 @@ public class Interface {
 		if(spellCurrent!=null){
 			Character characterSpellLauncher = (Character) plateau.getById(spellLauncher);
 			g.translate(-Camera.Xcam, -Camera.Ycam);
-			Spell s = characterSpellLauncher.getSpell(spellCurrent);
-			if(spellTarget!=null){	
-				s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
-			}else{
-				s.drawCast(g, null, spellX, spellY, characterSpellLauncher, true, plateau);	
+			if(characterSpellLauncher!=null){
+				
+				Spell s = characterSpellLauncher.getSpell(spellCurrent);
+				if(spellTarget!=null){	
+					s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
+				}else{
+					s.drawCast(g, null, spellX, spellY, characterSpellLauncher, true, plateau);	
+				}
 			}
 			g.translate(Camera.Xcam, Camera.Ycam);
 		}
