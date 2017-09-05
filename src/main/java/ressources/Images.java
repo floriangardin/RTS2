@@ -59,14 +59,12 @@ public class Images {
 		images.put("imagepop", images.get("imagepop").getScaledCopy(32,32));
 
 		// buildings
-		resizeBuilding("academy");
 //		resizeBuilding("barracks");
 //		resizeBuilding("headquarters");
 //		resizeBuilding("mill");
 //		resizeBuilding(q"mine");
 //		resizeBuilding("stable");
 //		resizeBuilding("tower");
-		resizeBuilding("university");
 
 		// bullets
 		images.put("arrow",images.get("arrow").getScaledCopy(2f*Main.ratioSpace));

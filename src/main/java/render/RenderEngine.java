@@ -39,15 +39,18 @@ public class RenderEngine {
 	// Draw Background
 	public static Image imageBackgroundNeutral;
 	public static Graphics graphicBackgroundNeutral;
-
 	public static Image imageBackground;
 	public static Graphics graphicBackground;
+	
+	// Waves
+	public static Vector<Wave> waves;
 
 	public static int i;
 
 	public static boolean isReady(){
 		if(!hasChecked){
 			checkIfReady();
+			waves = new Vector<Wave>();
 		}
 		return isReady;
 	}
@@ -166,7 +169,9 @@ public class RenderEngine {
 						break;
 					}
 				}
-				graphicBackgroundNeutral.drawImage(Images.get(s+i).getScaledCopy((int)c.sizeX,(int)c.sizeY), plateau.maxX/2+c.x,plateau.maxY/2+c.y);
+				if(it != IdTerrain.WATER){
+					graphicBackgroundNeutral.drawImage(Images.get(s+i).getScaledCopy((int)c.sizeX,(int)c.sizeY), plateau.maxX/2+c.x,plateau.maxY/2+c.y);
+				}
 				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10);
 				b4 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
 				ctemp = plateau.mapGrid.getCase(c.x-10, c.y-10);
@@ -274,8 +279,35 @@ public class RenderEngine {
 	public static void renderBackground(Graphics g, Plateau plateau){
 		if(imageBackground==null){
 			initBackground(plateau);
-
 		}
+		g.drawImage(Images.get("watertile0"),-plateau.maxX/2,-plateau.maxY/2,plateau.maxX*2,plateau.maxY*2,0,0,100,100);
+		// Handling waves
+		float x, y;
+		Case c;
+		boolean b;
+		for(int i=0; i<2; i++){
+			do{
+				b = false;
+				x = (float) (Math.random()*2*plateau.maxX-plateau.maxX/2);
+				y = (float) (Math.random()*2*plateau.maxY-plateau.maxY/2);
+				c = plateau.mapGrid.getCase(x-50f, y);
+				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
+				c = plateau.mapGrid.getCase(x, y);
+				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
+				c = plateau.mapGrid.getCase(x+100f, y);
+				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
+				c = plateau.mapGrid.getCase(x+150f, y);
+				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
+			} while(b);
+			waves.add(new Wave(x,y));
+		}
+		Vector<Wave> toRemove = new Vector<Wave>();
+		for(Wave w : waves){
+			if(!w.play(g, plateau)){
+				toRemove.add(w);
+			}
+		}
+		waves.removeAll(toRemove);
 		g.drawImage(imageBackground,-plateau.maxX/2, -plateau.maxY/2);
 
 	}
@@ -285,10 +317,14 @@ public class RenderEngine {
 		g1.setColor(new Color(255, 255, 255));
 		g1.fillRect(0, 0, Camera.resX, Camera.resX);
 		g1.setColor(new Color(50, 50, 50));
-		float xmin = Math.max(0, -Camera.Xcam);
-		float ymin = Math.max(0, -Camera.Ycam);
-		float xmax = Math.min(Camera.resX, plateau.maxX*Game.ratioX - Camera.Xcam);
-		float ymax = Math.min(Camera.resY, plateau.maxY*Game.ratioY - Camera.Ycam);
+//		float xmin = Math.max(0, -Camera.Xcam);
+//		float ymin = Math.max(0, -Camera.Ycam);
+//		float xmax = Math.min(Camera.resX, plateau.maxX*Game.ratioX - Camera.Xcam);
+//		float ymax = Math.min(Camera.resY, plateau.maxY*Game.ratioY - Camera.Ycam);
+		float xmin = 0;
+		float xmax = Camera.resX;
+		float ymin = 0;
+		float ymax = Camera.resY;
 		g1.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		g1.setColor(new Color(255, 255, 255));
 		for (Objet o : visibleObjets) {
@@ -472,6 +508,7 @@ public class RenderEngine {
 	//	toRemove.clear();
 
 
+	
 
 
 }
