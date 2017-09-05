@@ -7,6 +7,7 @@ import java.util.Vector;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+import display.Camera;
 import model.Options;
 import tests.FatalGillesError;
 import utils.ObjetsList;
@@ -16,7 +17,7 @@ public class Sounds {
 
 	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 	private static HashMap<String, HashMap<String, Vector<Sound>>> soundsUnit;
-
+	public static boolean isInit = false;
 	public static void init(){
 		// loading sounds
 		loadRepertoire("ressources/sounds/");
@@ -24,6 +25,7 @@ public class Sounds {
 		// loading soundsUnit
 		soundsUnit = new HashMap<String,HashMap<String,Vector<Sound>>>();
 		loadSoundsUnit();
+		isInit = true;
 	}
 
 	public static Sound get(String name) {
@@ -133,15 +135,30 @@ public class Sounds {
 	}
 
 	public static void playSound(String name){
+		if(!isInit){
+			return;
+		}
 		Sound s = get(name);
 		if(s!=null){
 			s.play(1f, Options.soundVolume);
 		}
 	}
 	public static void playSound(String name, float volume){
+		if(!isInit){
+			return;
+		}
 		Sound s = get(name);
 		if(s!=null){
 			s.play(1f, Options.soundVolume*volume);
 		}
+	}
+	
+	public static void playSoundAt(String name, float x, float y){
+		float distance =(float)Math.sqrt( (Camera.getCenterX()-x)*(Camera.getCenterX()-x)+(Camera.getCenterY()-y)*(Camera.getCenterY()-y));
+		playSound(name, (float)Math.exp(-distance/Camera.resX));
+	}
+	public static void playSoundAt(String name, float x, float y, float ratio){
+		float distance =(float)Math.sqrt( (Camera.getCenterX()-x)*(Camera.getCenterX()-x)+(Camera.getCenterY()-y)*(Camera.getCenterY()-y));
+		playSound(name, (float)Math.exp(-distance/Camera.resX)*ratio);
 	}
 }

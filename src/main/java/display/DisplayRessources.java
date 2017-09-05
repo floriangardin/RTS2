@@ -4,12 +4,14 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import control.Player;
 import events.Event;
 import main.Main;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.GraphicElements;
 import ressources.Images;
+import ressources.Sounds;
 
 
 public class DisplayRessources extends Event{
@@ -26,6 +28,9 @@ public class DisplayRessources extends Event{
 	
 	public DisplayRessources(Objet parent, Plateau plateau, float price, String ressource){
 		super(parent, plateau);
+		if(plateau.isVisibleByTeam(Player.team, parent) && price > 0 ){ // C'est une rentrée d'argent
+			Sounds.playSoundAt("bonusTaken", parent.getX(), parent.getY(), 0.2f);
+		}
 		this.topLayer = true;
 		switch(ressource){
 		case "gold" : this.image = Images.get("imageGolddisplayressources");break;

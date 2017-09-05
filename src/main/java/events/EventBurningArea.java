@@ -20,7 +20,6 @@ public class EventBurningArea extends Event{
 		this.size = ((BurningArea)parent).size;
 	}
 
-
 	@Override
 	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		// TODO Auto-generated method stub
@@ -36,7 +35,7 @@ public class EventBurningArea extends Event{
 			g.setLineWidth(1f);
 			g.draw(((BurningArea)parent).collisionBox);
 		}
-		return parent.isAlive();
+		return parent.isAlive() && plateau.getObjets().containsKey(parent.id);
 	}
 
 }

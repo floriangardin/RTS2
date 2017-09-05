@@ -1,6 +1,8 @@
 package control;
 
+import java.util.Set;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
@@ -17,6 +19,7 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 import plateau.Team;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class Player {
@@ -124,7 +127,12 @@ public class Player {
 	public static void handleSelection(InputObject im, Plateau plateau) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
-
+//		Set<ObjetsList> oldSelection = Player.selection.stream()
+//				.map(x-> plateau.getById(x))
+//				.filter(x -> x!=null)
+//				.map(x -> x.name)
+//				.distinct()
+//				.collect(Collectors.toSet());
 		Vector<Integer> select = new Vector<Integer>();
 		Vector<Integer> selectForEmptyClick = new Vector<Integer>();
 		if(rectangleSelection == null){
@@ -132,6 +140,7 @@ public class Player {
 		}
 		selectForEmptyClick.addAll(selection);
 		Vector<Integer> toRemove = new Vector<Integer>();
+		// On enleve de la sélection les unités mortes ou converties 
 		for(Integer o : selection){
 			Objet ob = plateau.getById(o);
 			if(ob==null || !ob.isAlive() || ob.team.id!=im.team){
@@ -155,6 +164,7 @@ public class Player {
 			inRectangle.clear();
 			return;
 		}
+		
 		// Put the content of inRectangle in selection
 		if(inRectangle.size()>0 && rectangleSelection!=null){
 			Player.selection.clear();
@@ -204,6 +214,8 @@ public class Player {
 		for(Integer o : selection){
 			im.selection.add(o);
 		}
+
+		
 	}
 
 	public static Vector<Objet> getInCamObjets(Plateau plateau) {
