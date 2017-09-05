@@ -29,7 +29,7 @@ public class DisplayRessources extends Event{
 	public DisplayRessources(Objet parent, Plateau plateau, float price, String ressource){
 		super(parent, plateau);
 		if(plateau.isVisibleByTeam(Player.team, parent) && price > 0 ){ // C'est une rentrée d'argent
-			Sounds.playSoundAt("bonusTaken", parent.getX(), parent.getY(), 0.2f);
+			Sounds.playSoundAt("getFood", parent.getX(), parent.getY(), 0.2f);
 		}
 		this.topLayer = true;
 		switch(ressource){
