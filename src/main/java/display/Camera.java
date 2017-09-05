@@ -86,7 +86,7 @@ public class Camera {
 			//			}
 		}
 		if(im.isOnMiniMap && im.isPressed(KeyEnum.LeftClick)){
-			setSliding((int)im.x, (int)im.y);
+			setSliding((int)(im.x*Game.resX/1920), (int)(im.y*Game.resY/1080));
 		}
 	}
 

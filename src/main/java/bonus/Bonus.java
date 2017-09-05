@@ -59,7 +59,7 @@ public abstract class Bonus extends Building{
 			i = im.getSubImage(0,0,imageWidth,im.getHeight());
 		}
 		else{
-			i = im.getSubImage(imageWidth*(animation+1),0,imageWidth,im.getHeight());
+			i = im.getSubImage((int) (imageWidth*(animation+1)),0,imageWidth,im.getHeight());
 		}
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));

@@ -15,7 +15,7 @@ public class Main {
 	//public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
-	public static boolean fullscreen=true;
+	public static boolean fullscreen=false;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 

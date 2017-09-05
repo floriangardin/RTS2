@@ -62,7 +62,8 @@ public class Building extends Objet{
 	public String animationBleu;
 	public String animationRouge;
 	public boolean canAttack=false;
-	private float animationTower;
+	public float animation;
+	public float animationMax = 120f;
 
 
 	private float stateRessourceFood;
@@ -242,11 +243,6 @@ public class Building extends Objet{
 //		}
 		//Animation
 		Objet target = getTarget(plateau);
-		if(getTeam().id!=0)
-			this.animationTower+=2f;
-		if(this.animationTower>120f)
-			this.animationTower = 1;
-
 		if(target!=null && target.getTeam()==this.getTeam()){
 			this.setTarget(null, plateau);
 		}
@@ -349,6 +345,12 @@ public class Building extends Objet{
 		if(this.getTeam().data.getAttribut(this.name, Attributs.canAttack)>0){
 			this.attack(plateau);
 		}
+		
+		// ANIMATION
+		if(getTeam().id!=0)
+			this.animation+=2f;
+		if(this.animation>animationMax)
+			this.animation = 1;
 
 	}
 

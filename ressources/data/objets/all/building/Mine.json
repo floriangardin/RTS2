@@ -8,5 +8,7 @@ technologies:DualistBonusGold,
 produceGold:0,
 popGiven:5,
 popTaken:0,
-newdesign:0
+newdesign:0,
+smokeAnimationX:75,
+smokeAnimationY:-195
 }

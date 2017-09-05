@@ -15,6 +15,7 @@ import data.Attributs;
 import main.Main;
 import model.Colors;
 import model.Game;
+import pathfinding.Case;
 import plateau.Building;
 import plateau.Character;
 import plateau.NaturalObjet;
@@ -57,7 +58,7 @@ public class Interface {
 
 	// top bar
 
-	private static int gold, food;
+	private static int food;
 
 	public static float ratioSizeGoldX = 1/13f;
 	public static float ratioSizeTimerX = 1/12f;
@@ -87,10 +88,6 @@ public class Interface {
 	private static float debutGlissade = nbRoundInit/4;
 	private static float dureeGlissade = nbRoundInit/4;
 
-	//card choice
-	private static float startYCardChoiceBar;
-	private static float sizeXCardChoiceBar = sizeXActionBar;
-	private static float sizeYCardChoiceBar;
 
 	//killing spree offest
 	public static float offsetYkillingSpree = -150f;
@@ -683,7 +680,15 @@ public class Interface {
 
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.drawImage(Images.get("islandTexture"),startXMiniMap+offsetDrawX, startYMiniMap, startXMiniMap+offsetDrawX+widthMiniMap, startYMiniMap+heightMiniMap,0,0,Images.get("islandTexture").getWidth(),Images.get("islandTexture").getHeight());
+		Case ca;
+		for(int i=0; i<plateau.mapGrid.grid.size(); i++){
+			for(int j=0; j<plateau.mapGrid.grid.get(0).size(); j++){
+				ca = plateau.mapGrid.grid.get(i).get(j);
+				g.drawImage(Images.get(ca.getIdTerrain().name()+"tile0"),
+						startXMiniMap+offsetDrawX+ratioWidthMiniMap*ca.x,
+						startYMiniMap+ratioHeightMiniMap*ca.y);
+			}
+		}
 		for(NaturalObjet q : plateau.getNaturalObjets()){
 			g.setColor(Color.green);
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.x-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.y-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
