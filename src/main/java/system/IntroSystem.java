@@ -195,7 +195,6 @@ public class IntroSystem extends ClassSystem{
 			}
 			nextResource = LoadingList.get().getNext(); 
 			try {
-				System.out.println(nextResource.getDescription());
 				nextResource.load();
 				lastThing = nextResource.getDescription();
 				updateGillesBonus();
