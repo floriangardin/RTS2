@@ -208,7 +208,7 @@ public class MenuMapChoice extends Menu {
 	public void launchGame(){
 		// Init gameSystem
 		Game.gameSystem = new WholeGame();
-		Musics.playMusic("themeImperial");
+		Musics.stopMusic();
 		Game.system = Game.gameSystem;
 
 		// Send Plateau to all

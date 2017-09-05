@@ -11,19 +11,18 @@ import org.newdawn.slick.SlickException;
 import bot.IA;
 import control.InputObject;
 import control.Player;
-import control.KeyMapper.KeyEnum;
 import display.Camera;
 import display.Interface;
 import menu.Lobby;
 import multiplaying.ChatHandler;
 import multiplaying.Checksum;
 import plateau.Building;
-import plateau.Objet;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
 import ressources.Map;
+import ressources.SoundManager;
 import ressources.Taunts;
 import system.ClassSystem;
 
@@ -106,6 +105,8 @@ public class WholeGame extends ClassSystem{
 			GameClient.send(im);
 			// Send IA Inputs
 			GameClient.send(iaIms);
+			// Update sound 
+			SoundManager.update(GameClient.getPlateau());
 			// Send checksum to server for checking synchro
 			if(GameClient.getRound()>30 && GameClient.getRound()%100==0){			
 				GameClient.send(new Checksum(GameClient.getPlateau()));

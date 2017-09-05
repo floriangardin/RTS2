@@ -62,7 +62,7 @@ public abstract class Objet implements java.io.Serializable {
 	private static final float timerMaxValueAttacked = 100f;
 	
 	// visibility boolean 
-	public boolean visibleByCurrentTeam;
+	
 	public boolean visibleByCamera;
 
 	public int animation = 0;

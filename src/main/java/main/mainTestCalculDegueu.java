@@ -1,12 +1,8 @@
 package main;
 
-import java.util.Vector;
-
 import org.newdawn.slick.SlickException;
 
-import control.InputObject;
-import plateau.Plateau;
-import ressources.Map;
+import com.esotericsoftware.kryonet.Server;
 
 public class mainTestCalculDegueu {
 	public static class Test1 {
@@ -19,9 +15,7 @@ public class mainTestCalculDegueu {
 		
 	}
 	public static void main(String[] args) throws SlickException {
-		
-		
+		Server server = new Server(500000, 50000);
 		//Plateau plateau = Map.createPlateau("testIA");
-		
 	}
 }
