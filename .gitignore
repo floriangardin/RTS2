@@ -5,6 +5,5 @@ target/
 .idea/
 .classpath
 *.rtsfile
-/bin/
 *.prefs
 .project

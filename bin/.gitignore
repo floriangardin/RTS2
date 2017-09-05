@@ -1,0 +1,10 @@
+*.opts
+replays/
+*.class
+target/
+.idea/
+.classpath
+*.rtsfile
+/bin/
+*.prefs
+.project

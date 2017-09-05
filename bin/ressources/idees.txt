@@ -1,0 +1,45 @@
+compte rendu 21:08 08/09/2016
+
+- tours destructibles
+- but : détruire centre-ville
+- objectifs annexes selon map
+- âge / choix des bonus / 3 actes
+- bonus ?
+- 
+
+CIVILISATIONS
+points communs
+- prendre les bâtiments
+- même objectif principal
+- mêmes unités de base (lancier, archer)-(inquisiteur, moine, chevalier)
+- un sort unique par civilisation 
+- pop par les maisons
+
+points différents
+- 
+
+
+MAPS
+- bonus répartis dans toutes la map
+- plus de bâtiments
+- 
+
+BÂTIMENTS
+centre-ville -> bâtiment principal / bâtiment technologique
+moulin -> juste de la bouffe pas de vision
+maison -> pop et vision (pourra avoir des capacités)
+bâtiment1 -> production + technologie d'unités
+bâtiments d'unités spéciales -> à prendre pour produire dans centre ville (chevaux et zepelin)
+tours -> dès le début
+
+
+
+DEROULEMENT DE LA PARTIE
+début : 		centre ville + 2 lanciers
+haine 0'-1' 		pas de tours, pas d'attaque des bâtiments
+guerre 1'-4' 		phase de jeu de destruction
+destruction 4'-7'	plus de prise de bâtiments, uniquement de l'attaque
+mort 7'- +		plus de bâtiments, apocalypse grandissant
+
+1' passage à la guerre:
+ choix  guerre1 - guerre2 - guerrefolie - guerreraison

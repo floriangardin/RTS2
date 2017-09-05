@@ -1,0 +1,42 @@
+###########################
+& sizeX 13
+& sizeY 20
+###########################
+= headquarters
+1 10 0
+2 0 18
+###########################
+= buildings
+Tower 2 7 18
+Tower 1 4 1
+Mill 0 0 2
+Mine 0 0 5
+Mill 0 10 16
+Mine 0 10 13
+Barracks 0 0 13
+Barracks 0 8 4
+###########################
+= units
+Spearman 1 747.0 150.0
+Spearman 1 789.0 222.0
+Crossbowman 1 868.0 147.0
+Crossbowman 2 358.0 1755.0
+Spearman 2 433.0 1668.0
+Spearman 2 470.0 1720.0
+###########################
+= naturalObjects
+###########################
+= mapGround
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
