@@ -1,7 +1,7 @@
 {
 prototype:"Objet",
 printName:"Boule de feu",
-maxVelocity:200,
+maxVelocity:500,
 maxLifepoints:30,
 size:60
 }
