@@ -16,7 +16,6 @@ public class SpellFireball extends Spell{
 	public SpellFireball(){
 		this.name = ObjetsList.SpellFireball;
 	}
-
 	public void launch(Objet target, Character launcher, Plateau plateau){
 		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true, plateau);
 		new Fireball(launcher, t.getX(), t.getY(), target.getX()-launcher.getX(), target.getY()-launcher.getY(), launcher.getAttribut(Attributs.damage), plateau);
