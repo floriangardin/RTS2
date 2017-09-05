@@ -79,6 +79,10 @@ public class Images {
 		}
 		//initializeSand();
 	}
+	
+	public static boolean exists(String s){
+		return images.containsKey(s);
+	}
 
 	public void initializeSand(){
 

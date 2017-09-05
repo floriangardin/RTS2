@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Point;
+import org.newdawn.slick.geom.Rectangle;
 
 import bonus.Bonus;
 import control.InputObject;
@@ -329,6 +330,11 @@ public class Plateau implements java.io.Serializable {
 						s.collision(o, this);
 					}
 				}
+			}
+			// Between characters and forbidden terrain (water)
+			Case ca = mapGrid.idcases.get(o.idCase);
+			if(!ca.getIdTerrain().ok){
+				o.collisionRect(new Rectangle(ca.x, ca.y, ca.sizeX, ca.sizeY), this);
 			}
 		}
 		// Between bullets and natural objets

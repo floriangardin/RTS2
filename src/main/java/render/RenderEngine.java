@@ -1,9 +1,12 @@
 package render;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import control.Player;
 import data.Attributs;
@@ -13,6 +16,7 @@ import events.EventHandler;
 import model.Game;
 import multiplaying.ChatHandler;
 import pathfinding.Case;
+import pathfinding.Case.IdTerrain;
 import plateau.Building;
 import plateau.Bullet;
 import plateau.Character;
@@ -21,24 +25,33 @@ import plateau.Objet;
 import plateau.Plateau;
 import ressources.GraphicElements;
 import ressources.Images;
+import ressources.Map;
 import utils.Utils;
 
 public class RenderEngine {
 
 	private static boolean isReady = false;
 	private static boolean hasChecked = false;
-	
+
 	public static float xmouse, ymouse;
 
+
+	// Draw Background
+	public static Image imageBackgroundNeutral;
+	public static Graphics graphicBackgroundNeutral;
+
+	public static Image imageBackground;
+	public static Graphics graphicBackground;
+
 	public static int i;
-	
+
 	public static boolean isReady(){
 		if(!hasChecked){
 			checkIfReady();
 		}
 		return isReady;
 	}
-	
+
 	private static void checkIfReady(){
 		boolean b = true;
 		b = b && Images.isInitialized();
@@ -56,7 +69,7 @@ public class RenderEngine {
 
 		// Draw first layer of event
 		EventHandler.render(g, plateau, false);
-		
+
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.getObjets().values()){
 			objets.add(o);
@@ -72,7 +85,7 @@ public class RenderEngine {
 		for(Integer o: Player.selection){
 			renderSelection(plateau.getById(o), g, plateau);
 		}
-		
+
 		// 2) Draw Neutral Objects
 		for(Objet o : objets){
 			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
@@ -95,27 +108,175 @@ public class RenderEngine {
 		}
 		// Draw second layer of event
 		EventHandler.render(g, plateau, true);
-//		// draw mapgrid
-//		for(Case c : plateau.mapGrid.idcases.values()){
-//			g.setLineWidth(1);
-//			g.setColor(c.ok ? new Color(100,100,100,25) : new Color(255,0,0,100));
-//			g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
-//			g.setColor(Color.darkGray);
-//			g.drawRect(c.x, c.y, c.sizeX, c.sizeY);
-//			
-//		}
+		//		// draw mapgrid
+		//		for(Case c : plateau.mapGrid.idcases.values()){
+		//			g.setLineWidth(1);
+		//			g.setColor(c.ok ? new Color(100,100,100,25) : new Color(255,0,0,100));
+		//			g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
+		//			g.setColor(Color.darkGray);
+		//			g.drawRect(c.x, c.y, c.sizeX, c.sizeY);
+		//			
+		//		}
 		// Draw interface
 		g.scale(1920f/Game.resX, 1080f/Game.resY);
 		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);
 		ChatHandler.draw(g);
 	}
-	
-	
+
+	public static void initBackground(Plateau plateau){
+
+		int sizeTile = 120;
+		Image im = Images.get("grasstile");
+		HashMap<String, Image> temp = new HashMap<String, Image>();
+		try {
+			imageBackground = new Image(plateau.maxX*2,plateau.maxY*2);
+			graphicBackground = imageBackground.getGraphics();
+			imageBackgroundNeutral = new Image(plateau.maxX*2,plateau.maxY*2);
+			graphicBackgroundNeutral = imageBackgroundNeutral.getGraphics();
+
+		} catch (SlickException e) {}
+		for(IdTerrain it : IdTerrain.getSortedIT()){
+			boolean b4, b7, b8, b9, b6, b3, b2, b1;
+			Case ctemp;
+			temp.clear();
+			im = Images.get(it.name()+"border");
+			temp.put("1", im.getSubImage(sizeTile*0, sizeTile*2, sizeTile, sizeTile));
+			temp.put("2", im.getSubImage(sizeTile*1, sizeTile*2, sizeTile, sizeTile));
+			temp.put("3", im.getSubImage(sizeTile*2, sizeTile*2, sizeTile, sizeTile));
+			temp.put("4", im.getSubImage(sizeTile*0, sizeTile*1, sizeTile, sizeTile));
+			temp.put("6", im.getSubImage(sizeTile*2, sizeTile*1, sizeTile, sizeTile));
+			temp.put("7", im.getSubImage(sizeTile*0, sizeTile*0, sizeTile, sizeTile));
+			temp.put("8", im.getSubImage(sizeTile*1, sizeTile*0, sizeTile, sizeTile));
+			temp.put("9", im.getSubImage(sizeTile*2, sizeTile*0, sizeTile, sizeTile));
+			temp.put("11", im.getSubImage(sizeTile*4, sizeTile*0, sizeTile, sizeTile));
+			temp.put("13", im.getSubImage(sizeTile*3, sizeTile*0, sizeTile, sizeTile));
+			temp.put("17", im.getSubImage(sizeTile*4, sizeTile*1, sizeTile, sizeTile));
+			temp.put("19", im.getSubImage(sizeTile*3, sizeTile*1, sizeTile, sizeTile));
+			for(Case c : plateau.mapGrid.idcases.values()){
+				if(c.getIdTerrain()!=it){
+					continue;
+				}
+				String s = c.getIdTerrain().name().toLowerCase()+"tile";
+				i = 0;
+				while(Math.random()>0.8){
+					if(Images.exists(s+(i+1))){
+						i+=1;
+					} else {
+						break;
+					}
+				}
+				graphicBackgroundNeutral.drawImage(Images.get(s+i).getScaledCopy((int)c.sizeX,(int)c.sizeY), plateau.maxX/2+c.x,plateau.maxY/2+c.y);
+				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10);
+				b4 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x-10, c.y-10);
+				b7 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x+10, c.y-10);
+				b8 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y-10);
+				b9 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y+10);
+				b6 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y+10+c.sizeY);
+				b3 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x+10, c.y+10+c.sizeY);
+				b2 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10+c.sizeY);
+				b1 = ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain();
+				if(b1||b2||b3||b4||b6||b7||b8||b9){
+					if(b4){
+						if(b6){
+							if(b8){
+								if(b2){
+									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, sizeTile/2, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+									graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(sizeTile/2, sizeTile/2, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y+c.sizeY/2);
+								} else {
+									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(sizeTile/2, 0, sizeTile, sizeTile), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+								}
+							} else {
+								if(b2){
+									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+								} else {
+									graphicBackgroundNeutral.drawImage(temp.get("4").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("6").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+								}
+							}
+						} else {
+							if(b8){
+								if(b2){
+									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+								} else {
+									graphicBackgroundNeutral.drawImage(temp.get("7"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								}
+							} else {
+								if(b2){
+									graphicBackgroundNeutral.drawImage(temp.get("1"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								} else {
+									graphicBackgroundNeutral.drawImage(temp.get("4"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								}
+							}
+						}
+					} else if(b6){
+						if(b8){
+							if(b2){
+								graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+							} else {
+								graphicBackgroundNeutral.drawImage(temp.get("9"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+							}
+						} else {
+							if(b2){
+								graphicBackgroundNeutral.drawImage(temp.get("3"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+							} else {
+								graphicBackgroundNeutral.drawImage(temp.get("6"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+							}
+						}
+					} else {
+						if(b8){
+							if(b2){
+								graphicBackgroundNeutral.drawImage(temp.get("8").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("2").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+							} else {
+								graphicBackgroundNeutral.drawImage(temp.get("8"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+							}
+						} else {
+							if(b2){
+								graphicBackgroundNeutral.drawImage(temp.get("2"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+							}
+						}
+					}
+					if(!b4 && ! b8 && b7){
+						graphicBackgroundNeutral.drawImage(temp.get("17"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+					}
+					if(!b8 && !b6 && b9){
+						graphicBackgroundNeutral.drawImage(temp.get("19"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+					}
+					if(!b6 && ! b2 && b3){
+						graphicBackgroundNeutral.drawImage(temp.get("13"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+					}
+					if(!b2 && !b4 && b1){
+						graphicBackgroundNeutral.drawImage(temp.get("11"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+					}
+				}
+			}
+		}
+		graphicBackgroundNeutral.flush();
+		graphicBackground.drawImage(imageBackgroundNeutral,0,0);
+		graphicBackground.flush();
+	}
+
 
 	public static void renderBackground(Graphics g, Plateau plateau){
-		g.drawImage(Images.get("islandTexture"),0, 0, plateau.maxX, plateau.maxY,
-				0, 0, Images.get("islandTexture").getWidth(),  Images.get("islandTexture").getHeight());
+		if(imageBackground==null){
+			initBackground(plateau);
+
+		}
+		g.drawImage(imageBackground,-plateau.maxX/2, -plateau.maxY/2);
 
 	}
 	public static void renderDomain(Plateau plateau, Graphics g, Vector<Objet> visibleObjets){
@@ -137,9 +298,9 @@ public class RenderEngine {
 			}
 		}
 		g1.flush();
-		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.scale(1920f/Game.resX, 1080f/Game.resY);
 		g.translate(Camera.Xcam, Camera.Ycam);
+		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
 		g.drawImage(GraphicElements.imageFogOfWar,0,0);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
 		g.scale(Game.resX/1920f, Game.resY/1080f);
@@ -169,7 +330,7 @@ public class RenderEngine {
 			RenderBullet.render((Bullet) o, g, plateau);
 		}
 	}
-	
+
 	public static void renderObjet(Objet o, Graphics g, Plateau plateau, boolean visible){
 		if(o instanceof Building){
 			RenderBuilding.render((Building)o, g, plateau, false, false);

@@ -30,6 +30,9 @@ public class GraphicElements {
 	// Draw fog of war
 	public static Image imageFogOfWar;
 	public static Graphics graphicFogOfWar;
+	
+	
+	
 
 
 	
