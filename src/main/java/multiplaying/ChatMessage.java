@@ -6,6 +6,7 @@ import org.newdawn.slick.Color;
 
 import main.Main;
 import model.Game;
+import ressources.Sounds;
 
 public class ChatMessage implements Serializable{
 
@@ -39,28 +40,33 @@ public class ChatMessage implements Serializable{
 		NOTENOUGHPOP,
 		BUILDINGUNTAKABLE,
 		UNDERATTACK,
-		UNITCOMPLETE;
+		UNITCOMPLETE,
+		BUILDINGLOST;
 		
 	}
 
 	public static ChatMessage getById(MessageType s){
 		switch(s){
 		case NOTENOUGHFOOD :
+			Sounds.playSound("messageWrong");
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Pas assez de nourriture");
 		case BUILDINGTAKEN:
 //			Game.g.sounds.get("buildingTaken").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Bâtiment capturé");
-		case RESEARCHCOMPLETE : 
+		case RESEARCHCOMPLETE :
+			Sounds.playSound("reve");
 //			Game.g.sounds.get("techDiscovered").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Technologie découverte");
 		case NOTENOUGHMANA :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Pas assez de mana");
 		case NOTENOUGHPOP :
+			Sounds.playSound("messageWrong");
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Limite de population atteinte");
 		case BUILDINGUNTAKABLE :
+			Sounds.playSound("messageWrong");
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Capture impossible");
 		case UNDERATTACK :
@@ -69,6 +75,9 @@ public class ChatMessage implements Serializable{
 		case UNITCOMPLETE :
 //			Game.g.sounds.get("messageWrong").play(1f,Game.g.options.soundVolume );
 			return new ChatMessage("Unité produite");
+		case BUILDINGLOST:
+			Sounds.playSound("peur");
+			return new ChatMessage("Bâtiment perdu");
 		default : 
 			return null;
 		}

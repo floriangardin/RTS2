@@ -63,11 +63,11 @@ public class Building extends Objet{
 	public String animationRouge;
 	public boolean canAttack=false;
 	private float animationTower;
-
-
 	private float stateRessourceFood;
 
-
+	public boolean isUnderAttack(){
+		return underAttack;
+	}
 	public Building(ObjetsList name, int i, int j, Team team, Plateau plateau){
 		// SET UP TECH LIST ET PRODUCTION LIST
 		super(plateau);
@@ -109,7 +109,9 @@ public class Building extends Objet{
 			this.animationRouge = "buildingTowerRedAnimation";
 		}
 		// Add an event
+		
 		EventHandler.addEvent(EventNames.BuildingTakingGlobal, this, plateau);
+	
 
 	}
 
@@ -321,6 +323,7 @@ public class Building extends Objet{
 					}
 				}
 				this.queue.remove(0);
+				EventHandler.addEvent(EventNames.UnitCreated, c, plateau);
 			}
 		}
 
@@ -535,6 +538,10 @@ public class Building extends Objet{
 
 		if(i==Player.team && !(name.equals(ObjetsList.Headquarters))){
 			ChatHandler.addMessage(ChatMessage.getById(MessageType.BUILDINGTAKEN));
+			EventHandler.addEvent(EventNames.BuildingTaken, this, plateau);
+		}
+		if(this.team.id==Player.team && i!=Player.team && !(name.equals(ObjetsList.Headquarters))){
+			ChatHandler.addMessage(ChatMessage.getById(MessageType.BUILDINGLOST));
 		}
 		this.team = plateau.teams.get(i);
 		this.setTeamExtra();

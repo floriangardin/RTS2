@@ -22,6 +22,7 @@ import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
 import ressources.Map;
+import ressources.MusicManager;
 import ressources.SoundManager;
 import ressources.Taunts;
 import system.ClassSystem;
@@ -105,8 +106,10 @@ public class WholeGame extends ClassSystem{
 			GameClient.send(im);
 			// Send IA Inputs
 			GameClient.send(iaIms);
-			// Update sound 
+			// Update sound and music
+			MusicManager.update(GameClient.getPlateau());
 			SoundManager.update(GameClient.getPlateau());
+			
 			// Send checksum to server for checking synchro
 			if(GameClient.getRound()>30 && GameClient.getRound()%100==0){			
 				GameClient.send(new Checksum(GameClient.getPlateau()));

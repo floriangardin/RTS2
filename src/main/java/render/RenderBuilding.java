@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
+import control.Player;
 import data.Attributs;
 import model.Colors;
 import plateau.Building;
@@ -16,13 +17,11 @@ import utils.ObjetsList;
 public class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
-	
 	public static void render(Building b, Graphics g, Plateau plateau){
-		render(b,g,plateau, true, true);
+		render(b,g,plateau, plateau.isVisibleByTeam(Player.team, b), b.team.id==Player.team);
 	}
 
 	public static void render(Building b, Graphics g, Plateau plateau, boolean visibleByCurrentTeam, boolean isCurrentTeam){
-		
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g,b,visibleByCurrentTeam);

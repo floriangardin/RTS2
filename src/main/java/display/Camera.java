@@ -38,8 +38,13 @@ public class Camera {
 				&& (y + size)*Game.ratioY > Ycam && (y - size)*Game.ratioY < Ycam + resY;
 	}
 
-
-
+	
+	public static int getCenterX(){
+		return Xcam + resX/2;
+	}
+	public static int getCenterY(){
+		return Ycam + resY/2;
+	}
 
 	public static void update(InputObject im) {
 		// Handle the display (camera movement & minimap)
