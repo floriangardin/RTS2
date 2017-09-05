@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.newdawn.slick.geom.Rectangle;
 
 import data.Attributs;
+import pathfinding.Case.IdTerrain;
 import plateau.Building;
 import plateau.Character;
 import plateau.NaturalObjet;
@@ -21,6 +22,7 @@ public class MapGrid implements java.io.Serializable {
 	public float maxX, maxY;
 
 	public int idCase = 0;
+	public Vector<Integer> casesWater = new Vector<Integer>();
 
 	public Vector<Vector<Case>> grid;
 	public HashMap<Integer, Case> idcases;
@@ -154,8 +156,12 @@ public class MapGrid implements java.io.Serializable {
 	}
 		
 	public void update(){
+		casesWater.clear();
 		for(Case c: this.idcases.values()){
 			c.update();
+			if(c.getIdTerrain()==IdTerrain.WATER){
+				casesWater.add(c.id);
+			}
 		}
 	}
 

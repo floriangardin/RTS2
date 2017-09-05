@@ -59,17 +59,22 @@ public class Images {
 		images.put("imagepop", images.get("imagepop").getScaledCopy(32,32));
 
 		// buildings
-		resizeBuilding("academy");
 //		resizeBuilding("barracks");
 //		resizeBuilding("headquarters");
 //		resizeBuilding("mill");
 //		resizeBuilding(q"mine");
 //		resizeBuilding("stable");
 //		resizeBuilding("tower");
-		resizeBuilding("university");
 
 		// bullets
 		images.put("arrow",images.get("arrow").getScaledCopy(2f*Main.ratioSpace));
+		
+		// smoke
+		Image im = images.get("smoke");
+		images.put("smoke0", im.getSubImage((int)(0f*im.getWidth()/4f), (int)(im.getHeight()/4), (int)(im.getWidth()/4f), (int)(im.getHeight()/4)));
+		images.put("smoke1", im.getSubImage((int)(1f*im.getWidth()/4f), (int)(im.getHeight()/4), (int)(im.getWidth()/4f), (int)(im.getHeight()/4)));
+		images.put("smoke2", im.getSubImage((int)(2f*im.getWidth()/4f), (int)(im.getHeight()/4), (int)(im.getWidth()/4f), (int)(im.getHeight()/4)));
+		images.put("smoke3", im.getSubImage((int)(3f*im.getWidth()/4f), (int)(im.getHeight()/4), (int)(im.getWidth()/4f), (int)(im.getHeight()/4)));
 
 		//initializeSand();
 	}

@@ -4,5 +4,7 @@ prototype:"Building",
 sizeX:4,
 sizeY:2,
 units:Knight-Priest,
-newdesign:0
+newdesign:0,
+smokeAnimationX:185,
+smokeAnimationY:-255
 }
