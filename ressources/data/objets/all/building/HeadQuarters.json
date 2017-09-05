@@ -6,5 +6,6 @@ technologies:DualistAge2-DualistAge3-DualistShield2-DualistShield3-DualistHealth
 sizeX:3,
 sizeY:2,
 defendable:0,
-popGiven:10
+popGiven:10,
+newdesign:0
 }
