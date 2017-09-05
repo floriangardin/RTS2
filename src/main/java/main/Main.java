@@ -12,7 +12,7 @@ public class Main {
 	// A REGLER \\
 	public static float ratioSpace = 1f;
 	public static int framerate = 60;
-	public static int nDelay = 0;
+	//public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
 	public static boolean fullscreen=true;

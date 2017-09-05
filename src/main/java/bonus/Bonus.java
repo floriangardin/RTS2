@@ -75,7 +75,7 @@ public abstract class Bonus extends Building{
 			}
 		}
 		// Construction points
-		if(this.constructionPoints<this.getAttribut(Attributs.maxLifepoints) && this.visibleByCurrentTeam && this.constructionPoints>0){
+		if(this.constructionPoints<this.getAttribut(Attributs.maxLifepoints)  && this.constructionPoints>0){
 //			System.out.println("Bonus taking");
 //			System.out.println(size+ " "+this.getX()+" "+this.getY() );
 			g.setColor(new Color(0,0,0));

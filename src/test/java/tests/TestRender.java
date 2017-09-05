@@ -3,7 +3,7 @@ package tests;
 import java.io.File;
 import java.util.Vector;
 
-import org.junit.Test;
+
 import org.lwjgl.LWJGLUtil;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;

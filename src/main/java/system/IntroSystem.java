@@ -26,6 +26,7 @@ import multiplaying.ChatHandler;
 import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Musics;
+import ressources.SoundManager;
 import ressources.Sounds;
 import ressources.Taunts;
 
@@ -115,6 +116,7 @@ public class IntroSystem extends ClassSystem{
 		Options.init();
 		KeyMapper.init();
 		Taunts.init();
+		SoundManager.init();
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}
 

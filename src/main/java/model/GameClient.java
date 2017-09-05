@@ -29,7 +29,7 @@ public class GameClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	public static final int delay = 4; // Number of delay rounds
+	public static final int delay = 2; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	
 	public static void init(String ip){
@@ -38,7 +38,7 @@ public class GameClient extends Listener {
 		client.getKryo().register(Message.class);
 		client.addListener(new Listener(){
 			public void received(Connection c, Object o){
-				Player.init(c.getID());
+				Player.init(c.getID());	
 				if(o instanceof Message){
 					Message m = (Message) o;
 					int type = m.getType();
