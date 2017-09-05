@@ -61,7 +61,7 @@ public class Images {
 		// buildings
 		resizeBuilding("academy");
 //		resizeBuilding("barracks");
-		resizeBuilding("headquarters");
+//		resizeBuilding("headquarters");
 //		resizeBuilding("mill");
 //		resizeBuilding(q"mine");
 //		resizeBuilding("stable");
@@ -71,12 +71,6 @@ public class Images {
 		// bullets
 		images.put("arrow",images.get("arrow").getScaledCopy(2f*Main.ratioSpace));
 
-		// trees
-		for(String im : images.keySet()){
-			if(im.contains("tree")){		
-				images.put(im, images.get(im).getScaledCopy(Tree.coeffDraw));
-			}
-		}
 		//initializeSand();
 	}
 	
