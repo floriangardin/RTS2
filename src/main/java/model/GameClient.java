@@ -29,7 +29,7 @@ public class GameClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	public static final int delay = 8; // Number of delay rounds
+	public static final int delay = 10; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	
 	public static void init(String ip){
