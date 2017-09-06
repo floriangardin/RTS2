@@ -22,7 +22,7 @@ public class GameServer extends Listener {
 
 	public static void init(){
 		if(!hasLaunched){
-			server = new Server(500000, 500000);
+			server = new Server(5000000, 5000000);
 			// Choose between byte and plateau
 			server.getKryo().register(byte[].class);
 			server.getKryo().register(Integer.class);
