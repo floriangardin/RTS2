@@ -22,7 +22,7 @@ import plateau.Plateau;
 
 public class GameClient extends Listener {
 	//OPTIONS
-	private final static Client client = new Client(500000, 500000);
+	private final static Client client = new Client(5000000, 5000000);
 	private static String ip = null; //FOR SINGLEPLAYER
 	public final static int port = 27960;
 	public static int slowDown = 0;

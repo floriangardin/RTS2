@@ -121,7 +121,7 @@ public class WholeGame extends ClassSystem{
 			SoundManager.update(GameClient.getPlateau());
 			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>30 && GameClient.getRound()%100==0){			
+			if(GameClient.getRound()>30 && GameClient.getRound()%20==0){			
 				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round
