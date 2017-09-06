@@ -44,7 +44,6 @@ public class Character extends Objet{
 	public static int DESTROY_BUILDING = 5;
 
 	// General attributes
-	public Circle sightBox;
 
 	public boolean moveAhead;
 	public float distanceToTarget=-1f;
@@ -88,7 +87,6 @@ public class Character extends Objet{
 		this.y = y;
 		this.collisionBox = new Circle(this.x,this.y,this.getAttribut(Attributs.size));
 		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-5*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 6*this.getAttribut(Attributs.size));
-		this.sightBox = new Circle(this.x,this.y,this.getAttribut(Attributs.sight));
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
 		plateau.addCharacterObjets(this);
@@ -824,7 +822,7 @@ public class Character extends Objet{
 		}
 		if(this.getTarget(plateau) instanceof Character){
 			Character c =(Character) this.getTarget(plateau);
-			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
+			if(c.getTeam()!=this.getTeam() && Utils.distance(c, this)>c.getAttribut(Attributs.size)+this.getAttribut(Attributs.sight)){
 				this.setTarget(new Checkpoint(this.getTarget(plateau).x,this.getTarget(plateau).y,true, plateau),null,this.mode, plateau);
 			}
 		}

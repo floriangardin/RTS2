@@ -141,13 +141,18 @@ public class MenuSystem extends ClassSystem {
 		float x, y;
 		Vector<ObjetsList> v = ObjetsList.getUnits();
 		ObjetsList ol;
-		while(Math.random()>0.03){
-			g.get((int)(Math.random()*g.size())).get((int)(Math.random()*g.get(0).size())).setIdTerrain(IdTerrain.WATER);
+		for(Case c : plateau.mapGrid.idcases.values()){
+			if(c.i==0 || c.j==0 || c.i==plateau.mapGrid.grid.size()-1 || c.j==plateau.mapGrid.grid.get(0).size()-1){
+				c.setIdTerrain(IdTerrain.WATER);
+			}
 		}
-		while(Math.random()>0.03){
-			g.get((int)(Math.random()*g.size())).get((int)(Math.random()*g.get(0).size())).setIdTerrain(IdTerrain.SAND);
+		while(Math.random()>0.04){
+			Case c = g.get((int)(Math.random()*g.size())).get((int)(Math.random()*g.get(0).size()));
+			if(c.getIdTerrain()!=IdTerrain.WATER){
+				c.setIdTerrain(IdTerrain.SAND);
+			}
 		}
-		while(Math.random()>0.03){
+		while(Math.random()>0.02){
 			do{
 				x = (float)(Math.random()*plateau.maxX);
 				y = (float)(Math.random()*plateau.maxY);

@@ -223,9 +223,6 @@ public abstract class Objet implements java.io.Serializable {
 			this.idCase = -1;
 		}
 		if(this instanceof Character){
-			//FIXME: on vire cette histoire de sight box ?
-			((Character)this).sightBox.setCenterX(this.getX());
-			((Character)this).sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
 			this.selectionBox.setCenterX(this.x);
 			this.selectionBox.setCenterY(this.y-2f*this.getAttribut(Attributs.size));
 			plateau.mapGrid.getCase(this.idCase).characters.add((Character)this);
