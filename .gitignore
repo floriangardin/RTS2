@@ -7,6 +7,5 @@ target/
 *.rtsfile
 *.prefs
 .project
-/bin/
-
 bin/**
+bin/
