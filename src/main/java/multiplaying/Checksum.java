@@ -27,6 +27,9 @@ public class Checksum implements Serializable {
 			System.out.println("Desynchro at round : "+c.round);
 			System.out.println(c.checksum);
 			System.out.println(this.checksum);
+			if(c.checksum.length()!=this.checksum.length()){
+				System.out.println("Pas le meme nombre d'unites mon petit gillou");
+			}
 			System.out.println("-------------");
 			
 		}
