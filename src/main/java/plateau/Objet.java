@@ -63,8 +63,6 @@ public abstract class Objet implements java.io.Serializable {
 	
 	// visibility boolean 
 	
-	public boolean visibleByCamera;
-
 	public int animation = 0;
 	public float vx;
 	public float vy;
