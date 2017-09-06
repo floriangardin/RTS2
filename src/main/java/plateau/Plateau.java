@@ -591,7 +591,7 @@ public class Plateau implements java.io.Serializable {
 		}
 		// 2 - For everyone
 		// Sort by id
-		this.collision();
+		//this.collision();
 		
 		// 
 		this.action();
