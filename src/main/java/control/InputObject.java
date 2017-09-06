@@ -8,9 +8,11 @@ import org.newdawn.slick.Input;
 import control.KeyMapper.KeyEnum;
 import display.Camera;
 import model.Game;
+import plateau.Building;
 import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
+import plateau.Character;
 
 public class InputObject implements java.io.Serializable{
 	/**
@@ -334,19 +336,18 @@ public class InputObject implements java.io.Serializable{
 	public void sanitizeInput(Plateau plateau) {
 		Vector<Integer> toRemove = new Vector<Integer>();
 		for(Integer i : this.selection){
-			if(plateau.getById(i)==null){
+			if(plateau.getById(i)==null || !(plateau.getById(i) instanceof Character || plateau.getById(i) instanceof Building )){
 				toRemove.add(i);
 			}
 		}
 		this.selection.removeAll(toRemove);
 		
-		if(plateau.getById(this.idObjetMouse)==null){
+		if(plateau.getById(this.idObjetMouse)==null || !(plateau.getById(this.idObjetMouse) instanceof Character || plateau.getById(this.idObjetMouse) instanceof Building )){
 			this.idObjetMouse = -1;
 		}
-		if(plateau.getById(this.idSpellLauncher)==null){
+		if(plateau.getById(this.idSpellLauncher)==null || !(plateau.getById(this.idSpellLauncher) instanceof Character || plateau.getById(this.idSpellLauncher) instanceof Building )){
 			this.idSpellLauncher = -1;
 		}
-		
 		
 	}
 
