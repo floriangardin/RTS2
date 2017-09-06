@@ -19,7 +19,7 @@ public enum ObjetsList {
 	Priest(ObjetType.Character),
 	Inquisitor(ObjetType.Character),
 	Spearman(ObjetType.Character),
-	Archange(ObjetType.Character),
+//	Archange(ObjetType.Character),
 	// Buildings
 	Headquarters(ObjetType.Building),
 	Mill(ObjetType.Building),
@@ -117,7 +117,6 @@ public enum ObjetsList {
 		v.add(Crossbowman);
 		v.add(Inquisitor);
 		v.add(Priest);
-		v.add(Archange);
 		return v;
 	}
 	

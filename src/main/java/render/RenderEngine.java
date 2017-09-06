@@ -67,7 +67,24 @@ public class RenderEngine {
 		g.translate(-Camera.Xcam, -Camera.Ycam);
 		g.scale(Game.resX/1920f, Game.resY/1080f);
 		//g.scale(0.5f,0.5f);
-		// Draw background
+		renderPlateau(g, plateau, true);
+		//		// draw mapgrid
+		//		for(Case c : plateau.mapGrid.idcases.values()){
+		//			g.setLineWidth(1);
+		//			g.setColor(c.ok ? new Color(100,100,100,25) : new Color(255,0,0,100));
+		//			g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
+		//			g.setColor(Color.darkGray);
+		//			g.drawRect(c.x, c.y, c.sizeX, c.sizeY);
+		//			
+		//		}
+		// Draw interface
+		g.scale(1920f/Game.resX, 1080f/Game.resY);
+		g.translate(Camera.Xcam, Camera.Ycam);
+		Interface.draw(g, plateau);
+		ChatHandler.draw(g);
+	}
+	
+	public static void renderPlateau(Graphics g, Plateau plateau, boolean fogOfWar){
 		renderBackground(g, plateau);
 
 		// Draw first layer of event
@@ -80,7 +97,7 @@ public class RenderEngine {
 		objets = Utils.triY(objets);
 		Vector<Objet> visibleObjets = new Vector<Objet>();
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
+			if((Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId())||!fogOfWar){
 				visibleObjets.add(o);
 			}
 		}
@@ -100,31 +117,17 @@ public class RenderEngine {
 			}
 		}
 		// Draw fog of war
-		renderDomain(plateau, g, visibleObjets);
+		renderDomain(plateau, g, visibleObjets, fogOfWar);
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
-				if(o.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), o)){
+			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX))) || !fogOfWar){
+				if(o.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), o) || !fogOfWar){
 					renderObjet(o, g, plateau);
 				}
 			}
 		}
 		// Draw second layer of event
 		EventHandler.render(g, plateau, true);
-		//		// draw mapgrid
-		//		for(Case c : plateau.mapGrid.idcases.values()){
-		//			g.setLineWidth(1);
-		//			g.setColor(c.ok ? new Color(100,100,100,25) : new Color(255,0,0,100));
-		//			g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
-		//			g.setColor(Color.darkGray);
-		//			g.drawRect(c.x, c.y, c.sizeX, c.sizeY);
-		//			
-		//		}
-		// Draw interface
-		g.scale(1920f/Game.resX, 1080f/Game.resY);
-		g.translate(Camera.Xcam, Camera.Ycam);
-		Interface.draw(g, plateau);
-		ChatHandler.draw(g);
 	}
 
 	public static void initBackground(Plateau plateau){
@@ -311,35 +314,37 @@ public class RenderEngine {
 		g.drawImage(imageBackground,-plateau.maxX/2, -plateau.maxY/2);
 
 	}
-	public static void renderDomain(Plateau plateau, Graphics g, Vector<Objet> visibleObjets){
+	public static void renderDomain(Plateau plateau, Graphics g, Vector<Objet> visibleObjets, boolean fogOfWar){
 		// draw fog of war
-		Graphics g1 = GraphicElements.graphicFogOfWar;
-		g1.setColor(new Color(255, 255, 255));
-		g1.fillRect(0, 0, Camera.resX, Camera.resX);
-		g1.setColor(new Color(50, 50, 50));
+		if(fogOfWar){
+			Graphics g1 = GraphicElements.graphicFogOfWar;
+			g1.setColor(new Color(255, 255, 255));
+			g1.fillRect(0, 0, Camera.resX, Camera.resX);
+			g1.setColor(new Color(50, 50, 50));
 //		float xmin = Math.max(0, -Camera.Xcam);
 //		float ymin = Math.max(0, -Camera.Ycam);
 //		float xmax = Math.min(Camera.resX, plateau.maxX*Game.ratioX - Camera.Xcam);
 //		float ymax = Math.min(Camera.resY, plateau.maxY*Game.ratioY - Camera.Ycam);
-		float xmin = 0;
-		float xmax = Camera.resX;
-		float ymin = 0;
-		float ymax = Camera.resY;
-		g1.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
-		g1.setColor(new Color(255, 255, 255));
-		for (Objet o : visibleObjets) {
-			float sight = o.getAttribut(Attributs.sight);
-			if(sight>5){
-				g1.fillOval((o.x - sight)*Game.ratioX - Camera.Xcam, (o.y - sight)*Game.ratioY - Camera.Ycam, sight * 2f * Game.ratioX, sight * 2f * Game.ratioY);
+			float xmin = 0;
+			float xmax = Camera.resX;
+			float ymin = 0;
+			float ymax = Camera.resY;
+			g1.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
+			g1.setColor(new Color(255, 255, 255));
+			for (Objet o : visibleObjets) {
+				float sight = o.getAttribut(Attributs.sight);
+				if(sight>5){
+					g1.fillOval((o.x - sight)*Game.ratioX - Camera.Xcam, (o.y - sight)*Game.ratioY - Camera.Ycam, sight * 2f * Game.ratioX, sight * 2f * Game.ratioY);
+				}
 			}
+			g1.flush();
+			g.scale(1920f/Game.resX, 1080f/Game.resY);
+			g.translate(Camera.Xcam, Camera.Ycam);
+			g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
+			g.drawImage(GraphicElements.imageFogOfWar,0,0);
+			g.translate(-Camera.Xcam, -Camera.Ycam);
+			g.scale(Game.resX/1920f, Game.resY/1080f);
 		}
-		g1.flush();
-		g.scale(1920f/Game.resX, 1080f/Game.resY);
-		g.translate(Camera.Xcam, Camera.Ycam);
-		g.setDrawMode(Graphics.MODE_COLOR_MULTIPLY);
-		g.drawImage(GraphicElements.imageFogOfWar,0,0);
-		g.translate(-Camera.Xcam, -Camera.Ycam);
-		g.scale(Game.resX/1920f, Game.resY/1080f);
 
 		// draw rectangle of selection
 		g.setDrawMode(Graphics.MODE_NORMAL);

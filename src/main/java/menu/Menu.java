@@ -139,13 +139,13 @@ public abstract class Menu {
 	
 	public void deselectItems(){
 		for(int i=0; i<this.items.size(); i++){
-			this.items.get(i).toDraw = this.items.get(i).image;
+			this.items.get(i).font_current  = this.items.get(i).font;
 		}	
 	}
 
 	public void drawItems(Graphics g){
 		// draw background
-		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+//		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		// draw items
 		for(Menu_Item item: this.items){
 			item.draw(g);

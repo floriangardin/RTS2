@@ -1,36 +1,55 @@
 package system;
 
+import java.util.Vector;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 import control.InputObject;
+import data.Attributs;
+import data.AttributsChange;
+import data.AttributsChange.Change;
+import display.Camera;
 import menu.Credits;
 import menu.Menu;
 import menu.MenuIntro;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
+import model.Game;
 import multiplaying.ChatHandler;
+import nature.Tree;
+import pathfinding.Case;
+import pathfinding.Case.IdTerrain;
+import ressources.Map;
 import ressources.Musics;
 import ressources.Taunts;
+import utils.ObjetsList;
+import plateau.Plateau;
+import plateau.UnitsEndCondition;
+import render.RenderEngine;
+import plateau.Character;
 
 public class MenuSystem extends ClassSystem {
-	
+
 	public Menu currentMenu;
-	
+
 	public MenuIntro menuIntro;
 	public MenuMapChoice menuMapChoice;
 	public MenuMulti menuMulti;
 	public MenuOptions menuOptions;
 	public Credits credits;
-	
+
+	public Plateau plateau;
+
 	public MenuSystem(){
 		init();
 	}
-	
-	
+
+
 	public void init(){
 		menuIntro = new MenuIntro();
 		menuMapChoice = new MenuMapChoice();
@@ -38,10 +57,17 @@ public class MenuSystem extends ClassSystem {
 		menuOptions = new MenuOptions();
 		credits = new Credits();
 		setMenu(MenuNames.MenuIntro);
+		plateau = generatePlateau();
 	}
-	
+
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		
+		if(RenderEngine.isReady()){
+			RenderEngine.renderPlateau(g, plateau, false);
+		}
+		g.setColor(new Color(0.3f,0.3f,0.6f,0.4f));
+		g.fillRect(Game.resX/6, 2*Game.resY/5, 2*Game.resX/3, 5.5f*Game.resY/10);
 		currentMenu.draw(g);
 		if(currentMenu == menuMapChoice){
 			// Updating chat
@@ -53,9 +79,9 @@ public class MenuSystem extends ClassSystem {
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		Input in = gc.getInput();
 		InputObject im = new InputObject(in);
-//		if(currentMenu instanceof MenuMapChoice || currentMenu instanceof MenuMulti){
-//			ChatHandler.action(in,im);
-//		}
+		//		if(currentMenu instanceof MenuMapChoice || currentMenu instanceof MenuMulti){
+		//			ChatHandler.action(in,im);
+		//		}
 		currentMenu.update(im);
 		if(currentMenu == menuMapChoice){
 			// Updating chat
@@ -64,10 +90,14 @@ public class MenuSystem extends ClassSystem {
 		if(Taunts.isInit()){
 			Taunts.update();
 		}
+		plateau.update();
+		if(plateau.teamLooser>0){
+			plateau = generatePlateau();
+		}
 		//this.send();
 	}
-	
-	
+
+
 	public void setMenu(MenuNames m){
 		// handle change of menu
 		// including the change of music
@@ -96,7 +126,7 @@ public class MenuSystem extends ClassSystem {
 		}
 		this.currentMenu.init();
 	}
-	
+
 	public enum MenuNames{
 		MenuIntro,
 		MenuMapChoice,
@@ -105,4 +135,41 @@ public class MenuSystem extends ClassSystem {
 		MenuMulti;
 	}
 
+	public Plateau generatePlateau(){
+		Plateau plateau = new Plateau((int)(20*Map.stepGrid), (int)(11*Map.stepGrid));
+		Vector<Vector<Case>> g = plateau.mapGrid.grid;
+		float x, y;
+		Vector<ObjetsList> v = ObjetsList.getUnits();
+		ObjetsList ol;
+		while(Math.random()>0.03){
+			g.get((int)(Math.random()*g.size())).get((int)(Math.random()*g.get(0).size())).setIdTerrain(IdTerrain.WATER);
+		}
+		while(Math.random()>0.03){
+			g.get((int)(Math.random()*g.size())).get((int)(Math.random()*g.get(0).size())).setIdTerrain(IdTerrain.SAND);
+		}
+		while(Math.random()>0.03){
+			do{
+				x = (float)(Math.random()*plateau.maxX);
+				y = (float)(Math.random()*plateau.maxY);
+			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
+			plateau.addNaturalObjets(new Tree(x, y, (int)(Math.random()*2)+1, plateau));
+		}
+		Character c;
+		while(Math.random()>0.02){
+			do{
+				x = (float)(Math.random()*plateau.maxX);
+				y = (float)(Math.random()*plateau.maxY);
+			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
+			do{
+				ol = v.get((int)(Math.random()*v.size()));
+			} while(ol==ObjetsList.Priest);
+			c = new Character(x,y,ol,plateau.teams.get((int)(Math.random()*2)+1),plateau);
+			c.attributsChanges.add(new AttributsChange(Attributs.sight, Change.MUL, 4f, false));
+			plateau.addCharacterObjets(c);
+		}
+		plateau.setEndCondition(new UnitsEndCondition());
+		plateau.update();
+		Camera.init(Game.resX, Game.resY, plateau.maxX-Game.resX/2, plateau.maxY-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		return plateau;
+	}
 }
