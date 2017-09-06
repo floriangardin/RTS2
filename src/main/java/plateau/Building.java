@@ -300,6 +300,9 @@ public class Building extends Objet{
 				dirY = (dirY>=0 ? 1f : -1f);
 				float startX = this.x;
 				float startY = this.y + dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
+				if(plateau.mapGrid.getCase(startX, startY) == null || !plateau.mapGrid.getCase(startX, startY).getIdTerrain().ok){
+					startY = this.y - dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
+				}
 				Character c = new Character(startX,startY, getQueue().get(0), this.getTeam(), plateau);
 
 				if(rallyPoint!=null){
