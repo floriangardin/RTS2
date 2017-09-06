@@ -308,17 +308,17 @@ public class Plateau implements java.io.Serializable {
 				if (e.collisionBox.intersects(range)) {
 					e.collisionWeapon(o, this);
 				}
-				if (e.collisionBox.intersects(o.collisionBox)) {
-					int collisionCorner = 0;
-					for(int i=0; i<e.corners.size(); i++){
-						c = e.corners.get(i);
-						if(Utils.distance(o,c.getCenterX(),c.getCenterY())<(30f+o.getAttribut(Attributs.size))){
-							collisionCorner = i+1;
-							break;
-						}
-					}
-					o.collision(e, collisionCorner, this);
-				}
+//				if (e.collisionBox.intersects(o.collisionBox)) {
+//					int collisionCorner = 0;
+//					for(int i=0; i<e.corners.size(); i++){
+//						c = e.corners.get(i);
+//						if(Utils.distance(o,c.getCenterX(),c.getCenterY())<(30f+o.getAttribut(Attributs.size))){
+//							collisionCorner = i+1;
+//							break;
+//						}
+//					}
+//					o.collision(e, collisionCorner, this);
+//				}
 			}
 			// Between spells and characters
 			for (SpellEffect s : getSpells()) {
