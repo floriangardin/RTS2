@@ -34,6 +34,8 @@ public class Checksum implements Serializable {
 			System.out.println(this.checksum);
 			if(c.checksum.split("name").length!=this.checksum.split("name").length){
 				System.out.println("Pas le meme nombre d'unites mon petit gillou");
+				System.out.println("Number 1 : "+c.checksum.split("name").length);
+				System.out.println("Number 2 : "+this.checksum.split("name").length);
 			}
 			System.out.println("-------------");
 		}
