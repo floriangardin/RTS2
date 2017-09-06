@@ -14,6 +14,7 @@ import display.Camera;
 import display.Interface;
 import events.EventHandler;
 import model.Game;
+import model.WholeGame;
 import multiplaying.ChatHandler;
 import pathfinding.Case;
 import pathfinding.Case.IdTerrain;
@@ -34,6 +35,8 @@ public class RenderEngine {
 	private static boolean hasChecked = false;
 
 	public static float xmouse, ymouse;
+
+	public static float alphaFadingIn = 0f;
 
 
 	// Draw Background
@@ -82,6 +85,17 @@ public class RenderEngine {
 		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);
 		ChatHandler.draw(g);
+
+		//fading in
+		if(alphaFadingIn>0f){
+			alphaFadingIn-=0.1f;
+			g.setColor(new Color(0f,0f,0f,alphaFadingIn));
+			g.fillRect(0, 0, Game.resX, Game.resY);
+		}
+		if(plateau.round<WholeGame.nbRoundStart){
+			String s = "Début dans "+10*(int)((WholeGame.nbRoundStart-plateau.round)/10);
+			GraphicElements.font_big.drawString(Game.resX/2-GraphicElements.font_big.getWidth(s)/2, Game.resY/2-50f, s);
+		}
 	}
 
 	public static void renderPlateau(Graphics g, Plateau plateau, boolean fogOfWar){
@@ -129,6 +143,8 @@ public class RenderEngine {
 		handleDrawUnderBuilding(g,plateau);
 		// Draw second layer of event
 		EventHandler.render(g, plateau, true);
+
+
 	}
 
 	public static void initBackground(Plateau plateau){
@@ -177,21 +193,21 @@ public class RenderEngine {
 					graphicBackgroundNeutral.drawImage(Images.get(s+i).getScaledCopy((int)c.sizeX,(int)c.sizeY), plateau.maxX/2+c.x,plateau.maxY/2+c.y);
 				}
 				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10);
-				b4 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b4 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x-10, c.y-10);
-				b7 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b7 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x+10, c.y-10);
-				b8 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b8 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y-10);
-				b9 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b9 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y+10);
-				b6 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b6 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y+10+c.sizeY);
-				b3 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b3 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x+10, c.y+10+c.sizeY);
-				b2 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b2 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10+c.sizeY);
-				b1 = ctemp==null || ctemp.getIdTerrain()!= c.getIdTerrain();
+				b1 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				if(b1||b2||b3||b4||b6||b7||b8||b9){
 					if(b4){
 						if(b6){
@@ -279,7 +295,6 @@ public class RenderEngine {
 		graphicBackground.flush();
 	}
 
-
 	public static void renderBackground(Graphics g, Plateau plateau){
 		if(imageBackground==null){
 			initBackground(plateau);
@@ -315,7 +330,7 @@ public class RenderEngine {
 		g.drawImage(imageBackground,-plateau.maxX/2, -plateau.maxY/2);
 
 	}
-	
+
 	public static void renderDomain(Plateau plateau, Graphics g, Vector<Objet> visibleObjets, boolean fogOfWar){
 		// draw fog of war
 		if(fogOfWar){
@@ -423,6 +438,12 @@ public class RenderEngine {
 				}
 			}
 		}
+	}
+
+
+	public static void init(Plateau plateau) {
+		alphaFadingIn = 1f;
+		initBackground(plateau);
 	}
 
 

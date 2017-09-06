@@ -223,8 +223,6 @@ public class InputObject implements java.io.Serializable{
 	
 	public void initInput(Input input){
 		time = System.nanoTime();
-		x = input.getMouseX();
-		y = input.getMouseY();
 		xOnScreen = input.getMouseX();
 		yOnScreen = input.getMouseY();
 		this.pressed = new Vector<KeyEnum>();
@@ -286,6 +284,13 @@ public class InputObject implements java.io.Serializable{
 	}
 
 	public void eraseLetter(){
+		this.pressed.clear();
+		this.down.clear();
+	}
+	
+	public void reset(){
+		x = (Game.resX/2 + Camera.Xcam)/Game.ratioX;
+		y = (Game.resY/2 + Camera.Ycam)/Game.ratioY;
 		this.pressed.clear();
 		this.down.clear();
 	}

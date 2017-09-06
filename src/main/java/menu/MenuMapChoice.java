@@ -37,7 +37,7 @@ public class MenuMapChoice extends Menu {
 	float sizeXPlayers;
 	float sizeYPlayers;
 	long startGame = 0;
-	public float seconds = 4;
+	public float seconds = 3f;
 
 	public int cooldown;
 	public int messageDropped;
@@ -82,7 +82,7 @@ public class MenuMapChoice extends Menu {
 			// demarrer
 			synchronized(Lobby.players){
 				for(Menu_Player mp : Lobby.players){
-					if(mp.id==Player.getID()){
+					if(mp.id==Player.getID() && this.seconds>2.5f){
 						mp.isReady = !mp.isReady;
 						this.seconds = 3f;
 					}
@@ -126,6 +126,12 @@ public class MenuMapChoice extends Menu {
 		}
 		// draw title
 		g.drawImage(this.title, Game.resX/2-this.title.getWidth()/2, 10f);
+		
+		// draw black fading
+		if(Lobby.checkStartGame()){
+			g.setColor(new Color(0,0,0,1f-3*this.seconds));
+			g.fillRect(0, 0, Game.resX, Game.resY);
+		}
 	}
 
 	public void update(InputObject im){
@@ -177,7 +183,7 @@ public class MenuMapChoice extends Menu {
 		//Checking starting of the game
 		if(Lobby.checkStartGame()){
 			this.seconds-=1f/Main.framerate;
-			this.seconds-=100f/Main.framerate;
+			this.seconds-=1f/Main.framerate;
 			if(this.seconds<=0){
 				launchGame();
 			}
