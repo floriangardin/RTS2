@@ -747,9 +747,7 @@ public class Plateau implements java.io.Serializable {
 					c.spellsState.set(i, 0f);
 				}
 			}
-
 		}
-
 	}
 
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
