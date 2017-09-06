@@ -172,7 +172,6 @@ public class WholeGame extends ClassSystem{
 			gc.setMaximumLogicUpdateInterval(16);
 		}
 		
-		
 	}
 
 	@Override
