@@ -7,18 +7,17 @@
 2 5 18
 ###########################
 = buildings
-Tower 2 8 15
-Tower 1 5 4
+Tower 1 6 3
 Mill 0 0 3
 Mine 0 11 3
 Mill 0 0 15
 Mine 0 11 15
 Barracks 0 9 18
 Barracks 0 9 0
-Tower 1 8 4
 Stable 0 0 0
 Stable 0 0 18
-Tower 2 5 15
+Tower 2 6 16
+Mine 0 9 9
 ###########################
 = units
 Spearman 1 554.0 260.0
@@ -35,11 +34,11 @@ Spearman 2 754.0 1743.0
       sswwwwss      
        ssssss       
         ssss        
-ss      ssss   s  ss
-ss      ssss      ss
-ss      ssss      ss
-        ssss   s    
+sssss   ssss   sssss
+sss ssssssssssss sss
+sssss   ssss   sssss
+        ssss        
        ssssss       
-      sswwwwss      
+      sswsswss      
      sswwwwwwss     
      swwwwwwwws     

@@ -699,14 +699,14 @@ public class Interface {
 			if(c.getTeam().id==2){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
-					float r = c.collisionBox.getBoundingCircleRadius();
+					float r = c.getAttribut(Attributs.size)*2f;
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 			else if(c.getTeam().id==1){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team1);
-					float r = c.collisionBox.getBoundingCircleRadius();
+					float r = c.getAttribut(Attributs.size)*2f;
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
@@ -778,6 +778,11 @@ public class Interface {
 		// Draw rect of Camera 
 		g.setColor(Color.white);
 		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
+		// Fill rec on side
+		g.setColor(Color.black);
+		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, startXMiniMap-startX2MiniMap, sizeYMiniMap);
+		g.fillRect(2*startX2MiniMap+offsetDrawX+sizeXMiniMap-startXMiniMap, startY2MiniMap, startXMiniMap-startX2MiniMap, sizeYMiniMap);
+		
 	}
 
 	public static void drawSpell(Graphics g, Plateau plateau){
