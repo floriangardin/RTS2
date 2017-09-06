@@ -386,7 +386,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public String hash(){
-		return "name:"+name+"-x:"+x+"-y:"+y+"-lp:"+lifePoints+"-";
+		return "id:"+id+"name:"+name+"-x:"+x+"-y:"+y+"-lp:"+lifePoints+"-";
 	}
 
 	public int roundSinceLastAttack(int currentRound){
