@@ -732,10 +732,8 @@ public class Plateau implements java.io.Serializable {
 			Spell s = teams.get(im.team).data.getSpell(im.spell);
 			Character c = ((Character) this.getById(im.idSpellLauncher));
 			if(im.idObjetMouse!=-1){
-				System.out.println("Vanneau1");
 				s.launch(getById(im.idObjetMouse), c, this);
 			} else {
-				System.out.println("Vanneau2");
 				s.launch(new Checkpoint(im.x,im.y, this), c, this);				
 			}
 			for(int i=0; i<c.getSpells().size(); i++){

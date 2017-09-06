@@ -1,7 +1,7 @@
 {
 printName:"Tower",
 prototype:"Building",
-Damage:10,
+damage:10,
 sizeX:1,
 sizeY:1,
 canAttack:1,
