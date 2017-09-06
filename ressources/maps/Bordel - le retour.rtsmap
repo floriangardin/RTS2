@@ -7,7 +7,6 @@
 2 0 13
 ###########################
 = buildings
-Tower 1 8 9
 Barracks 1 0 0
 Mill 1 12 0
 Mill 1 12 2
@@ -56,6 +55,10 @@ Knight 1 690.0 206.0
 Knight 1 873.0 233.0
 Knight 1 817.0 334.0
 Knight 1 726.0 410.0
+Inquisitor 1 931.0 342.0
+Inquisitor 1 837.0 404.0
+Inquisitor 1 956.0 408.0
+Inquisitor 1 1045.0 415.0
 ###########################
 = naturalObjects
 Tree 2 662.0 606.0
