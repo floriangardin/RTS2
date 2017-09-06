@@ -171,7 +171,7 @@ public class MenuSystem extends ClassSystem {
 			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
 			do{
 				ol = v.get((int)(Math.random()*v.size()));
-			} while(ol==ObjetsList.Priest);
+			} while(ol==ObjetsList.Priest || ol==ObjetsList.Inquisitor);
 			c = new Character(x,y,ol,plateau.teams.get((int)(Math.random()*2)+1),plateau);
 			c.attributsChanges.add(new AttributsChange(Attributs.sight, Change.MUL, 4f, false));
 			plateau.addCharacterObjets(c);

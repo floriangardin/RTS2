@@ -97,10 +97,7 @@ public class EndSystem extends ClassSystem{
 			}
 		} else {
 			Game.menuSystem.init();
-			Camera.reset();
-			GameServer.close();
 			Game.system = Game.menuSystem;
-			
 		}
 	}
 	
