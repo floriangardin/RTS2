@@ -15,12 +15,10 @@ import plateau.Plateau;
 public class EventHandler {
 
 	private static Vector<Event> events = new Vector<Event>();
-	private static Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 	private static boolean isInit;
 
 	public static void init(){
 		events = new Vector<Event>();
-		displayRessources = new Vector<DisplayRessources>();
 		isInit=true;
 	}
 	
@@ -33,7 +31,7 @@ public class EventHandler {
 				continue;
 			}
 			isVisible = plateau.isVisibleByTeam(Player.team, e.parent);
-			if(!e.play(g, plateau, isVisible)){
+			if(e.isDesynchro(plateau) || !e.play(g, plateau, isVisible)){
 				toRemove1.addElement(e);
 			}
 		}

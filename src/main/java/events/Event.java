@@ -34,6 +34,11 @@ public abstract class Event {
 		// TODO : Make it generic with dataFile
 
 	}
+	
+	public boolean isDesynchro(Plateau plateau){
+		
+		return plateau.getById(parent.id)==null;
+	}
 
 	public String toString(){
 		return this.getName().name();
