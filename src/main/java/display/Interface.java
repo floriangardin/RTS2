@@ -371,7 +371,6 @@ public class Interface {
 				c = (Character) plateau.getById(id);
 				if(c!=null){
 
-
 					Image icone = Images.get(c.name+"blue");
 					int imageWidth = icone.getWidth()/5;
 					int imageHeight = icone.getHeight()/4;
