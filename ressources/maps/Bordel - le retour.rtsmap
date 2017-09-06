@@ -7,8 +7,19 @@
 2 0 13
 ###########################
 = buildings
-Tower 2 8 4
 Tower 1 8 9
+Barracks 1 0 0
+Mill 1 12 0
+Mill 1 12 2
+Mine 1 10 0
+Mine 1 10 2
+Mine 1 4 0
+Mine 1 0 11
+Mine 1 3 13
+Mine 1 13 11
+Mine 1 13 9
+Mine 1 13 7
+Mine 1 10 13
 ###########################
 = units
 Spearman 1 631.0 146.0
@@ -20,15 +31,6 @@ Spearman 1 832.0 173.0
 Spearman 1 868.0 113.0
 Spearman 1 940.0 116.0
 Spearman 1 997.0 185.0
-Spearman 1 997.0 264.0
-Spearman 1 922.0 361.0
-Spearman 1 989.0 441.0
-Spearman 1 1105.0 393.0
-Spearman 1 1156.0 263.0
-Spearman 1 1205.0 140.0
-Spearman 1 1309.0 170.0
-Spearman 1 1323.0 259.0
-Spearman 1 1296.0 317.0
 Spearman 2 484.0 1055.0
 Spearman 2 552.0 1016.0
 Spearman 2 629.0 1040.0
