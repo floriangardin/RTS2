@@ -32,7 +32,7 @@ public class Checksum implements Serializable {
 			System.out.println("Desynchro at round : "+c.round);
 			System.out.println(c.checksum);
 			System.out.println(this.checksum);
-			if(c.checksum.split(":").length!=this.checksum.split(":").length){
+			if(c.checksum.split("name").length!=this.checksum.split("name").length){
 				System.out.println("Pas le meme nombre d'unites mon petit gillou");
 			}
 			System.out.println("-------------");
