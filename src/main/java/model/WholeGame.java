@@ -13,6 +13,7 @@ import control.InputObject;
 import control.Player;
 import display.Camera;
 import display.Interface;
+import events.EventHandler;
 import menu.Lobby;
 import multiplaying.ChatHandler;
 import multiplaying.Checksum;
@@ -61,6 +62,7 @@ public class WholeGame extends ClassSystem{
 	
 	public WholeGame() {
 		// TODO Auto-generated method stub
+		EventHandler.init();
 		if(Lobby.isInit()){			
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
 		}else{
@@ -70,6 +72,7 @@ public class WholeGame extends ClassSystem{
 		Game.endSystem = null;
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
+		RenderEngine.initBackground(plateau);
 		// Put camera at the center of headquarter
 		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){

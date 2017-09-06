@@ -17,7 +17,6 @@ import model.Game;
 import model.Options;
 import ressources.GraphicElements;
 import ressources.Images;
-import ressources.Map;
 import ressources.Musics;
 import system.MenuSystem.MenuNames;
 
@@ -56,8 +55,11 @@ public class MenuOptions extends Menu {
 		float stepY = 0.12f*Game.resY;
 		float startX = Game.resX/2;
 		this.items.addElement(new Menu_Item(Game.resX/3f,startY+0*stepY,"Musique",false));
+		this.items.lastElement().font_current = GraphicElements.font_mid;
 		this.items.addElement(new Menu_Item(Game.resX/3f,startY+1*stepY,"Son",false));
+		this.items.lastElement().font_current = GraphicElements.font_mid;
 		this.items.addElement(new Menu_Item(Game.resX/3f,startY+2*stepY,"Pseudo",false));
+		this.items.lastElement().font_current = GraphicElements.font_mid;
 		this.textscanner = new Menu_TextScanner(Options.nickname,2*Game.resX/3f,startY+2f*stepY,GraphicElements.font_main.getWidth("Gilles de Bouard "),GraphicElements.font_main.getHeight("R")*2f+2f);
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,Options.musicVolume));
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,Options.soundVolume*5));
@@ -86,7 +88,9 @@ public class MenuOptions extends Menu {
 		} 
 		Options.musicVolume = ((Menu_Curseur)this.items.get(3)).value;
 		Options.soundVolume = ((Menu_Curseur)this.items.get(4)).value/2f;
-		Musics.getPlayingMusic().setVolume(Options.musicVolume);
+		if(Musics.getPlayingMusic()!=null){
+			Musics.getPlayingMusic().setVolume(Options.musicVolume);
+		}
 	}
 
 	public void updateOptions(){

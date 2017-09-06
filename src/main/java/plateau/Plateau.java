@@ -478,7 +478,8 @@ public class Plateau implements java.io.Serializable {
 	public Vector<Character> getEnnemiesInSight(Character caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : getCharacters()) {
-			if (o.getTeam() != caller.getTeam() && o.collisionBox.intersects(caller.sightBox)) {
+			if (o.getTeam() != caller.getTeam() 
+					&& Utils.distance(o, caller) <= (o.getAttribut(Attributs.size)+caller.getAttribut(Attributs.sight))) {
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -498,7 +499,8 @@ public class Plateau implements java.io.Serializable {
 	public Vector<Objet> getAlliesInSight(Character caller) {
 		Vector<Objet> ennemies_in_sight = new Vector<Objet>();
 		for (Character o : getCharacters()) {
-			if (o != caller && o.getTeam() == caller.getTeam() && o.collisionBox.intersects(caller.sightBox)) {
+			if (o != caller
+					&& Utils.distance(o, caller) <= (o.getAttribut(Attributs.size)+caller.getAttribut(Attributs.sight))) {
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -509,7 +511,7 @@ public class Plateau implements java.io.Serializable {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : getCharacters()) {
 			if (o != caller && o.getTeam() == caller.getTeam() && o.lifePoints < o.getAttribut(Attributs.maxLifepoints)
-					&& o.collisionBox.intersects(caller.sightBox)) {
+					&& Utils.distance(o, caller) <= (o.getAttribut(Attributs.size)+caller.getAttribut(Attributs.sight))) {
 				ennemies_in_sight.add(o);
 			}
 		}
@@ -594,7 +596,7 @@ public class Plateau implements java.io.Serializable {
 			if(team.id==0){
 				continue;
 			}
-			if(this.endCondition.hasLost(this, team)){
+			if(this.endCondition!=null && this.endCondition.hasLost(this, team)){
 				this.teamLooser = team.id;
 			}
 		}

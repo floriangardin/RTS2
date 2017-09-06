@@ -33,7 +33,7 @@ public class MenuIntro extends Menu {
 		float startX = Game.resX/2;
 		
 		// handling items
-		this.items.addElement(new Menu_Item(startX,startY,"Unjoueur",true));
+		this.items.addElement(new Menu_Item(startX,startY,"Un joueur",true));
 		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"Multijoueur",true));
 		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"Editeur",true));
 		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"Options",true));
@@ -41,8 +41,6 @@ public class MenuIntro extends Menu {
 		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"Quitter",true));
 
 		//		}
-		
-		     
 	}
 	
 	//to delete too
