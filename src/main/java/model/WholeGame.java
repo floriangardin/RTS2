@@ -34,6 +34,7 @@ public class WholeGame extends ClassSystem{
 	private boolean repeat = false;
 	private int repeatNumber = 100;
 	private String currentMap = null;
+	public static final float nbRoundStart = 200f;
 	
 	public WholeGame(boolean repeat) {
 		// TODO Auto-generated method stub
@@ -72,7 +73,7 @@ public class WholeGame extends ClassSystem{
 		Game.endSystem = null;
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
-		RenderEngine.initBackground(plateau);
+		RenderEngine.init(plateau);
 		// Put camera at the center of headquarter
 		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){
@@ -98,8 +99,14 @@ public class WholeGame extends ClassSystem{
 		GameClient.mutex.lock();
 		try{
 			Input in = gc.getInput();
+			Vector<InputObject> iaIms = new Vector<InputObject>();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
-			final Vector<InputObject> iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
+			// handling start
+			if(GameClient.getPlateau().round<nbRoundStart){
+				im.reset();
+			} else {
+				iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
+			}
 			ChatHandler.action(in, im);
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
