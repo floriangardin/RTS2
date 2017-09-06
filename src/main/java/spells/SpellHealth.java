@@ -41,9 +41,7 @@ public class SpellHealth extends Spell{
 			Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, launcher.getAttribut(Attributs.range),true, plateau);
 			if(! (t instanceof Character)){
 				g.setColor(Color.red);
-			} else {
-				g.setColor(Color.green);
-			}
+			} 
 			g.drawOval(t.x-this.getAttribut(Attributs.size)/2,t.y-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
 		}
 		g.setAntiAlias(false);
