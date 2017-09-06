@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Point;
 import data.Data;
 import display.DisplayRessources;
 import main.Main;
+import model.Game;
 import nature.Tree;
 import plateau.Building;
 import tests.FatalGillesError;
@@ -56,7 +57,7 @@ public class Images {
 		images.put("imagegolddisplayressources",images.get("imagegold").getSubImage(7*taille ,15*taille ,taille, taille));
 		images.put("imagefooddisplayressources",images.get("imagegold").getSubImage(7*taille ,taille ,taille, taille));
 		images.put("rectselectsizebuilding",images.get("rectselect").getScaledCopy(4f));
-		images.put("imagepop", images.get("imagepop").getScaledCopy(32,32));
+		images.put("imagepop", images.get("imagepop").getScaledCopy(32*Game.resX/1920,32*Game.resY/1920));
 
 		// buildings
 //		resizeBuilding("barracks");

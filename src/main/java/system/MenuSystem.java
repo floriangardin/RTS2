@@ -101,25 +101,21 @@ public class MenuSystem extends ClassSystem {
 	public void setMenu(MenuNames m){
 		// handle change of menu
 		// including the change of music
+		Musics.playMusic("themeMenu");
 		switch(m){
 		case MenuIntro:
-			Musics.playMusicFading("themeMenu");
 			this.currentMenu = menuIntro;
 			break;
 		case MenuMapChoice:
-			Musics.playMusicFading("themeMulti");
 			this.currentMenu = menuMapChoice;
 			break;
 		case MenuMulti:
-			Musics.playMusicFading("themeMulti");
 			this.currentMenu = menuMulti;
 			break;
 		case MenuOptions:
-			Musics.playMusicFading("themeMenu");
 			this.currentMenu = menuOptions;
 			break;
 		case Credits:
-			Musics.playMusicFading("themeMapEditor");
 			this.currentMenu = credits;
 		default:
 			break;

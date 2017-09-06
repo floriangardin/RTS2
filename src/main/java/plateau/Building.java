@@ -366,7 +366,7 @@ public class Building extends Objet{
 
 		}
 		if(this.queue.size()>0){
-			float foodCost = getAttribut(getProductionList(plateau).get(this.queue.size()-1),Attributs.foodCost);
+			float foodCost = getAttribut(this.queue.lastElement(),Attributs.foodCost);
 			this.getTeam().food += foodCost;
 
 			this.queue.remove(this.queue.size()-1);

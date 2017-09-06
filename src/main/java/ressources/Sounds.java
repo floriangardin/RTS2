@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import display.Camera;
+import model.Game;
 import model.Options;
 import tests.FatalGillesError;
 import utils.ObjetsList;
@@ -28,7 +29,7 @@ public class Sounds {
 		isInit = true;
 	}
 
-	public static Sound get(String name) {
+	private static Sound get(String name) {
 		if(sounds.containsKey(name.toLowerCase())){
 			return sounds.get(name.toLowerCase());
 		} else {
@@ -149,7 +150,7 @@ public class Sounds {
 		}
 		Sound s = get(name);
 		if(s!=null){
-			s.play(1f, Options.soundVolume*volume);
+			s.play(1f, Options.soundVolume*volume*(Game.system==Game.menuSystem ? 0.1f : 1f ));
 		}
 	}
 	
