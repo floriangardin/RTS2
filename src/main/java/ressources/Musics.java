@@ -62,7 +62,7 @@ public class Musics {
 
 	public static void playMusic(String name){
 		Music music = get(name);
-		if(music != null){
+		if(music != null && music != musicPlaying){
 			if(musicPlaying != null){
 				musicPlaying.stop();
 			}
