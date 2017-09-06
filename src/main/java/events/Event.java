@@ -36,7 +36,6 @@ public abstract class Event {
 	}
 	
 	public boolean isDesynchro(Plateau plateau){
-		
 		return plateau.getById(parent.id)==null;
 	}
 
