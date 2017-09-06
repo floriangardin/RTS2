@@ -3,6 +3,6 @@ prototype:"Spell",
 printName:"Conversion",
 chargeTime:200,
 bonusSpeed:500,
-bonusDamage:20,
+bonusDamage:15,
 totalTime:1.2
 }
