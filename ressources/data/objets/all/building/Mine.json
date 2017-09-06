@@ -1,0 +1,14 @@
+{
+printName:"Mine",
+prototype:"Building",
+sizeX:2,
+sizeY:2,
+maxChargetime:10,
+technologies:DualistBonusGold,
+produceGold:0,
+popGiven:5,
+popTaken:0,
+newdesign:0,
+smokeAnimationX:75,
+smokeAnimationY:-195
+}

@@ -23,8 +23,11 @@ public class EventBuildingTakingGlobal extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		int value1 = 0, value2 = 0;
+		if(!toDraw){
+			return true;
+		}
 		if(numberOfAttackers.containsKey(plateau.teams.get(1).id)){
 			value1 = numberOfAttackers.get(plateau.teams.get(1).id);
 		}
@@ -60,19 +63,15 @@ public class EventBuildingTakingGlobal extends Event{
 	public void addAttacker(int team){
 		if(!numberOfAttackers.containsKey(team)){
 			numberOfAttackers.put(team, 1);
-			System.out.println("+++ attacker add");
 		} else {
 			numberOfAttackers.put(team, numberOfAttackers.get(team)+1);
-			System.out.println("+++ attacker add");
 		}
 	}
 	
 	public void removeAttacker(int team){
 		if(!numberOfAttackers.containsKey(team)){
-			System.out.println("problem!!!");
 		} else {
 			numberOfAttackers.put(team, numberOfAttackers.get(team)-1);
-			System.out.println("--- attacker removed");
 		}
 	}
 	

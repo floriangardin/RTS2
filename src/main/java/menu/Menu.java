@@ -66,7 +66,7 @@ public abstract class Menu {
 			Menu_Item item;
 			// if you move your mouse more than a certain distance you able it
 			float distanceThreshold = 250f;
-			if(! mouseControl && (xMouseTemp-im.x)*(xMouseTemp-im.x)+(yMouseTemp-im.y)*(yMouseTemp-im.y) > distanceThreshold){
+			if(! mouseControl && (xMouseTemp-im.xOnScreen)*(xMouseTemp-im.xOnScreen)+(yMouseTemp-im.yOnScreen)*(yMouseTemp-im.yOnScreen) > distanceThreshold){
 				mouseControl = true;
 			}
 			// Handling passage to mouseControl or not mouse Control
@@ -76,8 +76,8 @@ public abstract class Menu {
 			}
 			if(!arrowPressed && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down))){
 				this.mouseControl = false;
-				this.xMouseTemp = im.x;
-				this.yMouseTemp = im.y;
+				this.xMouseTemp = im.xOnScreen;
+				this.yMouseTemp = im.yOnScreen;
 			}
 			// handling key control
 			if(! mouseControl){
@@ -139,13 +139,13 @@ public abstract class Menu {
 	
 	public void deselectItems(){
 		for(int i=0; i<this.items.size(); i++){
-			this.items.get(i).toDraw = this.items.get(i).image;
+			this.items.get(i).font_current  = this.items.get(i).font;
 		}	
 	}
 
 	public void drawItems(Graphics g){
 		// draw background
-		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+//		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		// draw items
 		for(Menu_Item item: this.items){
 			item.draw(g);

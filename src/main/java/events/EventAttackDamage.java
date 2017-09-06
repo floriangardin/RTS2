@@ -28,9 +28,8 @@ public class EventAttackDamage extends Event {
 		this.vx = 0.7f*((float) (2f*Math.random()-1f));
 	}
 	
-
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		this.vy += 3f/Main.framerate;
 		this.y+=vy;
 		this.x+=vx;

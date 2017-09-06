@@ -11,16 +11,14 @@ import utils.ObjetsList;
 // TODO : Sort
 public class SpellEclair extends Spell{
 
-	
-
 	public SpellEclair(){
 		this.name = ObjetsList.Eclair;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		Objet h = target;
-		for(Character c : plateau.characters){
+		for(Character c : plateau.getCharacters()){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}
@@ -28,8 +26,9 @@ public class SpellEclair extends Spell{
 
 		if(h instanceof Character && h.getTeam()!=team){
 			((Character)h).isBolted = true;
-			//TODO add a sound
+			return true;
 		}
+		return false;
 	}
 
 

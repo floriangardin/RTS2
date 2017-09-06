@@ -1,0 +1,15 @@
+{
+prototype:"Unit",
+printName:"Crossbowman",
+foodCost:50,
+attackDuration:1,
+maxLifepoints:30,
+sight:400,
+maxVelocity:130,
+armor:0,
+prodTime:50,
+damage:3,
+weapon:"bow",
+range:300,
+spells:SpecialArrow
+}

@@ -34,6 +34,10 @@ public abstract class Event {
 		// TODO : Make it generic with dataFile
 
 	}
+	
+	public boolean isDesynchro(Plateau plateau){
+		return plateau.getById(parent.id)==null;
+	}
 
 	public String toString(){
 		return this.getName().name();
@@ -47,7 +51,7 @@ public abstract class Event {
 	}
 
 
-	public abstract boolean play(Graphics g, Plateau plateau);
+	public abstract boolean play(Graphics g, Plateau plateau, boolean toDraw);
 
 
 	//	public abstract void draw(Graphics g);

@@ -5,8 +5,11 @@ import java.util.Vector;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Circle;
 
+import control.Player;
 import data.Attributs;
+import display.Interface;
 import main.Main;
 import model.Colors;
 import plateau.Building;
@@ -15,13 +18,13 @@ import plateau.Checkpoint;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
+import utils.Utils;
 
 public class RenderCharacter {
-	
+
 	public static void render(Character character, Graphics g, Plateau plateau){
-		
-		//g.setColor(Color.blue); // Draw selection box : 
-		//g.drawRect(character.selectionBox.getX(), character.selectionBox.getY(),character.selectionBox.getWidth(), character.selectionBox.getHeight());
+
+
 		float r = 60f*Main.ratioSpace;
 		int direction = (character.orientation/2-1);
 		// inverser gauche et droite
@@ -30,7 +33,26 @@ public class RenderCharacter {
 		}
 		Image im;
 		im = Images.getUnit(character.name, direction, character.animation, character.getTeam().id, character.isAttacking);
-		if(character.mouseOver && character.frozen<=0f){
+
+		// DRAW IS TARGETTED BY SPELL
+		if(character.id==Player.mouseOver ){
+			if(Interface.spellCurrent!=null && Interface.spellLauncher!=null){
+				Objet launcher = plateau.getById(Interface.spellLauncher);
+				if(launcher!=null){
+					if(Utils.distance(character, launcher)< launcher.getAttribut(Attributs.range)){
+						float ratio  = 1.75f;
+						g.setAntiAlias(true);
+						g.setLineWidth(2f*Main.ratioSpace);
+						g.setColor(Color.cyan);
+						Circle collision = (Circle) character.collisionBox;
+						collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
+						g.draw(collision);
+						g.setAntiAlias(false);
+						g.fillRect(character.getX()-r/2-2f,-48f+character.getY()-r,r+4f,10f);
+						
+					}
+				}
+			}
 			Color color = Color.darkGray;
 			if(character.getTeam().id==1){
 				color = new Color(0,0,205,0.4f);
@@ -49,7 +71,6 @@ public class RenderCharacter {
 			color = new Color(100,150,255,0.4f);
 			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
 			drawFlash(g, color, character, plateau);
-			
 		}
 		if(character.isBolted){
 			Color color = new Color(44,117,255,0.8f);
@@ -62,7 +83,7 @@ public class RenderCharacter {
 			drawLifePoints(g,r, character, plateau);
 		}
 	}
-	
+
 	//// GRAPHISMS
 	public static void drawLifePoints(Graphics g,float r, Character character, Plateau plateau){
 		//Draw lifepoints
@@ -74,7 +95,6 @@ public class RenderCharacter {
 		g.fillRect(character.getX()-r/2,-46f+character.getY()-r,x*r,6f);
 	}
 
-	
 	public static void drawFlash(Graphics g, Color color, Character character, Plateau plateau){
 		int direction = (character.orientation/2-1);
 		if(direction==1 || direction==2){
@@ -85,19 +105,20 @@ public class RenderCharacter {
 		im.drawFlash(character.x-im.getWidth()/2,character.y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 	}
 
-
 	public static void renderSelection(Graphics g, Character character, Plateau plateau){
 
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
-		g.draw(character.collisionBox);
+		Circle collision = (Circle)character.collisionBox;
+		float ratio = 1.5f;
+		collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
+		g.draw(collision);
 		Objet target = character.getTarget(plateau);
-		
+
 		if(target !=null && target instanceof Checkpoint){
 			RenderCheckpoint.render((Checkpoint) target, g, plateau);
 		}
-		
 		if(target !=null && target instanceof Building){
 			RenderCheckpoint.render(((Building) target).marker, g, plateau);
 		}

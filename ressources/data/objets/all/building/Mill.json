@@ -1,0 +1,12 @@
+{
+printName:"Mill",
+prototype:"Building",
+sizeX:3,
+sizeY:2,
+maxChargetime:10,
+technologies:DualistBonusFood,
+produceFood:1,
+newdesign:0,
+smokeAnimationX:10,
+smokeAnimationY:-220
+}

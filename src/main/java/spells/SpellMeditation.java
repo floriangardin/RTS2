@@ -16,14 +16,15 @@ public class SpellMeditation extends Spell{
 		this.name = ObjetsList.Meditation;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Check if already meditating
 		if(launcher.etats.contains(Etats.Meditating)){
-			return;
+			return false;
 		}
 		launcher.addSpellEffect(new Meditation(launcher,target, plateau));
 		launcher.canMove = false;
 		EventHandler.addEvent(EventNames.Meditation, launcher, plateau);
+		return true;
 	}
 
 	@Override

@@ -47,13 +47,14 @@ public class EventDeath extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		// draw shadow of unit
 		this.playSound();
 		delta_y+=3.5f;
 		alpha*=0.95f;
 		im.setAlpha(alpha);
-		g.drawImage(im, x-im.getWidth()/2,y-delta_y-3*im.getHeight()/4,color);
+		if(toDraw)
+			g.drawImage(im, x-im.getWidth()/2,y-delta_y-3*im.getHeight()/4,color);
 		im.setAlpha(1.0f);
 		this.duration -= Main.increment;
 		return this.duration>0f;

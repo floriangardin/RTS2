@@ -1,6 +1,0 @@
-{
-prototype:"Spell",
-printName:"Mort Subite",
-chargeTime:400,
-range:200
-}

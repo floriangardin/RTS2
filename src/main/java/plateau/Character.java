@@ -44,7 +44,6 @@ public class Character extends Objet{
 	public static int DESTROY_BUILDING = 5;
 
 	// General attributes
-	public Circle sightBox;
 
 	public boolean moveAhead;
 	public float distanceToTarget=-1f;
@@ -87,8 +86,7 @@ public class Character extends Objet{
 		this.x = x;
 		this.y = y;
 		this.collisionBox = new Circle(this.x,this.y,this.getAttribut(Attributs.size));
-		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-3*this.getAttribut(Attributs.size)/2,2*this.getAttribut(Attributs.size),3*this.getAttribut(Attributs.size));
-		this.sightBox = new Circle(this.x,this.y,this.getAttribut(Attributs.sight));
+		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-5*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 6*this.getAttribut(Attributs.size));
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
 		plateau.addCharacterObjets(this);
@@ -98,8 +96,6 @@ public class Character extends Objet{
 			this.addSpell(ObjetsList.valueOf(s));
 			this.spellsState.addElement(0f);
 		}
-
-
 	}
 
 	public void addSpellEffect(SpellEffect e){
@@ -194,9 +190,10 @@ public class Character extends Objet{
 				new Arrow(this,this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
 				break;
 			case "wand" :
-				new Fireball(this,this.getTarget(plateau).getX(),this.getTarget(plateau).getY(),this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
+				//new Fireball(this,this.getTarget(plateau).getX(),this.getTarget(plateau).getY(),this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
 				break;
 			default:
+				
 			}
 		}
 		// Reset the state
@@ -236,7 +233,7 @@ public class Character extends Objet{
 		if(canMove){
 			this.actionIAScript(plateau);
 			this.updateAnimation();
-			this.updateAttributsChange();
+			this.updateAttributsChange(plateau);
 		}
 
 	}
@@ -346,7 +343,6 @@ public class Character extends Objet{
 		if((this.getGroup(plateau).size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
 			// 1st possible call of stop: the target is near
 			this.stop(plateau);
-			System.out.println("stop 1");
 			return;
 		}
 		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
@@ -492,14 +488,6 @@ public class Character extends Objet{
 			float signu = Math.signum(D2-Z*Z);
 			newx = x0 + signu*d*ux + signv*h*vx;
 			newy = y0 + signu*d*uy + signv*h*vy;
-			System.out.println(Z+" "+Math.sqrt(R2)+" "+Math.sqrt(D2)+" "+A2);
-			System.out.println(Z*Z+D2-R2+" "+2*Z*Math.sqrt(D2));
-			System.out.println(h+" "+d);
-			System.out.println(ux+" "+uy+" "+vx+" "+vy);
-			System.out.println(this.x+" "+this.y+" "+newx+" "+newy);
-			System.out.println(signv);
-			System.out.println(Utils.distance(newx, newy, xi, yi)+" "+Z);
-			System.out.println();
 			SimpleRenderEngine.ux = ux;
 			SimpleRenderEngine.vx = vx;
 			SimpleRenderEngine.old_vx = (float) (this.vx/Math.sqrt(R2));
@@ -510,7 +498,6 @@ public class Character extends Objet{
 			SimpleRenderEngine.h = h;
 			SimpleRenderEngine.signv = signv;
 			SimpleRenderEngine.signu = signu;
-			System.out.println();
 		}
 		this.setXY(newx,newy,plateau);
 		this.vx = this.x - x0;
@@ -529,7 +516,6 @@ public class Character extends Objet{
 	public void collision(Building o, int corner, Plateau plateau) {
 		if(corner>0){
 			Circle c;
-			System.out.println(corner);
 			float xi=0, yi=0;
 			float r = 50f;
 			switch(corner){
@@ -802,11 +788,9 @@ public class Character extends Objet{
 			this.attackState-=2*Main.increment;
 		}
 
-		for(int i=0; i<this.getSpells().size(); i++){
-			this.spellsState.set(i,Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
+		for(int i=0; i<this.getSpells().size(); i++){	
+			this.spellsState.set(i, Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
-
-
 	}
 
 	public void updateSetTarget(Plateau plateau){
@@ -839,7 +823,7 @@ public class Character extends Objet{
 		}
 		if(this.getTarget(plateau) instanceof Character){
 			Character c =(Character) this.getTarget(plateau);
-			if(c.getTeam()!=this.getTeam() && !c.collisionBox.intersects(this.sightBox)){
+			if(c.getTeam()!=this.getTeam() && Utils.distance(c, this)>c.getAttribut(Attributs.size)+this.getAttribut(Attributs.sight)){
 				this.setTarget(new Checkpoint(this.getTarget(plateau).x,this.getTarget(plateau).y,true, plateau),null,this.mode, plateau);
 			}
 		}

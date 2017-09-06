@@ -19,10 +19,9 @@ public class GameServer extends Listener {
 	public static boolean hasLaunched = false;
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
-
 	public static void init(){
 		if(!hasLaunched){
-			server = new Server(500000, 500000);
+			server = new Server(5000000, 5000000);
 			// Choose between byte and plateau
 			server.getKryo().register(byte[].class);
 			server.getKryo().register(Integer.class);
@@ -50,7 +49,9 @@ public class GameServer extends Listener {
 	}
 	
 	public static void close(){
-		server.close();
+		if(server!=null){
+			server.close();
+		}
 		hasLaunched = false;
 	}
 	
@@ -58,7 +59,7 @@ public class GameServer extends Listener {
 		// If connection send plateau to id
 		System.out.println("Connection received.");
 		if(GameClient.getPlateau() != null){			
-			server.sendToAllTCP( new Message(GameClient.getPlateau()));
+			server.sendToAllTCP(new Message(GameClient.getPlateau()));
 		}
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		server.sendToTCP(c.getID(), "");
@@ -75,14 +76,14 @@ public class GameServer extends Listener {
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
-				server.sendToAllUDP(o);
+				server.sendToAllTCP(o);
 			}else if(m.getType()==Message.MENUPLAYER){
-				server.sendToAllUDP(o);
+				server.sendToAllTCP(o);
 			}else if(m.getType()==Message.CHATMESSAGE){
 				server.sendToAllUDP(o);
 			}
 		}else if(o instanceof Integer){
-			server.sendToAllExceptUDP(c.getID(), o);
+			server.sendToAllExceptTCP(c.getID(), o);
 		}
 	}
 	

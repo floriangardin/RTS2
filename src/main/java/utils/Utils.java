@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.newdawn.slick.Color;
@@ -15,11 +16,10 @@ import org.newdawn.slick.ImageBuffer;
 
 import com.google.gson.Gson;
 
-import model.Game;
 import plateau.Building;
+import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
-import plateau.Character;
 
 // Class for static methods
 public class Utils {
@@ -57,6 +57,14 @@ public class Utils {
 		return (a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) ;
 
 	}
+	public static float distance_2(Objet a ,float x, float y){
+		return (a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) ;
+
+	}
+	public static float distance_2_selectionBox(Objet a ,float x, float y){
+		return (a.selectionBox.getCenterX()-x)*(a.selectionBox.getCenterX()-x) + (a.selectionBox.getCenterY()-y)*(a.selectionBox.getCenterY()-y) ;
+
+	}
 
 	public static float distance(Objet a ,Objet b){
 		if(a== null || b == null){
@@ -86,8 +94,32 @@ public class Utils {
 			}
 		}
 		return closest;
-
 	}
+	public static Objet nearestObject(Vector<Objet> close, float x, float y){
+		float ref_dist = 10000000000f;
+		Objet closest = null;
+		for(Objet o : close){
+			float dist = Utils.distance_2(o, x, y);
+			if(dist < ref_dist){
+				ref_dist = dist;
+				closest = o;
+			}
+		}
+		return closest;
+	}
+	public static Objet nearestObjectToSelectionBox(List<Objet> close, float x, float y){
+		float ref_dist = 10000000000f;
+		Objet closest = null;
+		for(Objet o : close){
+			float dist = Utils.distance_2_selectionBox(o, x, y);
+			if(dist < ref_dist){
+				ref_dist = dist;
+				closest = o;
+			}
+		}
+		return closest;
+	}
+
 
 	public static Character nearestObject(Vector<Character> close, Character caller){
 		float ref_dist = 1000000000f;
@@ -331,7 +363,7 @@ public class Utils {
 		System.out.println();System.out.println("========================================");
 		System.out.println();
 		System.out.println("** Characters");
-		if(p.characters==null)
+		if(p.getCharacters()==null)
 			System.out.println("-> bug: characters est null");
 		else{
 //			for(Character c:p.characters)

@@ -25,7 +25,9 @@ import model.Options;
 import multiplaying.ChatHandler;
 import ressources.GraphicElements;
 import ressources.Images;
+import ressources.MusicManager;
 import ressources.Musics;
+import ressources.SoundManager;
 import ressources.Sounds;
 import ressources.Taunts;
 
@@ -105,7 +107,7 @@ public class IntroSystem extends ClassSystem{
 			}
 		}
 		LoadingList.setDeferredLoading(true);
-		//Musics.init();
+		Musics.init();
 		EventHandler.init();
 		Sounds.init();
 		GraphicElements.init();
@@ -115,6 +117,8 @@ public class IntroSystem extends ClassSystem{
 		Options.init();
 		KeyMapper.init();
 		Taunts.init();
+		MusicManager.init();
+		SoundManager.init();
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}
 

@@ -463,7 +463,7 @@ public class SheetPanel extends JPanel {
 
 		// rendering objects
 		Vector<Objet> objets = new Vector<Objet>();
-		for(Objet o : plateau.objets.values()){
+		for(Objet o : plateau.getObjets().values()){
 			if(o instanceof Checkpoint){
 				continue;
 			}

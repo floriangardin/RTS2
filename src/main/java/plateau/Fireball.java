@@ -71,14 +71,13 @@ public class Fireball extends Bullet {
 		if(this.animation>=9)
 			this.animation = 0;
 
-
 		if(Utils.distance(this, this.getTarget(plateau))<this.size){
 			this.explode(plateau);
 		}
 	}
 	public void explode(Plateau plateau){
-		for(Character c : plateau.characters){
-			if(c.getTeam().id!=this.owner){
+		for(Character c : plateau.getCharacters()){
+			if(c.getTeam().id!=this.team.id){
 				boolean isIntersected = ((c.getX()-this.getX())*(c.getX()-this.getX())+
 						(c.getY()-this.getY())*(c.getY()-this.getY()))< 
 						(0.5f*c.collisionBox.getWidth()+this.areaEffect)*
@@ -88,8 +87,7 @@ public class Fireball extends Bullet {
 				}
 			}
 		}
-
-		new BurningArea(this.owner, new Checkpoint(x,y, plateau), this.areaEffect, plateau);
+		//new BurningArea(this.owner, this, this.areaEffect, plateau);
 		this.explosion = true;
 	}
 	public void boom(Character c, Plateau plateau){
@@ -104,7 +102,7 @@ public class Fireball extends Bullet {
 
 	}
 
-	
+
 
 
 

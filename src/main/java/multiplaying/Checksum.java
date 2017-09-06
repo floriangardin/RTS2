@@ -27,7 +27,19 @@ public class Checksum implements Serializable {
 	}
 	public boolean equals(Checksum c){
 		// Checksums that haven't the same round haven't to be compared so return true in this case
-		return c==this || c.round!=this.round || c.checksum.equals(this.checksum);
+		boolean equalities = c==this || c.round!=this.round || c.checksum.equals(this.checksum);
+		if(!equalities){
+			System.out.println("Desynchro at round : "+c.round);
+			System.out.println(c.checksum);
+			System.out.println(this.checksum);
+			if(c.checksum.split("name").length!=this.checksum.split("name").length){
+				System.out.println("Pas le meme nombre d'unites mon petit gillou");
+				System.out.println("Number 1 : "+c.checksum.split("name").length);
+				System.out.println("Number 2 : "+this.checksum.split("name").length);
+			}
+			System.out.println("-------------");
+		}
+		return equalities;
 	}
 	
 	public String toString(){

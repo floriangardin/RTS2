@@ -1,0 +1,16 @@
+{
+prototype:"Unit",
+printName:"Lancier",
+foodCost:50,
+attackDuration:1,
+maxLifepoints:60,
+sight:400,
+maxVelocity:100,
+armor:2,
+damage:5,
+weapon:"spear",
+animStep:20,
+range:45,
+explosionWhenImmolate:0,
+spells:Dash
+}

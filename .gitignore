@@ -3,4 +3,7 @@ replays/
 *.class
 target/
 .idea/
-
+.classpath
+*.rtsfile
+*.prefs
+.project

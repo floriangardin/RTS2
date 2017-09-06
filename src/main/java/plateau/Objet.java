@@ -37,7 +37,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Color color;
 	public float lifePoints;
 	public ObjetsList name;
-	public float visibleHeight = 100;
+	public float visibleHeight = 150;
 	public static int NO_TARGET = -1;
 	// draw
 	public boolean toDrawOnGround = false;
@@ -62,16 +62,13 @@ public abstract class Objet implements java.io.Serializable {
 	private static final float timerMaxValueAttacked = 100f;
 	
 	// visibility boolean 
-	public boolean visibleByCurrentTeam;
-	public boolean visibleByCamera;
-
+	
 	public int animation = 0;
 	public float vx;
 	public float vy;
 	protected int target = NO_TARGET;
 //	public int checkpointTarget = NO_TARGET;
 
-	public boolean mouseOver = false;
 	
 	// spells attributs
 	public float inDash = 0f;
@@ -85,7 +82,7 @@ public abstract class Objet implements java.io.Serializable {
 		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
 	}
 	
-	public void updateAttributsChange(){
+	public void updateAttributsChange(Plateau plateau){
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
 			ac.remainingTime-=1f*Main.increment;
@@ -99,12 +96,11 @@ public abstract class Objet implements java.io.Serializable {
 		// handling end of dash
 		if(this.inDash>0f){
 			this.inDash-=1f*Main.increment;
-//			if(this.inDash<=0f && this.getTarget()!=null && (this.getTarget() instanceof Checkpoint)){
+//			if(this.inDash<=0f && this.getTarget(plateau)!=null && (this.getTarget(plateau) instanceof Checkpoint)){
 //				this.mode = Character.AGGRESSIVE;
 //			}
 		}
 	}
-	
 
 	public void setTarget(Objet t, Plateau plateau){
 		Objet target = this.getTarget(plateau);
@@ -179,7 +175,8 @@ public abstract class Objet implements java.io.Serializable {
 		return y;
 	}
 	public void setXY(float x, float y, Plateau plateau){
-
+		float oldx = this.x  ;
+		float oldy = this.y ;
 		// handling old cases
 		Case c = plateau.mapGrid.getCase(this.idCase);
 		if(this instanceof Character){
@@ -222,11 +219,8 @@ public abstract class Objet implements java.io.Serializable {
 			this.idCase = -1;
 		}
 		if(this instanceof Character){
-			//FIXME: on vire cette histoire de sight box ?
-			((Character)this).sightBox.setCenterX(this.getX());
-			((Character)this).sightBox.setCenterY(this.getY()-this.getAttribut(Attributs.size)/2f);
 			this.selectionBox.setCenterX(this.x);
-			this.selectionBox.setCenterY(this.y);
+			this.selectionBox.setCenterY(this.y-2f*this.getAttribut(Attributs.size));
 			plateau.mapGrid.getCase(this.idCase).characters.add((Character)this);
 		} else if(this instanceof NaturalObjet){
 			plateau.mapGrid.getCase(this.idCase).naturesObjet.add((NaturalObjet)this);
@@ -392,7 +386,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public String hash(){
-		return ""+x+""+y+""+lifePoints+""+name;
+		return "name:"+name+"-x:"+x+"-y:"+y+"-lp:"+lifePoints+"-";
 	}
 
 	public int roundSinceLastAttack(int currentRound){

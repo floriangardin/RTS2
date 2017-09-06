@@ -24,7 +24,7 @@ public class Team implements Serializable {
 
 	public String colorName;
 	public int food;
-	public int hq = -1 ;
+	//public int hq = -1 ;
 	public Color color;
 
 
@@ -32,6 +32,11 @@ public class Team implements Serializable {
 	public int nbKill = 0;
 	public float timerKill = 0;
 	public float timerMaxKill = 15f;
+
+	public boolean hasGaveUp;
+
+	public Vector<ObjetsList> techsDiscovered;
+	public Vector<ObjetsList> currentTechsProduced;
 
 
 	public Team(int id, Plateau plateau) {
@@ -58,7 +63,7 @@ public class Team implements Serializable {
 
 
 	public boolean enoughPop(ObjetsList o, Plateau plateau){
-		return (getPop(plateau)+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop(plateau)|| this.data.getAttribut(o, Attributs.popTaken)==0 );
+		return (getPop(plateau)+this.data.getAttribut(o, Attributs.popTaken)<=getMaxPop(plateau))|| this.data.getAttribut(o, Attributs.popTaken)==0;
 	}
 
 	public int getPop(Plateau plateau) {
@@ -67,12 +72,12 @@ public class Team implements Serializable {
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : plateau.buildings){
+		for(Building b : plateau.getBuildings()){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
 		}
-		for(Character b : plateau.characters){
+		for(Character b : plateau.getCharacters()){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popTaken);
 			}
@@ -89,7 +94,7 @@ public class Team implements Serializable {
 		/*
 		 * For all buildings check how much pop it gives
 		 */
-		for(Building b : plateau.buildings){
+		for(Building b : plateau.getBuildings()){
 			if(b.getTeam().id==this.id){
 				result+=b.getAttribut(Attributs.popGiven);
 			}

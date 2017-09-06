@@ -12,7 +12,7 @@ import ressources.Map;
 
 public class Lobby {
 	
-	public final static Vector<Menu_Player> players = new Vector<Menu_Player>();
+	public static Vector<Menu_Player> players = new Vector<Menu_Player>();
 	public static Vector<String> maps;
 	public static Vector<InetAddress> addressesInvites = new Vector<InetAddress>();
 	public static boolean multiplayer = false;
@@ -22,7 +22,7 @@ public class Lobby {
 	
 	
 	public static void init(){
-		//players = new Vector<Menu_Player>();
+		players = new Vector<Menu_Player>();
 		maps = Map.maps();
 		idCurrentMap = maps.get(0);
 		isInit = true;

@@ -16,25 +16,28 @@ import utils.ObjetsList;
 
 public class SpellDash extends Spell{
 
-	
+
 	public SpellDash(){
 		this.name = ObjetsList.Dash;
-		
 	}
-
-	public void launch(Objet target, Character launcher, Plateau plateau){
-		launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
+		if(launcher==null || target==null){
+			return false;
+		}
+		
 		launcher.attributsChanges.add(new AttributsChange(Attributs.maxVelocity,Change.SET,this.getAttribut(Attributs.bonusSpeed),this.getAttribut(Attributs.totalTime)));
 		Vector<Objet> v = new Vector<Objet>();
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
 		if(target!=null && launcher!=null){
-			// TODO : Reparer le déplacement en groupe
 			plateau.updateTarget(launcher, target.x,target.y,launcher.getTeam().id, Character.MOVE, new Vector<Integer>());		
+			if(launcher.getTarget(plateau)!=null && launcher.getTarget(plateau) instanceof Character && launcher.getTarget(plateau).getTeam()!=launcher.getTeam()){
+				launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
+			}
 		}
 		EventHandler.addEvent(EventNames.Dash, launcher, plateau);
+		return true;
 	}
-
 
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean spellOk, Plateau plateau) {

@@ -18,11 +18,13 @@ public class SpellSpecialArrow extends Spell{
 		this.name = ObjetsList.SpecialArrow;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		if(target!=null && launcher!=null){			
 			new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage), plateau);
+			launcher.stop(plateau);
+			return true;
 		}	
-		launcher.stop(plateau);
+		return false;
 	}
 
 

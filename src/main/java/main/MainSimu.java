@@ -33,7 +33,7 @@ public class MainSimu {
 			ias.add(new IAPython(2));
 			ias.add(new IAPython(1));
 			IA.init(ias);
-			Game.system = new WholeGame(true);
+			Game.system = new WholeGame(false);
 			AppGameContainer app = new AppGameContainer(game);
 			Game.app = app;
 			app.setShowFPS(true);

@@ -4,32 +4,34 @@ import java.util.Vector;
 
 import org.newdawn.slick.Graphics;
 
+import control.Player;
 import display.Camera;
 import display.DisplayRessources;
 import plateau.Objet;
 import plateau.Character;
+import plateau.Checkpoint;
 import plateau.Plateau;
 
 public class EventHandler {
 
 	private static Vector<Event> events = new Vector<Event>();
-	private static Vector<DisplayRessources> displayRessources = new Vector<DisplayRessources>();
 	private static boolean isInit;
 
 	public static void init(){
 		events = new Vector<Event>();
-		displayRessources = new Vector<DisplayRessources>();
 		isInit=true;
 	}
 	
 
 	public static void render(Graphics g, Plateau plateau, boolean topLayer){
 		Vector<Event> toRemove1 = new Vector<Event>();
+		boolean isVisible;
 		for(Event e : events){
 			if(e.topLayer!=topLayer){
 				continue;
 			}
-			if(!e.play(g, plateau)){
+			isVisible = plateau.isVisibleByTeam(Player.team, e.parent);
+			if(e.isDesynchro(plateau) || !e.play(g, plateau, isVisible)){
 				toRemove1.addElement(e);
 			}
 		}
@@ -61,6 +63,7 @@ public class EventHandler {
 		for(Event e : events){
 			if(e instanceof EventBuildingTakingGlobal && ((EventBuildingTakingGlobal)e).parent.id==building.id){
 				ebgt = ((EventBuildingTakingGlobal)e);
+				ebgt.addAttacker(parent.team.id);
 				break;
 			}
 		}
@@ -68,12 +71,10 @@ public class EventHandler {
 			if(e instanceof EventBuildingTaking && e.parent.id == parent.id && ((EventBuildingTaking)e).idTarget == building.id){
 				if(!((EventBuildingTaking)e).isActive){
 					((EventBuildingTaking)e).isActive = true;
-					ebgt.addAttacker(parent.team.id);
 				}
 				return;
 			}
 		}
-		ebgt.addAttacker(parent.team.id);
 		events.addElement(new EventBuildingTaking(parent, plateau, ebgt));
 	}
 	

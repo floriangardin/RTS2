@@ -16,10 +16,11 @@ public class SpellFrozen extends Spell{
 		this.name = ObjetsList.Frozen;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		Objet t = Spell.realTarget(target, launcher, getAttribut(Attributs.range),true, plateau);
 		Frozen f = new Frozen(launcher,t,getAttribut(Attributs.size), plateau);
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
+		return true;
 
 	}
 

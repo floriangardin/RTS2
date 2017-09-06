@@ -11,26 +11,30 @@ import org.newdawn.slick.SlickException;
 import bot.IA;
 import control.InputObject;
 import control.Player;
-import control.KeyMapper.KeyEnum;
 import display.Camera;
 import display.Interface;
+import events.EventHandler;
 import menu.Lobby;
 import multiplaying.ChatHandler;
 import multiplaying.Checksum;
-import plateau.Objet;
+import plateau.Building;
 import plateau.Plateau;
 import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
 import ressources.Map;
+import ressources.MusicManager;
+import ressources.SoundManager;
 import ressources.Taunts;
 import system.ClassSystem;
 
 public class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();
+	// Pour conditions de victoire
 	private boolean repeat = false;
 	private int repeatNumber = 100;
 	private String currentMap = null;
+	public static final float nbRoundStart = 200f;
 	
 	public WholeGame(boolean repeat) {
 		// TODO Auto-generated method stub
@@ -44,29 +48,41 @@ public class WholeGame extends ClassSystem{
 		}
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
-		// Put camera at the center of headquarter
-		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
-		int xHQ =(int) hq.x;
-		int yHQ = (int)hq.y;
-		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		// Put camera at the center of headquarter if exists
+		Building hq = plateau.getHQ(Player.getTeam(plateau));
+		if(hq!=null){
+			int xHQ =(int) hq.x;
+			int yHQ = (int)hq.y;
+			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		}else{
+			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		}
+		
 		Interface.init(plateau);
 	}
 	
 	public WholeGame() {
 		// TODO Auto-generated method stub
+		EventHandler.init();
 		if(Lobby.isInit()){			
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
 		}else{
 			GameClient.setPlateau(Map.createPlateau("testcollision2", "maps"));
 //			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		}
+		Game.endSystem = null;
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
+		RenderEngine.init(plateau);
 		// Put camera at the center of headquarter
-		Objet hq = plateau.getById(Player.getTeam(plateau).hq);
-		int xHQ =(int) hq.x;
-		int yHQ = (int)hq.y;
-		Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		Building hq =plateau.getHQ(Player.getTeam(plateau));
+		if(hq!=null){
+			int xHQ =(int) hq.x;
+			int yHQ = (int)hq.y;
+			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
+		}else{
+			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+		}
 		Interface.init(plateau);
 	}
 	
@@ -83,8 +99,14 @@ public class WholeGame extends ClassSystem{
 		GameClient.mutex.lock();
 		try{
 			Input in = gc.getInput();
+			Vector<InputObject> iaIms = new Vector<InputObject>();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
-			final Vector<InputObject> iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
+			// handling start
+			if(GameClient.getPlateau().round<nbRoundStart){
+				im.reset();
+			} else {
+				iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
+			}
 			ChatHandler.action(in, im);
 			// Update interface
 			Interface.update(im, GameClient.getPlateau());
@@ -94,8 +116,12 @@ public class WholeGame extends ClassSystem{
 			GameClient.send(im);
 			// Send IA Inputs
 			GameClient.send(iaIms);
+			// Update sound and music
+			MusicManager.update(GameClient.getPlateau());
+			SoundManager.update(GameClient.getPlateau());
+			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>30 && GameClient.getRound()%100==0){			
+			if(GameClient.getRound()>30 && GameClient.getRound()%(GameClient.delay*2)==0){			
 				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round
@@ -106,6 +132,8 @@ public class WholeGame extends ClassSystem{
 			GameClient.getPlateau().update(ims);
 			// 4 : Update the camera given current input
 			Camera.update(im);
+			RenderEngine.xmouse = im.x;
+			RenderEngine.ymouse = im.y;
 		}finally{
 			GameClient.mutex.unlock();
 		}
@@ -135,7 +163,7 @@ public class WholeGame extends ClassSystem{
 	
 	private void handleSlowDown(GameContainer gc) {
 		if(GameClient.slowDown>0){
-			System.out.println("Slowing down : "+GameClient.slowDown);
+			//System.out.println("Slowing down : "+GameClient.slowDown);
 			gc.setMinimumLogicUpdateInterval(32);
 			gc.setMaximumLogicUpdateInterval(32);
 			GameClient.slowDown=0;
@@ -143,7 +171,6 @@ public class WholeGame extends ClassSystem{
 			gc.setMinimumLogicUpdateInterval(16);
 			gc.setMaximumLogicUpdateInterval(16);
 		}
-		
 		
 	}
 
@@ -157,9 +184,6 @@ public class WholeGame extends ClassSystem{
 		GameClient.mutex.lock();
 		try{
 			p = GameClient.getPlateau();
-		}
-		finally{
-			GameClient.mutex.unlock();
 			if(RenderEngine.isReady()){
 				RenderEngine.render(g, p);
 				
@@ -167,6 +191,9 @@ public class WholeGame extends ClassSystem{
 				SimpleRenderEngine.render(g, p);
 				
 			}
+		}
+		finally{
+			GameClient.mutex.unlock();
 		}
 		
 	}

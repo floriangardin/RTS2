@@ -1,0 +1,11 @@
+{
+printName:"Barracks",
+prototype:"Building",
+sizeX:4,
+sizeY:2,
+units:Spearman-Crossbowman-Inquisitor,
+technologies:DualistContactAttack2-DualistContactAttack3-DualistRangeAttack2-DualistRangeAttack3,
+newdesign:0,
+smokeAnimationX:-45,
+smokeAnimationY:-175
+}

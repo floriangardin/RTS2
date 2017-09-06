@@ -44,7 +44,7 @@ public class EventDestructionTour extends Event{
 	}
 
 	@Override
-	public boolean play(Graphics g, Plateau plateau) {
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		if(this.remainingTime==this.totalRemainingTime){
 			Sounds.playSound("destructionBuilding");
 		}

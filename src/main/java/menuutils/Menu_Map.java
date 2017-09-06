@@ -22,6 +22,7 @@ public class Menu_Map extends Menu_Item {
 
 	public void draw(Graphics g){
 		g.setColor(Color.white);
+		g.setLineWidth(1f);
 		if(isSelected)
 			g.drawRect(x-5f, y-5f, sizeX+10f, sizeY+10f);
 		if(mouseOver)
@@ -30,8 +31,8 @@ public class Menu_Map extends Menu_Item {
 	}
 	
 	public boolean isMouseOver(InputObject im){
-		float xMouse = im.x;
-		float yMouse = im.y;
+		float xMouse = im.xOnScreen;
+		float yMouse = im.yOnScreen;
 		boolean b = (x<xMouse && xMouse<x+sizeX && y<yMouse && yMouse<y+sizeY);
 		if(b && im.isPressed(KeyEnum.LeftClick)){
 			this.isSelected = true;

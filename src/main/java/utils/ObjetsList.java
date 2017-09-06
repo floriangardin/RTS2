@@ -19,7 +19,7 @@ public enum ObjetsList {
 	Priest(ObjetType.Character),
 	Inquisitor(ObjetType.Character),
 	Spearman(ObjetType.Character),
-	Archange(ObjetType.Character),
+//	Archange(ObjetType.Character),
 	// Buildings
 	Headquarters(ObjetType.Building),
 	Mill(ObjetType.Building),
@@ -79,6 +79,8 @@ public enum ObjetsList {
 	InstantHealth(ObjetType.Spell),
 	SpecialArrow(ObjetType.Spell),
 	Product(ObjetType.Spell),
+	SpellFireball(ObjetType.Spell),
+	Health(ObjetType.Spell),
 	// Weapons
 	
 	ContactWeapon(ObjetType.Weapon),
@@ -115,7 +117,6 @@ public enum ObjetsList {
 		v.add(Crossbowman);
 		v.add(Inquisitor);
 		v.add(Priest);
-		v.add(Archange);
 		return v;
 	}
 	
@@ -149,6 +150,8 @@ public enum ObjetsList {
 		v.add(InstantHealth);
 		v.add(SpecialArrow);
 		v.add(Product);
+		v.add(SpellFireball);
+		v.add(Health);
 		return v;
 	}
 

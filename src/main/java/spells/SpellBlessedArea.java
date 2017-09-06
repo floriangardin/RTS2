@@ -15,12 +15,13 @@ public class SpellBlessedArea extends Spell{
 		this.name = ObjetsList.BlessedArea;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true, plateau);
 		BlessedArea ba = new BlessedArea(launcher,(Checkpoint)t,getAttribut(Attributs.size), plateau);
 		ba.remainingTime = this.getAttribut(Attributs.totalTime);
 		ba.size = this.getAttribut(Attributs.size);
 		launcher.stop(plateau);
+		return true;
 	}
 
 	@Override

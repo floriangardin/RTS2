@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 
+import control.Player;
 import data.Attributs;
 import model.Colors;
 import plateau.Building;
@@ -16,29 +17,27 @@ import utils.ObjetsList;
 public class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
-	
 	public static void render(Building b, Graphics g, Plateau plateau){
-		render(b,g,plateau, true, true);
+		render(b,g,plateau, plateau.isVisibleByTeam(Player.team, b), b.team.id==Player.team);
 	}
 
 	public static void render(Building b, Graphics g, Plateau plateau, boolean visibleByCurrentTeam, boolean isCurrentTeam){
-		
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g,b,visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && b.mouseOver){
+			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.id){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				drawFlash(g, b, color);
 			}
 		} else {
 			drawBasicImage(g, b, visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && b.mouseOver){
+			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.id){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				Images.get("building"+b.name+b.getTeam().colorName).drawFlash(b.x-b.getAttribut(Attributs.sizeX)/1.8f, b.y-b.getAttribut(Attributs.sizeY), 2*b.getAttribut(Attributs.sizeX)/1.8f, 3*b.getAttribut(Attributs.sizeY)/2,color);
 			}
 		}
-		if(visibleByCurrentTeam)
-			drawAnimation(g);
+		if(visibleByCurrentTeam && b.team.id>0)
+			drawAnimation(g, b);
 		
 		g.setAntiAlias(false);
 		g.setLineWidth(25f);
@@ -175,8 +174,15 @@ public class RenderBuilding {
 	}
 
 
-	public static void drawAnimation(Graphics g){
-
+	public static void drawAnimation(Graphics g, Building b){
+		if(b.getAttribut(Attributs.smokeAnimationX)>2){
+			String s = "smoke"+(int)(4*b.animation/b.animationMax);
+			if(Images.exists(s)){
+				g.drawImage(Images.get(s),
+						b.x+b.getAttribut(Attributs.smokeAnimationX)-Images.get(s).getWidth()/2,
+						b.y+b.getAttribut(Attributs.sizeY)/2+b.getAttribut(Attributs.smokeAnimationY)-Images.get(s).getHeight());
+			}
+		}
 	}
 
 

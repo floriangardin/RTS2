@@ -5,6 +5,7 @@ import control.KeyMapper.KeyEnum;
 import control.Player;
 import data.Attributs;
 import main.Main;
+import model.Game;
 import plateau.Building;
 import plateau.Character;
 import plateau.Objet;
@@ -33,11 +34,17 @@ public class Camera {
 		Camera.maxY = maxY;
 	}	
 	public static boolean visibleByCamera(float x, float y, float size){
-		return x + size > Xcam && x - size < Xcam + resX && y + size > Ycam && y - size < Ycam + resY;
+		return (x + size)*Game.ratioX > Xcam && (x - size)*Game.ratioX < Xcam + resX 
+				&& (y + size)*Game.ratioY > Ycam && (y - size)*Game.ratioY < Ycam + resY;
 	}
 
-
-
+	
+	public static int getCenterX(){
+		return Xcam + resX/2;
+	}
+	public static int getCenterY(){
+		return Ycam + resY/2;
+	}
 
 	public static void update(InputObject im) {
 		// Handle the display (camera movement & minimap)
@@ -84,7 +91,7 @@ public class Camera {
 			//			}
 		}
 		if(im.isOnMiniMap && im.isPressed(KeyEnum.LeftClick)){
-			setSliding((int)im.x, (int)im.y);
+			setSliding((int)(im.x*Game.resX/1920), (int)(im.y*Game.resY/1080));
 		}
 	}
 
@@ -93,5 +100,13 @@ public class Camera {
 		objXcam = xObj-resX/2;
 		objYcam = yObj-resY/2;
 	}
+	public static void reset() {
+		Camera.resX = 0;
+		Camera.resY = 0;
+		Camera.Xcam = 0;
+		Camera.Ycam = 0;
+		Camera.maxX = 0;
+		Camera.maxY = 0;
+	}	
 
 }

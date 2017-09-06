@@ -15,6 +15,7 @@ import data.Attributs;
 import main.Main;
 import model.Colors;
 import model.Game;
+import pathfinding.Case;
 import plateau.Building;
 import plateau.Character;
 import plateau.NaturalObjet;
@@ -57,7 +58,7 @@ public class Interface {
 
 	// top bar
 
-	private static int gold, food;
+	private static int food;
 
 	public static float ratioSizeGoldX = 1/13f;
 	public static float ratioSizeTimerX = 1/12f;
@@ -87,10 +88,6 @@ public class Interface {
 	private static float debutGlissade = nbRoundInit/4;
 	private static float dureeGlissade = nbRoundInit/4;
 
-	//card choice
-	private static float startYCardChoiceBar;
-	private static float sizeXCardChoiceBar = sizeXActionBar;
-	private static float sizeYCardChoiceBar;
 
 	//killing spree offest
 	public static float offsetYkillingSpree = -150f;
@@ -178,14 +175,14 @@ public class Interface {
 			if(im.isPressed(KeyEnum.LeftClick) && Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character){
 				// check if launch spell
 				Character c = (Character) plateau.getById(Player.selection.get(0)); 
-				if(c.getSpellState(spellCurrent)>=c.getSpell(spellCurrent).getAttribut(Attributs.chargeTime)){
+				if(c.getSpell(spellCurrent)!=null && c.getSpellState(spellCurrent)>=c.getSpell(spellCurrent).getAttribut(Attributs.chargeTime)){
 					im.spell = spellCurrent;
 					im.idSpellLauncher = spellLauncher;
-					if(spellTarget!=null){
-						im.idObjetMouse = spellTarget;
-					} else {
-						im.idObjetMouse = -1;
-					} 
+//					if(spellTarget!=null){
+//						im.idObjetMouse = spellTarget;
+//					} else {
+//						im.idObjetMouse = -1;
+//					} 
 					Integer buffer = Player.selection.get(0);
 					Player.selection.removeElementAt(0);
 					Player.selection.add(buffer);
@@ -373,7 +370,6 @@ public class Interface {
 				Character a = (Character) plateau.getById(id);
 				c = (Character) plateau.getById(id);
 				if(c!=null){
-
 
 					Image icone = Images.get(c.name+"blue");
 					int imageWidth = icone.getWidth()/5;
@@ -675,40 +671,48 @@ public class Interface {
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
-		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam);
-		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam);
-		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX));
-		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY));
+		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam/Game.ratioX);
+		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam/Game.ratioY);
+		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX)/Game.ratioX);
+		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY)/Game.ratioY);
 		// Find the bottom right corner
 
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
-		g.drawImage(Images.get("islandTexture"),startXMiniMap+offsetDrawX, startYMiniMap, startXMiniMap+offsetDrawX+widthMiniMap, startYMiniMap+heightMiniMap,0,0,Images.get("islandTexture").getWidth(),Images.get("islandTexture").getHeight());
-		for(NaturalObjet q : plateau.naturalObjets){
+		Case ca;
+		for(int i=0; i<plateau.mapGrid.grid.size(); i++){
+			for(int j=0; j<plateau.mapGrid.grid.get(0).size(); j++){
+				ca = plateau.mapGrid.grid.get(i).get(j);
+				g.drawImage(Images.get(ca.getIdTerrain().name()+"tile0"),
+						startXMiniMap+offsetDrawX+ratioWidthMiniMap*ca.x,
+						startYMiniMap+ratioHeightMiniMap*ca.y);
+			}
+		}
+		for(NaturalObjet q : plateau.getNaturalObjets()){
 			g.setColor(Color.green);
 			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.x-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.y-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
 		}
 		// Draw units on Camera 
 		g.setAntiAlias(true);
-		for(Character c : plateau.characters){		
+		for(Character c : plateau.getCharacters()){		
 			if(c.getTeam().id==2){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
-					float r = c.collisionBox.getBoundingCircleRadius();
+					float r = c.getAttribut(Attributs.size)*2f;
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 			else if(c.getTeam().id==1){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team1);
-					float r = c.collisionBox.getBoundingCircleRadius();
+					float r = c.getAttribut(Attributs.size)*2f;
 					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 		}
 
 
-		for(Bonus c : plateau.bonus){
+		for(Bonus c : plateau.getBonus()){
 			if(c.getTeam().id==0){
 				g.setColor(Colors.team0);
 
@@ -735,7 +739,7 @@ public class Interface {
 					ratioHeightMiniMap*c.getAttribut(Attributs.size));
 		}
 		g.setAntiAlias(false);
-		for(Building c : plateau.buildings){
+		for(Building c : plateau.getBuildings()){
 			if(c.getTeam().id==0){
 				g.setColor(Colors.team0);
 
@@ -773,18 +777,28 @@ public class Interface {
 		// Draw rect of Camera 
 		g.setColor(Color.white);
 		g.drawRect(hlx+offsetDrawX,hly,brx-hlx,bry-hly );
+		// Fill rec on side
+		g.setColor(Color.black);
+		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, startXMiniMap-startX2MiniMap, sizeYMiniMap);
+		g.fillRect(2*startX2MiniMap+offsetDrawX+sizeXMiniMap-startXMiniMap, startY2MiniMap, startXMiniMap-startX2MiniMap, sizeYMiniMap);
+		
 	}
 
 	public static void drawSpell(Graphics g, Plateau plateau){
 		if(spellCurrent!=null){
 			Character characterSpellLauncher = (Character) plateau.getById(spellLauncher);
 			g.translate(-Camera.Xcam, -Camera.Ycam);
-			Spell s = characterSpellLauncher.getSpell(spellCurrent);
-			if(spellTarget!=null){	
-				s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
-			}else{
-				s.drawCast(g, null, spellX, spellY, characterSpellLauncher, true, plateau);	
+			g.scale(Game.resX/1920f, Game.resY/1080f);
+			if(characterSpellLauncher!=null){
+				
+				Spell s = characterSpellLauncher.getSpell(spellCurrent);
+				if(spellTarget!=null){	
+					s.drawCast(g, plateau.getById(spellTarget), spellX, spellY, characterSpellLauncher, true, plateau);
+				}else{
+					s.drawCast(g, null, spellX, spellY, characterSpellLauncher, true, plateau);	
+				}
 			}
+			g.scale(1920f/Game.resX, 1080f/Game.resY);
 			g.translate(Camera.Xcam, Camera.Ycam);
 		}
 	}

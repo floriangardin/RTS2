@@ -59,7 +59,7 @@ public class Credits extends Menu{
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 	}
 	public void draw(Graphics g){
-		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
+//		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
 		g.setColor(Color.white);
 		for(int i = 0; i<texts.size(); i++){
 			if(currentHeight+i*stepLine<Game.resY && currentHeight+(i+1)*stepLine>0){

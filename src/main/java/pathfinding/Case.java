@@ -80,16 +80,40 @@ public class Case implements java.io.Serializable {
 	}
 	
 	public enum IdTerrain{
-		WATER(false, 'w'),
-		GRASS(true, ' '),
-		SAND(true, 's');
+		WATER(false, 'w', 0),
+		GRASS(true, ' ', 8),
+		SAND(true, 's', 1);
 		
 		public final boolean ok;
 		public final char id;
+		public final int alt;
 		
-		private IdTerrain(boolean ok, char id){
+		private IdTerrain(boolean ok, char id, int alt){
 			this.ok = ok;
 			this.id = id;
+			this.alt = alt;
+		}
+
+		public static Vector<IdTerrain> getSortedIT() {
+			int minAlt = 0;
+			int maxAlt = 0;
+			for(IdTerrain it : values()){
+				if(it.alt>maxAlt){
+					maxAlt = it.alt;
+				}
+				if(it.alt<minAlt){
+					minAlt = it.alt;
+				}
+			}
+			Vector<IdTerrain> vec = new Vector<IdTerrain>();
+			for(int alt = minAlt; alt<=maxAlt; alt++){
+				for(IdTerrain it : values()){
+					if(it.alt==alt){
+						vec.add(it);
+					}
+				}
+			}
+			return vec;
 		}
 	}
 	

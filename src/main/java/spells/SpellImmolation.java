@@ -19,12 +19,13 @@ public class SpellImmolation extends Spell{
 		this.name = ObjetsList.Immolation;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		
 		launcher.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.setSpells(new Vector<ObjetsList>());
 		launcher.addSpellEffect(new Immolation(launcher,target,plateau));
 		EventHandler.addEvent(EventNames.Immolation, launcher, plateau);
+		return true;
 	}
 
 	

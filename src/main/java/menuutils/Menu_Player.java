@@ -80,8 +80,8 @@ public class Menu_Player extends Menu_Item implements Serializable{
 	}
 
 	public void update(InputObject im){
-		float xMouse = im.x;
-		float yMouse = im.y;
+		float xMouse = im.xOnScreen;
+		float yMouse = im.yOnScreen;
 		//Testing the click
 		if(xMouse>startXcolor && yMouse>startYcolor && xMouse<startXcolor+sizeXcolor && yMouse<startYcolor+sizeYcolor){
 			isOverColor = true;

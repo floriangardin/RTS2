@@ -49,11 +49,12 @@ public class SimpleRenderEngine {
 			}
 			
 		}
-		for(Objet o : plateau.objets.values()){
+		for(Objet o : plateau.getObjets().values()){
 			g.setColor(o.getTeam().color);
 			if(o.collisionBox != null){
 				if(o instanceof Character){
 					g.draw(o.collisionBox);
+					g.draw(o.selectionBox);
 					g.fill(o.collisionBox);
 					if(Player.selection.contains(o.id)){
 						g.setLineWidth(3f);

@@ -17,20 +17,20 @@ public class SpellInstantHealth extends Spell{
 		this.name = ObjetsList.InstantHealth;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		Objet h = target;
 		
-		for(Character c : plateau.characters){
+		for(Character c : plateau.getCharacters()){
 			if(c.collisionBox.contains(target.collisionBox)){
 				h =c;
 			}
 		}
-
 		if(h instanceof Character && h.getTeam()==launcher.getTeam() && launcher!=h && this.getAttribut(Attributs.range)>=Utils.distance(h, launcher)){
 			h.lifePoints = ((Character) h ).getAttribut(Attributs.maxLifepoints);
-			
+			return true;
 		}
+		return false;
 	}
 
 

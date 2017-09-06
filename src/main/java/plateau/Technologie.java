@@ -94,7 +94,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.addAttribut(ObjetsList.Knight, Attributs.armor, 2f);
 				this.team.data.addAttribut(ObjetsList.Priest, Attributs.armor, 2f);
 				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.armor, 2f);
-				this.team.data.addAttribut(ObjetsList.Archange, Attributs.armor, 2f);
 			
 			}
 			
@@ -112,7 +111,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.addAttribut(ObjetsList.Knight, Attributs.maxLifepoints, 20f);
 				this.team.data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, 20f);
 				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, 20f);
-				this.team.data.addAttribut(ObjetsList.Archange, Attributs.maxLifepoints, 20f);
 			
 			}
 			
@@ -131,7 +129,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.addAttribut(ObjetsList.Knight, Attributs.armor, 2f);
 				this.team.data.addAttribut(ObjetsList.Priest, Attributs.armor, 2f);
 				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.armor, 2f);
-				this.team.data.addAttribut(ObjetsList.Archange, Attributs.armor, 2f);
 			
 			}
 			
@@ -152,7 +149,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.addAttribut(ObjetsList.Knight, Attributs.maxLifepoints, 30f);
 				this.team.data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, 30f);
 				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, 30f);
-				this.team.data.addAttribut(ObjetsList.Archange, Attributs.maxLifepoints, 30f);
 			}
 			
 		};
@@ -219,7 +215,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.setAttribut(ObjetsList.Knight, Attributs.explosionWhenImmolate, 1f);
 				this.team.data.setAttribut(ObjetsList.Priest, Attributs.explosionWhenImmolate, 1f);
 				this.team.data.setAttribut(ObjetsList.Inquisitor, Attributs.explosionWhenImmolate, 1f);
-				this.team.data.setAttribut(ObjetsList.Archange, Attributs.explosionWhenImmolate, 1f);
 			}
 			
 		};
@@ -236,7 +231,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.setAttribut(ObjetsList.Knight,Attributs.autoImmolation, 1f);
 				this.team.data.setAttribut(ObjetsList.Priest, Attributs.autoImmolation, 1f);
 				this.team.data.setAttribut(ObjetsList.Inquisitor,Attributs.autoImmolation, 1f);
-				this.team.data.setAttribut(ObjetsList.Archange, Attributs.autoImmolation, 1f);
 			}
 			
 		};
@@ -253,7 +247,6 @@ public abstract class Technologie implements java.io.Serializable{
 				this.team.data.mulAttribut(ObjetsList.Knight, Attributs.sight, 1.5f);
 				this.team.data.mulAttribut(ObjetsList.Priest, Attributs.sight, 1.5f);
 				this.team.data.mulAttribut(ObjetsList.Inquisitor, Attributs.sight, 1.5f);
-				this.team.data.mulAttribut(ObjetsList.Archange, Attributs.sight, 1.5f);
 			}
 			
 		};

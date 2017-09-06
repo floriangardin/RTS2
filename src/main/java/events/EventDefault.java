@@ -23,7 +23,7 @@ public class EventDefault extends Event{
 	}
 	
 	@Override
-	public boolean play(Graphics g, Plateau plateau){
+	public boolean play(Graphics g, Plateau plateau, boolean toDraw){
 		// Calculate intensity in function of options and distance to scene
 		playSound();
 		return false;

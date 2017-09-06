@@ -1,10 +1,14 @@
 package control;
 
+import java.util.List;
+import java.util.Set;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
+import bonus.Bonus;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.Camera;
@@ -17,6 +21,7 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 import plateau.Team;
+import utils.ObjetsList;
 import utils.Utils;
 
 public class Player {
@@ -29,7 +34,7 @@ public class Player {
 	public static Vector<Integer> inRectangle = new Vector<Integer>();
 	public static Vector<Integer> selection= new Vector<Integer>();
 	public static Color color;
-
+	public static int mouseOver=-1;
 
 	public static void init(int idConnexion){
 		
@@ -69,6 +74,34 @@ public class Player {
 	public static int getID(){
 		return Player.idConnexion;
 	}
+	
+	static void handleMouseOver(InputObject im, Plateau plateau) {
+		mouseOver = -1;
+		Vector<Objet> mouseOvers = new Vector<Objet>();
+		for (Character c : plateau.getCharacters()) {
+			if (c.selectionBox.contains(im.x, im.y)) {
+				mouseOvers.add(c);
+			} 
+		}
+		for (Building c : plateau.getBuildings()) {
+			if (c.selectionBox.contains(im.x, im.y)) {
+				mouseOvers.add(c);
+			} 
+		}
+		// Find nearest to selection Box for mouseOver
+		
+		Objet o = Utils.nearestObjectToSelectionBox(mouseOvers, im.x, im.y);
+		if(o!=null){
+			setMouseOver(im, o.id);
+		}
+				
+	}
+	
+	
+	public static void setMouseOver(InputObject im, int id){
+		im.idObjetMouse = id;
+		mouseOver = id;
+	}
 	public static void updateRectangle(InputObject im, Plateau plateau) {
 		//		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
 		//			return;
@@ -79,7 +112,7 @@ public class Player {
 			return;
 		}
 		if(im.isDown(KeyEnum.LeftClick)){
-			if (Player.rectangleSelection == null && !im.isOnMiniMap && !im.isPressed(KeyEnum.ToutSelection)) {
+			if (Player.rectangleSelection == null && !im.isOnMiniMap && !im.isDown(KeyEnum.ToutSelection)) {
 				Player.selection.clear() ;// A appeler quand le rectangle est crée
 				recX=(float) im.x;
 				recY= (float) im.y;
@@ -95,23 +128,24 @@ public class Player {
 		
 		// Update in rectangle
 		inRectangle.clear();
-		for(Character o : plateau.characters){
-			if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
+		for(Character o : plateau.getCharacters()){
+			if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
 				inRectangle.add(o.id);
 			}
 		}
 		if(inRectangle.size()==0){
-			for(Building o : plateau.buildings){
-				if(rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() ,o.getAttribut(Attributs.sizeX))){
+			for(Building o : plateau.getBuildings()){
+				if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
 					inRectangle.add(o.id);
 				}
 			}
 		}
+		
 
 	}
 
 	public static boolean rectangleIntersect(float xMin, float yMin, float xMax, float yMax, float size){
-		if(Player.rectangleSelection== null){
+		if(Player.rectangleSelection == null){
 			return false;
 		}
 		double interX = Math.min(xMax, Player.rectangleSelection.getMaxX()) - Math.max(xMin, Player.rectangleSelection.getMinX());
@@ -123,12 +157,22 @@ public class Player {
 	public static void handleSelection(InputObject im, Plateau plateau) {
 		// This method put selection in im ...
 		// Remove death and not team from selection
-
+//		Set<ObjetsList> oldSelection = Player.selection.stream()
+//				.map(x-> plateau.getById(x))
+//				.filter(x -> x!=null)
+//				.map(x -> x.name)
+//				.distinct()
+//				.collect(Collectors.toSet());
+		
+		handleMouseOver(im, plateau);
 		Vector<Integer> select = new Vector<Integer>();
+		Vector<Integer> selectForEmptyClick = new Vector<Integer>();
 		if(rectangleSelection == null){
 			select.addAll(selection);
 		}
+		selectForEmptyClick.addAll(selection);
 		Vector<Integer> toRemove = new Vector<Integer>();
+		// On enleve de la sélection les unités mortes ou converties 
 		for(Integer o : selection){
 			Objet ob = plateau.getById(o);
 			if(ob==null || !ob.isAlive() || ob.team.id!=im.team){
@@ -136,32 +180,50 @@ public class Player {
 			}
 		}
 		selection.removeAll(toRemove);
+		select.removeAll(toRemove);
+		
 		// As long as the button is pressed, the selection is updated
 		Player.updateRectangle(im, plateau);
-		if(im.isPressed(KeyEnum.LeftClick) && im.isDown(KeyEnum.ToutSelection)){
-			System.out.println("mythe on appuie sur controle");
-			Player.updateSelectionCTRL(im, plateau);
+		
+		// If we click on nothing, just keep the current selection
+		if(rectangleSelection!=null && inRectangle.size()==0 && select.size()>0 && im.isDown(KeyEnum.LeftClick)){
+			
+			im.selection = new Vector<Integer>();
+			for(Integer o : selectForEmptyClick){
+				im.selection.add(o);
+			}
+			selection = selectForEmptyClick;
+			inRectangle.clear();
+			return;
 		}
+		
 		// Put the content of inRectangle in selection
-		if(inRectangle.size()>0 || rectangleSelection!=null){
+		if(inRectangle.size()>0 && rectangleSelection!=null){
 			Player.selection.clear();
 		}
 		if(select.size()>0){
 			Player.selection = select;
 		}else{
-			for(Integer o : inRectangle){
-				if(plateau.getById(o).team.id==im.team){
-					Player.selection.add(o);
+			// Heuristique si rectangle trop petit alors on selectionne le plus proche (vis à vis du centre de la selection box)
+			if(rectangleSelection!=null && rectangleSelection.getWidth()+rectangleSelection.getHeight() < 10){
+				Objet toSelect = getNearestToSelectionBox(inRectangle, plateau, rectangleSelection.getX(), rectangleSelection.getY());
+				if(toSelect!=null){					
+					Player.selection.add(toSelect.id);
+				}
+			}else{				
+				for(Integer o : inRectangle){
+					if(plateau.getById(o).team.id==im.team){
+						Player.selection.add(o);
+					}
 				}
 			}
 		}
-		im.selection = new Vector<Integer>();
-		for(Integer o : selection){
-			im.selection.add(o);
+		if(im.isPressed(KeyEnum.LeftClick) && im.isDown(KeyEnum.ToutSelection)){
+			Player.updateSelectionCTRL(im, plateau);
 		}
-
+		
 //		 Handling groups of units
-		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
+		KeyEnum[] tab = new KeyEnum[]{KeyEnum.Spearman,KeyEnum.Crossbowman,KeyEnum.Knight,KeyEnum.Inquisitor,KeyEnum.Priest,KeyEnum.AllUnits,KeyEnum.Headquarters,KeyEnum.Barracks,KeyEnum.Stable};
 		KeyEnum  pressed = null;
 		for(KeyEnum key : tab){
 			if(im.isPressed(key)){
@@ -169,35 +231,37 @@ public class Player {
 				break;
 			}
 		}
-
 		if(pressed!=null){
 			Player.selection = new Vector<Integer>();
-			for(Character o : plateau.characters){
+			for(Character o : plateau.getCharacters()){
 				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
 					Player.selection.add(o.id);
 				}
 			}
-			for(Building o : plateau.buildings){
+			for(Building o : plateau.getBuildings()){
 				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
 					Player.selection.add(o.id);
 				}
 			}
 		}
-
 		// Handling hotkeys for gestion of selection
 		if (im.isPressed(KeyEnum.Tab)) {
 			if (selection.size() > 0) {
 				Utils.switchTriName(selection, plateau);
 			}
-
+		}
+		im.selection = new Vector<Integer>();
+		for(Integer o : selection){
+			im.selection.add(o);
 		}
 
+		
 	}
 
 	public static Vector<Objet> getInCamObjets(Plateau plateau) {
 		Vector<Objet> res = new Vector<Objet>();
 
-		for(Objet o : plateau.objets.values()){
+		for(Objet o : plateau.getObjets().values()){
 			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
 				res.add(o);
 			}
@@ -212,45 +276,57 @@ public class Player {
 			rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
 			Player.selection.clear();
 			// handling the selection
-			for (Character o : plateau.characters) {
-				if ((o.selectionBox.intersects(rectangleSelection) || o.selectionBox.contains(rectangleSelection)) && o.getTeam().id == im.team) {
+			Character c = null;
+			float distmin = 15f, disttemp;
+			for (Character o : plateau.getCharacters()) {
+				disttemp = Utils.distance(o, recX, recY);
+				if (disttemp<distmin && o.getTeam().id == im.team) {
 					// add character to team selection
-					Player.selection.add(o.id);
-					System.out.println("  characlead");
+					c = o;
+					rectangleSelection = null;
+					distmin = disttemp;
 				}
 			}
-			if (Player.selection.size() == 0) {
-				for (Building o : plateau.buildings) {
-					if (o.selectionBox.intersects(rectangleSelection) && o.getTeam().id ==im.team) {
+			Vector<Objet> visibles = getInCamObjets(plateau);
+			if (c != null) {
+				for (Character o : plateau.getCharacters()) {
+					if (o.getTeam().id == im.team && o.name == c.name && visibles.contains(o) && !Player.selection.contains(o.id)) {
 						// add character to team selection
 						Player.selection.addElement(o.id);
 					}
 				}
 			}
-			Vector<Objet> visibles = getInCamObjets(plateau);
-			if (Player.selection.size() == 1) {
-				Objet ao = plateau.getById(Player.selection.get(0));
-				if (ao instanceof Character) {
-					for (Character o : plateau.characters) {
-						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
-							// add character to team selection
-							Player.selection.addElement(o.id);
-							System.out.println("    mythe!");
-						}
-					}
-				} else if (ao instanceof Building) {
-					for (Building o : plateau.buildings) {
-						if (o.getTeam().id == im.team && o.name == ao.name && visibles.contains(o)) {
-							// add character to team selection
-							Player.selection.addElement(o.id);
-						}
-					}
-				}
-			}
-
 		}
 	}
-
+	
+	public static Objet getNearest(Vector<Integer> units, Plateau plateau, float x, float y){
+		Vector<Objet> res = new Vector<Objet>();
+		for(Integer i: units){
+			Objet o = plateau.getById(i);
+			if(o!=null){				
+				res.add(o);
+			}
+		}
+		if(res.size()==0){
+			return null;
+		}
+		return Utils.nearestObject(res, x, y);
+	}
+	
+	public static Objet getNearestToSelectionBox(Vector<Integer> units, Plateau plateau, float x, float y){
+		Vector<Objet> res = new Vector<Objet>();
+		for(Integer i: units){
+			Objet o = plateau.getById(i);
+			if(o!=null){				
+				res.add(o);
+			}
+		}
+		if(res.size()==0){
+			return null;
+		}
+		return Utils.nearestObjectToSelectionBox(res, x, y);
+	}
+	
 	public static int getTeamId() {
 		// TODO Auto-generated method stub
 		return Player.team;

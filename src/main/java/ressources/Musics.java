@@ -12,17 +12,18 @@ import tests.FatalGillesError;
 public class Musics {
 	
 	public static Music musicPlaying = null;
-	
-	private final static HashMap<String, Music> musics = new HashMap<String, Music>();
-	
+	public static String musicPlayingName = null;
+	private final static HashMap<String, Music> menusMusics = new HashMap<String, Music>();
+
 	public static void init(){
 		// loading musics
-		loadRepertoire("ressources/musics/");
+		loadRepertoire("ressources/musics/ingame/", menusMusics);
+		loadRepertoire("ressources/musics/menus/", menusMusics);
 	}
 
 	public static Music get(String name) {
-		if(musics.containsKey(name.toLowerCase())){
-			return musics.get(name.toLowerCase());
+		if(menusMusics.containsKey(name.toLowerCase())){
+			return menusMusics.get(name.toLowerCase());
 		} else {
 			//System.out.println("Error : trying to load an non-existing sound : "+name);
 			try {
@@ -33,10 +34,12 @@ public class Musics {
 			return null;
 		}
 	}
-
-	private static void loadRepertoire(String name){
+	
+	
+	private static void loadRepertoire(String name, HashMap<String, Music> res){
+		
 		File repertoire = new File(name);
-		File[] files=repertoire.listFiles();
+		File[] files= repertoire.listFiles();
 		String s;
 		Music music;
 		try {
@@ -46,10 +49,10 @@ public class Musics {
 					// on charge la musique
 					s = s.substring(0, s.length()-4);
 					music = new Music(name+s+".ogg");
-					musics.put(s.toLowerCase(),music);
+					res.put(s.toLowerCase(),music);
 				} else if (!s.contains(".")){
 					// nouveau répertoire à charger
-					loadRepertoire(name+s+"/");
+					loadRepertoire(name+s+"/", res);
 				}
 			} 
 		} catch (SlickException | SecurityException | IllegalArgumentException  e) {
@@ -65,6 +68,7 @@ public class Musics {
 			}
 			musicPlaying = music;
 			musicPlaying.loop(1f, 1f);
+			musicPlayingName = name;
 		}
 	}
 	
@@ -90,5 +94,8 @@ public class Musics {
 	
 	public static Music getPlayingMusic(){
 		return musicPlaying;
+	}
+	public static String getPlayingMusicName(){
+		return musicPlayingName;
 	}
 }

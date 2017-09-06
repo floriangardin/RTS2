@@ -7,9 +7,12 @@ import org.newdawn.slick.Input;
 
 import control.KeyMapper.KeyEnum;
 import display.Camera;
+import model.Game;
+import plateau.Building;
 import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
+import plateau.Character;
 
 public class InputObject implements java.io.Serializable{
 	/**
@@ -20,7 +23,7 @@ public class InputObject implements java.io.Serializable{
 	public int round;
 	public int team;
 	// Spells
-	public int idObjetMouse;
+	public int idObjetMouse=-1;
 	public int idSpellLauncher;
 	public ObjetsList spell;
 	
@@ -221,14 +224,7 @@ public class InputObject implements java.io.Serializable{
 //	}
 	
 	public void initInput(Input input){
-		initInitInput(input);
-		x = input.getMouseX() + Camera.Xcam;
-		y = input.getMouseY() + Camera.Ycam;
-	}
-	public void initInitInput(Input input){
 		time = System.nanoTime();
-		x = input.getMouseX();
-		y = input.getMouseY();
 		xOnScreen = input.getMouseX();
 		yOnScreen = input.getMouseY();
 		this.pressed = new Vector<KeyEnum>();
@@ -253,45 +249,10 @@ public class InputObject implements java.io.Serializable{
 				down.addElement(KeyMapper.mouseMapping.get(i));
 			}
 		}
-//		// Spells
-//		if(pressed.size()>0){
-//			if(pressed.contains(KeyEnum.LeftClick) && Game.g.spellCurrent!=null){
-//				int i = Game.g.spellLauncher.getSpellsName().indexOf(Game.g.spellCurrent);
-//				if(Game.g.spellLauncher.getSpellState(i)>=Game.g.data.spells.get(Game.g.spellCurrent).getAttribut(Attributs.chargeTime)){
-//					this.spell = Game.g.spellCurrent;
-//					this.idSpellLauncher = Game.g.spellLauncher.id;
-//					if(Game.g.spellTarget!=null){
-//						this.idObjetMouse = Game.g.spellTarget.id;
-//					} else {
-//						this.idObjetMouse = -1;
-//					}
-//					Game.g.spellCurrent = null;
-//					Game.g.spellLauncher = null;
-//					Game.g.spellTarget = null;
-//				}
-//				pressed.remove(KeyEnum.LeftClick);
-//				down.remove(KeyEnum.LeftClick);
-//			} else {
-//				Game.g.spellCurrent = null;
-//				Game.g.spellLauncher = null;
-//				Game.g.spellTarget = null;
-//			}
-//			
-//		
-//			// ATTACK CLICK
-//			if(pressed.contains(KeyEnum.DeplacementOffensif) && !Game.g.attackClick){
-//				Game.g.attackClick = true;
-//				pressed.remove(KeyEnum.DeplacementOffensif);
-//			}
-//			else if(pressed.contains(KeyEnum.LeftClick) && Game.g.attackClick){
-//				pressed.remove(KeyEnum.LeftClick);
-//				Game.g.attackClick = false;
-//				pressed.add(KeyEnum.DeplacementOffensif);
-//			} else {
-//				Game.g.attackClick = false;
-//			}
-//		}
+		x = (input.getMouseX() + Camera.Xcam)/Game.ratioX;
+		y = (input.getMouseY() + Camera.Ycam)/Game.ratioY;
 	}
+	
 
 	public void validate(int player){
 		if(validated.size()>player){
@@ -325,6 +286,13 @@ public class InputObject implements java.io.Serializable{
 	}
 
 	public void eraseLetter(){
+		this.pressed.clear();
+		this.down.clear();
+	}
+	
+	public void reset(){
+		x = (Game.resX/2 + Camera.Xcam)/Game.ratioX;
+		y = (Game.resY/2 + Camera.Ycam)/Game.ratioY;
 		this.pressed.clear();
 		this.down.clear();
 	}
@@ -364,6 +332,23 @@ public class InputObject implements java.io.Serializable{
 		if(!this.pressed.contains(KeyEnum.valueOf("Tech"+i))){
 			this.pressed.add(KeyEnum.valueOf("Tech"+i));
 		}
+	}
+	public void sanitizeInput(Plateau plateau) {
+		Vector<Integer> toRemove = new Vector<Integer>();
+		for(Integer i : this.selection){
+			if(plateau.getById(i)==null || !(plateau.getById(i) instanceof Character || plateau.getById(i) instanceof Building )){
+				toRemove.add(i);
+			}
+		}
+		this.selection.removeAll(toRemove);
+		
+		if(plateau.getById(this.idObjetMouse)==null || !(plateau.getById(this.idObjetMouse) instanceof Character || plateau.getById(this.idObjetMouse) instanceof Building )){
+			this.idObjetMouse = -1;
+		}
+		if(plateau.getById(this.idSpellLauncher)==null || !(plateau.getById(this.idSpellLauncher) instanceof Character || plateau.getById(this.idSpellLauncher) instanceof Building )){
+			this.idSpellLauncher = -1;
+		}
+		
 	}
 
 

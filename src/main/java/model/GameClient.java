@@ -22,7 +22,7 @@ import plateau.Plateau;
 
 public class GameClient extends Listener {
 	//OPTIONS
-	private final static Client client = new Client(500000, 500000);
+	private final static Client client = new Client(5000000, 5000000);
 	private static String ip = null; //FOR SINGLEPLAYER
 	public final static int port = 27960;
 	public static int slowDown = 0;
@@ -38,7 +38,7 @@ public class GameClient extends Listener {
 		client.getKryo().register(Message.class);
 		client.addListener(new Listener(){
 			public void received(Connection c, Object o){
-				Player.init(c.getID());
+				Player.init(c.getID());	
 				if(o instanceof Message){
 					Message m = (Message) o;
 					int type = m.getType();
@@ -112,12 +112,12 @@ public class GameClient extends Listener {
 	
 	public static void send(InputObject im){
 		Message m = new Message(im);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Vector<InputObject> ims){
 		for(InputObject im : ims ){			
 			Message m = new Message(im);
-			client.sendUDP(m);
+			client.sendTCP(m);
 		}
 	}
 
@@ -147,19 +147,19 @@ public class GameClient extends Listener {
 	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Menu_Player menu_player){
 		Message m = new Message(menu_player);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
-		client.sendUDP(Serializer.serialize(m));
+		client.sendTCP(Serializer.serialize(m));
 	}
 	public static void send(ChatMessage message){
 		Message m = new Message(message);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 
 	public static Plateau getPlateau(){	
