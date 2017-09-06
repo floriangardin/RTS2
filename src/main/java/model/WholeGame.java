@@ -186,7 +186,7 @@ public class WholeGame extends ClassSystem{
 			p = GameClient.getPlateau();
 		}
 		finally{
-			GameClient.mutex.unlock();
+			
 			if(RenderEngine.isReady()){
 				RenderEngine.render(g, p);
 				
@@ -194,6 +194,7 @@ public class WholeGame extends ClassSystem{
 				SimpleRenderEngine.render(g, p);
 				
 			}
+			GameClient.mutex.unlock();
 		}
 		
 	}
