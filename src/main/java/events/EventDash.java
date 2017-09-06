@@ -19,7 +19,7 @@ public class EventDash extends Event{
 		if(plateau.isVisibleByTeam(Player.team, parent) && parent.getTarget(plateau)!=null && parent.getTarget(plateau) instanceof Character && parent.getTarget(plateau).getTeam()!=parent.getTeam()){
 			Sounds.playSoundAt("dash_shot", parent.x, parent.y);
 		}else if(plateau.isVisibleByTeam(Player.team, parent)){
-			Sounds.playSound("dash");
+			Sounds.playSoundAt("dash", parent.x, parent.y);
 		}
 	}
 
