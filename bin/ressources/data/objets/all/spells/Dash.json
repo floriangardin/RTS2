@@ -1,8 +1,0 @@
-{
-prototype:"Spell",
-printName:"Conversion",
-chargeTime:200,
-bonusSpeed:500,
-bonusDamage:20,
-totalTime:1.2
-}

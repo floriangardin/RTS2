@@ -1,6 +1,0 @@
-{
-prototype:"Spell",
-printName:"Vie Subite",
-chargeTime:300,
-range:200
-}
