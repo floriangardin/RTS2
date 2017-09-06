@@ -67,8 +67,7 @@ public class RenderEngine {
 
 	public static void render(Graphics g, Plateau plateau){
 
-		g.translate(-Camera.Xcam, -Camera.Ycam);
-		g.scale(Game.resX/1920f, Game.resY/1080f);
+		
 		//g.scale(0.5f,0.5f);
 		renderPlateau(g, plateau, true);
 		//		// draw mapgrid
@@ -81,8 +80,6 @@ public class RenderEngine {
 		//			
 		//		}
 		// Draw interface
-		g.scale(1920f/Game.resX, 1080f/Game.resY);
-		g.translate(Camera.Xcam, Camera.Ycam);
 		Interface.draw(g, plateau);
 		ChatHandler.draw(g);
 
@@ -94,11 +91,13 @@ public class RenderEngine {
 		}
 		if(plateau.round<WholeGame.nbRoundStart){
 			String s = "Début dans "+10*(int)((WholeGame.nbRoundStart-plateau.round)/10);
-			GraphicElements.font_big.drawString(Game.resX/2-GraphicElements.font_big.getWidth(s)/2, Game.resY/2-50f, s);
+			GraphicElements.font_big.drawString(100f, Game.resY/2-50f, s);
 		}
 	}
 
 	public static void renderPlateau(Graphics g, Plateau plateau, boolean fogOfWar){
+		g.translate(-Camera.Xcam, -Camera.Ycam);
+		g.scale(Game.resX/1920f, Game.resY/1080f);
 		renderBackground(g, plateau);
 
 		// Draw first layer of event
@@ -144,6 +143,8 @@ public class RenderEngine {
 		// Draw second layer of event
 		EventHandler.render(g, plateau, true);
 
+		g.scale(1920f/Game.resX, 1080f/Game.resY);
+		g.translate(Camera.Xcam, Camera.Ycam);
 
 	}
 
@@ -423,7 +424,8 @@ public class RenderEngine {
 						c.x>b.x-b.getAttribut(Attributs.sizeX)/2f &&
 						c.x<b.x+b.getAttribut(Attributs.sizeX)/2f &&
 						c.y>b.y-b.getVisibleSize()-b.getAttribut(Attributs.sight)-b.visibleHeight 
-						&& !v.contains(c)){
+						&& !v.contains(c)
+						&& (c.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), c))){
 					int direction = (c.orientation/2-1);
 					// inverser gauche et droite
 					if(direction==1 || direction==2){
