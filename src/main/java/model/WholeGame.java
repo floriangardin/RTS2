@@ -121,7 +121,7 @@ public class WholeGame extends ClassSystem{
 			SoundManager.update(GameClient.getPlateau());
 			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>30 && GameClient.getRound()%20==0){			
+			if(GameClient.getRound()>30 && GameClient.getRound()%(GameClient.delay*2)==0){			
 				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round
@@ -163,7 +163,7 @@ public class WholeGame extends ClassSystem{
 	
 	private void handleSlowDown(GameContainer gc) {
 		if(GameClient.slowDown>0){
-			System.out.println("Slowing down : "+GameClient.slowDown);
+			//System.out.println("Slowing down : "+GameClient.slowDown);
 			gc.setMinimumLogicUpdateInterval(32);
 			gc.setMaximumLogicUpdateInterval(32);
 			GameClient.slowDown=0;
