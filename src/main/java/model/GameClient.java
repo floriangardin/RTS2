@@ -147,19 +147,19 @@ public class GameClient extends Listener {
 	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Menu_Player menu_player){
 		Message m = new Message(menu_player);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
-		client.sendUDP(Serializer.serialize(m));
+		client.sendTCP(Serializer.serialize(m));
 	}
 	public static void send(ChatMessage message){
 		Message m = new Message(message);
-		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 
 	public static Plateau getPlateau(){	
