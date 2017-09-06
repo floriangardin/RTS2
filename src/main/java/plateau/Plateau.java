@@ -574,8 +574,11 @@ public class Plateau implements java.io.Serializable {
 	}
 	public void update(Vector<InputObject> ims) {
 		round ++;
+		this.clean();
+		
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
+			im.sanitizeInput(this);
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
 				Team team = this.getTeamById(im.team);
@@ -589,7 +592,8 @@ public class Plateau implements java.io.Serializable {
 		// 2 - For everyone
 		// Sort by id
 		this.collision();
-		this.clean();
+		
+		// 
 		this.action();
 		// 4- handling victory
 		for(Team team : teams){
@@ -626,6 +630,7 @@ public class Plateau implements java.io.Serializable {
 //				
 //			}
 //		}
+		this.clean();
 		
 	}
 

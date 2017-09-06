@@ -331,6 +331,24 @@ public class InputObject implements java.io.Serializable{
 			this.pressed.add(KeyEnum.valueOf("Tech"+i));
 		}
 	}
+	public void sanitizeInput(Plateau plateau) {
+		Vector<Integer> toRemove = new Vector<Integer>();
+		for(Integer i : this.selection){
+			if(plateau.getById(i)==null){
+				toRemove.add(i);
+			}
+		}
+		this.selection.removeAll(toRemove);
+		
+		if(plateau.getById(this.idObjetMouse)==null){
+			this.idObjetMouse = -1;
+		}
+		if(plateau.getById(this.idSpellLauncher)==null){
+			this.idSpellLauncher = -1;
+		}
+		
+		
+	}
 
 
 
