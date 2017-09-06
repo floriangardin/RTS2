@@ -420,10 +420,10 @@ public class RenderEngine {
 		for(Objet b : vb){
 			for(Character c : plateau.getCharacters()){
 				if(Camera.visibleByCamera(c.x, c.y, 1f) && 
-						c.x>b.x-b.getAttribut(Attributs.sizeX)/2f &&
-						c.x<b.x+b.getAttribut(Attributs.sizeX)/2f &&
-						c.y>b.y-b.getAttribut(Attributs.sizeY)
-						&& !v.contains(c)
+						c.x>b.x-b.getAttribut(Attributs.sizeX)/2f-c.getAttribut(Attributs.size) &&
+						c.x<b.x+b.getAttribut(Attributs.sizeX)/2f+c.getAttribut(Attributs.size) &&
+						c.y>b.y-b.getAttribut(Attributs.sizeY)/2f-1.5f*Map.stepGrid &&
+						c.y<b.y && !v.contains(c)
 						&& (c.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), c))){
 					int direction = (c.orientation/2-1);
 					// inverser gauche et droite

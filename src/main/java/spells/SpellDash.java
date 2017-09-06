@@ -31,10 +31,8 @@ public class SpellDash extends Spell{
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
 		if(target!=null && launcher!=null){
-			// TODO : Reparer le déplacement en groupe
 			plateau.updateTarget(launcher, target.x,target.y,launcher.getTeam().id, Character.MOVE, new Vector<Integer>());		
 		}
-		
 		EventHandler.addEvent(EventNames.Dash, launcher, plateau);
 		return true;
 	}
