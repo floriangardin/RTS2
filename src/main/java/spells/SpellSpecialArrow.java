@@ -41,7 +41,7 @@ public class SpellSpecialArrow extends Spell{
 		g.setLineWidth(3f);
 		float largeur = 2f;
 		
-		float dist = (float) Math.sqrt((t.x-launcher.x)*(t.x-launcher.x)+(t.y-launcher.y)*(t.y-launcher.y));
+		float dist = (float) StrictMath.sqrt((t.x-launcher.x)*(t.x-launcher.x)+(t.y-launcher.y)*(t.y-launcher.y));
 		float longueur = dist-20f;
 		float longueurPointe = 20f;
 		float xlauncherLeft = launcher.x+(launcher.y-t.y)*largeur/dist;

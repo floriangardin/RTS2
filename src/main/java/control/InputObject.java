@@ -210,8 +210,8 @@ public class InputObject implements java.io.Serializable{
 //		if(isOnMiniMap){
 //			//			System.out.println("miniMap");
 //			BottomBar b = Game.g.bottomBar;
-//			this.x = (int) Math.floor((this.x-Game.g.Xcam-b.startXMiniMap)/b.ratioWidthMiniMap);
-//			this.y = (int) Math.floor((this.y-Game.g.Ycam-b.startYMiniMap)/b.ratioHeightMiniMap);
+//			this.x = (int) StrictMath.floor((this.x-Game.g.Xcam-b.startXMiniMap)/b.ratioWidthMiniMap);
+//			this.y = (int) StrictMath.floor((this.y-Game.g.Ycam-b.startYMiniMap)/b.ratioHeightMiniMap);
 //		}
 //
 //		this.validated = new Vector<Boolean>();

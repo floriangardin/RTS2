@@ -32,7 +32,7 @@ public class Meditation extends SpellEffect{
 		// Calculate step of lifepoints
 		this.lifePoints = 1f;
 		plateau.addSpell(this);
-		owner = launcher.id;
+		owner = launcher.getId();
 		this.team = launcher.getTeam();
 	}
 

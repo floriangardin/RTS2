@@ -25,13 +25,13 @@ public class RenderBuilding {
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g,b,visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.id){
+			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.getId()){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				drawFlash(g, b, color);
 			}
 		} else {
 			drawBasicImage(g, b, visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.id){
+			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.getId()){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				Images.get("building"+b.name+b.getTeam().colorName).drawFlash(b.x-b.getAttribut(Attributs.sizeX)/1.8f, b.y-b.getAttribut(Attributs.sizeY), 2*b.getAttribut(Attributs.sizeX)/1.8f, 3*b.getAttribut(Attributs.sizeY)/2,color);
 			}
@@ -62,10 +62,10 @@ public class RenderBuilding {
 		if(b instanceof Building && isCurrentTeam){
 			Building bp = ((Building) b);
 			if(bp.queue.size()>0){
-				float offsetY = Math.min(2*b.getAttribut(Attributs.sizeY)/3, bp.charge*(64*b.getAttribut(Attributs.sizeY))/b.getAttribut(bp.getProductionList(plateau).get(0),Attributs.prodTime));
+				float offsetY = StrictMath.min(2*b.getAttribut(Attributs.sizeY)/3, bp.charge*(64*b.getAttribut(Attributs.sizeY))/b.getAttribut(bp.getProductionList(plateau).get(0),Attributs.prodTime));
 				float opacity = 50*bp.charge/b.getAttribut(bp.queue.get(0),Attributs.prodTime);
 				Image icone = Images.get("icon"+bp.getQueue().get(0)+"buildingsize");
-				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
+				float r = (float) (StrictMath.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(b.x-r-10f, b.y-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				//g.setColor(new Color(0f,0f,0f,opacity));
@@ -86,10 +86,10 @@ public class RenderBuilding {
 		if(isCurrentTeam){
 			Building bt = ((Building) b);
 			if(bt.queueTechnology!=null){
-				float offsetY = Math.min(2*b.getAttribut(Attributs.sizeY)/3, bt.charge*(64*b.getAttribut(Attributs.sizeY))/b.getAttribut(b.queueTechnology.objet, Attributs.prodTime));
+				float offsetY = StrictMath.min(2*b.getAttribut(Attributs.sizeY)/3, bt.charge*(64*b.getAttribut(Attributs.sizeY))/b.getAttribut(b.queueTechnology.objet, Attributs.prodTime));
 				float opacity = 50*bt.charge/b.getAttribut(b.queueTechnology.objet, Attributs.prodTime);
 				Image icone = Images.get(b.getAttributString(b.queueTechnology.objet, Attributs.nameIcon)+"buildingsize");
-				float r = (float) (Math.sqrt(2)*icone.getHeight()/2);
+				float r = (float) (StrictMath.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
 				g.fillOval(b.x-r-10f, b.y-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				g.setColor(new Color(bt.getTeam().color.r,bt.getTeam().color.g,bt.getTeam().color.b,opacity));

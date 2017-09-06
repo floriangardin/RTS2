@@ -70,7 +70,7 @@ public class EndSystem extends ClassSystem{
 		// moving Camera
 		int Xcam = Camera.Xcam, Ycam = Camera.Ycam;
 		float resX = Camera.resX, resY = Camera.resY;
-		sizeBandes = Math.min(sizeBandes+2, Camera.resY/7f);
+		sizeBandes = StrictMath.min(sizeBandes+2, Camera.resY/7f);
 		if((destroyedHQ.x-Xcam-resX/2)*(destroyedHQ.x-Xcam-resX/2)+(destroyedHQ.y-Ycam-resY/2)*(destroyedHQ.y-Ycam-resY/2)>450f){
 			Camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
 			Camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
@@ -122,7 +122,7 @@ public class EndSystem extends ClassSystem{
 		}		
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+			if(Camera.visibleByCamera(o.x, o.y, StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				RenderEngine.renderObjet(o, g, plateau);
 			}
 		}
@@ -181,7 +181,7 @@ public class EndSystem extends ClassSystem{
 		float alpha;
 		float delta_alpha = 0.01f;
 		public Rond(boolean victory){
-			float scale = (float) (Math.random()+0.2f)/1.5f;
+			float scale = (float) (StrictMath.random()+0.2f)/1.5f;
 			if(victory){
 				image = Images.get("victoire_rond").getScaledCopy(scale);
 			} else {
@@ -189,9 +189,9 @@ public class EndSystem extends ClassSystem{
 			}
 			x = Camera.resX/2f;
 			y = Camera.resY/2f;
-			vx = (float) (Math.random()*2f-1f)*4f;
-			vy = (float) (Math.random()*2f-1f)*0.7f;
-			alpha = (float) (0.5f+Math.random());
+			vx = (float) (StrictMath.random()*2f-1f)*4f;
+			vy = (float) (StrictMath.random()*2f-1f)*0.7f;
+			alpha = (float) (0.5f+StrictMath.random());
 		}
 		
 		public void render( Graphics g){

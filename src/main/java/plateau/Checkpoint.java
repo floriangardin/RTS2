@@ -27,7 +27,7 @@ public class Checkpoint extends Objet {
 	public void initialize(float x, float y, Plateau plateau){
 		this.lifePoints=1f;
 		this.name = ObjetsList.Checkpoint;
-		plateau.getObjets().put(this.id, this);
+		plateau.getObjets().put(this.getId(), this);
 		this.x = x;
 		this.y = y;
 		color = Colors.team2;

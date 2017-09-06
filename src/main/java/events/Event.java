@@ -36,7 +36,7 @@ public abstract class Event {
 	}
 	
 	public boolean isDesynchro(Plateau plateau){
-		return plateau.getById(parent.id)==null;
+		return plateau.getById(parent.getId())==null;
 	}
 
 	public String toString(){
@@ -82,10 +82,10 @@ public abstract class Event {
 	}
 
 	protected float ratioDistance(){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
+		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 	protected float ratioDistance(float x, float y){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
+		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 
 	public EventNames getName(){

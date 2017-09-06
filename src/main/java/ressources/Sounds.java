@@ -46,7 +46,7 @@ public class Sounds {
 		String unit = unit2.toLowerCase(), soundType = soundType2.toLowerCase();
 		if(soundsUnit.containsKey(unit) && soundsUnit.get(unit).containsKey(soundType)){
 			if(soundsUnit.get(unit).get(soundType).size()>0){
-				return soundsUnit.get(unit).get(soundType).get((int)(Math.random()*soundsUnit.get(unit).get(soundType).size()));
+				return soundsUnit.get(unit).get(soundType).get((int)(StrictMath.random()*soundsUnit.get(unit).get(soundType).size()));
 			}
 		} else {				
 			try {
@@ -154,11 +154,11 @@ public class Sounds {
 	}
 	
 	public static void playSoundAt(String name, float x, float y){
-		float distance =(float)Math.sqrt( (Camera.getCenterX()-x)*(Camera.getCenterX()-x)+(Camera.getCenterY()-y)*(Camera.getCenterY()-y));
-		playSound(name, (float)Math.exp(-distance/Camera.resX));
+		float distance =(float)StrictMath.sqrt( (Camera.getCenterX()-x)*(Camera.getCenterX()-x)+(Camera.getCenterY()-y)*(Camera.getCenterY()-y));
+		playSound(name, (float)StrictMath.exp(-distance/Camera.resX));
 	}
 	public static void playSoundAt(String name, float x, float y, float ratio){
-		float distance =(float)Math.sqrt( (Camera.getCenterX()-x)*(Camera.getCenterX()-x)+(Camera.getCenterY()-y)*(Camera.getCenterY()-y));
-		playSound(name, (float)Math.exp(-distance/Camera.resX)*ratio);
+		float distance =(float)StrictMath.sqrt( (Camera.getCenterX()-x)*(Camera.getCenterX()-x)+(Camera.getCenterY()-y)*(Camera.getCenterY()-y));
+		playSound(name, (float)StrictMath.exp(-distance/Camera.resX)*ratio);
 	}
 }

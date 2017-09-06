@@ -29,7 +29,7 @@ public class Utils {
 	
 	public Vector<Objet> get(HashMap<String,Objet> req){
 		Vector<Objet> result = new Vector<Objet>();
-		result.stream().map((Objet o )->  o.id);
+		result.stream().map((Objet o )->  o.getId());
 		
 		return result;
 	}
@@ -70,17 +70,17 @@ public class Utils {
 		if(a== null || b == null){
 			return -1f;
 		}
-		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
+		return (float) StrictMath.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
 
 	}
 
 	public static float distance(Objet a ,float x , float y){
-		return (float) Math.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
+		return (float) StrictMath.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
 
 	}
 
 	public static float distance(float x1, float y1, float x2, float y2){
-		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+		return (float) StrictMath.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 
 	}
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
@@ -139,7 +139,7 @@ public class Utils {
 	public static Image mergeImages(Image a, Image b){
 		if(b==null)
 			return a;
-		int maxW = Math.max(a.getWidth(), b.getWidth()), maxH = Math.max(a.getHeight(), b.getHeight());
+		int maxW = StrictMath.max(a.getWidth(), b.getWidth()), maxH = StrictMath.max(a.getHeight(), b.getHeight());
 		ImageBuffer bimage = new ImageBuffer(maxW,maxH);
 		Color ca;
 		for(int i=0; i<maxW; i++){
@@ -290,8 +290,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().id;
-			y2 = liste2.firstElement().id;
+			y1 = liste1.firstElement().getId();
+			y2 = liste2.firstElement().getId();
 			if(y1<y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -334,8 +334,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().id;
-			y2 = liste2.firstElement().id;
+			y1 = liste1.firstElement().getId();
+			y2 = liste2.firstElement().getId();
 			if(y1<y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);

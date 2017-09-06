@@ -98,8 +98,8 @@ public class SidePanel extends JPanel{
 			return new MouseMotionListener(){
 				public void mouseDragged(MouseEvent arg0) {
 					if(MainEditor.getSheet()!=null){
-						float x = Math.max(0, Math.min(getWidth(), arg0.getX()));
-						float y = Math.max(0, Math.min(getHeight(), arg0.getY()));
+						float x = StrictMath.max(0, StrictMath.min(getWidth(), arg0.getX()));
+						float y = StrictMath.max(0, StrictMath.min(getHeight(), arg0.getY()));
 						MainEditor.getSheet().setOffset(MainEditor.getSheet().offsetX-(x-mouseClickX)/ratio, 
 								MainEditor.getSheet().offsetY-(y-mouseClickY)/ratio);
 						mouseClickX = (int)x;
@@ -128,7 +128,7 @@ public class SidePanel extends JPanel{
 				// computing ratios and offsets
 				float ratioX = 1f*this.getWidth()/MainEditor.getSheet().getPlateau().maxX;
 				float ratioY = 1f*this.getHeight()/MainEditor.getSheet().getPlateau().maxY;
-				ratio = 0.01f*(int)(100*Math.min(ratioX, ratioY));
+				ratio = 0.01f*(int)(100*StrictMath.min(ratioX, ratioY));
 				offsetY = (this.getHeight()-MainEditor.getSheet().getPlateau().maxY*ratio)/2f;
 				offsetX = (this.getWidth()-MainEditor.getSheet().getPlateau().maxX*ratio)/2f;
 				Color color;

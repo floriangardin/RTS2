@@ -78,8 +78,8 @@ public class MapTest {
 //		for(int i=0; i<1000; i++){
 //			plateau.update(new Vector<InputObject>());
 //		}
-//		assertTrue(Math.abs(c.x - xObjectif)<50);
-//		assertTrue(Math.abs(c.y - yObjectif)<50);
+//		assertTrue(StrictMath.abs(c.x - xObjectif)<50);
+//		assertTrue(StrictMath.abs(c.y - yObjectif)<50);
 //	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class MapTest {
 				refSize=serializedPlateau.length;
 			}
 			plateau.update(new Vector<InputObject>());
-			plateau.getCharacters().get(0).setTarget(new Checkpoint(100+(float)Math.random(), 100+(float)Math.random(), plateau), plateau);
+			plateau.getCharacters().get(0).setTarget(new Checkpoint(100+(float)StrictMath.random(), 100+(float)StrictMath.random(), plateau), plateau);
 			assertTrue(2*refSize>serializedPlateau.length);
 		}
 	}

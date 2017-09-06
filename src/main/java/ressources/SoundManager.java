@@ -55,13 +55,13 @@ public class SoundManager {
 				.collect(Collectors.toList());
 		units.clear();
 		for(Objet s : state){
-			units.put(s.id, s.name);
+			units.put(s.getId(), s.name);
 		}
 	}
 	public static List<ObjetsList> newDistinctObjects(Plateau plateau){
 		// Get differentiation with old hashmap
 		return plateau.get()
-				.filter(x -> !units.containsKey(x.id) && x.team.id==Player.team)
+				.filter(x -> !units.containsKey(x.getId()) && x.team.id==Player.team)
 				.map(x -> x.name)
 				.distinct()
 				.collect(Collectors.toList());

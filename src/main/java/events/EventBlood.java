@@ -18,8 +18,8 @@ public class EventBlood extends Event{
 
 	@Override
 	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
-		g.setColor(new Color(256-(int)(100f*Math.random()),0,0,0.5f+(float)Math.random()*0.5f));
-		g.fillOval(parent.x+100f*((float)Math.random()-0.5f), parent.y+100f*((float)Math.random()-0.5f), 3f, 3f);
+		g.setColor(new Color(256-(int)(100f*StrictMath.random()),0,0,0.5f+(float)StrictMath.random()*0.5f));
+		g.fillOval(parent.x+100f*((float)StrictMath.random()-0.5f), parent.y+100f*((float)StrictMath.random()-0.5f), 3f, 3f);
 		this.duration -= Main.increment;
 		return parent.isAlive() && this.duration>0f;
 	}

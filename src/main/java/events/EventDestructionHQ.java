@@ -40,8 +40,8 @@ public class EventDestructionHQ extends Event{
 		for(int i=0; i<4; i++){
 			this.images.add(Images.get("animation-explosion").getSubImage(width*i, 0, width, height));
 		}
-		Camera.Xcam += ((Math.random()-0.5f)*3);
-		Camera.Ycam += ((Math.random()-0.5f)*3);
+		Camera.Xcam += ((StrictMath.random()-0.5f)*3);
+		Camera.Ycam += ((StrictMath.random()-0.5f)*3);
 		xExplosion = new float[]{parent.x-Map.stepGrid, 
 								 parent.x, 
 								 parent.x+Map.stepGrid*2f,

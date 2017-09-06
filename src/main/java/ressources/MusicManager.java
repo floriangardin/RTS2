@@ -105,7 +105,7 @@ public class MusicManager {
 		}else{
 			// Change music at random according to intensite
 			Vector<MusicList> potentialMusics = MusicList.getMusicsByIntensite(intensite);
-			int random = (int) Math.floor(potentialMusics.size()*Math.random());
+			int random = (int) StrictMath.floor(potentialMusics.size()*StrictMath.random());
 			Musics.playMusic(potentialMusics.get(random).name());
 			cantChange = maxCantChange;
 		}

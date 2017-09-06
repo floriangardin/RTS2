@@ -31,18 +31,18 @@ public class EventDash extends Event{
 		if(plateau.isVisibleByTeam(Player.team, parent)){			
 			g.setColor(new Color(256, 256, 256, 0.5f));
 			if(parent.vx>0){
-				g.rotate(parent.x, parent.y-50f, (float)(180f/Math.PI*Math.atan(parent.vy/parent.vx)));
-				float signe = ((float)Math.signum(parent.vx));
+				g.rotate(parent.x, parent.y-50f, (float)(180f/StrictMath.PI*StrictMath.atan(parent.vy/parent.vx)));
+				float signe = ((float)StrictMath.signum(parent.vx));
 				for(int i=0; i<5; i++){
 					if(toDraw){
-						g.fillRect(parent.x-150*signe+50*Math.abs(i-2)*signe+((float)Math.random()*50f)*signe, parent.y-50f-(i-2)*12+((float)Math.random()*20f), -60*signe, 2);
+						g.fillRect(parent.x-150*signe+50*StrictMath.abs(i-2)*signe+((float)StrictMath.random()*50f)*signe, parent.y-50f-(i-2)*12+((float)StrictMath.random()*20f), -60*signe, 2);
 					}
-					//g.fillRect(parent.x+100*signe-50*Math.abs(i-2)*signe+((float)Math.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
+					//g.fillRect(parent.x+100*signe-50*StrictMath.abs(i-2)*signe+((float)StrictMath.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
 				}
-				g.rotate(parent.x, parent.y-50f, (float)(-180f/Math.PI*Math.atan(parent.vy/parent.vx)));
+				g.rotate(parent.x, parent.y-50f, (float)(-180f/StrictMath.PI*StrictMath.atan(parent.vy/parent.vx)));
 			}
 		}
-		return parent.inDash>0f && parent.isAlive() && plateau.getObjets().containsKey(parent.id);
+		return parent.inDash>0f && parent.isAlive() && plateau.getObjets().containsKey(parent.getId());
 	}
 
 

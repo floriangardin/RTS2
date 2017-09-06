@@ -28,7 +28,7 @@ public class MapWater {
 		this.sands = new Vector<Sand>();
 		for(int i=0; i<sizeX; i++){
 			for(int j=0; j<sizeY; j++){
-				this.idTerrain[i][j] = (int)(Math.random()*1.1);
+				this.idTerrain[i][j] = (int)(StrictMath.random()*1.1);
 			}
 		}
 		this.update();
@@ -152,10 +152,10 @@ public class MapWater {
 
 
 	public void draw(Graphics g, float stepGrid, int Xcam, int Ycam, int maxX, int maxY){
-		int xmin = (int) (Math.max(0,Xcam) / stepGrid);
-		int xmax = (int) Math.min(maxX,(Xcam+Game.resX)/stepGrid+1);
-		int ymin = (int) (Math.max(0,Ycam) / stepGrid);
-		int ymax = (int) Math.min(maxY,(Ycam+Game.resY) / stepGrid+1);
+		int xmin = (int) (StrictMath.max(0,Xcam) / stepGrid);
+		int xmax = (int) StrictMath.min(maxX,(Xcam+Game.resX)/stepGrid+1);
+		int ymin = (int) (StrictMath.max(0,Ycam) / stepGrid);
+		int ymax = (int) StrictMath.min(maxY,(Ycam+Game.resY) / stepGrid+1);
 		//waterImage = waterImage.getScaledCopy((int)(2*stepGrid), (int)(2*stepGrid));
 		//water2Image = water2Image.getScaledCopy((int)(stepGrid), (int)(stepGrid));
 		//		for(int x = xmin; x<xmax; x++){

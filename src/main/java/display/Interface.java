@@ -134,7 +134,7 @@ public class Interface {
 						Character c = (Character) plateau.getById(Player.selection.get(0)); 
 						Spell s = c.getSpell(mouseOnItem);
 						if(s != null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(mouseOnItem)){
-							spellLauncher = c.id;
+							spellLauncher = c.getId();
 							spellCurrent = s.name;
 						}
 					} else {
@@ -159,7 +159,7 @@ public class Interface {
 					Spell s = c.getSpell(i);
 
 					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
-						spellLauncher = c.id;
+						spellLauncher = c.getId();
 						spellCurrent = s.name;
 
 					}
@@ -220,8 +220,8 @@ public class Interface {
 		if(isMouseOnMiniMap(im.xOnScreen, im.yOnScreen)){
 			im.isOnMiniMap = true;
 
-			im.x = (int) Math.floor((im.xOnScreen-startXMiniMap)/ratioWidthMiniMap);
-			im.y = (int) Math.floor((im.yOnScreen-startYMiniMap)/ratioHeightMiniMap);
+			im.x = (int) StrictMath.floor((im.xOnScreen-startXMiniMap)/ratioWidthMiniMap);
+			im.y = (int) StrictMath.floor((im.yOnScreen-startYMiniMap)/ratioHeightMiniMap);
 		}
 	}
 
@@ -272,7 +272,7 @@ public class Interface {
 		float sizeXBar;
 		float x = 0;
 		if(plateau.round<nbRoundInit)
-			startXSelectionBar = Math.max(-Game.resX-10, Math.min(0, Game.resX*(plateau.round-debut-duree)/duree));
+			startXSelectionBar = StrictMath.max(-Game.resX-10, StrictMath.min(0, Game.resX*(plateau.round-debut-duree)/duree));
 		else
 			startXSelectionBar = 0;
 
@@ -288,7 +288,7 @@ public class Interface {
 
 			Building b = (Building) plateau.getById(selection.get(0));
 
-			sizeXBar = (Math.min(4,b.getQueue().size()+1))*(sVB+2)+3;
+			sizeXBar = (StrictMath.min(4,b.getQueue().size()+1))*(sVB+2)+3;
 			Utils.drawNiceRect(g, team.color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, team.color, startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 
@@ -361,7 +361,7 @@ public class Interface {
 			int compteur = 0;
 			int nb = selection.size()-1;
 
-			sizeXBar = (Math.min(nb+1, 5))*(sVB+2)+2;
+			sizeXBar = (StrictMath.min(nb+1, 5))*(sVB+2)+2;
 			Utils.drawNiceRect(g, team.color, 
 					startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, team.color, 
@@ -465,7 +465,7 @@ public class Interface {
 		// Draw Separation (1/3 1/3 1/3) : 
 
 		if(plateau.round<nbRoundInit)
-			x = Math.max(-offset-10, Math.min(0, offset*(plateau.round-debut-duree)/duree));
+			x = StrictMath.max(-offset-10, StrictMath.min(0, offset*(plateau.round-debut-duree)/duree));
 		else
 			x = 0;
 		g.setLineWidth(1f);
@@ -489,7 +489,7 @@ public class Interface {
 			Building b =(Building) plateau.getById(selection.get(0));
 			//Print building capacities
 			Vector<ObjetsList> ul = b.getProductionList(plateau);
-			int limit = Math.min(5, ul.size());
+			int limit = StrictMath.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(Images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
@@ -520,7 +520,7 @@ public class Interface {
 
 			//Print building capacities
 			Vector<ObjetsList> ul2 = b.getTechnologyList(plateau);
-			limit = Math.min(5, ul2.size());
+			limit = StrictMath.min(5, ul2.size());
 			for(int i=0; i<limit;i++){
 				float goldCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.goldCost);
 				float foodCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.foodCost);
@@ -549,7 +549,7 @@ public class Interface {
 			Character b =(Character) plateau.getById(selection.get(0));
 			//Print building capacities
 			Vector<Spell> ul = b.getSpells();
-			int limit = Math.min(5, ul.size());
+			int limit = StrictMath.min(5, ul.size());
 			Vector<Float> state = b.getSpellsState();
 			Font f = g.getFont();
 			Image im;
@@ -599,13 +599,13 @@ public class Interface {
 		float rX = Game.resX;
 		float rY = Game.resY;
 		float offset = ratioSizeTimerY*rY;
-		float yCentral = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debutC-dureeDescente)/dureeDescente));
+		float yCentral = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.round-debutC-dureeDescente)/dureeDescente));
 		offset = ratioSizeGoldY*rY;
-		float y1 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut1-dureeDescente)/dureeDescente));
-		float y2 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut2-dureeDescente)/dureeDescente));
+		float y1 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.round-debut1-dureeDescente)/dureeDescente));
+		float y2 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.round-debut2-dureeDescente)/dureeDescente));
 		Team team = Player.getTeam(plateau);
 		if(food != team.food){
-			food += (team.food-food)/5+Math.signum(team.food-food);
+			food += (team.food-food)/5+StrictMath.signum(team.food-food);
 		}
 
 		// pop
@@ -666,15 +666,15 @@ public class Interface {
 
 	public static void drawMiniMap(Graphics g, Plateau plateau){
 		Team team = Player.getTeam(plateau);
-		offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
+		offsetDrawX = StrictMath.max(0, StrictMath.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
 		Utils.drawNiceRect(g,  team.color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
-		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam/Game.ratioX);
-		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam/Game.ratioY);
-		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX)/Game.ratioX);
-		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY)/Game.ratioY);
+		float hlx = StrictMath.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam/Game.ratioX);
+		float hly = StrictMath.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam/Game.ratioY);
+		float brx = StrictMath.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX)/Game.ratioX);
+		float bry = StrictMath.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY)/Game.ratioY);
 		// Find the bottom right corner
 
 		// Draw background

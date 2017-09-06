@@ -24,8 +24,8 @@ public class EventAttackDamage extends Event {
 		this.value = value;
 		this.x = parent.x;
 		this.y = parent.y;
-		this.vy = (float) (-3f+0.5f*Math.random()-0.25);
-		this.vx = 0.7f*((float) (2f*Math.random()-1f));
+		this.vy = (float) (-3f+0.5f*StrictMath.random()-0.25);
+		this.vx = 0.7f*((float) (2f*StrictMath.random()-1f));
 	}
 	
 	@Override

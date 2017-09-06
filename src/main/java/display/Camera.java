@@ -56,7 +56,7 @@ public class Camera {
 				int deltaY = (int) (objYcam-Ycam);
 				Xcam += deltaX/5;
 				Ycam += deltaY/5;
-				if(Math.abs(deltaX)<2)
+				if(StrictMath.abs(deltaX)<2)
 					slidingCam = false;
 			}
 			// Move camera according to inputs :
@@ -85,8 +85,8 @@ public class Camera {
 			//						&& this.selection.get(player).size() > 0) {
 			//					float xmoy = this.selection.get(player).get(0).getX();
 			//					float ymoy = this.selection.get(player).get(0).getY();
-			//					this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
-			//					this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
+			//					this.Xcam = (int) StrictMath.min(maxX - g.resX / 2f, StrictMath.max(-g.resX / 2f, xmoy - g.resX / 2f));
+			//					this.Ycam = (int) StrictMath.min(maxY - g.resY / 2f, StrictMath.max(-g.resY / 2f, ymoy - g.resY / 2f));
 			//				}
 			//			}
 		}

@@ -25,9 +25,9 @@ public class EventBurningArea extends Event{
 		// TODO Auto-generated method stub
 		Image im = Images.get("magma").getScaledCopy((int)(2*size), (int)(2*size));
 		float alpha = (((BurningArea)parent).totalTime-((BurningArea)parent).remainingTime)/(((BurningArea)parent).startTime*((BurningArea)parent).remainingTime);
-		alpha = (float)Math.min(alpha, ((BurningArea)parent).remainingTime/(((BurningArea)parent).endTime*((BurningArea)parent).totalTime));
-		alpha = (float)Math.min(alpha, 1f);
-		alpha = (float)Math.max(alpha, 0f);
+		alpha = (float)StrictMath.min(alpha, ((BurningArea)parent).remainingTime/(((BurningArea)parent).endTime*((BurningArea)parent).totalTime));
+		alpha = (float)StrictMath.min(alpha, 1f);
+		alpha = (float)StrictMath.max(alpha, 0f);
 		im.setAlpha(alpha);
 		if(toDraw){
 			g.drawImage(im, ((BurningArea)parent).x-im.getWidth()/2f, ((BurningArea)parent).y-im.getHeight()/2f);
@@ -35,7 +35,7 @@ public class EventBurningArea extends Event{
 			g.setLineWidth(1f);
 			g.draw(((BurningArea)parent).collisionBox);
 		}
-		return parent.isAlive() && plateau.getObjets().containsKey(parent.id);
+		return parent.isAlive() && plateau.getObjets().containsKey(parent.getId());
 	}
 
 }

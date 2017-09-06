@@ -557,10 +557,10 @@ public class Game extends BasicGame
 		gf.setColor(new Color(255, 255, 255));
 		gf.fillRect(-this.plateau.maxX, -this.plateau.maxY, this.plateau.maxX + resX, this.plateau.maxY + resX);
 		gf.setColor(new Color(50, 50, 50));
-		float xmin = Math.max(-this.plateau.maxX, -this.plateau.maxX - Game.g.Xcam);
-		float ymin = Math.max(-this.plateau.maxY, -this.plateau.maxY - Game.g.Ycam);
-		float xmax = Math.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - Game.g.Xcam);
-		float ymax = Math.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - Game.g.Ycam);
+		float xmin = StrictMath.max(-this.plateau.maxX, -this.plateau.maxX - Game.g.Xcam);
+		float ymin = StrictMath.max(-this.plateau.maxY, -this.plateau.maxY - Game.g.Ycam);
+		float xmax = StrictMath.min(resX + this.plateau.maxX, 2 * this.plateau.maxX - Game.g.Xcam);
+		float ymax = StrictMath.min(resY + this.plateau.maxY, 2 * this.plateau.maxY - Game.g.Ycam);
 		gf.fillRect(xmin, ymin, xmax - xmin, ymax - ymin);
 		gf.setColor(Color.white);
 		for (Objet o : visibleObjet) {
@@ -1132,7 +1132,7 @@ public class Game extends BasicGame
 		transparence = new Image((int) (resX), (int) (resY));
 		gt = transparence.getGraphics();
 
-		double rdm = Math.random();
+		double rdm = StrictMath.random();
 		if(rdm<0.20){
 			this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");			
 		} else if (rdm<0.40){
@@ -1160,7 +1160,7 @@ public class Game extends BasicGame
 					lignes.add(ligne);
 				}
 				br.close(); 
-				this.adviceToDisplay = lignes.get((int)(Math.random()*lignes.size()));
+				this.adviceToDisplay = lignes.get((int)(StrictMath.random()*lignes.size()));
 			}catch (Exception e){
 				e.printStackTrace();
 			}
@@ -1460,33 +1460,33 @@ public class Game extends BasicGame
 		float x,y,vx,vy;
 		float angle;
 		public Gilles(){
-			double proba = Math.random();
+			double proba = StrictMath.random();
 			if(proba<0.25){
 				//depuis le haut
 				y = 0;
-				x =  (float) (Math.random()*resX);
-				vx =  (float) (5f*(2.0*Math.random()-1.0));
-				vy =  (float) (5f*Math.random());
+				x =  (float) (StrictMath.random()*resX);
+				vx =  (float) (5f*(2.0*StrictMath.random()-1.0));
+				vy =  (float) (5f*StrictMath.random());
 			} else if(proba<0.5){
 				// depuis le bas
 				y = (float) resY;
-				x = (float) (Math.random()*resX);
-				vx = (float) (5f*(2.0*Math.random()-1.0));
-				vy = (float) -(5f*Math.random());
+				x = (float) (StrictMath.random()*resX);
+				vx = (float) (5f*(2.0*StrictMath.random()-1.0));
+				vy = (float) -(5f*StrictMath.random());
 			} else if(proba<0.75){
 				// depuis la gauche
-				y = (float) (Math.random()*resY);
+				y = (float) (StrictMath.random()*resY);
 				x = 0;
-				vx = (float) (5f*Math.random());
-				vy = (float) (5f*(2.0*Math.random()-1.0));
+				vx = (float) (5f*StrictMath.random());
+				vy = (float) (5f*(2.0*StrictMath.random()-1.0));
 			} else {
 				// depuis la gauche
-				y = (float) (Math.random()*resY);
+				y = (float) (StrictMath.random()*resY);
 				x = (float) resX;
-				vx = (float) -(5f*Math.random());
-				vy = (float) (5f*(2.0*Math.random()-1.0));
+				vx = (float) -(5f*StrictMath.random());
+				vy = (float) (5f*(2.0*StrictMath.random()-1.0));
 			} 
-			this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
+			this.angle = (float) (StrictMath.atan(this.vy/(this.vx+0.00001f))*180/StrictMath.PI);
 			if(this.vx<0)
 				this.angle+=180;
 			if(this.angle<0)

@@ -121,7 +121,7 @@ public class RenderEngine {
 
 		// 2) Draw Neutral Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+			if(Camera.visibleByCamera(o.x, o.y, StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				if (o instanceof Building || o instanceof NaturalObjet){
 					if(o.getTeam().id!=Player.getTeamId() && !plateau.isVisibleByTeam(Player.getTeamId(), o)){
 						renderObjet(o, g, plateau, false);
@@ -133,7 +133,7 @@ public class RenderEngine {
 		renderDomain(plateau, g, visibleObjets, fogOfWar);
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX))) || !fogOfWar){
+			if(Camera.visibleByCamera(o.x, o.y, StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX))) || !fogOfWar){
 				if(o.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), o) || !fogOfWar){
 					renderObjet(o, g, plateau);
 				}
@@ -183,7 +183,7 @@ public class RenderEngine {
 				}
 				String s = c.getIdTerrain().name().toLowerCase()+"tile";
 				i = 0;
-				while(Math.random()>0.8){
+				while(StrictMath.random()>0.8){
 					if(Images.exists(s+(i+1))){
 						i+=1;
 					} else {
@@ -308,8 +308,8 @@ public class RenderEngine {
 		for(int i=0; i<2; i++){
 			do{
 				b = false;
-				x = (float) (Math.random()*2*plateau.maxX-plateau.maxX/2);
-				y = (float) (Math.random()*2*plateau.maxY-plateau.maxY/2);
+				x = (float) (StrictMath.random()*2*plateau.maxX-plateau.maxX/2);
+				y = (float) (StrictMath.random()*2*plateau.maxY-plateau.maxY/2);
 				c = plateau.mapGrid.getCase(x-50f, y);
 				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
 				c = plateau.mapGrid.getCase(x, y);
@@ -339,10 +339,10 @@ public class RenderEngine {
 			g1.setColor(new Color(255, 255, 255));
 			g1.fillRect(0, 0, Camera.resX, Camera.resX);
 			g1.setColor(new Color(50, 50, 50));
-			//		float xmin = Math.max(0, -Camera.Xcam);
-			//		float ymin = Math.max(0, -Camera.Ycam);
-			//		float xmax = Math.min(Camera.resX, plateau.maxX*Game.ratioX - Camera.Xcam);
-			//		float ymax = Math.min(Camera.resY, plateau.maxY*Game.ratioY - Camera.Ycam);
+			//		float xmin = StrictMath.max(0, -Camera.Xcam);
+			//		float ymin = StrictMath.max(0, -Camera.Ycam);
+			//		float xmax = StrictMath.min(Camera.resX, plateau.maxX*Game.ratioX - Camera.Xcam);
+			//		float ymax = StrictMath.min(Camera.resY, plateau.maxY*Game.ratioY - Camera.Ycam);
 			float xmin = 0;
 			float xmax = Camera.resX;
 			float ymin = 0;

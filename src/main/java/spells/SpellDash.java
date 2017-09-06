@@ -52,7 +52,7 @@ public class SpellDash extends Spell{
 		float longueur = 150f;
 		float longueurPointe = 20f;
 		
-		float dist = (float) Math.sqrt((x-launcher.x)*(x-launcher.x)+(y-launcher.y)*(y-launcher.y));
+		float dist = (float) StrictMath.sqrt((x-launcher.x)*(x-launcher.x)+(y-launcher.y)*(y-launcher.y));
 		float xlauncherLeft = launcher.x+(launcher.y-y)*largeur/dist;
 		float ylauncherLeft = launcher.y+(x-launcher.x)*10f/dist;
 		float xlauncherRight = launcher.x-(launcher.y-y)*10f/dist;

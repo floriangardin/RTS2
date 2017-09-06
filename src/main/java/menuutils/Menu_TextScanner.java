@@ -189,7 +189,7 @@ public class Menu_TextScanner extends Menu_Item{
 				if(cooldown<=0){
 					s=s.substring(0,s.length()-1);
 					back++;
-					cooldown = Math.max(25-back*5,5);
+					cooldown = StrictMath.max(25-back*5,5);
 				} else {
 					cooldown -= 1;
 				}

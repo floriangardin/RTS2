@@ -230,7 +230,7 @@ public class SheetPanel extends JPanel {
 						actionOK = ActionHelper.checkCharacterEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY);
 						break;
 					case Building:
-						actionOK = ActionHelper.checkBuildingEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY, null, selected.id);
+						actionOK = ActionHelper.checkBuildingEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY, null, selected.getId());
 						break;
 					case NatureObject:
 						actionOK = ActionHelper.checkNatureEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY);
@@ -403,8 +403,8 @@ public class SheetPanel extends JPanel {
 	}
 
 	public void setOffset(float offsetX, float offsetY){
-		this.offsetX = (int) Math.min(getParent().getSize().getWidth()/2, Math.max(-getPlateau().maxX+getParent().getSize().getWidth()/2,offsetX));
-		this.offsetY = (int) Math.min(getParent().getSize().getHeight()/2, Math.max(-getPlateau().maxY+getParent().getSize().getHeight()/2,offsetY));
+		this.offsetX = (int) StrictMath.min(getParent().getSize().getWidth()/2, StrictMath.max(-getPlateau().maxX+getParent().getSize().getWidth()/2,offsetX));
+		this.offsetY = (int) StrictMath.min(getParent().getSize().getHeight()/2, StrictMath.max(-getPlateau().maxY+getParent().getSize().getHeight()/2,offsetY));
 	}
 
 
@@ -503,10 +503,10 @@ public class SheetPanel extends JPanel {
 			if(MainEditor.collision && (!c.ok && (MainEditor.mode != Mode.NATURE || c.naturesObjet.size()==0))){
 				g2.setColor(Color.red);
 				for(int k=0; k<Map.stepGrid*2; k+=10){
-					g2.drawLine((int)(c.x+Math.max(0,k-Map.stepGrid)), 
-							(int)(c.y+Map.stepGrid+Math.min(0,k-Map.stepGrid)), 
-							(int)(c.x+Map.stepGrid+Math.min(0,k-Map.stepGrid)), 
-							(int)(c.y+Math.max(0,k-Map.stepGrid)));
+					g2.drawLine((int)(c.x+StrictMath.max(0,k-Map.stepGrid)), 
+							(int)(c.y+Map.stepGrid+StrictMath.min(0,k-Map.stepGrid)), 
+							(int)(c.x+Map.stepGrid+StrictMath.min(0,k-Map.stepGrid)), 
+							(int)(c.y+StrictMath.max(0,k-Map.stepGrid)));
 				}
 				g2.setColor(Color.white);
 				g2.fillRect((int)c.x, (int)c.y, 30, 10);
@@ -576,7 +576,7 @@ public class SheetPanel extends JPanel {
 		}
 		i = 0;
 
-		g2.rotate(-Math.PI/2);
+		g2.rotate(-StrictMath.PI/2);
 		for(Float y : plateau.mapGrid.Ycoord){
 			if(y+offsetY>-Map.stepGrid/2+15 && y+offsetY<this.getHeight()){
 				if(y+offsetY>15){
@@ -588,7 +588,7 @@ public class SheetPanel extends JPanel {
 			}
 			i+=1;
 		}
-		g2.rotate(Math.PI/2);
+		g2.rotate(StrictMath.PI/2);
 		g2.setColor(UIManager.getColor( "Panel.background" ));
 		g2.fillRect(1, 1, 14, 14);
 

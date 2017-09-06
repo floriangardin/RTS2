@@ -90,8 +90,8 @@ public class IAHelpers {
 		// Estimate the actual position given plateau
 		float score = 0;
 		score += state[IAState.FOOD.value];
-		score += Math.abs(state[IAState.MAXPOP.value]-state[IAState.POP.value]);
-		//score += Math.abs(state[IAState.]);
+		score += StrictMath.abs(state[IAState.MAXPOP.value]-state[IAState.POP.value]);
+		//score += StrictMath.abs(state[IAState.]);
 		return score;
 	}
 }

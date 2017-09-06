@@ -99,7 +99,7 @@ public class Character extends Objet{
 	}
 
 	public void addSpellEffect(SpellEffect e){
-		spellsEffect.add(e.id);
+		spellsEffect.add(e.getId());
 	}
 
 	public boolean isMobile(){
@@ -109,8 +109,8 @@ public class Character extends Objet{
 		this.vx = vx;
 		this.vy = vy;
 		float R2 = vx*vx+vy*vy;
-		SimpleRenderEngine.old_vx = (float) (this.vx/Math.sqrt(R2));
-		SimpleRenderEngine.old_vy = (float) (this.vy/Math.sqrt(R2));
+		SimpleRenderEngine.old_vx = (float) (this.vx/StrictMath.sqrt(R2));
+		SimpleRenderEngine.old_vy = (float) (this.vy/StrictMath.sqrt(R2));
 		int sector = 0;
 		if(vx==0 && vy==0){
 			//Orientation toward target
@@ -258,9 +258,9 @@ public class Character extends Objet{
 		if(this.idCase == target.idCase){
 			this.moveToward(target.x,target.y, plateau);
 		} else if(this.waypoints.size()>0){
-			if(plateau.round%20==this.id%20){
-				this.waypoints = this.computeWay(plateau);
-			}
+//			if(plateau.round%20==this.getId()%20){
+//				this.waypoints = this.computeWay(plateau);
+//			}
 			if(this.idCase==this.waypoints.get(0)){
 				this.waypoints.remove(0);
 				Case co;
@@ -304,7 +304,7 @@ public class Character extends Objet{
 				newY = c0.y-getAttribut(Attributs.maxVelocity);
 			}
 			newX = c1.x+c1.sizeX/2;
-			//			newX = (float)(Math.min(Math.max(c+d*a/b, c1.x+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.x+c1.sizeX-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+			//			newX = (float)(StrictMath.min(StrictMath.max(c+d*a/b, c1.x+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.x+c1.sizeX-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
 		} else if (c0.y==c1.y) {
 			// déplacement horizontal
 			b = c1.x+c1.sizeX/2f-x;
@@ -320,7 +320,7 @@ public class Character extends Objet{
 				newX = c0.x-getAttribut(Attributs.maxVelocity);
 			} 
 			newY = c1.y+c1.sizeY/2;
-			//			newY = (float)(Math.min(Math.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
+			//			newY = (float)(StrictMath.min(StrictMath.max(c+d*a/b, c1.y+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.y+c1.sizeY-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
 		}else {
 			// déplacement azimut brutal
 			newX = c1.x+c1.sizeX/2f;
@@ -337,7 +337,7 @@ public class Character extends Objet{
 		//Creating the norm of the acceleration and the new velocities among x and y
 		float maxVNorm = this.getAttribut(Attributs.maxVelocity)/(Main.framerate);
 		//System.out.println(Game.deplacementGroupIntelligent+ " "+this.group);
-		float vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		float vNorm = (float) StrictMath.sqrt(newvx*newvx+newvy*newvy);
 
 		//Checking if the point is not too close of the target
 		if((this.getGroup(plateau).size()>1 && vNorm<maxVNorm) || vNorm<maxVNorm){
@@ -345,32 +345,32 @@ public class Character extends Objet{
 			this.stop(plateau);
 			return;
 		}
-		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		vNorm = (float) StrictMath.sqrt(newvx*newvx+newvy*newvy);
 		if(vNorm>maxVNorm){
 			//if the velocity is too large it is reduced to the maxVelocity value
 			newvx = newvx*maxVNorm/vNorm;
 			newvy = newvy*maxVNorm/vNorm;
 		}
-		vNorm = (float) Math.sqrt(newvx*newvx+newvy*newvy);
+		vNorm = (float) StrictMath.sqrt(newvx*newvx+newvy*newvy);
 		float newX,newY;
 		newX = this.getX()+newvx;
 		newY = this.getY()+newvy;
 		//if the new coordinates are beyond the map's limits, it must be reassigned
 		if(newX<this.collisionBox.getBoundingCircleRadius()){
 			newX = this.collisionBox.getBoundingCircleRadius();
-			newvx = Math.max(newvx,0f);
+			newvx = StrictMath.max(newvx,0f);
 		}
 		if(newY<this.collisionBox.getBoundingCircleRadius()){
 			newY = this.collisionBox.getBoundingCircleRadius();
-			newvy = Math.max(newvy, 0f);
+			newvy = StrictMath.max(newvy, 0f);
 		}
 		if(newX>plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
 			newX = plateau.maxX-this.collisionBox.getBoundingCircleRadius();
-			newvx = Math.min(0f, newvx);
+			newvx = StrictMath.min(0f, newvx);
 		}
 		if(newY>plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
 			newY = plateau.maxY-this.collisionBox.getBoundingCircleRadius();
-			newvy = Math.min(0f, newvy);
+			newvy = StrictMath.min(0f, newvy);
 		}
 
 		//eventually we reassign the position and velocity variables
@@ -465,7 +465,7 @@ public class Character extends Objet{
 		float R2 = vx*vx+vy*vy;
 		float ux = xi - x0;
 		float uy = yi - y0;
-		float n = (float) Math.sqrt(ux*ux+uy*uy);
+		float n = (float) StrictMath.sqrt(ux*ux+uy*uy);
 		ux /= n;
 		uy /= n;
 		float newx, newy;
@@ -475,23 +475,23 @@ public class Character extends Objet{
 			newx = xi - Z*ux;
 			newy = yi - Z*uy;
 		} else {
-			R2 = (float) Math.max(R2, 0.1+(Z-Math.sqrt(D2))*(Z-Math.sqrt(D2)));
+			R2 = (float) StrictMath.max(R2, 0.1+(Z-StrictMath.sqrt(D2))*(Z-StrictMath.sqrt(D2)));
 			float A2 = (Z*Z+D2-R2)*(Z*Z+D2-R2)/(4*Z*Z*D2);
-			float h = (float) (Z*Math.sqrt(1-A2));
+			float h = (float) (Z*StrictMath.sqrt(1-A2));
 			float d = 0f;
 			if(h*h<=R2){
-				d = (float) Math.sqrt(R2-h*h);	
+				d = (float) StrictMath.sqrt(R2-h*h);	
 			}
 			float vx = uy;
 			float vy = -ux;
-			float signv = Math.signum((x1-x0)*vx+(y1-y0)*vy);
-			float signu = Math.signum(D2-Z*Z);
+			float signv = StrictMath.signum((x1-x0)*vx+(y1-y0)*vy);
+			float signu = StrictMath.signum(D2-Z*Z);
 			newx = x0 + signu*d*ux + signv*h*vx;
 			newy = y0 + signu*d*uy + signv*h*vy;
 			SimpleRenderEngine.ux = ux;
 			SimpleRenderEngine.vx = vx;
-			SimpleRenderEngine.old_vx = (float) (this.vx/Math.sqrt(R2));
-			SimpleRenderEngine.old_vy = (float) (this.vy/Math.sqrt(R2));
+			SimpleRenderEngine.old_vx = (float) (this.vx/StrictMath.sqrt(R2));
+			SimpleRenderEngine.old_vy = (float) (this.vy/StrictMath.sqrt(R2));
 			SimpleRenderEngine.uy = uy;
 			SimpleRenderEngine.vy = vy;
 			SimpleRenderEngine.d = d;
@@ -552,17 +552,17 @@ public class Character extends Objet{
 		y = this.getY();
 		int sector = 0;
 		if(x-oX>0f){
-			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+			if(y-oY>StrictMath.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
-			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+			} else if(y-oY<-StrictMath.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 4;
 			} else {
 				sector = 1;
 			}
 		} else {
-			if(y-oY>Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+			if(y-oY>StrictMath.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 2;
-			} else if(y-oY<-Math.abs(x-oX)*o.getHeight()/o.getWidth()){
+			} else if(y-oY<-StrictMath.abs(x-oX)*o.getHeight()/o.getWidth()){
 				sector = 4;
 			} else {
 				sector = 3;
@@ -582,7 +582,7 @@ public class Character extends Objet{
 		default:
 		}
 		float finalX=newX, finalY=newY;
-		if(Math.abs(vx)+Math.abs(vy)>0.1f){
+		if(StrictMath.abs(vx)+StrictMath.abs(vy)>0.1f){
 			float x0,y0,x1,y1,x2,y2;
 			x1 = this.getX();
 			y1 = this.getY();
@@ -591,14 +591,14 @@ public class Character extends Objet{
 			x2 = newX;
 			y2 = newY;
 			boolean b;
-			switch(Math.floorMod(sector, 2)){
+			switch(StrictMath.floorMod(sector, 2)){
 			case 1: 
 				// ï¿½ droite ou ï¿½ gauche
 				b = this.getTarget(plateau)!=null && (this.getTarget(plateau).getY()<o.getMaxY() && this.getTarget(plateau).getY()>o.getMinY());
 				float ya,yb;
-				ya = y0+(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
-				yb = y0-(float)Math.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
-				if ( (b && Math.abs(ya-oY)>Math.abs(yb-oY)) || (!b && Math.abs(ya-y2)<Math.abs(yb-y2))){
+				ya = y0+(float)StrictMath.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
+				yb = y0-(float)StrictMath.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
+				if ( (b && StrictMath.abs(ya-oY)>StrictMath.abs(yb-oY)) || (!b && StrictMath.abs(ya-y2)<StrictMath.abs(yb-y2))){
 					finalY = ya;
 					finalX = x2;
 				} else {
@@ -615,9 +615,9 @@ public class Character extends Objet{
 				// en haut ou en bas
 				b = this.getTarget(plateau)!=null && (this.getTarget(plateau).getX()<o.getMaxX() && this.getTarget(plateau).getX()>o.getMinX());
 				float xa,xb;
-				xa = x0+(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
-				xb = x0-(float)Math.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
-				if ( (b && Math.abs(xa-oX)>Math.abs(xb-oX)) || (!b && Math.abs(xa-x2)<Math.abs(xb-x2))){
+				xa = x0+(float)StrictMath.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
+				xb = x0-(float)StrictMath.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
+				if ( (b && StrictMath.abs(xa-oX)>StrictMath.abs(xb-oX)) || (!b && StrictMath.abs(xa-x2)<StrictMath.abs(xb-x2))){
 					finalX = xa;
 					finalY = y2;
 				} else {
@@ -721,7 +721,7 @@ public class Character extends Objet{
 				// Handling the group movement
 				boolean nextToStop = false;
 				boolean oneHasArrived = false;
-				if(Utils.distance(this, this.getTarget(plateau))<(float)(2*Math.log(this.getGroup(plateau).size()+1)*1*this.getAttribut(Attributs.size))){
+				if(Utils.distance(this, this.getTarget(plateau))<(float)(2*StrictMath.log(this.getGroup(plateau).size()+1)*1*this.getAttribut(Attributs.size))){
 					for(Character c: this.getGroup(plateau)){
 						if(c!=null && c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
 							nextToStop = true;
@@ -789,7 +789,7 @@ public class Character extends Objet{
 		}
 
 		for(int i=0; i<this.getSpells().size(); i++){	
-			this.spellsState.set(i, Math.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
+			this.spellsState.set(i, StrictMath.min(this.getSpell(i).getAttribut(Attributs.chargeTime), this.spellsState.get(i)+1f));
 		}
 	}
 
@@ -830,7 +830,7 @@ public class Character extends Objet{
 	}
 	public void updateAnimation(){
 		if(this.isAttacking){
-			this.animation = Math.max(0, Math.min(4,(int)(this.getAttribut(Attributs.attackDuration)/this.attackState)));
+			this.animation = StrictMath.max(0, StrictMath.min(4,(int)(this.getAttribut(Attributs.attackDuration)/this.attackState)));
 		}
 	}
 
@@ -851,7 +851,7 @@ public class Character extends Objet{
 	public void setGroup(Vector<Character> group) {
 		this.group.clear();
 		for(Character c  : group){
-			this.group.add(c.id);
+			this.group.add(c.getId());
 		}
 	}
 

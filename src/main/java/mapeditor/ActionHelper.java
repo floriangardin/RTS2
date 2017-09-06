@@ -72,7 +72,7 @@ public class ActionHelper {
 					}
 					actionOK = actionOK 
 							&& (p.mapGrid.grid.get(i).get(j).ok 
-									|| (p.mapGrid.grid.get(i).get(j).building!=null &&  p.mapGrid.grid.get(i).get(j).building.id == idBuilding))
+									|| (p.mapGrid.grid.get(i).get(j).building!=null &&  p.mapGrid.grid.get(i).get(j).building.getId() == idBuilding))
 							&& p.mapGrid.grid.get(i).get(j).characters.size()==0 
 							&& p.mapGrid.grid.get(i).get(j).naturesObjet.size()==0;
 				} else {

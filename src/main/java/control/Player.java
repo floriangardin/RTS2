@@ -92,7 +92,7 @@ public class Player {
 		
 		Objet o = Utils.nearestObjectToSelectionBox(mouseOvers, im.x, im.y);
 		if(o!=null){
-			setMouseOver(im, o.id);
+			setMouseOver(im, o.getId());
 		}
 				
 	}
@@ -118,9 +118,9 @@ public class Player {
 				recY= (float) im.y;
 				rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
 			} else if(Player.rectangleSelection != null){
-				rectangleSelection.setBounds((float) Math.min(recX, im.x),
-						(float) Math.min(recY, im.y), (float) Math.abs(im.x - recX) + 0.1f,
-						(float) Math.abs(im.y - recY) + 0.1f);
+				rectangleSelection.setBounds((float) StrictMath.min(recX, im.x),
+						(float) StrictMath.min(recY, im.y), (float) StrictMath.abs(im.x - recX) + 0.1f,
+						(float) StrictMath.abs(im.y - recY) + 0.1f);
 			}
 		} else {
 			Player.rectangleSelection = null;
@@ -130,13 +130,13 @@ public class Player {
 		inRectangle.clear();
 		for(Character o : plateau.getCharacters()){
 			if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
-				inRectangle.add(o.id);
+				inRectangle.add(o.getId());
 			}
 		}
 		if(inRectangle.size()==0){
 			for(Building o : plateau.getBuildings()){
 				if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
-					inRectangle.add(o.id);
+					inRectangle.add(o.getId());
 				}
 			}
 		}
@@ -148,8 +148,8 @@ public class Player {
 		if(Player.rectangleSelection == null){
 			return false;
 		}
-		double interX = Math.min(xMax, Player.rectangleSelection.getMaxX()) - Math.max(xMin, Player.rectangleSelection.getMinX());
-		double interY = Math.min(yMax, Player.rectangleSelection.getMaxY()) - Math.max(yMin, Player.rectangleSelection.getMinY());
+		double interX = StrictMath.min(xMax, Player.rectangleSelection.getMaxX()) - StrictMath.max(xMin, Player.rectangleSelection.getMinX());
+		double interY = StrictMath.min(yMax, Player.rectangleSelection.getMaxY()) - StrictMath.max(yMin, Player.rectangleSelection.getMinY());
 		return interX>0 && interY>0;
 	}
 
@@ -208,7 +208,7 @@ public class Player {
 			if(rectangleSelection!=null && rectangleSelection.getWidth()+rectangleSelection.getHeight() < 10){
 				Objet toSelect = getNearestToSelectionBox(inRectangle, plateau, rectangleSelection.getX(), rectangleSelection.getY());
 				if(toSelect!=null){					
-					Player.selection.add(toSelect.id);
+					Player.selection.add(toSelect.getId());
 				}
 			}else{				
 				for(Integer o : inRectangle){
@@ -235,12 +235,12 @@ public class Player {
 			Player.selection = new Vector<Integer>();
 			for(Character o : plateau.getCharacters()){
 				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
-					Player.selection.add(o.id);
+					Player.selection.add(o.getId());
 				}
 			}
 			for(Building o : plateau.getBuildings()){
 				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
-					Player.selection.add(o.id);
+					Player.selection.add(o.getId());
 				}
 			}
 		}
@@ -290,9 +290,9 @@ public class Player {
 			Vector<Objet> visibles = getInCamObjets(plateau);
 			if (c != null) {
 				for (Character o : plateau.getCharacters()) {
-					if (o.getTeam().id == im.team && o.name == c.name && visibles.contains(o) && !Player.selection.contains(o.id)) {
+					if (o.getTeam().id == im.team && o.name == c.name && visibles.contains(o) && !Player.selection.contains(o.getId())) {
 						// add character to team selection
-						Player.selection.addElement(o.id);
+						Player.selection.addElement(o.getId());
 					}
 				}
 			}

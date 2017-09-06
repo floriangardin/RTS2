@@ -184,10 +184,10 @@ public class Plateau implements java.io.Serializable {
 		// Update selection and groups
 		// Remove objets from lists and streams
 		for (Objet o : toRemoveObjet) {
-			objets.remove(o.id);
+			objets.remove(o.getId());
 		}
 		for (Objet o : toAddObjet) {
-			objets.put(o.id,o);
+			objets.put(o.getId(),o);
 		}
 		toRemoveObjet.clear();
 		toAddObjet.clear();
@@ -198,14 +198,14 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof Character)
 				.map(x-> (Character) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 	public List<Building> getBuildings(){
 		return  this.objets.values().stream()
 				.filter(x-> x instanceof Building)
 				.map(x-> (Building) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 	
@@ -213,7 +213,7 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof Bullet)
 				.map(x-> (Bullet) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 
@@ -222,7 +222,7 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof SpellEffect)
 				.map(x-> (SpellEffect) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 
@@ -230,7 +230,7 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof Checkpoint)
 				.map(x-> (Checkpoint) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 
@@ -240,7 +240,7 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof MarkerBuilding)
 				.map(x-> (MarkerBuilding) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 
@@ -250,7 +250,7 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof Bonus)
 				.map(x-> (Bonus) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 
@@ -260,7 +260,7 @@ public class Plateau implements java.io.Serializable {
 		return this.objets.values().stream()
 				.filter(x-> x instanceof NaturalObjet)
 				.map(x-> (NaturalObjet) x)
-				.sorted((x,y) -> x.id - y.id)
+				.sorted((x,y) -> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	}
 
@@ -301,24 +301,23 @@ public class Plateau implements java.io.Serializable {
 					i.collision(o, this);
 				}
 			}
-
 			// Between characters and buildings
 			Circle c;
 			for (Building e : getBuildings()) {
 				if (e.collisionBox.intersects(range)) {
 					e.collisionWeapon(o, this);
 				}
-//				if (e.collisionBox.intersects(o.collisionBox)) {
-//					int collisionCorner = 0;
-//					for(int i=0; i<e.corners.size(); i++){
-//						c = e.corners.get(i);
-//						if(Utils.distance(o,c.getCenterX(),c.getCenterY())<(30f+o.getAttribut(Attributs.size))){
-//							collisionCorner = i+1;
-//							break;
-//						}
-//					}
-//					o.collision(e, collisionCorner, this);
-//				}
+				if (e.collisionBox.intersects(o.collisionBox)) {
+					int collisionCorner = 0;
+					for(int i=0; i<e.corners.size(); i++){
+						c = e.corners.get(i);
+						if(Utils.distance(o,c.getCenterX(),c.getCenterY())<(30f+o.getAttribut(Attributs.size))){
+							collisionCorner = i+1;
+							break;
+						}
+					}
+					o.collision(e, collisionCorner, this);
+				}
 			}
 			// Between spells and characters
 			for (SpellEffect s : getSpells()) {
@@ -365,7 +364,7 @@ public class Plateau implements java.io.Serializable {
 		return this.getObjets()
 				.values()
 				.stream()
-				.sorted((x,y)-> x.id - y.id)
+				.sorted((x,y)-> x.getId() - y.getId())
 				.collect(Collectors.toList());
 	
 	}
@@ -410,7 +409,7 @@ public class Plateau implements java.io.Serializable {
 			if (o.getGroup(this) != null && o.getGroup(this).size() > 1) {
 				for (Character c1 : o.getGroup(this))
 					if (c1 != o)
-						c1.removeFromGroup(o.id);
+						c1.removeFromGroup(o.getId());
 			}
 			// Then we create its new group
 			o.setGroup(new Vector<Character>());
@@ -421,7 +420,7 @@ public class Plateau implements java.io.Serializable {
 				if (c1 == c)
 					continue;
 				if (c1 instanceof Character) {
-					o.addInGroup(c1.id);
+					o.addInGroup(c1.getId());
 					// System.out.println("Plateau line 507: " +
 					// (waypoints!=null) +" "+(c.c==c1.c)+"
 					// "+(((Character)c1).waypoints.size()>0));
@@ -461,15 +460,15 @@ public class Plateau implements java.io.Serializable {
 				if (o.getGroup(this) != null && o.getGroup(this).size() > 1) {
 					for (Character c1 : o.getGroup(this))
 						if (c1 != o)
-							c1.removeFromGroup(o.id);
+							c1.removeFromGroup(o.getId());
 				}
 				// Then we create its new group
 				o.setGroup(new Vector<Character>());
 				for (Integer i1 : im.selection)
 					o1 = getById(i1);
 					if(o1 instanceof Character)
-						o.addInGroup(o1.id);
-				o.secondaryTargets.add(target.id);
+						o.addInGroup(o1.getId());
+				o.secondaryTargets.add(target.getId());
 			}
 		}
 	}
@@ -560,7 +559,7 @@ public class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (NaturalObjet i : getNaturalObjets()) {
 				// looking amongst natural object
-				if (Math.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<i.collisionBox.getBoundingCircleRadius()) {
+				if (StrictMath.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<i.collisionBox.getBoundingCircleRadius()) {
 					target = i;
 					break;
 				}
@@ -776,7 +775,7 @@ public class Plateau implements java.io.Serializable {
 	public boolean isVisibleByTeam(int team, Objet objet) {
 		if (objet.getTeam() != null && objet.getTeam().id == team)
 			return true;
-		float r = Math.max(objet.getAttribut(Attributs.size),objet.getAttribut(Attributs.sizeX))/2;
+		float r = StrictMath.max(objet.getAttribut(Attributs.size),objet.getAttribut(Attributs.sizeX))/2;
 		for (Character c : getCharacters())
 			if (c.getTeam().id == team && Utils.distance(c, objet) < c.getAttribut(Attributs.sight) + r)
 				return true;

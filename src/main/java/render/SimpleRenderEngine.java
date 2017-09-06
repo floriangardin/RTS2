@@ -56,7 +56,7 @@ public class SimpleRenderEngine {
 					g.draw(o.collisionBox);
 					g.draw(o.selectionBox);
 					g.fill(o.collisionBox);
-					if(Player.selection.contains(o.id)){
+					if(Player.selection.contains(o.getId())){
 						g.setLineWidth(3f);
 						g.setColor(Color.red);
 						g.drawLine(o.x, o.y, o.x+20*d*signu*ux, o.y+20*d*signu*uy);
@@ -87,7 +87,7 @@ public class SimpleRenderEngine {
 					g.setColor(Color.white);
 					if(o.name!=null){
 						g.drawString(o.name.toString().substring(0, 3), o.x-10, o.y-10);
-						g.drawString(""+o.id, o.x-10, o.y-20);
+						g.drawString(""+o.getId(), o.x-10, o.y-20);
 					}
 				}
 				

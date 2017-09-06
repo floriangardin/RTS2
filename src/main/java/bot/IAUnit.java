@@ -71,7 +71,7 @@ public class IAUnit {
 		return objet.getY();
 	}
 	public int getId(){
-		return objet.id;
+		return objet.getId();
 	}
 	public float getLifepoints(){
 		return objet.lifePoints;

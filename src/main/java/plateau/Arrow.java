@@ -28,8 +28,8 @@ public class Arrow extends Bullet{
 		this.damage = damage;
 		plateau.addBulletObjets(this);
 		this.lifePoints = 1f;
-		this.owner = owner.id;
-		this.team = plateau.getById(owner.id).getTeam();
+		this.owner = owner.getId();
+		this.team = plateau.getById(owner.getId()).getTeam();
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
 		this.setXY(owner.getX(),owner.getY(), plateau);
@@ -37,10 +37,10 @@ public class Arrow extends Bullet{
 		this.vy = vy;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
-		norm  = (float)Math.sqrt(norm)*Main.framerate;
+		norm  = (float)StrictMath.sqrt(norm)*Main.framerate;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
-		this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
+		this.angle = (float) (StrictMath.atan(this.vy/(this.vx+0.00001f))*180/StrictMath.PI);
 		if(this.vx<0)
 			this.angle+=180;
 		if(this.angle<0)

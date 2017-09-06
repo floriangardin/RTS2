@@ -39,7 +39,7 @@ public class Immolation extends SpellEffect{
 		this.name = ObjetsList.Immolation;
 		this.lifePoints = 1f;
 		plateau.addSpell(this);
-		owner = launcher.id;
+		owner = launcher.getId();
 		this.team = launcher.getTeam();
 	}
 

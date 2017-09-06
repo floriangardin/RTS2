@@ -88,7 +88,7 @@ public class Building extends Objet{
 		this.collisionBox= new Rectangle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,getAttribut(Attributs.sizeX),getAttribut(Attributs.sizeY));
 		this.marker = new MarkerBuilding(x,y,this, plateau);
 		this.selectionBox = (Rectangle)this.collisionBox;
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2,true, plateau).id;
+		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2,true, plateau).getId();
 		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
 		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
 		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
@@ -292,20 +292,14 @@ public class Building extends Objet{
 
 		//Do the action of Barrack
 		//Product, increase state of the queue
-		this.random+=0.01f;
-		if(this.random>1f){
-			this.random=0;
-		}
 		if(this.queue.size()>0){
 			this.setCharge(this.charge+Main.increment);
 			if(this.getTeam().enoughPop(getQueue().get(0), plateau) && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
 				this.setCharge(0f);
-				float dirX = this.random+getRallyPoint(plateau).x-this.x;
-				float dirY = this.random+getRallyPoint(plateau).y - this.y;
-				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
-				//Introduit du random
-				float startX = this.x + this.getAttribut(Attributs.sizeX)*dirX/norm/2;
-				float startY = this.y + this.getAttribut(Attributs.sizeY)*dirY/norm/2;
+				float dirY = rallyPoint.y-this.y;
+				dirY = (dirY>=0 ? 1f : -1f);
+				float startX = this.x;
+				float startY = this.y + dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
 				Character c = new Character(startX,startY, getQueue().get(0), this.getTeam(), plateau);
 
 				if(rallyPoint!=null){
@@ -484,7 +478,7 @@ public class Building extends Objet{
 					this.potentialTeam = c.getTeam().id;
 				}
 			}
-			this.chargeAttack = Math.max(this.chargeAttack-2*Main.increment, 0);
+			this.chargeAttack = StrictMath.max(this.chargeAttack-2*Main.increment, 0);
 			if(!this.isDestroyed){
 				EventHandler.addEventBuildingTaking(c, this, plateau);
 				this.constructionPoints-=Main.increment;

@@ -53,7 +53,7 @@ public abstract class Spell implements java.io.Serializable{
 		if(Utils.distance(target,launcher)>range){
 			float ux = target.getX() - launcher.getX();
 			float uy = target.getY() - launcher.getY();
-			float norm = (float) Math.sqrt(ux*ux+uy*uy);
+			float norm = (float) StrictMath.sqrt(ux*ux+uy*uy);
 			ux = ux*range/norm;
 			uy = uy*range/norm;
 			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy, plateau);

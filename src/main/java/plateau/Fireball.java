@@ -33,7 +33,7 @@ public class Fireball extends Bullet {
 		this.damage = damage;
 		this.animation = 0;
 		this.lifePoints = 30f;
-		this.owner = owner.id;
+		this.owner = owner.getId();
 		this.team = owner.getTeam();
 		this.areaEffect = getAttribut(Attributs.size)*Main.ratioSpace;
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
@@ -45,10 +45,10 @@ public class Fireball extends Bullet {
 		this.vy = vy+altitude;
 		//Normalize speed : 
 		float norm = this.vx*this.vx+this.vy*this.vy;
-		norm  = (float)Math.sqrt(norm)*Main.framerate;
+		norm  = (float)StrictMath.sqrt(norm)*Main.framerate;
 		this.vx = Vmax*this.vx/norm;
 		this.vy = Vmax*this.vy/norm;
-		this.angle = (float) (Math.atan(vy/(vx+0.00001f))*180/Math.PI);
+		this.angle = (float) (StrictMath.atan(vy/(vx+0.00001f))*180/StrictMath.PI);
 		if(this.vx<0)
 			this.angle+=180;
 		if(this.angle<0)

@@ -65,7 +65,7 @@ public abstract class Bonus extends Building{
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
-		if(Player.mouseOver==id){
+		if(Player.mouseOver==this.getId()){
 			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
 			g.setColor(new Color(250,0,0,0.8f));
 			if(!this.bonusPresent){

@@ -35,7 +35,7 @@ public class RenderCharacter {
 		im = Images.getUnit(character.name, direction, character.animation, character.getTeam().id, character.isAttacking);
 
 		// DRAW IS TARGETTED BY SPELL
-		if(character.id==Player.mouseOver ){
+		if(character.getId()==Player.mouseOver ){
 			if(Interface.spellCurrent!=null && Interface.spellLauncher!=null){
 				Objet launcher = plateau.getById(Interface.spellLauncher);
 				if(launcher!=null){

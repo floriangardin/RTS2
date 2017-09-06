@@ -23,7 +23,7 @@ import utils.ObjetsList;
 public abstract class Objet implements java.io.Serializable {
 
 	// Animation : mode,orientation,increment
-	public int id;
+	private final int id;
 	public int mode;
 	public int orientation=2;
 	public int increment;
@@ -203,8 +203,8 @@ public abstract class Objet implements java.io.Serializable {
 			this.x = (((Building)this).i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2);
 			this.y = (((Building)this).j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2);
 		} else {
-			this.x = Math.min(plateau.maxX-1f, Math.max(1f, x));
-			this.y = Math.min(plateau.maxY-1f, Math.max(1f, y));
+			this.x = StrictMath.min(plateau.maxX-1f, StrictMath.max(1f, x));
+			this.y = StrictMath.min(plateau.maxY-1f, StrictMath.max(1f, y));
 		}
 		
 		//handling boxes
@@ -369,7 +369,7 @@ public abstract class Objet implements java.io.Serializable {
 			} else if(this.getTeam().data.datas.get(this.name).attributs.containsKey(Attributs.sizeX)){
 				float sizeX=this.getTeam().data.getAttribut(this.name,Attributs.sizeX);
 				float sizeY=this.getTeam().data.getAttribut(this.name,Attributs.sizeY);
-				return (float) Math.sqrt(sizeX*sizeX+sizeY*sizeY)+getAttribut(Attributs.sight);
+				return (float) StrictMath.sqrt(sizeX*sizeX+sizeY*sizeY)+getAttribut(Attributs.sight);
 			}
 		}
 		return 1f;

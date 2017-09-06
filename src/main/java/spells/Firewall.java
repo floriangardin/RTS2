@@ -47,7 +47,7 @@ public class Firewall extends SpellEffect{
 	public static Shape createShape(Character launcher, Objet t, float width){
 		float vx = t.getY()-launcher.getY();
 		float vy = launcher.getX()-t.getX();
-		float norm = (float)Math.sqrt(vx*vx+vy*vy);
+		float norm = (float)StrictMath.sqrt(vx*vx+vy*vy);
 		vx = vx/norm;
 		vy = vy/norm;
 		float ax,ay,bx,by,cx,cy,dx,dy;
@@ -82,7 +82,7 @@ public class Firewall extends SpellEffect{
 	}
 
 	public Graphics draw(Graphics g){
-		int j = (int)(Math.random()*nbFire*70*Main.increment);
+		int j = (int)(StrictMath.random()*nbFire*70*Main.increment);
 		if(j<nbFire){
 			if(this.animationState[j]==0f)
 				this.animationState[j]=1f;

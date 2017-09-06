@@ -76,8 +76,8 @@ public class MenuOptions extends Menu {
 			break;
 		default:		
 		}
-		Options.musicVolume = Math.min(Math.max(Options.musicVolume, 0f), 1f);
-		Options.soundVolume = Math.min(Math.max(Options.soundVolume, 0f), 0.5f);
+		Options.musicVolume = StrictMath.min(StrictMath.max(Options.musicVolume, 0f), 1f);
+		Options.soundVolume = StrictMath.min(StrictMath.max(Options.soundVolume, 0f), 0.5f);
 	}
 
 	public void update(InputObject im){
