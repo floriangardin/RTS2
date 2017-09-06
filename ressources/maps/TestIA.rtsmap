@@ -1,44 +1,43 @@
 ###########################
 & sizeX 13
-& sizeY 20
+& sizeY 23
 ###########################
 = headquarters
-1 5 0
-2 5 18
+1 5 1
+2 5 19
 ###########################
 = buildings
-Tower 1 6 3
-Mill 0 0 3
-Mine 0 11 3
-Mill 0 0 15
-Mine 0 11 15
-Barracks 0 9 18
-Barracks 0 9 0
-Stable 0 0 0
-Stable 0 0 18
-Tower 2 6 16
-Mine 0 9 9
+Barracks 0 9 1
+Stable 0 0 1
+Mill 0 1 4
+Mine 0 10 4
+Tower 1 6 4
+Stable 0 0 19
+Barracks 0 9 19
+Mill 0 1 16
+Mine 0 10 16
+Tower 2 6 17
+Mine 0 8 10
 ###########################
 = units
-Spearman 1 554.0 260.0
-Spearman 1 757.0 262.0
-Crossbowman 2 358.0 1755.0
-Spearman 2 555.0 1749.0
-Spearman 2 754.0 1743.0
+Spearman 2 548.0 1852.0
+Spearman 2 765.0 1844.0
+Spearman 1 556.0 343.0
+Spearman 1 753.0 344.0
 ###########################
 = naturalObjects
 ###########################
 = mapGround
-     swwwwwwwws     
-     sswwwwwwss     
-      sswwwwss      
-       ssssss       
-        ssss        
-sssss   ssss   sssss
-sss ssssssssssss sss
-sssss   ssss   sssss
-        ssss        
-       ssssss       
-      sswsswss      
-     sswwwwwwss     
-     swwwwwwwws     
+sssswwwwwwwwwwwwwwwsssw
+s  sssswwwwwwwwsssssssw
+s     sswwwwwwss     sw
+s      ssssssss      sw
+ssss   ssssssss   ssssw
+s  sss ssssssss sss  sw
+s  s ssssssssssss s  sw
+s  sss ssssssss sss  sw
+ssss   ssssssss   ssssw
+s      ssssssss      sw
+s     sswwwwwwss     sw
+s  sssswwwwwwwwsssssssw
+sssswwwwwwwwwwwwwwwsssw

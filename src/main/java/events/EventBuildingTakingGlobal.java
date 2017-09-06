@@ -63,19 +63,15 @@ public class EventBuildingTakingGlobal extends Event{
 	public void addAttacker(int team){
 		if(!numberOfAttackers.containsKey(team)){
 			numberOfAttackers.put(team, 1);
-			System.out.println("+++ attacker add");
 		} else {
 			numberOfAttackers.put(team, numberOfAttackers.get(team)+1);
-			System.out.println("+++ attacker add");
 		}
 	}
 	
 	public void removeAttacker(int team){
 		if(!numberOfAttackers.containsKey(team)){
-			System.out.println("problem!!!");
 		} else {
 			numberOfAttackers.put(team, numberOfAttackers.get(team)-1);
-			System.out.println("--- attacker removed");
 		}
 	}
 	
