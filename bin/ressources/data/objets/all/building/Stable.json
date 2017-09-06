@@ -1,8 +1,0 @@
-{
-printName:"Stable",
-prototype:"Building",
-sizeX:4,
-sizeY:2,
-units:Knight-Priest,
-newdesign:0
-}
