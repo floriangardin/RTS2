@@ -278,6 +278,9 @@ public abstract class Objet implements java.io.Serializable {
 				if(ac.usageUnique){
 					toDelete.add(ac);
 				}
+				if(ac.attribut==Attributs.damage){
+					System.out.println("   nouvelle valeur :"+a);
+				}
 			}
 		}
 		for(AttributsChange ac : toDelete){

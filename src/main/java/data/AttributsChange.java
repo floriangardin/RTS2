@@ -21,7 +21,7 @@ public class AttributsChange implements java.io.Serializable {
 		this.change = change;
 		this.value = value;
 		this.usageUnique = usageUnique;
-		this.endless = !usageUnique;
+		this.endless = true;
 	}
 	
 	
