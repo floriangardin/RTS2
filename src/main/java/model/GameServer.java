@@ -19,7 +19,6 @@ public class GameServer extends Listener {
 	public static boolean hasLaunched = false;
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
-
 	public static void init(){
 		if(!hasLaunched){
 			server = new Server(5000000, 5000000);
