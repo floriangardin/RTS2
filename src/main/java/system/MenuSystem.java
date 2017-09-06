@@ -58,6 +58,7 @@ public class MenuSystem extends ClassSystem {
 		credits = new Credits();
 		setMenu(MenuNames.MenuIntro);
 		plateau = generatePlateau();
+		RenderEngine.init(plateau);
 	}
 
 	@Override
@@ -70,7 +71,6 @@ public class MenuSystem extends ClassSystem {
 		g.fillRect(Game.resX/6, 2*Game.resY/5, 2*Game.resX/3, 5.5f*Game.resY/10);
 		currentMenu.draw(g);
 		if(currentMenu == menuMapChoice){
-			// Updating chat
 			ChatHandler.draw(g);
 		}
 	}
@@ -179,7 +179,7 @@ public class MenuSystem extends ClassSystem {
 		}
 		plateau.setEndCondition(new UnitsEndCondition());
 		plateau.update();
-		Camera.init(Game.resX, Game.resY, plateau.maxX/2-Game.resX/2, plateau.maxY/2-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		Camera.init(Game.resX, Game.resY, plateau.maxX/2-1920/2, plateau.maxY/2-1080/2, (int)plateau.maxX, (int)plateau.maxY);
 		return plateau;
 	}
 }

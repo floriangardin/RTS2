@@ -408,7 +408,6 @@ public class RenderEngine {
 	// handle transparency
 	public static void handleDrawUnderBuilding(Graphics g, Plateau plateau){
 		Vector<Objet> v = new Vector<Objet>();
-		Image im;
 		Vector<Objet> vb = new Vector<Objet>();
 		v.addAll(plateau.getBuildings());
 		v.addAll(plateau.getNaturalObjets());
@@ -417,13 +416,13 @@ public class RenderEngine {
 				vb.add(b);
 			}
 		}
+		Image im;
 		for(Objet b : vb){
-			im = Images.get("building"+b.name+"neutral");
 			for(Character c : plateau.getCharacters()){
 				if(Camera.visibleByCamera(c.x, c.y, 1f) && 
 						c.x>b.x-b.getAttribut(Attributs.sizeX)/2f &&
 						c.x<b.x+b.getAttribut(Attributs.sizeX)/2f &&
-						c.y>b.y-b.getVisibleSize()-b.getAttribut(Attributs.sight)-b.visibleHeight 
+						c.y>b.y-b.getAttribut(Attributs.sizeY)
 						&& !v.contains(c)
 						&& (c.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), c))){
 					int direction = (c.orientation/2-1);
