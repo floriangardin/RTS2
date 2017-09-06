@@ -1,5 +1,6 @@
 package control;
 
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
+import bonus.Bonus;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import display.Camera;
@@ -32,7 +34,7 @@ public class Player {
 	public static Vector<Integer> inRectangle = new Vector<Integer>();
 	public static Vector<Integer> selection= new Vector<Integer>();
 	public static Color color;
-
+	public static int mouseOver=-1;
 
 	public static void init(int idConnexion){
 		
@@ -71,6 +73,34 @@ public class Player {
 	}
 	public static int getID(){
 		return Player.idConnexion;
+	}
+	
+	static void handleMouseOver(InputObject im, Plateau plateau) {
+		mouseOver = -1;
+		Vector<Objet> mouseOvers = new Vector<Objet>();
+		for (Character c : plateau.getCharacters()) {
+			if (c.selectionBox.contains(im.x, im.y)) {
+				mouseOvers.add(c);
+			} 
+		}
+		for (Building c : plateau.getBuildings()) {
+			if (c.selectionBox.contains(im.x, im.y)) {
+				mouseOvers.add(c);
+			} 
+		}
+		// Find nearest to selection Box for mouseOver
+		
+		Objet o = Utils.nearestObjectToSelectionBox(mouseOvers, im.x, im.y);
+		if(o!=null){
+			setMouseOver(im, o.id);
+		}
+				
+	}
+	
+	
+	public static void setMouseOver(InputObject im, int id){
+		im.idObjetMouse = id;
+		mouseOver = id;
 	}
 	public static void updateRectangle(InputObject im, Plateau plateau) {
 		//		if(waitForPressedBeforeUpdate && !im.isPressed(KeyEnum.LeftClick)){
@@ -133,6 +163,8 @@ public class Player {
 //				.map(x -> x.name)
 //				.distinct()
 //				.collect(Collectors.toSet());
+		
+		handleMouseOver(im, plateau);
 		Vector<Integer> select = new Vector<Integer>();
 		Vector<Integer> selectForEmptyClick = new Vector<Integer>();
 		if(rectangleSelection == null){
@@ -172,9 +204,17 @@ public class Player {
 		if(select.size()>0){
 			Player.selection = select;
 		}else{
-			for(Integer o : inRectangle){
-				if(plateau.getById(o).team.id==im.team){
-					Player.selection.add(o);
+			// Heuristique si rectangle trop petit alors on selectionne le plus proche (vis à vis du centre de la selection box)
+			if(rectangleSelection!=null && rectangleSelection.getWidth()+rectangleSelection.getHeight() < 10){
+				Objet toSelect = getNearestToSelectionBox(inRectangle, plateau, rectangleSelection.getX(), rectangleSelection.getY());
+				if(toSelect!=null){					
+					Player.selection.add(toSelect.id);
+				}
+			}else{				
+				for(Integer o : inRectangle){
+					if(plateau.getById(o).team.id==im.team){
+						Player.selection.add(o);
+					}
 				}
 			}
 		}
@@ -258,7 +298,35 @@ public class Player {
 			}
 		}
 	}
-
+	
+	public static Objet getNearest(Vector<Integer> units, Plateau plateau, float x, float y){
+		Vector<Objet> res = new Vector<Objet>();
+		for(Integer i: units){
+			Objet o = plateau.getById(i);
+			if(o!=null){				
+				res.add(o);
+			}
+		}
+		if(res.size()==0){
+			return null;
+		}
+		return Utils.nearestObject(res, x, y);
+	}
+	
+	public static Objet getNearestToSelectionBox(Vector<Integer> units, Plateau plateau, float x, float y){
+		Vector<Objet> res = new Vector<Objet>();
+		for(Integer i: units){
+			Objet o = plateau.getById(i);
+			if(o!=null){				
+				res.add(o);
+			}
+		}
+		if(res.size()==0){
+			return null;
+		}
+		return Utils.nearestObjectToSelectionBox(res, x, y);
+	}
+	
 	public static int getTeamId() {
 		// TODO Auto-generated method stub
 		return Player.team;

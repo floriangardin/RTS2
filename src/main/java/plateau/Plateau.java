@@ -177,10 +177,8 @@ public class Plateau implements java.io.Serializable {
 			//			System.out.println("checkpoints : " + checkpoints.size());
 			//			System.out.println("markers building : " + markersBuilding.size());
 
-			// DEBUG SIZE 
-
+			// DEBUG SIZE
 			System.out.println("PLateau 299 : size hashmap : "+this.getObjets().size());
-
 		}
 
 		// Update selection and groups
@@ -193,7 +191,6 @@ public class Plateau implements java.io.Serializable {
 		}
 		toRemoveObjet.clear();
 		toAddObjet.clear();
-
 
 	}
 	
@@ -576,10 +573,8 @@ public class Plateau implements java.io.Serializable {
 		update(new Vector<InputObject>());
 	}
 	public void update(Vector<InputObject> ims) {
-		
 		round ++;
 		// 1 - Handling inputs
-		
 		for (InputObject im : ims) {
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
@@ -589,16 +584,12 @@ public class Plateau implements java.io.Serializable {
 			}
 			// Handling the right click
 			this.handleRightClick(im);
-			// Handling action bar TODO : �a n'a rien � faire l�, � d�gager
 			this.handleActionOnInterface(im);
-			this.handleMouseHover(im);
 		}
 		// 2 - For everyone
 		// Sort by id
 		this.collision();
-		
 		this.clean();
-		
 		this.action();
 		// 4- handling victory
 		for(Team team : teams){
@@ -643,29 +634,7 @@ public class Plateau implements java.io.Serializable {
 		return teams.stream().filter(x-> x.id==team).findFirst().orElse(null);
 	}
 
-	void handleMouseHover(InputObject im) {
-		for (Character c : getCharacters()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
-				c.mouseOver = true;
-			} else {
-				c.mouseOver = false;
-			}
-		}
-		for (Bonus c : getBonus()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
-				c.mouseOver = true;
-			} else {
-				c.mouseOver = false;
-			}
-		}
-		for (Building c : getBuildings()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
-				c.mouseOver = true;
-			} else {
-				c.mouseOver = false;
-			}
-		}
-	}
+	
 
 	private void handleRightClick(InputObject im) {
 		int team = im.team;
@@ -754,7 +723,6 @@ public class Plateau implements java.io.Serializable {
 							if(s.name!=ObjetsList.Immolation || imo){
 								s.launch(new Checkpoint(im.x,im.y, this), c, this);
 								c.spellsState.set(number, 0f);
-								
 							}
 						}
 					}
@@ -777,7 +745,6 @@ public class Plateau implements java.io.Serializable {
 		}
 
 	}
-
 
 	// METHODS ONLY CALLED BY THE CURRENT PLAYER
 

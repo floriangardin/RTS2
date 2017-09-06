@@ -190,9 +190,10 @@ public class Character extends Objet{
 				new Arrow(this,this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
 				break;
 			case "wand" :
-				new Fireball(this,this.getTarget(plateau).getX(),this.getTarget(plateau).getY(),this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
+				//new Fireball(this,this.getTarget(plateau).getX(),this.getTarget(plateau).getY(),this.getTarget(plateau).getX()-this.getX(),this.getTarget(plateau).getY()-this.getY(),this.getAttribut(Attributs.damage), plateau);
 				break;
 			default:
+				
 			}
 		}
 		// Reset the state

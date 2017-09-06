@@ -373,8 +373,6 @@ public class RenderEngine {
 					Player.rectangleSelection.getWidth(),
 					Player.rectangleSelection.getHeight());	
 		}
-
-
 	}
 
 	public static void renderObjet(Objet o, Graphics g, Plateau plateau){
