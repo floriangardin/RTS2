@@ -20,9 +20,9 @@ public class SpellDash extends Spell{
 	public SpellDash(){
 		this.name = ObjetsList.Dash;
 	}
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		if(launcher==null || target==null){
-			return;
+			return false;
 		}
 		
 		launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
@@ -36,6 +36,7 @@ public class SpellDash extends Spell{
 		}
 		
 		EventHandler.addEvent(EventNames.Dash, launcher, plateau);
+		return true;
 	}
 
 	@Override

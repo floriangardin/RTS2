@@ -17,7 +17,7 @@ public class SpellInstantDeath extends Spell{
 		this.name = ObjetsList.InstantDeath;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		Objet h = target;
 		
@@ -29,8 +29,10 @@ public class SpellInstantDeath extends Spell{
 
 		if(h instanceof Character && h.getTeam()!=launcher.getTeam() && this.getAttribut(Attributs.range)>=Utils.distance(h, launcher)){
 			((Character)h).isBolted = true;
+			return true;
 			
 		}
+		return false;
 	}
 
 	@Override

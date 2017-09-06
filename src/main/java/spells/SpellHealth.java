@@ -21,14 +21,16 @@ public class SpellHealth extends Spell{
 		this.name = ObjetsList.Health;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		
 		Objet h = target;
 		
 		if(h instanceof Character && h.getTeam()==team && Utils.distance(target, launcher) <  launcher.getAttribut(Attributs.range)){
 			h.setLifePoints(h.lifePoints+(h.getAttribut(Attributs.maxLifepoints)-h.lifePoints)/2, plateau);
+			return true;
 			//TODO add a sound
 		}
+		return false;
 	}
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {

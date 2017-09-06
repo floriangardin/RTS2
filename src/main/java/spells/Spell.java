@@ -24,7 +24,7 @@ public abstract class Spell implements java.io.Serializable{
 	public static Color colorOk = new Color(0f,1f,0.3f,0.5f);
 	public static Color colorPasOk = new Color(1f,.01f,0.1f,0.5f);
 
-	public abstract void launch(Objet target, Character launcher, Plateau plateau);
+	public abstract boolean launch(Objet target, Character launcher, Plateau plateau);
 
 	public void draw(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau){
 		if(ok){

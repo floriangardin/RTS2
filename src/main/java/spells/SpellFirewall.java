@@ -16,12 +16,13 @@ public class SpellFirewall extends Spell{
 		this.name = ObjetsList.Firewall;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true, plateau);
 		Firewall f = new Firewall(launcher,t, getAttribut(Attributs.width), plateau);
 		f.damage = this.getAttribut(Attributs.damage);
 		f.remainingTime = this.getAttribut(Attributs.totalTime);
 		launcher.stop(plateau);
+		return true;
 	}
 
 

@@ -18,11 +18,12 @@ public class SpellFireball extends Spell{
 	public SpellFireball(){
 		this.name = ObjetsList.SpellFireball;
 	}
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Launch on mouseOver
 		Objet t = Spell.realTarget(target, launcher, launcher.getAttribut(Attributs.range),true, plateau);
 		new Fireball(launcher, t.getX(), t.getY(), target.getX()-launcher.getX(), target.getY()-launcher.getY(), launcher.getAttribut(Attributs.damage), plateau);
 		launcher.stop(plateau);
+		return true;
 	}
 
 	@Override

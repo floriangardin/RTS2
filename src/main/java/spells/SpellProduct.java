@@ -17,7 +17,7 @@ public class SpellProduct extends Spell{
 		this.name = ObjetsList.Product;
 	}
 
-	public void launch(Objet target, Character launcher, Plateau plateau){
+	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Check if target intersect an ennemy
 		if(target instanceof Building && ((Building) target).getQueue().size()>0){
 			Building p = (Building) target;
@@ -28,7 +28,9 @@ public class SpellProduct extends Spell{
 		}else if(target instanceof Building && ((Building) target).getQueueTechnologie()!=null){
 			Building p = (Building) target;
 			p.techTerminate(p.getQueueTechnologie(), plateau);
+			return true;
 		}
+		return false;
 		
 		
 	}
