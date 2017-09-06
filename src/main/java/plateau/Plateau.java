@@ -43,15 +43,16 @@ public class Plateau implements java.io.Serializable {
 	private Vector<Objet> toAddObjet;
 	private Vector<Objet> toRemoveObjet;
 	public MapGrid mapGrid;
-	private HashMap<Integer,Objet> objets;
+	private volatile HashMap<Integer,Objet> objets;
 	// players
 	public Vector<Team> teams;
 	// round
 	public int round = 0;
 	// Hold ids of objects
-	public int id = 0;
+	private volatile int id = 0;
 	private EndCondition endCondition;
 	public Plateau(int maxX, int maxY) {
+		
 		// GENERAL
 		this.mapGrid = new MapGrid(maxX, maxY);
 		this.maxX = maxX;
@@ -68,7 +69,7 @@ public class Plateau implements java.io.Serializable {
 		this.endCondition = new NormalEndCondition();
 		// All objects
 		setObjets(new HashMap<Integer,Objet>());
-		id = 0;
+		setId(0);
 
 	}
 	
@@ -856,6 +857,14 @@ public class Plateau implements java.io.Serializable {
 
 	public void setObjets(HashMap<Integer,Objet> objets) {
 		this.objets = objets;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

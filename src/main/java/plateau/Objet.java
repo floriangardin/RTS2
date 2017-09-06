@@ -22,6 +22,14 @@ import utils.ObjetsList;
 
 public abstract class Objet implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7530887572115019297L;
+	/**
+	 * 
+	 */
+
 	// Animation : mode,orientation,increment
 	private final int id;
 	public int mode;
@@ -47,7 +55,8 @@ public abstract class Objet implements java.io.Serializable {
 	
 	public Team team;
 	public Objet(Plateau plateau){
-		this.id = plateau.id++;
+		this.id = plateau.getId();
+		plateau.setId(plateau.getId()+1);
 		this.team = plateau.teams.get(0);
 	}
 	// Bonus, �quipements, potions et autres stuff
@@ -386,7 +395,7 @@ public abstract class Objet implements java.io.Serializable {
 	}
 	
 	public String hash(){
-		return "id:"+id+"name:"+name+"-x:"+x+"-y:"+y+"-lp:"+lifePoints+"-";
+		return "id:"+id+"-name:"+name+"-x:"+x+"-y:"+y+"-lp:"+lifePoints+"-";
 	}
 
 	public int roundSinceLastAttack(int currentRound){
