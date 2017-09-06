@@ -25,13 +25,15 @@ public class SpellDash extends Spell{
 			return false;
 		}
 		
-		launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
 		launcher.attributsChanges.add(new AttributsChange(Attributs.maxVelocity,Change.SET,this.getAttribut(Attributs.bonusSpeed),this.getAttribut(Attributs.totalTime)));
 		Vector<Objet> v = new Vector<Objet>();
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
 		if(target!=null && launcher!=null){
 			plateau.updateTarget(launcher, target.x,target.y,launcher.getTeam().id, Character.MOVE, new Vector<Integer>());		
+			if(launcher.getTarget(plateau)!=null && launcher.getTarget(plateau) instanceof Character && launcher.getTarget(plateau).getTeam()!=launcher.getTeam()){
+				launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
+			}
 		}
 		EventHandler.addEvent(EventNames.Dash, launcher, plateau);
 		return true;
