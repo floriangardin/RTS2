@@ -43,11 +43,13 @@ public class RenderCharacter {
 						float ratio  = 1.75f;
 						g.setAntiAlias(true);
 						g.setLineWidth(2f*Main.ratioSpace);
-						g.setColor(Color.red);
+						g.setColor(Color.cyan);
 						Circle collision = (Circle) character.collisionBox;
 						collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
 						g.draw(collision);
 						g.setAntiAlias(false);
+						g.fillRect(character.getX()-r/2-2f,-48f+character.getY()-r,r+4f,10f);
+						
 					}
 				}
 			}
