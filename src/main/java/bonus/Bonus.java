@@ -6,6 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
+import control.Player;
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
@@ -64,7 +65,7 @@ public abstract class Bonus extends Building{
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
 		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
-		if(mouseOver){
+		if(Player.mouseOver==id){
 			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
 			g.setColor(new Color(250,0,0,0.8f));
 			if(!this.bonusPresent){

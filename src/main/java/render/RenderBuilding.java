@@ -25,13 +25,13 @@ public class RenderBuilding {
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g,b,visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && b.mouseOver){
+			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.id){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				drawFlash(g, b, color);
 			}
 		} else {
 			drawBasicImage(g, b, visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && b.mouseOver){
+			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.id){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				Images.get("building"+b.name+b.getTeam().colorName).drawFlash(b.x-b.getAttribut(Attributs.sizeX)/1.8f, b.y-b.getAttribut(Attributs.sizeY), 2*b.getAttribut(Attributs.sizeX)/1.8f, 3*b.getAttribut(Attributs.sizeY)/2,color);
 			}

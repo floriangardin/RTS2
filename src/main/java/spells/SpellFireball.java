@@ -3,7 +3,9 @@ package spells;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+import control.Player;
 import data.Attributs;
+import main.Main;
 import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Fireball;
@@ -17,17 +19,23 @@ public class SpellFireball extends Spell{
 		this.name = ObjetsList.SpellFireball;
 	}
 	public void launch(Objet target, Character launcher, Plateau plateau){
-		Objet t = Spell.realTarget(target, launcher, this.getAttribut(Attributs.range),true, plateau);
+		// Launch on mouseOver
+		Objet t = Spell.realTarget(target, launcher, launcher.getAttribut(Attributs.range),true, plateau);
 		new Fireball(launcher, t.getX(), t.getY(), target.getX()-launcher.getX(), target.getY()-launcher.getY(), launcher.getAttribut(Attributs.damage), plateau);
 		launcher.stop(plateau);
 	}
 
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
-		g.setLineWidth(3f);
-		Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, this.getAttribut(Attributs.range),true, plateau);
-		g.setColor(Color.red);
-		g.drawOval(t.x-this.getAttribut(Attributs.size)/2,t.y-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
+		
+		if(Player.mouseOver==-1){			
+			g.setLineWidth(2f*Main.ratioSpace);
+			g.setAntiAlias(true);
+			Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, launcher.getAttribut(Attributs.range),true, plateau);
+			g.setColor(Color.red);
+			g.drawOval(t.x-this.getAttribut(Attributs.size)/2,t.y-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
+			g.setAntiAlias(false);
+		}
 	}
 
 }

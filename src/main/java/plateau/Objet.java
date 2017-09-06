@@ -71,7 +71,6 @@ public abstract class Objet implements java.io.Serializable {
 	protected int target = NO_TARGET;
 //	public int checkpointTarget = NO_TARGET;
 
-	public boolean mouseOver = false;
 	
 	// spells attributs
 	public float inDash = 0f;
@@ -104,7 +103,6 @@ public abstract class Objet implements java.io.Serializable {
 //			}
 		}
 	}
-	
 
 	public void setTarget(Objet t, Plateau plateau){
 		Objet target = this.getTarget(plateau);

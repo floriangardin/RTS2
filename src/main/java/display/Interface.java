@@ -178,11 +178,11 @@ public class Interface {
 				if(c.getSpell(spellCurrent)!=null && c.getSpellState(spellCurrent)>=c.getSpell(spellCurrent).getAttribut(Attributs.chargeTime)){
 					im.spell = spellCurrent;
 					im.idSpellLauncher = spellLauncher;
-					if(spellTarget!=null){
-						im.idObjetMouse = spellTarget;
-					} else {
-						im.idObjetMouse = -1;
-					} 
+//					if(spellTarget!=null){
+//						im.idObjetMouse = spellTarget;
+//					} else {
+//						im.idObjetMouse = -1;
+//					} 
 					Integer buffer = Player.selection.get(0);
 					Player.selection.removeElementAt(0);
 					Player.selection.add(buffer);

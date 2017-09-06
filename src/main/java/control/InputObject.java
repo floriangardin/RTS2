@@ -21,7 +21,7 @@ public class InputObject implements java.io.Serializable{
 	public int round;
 	public int team;
 	// Spells
-	public int idObjetMouse;
+	public int idObjetMouse=-1;
 	public int idSpellLauncher;
 	public ObjetsList spell;
 	
