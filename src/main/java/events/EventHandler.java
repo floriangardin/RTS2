@@ -65,6 +65,7 @@ public class EventHandler {
 		for(Event e : events){
 			if(e instanceof EventBuildingTakingGlobal && ((EventBuildingTakingGlobal)e).parent.id==building.id){
 				ebgt = ((EventBuildingTakingGlobal)e);
+				ebgt.addAttacker(parent.team.id);
 				break;
 			}
 		}
@@ -72,12 +73,10 @@ public class EventHandler {
 			if(e instanceof EventBuildingTaking && e.parent.id == parent.id && ((EventBuildingTaking)e).idTarget == building.id){
 				if(!((EventBuildingTaking)e).isActive){
 					((EventBuildingTaking)e).isActive = true;
-					ebgt.addAttacker(parent.team.id);
 				}
 				return;
 			}
 		}
-		ebgt.addAttacker(parent.team.id);
 		events.addElement(new EventBuildingTaking(parent, plateau, ebgt));
 	}
 	

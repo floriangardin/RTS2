@@ -37,7 +37,7 @@ public abstract class Objet implements java.io.Serializable {
 	public Color color;
 	public float lifePoints;
 	public ObjetsList name;
-	public float visibleHeight = 100;
+	public float visibleHeight = 150;
 	public static int NO_TARGET = -1;
 	// draw
 	public boolean toDrawOnGround = false;

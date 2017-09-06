@@ -62,6 +62,7 @@ public class WholeGame extends ClassSystem{
 	
 	public WholeGame() {
 		// TODO Auto-generated method stub
+		EventHandler.init();
 		if(Lobby.isInit()){			
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
 		}else{
@@ -72,7 +73,6 @@ public class WholeGame extends ClassSystem{
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
 		RenderEngine.initBackground(plateau);
-		EventHandler.init();
 		// Put camera at the center of headquarter
 		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){
