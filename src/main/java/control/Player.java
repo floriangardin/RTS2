@@ -1,17 +1,12 @@
 package control;
 
-import java.util.List;
-import java.util.Set;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
-import bonus.Bonus;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
-import display.Camera;
 import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Colors;
@@ -21,7 +16,6 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 import plateau.Team;
-import utils.ObjetsList;
 import utils.Utils;
 
 public class Player {
@@ -258,16 +252,6 @@ public class Player {
 		
 	}
 
-	public static Vector<Objet> getInCamObjets(Plateau plateau) {
-		Vector<Objet> res = new Vector<Objet>();
-
-		for(Objet o : plateau.getObjets().values()){
-			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
-				res.add(o);
-			}
-		}
-		return res;
-	}
 
 	public static void updateSelectionCTRL(InputObject im, Plateau plateau) {
 		if (rectangleSelection == null) {
@@ -287,10 +271,9 @@ public class Player {
 					distmin = disttemp;
 				}
 			}
-			Vector<Objet> visibles = getInCamObjets(plateau);
 			if (c != null) {
 				for (Character o : plateau.getCharacters()) {
-					if (o.getTeam().id == im.team && o.name == c.name && visibles.contains(o) && !Player.selection.contains(o.getId())) {
+					if (o.getTeam().id == im.team && o.name == c.name && !Player.selection.contains(o.getId())) {
 						// add character to team selection
 						Player.selection.addElement(o.getId());
 					}
