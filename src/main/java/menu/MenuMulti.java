@@ -119,13 +119,12 @@ public class MenuMulti extends Menu {
 			if(this.openGames.size()>0) {
 				//FIXME: ajouter la selection de partie à rejoindre
 				String addressHost = this.openGames.get(0);
-				System.out.println("je suis le client et j'essai de me connecter à "+addressHost);
 				GameClient.init(addressHost);
 				Lobby.init();
+				Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			}
 			
 			
-			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			break;
 		case 2:
 			// Rafraîchir

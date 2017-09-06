@@ -67,7 +67,11 @@ public class MenuMapChoice extends Menu {
 		this.items.addElement(new Menu_Item(2f/3f*Game.resX,Game.resY*0.9f,"Retour",true));
 
 		for(int i=0; i<Lobby.maps.size(); i++){
-			mapchoices.addElement(new Menu_Map(Lobby.maps.get(i),startXMapChoice+1f/10f*sizeXMapChoice,startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2,200f,30f));
+			mapchoices.addElement(new Menu_Map(Lobby.maps.get(i),
+					startXMapChoice+1f/10f*sizeXMapChoice,
+					startYMapChoice+1f*(i+3)/9f*sizeYMapChoice-GraphicElements.font_main.getHeight("P")/2,
+					4f/10f*sizeXMapChoice,
+					0.5f/9f*sizeYMapChoice));
 			if(mapchoices.get(i).name.equals(Lobby.idCurrentMap)){
 				mapchoices.get(i).isSelected = true;
 			}
@@ -204,6 +208,10 @@ public class MenuMapChoice extends Menu {
 							}
 						}
 					}
+				}
+			} else {
+				for(int j=0; j<Lobby.maps.size(); j++){
+					mapchoices.get(j).isSelected = Lobby.maps.get(j).equals(Lobby.idCurrentMap);
 				}
 			}
 		}
