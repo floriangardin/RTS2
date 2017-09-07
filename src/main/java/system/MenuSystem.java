@@ -110,6 +110,7 @@ public strictfp class MenuSystem extends ClassSystem {
 			this.currentMenu = menuMapChoice;
 			break;
 		case MenuMulti:
+			menuMulti.init();
 			this.currentMenu = menuMulti;
 			break;
 		case MenuOptions:

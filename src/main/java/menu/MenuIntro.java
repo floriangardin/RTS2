@@ -1,5 +1,6 @@
 package menu;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Vector;
@@ -33,8 +34,8 @@ public strictfp class MenuIntro extends Menu {
 		float startX = Game.resX/2;
 		
 		// handling items
-		this.items.addElement(new Menu_Item(startX,startY+0.5f*stepY,"Un joueur",true));
-		this.items.addElement(new Menu_Item(startX,startY+1.5f*stepY,"Multijoueur",true));
+		this.items.addElement(new Menu_Item(startX,startY+0.5f*stepY,"Jouer",true));
+		this.items.addElement(new Menu_Item(startX,startY+1.5f*stepY,"Multi",true));
 		this.items.addElement(new Menu_Item(startX,startY+2.5f*stepY,"Options",true));
 		this.items.addElement(new Menu_Item(startX,startY+3.5f*stepY,"Credits",true));
 		this.items.addElement(new Menu_Item(startX,startY+4.5f*stepY,"Quitter",true));
@@ -54,7 +55,7 @@ public strictfp class MenuIntro extends Menu {
 				String addressHost = InetAddress.getLocalHost().getHostAddress();
 				GameClient.init(addressHost);
 				Lobby.init();
-			} catch (UnknownHostException e) {}
+			} catch (IOException e) {}
 			break;
 		case 1:
 			Game.menuSystem.setMenu(MenuNames.MenuMulti);
