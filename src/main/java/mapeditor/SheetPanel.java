@@ -225,15 +225,15 @@ public strictfp class SheetPanel extends JPanel {
 						System.out.println("selecting " + selected);
 					}
 					dragging = true;
-					switch(selected.name.type){
+					switch(selected.getName().type){
 					case Character:
-						actionOK = ActionHelper.checkCharacterEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY);
+						actionOK = ActionHelper.checkCharacterEmplacement(plateau, selected.getName(), mouseClickX-offsetX, mouseClickY-offsetY);
 						break;
 					case Building:
-						actionOK = ActionHelper.checkBuildingEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY, null, selected.getId());
+						actionOK = ActionHelper.checkBuildingEmplacement(plateau, selected.getName(), mouseClickX-offsetX, mouseClickY-offsetY, null, selected.getId());
 						break;
 					case NatureObject:
-						actionOK = ActionHelper.checkNatureEmplacement(plateau, selected.name, mouseClickX-offsetX, mouseClickY-offsetY);
+						actionOK = ActionHelper.checkNatureEmplacement(plateau, selected.getName(), mouseClickX-offsetX, mouseClickY-offsetY);
 						break;
 					default:
 						break;
@@ -285,7 +285,7 @@ public strictfp class SheetPanel extends JPanel {
 			}
 			float min = 60f, d;
 			for(Objet ch : getPlateau().mapGrid.getSurroundingChars(c)){
-				d = Utils.distance(ch.x, ch.y, mouseClickX-offsetX, mouseClickY-offsetY);
+				d = Utils.distance(ch.getX(), ch.getY(), mouseClickX-offsetX, mouseClickY-offsetY);
 				if(d<min){
 					mouseOver = ch;
 					actionOK = true;
@@ -293,7 +293,7 @@ public strictfp class SheetPanel extends JPanel {
 				}
 			}
 			for(NaturalObjet ch : c.naturesObjet){
-				d = Utils.distance(ch.x, ch.y, mouseClickX-offsetX, mouseClickY-offsetY);
+				d = Utils.distance(ch.getX(), ch.getY(), mouseClickX-offsetX, mouseClickY-offsetY);
 				if(d<min){
 					mouseOver = ch;
 					actionOK = true;
@@ -447,7 +447,7 @@ public strictfp class SheetPanel extends JPanel {
 				g2.drawRect((int)(Map.stepGrid*((Building)mouseOver).i-5), (int)(Map.stepGrid*((Building)mouseOver).j-5), 
 						(int)(mouseOver.getAttribut(Attributs.sizeX)+10), (int)(mouseOver.getAttribut(Attributs.sizeY)+10));
 			} else {
-				g2.drawOval((int)mouseOver.x-30, (int)mouseOver.y-20,60,40);
+				g2.drawOval((int)mouseOver.getX()-30, (int)mouseOver.getY()-20,60,40);
 			}
 		}
 		// rendering selected
@@ -457,7 +457,7 @@ public strictfp class SheetPanel extends JPanel {
 				g2.drawRect((int)(Map.stepGrid*((Building)selected).i-5), (int)(Map.stepGrid*((Building)selected).j-5), 
 						(int)(selected.getAttribut(Attributs.sizeX)+10), (int)(selected.getAttribut(Attributs.sizeY)+10));
 			} else {
-				g2.drawOval((int)selected.x-30, (int)selected.y-20,60,40);
+				g2.drawOval((int)selected.getX()-30, (int)selected.getY()-20,60,40);
 			}
 		}
 
@@ -472,14 +472,14 @@ public strictfp class SheetPanel extends JPanel {
 		objets = Utils.triY(objets);
 		// rendering plateau
 		for(Objet o : objets){
-			im = ImagesAwt.getImage(o.name, o.team.id, false);
+			im = ImagesAwt.getImage(o.getName(), o.team.id, false);
 			if(selected==o && MainEditor.mode == Mode.SELECT && dragging==true){
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 			}
-			if(o.name.type.equals("Building") && getPlateau().teams.get(0).data.getAttribut(o.name, Attributs.newdesign)==0){
-				g2.drawImage(im, (int)(o.x-im.getWidth(null)/2), (int)(o.y-im.getHeight(null)+o.getAttribut(Attributs.sizeY)/2), null);
+			if(o.getName().type.equals("Building") && getPlateau().teams.get(0).data.getAttribut(o.getName(), Attributs.newdesign)==0){
+				g2.drawImage(im, (int)(o.getX()-im.getWidth(null)/2), (int)(o.getY()-im.getHeight(null)+o.getAttribut(Attributs.sizeY)/2), null);
 			} else {
-				g2.drawImage(im, (int)(o.x-im.getWidth(null)/2), (int)(o.y-im.getHeight(null)*2/3), null);
+				g2.drawImage(im, (int)(o.getX()-im.getWidth(null)/2), (int)(o.getY()-im.getHeight(null)*2/3), null);
 			}
 			if(selected==o && MainEditor.mode == Mode.SELECT && dragging==true){
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
@@ -537,12 +537,12 @@ public strictfp class SheetPanel extends JPanel {
 		// moving item
 		if(MainEditor.mode==Mode.SELECT){
 			if(dragging && selected!=null && actionOK & mouseIn){
-				im = ImagesAwt.getImage(selected.name, selected.team.id, false);
+				im = ImagesAwt.getImage(selected.getName(), selected.team.id, false);
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-				if(selected.name.type==ObjetType.Building){
+				if(selected.getName().type==ObjetType.Building){
 					float x, y;
-					float sizeX = getPlateau().teams.get(0).data.getAttribut(selected.name, Attributs.sizeX);
-					float sizeY = getPlateau().teams.get(0).data.getAttribut(selected.name, Attributs.sizeY);
+					float sizeX = getPlateau().teams.get(0).data.getAttribut(selected.getName(), Attributs.sizeX);
+					float sizeY = getPlateau().teams.get(0).data.getAttribut(selected.getName(), Attributs.sizeY);
 					x = getPlateau().mapGrid.getCase(mouseClickX-offsetX-sizeX/2+Map.stepGrid/2, mouseClickY-offsetY-sizeY/2+Map.stepGrid/2).i*Map.stepGrid+sizeX/2;
 					y = getPlateau().mapGrid.getCase(mouseClickX-offsetX-sizeX/2+Map.stepGrid/2, mouseClickY-offsetY-sizeY/2+Map.stepGrid/2).j*Map.stepGrid+sizeY/2;
 					g2.drawImage(im, (int)(x-im.getWidth(null)/2), (int)(y-im.getHeight(null)+sizeY/2), null);

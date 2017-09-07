@@ -29,8 +29,8 @@ public strictfp class EventBuildingTaking extends Event{
 		this.topLayer = true;
 		this.idTarget = parent.getTarget(plateau).getId();
 		this.ronds = new Vector<Rond>();
-		this.xEnd = parent.getTarget(plateau).x;
-		this.yEnd = parent.getTarget(plateau).y;
+		this.xEnd = parent.getTarget(plateau).getX();
+		this.yEnd = parent.getTarget(plateau).getY();
 		this.isActive = true;
 		this.e = event;
 	}
@@ -41,13 +41,13 @@ public strictfp class EventBuildingTaking extends Event{
 		roundSound--;
 		if(roundSound<=0){
 			roundSound = (int) (maxRoundSound*(1+StrictMath.random()));
-			Sounds.playSoundAt("buildingTaking", parent.x, parent.y);
+			Sounds.playSoundAt("buildingTaking", parent.getX(), parent.getY());
 		}
 		
 		if(this.isActive){
 			if(parent.getTarget(plateau)!=null && this.idTarget == parent.getTarget(plateau).getId() && parent.getTarget(plateau).getTeam().id!=parent.team.id){
 				if(plateau.round%10==0 || ronds.size()==0){
-					ronds.add(new Rond(parent.x, parent.y, xEnd, yEnd));
+					ronds.add(new Rond(parent.getX(), parent.getY(), xEnd, yEnd));
 				}
 			} else {
 				this.isActive = false;

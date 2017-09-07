@@ -87,19 +87,19 @@ public strictfp class Plateau implements java.io.Serializable {
 	}
 
 	public void addCharacterObjets(Character o) {
-		Case c = mapGrid.getCase(o.x, o.y);
+		Case c = mapGrid.getCase(o.getX(), o.getY());
 		if(c!=null){
-			o.idCase = c.id;
-			mapGrid.getCase(o.idCase).characters.add(o);
+			o.setIdCase(c.id);
+			mapGrid.getCase(o.getIdCase()).characters.add(o);
 		} else {
-			o.idCase = -1;
+			o.setIdCase(-1);
 		}
 		toAddObjet.addElement(o);
 		
 	}
 
 	public void removeCharacter(Character o) {
-		Case c = mapGrid.getCase(o.idCase);
+		Case c = mapGrid.getCase(o.getIdCase());
 		if(c!=null && c.characters.contains(o)){
 			c.characters.remove(o);
 		}
@@ -145,7 +145,7 @@ public strictfp class Plateau implements java.io.Serializable {
 
 
 	public boolean isImmolating(Character c){
-		return c.etats.contains(Etats.Immolated);
+		return c.getEtats().contains(Etats.Immolated);
 	}
 
 	// General methods
@@ -157,7 +157,7 @@ public strictfp class Plateau implements java.io.Serializable {
 				if(obj instanceof Character){
 					Character o = (Character) obj;
 					if(o.getAttribut(Attributs.autoImmolation)==1f && !isImmolating(o) ){
-						o.lifePoints = 10f;
+						o.setLifePoints(10f);
 						o.launchSpell(o, ObjetsList.Immolation, this);
 						continue;
 					}
@@ -271,8 +271,8 @@ public strictfp class Plateau implements java.io.Serializable {
 		this.mapGrid.updateSurroundingChars();
 		for (Character o : getCharacters()) {
 			// Handle collision between Objets and action objects
-			if (o.idCase != -1) {
-				for (Character i : mapGrid.getCase(o.idCase).surroundingChars) {
+			if (o.getIdCase() != -1) {
+				for (Character i : mapGrid.getCase(o.getIdCase()).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
 						i.collision(o, this);
@@ -280,7 +280,7 @@ public strictfp class Plateau implements java.io.Serializable {
 					}
 				}
 			}
-			Circle range = new Circle(o.x, o.y, o.getAttribut(Attributs.range));
+			Circle range = new Circle(o.getX(), o.getY(), o.getAttribut(Attributs.range));
 			// Between bonus and characters
 			for (Bonus b : getBonus()) {
 				if (Utils.distance(b, o) < b.hitBoxSize) {
@@ -292,7 +292,7 @@ public strictfp class Plateau implements java.io.Serializable {
 			}
 			// between Characters and Natural objects
 			for (NaturalObjet i : getNaturalObjets()) {
-				if (i.collisionBox.intersects(o.collisionBox)) {
+				if (i.getCollisionBox().intersects(o.getCollisionBox())) {
 					o.collision(i, this);
 				}
 			}
@@ -305,10 +305,10 @@ public strictfp class Plateau implements java.io.Serializable {
 			// Between characters and buildings
 			Circle c;
 			for (Building e : getBuildings()) {
-				if (e.collisionBox.intersects(range)) {
+				if (e.getCollisionBox().intersects(range)) {
 					e.collisionWeapon(o, this);
 				}
-				if (e.collisionBox.intersects(o.collisionBox)) {
+				if (e.getCollisionBox().intersects(o.getCollisionBox())) {
 					int collisionCorner = 0;
 					for(int i=0; i<e.corners.size(); i++){
 						c = e.corners.get(i);
@@ -322,14 +322,14 @@ public strictfp class Plateau implements java.io.Serializable {
 			}
 			// Between spells and characters
 			for (SpellEffect s : getSpells()) {
-				if (s.collisionBox != null) {
-					if (s.collisionBox.intersects(o.collisionBox)) {
+				if (s.getCollisionBox() != null) {
+					if (s.getCollisionBox().intersects(o.getCollisionBox())) {
 						s.collision(o, this);
 					}
 				}
 			}
 			// Between characters and forbidden terrain (water)
-			Case ca = mapGrid.idcases.get(o.idCase);
+			Case ca = mapGrid.idcases.get(o.getIdCase());
 			if(!ca.getIdTerrain().ok){
 				o.collisionRect(new Rectangle(ca.x, ca.y, ca.sizeX, ca.sizeY), this);
 			}
@@ -337,11 +337,11 @@ public strictfp class Plateau implements java.io.Serializable {
 		// Between bullets and natural objets
 		for (Bullet b : getBullets()) {
 			for (NaturalObjet n : getNaturalObjets()) {
-				if (b.collisionBox.intersects(n.collisionBox))
+				if (b.getCollisionBox().intersects(n.getCollisionBox()))
 					b.collision(n, this);
 			}
 			for (Building c : getBuildings()) {
-				if (b.collisionBox.intersects(c.collisionBox))
+				if (b.getCollisionBox().intersects(c.getCollisionBox()))
 					b.collision(c, this);
 			}
 		}
@@ -425,8 +425,8 @@ public strictfp class Plateau implements java.io.Serializable {
 					// System.out.println("Plateau line 507: " +
 					// (waypoints!=null) +" "+(c.c==c1.c)+"
 					// "+(((Character)c1).waypoints.size()>0));
-					if (((Character) c1).waypoints != null && c1.idCase == c.idCase && c1.getTarget(this) != null
-							&& c1.getTarget(this).idCase == target.idCase) {
+					if (((Character) c1).waypoints != null && c1.getIdCase() == c.getIdCase() && c1.getTarget(this) != null
+							&& c1.getTarget(this).getIdCase() == target.getIdCase()) {
 						// System.out.println("Plateau line 508 : copie
 						// d'une chemin");
 						waypoints = ((Character) c1).waypoints;
@@ -510,7 +510,7 @@ public strictfp class Plateau implements java.io.Serializable {
 	public Vector<Character> getWoundedAlliesInSight(Character caller) {
 		Vector<Character> ennemies_in_sight = new Vector<Character>();
 		for (Character o : getCharacters()) {
-			if (o != caller && o.getTeam() == caller.getTeam() && o.lifePoints < o.getAttribut(Attributs.maxLifepoints)
+			if (o != caller && o.getTeam() == caller.getTeam() && o.getLifePoints() < o.getAttribut(Attributs.maxLifepoints)
 					&& Utils.distance(o, caller) <= (o.getAttribut(Attributs.size)+caller.getAttribut(Attributs.sight))) {
 				ennemies_in_sight.add(o);
 			}
@@ -525,7 +525,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		// looking for the object on the target
 		for (Character i :getCharacters()) {
 			// looking amongst other characters
-			if (i.selectionBox.contains(point) && i.getTeam().id!=team) {
+			if (i.getSelectionBox().contains(point) && i.getTeam().id!=team) {
 				target = i;
 				break;
 			}
@@ -533,7 +533,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (Character i : getCharacters()) {
 				// looking amongst other characters
-				if (i.selectionBox.contains(point) && i.getTeam().id==team) {
+				if (i.getSelectionBox().contains(point) && i.getTeam().id==team) {
 					target = i;
 					break;
 				}
@@ -542,7 +542,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (Building i : getBuildings()) {
 				// looking amongst natural object
-				if (i.collisionBox.contains(point)) {
+				if (i.getCollisionBox().contains(point)) {
 					target = i;
 					break;
 				}
@@ -551,7 +551,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (Bonus i : getBonus()) {
 				// looking amongst natural object
-				if (i.collisionBox.contains(point)) {
+				if (i.getCollisionBox().contains(point)) {
 					target = i;
 					break;
 				}
@@ -560,7 +560,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		if (target == null) {
 			for (NaturalObjet i : getNaturalObjets()) {
 				// looking amongst natural object
-				if (StrictMath.sqrt((i.x-x)*(i.x-x)+(i.y-y)*(i.y-y))<i.collisionBox.getBoundingCircleRadius()) {
+				if (StrictMath.sqrt((i.getX()-x)*(i.getX()-x)+(i.getY()-y)*(i.getY()-y))<i.getCollisionBox().getBoundingCircleRadius()) {
 					target = i;
 					break;
 				}
@@ -650,7 +650,7 @@ public strictfp class Plateau implements java.io.Serializable {
 					&& selection.get(0) instanceof Building) {
 				Objet target = findTarget(im.x, im.y,team);
 				if(target instanceof Building || target instanceof Character){
-					((Building) selection.get(0)).setRallyPoint(target.x, target.y, this);;
+					((Building) selection.get(0)).setRallyPoint(target.getX(), target.getY(), this);;
 				}
 				if(target==null){
 					((Building) selection.get(0)).setRallyPoint(im.x, im.y,this);
@@ -790,7 +790,7 @@ public strictfp class Plateau implements java.io.Serializable {
 	public Building getHQ(Team team){
 		return (Building)this.getValues().stream()
 			.filter(x -> x.team.id==team.id)
-			.filter(x -> x.name==ObjetsList.Headquarters)
+			.filter(x -> x.getName()==ObjetsList.Headquarters)
 			.findFirst()
 			.orElse(null);
 	}

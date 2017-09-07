@@ -59,7 +59,7 @@ public abstract strictfp class Spell implements java.io.Serializable{
 			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy, plateau);
 		} else {
 			if(checkpoint && !(target instanceof Checkpoint)){
-				return new Checkpoint(target.x, target.y, plateau);
+				return new Checkpoint(target.getX(), target.getY(), plateau);
 			} else {
 				return target;
 			}
@@ -100,13 +100,13 @@ public abstract strictfp class Spell implements java.io.Serializable{
 	public void drawRange(Graphics g, Character launcher){
 		g.setLineWidth(1f);
 		float range = this.getAttribut(Attributs.range);
-		g.drawOval(launcher.x-range, launcher.y-range, 2*range, 2*range);
+		g.drawOval(launcher.getX()-range, launcher.getY()-range, 2*range, 2*range);
 	}
 
 	public void drawTargetUnit(Graphics g, Character target){
 		g.setLineWidth(3f);
 		float size = target.getAttribut(Attributs.size);
-		g.drawOval(target.x-size, target.y-size, 2*size, 2*size);
+		g.drawOval(target.getX()-size, target.getY()-size, 2*size, 2*size);
 	}
 
 	public void drawTargetBuilding(Graphics g, Building building){

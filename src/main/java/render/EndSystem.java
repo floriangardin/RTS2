@@ -71,9 +71,9 @@ public strictfp class EndSystem extends ClassSystem{
 		int Xcam = Camera.Xcam, Ycam = Camera.Ycam;
 		float resX = Camera.resX, resY = Camera.resY;
 		sizeBandes = StrictMath.min(sizeBandes+2, Camera.resY/7f);
-		if((destroyedHQ.x-Xcam-resX/2)*(destroyedHQ.x-Xcam-resX/2)+(destroyedHQ.y-Ycam-resY/2)*(destroyedHQ.y-Ycam-resY/2)>450f){
-			Camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
-			Camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
+		if((destroyedHQ.getX()-Xcam-resX/2)*(destroyedHQ.getX()-Xcam-resX/2)+(destroyedHQ.getY()-Ycam-resY/2)*(destroyedHQ.getY()-Ycam-resY/2)>450f){
+			Camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.getX())/16-resX/2);
+			Camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.getY())/16-resY/2);
 			return;
 		} 
 		time ++;
@@ -116,13 +116,13 @@ public strictfp class EndSystem extends ClassSystem{
 		objets = Utils.triY(objets);
 		Vector<Objet> visibleObjets = new Vector<Objet>();
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
+			if(Camera.visibleByCamera(o.getX(), o.getY(), o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
 				visibleObjets.add(o);
 			}
 		}		
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+			if(Camera.visibleByCamera(o.getX(), o.getY(), StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				RenderEngine.renderObjet(o, g, plateau);
 			}
 		}

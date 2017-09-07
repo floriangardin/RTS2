@@ -23,15 +23,15 @@ public strictfp class Heal extends SpellEffect{
 
 		this.type = 1;
 
-		this.name = ObjetsList.HealEffect;
-		this.x = t.getX();
-		this.y = t.getY();
+		this.setName(ObjetsList.HealEffect);
+		this.setX(t.getX());
+		this.setY(t.getY());
 		this.team = launcher.getTeam();
-		this.lifePoints = 1f;
+		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		owner = launcher;
 
-		this.collisionBox = new Circle(x,y,radius);
+		this.setCollisionBox(new Circle(getX(),getY(),radius));
 		//this.Game.g.sounds.get("frozen").play(1f,this.Game.g.options.soundVolume);
 	}
 
@@ -50,15 +50,15 @@ public strictfp class Heal extends SpellEffect{
 			this.active = true;
 		}
 		if(this.remainingTime<=0f)
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 	}
 
 	public Graphics draw(Graphics g){
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
-		g.draw(collisionBox);
+		g.draw(getCollisionBox());
 		g.setColor(new Color(99,255,32,0.8f));
-		g.fill(collisionBox);
+		g.fill(getCollisionBox());
 		
 		g.setAntiAlias(false);
 
@@ -71,7 +71,7 @@ public strictfp class Heal extends SpellEffect{
 	public void collision(Character c, Plateau plateau){
 		// Si on est suffisamment dedans on reste bloqué
 		if(c.getTeam()==this.getTeam()){
-			c.setLifePoints(c.lifePoints+1f, plateau);
+			c.setLifePoints(c.getLifePoints()+1f, plateau);
 		}
 	}
 

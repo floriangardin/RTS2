@@ -34,7 +34,7 @@ public strictfp class Actions {
 		@Override
 		public void undo() {
 			if(o!=null){
-				switch(o.name.type){
+				switch(o.getName().type){
 				case Character:
 					plateau.removeCharacter((Character)o);
 					break;
@@ -68,7 +68,7 @@ public strictfp class Actions {
 					break;
 				}
 			} else {
-				switch(o.name.type){
+				switch(o.getName().type){
 				case Character:
 					plateau.addCharacterObjets((Character)o);
 					break;
@@ -98,7 +98,7 @@ public strictfp class Actions {
 
 		@Override
 		public void undo() {
-			switch(o.name.type){
+			switch(o.getName().type){
 			case Character:
 				plateau.addCharacterObjets((Character)o);
 				break;
@@ -116,7 +116,7 @@ public strictfp class Actions {
 
 		@Override
 		public void redo() {
-			switch(o.name.type){
+			switch(o.getName().type){
 			case Character:
 				plateau.removeCharacter((Character)o);
 				break;
@@ -172,8 +172,8 @@ public strictfp class Actions {
 		public ActionMoveObjet(Plateau plateau, Objet objet, float newX, float newY) {
 			super(ActionType.MoveObjet, plateau);
 			this.o = objet;
-			this.oldX = o.x;
-			this.oldY = o.y;
+			this.oldX = o.getX();
+			this.oldY = o.getY();
 			this.newX = newX;
 			this.newY = newY;
 		}

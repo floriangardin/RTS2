@@ -181,19 +181,19 @@ public strictfp class Map {
 			br.write("###########################\n");
 			br.write("= buildings\n");
 			for(Building b : plateau.getBuildings()){
-				if(b.name!=ObjetsList.Headquarters){
-					br.write(""+b.name+" "+b.team.id+" "+b.i+" "+b.j+"\n");
+				if(b.getName()!=ObjetsList.Headquarters){
+					br.write(""+b.getName()+" "+b.team.id+" "+b.i+" "+b.j+"\n");
 				}
 			}
 			br.write("###########################\n");
 			br.write("= units\n");
 			for(Character b : plateau.getCharacters()){
-				br.write(""+b.name+" "+b.team.id+" "+b.x+" "+b.y+"\n");
+				br.write(""+b.getName()+" "+b.team.id+" "+b.getX()+" "+b.getY()+"\n");
 			}
 			br.write("###########################\n");
 			br.write("= naturalObjects\n");
 			for(NaturalObjet b : plateau.getNaturalObjets()){
-				br.write("Tree "+Integer.parseInt(b.name.name().substring(4))+" "+b.x+" "+b.y+"\n");
+				br.write("Tree "+Integer.parseInt(b.getName().name().substring(4))+" "+b.getX()+" "+b.getY()+"\n");
 			}
 			br.write("###########################\n");
 			br.write("= mapGround\n");

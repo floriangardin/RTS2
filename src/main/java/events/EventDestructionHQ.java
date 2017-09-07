@@ -42,21 +42,21 @@ public strictfp class EventDestructionHQ extends Event{
 		}
 		Camera.Xcam += ((StrictMath.random()-0.5f)*3);
 		Camera.Ycam += ((StrictMath.random()-0.5f)*3);
-		xExplosion = new float[]{parent.x-Map.stepGrid, 
-								 parent.x, 
-								 parent.x+Map.stepGrid*2f,
-								 parent.x+15f,
-								 parent.x-35f,
-								 parent.x,
-								 parent.x-Map.stepGrid*1.2f
+		xExplosion = new float[]{parent.getX()-Map.stepGrid, 
+								 parent.getX(), 
+								 parent.getX()+Map.stepGrid*2f,
+								 parent.getX()+15f,
+								 parent.getX()-35f,
+								 parent.getX(),
+								 parent.getX()-Map.stepGrid*1.2f
 								 };
-		yExplosion = new float[]{parent.y-1.2f*Map.stepGrid,
-								 parent.y+Map.stepGrid,
-								 parent.y-Map.stepGrid*1.5f,
-								 parent.y-Map.stepGrid,
-								 parent.y+Map.stepGrid*0.8f,
-								 parent.y+Map.stepGrid*1.5f,
-								 parent.y-Map.stepGrid};
+		yExplosion = new float[]{parent.getY()-1.2f*Map.stepGrid,
+								 parent.getY()+Map.stepGrid,
+								 parent.getY()-Map.stepGrid*1.5f,
+								 parent.getY()-Map.stepGrid,
+								 parent.getY()+Map.stepGrid*0.8f,
+								 parent.getY()+Map.stepGrid*1.5f,
+								 parent.getY()-Map.stepGrid};
 	}
 
 	@Override

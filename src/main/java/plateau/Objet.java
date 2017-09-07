@@ -35,24 +35,24 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	public int mode;
 	public int orientation=2;
 	public int increment;
-	
 	public boolean canMove=true;
-	public float x;
-	public float y;
-	public int idCase;
-	public Shape collisionBox;
-	public Rectangle selectionBox;
+	private float x;
+	private float y;
+	private int idCase;
+	private Shape collisionBox;
+	private Rectangle selectionBox;
+	private float lifePoints;
+	private ObjetsList name;
+	
+	
 	public Color color;
-	public float lifePoints;
-	public ObjetsList name;
 	public float visibleHeight = 150;
 	public static int NO_TARGET = -1;
 	// draw
 	public boolean toDrawOnGround = false;
 	//State
-	public Vector<Etats> etats = new Vector<Etats>();
-	
-	
+	private Vector<Etats> etats = new Vector<Etats>();
+		
 	public Team team;
 	public Objet(Plateau plateau){
 		this.id = plateau.getId();
@@ -78,7 +78,6 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	protected int target = NO_TARGET;
 //	public int checkpointTarget = NO_TARGET;
 
-	
 	// spells attributs
 	public float inDash = 0f;
 
@@ -137,34 +136,22 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		}
 		if(this.getTarget(plateau) instanceof Building && !(this.getTarget(plateau) instanceof Bonus)){
 			Building b = (Building)this.getTarget(plateau);
-			return plateau.mapGrid.pathfinding(x, y, (Rectangle)(b.collisionBox));
+			return plateau.mapGrid.pathfinding(getX(), getY(), (Rectangle)(b.getCollisionBox()));
 		} else {
-			float xEnd = this.getTarget(plateau).x, yEnd = this.getTarget(plateau).y;
+			float xEnd = this.getTarget(plateau).getX(), yEnd = this.getTarget(plateau).getY();
 			return plateau.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 		}
 	}
 
-	public String toStringActionObjet(){
-		String s = "";
-
-		s+="maxLifePoints:"+getAttribut(Attributs.maxLifepoints)+";";
-
-
-		return s;
-	}
-
-
-	
 	public Team getTeam(){
 		return this.team;
 	}
 	
-
 	protected void destroy(){
-		this.lifePoints = -10;
+		this.setLifePoints(-10);
 
-		this.x = -10f;
-		this.y = -10f;
+		this.setX(-10f);
+		this.setY(-10f);
 	}
 	
 	public Graphics draw(Graphics g){
@@ -177,17 +164,12 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	
 	public abstract void collision(Character c, Plateau plateau);
 	
-	public float getX(){
-		return x;
-	}
-	public float getY(){
-		return y;
-	}
+
 	public void setXY(float x, float y, Plateau plateau){
-		float oldx = this.x  ;
-		float oldy = this.y ;
+		float oldx = this.getX()  ;
+		float oldy = this.getY() ;
 		// handling old cases
-		Case c = plateau.mapGrid.getCase(this.idCase);
+		Case c = plateau.mapGrid.getCase(this.getIdCase());
 		if(this instanceof Character){
 			if(c!=null && c.characters.contains((Character)this)){
 				c.characters.remove((Character)this);
@@ -202,37 +184,37 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		
 		// changing position
 		if(this instanceof Bullet){
-			this.x = x;
-			this.y = y;
+			this.setX(x);
+			this.setY(y);
 		} else if(this instanceof Building){
-			float sizeX = plateau.teams.get(0).data.getAttribut(this.name, Attributs.sizeX);
-			float sizeY = plateau.teams.get(0).data.getAttribut(this.name, Attributs.sizeY);
+			float sizeX = plateau.teams.get(0).data.getAttribut(this.getName(), Attributs.sizeX);
+			float sizeY = plateau.teams.get(0).data.getAttribut(this.getName(), Attributs.sizeY);
 			((Building)this).i = plateau.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).i;
 			((Building)this).j = plateau.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).j;
-			this.x = (((Building)this).i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2);
-			this.y = (((Building)this).j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2);
+			this.setX((((Building)this).i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2));
+			this.setY((((Building)this).j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2));
 		} else {
-			this.x = StrictMath.min(plateau.maxX-1f, StrictMath.max(1f, x));
-			this.y = StrictMath.min(plateau.maxY-1f, StrictMath.max(1f, y));
+			this.setX(StrictMath.min(plateau.maxX-1f, StrictMath.max(1f, x)));
+			this.setY(StrictMath.min(plateau.maxY-1f, StrictMath.max(1f, y)));
 		}
 		
 		//handling boxes
-		this.collisionBox.setCenterX(this.x);
-		this.collisionBox.setCenterY(this.y);
+		this.getCollisionBox().setCenterX(this.getX());
+		this.getCollisionBox().setCenterY(this.getY());
 		
 		// handling new cases
-		c = plateau.mapGrid.getCase(this.x, this.y);
+		c = plateau.mapGrid.getCase(this.getX(), this.getY());
 		if(c!=null){
-			this.idCase = c.id;
+			this.setIdCase(c.id);
 		} else {
-			this.idCase = -1;
+			this.setIdCase(-1);
 		}
 		if(this instanceof Character){
-			this.selectionBox.setCenterX(this.x);
-			this.selectionBox.setCenterY(this.y-2f*this.getAttribut(Attributs.size));
-			plateau.mapGrid.getCase(this.idCase).characters.add((Character)this);
+			this.getSelectionBox().setCenterX(this.getX());
+			this.getSelectionBox().setCenterY(this.getY()-2f*this.getAttribut(Attributs.size));
+			plateau.mapGrid.getCase(this.getIdCase()).characters.add((Character)this);
 		} else if(this instanceof NaturalObjet){
-			plateau.mapGrid.getCase(this.idCase).naturesObjet.add((NaturalObjet)this);
+			plateau.mapGrid.getCase(this.getIdCase()).naturesObjet.add((NaturalObjet)this);
 		}else if(this instanceof Building){
 			plateau.mapGrid.addBuilding((Building)this);
 		}
@@ -240,7 +222,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	}
 
 	public boolean isAlive(){
-		return this.lifePoints>0f;
+		return this.getLifePoints()>0f;
 	}
 
 	public void setLifePoints(float lifepoints, Plateau plateau){
@@ -264,7 +246,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 
 	// Attributs
 	public float getAttribut(Attributs attribut){
-		float a = this.getTeam().data.getAttribut(this.name,attribut);
+		float a = this.getTeam().data.getAttribut(this.getName(),attribut);
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
 				a = ac.apply(a);
@@ -277,7 +259,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		/**
 		 * remove the corresponding attributes change if its with usage unique
 		 */
-		float a = this.getTeam().data.getAttribut(this.name,attribut);
+		float a = this.getTeam().data.getAttribut(this.getName(),attribut);
 		Vector<AttributsChange> toDelete = new Vector<AttributsChange>();
 		for(AttributsChange ac : this.attributsChanges){
 			if(ac.attribut==attribut){
@@ -293,10 +275,10 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		return a;
 	}
 	public String getAttributString(Attributs attribut){
-		return this.getTeam().data.getAttributString(this.name,attribut);
+		return this.getTeam().data.getAttributString(this.getName(),attribut);
 	}
 	public Vector<String> getAttributList(Attributs attribut){
-		return this.getTeam().data.getAttributList(this.name,attribut);
+		return this.getTeam().data.getAttributList(this.getName(),attribut);
 	}
 
 	// Spells
@@ -372,12 +354,12 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	
 	// Autres
 	public float getVisibleSize(){
-		if(this.getTeam().data.datas.containsKey(this.name)){
-			if(this.getTeam().data.datas.get(this.name).attributs.containsKey(Attributs.size)){
+		if(this.getTeam().data.datas.containsKey(this.getName())){
+			if(this.getTeam().data.datas.get(this.getName()).attributs.containsKey(Attributs.size)){
 				return getAttribut(Attributs.size)+getAttribut(Attributs.sight);
-			} else if(this.getTeam().data.datas.get(this.name).attributs.containsKey(Attributs.sizeX)){
-				float sizeX=this.getTeam().data.getAttribut(this.name,Attributs.sizeX);
-				float sizeY=this.getTeam().data.getAttribut(this.name,Attributs.sizeY);
+			} else if(this.getTeam().data.datas.get(this.getName()).attributs.containsKey(Attributs.sizeX)){
+				float sizeX=this.getTeam().data.getAttribut(this.getName(),Attributs.sizeX);
+				float sizeY=this.getTeam().data.getAttribut(this.getName(),Attributs.sizeY);
 				return (float) StrictMath.sqrt(sizeX*sizeX+sizeY*sizeY)+getAttribut(Attributs.sight);
 			}
 		}
@@ -391,11 +373,11 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	}
 	
 	public String toString(){
-		return this.name.toString();
+		return this.getName().toString();
 	}
 	
 	public String hash(){
-		return "id:"+id+"-name:"+name+"-x:"+x+"-y:"+y+"-lp:"+lifePoints+"-";
+		return "id:"+id+"-name:"+getName()+"-x:"+getX()+"-y:"+getY()+"-lp:"+getLifePoints()+"-";
 	}
 
 	public int roundSinceLastAttack(int currentRound){
@@ -416,9 +398,9 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		res.put("y", this.getY());
 		res.put("id", this.getId());
 		res.put("team", this.getTeam().id);
-		res.put("sizeY", this.collisionBox.getHeight());
-		res.put("sizeX", this.collisionBox.getWidth());
-		res.put("lifepoints", this.lifePoints);
+		res.put("sizeY", this.getCollisionBox().getHeight());
+		res.put("sizeX", this.getCollisionBox().getWidth());
+		res.put("lifepoints", this.getLifePoints());
 		res.put("maxLifepoints", this.getAttribut(Attributs.maxLifepoints));
 		res.put("damage", this.getAttribut(Attributs.damage));
 		res.put("armor", this.getAttribut(Attributs.armor));
@@ -428,6 +410,66 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		res.put("sight", this.getAttribut(Attributs.sight));
 		// Pour chaque objet json
 		return res;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	protected void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	protected void setY(float y) {
+		this.y = y;
+	}
+
+	public Shape getCollisionBox() {
+		return collisionBox;
+	}
+
+	protected void setCollisionBox(Shape collisionBox) {
+		this.collisionBox = collisionBox;
+	}
+
+	public Rectangle getSelectionBox() {
+		return selectionBox;
+	}
+
+	protected void setSelectionBox(Rectangle selectionBox) {
+		this.selectionBox = selectionBox;
+	}
+
+	public float getLifePoints() {
+		return lifePoints;
+	}
+
+	protected void setLifePoints(float lifePoints) {
+		this.lifePoints = lifePoints;
+	}
+
+	public void setName(ObjetsList name) {
+		this.name = name;
+	}
+
+	public int getIdCase() {
+		return idCase;
+	}
+
+	public void setIdCase(int idCase) {
+		this.idCase = idCase;
+	}
+
+	public Vector<Etats> getEtats() {
+		return etats;
+	}
+
+	public void setEtats(Vector<Etats> etats) {
+		this.etats = etats;
 	}
 
 }

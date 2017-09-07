@@ -18,7 +18,7 @@ public strictfp class SpellMeditation extends Spell{
 
 	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		// Check if already meditating
-		if(launcher.etats.contains(Etats.Meditating)){
+		if(launcher.getEtats().contains(Etats.Meditating)){
 			return false;
 		}
 		launcher.addSpellEffect(new Meditation(launcher,target, plateau));

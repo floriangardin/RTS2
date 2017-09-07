@@ -18,9 +18,9 @@ public strictfp class RenderNaturalObjet {
 	
 	
 	public static void render(NaturalObjet n, Graphics g, Plateau plateau){
-		Image i = Images.get(n.name.name());
-		float x1 = n.x-i.getWidth()/2f;
-		float y1 = n.y+n.getAttribut(Attributs.size)/2+n.sizeY/2-i.getHeight();
+		Image i = Images.get(n.getName().name());
+		float x1 = n.getX()-i.getWidth()/2f;
+		float y1 = n.getY()+n.getAttribut(Attributs.size)/2+n.sizeY/2-i.getHeight();
 		g.drawImage(i,x1,y1);
 	}
 	

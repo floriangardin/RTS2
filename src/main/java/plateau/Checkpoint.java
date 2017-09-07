@@ -25,13 +25,13 @@ public strictfp class Checkpoint extends Objet {
 	}
 	
 	public void initialize(float x, float y, Plateau plateau){
-		this.lifePoints=1f;
-		this.name = ObjetsList.Checkpoint;
+		this.setLifePoints(1f);
+		this.setName(ObjetsList.Checkpoint);
 		plateau.getObjets().put(this.getId(), this);
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
 		color = Colors.team2;
-		this.collisionBox = new Circle(x,y,3f);
+		this.setCollisionBox(new Circle(x,y,3f));
 		this.drawShape = new Circle(x,y,maxRadius);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
@@ -39,9 +39,9 @@ public strictfp class Checkpoint extends Objet {
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
 		this.setXY(x, y, plateau);
-		this.selectionBox = null;
-		this.x = x;
-		this.y = y;
+		this.setSelectionBox(null);
+		this.setX(x);
+		this.setY(y);
 		this.printed=0f;
 	}
 	
@@ -57,7 +57,7 @@ public strictfp class Checkpoint extends Objet {
 			state+=3f*Main.increment;
 			animationState+=3f*Main.increment;
 		}else if(!neverEnding){
-			this.lifePoints=-1f;
+			this.setLifePoints(-1f);
 		}	
 	}
 

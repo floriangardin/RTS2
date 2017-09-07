@@ -45,8 +45,8 @@ public strictfp class DisplayRessources extends Event{
 			color = Color.red;
 			string = "- "+(int)StrictMath.abs(price)+" ";
 		}
-		this.x = parent.x;
-		this.y = parent.y;
+		this.x = parent.getX();
+		this.y = parent.getY();
 		this.vy = (float) (-5f+StrictMath.random()-0.5);
 		this.vx = (float) (2f*StrictMath.random()-1f);
 	}

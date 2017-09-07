@@ -26,7 +26,7 @@ public strictfp class SpellHealth extends Spell{
 		Objet h = target;
 		
 		if(h instanceof Character && h.getTeam()==team && Utils.distance(target, launcher) <  launcher.getAttribut(Attributs.range)){
-			h.setLifePoints(h.lifePoints+(h.getAttribut(Attributs.maxLifepoints)-h.lifePoints)/2, plateau);
+			h.setLifePoints(h.getLifePoints()+(h.getAttribut(Attributs.maxLifepoints)-h.getLifePoints())/2, plateau);
 			return true;
 			//TODO add a sound
 		}
@@ -42,7 +42,7 @@ public strictfp class SpellHealth extends Spell{
 			if(! (t instanceof Character)){
 				g.setColor(Color.red);
 			} 
-			g.drawOval(t.x-this.getAttribut(Attributs.size)/2,t.y-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
+			g.drawOval(t.getX()-this.getAttribut(Attributs.size)/2,t.getY()-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
 		}
 		g.setAntiAlias(false);
 	}

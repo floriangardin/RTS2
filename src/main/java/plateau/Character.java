@@ -79,14 +79,14 @@ public strictfp class Character extends Objet{
 	// Copy constructor , to really create an unit
 	public Character(float x,float y,ObjetsList name, Team team, Plateau plateau){
 		super(plateau);
-		this.name= name;
+		this.setName(name);
 		this.setTarget(null, plateau);
 		this.team = team;
-		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
-		this.x = x;
-		this.y = y;
-		this.collisionBox = new Circle(this.x,this.y,this.getAttribut(Attributs.size));
-		this.selectionBox = new Rectangle(this.x-this.getAttribut(Attributs.size),this.y-5*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 6*this.getAttribut(Attributs.size));
+		this.setLifePoints(this.getAttribut(Attributs.maxLifepoints));
+		this.setX(x);
+		this.setY(y);
+		this.setCollisionBox(new Circle(this.getX(),this.getY(),this.getAttribut(Attributs.size)));
+		this.setSelectionBox(new Rectangle(this.getX()-this.getAttribut(Attributs.size),this.getY()-5*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 6*this.getAttribut(Attributs.size)));
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
 		plateau.addCharacterObjets(this);
@@ -116,8 +116,8 @@ public strictfp class Character extends Objet{
 			//Orientation toward target
 
 			if(this.getTarget(plateau)!=null){
-				vx =this.getTarget(plateau).x-this.x;
-				vy = this.getTarget(plateau).y-this.y;
+				vx =this.getTarget(plateau).getX()-this.getX();
+				vy = this.getTarget(plateau).getY()-this.getY();
 				if(vx>0f){
 					if(vy>vx){
 						sector = 2;
@@ -180,7 +180,7 @@ public strictfp class Character extends Objet{
 			float damage = computeDamage(c);
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
-				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
+				c.setLifePoints(c.getLifePoints()+c.getAttribut(Attributs.armor)-damage, plateau);
 
 			}			
 		} else {
@@ -216,7 +216,7 @@ public strictfp class Character extends Objet{
 			return;
 		}
 		if(isBolted){
-			this.lifePoints-=20*Main.increment;
+			this.setLifePoints(this.getLifePoints() - 20*Main.increment);
 		}
 		this.updateChargeTime();
 		// Update spell effects
@@ -252,21 +252,21 @@ public strictfp class Character extends Objet{
 			return;
 		}
 		if(this.moveAhead){
-			this.moveToward(target.x,target.y, plateau);
+			this.moveToward(target.getX(),target.getY(), plateau);
 			return;
 		}
-		if(this.idCase == target.idCase){
-			this.moveToward(target.x,target.y, plateau);
+		if(this.getIdCase() == target.getIdCase()){
+			this.moveToward(target.getX(),target.getY(), plateau);
 		} else if(this.waypoints.size()>0){
 //			if(plateau.round%20==this.getId()%20){
 //				this.waypoints = this.computeWay(plateau);
 //			}
-			if(this.idCase==this.waypoints.get(0)){
+			if(this.getIdCase()==this.waypoints.get(0)){
 				this.waypoints.remove(0);
 				Case co;
 				while(this.waypoints.size()>1){
 					co = plateau.mapGrid.getCase(this.waypoints.get(1));
-					if(plateau.mapGrid.isLineOk(this.x, this.y, co.x+co.sizeX/2, co.y+co.sizeY/2).size()>0){
+					if(plateau.mapGrid.isLineOk(this.getX(), this.getY(), co.x+co.sizeX/2, co.y+co.sizeY/2).size()>0){
 						this.waypoints.remove(0);
 					} else {
 						break;
@@ -283,40 +283,40 @@ public strictfp class Character extends Objet{
 	}
 	// Moving toward method method
 	public void moveToward(int idCase, Plateau plateau){
-		Case c0 = plateau.mapGrid.getCase(this.idCase);
+		Case c0 = plateau.mapGrid.getCase(this.getIdCase());
 		Case c1 = plateau.mapGrid.getCase(idCase);
 		// il faut vérifier que l'intersection ne se fait pas trop près du bord de la case
 		float a, b, c, d;
 		float newX, newY;
 		float coeff;
 		if(c0.x==c1.x){
-			b = c1.y+c1.sizeY/2f-y;;
-			c = x;
-			d = c1.x+c1.sizeX/2f-x;;
+			b = c1.y+c1.sizeY/2f-getY();;
+			c = getX();
+			d = c1.x+c1.sizeX/2f-getX();;
 			//déplacement vertical
 			if(c0.y<c1.y){
 				// on va vers le bas
-				a = c1.y-y;
+				a = c1.y-getY();
 				newY = c1.y+getAttribut(Attributs.maxVelocity);
 			} else {
 				// on va vers le haut
-				a = c0.y-y;
+				a = c0.y-getY();
 				newY = c0.y-getAttribut(Attributs.maxVelocity);
 			}
 			newX = c1.x+c1.sizeX/2;
 			//			newX = (float)(StrictMath.min(StrictMath.max(c+d*a/b, c1.x+getAttribut(Attributs.size)+getAttribut(Attributs.maxVelocity)/2),c1.x+c1.sizeX-getAttribut(Attributs.size)-getAttribut(Attributs.maxVelocity)/2));
 		} else if (c0.y==c1.y) {
 			// déplacement horizontal
-			b = c1.x+c1.sizeX/2f-x;
-			c = y;
-			d = c1.y+c1.sizeY/2f-y;
+			b = c1.x+c1.sizeX/2f-getX();
+			c = getY();
+			d = c1.y+c1.sizeY/2f-getY();
 			if(c0.x<c1.x){
 				// on va vers la droite
-				a = c1.x-x;
+				a = c1.x-getX();
 				newX = c1.x+getAttribut(Attributs.maxVelocity);
 			} else {
 				// on va vers la gauche
-				a = c0.x-x;
+				a = c0.x-getX();
 				newX = c0.x-getAttribut(Attributs.maxVelocity);
 			} 
 			newY = c1.y+c1.sizeY/2;
@@ -356,20 +356,20 @@ public strictfp class Character extends Objet{
 		newX = this.getX()+newvx;
 		newY = this.getY()+newvy;
 		//if the new coordinates are beyond the map's limits, it must be reassigned
-		if(newX<this.collisionBox.getBoundingCircleRadius()){
-			newX = this.collisionBox.getBoundingCircleRadius();
+		if(newX<this.getCollisionBox().getBoundingCircleRadius()){
+			newX = this.getCollisionBox().getBoundingCircleRadius();
 			newvx = StrictMath.max(newvx,0f);
 		}
-		if(newY<this.collisionBox.getBoundingCircleRadius()){
-			newY = this.collisionBox.getBoundingCircleRadius();
+		if(newY<this.getCollisionBox().getBoundingCircleRadius()){
+			newY = this.getCollisionBox().getBoundingCircleRadius();
 			newvy = StrictMath.max(newvy, 0f);
 		}
-		if(newX>plateau.maxX-this.collisionBox.getBoundingCircleRadius()){
-			newX = plateau.maxX-this.collisionBox.getBoundingCircleRadius();
+		if(newX>plateau.maxX-this.getCollisionBox().getBoundingCircleRadius()){
+			newX = plateau.maxX-this.getCollisionBox().getBoundingCircleRadius();
 			newvx = StrictMath.min(0f, newvx);
 		}
-		if(newY>plateau.maxY-this.collisionBox.getBoundingCircleRadius()){
-			newY = plateau.maxY-this.collisionBox.getBoundingCircleRadius();
+		if(newY>plateau.maxY-this.getCollisionBox().getBoundingCircleRadius()){
+			newY = plateau.maxY-this.getCollisionBox().getBoundingCircleRadius();
 			newvy = StrictMath.min(0f, newvy);
 		}
 
@@ -398,7 +398,7 @@ public strictfp class Character extends Objet{
 		}
 		if(this.getTarget(plateau) instanceof Checkpoint){
 			if(this.secondaryTargets.size()==0){
-				this.getTarget(plateau).lifePoints = -1f;
+				this.getTarget(plateau).setLifePoints(-1f);
 				this.setTarget(null, plateau);
 				this.animationValue=0f;
 			}else{
@@ -442,7 +442,7 @@ public strictfp class Character extends Objet{
 				y_med=-y_med;
 			}
 			//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
-			int sign = (o.vy*(o.x-x)-o.vx*(o.y-y))<0 ? 1: -1;
+			int sign = (o.vy*(o.getX()-getX())-o.vx*(o.getY()-getY()))<0 ? 1: -1;
 			float newx = this.getX()+1.5f*sign*(o.vy)/2;
 			float newy = this.getY()+1.5f*sign*(-o.vx)/2;
 			//			this.setVXVY(newx-x, newy-y);
@@ -458,10 +458,10 @@ public strictfp class Character extends Objet{
 	public void collision(Circle c, Plateau plateau) {
 		float xi = c.getCenterX();
 		float yi = c.getCenterY();
-		float x0 = this.x - this.vx;
-		float y0 = this.y - this.vy;
-		float x1 = this.x;
-		float y1 = this.y;
+		float x0 = this.getX() - this.vx;
+		float y0 = this.getY() - this.vy;
+		float x1 = this.getX();
+		float y1 = this.getY();
 		float R2 = vx*vx+vy*vy;
 		float ux = xi - x0;
 		float uy = yi - y0;
@@ -500,16 +500,16 @@ public strictfp class Character extends Objet{
 			SimpleRenderEngine.signu = signu;
 		}
 		this.setXY(newx,newy,plateau);
-		this.vx = this.x - x0;
-		this.vy = this.y - y0;
+		this.vx = this.getX() - x0;
+		this.vy = this.getY() - y0;
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
 	// Collision with NaturalObjets
 	public void collision(NaturalObjet o, Plateau plateau) {
 		if(o instanceof Tree){
-			this.collision((Circle)o.collisionBox, plateau);
+			this.collision((Circle)o.getCollisionBox(), plateau);
 		} else {
-			this.collisionRect((Rectangle)o.collisionBox, plateau);
+			this.collisionRect((Rectangle)o.getCollisionBox(), plateau);
 		}
 	}
 	// Collision with EnemyGenerator
@@ -519,18 +519,18 @@ public strictfp class Character extends Objet{
 			float xi=0, yi=0;
 			float r = 50f;
 			switch(corner){
-			case 1: xi = o.x-o.getAttribut(Attributs.sizeX)/2f+r; yi = o.y-o.getAttribut(Attributs.sizeY)/2f+r; break;
-			case 2: xi = o.x+o.getAttribut(Attributs.sizeX)/2f-r; yi = o.y-o.getAttribut(Attributs.sizeY)/2f+r; break;
-			case 3: xi = o.x+o.getAttribut(Attributs.sizeX)/2f-r; yi = o.y+o.getAttribut(Attributs.sizeY)/2f-r; break;
-			case 4: xi = o.x-o.getAttribut(Attributs.sizeX)/2f+r; yi = o.y+o.getAttribut(Attributs.sizeY)/2f-r; break;
+			case 1: xi = o.getX()-o.getAttribut(Attributs.sizeX)/2f+r; yi = o.getY()-o.getAttribut(Attributs.sizeY)/2f+r; break;
+			case 2: xi = o.getX()+o.getAttribut(Attributs.sizeX)/2f-r; yi = o.getY()-o.getAttribut(Attributs.sizeY)/2f+r; break;
+			case 3: xi = o.getX()+o.getAttribut(Attributs.sizeX)/2f-r; yi = o.getY()+o.getAttribut(Attributs.sizeY)/2f-r; break;
+			case 4: xi = o.getX()-o.getAttribut(Attributs.sizeX)/2f+r; yi = o.getY()+o.getAttribut(Attributs.sizeY)/2f-r; break;
 			}
-			if(Utils.distance(xi, yi, x, y)<=r+getAttribut(Attributs.size)){
+			if(Utils.distance(xi, yi, getX(), getY())<=r+getAttribut(Attributs.size)){
 				c = new Circle(xi, yi, r);
 				SimpleRenderEngine.circle = c;
 				this.collision(c, plateau);
 			}
 		} else {
-			this.collisionRect((Rectangle)o.collisionBox, plateau);
+			this.collisionRect((Rectangle)o.getCollisionBox(), plateau);
 		}
 	}
 
@@ -571,13 +571,13 @@ public strictfp class Character extends Objet{
 		// Ejecting the point
 		float newX=this.getX(),newY=this.getY();
 		switch(sector){
-		case 1: newX = o.getMaxX()+this.collisionBox.getBoundingCircleRadius()+1;
+		case 1: newX = o.getMaxX()+this.getCollisionBox().getBoundingCircleRadius()+1;
 		break;
-		case 2:	newY = o.getMaxY()+this.collisionBox.getBoundingCircleRadius()+1;
+		case 2:	newY = o.getMaxY()+this.getCollisionBox().getBoundingCircleRadius()+1;
 		break;
-		case 3: newX = o.getMinX()-this.collisionBox.getBoundingCircleRadius()-1;
+		case 3: newX = o.getMinX()-this.getCollisionBox().getBoundingCircleRadius()-1;
 		break;
-		case 4: newY = o.getMinY()-this.collisionBox.getBoundingCircleRadius()-1;
+		case 4: newY = o.getMinY()-this.getCollisionBox().getBoundingCircleRadius()-1;
 		break;
 		default:
 		}
@@ -651,7 +651,7 @@ public strictfp class Character extends Objet{
 		//		System.out.println(this.secondaryTargets.size());
 		this.mode = mode;
 		if(this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Checkpoint ){
-			((Checkpoint)this.getTarget(plateau)).lifePoints =-1f;
+			((Checkpoint)this.getTarget(plateau)).setLifePoints(-1f);
 		}
 		if(this.getTarget(plateau)!=null && this.getTarget(plateau) instanceof Building){
 			((Building) this.getTarget(plateau)).marker.state = ((Building) this.getTarget(plateau)).marker.maxDuration+1f;
@@ -664,7 +664,7 @@ public strictfp class Character extends Objet{
 		if(t!=null){
 
 			if(waypoints==null){
-				this.moveAhead = (plateau.mapGrid.isLineOk(x, y, t.getX(), t.getY()).size()>0);
+				this.moveAhead = (plateau.mapGrid.isLineOk(getX(), getY(), t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
 					this.waypoints = this.computeWay(plateau);
 				else
@@ -699,14 +699,14 @@ public strictfp class Character extends Objet{
 		// move toward target ?
 		if(!isAttacking && this.getTarget(plateau)!=null && 
 				(this.getTarget(plateau) instanceof Checkpoint || 
-						!range.intersects(this.getTarget(plateau).collisionBox) ||
+						!range.intersects(this.getTarget(plateau).getCollisionBox()) ||
 						(!(this.getTarget(plateau) instanceof Building) && plateau.mapGrid.isLineOk(getX(), getY(), getTarget(plateau).getX(), getTarget(plateau).getY()).size()==0)
 						)
 				){
 			if(this.mode!=Character.HOLD_POSITION){
 				this.move(plateau);
 				if(this.getTarget(plateau)!=null){
-					float newDistanceToTarget = (this.getTarget(plateau).x-this.x)*(this.getTarget(plateau).x-this.x)+(this.getTarget(plateau).y-this.y)*(this.getTarget(plateau).y-this.y);
+					float newDistanceToTarget = (this.getTarget(plateau).getX()-this.getX())*(this.getTarget(plateau).getX()-this.getX())+(this.getTarget(plateau).getY()-this.getY())*(this.getTarget(plateau).getY()-this.getY());
 					if(this.distanceToTarget>=0f){
 						if(this.distanceToTarget<this.getAttribut(Attributs.size)*this.getAttribut(Attributs.size) && distanceToTarget<=newDistanceToTarget){
 							this.stop(plateau);
@@ -723,9 +723,9 @@ public strictfp class Character extends Objet{
 				boolean oneHasArrived = false;
 				if(Utils.distance(this, this.getTarget(plateau))<(float)(2*StrictMath.log(this.getGroup(plateau).size()+1)*1*this.getAttribut(Attributs.size))){
 					for(Character c: this.getGroup(plateau)){
-						if(c!=null && c!=this && !c.isMobile() && Utils.distance(c, this)<this.collisionBox.getBoundingCircleRadius()+c.collisionBox.getBoundingCircleRadius()+2f)
+						if(c!=null && c!=this && !c.isMobile() && Utils.distance(c, this)<this.getCollisionBox().getBoundingCircleRadius()+c.getCollisionBox().getBoundingCircleRadius()+2f)
 							nextToStop = true;
-						if(c!=null && Utils.distance(c, this.getTarget(plateau))< c.collisionBox.getBoundingCircleRadius()+2f)
+						if(c!=null && Utils.distance(c, this.getTarget(plateau))< c.getCollisionBox().getBoundingCircleRadius()+2f)
 							oneHasArrived = true;
 					}
 					//				if(nextToStop && Utils.distance(this, this.getTarget(plateau))>200f)
@@ -824,7 +824,7 @@ public strictfp class Character extends Objet{
 		if(this.getTarget(plateau) instanceof Character){
 			Character c =(Character) this.getTarget(plateau);
 			if(c.getTeam()!=this.getTeam() && Utils.distance(c, this)>c.getAttribut(Attributs.size)+this.getAttribut(Attributs.sight)){
-				this.setTarget(new Checkpoint(this.getTarget(plateau).x,this.getTarget(plateau).y,true, plateau),null,this.mode, plateau);
+				this.setTarget(new Checkpoint(this.getTarget(plateau).getX(),this.getTarget(plateau).getY(),true, plateau),null,this.mode, plateau);
 			}
 		}
 	}

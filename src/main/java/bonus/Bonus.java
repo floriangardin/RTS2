@@ -37,11 +37,11 @@ public abstract strictfp class Bonus extends Building{
 	public float animationStep  = 1f;
 
 	public void initialize(Plateau p , float x , float y){
-		this.lifePoints = 1f;
+		this.setLifePoints(1f);
 		this.constructionPoints=0f;
 		this.setTeam(0, p);
-		this.collisionBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.getAttribut(Attributs.size));
-		this.selectionBox = new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,collisionBox.getWidth(),collisionBox.getHeight());
+		this.setCollisionBox(new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.getAttribut(Attributs.size)));
+		this.setSelectionBox(new Rectangle(x*Main.ratioSpace,y*Main.ratioSpace,getCollisionBox().getWidth(),getCollisionBox().getHeight()));
 		this.hitBoxSize = 30f*Main.ratioSpace;
 		this.hitBox = new Circle(x*Main.ratioSpace,y*Main.ratioSpace,this.hitBoxSize);
 		this.setXY(x*Map.stepGrid, y*Map.stepGrid, p);
@@ -50,7 +50,7 @@ public abstract strictfp class Bonus extends Building{
 	}
 	
 	public Graphics draw(Graphics g){
-		Image im = Images.get(this.name.name()).getScaledCopy(Main.ratioSpace);
+		Image im = Images.get(this.getName().name()).getScaledCopy(Main.ratioSpace);
 		int imageWidth = im.getWidth()/5;
 		float r =this.getAttribut(Attributs.size);
 		Color color = Colors.team0;
@@ -64,15 +64,15 @@ public abstract strictfp class Bonus extends Building{
 		}
 
 		//i = i.getScaledCopy((int)(x2-x1), (int)(y2-y1));
-		g.drawImage(i,x-i.getWidth()/2,y-i.getHeight()/2);
+		g.drawImage(i,getX()-i.getWidth()/2,getY()-i.getHeight()/2);
 		if(Player.mouseOver==this.getId()){
-			i.drawFlash(x-i.getWidth()/2, y-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
+			i.drawFlash(getX()-i.getWidth()/2, getY()-i.getHeight()/2,i.getWidth(),i.getHeight(),color);
 			g.setColor(new Color(250,0,0,0.8f));
 			if(!this.bonusPresent){
-				g.fill(new Rectangle(this.getX()-this.selectionBox.getWidth()/2,this.getY()-r-60f,this.selectionBox.getWidth(),6f));
-				float x = this.state*this.selectionBox.getWidth()/this.timeRegen;
+				g.fill(new Rectangle(this.getX()-this.getSelectionBox().getWidth()/2,this.getY()-r-60f,this.getSelectionBox().getWidth(),6f));
+				float x = this.state*this.getSelectionBox().getWidth()/this.timeRegen;
 				g.setColor(new Color(0,250,0,0.8f));
-				g.fill(new Rectangle(this.getX()-this.selectionBox.getWidth()/2,this.getY()-r-60f,x,6f));
+				g.fill(new Rectangle(this.getX()-this.getSelectionBox().getWidth()/2,this.getY()-r-60f,x,6f));
 			}
 		}
 		// Construction points

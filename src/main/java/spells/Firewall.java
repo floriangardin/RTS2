@@ -29,18 +29,18 @@ public strictfp class Firewall extends SpellEffect{
 	public Firewall( Character launcher, Objet t,float width, Plateau plateau){
 		super(plateau);
 		this.type = 1;
-		this.x = launcher.getX();
-		this.y = launcher.getY();
+		this.setX(launcher.getX());
+		this.setY(launcher.getY());
 		this.x2 = t.getX();
 		this.y2 = t.getY();
 
-		this.name = ObjetsList.FirewallEffect;
-		this.lifePoints = 1f;
+		this.setName(ObjetsList.FirewallEffect);
+		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		image = "explosion";
 		this.team = launcher.getTeam();
 		owner = launcher;
-		this.collisionBox = createShape(launcher, t, width) ;
+		this.setCollisionBox(createShape(launcher, t, width)) ;
 		this.createAnimation(t, launcher);
 	}
 
@@ -78,7 +78,7 @@ public strictfp class Firewall extends SpellEffect{
 
 		this.remainingTime-=10f*Main.increment;
 		if(this.remainingTime<=0f)
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 	}
 
 	public Graphics draw(Graphics g){
@@ -122,7 +122,7 @@ public strictfp class Firewall extends SpellEffect{
 
 	public void collision(Character c, Plateau plateau){
 		if(c!=owner){
-			c.setLifePoints(c.lifePoints-this.damage, plateau);
+			c.setLifePoints(c.getLifePoints()-this.damage, plateau);
 		}
 	}
 

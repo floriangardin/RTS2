@@ -25,8 +25,8 @@ public strictfp class EventDeath extends Event{
 	public EventDeath(Objet parent, Plateau plateau) {
 		super(parent, plateau);
 		this.topLayer = true;
-		x = parent.x;
-		y = parent.y;
+		x = parent.getX();
+		y = parent.getY();
 		color = parent.getTeam().color;
 		delta_y = 0;
 		int direction = 0;
@@ -37,7 +37,7 @@ public strictfp class EventDeath extends Event{
 				direction = ((direction-1)*(-1)+2);
 			}
 		}
-		im = Images.getUnit(parent.name, direction, 0, parent.getTeam().id, false);
+		im = Images.getUnit(parent.getName(), direction, 0, parent.getTeam().id, false);
 		if(parent.getTeam().id==Player.getTeamId()){
 			Sounds.playSound("deathAlly", ratioDistance());
 		} else {

@@ -73,12 +73,12 @@ public strictfp class Player {
 		mouseOver = -1;
 		Vector<Objet> mouseOvers = new Vector<Objet>();
 		for (Character c : plateau.getCharacters()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
+			if (c.getSelectionBox().contains(im.x, im.y)) {
 				mouseOvers.add(c);
 			} 
 		}
 		for (Building c : plateau.getBuildings()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
+			if (c.getSelectionBox().contains(im.x, im.y)) {
 				mouseOvers.add(c);
 			} 
 		}
@@ -123,13 +123,13 @@ public strictfp class Player {
 		// Update in rectangle
 		inRectangle.clear();
 		for(Character o : plateau.getCharacters()){
-			if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
+			if(o.getTeam().id == Player.team && rectangleIntersect(o.getSelectionBox().getMinX(), o.getSelectionBox().getMinY(),o.getSelectionBox().getMaxX(), o.getSelectionBox().getMaxY() , o.getAttribut(Attributs.sizeX))){
 				inRectangle.add(o.getId());
 			}
 		}
 		if(inRectangle.size()==0){
 			for(Building o : plateau.getBuildings()){
-				if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
+				if(o.getTeam().id == Player.team && rectangleIntersect(o.getSelectionBox().getMinX(), o.getSelectionBox().getMinY(),o.getSelectionBox().getMaxX(), o.getSelectionBox().getMaxY() , o.getAttribut(Attributs.sizeX))){
 					inRectangle.add(o.getId());
 				}
 			}
@@ -228,12 +228,12 @@ public strictfp class Player {
 		if(pressed!=null){
 			Player.selection = new Vector<Integer>();
 			for(Character o : plateau.getCharacters()){
-				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
+				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.getName())){
 					Player.selection.add(o.getId());
 				}
 			}
 			for(Building o : plateau.getBuildings()){
-				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
+				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.getName())){
 					Player.selection.add(o.getId());
 				}
 			}
@@ -273,7 +273,7 @@ public strictfp class Player {
 			}
 			if (c != null) {
 				for (Character o : plateau.getCharacters()) {
-					if (o.getTeam().id == im.team && o.name == c.name && !Player.selection.contains(o.getId())) {
+					if (o.getTeam().id == im.team && o.getName() == c.getName() && !Player.selection.contains(o.getId())) {
 						// add character to team selection
 						Player.selection.addElement(o.getId());
 					}

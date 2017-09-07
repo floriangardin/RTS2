@@ -15,7 +15,7 @@ public strictfp class EventUnitCreated extends Event {
 
 	@Override
 	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
-		Sounds.playSoundAt("heureux", parent.x, parent.y);
+		Sounds.playSoundAt("heureux", parent.getX(), parent.getY());
 		return false;
 	}
 

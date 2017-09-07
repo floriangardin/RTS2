@@ -22,8 +22,8 @@ public strictfp class EventAttackDamage extends Event {
 		super(parent, plateau);
 		this.topLayer = true;
 		this.value = value;
-		this.x = parent.x;
-		this.y = parent.y;
+		this.x = parent.getX();
+		this.y = parent.getY();
 		this.vy = (float) (-3f+0.5f*StrictMath.random()-0.25);
 		this.vx = 0.7f*((float) (2f*StrictMath.random()-1f));
 	}
