@@ -117,7 +117,11 @@ public strictfp class WholeGame extends ClassSystem{
 			RenderEngine.ymouse = im.y;
 			// Stats
 			StatsHandler.pushState(GameClient.getPlateau());
-		}finally{
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+		
 			GameClient.mutex.unlock();
 		}
 		if(GameClient.getPlateau().teamLooser>0){

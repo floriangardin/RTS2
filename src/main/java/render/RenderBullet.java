@@ -15,14 +15,17 @@ public strictfp class RenderBullet {
 	
 	
 	public static void render(Bullet b, Graphics g, Plateau plateau){
-		
+		if(b==null){
+			return;
+		}
 		if(b instanceof Arrow){
 			Images.get("arrow").rotate(((Arrow)b).angle);
-			g.drawImage(Images.get("arrow"),b.getX()-5f*Main.ratioSpace,b.getY()-75f*Main.ratioSpace);
+			g.drawImage(Images.get("arrow"),b.getX()-5f,b.getY()-75f);
 			Images.get("arrow").rotate(-((Arrow)b).angle);
-			Image shadow = Images.get("arrow").getScaledCopy(Main.ratioSpace);
+			Image shadow = Images.get("arrow");
 			shadow.rotate(((Arrow)b).angle);
-			shadow.drawFlash(b.getX()-5f*Main.ratioSpace,b.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
+			shadow.drawFlash(b.getX()-5f,b.getY()-5f,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
+			shadow.rotate(-((Arrow)b).angle);
 		} else if (b instanceof Fireball){
 			Fireball b1 = (Fireball)b;
 			if(b1.explosion){
