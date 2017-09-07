@@ -1,5 +1,6 @@
 package main;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 import org.lwjgl.LWJGLUtil;
@@ -45,7 +46,7 @@ public strictfp class MainSimu {
 			app.setTargetFrameRate(Main.framerate);
 			//app.setSmoothDeltas(true);
 			app.start();
-		} catch (SlickException e) {
+		} catch (SlickException | IOException e) {
 			e.printStackTrace();
 		}
 	}

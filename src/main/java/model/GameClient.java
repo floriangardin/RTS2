@@ -2,8 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,6 +13,8 @@ import com.esotericsoftware.kryonet.Listener;
 import control.InputObject;
 import control.Player;
 import menu.Lobby;
+import menu.MenuMulti.OpenGame;
+import menuutils.Menu_Map;
 import menuutils.Menu_Player;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
@@ -32,7 +33,7 @@ public strictfp class GameClient extends Listener {
 	public static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	
-	public static void init(String ip){
+	public static void init(String ip) throws IOException{
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
 		client.getKryo().register(Message.class);
@@ -71,42 +72,31 @@ public strictfp class GameClient extends Listener {
 						if(mpMessage.isHost && mpMessage.id!=Player.getID()){
 							Lobby.idCurrentMap = mpMessage.idMap;
 						}
-					}else if(type==Message.CHATMESSAGE){
+					} else if(type==Message.CHATMESSAGE){
 						ChatHandler.addMessage((ChatMessage)m.get());
-					}
+					} 
 				}else if(o instanceof Integer){
 					slowDown = (Integer) o;
 				}
 			}
 		});
 		client.start();
-		try {
-			System.out.println("IP of server : " +ip);
-			client.connect(5000, ip, port, port);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		client.connect(5000, ip, port, port);
 	}
 	
-	public static String getExistingServerIP() {
+	public static Vector<OpenGame> getExistingServerIPS() {
 		// Method to move on the lobby .
 		try{
-			InetAddress host = client.discoverHost(port, 5000); 
-			return host.getHostAddress();
-		}catch(Exception e ){
-			return null;
-		}
-	}
-	public static Vector<String> getExistingServerIPS() {
-		// Method to move on the lobby .
-		try{
-			Vector<String> result = new Vector<String>();
-			for(InetAddress host : client.discoverHosts(port, 5000)){
-				result.add(host.getHostAddress());
+			Vector<OpenGame> result = new Vector<OpenGame>();
+			Collection<InetAddress> hosts = client.discoverHosts(port, 100);
+			for(InetAddress host : hosts){
+				if(!host.getHostAddress().equals("127.0.0.1")){
+					result.add(new OpenGame(host.getHostAddress(), ""));
+				}
 			}
 			return result;
 		}catch(Exception e ){
-			return new Vector<String>();
+			return new Vector<OpenGame>();
 		}
 	}
 	
