@@ -179,6 +179,8 @@ public strictfp class WholeGame extends ClassSystem{
 				SimpleRenderEngine.render(g, p);
 				
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		finally{
 			GameClient.mutex.unlock();
