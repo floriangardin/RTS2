@@ -25,7 +25,7 @@ import system.ClassSystem;
 import system.MenuSystem;
 import utils.Utils;
 
-public class EndSystem extends ClassSystem{
+public strictfp class EndSystem extends ClassSystem{
 
 	private Building destroyedHQ;
 	private Plateau plateau;
@@ -174,7 +174,7 @@ public class EndSystem extends ClassSystem{
 		toRemove.clear();
 	}
 	
-	private class Rond{
+	private strictfp class Rond{
 		Image image;
 		float vx,vy;
 		float x,y;

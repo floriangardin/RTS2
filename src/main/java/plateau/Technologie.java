@@ -3,7 +3,7 @@ package plateau;
 import utils.ObjetsList;
 import data.Attributs;
 
-public abstract class Technologie implements java.io.Serializable{
+public abstract strictfp class Technologie implements java.io.Serializable{
 	
 
 	public Team team;

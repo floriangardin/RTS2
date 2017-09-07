@@ -21,8 +21,8 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 
-// Class for static methods
-public class Utils {
+// strictfp class for static methods
+public strictfp class Utils {
 
 	public static Gson gson = new Gson();
 	public static String[] contactWeapon = new String[]{"spear","sword"};

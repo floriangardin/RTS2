@@ -21,7 +21,7 @@ import plateau.Character;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
-public abstract class IA{
+public abstract strictfp class IA{
 
 	public final static Vector<IA> ias = new Vector<IA>();
 	public static boolean isInit = false;

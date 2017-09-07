@@ -44,7 +44,7 @@ import ressources.Map;
 import utils.ObjetType;
 import utils.Utils;
 
-public class SheetPanel extends JPanel {
+public strictfp class SheetPanel extends JPanel {
 
 	private static final long serialVersionUID = 4762952116167579096L;
 

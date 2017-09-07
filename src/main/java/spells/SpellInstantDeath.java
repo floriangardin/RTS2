@@ -10,7 +10,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class SpellInstantDeath extends Spell{
+public strictfp class SpellInstantDeath extends Spell{
 
 
 	public SpellInstantDeath(){

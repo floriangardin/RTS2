@@ -11,7 +11,7 @@ import bot.Utils;
 import bot.IAUnit.Role;
 import utils.ObjetsList;
 
-public class MissionBuilding {
+public strictfp class MissionBuilding {
 	
 	IA ia;
 	ObjetsList objective;

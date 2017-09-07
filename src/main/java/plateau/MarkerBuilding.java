@@ -9,7 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-public class MarkerBuilding extends Checkpoint{
+public strictfp class MarkerBuilding extends Checkpoint{
 
 	public Rectangle drawShape;
 	public Rectangle drawShape2;

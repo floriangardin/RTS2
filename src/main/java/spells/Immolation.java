@@ -13,7 +13,7 @@ import ressources.Images;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Immolation extends SpellEffect{
+public strictfp class Immolation extends SpellEffect{
 
 	public float remainingTime;
 	public float damage;

@@ -5,7 +5,7 @@ import java.util.Vector;
 import bot.IA;
 import utils.ObjetsList;
 
-public class IAHelpers {
+public strictfp class IAHelpers {
 
 	public static float[] getOutputVector(float[][] boMatrix, float[] state, float[] bias){
 		float[] output = new float[boMatrix.length];

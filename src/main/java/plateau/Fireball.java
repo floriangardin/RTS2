@@ -14,7 +14,7 @@ import spells.BurningArea;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Fireball extends Bullet {
+public strictfp class Fireball extends Bullet {
 
 	public float altitude;
 	public int animation;

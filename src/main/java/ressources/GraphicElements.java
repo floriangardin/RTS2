@@ -14,7 +14,7 @@ import org.newdawn.slick.font.effects.ShadowEffect;
 import model.Game;
 
 
-public class GraphicElements {
+public strictfp class GraphicElements {
 
 	// Fonts
 	public static UnicodeFont font_red;

@@ -2,7 +2,7 @@ package system;
 
 import model.Game;
 
-public class Debug {
+public strictfp class Debug {
 
 	/////////////
 	/// DEBUG ///

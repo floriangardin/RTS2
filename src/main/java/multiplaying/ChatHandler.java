@@ -23,7 +23,7 @@ import ressources.Images;
 import ressources.Taunts;
 import system.Debug;
 
-public class ChatHandler {
+public strictfp class ChatHandler {
 
 	private static Vector<ChatMessage> messages;
 	public static boolean typingMessage;

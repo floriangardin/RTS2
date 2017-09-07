@@ -13,7 +13,7 @@ import plateau.Plateau;
 import ressources.Images;
 import ressources.Sounds;
 
-public class EventDeath extends Event{
+public strictfp class EventDeath extends Event{
 
 	float x,y;
 	private float delta_y;

@@ -26,7 +26,7 @@ import ressources.Map;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Building extends Objet{
+public strictfp class Building extends Objet{
 	/**
 	 * 
 	 */

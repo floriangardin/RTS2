@@ -9,7 +9,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 //TODO : sort qui use heal
-public class SpellHeal extends Spell{
+public strictfp class SpellHeal extends Spell{
 
 
 	public SpellHeal(){

@@ -19,7 +19,7 @@ import render.RenderEngine;
 import ressources.Map;
 import ressources.Images;
 
-public class TestRender extends BasicGame{
+public strictfp class TestRender extends BasicGame{
 	public TestRender(String title) {
 		super(title);
 		// TODO Auto-generated constructor stub

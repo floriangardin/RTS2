@@ -12,7 +12,7 @@ import plateau.NaturalObjet;
 import ressources.Map;
 import utils.Utils;
 
-public class MapGrid implements java.io.Serializable {
+public strictfp class MapGrid implements java.io.Serializable {
 
 	/**
 	 * 
@@ -432,7 +432,7 @@ public class MapGrid implements java.io.Serializable {
 		}
 	}
 
-	public class Point {
+	public strictfp class Point {
 		public int i;
 		public int j;
 		public int id;

@@ -11,7 +11,7 @@ import plateau.Plateau;
 import render.RenderCharacter;
 import ressources.GraphicElements;
 
-public class EventAttackDamage extends Event {
+public strictfp class EventAttackDamage extends Event {
 
 	private int value;
 	private int totalRemainingTime = (int) (1.2*Main.framerate);

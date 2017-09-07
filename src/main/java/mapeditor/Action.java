@@ -30,7 +30,7 @@ import pathfinding.Case.IdTerrain;
 import plateau.Plateau;
 import ressources.Map;
 
-public abstract class Action {
+public abstract strictfp class Action {
 
 	ActionType type;
 	Plateau plateau;

@@ -19,7 +19,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import bot.IA;
 
-public class IAPython extends IA {
+public strictfp class IAPython extends IA {
 	final GsonBuilder builder = new GsonBuilder();
 	public final Gson gson = builder.create();
 	

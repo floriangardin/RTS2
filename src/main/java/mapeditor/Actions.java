@@ -15,9 +15,9 @@ import plateau.Plateau;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class Actions {
+public strictfp class Actions {
 	
-	public static class ActionCreateObjet extends Action{
+	public static strictfp class ActionCreateObjet extends Action{
 		
 		ObjetsList ol;
 		int x, y, team;
@@ -86,7 +86,7 @@ public class Actions {
 		}
 	}
 	
-	public static class ActionDeleteObjet extends Action{
+	public static strictfp class ActionDeleteObjet extends Action{
 		
 		Objet o;
 
@@ -133,7 +133,7 @@ public class Actions {
 		}
 	}
 	
-	public static class ActionPaintTerrain extends Action{
+	public static strictfp class ActionPaintTerrain extends Action{
 		
 		HashMap<Integer, IdTerrain> idCases;
 		IdTerrain idTerrain;
@@ -165,7 +165,7 @@ public class Actions {
 		
 	}
 
-	public static class ActionMoveObjet extends Action{
+	public static strictfp class ActionMoveObjet extends Action{
 		Objet o;
 		float oldX, oldY, newX, newY;
 

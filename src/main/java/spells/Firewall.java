@@ -13,7 +13,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class Firewall extends SpellEffect{
+public strictfp class Firewall extends SpellEffect{
 
 
 	public float remainingTime;

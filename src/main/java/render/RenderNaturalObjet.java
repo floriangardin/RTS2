@@ -14,7 +14,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class RenderNaturalObjet {
+public strictfp class RenderNaturalObjet {
 	
 	
 	public static void render(NaturalObjet n, Graphics g, Plateau plateau){

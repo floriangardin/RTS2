@@ -10,7 +10,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 //TODO : sort
-public class SpellProduct extends Spell{
+public strictfp class SpellProduct extends Spell{
 
 
 	public SpellProduct(){

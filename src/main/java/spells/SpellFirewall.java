@@ -9,7 +9,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellFirewall extends Spell{
+public strictfp class SpellFirewall extends Spell{
 
 	
 	public SpellFirewall(){

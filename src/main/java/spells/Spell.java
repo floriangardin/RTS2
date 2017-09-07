@@ -16,7 +16,7 @@ import plateau.Team;
 import utils.ObjetsList;
 import utils.Utils;;
 
-public abstract class Spell implements java.io.Serializable{
+public abstract strictfp class Spell implements java.io.Serializable{
 
 	public ObjetsList name;
 	public Team team;

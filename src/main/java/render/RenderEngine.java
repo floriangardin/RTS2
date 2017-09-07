@@ -29,7 +29,7 @@ import ressources.Images;
 import ressources.Map;
 import utils.Utils;
 
-public class RenderEngine {
+public strictfp class RenderEngine {
 
 	private static boolean isReady = false;
 	private static boolean hasChecked = false;

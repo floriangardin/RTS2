@@ -10,7 +10,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellSpecialArrow extends Spell{
+public strictfp class SpellSpecialArrow extends Spell{
 
 	public float remainingTime;
 	

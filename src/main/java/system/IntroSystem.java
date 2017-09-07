@@ -31,7 +31,7 @@ import ressources.SoundManager;
 import ressources.Sounds;
 import ressources.Taunts;
 
-public class IntroSystem extends ClassSystem{
+public strictfp class IntroSystem extends ClassSystem{
 	
 
 	public Image background;

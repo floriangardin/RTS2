@@ -23,7 +23,7 @@ import render.SimpleRenderEngine;
 import ressources.Map;
 import system.ClassSystem;
 
-public class ReplayGame extends ClassSystem{
+public strictfp class ReplayGame extends ClassSystem{
 	private Replay replay= new Replay();
 	
 	

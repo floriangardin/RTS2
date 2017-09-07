@@ -19,7 +19,7 @@ import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
 
-public abstract class Bonus extends Building{
+public abstract strictfp class Bonus extends Building{
 
 	public Bonus(ObjetsList name, int i, int j,Team team, Plateau plateau) {
 		super(name, i, j, team, plateau);

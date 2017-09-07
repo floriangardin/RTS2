@@ -14,7 +14,7 @@ import model.Game;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class Arrow extends Bullet{
+public strictfp class Arrow extends Bullet{
 
 	public float angle= 0f;
 	public float life = 6f;

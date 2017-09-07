@@ -10,7 +10,7 @@ import plateau.Plateau;
 import ressources.Images;
 import spells.BurningArea;
 
-public class EventBurningArea extends Event{
+public strictfp class EventBurningArea extends Event{
 	
 	public float size;
 

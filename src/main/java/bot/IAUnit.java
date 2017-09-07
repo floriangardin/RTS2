@@ -10,7 +10,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class IAUnit {
+public strictfp class IAUnit {
 	protected Objet objet;
 	private IA ia;
 	boolean free = true;

@@ -21,7 +21,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class BurningArea extends SpellEffect{
+public strictfp class BurningArea extends SpellEffect{
 
 	public float remainingTime = 200f;
 	public float totalTime = 200f;

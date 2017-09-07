@@ -8,7 +8,7 @@ import org.newdawn.slick.Sound;
 
 import model.Options;
 
-public class Taunts {
+public strictfp class Taunts {
 
 
 

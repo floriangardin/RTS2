@@ -7,7 +7,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 
-public class Icones {
+public strictfp class Icones {
 	private static HashMap<String, ImageIcon> images;
 	private static boolean isInit;
 

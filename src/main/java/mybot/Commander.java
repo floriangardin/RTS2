@@ -2,7 +2,7 @@ package mybot;
 
 import bot.IA;
 
-public abstract class Commander {
+public abstract strictfp class Commander {
 
 	
 	IA ia;

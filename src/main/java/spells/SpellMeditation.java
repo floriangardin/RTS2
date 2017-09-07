@@ -9,7 +9,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellMeditation extends Spell{
+public strictfp class SpellMeditation extends Spell{
 
 	
 	public SpellMeditation(){

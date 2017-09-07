@@ -8,7 +8,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import ressources.Sounds;
 
-public class EventDefault extends Event{
+public strictfp class EventDefault extends Event{
 
 	public EventDefault(Objet parent, String s, Plateau plateau, EventNames name){
 		super(parent, plateau);

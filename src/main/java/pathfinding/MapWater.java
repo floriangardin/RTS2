@@ -9,7 +9,7 @@ import model.Game;
 import ressources.Images;
 import tests.FatalGillesError;
 
-public class MapWater {
+public strictfp class MapWater {
 
 	/** int idTerrain
 	 *  (0:earth, 1:sand, 2:water) 
@@ -49,7 +49,7 @@ public class MapWater {
 			return idTerrain[x][y];
 	}
 
-	private class Sand {
+	private strictfp class Sand {
 		public int x, y;
 		public String im;
 

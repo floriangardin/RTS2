@@ -8,7 +8,7 @@ import main.Main;
 import plateau.Objet;
 import plateau.Plateau;
 
-public class EventBlood extends Event{
+public strictfp class EventBlood extends Event{
 
 	public EventBlood(Objet parent, Plateau plateau) {
 		super(parent, plateau);

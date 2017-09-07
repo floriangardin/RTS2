@@ -20,7 +20,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class BlessedArea extends SpellEffect{
+public strictfp class BlessedArea extends SpellEffect{
 
 	public float remainingTime;
 	public Vector<AttributsChange> ac;

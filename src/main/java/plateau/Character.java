@@ -25,7 +25,7 @@ import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Character extends Objet{
+public strictfp class Character extends Objet{
 
 
 	/**

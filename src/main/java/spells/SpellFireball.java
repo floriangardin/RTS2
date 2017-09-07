@@ -13,7 +13,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellFireball extends Spell{
+public strictfp class SpellFireball extends Spell{
 
 	public SpellFireball(){
 		this.name = ObjetsList.SpellFireball;

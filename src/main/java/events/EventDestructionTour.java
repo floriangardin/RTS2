@@ -17,7 +17,7 @@ import ressources.Images;
 import ressources.Map;
 import ressources.Sounds;
 
-public class EventDestructionTour extends Event{
+public strictfp class EventDestructionTour extends Event{
 	
 	private Vector<Image> images;
 	private int totalRemainingTime = (int) (1.8*Main.framerate);

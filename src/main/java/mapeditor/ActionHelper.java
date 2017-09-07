@@ -12,7 +12,7 @@ import ressources.Map;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class ActionHelper {
+public strictfp class ActionHelper {
 
 	public static int getNumberOfNewSheet(){
 		Vector<Integer> v = new Vector<Integer>();

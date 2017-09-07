@@ -12,7 +12,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class Frozen extends SpellEffect{
+public strictfp class Frozen extends SpellEffect{
 
 	public float remainingTime;
 	public float damage;

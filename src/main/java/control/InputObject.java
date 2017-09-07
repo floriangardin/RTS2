@@ -14,7 +14,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 import plateau.Character;
 
-public class InputObject implements java.io.Serializable{
+public strictfp class InputObject implements java.io.Serializable{
 	/**
 	 * 
 	 */

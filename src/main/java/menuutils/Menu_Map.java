@@ -7,7 +7,7 @@ import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import model.Game;
 
-public class Menu_Map extends Menu_Item {
+public strictfp class Menu_Map extends Menu_Item {
 
 	public String name;
 	public boolean isSelected;

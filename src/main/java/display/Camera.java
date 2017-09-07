@@ -12,7 +12,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.Utils;
 
-public class Camera {
+public strictfp class Camera {
 
 	public static int Xcam;
 	public static int Ycam;

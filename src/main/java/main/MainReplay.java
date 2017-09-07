@@ -12,7 +12,7 @@ import model.GameClient;
 import model.GameServer;
 import model.ReplayGame;
 
-public class MainReplay {
+public strictfp class MainReplay {
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 

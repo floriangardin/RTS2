@@ -4,7 +4,7 @@ import plateau.Character;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
-public class BonusLifepoints extends Bonus{
+public strictfp class BonusLifepoints extends Bonus{
 
 
 

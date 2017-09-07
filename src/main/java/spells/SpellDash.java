@@ -14,7 +14,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellDash extends Spell{
+public strictfp class SpellDash extends Spell{
 
 
 	public SpellDash(){

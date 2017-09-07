@@ -10,7 +10,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class SpellInstantHealth extends Spell{
+public strictfp class SpellInstantHealth extends Spell{
 
 
 	public SpellInstantHealth(){

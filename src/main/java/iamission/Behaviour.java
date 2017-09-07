@@ -1,6 +1,6 @@
 package iamission;
 
-public class Behaviour {
+public strictfp class Behaviour {
 
 	public void update(){
 		

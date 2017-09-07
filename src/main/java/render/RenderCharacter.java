@@ -20,7 +20,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.Utils;
 
-public class RenderCharacter {
+public strictfp class RenderCharacter {
 
 	public static void render(Character character, Graphics g, Plateau plateau){
 

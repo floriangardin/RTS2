@@ -14,7 +14,7 @@ import ressources.Images;
 import ressources.Sounds;
 
 
-public class DisplayRessources extends Event{
+public strictfp class DisplayRessources extends Event{
 
 	private Image image;
 	private Color color;

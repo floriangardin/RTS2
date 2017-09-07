@@ -15,7 +15,7 @@ import utils.ObjetsList;
 import utils.Utils;
 
 // TODO : Sort
-public class SpellHealth extends Spell{
+public strictfp class SpellHealth extends Spell{
 
 	public SpellHealth(){
 		this.name = ObjetsList.Health;

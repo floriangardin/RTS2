@@ -7,7 +7,7 @@ import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import model.Game;
 
-public class Menu_Curseur extends Menu_Item{
+public strictfp class Menu_Curseur extends Menu_Item{
 
 
 	public Image curseur;

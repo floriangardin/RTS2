@@ -15,7 +15,7 @@ import ressources.Images;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class Tree extends NaturalObjet {
+public strictfp class Tree extends NaturalObjet {
 	
 	public static float size = 10f;
 	public static float coeffDraw = 0.4f;

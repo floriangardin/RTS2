@@ -15,7 +15,7 @@ import plateau.Checkpoint;
 import plateau.Objet;
 import plateau.Plateau;
 
-public class SimpleRenderEngine {
+public strictfp class SimpleRenderEngine {
 	
 	public static float ux, uy, vx, vy, d, h, signu, signv, old_vx, old_vy;
 	public static Circle circle;

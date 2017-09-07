@@ -11,7 +11,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import ressources.Sounds;
 
-public class EventDash extends Event{
+public strictfp class EventDash extends Event{
 	
 	public EventDash(Objet parent, Plateau plateau) {
 		super(parent, plateau);

@@ -9,7 +9,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellFrozen extends Spell{
+public strictfp class SpellFrozen extends Spell{
 
 
 	public SpellFrozen(){

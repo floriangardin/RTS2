@@ -23,7 +23,7 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 
-public class Map {
+public strictfp class Map {
 
 	public static float stepGrid = 100f*Main.ratioSpace;
 

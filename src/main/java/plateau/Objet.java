@@ -20,7 +20,7 @@ import spells.Etats;
 import spells.Spell;
 import utils.ObjetsList;
 
-public abstract class Objet implements java.io.Serializable {
+public abstract strictfp class Objet implements java.io.Serializable {
 
 	/**
 	 * 

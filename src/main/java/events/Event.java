@@ -14,7 +14,7 @@ import plateau.Plateau;
 import ressources.Sounds;
 import utils.Utils;
 
-public abstract class Event {
+public abstract strictfp class Event {
 
 	Vector<String> sounds = new Vector<String>();
 	String soundPlaying;

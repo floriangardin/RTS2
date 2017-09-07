@@ -18,7 +18,7 @@ import model.GameServer;
 import ressources.GraphicElements;
 import system.MenuSystem.MenuNames;
 
-public class MenuMulti extends Menu {
+public strictfp class MenuMulti extends Menu {
 
 	Image title;
 	public Image marbre;

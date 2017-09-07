@@ -11,7 +11,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class Heal extends SpellEffect{
+public strictfp class Heal extends SpellEffect{
 
 	public static float radius = 70f;
 	public float remainingTime;

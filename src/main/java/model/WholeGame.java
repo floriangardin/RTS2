@@ -28,7 +28,7 @@ import ressources.SoundManager;
 import ressources.Taunts;
 import system.ClassSystem;
 
-public class WholeGame extends ClassSystem{
+public strictfp class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();
 	// Pour conditions de victoire
 	private boolean repeat = false;

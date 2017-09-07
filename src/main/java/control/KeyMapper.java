@@ -15,7 +15,7 @@ import utils.ObjetsList;
 
 
 
-public class KeyMapper {
+public strictfp class KeyMapper {
 
 	private static String location = "././ressources/data/keymapping.rtsfile";
 	public static HashMap<KeyEnum, Vector<Integer>> mapping;

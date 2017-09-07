@@ -4,7 +4,7 @@ import model.Game;
 
 import org.newdawn.slick.SlickException;
 
-public class FatalGillesError extends SlickException{
+public strictfp class FatalGillesError extends SlickException{
 	
 	
 	

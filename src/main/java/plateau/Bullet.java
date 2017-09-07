@@ -10,7 +10,7 @@ import events.EventHandler;
 import events.EventNames;
 import model.Game;
 
-public abstract class Bullet extends Objet {
+public abstract strictfp class Bullet extends Objet {
 	public Bullet(Plateau plateau) {
 		super(plateau);
 		// TODO Auto-generated constructor stub

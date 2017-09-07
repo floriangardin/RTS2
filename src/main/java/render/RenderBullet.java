@@ -11,7 +11,7 @@ import plateau.Fireball;
 import plateau.Plateau;
 import ressources.Images;
 
-public class RenderBullet {
+public strictfp class RenderBullet {
 	
 	
 	public static void render(Bullet b, Graphics g, Plateau plateau){

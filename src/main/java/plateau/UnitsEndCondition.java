@@ -1,6 +1,6 @@
 package plateau;
 
-public class UnitsEndCondition extends EndCondition {
+public strictfp class UnitsEndCondition extends EndCondition {
 
 	@Override
 	public boolean hasLost(Plateau p, Team t) {

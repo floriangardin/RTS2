@@ -12,7 +12,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellImmolation extends Spell{
+public strictfp class SpellImmolation extends Spell{
 
 	
 	public SpellImmolation(){

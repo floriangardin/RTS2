@@ -11,7 +11,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 
-public class SoundManager {
+public strictfp class SoundManager {
 	public static boolean firstRound = true;
 	public static boolean isInit = false;
 	public static HashMap<Integer, ObjetsList> selection = new HashMap<Integer, ObjetsList>();

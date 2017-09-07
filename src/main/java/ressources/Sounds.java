@@ -13,7 +13,7 @@ import model.Options;
 import tests.FatalGillesError;
 import utils.ObjetsList;
 
-public class Sounds {
+public strictfp class Sounds {
 	// STORE ALL THE SOUNDS
 
 	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();

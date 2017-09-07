@@ -6,7 +6,7 @@ import main.Main;
 import model.Colors;
 import utils.ObjetsList;
 
-public class Checkpoint extends Objet {
+public strictfp class Checkpoint extends Objet {
 	float printed;
 	public float maxDuration=30f*60/Main.framerate;
 	public float state;

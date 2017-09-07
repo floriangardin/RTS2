@@ -14,7 +14,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class RenderBuilding {
+public strictfp class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
 	public static void render(Building b, Graphics g, Plateau plateau){

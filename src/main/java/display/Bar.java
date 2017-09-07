@@ -5,7 +5,7 @@ import org.newdawn.slick.Image;
 
 import plateau.Plateau;
 
-public abstract class Bar {
+public abstract strictfp class Bar {
 
 	public float sizeX;
 	public float sizeY;

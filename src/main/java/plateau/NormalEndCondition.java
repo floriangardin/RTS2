@@ -1,6 +1,6 @@
 package plateau;
 
-public class NormalEndCondition extends EndCondition {
+public strictfp class NormalEndCondition extends EndCondition {
 
 	@Override
 	public boolean hasLost(Plateau plateau, Team t) {

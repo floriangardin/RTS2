@@ -20,7 +20,7 @@ class QLearner:
         self.delta = delta
         self.Qglobal = Qglobal
         self.classes = classes
-        self.A = A # Set of all possible actions for each class (it is a dict with key class and value list of actions)
+        self.A = A # Set of all possible actions for each strictfp class (it is a dict with key strictfp class and value list of actions)
         self.alpha = alpha
         self.gamma = gamma # discount
         self.epsilon = epsilon
@@ -52,7 +52,7 @@ class QLearner:
         time.sleep(self.delta)
         s_global = self.get_state()
         for C in self.classes.keys():
-            s1 = self.get_abstract_states(s_global, C)  # Customizing the global state for class c, different class need different kind of info
+            s1 = self.get_abstract_states(s_global, C)  # Customizing the global state for strictfp class c, different strictfp class need different kind of info
             Ac = self.get_valid_actions(self.classes[C], s1)  # Get the set of possible actions for the step to reduce search space
             Q = self.Qglobal[C]  # get the current Q function for this specific class
             for index, c in self.classes[C]:  # For each characters of the class
@@ -81,9 +81,9 @@ class QLearner:
         return 0
     def get_abstract_states(self, s, C):
         """
-        Given a state s and a class of object C, return the local state for class
+        Given a state s and a strictfp class of object C, return the local state for class
         :param s: current state
-        :param C: current class considered (eg : Crossbowman, Barracks
+        :param C: current strictfp class considered (eg : Crossbowman, Barracks
         :return: Return the state corresponding to the class
         """
         return []
@@ -116,7 +116,7 @@ class Qlearning:
                  learning_rate,
                  discount_factor):
         """
-        Initialise the q learning class with an initial matrix and the parameters for learning.
+        Initialise the q learning strictfp class with an initial matrix and the parameters for learning.
         :param possible_states: list of states the agent can be in
         :param possible_actions: list of actions the agent can perform
         :param initial_reward: the initial Q-values to be used in the matrix

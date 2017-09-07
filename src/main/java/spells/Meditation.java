@@ -15,7 +15,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class Meditation extends SpellEffect{
+public strictfp class Meditation extends SpellEffect{
 
 	public float remainingTime;
 

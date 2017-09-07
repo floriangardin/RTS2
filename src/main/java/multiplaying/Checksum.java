@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import plateau.Plateau;
 
-public class Checksum implements Serializable {
+public strictfp class Checksum implements Serializable {
 	public int round;
 	public String checksum;
 	

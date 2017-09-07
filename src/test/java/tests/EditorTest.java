@@ -29,7 +29,7 @@ import plateau.Character;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class EditorTest {
+public strictfp class EditorTest {
 
 	/**
 	 * 	Terrain

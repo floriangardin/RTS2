@@ -8,7 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 import model.Game;
 
-public class Main {
+public strictfp class Main {
 	// A REGLER \\
 	public static float ratioSpace = 1f;
 	public static int framerate = 60;

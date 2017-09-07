@@ -18,7 +18,7 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.Utils;
 
-public class Player {
+public strictfp class Player {
 	public static Rectangle rectangleSelection;
 	public static Float recX;
 	public static Float recY;

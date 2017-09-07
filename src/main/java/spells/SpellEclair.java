@@ -9,7 +9,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 // TODO : Sort
-public class SpellEclair extends Spell{
+public strictfp class SpellEclair extends Spell{
 
 	public SpellEclair(){
 		this.name = ObjetsList.Eclair;

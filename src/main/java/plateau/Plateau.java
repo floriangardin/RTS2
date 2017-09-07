@@ -25,7 +25,7 @@ import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Plateau implements java.io.Serializable {
+public strictfp class Plateau implements java.io.Serializable {
 	/**
 	 * 
 	 */

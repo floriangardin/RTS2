@@ -9,7 +9,7 @@ import plateau.Checkpoint;
 import plateau.MarkerBuilding;
 import plateau.Plateau;
 
-public class RenderCheckpoint {
+public strictfp class RenderCheckpoint {
 	public static void render(Checkpoint c, Graphics g, Plateau plateau){
 		if(c instanceof MarkerBuilding){
 			renderMarkerBuilding((MarkerBuilding) c ,g,  plateau);

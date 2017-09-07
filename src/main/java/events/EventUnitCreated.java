@@ -6,7 +6,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import ressources.Sounds;
 
-public class EventUnitCreated extends Event {
+public strictfp class EventUnitCreated extends Event {
 
 	public EventUnitCreated(Objet parent, Plateau plateau) {
 		super(parent, plateau);

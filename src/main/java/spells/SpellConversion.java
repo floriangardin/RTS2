@@ -13,7 +13,7 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 
-public class SpellConversion extends Spell{
+public strictfp class SpellConversion extends Spell{
 
 
 	public SpellConversion(){

@@ -19,7 +19,7 @@ import pathfinding.Case.IdTerrain;
 import ressources.Icones;
 
 
-public class TerrainObjectPanel extends JPanel {
+public strictfp class TerrainObjectPanel extends JPanel {
 	
 	public static BrushStyle brushStyle = BrushStyle.SIZE1;
 	public static IdTerrain groundStyle = IdTerrain.GRASS;

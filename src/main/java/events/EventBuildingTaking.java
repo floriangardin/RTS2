@@ -14,7 +14,7 @@ import render.RenderBuilding;
 import ressources.Sounds;
 import utils.Utils;
 
-public class EventBuildingTaking extends Event{
+public strictfp class EventBuildingTaking extends Event{
 	
 	public int idTarget = -1;
 	private Vector<Rond> ronds;
@@ -66,7 +66,7 @@ public class EventBuildingTaking extends Event{
 		return ronds.size()>0 && parent.isAlive() && plateau.getObjets().containsKey(parent.getId());
 	}
 	
-	private class Rond{
+	private strictfp class Rond{
 		float x, y, xStart, yStart, distanceTotal;
 		float xEnd, yEnd;
 		float vi, vj, aj;

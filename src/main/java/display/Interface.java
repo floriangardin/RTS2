@@ -29,7 +29,7 @@ import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Interface {
+public strictfp class Interface {
 
 	public static float ratioMinimapX = 1/6f;
 	public static float ratioSelectionX = 1/8f;

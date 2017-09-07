@@ -7,7 +7,7 @@ import plateau.Building;
 import plateau.Character;
 import plateau.NaturalObjet;
 
-public class Case implements java.io.Serializable {
+public strictfp class Case implements java.io.Serializable {
 	
 	public boolean ok;
 	

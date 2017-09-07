@@ -17,7 +17,7 @@ import plateau.Checkpoint;
 import plateau.Plateau;
 import ressources.Map;
 
-public class MapTest {
+public strictfp class MapTest {
 
 	@Test
 	public void test() {
