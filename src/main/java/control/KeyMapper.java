@@ -118,7 +118,9 @@ public class KeyMapper {
 		ActCard4,
 		ActCard5,
 		ActCard6,
-		AllUnits;
+		AllUnits, 
+		ShowStats
+		;
 
 		public Vector<ObjetsList> getUnitsList() {
 			Vector<ObjetsList> v = new Vector<ObjetsList>();

@@ -21,6 +21,7 @@ import render.SimpleRenderEngine;
 import ressources.Images;
 import ressources.Sounds;
 import spells.SpellEffect;
+import stats.StatsHandler;
 import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
@@ -96,6 +97,7 @@ public class Character extends Objet{
 			this.addSpell(ObjetsList.valueOf(s));
 			this.spellsState.addElement(0f);
 		}
+		StatsHandler.pushUnitCreation(this);
 	}
 
 	public void addSpellEffect(SpellEffect e){
@@ -181,7 +183,7 @@ public class Character extends Objet{
 
 			if(damage<0 || c.getAttribut(Attributs.armor)<damage){
 				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
-
+				StatsHandler.pushDamage(plateau, this, damage-c.getAttribut(Attributs.armor));
 			}			
 		} else {
 			// autres armes

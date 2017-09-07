@@ -11,6 +11,7 @@ import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Objet;
 import plateau.Plateau;
+import stats.StatsHandler;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -27,6 +28,7 @@ public class SpellHealth extends Spell{
 		
 		if(h instanceof Character && h.getTeam()==team && Utils.distance(target, launcher) <  launcher.getAttribut(Attributs.range)){
 			h.setLifePoints(h.lifePoints+(h.getAttribut(Attributs.maxLifepoints)-h.lifePoints)/2, plateau);
+			StatsHandler.pushDamage(plateau, launcher, (h.getAttribut(Attributs.maxLifepoints)-h.lifePoints)/2);
 			return true;
 			//TODO add a sound
 		}

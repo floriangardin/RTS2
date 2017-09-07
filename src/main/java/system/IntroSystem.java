@@ -30,6 +30,7 @@ import ressources.Musics;
 import ressources.SoundManager;
 import ressources.Sounds;
 import ressources.Taunts;
+import stats.StatsSystem;
 
 public class IntroSystem extends ClassSystem{
 	
@@ -107,18 +108,18 @@ public class IntroSystem extends ClassSystem{
 			}
 		}
 		LoadingList.setDeferredLoading(true);
-		Musics.init();
+//		Musics.init();
 		EventHandler.init();
-		Sounds.init();
+//		Sounds.init();
 		GraphicElements.init();
 		ChatHandler.init();
 		Images.init();
 		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
-		Taunts.init();
-		MusicManager.init();
-		SoundManager.init();
+//		Taunts.init();
+//		MusicManager.init();
+//		SoundManager.init();
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}
 
@@ -245,6 +246,7 @@ public class IntroSystem extends ClassSystem{
 //		Game.gameSystem = new WholeGame();
 //		Game.system = Game.gameSystem;
 		Game.menuSystem = new MenuSystem();
+		Game.statsSystem = new StatsSystem();
 		Game.system = Game.menuSystem;
 	}
 
