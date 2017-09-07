@@ -13,7 +13,6 @@ import ressources.Images;
 
 public strictfp class RenderBullet {
 	
-	
 	public static void render(Bullet b, Graphics g, Plateau plateau){
 		if(b==null){
 			return;

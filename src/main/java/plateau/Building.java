@@ -391,7 +391,6 @@ public strictfp class Building extends Objet{
 
 		Vector<ObjetsList> toReturn = new Vector<ObjetsList>();
 		for(ObjetsList t:getRawTechnologyList()){
-			boolean ok = true;
 			if(team.currentTechsProduced.contains(t) || team.techsDiscovered.contains(t)){	
 				continue;
 			}
