@@ -20,6 +20,7 @@ import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
 import model.Game;
+import model.WholeGame;
 import multiplaying.ChatHandler;
 import nature.Tree;
 import pathfinding.Case;
@@ -175,6 +176,7 @@ public strictfp class MenuSystem extends ClassSystem {
 			i++;
 		}
 		plateau.setEndCondition(new UnitsEndCondition());
+		plateau.round = (int) (WholeGame.nbRoundStart+10);
 		plateau.update();
 		Camera.init(Game.resX, Game.resY, plateau.maxX/2-1920/2, plateau.maxY/2-1080/2, (int)plateau.maxX, (int)plateau.maxY);
 		return plateau;

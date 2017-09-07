@@ -60,6 +60,7 @@ public strictfp class WholeGame extends ClassSystem{
 		}else{
 			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		}
+		Game.endSystem = null;
 		RenderEngine.init(plateau);
 		StatsHandler.init(plateau);
 		Interface.init(plateau);

@@ -108,18 +108,20 @@ public class IntroSystem extends ClassSystem{
 			}
 		}
 		LoadingList.setDeferredLoading(true);
-		Musics.init();
+		if(Main.fullscreen){
+			Musics.init();
+			Sounds.init();
+			Taunts.init();
+			MusicManager.init();
+			SoundManager.init();
+		}
 		EventHandler.init();
-		Sounds.init();
 		GraphicElements.init();
 		ChatHandler.init();
 		Images.init();
 		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
-		Taunts.init();
-		MusicManager.init();
-		SoundManager.init();
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}
 

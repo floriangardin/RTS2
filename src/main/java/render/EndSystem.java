@@ -47,17 +47,17 @@ public strictfp class EndSystem extends ClassSystem{
 	private Vector<Rond> vector;
 	
 	public EndSystem(Plateau plateau){
-		time = 0;
-		image_background = Images.get("victoire_fond").getScaledCopy(3f);
+		image_background = Images.get("victoire_fond").getScaledCopy(3f*Game.resX/1920);
 		if(plateau.teamLooser!=Player.getTeamId()){
 			victory = true;
-			image_text = Images.get("victoire_texte");
-			image_texture = Images.get("victoire_fond_texture");
+			image_text = Images.get("victoire_texte").getScaledCopy(2f*Game.resX/1920);;
+			image_texture = Images.get("victoire_fond_texture").getScaledCopy(2f*Game.resX/1920);;
 		} else{
 			victory = false;
-			image_text = Images.get("defaite_texte");
-			image_texture = Images.get("defaite_fond_texture");
+			image_text = Images.get("defaite_texte").getScaledCopy(2f*Game.resX/1920);;
+			image_texture = Images.get("defaite_fond_texture").getScaledCopy(2f*Game.resX/1920);;
 		}
+		time = 0;
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
 		destroyedHQ = (Building)plateau.getHQ(plateau.teams.get(plateau.teamLooser));
@@ -71,9 +71,9 @@ public strictfp class EndSystem extends ClassSystem{
 		int Xcam = Camera.Xcam, Ycam = Camera.Ycam;
 		float resX = Camera.resX, resY = Camera.resY;
 		sizeBandes = StrictMath.min(sizeBandes+2, Camera.resY/7f);
-		if((destroyedHQ.getX()-Xcam-resX/2)*(destroyedHQ.getX()-Xcam-resX/2)+(destroyedHQ.getY()-Ycam-resY/2)*(destroyedHQ.getY()-Ycam-resY/2)>450f){
-			Camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.getX())/16-resX/2);
-			Camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.getY())/16-resY/2);
+		if((destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)*(destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)+(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)*(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)>450f){
+			Camera.Xcam = (int) ((15*(Camera.Xcam+resX/2)+destroyedHQ.getX()*Game.ratioX)/16-resX/2);
+			Camera.Ycam = (int) ((15*(Camera.Ycam+resY/2)+destroyedHQ.getY()*Game.ratioY)/16-resY/2);
 			return;
 		} 
 		time ++;
@@ -163,9 +163,9 @@ public strictfp class EndSystem extends ClassSystem{
 		public Rond(boolean victory){
 			float scale = (float) (StrictMath.random()+0.2f)/1.5f;
 			if(victory){
-				image = Images.get("victoire_rond").getScaledCopy(scale);
+				image = Images.get("victoire_rond").getScaledCopy(scale*Game.ratioX);
 			} else {
-				image = Images.get("defaite_rond").getScaledCopy(scale);
+				image = Images.get("defaite_rond").getScaledCopy(scale*Game.ratioY);
 			}
 			x = Camera.resX/2f;
 			y = Camera.resY/2f;
@@ -185,6 +185,11 @@ public strictfp class EndSystem extends ClassSystem{
 		public boolean isAlive(){
 			return alpha>0;
 		}
+	}
+
+	public static void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
