@@ -3,7 +3,7 @@ prototype:"Spell",
 printName:"Boule de feu",
 chargeTime:300,
 range:300,
-damage:10,
+damage:8,
 width:15,
 size: 60,
 totalTime:200
