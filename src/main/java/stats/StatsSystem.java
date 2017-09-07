@@ -33,6 +33,10 @@ public strictfp class StatsSystem extends ClassSystem{
 	}
 
 	public static void render(Graphics g){
+		g.setColor(new Color(86,86,86,186));
+		g.fillRect(StatsSystem.startX, StatsSystem.startY, StatsSystem.sizeX, StatsSystem.sizeY);
+		g.setColor(Color.white);
+		g.drawRect(StatsSystem.startX, StatsSystem.startY, StatsSystem.sizeX, StatsSystem.sizeY);
 		// damages
 		float sizeXdamage = sizeX/2f;
 		float startXdamage = startX+sizeXdamage/8f;

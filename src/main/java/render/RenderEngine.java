@@ -88,10 +88,6 @@ public class RenderEngine {
 		ChatHandler.draw(g);
 		// Draw stats
 		if(drawStats){
-			g.setColor(new Color(86,86,86,186));
-			g.fillRect(StatsSystem.startX, StatsSystem.startY, StatsSystem.sizeX, StatsSystem.sizeY);
-			g.setColor(Color.white);
-			g.drawRect(StatsSystem.startX, StatsSystem.startY, StatsSystem.sizeX, StatsSystem.sizeY);
 			StatsSystem.render(g);
 		}
 
