@@ -70,8 +70,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	private int roundLastAttack = -100;
 	private static final float timerMaxValueAttacked = 100f;
 	
-	// visibility boolean 
-	
+	// visibility boolean
 	public int animation = 0;
 	public float vx;
 	public float vy;
@@ -84,7 +83,9 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	public void action(Plateau plateau){}
 	
 	public void move(Plateau plateau){}
-	
+	public Objet(){
+		id = -1;
+	}
 	public boolean canAttack(Plateau plateau){
 		boolean b= (getTarget(plateau)!=null && getTarget(plateau).getTeam()!=this.getTeam());
 		return   ( b || (!b && this.getAttribut(Attributs.damage)<0)) ;
@@ -377,7 +378,14 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	}
 	
 	public String hash(){
-		return "id:"+id+"-name:"+getName()+"-x:"+getX()+"-y:"+getY()+"-lp:"+getLifePoints()+"-";
+		if(this instanceof Character){			
+			return "id:"+id+"-name:"+getName()+"-x:"+getX()+"-y:"+getY()+"-lp:"+getLifePoints()+"-";
+		}else if(this instanceof Checkpoint){
+			return "id:"+id+"-name:"+name;
+		}
+		else{
+			return "";
+		}
 	}
 
 	public int roundSinceLastAttack(int currentRound){

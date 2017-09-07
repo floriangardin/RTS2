@@ -1,8 +1,8 @@
 {
 nameIcon:"techfervourage",
 goldCost:0,
-foodCost:50,
+foodCost:100,
 faithCost:0,
-prodTime:20,
+prodTime:200,
 techsRequired:""
 }

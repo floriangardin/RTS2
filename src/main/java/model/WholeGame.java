@@ -101,7 +101,7 @@ public strictfp class WholeGame extends ClassSystem{
 			SoundManager.update(GameClient.getPlateau());
 			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>100 && GameClient.getRound()%(GameClient.delay*4)==0){			
+			if(GameClient.getRound()>100 && GameClient.getRound()%(GameClient.delay*4)==0){
 				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round

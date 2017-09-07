@@ -813,6 +813,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		String s = "";
 		Vector<Objet> concatenation = new Vector<Objet>();
 		concatenation.addAll(getCharacters());
+		concatenation.addAll(getCheckpoints());
 		
 		for(Objet o : concatenation){
 			s+=o.hash();

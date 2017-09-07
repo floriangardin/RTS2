@@ -55,9 +55,7 @@ public strictfp class Arrow extends Bullet{
 		if(c.getTeam()!=this.team){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
-			if(!c.horse){
-				damage = damage * this.getTeam().data.bonusBowFoot;
-			}
+			
 			if(c.getAttribut(Attributs.armor)<=damage){
 //				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 				c.setLifePoints(c.getLifePoints()+c.getAttribut(Attributs.armor)-damage, plateau);

@@ -56,10 +56,10 @@ public abstract strictfp class Spell implements java.io.Serializable{
 			float norm = (float) StrictMath.sqrt(ux*ux+uy*uy);
 			ux = ux*range/norm;
 			uy = uy*range/norm;
-			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy, plateau);
+			return new Checkpoint(launcher.getX()+ux,launcher.getY()+uy);
 		} else {
 			if(checkpoint && !(target instanceof Checkpoint)){
-				return new Checkpoint(target.getX(), target.getY(), plateau);
+				return new Checkpoint(target.getX(), target.getY());
 			} else {
 				return target;
 			}

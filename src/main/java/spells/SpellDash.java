@@ -16,7 +16,6 @@ import utils.ObjetsList;
 
 public strictfp class SpellDash extends Spell{
 
-
 	public SpellDash(){
 		this.name = ObjetsList.Dash;
 	}

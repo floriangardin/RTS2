@@ -9,7 +9,7 @@ import display.Camera;
 import display.DisplayRessources;
 import plateau.Objet;
 import plateau.Character;
-import plateau.Checkpoint;
+
 import plateau.Plateau;
 
 public strictfp class EventHandler {

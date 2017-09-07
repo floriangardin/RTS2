@@ -93,18 +93,13 @@ public strictfp class Fireball extends Bullet {
 	}
 	public void boom(Character c, Plateau plateau){
 		float damage = this.damage;
-		if(c.getAttributString(Attributs.weapon)!= null && c.getAttributString(Attributs.weapon) == "bow")
-			damage = damage * this.getTeam().data.bonusBowFoot;
 		c.setLifePoints(c.getLifePoints()-damage, plateau);
 		StatsHandler.pushDamage(plateau, plateau.getById(owner), damage);
 	}
 
 	public void boom(Building c){
-
+		
 	}
-
-
-
 
 
 	@Override

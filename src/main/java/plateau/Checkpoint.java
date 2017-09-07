@@ -23,8 +23,11 @@ public strictfp class Checkpoint extends Objet {
 		super(plateau);
 		this.initialize(x, y, plateau);
 	}
-	
-	public void initialize(float x, float y, Plateau plateau){
+	public Checkpoint(float x, float y){
+		this.setX(x);
+		this.setY(y);
+	}
+	protected void initialize(float x, float y, Plateau plateau){
 		this.setLifePoints(1f);
 		this.setName(ObjetsList.Checkpoint);
 		plateau.getObjets().put(this.getId(), this);

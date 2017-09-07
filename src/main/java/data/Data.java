@@ -33,10 +33,7 @@ public strictfp class Data implements java.io.Serializable {
 
 	//// Attack Bonuses
 
-	public float bonusSpearHorse = 2f;
-	public float bonusSwordBow = 1.5f;
-	public float bonusBowFoot = 2f;
-	public float bonusWandBow = 2f;
+
 
 	// Ressources
 	public int prodFood = 6;

@@ -40,7 +40,7 @@ public strictfp class SpellHealth extends Spell{
 		g.setAntiAlias(true);
 		// Draw on target
 		if(Player.mouseOver==-1){			
-			Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, launcher.getAttribut(Attributs.range),true, plateau);
+			Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, launcher.getAttribut(Attributs.range),true, plateau);
 			if(! (t instanceof Character)){
 				g.setColor(Color.red);
 			} 

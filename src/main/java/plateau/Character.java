@@ -205,10 +205,7 @@ public strictfp class Character extends Objet{
 
 	public float computeDamage(Character target){
 		float damage = this.getAttributAndRemoveUsageUnique(Attributs.damage);
-		if(this.getAttributString(Attributs.weapon)=="spear" && target.horse)
-			damage = damage*this.getTeam().data.bonusSpearHorse;
-		if(this.getAttributString(Attributs.weapon)=="bow" && !target.horse)
-			damage = damage*this.getTeam().data.bonusBowFoot;
+		
 		return damage;
 	}
 
