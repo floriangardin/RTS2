@@ -88,7 +88,7 @@ public strictfp class GameClient extends Listener {
 		// Method to move on the lobby .
 		try{
 			Vector<OpenGame> result = new Vector<OpenGame>();
-			Collection<InetAddress> hosts = client.discoverHosts(port, 100);
+			Collection<InetAddress> hosts = client.discoverHosts(port, 200);
 			for(InetAddress host : hosts){
 				if(!host.getHostAddress().equals("127.0.0.1")){
 					result.add(new OpenGame(host.getHostAddress(), ""));
