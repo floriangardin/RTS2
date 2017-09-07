@@ -8,7 +8,7 @@ sight:400,
 maxVelocity:130,
 armor:0,
 prodTime:50,
-damage:5,
+damage:6,
 weapon:"bow",
 range:300,
 spells:SpecialArrow

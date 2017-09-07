@@ -1,14 +1,15 @@
 {
 prototype:"Unit",
 printName:"Inquisitor",
-foodCost:60,
+foodCost:70,
 attackDuration:2,
 maxLifepoints:60,
 maxVelocity:100,
-armor:1,
+armor:0,
 damage:8,
 weapon:"wand",
 range:400,
 explosionWhenImmolate:1,
+popTaken:2,
 spells:SpellFireball
 }
