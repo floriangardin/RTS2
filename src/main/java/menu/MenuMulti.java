@@ -55,6 +55,7 @@ public strictfp class MenuMulti extends Menu {
 	}
 
 	public void init(){
+		gameSelected = -1;
 		this.items = new Vector<Menu_Item>();
 		this.gamesList = new Vector<Menu_Map>();
 		this.openGames = new  Vector<OpenGame>();

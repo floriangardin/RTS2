@@ -106,32 +106,7 @@ public strictfp class EndSystem extends ClassSystem{
 	}
 	
 	public void render(GameContainer gc, Graphics g){
-		g.translate(-Camera.Xcam, -Camera.Ycam);
-		// Draw background
-		RenderEngine.renderBackground(g, plateau);
-		// Draw first layer of event
-		EventHandler.render(g, plateau, false);
-		Vector<Objet> objets = new Vector<Objet>();
-		for(Objet o : plateau.getObjets().values()){
-			objets.add(o);
-		}
-		objets = Utils.triY(objets);
-		Vector<Objet> visibleObjets = new Vector<Objet>();
-		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.getX(), o.getY(), o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
-				visibleObjets.add(o);
-			}
-		}		
-		// 2) Draw Objects
-		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.getX(), o.getY(), StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
-				RenderEngine.renderObjet(o, g, plateau);
-			}
-		}
-		// Draw second layer of event
-		EventHandler.render(g, plateau, true);
-		g.translate(Camera.Xcam, Camera.Ycam);
-		
+		RenderEngine.renderPlateau(g, plateau, false);
 		if(time==0){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, Camera.resX, sizeBandes);

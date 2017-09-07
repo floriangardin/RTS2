@@ -33,6 +33,7 @@ public strictfp class StatsSystem extends ClassSystem{
 	}
 
 	public static void render(Graphics g){
+		g.setLineWidth(1f);
 		g.setColor(new Color(86,86,86,186));
 		g.fillRect(StatsSystem.startX, StatsSystem.startY, StatsSystem.sizeX, StatsSystem.sizeY);
 		g.setColor(Color.white);
@@ -67,6 +68,7 @@ public strictfp class StatsSystem extends ClassSystem{
 		String s = "Total";
 		ObjetsList ol;
 		for(int i=0; i<nbLine; i++){
+			g.setLineWidth(1f);
 			if(i==0){
 				g.drawRect(startXdamage+sizeXdamage/3f, startYdamage+i*sizeYdamage/nbLine, sizeXdamage*2f/3f, sizeYdamage/nbLine);
 				for(int j=1; j<3;j++){
@@ -149,6 +151,7 @@ public strictfp class StatsSystem extends ClassSystem{
 	}
 
 	public static void renderCounters(Graphics g, float startXcounters, float startYcounters, float sizeXcounters, float sizeYcounters){
+		g.setLineWidth(1f);
 		String s = "Décompte des morts";
 		GraphicElements.font_big.drawString(startXcounters+sizeXcounters/2f-GraphicElements.font_big.getWidth(s)/2f, startYcounters+sizeYcounters/6f, s);
 		// kill counts 1
