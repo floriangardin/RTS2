@@ -50,6 +50,12 @@ public strictfp class Player {
 				}
 			}
 		}
+		inRectangle.clear();
+		selection.clear();
+		mouseOver = -1;
+		rectangleSelection = null;
+		recX = 0f;
+		recY = 0f;
 	}
 	public static void setTeam(int team){
 		Player.team = team;
