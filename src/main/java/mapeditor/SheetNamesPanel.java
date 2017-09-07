@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
 import main.Main;
 import ressources.Icones;
 
-public class SheetNamesPanel extends JTabbedPane{
+public strictfp class SheetNamesPanel extends JTabbedPane{
 
 	public static Dimension buttonDimension = new Dimension(24,24);
 
@@ -30,7 +30,7 @@ public class SheetNamesPanel extends JTabbedPane{
 		// Adding external actions bar
 	}
 
-	private class TabComponent extends JPanel{
+	private strictfp class TabComponent extends JPanel{
 		private static final long serialVersionUID = -5602079827923957403L;
 
 		public TabComponent(String title, int index){
@@ -41,7 +41,7 @@ public class SheetNamesPanel extends JTabbedPane{
 		}
 	}
 
-	private class TabButton extends JButton {
+	private strictfp class TabButton extends JButton {
 		private static final long serialVersionUID = 3028111188486384972L;
 		public int index = 0;
 		public TabButton(int index, ImageIcon icone) {

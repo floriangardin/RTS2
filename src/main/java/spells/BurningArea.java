@@ -21,7 +21,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class BurningArea extends SpellEffect{
+public strictfp class BurningArea extends SpellEffect{
 
 	public float remainingTime = 200f;
 	public float totalTime = 200f;
@@ -31,16 +31,16 @@ public class BurningArea extends SpellEffect{
 
 	public BurningArea(int launcher, Objet fireball, float size, Plateau plateau){
 		super(plateau);
-		this.name = ObjetsList.BurningAreaEffect;
+		this.setName(ObjetsList.BurningAreaEffect);
 		this.type = 2;
 		this.size = size;
 		this.toDrawOnGround = true;
-		this.lifePoints = 1f;
+		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		this.team = plateau.getById(launcher).getTeam();
-		this.collisionBox = createShape(fireball, size);
-		this.x = fireball.getX();
-		this.y = fireball.getY();
+		this.setCollisionBox(createShape(fireball, size));
+		this.setX(fireball.getX());
+		this.setY(fireball.getY());
 		this.remainingTime = this.totalTime;
 		EventHandler.addEvent(EventNames.BurningArea, this, plateau);
 	}
@@ -54,13 +54,13 @@ public class BurningArea extends SpellEffect{
 	public void action(Plateau plateau){
 		this.remainingTime-=10f*Main.increment;
 		if(this.remainingTime<=0f){
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 		}
 	}
 
 	public void collision(Character c, Plateau plateau){
-		if(this.lifePoints>0 && c.getTeam()!=this.team && plateau.round%20==0){
-			c.setLifePoints(c.lifePoints-1f, plateau);
+		if(this.getLifePoints()>0 && c.getTeam()!=this.team && plateau.round%20==0){
+			c.setLifePoints(c.getLifePoints()-1f, plateau);
 		}
 	}
 

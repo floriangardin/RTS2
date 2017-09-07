@@ -2,7 +2,7 @@ package model;
 
 import org.newdawn.slick.Color;
 
-public class Colors {
+public strictfp class Colors {
 
 	public static Color team0 = new Color(31,31,31);
 	public static Color team1= new Color(0,0,155);

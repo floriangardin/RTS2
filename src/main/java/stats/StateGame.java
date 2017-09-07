@@ -26,10 +26,10 @@ public strictfp class StateGame {
 			towerCount.put(team.id, 0);
 		}
 		for(Objet o : plateau.getObjets().values()){
-			if(!characterComp.get(o.team.id).containsKey(o.name)){
-				characterComp.get(o.team.id).put(o.name, 0);
+			if(!characterComp.get(o.team.id).containsKey(o.getName())){
+				characterComp.get(o.team.id).put(o.getName(), 0);
 			}
-			characterComp.get(o.team.id).put(o.name, characterComp.get(o.team.id).get(o.name)+1);
+			characterComp.get(o.team.id).put(o.getName(), characterComp.get(o.team.id).get(o.getName())+1);
 		}
 	}
 	

@@ -11,7 +11,7 @@ import plateau.Fireball;
 import plateau.Plateau;
 import ressources.Images;
 
-public class RenderBullet {
+public strictfp class RenderBullet {
 	
 	
 	public static void render(Bullet b, Graphics g, Plateau plateau){
@@ -28,13 +28,13 @@ public class RenderBullet {
 			if(b1.explosion){
 				Image boom = Images.get("explosion").getScaledCopy(Main.ratioSpace);
 				float r = boom.getWidth()/5f;
-				if(b1.lifePoints>=24f)
+				if(b1.getLifePoints()>=24f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,0f,0f,r,r);
-				else if(b1.lifePoints>=18f)
+				else if(b1.getLifePoints()>=18f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,r,0f,2*r,r);
-				else if(b1.lifePoints>=12f)
+				else if(b1.getLifePoints()>=12f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,2*r,0f,3*r,r);
-				else if(b1.lifePoints>=6f)
+				else if(b1.getLifePoints()>=6f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,3*r,0f,4*r,r);
 				else 
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,4*r,0f,5*r,r);

@@ -4,7 +4,7 @@ import model.Game;
 import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
-public class SpellEffect extends Objet{
+public strictfp class SpellEffect extends Objet{
 
 	public SpellEffect(Plateau plateau) {
 		super(plateau);

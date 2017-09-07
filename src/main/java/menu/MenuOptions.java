@@ -20,7 +20,7 @@ import ressources.Images;
 import ressources.Musics;
 import system.MenuSystem.MenuNames;
 
-public class MenuOptions extends Menu {
+public strictfp class MenuOptions extends Menu {
 
 
 

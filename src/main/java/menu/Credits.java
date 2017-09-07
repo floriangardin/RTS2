@@ -17,7 +17,7 @@ import model.Game;
 import ressources.GraphicElements;
 import system.MenuSystem.MenuNames;
 
-public class Credits extends Menu{
+public strictfp class Credits extends Menu{
 
 	public Vector<String> texts;
 	

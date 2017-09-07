@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-public class DataObjet implements java.io.Serializable {
+public strictfp class DataObjet implements java.io.Serializable {
 	// Generic fields
 	public HashMap<Attributs, Float> attributs = new HashMap<Attributs, Float>();
 	public HashMap<Attributs, String> attributsString = new HashMap<Attributs, String>();

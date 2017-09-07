@@ -13,7 +13,7 @@ class UltraMytheQLearner(QLearner):
         self.classes = {"Barracks": None, "Crossbowman": None, "Spearman": None}
         self.Qglobal = {"Barracks": defaultdict(int), "Crossbowman": defaultdict(int), "Spearman": defaultdict(int)}
         # Init Q with actions and states
-        self.A = A # Set of all possible actions for each class (it is a dict with key class and value list of actions)
+        self.A = A # Set of all possible actions for each strictfp class (it is a dict with key strictfp class and value list of actions)
         self.alpha = alpha
         self.gamma = gamma # discount
         self.epsilon = epsilon
@@ -36,9 +36,9 @@ class UltraMytheQLearner(QLearner):
         return self.classes
     def get_abstract_states(self, s, C):
         """
-        Given a state s and a class of object C, return the local state for class
+        Given a state s and a strictfp class of object C, return the local state for class
         :param s: current state
-        :param C: current class considered (eg : Crossbowman, Barracks
+        :param C: current strictfp class considered (eg : Crossbowman, Barracks
         :return: Return the state corresponding to the class
         """
         return s[C]

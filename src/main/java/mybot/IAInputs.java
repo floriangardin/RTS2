@@ -10,7 +10,7 @@ import bot.Utils;
 import iamission.MissionBuilding;
 import utils.ObjetsList;
 
-public class IAInputs extends IA {
+public strictfp class IAInputs extends IA {
 	boolean hasplay = false;
 
 	BuildCommander bo = BuildCommander.classicBo(this);

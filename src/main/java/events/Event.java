@@ -14,7 +14,7 @@ import plateau.Plateau;
 import ressources.Sounds;
 import utils.Utils;
 
-public abstract class Event {
+public abstract strictfp class Event {
 
 	Vector<String> sounds = new Vector<String>();
 	String soundPlaying;
@@ -82,7 +82,7 @@ public abstract class Event {
 	}
 
 	protected float ratioDistance(){
-		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
+		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.getX(), parent.getY(), (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 	protected float ratioDistance(float x, float y){
 		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));

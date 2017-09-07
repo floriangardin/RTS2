@@ -12,7 +12,7 @@ import plateau.NaturalObjet;
 import ressources.Map;
 import utils.Utils;
 
-public class MapGrid implements java.io.Serializable {
+public strictfp class MapGrid implements java.io.Serializable {
 
 	/**
 	 * 
@@ -135,8 +135,8 @@ public class MapGrid implements java.io.Serializable {
 	}
 	
 	public void addNaturalObject(NaturalObjet n){
-		Case c = this.getCase(n.x, n.y);
-		n.idCase = c.id;
+		Case c = this.getCase(n.getX(), n.getY());
+		n.setIdCase(c.id);
 		c.naturesObjet.add(n);
 		update();
 	}
@@ -150,7 +150,7 @@ public class MapGrid implements java.io.Serializable {
 	}
 	
 	public void removeNaturalObject(NaturalObjet n){
-		Case c = this.getCase(n.x, n.y);
+		Case c = this.getCase(n.getX(), n.getY());
 		c.naturesObjet.remove(n);
 		update();
 	}
@@ -432,7 +432,7 @@ public class MapGrid implements java.io.Serializable {
 		}
 	}
 
-	public class Point {
+	public strictfp class Point {
 		public int i;
 		public int j;
 		public int id;

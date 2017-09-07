@@ -20,7 +20,7 @@ import utils.ObjetType;
 import utils.ObjetsList;
 
 
-public class PlateauObjectPanel extends JPanel {
+public strictfp class PlateauObjectPanel extends JPanel {
 	
 	public static Dimension buttonDimension = new Dimension(72,72);
 	

@@ -7,7 +7,7 @@ import plateau.Plateau;
 import plateau.Character;
 import plateau.Building;
 
-public class MusicManager {
+public strictfp class MusicManager {
 
 	
 	

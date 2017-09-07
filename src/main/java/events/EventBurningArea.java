@@ -10,7 +10,7 @@ import plateau.Plateau;
 import ressources.Images;
 import spells.BurningArea;
 
-public class EventBurningArea extends Event{
+public strictfp class EventBurningArea extends Event{
 	
 	public float size;
 
@@ -30,10 +30,10 @@ public class EventBurningArea extends Event{
 		alpha = (float)StrictMath.max(alpha, 0f);
 		im.setAlpha(alpha);
 		if(toDraw){
-			g.drawImage(im, ((BurningArea)parent).x-im.getWidth()/2f, ((BurningArea)parent).y-im.getHeight()/2f);
+			g.drawImage(im, ((BurningArea)parent).getX()-im.getWidth()/2f, ((BurningArea)parent).getY()-im.getHeight()/2f);
 			g.setColor(new Color(1f,0.1f,0f,0.2f));
 			g.setLineWidth(1f);
-			g.draw(((BurningArea)parent).collisionBox);
+			g.draw(((BurningArea)parent).getCollisionBox());
 		}
 		return parent.isAlive() && plateau.getObjets().containsKey(parent.getId());
 	}

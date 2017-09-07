@@ -12,7 +12,7 @@ import bot.IA;
 import bot.IAUnit;
 import utils.ObjetsList;
 
-public class Action {
+public strictfp class Action {
 	final static GsonBuilder builder = new GsonBuilder();
 	public static final Gson gson = builder.create();
 	Action parent;

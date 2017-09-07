@@ -29,7 +29,7 @@ import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Interface {
+public strictfp class Interface {
 
 	public static float ratioMinimapX = 1/6f;
 	public static float ratioSelectionX = 1/8f;
@@ -371,7 +371,7 @@ public class Interface {
 				c = (Character) plateau.getById(id);
 				if(c!=null){
 
-					Image icone = Images.get(c.name+c.team.colorName);
+					Image icone = Images.get(c.getName()+c.team.colorName);
 					int imageWidth = icone.getWidth()/5;
 					int imageHeight = icone.getHeight()/4;
 					//float r = a.collisionBox.getBoundingCircleRadius();
@@ -396,12 +396,12 @@ public class Interface {
 						g.setColor(Color.darkGray);
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f, 
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-						float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
+						float x_temp = a.getLifePoints()/a.getAttribut(Attributs.maxLifepoints);
 						g.setColor(new Color((1f-x_temp),x_temp,0));
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
-								startYSelectionBar+sizeYSelectionBar/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints), 
+								startYSelectionBar+sizeYSelectionBar/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.getLifePoints())*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints), 
 								sizeXSelectionBar/8f,
-								3*sizeYSelectionBar/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints));
+								3*sizeYSelectionBar/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.getLifePoints())*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints));
 						g.setColor(Color.white);
 						g.drawRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f,
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
@@ -420,7 +420,7 @@ public class Interface {
 							x2 = (int) (x1+sVB);
 							y2 = (int) (y1+sVB);
 						}
-						float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
+						float x_temp = a.getLifePoints()/a.getAttribut(Attributs.maxLifepoints);
 						g.setColor(Color.darkGray);
 						g.fillRect(x1, y1, x2-x1, y2-y1);
 						g.setColor(new Color((1f-x_temp),x_temp,0));
@@ -690,7 +690,7 @@ public class Interface {
 		}
 		for(NaturalObjet q : plateau.getNaturalObjets()){
 			g.setColor(Color.green);
-			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.x-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.y-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
+			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.getX()-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.getY()-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
 		}
 		// Draw units on Camera 
 		g.setAntiAlias(true);
@@ -699,14 +699,14 @@ public class Interface {
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
 					float r = c.getAttribut(Attributs.size)*2f;
-					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
+					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 			else if(c.getTeam().id==1){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team1);
 					float r = c.getAttribut(Attributs.size)*2f;
-					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
+					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 		}
@@ -733,8 +733,8 @@ public class Interface {
 
 				}
 			}
-			g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*(c.x-c.getAttribut(Attributs.size)/2f), 
-					startYMiniMap+ratioHeightMiniMap*(c.y-c.getAttribut(Attributs.size)/2f), 
+			g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*(c.getX()-c.getAttribut(Attributs.size)/2f), 
+					startYMiniMap+ratioHeightMiniMap*(c.getY()-c.getAttribut(Attributs.size)/2f), 
 					ratioWidthMiniMap*c.getAttribut(Attributs.size), 
 					ratioHeightMiniMap*c.getAttribut(Attributs.size));
 		}
@@ -760,7 +760,7 @@ public class Interface {
 
 				}
 			}
-			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
+			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 
 			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(Player.getTeamId(), c) || Debug.debugFog)){
 				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints); 
@@ -770,7 +770,7 @@ public class Interface {
 				else if(c.potentialTeam==2){
 					g.setColor(Colors.team2);
 				}
-				g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratio*(ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
+				g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratio*(ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 			}
 		}
 

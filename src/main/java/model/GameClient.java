@@ -20,7 +20,7 @@ import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
-public class GameClient extends Listener {
+public strictfp class GameClient extends Listener {
 	//OPTIONS
 	private final static Client client = new Client(5000000, 5000000);
 	private static String ip = null; //FOR SINGLEPLAYER

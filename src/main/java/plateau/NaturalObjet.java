@@ -2,7 +2,7 @@ package plateau;
 
 
 
-public abstract class NaturalObjet extends Objet {
+public abstract strictfp class NaturalObjet extends Objet {
 
 	public NaturalObjet(Plateau plateau) {
 		super(plateau);

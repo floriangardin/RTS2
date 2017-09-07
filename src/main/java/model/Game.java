@@ -15,7 +15,7 @@ import system.IntroSystem;
 import system.MenuSystem;
 
 
-public class Game extends BasicGame 
+public strictfp class Game extends BasicGame 
 {
 	
 	public static int resX, resY;
@@ -1454,7 +1454,7 @@ public class Game extends BasicGame
 	public void activateMarcoPoloMode(){
 		marcoPolo = !marcoPolo;
 	}
-	private class Gilles{
+	private strictfp class Gilles{
 		float x,y,vx,vy;
 		float angle;
 		public Gilles(){

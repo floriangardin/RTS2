@@ -2,7 +2,7 @@ package main;
 
 import org.newdawn.slick.util.LogSystem;
 
-public class NullLogSystem implements LogSystem {
+public strictfp class NullLogSystem implements LogSystem {
 	
 	public void debug(String arg0) {}
 	public void error(Throwable arg0) {}

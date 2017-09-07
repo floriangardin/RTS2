@@ -13,7 +13,7 @@ import spells.Spell;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Data implements java.io.Serializable {
+public strictfp class Data implements java.io.Serializable {
 
 	private static final long serialVersionUID = 4147200845158282335L;
 

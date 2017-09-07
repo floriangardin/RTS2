@@ -4,14 +4,14 @@ import plateau.Character;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
-public class BonusLifepoints extends Bonus{
+public strictfp class BonusLifepoints extends Bonus{
 
 
 
 
 	public BonusLifepoints(int x , int y, Team team, Plateau plateau){
 		super(ObjetsList.BonusLifepoints,x,y, team, plateau);
-		this.name = ObjetsList.BonusLifepoints;
+		this.setName(ObjetsList.BonusLifepoints);
 //		this.initialize(x, y, plateau);
 		this.bonus = 50f;
 
@@ -31,8 +31,8 @@ public class BonusLifepoints extends Bonus{
 	}
 
 	public void collision(Character c, Plateau plateau){
-		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.lifePoints<c.getAttribut(Attributs.maxLifepoints)){
-			c.setLifePoints(c.lifePoints+this.bonus, plateau);
+		if(this.bonusPresent && c.getTeam()==this.getTeam() && c.getLifePoints()<c.getAttribut(Attributs.maxLifepoints)){
+			c.setLifePoints(c.getLifePoints()+this.bonus, plateau);
 			this.bonusPresent =false;
 			this.state = 0f;
 			this.setTeam(0, plateau);

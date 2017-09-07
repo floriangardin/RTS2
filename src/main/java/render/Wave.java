@@ -7,7 +7,7 @@ import pathfinding.Case;
 import plateau.Plateau;
 import ressources.Images;
 
-public class Wave{
+public strictfp class Wave{
 	public float x, y;
 	public float vx;
 	public float alpha;

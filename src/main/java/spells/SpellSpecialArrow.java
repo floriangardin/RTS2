@@ -10,7 +10,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellSpecialArrow extends Spell{
+public strictfp class SpellSpecialArrow extends Spell{
 
 	public float remainingTime;
 	
@@ -41,19 +41,19 @@ public class SpellSpecialArrow extends Spell{
 		g.setLineWidth(3f);
 		float largeur = 2f;
 		
-		float dist = (float) StrictMath.sqrt((t.x-launcher.x)*(t.x-launcher.x)+(t.y-launcher.y)*(t.y-launcher.y));
+		float dist = (float) StrictMath.sqrt((t.getX()-launcher.getX())*(t.getX()-launcher.getX())+(t.getY()-launcher.getY())*(t.getY()-launcher.getY()));
 		float longueur = dist-20f;
 		float longueurPointe = 20f;
-		float xlauncherLeft = launcher.x+(launcher.y-t.y)*largeur/dist;
-		float ylauncherLeft = launcher.y+(t.x-launcher.x)*largeur/dist;
-		float xlauncherRight = launcher.x-(launcher.y-t.y)*largeur/dist;
-		float ylauncherRight = launcher.y-(t.x-launcher.x)*largeur/dist;
-		float xtargetLeft = launcher.x+(t.x-launcher.x)*longueur/dist+(launcher.y-t.y)*largeur/dist;
-		float ytargetLeft = launcher.y+(t.y-launcher.y)*longueur/dist+(t.x-launcher.x)*largeur/dist;
-		float xtargetRight = launcher.x+(t.x-launcher.x)*longueur/dist-(launcher.y-t.y)*largeur/dist;
-		float ytargetRight = launcher.y+(t.y-launcher.y)*longueur/dist-(t.x-launcher.x)*largeur/dist;
-		float xpointe = launcher.x+(t.x-launcher.x)*(longueur+longueurPointe)/dist;
-		float ypointe = launcher.y+(t.y-launcher.y)*(longueur+longueurPointe)/dist;
+		float xlauncherLeft = launcher.getX()+(launcher.getY()-t.getY())*largeur/dist;
+		float ylauncherLeft = launcher.getY()+(t.getX()-launcher.getX())*largeur/dist;
+		float xlauncherRight = launcher.getX()-(launcher.getY()-t.getY())*largeur/dist;
+		float ylauncherRight = launcher.getY()-(t.getX()-launcher.getX())*largeur/dist;
+		float xtargetLeft = launcher.getX()+(t.getX()-launcher.getX())*longueur/dist+(launcher.getY()-t.getY())*largeur/dist;
+		float ytargetLeft = launcher.getY()+(t.getY()-launcher.getY())*longueur/dist+(t.getX()-launcher.getX())*largeur/dist;
+		float xtargetRight = launcher.getX()+(t.getX()-launcher.getX())*longueur/dist-(launcher.getY()-t.getY())*largeur/dist;
+		float ytargetRight = launcher.getY()+(t.getY()-launcher.getY())*longueur/dist-(t.getX()-launcher.getX())*largeur/dist;
+		float xpointe = launcher.getX()+(t.getX()-launcher.getX())*(longueur+longueurPointe)/dist;
+		float ypointe = launcher.getY()+(t.getY()-launcher.getY())*(longueur+longueurPointe)/dist;
 		g.drawLine(xlauncherLeft,ylauncherLeft,xtargetLeft,ytargetLeft);
 		g.setLineWidth(3f);
 		g.drawLine(xtargetLeft,ytargetLeft,xpointe,ypointe);

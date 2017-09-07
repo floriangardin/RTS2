@@ -13,7 +13,7 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 
-public class SpellConversion extends Spell{
+public strictfp class SpellConversion extends Spell{
 
 
 	public SpellConversion(){
@@ -21,7 +21,7 @@ public class SpellConversion extends Spell{
 	}
 
 	public boolean launch(Objet target, Character launcher, Plateau plateau){
-		Objet t = plateau.findTarget(target.x, target.y,launcher.team.id);
+		Objet t = plateau.findTarget(target.getX(), target.getY(),launcher.team.id);
 		if(t instanceof Character && t.getTeam()!=launcher.getTeam()){
 			((Character)t).team = launcher.getTeam();
 			return true;

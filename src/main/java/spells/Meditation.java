@@ -15,7 +15,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class Meditation extends SpellEffect{
+public strictfp class Meditation extends SpellEffect{
 
 	public float remainingTime;
 
@@ -24,13 +24,13 @@ public class Meditation extends SpellEffect{
 	public Meditation(Character launcher, Objet t, Plateau plateau){
 		super(plateau);
 		this.type = 1;
-		this.name = ObjetsList.Meditation;
-		launcher.etats.add(Etats.Meditating);
-		this.x = launcher.getX();
-		this.y = launcher.getY()+1f;
+		this.setName(ObjetsList.Meditation);
+		launcher.getEtats().add(Etats.Meditating);
+		this.setX(launcher.getX());
+		this.setY(launcher.getY()+1f);
 		remainingTime = this.getAttribut(Attributs.totalTime);	
 		// Calculate step of lifepoints
-		this.lifePoints = 1f;
+		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		owner = launcher.getId();
 		this.team = launcher.getTeam();
@@ -39,7 +39,7 @@ public class Meditation extends SpellEffect{
 	public void action(Plateau plateau){
 		this.remainingTime-=1f/Main.framerate;
 		if(getOwner(plateau)==null)
-			this.lifePoints=-1f;
+			this.setLifePoints(-1f);
 		
 		if(this.remainingTime<=0f){
 			// Test if special capacity explosion
@@ -50,9 +50,9 @@ public class Meditation extends SpellEffect{
 				getOwner(plateau).attributsChanges.add(new AttributsChange(Attributs.damage,Change.ADD,1,0));
 			}
 			
-			this.lifePoints=-1f;
+			this.setLifePoints(-1f);
 			getOwner(plateau).canMove = true;
-			getOwner(plateau).etats.remove(Etats.Meditating);
+			getOwner(plateau).getEtats().remove(Etats.Meditating);
 		}
 	}
 

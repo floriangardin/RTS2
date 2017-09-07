@@ -21,7 +21,7 @@ import plateau.Character;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
-public abstract class IA{
+public abstract strictfp class IA{
 
 	public final static Vector<IA> ias = new Vector<IA>();
 	public static boolean isInit = false;
@@ -213,7 +213,7 @@ public abstract class IA{
 		if(this.plateau.getById(this.im.selection.get(0)) instanceof Building){
 			System.out.println("Will produce");
 			System.out.println(production);
-			System.out.println(this.plateau.getById(this.im.selection.get(0)).name);
+			System.out.println(this.plateau.getById(this.im.selection.get(0)).getName());
 			System.out.println(this.selection.get(0).getName());
 			if(((Building)this.plateau.getById(this.im.selection.get(0))).getProductionList(this.plateau).contains(production)){
 				int index = ((Building)this.plateau.getById(this.im.selection.get(0))).getProductionList(this.plateau).indexOf(production);

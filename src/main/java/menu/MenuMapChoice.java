@@ -22,7 +22,7 @@ import ressources.GraphicElements;
 import ressources.Musics;
 import system.MenuSystem.MenuNames;
 
-public class MenuMapChoice extends Menu {
+public strictfp class MenuMapChoice extends Menu {
 
 	public int selected = 0;
 	float startY;

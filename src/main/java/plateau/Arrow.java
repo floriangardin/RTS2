@@ -15,7 +15,7 @@ import ressources.Images;
 import stats.StatsHandler;
 import utils.ObjetsList;
 
-public class Arrow extends Bullet{
+public strictfp class Arrow extends Bullet{
 
 	public float angle= 0f;
 	public float life = 6f;
@@ -25,14 +25,14 @@ public class Arrow extends Bullet{
 		super(plateau);
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
-		this.name = ObjetsList.Arrow;
+		this.setName(ObjetsList.Arrow);
 		this.damage = damage;
 		plateau.addBulletObjets(this);
-		this.lifePoints = 1f;
+		this.setLifePoints(1f);
 		this.owner = owner.getId();
 		this.team = plateau.getById(owner.getId()).getTeam();
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
+		this.setCollisionBox(new Circle(owner.getX(),owner.getY(),size));
 		this.setXY(owner.getX(),owner.getY(), plateau);
 		this.vx = vx;
 		this.vy = vy;
@@ -60,7 +60,7 @@ public class Arrow extends Bullet{
 			}
 			if(c.getAttribut(Attributs.armor)<=damage){
 //				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
-				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
+				c.setLifePoints(c.getLifePoints()+c.getAttribut(Attributs.armor)-damage, plateau);
 				StatsHandler.pushDamage(plateau, plateau.getById(owner), damage-c.getAttribut(Attributs.armor));
 			}
 			
@@ -71,7 +71,7 @@ public class Arrow extends Bullet{
 
 	@Override
 	public void collision(Objet c, Plateau plateau){
-		this.lifePoints = -1f;
+		this.setLifePoints(-1f);
 	}
 	
 	
@@ -79,11 +79,11 @@ public class Arrow extends Bullet{
 		//MULTI 
 		this.life  -= Main.increment;
 		if(life<0f){
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 		}
 		
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
-		if(this.x>plateau.maxX || this.x<0 || this.y>plateau.maxY||this.y<0){
+		if(this.getX()>plateau.maxX || this.getX()<0 || this.getY()>plateau.maxY||this.getY()<0){
 			this.setLifePoints(-1f, plateau);
 		}
 	}

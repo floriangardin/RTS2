@@ -13,7 +13,7 @@ import plateau.Plateau;
 import ressources.Map;
 
 
-public class GameServer extends Listener {
+public strictfp class GameServer extends Listener {
 
 	static Server server;
 	public static boolean hasLaunched = false;

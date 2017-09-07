@@ -15,9 +15,9 @@ import plateau.Plateau;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class Actions {
+public strictfp class Actions {
 	
-	public static class ActionCreateObjet extends Action{
+	public static strictfp class ActionCreateObjet extends Action{
 		
 		ObjetsList ol;
 		int x, y, team;
@@ -34,7 +34,7 @@ public class Actions {
 		@Override
 		public void undo() {
 			if(o!=null){
-				switch(o.name.type){
+				switch(o.getName().type){
 				case Character:
 					plateau.removeCharacter((Character)o);
 					break;
@@ -68,7 +68,7 @@ public class Actions {
 					break;
 				}
 			} else {
-				switch(o.name.type){
+				switch(o.getName().type){
 				case Character:
 					plateau.addCharacterObjets((Character)o);
 					break;
@@ -86,7 +86,7 @@ public class Actions {
 		}
 	}
 	
-	public static class ActionDeleteObjet extends Action{
+	public static strictfp class ActionDeleteObjet extends Action{
 		
 		Objet o;
 
@@ -98,7 +98,7 @@ public class Actions {
 
 		@Override
 		public void undo() {
-			switch(o.name.type){
+			switch(o.getName().type){
 			case Character:
 				plateau.addCharacterObjets((Character)o);
 				break;
@@ -116,7 +116,7 @@ public class Actions {
 
 		@Override
 		public void redo() {
-			switch(o.name.type){
+			switch(o.getName().type){
 			case Character:
 				plateau.removeCharacter((Character)o);
 				break;
@@ -133,7 +133,7 @@ public class Actions {
 		}
 	}
 	
-	public static class ActionPaintTerrain extends Action{
+	public static strictfp class ActionPaintTerrain extends Action{
 		
 		HashMap<Integer, IdTerrain> idCases;
 		IdTerrain idTerrain;
@@ -165,15 +165,15 @@ public class Actions {
 		
 	}
 
-	public static class ActionMoveObjet extends Action{
+	public static strictfp class ActionMoveObjet extends Action{
 		Objet o;
 		float oldX, oldY, newX, newY;
 
 		public ActionMoveObjet(Plateau plateau, Objet objet, float newX, float newY) {
 			super(ActionType.MoveObjet, plateau);
 			this.o = objet;
-			this.oldX = o.x;
-			this.oldY = o.y;
+			this.oldX = o.getX();
+			this.oldY = o.getY();
 			this.newX = newX;
 			this.newY = newY;
 		}

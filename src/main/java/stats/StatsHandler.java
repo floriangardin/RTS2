@@ -49,10 +49,10 @@ public strictfp class StatsHandler {
 		if(!isInit || launcher==null){
 			return;
 		}
-		if(!damages.get(launcher.team.id).containsKey(launcher.name)){
-			damages.get(launcher.team.id).put(launcher.name, 0f);
+		if(!damages.get(launcher.team.id).containsKey(launcher.getName())){
+			damages.get(launcher.team.id).put(launcher.getName(), 0f);
 		}
-		damages.get(launcher.team.id).put(launcher.name, damages.get(launcher.team.id).get(launcher.name)+damage);
+		damages.get(launcher.team.id).put(launcher.getName(), damages.get(launcher.team.id).get(launcher.getName())+damage);
 	}
 	
 	public static void pushKill(Objet o){

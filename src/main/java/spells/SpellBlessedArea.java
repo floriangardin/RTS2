@@ -9,7 +9,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellBlessedArea extends Spell{
+public strictfp class SpellBlessedArea extends Spell{
 	
 	protected SpellBlessedArea(){
 		this.name = ObjetsList.BlessedArea;

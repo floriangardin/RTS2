@@ -15,7 +15,7 @@ import model.GameServer;
 import model.WholeGame;
 import mybot.IAPython;
 
-public class MainSimu {
+public strictfp class MainSimu {
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 

@@ -30,7 +30,7 @@ import ressources.Map;
 import stats.StatsSystem;
 import utils.Utils;
 
-public class RenderEngine {
+public strictfp class RenderEngine {
 
 	private static boolean isReady = false;
 	private static boolean hasChecked = false;
@@ -118,7 +118,7 @@ public class RenderEngine {
 		objets = Utils.triY(objets);
 		Vector<Objet> visibleObjets = new Vector<Objet>();
 		for(Objet o : objets){
-			if((Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId())||!fogOfWar){
+			if((Camera.visibleByCamera(o.getX(), o.getY(), o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId())||!fogOfWar){
 				visibleObjets.add(o);
 			}
 		}
@@ -129,7 +129,7 @@ public class RenderEngine {
 
 		// 2) Draw Neutral Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
+			if(Camera.visibleByCamera(o.getX(), o.getY(), StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
 				if (o instanceof Building || o instanceof NaturalObjet){
 					if(o.getTeam().id!=Player.getTeamId() && !plateau.isVisibleByTeam(Player.getTeamId(), o)){
 						renderObjet(o, g, plateau, false);
@@ -141,7 +141,7 @@ public class RenderEngine {
 		renderDomain(plateau, g, visibleObjets, fogOfWar);
 		// 2) Draw Objects
 		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX))) || !fogOfWar){
+			if(Camera.visibleByCamera(o.getX(), o.getY(), StrictMath.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX))) || !fogOfWar){
 				if(o.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), o) || !fogOfWar){
 					renderObjet(o, g, plateau);
 				}
@@ -360,7 +360,7 @@ public class RenderEngine {
 			for (Objet o : visibleObjets) {
 				float sight = o.getAttribut(Attributs.sight);
 				if(sight>5){
-					g1.fillOval((o.x - sight)*Game.ratioX - Camera.Xcam, (o.y - sight)*Game.ratioY - Camera.Ycam, sight * 2f * Game.ratioX, sight * 2f * Game.ratioY);
+					g1.fillOval((o.getX() - sight)*Game.ratioX - Camera.Xcam, (o.getY() - sight)*Game.ratioY - Camera.Ycam, sight * 2f * Game.ratioX, sight * 2f * Game.ratioY);
 				}
 			}
 			g1.flush();
@@ -420,27 +420,27 @@ public class RenderEngine {
 		v.addAll(plateau.getBuildings());
 		v.addAll(plateau.getNaturalObjets());
 		for(Objet b : v){
-			if(Camera.visibleByCamera(b.x, b.y, b.getAttribut(Attributs.sight))){
+			if(Camera.visibleByCamera(b.getX(), b.getY(), b.getAttribut(Attributs.sight))){
 				vb.add(b);
 			}
 		}
 		Image im;
 		for(Objet b : vb){
 			for(Character c : plateau.getCharacters()){
-				if(Camera.visibleByCamera(c.x, c.y, 1f) && 
-						c.x>b.x-b.getAttribut(Attributs.sizeX)/2f-c.getAttribut(Attributs.size) &&
-						c.x<b.x+b.getAttribut(Attributs.sizeX)/2f+c.getAttribut(Attributs.size) &&
-						c.y>b.y-b.getAttribut(Attributs.sizeY)/2f-1.5f*Map.stepGrid &&
-						c.y<b.y && !v.contains(c)
+				if(Camera.visibleByCamera(c.getX(), c.getY(), 1f) && 
+						c.getX()>b.getX()-b.getAttribut(Attributs.sizeX)/2f-c.getAttribut(Attributs.size) &&
+						c.getX()<b.getX()+b.getAttribut(Attributs.sizeX)/2f+c.getAttribut(Attributs.size) &&
+						c.getY()>b.getY()-b.getAttribut(Attributs.sizeY)/2f-1.5f*Map.stepGrid &&
+						c.getY()<b.getY() && !v.contains(c)
 						&& (c.getTeam().id==Player.getTeamId() || plateau.isVisibleByTeam(Player.getTeamId(), c))){
 					int direction = (c.orientation/2-1);
 					// inverser gauche et droite
 					if(direction==1 || direction==2){
 						direction = ((direction-1)*(-1)+2);
 					}
-					im = Images.getUnit(c.name, direction, c.animation, c.team.id, c.isAttacking);
+					im = Images.getUnit(c.getName(), direction, c.animation, c.team.id, c.isAttacking);
 					im.setAlpha(0.5f);
-					g.drawImage(im,c.x-im.getWidth()/2,c.y-3*im.getHeight()/4);
+					g.drawImage(im,c.getX()-im.getWidth()/2,c.getY()-3*im.getHeight()/4);
 					im.setAlpha(1f);
 				}
 			}

@@ -12,7 +12,7 @@ import plateau.Character;
 import plateau.Checkpoint;
 import plateau.Plateau;
 
-public class EventHandler {
+public strictfp class EventHandler {
 
 	private static Vector<Event> events = new Vector<Event>();
 	private static boolean isInit;

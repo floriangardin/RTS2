@@ -20,7 +20,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class BlessedArea extends SpellEffect{
+public strictfp class BlessedArea extends SpellEffect{
 
 	public float remainingTime;
 	public Vector<AttributsChange> ac;
@@ -35,19 +35,19 @@ public class BlessedArea extends SpellEffect{
 
 	public BlessedArea(Character launcher, Checkpoint t, float size, Plateau plateau){
 		super(plateau);
-		this.name = ObjetsList.BlessedAreaEffect;
+		this.setName(ObjetsList.BlessedAreaEffect);
 		this.type = 2;
 		this.size = size;
-		this.lifePoints = 1f;
+		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		this.image = "blessedArea";
 		this.ac = new Vector<AttributsChange>();
 		ac.add(new AttributsChange(Attributs.chargeTime,Change.MUL,0.5f,this.remainingTime));
 		owner = launcher;
 		this.team = launcher.getTeam();
-		this.collisionBox = createShape(launcher, t, size);
-		this.x = t.getX();
-		this.y = t.getY();
+		this.setCollisionBox(createShape(launcher, t, size));
+		this.setX(t.getX());
+		this.setY(t.getY());
 		this.createAnimation();
 	}
 	
@@ -75,10 +75,10 @@ public class BlessedArea extends SpellEffect{
 		}
 		Vector<Character> toDelete = new Vector<Character>();
 		if(this.remainingTime<=0f){
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 		}
 		for(Character c:this.targeted){
-			if(this.lifePoints == -1f || !c.collisionBox.intersects(this.collisionBox)){
+			if(this.getLifePoints() == -1f || !c.getCollisionBox().intersects(this.getCollisionBox())){
 				toDelete.add(c);
 			}
 		}
@@ -110,12 +110,12 @@ public class BlessedArea extends SpellEffect{
 				g.drawImage(im, x-40f, y-40f, x+40f, y+40f,3*r,0f,4*r,r);
 		}
 		g.setColor(Color.white);
-		g.draw(this.collisionBox);
+		g.draw(this.getCollisionBox());
 		return g;
 	}
 
 	public void collision(Character c){
-		if(this.lifePoints>0 && c.getTeam()==owner.getTeam() && !this.targeted.contains(c)){
+		if(this.getLifePoints()>0 && c.getTeam()==owner.getTeam() && !this.targeted.contains(c)){
 			for(AttributsChange ac : this.ac){
 				c.attributsChanges.add(ac);
 			}

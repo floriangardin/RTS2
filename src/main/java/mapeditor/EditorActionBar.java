@@ -18,7 +18,7 @@ import ressources.Icones;
 
 
 
-public class EditorActionBar extends JPanel{
+public strictfp class EditorActionBar extends JPanel{
 
 	public static Dimension buttonDimension = new Dimension(24,24);
 	public static JToolBar bar1, bar2;

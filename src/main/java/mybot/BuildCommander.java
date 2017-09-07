@@ -8,7 +8,7 @@ import bot.IA;
 import iamission.MissionBuilding;
 import utils.ObjetsList;
 
-public class BuildCommander extends Commander{
+public strictfp class BuildCommander extends Commander{
 
 	public List<ObjetsList> orders;
 	public MissionBuilding mission;

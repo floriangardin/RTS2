@@ -33,7 +33,7 @@ import plateau.UnitsEndCondition;
 import render.RenderEngine;
 import plateau.Character;
 
-public class MenuSystem extends ClassSystem {
+public strictfp class MenuSystem extends ClassSystem {
 
 	public Menu currentMenu;
 

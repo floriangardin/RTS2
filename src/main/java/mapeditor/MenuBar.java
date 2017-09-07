@@ -8,7 +8,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class MenuBar {
+public strictfp class MenuBar {
 	
 	public static JMenuBar getMenuBar(){
 		JMenuBar menuBar = new JMenuBar();

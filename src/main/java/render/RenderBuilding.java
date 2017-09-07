@@ -14,7 +14,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
-public class RenderBuilding {
+public strictfp class RenderBuilding {
 	
 	public static int BUILDINGLAYER = 2;
 	public static void render(Building b, Graphics g, Plateau plateau){
@@ -25,15 +25,15 @@ public class RenderBuilding {
 		//TODO
 		if(b.getAttribut(Attributs.newdesign)==0){
 			drawBasicImageNewDesign(g,b,visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.getId()){
+			if((visibleByCurrentTeam || b.getName().equals(ObjetsList.Headquarters)) && Player.mouseOver==b.getId()){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
 				drawFlash(g, b, color);
 			}
 		} else {
 			drawBasicImage(g, b, visibleByCurrentTeam);
-			if((visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)) && Player.mouseOver==b.getId()){
+			if((visibleByCurrentTeam || b.getName().equals(ObjetsList.Headquarters)) && Player.mouseOver==b.getId()){
 				Color color = new Color(b.getTeam().color.getRed(),b.getTeam().color.getGreen(),b.getTeam().color.getBlue(),0.1f);
-				Images.get("building"+b.name+b.getTeam().colorName).drawFlash(b.x-b.getAttribut(Attributs.sizeX)/1.8f, b.y-b.getAttribut(Attributs.sizeY), 2*b.getAttribut(Attributs.sizeX)/1.8f, 3*b.getAttribut(Attributs.sizeY)/2,color);
+				Images.get("building"+b.getName()+b.getTeam().colorName).drawFlash(b.getX()-b.getAttribut(Attributs.sizeX)/1.8f, b.getY()-b.getAttribut(Attributs.sizeY), 2*b.getAttribut(Attributs.sizeX)/1.8f, 3*b.getAttribut(Attributs.sizeY)/2,color);
 			}
 		}
 		if(visibleByCurrentTeam && b.team.id>0)
@@ -67,7 +67,7 @@ public class RenderBuilding {
 				Image icone = Images.get("icon"+bp.getQueue().get(0)+"buildingsize");
 				float r = (float) (StrictMath.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(b.x-r-10f, b.y-offsetY-r-10f, 2*r+20f, 2*r+20f);
+				g.fillOval(b.getX()-r-10f, b.getY()-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				//g.setColor(new Color(0f,0f,0f,opacity));
 				//g.fillOval(x-r-8f, y-offsetY-r-8f, 2*r+16f, 2*r+16f);
 				//						g.setColor(Color.white);
@@ -75,11 +75,11 @@ public class RenderBuilding {
 				g.setColor(new Color(bp.getTeam().color.r,bp.getTeam().color.g,bp.getTeam().color.b,opacity));
 				float startAngle = 270f;
 				float sizeAngle = (float)(1f*bp.charge*(360f)/b.getAttribut(bp.getQueue().get(0),Attributs.prodTime));
-				g.fillArc(b.x-r-8f, b.y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
+				g.fillArc(b.getX()-r-8f, b.getY()-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
 				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(b.x-r, b.y-offsetY-r, 2*r, 2*r);
+				g.fillOval(b.getX()-r, b.getY()-offsetY-r, 2*r, 2*r);
 				icone.setAlpha(opacity);
-				g.drawImage(icone, b.x-b.sizeXIcon/2, b.y-offsetY-b.sizeXIcon/2);
+				g.drawImage(icone, b.getX()-b.sizeXIcon/2, b.getY()-offsetY-b.sizeXIcon/2);
 
 			}
 		}
@@ -91,15 +91,15 @@ public class RenderBuilding {
 				Image icone = Images.get(b.getAttributString(b.queueTechnology.objet, Attributs.nameIcon)+"buildingsize");
 				float r = (float) (StrictMath.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(b.x-r-10f, b.y-offsetY-r-10f, 2*r+20f, 2*r+20f);
+				g.fillOval(b.getX()-r-10f, b.getY()-offsetY-r-10f, 2*r+20f, 2*r+20f);
 				g.setColor(new Color(bt.getTeam().color.r,bt.getTeam().color.g,bt.getTeam().color.b,opacity));
 				float startAngle = 270f;
 				float sizeAngle = (float)(1f*bt.charge*(360f)/b.getAttribut(b.queueTechnology.objet, Attributs.prodTime));
-				g.fillArc(b.x-r-8f, b.y-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
+				g.fillArc(b.getX()-r-8f, b.getY()-offsetY-r-8f, 2*r+16f, 2*r+16f, startAngle, startAngle+sizeAngle);
 				g.setColor(new Color(0f,0f,0f,opacity));
-				g.fillOval(b.x-r, b.y-offsetY-r, 2*r, 2*r);
+				g.fillOval(b.getX()-r, b.getY()-offsetY-r, 2*r, 2*r);
 				icone.setAlpha(opacity);
-				g.drawImage(icone, b.x-b.sizeXIcon/2, b.y-offsetY-b.sizeXIcon/2);
+				g.drawImage(icone, b.getX()-b.sizeXIcon/2, b.getY()-offsetY-b.sizeXIcon/2);
 
 			}
 		}
@@ -111,42 +111,42 @@ public class RenderBuilding {
 	public static void renderSelection(Graphics g, Building b, Plateau plateau){
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f);
-		g.draw(b.collisionBox);
+		g.draw(b.getCollisionBox());
 		drawRallyPoint(g, b, plateau);
 		//g.draw(new Ellipse(this.getX(),this.getY()+4f*r/6f,r,r-5f));
 	}	
 
 	public static void drawBasicImage(Graphics g, Building b, boolean visibleByCurrentTeam){
-		if(visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)){
-			g.drawImage(Images.get("building"+b.name+b.getTeam().colorName),b.x-b.getAttribut(Attributs.sizeX)/1.8f, b.y-b.getAttribut(Attributs.sizeY));
+		if(visibleByCurrentTeam || b.getName().equals(ObjetsList.Headquarters)){
+			g.drawImage(Images.get("building"+b.getName()+b.getTeam().colorName),b.getX()-b.getAttribut(Attributs.sizeX)/1.8f, b.getY()-b.getAttribut(Attributs.sizeY));
 		}else{
-			g.drawImage(Images.get("building"+b.name+"neutral"), b.x-b.getAttribut(Attributs.sizeX)/1.8f, b.y-b.getAttribut(Attributs.sizeY));
+			g.drawImage(Images.get("building"+b.getName()+"neutral"), b.getX()-b.getAttribut(Attributs.sizeX)/1.8f, b.getY()-b.getAttribut(Attributs.sizeY));
 		}
 	}
 	public static void drawBasicImageNewDesign(Graphics g, Building b, boolean visibleByCurrentTeam){
-		Image im = Images.get("building"+b.name+b.getTeam().colorName);
-		if(visibleByCurrentTeam || b.name.equals(ObjetsList.Headquarters)){
+		Image im = Images.get("building"+b.getName()+b.getTeam().colorName);
+		if(visibleByCurrentTeam || b.getName().equals(ObjetsList.Headquarters)){
 			if(b.getTeam().id==0){
 				if(b.constructionPoints*4<b.getAttribut(Attributs.maxLifepoints))
-					im = Images.get("building"+b.name+"neutral");
+					im = Images.get("building"+b.getName()+"neutral");
 				else if(b.constructionPoints*2<b.getAttribut(Attributs.maxLifepoints))
-					im = Images.get("building"+b.name+"neutral_1");
+					im = Images.get("building"+b.getName()+"neutral_1");
 				else if(b.constructionPoints*4<b.getAttribut(Attributs.maxLifepoints)*3)
 					im = Images.get("building"+b+"neutral_2");
 				else
-					im = Images.get("building"+b.name+"neutral_3");
+					im = Images.get("building"+b.getName()+"neutral_3");
 			} else {
-				im = Images.get("building"+b.name+b.getTeam().colorName);
+				im = Images.get("building"+b.getName()+b.getTeam().colorName);
 			}
 		}else{
-			im = Images.get("building"+b.name+"neutral");
+			im = Images.get("building"+b.getName()+"neutral");
 		}
-		g.drawImage(im,b.x-im.getWidth()/2f, b.y+b.getAttribut(Attributs.sizeY)/2-im.getHeight());
+		g.drawImage(im,b.getX()-im.getWidth()/2f, b.getY()+b.getAttribut(Attributs.sizeY)/2-im.getHeight());
 	}
 
 	public static void drawFlash(Graphics g, Building b, Color color){
-		Image im = Images.get("building"+b.name+"neutral");
-		im.drawFlash(b.x-im.getWidth()/2f, b.y+b.getAttribut(Attributs.sizeY)/2-im.getHeight(), im.getWidth(), im.getHeight(), color);
+		Image im = Images.get("building"+b.getName()+"neutral");
+		im.drawFlash(b.getX()-im.getWidth()/2f, b.getY()+b.getAttribut(Attributs.sizeY)/2-im.getHeight(), im.getWidth(), im.getHeight(), color);
 	}
 	
 
@@ -166,8 +166,8 @@ public class RenderBuilding {
 		g.setColor(Colors.team0);
 		g.setAntiAlias(true);
 		g.setLineWidth(2f);
-		g.fill(new Circle(rallyPoint.x,rallyPoint.y,3f));
-		g.draw(new Circle(rallyPoint.x,rallyPoint.y,10f));
+		g.fill(new Circle(rallyPoint.getX(),rallyPoint.getY(),3f));
+		g.draw(new Circle(rallyPoint.getX(),rallyPoint.getY(),10f));
 		g.setAntiAlias(false);
 		g.setLineWidth(1f);
 		return g;
@@ -179,8 +179,8 @@ public class RenderBuilding {
 			String s = "smoke"+(int)(4*b.animation/b.animationMax);
 			if(Images.exists(s)){
 				g.drawImage(Images.get(s),
-						b.x+b.getAttribut(Attributs.smokeAnimationX)-Images.get(s).getWidth()/2,
-						b.y+b.getAttribut(Attributs.sizeY)/2+b.getAttribut(Attributs.smokeAnimationY)-Images.get(s).getHeight());
+						b.getX()+b.getAttribut(Attributs.smokeAnimationX)-Images.get(s).getWidth()/2,
+						b.getY()+b.getAttribut(Attributs.sizeY)/2+b.getAttribut(Attributs.smokeAnimationY)-Images.get(s).getHeight());
 			}
 		}
 	}

@@ -10,7 +10,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class SpellInstantHealth extends Spell{
+public strictfp class SpellInstantHealth extends Spell{
 
 
 	public SpellInstantHealth(){
@@ -22,12 +22,12 @@ public class SpellInstantHealth extends Spell{
 		Objet h = target;
 		
 		for(Character c : plateau.getCharacters()){
-			if(c.collisionBox.contains(target.collisionBox)){
+			if(c.getCollisionBox().contains(target.getCollisionBox())){
 				h =c;
 			}
 		}
 		if(h instanceof Character && h.getTeam()==launcher.getTeam() && launcher!=h && this.getAttribut(Attributs.range)>=Utils.distance(h, launcher)){
-			h.lifePoints = ((Character) h ).getAttribut(Attributs.maxLifepoints);
+			h.setLifePoints(((Character) h ).getAttribut(Attributs.maxLifepoints), plateau);
 			return true;
 		}
 		return false;

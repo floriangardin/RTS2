@@ -10,7 +10,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class SpellInstantDeath extends Spell{
+public strictfp class SpellInstantDeath extends Spell{
 
 
 	public SpellInstantDeath(){
@@ -22,7 +22,7 @@ public class SpellInstantDeath extends Spell{
 		Objet h = target;
 		
 		for(Character c : plateau.getCharacters()){
-			if(c.collisionBox.contains(target.collisionBox)){
+			if(c.getCollisionBox().contains(target.getCollisionBox())){
 				h =c;
 			}
 		}

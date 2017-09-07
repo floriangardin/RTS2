@@ -15,7 +15,7 @@ import stats.StatsHandler;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Fireball extends Bullet {
+public strictfp class Fireball extends Bullet {
 
 	public float altitude;
 	public int animation;
@@ -27,20 +27,20 @@ public class Fireball extends Bullet {
 		// Parameters
 		super(plateau);
 		this.altitude = 0f;
-		this.name = ObjetsList.Fireball;
+		this.setName(ObjetsList.Fireball);
 		//
 		this.size = 10f*Main.ratioSpace;
 		plateau.addBulletObjets(this);
 		this.damage = damage;
 		this.animation = 0;
-		this.lifePoints = 30f;
+		this.setLifePoints(30f);
 		this.owner = owner.getId();
 		this.team = owner.getTeam();
 		this.areaEffect = getAttribut(Attributs.size)*Main.ratioSpace;
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		float size = 10f*Main.ratioSpace;
 		this.setTarget(new Checkpoint(targetX,targetY, plateau), plateau);
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
+		this.setCollisionBox(new Circle(owner.getX(),owner.getY(),size));
 		this.setXY(owner.getX(),owner.getY()-altitude, plateau);
 		this.vx = vx;
 		this.vy = vy+altitude;
@@ -64,7 +64,7 @@ public class Fireball extends Bullet {
 	public void action(Plateau plateau){
 
 		if(explosion){
-			this.setLifePoints(lifePoints-10f*Main.increment, plateau);
+			this.setLifePoints(getLifePoints()-10f*Main.increment, plateau);
 			return;
 		}
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
@@ -81,8 +81,8 @@ public class Fireball extends Bullet {
 			if(c.getTeam().id!=this.team.id){
 				boolean isIntersected = ((c.getX()-this.getX())*(c.getX()-this.getX())+
 						(c.getY()-this.getY())*(c.getY()-this.getY()))< 
-						(0.5f*c.collisionBox.getWidth()+this.areaEffect)*
-						(0.5f*c.collisionBox.getWidth()+this.areaEffect);
+						(0.5f*c.getCollisionBox().getWidth()+this.areaEffect)*
+						(0.5f*c.getCollisionBox().getWidth()+this.areaEffect);
 				if(isIntersected){					
 					this.boom(c, plateau);
 				}
@@ -95,7 +95,7 @@ public class Fireball extends Bullet {
 		float damage = this.damage;
 		if(c.getAttributString(Attributs.weapon)!= null && c.getAttributString(Attributs.weapon) == "bow")
 			damage = damage * this.getTeam().data.bonusBowFoot;
-		c.setLifePoints(c.lifePoints-damage, plateau);
+		c.setLifePoints(c.getLifePoints()-damage, plateau);
 		StatsHandler.pushDamage(plateau, plateau.getById(owner), damage);
 	}
 

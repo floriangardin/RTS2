@@ -14,7 +14,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellDash extends Spell{
+public strictfp class SpellDash extends Spell{
 
 
 	public SpellDash(){
@@ -30,7 +30,7 @@ public class SpellDash extends Spell{
 		v.add(launcher);
 		launcher.inDash = this.getAttribut(Attributs.totalTime);
 		if(target!=null && launcher!=null){
-			plateau.updateTarget(launcher, target.x,target.y,launcher.getTeam().id, Character.MOVE, new Vector<Integer>());		
+			plateau.updateTarget(launcher, target.getX(),target.getY(),launcher.getTeam().id, Character.MOVE, new Vector<Integer>());		
 			if(launcher.getTarget(plateau)!=null && launcher.getTarget(plateau) instanceof Character && launcher.getTarget(plateau).getTeam()!=launcher.getTeam()){
 				launcher.attributsChanges.add(new AttributsChange(Attributs.damage,Change.SET,this.getAttribut(Attributs.bonusDamage),true));
 			}
@@ -52,17 +52,17 @@ public class SpellDash extends Spell{
 		float longueur = 150f;
 		float longueurPointe = 20f;
 		
-		float dist = (float) StrictMath.sqrt((x-launcher.x)*(x-launcher.x)+(y-launcher.y)*(y-launcher.y));
-		float xlauncherLeft = launcher.x+(launcher.y-y)*largeur/dist;
-		float ylauncherLeft = launcher.y+(x-launcher.x)*10f/dist;
-		float xlauncherRight = launcher.x-(launcher.y-y)*10f/dist;
-		float ylauncherRight = launcher.y-(x-launcher.x)*10f/dist;
-		float xtargetLeft = launcher.x+(x-launcher.x)*longueur/dist+(launcher.y-y)*10f/dist;
-		float ytargetLeft = launcher.y+(y-launcher.y)*longueur/dist+(x-launcher.x)*10f/dist;
-		float xtargetRight = launcher.x+(x-launcher.x)*longueur/dist-(launcher.y-y)*10f/dist;
-		float ytargetRight = launcher.y+(y-launcher.y)*longueur/dist-(x-launcher.x)*10f/dist;
-		float xpointe = launcher.x+(x-launcher.x)*(longueur+longueurPointe)/dist;
-		float ypointe = launcher.y+(y-launcher.y)*(longueur+longueurPointe)/dist;
+		float dist = (float) StrictMath.sqrt((x-launcher.getX())*(x-launcher.getX())+(y-launcher.getY())*(y-launcher.getY()));
+		float xlauncherLeft = launcher.getX()+(launcher.getY()-y)*largeur/dist;
+		float ylauncherLeft = launcher.getY()+(x-launcher.getX())*10f/dist;
+		float xlauncherRight = launcher.getX()-(launcher.getY()-y)*10f/dist;
+		float ylauncherRight = launcher.getY()-(x-launcher.getX())*10f/dist;
+		float xtargetLeft = launcher.getX()+(x-launcher.getX())*longueur/dist+(launcher.getY()-y)*10f/dist;
+		float ytargetLeft = launcher.getY()+(y-launcher.getY())*longueur/dist+(x-launcher.getX())*10f/dist;
+		float xtargetRight = launcher.getX()+(x-launcher.getX())*longueur/dist-(launcher.getY()-y)*10f/dist;
+		float ytargetRight = launcher.getY()+(y-launcher.getY())*longueur/dist-(x-launcher.getX())*10f/dist;
+		float xpointe = launcher.getX()+(x-launcher.getX())*(longueur+longueurPointe)/dist;
+		float ypointe = launcher.getY()+(y-launcher.getY())*(longueur+longueurPointe)/dist;
 		g.drawLine(xlauncherLeft,ylauncherLeft,xtargetLeft,ytargetLeft);
 		g.setLineWidth(6f);
 		g.drawLine(xtargetLeft,ytargetLeft,xpointe,ypointe);
@@ -74,13 +74,13 @@ public class SpellDash extends Spell{
 		g.setLineWidth(1f);
 		for(int i=0; i<nbTotalFleche; i++){
 			ratio = (longueur*i/nbTotalFleche+longueur*offset/nbTotalFleche)/dist;
-			xtargetLeft = launcher.x+(x-launcher.x)*ratio+(launcher.y-y)*10f/dist;
-			ytargetLeft = launcher.y+(y-launcher.y)*ratio+(x-launcher.x)*10f/dist;
-			xtargetRight = launcher.x+(x-launcher.x)*ratio-(launcher.y-y)*10f/dist;
-			ytargetRight = launcher.y+(y-launcher.y)*ratio-(x-launcher.x)*10f/dist;
+			xtargetLeft = launcher.getX()+(x-launcher.getX())*ratio+(launcher.getY()-y)*10f/dist;
+			ytargetLeft = launcher.getY()+(y-launcher.getY())*ratio+(x-launcher.getX())*10f/dist;
+			xtargetRight = launcher.getX()+(x-launcher.getX())*ratio-(launcher.getY()-y)*10f/dist;
+			ytargetRight = launcher.getY()+(y-launcher.getY())*ratio-(x-launcher.getX())*10f/dist;
 			ratio = (longueur*i/nbTotalFleche+longueurPointe+longueur*offset/nbTotalFleche)/dist;
-			xpointe = launcher.x+(x-launcher.x)*ratio;
-			ypointe = launcher.y+(y-launcher.y)*ratio;
+			xpointe = launcher.getX()+(x-launcher.getX())*ratio;
+			ypointe = launcher.getY()+(y-launcher.getY())*ratio;
 
 			g.drawLine(xtargetLeft,ytargetLeft,xpointe,ypointe);
 			g.drawLine(xpointe,ypointe,xtargetRight,ytargetRight);

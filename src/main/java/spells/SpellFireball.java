@@ -13,7 +13,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class SpellFireball extends Spell{
+public strictfp class SpellFireball extends Spell{
 
 	public SpellFireball(){
 		this.name = ObjetsList.SpellFireball;
@@ -34,7 +34,7 @@ public class SpellFireball extends Spell{
 			g.setAntiAlias(true);
 			Objet t = Spell.realTarget(new Checkpoint(x,y, plateau), launcher, launcher.getAttribut(Attributs.range),true, plateau);
 			g.setColor(Color.red);
-			g.drawOval(t.x-this.getAttribut(Attributs.size)/2,t.y-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
+			g.drawOval(t.getX()-this.getAttribut(Attributs.size)/2,t.getY()-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
 			g.setAntiAlias(false);
 		}
 	}

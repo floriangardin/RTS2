@@ -10,7 +10,7 @@ import model.Options;
 import ressources.GraphicElements;
 import ressources.Map;
 
-public class Lobby {
+public strictfp class Lobby {
 	
 	public static Vector<Menu_Player> players = new Vector<Menu_Player>();
 	public static Vector<String> maps;

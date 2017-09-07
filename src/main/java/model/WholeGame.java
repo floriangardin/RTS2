@@ -30,7 +30,7 @@ import ressources.Taunts;
 import stats.StatsHandler;
 import system.ClassSystem;
 
-public class WholeGame extends ClassSystem{
+public strictfp class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();
 	// Pour conditions de victoire
 	private boolean repeat = false;
@@ -52,11 +52,11 @@ public class WholeGame extends ClassSystem{
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
 		// Put camera at the center of headquarter if exists
-		Building hq = plateau.getHQ(Player.getTeam(plateau));
+		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){
-			int xHQ =(int) hq.x;
-			int yHQ = (int)hq.y;
-			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+			int xHQ =(int) hq.getX();
+			int yHQ = (int)hq.getY();
+			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
 		}else{
 			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		}

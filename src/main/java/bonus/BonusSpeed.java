@@ -6,7 +6,7 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 
-public class BonusSpeed extends Bonus{
+public strictfp class BonusSpeed extends Bonus{
 
 
 	public BonusSpeed( int x , int y, Team team, Plateau plateau){

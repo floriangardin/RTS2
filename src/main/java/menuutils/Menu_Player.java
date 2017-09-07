@@ -12,7 +12,7 @@ import model.Game;
 import ressources.GraphicElements;
 import ressources.Images;
 
-public class Menu_Player extends Menu_Item implements Serializable{
+public strictfp class Menu_Player extends Menu_Item implements Serializable{
 
 	public int id;
 	public int team;

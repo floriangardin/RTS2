@@ -12,7 +12,7 @@ import plateau.Building;
 import plateau.Objet;
 import plateau.Plateau;
 
-public class EventBuildingTakingGlobal extends Event{
+public strictfp class EventBuildingTakingGlobal extends Event{
 	
 	public HashMap<Integer, Integer> numberOfAttackers;
 	

@@ -1,6 +1,6 @@
 package mybot;
 
-public class GA {
+public strictfp class GA {
 	
 	public final static int RATIO = 10;
 	

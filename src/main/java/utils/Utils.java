@@ -21,8 +21,8 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 
-// Class for static methods
-public class Utils {
+// strictfp class for static methods
+public strictfp class Utils {
 
 	public static Gson gson = new Gson();
 	public static String[] contactWeapon = new String[]{"spear","sword"};
@@ -62,7 +62,7 @@ public class Utils {
 
 	}
 	public static float distance_2_selectionBox(Objet a ,float x, float y){
-		return (a.selectionBox.getCenterX()-x)*(a.selectionBox.getCenterX()-x) + (a.selectionBox.getCenterY()-y)*(a.selectionBox.getCenterY()-y) ;
+		return (a.getSelectionBox().getCenterX()-x)*(a.getSelectionBox().getCenterX()-x) + (a.getSelectionBox().getCenterY()-y)*(a.getSelectionBox().getCenterY()-y) ;
 
 	}
 
@@ -245,8 +245,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().y;
-			y2 = liste2.firstElement().y;
+			y1 = liste1.firstElement().getY();
+			y2 = liste2.firstElement().getY();
 			if(y1<y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -450,8 +450,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().name.name();
-			y2 = liste2.firstElement().name.name();
+			y1 = liste1.firstElement().getName().name();
+			y2 = liste2.firstElement().getName().name();
 			if(y1.compareTo(y2)>=0){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -507,10 +507,10 @@ public class Utils {
 		if(liste == null || liste.size()==0){
 			return;
 		}
-		String name = plateau.getById(liste.get(0)).name.name();
+		String name = plateau.getById(liste.get(0)).getName().name();
 		boolean useful = false;
 		for(Integer a: liste)
-			if(!plateau.getById(a).name.name().equals(name))
+			if(!plateau.getById(a).getName().name().equals(name))
 				useful = true;
 		Integer buffer;
 		if(!useful){
@@ -519,7 +519,7 @@ public class Utils {
 			liste.add(buffer);
 			return;
 		}
-		while(plateau.getById(liste.get(0)).name.name().equals(name)){
+		while(plateau.getById(liste.get(0)).getName().name().equals(name)){
 			buffer = liste.get(0);
 			liste.removeElementAt(0);
 			liste.add(buffer);

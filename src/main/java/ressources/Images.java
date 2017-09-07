@@ -18,7 +18,7 @@ import tests.FatalGillesError;
 import utils.ObjetsList;
 
 
-public class Images {
+public strictfp class Images {
 
 	private static HashMap<String, Image> images= new HashMap<String, Image>();;
 	private static HashMap<String, Image> oldimages;

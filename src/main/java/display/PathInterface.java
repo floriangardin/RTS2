@@ -8,7 +8,7 @@
 //import plateau.Building;
 //import plateau.NaturalObjet;
 //
-//public class PathInterface extends Bar {
+//public strictfp class PathInterface extends Bar {
 //	// Minimap caract
 //	public float startX;
 //	public float startY;

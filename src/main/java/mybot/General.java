@@ -7,7 +7,7 @@ import bot.IA;
 import bot.IAUnit;
 import bot.IAUnit.Role;
 
-public class General {
+public strictfp class General {
 	public final static int BUILD =0;
 	public final static int WAR = 1;
 	public final static int RECON = 2;

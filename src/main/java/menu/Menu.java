@@ -14,7 +14,7 @@ import model.Game;
 import ressources.Images;
 import ressources.Sounds;
 
-public abstract class Menu {
+public abstract strictfp class Menu {
 
 	public Image backGround ;
 	public Vector<Menu_Item> items;

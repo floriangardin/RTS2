@@ -20,7 +20,7 @@ import plateau.Plateau;
 import ressources.Images;
 import utils.Utils;
 
-public class RenderCharacter {
+public strictfp class RenderCharacter {
 
 	public static void render(Character character, Graphics g, Plateau plateau){
 
@@ -32,7 +32,7 @@ public class RenderCharacter {
 			direction = ((direction-1)*(-1)+2);
 		}
 		Image im;
-		im = Images.getUnit(character.name, direction, character.animation, character.getTeam().id, character.isAttacking);
+		im = Images.getUnit(character.getName(), direction, character.animation, character.getTeam().id, character.isAttacking);
 
 		// DRAW IS TARGETTED BY SPELL
 		if(character.getId()==Player.mouseOver ){
@@ -44,7 +44,7 @@ public class RenderCharacter {
 						g.setAntiAlias(true);
 						g.setLineWidth(2f*Main.ratioSpace);
 						g.setColor(Color.cyan);
-						Circle collision = (Circle) character.collisionBox;
+						Circle collision = (Circle) character.getCollisionBox();
 						collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
 						g.draw(collision);
 						g.setAntiAlias(false);
@@ -60,26 +60,26 @@ public class RenderCharacter {
 			else{
 				color = new Color(250,0,0,0.4f);
 			}
-			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
+			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
 			drawFlash(g, color, character, plateau);
 		}
 		else{
-			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
+			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
 		}
 		if(character.frozen>0f){
 			Color color = Color.darkGray;
 			color = new Color(100,150,255,0.4f);
-			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
+			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
 			drawFlash(g, color, character, plateau);
 		}
 		if(character.isBolted){
 			Color color = new Color(44,117,255,0.8f);
-			g.drawImage(im,character.x-im.getWidth()/2,character.y-3*im.getHeight()/4);
+			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
 			drawFlash(g, color, character, plateau);
 		}
 
 		// Drawing the health bar
-		if(character.lifePoints<character.getAttribut(Attributs.maxLifepoints)){
+		if(character.getLifePoints()<character.getAttribut(Attributs.maxLifepoints)){
 			drawLifePoints(g,r, character, plateau);
 		}
 	}
@@ -90,7 +90,7 @@ public class RenderCharacter {
 
 		g.setColor(Color.black);
 		g.fillRect(character.getX()-r/2-1f,-47f+character.getY()-r,r+2f,8f);
-		float x = character.lifePoints/character.getAttribut(Attributs.maxLifepoints);
+		float x = character.getLifePoints()/character.getAttribut(Attributs.maxLifepoints);
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
 		g.fillRect(character.getX()-r/2,-46f+character.getY()-r,x*r,6f);
 	}
@@ -101,8 +101,8 @@ public class RenderCharacter {
 			direction = ((direction-1)*(-1)+2);
 		}
 		Image im;
-		im = Images.getUnit(character.name, direction, character.animation, character.getTeam().id, character.isAttacking);
-		im.drawFlash(character.x-im.getWidth()/2,character.y-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
+		im = Images.getUnit(character.getName(), direction, character.animation, character.getTeam().id, character.isAttacking);
+		im.drawFlash(character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 	}
 
 	public static void renderSelection(Graphics g, Character character, Plateau plateau){
@@ -110,7 +110,7 @@ public class RenderCharacter {
 		g.setColor(Colors.selection);
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
-		Circle collision = (Circle)character.collisionBox;
+		Circle collision = (Circle)character.getCollisionBox();
 		float ratio = 1.5f;
 		collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
 		g.draw(collision);
@@ -135,7 +135,7 @@ public class RenderCharacter {
 		if(character.getTarget(plateau) instanceof Character){
 			g.setLineWidth(2f*Main.ratioSpace);
 			g.setColor(Colors.aggressive);
-			g.draw(character.getTarget(plateau).collisionBox);
+			g.draw(character.getTarget(plateau).getCollisionBox());
 		}
 		if(character.getTarget(plateau) instanceof Checkpoint){
 			((Checkpoint) character.getTarget(plateau)).toDraw = true;

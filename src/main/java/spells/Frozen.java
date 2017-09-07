@@ -12,7 +12,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class Frozen extends SpellEffect{
+public strictfp class Frozen extends SpellEffect{
 
 	public float remainingTime;
 	public float damage;
@@ -20,19 +20,19 @@ public class Frozen extends SpellEffect{
 	public boolean active = false;
 	public Frozen(Character launcher, Objet t, float radius, Plateau plateau){
 		super(plateau);
-		launcher.etats.add(Etats.Frozen);
+		launcher.getEtats().add(Etats.Frozen);
 		this.type = 1;
 
-		this.x = t.getX();
-		this.y = t.getY();
+		this.setX(t.getX());
+		this.setY(t.getY());
 
-		this.name = ObjetsList.FrozenEffect;
-		this.lifePoints = 1f;
+		this.setName(ObjetsList.FrozenEffect);
+		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		owner = launcher;
 		this.team = launcher.getTeam();
 
-		this.collisionBox = createShape(launcher, t, radius);
+		this.setCollisionBox(createShape(launcher, t, radius));
 //		Game.g.sounds.get("frozen").play(1f,Game.g.options.soundVolume);
 	}
 
@@ -54,16 +54,16 @@ public class Frozen extends SpellEffect{
 			this.active = true;
 		}
 		if(this.remainingTime<=0f)
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 	}
 
 	public Graphics draw(Graphics g){
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
-		g.draw(collisionBox);
+		g.draw(getCollisionBox());
 		if(!(this.remainingTime>0.5f)){
 			g.setColor(new Color(60,100,250,0.2f));
-			g.fill(collisionBox);
+			g.fill(getCollisionBox());
 		}
 
 		g.setAntiAlias(false);

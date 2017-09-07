@@ -10,7 +10,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.ObjetsList;
 
-public class IAUnit {
+public strictfp class IAUnit {
 	protected Objet objet;
 	private IA ia;
 	boolean free = true;
@@ -49,7 +49,7 @@ public class IAUnit {
 		this.role = role;
 	}
 	public ObjetsList getName(){
-		return objet.name;
+		return objet.getName();
 	}
 	public void setFree(){
 		this.free = true;
@@ -74,7 +74,7 @@ public class IAUnit {
 		return objet.getId();
 	}
 	public float getLifepoints(){
-		return objet.lifePoints;
+		return objet.getLifePoints();
 	}
 	public int getGameTeam(){
 		if(this.objet.getTeam() != null){
@@ -121,7 +121,7 @@ public class IAUnit {
 	}
 	
 	public boolean clickIn(float x , float y){
-		return objet.collisionBox.contains(x, y);
+		return objet.getCollisionBox().contains(x, y);
 	}
 	
 	public IA getIA(){

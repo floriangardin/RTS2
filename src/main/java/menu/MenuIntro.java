@@ -12,7 +12,7 @@ import model.GameClient;
 import model.GameServer;
 import system.MenuSystem.MenuNames;
 
-public class MenuIntro extends Menu {
+public strictfp class MenuIntro extends Menu {
 
 	public Image newGame;
 	public Image multiplayer;

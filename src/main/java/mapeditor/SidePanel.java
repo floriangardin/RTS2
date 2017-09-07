@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import pathfinding.Case;
 import ressources.Map;
 
-public class SidePanel extends JPanel{
+public strictfp class SidePanel extends JPanel{
 
 	public static MinimapPanel minimapPanel;
 	public static JPanel objectPanel;
@@ -61,7 +61,7 @@ public class SidePanel extends JPanel{
 		MainEditor.frame.repaint();
 	}
 
-	public class MinimapPanel extends JPanel{
+	public strictfp class MinimapPanel extends JPanel{
 		int mouseClickX;
 		int mouseClickY;
 		Stroke dashed;

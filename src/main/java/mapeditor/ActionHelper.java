@@ -12,7 +12,7 @@ import ressources.Map;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class ActionHelper {
+public strictfp class ActionHelper {
 
 	public static int getNumberOfNewSheet(){
 		Vector<Integer> v = new Vector<Integer>();
@@ -39,13 +39,13 @@ public class ActionHelper {
 			return false;
 		}
 		for(Objet ch : p.mapGrid.getSurroundingChars(c)){
-			d = Utils.distance(ch.x, ch.y, x, y);
+			d = Utils.distance(ch.getX(), ch.getY(), x, y);
 			if(d<min){
 				return false;
 			}
 		}
 		for(Objet ch : p.mapGrid.getSurroundingNaturalObjet(c)){
-			d = Utils.distance(ch.x, ch.y, x, y);
+			d = Utils.distance(ch.getX(), ch.getY(), x, y);
 			if(d<min){
 				return false;
 			}
@@ -90,7 +90,7 @@ public class ActionHelper {
 		}
 		float min = 60f, d;
 		for(NaturalObjet ch : p.mapGrid.getSurroundingNaturalObjet(c)){
-			d = Utils.distance(ch.x, ch.y, x, y);
+			d = Utils.distance(ch.getX(), ch.getY(), x, y);
 			if(d<min){
 				return false;
 			}

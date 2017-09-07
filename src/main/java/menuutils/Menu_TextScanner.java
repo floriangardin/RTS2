@@ -13,7 +13,7 @@ import menu.MenuMapChoice;
 import model.Game;
 import ressources.GraphicElements;
 
-public class Menu_TextScanner extends Menu_Item{
+public strictfp class Menu_TextScanner extends Menu_Item{
 
 	public String s = "";
 	public HashMap<Integer, String> intToChar = new HashMap<Integer, String>();
