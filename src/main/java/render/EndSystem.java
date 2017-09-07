@@ -33,8 +33,8 @@ public strictfp class EndSystem extends ClassSystem{
 	private int time = 0;
 	
 	private int timeDropBackground = Main.framerate/4;
-	private int timeFadeTitle = Main.framerate;
-	private int timeWaiting = 7*Main.framerate;
+	private int timeFadeTitle = Main.framerate/2;
+	private int timeWaiting = 2*Main.framerate;
 	private int timeBlackFade = 1*Main.framerate;
 	
 	
@@ -50,12 +50,12 @@ public strictfp class EndSystem extends ClassSystem{
 		image_background = Images.get("victoire_fond").getScaledCopy(3f*Game.resX/1920);
 		if(plateau.teamLooser!=Player.getTeamId()){
 			victory = true;
-			image_text = Images.get("victoire_texte").getScaledCopy(2f*Game.resX/1920);;
-			image_texture = Images.get("victoire_fond_texture").getScaledCopy(2f*Game.resX/1920);;
+			image_text = Images.get("victoire_texte").getScaledCopy(1f*Game.resX/1920);;
+			image_texture = Images.get("victoire_fond_texture").getScaledCopy(1f*Game.resX/1920);;
 		} else{
 			victory = false;
-			image_text = Images.get("defaite_texte").getScaledCopy(2f*Game.resX/1920);;
-			image_texture = Images.get("defaite_fond_texture").getScaledCopy(2f*Game.resX/1920);;
+			image_text = Images.get("defaite_texte").getScaledCopy(1f*Game.resX/1920);;
+			image_texture = Images.get("defaite_fond_texture").getScaledCopy(1f*Game.resX/1920);;
 		}
 		time = 0;
 		image_text.setAlpha(0f);
