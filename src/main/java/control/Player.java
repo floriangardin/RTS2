@@ -50,6 +50,9 @@ public strictfp class Player {
 				}
 			}
 		}
+	}
+	
+	public static void reset(){
 		inRectangle.clear();
 		selection.clear();
 		mouseOver = -1;
@@ -57,6 +60,7 @@ public strictfp class Player {
 		recX = 0f;
 		recY = 0f;
 	}
+	
 	public static void setTeam(int team){
 		Player.team = team;
 		switch(team){

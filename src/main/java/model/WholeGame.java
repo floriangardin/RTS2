@@ -42,6 +42,7 @@ public strictfp class WholeGame extends ClassSystem{
 		// TODO Auto-generated method stub
 		this.repeat = repeat;
 		EventHandler.init();
+		Player.reset();
 		if(Lobby.isInit()){
 			currentMap = Lobby.idCurrentMap;
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
