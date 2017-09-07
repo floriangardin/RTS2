@@ -29,7 +29,7 @@ public strictfp class InputObject implements java.io.Serializable{
 	
 	// Selection
 	public Vector<Integer> selection = new Vector<Integer>();
-	public Vector<Boolean> validated= new Vector<Boolean>();
+
 	public boolean toPlay;
 	public boolean isOnMiniMap;
 
@@ -52,7 +52,7 @@ public strictfp class InputObject implements java.io.Serializable{
 		initInput(input);
 		this.toPlay = false;
 		this.isOnMiniMap = false;
-		this.validated = new Vector<Boolean>();
+		
 		this.team = team;
 		this.round = round;
 	}
@@ -60,7 +60,7 @@ public strictfp class InputObject implements java.io.Serializable{
 		initInput(input);
 		this.toPlay = false;
 		this.isOnMiniMap = false;
-		this.validated = new Vector<Boolean>();
+		
 	}
 	
 	public Vector<Objet> getSelection(Plateau plateau){
@@ -254,13 +254,7 @@ public strictfp class InputObject implements java.io.Serializable{
 	}
 	
 
-	public void validate(int player){
-		if(validated.size()>player){
-			validated.set(player,true);
-//			if(Game.debugValidation)
-//				System.out.println("InputObjet line 240, validation de player "+player.id+"round : "+this.round);
-		}
-	}
+
 
 //	public void validate(){
 //		/** Validate everything (when it comes from other player)
@@ -276,14 +270,7 @@ public strictfp class InputObject implements java.io.Serializable{
 //		return ""+this.round+"|"+this.idplayer+"|"+g.currentPlayer.id+"|";
 //	}
 
-	public boolean isValidated() {
-		int n = 0;
-		for(Boolean b: this.validated){
-			if(b)
-				n++;
-		}
-		return n>=this.validated.size();
-	}
+	
 
 	public void eraseLetter(){
 		this.pressed.clear();
