@@ -38,7 +38,7 @@ public strictfp class InputObject implements java.io.Serializable{
 	public Vector<KeyEnum> pressed= new Vector<KeyEnum>();
 	public float x, xOnScreen;
 	public float y, yOnScreen;
-	public long time;
+	
 
 	public InputObject (){
 
@@ -224,7 +224,6 @@ public strictfp class InputObject implements java.io.Serializable{
 //	}
 	
 	public void initInput(Input input){
-		time = System.nanoTime();
 		xOnScreen = input.getMouseX();
 		yOnScreen = input.getMouseY();
 		this.pressed = new Vector<KeyEnum>();
