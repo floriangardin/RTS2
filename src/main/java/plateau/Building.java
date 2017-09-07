@@ -55,7 +55,7 @@ public strictfp class Building extends Objet{
 	public Technologie queueTechnology;
 
 
-	public Vector<ObjetsList> queue ;
+	private Vector<ObjetsList> queue ;
 	public float random=0f;
 	//TOWER
 	public float chargeAttack;
@@ -151,7 +151,7 @@ public strictfp class Building extends Objet{
 
 	public boolean product(int unit, Plateau plateau){
 		// TODO : fix method in a generic way
-
+		
 		// PRODUCTION LIST
 		//UNIT PRODUCTION
 		if(this.queueTechnology!=null){

@@ -61,9 +61,9 @@ public strictfp class RenderBuilding {
 		// draw production
 		if(b instanceof Building && isCurrentTeam){
 			Building bp = ((Building) b);
-			if(bp.queue.size()>0){
+			if(bp.getQueue().size()>0){
 				float offsetY = StrictMath.min(2*b.getAttribut(Attributs.sizeY)/3, bp.charge*(64*b.getAttribut(Attributs.sizeY))/b.getAttribut(bp.getProductionList(plateau).get(0),Attributs.prodTime));
-				float opacity = 50*bp.charge/b.getAttribut(bp.queue.get(0),Attributs.prodTime);
+				float opacity = 50*bp.charge/b.getAttribut(bp.getQueue().get(0),Attributs.prodTime);
 				Image icone = Images.get("icon"+bp.getQueue().get(0)+"buildingsize");
 				float r = (float) (StrictMath.sqrt(2)*icone.getHeight()/2);
 				g.setColor(new Color(0f,0f,0f,opacity));
