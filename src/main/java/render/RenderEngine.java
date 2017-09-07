@@ -27,6 +27,7 @@ import plateau.Plateau;
 import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Map;
+import stats.StatsSystem;
 import utils.Utils;
 
 public strictfp class RenderEngine {
@@ -44,6 +45,9 @@ public strictfp class RenderEngine {
 	public static Graphics graphicBackgroundNeutral;
 	public static Image imageBackground;
 	public static Graphics graphicBackground;
+	
+	// Draw Stats
+	public static boolean drawStats;
 
 	// Waves
 	public static Vector<Wave> waves;
@@ -82,6 +86,10 @@ public strictfp class RenderEngine {
 		// Draw interface
 		Interface.draw(g, plateau);
 		ChatHandler.draw(g);
+		// Draw stats
+		if(drawStats){
+			StatsSystem.render(g);
+		}
 
 		//fading in
 		if(alphaFadingIn>0f){

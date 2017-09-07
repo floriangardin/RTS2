@@ -11,6 +11,7 @@ import main.Main;
 import model.Game;
 import ressources.Images;
 import spells.BurningArea;
+import stats.StatsHandler;
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -95,7 +96,7 @@ public strictfp class Fireball extends Bullet {
 		if(c.getAttributString(Attributs.weapon)!= null && c.getAttributString(Attributs.weapon) == "bow")
 			damage = damage * this.getTeam().data.bonusBowFoot;
 		c.setLifePoints(c.getLifePoints()-damage, plateau);
-
+		StatsHandler.pushDamage(plateau, plateau.getById(owner), damage);
 	}
 
 	public void boom(Building c){

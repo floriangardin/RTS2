@@ -30,8 +30,9 @@ import ressources.Musics;
 import ressources.SoundManager;
 import ressources.Sounds;
 import ressources.Taunts;
+import stats.StatsSystem;
 
-public strictfp class IntroSystem extends ClassSystem{
+public class IntroSystem extends ClassSystem{
 	
 
 	public Image background;
@@ -245,6 +246,7 @@ public strictfp class IntroSystem extends ClassSystem{
 //		Game.gameSystem = new WholeGame();
 //		Game.system = Game.gameSystem;
 		Game.menuSystem = new MenuSystem();
+		Game.statsSystem = new StatsSystem();
 		Game.system = Game.menuSystem;
 	}
 

@@ -12,6 +12,7 @@ import events.EventNames;
 import main.Main;
 import model.Game;
 import ressources.Images;
+import stats.StatsHandler;
 import utils.ObjetsList;
 
 public strictfp class Arrow extends Bullet{
@@ -60,6 +61,7 @@ public strictfp class Arrow extends Bullet{
 			if(c.getAttribut(Attributs.armor)<=damage){
 //				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
 				c.setLifePoints(c.getLifePoints()+c.getAttribut(Attributs.armor)-damage, plateau);
+				StatsHandler.pushDamage(plateau, plateau.getById(owner), damage-c.getAttribut(Attributs.armor));
 			}
 			
 			this.setLifePoints(-1f, plateau);

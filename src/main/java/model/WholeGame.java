@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 
 import bot.IA;
 import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import control.Player;
 import display.Camera;
 import display.Interface;
@@ -26,6 +27,7 @@ import ressources.Map;
 import ressources.MusicManager;
 import ressources.SoundManager;
 import ressources.Taunts;
+import stats.StatsHandler;
 import system.ClassSystem;
 
 public strictfp class WholeGame extends ClassSystem{
@@ -38,7 +40,8 @@ public strictfp class WholeGame extends ClassSystem{
 	
 	public WholeGame(boolean repeat) {
 		// TODO Auto-generated method stub
-		this.repeat = true;
+		this.repeat = repeat;
+		EventHandler.init();
 		if(Lobby.isInit()){
 			currentMap = Lobby.idCurrentMap;
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
@@ -49,32 +52,6 @@ public strictfp class WholeGame extends ClassSystem{
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
 		// Put camera at the center of headquarter if exists
-		Building hq = plateau.getHQ(Player.getTeam(plateau));
-		if(hq!=null){
-			int xHQ =(int) hq.getX();
-			int yHQ = (int)hq.getY();
-			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
-		}else{
-			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
-		}
-		
-		Interface.init(plateau);
-	}
-	
-	public WholeGame() {
-		// TODO Auto-generated method stub
-		EventHandler.init();
-		if(Lobby.isInit()){			
-			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
-		}else{
-			GameClient.setPlateau(Map.createPlateau("testcollision2", "maps"));
-//			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
-		}
-		Game.endSystem = null;
-		Plateau plateau = GameClient.getPlateau();
-		plateau.update();
-		RenderEngine.init(plateau);
-		// Put camera at the center of headquarter
 		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){
 			int xHQ =(int) hq.getX();
@@ -83,9 +60,11 @@ public strictfp class WholeGame extends ClassSystem{
 		}else{
 			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
 		}
+		RenderEngine.init(plateau);
+		StatsHandler.init(plateau);
 		Interface.init(plateau);
 	}
-	
+
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		if(SimpleRenderEngine.ux!=0){
@@ -101,6 +80,7 @@ public strictfp class WholeGame extends ClassSystem{
 			Input in = gc.getInput();
 			Vector<InputObject> iaIms = new Vector<InputObject>();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
+			RenderEngine.drawStats = im.isDown(KeyEnum.ShowStats);
 			// handling start
 			if(GameClient.getPlateau().round<nbRoundStart){
 				im.reset();
@@ -134,6 +114,8 @@ public strictfp class WholeGame extends ClassSystem{
 			Camera.update(im);
 			RenderEngine.xmouse = im.x;
 			RenderEngine.ymouse = im.y;
+			// Stats
+			StatsHandler.pushState(GameClient.getPlateau());
 		}finally{
 			GameClient.mutex.unlock();
 		}

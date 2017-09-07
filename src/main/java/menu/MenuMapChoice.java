@@ -221,7 +221,7 @@ public strictfp class MenuMapChoice extends Menu {
 
 	public void launchGame(){
 		// Init gameSystem
-		Game.gameSystem = new WholeGame();
+		Game.gameSystem = new WholeGame(false);
 		Musics.stopMusic();
 		Game.system = Game.gameSystem;
 

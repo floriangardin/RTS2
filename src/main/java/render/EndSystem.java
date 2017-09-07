@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import control.InputObject;
 import control.Player;
 import data.Attributs;
 import display.Camera;
@@ -16,13 +17,12 @@ import main.Main;
 import model.Game;
 import model.GameServer;
 import plateau.Building;
-import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
 import ressources.Musics;
+import stats.StatsSystem;
 import system.ClassSystem;
-import system.MenuSystem;
 import utils.Utils;
 
 public strictfp class EndSystem extends ClassSystem{
@@ -77,11 +77,12 @@ public strictfp class EndSystem extends ClassSystem{
 			return;
 		} 
 		time ++;
+		InputObject io = new InputObject(gc.getInput());
 		if(time<=timeDropBackground){
 			
 		} else if(time<=timeDropBackground+timeFadeTitle){
 
-		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting+timeBlackFade){
+		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting){
 			// launching music
 			if(victory && Musics.musicPlaying!=Musics.get("themeVictory")){
 				Musics.stopMusic();
@@ -91,15 +92,16 @@ public strictfp class EndSystem extends ClassSystem{
 				Musics.playMusic("themeDefeat");
 			} 
 			updateRonds();
-		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting+timeBlackFade+Main.framerate*2){
-			if(Musics.musicPlaying!=null){
-				Musics.musicPlaying.fade(1500, 0f, true);
-			}
 		} else {
-			Game.menuSystem.init();
-			Camera.reset();
-			GameServer.close();
-			Game.system = Game.menuSystem;
+			if(io.pressed.size()>0){
+				if(Musics.musicPlaying!=null){
+					Musics.musicPlaying.fade(1500, 0f, true);
+				}
+				Game.menuSystem.init();
+				Camera.reset();
+				GameServer.close();
+				Game.system = Game.menuSystem;
+			}
 		}
 	}
 	
@@ -151,13 +153,16 @@ public strictfp class EndSystem extends ClassSystem{
 				Camera.resY/2-image_texture.getHeight()/2);
 		g.drawImage(image_text, Camera.resX/2-image_text.getWidth()/2, 
 				Camera.resY/2-image_text.getHeight()/2);
+		if(time>timeDropBackground+timeFadeTitle+timeWaiting){
+			StatsSystem.render(g);
+		}
 		float ratio = 1f*(time-timeDropBackground-timeFadeTitle-timeWaiting)/(timeBlackFade);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, Camera.resX, sizeBandes);
 		g.fillRect(0, Camera.resY, Camera.resX, -sizeBandes);
-		Color color = new Color(0f,0f,0f,2*ratio);
-		g.setColor(color);
-		g.fillOval(Camera.resX*(0.5f-ratio*0.75f), Camera.resY*0.5f-Camera.resX*ratio*0.75f, Camera.resX*ratio*1.5f, Camera.resX*ratio*1.5f);
+//		Color color = new Color(0f,0f,0f,2*ratio);
+//		g.setColor(color);
+//		g.fillOval(Camera.resX*(0.5f-ratio*0.75f), Camera.resY*0.5f-Camera.resX*ratio*0.75f, Camera.resX*ratio*1.5f, Camera.resX*ratio*1.5f);
 	}
 	
 	private void updateRonds(){

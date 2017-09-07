@@ -228,6 +228,15 @@ public strictfp class InputObject implements java.io.Serializable{
 		yOnScreen = input.getMouseY();
 		this.pressed = new Vector<KeyEnum>();
 		this.down = new Vector<KeyEnum>();
+//		for(int i=0; i<255; i++){
+//			try{
+//				if(input.isKeyDown(i)){
+//					System.out.println(i);
+//				}
+//			} catch(Exception e){
+//				
+//			}
+//		}
 		// Keyboard
 		for(KeyEnum ke : KeyMapper.mapping.keySet()){
 			for(Integer i : KeyMapper.mapping.get(ke)){

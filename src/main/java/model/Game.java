@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 
 import render.EndSystem;
 import ressources.GraphicElements;
+import stats.StatsSystem;
 import system.ClassSystem;
 import system.IntroSystem;
 import system.MenuSystem;
@@ -26,7 +27,7 @@ public strictfp class Game extends BasicGame
 	public static ClassSystem system;
 	public static ClassSystem gameSystem;
 	public static MenuSystem menuSystem;
-	public static ClassSystem editorSystem;
+	public static StatsSystem statsSystem;
 	public static EndSystem endSystem;
 
 	public Game(int resX, int resY) {
@@ -74,9 +75,6 @@ public strictfp class Game extends BasicGame
 		return system==menuSystem;
 	}
 	
-	public static boolean isInEditor(){
-		return system==editorSystem;
-	}
 }
 
 /*

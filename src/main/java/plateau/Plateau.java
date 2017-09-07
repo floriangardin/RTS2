@@ -16,11 +16,13 @@ import control.KeyMapper.KeyEnum;
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
+import model.WholeGame;
 import pathfinding.Case;
 import pathfinding.MapGrid;
 import spells.Etats;
 import spells.Spell;
 import spells.SpellEffect;
+import stats.StatsHandler;
 import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
@@ -162,6 +164,7 @@ public strictfp class Plateau implements java.io.Serializable {
 						continue;
 					}
 					EventHandler.addEvent(EventNames.Death, o, this);
+					StatsHandler.pushKill(obj);
 				}
 				this.toRemoveObjet.add(obj);
 			}
@@ -575,6 +578,9 @@ public strictfp class Plateau implements java.io.Serializable {
 	public void update(Vector<InputObject> ims) {
 		round ++;
 		this.clean();
+		if(round<WholeGame.nbRoundStart){
+			return;
+		}
 		
 		// 1 - Handling inputs
 		for (InputObject im : ims) {
