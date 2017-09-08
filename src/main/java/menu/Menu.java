@@ -59,6 +59,10 @@ public abstract strictfp class Menu {
 	}
 
 	public void updateItems(InputObject im){
+		updateItems(im, true);
+	}
+	
+	public void updateItems(InputObject im, boolean updateKeys){
 		// Checking each item : 
 		// if mouse is click we apply the effect
 		// if mouse is over we call the related function
@@ -74,7 +78,7 @@ public abstract strictfp class Menu {
 			if(arrowPressed && !im.isPressed(KeyEnum.Up) && !im.isPressed(KeyEnum.Down)){
 				arrowPressed = false;
 			}
-			if(!arrowPressed && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down))){
+			if(updateKeys && !arrowPressed && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down))){
 				this.mouseControl = false;
 				this.xMouseTemp = im.xOnScreen;
 				this.yMouseTemp = im.yOnScreen;
@@ -124,12 +128,12 @@ public abstract strictfp class Menu {
 					}
 				}			
 			}
-			if(im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down)){
+			if(updateKeys && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down))){
 				arrowPressed = true;
 			}
-			if(im.isPressed(KeyEnum.Escape))
+			if(updateKeys && im.isPressed(KeyEnum.Escape))
 				this.escPressed = true;
-			if(escPressed && !im.isPressed(KeyEnum.Escape)){
+			if(updateKeys && escPressed && !im.isPressed(KeyEnum.Escape)){
 				this.escPressed = false;
 				this.callItem(this.items.size()-1);
 				Sounds.playSound("menuItemSelected");
