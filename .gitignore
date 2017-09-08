@@ -2,3 +2,6 @@ options.opts
 *.class
 bin/
 data/
+replays/lastReplay.rtsreplay
+*.jar
+.settings/org.eclipse.m2e.core.prefs
