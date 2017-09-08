@@ -30,16 +30,16 @@ public strictfp class EventDash extends Event{
 		// Get direction vector
 		if(plateau.isVisibleByTeam(Player.team, parent)){			
 			g.setColor(new Color(256, 256, 256, 0.5f));
-			if(parent.vx>0){
-				g.rotate(parent.getX(), parent.getY()-50f, (float)(180f/StrictMath.PI*StrictMath.atan(parent.vy/parent.vx)));
-				float signe = ((float)StrictMath.signum(parent.vx));
+			if(parent.getVx()>0){
+				g.rotate(parent.getX(), parent.getY()-50f, (float)(180f/StrictMath.PI*StrictMath.atan(parent.getVy()/parent.getVx())));
+				float signe = ((float)StrictMath.signum(parent.getVx()));
 				for(int i=0; i<5; i++){
 					if(toDraw){
 						g.fillRect(parent.getX()-150*signe+50*StrictMath.abs(i-2)*signe+((float)StrictMath.random()*50f)*signe, parent.getY()-50f-(i-2)*12+((float)StrictMath.random()*20f), -60*signe, 2);
 					}
 					//g.fillRect(parent.x+100*signe-50*StrictMath.abs(i-2)*signe+((float)StrictMath.random()*100f), parent.y-(i-2)*12, -20*signe, 3);
 				}
-				g.rotate(parent.getX(), parent.getY()-50f, (float)(-180f/StrictMath.PI*StrictMath.atan(parent.vy/parent.vx)));
+				g.rotate(parent.getX(), parent.getY()-50f, (float)(-180f/StrictMath.PI*StrictMath.atan(parent.getVy()/parent.getVx())));
 			}
 		}
 		return parent.inDash>0f && parent.isAlive() && plateau.getObjets().containsKey(parent.getId());

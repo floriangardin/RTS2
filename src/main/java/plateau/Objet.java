@@ -68,8 +68,8 @@ public abstract strictfp class Objet implements java.io.Serializable {
 
 	// visibility boolean
 	public int animation = 0;
-	public float vx;
-	public float vy;
+	private float vx;
+	private float vy;
 	protected int target = NO_TARGET;
 //	public int checkpointTarget = NO_TARGET;
 
@@ -474,6 +474,24 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	public void setEtats(Vector<Etats> etats) {
 		this.etats = etats;
 	}
+
+	public float getVx() {
+		return vx;
+	}
+
+	void setVx(float vx) {
+		this.vx = vx;
+	}
+
+	public float getVy() {
+		return vy;
+	}
+
+	void setVy(float vy) {
+		this.vy = vy;
+	}
+
+	
 
 }
 

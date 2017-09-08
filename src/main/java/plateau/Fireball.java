@@ -41,15 +41,15 @@ public strictfp class Fireball extends Bullet {
 		this.setTarget(new Checkpoint(targetX,targetY, plateau), plateau);
 		this.setCollisionBox(new Circle(owner.getX(),owner.getY(),size));
 		this.setXY(owner.getX(),owner.getY()-altitude, plateau);
-		this.vx = vx;
-		this.vy = vy+altitude;
+		this.setVx(vx);
+		this.setVy(vy+altitude);
 		//Normalize speed : 
-		float norm = this.vx*this.vx+this.vy*this.vy;
+		float norm = this.getVx()*this.getVx()+this.getVy()*this.getVy();
 		norm  = (float)StrictMath.sqrt(norm)*Main.framerate;
-		this.vx = Vmax*this.vx/norm;
-		this.vy = Vmax*this.vy/norm;
+		this.setVx(Vmax*this.getVx()/norm);
+		this.setVy(Vmax*this.getVy()/norm);
 		this.angle = (float) (StrictMath.atan(vy/(vx+0.00001f))*180/StrictMath.PI);
-		if(this.vx<0)
+		if(this.getVx()<0)
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
@@ -66,7 +66,7 @@ public strictfp class Fireball extends Bullet {
 			this.setLifePoints(getLifePoints()-10f*Main.increment, plateau);
 			return;
 		}
-		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
+		this.setXY(this.getX()+this.getVx(), this.getY()+this.getVy(), plateau);
 		this.animation+=1;
 		if(this.animation>=9)
 			this.animation = 0;

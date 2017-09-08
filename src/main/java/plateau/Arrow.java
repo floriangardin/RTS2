@@ -34,15 +34,15 @@ public strictfp class Arrow extends Bullet{
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
 		this.setCollisionBox(new Circle(owner.getX(),owner.getY(),size));
 		this.setXY(owner.getX(),owner.getY(), plateau);
-		this.vx = vx;
-		this.vy = vy;
+		this.setVx(vx);
+		this.setVy(vy);
 		//Normalize speed : 
-		float norm = this.vx*this.vx+this.vy*this.vy;
+		float norm = this.getVx()*this.getVx()+this.getVy()*this.getVy();
 		norm  = (float)StrictMath.sqrt(norm)*Main.framerate;
-		this.vx = Vmax*this.vx/norm;
-		this.vy = Vmax*this.vy/norm;
-		this.angle = (float) (StrictMath.atan(this.vy/(this.vx+0.00001f))*180/StrictMath.PI);
-		if(this.vx<0)
+		this.setVx(Vmax*this.getVx()/norm);
+		this.setVy(Vmax*this.getVy()/norm);
+		this.angle = (float) (StrictMath.atan(this.getVy()/(this.getVx()+0.00001f))*180/StrictMath.PI);
+		if(this.getVx()<0)
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
@@ -80,7 +80,7 @@ public strictfp class Arrow extends Bullet{
 			this.setLifePoints(-1f);
 		}
 		
-		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
+		this.setXY(this.getX()+this.getVx(), this.getY()+this.getVy(), plateau);
 		if(this.getX()>plateau.getMaxX() || this.getX()<0 || this.getY()>plateau.getMaxY()||this.getY()<0){
 			this.setLifePoints(-1f, plateau);
 		}

@@ -104,14 +104,14 @@ public strictfp class Character extends Objet{
 	}
 
 	public boolean isMobile(){
-		return vx*vx+vy*vy>0.01f;
+		return getVx()*getVx()+getVy()*getVy()>0.01f;
 	}
 	public void setVXVY(float vx, float vy, Plateau plateau){
-		this.vx = vx;
-		this.vy = vy;
+		this.setVx(vx);
+		this.setVy(vy);
 		float R2 = vx*vx+vy*vy;
-		SimpleRenderEngine.old_vx = (float) (this.vx/StrictMath.sqrt(R2));
-		SimpleRenderEngine.old_vy = (float) (this.vy/StrictMath.sqrt(R2));
+		SimpleRenderEngine.old_vx = (float) (this.getVx()/StrictMath.sqrt(R2));
+		SimpleRenderEngine.old_vy = (float) (this.getVy()/StrictMath.sqrt(R2));
 		int sector = 0;
 		if(vx==0 && vy==0){
 			//Orientation toward target
@@ -428,21 +428,21 @@ public strictfp class Character extends Objet{
 		float norm = (x_med*x_med+y_med*y_med);
 		y_med = y_med/norm;
 		x_med = x_med/norm;
-		if(x_med*vx+y_med*vy<0){
+		if(x_med*getVx()+y_med*getVy()<0){
 			x_med=-x_med;
 			y_med=-y_med;
 
 		}
 
-		if((this.vx*this.vx+this.vy*this.vy)<o.vx*o.vx+o.vy*o.vy){
-			if(x_med*o.vx+y_med*o.vy<0){
+		if((this.getVx()*this.getVx()+this.getVy()*this.getVy())<o.getVx()*o.getVx()+o.getVy()*o.getVy()){
+			if(x_med*o.getVx()+y_med*o.getVy()<0){
 				x_med=-x_med;
 				y_med=-y_med;
 			}
 			//this.setXY(x-0.3f*o.getVx(), y-0.3f*o.getVy());
-			int sign = (o.vy*(o.getX()-getX())-o.vx*(o.getY()-getY()))<0 ? 1: -1;
-			float newx = this.getX()+1.5f*sign*(o.vy)/2;
-			float newy = this.getY()+1.5f*sign*(-o.vx)/2;
+			int sign = (o.getVy()*(o.getX()-getX())-o.getVx()*(o.getY()-getY()))<0 ? 1: -1;
+			float newx = this.getX()+1.5f*sign*(o.getVy())/2;
+			float newy = this.getY()+1.5f*sign*(-o.getVx())/2;
 			//			this.setVXVY(newx-x, newy-y);
 			this.setXY(newx,newy, plateau);
 		}
@@ -456,11 +456,11 @@ public strictfp class Character extends Objet{
 	public void collision(Circle c, Plateau plateau) {
 		float xi = c.getCenterX();
 		float yi = c.getCenterY();
-		float x0 = this.getX() - this.vx;
-		float y0 = this.getY() - this.vy;
+		float x0 = this.getX() - this.getVx();
+		float y0 = this.getY() - this.getVy();
 		float x1 = this.getX();
 		float y1 = this.getY();
-		float R2 = vx*vx+vy*vy;
+		float R2 = getVx()*getVx()+getVy()*getVy();
 		float ux = xi - x0;
 		float uy = yi - y0;
 		float n = (float) StrictMath.sqrt(ux*ux+uy*uy);
@@ -488,8 +488,8 @@ public strictfp class Character extends Objet{
 			newy = y0 + signu*d*uy + signv*h*vy;
 			SimpleRenderEngine.ux = ux;
 			SimpleRenderEngine.vx = vx;
-			SimpleRenderEngine.old_vx = (float) (this.vx/StrictMath.sqrt(R2));
-			SimpleRenderEngine.old_vy = (float) (this.vy/StrictMath.sqrt(R2));
+			SimpleRenderEngine.old_vx = (float) (this.getVx()/StrictMath.sqrt(R2));
+			SimpleRenderEngine.old_vy = (float) (this.getVy()/StrictMath.sqrt(R2));
 			SimpleRenderEngine.uy = uy;
 			SimpleRenderEngine.vy = vy;
 			SimpleRenderEngine.d = d;
@@ -498,8 +498,8 @@ public strictfp class Character extends Objet{
 			SimpleRenderEngine.signu = signu;
 		}
 		this.setXY(newx,newy,plateau);
-		this.vx = this.getX() - x0;
-		this.vy = this.getY() - y0;
+		this.setVx(this.getX() - x0);
+		this.setVy(this.getY() - y0);
 		//this.move(this.vx+this.x,this.vy+this.y );
 	}
 	// Collision with NaturalObjets
@@ -580,12 +580,12 @@ public strictfp class Character extends Objet{
 		default:
 		}
 		float finalX=newX, finalY=newY;
-		if(StrictMath.abs(vx)+StrictMath.abs(vy)>0.1f){
+		if(StrictMath.abs(getVx())+StrictMath.abs(getVy())>0.1f){
 			float x0,y0,x1,y1,x2,y2;
 			x1 = this.getX();
 			y1 = this.getY();
-			x0 = x1 - this.vx;
-			y0 = y1 - this.vy;
+			x0 = x1 - this.getVx();
+			y0 = y1 - this.getVy();
 			x2 = newX;
 			y2 = newY;
 			boolean b;
@@ -594,8 +594,8 @@ public strictfp class Character extends Objet{
 				// � droite ou � gauche
 				b = this.getTarget(plateau)!=null && (this.getTarget(plateau).getY()<o.getMaxY() && this.getTarget(plateau).getY()>o.getMinY());
 				float ya,yb;
-				ya = y0+(float)StrictMath.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
-				yb = y0-(float)StrictMath.sqrt(vx*vx+vy*vy-(x2-x0)*(x2-x0));
+				ya = y0+(float)StrictMath.sqrt(getVx()*getVx()+getVy()*getVy()-(x2-x0)*(x2-x0));
+				yb = y0-(float)StrictMath.sqrt(getVx()*getVx()+getVy()*getVy()-(x2-x0)*(x2-x0));
 				if ( (b && StrictMath.abs(ya-oY)>StrictMath.abs(yb-oY)) || (!b && StrictMath.abs(ya-y2)<StrictMath.abs(yb-y2))){
 					finalY = ya;
 					finalX = x2;
@@ -613,8 +613,8 @@ public strictfp class Character extends Objet{
 				// en haut ou en bas
 				b = this.getTarget(plateau)!=null && (this.getTarget(plateau).getX()<o.getMaxX() && this.getTarget(plateau).getX()>o.getMinX());
 				float xa,xb;
-				xa = x0+(float)StrictMath.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
-				xb = x0-(float)StrictMath.sqrt(vx*vx+vy*vy-(y2-y0)*(y2-y0));
+				xa = x0+(float)StrictMath.sqrt(getVx()*getVx()+getVy()*getVy()-(y2-y0)*(y2-y0));
+				xb = x0-(float)StrictMath.sqrt(getVx()*getVx()+getVy()*getVy()-(y2-y0)*(y2-y0));
 				if ( (b && StrictMath.abs(xa-oX)>StrictMath.abs(xb-oX)) || (!b && StrictMath.abs(xa-x2)<StrictMath.abs(xb-x2))){
 					finalX = xa;
 					finalY = y2;
