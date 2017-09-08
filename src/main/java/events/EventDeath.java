@@ -20,7 +20,7 @@ public strictfp class EventDeath extends Event{
 	private float alpha = 1.0f;
 	private Color color;
 	private Image im;
-	private float duration = 5f;
+	private float duration = 1.5f;
 	
 	public EventDeath(Objet parent, Plateau plateau) {
 		super(parent, plateau);
@@ -45,16 +45,19 @@ public strictfp class EventDeath extends Event{
 			//GameSystem.currentPlayer.getTeam().addNewKill();
 		}
 	}
+	
+	public boolean isDesynchro(Plateau plateau){
+		return false;
+	}
 
 	@Override
 	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		// draw shadow of unit
 		this.playSound();
 		delta_y+=3.5f;
-		alpha*=0.95f;
+		alpha*=0.85f;
 		im.setAlpha(alpha);
-		if(toDraw)
-			g.drawImage(im, x-im.getWidth()/2,y-delta_y-3*im.getHeight()/4,color);
+		g.drawImage(im, x-im.getWidth()/2,y-delta_y-3*im.getHeight()/4,color);
 		im.setAlpha(1.0f);
 		this.duration -= Main.increment;
 		return this.duration>0f;

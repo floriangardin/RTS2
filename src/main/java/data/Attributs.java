@@ -25,7 +25,7 @@ public enum Attributs {
 	defendable,
 	totalTime, 
 	faithCost, 
-	effect, bonusDamage, bonusSpeed, list, needToClick, width,
+	effect, bonusDamage, bonusSpeed, list, needToClick, width,needToAim,
 	foodCost,goldCost,prodTime, units, technologies, nameIcon,
 	produceFood,produceGold,produceFaith,techsRequired,canAttack,
 	frequencyProduceGold,

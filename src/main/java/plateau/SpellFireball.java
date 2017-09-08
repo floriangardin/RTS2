@@ -24,14 +24,15 @@ public strictfp class SpellFireball extends Spell{
 	@Override
 	public void drawCast(Graphics g, Objet target, float x, float y, Character launcher, boolean ok, Plateau plateau) {
 		
-		if(Player.mouseOver==-1){			
-			g.setLineWidth(2f*Main.ratioSpace);
-			g.setAntiAlias(true);
-			Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, launcher.getAttribut(Attributs.range),true, plateau);
-			g.setColor(Color.red);
-			g.drawOval(t.getX()-this.getAttribut(Attributs.size)/2,t.getY()-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
-			g.setAntiAlias(false);
-		}
+//		if(Player.mouseOver==-1){			
+		g.setLineWidth(2f*Main.ratioSpace);
+		g.setAntiAlias(true);
+		Objet t = Spell.realTarget(new Checkpoint(x,y), launcher, launcher.getAttribut(Attributs.range),true, plateau);
+		g.setColor(Color.red);
+		g.drawOval(t.getX()-this.getAttribut(Attributs.size)/2,t.getY()-this.getAttribut(Attributs.size)/2, this.getAttribut(Attributs.size), this.getAttribut(Attributs.size));
+		g.setAntiAlias(false);
+		
+//		}
 	}
 
 }
