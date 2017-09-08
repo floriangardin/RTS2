@@ -81,7 +81,7 @@ public strictfp class Arrow extends Bullet{
 		}
 		
 		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
-		if(this.getX()>plateau.maxX || this.getX()<0 || this.getY()>plateau.maxY||this.getY()<0){
+		if(this.getX()>plateau.getMaxX() || this.getX()<0 || this.getY()>plateau.getMaxY()||this.getY()<0){
 			this.setLifePoints(-1f, plateau);
 		}
 	}

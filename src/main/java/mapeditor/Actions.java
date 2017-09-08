@@ -59,10 +59,10 @@ public strictfp class Actions {
 					o = new Tree(x,y,Integer.parseInt(ol.name().substring(5)),plateau);
 					break;
 				case Character:
-					o = new Character(x, y, ol, plateau.teams.get(team), plateau);
+					o = new Character(x, y, ol, plateau.getTeams().get(team), plateau);
 					break;
 				case Building:
-					o = new Building(ol, x, y, plateau.teams.get(team), plateau);
+					o = new Building(ol, x, y, plateau.getTeams().get(team), plateau);
 					break;
 				default:
 					break;
@@ -152,14 +152,14 @@ public strictfp class Actions {
 		@Override
 		public void undo() {
 			for(Integer i : idCases.keySet()){
-				plateau.mapGrid.getCase(i).setIdTerrain(idCases.get(i));
+				plateau.getMapGrid().getCase(i).setIdTerrain(idCases.get(i));
 			}
 		}
 
 		@Override
 		public void redo() {
 			for(Integer i : idCases.keySet()){
-				plateau.mapGrid.getCase(i).setIdTerrain(idTerrain);
+				plateau.getMapGrid().getCase(i).setIdTerrain(idTerrain);
 			}
 		}
 		
@@ -181,13 +181,13 @@ public strictfp class Actions {
 		@Override
 		public void undo() {
 			o.setXY(oldX, oldY, plateau);
-			plateau.mapGrid.update();
+			plateau.getMapGrid().update();
 		}
 
 		@Override
 		public void redo() {
 			o.setXY(newX, newY, plateau);
-			plateau.mapGrid.update();
+			plateau.getMapGrid().update();
 		}
 		
 	}

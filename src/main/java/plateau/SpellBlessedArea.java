@@ -1,12 +1,8 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
 public strictfp class SpellBlessedArea extends Spell{

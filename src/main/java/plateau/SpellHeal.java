@@ -1,11 +1,8 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Graphics;
 
 import data.Attributs;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
 //TODO : sort qui use heal

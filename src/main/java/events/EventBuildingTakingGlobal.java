@@ -28,11 +28,11 @@ public strictfp class EventBuildingTakingGlobal extends Event{
 		if(!toDraw){
 			return true;
 		}
-		if(numberOfAttackers.containsKey(plateau.teams.get(1).id)){
-			value1 = numberOfAttackers.get(plateau.teams.get(1).id);
+		if(numberOfAttackers.containsKey(plateau.getTeams().get(1).id)){
+			value1 = numberOfAttackers.get(plateau.getTeams().get(1).id);
 		}
-		if(numberOfAttackers.containsKey(plateau.teams.get(2).id)){
-			value2 = numberOfAttackers.get(plateau.teams.get(2).id);
+		if(numberOfAttackers.containsKey(plateau.getTeams().get(2).id)){
+			value2 = numberOfAttackers.get(plateau.getTeams().get(2).id);
 		}
 		Building b = (Building)parent;
 		if(value1!=value2){
@@ -53,7 +53,7 @@ public strictfp class EventBuildingTakingGlobal extends Event{
 			}	
 		} else if (value1>0){
 			// contested
-			g.setColor(new Color(1f,1f,1f,(float) (StrictMath.sin((plateau.round%60)*StrictMath.PI/30))));
+			g.setColor(new Color(1f,1f,1f,(float) (StrictMath.sin((plateau.getRound()%60)*StrictMath.PI/30))));
 			String s = "OPPOSITION";
 			g.drawString(s, b.getX()-g.getFont().getWidth(s)/2, b.getY()-3*b.getAttribut(Attributs.sizeY)/4-1.5f*g.getFont().getHeight(s));
 		}

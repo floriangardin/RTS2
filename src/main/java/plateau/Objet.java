@@ -16,8 +16,6 @@ import events.EventHandler;
 import main.Main;
 import pathfinding.Case;
 import ressources.Map;
-import spells.Etats;
-import spells.Spell;
 import utils.ObjetsList;
 
 public abstract strictfp class Objet implements java.io.Serializable {
@@ -29,7 +27,6 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	/**
 	 * 
 	 */
-
 	// Animation : mode,orientation,increment
 	private final int id;
 	public int mode;
@@ -57,7 +54,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	public Objet(Plateau plateau){
 		this.id = plateau.getId();
 		plateau.setId(plateau.getId()+1);
-		this.team = plateau.teams.get(0);
+		this.team = plateau.getTeams().get(0);
 	}
 	// Bonus, �quipements, potions et autres stuff
 	public Vector<AttributsChange> attributsChanges = new Vector<AttributsChange>();
@@ -68,8 +65,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	protected Vector<Float> spellsState = new Vector<Float>();
 	
 	private int roundLastAttack = -100;
-	private static final float timerMaxValueAttacked = 100f;
-	
+
 	// visibility boolean
 	public int animation = 0;
 	public float vx;
@@ -137,10 +133,10 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		}
 		if(this.getTarget(plateau) instanceof Building && !(this.getTarget(plateau) instanceof Bonus)){
 			Building b = (Building)this.getTarget(plateau);
-			return plateau.mapGrid.pathfinding(getX(), getY(), (Rectangle)(b.getCollisionBox()));
+			return plateau.getMapGrid().pathfinding(getX(), getY(), (Rectangle)(b.getCollisionBox()));
 		} else {
 			float xEnd = this.getTarget(plateau).getX(), yEnd = this.getTarget(plateau).getY();
-			return plateau.mapGrid.pathfinding(this.getX(), this.getY(), xEnd, yEnd);
+			return plateau.getMapGrid().pathfinding(this.getX(), this.getY(), xEnd, yEnd);
 		}
 	}
 
@@ -170,7 +166,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		float oldx = this.getX()  ;
 		float oldy = this.getY() ;
 		// handling old cases
-		Case c = plateau.mapGrid.getCase(this.getIdCase());
+		Case c = plateau.getMapGrid().getCase(this.getIdCase());
 		if(this instanceof Character){
 			if(c!=null && c.characters.contains((Character)this)){
 				c.characters.remove((Character)this);
@@ -180,7 +176,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 				c.naturesObjet.remove((NaturalObjet)this);
 			}
 		} else if(this instanceof Building){
-			plateau.mapGrid.removeBuilding((Building)this);
+			plateau.getMapGrid().removeBuilding((Building)this);
 		}
 		
 		// changing position
@@ -188,15 +184,15 @@ public abstract strictfp class Objet implements java.io.Serializable {
 			this.setX(x);
 			this.setY(y);
 		} else if(this instanceof Building){
-			float sizeX = plateau.teams.get(0).data.getAttribut(this.getName(), Attributs.sizeX);
-			float sizeY = plateau.teams.get(0).data.getAttribut(this.getName(), Attributs.sizeY);
-			((Building)this).i = plateau.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).i;
-			((Building)this).j = plateau.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).j;
+			float sizeX = plateau.getTeams().get(0).data.getAttribut(this.getName(), Attributs.sizeX);
+			float sizeY = plateau.getTeams().get(0).data.getAttribut(this.getName(), Attributs.sizeY);
+			((Building)this).i = plateau.getMapGrid().getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).i;
+			((Building)this).j = plateau.getMapGrid().getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2).j;
 			this.setX((((Building)this).i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2));
 			this.setY((((Building)this).j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2));
 		} else {
-			this.setX(StrictMath.min(plateau.maxX-1f, StrictMath.max(1f, x)));
-			this.setY(StrictMath.min(plateau.maxY-1f, StrictMath.max(1f, y)));
+			this.setX(StrictMath.min(plateau.getMaxX()-1f, StrictMath.max(1f, x)));
+			this.setY(StrictMath.min(plateau.getMaxY()-1f, StrictMath.max(1f, y)));
 		}
 		
 		//handling boxes
@@ -204,7 +200,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		this.getCollisionBox().setCenterY(this.getY());
 		
 		// handling new cases
-		c = plateau.mapGrid.getCase(this.getX(), this.getY());
+		c = plateau.getMapGrid().getCase(this.getX(), this.getY());
 		if(c!=null){
 			this.setIdCase(c.id);
 		} else {
@@ -213,11 +209,11 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		if(this instanceof Character){
 			this.getSelectionBox().setCenterX(this.getX());
 			this.getSelectionBox().setCenterY(this.getY()-2f*this.getAttribut(Attributs.size));
-			plateau.mapGrid.getCase(this.getIdCase()).characters.add((Character)this);
+			plateau.getMapGrid().getCase(this.getIdCase()).characters.add((Character)this);
 		} else if(this instanceof NaturalObjet){
-			plateau.mapGrid.getCase(this.getIdCase()).naturesObjet.add((NaturalObjet)this);
+			plateau.getMapGrid().getCase(this.getIdCase()).naturesObjet.add((NaturalObjet)this);
 		}else if(this instanceof Building){
-			plateau.mapGrid.addBuilding((Building)this);
+			plateau.getMapGrid().addBuilding((Building)this);
 		}
 
 	}

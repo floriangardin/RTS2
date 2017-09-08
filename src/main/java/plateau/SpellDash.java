@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import java.util.Vector;
 
@@ -9,9 +9,6 @@ import data.AttributsChange;
 import data.AttributsChange.Change;
 import events.EventHandler;
 import events.EventNames;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
 public strictfp class SpellDash extends Spell{

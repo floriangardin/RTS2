@@ -21,10 +21,10 @@ import plateau.Character;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
+import plateau.Spell;
 import plateau.Team;
 import ressources.GraphicElements;
 import ressources.Images;
-import spells.Spell;
 import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
@@ -227,19 +227,19 @@ public strictfp class Interface {
 
 	public static void updateRatioMiniMap(Plateau plateau){
 
-		if(plateau.maxX>plateau.maxY){
+		if(plateau.getMaxX()>plateau.getMaxY()){
 			widthMiniMap = sizeXMiniMap;
-			heightMiniMap = widthMiniMap*plateau.maxY/plateau.maxX;
+			heightMiniMap = widthMiniMap*plateau.getMaxY()/plateau.getMaxX();
 			startXMiniMap = startX2MiniMap;
 			startYMiniMap = startY2MiniMap + (sizeYMiniMap-heightMiniMap)/2;
 		} else {
 			heightMiniMap = sizeYMiniMap;			
-			widthMiniMap = heightMiniMap*plateau.maxX/plateau.maxY;
+			widthMiniMap = heightMiniMap*plateau.getMaxX()/plateau.getMaxY();
 			startXMiniMap = startX2MiniMap + (sizeXMiniMap-widthMiniMap)/2;
 			startYMiniMap = startY2MiniMap;
 		}
-		ratioWidthMiniMap = widthMiniMap/plateau.maxX;
-		ratioHeightMiniMap = heightMiniMap/plateau.maxY;
+		ratioWidthMiniMap = widthMiniMap/plateau.getMaxX();
+		ratioHeightMiniMap = heightMiniMap/plateau.getMaxY();
 	}
 
 	///////
@@ -271,8 +271,8 @@ public strictfp class Interface {
 
 		float sizeXBar;
 		float x = 0;
-		if(plateau.round<nbRoundInit)
-			startXSelectionBar = StrictMath.max(-Game.resX-10, StrictMath.min(0, Game.resX*(plateau.round-debut-duree)/duree));
+		if(plateau.getRound()<nbRoundInit)
+			startXSelectionBar = StrictMath.max(-Game.resX-10, StrictMath.min(0, Game.resX*(plateau.getRound()-debut-duree)/duree));
 		else
 			startXSelectionBar = 0;
 
@@ -464,8 +464,8 @@ public strictfp class Interface {
 		// Draw the potential actions
 		// Draw Separation (1/3 1/3 1/3) : 
 
-		if(plateau.round<nbRoundInit)
-			x = StrictMath.max(-offset-10, StrictMath.min(0, offset*(plateau.round-debut-duree)/duree));
+		if(plateau.getRound()<nbRoundInit)
+			x = StrictMath.max(-offset-10, StrictMath.min(0, offset*(plateau.getRound()-debut-duree)/duree));
 		else
 			x = 0;
 		g.setLineWidth(1f);
@@ -599,10 +599,10 @@ public strictfp class Interface {
 		float rX = Game.resX;
 		float rY = Game.resY;
 		float offset = ratioSizeTimerY*rY;
-		float yCentral = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.round-debutC-dureeDescente)/dureeDescente));
+		float yCentral = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.getRound()-debutC-dureeDescente)/dureeDescente));
 		offset = ratioSizeGoldY*rY;
-		float y1 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.round-debut1-dureeDescente)/dureeDescente));
-		float y2 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.round-debut2-dureeDescente)/dureeDescente));
+		float y1 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.getRound()-debut1-dureeDescente)/dureeDescente));
+		float y2 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.getRound()-debut2-dureeDescente)/dureeDescente));
 		Team team = Player.getTeam(plateau);
 		if(food != team.food){
 			food += (team.food-food)/5+StrictMath.signum(team.food-food);
@@ -666,7 +666,7 @@ public strictfp class Interface {
 
 	public static void drawMiniMap(Graphics g, Plateau plateau){
 		Team team = Player.getTeam(plateau);
-		offsetDrawX = StrictMath.max(0, StrictMath.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
+		offsetDrawX = StrictMath.max(0, StrictMath.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.getRound()-debutGlissade-dureeGlissade)/dureeGlissade));
 		Utils.drawNiceRect(g,  team.color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
@@ -680,9 +680,9 @@ public strictfp class Interface {
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		Case ca;
-		for(int i=0; i<plateau.mapGrid.grid.size(); i++){
-			for(int j=0; j<plateau.mapGrid.grid.get(0).size(); j++){
-				ca = plateau.mapGrid.grid.get(i).get(j);
+		for(int i=0; i<plateau.getMapGrid().grid.size(); i++){
+			for(int j=0; j<plateau.getMapGrid().grid.get(0).size(); j++){
+				ca = plateau.getMapGrid().grid.get(i).get(j);
 				g.drawImage(Images.get(ca.getIdTerrain().name()+"tile0"),
 						startXMiniMap+offsetDrawX+ratioWidthMiniMap*ca.x,
 						startYMiniMap+ratioHeightMiniMap*ca.y);

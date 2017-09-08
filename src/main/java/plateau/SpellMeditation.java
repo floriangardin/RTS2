@@ -1,12 +1,9 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Graphics;
 
 import events.EventHandler;
 import events.EventNames;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
 public strictfp class SpellMeditation extends Spell{

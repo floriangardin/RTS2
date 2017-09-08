@@ -325,7 +325,7 @@ public strictfp class Player {
 		return Player.team;
 	}
 	public static Team getTeam(Plateau plateau){
-		for(Team team : plateau.teams){
+		for(Team team : plateau.getTeams()){
 			if(team.id == Player.team){
 				return team;
 			}

@@ -20,7 +20,6 @@ import pathfinding.Case;
 import render.SimpleRenderEngine;
 import ressources.Images;
 import ressources.Sounds;
-import spells.SpellEffect;
 import stats.StatsHandler;
 import system.Debug;
 import utils.ObjetsList;
@@ -173,7 +172,7 @@ public strictfp class Character extends Objet{
 		String weapon = this.getAttributString(Attributs.weapon);
 
 		//arme de corps à corps
-		if(plateau.teams.get(0).data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
+		if(plateau.getTeams().get(0).data.getAttributList(ObjetsList.ContactWeapon, Attributs.list).contains(weapon)){
 			Character c = (Character) this.getTarget(plateau);
 
 			// Attack sound
@@ -264,8 +263,8 @@ public strictfp class Character extends Objet{
 				this.waypoints.remove(0);
 				Case co;
 				while(this.waypoints.size()>1){
-					co = plateau.mapGrid.getCase(this.waypoints.get(1));
-					if(plateau.mapGrid.isLineOk(this.getX(), this.getY(), co.x+co.sizeX/2, co.y+co.sizeY/2).size()>0){
+					co = plateau.getMapGrid().getCase(this.waypoints.get(1));
+					if(plateau.getMapGrid().isLineOk(this.getX(), this.getY(), co.x+co.sizeX/2, co.y+co.sizeY/2).size()>0){
 						this.waypoints.remove(0);
 					} else {
 						break;
@@ -277,13 +276,13 @@ public strictfp class Character extends Objet{
 			} 
 			this.moveToward(this.waypoints.get(0), plateau);
 		} else {
-			this.waypoints = plateau.mapGrid.pathfinding(this.getX(), this.getY(), this.getTarget(plateau).getX(),this.getTarget(plateau).getY());
+			this.waypoints = plateau.getMapGrid().pathfinding(this.getX(), this.getY(), this.getTarget(plateau).getX(),this.getTarget(plateau).getY());
 		}
 	}
 	// Moving toward method method
 	public void moveToward(int idCase, Plateau plateau){
-		Case c0 = plateau.mapGrid.getCase(this.getIdCase());
-		Case c1 = plateau.mapGrid.getCase(idCase);
+		Case c0 = plateau.getMapGrid().getCase(this.getIdCase());
+		Case c1 = plateau.getMapGrid().getCase(idCase);
 		// il faut vérifier que l'intersection ne se fait pas trop près du bord de la case
 		float a, b, c, d;
 		float newX, newY;
@@ -363,12 +362,12 @@ public strictfp class Character extends Objet{
 			newY = this.getCollisionBox().getBoundingCircleRadius();
 			newvy = StrictMath.max(newvy, 0f);
 		}
-		if(newX>plateau.maxX-this.getCollisionBox().getBoundingCircleRadius()){
-			newX = plateau.maxX-this.getCollisionBox().getBoundingCircleRadius();
+		if(newX>plateau.getMaxX()-this.getCollisionBox().getBoundingCircleRadius()){
+			newX = plateau.getMaxX()-this.getCollisionBox().getBoundingCircleRadius();
 			newvx = StrictMath.min(0f, newvx);
 		}
-		if(newY>plateau.maxY-this.getCollisionBox().getBoundingCircleRadius()){
-			newY = plateau.maxY-this.getCollisionBox().getBoundingCircleRadius();
+		if(newY>plateau.getMaxY()-this.getCollisionBox().getBoundingCircleRadius()){
+			newY = plateau.getMaxY()-this.getCollisionBox().getBoundingCircleRadius();
 			newvy = StrictMath.min(0f, newvy);
 		}
 
@@ -663,7 +662,7 @@ public strictfp class Character extends Objet{
 		if(t!=null){
 
 			if(waypoints==null){
-				this.moveAhead = (plateau.mapGrid.isLineOk(getX(), getY(), t.getX(), t.getY()).size()>0);
+				this.moveAhead = (plateau.getMapGrid().isLineOk(getX(), getY(), t.getX(), t.getY()).size()>0);
 				if(!this.moveAhead)	
 					this.waypoints = this.computeWay(plateau);
 				else
@@ -699,7 +698,7 @@ public strictfp class Character extends Objet{
 		if(!isAttacking && this.getTarget(plateau)!=null && 
 				(this.getTarget(plateau) instanceof Checkpoint || 
 						!range.intersects(this.getTarget(plateau).getCollisionBox()) ||
-						(!(this.getTarget(plateau) instanceof Building) && plateau.mapGrid.isLineOk(getX(), getY(), getTarget(plateau).getX(), getTarget(plateau).getY()).size()==0)
+						(!(this.getTarget(plateau) instanceof Building) && plateau.getMapGrid().isLineOk(getX(), getY(), getTarget(plateau).getX(), getTarget(plateau).getY()).size()==0)
 						)
 				){
 			if(this.mode!=Character.HOLD_POSITION){

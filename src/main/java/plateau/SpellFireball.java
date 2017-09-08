@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -6,11 +6,6 @@ import org.newdawn.slick.Graphics;
 import control.Player;
 import data.Attributs;
 import main.Main;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Fireball;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
 public strictfp class SpellFireball extends Spell{

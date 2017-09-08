@@ -107,16 +107,16 @@ public strictfp class Map {
 			br.close(); 
 			// Création de la map
 			Plateau plateau = new Plateau((int)(sizeX*stepGrid), (int)(sizeY*stepGrid));
-			Data data1 = plateau.teams.get(1).data;
-			Data data2 = plateau.teams.get(2).data;
+			Data data1 = plateau.getTeams().get(1).data;
+			Data data2 = plateau.getTeams().get(2).data;
 			// Headquarters
 			for(int i=0;i<headquarters.size(); i++){
 				// format:
 				// team_x_y
 				String[] tab = headquarters.get(i).split(" ");
-				new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.teams.get((int)Float.parseFloat(tab[0])), plateau);
+				new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.getTeams().get((int)Float.parseFloat(tab[0])), plateau);
 			}
-			for(Team team : plateau.teams){
+			for(Team team : plateau.getTeams()){
 				System.out.println(team.id+" "+plateau.getHQ(team));
 			}
 			// Buildings
@@ -125,7 +125,7 @@ public strictfp class Map {
 				// typeBuilding_team_x_y
 				String[] tab = buildings.get(i).split(" ");
 				//System.out.println(tab[2]);
-				new Building(ObjetsList.valueOf(tab[0]),(int)(float)(Float.parseFloat(tab[2])),(int)(float)(Float.parseFloat(tab[3])),plateau.teams.get((int)Float.parseFloat(tab[1])),plateau);
+				new Building(ObjetsList.valueOf(tab[0]),(int)(float)(Float.parseFloat(tab[2])),(int)(float)(Float.parseFloat(tab[3])),plateau.getTeams().get((int)Float.parseFloat(tab[1])),plateau);
 			}
 			// Units
 			for(int i=0; i<units.size(); i++){
@@ -138,7 +138,7 @@ public strictfp class Map {
 				} else {
 					throw new Exception();
 				}
-				new Character(Float.parseFloat(tab[2]), Float.parseFloat(tab[3]), ObjetsList.valueOf(tab[0]), plateau.teams.get(Integer.parseInt(tab[1])),plateau);
+				new Character(Float.parseFloat(tab[2]), Float.parseFloat(tab[3]), ObjetsList.valueOf(tab[0]), plateau.getTeams().get(Integer.parseInt(tab[1])),plateau);
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){
@@ -150,7 +150,7 @@ public strictfp class Map {
 			// Map ground
 			for(int i=0; i<mapGround.size(); i++){
 				for(int j=0; j<mapGround.get(i).length(); j++){
-					plateau.mapGrid.grid.get(i).get(j).setIdTerrain(mapGround.get(i).charAt(j));
+					plateau.getMapGrid().grid.get(i).get(j).setIdTerrain(mapGround.get(i).charAt(j));
 				}
 			}
 			plateau.update();
@@ -169,11 +169,11 @@ public strictfp class Map {
 			OutputStreamWriter ipsr=new OutputStreamWriter(ips);
 			BufferedWriter br=new BufferedWriter(ipsr);
 			br.write("###########################\n");
-			br.write("& sizeX "+(int)(plateau.maxX/Map.stepGrid)+"\n");
-			br.write("& sizeY "+(int)(plateau.maxY/Map.stepGrid)+"\n");
+			br.write("& sizeX "+(int)(plateau.getMaxX()/Map.stepGrid)+"\n");
+			br.write("& sizeY "+(int)(plateau.getMaxY()/Map.stepGrid)+"\n");
 			br.write("###########################\n");
 			br.write("= headquarters\n");
-			for(Team team : plateau.teams){
+			for(Team team : plateau.getTeams()){
 				if(plateau.getHQ(team)!=null){
 					br.write(""+team.id+" "+(plateau.getHQ(team)).i+" "+(plateau.getHQ(team)).j+"\n");
 				}
@@ -197,9 +197,9 @@ public strictfp class Map {
 			}
 			br.write("###########################\n");
 			br.write("= mapGround\n");
-			for(int i=0; i<plateau.mapGrid.grid.size(); i++){
-				for(int j=0; j<plateau.mapGrid.grid.get(0).size(); j++){
-					br.write(plateau.mapGrid.grid.get(i).get(j).getIdTerrain().id);
+			for(int i=0; i<plateau.getMapGrid().grid.size(); i++){
+				for(int j=0; j<plateau.getMapGrid().grid.get(0).size(); j++){
+					br.write(plateau.getMapGrid().grid.get(i).get(j).getIdTerrain().id);
 				}
 				br.write("\n");
 			}

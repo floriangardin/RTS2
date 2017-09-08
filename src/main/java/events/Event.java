@@ -29,7 +29,7 @@ public abstract strictfp class Event {
 
 	public Event(final Objet parent, Plateau plateau){
 		this.parent = parent;
-		this.roundLaunched = plateau.round;
+		this.roundLaunched = plateau.getRound();
 
 		// TODO : Make it generic with dataFile
 
@@ -43,7 +43,7 @@ public abstract strictfp class Event {
 		return this.getName().name();
 	}
 	public boolean isNewEvent(Plateau plateau){
-		return plateau.round-roundLaunched==0;
+		return plateau.getRound()-roundLaunched==0;
 	}
 
 	public int getGameTeam(){

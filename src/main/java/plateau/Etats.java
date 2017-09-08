@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 public enum Etats {
 

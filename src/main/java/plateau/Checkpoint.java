@@ -30,7 +30,7 @@ public strictfp class Checkpoint extends Objet {
 	protected void initialize(float x, float y, Plateau plateau){
 		this.setLifePoints(1f);
 		this.setName(ObjetsList.Checkpoint);
-		plateau.getObjets().put(this.getId(), this);
+		plateau.addObjet(this);
 		this.setX(x);
 		this.setY(y);
 		color = Colors.team2;
@@ -43,8 +43,6 @@ public strictfp class Checkpoint extends Objet {
 		drawShape2.setCenterY(y);
 		this.setXY(x, y, plateau);
 		this.setSelectionBox(null);
-		this.setX(x);
-		this.setY(y);
 		this.printed=0f;
 	}
 	

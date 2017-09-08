@@ -57,9 +57,9 @@ public strictfp class WholeGame extends ClassSystem{
 		if(hq!=null){
 			int xHQ =(int) hq.getX();
 			int yHQ = (int)hq.getY();
-			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
+			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.getMaxX(), (int)plateau.getMaxY());	
 		}else{
-			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.getMaxX(), (int)plateau.getMaxY());
 		}
 		Game.endSystem = null;
 		RenderEngine.init(plateau);
@@ -84,7 +84,7 @@ public strictfp class WholeGame extends ClassSystem{
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
 			RenderEngine.drawStats = im.isDown(KeyEnum.ShowStats);
 			// handling start
-			if(GameClient.getPlateau().round<nbRoundStart){
+			if(GameClient.getPlateau().getRound()<nbRoundStart){
 				im.reset();
 			} else {
 				iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
@@ -125,7 +125,7 @@ public strictfp class WholeGame extends ClassSystem{
 		
 			GameClient.mutex.unlock();
 		}
-		if(GameClient.getPlateau().teamLooser>0){
+		if(GameClient.getPlateau().getTeamLooser()>0){
 
 			if(this.repeat){
 				if(this.repeatNumber--<0){

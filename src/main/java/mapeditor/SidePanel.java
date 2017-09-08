@@ -126,13 +126,13 @@ public strictfp class SidePanel extends JPanel{
 			// rendering plateau
 			if(MainEditor.getSheet()!=null && MainEditor.getSheet().getPlateau()!=null){
 				// computing ratios and offsets
-				float ratioX = 1f*this.getWidth()/MainEditor.getSheet().getPlateau().maxX;
-				float ratioY = 1f*this.getHeight()/MainEditor.getSheet().getPlateau().maxY;
+				float ratioX = 1f*this.getWidth()/MainEditor.getSheet().getPlateau().getMaxX();
+				float ratioY = 1f*this.getHeight()/MainEditor.getSheet().getPlateau().getMaxY();
 				ratio = 0.01f*(int)(100*StrictMath.min(ratioX, ratioY));
-				offsetY = (this.getHeight()-MainEditor.getSheet().getPlateau().maxY*ratio)/2f;
-				offsetX = (this.getWidth()-MainEditor.getSheet().getPlateau().maxX*ratio)/2f;
+				offsetY = (this.getHeight()-MainEditor.getSheet().getPlateau().getMaxY()*ratio)/2f;
+				offsetX = (this.getWidth()-MainEditor.getSheet().getPlateau().getMaxX()*ratio)/2f;
 				Color color;
-				for(Case c : MainEditor.getSheet().getPlateau().mapGrid.idcases.values()){
+				for(Case c : MainEditor.getSheet().getPlateau().getMapGrid().idcases.values()){
 					switch(c.getIdTerrain()){
 					case GRASS:
 						color = new Color(10,70,5);

@@ -1,40 +1,41 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 
 import main.Main;
 import model.Game;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
-public strictfp class Heal extends SpellEffect{
+public strictfp class Frozen extends SpellEffect{
 
-	public static float radius = 70f;
 	public float remainingTime;
 	public float damage;
 	public Character owner;
 	public boolean active = false;
-	public Heal(Character launcher, Objet t, Plateau plateau){
+	public Frozen(Character launcher, Objet t, float radius, Plateau plateau){
 		super(plateau);
-
+		launcher.getEtats().add(Etats.Frozen);
 		this.type = 1;
 
-		this.setName(ObjetsList.HealEffect);
 		this.setX(t.getX());
 		this.setY(t.getY());
-		this.team = launcher.getTeam();
+
+		this.setName(ObjetsList.FrozenEffect);
 		this.setLifePoints(1f);
 		plateau.addSpell(this);
 		owner = launcher;
+		this.team = launcher.getTeam();
 
-		this.setCollisionBox(new Circle(getX(),getY(),radius));
-		//this.Game.g.sounds.get("frozen").play(1f,this.Game.g.options.soundVolume);
+		this.setCollisionBox(createShape(launcher, t, radius));
+//		Game.g.sounds.get("frozen").play(1f,Game.g.options.soundVolume);
 	}
 
+	public static Shape createShape(Character launcher, Objet t, float radius){
+		return new Circle(t.getX(),t.getY(),radius);
+	}
 
 
 
@@ -57,9 +58,11 @@ public strictfp class Heal extends SpellEffect{
 		g.setColor(Color.white);
 		g.setAntiAlias(true);
 		g.draw(getCollisionBox());
-		g.setColor(new Color(99,255,32,0.8f));
-		g.fill(getCollisionBox());
-		
+		if(!(this.remainingTime>0.5f)){
+			g.setColor(new Color(60,100,250,0.2f));
+			g.fill(getCollisionBox());
+		}
+
 		g.setAntiAlias(false);
 
 		//g.setColor(Color.white);
@@ -67,11 +70,10 @@ public strictfp class Heal extends SpellEffect{
 		return g;
 	}
 
-	@Override
-	public void collision(Character c, Plateau plateau){
+	public void collision(Character c){
 		// Si on est suffisamment dedans on reste bloqué
-		if(c.getTeam()==this.getTeam()){
-			c.setLifePoints(c.getLifePoints()+1f, plateau);
+		if(active){
+			c.frozen = 10f;
 		}
 	}
 

@@ -92,7 +92,7 @@ public strictfp class MenuSystem extends ClassSystem {
 			Taunts.update();
 		}
 		plateau.update();
-		if(plateau.teamLooser>0){
+		if(plateau.getTeamLooser()>0){
 			plateau = generatePlateau();
 		}
 		//this.send();
@@ -135,13 +135,13 @@ public strictfp class MenuSystem extends ClassSystem {
 
 	public Plateau generatePlateau(){
 		Plateau plateau = new Plateau((int)(20*Map.stepGrid), (int)(11*Map.stepGrid));
-		Vector<Vector<Case>> g = plateau.mapGrid.grid;
+		Vector<Vector<Case>> g = plateau.getMapGrid().grid;
 		float x, y;
 		Vector<ObjetsList> v = ObjetsList.getUnits();
 		ObjetsList ol;
 		int i = 0;
-		for(Case c : plateau.mapGrid.idcases.values()){
-			if(c.i==0 || c.j==0 || c.i==plateau.mapGrid.grid.size()-1 || c.j==plateau.mapGrid.grid.get(0).size()-1){
+		for(Case c : plateau.getMapGrid().idcases.values()){
+			if(c.i==0 || c.j==0 || c.i==plateau.getMapGrid().grid.size()-1 || c.j==plateau.getMapGrid().grid.get(0).size()-1){
 				c.setIdTerrain(IdTerrain.WATER);
 			}
 		}
@@ -154,9 +154,9 @@ public strictfp class MenuSystem extends ClassSystem {
 		i = 0;
 		while(StrictMath.random()>0.02 && i<20){
 			do{
-				x = (float)(StrictMath.random()*plateau.maxX);
-				y = (float)(StrictMath.random()*plateau.maxY);
-			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
+				x = (float)(StrictMath.random()*plateau.getMaxX());
+				y = (float)(StrictMath.random()*plateau.getMaxY());
+			} while(plateau.getMapGrid().getCase(x,y).getIdTerrain()==IdTerrain.WATER);
 			plateau.addNaturalObjets(new Tree(x, y, (int)(StrictMath.random()*2)+1, plateau));
 			i++;
 		}
@@ -164,21 +164,21 @@ public strictfp class MenuSystem extends ClassSystem {
 		i = 0;
 		while(StrictMath.random()>0.02 && i<50){
 			do{
-				x = (float)(StrictMath.random()*plateau.maxX);
-				y = (float)(StrictMath.random()*plateau.maxY);
-			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
+				x = (float)(StrictMath.random()*plateau.getMaxX());
+				y = (float)(StrictMath.random()*plateau.getMaxY());
+			} while(plateau.getMapGrid().getCase(x,y).getIdTerrain()==IdTerrain.WATER);
 			do{
 				ol = v.get((int)(StrictMath.random()*v.size()));
 			} while(ol==ObjetsList.Priest || ol==ObjetsList.Inquisitor);
-			c = new Character(x,y,ol,plateau.teams.get((int)(StrictMath.random()*2)+1),plateau);
+			c = new Character(x,y,ol,plateau.getTeams().get((int)(StrictMath.random()*2)+1),plateau);
 			c.attributsChanges.add(new AttributsChange(Attributs.sight, Change.MUL, 4f, false));
 			plateau.addCharacterObjets(c);
 			i++;
 		}
 		plateau.setEndCondition(new UnitsEndCondition());
-		plateau.round = (int) (WholeGame.nbRoundStart+10);
+		plateau.setRound((int) (WholeGame.nbRoundStart+10));
 		plateau.update();
-		Camera.init(Game.resX, Game.resY, plateau.maxX/2-1920/2, plateau.maxY/2-1080/2, (int)plateau.maxX, (int)plateau.maxY);
+		Camera.init(Game.resX, Game.resY, plateau.getMaxX()/2-1920/2, plateau.getMaxY()/2-1080/2, (int)plateau.getMaxX(), (int)plateau.getMaxY());
 		return plateau;
 	}
 }

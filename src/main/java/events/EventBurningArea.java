@@ -5,10 +5,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import display.Camera;
+import plateau.BurningArea;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
-import spells.BurningArea;
 
 public strictfp class EventBurningArea extends Event{
 	

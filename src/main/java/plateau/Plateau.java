@@ -1,7 +1,9 @@
 package plateau;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,9 +21,6 @@ import events.EventNames;
 import model.WholeGame;
 import pathfinding.Case;
 import pathfinding.MapGrid;
-import spells.Etats;
-import spells.Spell;
-import spells.SpellEffect;
 import stats.StatsHandler;
 import system.Debug;
 import utils.ObjetsList;
@@ -32,37 +31,39 @@ public strictfp class Plateau implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4212262274818996077L;
-	public int teamLooser = 0;
-	public int maxX;
-	public int maxY;
-	public EndCondition getEndCondition() {
-		return endCondition;
-	}
-
-	public void setEndCondition(EndCondition endCondition) {
-		this.endCondition = endCondition;
-	}
+	private int teamLooser = 0;
+	private int maxX;
+	private int maxY;
 	private Vector<Objet> toAddObjet;
 	private Vector<Objet> toRemoveObjet;
-	public MapGrid mapGrid;
+	private MapGrid mapGrid;
 	private HashMap<Integer,Objet> objets;
 	// players
-	public Vector<Team> teams;
+	private Vector<Team> teams;
 	// round
-	public int round = 0;
+	private int round = 0;
 	// Hold ids of objects
 	private int id = 0;
 	private EndCondition endCondition;
+	
+	
+	public EndCondition getEndCondition() {
+		return endCondition;
+	}
+	
+	public void setEndCondition(EndCondition endCondition) {
+		this.endCondition = endCondition;
+	}
 	public Plateau(int maxX, int maxY) {
 		
 		// GENERAL
-		this.mapGrid = new MapGrid(maxX, maxY);
-		this.maxX = maxX;
-		this.maxY = maxY;
+		this.setMapGrid(new MapGrid(maxX, maxY));
+		this.setMaxX(maxX);
+		this.setMaxY(maxY);
 		// TEAMS
-		this.teams = new Vector<Team>();
+		this.setTeams(new Vector<Team>());
 		for(int id=0 ; id<3; id++){
-			this.teams.add(new Team(id, this));
+			this.getTeams().add(new Team(id, this));
 		}
 		// OBKETS
 		this.toAddObjet = new Vector<Objet>();
@@ -89,10 +90,10 @@ public strictfp class Plateau implements java.io.Serializable {
 	}
 
 	public void addCharacterObjets(Character o) {
-		Case c = mapGrid.getCase(o.getX(), o.getY());
+		Case c = getMapGrid().getCase(o.getX(), o.getY());
 		if(c!=null){
 			o.setIdCase(c.id);
-			mapGrid.getCase(o.getIdCase()).characters.add(o);
+			getMapGrid().getCase(o.getIdCase()).characters.add(o);
 		} else {
 			o.setIdCase(-1);
 		}
@@ -101,7 +102,7 @@ public strictfp class Plateau implements java.io.Serializable {
 	}
 
 	public void removeCharacter(Character o) {
-		Case c = mapGrid.getCase(o.getIdCase());
+		Case c = getMapGrid().getCase(o.getIdCase());
 		if(c!=null && c.characters.contains(o)){
 			c.characters.remove(o);
 		}
@@ -118,22 +119,22 @@ public strictfp class Plateau implements java.io.Serializable {
 	}
 
 	public void addNaturalObjets(NaturalObjet o) {
-		this.mapGrid.addNaturalObject(o);
+		this.getMapGrid().addNaturalObject(o);
 		toAddObjet.addElement(o);
 	}
 
 	public void removeNaturalObjets(NaturalObjet o) {
-		this.mapGrid.removeNaturalObject(o);
+		this.getMapGrid().removeNaturalObject(o);
 		toRemoveObjet.addElement(o);
 	}
 
 	public void addBuilding(Building o) {
-		this.mapGrid.addBuilding(o);
+		this.getMapGrid().addBuilding(o);
 		toAddObjet.addElement(o);
 	}
 
 	public void removeBuilding(Building o) {
-		this.mapGrid.removeBuilding(o);
+		this.getMapGrid().removeBuilding(o);
 		toRemoveObjet.addElement(o);
 	}
 
@@ -271,11 +272,11 @@ public strictfp class Plateau implements java.io.Serializable {
 	
 	
 	public void collision() {
-		this.mapGrid.updateSurroundingChars();
+		this.getMapGrid().updateSurroundingChars();
 		for (Character o : getCharacters()) {
 			// Handle collision between Objets and action objects
 			if (o.getIdCase() != -1) {
-				for (Character i : mapGrid.getCase(o.getIdCase()).surroundingChars) {
+				for (Character i : getMapGrid().getCase(o.getIdCase()).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
 						i.collision(o, this);
@@ -332,7 +333,7 @@ public strictfp class Plateau implements java.io.Serializable {
 				}
 			}
 			// Between characters and forbidden terrain (water)
-			Case ca = mapGrid.idcases.get(o.getIdCase());
+			Case ca = getMapGrid().idcases.get(o.getIdCase());
 			if(!ca.getIdTerrain().ok){
 				o.collisionRect(new Rectangle(ca.x, ca.y, ca.sizeX, ca.sizeY), this);
 			}
@@ -576,9 +577,9 @@ public strictfp class Plateau implements java.io.Serializable {
 		update(new Vector<InputObject>());
 	}
 	public void update(Vector<InputObject> ims) {
-		round ++;
+		setRound(getRound() + 1);
 		this.clean();
-		if(round<WholeGame.nbRoundStart){
+		if(getRound()<WholeGame.nbRoundStart){
 			return;
 		}
 		
@@ -602,12 +603,12 @@ public strictfp class Plateau implements java.io.Serializable {
 		// 
 		this.action();
 		// 4- handling victory
-		for(Team team : teams){
+		for(Team team : getTeams()){
 			if(team.id==0){
 				continue;
 			}
 			if(this.endCondition!=null && this.endCondition.hasLost(this, team)){
-				this.teamLooser = team.id;
+				this.setTeamLooser(team.id);
 			}
 		}
 		
@@ -642,7 +643,7 @@ public strictfp class Plateau implements java.io.Serializable {
 
 	private Team getTeamById(int team) {
 		// TODO Auto-generated method stub
-		return teams.stream().filter(x-> x.id==team).findFirst().orElse(null);
+		return getTeams().stream().filter(x-> x.id==team).findFirst().orElse(null);
 	}
 
 	
@@ -740,7 +741,7 @@ public strictfp class Plateau implements java.io.Serializable {
 				}
 		}
 		if(im.spell!=null && im.idSpellLauncher > -1){
-			Spell s = teams.get(im.team).data.getSpell(im.spell);
+			Spell s = getTeams().get(im.team).data.getSpell(im.spell);
 			Character c = ((Character) this.getById(im.idSpellLauncher));
 			boolean hasLaunched = false;
 			if(im.idObjetMouse!=-1){
@@ -827,10 +828,6 @@ public strictfp class Plateau implements java.io.Serializable {
 		return this.toString().equals(((Plateau)o).toString());
 	}
 
-	public int getRound() {
-		
-		return round;
-	}
 	
 	
 	public Object toJson(){
@@ -840,13 +837,13 @@ public strictfp class Plateau implements java.io.Serializable {
 		finalResult.put("teams", null);
 		// Get teams state
 		HashMap<Integer, HashMap<String, Integer>> toPut = new HashMap<Integer, HashMap<String, Integer>>();
-		for(Team t : teams){
+		for(Team t : getTeams()){
 			HashMap<String, Integer> stats = new HashMap<String, Integer>();
 			stats.put("pop", t.getPop(this));
 			stats.put("maxPop", t.getMaxPop(this));
 			stats.put("food", t.food);
-			stats.put("hasLost", (t.id==this.teamLooser) && t.id!=0 ? 1 : 0);
-			if((t.id==this.teamLooser) && t.id!=0){
+			stats.put("hasLost", (t.id==this.getTeamLooser()) && t.id!=0 ? 1 : 0);
+			if((t.id==this.getTeamLooser()) && t.id!=0){
 				System.out.println("has lost");
 			}
 			toPut.put(t.id, stats);
@@ -858,11 +855,21 @@ public strictfp class Plateau implements java.io.Serializable {
 		return finalResult;
 	}
 
-	public HashMap<Integer,Objet> getObjets() {
-		return objets;
+	public HashMap<Integer, Objet> getObjets() {
+		return (HashMap<Integer, Objet>) objets.clone();
+	}
+	
+	void addObjet(Objet o){
+		if(!objets.containsKey(o.getId())){			
+			objets.put(o.getId(), o);
+		}else{
+			System.out.println("Already existing Id !");
+		}
+			//toAddObjet.add(o); // N'est pas ajouté au plateau ?
+		
 	}
 
-	public void setObjets(HashMap<Integer,Objet> objets) {
+	private void setObjets(HashMap<Integer,Objet> objets) {
 		this.objets = objets;
 	}
 
@@ -872,6 +879,54 @@ public strictfp class Plateau implements java.io.Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getTeamLooser() {
+		return teamLooser;
+	}
+
+	private void setTeamLooser(int teamLooser) {
+		this.teamLooser = teamLooser;
+	}
+
+	public int getMaxX() {
+		return maxX;
+	}
+
+	private void setMaxX(int maxX) {
+		this.maxX = maxX;
+	}
+
+	public int getMaxY() {
+		return maxY;
+	}
+
+	private void setMaxY(int maxY) {
+		this.maxY = maxY;
+	}
+
+	public Vector<Team> getTeams() {
+		return teams;
+	}
+
+	private void setTeams(Vector<Team> teams) {
+		this.teams = teams;
+	}
+
+	public MapGrid getMapGrid() {
+		return mapGrid;
+	}
+
+	private void setMapGrid(MapGrid mapGrid) {
+		this.mapGrid = mapGrid;
+	}
+
+	public int getRound() {
+		return round;
+	}
+
+	public void setRound(int round) {
+		this.round = round;
 	}
 
 

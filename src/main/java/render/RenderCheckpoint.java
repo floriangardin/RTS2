@@ -22,7 +22,7 @@ public strictfp class RenderCheckpoint {
 		if(!c.toDraw && !c.alwaysDraw){
 			return ;
 		}
-		if(c.lastRoundUpdate==plateau.round){
+		if(c.lastRoundUpdate==plateau.getRound()){
 			return ;
 		}
 		g.setAntiAlias(true);
@@ -45,7 +45,7 @@ public strictfp class RenderCheckpoint {
 			g.draw(c.drawShape2);
 			g.setColor(c.color);
 			g.draw(c.drawShape);
-			c.lastRoundUpdate = plateau.round;
+			c.lastRoundUpdate = plateau.getRound();
 		}
 		g.setAntiAlias(false);
 	}
@@ -53,7 +53,7 @@ public strictfp class RenderCheckpoint {
 		if(!c.toDraw && !c.alwaysDraw){
 			return ;
 		}
-		if(c.lastRoundUpdate==plateau.round){
+		if(c.lastRoundUpdate==plateau.getRound()){
 			return ;
 		}
 		g.setAntiAlias(true);
@@ -80,7 +80,7 @@ public strictfp class RenderCheckpoint {
 			g.draw(c.drawShape2);
 			g.setColor(c.color);
 			g.draw(c.drawShape);
-			c.lastRoundUpdate = plateau.round;
+			c.lastRoundUpdate = plateau.getRound();
 		}
 		g.setAntiAlias(false);
 	}

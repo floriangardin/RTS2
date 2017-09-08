@@ -1,9 +1,6 @@
-package spells;
+package plateau;
 
 import model.Game;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 public strictfp class SpellEffect extends Objet{
 
 	public SpellEffect(Plateau plateau) {

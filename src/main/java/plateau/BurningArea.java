@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -13,11 +13,6 @@ import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import model.Game;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Fireball;
-import plateau.Objet;
-import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 
@@ -59,7 +54,7 @@ public strictfp class BurningArea extends SpellEffect{
 	}
 
 	public void collision(Character c, Plateau plateau){
-		if(this.getLifePoints()>0 && c.getTeam()!=this.team && plateau.round%20==0){
+		if(this.getLifePoints()>0 && c.getTeam()!=this.team && plateau.getRound()%20==0){
 			c.setLifePoints(c.getLifePoints()-1f, plateau);
 		}
 	}

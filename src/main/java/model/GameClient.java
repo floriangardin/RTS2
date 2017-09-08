@@ -32,7 +32,6 @@ public strictfp class GameClient extends Listener {
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
 	public static final int delay = 4; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
-	
 	public static void init(String ip) throws IOException{
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
@@ -50,7 +49,7 @@ public strictfp class GameClient extends Listener {
 						InputObject im = (InputObject)m.get();
 						if(im.round>getRound()+GameClient.delay){
 							//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
-							client.sendUDP((im.round-delay-getRound()));
+							client.sendTCP((im.round-delay-getRound()));
 						}
 						GameClient.addInput(im);
 					}else if(type==Message.MENUPLAYER){
@@ -112,10 +111,10 @@ public strictfp class GameClient extends Listener {
 	}
 
 	public static int roundForInput(){
-		return plateau.round+delay;
+		return plateau.getRound()+delay;
 	}
 	public static int getRound(){
-		return plateau.round;
+		return plateau.getRound();
 	}
 
 	public static Vector<InputObject> getInputForRound(){
@@ -123,9 +122,9 @@ public strictfp class GameClient extends Listener {
 		Vector<InputObject> toRemove = new Vector<InputObject>();
 		synchronized(inputs){
 			for(InputObject im: inputs){
-				if(im.round==plateau.round){
+				if(im.round==plateau.getRound()){
 					res.add(im);
-				}else if(im.round<plateau.round){
+				}else if(im.round<plateau.getRound()){
 					toRemove.add(im);
 				}
 			}
@@ -157,10 +156,12 @@ public strictfp class GameClient extends Listener {
 	}
 	public static void setPlateau(Plateau plateau){
 		mutex.lock();
+		System.out.println("Mutex is locked for setting a new plateau");
 		try {
 			System.out.println("New plateau");
 			GameClient.plateau = plateau;
 		} finally {
+			System.out.println("Mutex is unlocked after setting a new plateau");
 		    mutex.unlock();
 		}
 	}

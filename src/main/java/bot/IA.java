@@ -132,7 +132,7 @@ public abstract strictfp class IA{
 	 */
 	public InputObject initForRound(Plateau plateau, int roundToPlay){
 		if(player==null){
-			for(Team team : plateau.teams){
+			for(Team team : plateau.getTeams()){
 				if(team.id==teamId){
 					this.player = team;
 				}
@@ -143,7 +143,7 @@ public abstract strictfp class IA{
 		Map<Integer, Role> roles = getUnits().collect(Collectors.toMap(IAUnit::getId, IAUnit::getRole));
 		this.units.clear();
 		
-		if(plateau.round<5){
+		if(plateau.getRound()<5){
 			return toReturn;
 		}
 		//Update IA Objects
@@ -199,7 +199,7 @@ public abstract strictfp class IA{
 	}
 	
 	public int getRound(){
-		return plateau.round;
+		return plateau.getRound();
 	}
 	public void stopMove(){
 		im.pressed.add(KeyEnum.StopperMouvement);

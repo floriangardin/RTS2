@@ -66,7 +66,7 @@ public strictfp class TestRender extends BasicGame{
 		// TODO Auto-generated method stub
 		Images.init();
 		plateau = Map.createPlateau("test01", "maptests");
-		Camera.init(1920, 1080, 0, 0, plateau.maxX, plateau.maxY);
+		Camera.init(1920, 1080, 0, 0, plateau.getMaxX(), plateau.getMaxY());
 	}
 
 	@Override

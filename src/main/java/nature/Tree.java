@@ -25,7 +25,7 @@ public strictfp class Tree extends NaturalObjet {
 		super(plateau);
 		this.type = type;
 		this.setName(ObjetsList.get("tree0"+type));
-		this.team = plateau.teams.get(0);
+		this.team = plateau.getTeams().get(0);
 		this.setCollisionBox(new Circle(x,y,this.getAttribut(Attributs.size)));
 		this.color = Color.gray;
 		this.setLifePoints(1.0f);

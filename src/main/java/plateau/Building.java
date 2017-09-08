@@ -300,7 +300,7 @@ public strictfp class Building extends Objet{
 				dirY = (dirY>=0 ? 1f : -1f);
 				float startX = this.getX();
 				float startY = this.getY() + dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
-				if(plateau.mapGrid.getCase(startX, startY) == null || !plateau.mapGrid.getCase(startX, startY).getIdTerrain().ok){
+				if(plateau.getMapGrid().getCase(startX, startY) == null || !plateau.getMapGrid().getCase(startX, startY).getIdTerrain().ok){
 					startY = this.getY() - dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
 				}
 				Character c = new Character(startX,startY, getQueue().get(0), this.getTeam(), plateau);
@@ -492,7 +492,7 @@ public strictfp class Building extends Objet{
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			if(this.potentialTeam!=this.getTeam().id  ){
-				if(plateau.teams.get(this.potentialTeam).enoughPop(this.getName(), plateau)||this instanceof Bonus || (getName().equals(ObjetsList.Headquarters))){
+				if(plateau.getTeams().get(this.potentialTeam).enoughPop(this.getName(), plateau)||this instanceof Bonus || (getName().equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam, plateau);
 
@@ -543,7 +543,7 @@ public strictfp class Building extends Objet{
 		if(this.team.id==Player.team && i!=Player.team && !(getName().equals(ObjetsList.Headquarters))){
 			ChatHandler.addMessage(ChatMessage.getById(MessageType.BUILDINGLOST));
 		}
-		this.team = plateau.teams.get(i);
+		this.team = plateau.getTeams().get(i);
 		this.setTeamExtra();
 		this.giveUpProcess = false;
 	}

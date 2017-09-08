@@ -3,7 +3,7 @@ package render;
 import org.newdawn.slick.Graphics;
 
 import plateau.Plateau;
-import spells.SpellEffect;
+import plateau.SpellEffect;
 
 public strictfp class RenderSpell {
 

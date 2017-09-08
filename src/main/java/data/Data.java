@@ -7,9 +7,9 @@ import org.newdawn.slick.geom.Point;
 
 import main.Main;
 import plateau.Plateau;
+import plateau.Spell;
 import plateau.Team;
 import ressources.Map;
-import spells.Spell;
 import utils.ObjetsList;
 import utils.Utils;
 

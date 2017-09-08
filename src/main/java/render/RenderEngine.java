@@ -97,8 +97,8 @@ public strictfp class RenderEngine {
 			g.setColor(new Color(0f,0f,0f,alphaFadingIn));
 			g.fillRect(0, 0, Game.resX, Game.resY);
 		}
-		if(plateau.round<WholeGame.nbRoundStart){
-			String s = "Début dans "+10*(int)((WholeGame.nbRoundStart-plateau.round)/10);
+		if(plateau.getRound()<WholeGame.nbRoundStart){
+			String s = "Début dans "+10*(int)((WholeGame.nbRoundStart-plateau.getRound())/10);
 			GraphicElements.font_big.drawString(100f, Game.resY/2-50f, s);
 		}
 	}
@@ -162,9 +162,9 @@ public strictfp class RenderEngine {
 		Image im = Images.get("grasstile");
 		HashMap<String, Image> temp = new HashMap<String, Image>();
 		try {
-			imageBackground = new Image(plateau.maxX*2,plateau.maxY*2);
+			imageBackground = new Image(plateau.getMaxX()*2,plateau.getMaxY()*2);
 			graphicBackground = imageBackground.getGraphics();
-			imageBackgroundNeutral = new Image(plateau.maxX*2,plateau.maxY*2);
+			imageBackgroundNeutral = new Image(plateau.getMaxX()*2,plateau.getMaxY()*2);
 			graphicBackgroundNeutral = imageBackgroundNeutral.getGraphics();
 
 		} catch (SlickException e) {}
@@ -185,7 +185,7 @@ public strictfp class RenderEngine {
 			temp.put("13", im.getSubImage(sizeTile*3, sizeTile*0, sizeTile, sizeTile));
 			temp.put("17", im.getSubImage(sizeTile*4, sizeTile*1, sizeTile, sizeTile));
 			temp.put("19", im.getSubImage(sizeTile*3, sizeTile*1, sizeTile, sizeTile));
-			for(Case c : plateau.mapGrid.idcases.values()){
+			for(Case c : plateau.getMapGrid().idcases.values()){
 				if(c.getIdTerrain()!=it){
 					continue;
 				}
@@ -199,102 +199,102 @@ public strictfp class RenderEngine {
 					}
 				}
 				if(it != IdTerrain.WATER){
-					graphicBackgroundNeutral.drawImage(Images.get(s+i).getScaledCopy((int)c.sizeX,(int)c.sizeY), plateau.maxX/2+c.x,plateau.maxY/2+c.y);
+					graphicBackgroundNeutral.drawImage(Images.get(s+i).getScaledCopy((int)c.sizeX,(int)c.sizeY), plateau.getMaxX()/2+c.x,plateau.getMaxY()/2+c.y);
 				}
-				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10);
+				ctemp = plateau.getMapGrid().getCase(c.x-10, c.y+10);
 				b4 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x-10, c.y-10);
+				ctemp = plateau.getMapGrid().getCase(c.x-10, c.y-10);
 				b7 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x+10, c.y-10);
+				ctemp = plateau.getMapGrid().getCase(c.x+10, c.y-10);
 				b8 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y-10);
+				ctemp = plateau.getMapGrid().getCase(c.x+10+c.sizeX, c.y-10);
 				b9 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y+10);
+				ctemp = plateau.getMapGrid().getCase(c.x+10+c.sizeX, c.y+10);
 				b6 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x+10+c.sizeX, c.y+10+c.sizeY);
+				ctemp = plateau.getMapGrid().getCase(c.x+10+c.sizeX, c.y+10+c.sizeY);
 				b3 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x+10, c.y+10+c.sizeY);
+				ctemp = plateau.getMapGrid().getCase(c.x+10, c.y+10+c.sizeY);
 				b2 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
-				ctemp = plateau.mapGrid.getCase(c.x-10, c.y+10+c.sizeY);
+				ctemp = plateau.getMapGrid().getCase(c.x-10, c.y+10+c.sizeY);
 				b1 = (it != IdTerrain.WATER && ctemp==null) || (ctemp!=null && ctemp.getIdTerrain()!= c.getIdTerrain());
 				if(b1||b2||b3||b4||b6||b7||b8||b9){
 					if(b4){
 						if(b6){
 							if(b8){
 								if(b2){
-									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-									graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
-									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, sizeTile/2, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
-									graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(sizeTile/2, sizeTile/2, sizeTile/2, sizeTile/2), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y+c.sizeY/2);
+									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile/2, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile/2), plateau.getMaxX()/2+c.x+c.sizeX/2,plateau.getMaxY()/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, sizeTile/2, sizeTile/2, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y+c.sizeY/2);
+									graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(sizeTile/2, sizeTile/2, sizeTile/2, sizeTile/2), plateau.getMaxX()/2+c.x+c.sizeX/2,plateau.getMaxY()/2+c.y+c.sizeY/2);
 								} else {
-									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-									graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(sizeTile/2, 0, sizeTile, sizeTile), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(sizeTile/2, 0, sizeTile, sizeTile), plateau.getMaxX()/2+c.x+c.sizeX/2,plateau.getMaxY()/2+c.y-10);
 								}
 							} else {
 								if(b2){
-									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-									graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile), plateau.getMaxX()/2+c.x+c.sizeX/2,plateau.getMaxY()/2+c.y-10);
 								} else {
-									graphicBackgroundNeutral.drawImage(temp.get("4").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-									graphicBackgroundNeutral.drawImage(temp.get("6").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile), plateau.maxX/2+c.x+c.sizeX/2,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("4").getSubImage(0, 0, sizeTile/2, sizeTile), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("6").getSubImage(sizeTile/2, 0, sizeTile/2, sizeTile), plateau.getMaxX()/2+c.x+c.sizeX/2,plateau.getMaxY()/2+c.y-10);
 								}
 							}
 						} else {
 							if(b8){
 								if(b2){
-									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+									graphicBackgroundNeutral.drawImage(temp.get("7").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("1").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y+c.sizeY/2);
 								} else {
-									graphicBackgroundNeutral.drawImage(temp.get("7"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("7"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 								}
 							} else {
 								if(b2){
-									graphicBackgroundNeutral.drawImage(temp.get("1"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("1"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 								} else {
-									graphicBackgroundNeutral.drawImage(temp.get("4"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+									graphicBackgroundNeutral.drawImage(temp.get("4"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 								}
 							}
 						}
 					} else if(b6){
 						if(b8){
 							if(b2){
-								graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-								graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+								graphicBackgroundNeutral.drawImage(temp.get("9").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("3").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y+c.sizeY/2);
 							} else {
-								graphicBackgroundNeutral.drawImage(temp.get("9"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("9"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 							}
 						} else {
 							if(b2){
-								graphicBackgroundNeutral.drawImage(temp.get("3"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("3"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 							} else {
-								graphicBackgroundNeutral.drawImage(temp.get("6"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("6"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 							}
 						}
 					} else {
 						if(b8){
 							if(b2){
-								graphicBackgroundNeutral.drawImage(temp.get("8").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
-								graphicBackgroundNeutral.drawImage(temp.get("2").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y+c.sizeY/2);
+								graphicBackgroundNeutral.drawImage(temp.get("8").getSubImage(0, 0, sizeTile, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("2").getSubImage(0, sizeTile/2, sizeTile, sizeTile/2), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y+c.sizeY/2);
 							} else {
-								graphicBackgroundNeutral.drawImage(temp.get("8"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("8"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 							}
 						} else {
 							if(b2){
-								graphicBackgroundNeutral.drawImage(temp.get("2"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+								graphicBackgroundNeutral.drawImage(temp.get("2"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 							}
 						}
 					}
 					if(!b4 && ! b8 && b7){
-						graphicBackgroundNeutral.drawImage(temp.get("17"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+						graphicBackgroundNeutral.drawImage(temp.get("17"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 					}
 					if(!b8 && !b6 && b9){
-						graphicBackgroundNeutral.drawImage(temp.get("19"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+						graphicBackgroundNeutral.drawImage(temp.get("19"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 					}
 					if(!b6 && ! b2 && b3){
-						graphicBackgroundNeutral.drawImage(temp.get("13"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+						graphicBackgroundNeutral.drawImage(temp.get("13"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 					}
 					if(!b2 && !b4 && b1){
-						graphicBackgroundNeutral.drawImage(temp.get("11"), plateau.maxX/2+c.x-10,plateau.maxY/2+c.y-10);
+						graphicBackgroundNeutral.drawImage(temp.get("11"), plateau.getMaxX()/2+c.x-10,plateau.getMaxY()/2+c.y-10);
 					}
 				}
 			}
@@ -308,7 +308,7 @@ public strictfp class RenderEngine {
 		if(imageBackground==null){
 			initBackground(plateau);
 		}
-		g.drawImage(Images.get("watertile0"),-plateau.maxX/2,-plateau.maxY/2,plateau.maxX*2,plateau.maxY*2,0,0,100,100);
+		g.drawImage(Images.get("watertile0"),-plateau.getMaxX()/2,-plateau.getMaxY()/2,plateau.getMaxX()*2,plateau.getMaxY()*2,0,0,100,100);
 		// Handling waves
 		float x, y;
 		Case c;
@@ -316,15 +316,15 @@ public strictfp class RenderEngine {
 		for(int i=0; i<2; i++){
 			do{
 				b = false;
-				x = (float) (StrictMath.random()*2*plateau.maxX-plateau.maxX/2);
-				y = (float) (StrictMath.random()*2*plateau.maxY-plateau.maxY/2);
-				c = plateau.mapGrid.getCase(x-50f, y);
+				x = (float) (StrictMath.random()*2*plateau.getMaxX()-plateau.getMaxX()/2);
+				y = (float) (StrictMath.random()*2*plateau.getMaxY()-plateau.getMaxY()/2);
+				c = plateau.getMapGrid().getCase(x-50f, y);
 				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
-				c = plateau.mapGrid.getCase(x, y);
+				c = plateau.getMapGrid().getCase(x, y);
 				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
-				c = plateau.mapGrid.getCase(x+100f, y);
+				c = plateau.getMapGrid().getCase(x+100f, y);
 				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
-				c = plateau.mapGrid.getCase(x+150f, y);
+				c = plateau.getMapGrid().getCase(x+150f, y);
 				b = b || (c!=null && c.getIdTerrain()!=IdTerrain.WATER);
 			} while(b);
 			waves.add(new Wave(x,y));
@@ -336,7 +336,7 @@ public strictfp class RenderEngine {
 			}
 		}
 		waves.removeAll(toRemove);
-		g.drawImage(imageBackground,-plateau.maxX/2, -plateau.maxY/2);
+		g.drawImage(imageBackground,-plateau.getMaxX()/2, -plateau.getMaxY()/2);
 
 	}
 

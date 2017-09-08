@@ -1,5 +1,7 @@
 package display;
 
+import java.util.Vector;
+
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import control.Player;
@@ -46,9 +48,10 @@ public strictfp class Camera {
 		return Ycam + resY/2;
 	}
 
-	public static void update(InputObject im) {
+	public static void update(final InputObject im) {
 		// Handle the display (camera movement & minimap)
 		// camera movement
+		
 		if (!Player.hasRectangleSelection() && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
 			// Handling sliding
 			if(slidingCam==true){

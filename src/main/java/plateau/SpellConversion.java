@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Graphics;
 
@@ -7,10 +7,6 @@ import data.Attributs;
 import main.Main;
 import model.Game;
 import multiplaying.ChatMessage;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
-import plateau.Team;
 import utils.ObjetsList;
 
 public strictfp class SpellConversion extends Spell{

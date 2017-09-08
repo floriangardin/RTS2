@@ -48,7 +48,7 @@ public strictfp class EndSystem extends ClassSystem{
 	
 	public EndSystem(Plateau plateau){
 		image_background = Images.get("victoire_fond").getScaledCopy(3f*Game.resX/1920);
-		if(plateau.teamLooser!=Player.getTeamId()){
+		if(plateau.getTeamLooser()!=Player.getTeamId()){
 			victory = true;
 			image_text = Images.get("victoire_texte").getScaledCopy(1f*Game.resX/1920);;
 			image_texture = Images.get("victoire_fond_texture").getScaledCopy(1f*Game.resX/1920);;
@@ -60,7 +60,7 @@ public strictfp class EndSystem extends ClassSystem{
 		time = 0;
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
-		destroyedHQ = (Building)plateau.getHQ(plateau.teams.get(plateau.teamLooser));
+		destroyedHQ = (Building)plateau.getHQ(plateau.getTeams().get(plateau.getTeamLooser()));
 		EventHandler.addEvent(EventNames.DestructionHQ, destroyedHQ, plateau);
 		vector = new Vector<Rond>();
 		this.plateau = plateau;

@@ -22,7 +22,7 @@ public strictfp class Replay implements Serializable{
 		if(replay.plateau==null){
 			replay.plateau = Serializer.serialize(currentPlateau);
 		}
-		replay.add(currentPlateau.round, ims);
+		replay.add(currentPlateau.getRound(), ims);
 	}
 	
 	// CREATE REPLAY PART

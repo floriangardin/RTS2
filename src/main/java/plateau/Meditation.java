@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -9,9 +9,6 @@ import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
 import model.Game;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 

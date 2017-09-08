@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import java.util.Vector;
 
@@ -7,9 +7,6 @@ import org.newdawn.slick.Graphics;
 import data.Attributs;
 import events.EventHandler;
 import events.EventNames;
-import plateau.Character;
-import plateau.Objet;
-import plateau.Plateau;
 import utils.ObjetsList;
 
 public strictfp class SpellImmolation extends Spell{

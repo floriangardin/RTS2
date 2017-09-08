@@ -10,7 +10,6 @@ import events.EventNames;
 import main.Main;
 import model.Game;
 import ressources.Images;
-import spells.BurningArea;
 import stats.StatsHandler;
 import utils.ObjetsList;
 import utils.Utils;

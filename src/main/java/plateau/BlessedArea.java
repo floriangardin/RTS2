@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import java.util.Vector;
 
@@ -13,10 +13,6 @@ import data.AttributsChange;
 import data.AttributsChange.Change;
 import main.Main;
 import model.Game;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Objet;
-import plateau.Plateau;
 import ressources.Images;
 import utils.ObjetsList;
 

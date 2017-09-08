@@ -1,4 +1,4 @@
-package spells;
+package plateau;
 
 import java.util.Vector;
 
@@ -7,12 +7,6 @@ import org.newdawn.slick.Graphics;
 
 import data.Attributs;
 import model.Game;
-import plateau.Building;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Objet;
-import plateau.Plateau;
-import plateau.Team;
 import utils.ObjetsList;
 import utils.Utils;;
 

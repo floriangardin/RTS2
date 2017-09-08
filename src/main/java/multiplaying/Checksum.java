@@ -16,7 +16,7 @@ public strictfp class Checksum implements Serializable {
 		this.checksum = tab[1];
 	}
 	public Checksum(Plateau plateau){
-		this.round = plateau.round;
+		this.round = plateau.getRound();
 		this.checksum = plateau.toString();
 	}
 	public boolean[] comparison(Checksum c){

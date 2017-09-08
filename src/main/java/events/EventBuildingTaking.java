@@ -46,7 +46,7 @@ public strictfp class EventBuildingTaking extends Event{
 		
 		if(this.isActive){
 			if(parent.getTarget(plateau)!=null && this.idTarget == parent.getTarget(plateau).getId() && parent.getTarget(plateau).getTeam().id!=parent.team.id){
-				if(plateau.round%10==0 || ronds.size()==0){
+				if(plateau.getRound()%10==0 || ronds.size()==0){
 					ronds.add(new Rond(parent.getX(), parent.getY(), xEnd, yEnd));
 				}
 			} else {

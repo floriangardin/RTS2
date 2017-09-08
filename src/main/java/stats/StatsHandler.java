@@ -25,7 +25,7 @@ public strictfp class StatsHandler {
 		nbKills = new HashMap<Integer, Integer>();
 		nbRessourcesSpent = new HashMap<Integer, Float>();
 		nbRessourcesDestroyed = new HashMap<Integer, Float>();
-		for(Team team : plateau.teams){
+		for(Team team : plateau.getTeams()){
 			damages.put(team.id, new HashMap<ObjetsList, Float>());
 			nbKills.put(team.id, 0);
 			nbRessourcesDestroyed.put(team.id, 0f);
@@ -42,7 +42,7 @@ public strictfp class StatsHandler {
 			return;
 		}
 		StateGame newstate = new StateGame(plateau);
-		states.put(plateau.round, newstate);
+		states.put(plateau.getRound(), newstate);
 	}
 	
 	public static void pushDamage(Plateau plateau, Objet launcher, float damage){

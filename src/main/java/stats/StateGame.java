@@ -18,7 +18,7 @@ public strictfp class StateGame {
 		maxPop = new HashMap<Integer, Integer>();
 		food = new HashMap<Integer, Integer>();
 		towerCount = new HashMap<Integer, Integer>();
-		for(Team team : plateau.teams){
+		for(Team team : plateau.getTeams()){
 			characterComp.put(team.id, new HashMap<ObjetsList, Integer>());
 			pop.put(team.id, team.getPop(plateau));
 			maxPop.put(team.id, team.getMaxPop(plateau));

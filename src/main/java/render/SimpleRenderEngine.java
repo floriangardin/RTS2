@@ -25,10 +25,10 @@ public strictfp class SimpleRenderEngine {
 		g.setAntiAlias(true);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
 		g.setColor(Color.white);
-		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
+		g.fillRect(0, 0, plateau.getMaxX(), plateau.getMaxY());
 		// Render everything rawest way ...
 		g.setColor(Color.cyan);
-		for(Case c : plateau.mapGrid.idcases.values()){
+		for(Case c : plateau.getMapGrid().idcases.values()){
 			if(c.getIdTerrain()==IdTerrain.WATER){
 				g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
 			}
@@ -43,7 +43,7 @@ public strictfp class SimpleRenderEngine {
 				Character c = (Character)obj;
 				g.setColor(Color.red);
 				for(Integer i : c.waypoints){
-					Case ca = plateau.mapGrid.idcases.get(i);
+					Case ca = plateau.getMapGrid().idcases.get(i);
 					g.drawRect(ca.x,ca.y, ca.sizeX, ca.sizeY);
 				}
 			}
@@ -77,7 +77,7 @@ public strictfp class SimpleRenderEngine {
 					Building b = (Building) o;
 					g.setColor(Color.gray);
 					g.fill(o.getCollisionBox());
-					g.setColor(plateau.teams.get(b.potentialTeam).color);
+					g.setColor(plateau.getTeams().get(b.potentialTeam).color);
 					g.fillRect(o.getCollisionBox().getX(), o.getCollisionBox().getY(), o.getCollisionBox().getWidth()*(b.constructionPoints/o.getAttribut(Attributs.maxLifepoints)), o.getCollisionBox().getHeight());
 				}
 				else{

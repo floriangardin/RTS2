@@ -47,7 +47,7 @@ public strictfp class ReplayGame extends ClassSystem{
 			e.printStackTrace();
 		}
 		Plateau plateau = replay.getCurrentPlateau();
-		Camera.init(Game.resX, Game.resY, Game.resX/2, Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
+		Camera.init(Game.resX, Game.resY, Game.resX/2, Game.resY/2, (int)plateau.getMaxX(), (int)plateau.getMaxY());
 		Interface.init(plateau);
 	}
 	
@@ -66,7 +66,7 @@ public strictfp class ReplayGame extends ClassSystem{
 		replay.update();
 		// 4 : Update the camera given current input
 		Camera.update(im);
-		if(replay.getCurrentPlateau().teamLooser>0){
+		if(replay.getCurrentPlateau().getTeamLooser()>0){
 			Game.endSystem = new EndSystem(replay.getCurrentPlateau());
 			Game.system = Game.endSystem;
 		}
