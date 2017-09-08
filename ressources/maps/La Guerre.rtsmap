@@ -15,13 +15,11 @@ Mine 0 7 5
 = units
 Knight 2 120.0 680.0
 Spearman 2 128.0 593.0
-Crossbowman 2 226.0 668.0
 Inquisitor 2 239.0 603.0
 Priest 2 168.0 644.0
 Priest 1 838.0 374.0
 Inquisitor 1 785.0 413.0
 Spearman 1 873.0 424.0
-Crossbowman 1 799.0 323.0
 Knight 1 885.0 329.0
 ###########################
 = naturalObjects

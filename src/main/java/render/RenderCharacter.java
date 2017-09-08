@@ -41,7 +41,6 @@ public strictfp class RenderCharacter {
 			if(Interface.spellCurrent!=null && Interface.spellLauncher!=null){
 				Objet launcher = plateau.getById(Interface.spellLauncher);
 				if(launcher!=null){
-					System.out.println("distance :"+Utils.distance(character, launcher)+" range:"+character.team.data.getAttribut(Interface.spellCurrent, Attributs.range));
 					if(Utils.distance(character, launcher)< character.team.data.getAttribut(Interface.spellCurrent, Attributs.range)){
 						float ratio  = 1.75f;
 						g.setAntiAlias(true);
