@@ -45,7 +45,7 @@ public strictfp class RenderEngine {
 	public static Graphics graphicBackgroundNeutral;
 	public static Image imageBackground;
 	public static Graphics graphicBackground;
-	
+
 	// Draw Stats
 	public static boolean drawStats;
 
@@ -71,7 +71,7 @@ public strictfp class RenderEngine {
 
 	public static void render(Graphics g, Plateau plateau){
 
-		
+
 		//g.scale(0.5f,0.5f);
 		renderPlateau(g, plateau, true);
 		//		// draw mapgrid
@@ -300,6 +300,66 @@ public strictfp class RenderEngine {
 					}
 				}
 			}
+			if(it==IdTerrain.WATER){
+				// checking outer borders of map
+				for(int i=0; i<plateau.getMapGrid().grid.size(); i++){
+					if(plateau.getMapGrid().grid.get(i).firstElement().getIdTerrain()!=IdTerrain.WATER){
+						graphicBackgroundNeutral.drawImage(temp.get("2"), plateau.getMaxX()/2+Map.stepGrid*i-10, plateau.getMaxY()/2-Map.stepGrid-10);
+					} else {
+						if(i+1<plateau.getMapGrid().grid.size() && plateau.getMapGrid().grid.get(i+1).firstElement().getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("13"), plateau.getMaxX()/2+Map.stepGrid*i-10, plateau.getMaxY()/2-Map.stepGrid-10);
+						}
+						if(i-1>-1 && plateau.getMapGrid().grid.get(i-1).firstElement().getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("11"), plateau.getMaxX()/2+Map.stepGrid*i-10, plateau.getMaxY()/2-Map.stepGrid-10);
+						}
+					}
+					if(plateau.getMapGrid().grid.get(i).lastElement().getIdTerrain()!=IdTerrain.WATER){
+						graphicBackgroundNeutral.drawImage(temp.get("8"), plateau.getMaxX()/2+Map.stepGrid*i-10, 3*plateau.getMaxY()/2-10);
+					} else {
+						if(i+1<plateau.getMapGrid().grid.size() && plateau.getMapGrid().grid.get(i+1).lastElement().getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("19"), plateau.getMaxX()/2+Map.stepGrid*i-10, 3*plateau.getMaxY()/2-10);
+						}
+						if(i-1>-1 && plateau.getMapGrid().grid.get(i-1).lastElement().getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("17"), plateau.getMaxX()/2+Map.stepGrid*i-10, 3*plateau.getMaxY()/2-10);
+						}
+					}
+				}
+				for(int j=0; j<plateau.getMapGrid().grid.get(0).size(); j++){
+					if(plateau.getMapGrid().grid.firstElement().get(j).getIdTerrain()!=IdTerrain.WATER){
+						graphicBackgroundNeutral.drawImage(temp.get("6"), plateau.getMaxX()/2-Map.stepGrid-10, plateau.getMaxY()/2+Map.stepGrid*j-10);
+					} else {
+						if(j+1<plateau.getMapGrid().grid.get(0).size() && plateau.getMapGrid().grid.firstElement().get(j+1).getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("13"), plateau.getMaxX()/2-Map.stepGrid-10, plateau.getMaxY()/2+Map.stepGrid*j-10);
+						}
+						if(j-1>-1 && plateau.getMapGrid().grid.firstElement().get(j-1).getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("19"), plateau.getMaxX()/2-Map.stepGrid-10, plateau.getMaxY()/2+Map.stepGrid*j-10);
+						}
+					}
+					if(plateau.getMapGrid().grid.lastElement().get(j).getIdTerrain()!=IdTerrain.WATER){
+						graphicBackgroundNeutral.drawImage(temp.get("4"), 3*plateau.getMaxX()/2-10, plateau.getMaxY()/2+Map.stepGrid*j-10);
+					} else {
+						if(j+1<plateau.getMapGrid().grid.get(0).size() && plateau.getMapGrid().grid.lastElement().get(j+1).getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("11"), 3*plateau.getMaxX()/2-10, plateau.getMaxY()/2+Map.stepGrid*j-10);
+						}
+						if(j-1>-1 && plateau.getMapGrid().grid.lastElement().get(j-1).getIdTerrain()!=IdTerrain.WATER){
+							graphicBackgroundNeutral.drawImage(temp.get("17"), 3*plateau.getMaxX()/2-10, plateau.getMaxY()/2+Map.stepGrid*j-10);
+						}
+					}
+				}
+				// checking corners
+				if(plateau.getMapGrid().grid.firstElement().firstElement().getIdTerrain()!=IdTerrain.WATER){
+					graphicBackgroundNeutral.drawImage(temp.get("13"), plateau.getMaxX()/2-Map.stepGrid-10, plateau.getMaxY()/2-Map.stepGrid-10);
+				}
+				if(plateau.getMapGrid().grid.lastElement().firstElement().getIdTerrain()!=IdTerrain.WATER){
+					graphicBackgroundNeutral.drawImage(temp.get("11"), 3*plateau.getMaxX()/2-10, plateau.getMaxY()/2-Map.stepGrid-10);
+				}
+				if(plateau.getMapGrid().grid.firstElement().lastElement().getIdTerrain()!=IdTerrain.WATER){
+					graphicBackgroundNeutral.drawImage(temp.get("19"), plateau.getMaxX()/2-Map.stepGrid-10, 3*plateau.getMaxY()/2-10);
+				}
+				if(plateau.getMapGrid().grid.lastElement().lastElement().getIdTerrain()!=IdTerrain.WATER){
+					graphicBackgroundNeutral.drawImage(temp.get("17"), 3*plateau.getMaxX()/2-10, 3*plateau.getMaxY()/2-10);
+				}
+			}
 		}
 		graphicBackgroundNeutral.flush();
 		graphicBackground.drawImage(imageBackgroundNeutral,0,0);
@@ -310,7 +370,7 @@ public strictfp class RenderEngine {
 		if(imageBackground==null){
 			initBackground(plateau);
 		}
-		g.drawImage(Images.get("watertile0"),-plateau.getMaxX()/2,-plateau.getMaxY()/2,plateau.getMaxX()*2,plateau.getMaxY()*2,0,0,100,100);
+		g.drawImage(Images.get("watertile0"),-plateau.getMaxX()/2,-plateau.getMaxY()/2,3*plateau.getMaxX()/2,3*plateau.getMaxY()/2,0,0,100,100);
 		// Handling waves
 		float x, y;
 		Case c;

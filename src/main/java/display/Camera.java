@@ -81,17 +81,6 @@ public strictfp class Camera {
 				Xcam += (int) (80 * 30 / Main.framerate);
 				slidingCam = false;
 			}
-
-			// TODO : Centrer la selection sur un groupe d'unité
-			//			for (int to = 0; to < 10; to++) {
-			//				if (im.isPressed(KeyEnum.valueOf("Key"+to)) && players.get(player).groupSelection == to
-			//						&& this.selection.get(player).size() > 0) {
-			//					float xmoy = this.selection.get(player).get(0).getX();
-			//					float ymoy = this.selection.get(player).get(0).getY();
-			//					this.Xcam = (int) StrictMath.min(maxX - g.resX / 2f, StrictMath.max(-g.resX / 2f, xmoy - g.resX / 2f));
-			//					this.Ycam = (int) StrictMath.min(maxY - g.resY / 2f, StrictMath.max(-g.resY / 2f, ymoy - g.resY / 2f));
-			//				}
-			//			}
 		}
 		if(im.isOnMiniMap && im.isPressed(KeyEnum.LeftClick)){
 			setSliding((int)(im.x*Game.resX/1920), (int)(im.y*Game.resY/1080));
