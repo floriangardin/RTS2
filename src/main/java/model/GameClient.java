@@ -47,6 +47,7 @@ public strictfp class GameClient extends Listener {
 						GameClient.setPlateau(plateau);
 					}else if(type==Message.INPUTOBJECT){
 						InputObject im = (InputObject)m.get();
+						System.out.println("Round input : "+im.round+" id : "+im.team);
 						if(im.round>getRound()+GameClient.delay){
 							//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
 							client.sendTCP((im.round-delay-getRound()));
