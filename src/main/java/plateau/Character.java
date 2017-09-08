@@ -86,7 +86,7 @@ public strictfp class Character extends Objet{
 		this.setX(x);
 		this.setY(y);
 		this.setCollisionBox(new Circle(this.getX(),this.getY(),this.getAttribut(Attributs.size)));
-		this.setSelectionBox(new Rectangle(this.getX()-this.getAttribut(Attributs.size),this.getY()-5*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 6*this.getAttribut(Attributs.size)));
+		this.setSelectionBox(new Rectangle(this.getX()-this.getAttribut(Attributs.size),this.getY()-2.5f*this.getAttribut(Attributs.size),2*this.getAttribut(Attributs.size), 5*this.getAttribut(Attributs.size)));
 		this.setGroup(new Vector<Character>());
 		this.getGroup(plateau).add(this);
 		plateau.addCharacterObjets(this);

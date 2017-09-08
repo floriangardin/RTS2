@@ -125,7 +125,7 @@ public strictfp class RenderCharacter {
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
 		Circle collision = (Circle)character.getCollisionBox();
-		float ratio = 1.5f;
+		float ratio = 1.0f;
 		collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
 		g.draw(collision);
 		Objet target = character.getTarget(plateau);
