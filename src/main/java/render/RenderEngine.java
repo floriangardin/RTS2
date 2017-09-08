@@ -447,14 +447,18 @@ public strictfp class RenderEngine {
 	}
 
 	public static void renderObjet(Objet o, Graphics g, Plateau plateau){
-		if(o instanceof Character){
-			RenderCharacter.render((Character)o, g, plateau);
-		} else if(o instanceof Building){
-			RenderBuilding.render((Building)o, g, plateau);
-		} else if(o instanceof NaturalObjet){
-			RenderNaturalObjet.render((NaturalObjet) o, g, plateau);
-		} else if(o instanceof Bullet){
-			RenderBullet.render((Bullet) o, g, plateau);
+		try{
+			if(o instanceof Character){
+				RenderCharacter.render((Character)o, g, plateau);
+			} else if(o instanceof Building){
+				RenderBuilding.render((Building)o, g, plateau);
+			} else if(o instanceof NaturalObjet){
+				RenderNaturalObjet.render((NaturalObjet) o, g, plateau);
+			} else if(o instanceof Bullet){
+				RenderBullet.render((Bullet) o, g, plateau);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
