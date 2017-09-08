@@ -7,10 +7,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import render.EndSystem;
 import ressources.GraphicElements;
 import stats.StatsSystem;
 import system.ClassSystem;
+import system.EndSystem;
 import system.IntroSystem;
 import system.MenuSystem;
 

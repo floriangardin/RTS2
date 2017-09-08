@@ -17,11 +17,11 @@ import multiplaying.ChatHandler;
 import multiplaying.Checksum;
 import plateau.Objet;
 import plateau.Plateau;
-import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
 import ressources.Map;
 import system.ClassSystem;
+import system.EndSystem;
 
 public strictfp class ReplayGame extends ClassSystem{
 	private Replay replay= new Replay();

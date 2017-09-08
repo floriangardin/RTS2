@@ -20,7 +20,6 @@ import multiplaying.ChatHandler;
 import multiplaying.Checksum;
 import plateau.Building;
 import plateau.Plateau;
-import render.EndSystem;
 import render.RenderEngine;
 import render.SimpleRenderEngine;
 import ressources.Map;
@@ -29,6 +28,7 @@ import ressources.SoundManager;
 import ressources.Taunts;
 import stats.StatsHandler;
 import system.ClassSystem;
+import system.EndSystem;
 
 public strictfp class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();

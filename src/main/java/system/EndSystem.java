@@ -1,4 +1,4 @@
-package render;
+package system;
 
 import java.util.Vector;
 
@@ -18,10 +18,10 @@ import model.GameClient;
 import model.GameServer;
 import plateau.Building;
 import plateau.Plateau;
+import render.RenderEngine;
 import ressources.Images;
 import ressources.Musics;
 import stats.StatsSystem;
-import system.ClassSystem;
 
 public strictfp class EndSystem extends ClassSystem{
 
@@ -29,6 +29,7 @@ public strictfp class EndSystem extends ClassSystem{
 	private Plateau plateau;
 	private boolean victory;
 	private int time = 0;
+	private int othertime = 0;
 	
 	private int timeDropBackground = Main.framerate/4;
 	private int timeFadeTitle = Main.framerate/2;
@@ -55,6 +56,7 @@ public strictfp class EndSystem extends ClassSystem{
 			image_text = Images.get("defaite_texte").getScaledCopy(1f*Game.resX/1920);;
 			image_texture = Images.get("defaite_fond_texture").getScaledCopy(1f*Game.resX/1920);;
 		}
+		othertime = 0;
 		time = 0;
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
@@ -69,7 +71,8 @@ public strictfp class EndSystem extends ClassSystem{
 		int Xcam = Camera.Xcam, Ycam = Camera.Ycam;
 		float resX = Camera.resX, resY = Camera.resY;
 		sizeBandes = StrictMath.min(sizeBandes+2, Camera.resY/7f);
-		if((destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)*(destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)+(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)*(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)>450f){
+		othertime++;
+		if(othertime>200 && (destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)*(destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)+(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)*(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)>450f){
 			Camera.Xcam = (int) ((15*(Camera.Xcam+resX/2)+destroyedHQ.getX()*Game.ratioX)/16-resX/2);
 			Camera.Ycam = (int) ((15*(Camera.Ycam+resY/2)+destroyedHQ.getY()*Game.ratioY)/16-resY/2);
 			return;
