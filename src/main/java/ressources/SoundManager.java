@@ -11,7 +11,7 @@ import plateau.Plateau;
 import utils.ObjetsList;
 
 
-public class SoundManager {
+public strictfp class SoundManager {
 	public static boolean firstRound = true;
 	public static boolean isInit = false;
 	public static HashMap<Integer, ObjetsList> selection = new HashMap<Integer, ObjetsList>();
@@ -55,14 +55,14 @@ public class SoundManager {
 				.collect(Collectors.toList());
 		units.clear();
 		for(Objet s : state){
-			units.put(s.id, s.name);
+			units.put(s.getId(), s.getName());
 		}
 	}
 	public static List<ObjetsList> newDistinctObjects(Plateau plateau){
 		// Get differentiation with old hashmap
 		return plateau.get()
-				.filter(x -> !units.containsKey(x.id) && x.team.id==Player.team)
-				.map(x -> x.name)
+				.filter(x -> !units.containsKey(x.getId()) && x.team.id==Player.team)
+				.map(x -> x.getName())
 				.distinct()
 				.collect(Collectors.toList());
 	}
@@ -74,7 +74,7 @@ public class SoundManager {
 				.filter(x -> x instanceof Building)
 				.map(x -> (Building) x)
 				.filter(x -> x.isUnderAttack())
-				.map(x -> x.name)
+				.map(x -> x.getName())
 				.distinct()
 				.collect(Collectors.toList());
 	}

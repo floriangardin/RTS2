@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class Options {
+public strictfp class Options {
 	
 	public static float soundVolume;
 	public static float musicVolume;

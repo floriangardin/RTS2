@@ -13,7 +13,7 @@ import java.util.Vector;
 import control.InputObject;
 import plateau.Plateau;
 
-public class Replay implements Serializable{
+public strictfp class Replay implements Serializable{
 	private final HashMap<Integer, Vector<InputObject>> ims = new HashMap<Integer, Vector<InputObject>>();
 	private byte[] plateau; // First plateau of the game
 	private Plateau currentPlateau;
@@ -22,7 +22,7 @@ public class Replay implements Serializable{
 		if(replay.plateau==null){
 			replay.plateau = Serializer.serialize(currentPlateau);
 		}
-		replay.add(currentPlateau.round, ims);
+		replay.add(currentPlateau.getRound(), ims);
 	}
 	
 	// CREATE REPLAY PART

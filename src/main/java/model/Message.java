@@ -8,7 +8,7 @@ import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import plateau.Plateau;
 
-public class Message implements Serializable{
+public strictfp class Message implements Serializable{
 	
 	public final transient static int PLATEAU = 0;
 	public final transient static int INPUTOBJECT = 1;

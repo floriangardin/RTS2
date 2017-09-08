@@ -6,7 +6,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import ressources.Sounds;
 
-public class EventBuildingTaken extends Event {
+public strictfp class EventBuildingTaken extends Event {
 
 	public EventBuildingTaken(Objet parent, Plateau plateau) {
 		super(parent, plateau);
@@ -16,7 +16,7 @@ public class EventBuildingTaken extends Event {
 	@Override
 	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
 		// TODO Auto-generated method stub
-		Sounds.playSoundAt("mystere_decouverte", parent.x, parent.y);
+		Sounds.playSoundAt("mystere_decouverte", parent.getX(), parent.getY());
 		return false;
 	}
 

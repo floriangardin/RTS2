@@ -15,7 +15,7 @@ import plateau.Checkpoint;
 import plateau.Objet;
 import plateau.Plateau;
 
-public class SimpleRenderEngine {
+public strictfp class SimpleRenderEngine {
 	
 	public static float ux, uy, vx, vy, d, h, signu, signv, old_vx, old_vy;
 	public static Circle circle;
@@ -25,10 +25,10 @@ public class SimpleRenderEngine {
 		g.setAntiAlias(true);
 		g.translate(-Camera.Xcam, -Camera.Ycam);
 		g.setColor(Color.white);
-		g.fillRect(0, 0, plateau.maxX, plateau.maxY);
+		g.fillRect(0, 0, plateau.getMaxX(), plateau.getMaxY());
 		// Render everything rawest way ...
 		g.setColor(Color.cyan);
-		for(Case c : plateau.mapGrid.idcases.values()){
+		for(Case c : plateau.getMapGrid().idcases.values()){
 			if(c.getIdTerrain()==IdTerrain.WATER){
 				g.fillRect(c.x, c.y, c.sizeX, c.sizeY);
 			}
@@ -37,13 +37,13 @@ public class SimpleRenderEngine {
 			Objet obj = plateau.getById(o);
 			if(obj!=null){				
 				g.setColor(Color.green);
-				g.draw(obj.selectionBox);
+				g.draw(obj.getSelectionBox());
 			}
 			if(obj instanceof Character){
 				Character c = (Character)obj;
 				g.setColor(Color.red);
 				for(Integer i : c.waypoints){
-					Case ca = plateau.mapGrid.idcases.get(i);
+					Case ca = plateau.getMapGrid().idcases.get(i);
 					g.drawRect(ca.x,ca.y, ca.sizeX, ca.sizeY);
 				}
 			}
@@ -51,43 +51,43 @@ public class SimpleRenderEngine {
 		}
 		for(Objet o : plateau.getObjets().values()){
 			g.setColor(o.getTeam().color);
-			if(o.collisionBox != null){
+			if(o.getCollisionBox() != null){
 				if(o instanceof Character){
-					g.draw(o.collisionBox);
-					g.draw(o.selectionBox);
-					g.fill(o.collisionBox);
-					if(Player.selection.contains(o.id)){
+					g.draw(o.getCollisionBox());
+					g.draw(o.getSelectionBox());
+					g.fill(o.getCollisionBox());
+					if(Player.selection.contains(o.getId())){
 						g.setLineWidth(3f);
 						g.setColor(Color.red);
-						g.drawLine(o.x, o.y, o.x+20*d*signu*ux, o.y+20*d*signu*uy);
+						g.drawLine(o.getX(), o.getY(), o.getX()+20*d*signu*ux, o.getY()+20*d*signu*uy);
 						g.setColor(Color.green);
-						g.drawLine(o.x, o.y, o.x+20*h*signv*vx, o.y+20*h*signv*vy);
+						g.drawLine(o.getX(), o.getY(), o.getX()+20*h*signv*vx, o.getY()+20*h*signv*vy);
 						g.setLineWidth(4f);
 						g.setColor(Color.black);
-						g.drawLine(o.x, o.y, o.x+62*old_vx, o.y+62*old_vy);
+						g.drawLine(o.getX(), o.getY(), o.getX()+62*old_vx, o.getY()+62*old_vy);
 						g.setLineWidth(3f);
 						g.setColor(Color.white);
-						g.drawLine(o.x, o.y, o.x+60*old_vx, o.y+60*old_vy);
+						g.drawLine(o.getX(), o.getY(), o.getX()+60*old_vx, o.getY()+60*old_vy);
 					}
 					g.setColor(Color.red);
-					g.fillRect(o.collisionBox.getCenterX()-50, o.collisionBox.getY()+10, 100, 10);
+					g.fillRect(o.getCollisionBox().getCenterX()-50, o.getCollisionBox().getY()+10, 100, 10);
 					g.setColor(Color.green);
-					g.fillRect(o.collisionBox.getCenterX()-50, o.collisionBox.getY()+10, 100*(o.lifePoints/o.getAttribut(Attributs.maxLifepoints)), 10);
+					g.fillRect(o.getCollisionBox().getCenterX()-50, o.getCollisionBox().getY()+10, 100*(o.getLifePoints()/o.getAttribut(Attributs.maxLifepoints)), 10);
 				}else if(o instanceof Building){
 					Building b = (Building) o;
 					g.setColor(Color.gray);
-					g.fill(o.collisionBox);
-					g.setColor(plateau.teams.get(b.potentialTeam).color);
-					g.fillRect(o.collisionBox.getX(), o.collisionBox.getY(), o.collisionBox.getWidth()*(b.constructionPoints/o.getAttribut(Attributs.maxLifepoints)), o.collisionBox.getHeight());
+					g.fill(o.getCollisionBox());
+					g.setColor(plateau.getTeams().get(b.potentialTeam).color);
+					g.fillRect(o.getCollisionBox().getX(), o.getCollisionBox().getY(), o.getCollisionBox().getWidth()*(b.constructionPoints/o.getAttribut(Attributs.maxLifepoints)), o.getCollisionBox().getHeight());
 				}
 				else{
-					g.fill(o.collisionBox);
+					g.fill(o.getCollisionBox());
 				}
 				if(!(o instanceof Checkpoint)){					
 					g.setColor(Color.white);
-					if(o.name!=null){
-						g.drawString(o.name.toString().substring(0, 3), o.x-10, o.y-10);
-						g.drawString(""+o.id, o.x-10, o.y-20);
+					if(o.getName()!=null){
+						g.drawString(o.getName().toString().substring(0, 3), o.getX()-10, o.getY()-10);
+						g.drawString(""+o.getId(), o.getX()-10, o.getY()-20);
 					}
 				}
 				

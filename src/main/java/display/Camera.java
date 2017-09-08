@@ -1,5 +1,7 @@
 package display;
 
+import java.util.Vector;
+
 import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import control.Player;
@@ -12,7 +14,7 @@ import plateau.Objet;
 import plateau.Plateau;
 import utils.Utils;
 
-public class Camera {
+public strictfp class Camera {
 
 	public static int Xcam;
 	public static int Ycam;
@@ -46,9 +48,10 @@ public class Camera {
 		return Ycam + resY/2;
 	}
 
-	public static void update(InputObject im) {
+	public static void update(final InputObject im) {
 		// Handle the display (camera movement & minimap)
 		// camera movement
+		
 		if (!Player.hasRectangleSelection() && (!im.isDown(KeyEnum.LeftClick) || im.isOnMiniMap)) {
 			// Handling sliding
 			if(slidingCam==true){
@@ -56,7 +59,7 @@ public class Camera {
 				int deltaY = (int) (objYcam-Ycam);
 				Xcam += deltaX/5;
 				Ycam += deltaY/5;
-				if(Math.abs(deltaX)<2)
+				if(StrictMath.abs(deltaX)<2)
 					slidingCam = false;
 			}
 			// Move camera according to inputs :
@@ -78,17 +81,6 @@ public class Camera {
 				Xcam += (int) (80 * 30 / Main.framerate);
 				slidingCam = false;
 			}
-
-			// TODO : Centrer la selection sur un groupe d'unité
-			//			for (int to = 0; to < 10; to++) {
-			//				if (im.isPressed(KeyEnum.valueOf("Key"+to)) && players.get(player).groupSelection == to
-			//						&& this.selection.get(player).size() > 0) {
-			//					float xmoy = this.selection.get(player).get(0).getX();
-			//					float ymoy = this.selection.get(player).get(0).getY();
-			//					this.Xcam = (int) Math.min(maxX - g.resX / 2f, Math.max(-g.resX / 2f, xmoy - g.resX / 2f));
-			//					this.Ycam = (int) Math.min(maxY - g.resY / 2f, Math.max(-g.resY / 2f, ymoy - g.resY / 2f));
-			//				}
-			//			}
 		}
 		if(im.isOnMiniMap && im.isPressed(KeyEnum.LeftClick)){
 			setSliding((int)(im.x*Game.resX/1920), (int)(im.y*Game.resY/1080));

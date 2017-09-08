@@ -20,7 +20,7 @@ import tests.FatalGillesError;
 import utils.ObjetsList;
 
 
-public class ImagesAwt {
+public strictfp class ImagesAwt {
 
 	private static HashMap<String, Image> images;
 	private static HashMap<String, Image> oldimages;

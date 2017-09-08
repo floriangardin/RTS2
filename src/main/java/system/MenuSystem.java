@@ -16,10 +16,12 @@ import display.Camera;
 import menu.Credits;
 import menu.Menu;
 import menu.MenuIntro;
+import menu.MenuKeyMapping;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
 import model.Game;
+import model.WholeGame;
 import multiplaying.ChatHandler;
 import nature.Tree;
 import pathfinding.Case;
@@ -33,7 +35,7 @@ import plateau.UnitsEndCondition;
 import render.RenderEngine;
 import plateau.Character;
 
-public class MenuSystem extends ClassSystem {
+public strictfp class MenuSystem extends ClassSystem {
 
 	public Menu currentMenu;
 
@@ -41,6 +43,7 @@ public class MenuSystem extends ClassSystem {
 	public MenuMapChoice menuMapChoice;
 	public MenuMulti menuMulti;
 	public MenuOptions menuOptions;
+	public MenuKeyMapping menuKeyMapping;
 	public Credits credits;
 
 	public Plateau plateau;
@@ -55,6 +58,7 @@ public class MenuSystem extends ClassSystem {
 		menuMapChoice = new MenuMapChoice();
 		menuMulti = new MenuMulti();
 		menuOptions = new MenuOptions();
+		menuKeyMapping = new MenuKeyMapping();
 		credits = new Credits();
 		setMenu(MenuNames.MenuIntro);
 		plateau = generatePlateau();
@@ -78,20 +82,18 @@ public class MenuSystem extends ClassSystem {
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		Input in = gc.getInput();
-		InputObject im = new InputObject(in);
-		//		if(currentMenu instanceof MenuMapChoice || currentMenu instanceof MenuMulti){
-		//			ChatHandler.action(in,im);
-		//		}
-		currentMenu.update(im);
-		if(currentMenu == menuMapChoice){
-			// Updating chat
+		if(currentMenu==menuKeyMapping){
+			menuKeyMapping.update(in);
+		} else {
+			InputObject im = new InputObject(in);
+			currentMenu.update(im);
 			ChatHandler.action(in, im);
 		}
 		if(Taunts.isInit()){
 			Taunts.update();
 		}
 		plateau.update();
-		if(plateau.teamLooser>0){
+		if(plateau.getTeamLooser()>0){
 			plateau = generatePlateau();
 		}
 		//this.send();
@@ -101,25 +103,25 @@ public class MenuSystem extends ClassSystem {
 	public void setMenu(MenuNames m){
 		// handle change of menu
 		// including the change of music
+		Musics.playMusic("themeMenu");
 		switch(m){
 		case MenuIntro:
-			Musics.playMusicFading("themeMenu");
 			this.currentMenu = menuIntro;
 			break;
 		case MenuMapChoice:
-			Musics.playMusicFading("themeMulti");
 			this.currentMenu = menuMapChoice;
 			break;
 		case MenuMulti:
-			Musics.playMusicFading("themeMulti");
+			menuMulti.init();
 			this.currentMenu = menuMulti;
 			break;
+		case MenuKeyMapping:
+			this.currentMenu = menuKeyMapping;
+			break;
 		case MenuOptions:
-			Musics.playMusicFading("themeMenu");
 			this.currentMenu = menuOptions;
 			break;
 		case Credits:
-			Musics.playMusicFading("themeMapEditor");
 			this.currentMenu = credits;
 		default:
 			break;
@@ -132,54 +134,56 @@ public class MenuSystem extends ClassSystem {
 		MenuMapChoice,
 		MenuOptions,
 		Credits,
-		MenuMulti;
+		MenuMulti, 
+		MenuKeyMapping;
 	}
 
 	public Plateau generatePlateau(){
 		Plateau plateau = new Plateau((int)(20*Map.stepGrid), (int)(11*Map.stepGrid));
-		Vector<Vector<Case>> g = plateau.mapGrid.grid;
+		Vector<Vector<Case>> g = plateau.getMapGrid().grid;
 		float x, y;
 		Vector<ObjetsList> v = ObjetsList.getUnits();
 		ObjetsList ol;
 		int i = 0;
-		for(Case c : plateau.mapGrid.idcases.values()){
-			if(c.i==0 || c.j==0 || c.i==plateau.mapGrid.grid.size()-1 || c.j==plateau.mapGrid.grid.get(0).size()-1){
+		for(Case c : plateau.getMapGrid().idcases.values()){
+			if(c.i==0 || c.j==0 || c.i==plateau.getMapGrid().grid.size()-1 || c.j==plateau.getMapGrid().grid.get(0).size()-1){
 				c.setIdTerrain(IdTerrain.WATER);
 			}
 		}
-		while(Math.random()>0.04){
-			Case c = g.get((int)(Math.random()*g.size())).get((int)(Math.random()*g.get(0).size()));
+		while(StrictMath.random()>0.04){
+			Case c = g.get((int)(StrictMath.random()*g.size())).get((int)(StrictMath.random()*g.get(0).size()));
 			if(c.getIdTerrain()!=IdTerrain.WATER){
 				c.setIdTerrain(IdTerrain.SAND);
 			}
 		}
 		i = 0;
-		while(Math.random()>0.02 && i<20){
+		while(StrictMath.random()>0.02 && i<20){
 			do{
-				x = (float)(Math.random()*plateau.maxX);
-				y = (float)(Math.random()*plateau.maxY);
-			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
-			plateau.addNaturalObjets(new Tree(x, y, (int)(Math.random()*2)+1, plateau));
+				x = (float)(StrictMath.random()*plateau.getMaxX());
+				y = (float)(StrictMath.random()*plateau.getMaxY());
+			} while(plateau.getMapGrid().getCase(x,y).getIdTerrain()==IdTerrain.WATER);
+			plateau.addNaturalObjets(new Tree(x, y, (int)(StrictMath.random()*2)+1, plateau));
 			i++;
 		}
 		Character c;
 		i = 0;
-		while(Math.random()>0.02 && i<50){
+		while(StrictMath.random()>0.02 && i<50){
 			do{
-				x = (float)(Math.random()*plateau.maxX);
-				y = (float)(Math.random()*plateau.maxY);
-			} while(plateau.mapGrid.getCase(x,y).getIdTerrain()==IdTerrain.WATER);
+				x = (float)(StrictMath.random()*plateau.getMaxX());
+				y = (float)(StrictMath.random()*plateau.getMaxY());
+			} while(plateau.getMapGrid().getCase(x,y).getIdTerrain()==IdTerrain.WATER);
 			do{
-				ol = v.get((int)(Math.random()*v.size()));
+				ol = v.get((int)(StrictMath.random()*v.size()));
 			} while(ol==ObjetsList.Priest || ol==ObjetsList.Inquisitor);
-			c = new Character(x,y,ol,plateau.teams.get((int)(Math.random()*2)+1),plateau);
+			c = new Character(x,y,ol,plateau.getTeams().get((int)(StrictMath.random()*2)+1),plateau);
 			c.attributsChanges.add(new AttributsChange(Attributs.sight, Change.MUL, 4f, false));
 			plateau.addCharacterObjets(c);
 			i++;
 		}
 		plateau.setEndCondition(new UnitsEndCondition());
+		plateau.setRound((int) (WholeGame.nbRoundStart+10));
 		plateau.update();
-		Camera.init(Game.resX, Game.resY, plateau.maxX/2-1920/2, plateau.maxY/2-1080/2, (int)plateau.maxX, (int)plateau.maxY);
+		Camera.init(Game.resX, Game.resY, plateau.getMaxX()/2-1920/2, plateau.getMaxY()/2-1080/2, (int)plateau.getMaxX(), (int)plateau.getMaxY());
 		return plateau;
 	}
 }

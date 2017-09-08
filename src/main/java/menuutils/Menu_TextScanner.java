@@ -13,7 +13,7 @@ import menu.MenuMapChoice;
 import model.Game;
 import ressources.GraphicElements;
 
-public class Menu_TextScanner extends Menu_Item{
+public strictfp class Menu_TextScanner extends Menu_Item{
 
 	public String s = "";
 	public HashMap<Integer, String> intToChar = new HashMap<Integer, String>();
@@ -163,7 +163,7 @@ public class Menu_TextScanner extends Menu_Item{
 			}
 			return;
 		}
-		if((Game.isInMenu() && Game.isInEditor()) || isSelected || Game.menuSystem.currentMenu instanceof MenuMapChoice){
+		if((Game.isInMenu()) || isSelected || Game.menuSystem.currentMenu instanceof MenuMapChoice){
 			if(GraphicElements.font_main.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
@@ -189,7 +189,7 @@ public class Menu_TextScanner extends Menu_Item{
 				if(cooldown<=0){
 					s=s.substring(0,s.length()-1);
 					back++;
-					cooldown = Math.max(25-back*5,5);
+					cooldown = StrictMath.max(25-back*5,5);
 				} else {
 					cooldown -= 1;
 				}

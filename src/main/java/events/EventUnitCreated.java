@@ -2,11 +2,12 @@ package events;
 
 import org.newdawn.slick.Graphics;
 
+import control.Player;
 import plateau.Objet;
 import plateau.Plateau;
 import ressources.Sounds;
 
-public class EventUnitCreated extends Event {
+public strictfp class EventUnitCreated extends Event {
 
 	public EventUnitCreated(Objet parent, Plateau plateau) {
 		super(parent, plateau);
@@ -15,7 +16,9 @@ public class EventUnitCreated extends Event {
 
 	@Override
 	public boolean play(Graphics g, Plateau plateau, boolean toDraw) {
-		Sounds.playSoundAt("heureux", parent.x, parent.y);
+		if(Player.team == parent.getTeam().id){			
+			Sounds.playSoundAt("heureux", parent.getX(), parent.getY());
+		}
 		return false;
 	}
 

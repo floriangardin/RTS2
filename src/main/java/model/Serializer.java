@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import control.InputObject;
 import plateau.Plateau;
 
-public class Serializer {
+public strictfp class Serializer {
 	public static byte[] serialize(Object o){
 		byte[] serializedObject = new byte[0];
 		// serialize the object

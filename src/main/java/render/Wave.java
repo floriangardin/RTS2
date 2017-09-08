@@ -7,7 +7,7 @@ import pathfinding.Case;
 import plateau.Plateau;
 import ressources.Images;
 
-public class Wave{
+public strictfp class Wave{
 	public float x, y;
 	public float vx;
 	public float alpha;
@@ -24,8 +24,8 @@ public class Wave{
 	public void init(){
 		type = 0;
 		alpha = 0;
-		this.vx = (float) (0.5f+Math.random()*0.2f);
-		while(Math.random()>0.7){
+		this.vx = (float) (0.5f+StrictMath.random()*0.2f);
+		while(StrictMath.random()>0.7){
 			if(Images.exists("wave"+(type+1))){
 				type++;
 			}

@@ -12,7 +12,7 @@ import model.Game;
 import ressources.GraphicElements;
 import ressources.Images;
 
-public class Menu_Player extends Menu_Item implements Serializable{
+public strictfp class Menu_Player extends Menu_Item implements Serializable{
 
 	public int id;
 	public int team;
@@ -110,13 +110,19 @@ public class Menu_Player extends Menu_Item implements Serializable{
 		this.team = mp.team;
 		this.nickname = mp.nickname;
 		this.isReady = mp.isReady;
+		this.isHost = mp.isHost;
+		this.hasBeenUpdated = true;
 		this.updatePosition(this.id);
 	}
 
 
-	public void draw(Graphics g) {
+	public void draw(Graphics g, int id) {
+		this.y = startYPlayers+1f*(id+1)/6f*sizeYPlayers-GraphicElements.font_main.getHeight("Pg")/2f;
+		this.startYcolor = y;
+		this.startYciv = y;
+		this.startYready = y;
 		g.setColor(Color.white);
-		String s = "Joueur "+id+" : "+this.nickname+"   ";
+		String s = "- "+this.nickname+"   ";
 		g.drawString(s, x, y);
 		if(isOverColor)
 			g.setColor(Color.gray);

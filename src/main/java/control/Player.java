@@ -1,17 +1,12 @@
 package control;
 
-import java.util.List;
-import java.util.Set;
 import java.util.Vector;
-import java.util.stream.Collectors;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Rectangle;
 
-import bonus.Bonus;
 import control.KeyMapper.KeyEnum;
 import data.Attributs;
-import display.Camera;
 import menu.Lobby;
 import menuutils.Menu_Player;
 import model.Colors;
@@ -21,10 +16,9 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 import plateau.Team;
-import utils.ObjetsList;
 import utils.Utils;
 
-public class Player {
+public strictfp class Player {
 	public static Rectangle rectangleSelection;
 	public static Float recX;
 	public static Float recY;
@@ -57,6 +51,16 @@ public class Player {
 			}
 		}
 	}
+	
+	public static void reset(){
+		inRectangle.clear();
+		selection.clear();
+		mouseOver = -1;
+		rectangleSelection = null;
+		recX = 0f;
+		recY = 0f;
+	}
+	
 	public static void setTeam(int team){
 		Player.team = team;
 		switch(team){
@@ -79,12 +83,12 @@ public class Player {
 		mouseOver = -1;
 		Vector<Objet> mouseOvers = new Vector<Objet>();
 		for (Character c : plateau.getCharacters()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
+			if (c.getSelectionBox().contains(im.x, im.y)) {
 				mouseOvers.add(c);
 			} 
 		}
 		for (Building c : plateau.getBuildings()) {
-			if (c.selectionBox.contains(im.x, im.y)) {
+			if (c.getSelectionBox().contains(im.x, im.y)) {
 				mouseOvers.add(c);
 			} 
 		}
@@ -92,7 +96,7 @@ public class Player {
 		
 		Objet o = Utils.nearestObjectToSelectionBox(mouseOvers, im.x, im.y);
 		if(o!=null){
-			setMouseOver(im, o.id);
+			setMouseOver(im, o.getId());
 		}
 				
 	}
@@ -118,9 +122,9 @@ public class Player {
 				recY= (float) im.y;
 				rectangleSelection= new Rectangle(recX, recX, 0.1f, 0.1f);
 			} else if(Player.rectangleSelection != null){
-				rectangleSelection.setBounds((float) Math.min(recX, im.x),
-						(float) Math.min(recY, im.y), (float) Math.abs(im.x - recX) + 0.1f,
-						(float) Math.abs(im.y - recY) + 0.1f);
+				rectangleSelection.setBounds((float) StrictMath.min(recX, im.x),
+						(float) StrictMath.min(recY, im.y), (float) StrictMath.abs(im.x - recX) + 0.1f,
+						(float) StrictMath.abs(im.y - recY) + 0.1f);
 			}
 		} else {
 			Player.rectangleSelection = null;
@@ -129,14 +133,14 @@ public class Player {
 		// Update in rectangle
 		inRectangle.clear();
 		for(Character o : plateau.getCharacters()){
-			if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
-				inRectangle.add(o.id);
+			if(o.getTeam().id == Player.team && rectangleIntersect(o.getSelectionBox().getMinX(), o.getSelectionBox().getMinY(),o.getSelectionBox().getMaxX(), o.getSelectionBox().getMaxY() , o.getAttribut(Attributs.sizeX))){
+				inRectangle.add(o.getId());
 			}
 		}
 		if(inRectangle.size()==0){
 			for(Building o : plateau.getBuildings()){
-				if(o.getTeam().id == Player.team && rectangleIntersect(o.selectionBox.getMinX(), o.selectionBox.getMinY(),o.selectionBox.getMaxX(), o.selectionBox.getMaxY() , o.getAttribut(Attributs.sizeX))){
-					inRectangle.add(o.id);
+				if(o.getTeam().id == Player.team && rectangleIntersect(o.getSelectionBox().getMinX(), o.getSelectionBox().getMinY(),o.getSelectionBox().getMaxX(), o.getSelectionBox().getMaxY() , o.getAttribut(Attributs.sizeX))){
+					inRectangle.add(o.getId());
 				}
 			}
 		}
@@ -148,8 +152,8 @@ public class Player {
 		if(Player.rectangleSelection == null){
 			return false;
 		}
-		double interX = Math.min(xMax, Player.rectangleSelection.getMaxX()) - Math.max(xMin, Player.rectangleSelection.getMinX());
-		double interY = Math.min(yMax, Player.rectangleSelection.getMaxY()) - Math.max(yMin, Player.rectangleSelection.getMinY());
+		double interX = StrictMath.min(xMax, Player.rectangleSelection.getMaxX()) - StrictMath.max(xMin, Player.rectangleSelection.getMinX());
+		double interY = StrictMath.min(yMax, Player.rectangleSelection.getMaxY()) - StrictMath.max(yMin, Player.rectangleSelection.getMinY());
 		return interX>0 && interY>0;
 	}
 
@@ -208,7 +212,7 @@ public class Player {
 			if(rectangleSelection!=null && rectangleSelection.getWidth()+rectangleSelection.getHeight() < 10){
 				Objet toSelect = getNearestToSelectionBox(inRectangle, plateau, rectangleSelection.getX(), rectangleSelection.getY());
 				if(toSelect!=null){					
-					Player.selection.add(toSelect.id);
+					Player.selection.add(toSelect.getId());
 				}
 			}else{				
 				for(Integer o : inRectangle){
@@ -234,13 +238,13 @@ public class Player {
 		if(pressed!=null){
 			Player.selection = new Vector<Integer>();
 			for(Character o : plateau.getCharacters()){
-				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.name)){
-					Player.selection.add(o.id);
+				if(o.getTeam().id == im.team && pressed.getUnitsList().contains(o.getName())){
+					Player.selection.add(o.getId());
 				}
 			}
 			for(Building o : plateau.getBuildings()){
-				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.name)){
-					Player.selection.add(o.id);
+				if(o.getTeam().id == im.team && pressed.getBuildingsList().contains(o.getName())){
+					Player.selection.add(o.getId());
 				}
 			}
 		}
@@ -258,16 +262,6 @@ public class Player {
 		
 	}
 
-	public static Vector<Objet> getInCamObjets(Plateau plateau) {
-		Vector<Objet> res = new Vector<Objet>();
-
-		for(Objet o : plateau.getObjets().values()){
-			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight))){
-				res.add(o);
-			}
-		}
-		return res;
-	}
 
 	public static void updateSelectionCTRL(InputObject im, Plateau plateau) {
 		if (rectangleSelection == null) {
@@ -287,12 +281,11 @@ public class Player {
 					distmin = disttemp;
 				}
 			}
-			Vector<Objet> visibles = getInCamObjets(plateau);
 			if (c != null) {
 				for (Character o : plateau.getCharacters()) {
-					if (o.getTeam().id == im.team && o.name == c.name && visibles.contains(o) && !Player.selection.contains(o.id)) {
+					if (o.getTeam().id == im.team && o.getName() == c.getName() && !Player.selection.contains(o.getId())) {
 						// add character to team selection
-						Player.selection.addElement(o.id);
+						Player.selection.addElement(o.getId());
 					}
 				}
 			}
@@ -332,7 +325,7 @@ public class Player {
 		return Player.team;
 	}
 	public static Team getTeam(Plateau plateau){
-		for(Team team : plateau.teams){
+		for(Team team : plateau.getTeams()){
 			if(team.id == Player.team){
 				return team;
 			}

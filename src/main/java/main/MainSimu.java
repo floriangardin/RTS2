@@ -1,5 +1,6 @@
 package main;
 import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 import org.lwjgl.LWJGLUtil;
@@ -15,7 +16,7 @@ import model.GameServer;
 import model.WholeGame;
 import mybot.IAPython;
 
-public class MainSimu {
+public strictfp class MainSimu {
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -45,7 +46,7 @@ public class MainSimu {
 			app.setTargetFrameRate(Main.framerate);
 			//app.setSmoothDeltas(true);
 			app.start();
-		} catch (SlickException e) {
+		} catch (SlickException | IOException e) {
 			e.printStackTrace();
 		}
 	}

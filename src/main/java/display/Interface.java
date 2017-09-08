@@ -21,15 +21,15 @@ import plateau.Character;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
+import plateau.Spell;
 import plateau.Team;
 import ressources.GraphicElements;
 import ressources.Images;
-import spells.Spell;
 import system.Debug;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Interface {
+public strictfp class Interface {
 
 	public static float ratioMinimapX = 1/6f;
 	public static float ratioSelectionX = 1/8f;
@@ -134,7 +134,7 @@ public class Interface {
 						Character c = (Character) plateau.getById(Player.selection.get(0)); 
 						Spell s = c.getSpell(mouseOnItem);
 						if(s != null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(mouseOnItem)){
-							spellLauncher = c.id;
+							spellLauncher = c.getId();
 							spellCurrent = s.name;
 						}
 					} else {
@@ -159,7 +159,7 @@ public class Interface {
 					Spell s = c.getSpell(i);
 
 					if(s!=null && s.getAttribut(Attributs.needToClick)>0 && c.canLaunch(i)){
-						spellLauncher = c.id;
+						spellLauncher = c.getId();
 						spellCurrent = s.name;
 
 					}
@@ -220,26 +220,26 @@ public class Interface {
 		if(isMouseOnMiniMap(im.xOnScreen, im.yOnScreen)){
 			im.isOnMiniMap = true;
 
-			im.x = (int) Math.floor((im.xOnScreen-startXMiniMap)/ratioWidthMiniMap);
-			im.y = (int) Math.floor((im.yOnScreen-startYMiniMap)/ratioHeightMiniMap);
+			im.x = (int) StrictMath.floor((im.xOnScreen-startXMiniMap)/ratioWidthMiniMap);
+			im.y = (int) StrictMath.floor((im.yOnScreen-startYMiniMap)/ratioHeightMiniMap);
 		}
 	}
 
 	public static void updateRatioMiniMap(Plateau plateau){
 
-		if(plateau.maxX>plateau.maxY){
+		if(plateau.getMaxX()>plateau.getMaxY()){
 			widthMiniMap = sizeXMiniMap;
-			heightMiniMap = widthMiniMap*plateau.maxY/plateau.maxX;
+			heightMiniMap = widthMiniMap*plateau.getMaxY()/plateau.getMaxX();
 			startXMiniMap = startX2MiniMap;
 			startYMiniMap = startY2MiniMap + (sizeYMiniMap-heightMiniMap)/2;
 		} else {
 			heightMiniMap = sizeYMiniMap;			
-			widthMiniMap = heightMiniMap*plateau.maxX/plateau.maxY;
+			widthMiniMap = heightMiniMap*plateau.getMaxX()/plateau.getMaxY();
 			startXMiniMap = startX2MiniMap + (sizeXMiniMap-widthMiniMap)/2;
 			startYMiniMap = startY2MiniMap;
 		}
-		ratioWidthMiniMap = widthMiniMap/plateau.maxX;
-		ratioHeightMiniMap = heightMiniMap/plateau.maxY;
+		ratioWidthMiniMap = widthMiniMap/plateau.getMaxX();
+		ratioHeightMiniMap = heightMiniMap/plateau.getMaxY();
 	}
 
 	///////
@@ -271,8 +271,8 @@ public class Interface {
 
 		float sizeXBar;
 		float x = 0;
-		if(plateau.round<nbRoundInit)
-			startXSelectionBar = Math.max(-Game.resX-10, Math.min(0, Game.resX*(plateau.round-debut-duree)/duree));
+		if(plateau.getRound()<nbRoundInit)
+			startXSelectionBar = StrictMath.max(-Game.resX-10, StrictMath.min(0, Game.resX*(plateau.getRound()-debut-duree)/duree));
 		else
 			startXSelectionBar = 0;
 
@@ -288,7 +288,7 @@ public class Interface {
 
 			Building b = (Building) plateau.getById(selection.get(0));
 
-			sizeXBar = (Math.min(4,b.getQueue().size()+1))*(sVB+2)+3;
+			sizeXBar = (StrictMath.min(4,b.getQueue().size()+1))*(sVB+2)+3;
 			Utils.drawNiceRect(g, team.color, startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, team.color, startXSelectionBar-4, startYSelectionBar, sizeXSelectionBar+4, sizeYSelectionBar+4);
 
@@ -361,7 +361,7 @@ public class Interface {
 			int compteur = 0;
 			int nb = selection.size()-1;
 
-			sizeXBar = (Math.min(nb+1, 5))*(sVB+2)+2;
+			sizeXBar = (StrictMath.min(nb+1, 5))*(sVB+2)+2;
 			Utils.drawNiceRect(g, team.color, 
 					startXSelectionBar+sizeXSelectionBar-4, Game.resY-sVB, sizeXBar, sVB+4);
 			Utils.drawNiceRect(g, team.color, 
@@ -371,7 +371,7 @@ public class Interface {
 				c = (Character) plateau.getById(id);
 				if(c!=null){
 
-					Image icone = Images.get(c.name+"blue");
+					Image icone = Images.get(c.getName()+c.team.colorName);
 					int imageWidth = icone.getWidth()/5;
 					int imageHeight = icone.getHeight()/4;
 					//float r = a.collisionBox.getBoundingCircleRadius();
@@ -396,12 +396,12 @@ public class Interface {
 						g.setColor(Color.darkGray);
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f, 
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
-						float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
+						float x_temp = a.getLifePoints()/a.getAttribut(Attributs.maxLifepoints);
 						g.setColor(new Color((1f-x_temp),x_temp,0));
 						g.fillRect(startXSelectionBar+sizeXSelectionBar/16, 
-								startYSelectionBar+sizeYSelectionBar/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints), 
+								startYSelectionBar+sizeYSelectionBar/4+10f+(a.getAttribut(Attributs.maxLifepoints)-a.getLifePoints())*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints), 
 								sizeXSelectionBar/8f,
-								3*sizeYSelectionBar/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.lifePoints)*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints));
+								3*sizeYSelectionBar/4-20f-(a.getAttribut(Attributs.maxLifepoints)-a.getLifePoints())*(3*sizeYSelectionBar/4-20f)/a.getAttribut(Attributs.maxLifepoints));
 						g.setColor(Color.white);
 						g.drawRect(startXSelectionBar+sizeXSelectionBar/16, startYSelectionBar+sizeYSelectionBar/4 +10f,
 								sizeXSelectionBar/8f,3*sizeYSelectionBar/4-20f);
@@ -420,7 +420,7 @@ public class Interface {
 							x2 = (int) (x1+sVB);
 							y2 = (int) (y1+sVB);
 						}
-						float x_temp = a.lifePoints/a.getAttribut(Attributs.maxLifepoints);
+						float x_temp = a.getLifePoints()/a.getAttribut(Attributs.maxLifepoints);
 						g.setColor(Color.darkGray);
 						g.fillRect(x1, y1, x2-x1, y2-y1);
 						g.setColor(new Color((1f-x_temp),x_temp,0));
@@ -464,8 +464,8 @@ public class Interface {
 		// Draw the potential actions
 		// Draw Separation (1/3 1/3 1/3) : 
 
-		if(plateau.round<nbRoundInit)
-			x = Math.max(-offset-10, Math.min(0, offset*(plateau.round-debut-duree)/duree));
+		if(plateau.getRound()<nbRoundInit)
+			x = StrictMath.max(-offset-10, StrictMath.min(0, offset*(plateau.getRound()-debut-duree)/duree));
 		else
 			x = 0;
 		g.setLineWidth(1f);
@@ -489,7 +489,7 @@ public class Interface {
 			Building b =(Building) plateau.getById(selection.get(0));
 			//Print building capacities
 			Vector<ObjetsList> ul = b.getProductionList(plateau);
-			int limit = Math.min(5, ul.size());
+			int limit = StrictMath.min(5, ul.size());
 			Font f = g.getFont();
 			for(int i=0; i<limit;i++){ 
 				g.drawImage(Images.get("icon"+ul.get(i)), x+2f, yActionBar+2f + ratio*i*sizeYActionBar, x-5f+sizeXActionBar, yActionBar-5f+ratio*i*sizeYActionBar+sizeXActionBar, 0, 0, 512,512);
@@ -520,7 +520,7 @@ public class Interface {
 
 			//Print building capacities
 			Vector<ObjetsList> ul2 = b.getTechnologyList(plateau);
-			limit = Math.min(5, ul2.size());
+			limit = StrictMath.min(5, ul2.size());
 			for(int i=0; i<limit;i++){
 				float goldCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.goldCost);
 				float foodCost = team.data.getAttribut(b.getTechnologyList(plateau).get(i),Attributs.foodCost);
@@ -549,7 +549,7 @@ public class Interface {
 			Character b =(Character) plateau.getById(selection.get(0));
 			//Print building capacities
 			Vector<Spell> ul = b.getSpells();
-			int limit = Math.min(5, ul.size());
+			int limit = StrictMath.min(5, ul.size());
 			Vector<Float> state = b.getSpellsState();
 			Font f = g.getFont();
 			Image im;
@@ -599,13 +599,13 @@ public class Interface {
 		float rX = Game.resX;
 		float rY = Game.resY;
 		float offset = ratioSizeTimerY*rY;
-		float yCentral = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debutC-dureeDescente)/dureeDescente));
+		float yCentral = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.getRound()-debutC-dureeDescente)/dureeDescente));
 		offset = ratioSizeGoldY*rY;
-		float y1 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut1-dureeDescente)/dureeDescente));
-		float y2 = Math.max(-offset-10,Math.min(0, offset*(plateau.round-debut2-dureeDescente)/dureeDescente));
+		float y1 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.getRound()-debut1-dureeDescente)/dureeDescente));
+		float y2 = StrictMath.max(-offset-10,StrictMath.min(0, offset*(plateau.getRound()-debut2-dureeDescente)/dureeDescente));
 		Team team = Player.getTeam(plateau);
 		if(food != team.food){
-			food += (team.food-food)/5+Math.signum(team.food-food);
+			food += (team.food-food)/5+StrictMath.signum(team.food-food);
 		}
 
 		// pop
@@ -666,23 +666,23 @@ public class Interface {
 
 	public static void drawMiniMap(Graphics g, Plateau plateau){
 		Team team = Player.getTeam(plateau);
-		offsetDrawX = Math.max(0, Math.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.round-debutGlissade-dureeGlissade)/dureeGlissade));
+		offsetDrawX = StrictMath.max(0, StrictMath.min(sizeXMiniMap+10, -sizeXMiniMap*(plateau.getRound()-debutGlissade-dureeGlissade)/dureeGlissade));
 		Utils.drawNiceRect(g,  team.color,startX2MiniMap+offsetDrawX-3, startY2MiniMap-3, sizeXMiniMap+9, sizeYMiniMap+9);
 		g.setColor(Color.black);
 		g.fillRect(startX2MiniMap+offsetDrawX, startY2MiniMap, sizeXMiniMap, sizeYMiniMap);
 		// Find the high left corner
-		float hlx = Math.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam/Game.ratioX);
-		float hly = Math.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam/Game.ratioY);
-		float brx = Math.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX)/Game.ratioX);
-		float bry = Math.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY)/Game.ratioY);
+		float hlx = StrictMath.max(startXMiniMap,startXMiniMap+ratioWidthMiniMap*Camera.Xcam/Game.ratioX);
+		float hly = StrictMath.max(startYMiniMap,startYMiniMap+ratioHeightMiniMap*Camera.Ycam/Game.ratioY);
+		float brx = StrictMath.min(startXMiniMap+widthMiniMap,startXMiniMap+ratioWidthMiniMap*(Camera.Xcam+Game.resX)/Game.ratioX);
+		float bry = StrictMath.min(startYMiniMap+heightMiniMap,startYMiniMap+ratioHeightMiniMap*(Camera.Ycam+Game.resY)/Game.ratioY);
 		// Find the bottom right corner
 
 		// Draw background
 		g.setColor(new Color(0.1f,0.4f,0.1f));
 		Case ca;
-		for(int i=0; i<plateau.mapGrid.grid.size(); i++){
-			for(int j=0; j<plateau.mapGrid.grid.get(0).size(); j++){
-				ca = plateau.mapGrid.grid.get(i).get(j);
+		for(int i=0; i<plateau.getMapGrid().grid.size(); i++){
+			for(int j=0; j<plateau.getMapGrid().grid.get(0).size(); j++){
+				ca = plateau.getMapGrid().grid.get(i).get(j);
 				g.drawImage(Images.get(ca.getIdTerrain().name()+"tile0"),
 						startXMiniMap+offsetDrawX+ratioWidthMiniMap*ca.x,
 						startYMiniMap+ratioHeightMiniMap*ca.y);
@@ -690,7 +690,7 @@ public class Interface {
 		}
 		for(NaturalObjet q : plateau.getNaturalObjets()){
 			g.setColor(Color.green);
-			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.x-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.y-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
+			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*q.getX()-ratioWidthMiniMap*q.sizeX/2f, startYMiniMap+ratioHeightMiniMap*q.getY()-ratioHeightMiniMap*q.sizeY/2f,ratioWidthMiniMap*q.sizeX , ratioHeightMiniMap*q.sizeY);
 		}
 		// Draw units on Camera 
 		g.setAntiAlias(true);
@@ -699,14 +699,14 @@ public class Interface {
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team2);
 					float r = c.getAttribut(Attributs.size)*2f;
-					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
+					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 			else if(c.getTeam().id==1){
 				if(plateau.isVisibleByTeam(Player.getTeamId(), c)){
 					g.setColor(Colors.team1);
 					float r = c.getAttribut(Attributs.size)*2f;
-					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
+					g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*r, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*r, 2f*ratioWidthMiniMap*r, 2f*ratioHeightMiniMap*r);
 				}
 			}
 		}
@@ -733,8 +733,8 @@ public class Interface {
 
 				}
 			}
-			g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*(c.x-c.getAttribut(Attributs.size)/2f), 
-					startYMiniMap+ratioHeightMiniMap*(c.y-c.getAttribut(Attributs.size)/2f), 
+			g.fillOval(startXMiniMap+offsetDrawX+ratioWidthMiniMap*(c.getX()-c.getAttribut(Attributs.size)/2f), 
+					startYMiniMap+ratioHeightMiniMap*(c.getY()-c.getAttribut(Attributs.size)/2f), 
 					ratioWidthMiniMap*c.getAttribut(Attributs.size), 
 					ratioHeightMiniMap*c.getAttribut(Attributs.size));
 		}
@@ -760,7 +760,7 @@ public class Interface {
 
 				}
 			}
-			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
+			g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratioWidthMiniMap*c.getAttribut(Attributs.sizeX), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 
 			if(c.constructionPoints<c.getAttribut(Attributs.maxLifepoints) && (plateau.isVisibleByTeam(Player.getTeamId(), c) || Debug.debugFog)){
 				float ratio = c.constructionPoints/c.getAttribut(Attributs.maxLifepoints); 
@@ -770,7 +770,7 @@ public class Interface {
 				else if(c.potentialTeam==2){
 					g.setColor(Colors.team2);
 				}
-				g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.x-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.y-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratio*(ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
+				g.fillRect(startXMiniMap+offsetDrawX+ratioWidthMiniMap*c.getX()-ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)/2f, startYMiniMap+ratioHeightMiniMap*c.getY()-ratioHeightMiniMap*c.getAttribut(Attributs.sizeY)/2f, ratio*(ratioWidthMiniMap*c.getAttribut(Attributs.sizeX)), ratioHeightMiniMap*c.getAttribut(Attributs.sizeY));
 			}
 		}
 

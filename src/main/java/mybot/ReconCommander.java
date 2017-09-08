@@ -8,7 +8,7 @@ import bot.IAUnit;
 import bot.IAUnit.Role;
 import utils.ObjetsList;
 
-public class ReconCommander extends Commander{
+public strictfp class ReconCommander extends Commander{
 
 	public ReconCommander(IA ia) {
 		super(ia);

@@ -9,7 +9,7 @@ import plateau.Checkpoint;
 import plateau.MarkerBuilding;
 import plateau.Plateau;
 
-public class RenderCheckpoint {
+public strictfp class RenderCheckpoint {
 	public static void render(Checkpoint c, Graphics g, Plateau plateau){
 		if(c instanceof MarkerBuilding){
 			renderMarkerBuilding((MarkerBuilding) c ,g,  plateau);
@@ -22,7 +22,7 @@ public class RenderCheckpoint {
 		if(!c.toDraw && !c.alwaysDraw){
 			return ;
 		}
-		if(c.lastRoundUpdate==plateau.round){
+		if(c.lastRoundUpdate==plateau.getRound()){
 			return ;
 		}
 		g.setAntiAlias(true);
@@ -34,18 +34,18 @@ public class RenderCheckpoint {
 			}
 			g.setLineWidth(2f);
 			c.drawShape.setRadius(c.maxRadius*(1-2*(c.animationState)/c.maxDuration));
-			c.drawShape.setCenterX(c.x);
-			c.drawShape.setCenterY(c.y);
+			c.drawShape.setCenterX(c.getX());
+			c.drawShape.setCenterY(c.getY());
 			
 			c.drawShape2.setRadius((c.maxRadius)*((c.animationState)/c.maxDuration));
-			c.drawShape2.setCenterX(c.x);
-			c.drawShape2.setCenterY(c.y);
-			g.fill(new Circle(c.x,c.y,2f));
+			c.drawShape2.setCenterX(c.getX());
+			c.drawShape2.setCenterY(c.getY());
+			g.fill(new Circle(c.getX(),c.getY(),2f));
 			
 			g.draw(c.drawShape2);
 			g.setColor(c.color);
 			g.draw(c.drawShape);
-			c.lastRoundUpdate = plateau.round;
+			c.lastRoundUpdate = plateau.getRound();
 		}
 		g.setAntiAlias(false);
 	}
@@ -53,7 +53,7 @@ public class RenderCheckpoint {
 		if(!c.toDraw && !c.alwaysDraw){
 			return ;
 		}
-		if(c.lastRoundUpdate==plateau.round){
+		if(c.lastRoundUpdate==plateau.getRound()){
 			return ;
 		}
 		g.setAntiAlias(true);
@@ -67,20 +67,20 @@ public class RenderCheckpoint {
 			g.setLineWidth(2f);
 			c.drawShape.setWidth(c.maxWidth-(c.delta*c.state/c.maxDuration));
 			c.drawShape.setHeight(c.maxHeight-(c.delta*c.state/c.maxDuration));
-			c.drawShape.setCenterX(c.x);
-			c.drawShape.setCenterY(c.y);
+			c.drawShape.setCenterX(c.getX());
+			c.drawShape.setCenterY(c.getY());
 			
 			c.drawShape2.setWidth(c.maxWidth-c.delta+(c.delta*c.state/c.maxDuration));
 			c.drawShape2.setHeight(c.maxHeight-c.delta+(c.delta*c.state/c.maxDuration));
 			
-			c.drawShape2.setCenterX(c.x);
-			c.drawShape2.setCenterY(c.y);
-			g.fill(new Circle(c.x,c.y,2f));
+			c.drawShape2.setCenterX(c.getX());
+			c.drawShape2.setCenterY(c.getY());
+			g.fill(new Circle(c.getX(),c.getY(),2f));
 			
 			g.draw(c.drawShape2);
 			g.setColor(c.color);
 			g.draw(c.drawShape);
-			c.lastRoundUpdate = plateau.round;
+			c.lastRoundUpdate = plateau.getRound();
 		}
 		g.setAntiAlias(false);
 	}

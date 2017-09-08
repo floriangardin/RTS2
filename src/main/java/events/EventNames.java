@@ -55,7 +55,7 @@ public enum EventNames {
 		case MoveTarget:
 			return new EventDefault(parent, "attack_Spearman01", plateau);
 		case BuildingSelected:
-			sound = "selection"+parent.name;
+			sound = "selection"+parent.getName();
 			break;
 		case CharacterSelected:
 			return new EventDefault(parent, "selection_Crossbowman01", plateau);

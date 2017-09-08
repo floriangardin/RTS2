@@ -2,7 +2,7 @@ package plateau;
 
 import java.io.Serializable;
 
-public abstract class EndCondition implements Serializable{
+public abstract strictfp class EndCondition implements Serializable{
 	
 	public enum EndConditions{
 		normal,

@@ -5,7 +5,7 @@ import bot.IAUnit;
 import data.Attributs;
 import utils.ObjetsList;
 
-public class ProductionCommander extends Commander {
+public strictfp class ProductionCommander extends Commander {
 
 	public ProductionCommander(IA ia) {
 		super(ia);

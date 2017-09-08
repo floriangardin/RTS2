@@ -12,7 +12,7 @@ import bot.IA;
 import bot.IAUnit;
 import utils.ObjetsList;
 
-public class Action {
+public strictfp class Action {
 	final static GsonBuilder builder = new GsonBuilder();
 	public static final Gson gson = builder.create();
 	Action parent;
@@ -54,10 +54,10 @@ public class Action {
 					this.action = Verb.valueOf(((String) toParse.get(key)));
 					break;
 				case "target":
-					this.target = (int) Math.round((double) toParse.get(key));
+					this.target = (int) StrictMath.round((double) toParse.get(key));
 					break;
 				case "subject" :
-					this.subject  =  (int) Math.round((double)toParse.get(key));
+					this.subject  =  (int) StrictMath.round((double)toParse.get(key));
 					break;
 				case "produce":
 

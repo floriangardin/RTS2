@@ -17,7 +17,7 @@ import model.Game;
 import ressources.GraphicElements;
 import system.MenuSystem.MenuNames;
 
-public class Credits extends Menu{
+public strictfp class Credits extends Menu{
 
 	public Vector<String> texts;
 	
@@ -60,9 +60,12 @@ public class Credits extends Menu{
 	}
 	public void draw(Graphics g){
 //		g.drawImage(this.backGround, 0,0,Game.resX,Game.resY,0,0,this.backGround.getWidth(),this.backGround.getHeight()-60f,new Color(10,10,10,1f));
-		g.setColor(Color.white);
+		g.drawImage(this.title, Game.resX/2-this.title.getWidth()/2, 10f);
+		float t;
 		for(int i = 0; i<texts.size(); i++){
-			if(currentHeight+i*stepLine<Game.resY && currentHeight+(i+1)*stepLine>0){
+			t = currentHeight+i*stepLine;
+			if(t+stepLine<9.5f*Game.resY/10 && t>2*Game.resY/5){
+				g.setColor(new Color(1f,1f,1f,-(t-2*Game.resY/5)*(t-9.5f*Game.resY/10)));
 				g.drawString(texts.get(i),Game.resX/2-GraphicElements.font_main.getWidth(texts.get(i))/2,currentHeight+i*stepLine);
 			}
 		}

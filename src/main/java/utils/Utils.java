@@ -21,15 +21,15 @@ import plateau.Character;
 import plateau.Objet;
 import plateau.Plateau;
 
-// Class for static methods
-public class Utils {
+// strictfp class for static methods
+public strictfp class Utils {
 
 	public static Gson gson = new Gson();
 	public static String[] contactWeapon = new String[]{"spear","sword"};
 	
 	public Vector<Objet> get(HashMap<String,Objet> req){
 		Vector<Objet> result = new Vector<Objet>();
-		result.stream().map((Objet o )->  o.id);
+		result.stream().map((Objet o )->  o.getId());
 		
 		return result;
 	}
@@ -62,7 +62,7 @@ public class Utils {
 
 	}
 	public static float distance_2_selectionBox(Objet a ,float x, float y){
-		return (a.selectionBox.getCenterX()-x)*(a.selectionBox.getCenterX()-x) + (a.selectionBox.getCenterY()-y)*(a.selectionBox.getCenterY()-y) ;
+		return (a.getSelectionBox().getCenterX()-x)*(a.getSelectionBox().getCenterX()-x) + (a.getSelectionBox().getCenterY()-y)*(a.getSelectionBox().getCenterY()-y) ;
 
 	}
 
@@ -70,17 +70,17 @@ public class Utils {
 		if(a== null || b == null){
 			return -1f;
 		}
-		return (float) Math.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
+		return (float) StrictMath.sqrt((a.getX()-b.getX())*(a.getX()-b.getX()) + (a.getY()-b.getY())*(a.getY()-b.getY()) );
 
 	}
 
 	public static float distance(Objet a ,float x , float y){
-		return (float) Math.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
+		return (float) StrictMath.sqrt((a.getX()-x)*(a.getX()-x) + (a.getY()-y)*(a.getY()-y) );
 
 	}
 
 	public static float distance(float x1, float y1, float x2, float y2){
-		return (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
+		return (float) StrictMath.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) );
 
 	}
 	public static Objet nearestObject(Vector<Objet> close, Objet caller){
@@ -139,7 +139,7 @@ public class Utils {
 	public static Image mergeImages(Image a, Image b){
 		if(b==null)
 			return a;
-		int maxW = Math.max(a.getWidth(), b.getWidth()), maxH = Math.max(a.getHeight(), b.getHeight());
+		int maxW = StrictMath.max(a.getWidth(), b.getWidth()), maxH = StrictMath.max(a.getHeight(), b.getHeight());
 		ImageBuffer bimage = new ImageBuffer(maxW,maxH);
 		Color ca;
 		for(int i=0; i<maxW; i++){
@@ -245,8 +245,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().y;
-			y2 = liste2.firstElement().y;
+			y1 = liste1.firstElement().getY();
+			y2 = liste2.firstElement().getY();
 			if(y1<y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -290,8 +290,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().id;
-			y2 = liste2.firstElement().id;
+			y1 = liste1.firstElement().getId();
+			y2 = liste2.firstElement().getId();
 			if(y1<y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -334,8 +334,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().id;
-			y2 = liste2.firstElement().id;
+			y1 = liste1.firstElement().getId();
+			y2 = liste2.firstElement().getId();
 			if(y1<y2){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -450,8 +450,8 @@ public class Utils {
 				liste1.remove(0);
 				continue;
 			}
-			y1 = liste1.firstElement().name.name();
-			y2 = liste2.firstElement().name.name();
+			y1 = liste1.firstElement().getName().name();
+			y2 = liste2.firstElement().getName().name();
 			if(y1.compareTo(y2)>=0){
 				liste.add(liste1.firstElement());
 				liste1.remove(0);
@@ -507,10 +507,10 @@ public class Utils {
 		if(liste == null || liste.size()==0){
 			return;
 		}
-		String name = plateau.getById(liste.get(0)).name.name();
+		String name = plateau.getById(liste.get(0)).getName().name();
 		boolean useful = false;
 		for(Integer a: liste)
-			if(!plateau.getById(a).name.name().equals(name))
+			if(!plateau.getById(a).getName().name().equals(name))
 				useful = true;
 		Integer buffer;
 		if(!useful){
@@ -519,7 +519,7 @@ public class Utils {
 			liste.add(buffer);
 			return;
 		}
-		while(plateau.getById(liste.get(0)).name.name().equals(name)){
+		while(plateau.getById(liste.get(0)).getName().name().equals(name)){
 			buffer = liste.get(0);
 			liste.removeElementAt(0);
 			liste.add(buffer);

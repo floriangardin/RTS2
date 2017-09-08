@@ -11,7 +11,7 @@ import ressources.GraphicElements;
 import ressources.Images;
 import ressources.Sounds;
 
-public class Menu_Item {
+public strictfp class Menu_Item {
 
 	public float sizeX;
 	public float sizeY;

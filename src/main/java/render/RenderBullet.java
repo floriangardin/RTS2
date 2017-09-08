@@ -11,30 +11,32 @@ import plateau.Fireball;
 import plateau.Plateau;
 import ressources.Images;
 
-public class RenderBullet {
-	
+public strictfp class RenderBullet {
 	
 	public static void render(Bullet b, Graphics g, Plateau plateau){
-		
+		if(b==null){
+			return;
+		}
 		if(b instanceof Arrow){
 			Images.get("arrow").rotate(((Arrow)b).angle);
-			g.drawImage(Images.get("arrow"),b.getX()-5f*Main.ratioSpace,b.getY()-75f*Main.ratioSpace);
+			g.drawImage(Images.get("arrow"),b.getX()-5f,b.getY()-75f);
 			Images.get("arrow").rotate(-((Arrow)b).angle);
-			Image shadow = Images.get("arrow").getScaledCopy(Main.ratioSpace);
+			Image shadow = Images.get("arrow");
 			shadow.rotate(((Arrow)b).angle);
-			shadow.drawFlash(b.getX()-5f*Main.ratioSpace,b.getY()-5f*Main.ratioSpace,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
+			shadow.drawFlash(b.getX()-5f,b.getY()-5f,shadow.getWidth(),shadow.getHeight(),new Color(0,0,0,0.3f));
+			shadow.rotate(-((Arrow)b).angle);
 		} else if (b instanceof Fireball){
 			Fireball b1 = (Fireball)b;
 			if(b1.explosion){
 				Image boom = Images.get("explosion").getScaledCopy(Main.ratioSpace);
 				float r = boom.getWidth()/5f;
-				if(b1.lifePoints>=24f)
+				if(b1.getLifePoints()>=24f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,0f,0f,r,r);
-				else if(b1.lifePoints>=18f)
+				else if(b1.getLifePoints()>=18f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,r,0f,2*r,r);
-				else if(b1.lifePoints>=12f)
+				else if(b1.getLifePoints()>=12f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,2*r,0f,3*r,r);
-				else if(b1.lifePoints>=6f)
+				else if(b1.getLifePoints()>=6f)
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,3*r,0f,4*r,r);
 				else 
 					g.drawImage(boom, b1.getX()-40f*Main.ratioSpace, b1.getY()-40f*Main.ratioSpace, b1.getX()+40f*Main.ratioSpace, b1.getY()+40f*Main.ratioSpace,4*r,0f,5*r,r);

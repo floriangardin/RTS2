@@ -12,7 +12,7 @@ import plateau.Building;
 import plateau.Objet;
 import plateau.Plateau;
 
-public class EventBuildingTakingGlobal extends Event{
+public strictfp class EventBuildingTakingGlobal extends Event{
 	
 	public HashMap<Integer, Integer> numberOfAttackers;
 	
@@ -28,11 +28,11 @@ public class EventBuildingTakingGlobal extends Event{
 		if(!toDraw){
 			return true;
 		}
-		if(numberOfAttackers.containsKey(plateau.teams.get(1).id)){
-			value1 = numberOfAttackers.get(plateau.teams.get(1).id);
+		if(numberOfAttackers.containsKey(plateau.getTeams().get(1).id)){
+			value1 = numberOfAttackers.get(plateau.getTeams().get(1).id);
 		}
-		if(numberOfAttackers.containsKey(plateau.teams.get(2).id)){
-			value2 = numberOfAttackers.get(plateau.teams.get(2).id);
+		if(numberOfAttackers.containsKey(plateau.getTeams().get(2).id)){
+			value2 = numberOfAttackers.get(plateau.getTeams().get(2).id);
 		}
 		Building b = (Building)parent;
 		if(value1!=value2){
@@ -47,13 +47,13 @@ public class EventBuildingTakingGlobal extends Event{
 			float x = b.constructionPoints/b.getAttribut(Attributs.maxLifepoints);
 			g.setLineWidth(1f);
 			for(int i=0; i<nbLine; i++){
-				g.setColor(new Color(c.r,c.g,c.b,(float) (Math.sin(Math.PI*x*x*50f)*(nbLine-i)/nbLine)));
+				g.setColor(new Color(c.r,c.g,c.b,(float) (StrictMath.sin(StrictMath.PI*x*x*50f)*(nbLine-i)/nbLine)));
 				//g.drawArc(this.getX()-sizeX/2-25,this.getY()-sizeY/2-25,sizeY+50,sizeY+50,0,x*360);
 				g.drawRect(b.getX()-b.getAttribut(Attributs.sizeX)/4-i,b.getY()-3*b.getAttribut(Attributs.sizeY)/4-i,b.getAttribut(Attributs.sizeX)/2+2*i,10f+2*i);
 			}	
 		} else if (value1>0){
 			// contested
-			g.setColor(new Color(1f,1f,1f,(float) (Math.sin((plateau.round%60)*Math.PI/30))));
+			g.setColor(new Color(1f,1f,1f,(float) (StrictMath.sin((plateau.getRound()%60)*StrictMath.PI/30))));
 			String s = "OPPOSITION";
 			g.drawString(s, b.getX()-g.getFont().getWidth(s)/2, b.getY()-3*b.getAttribut(Attributs.sizeY)/4-1.5f*g.getFont().getHeight(s));
 		}

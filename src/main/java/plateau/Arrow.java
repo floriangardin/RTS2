@@ -12,9 +12,10 @@ import events.EventNames;
 import main.Main;
 import model.Game;
 import ressources.Images;
+import stats.StatsHandler;
 import utils.ObjetsList;
 
-public class Arrow extends Bullet{
+public strictfp class Arrow extends Bullet{
 
 	public float angle= 0f;
 	public float life = 6f;
@@ -24,24 +25,24 @@ public class Arrow extends Bullet{
 		super(plateau);
 		// Parameters
 		this.size = 2f*Main.ratioSpace;
-		this.name = ObjetsList.Arrow;
+		this.setName(ObjetsList.Arrow);
 		this.damage = damage;
 		plateau.addBulletObjets(this);
-		this.lifePoints = 1f;
-		this.owner = owner.id;
-		this.team = plateau.getById(owner.id).getTeam();
+		this.setLifePoints(1f);
+		this.owner = owner.getId();
+		this.team = plateau.getById(owner.getId()).getTeam();
 		float Vmax = getAttribut(Attributs.maxVelocity)*Main.ratioSpace;
-		this.collisionBox = new Circle(owner.getX(),owner.getY(),size);
+		this.setCollisionBox(new Circle(owner.getX(),owner.getY(),size));
 		this.setXY(owner.getX(),owner.getY(), plateau);
-		this.vx = vx;
-		this.vy = vy;
+		this.setVx(vx);
+		this.setVy(vy);
 		//Normalize speed : 
-		float norm = this.vx*this.vx+this.vy*this.vy;
-		norm  = (float)Math.sqrt(norm)*Main.framerate;
-		this.vx = Vmax*this.vx/norm;
-		this.vy = Vmax*this.vy/norm;
-		this.angle = (float) (Math.atan(this.vy/(this.vx+0.00001f))*180/Math.PI);
-		if(this.vx<0)
+		float norm = this.getVx()*this.getVx()+this.getVy()*this.getVy();
+		norm  = (float)StrictMath.sqrt(norm)*Main.framerate;
+		this.setVx(Vmax*this.getVx()/norm);
+		this.setVy(Vmax*this.getVy()/norm);
+		this.angle = (float) (StrictMath.atan(this.getVy()/(this.getVx()+0.00001f))*180/StrictMath.PI);
+		if(this.getVx()<0)
 			this.angle+=180;
 		if(this.angle<0)
 			this.angle+=360;
@@ -54,12 +55,11 @@ public class Arrow extends Bullet{
 		if(c.getTeam()!=this.team){
 			// Attack if armor<damage and collision
 			float damage = this.damage;
-			if(!c.horse){
-				damage = damage * this.getTeam().data.bonusBowFoot;
-			}
+			
 			if(c.getAttribut(Attributs.armor)<=damage){
 //				Game.g.getEvents().addEvent(new EventAttackDamage(c, (int)(damage-c.getAttribut(Attributs.armor))));
-				c.setLifePoints(c.lifePoints+c.getAttribut(Attributs.armor)-damage, plateau);
+				c.setLifePoints(c.getLifePoints()+c.getAttribut(Attributs.armor)-damage, plateau);
+				StatsHandler.pushDamage(plateau, plateau.getById(owner), damage-c.getAttribut(Attributs.armor));
 			}
 			
 			this.setLifePoints(-1f, plateau);
@@ -69,7 +69,7 @@ public class Arrow extends Bullet{
 
 	@Override
 	public void collision(Objet c, Plateau plateau){
-		this.lifePoints = -1f;
+		this.setLifePoints(-1f);
 	}
 	
 	
@@ -77,11 +77,11 @@ public class Arrow extends Bullet{
 		//MULTI 
 		this.life  -= Main.increment;
 		if(life<0f){
-			this.lifePoints = -1f;
+			this.setLifePoints(-1f);
 		}
 		
-		this.setXY(this.getX()+this.vx, this.getY()+this.vy, plateau);
-		if(this.x>plateau.maxX || this.x<0 || this.y>plateau.maxY||this.y<0){
+		this.setXY(this.getX()+this.getVx(), this.getY()+this.getVy(), plateau);
+		if(this.getX()>plateau.getMaxX() || this.getX()<0 || this.getY()>plateau.getMaxY()||this.getY()<0){
 			this.setLifePoints(-1f, plateau);
 		}
 	}

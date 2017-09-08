@@ -8,7 +8,7 @@ import main.Main;
 import model.Game;
 import ressources.Sounds;
 
-public class ChatMessage implements Serializable{
+public strictfp class ChatMessage implements Serializable{
 
 	public String nickname;
 	public String message;

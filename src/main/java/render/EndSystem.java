@@ -7,25 +7,23 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import control.InputObject;
 import control.Player;
-import data.Attributs;
 import display.Camera;
 import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import model.Game;
+import model.GameClient;
 import model.GameServer;
 import plateau.Building;
-import plateau.NaturalObjet;
-import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
 import ressources.Musics;
+import stats.StatsSystem;
 import system.ClassSystem;
-import system.MenuSystem;
-import utils.Utils;
 
-public class EndSystem extends ClassSystem{
+public strictfp class EndSystem extends ClassSystem{
 
 	private Building destroyedHQ;
 	private Plateau plateau;
@@ -33,8 +31,8 @@ public class EndSystem extends ClassSystem{
 	private int time = 0;
 	
 	private int timeDropBackground = Main.framerate/4;
-	private int timeFadeTitle = Main.framerate;
-	private int timeWaiting = 7*Main.framerate;
+	private int timeFadeTitle = Main.framerate/2;
+	private int timeWaiting = 2*Main.framerate;
 	private int timeBlackFade = 1*Main.framerate;
 	
 	
@@ -47,20 +45,20 @@ public class EndSystem extends ClassSystem{
 	private Vector<Rond> vector;
 	
 	public EndSystem(Plateau plateau){
-		time = 0;
-		image_background = Images.get("victoire_fond").getScaledCopy(3f);
-		if(plateau.teamLooser!=Player.getTeamId()){
+		image_background = Images.get("victoire_fond").getScaledCopy(3f*Game.resX/1920);
+		if(plateau.getTeamLooser()!=Player.getTeamId()){
 			victory = true;
-			image_text = Images.get("victoire_texte");
-			image_texture = Images.get("victoire_fond_texture");
+			image_text = Images.get("victoire_texte").getScaledCopy(1f*Game.resX/1920);;
+			image_texture = Images.get("victoire_fond_texture").getScaledCopy(1f*Game.resX/1920);;
 		} else{
 			victory = false;
-			image_text = Images.get("defaite_texte");
-			image_texture = Images.get("defaite_fond_texture");
+			image_text = Images.get("defaite_texte").getScaledCopy(1f*Game.resX/1920);;
+			image_texture = Images.get("defaite_fond_texture").getScaledCopy(1f*Game.resX/1920);;
 		}
+		time = 0;
 		image_text.setAlpha(0f);
 		image_texture.setAlpha(0f);
-		destroyedHQ = (Building)plateau.getHQ(plateau.teams.get(plateau.teamLooser));
+		destroyedHQ = (Building)plateau.getHQ(plateau.getTeams().get(plateau.getTeamLooser()));
 		EventHandler.addEvent(EventNames.DestructionHQ, destroyedHQ, plateau);
 		vector = new Vector<Rond>();
 		this.plateau = plateau;
@@ -70,18 +68,19 @@ public class EndSystem extends ClassSystem{
 		// moving Camera
 		int Xcam = Camera.Xcam, Ycam = Camera.Ycam;
 		float resX = Camera.resX, resY = Camera.resY;
-		sizeBandes = Math.min(sizeBandes+2, Camera.resY/7f);
-		if((destroyedHQ.x-Xcam-resX/2)*(destroyedHQ.x-Xcam-resX/2)+(destroyedHQ.y-Ycam-resY/2)*(destroyedHQ.y-Ycam-resY/2)>450f){
-			Camera.Xcam = (int) ((15*(Xcam+resX/2)+destroyedHQ.x)/16-resX/2);
-			Camera.Ycam = (int) ((15*(Ycam+resY/2)+destroyedHQ.y)/16-resY/2);
+		sizeBandes = StrictMath.min(sizeBandes+2, Camera.resY/7f);
+		if((destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)*(destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)+(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)*(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)>450f){
+			Camera.Xcam = (int) ((15*(Camera.Xcam+resX/2)+destroyedHQ.getX()*Game.ratioX)/16-resX/2);
+			Camera.Ycam = (int) ((15*(Camera.Ycam+resY/2)+destroyedHQ.getY()*Game.ratioY)/16-resY/2);
 			return;
 		} 
 		time ++;
+		InputObject io = new InputObject(gc.getInput());
 		if(time<=timeDropBackground){
 			
 		} else if(time<=timeDropBackground+timeFadeTitle){
 
-		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting+timeBlackFade){
+		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting){
 			// launching music
 			if(victory && Musics.musicPlaying!=Musics.get("themeVictory")){
 				Musics.stopMusic();
@@ -91,45 +90,22 @@ public class EndSystem extends ClassSystem{
 				Musics.playMusic("themeDefeat");
 			} 
 			updateRonds();
-		} else if(time<=timeDropBackground+timeFadeTitle+timeWaiting+timeBlackFade+Main.framerate*2){
-			if(Musics.musicPlaying!=null){
-				Musics.musicPlaying.fade(1500, 0f, true);
-			}
 		} else {
-			Game.menuSystem.init();
-			Camera.reset();
-			GameServer.close();
-			Game.system = Game.menuSystem;
+			if(io.pressed.size()>0){
+				if(Musics.musicPlaying!=null){
+					Musics.musicPlaying.fade(1500, 0f, true);
+				}
+				Game.menuSystem.init();
+				Camera.reset();
+				GameClient.close();
+				GameServer.close();
+				Game.system = Game.menuSystem;
+			}
 		}
 	}
 	
 	public void render(GameContainer gc, Graphics g){
-		g.translate(-Camera.Xcam, -Camera.Ycam);
-		// Draw background
-		RenderEngine.renderBackground(g, plateau);
-		// Draw first layer of event
-		EventHandler.render(g, plateau, false);
-		Vector<Objet> objets = new Vector<Objet>();
-		for(Objet o : plateau.getObjets().values()){
-			objets.add(o);
-		}
-		objets = Utils.triY(objets);
-		Vector<Objet> visibleObjets = new Vector<Objet>();
-		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, o.getAttribut(Attributs.sight)) && o.team.id==Player.getTeamId()){
-				visibleObjets.add(o);
-			}
-		}		
-		// 2) Draw Objects
-		for(Objet o : objets){
-			if(Camera.visibleByCamera(o.x, o.y, Math.max(o.getAttribut(Attributs.size),o.getAttribut(Attributs.sizeX)))){
-				RenderEngine.renderObjet(o, g, plateau);
-			}
-		}
-		// Draw second layer of event
-		EventHandler.render(g, plateau, true);
-		g.translate(Camera.Xcam, Camera.Ycam);
-		
+		RenderEngine.renderPlateau(g, plateau, false);
 		if(time==0){
 			g.setColor(Color.black);
 			g.fillRect(0, 0, Camera.resX, sizeBandes);
@@ -151,13 +127,16 @@ public class EndSystem extends ClassSystem{
 				Camera.resY/2-image_texture.getHeight()/2);
 		g.drawImage(image_text, Camera.resX/2-image_text.getWidth()/2, 
 				Camera.resY/2-image_text.getHeight()/2);
+		if(time>timeDropBackground+timeFadeTitle+timeWaiting){
+			StatsSystem.render(g);
+		}
 		float ratio = 1f*(time-timeDropBackground-timeFadeTitle-timeWaiting)/(timeBlackFade);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, Camera.resX, sizeBandes);
 		g.fillRect(0, Camera.resY, Camera.resX, -sizeBandes);
-		Color color = new Color(0f,0f,0f,2*ratio);
-		g.setColor(color);
-		g.fillOval(Camera.resX*(0.5f-ratio*0.75f), Camera.resY*0.5f-Camera.resX*ratio*0.75f, Camera.resX*ratio*1.5f, Camera.resX*ratio*1.5f);
+//		Color color = new Color(0f,0f,0f,2*ratio);
+//		g.setColor(color);
+//		g.fillOval(Camera.resX*(0.5f-ratio*0.75f), Camera.resY*0.5f-Camera.resX*ratio*0.75f, Camera.resX*ratio*1.5f, Camera.resX*ratio*1.5f);
 	}
 	
 	private void updateRonds(){
@@ -174,24 +153,24 @@ public class EndSystem extends ClassSystem{
 		toRemove.clear();
 	}
 	
-	private class Rond{
+	private strictfp class Rond{
 		Image image;
 		float vx,vy;
 		float x,y;
 		float alpha;
 		float delta_alpha = 0.01f;
 		public Rond(boolean victory){
-			float scale = (float) (Math.random()+0.2f)/1.5f;
+			float scale = (float) (StrictMath.random()+0.2f)/1.5f;
 			if(victory){
-				image = Images.get("victoire_rond").getScaledCopy(scale);
+				image = Images.get("victoire_rond").getScaledCopy(scale*Game.ratioX);
 			} else {
-				image = Images.get("defaite_rond").getScaledCopy(scale);
+				image = Images.get("defaite_rond").getScaledCopy(scale*Game.ratioY);
 			}
 			x = Camera.resX/2f;
 			y = Camera.resY/2f;
-			vx = (float) (Math.random()*2f-1f)*4f;
-			vy = (float) (Math.random()*2f-1f)*0.7f;
-			alpha = (float) (0.5f+Math.random());
+			vx = (float) (StrictMath.random()*2f-1f)*4f;
+			vy = (float) (StrictMath.random()*2f-1f)*0.7f;
+			alpha = (float) (0.5f+StrictMath.random());
 		}
 		
 		public void render( Graphics g){
@@ -205,6 +184,11 @@ public class EndSystem extends ClassSystem{
 		public boolean isAlive(){
 			return alpha>0;
 		}
+	}
+
+	public static void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

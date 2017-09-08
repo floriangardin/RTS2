@@ -14,7 +14,7 @@ import ressources.Images;
 import ressources.Sounds;
 
 
-public class DisplayRessources extends Event{
+public strictfp class DisplayRessources extends Event{
 
 	private Image image;
 	private Color color;
@@ -40,15 +40,15 @@ public class DisplayRessources extends Event{
 		}
 		if(price>0){
 			color = Color.green;
-			string = "+ "+(int)Math.abs(price)+" ";
+			string = "+ "+(int)StrictMath.abs(price)+" ";
 		} else {
 			color = Color.red;
-			string = "- "+(int)Math.abs(price)+" ";
+			string = "- "+(int)StrictMath.abs(price)+" ";
 		}
-		this.x = parent.x;
-		this.y = parent.y;
-		this.vy = (float) (-5f+Math.random()-0.5);
-		this.vx = (float) (2f*Math.random()-1f);
+		this.x = parent.getX();
+		this.y = parent.getY();
+		this.vy = (float) (-5f+StrictMath.random()-0.5);
+		this.vx = (float) (2f*StrictMath.random()-1f);
 	}
 	
 	

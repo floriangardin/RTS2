@@ -7,13 +7,13 @@ import org.newdawn.slick.geom.Point;
 
 import main.Main;
 import plateau.Plateau;
+import plateau.Spell;
 import plateau.Team;
 import ressources.Map;
-import spells.Spell;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Data implements java.io.Serializable {
+public strictfp class Data implements java.io.Serializable {
 
 	private static final long serialVersionUID = 4147200845158282335L;
 
@@ -33,10 +33,7 @@ public class Data implements java.io.Serializable {
 
 	//// Attack Bonuses
 
-	public float bonusSpearHorse = 2f;
-	public float bonusSwordBow = 1.5f;
-	public float bonusBowFoot = 2f;
-	public float bonusWandBow = 2f;
+
 
 	// Ressources
 	public int prodFood = 6;

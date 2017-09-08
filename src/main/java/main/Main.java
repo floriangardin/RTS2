@@ -8,7 +8,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 import model.Game;
 
-public class Main {
+public strictfp class Main {
 	// A REGLER \\
 	public static float ratioSpace = 1f;
 	public static int framerate = 60;
@@ -29,8 +29,8 @@ public class Main {
 				resolutionX = (int)screenSize.getWidth();
 				resolutionY = (int)screenSize.getHeight();
 			} else {
-				resolutionX = (int)screenSize.getWidth()*2/3;
-				resolutionY = (int)screenSize.getHeight()*2/3;
+				resolutionX = (int)screenSize.getWidth()*2/4;
+				resolutionY = (int)screenSize.getHeight()*2/4;
 			}
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);

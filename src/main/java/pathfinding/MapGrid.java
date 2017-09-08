@@ -12,7 +12,7 @@ import plateau.NaturalObjet;
 import ressources.Map;
 import utils.Utils;
 
-public class MapGrid implements java.io.Serializable {
+public strictfp class MapGrid implements java.io.Serializable {
 
 	/**
 	 * 
@@ -135,8 +135,8 @@ public class MapGrid implements java.io.Serializable {
 	}
 	
 	public void addNaturalObject(NaturalObjet n){
-		Case c = this.getCase(n.x, n.y);
-		n.idCase = c.id;
+		Case c = this.getCase(n.getX(), n.getY());
+		n.setIdCase(c.id);
 		c.naturesObjet.add(n);
 		update();
 	}
@@ -150,7 +150,7 @@ public class MapGrid implements java.io.Serializable {
 	}
 	
 	public void removeNaturalObject(NaturalObjet n){
-		Case c = this.getCase(n.x, n.y);
+		Case c = this.getCase(n.getX(), n.getY());
 		c.naturesObjet.remove(n);
 		update();
 	}
@@ -194,8 +194,8 @@ public class MapGrid implements java.io.Serializable {
 	}
 	
 	public Vector<Integer> pathfinding(float xStart, float yStart, float xEnd, float yEnd){
-		xEnd = Math.min(Math.max(1, xEnd), this.maxX-1);
-		yEnd = Math.min(Math.max(1, yEnd), this.maxY-1);
+		xEnd = StrictMath.min(StrictMath.max(1, xEnd), this.maxX-1);
+		yEnd = StrictMath.min(StrictMath.max(1, yEnd), this.maxY-1);
 		//		System.out.println("MapGrid line 124: calcul d'un chemin");
 		Vector<Integer> path = new Vector<Integer>();
 		int iStart=0, jStart=0, iEnd=0, jEnd=0;
@@ -432,7 +432,7 @@ public class MapGrid implements java.io.Serializable {
 		}
 	}
 
-	public class Point {
+	public strictfp class Point {
 		public int i;
 		public int j;
 		public int id;
@@ -455,17 +455,17 @@ public class MapGrid implements java.io.Serializable {
 			this.comeFrom = comeFrom;
 		}
 		public void computeDistance(int iEnd, int jEnd){
-			this.dist = (float)Math.sqrt((i-iEnd)*(i-iEnd)+(j-jEnd)*(j-jEnd));
+			this.dist = (float)StrictMath.sqrt((i-iEnd)*(i-iEnd)+(j-jEnd)*(j-jEnd));
 		}
 		public void computeDistance(int iEnd1, int jEnd1, int iEnd2, int jEnd2){
 			if(i<=iEnd2 && i>=iEnd1)
-				this.dist = Math.min(Math.abs(j-jEnd1),Math.abs(j-jEnd2));
+				this.dist = StrictMath.min(StrictMath.abs(j-jEnd1),StrictMath.abs(j-jEnd2));
 			else if(j<=jEnd2 && j>=jEnd1)
-				this.dist = Math.min(Math.abs(i-iEnd1),Math.abs(i-iEnd2));
+				this.dist = StrictMath.min(StrictMath.abs(i-iEnd1),StrictMath.abs(i-iEnd2));
 			else{
-				int jd = Math.min(Math.abs(j-jEnd1),Math.abs(j-jEnd2));
-				int id = Math.min(Math.abs(i-iEnd1),Math.abs(i-iEnd2));
-				this.dist = (float)Math.sqrt((id)*(id)+(jd)*(jd));
+				int jd = StrictMath.min(StrictMath.abs(j-jEnd1),StrictMath.abs(j-jEnd2));
+				int id = StrictMath.min(StrictMath.abs(i-iEnd1),StrictMath.abs(i-iEnd2));
+				this.dist = (float)StrictMath.sqrt((id)*(id)+(jd)*(jd));
 			}
 		}
 

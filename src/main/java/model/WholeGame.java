@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 
 import bot.IA;
 import control.InputObject;
+import control.KeyMapper.KeyEnum;
 import control.Player;
 import display.Camera;
 import display.Interface;
@@ -26,9 +27,10 @@ import ressources.Map;
 import ressources.MusicManager;
 import ressources.SoundManager;
 import ressources.Taunts;
+import stats.StatsHandler;
 import system.ClassSystem;
 
-public class WholeGame extends ClassSystem{
+public strictfp class WholeGame extends ClassSystem{
 	private Replay replay= new Replay();
 	// Pour conditions de victoire
 	private boolean repeat = false;
@@ -38,7 +40,9 @@ public class WholeGame extends ClassSystem{
 	
 	public WholeGame(boolean repeat) {
 		// TODO Auto-generated method stub
-		this.repeat = true;
+		this.repeat = repeat;
+		EventHandler.init();
+		Player.reset();
 		if(Lobby.isInit()){
 			currentMap = Lobby.idCurrentMap;
 			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
@@ -49,43 +53,20 @@ public class WholeGame extends ClassSystem{
 		Plateau plateau = GameClient.getPlateau();
 		plateau.update();
 		// Put camera at the center of headquarter if exists
-		Building hq = plateau.getHQ(Player.getTeam(plateau));
-		if(hq!=null){
-			int xHQ =(int) hq.x;
-			int yHQ = (int)hq.y;
-			Camera.init(Game.resX, Game.resY, xHQ-Game.resX/2, yHQ-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);
-		}else{
-			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
-		}
-		
-		Interface.init(plateau);
-	}
-	
-	public WholeGame() {
-		// TODO Auto-generated method stub
-		EventHandler.init();
-		if(Lobby.isInit()){			
-			GameClient.setPlateau(Map.createPlateau(Lobby.idCurrentMap, "maps"));
-		}else{
-			GameClient.setPlateau(Map.createPlateau("testcollision2", "maps"));
-//			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
-		}
-		Game.endSystem = null;
-		Plateau plateau = GameClient.getPlateau();
-		plateau.update();
-		RenderEngine.init(plateau);
-		// Put camera at the center of headquarter
 		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){
-			int xHQ =(int) hq.x;
-			int yHQ = (int)hq.y;
-			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.maxX, (int)plateau.maxY);	
+			int xHQ =(int) hq.getX();
+			int yHQ = (int)hq.getY();
+			Camera.init(Game.resX, Game.resY, (int)(xHQ*Game.ratioX)-Game.resX/2, (int)(yHQ*Game.ratioY)-Game.resY/2, (int)plateau.getMaxX(), (int)plateau.getMaxY());	
 		}else{
-			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.maxX, (int)plateau.maxY);
+			Camera.init(Game.resX, Game.resY, 0, 0, (int)plateau.getMaxX(), (int)plateau.getMaxY());
 		}
+		Game.endSystem = null;
+		RenderEngine.init(plateau);
+		StatsHandler.init(plateau);
 		Interface.init(plateau);
 	}
-	
+
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		if(SimpleRenderEngine.ux!=0){
@@ -101,8 +82,9 @@ public class WholeGame extends ClassSystem{
 			Input in = gc.getInput();
 			Vector<InputObject> iaIms = new Vector<InputObject>();
 			final InputObject im = new InputObject(in, Player.getTeamId(), GameClient.roundForInput());
+			RenderEngine.drawStats = im.isDown(KeyEnum.ShowStats);
 			// handling start
-			if(GameClient.getPlateau().round<nbRoundStart){
+			if(GameClient.getPlateau().getRound()<nbRoundStart){
 				im.reset();
 			} else {
 				iaIms = IA.play(GameClient.getPlateau(), GameClient.roundForInput());
@@ -121,7 +103,7 @@ public class WholeGame extends ClassSystem{
 			SoundManager.update(GameClient.getPlateau());
 			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>30 && GameClient.getRound()%(GameClient.delay*2)==0){			
+			if(GameClient.getRound()>100 && GameClient.getRound()%(GameClient.delay*4)==0){
 				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round
@@ -134,10 +116,16 @@ public class WholeGame extends ClassSystem{
 			Camera.update(im);
 			RenderEngine.xmouse = im.x;
 			RenderEngine.ymouse = im.y;
-		}finally{
+			// Stats
+			StatsHandler.pushState(GameClient.getPlateau());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		finally{
+		
 			GameClient.mutex.unlock();
 		}
-		if(GameClient.getPlateau().teamLooser>0){
+		if(GameClient.getPlateau().getTeamLooser()>0){
 
 			if(this.repeat){
 				if(this.repeatNumber--<0){
@@ -191,6 +179,8 @@ public class WholeGame extends ClassSystem{
 				SimpleRenderEngine.render(g, p);
 				
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		finally{
 			GameClient.mutex.unlock();

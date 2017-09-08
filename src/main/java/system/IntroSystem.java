@@ -30,6 +30,7 @@ import ressources.Musics;
 import ressources.SoundManager;
 import ressources.Sounds;
 import ressources.Taunts;
+import stats.StatsSystem;
 
 public class IntroSystem extends ClassSystem{
 	
@@ -68,7 +69,7 @@ public class IntroSystem extends ClassSystem{
 	String adviceToDisplay;
 
 	public IntroSystem(){
-		double rdm = Math.random();
+		double rdm = StrictMath.random();
 		try{
 			if(rdm<0.20){
 				this.loadingSpearman = new Image("ressources/images/unit/spearmanBlue.png");			
@@ -101,24 +102,26 @@ public class IntroSystem extends ClassSystem{
 					lignes.add(ligne);
 				}
 				br.close(); 
-				this.adviceToDisplay = lignes.get((int)(Math.random()*lignes.size()));
+				this.adviceToDisplay = lignes.get((int)(StrictMath.random()*lignes.size()));
 			}catch (Exception e){
 				e.printStackTrace();
 			}
 		}
 		LoadingList.setDeferredLoading(true);
-		Musics.init();
+		if(Main.fullscreen){
+			Musics.init();
+			Sounds.init();
+			Taunts.init();
+			MusicManager.init();
+			SoundManager.init();
+		}
 		EventHandler.init();
-		Sounds.init();
 		GraphicElements.init();
 		ChatHandler.init();
 		Images.init();
 		EventHandler.init();
 		Options.init();
 		KeyMapper.init();
-		Taunts.init();
-		MusicManager.init();
-		SoundManager.init();
 		nbLoadedThing = LoadingList.get().getRemainingResources();
 	}
 
@@ -126,7 +129,7 @@ public class IntroSystem extends ClassSystem{
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, Game.resX, Game.resY);
-		float toGoTitle2 = Math.max(0f,toGoTitle);
+		float toGoTitle2 = StrictMath.max(0f,toGoTitle);
 		UnicodeFont font = GraphicElements.font_main;
 		if(lastThing!=null && toGoTitle2==0f){
 			int startBarX = (int) (Game.resX/10);
@@ -245,6 +248,7 @@ public class IntroSystem extends ClassSystem{
 //		Game.gameSystem = new WholeGame();
 //		Game.system = Game.gameSystem;
 		Game.menuSystem = new MenuSystem();
+		Game.statsSystem = new StatsSystem();
 		Game.system = Game.menuSystem;
 	}
 

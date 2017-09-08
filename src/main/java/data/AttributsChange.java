@@ -1,6 +1,6 @@
 package data;
 
-public class AttributsChange implements java.io.Serializable {
+public strictfp class AttributsChange implements java.io.Serializable {
 	
 	public Attributs attribut;
 	public Change change;

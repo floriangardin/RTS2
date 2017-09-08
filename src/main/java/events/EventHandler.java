@@ -9,10 +9,10 @@ import display.Camera;
 import display.DisplayRessources;
 import plateau.Objet;
 import plateau.Character;
-import plateau.Checkpoint;
+
 import plateau.Plateau;
 
-public class EventHandler {
+public strictfp class EventHandler {
 
 	private static Vector<Event> events = new Vector<Event>();
 	private static boolean isInit;
@@ -61,14 +61,14 @@ public class EventHandler {
 		}
 		EventBuildingTakingGlobal ebgt = null;
 		for(Event e : events){
-			if(e instanceof EventBuildingTakingGlobal && ((EventBuildingTakingGlobal)e).parent.id==building.id){
+			if(e instanceof EventBuildingTakingGlobal && ((EventBuildingTakingGlobal)e).parent.getId()==building.getId()){
 				ebgt = ((EventBuildingTakingGlobal)e);
 				ebgt.addAttacker(parent.team.id);
 				break;
 			}
 		}
 		for(Event e : events){
-			if(e instanceof EventBuildingTaking && e.parent.id == parent.id && ((EventBuildingTaking)e).idTarget == building.id){
+			if(e instanceof EventBuildingTaking && e.parent.getId() == parent.getId() && ((EventBuildingTaking)e).idTarget == building.getId()){
 				if(!((EventBuildingTaking)e).isActive){
 					((EventBuildingTaking)e).isActive = true;
 				}

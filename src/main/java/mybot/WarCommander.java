@@ -8,7 +8,7 @@ import bot.IAUnit;
 import bot.IAUnit.Role;
 import bot.Utils;
 import plateau.Character;
-public class WarCommander extends Commander{
+public strictfp class WarCommander extends Commander{
 
 	public WarCommander(IA ia) {
 		super(ia);

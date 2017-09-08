@@ -7,7 +7,7 @@ import control.InputObject;
 import control.KeyMapper.KeyEnum;
 import model.Game;
 
-public class Menu_Curseur extends Menu_Item{
+public strictfp class Menu_Curseur extends Menu_Item{
 
 
 	public Image curseur;
@@ -42,10 +42,10 @@ public class Menu_Curseur extends Menu_Item{
 
 	public void update(InputObject im){
 		if(this.isMouseOver(im) && im.isPressed(KeyEnum.LeftClick)){
-			value = Math.min(1, Math.max(0,(im.xOnScreen-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
+			value = StrictMath.min(1, StrictMath.max(0,(im.xOnScreen-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
 			isSelected = true;
 		} else if (isSelected && im.isDown(KeyEnum.LeftClick)){
-			value = Math.min(1, Math.max(0,(im.xOnScreen-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
+			value = StrictMath.min(1, StrictMath.max(0,(im.xOnScreen-x-decalage+this.image.getWidth()/2f)/(this.sizeX-2*decalage)));
 		} else {
 			isSelected = false;
 		}

@@ -12,7 +12,7 @@ import ressources.Map;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class ActionHelper {
+public strictfp class ActionHelper {
 
 	public static int getNumberOfNewSheet(){
 		Vector<Integer> v = new Vector<Integer>();
@@ -33,19 +33,19 @@ public class ActionHelper {
 	}
 
 	public static boolean checkCharacterEmplacement(Plateau p, ObjetsList ol, float x, float y){
-		Case c = p.mapGrid.getCase(x, y);
+		Case c = p.getMapGrid().getCase(x, y);
 		float min = 60f, d;
 		if(c==null || !c.ok){
 			return false;
 		}
-		for(Objet ch : p.mapGrid.getSurroundingChars(c)){
-			d = Utils.distance(ch.x, ch.y, x, y);
+		for(Objet ch : p.getMapGrid().getSurroundingChars(c)){
+			d = Utils.distance(ch.getX(), ch.getY(), x, y);
 			if(d<min){
 				return false;
 			}
 		}
-		for(Objet ch : p.mapGrid.getSurroundingNaturalObjet(c)){
-			d = Utils.distance(ch.x, ch.y, x, y);
+		for(Objet ch : p.getMapGrid().getSurroundingNaturalObjet(c)){
+			d = Utils.distance(ch.getX(), ch.getY(), x, y);
 			if(d<min){
 				return false;
 			}
@@ -54,27 +54,27 @@ public class ActionHelper {
 	}
 
 	public static boolean checkBuildingEmplacement(Plateau p, ObjetsList ol, float x, float y, HashSet<Case> highlightedCases, int idBuilding){
-		float sizeX = p.teams.get(0).data.getAttribut(ol, Attributs.sizeX);
-		float sizeY = p.teams.get(0).data.getAttribut(ol, Attributs.sizeY);
+		float sizeX = p.getTeams().get(0).data.getAttribut(ol, Attributs.sizeX);
+		float sizeY = p.getTeams().get(0).data.getAttribut(ol, Attributs.sizeY);
 		if(highlightedCases!=null){
 			highlightedCases.clear();
 		}
-		Case c = p.mapGrid.getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2);
+		Case c = p.getMapGrid().getCase(x-sizeX/2+Map.stepGrid/2, y-sizeY/2+Map.stepGrid/2);
 		if(c==null){
 			return false;
 		}
 		boolean actionOK = true;
 		for(int i = c.i;i<c.i + (int)(sizeX/Map.stepGrid);i++){
 			for(int j = c.j; j<c.j + (int)(sizeY/Map.stepGrid); j++){
-				if(i>=0 && i<p.mapGrid.grid.size() && j>=0 && j<p.mapGrid.grid.get(0).size()){
+				if(i>=0 && i<p.getMapGrid().grid.size() && j>=0 && j<p.getMapGrid().grid.get(0).size()){
 					if(highlightedCases!=null){
-						highlightedCases.add(p.mapGrid.grid.get(i).get(j));
+						highlightedCases.add(p.getMapGrid().grid.get(i).get(j));
 					}
 					actionOK = actionOK 
-							&& (p.mapGrid.grid.get(i).get(j).ok 
-									|| (p.mapGrid.grid.get(i).get(j).building!=null &&  p.mapGrid.grid.get(i).get(j).building.id == idBuilding))
-							&& p.mapGrid.grid.get(i).get(j).characters.size()==0 
-							&& p.mapGrid.grid.get(i).get(j).naturesObjet.size()==0;
+							&& (p.getMapGrid().grid.get(i).get(j).ok 
+									|| (p.getMapGrid().grid.get(i).get(j).building!=null &&  p.getMapGrid().grid.get(i).get(j).building.getId() == idBuilding))
+							&& p.getMapGrid().grid.get(i).get(j).characters.size()==0 
+							&& p.getMapGrid().grid.get(i).get(j).naturesObjet.size()==0;
 				} else {
 					actionOK = false;
 				}
@@ -84,13 +84,13 @@ public class ActionHelper {
 	}
 	
 	public static boolean checkNatureEmplacement(Plateau p, ObjetsList ol, float x, float y){
-		Case c = p.mapGrid.getCase(x, y);
+		Case c = p.getMapGrid().getCase(x, y);
 		if(c==null || (!c.ok && c.naturesObjet.size()==0) || c.characters.size()>0){
 			return false;
 		}
 		float min = 60f, d;
-		for(NaturalObjet ch : p.mapGrid.getSurroundingNaturalObjet(c)){
-			d = Utils.distance(ch.x, ch.y, x, y);
+		for(NaturalObjet ch : p.getMapGrid().getSurroundingNaturalObjet(c)){
+			d = Utils.distance(ch.getX(), ch.getY(), x, y);
 			if(d<min){
 				return false;
 			}

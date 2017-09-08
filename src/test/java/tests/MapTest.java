@@ -17,7 +17,7 @@ import plateau.Checkpoint;
 import plateau.Plateau;
 import ressources.Map;
 
-public class MapTest {
+public strictfp class MapTest {
 
 	@Test
 	public void test() {
@@ -78,8 +78,8 @@ public class MapTest {
 //		for(int i=0; i<1000; i++){
 //			plateau.update(new Vector<InputObject>());
 //		}
-//		assertTrue(Math.abs(c.x - xObjectif)<50);
-//		assertTrue(Math.abs(c.y - yObjectif)<50);
+//		assertTrue(StrictMath.abs(c.x - xObjectif)<50);
+//		assertTrue(StrictMath.abs(c.y - yObjectif)<50);
 //	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class MapTest {
 				refSize=serializedPlateau.length;
 			}
 			plateau.update(new Vector<InputObject>());
-			plateau.getCharacters().get(0).setTarget(new Checkpoint(100+(float)Math.random(), 100+(float)Math.random(), plateau), plateau);
+			plateau.getCharacters().get(0).setTarget(new Checkpoint(100+(float)StrictMath.random(), 100+(float)StrictMath.random(), plateau), plateau);
 			assertTrue(2*refSize>serializedPlateau.length);
 		}
 	}
@@ -144,7 +144,7 @@ public class MapTest {
 		Plateau plateau = Map.createPlateau("test01", "maptests");
 		Checksum check1 = new Checksum(plateau);
 		plateau.update(new Vector<InputObject>());
-		plateau.getCharacters().get(0).x += 2;
+		plateau.getCharacters().get(0).setX(plateau.getCharacters().get(0).getX() + 2);
 		Checksum check2 = new Checksum(plateau);
 		assertTrue(check1.equals(check2));
 	}
@@ -166,7 +166,7 @@ public class MapTest {
 		Checksum check1 = new Checksum(plateau);
 		Plateau plateau2 = Map.createPlateau("test01", "maptests");
 		plateau2.update();
-		plateau2.getCharacters().get(0).x +=2;
+		plateau2.getCharacters().get(0).setX(plateau2.getCharacters().get(0).getX() + 2);
 		Checksum check2 = new Checksum(plateau2);
 		assertFalse(check1.equals(check2));
 	}

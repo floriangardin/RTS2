@@ -26,7 +26,7 @@ import ressources.Map;
 import utils.ObjetsList;
 import utils.Utils;
 
-public class Building extends Objet{
+public strictfp class Building extends Objet{
 	/**
 	 * 
 	 */
@@ -55,7 +55,7 @@ public class Building extends Objet{
 	public Technologie queueTechnology;
 
 
-	public Vector<ObjetsList> queue ;
+	private Vector<ObjetsList> queue ;
 	public float random=0f;
 	//TOWER
 	public float chargeAttack;
@@ -74,25 +74,25 @@ public class Building extends Objet{
 	public Building(ObjetsList name, int i, int j, Team team, Plateau plateau){
 		// SET UP TECH LIST ET PRODUCTION LIST
 		super(plateau);
-		this.name = name;
+		this.setName(name);
 
-		this.x = (i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2);
-		this.y = (j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2);
+		this.setX((i*Map.stepGrid+this.getAttribut(Attributs.sizeX)/2));
+		this.setY((j*Map.stepGrid+this.getAttribut(Attributs.sizeY)/2));
 		this.i = i;
 		this.j = j;
 		teamCapturing= 0;
 		this.team = team;
 		plateau.addBuilding(this);
-		this.lifePoints = this.getAttribut(Attributs.maxLifepoints);
+		this.setLifePoints(this.getAttribut(Attributs.maxLifepoints));
 		
-		this.collisionBox= new Rectangle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,getAttribut(Attributs.sizeX),getAttribut(Attributs.sizeY));
-		this.marker = new MarkerBuilding(x,y,this, plateau);
-		this.selectionBox = (Rectangle)this.collisionBox;
-		this.rallyPoint = new Checkpoint(this.x,this.y+this.getAttribut(Attributs.sizeY)/2,true, plateau).id;
-		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
-		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y-getAttribut(Attributs.sizeY)/2f,20f));
-		corners.add(new Circle(x+getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
-		corners.add(new Circle(x-getAttribut(Attributs.sizeX)/2f,y+getAttribut(Attributs.sizeY)/2f,20f));
+		this.setCollisionBox(new Rectangle(getX()-getAttribut(Attributs.sizeX)/2f,getY()-getAttribut(Attributs.sizeY)/2f,getAttribut(Attributs.sizeX),getAttribut(Attributs.sizeY)));
+		this.marker = new MarkerBuilding(getX(),getY(),this, plateau);
+		this.setSelectionBox((Rectangle)this.getCollisionBox());
+		this.rallyPoint = new Checkpoint(this.getX(),this.getY()+this.getAttribut(Attributs.sizeY)/2,true, plateau).getId();
+		corners.add(new Circle(getX()-getAttribut(Attributs.sizeX)/2f,getY()-getAttribut(Attributs.sizeY)/2f,20f));
+		corners.add(new Circle(getX()+getAttribut(Attributs.sizeX)/2f,getY()-getAttribut(Attributs.sizeY)/2f,20f));
+		corners.add(new Circle(getX()+getAttribut(Attributs.sizeX)/2f,getY()+getAttribut(Attributs.sizeY)/2f,20f));
+		corners.add(new Circle(getX()-getAttribut(Attributs.sizeX)/2f,getY()+getAttribut(Attributs.sizeY)/2f,20f));
 
 		// Initialize production
 		this.queue = new Vector<ObjetsList>();
@@ -127,7 +127,7 @@ public class Building extends Objet{
 	}
 	public Vector<ObjetsList> getProductionList(Plateau plateau){
 		Vector<ObjetsList> toReturn = new Vector<ObjetsList>();
-		Vector<ObjetsList> result =  getTeam().data.getAttributListAtt(this.name, Attributs.units);
+		Vector<ObjetsList> result =  getTeam().data.getAttributListAtt(this.getName(), Attributs.units);
 
 		// Remove units which not match tech required
 
@@ -143,15 +143,15 @@ public class Building extends Objet{
 		return toReturn;
 	}
 	public Vector<ObjetsList> getRawTechnologyList(){
-		return getTeam().data.getAttributListAtt(this.name, Attributs.technologies);
+		return getTeam().data.getAttributListAtt(this.getName(), Attributs.technologies);
 	}
 	public Vector<ObjetsList> getAllTechs(){
-		return getTeam().data.getAttributListAtt(this.name, Attributs.technologies);
+		return getTeam().data.getAttributListAtt(this.getName(), Attributs.technologies);
 	}
 
 	public boolean product(int unit, Plateau plateau){
 		// TODO : fix method in a generic way
-
+		
 		// PRODUCTION LIST
 		//UNIT PRODUCTION
 		if(this.queueTechnology!=null){
@@ -163,7 +163,6 @@ public class Building extends Objet{
 			if(foodCost<=this.getTeam().food
 					 && this.getTeam().enoughPop(getProductionList(plateau).get(unit), plateau)){
 				this.queue.add(getProductionList(plateau).get(unit));
-				System.out.println(this.getTeam().food+" "+foodCost);
 				this.getTeam().food-=foodCost;
 				if(this.team.id==Player.team){
 					EventHandler.addEvent(new DisplayRessources(this, plateau,-foodCost,"food"), plateau);
@@ -258,7 +257,7 @@ public class Building extends Objet{
 
 		}
 		if(canAttack){
-			if(target==null || this.getTarget(plateau).lifePoints<0f ||Utils.distance(this, target)>getAttribut(Attributs.sight)){
+			if(target==null || this.getTarget(plateau).getLifePoints()<0f ||Utils.distance(this, target)>getAttribut(Attributs.sight)){
 				Vector<Character> target1= plateau.getEnnemiesInSight(this);
 				if(target1.size()>0){
 					this.setTarget(target1.get(0), plateau);
@@ -292,26 +291,23 @@ public class Building extends Objet{
 
 		//Do the action of Barrack
 		//Product, increase state of the queue
-		this.random+=0.01f;
-		if(this.random>1f){
-			this.random=0;
-		}
 		if(this.queue.size()>0){
 			this.setCharge(this.charge+Main.increment);
 			if(this.getTeam().enoughPop(getQueue().get(0), plateau) && this.charge>=this.getAttribut(getQueue().get(0), Attributs.prodTime)){
 				this.setCharge(0f);
-				float dirX = this.random+getRallyPoint(plateau).x-this.x;
-				float dirY = this.random+getRallyPoint(plateau).y - this.y;
-				float norm = (float) Math.sqrt(dirX*dirX+dirY*dirY);
-				//Introduit du random
-				float startX = this.x + this.getAttribut(Attributs.sizeX)*dirX/norm/2;
-				float startY = this.y + this.getAttribut(Attributs.sizeY)*dirY/norm/2;
+				float dirY = rallyPoint.getY()-this.getY();
+				dirY = (dirY>=0 ? 1f : -1f);
+				float startX = this.getX();
+				float startY = this.getY() + dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
+				if(plateau.getMapGrid().getCase(startX, startY) == null || !plateau.getMapGrid().getCase(startX, startY).getIdTerrain().ok){
+					startY = this.getY() - dirY*(this.getAttribut(Attributs.sizeY)/2+30f);
+				}
 				Character c = new Character(startX,startY, getQueue().get(0), this.getTeam(), plateau);
 
 				if(rallyPoint!=null){
 					if(rallyPoint instanceof Checkpoint){
 
-						c.setTarget(new Checkpoint(rallyPoint.x,rallyPoint.y,true, plateau), plateau);
+						c.setTarget(new Checkpoint(rallyPoint.getX(),rallyPoint.getY(),true, plateau), plateau);
 					}
 					else if(rallyPoint instanceof Character){
 						c.setTarget(rallyPoint,null,Character.AGGRESSIVE, plateau);
@@ -339,15 +335,15 @@ public class Building extends Objet{
 
 
 		if(stateRessourceFood >= this.getAttribut(Attributs.frequencyProduceFood) && getTeam().id!=0){
-			getTeam().food+=this.getAttribut(this.name,Attributs.produceFood)*getTeam().data.prodFood;
+			getTeam().food+=this.getAttribut(this.getName(),Attributs.produceFood)*getTeam().data.prodFood;
 			stateRessourceFood = 0;
-			if(this.team.id==Player.team && this.getAttribut(this.name,Attributs.produceFood)!=0){
-				EventHandler.addEvent(new DisplayRessources(this, plateau,this.getAttribut(this.name,Attributs.produceFood)*getTeam().data.prodFood,"food"), plateau);
+			if(this.team.id==Player.team && this.getAttribut(this.getName(),Attributs.produceFood)!=0){
+				EventHandler.addEvent(new DisplayRessources(this, plateau,this.getAttribut(this.getName(),Attributs.produceFood)*getTeam().data.prodFood,"food"), plateau);
 			}
 		}
 
 		//TOWER
-		if(this.getTeam().data.getAttribut(this.name, Attributs.canAttack)>0){
+		if(this.getTeam().data.getAttribut(this.getName(), Attributs.canAttack)>0){
 			this.attack(plateau);
 		}
 		
@@ -369,7 +365,7 @@ public class Building extends Objet{
 
 		}
 		if(this.queue.size()>0){
-			float foodCost = getAttribut(getProductionList(plateau).get(this.queue.size()-1),Attributs.foodCost);
+			float foodCost = getAttribut(this.queue.lastElement(),Attributs.foodCost);
 			this.getTeam().food += foodCost;
 
 			this.queue.remove(this.queue.size()-1);
@@ -383,8 +379,8 @@ public class Building extends Objet{
 
 	public void setRallyPoint(float x , float y, Plateau plateau){
 		Objet rp = this.getRallyPoint(plateau);
-		rp.x = x;
-		rp.y = y;
+		rp.setX(x);
+		rp.setY(y);
 
 	}
 
@@ -394,7 +390,6 @@ public class Building extends Objet{
 
 		Vector<ObjetsList> toReturn = new Vector<ObjetsList>();
 		for(ObjetsList t:getRawTechnologyList()){
-			boolean ok = true;
 			if(team.currentTechsProduced.contains(t) || team.techsDiscovered.contains(t)){	
 				continue;
 			}
@@ -446,8 +441,8 @@ public class Building extends Objet{
 	}
 	public void resetRallyPoint(Plateau plateau){
 		Objet rallyPoint = this.getRallyPoint(plateau);
-		rallyPoint.x = this.x;
-		rallyPoint.y = this.y+this.getAttribut(Attributs.sizeY)/2+10;
+		rallyPoint.setX(this.getX());
+		rallyPoint.setY(this.getY()+this.getAttribut(Attributs.sizeY)/2+10);
 
 	}
 
@@ -472,11 +467,11 @@ public class Building extends Objet{
 
 			if(this.constructionPoints<=0f){
 				if(this.getAttribut(Attributs.defendable)==0){
-					if(this.getTeam().id!=0 && this.name==ObjetsList.Tower){
+					if(this.getTeam().id!=0 && this.getName()==ObjetsList.Tower){
 						EventHandler.addEvent(EventNames.DestructionTower, this, plateau);
 					}
 					this.isDestroyed = true;
-					if(this.name!=ObjetsList.Headquarters){
+					if(this.getName()!=ObjetsList.Headquarters){
 						this.setTeam(0, plateau);
 					}
 				} else {
@@ -484,7 +479,7 @@ public class Building extends Objet{
 					this.potentialTeam = c.getTeam().id;
 				}
 			}
-			this.chargeAttack = Math.max(this.chargeAttack-2*Main.increment, 0);
+			this.chargeAttack = StrictMath.max(this.chargeAttack-2*Main.increment, 0);
 			if(!this.isDestroyed){
 				EventHandler.addEventBuildingTaking(c, this, plateau);
 				this.constructionPoints-=Main.increment;
@@ -496,7 +491,7 @@ public class Building extends Objet{
 		}
 		if(this.constructionPoints>=this.getAttribut(Attributs.maxLifepoints) && this.potentialTeam==c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			if(this.potentialTeam!=this.getTeam().id  ){
-				if(plateau.teams.get(this.potentialTeam).enoughPop(this.name, plateau)||this instanceof Bonus || (name.equals(ObjetsList.Headquarters))){
+				if(plateau.getTeams().get(this.potentialTeam).enoughPop(this.getName(), plateau)||this instanceof Bonus || (getName().equals(ObjetsList.Headquarters))){
 
 					this.setTeam(this.potentialTeam, plateau);
 
@@ -540,14 +535,14 @@ public class Building extends Objet{
 	public void setTeam(int i, Plateau plateau){
 
 
-		if(i==Player.team && !(name.equals(ObjetsList.Headquarters))){
+		if(i==Player.team && !(getName().equals(ObjetsList.Headquarters))){
 			ChatHandler.addMessage(ChatMessage.getById(MessageType.BUILDINGTAKEN));
 			EventHandler.addEvent(EventNames.BuildingTaken, this, plateau);
 		}
-		if(this.team.id==Player.team && i!=Player.team && !(name.equals(ObjetsList.Headquarters))){
+		if(this.team.id==Player.team && i!=Player.team && !(getName().equals(ObjetsList.Headquarters))){
 			ChatHandler.addMessage(ChatMessage.getById(MessageType.BUILDINGLOST));
 		}
-		this.team = plateau.teams.get(i);
+		this.team = plateau.getTeams().get(i);
 		this.setTeamExtra();
 		this.giveUpProcess = false;
 	}

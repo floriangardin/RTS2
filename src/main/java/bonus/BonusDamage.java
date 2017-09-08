@@ -9,7 +9,7 @@ import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
 
-public class BonusDamage extends Bonus{
+public strictfp class BonusDamage extends Bonus{
 
 	public BonusDamage(int x, int y,Team team, Plateau plateau) {
 		super(ObjetsList.BonusDamage, x, y,team, plateau);

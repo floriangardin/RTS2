@@ -15,10 +15,12 @@ import menuutils.Menu_Map;
 import model.Game;
 import model.GameClient;
 import model.GameServer;
+import multiplaying.ChatHandler;
+import multiplaying.ChatMessage;
 import ressources.GraphicElements;
 import system.MenuSystem.MenuNames;
 
-public class MenuMulti extends Menu {
+public strictfp class MenuMulti extends Menu {
 
 	Image title;
 	public Image marbre;
@@ -41,17 +43,22 @@ public class MenuMulti extends Menu {
 	float stepY;
 	float ratioReso;
 
-	
+
 	public Vector<Menu_Map> gamesList;
-	public Vector<String> openGames;
+	public Vector<OpenGame> openGames;
 	public int Nplayer;
 	public int gameSelected = -1;
 
 	public MenuMulti(){
 		super();
+		init();
+	}
+
+	public void init(){
+		gameSelected = -1;
 		this.items = new Vector<Menu_Item>();
 		this.gamesList = new Vector<Menu_Map>();
-		this.openGames = new  Vector<String>();
+		this.openGames = new  Vector<OpenGame>();
 		startX = 2f*Game.resX/8;
 		startY = 0.39f*Game.resY;
 		stepY = 0.10f*Game.resY;
@@ -59,94 +66,59 @@ public class MenuMulti extends Menu {
 		sizeXGames = Game.resX/2;
 		startYGames = 0.37f*Game.resY;
 		sizeYGames = Game.resY*(0.95f-0.37f);
-		this.items.addElement(new Menu_Item(startX,startY+1*stepY,"Heberger",true));
-		this.items.addElement(new Menu_Item(startX,startY+2*stepY,"Rejoindre",true));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Rafraîchir",true));
-		this.items.addElement(new Menu_Item(startX,startY+4*stepY,"Retour",true));
-
+		this.items.addElement(new Menu_Item(startX,startY+1.5f*stepY,"Rafraîchir",true));
+		this.items.addElement(new Menu_Item(startX,startY+2.5f*stepY,"Rejoindre",true));
+		this.items.addElement(new Menu_Item(startX,startY+3.5f*stepY,"Retour",true));
 	}
 
 	public void callItem(int i){
 		switch(i){
 		case 0:
-			// Heberger
-			this.openGames.clear();
-			this.gamesList.clear();
-			try {
-				GameServer.init();
-				String addressHost = InetAddress.getLocalHost().getHostAddress();
-				GameClient.init(addressHost);
-				Lobby.init();
-			} catch (UnknownHostException e) {}
-			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
-			break;
-		case 1:
-			// Rejoindre
-//			if(gameSelected!=-1){
-//				//System.out.println("connexion au serveur : " + (System.currentTimeMillis())%10000);
-//				Game.MenuMapChoice.seconds = 6;
-//				Game.MenuMapChoice.messageDropped = 0;
-//				game.host = false;
-//				game.inMultiplayer = true;
-//				game.initializePlayers();
-//				Map.updateMap(0, game);
-//				game.clearPlayer();
-//				OpenGames opengame = openGames.get(gameSelected);
-//
-//				Game.addressHost = opengame.hostAddress;
-//				// and now, we can create a kyonet connection
-//				if(Game.g.usingKryonet){
-//					Game.g.kryonetClient.connect(game.addressHost, Game.portTCP, Game.portUDPKryonet, Game.portTCPResynchro, Game.portUDPKryonetResynchro);
-//				}
-//				for(int j=1; j<opengame.nPlayers; j++){
-//					game.addPlayer("unknown",null,1,1);
-//				}
-//				Game.getPlayerById(1).address=opengame.hostAddress;
-//				game.addPlayer(Game.options.nickname,null,(int)game.resX,(int)game.resY);
-//				game.currentPlayer = game.players.lastElement();
-//				game.currentPlayer.setTeam(opengame.teamFirstPlayer%2+1);
-//				try {
-//					Game.currentPlayer.address = InetAddress.getLocalHost();
-//				} catch (UnknownHostException e) {}
-//				game.menuMapChoice.initializeMenuPlayer();
-//				this.openGames.clear();
-//				this.gamesList.clear();
-//				game.setMenu(game.menuMapChoice);
-//			}
-			
-
-			
-			if(this.openGames.size()>0) {
-				//FIXME: ajouter la selection de partie à rejoindre
-				String addressHost = this.openGames.get(0);
-				System.out.println("je suis le client et j'essai de me connecter à "+addressHost);
-				GameClient.init(addressHost);
-				Lobby.init();
-			}
-			
-			
-			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
-			break;
-		case 2:
 			// Rafraîchir
-			Vector<String> existingServers = new Vector<String>();
-			existingServers = GameClient.getExistingServerIPS();
-			for(String s : existingServers){
+			Vector<OpenGame> existingServers = GameClient.getExistingServerIPS();
+			for(OpenGame s : existingServers){
 				if(openGames.contains(s)){
 					continue;
 				} else {
 					this.openGames.add(s);
 				}
 			}
-			Vector<String> toRemove = new Vector<String>();
-			for(String s : openGames){
+			Vector<OpenGame> toRemove = new Vector<OpenGame>();
+			for(OpenGame s : openGames){
 				if(!existingServers.contains(s)){
 					toRemove.add(s);
 				}
 			}
+			this.gamesList.clear();
+			int j = 0;
+			float x = this.startXGames+80f;
+			float y;
+			float sizeX = this.sizeXGames/2f;
+			float sizeY = this.sizeYGames/8f;
+			for(OpenGame s : openGames){
+				y = startY+80f+j*sizeY;
+				this.gamesList.add(new Menu_Map(s.addressHost+" - "+s.nicknameHost,x,y,sizeX,sizeY/2f));
+				j++;
+			}
 			openGames.removeAll(toRemove);
 			break;
-		case 3:
+		case 1:
+			// Rejoindre
+			if(gameSelected!=-1 && this.openGames.size()>gameSelected) {
+				//FIXME: ajouter la selection de partie à rejoindre
+				String addressHost = this.openGames.get(gameSelected).addressHost;
+				try{
+					GameClient.init(addressHost);
+					Lobby.init();
+					Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
+				}catch(Exception e){
+					ChatHandler.addMessage(new ChatMessage("Unable to join game!"));
+				}
+			}
+
+
+			break;
+		case 2:
 			// Retour 
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.openGames.clear();
@@ -161,9 +133,9 @@ public class MenuMulti extends Menu {
 		g.setColor(Color.white);
 		g.drawString("Parties disponibles: ", this.startXGames+70f, startY+50f);
 		g.fillRect(this.startXGames+40f, startY+80f+GraphicElements.font_main.getHeight("R"),2, sizeYGames/2f - 60f+GraphicElements.font_main.getHeight("R"));
-		for(String s : this.openGames)
-			g.drawString(s, this.startXGames+80f, startY+80f);
-
+		for(Menu_Map mm : this.gamesList){
+			mm.draw(g);
+		}
 	}
 
 	public void update(InputObject im){
@@ -178,8 +150,17 @@ public class MenuMulti extends Menu {
 				this.gameSelected = i;
 				item.isSelected = true;
 			}
-		}			
-
+		}	
 	} 
+
+	public static class OpenGame{
+		public String addressHost;
+		public String nicknameHost;
+
+		public OpenGame(String a, String n){
+			this.addressHost = a;
+			this.nicknameHost = n;
+		}
+	}
 
 }

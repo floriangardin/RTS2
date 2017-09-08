@@ -15,9 +15,9 @@ import plateau.Plateau;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class Actions {
+public strictfp class Actions {
 	
-	public static class ActionCreateObjet extends Action{
+	public static strictfp class ActionCreateObjet extends Action{
 		
 		ObjetsList ol;
 		int x, y, team;
@@ -34,7 +34,7 @@ public class Actions {
 		@Override
 		public void undo() {
 			if(o!=null){
-				switch(o.name.type){
+				switch(o.getName().type){
 				case Character:
 					plateau.removeCharacter((Character)o);
 					break;
@@ -59,16 +59,16 @@ public class Actions {
 					o = new Tree(x,y,Integer.parseInt(ol.name().substring(5)),plateau);
 					break;
 				case Character:
-					o = new Character(x, y, ol, plateau.teams.get(team), plateau);
+					o = new Character(x, y, ol, plateau.getTeams().get(team), plateau);
 					break;
 				case Building:
-					o = new Building(ol, x, y, plateau.teams.get(team), plateau);
+					o = new Building(ol, x, y, plateau.getTeams().get(team), plateau);
 					break;
 				default:
 					break;
 				}
 			} else {
-				switch(o.name.type){
+				switch(o.getName().type){
 				case Character:
 					plateau.addCharacterObjets((Character)o);
 					break;
@@ -86,7 +86,7 @@ public class Actions {
 		}
 	}
 	
-	public static class ActionDeleteObjet extends Action{
+	public static strictfp class ActionDeleteObjet extends Action{
 		
 		Objet o;
 
@@ -98,7 +98,7 @@ public class Actions {
 
 		@Override
 		public void undo() {
-			switch(o.name.type){
+			switch(o.getName().type){
 			case Character:
 				plateau.addCharacterObjets((Character)o);
 				break;
@@ -116,7 +116,7 @@ public class Actions {
 
 		@Override
 		public void redo() {
-			switch(o.name.type){
+			switch(o.getName().type){
 			case Character:
 				plateau.removeCharacter((Character)o);
 				break;
@@ -133,7 +133,7 @@ public class Actions {
 		}
 	}
 	
-	public static class ActionPaintTerrain extends Action{
+	public static strictfp class ActionPaintTerrain extends Action{
 		
 		HashMap<Integer, IdTerrain> idCases;
 		IdTerrain idTerrain;
@@ -152,28 +152,28 @@ public class Actions {
 		@Override
 		public void undo() {
 			for(Integer i : idCases.keySet()){
-				plateau.mapGrid.getCase(i).setIdTerrain(idCases.get(i));
+				plateau.getMapGrid().getCase(i).setIdTerrain(idCases.get(i));
 			}
 		}
 
 		@Override
 		public void redo() {
 			for(Integer i : idCases.keySet()){
-				plateau.mapGrid.getCase(i).setIdTerrain(idTerrain);
+				plateau.getMapGrid().getCase(i).setIdTerrain(idTerrain);
 			}
 		}
 		
 	}
 
-	public static class ActionMoveObjet extends Action{
+	public static strictfp class ActionMoveObjet extends Action{
 		Objet o;
 		float oldX, oldY, newX, newY;
 
 		public ActionMoveObjet(Plateau plateau, Objet objet, float newX, float newY) {
 			super(ActionType.MoveObjet, plateau);
 			this.o = objet;
-			this.oldX = o.x;
-			this.oldY = o.y;
+			this.oldX = o.getX();
+			this.oldY = o.getY();
 			this.newX = newX;
 			this.newY = newY;
 		}
@@ -181,13 +181,13 @@ public class Actions {
 		@Override
 		public void undo() {
 			o.setXY(oldX, oldY, plateau);
-			plateau.mapGrid.update();
+			plateau.getMapGrid().update();
 		}
 
 		@Override
 		public void redo() {
 			o.setXY(newX, newY, plateau);
-			plateau.mapGrid.update();
+			plateau.getMapGrid().update();
 		}
 		
 	}

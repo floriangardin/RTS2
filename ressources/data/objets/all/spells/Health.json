@@ -2,7 +2,7 @@
 prototype:"Spell",
 printName:"Vie",
 chargeTime:400,
-range:170,
+range:300,
 damage:0,
 size:60,
 totalTime:200

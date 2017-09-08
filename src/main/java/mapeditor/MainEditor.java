@@ -10,7 +10,7 @@ import ressources.Icones;
 import ressources.Images;
 import ressources.ImagesAwt;
 
-public class MainEditor {
+public strictfp class MainEditor {
 	
 	public static Images images = new Images();
 	public static SwingMain frame;

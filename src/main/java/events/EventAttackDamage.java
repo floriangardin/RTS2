@@ -11,7 +11,7 @@ import plateau.Plateau;
 import render.RenderCharacter;
 import ressources.GraphicElements;
 
-public class EventAttackDamage extends Event {
+public strictfp class EventAttackDamage extends Event {
 
 	private int value;
 	private int totalRemainingTime = (int) (1.2*Main.framerate);
@@ -22,10 +22,10 @@ public class EventAttackDamage extends Event {
 		super(parent, plateau);
 		this.topLayer = true;
 		this.value = value;
-		this.x = parent.x;
-		this.y = parent.y;
-		this.vy = (float) (-3f+0.5f*Math.random()-0.25);
-		this.vx = 0.7f*((float) (2f*Math.random()-1f));
+		this.x = parent.getX();
+		this.y = parent.getY();
+		this.vy = (float) (-3f+0.5f*StrictMath.random()-0.25);
+		this.vx = 0.7f*((float) (2f*StrictMath.random()-1f));
 	}
 	
 	@Override

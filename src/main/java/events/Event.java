@@ -14,7 +14,7 @@ import plateau.Plateau;
 import ressources.Sounds;
 import utils.Utils;
 
-public abstract class Event {
+public abstract strictfp class Event {
 
 	Vector<String> sounds = new Vector<String>();
 	String soundPlaying;
@@ -29,21 +29,21 @@ public abstract class Event {
 
 	public Event(final Objet parent, Plateau plateau){
 		this.parent = parent;
-		this.roundLaunched = plateau.round;
+		this.roundLaunched = plateau.getRound();
 
 		// TODO : Make it generic with dataFile
 
 	}
 	
 	public boolean isDesynchro(Plateau plateau){
-		return plateau.getById(parent.id)==null;
+		return plateau.getById(parent.getId())==null;
 	}
 
 	public String toString(){
 		return this.getName().name();
 	}
 	public boolean isNewEvent(Plateau plateau){
-		return plateau.round-roundLaunched==0;
+		return plateau.getRound()-roundLaunched==0;
 	}
 
 	public int getGameTeam(){
@@ -82,10 +82,10 @@ public abstract class Event {
 	}
 
 	protected float ratioDistance(){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.x, parent.y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
+		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(parent.getX(), parent.getY(), (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 	protected float ratioDistance(float x, float y){
-		return Math.min(1f, Math.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
+		return StrictMath.min(1f, StrictMath.max(0f, (500f*Main.ratioSpace)/Utils.distance(x, y, (Camera.Xcam+Camera.resX/2), (Camera.Ycam+Camera.resY/2))));
 	}
 
 	public EventNames getName(){

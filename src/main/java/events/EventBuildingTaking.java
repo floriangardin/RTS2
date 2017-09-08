@@ -14,7 +14,7 @@ import render.RenderBuilding;
 import ressources.Sounds;
 import utils.Utils;
 
-public class EventBuildingTaking extends Event{
+public strictfp class EventBuildingTaking extends Event{
 	
 	public int idTarget = -1;
 	private Vector<Rond> ronds;
@@ -27,10 +27,10 @@ public class EventBuildingTaking extends Event{
 	public EventBuildingTaking(Objet parent, Plateau plateau, EventBuildingTakingGlobal event) {
 		super(parent, plateau);
 		this.topLayer = true;
-		this.idTarget = parent.getTarget(plateau).id;
+		this.idTarget = parent.getTarget(plateau).getId();
 		this.ronds = new Vector<Rond>();
-		this.xEnd = parent.getTarget(plateau).x;
-		this.yEnd = parent.getTarget(plateau).y;
+		this.xEnd = parent.getTarget(plateau).getX();
+		this.yEnd = parent.getTarget(plateau).getY();
 		this.isActive = true;
 		this.e = event;
 	}
@@ -40,14 +40,14 @@ public class EventBuildingTaking extends Event{
 		
 		roundSound--;
 		if(roundSound<=0){
-			roundSound = (int) (maxRoundSound*(1+Math.random()));
-			Sounds.playSoundAt("buildingTaking", parent.x, parent.y);
+			roundSound = (int) (maxRoundSound*(1+StrictMath.random()));
+			Sounds.playSoundAt("buildingTaking", parent.getX(), parent.getY());
 		}
 		
 		if(this.isActive){
-			if(parent.getTarget(plateau)!=null && this.idTarget == parent.getTarget(plateau).id && parent.getTarget(plateau).getTeam().id!=parent.team.id){
-				if(plateau.round%10==0 || ronds.size()==0){
-					ronds.add(new Rond(parent.x, parent.y, xEnd, yEnd));
+			if(parent.getTarget(plateau)!=null && this.idTarget == parent.getTarget(plateau).getId() && parent.getTarget(plateau).getTeam().id!=parent.team.id){
+				if(plateau.getRound()%10==0 || ronds.size()==0){
+					ronds.add(new Rond(parent.getX(), parent.getY(), xEnd, yEnd));
 				}
 			} else {
 				this.isActive = false;
@@ -63,10 +63,10 @@ public class EventBuildingTaking extends Event{
 			}
 		}
 		ronds.removeAll(toRemove);
-		return ronds.size()>0 && parent.isAlive() && plateau.getObjets().containsKey(parent.id);
+		return ronds.size()>0 && parent.isAlive() && plateau.getObjets().containsKey(parent.getId());
 	}
 	
-	private class Rond{
+	private strictfp class Rond{
 		float x, y, xStart, yStart, distanceTotal;
 		float xEnd, yEnd;
 		float vi, vj, aj;
@@ -82,13 +82,13 @@ public class EventBuildingTaking extends Event{
 			this.yEnd = yEnd;
 			this.ix = xEnd-xStart;
 			this.iy = yEnd-yStart;
-			this.v = (float) Math.sqrt(ix*ix+iy*iy);
+			this.v = (float) StrictMath.sqrt(ix*ix+iy*iy);
 			this.ix /= v;
 			this.iy /= v;
 			this.jx = -iy;
 			this.jy = ix;
-			this.vi = (float) (Math.random()/2+0.5f)*6f;
-			this.vj = (float) (Math.random()-0.5f)*10f;
+			this.vi = (float) (StrictMath.random()/2+0.5f)*6f;
+			this.vj = (float) (StrictMath.random()-0.5f)*10f;
 		}
 		
 		public boolean play(Graphics g, boolean toDraw){
@@ -99,14 +99,14 @@ public class EventBuildingTaking extends Event{
 				return false;
 			}
 			aj = -0.01f*((x-xEnd)*jx+(y-yEnd)*jy)+0.0005f*vj;
-			vi = Math.max(1f,-a/30f);
+			vi = StrictMath.max(1f,-a/30f);
 			vj += aj;
 			x += vi*ix + vj*jx;
 			y += vi*iy + vj*jy;
 			if(toDraw){
 				Color c = Colors.getTeamColor(parent.team.id);
 				g.setColor(new Color(c.r,c.g,c.b,0.2f*(1-distanceToEnd/distanceTotal)));
-				float size = Math.max(10f, 20f*(1f+a/v));
+				float size = StrictMath.max(10f, 20f*(1f+a/v));
 				g.fillOval(x-size/2f, y-size/2f, size, size);
 			}				
 			return true;

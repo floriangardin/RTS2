@@ -9,7 +9,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 
-public class MarkerBuilding extends Checkpoint{
+public strictfp class MarkerBuilding extends Checkpoint{
 
 	public Rectangle drawShape;
 	public Rectangle drawShape2;
@@ -21,15 +21,15 @@ public class MarkerBuilding extends Checkpoint{
 	public MarkerBuilding(float x, float y,Building b, Plateau plateau) {
 		super(x, y, plateau);
 		
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
 		this.team = b.getTeam();
 		this.toDraw = true;
 		this.alwaysDraw = true;
 		this.maxRadius = 200f;
-		this.collisionBox = new Circle(x,y,3f);
-		maxWidth = ((Rectangle)b.collisionBox).getWidth()+delta;
-		maxHeight = ((Rectangle)b.collisionBox).getHeight()+delta;
+		this.setCollisionBox(new Circle(x,y,3f));
+		maxWidth = ((Rectangle)b.getCollisionBox()).getWidth()+delta;
+		maxHeight = ((Rectangle)b.getCollisionBox()).getHeight()+delta;
 		this.drawShape = new Rectangle(x,y,maxWidth,maxHeight);
 		drawShape.setCenterX(x);
 		drawShape.setCenterY(y);
@@ -37,7 +37,7 @@ public class MarkerBuilding extends Checkpoint{
 		drawShape2.setCenterX(x);
 		drawShape2.setCenterY(y);
 		this.state = this.maxDuration+1f;
-		this.selectionBox = null;
+		this.setSelectionBox(null);
 		this.setXY(x, y, plateau);
 		this.printed=0f;
 		

@@ -1,9 +1,0 @@
-{
-prototype:"Spell",
-printName:"Zone bénite",
-chargeTime:450,
-range:200,
-effect:0.3,
-size:200,
-totalTime:100
-}

@@ -17,7 +17,7 @@ import ressources.Images;
 import ressources.Map;
 import ressources.Sounds;
 
-public class EventDestructionTour extends Event{
+public strictfp class EventDestructionTour extends Event{
 	
 	private Vector<Image> images;
 	private int totalRemainingTime = (int) (1.8*Main.framerate);
@@ -37,10 +37,10 @@ public class EventDestructionTour extends Event{
 		for(int i=0; i<4; i++){
 			this.images.add(Images.get("animation-explosion").getSubImage(width*i, 0, width, height));
 		}
-		xExplosion = new float[]{parent.x-Map.stepGrid/3, parent.x, parent.x+Map.stepGrid/3};
-		yExplosion = new float[]{parent.y-Map.stepGrid,
-				parent.y-Map.stepGrid/3,
-				parent.y-Map.stepGrid*2/3};
+		xExplosion = new float[]{parent.getX()-Map.stepGrid/3, parent.getX(), parent.getX()+Map.stepGrid/3};
+		yExplosion = new float[]{parent.getY()-Map.stepGrid,
+				parent.getY()-Map.stepGrid/3,
+				parent.getY()-Map.stepGrid*2/3};
 	}
 
 	@Override

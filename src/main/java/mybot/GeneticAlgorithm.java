@@ -2,7 +2,7 @@ package mybot;
 
 import java.util.Random;
 
-public class GeneticAlgorithm {
+public strictfp class GeneticAlgorithm {
 
 //	public Mergeable[] pop;
 //	

@@ -1,5 +1,6 @@
 package menu;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Vector;
@@ -12,7 +13,7 @@ import model.GameClient;
 import model.GameServer;
 import system.MenuSystem.MenuNames;
 
-public class MenuIntro extends Menu {
+public strictfp class MenuIntro extends Menu {
 
 	public Image newGame;
 	public Image multiplayer;
@@ -33,12 +34,11 @@ public class MenuIntro extends Menu {
 		float startX = Game.resX/2;
 		
 		// handling items
-		this.items.addElement(new Menu_Item(startX,startY,"Un joueur",true));
-		this.items.addElement(new Menu_Item(startX,startY+1f*stepY,"Multijoueur",true));
-		this.items.addElement(new Menu_Item(startX,startY+2f*stepY,"Editeur",true));
-		this.items.addElement(new Menu_Item(startX,startY+3f*stepY,"Options",true));
-		this.items.addElement(new Menu_Item(startX,startY+4f*stepY,"Credits",true));
-		this.items.addElement(new Menu_Item(startX,startY+5f*stepY,"Quitter",true));
+		this.items.addElement(new Menu_Item(startX,startY+0.5f*stepY,"Jouer",true));
+		this.items.addElement(new Menu_Item(startX,startY+1.5f*stepY,"Multi",true));
+		this.items.addElement(new Menu_Item(startX,startY+2.5f*stepY,"Options",true));
+		this.items.addElement(new Menu_Item(startX,startY+3.5f*stepY,"Credits",true));
+		this.items.addElement(new Menu_Item(startX,startY+4.5f*stepY,"Quitter",true));
 
 		//		}
 	}
@@ -55,20 +55,18 @@ public class MenuIntro extends Menu {
 				String addressHost = InetAddress.getLocalHost().getHostAddress();
 				GameClient.init(addressHost);
 				Lobby.init();
-			} catch (UnknownHostException e) {}
+			} catch (IOException e) {}
 			break;
 		case 1:
 			Game.menuSystem.setMenu(MenuNames.MenuMulti);
 			break;
 		case 2:
-			break;
-		case 3:
 			Game.menuSystem.setMenu(MenuNames.MenuOptions);
 			break;
-		case 4:
+		case 3:
 			Game.menuSystem.setMenu(MenuNames.Credits);
 			break;
-		case 5: 
+		case 4: 
 			Game.app.exit();
 			break;
 		default:		

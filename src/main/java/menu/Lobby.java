@@ -10,7 +10,7 @@ import model.Options;
 import ressources.GraphicElements;
 import ressources.Map;
 
-public class Lobby {
+public strictfp class Lobby {
 	
 	public static Vector<Menu_Player> players = new Vector<Menu_Player>();
 	public static Vector<String> maps;
@@ -18,8 +18,7 @@ public class Lobby {
 	public static boolean multiplayer = false;
 	public static boolean host = false;
 	public static String idCurrentMap;
-	private static boolean isInit = false;
-	
+	private static boolean isInit = false;	
 	
 	public static void init(){
 		players = new Vector<Menu_Player>();
@@ -30,9 +29,11 @@ public class Lobby {
 	
 	public static boolean checkStartGame(){
 		boolean toGame = true;
-		for(Menu_Player player : players){
-			if(!player.isReady){
-				toGame = false;
+		synchronized (players) {
+			for(Menu_Player player : players){
+				if(!player.isReady){
+					toGame = false;
+				}
 			}
 		}
 		if(!toGame || players.size()==0){
@@ -53,4 +54,16 @@ public class Lobby {
 		return isInit;
 	}
 
+	public static void removePlayer(int id){
+		int index = 0;
+		for(Menu_Player mp :players){
+			if(id == mp.id){
+				break;
+			}
+			index+=1;
+		}
+		if(index<players.size()){
+			players.removeElementAt(index);
+		}
+	}
 }

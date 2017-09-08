@@ -12,7 +12,7 @@ import model.Colors;
 import model.Game;
 import utils.ObjetsList;
 import ressources.Sounds;
-public class Team implements Serializable {
+public strictfp class Team implements Serializable {
 
 
 	/**

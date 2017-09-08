@@ -20,7 +20,7 @@ import ressources.Images;
 import ressources.Musics;
 import system.MenuSystem.MenuNames;
 
-public class MenuOptions extends Menu {
+public strictfp class MenuOptions extends Menu {
 
 
 
@@ -62,8 +62,9 @@ public class MenuOptions extends Menu {
 		this.items.lastElement().font_current = GraphicElements.font_mid;
 		this.textscanner = new Menu_TextScanner(Options.nickname,2*Game.resX/3f,startY+2f*stepY,GraphicElements.font_main.getWidth("Gilles de Bouard "),GraphicElements.font_main.getHeight("R")*2f+2f);
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,Options.musicVolume));
-		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,Options.soundVolume*5));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",true));
+		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,Options.soundVolume*2));
+		this.items.addElement(new Menu_Item(Game.resX/3,startY+3*stepY,"Raccourcis",true));
+		this.items.addElement(new Menu_Item(Game.resX*2/3,startY+3*stepY,"Retour",true));
 		//		}
 	}
 
@@ -71,13 +72,17 @@ public class MenuOptions extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 5: 
+			Game.menuSystem.setMenu(MenuNames.MenuKeyMapping);
+			this.updateOptions();
+			break;
+		case 6: 
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.updateOptions();
 			break;
 		default:		
 		}
-		Options.musicVolume = Math.min(Math.max(Options.musicVolume, 0f), 1f);
-		Options.soundVolume = Math.min(Math.max(Options.soundVolume, 0f), 0.5f);
+		Options.musicVolume = StrictMath.min(StrictMath.max(Options.musicVolume, 0f), 1f);
+		Options.soundVolume = StrictMath.min(StrictMath.max(Options.soundVolume, 0f), 0.5f);
 	}
 
 	public void update(InputObject im){

@@ -29,7 +29,7 @@ import plateau.Character;
 import ressources.Map;
 import utils.ObjetsList;
 
-public class EditorTest {
+public strictfp class EditorTest {
 
 	/**
 	 * 	Terrain
@@ -47,7 +47,7 @@ public class EditorTest {
 		SheetPanel sp = new SheetPanel();
 		byte[] data = sp.getPlateauBytes();
 		HashSet<Case> cases = new HashSet<Case>();
-		cases.add((Case)sp.getPlateau().mapGrid.idcases.values().toArray()[0]);
+		cases.add((Case)sp.getPlateau().getMapGrid().idcases.values().toArray()[0]);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), cases, IdTerrain.GRASS));
 		assertTrue(Arrays.equals(data, sp.getPlateauBytes()));
 	}
@@ -56,7 +56,7 @@ public class EditorTest {
 		SheetPanel sp = new SheetPanel();
 		byte[] data = sp.getPlateauBytes();
 		HashSet<Case> cases = new HashSet<Case>();
-		Case c = (Case)sp.getPlateau().mapGrid.idcases.values().toArray()[0];
+		Case c = (Case)sp.getPlateau().getMapGrid().idcases.values().toArray()[0];
 		cases.add(c);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), cases, IdTerrain.SAND));
 		assertFalse(Arrays.equals(data, sp.getPlateauBytes()));
@@ -67,8 +67,8 @@ public class EditorTest {
 		SheetPanel sp = new SheetPanel();
 		byte[] data = sp.getPlateauBytes();
 		HashSet<Case> cases = new HashSet<Case>();
-		Case c = (Case)sp.getPlateau().mapGrid.idcases.values().toArray()[0];
-		cases.addAll(sp.getPlateau().mapGrid.idcases.values());
+		Case c = (Case)sp.getPlateau().getMapGrid().idcases.values().toArray()[0];
+		cases.addAll(sp.getPlateau().getMapGrid().idcases.values());
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), cases, IdTerrain.SAND));
 		assertFalse(Arrays.equals(data, sp.getPlateauBytes()));
 		assertEquals(c.getIdTerrain(), IdTerrain.SAND);
@@ -80,7 +80,7 @@ public class EditorTest {
 		SheetPanel sp = new SheetPanel();
 		byte[] data = sp.getPlateauBytes();
 		HashSet<Case> cases = new HashSet<Case>();
-		cases.add((Case)sp.getPlateau().mapGrid.idcases.values().toArray()[0]);
+		cases.add((Case)sp.getPlateau().getMapGrid().idcases.values().toArray()[0]);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), cases, IdTerrain.SAND));
 		byte[] data2 = sp.getPlateauBytes();
 		sp.undoLastAction();
@@ -98,19 +98,19 @@ public class EditorTest {
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==1);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
 		sp.mouseClickY = (int) (10+Map.stepGrid);
 		TerrainObjectPanel.groundStyle = IdTerrain.WATER;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==1);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
 	}
 	@Test
 	public void testTerrainClickSourisBrushSize2() {
@@ -122,28 +122,28 @@ public class EditorTest {
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==1);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
 		sp.mouseClickY = (int) (10+Map.stepGrid);
 		TerrainObjectPanel.groundStyle = IdTerrain.WATER;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==2);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.WATER);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
 		sp.mouseClickX = (int) (10+Map.stepGrid);
 		TerrainObjectPanel.groundStyle = IdTerrain.SAND;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==4);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
 	}
 	@Test
 	public void testTerrainClickSourisBrushSize3() {
@@ -155,29 +155,29 @@ public class EditorTest {
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==4);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.SAND);
 		sp.mouseClickY = (int) (10+2*Map.stepGrid);
 		TerrainObjectPanel.groundStyle = IdTerrain.WATER;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==6);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
 		sp.mouseClickX = (int) (10+Map.stepGrid);
 		sp.mouseClickY = (int) (10+Map.stepGrid);
 		TerrainObjectPanel.groundStyle = IdTerrain.GRASS;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==9);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.GRASS);
 	}
 	@Test
 	public void testTerrainClickSourisBrushFill() {
@@ -199,20 +199,20 @@ public class EditorTest {
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==1);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.WATER);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10+Map.stepGrid).getIdTerrain(), IdTerrain.WATER);
 		TerrainObjectPanel.groundStyle = IdTerrain.WATER;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==1);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.WATER);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.WATER);
 		TerrainObjectPanel.groundStyle = IdTerrain.SAND;
 		sp.updateHighlightedCases();
 		assertTrue(sp.highlightedCases.size()==12);
 		sp.doAction(new ActionPaintTerrain(sp.getPlateau(), sp.highlightedCases, TerrainObjectPanel.groundStyle));
-		assertEquals(sp.getPlateau().mapGrid.getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
+		assertEquals(sp.getPlateau().getMapGrid().getCase(10, 10).getIdTerrain(), IdTerrain.SAND);
 	}
 	/**
 	 *  Nature objects
@@ -228,7 +228,7 @@ public class EditorTest {
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(sp.mouseClickX-sp.offsetX), (int)(sp.mouseClickY-sp.offsetY)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
 		assertEquals(c.naturesObjet.size(), 1);
 		byte[] data2 = sp.getPlateauBytes();
 		sp.undoLastAction();
@@ -307,7 +307,7 @@ public class EditorTest {
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(sp.mouseClickX-sp.offsetX), (int)(sp.mouseClickY-sp.offsetY)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
 		assertEquals(c.naturesObjet.size(), 1);
 		MainEditor.mode = Mode.ERASE;
 		sp.updateMouseMove();
@@ -331,8 +331,8 @@ public class EditorTest {
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(sp.mouseClickX-sp.offsetX), (int)(sp.mouseClickY-sp.offsetY)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
-		Case c1 = sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
+		Case c1 = sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid);
 		NaturalObjet no = (NaturalObjet) c.naturesObjet.toArray()[0];
 		sp.doAction(new ActionMoveObjet(sp.getPlateau(), no, 10+Map.stepGrid, 10+Map.stepGrid));
 		assertEquals(c.naturesObjet.size(), 0);
@@ -362,7 +362,7 @@ public class EditorTest {
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(sp.mouseClickX-sp.offsetX), (int)(sp.mouseClickY-sp.offsetY)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
 		assertEquals(c.characters.size(), 1);
 		byte[] data2 = sp.getPlateauBytes();
 		sp.undoLastAction();
@@ -490,7 +490,7 @@ public class EditorTest {
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(sp.mouseClickX-sp.offsetX), (int)(sp.mouseClickY-sp.offsetY)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
 		assertEquals(c.characters.size(), 1);
 		MainEditor.mode = Mode.ERASE;
 		sp.updateMouseMove();
@@ -514,8 +514,8 @@ public class EditorTest {
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)(sp.mouseClickX-sp.offsetX), (int)(sp.mouseClickY-sp.offsetY)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
-		Case c1 = sp.getPlateau().mapGrid.getCase(10+Map.stepGrid, 10+Map.stepGrid);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
+		Case c1 = sp.getPlateau().getMapGrid().getCase(10+Map.stepGrid, 10+Map.stepGrid);
 		Character no = (Character) c.characters.toArray()[0];
 		sp.doAction(new ActionMoveObjet(sp.getPlateau(), no, 10+Map.stepGrid, 10+Map.stepGrid));
 		assertEquals(c.characters.size(), 0);
@@ -548,10 +548,10 @@ public class EditorTest {
 		sp.mouseClickY = (int) (Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
 		assertTrue(c.building!=null);
 		byte[] data2 = sp.getPlateauBytes();
 		sp.undoLastAction();
@@ -559,7 +559,7 @@ public class EditorTest {
 		sp.redoNextAction();
 		assertTrue(Arrays.equals(data2, sp.getPlateauBytes()));
 		Building b = c.building;
-		assertTrue(sp.getPlateau().mapGrid.getCase(Map.stepGrid+1, Map.stepGrid+1).building==b);
+		assertTrue(sp.getPlateau().getMapGrid().getCase(Map.stepGrid+1, Map.stepGrid+1).building==b);
 	}
 	@Test
 	public void testBuildingCollision() {
@@ -571,8 +571,8 @@ public class EditorTest {
 		sp.mouseClickY = (int) (Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
 		sp.mouseClickX = (int) (3*Map.stepGrid+1);
 		sp.mouseClickY = (int) (Map.stepGrid+1);
@@ -674,10 +674,10 @@ public class EditorTest {
 		sp.mouseClickY = (int) (Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
 		assertTrue(c.building!=null);
 		MainEditor.mode = Mode.ERASE;
 		sp.updateMouseMove();
@@ -700,11 +700,11 @@ public class EditorTest {
 		sp.mouseClickY = (int) (Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
-		Case c1 = sp.getPlateau().mapGrid.getCase(10, 2*Map.stepGrid+10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
+		Case c1 = sp.getPlateau().getMapGrid().getCase(10, 2*Map.stepGrid+10);
 		Building b = c.building;
 		sp.doAction(new ActionMoveObjet(sp.getPlateau(), b, 3*Map.stepGrid/2+1, 3*Map.stepGrid+1));
 		assertEquals(c.building, null);
@@ -730,12 +730,12 @@ public class EditorTest {
 		sp.mouseClickY = (int) (Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
-		Case c = sp.getPlateau().mapGrid.getCase(10, 10);
-		Case c1 = sp.getPlateau().mapGrid.getCase(10, 1*Map.stepGrid+10);
-		Case c2 = sp.getPlateau().mapGrid.getCase(10, 2*Map.stepGrid+10);
+		Case c = sp.getPlateau().getMapGrid().getCase(10, 10);
+		Case c1 = sp.getPlateau().getMapGrid().getCase(10, 1*Map.stepGrid+10);
+		Case c2 = sp.getPlateau().getMapGrid().getCase(10, 2*Map.stepGrid+10);
 		Building b = c.building;
 		sp.doAction(new ActionMoveObjet(sp.getPlateau(), b, 3*Map.stepGrid/2+1, 2*Map.stepGrid+1));
 		assertEquals(c.building, null);
@@ -783,8 +783,8 @@ public class EditorTest {
 		sp.mouseClickY = (int) (2*Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
 		MainEditor.mode = Mode.TERRAIN;
 		TerrainObjectPanel.brushStyle = BrushStyle.FILL;
@@ -832,8 +832,8 @@ public class EditorTest {
 		sp.mouseClickY = (int) (2*Map.stepGrid+1);
 		sp.updateMouseMove();
 		assertTrue(sp.actionOK);
-		float sizeX = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
-		float sizeY = sp.getPlateau().teams.get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
+		float sizeX = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeX);
+		float sizeY = sp.getPlateau().getTeams().get(0).data.getAttribut(PlateauObjectPanel.selectedObject, Attributs.sizeY);
 		sp.doAction(new ActionCreateObjet(sp.getPlateau(), PlateauObjectPanel.selectedObject, MainEditor.teamSelected.team, (int)((sp.mouseClickX-sizeX/2+Map.stepGrid/2)/Map.stepGrid), (int)((sp.mouseClickY-sizeY/2+Map.stepGrid/2)/Map.stepGrid)));
 		MainEditor.mode = Mode.TERRAIN;
 		TerrainObjectPanel.brushStyle = BrushStyle.FILL;

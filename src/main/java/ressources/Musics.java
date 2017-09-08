@@ -9,7 +9,7 @@ import org.newdawn.slick.SlickException;
 import model.Options;
 import tests.FatalGillesError;
 
-public class Musics {
+public strictfp class Musics {
 	
 	public static Music musicPlaying = null;
 	public static String musicPlayingName = null;
@@ -62,7 +62,7 @@ public class Musics {
 
 	public static void playMusic(String name){
 		Music music = get(name);
-		if(music != null){
+		if(music != null && music != musicPlaying){
 			if(musicPlaying != null){
 				musicPlaying.stop();
 			}
