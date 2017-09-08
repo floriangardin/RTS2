@@ -744,7 +744,7 @@ public strictfp class Plateau implements java.io.Serializable {
 			Spell s = getTeams().get(im.team).data.getSpell(im.spell);
 			Character c = ((Character) this.getById(im.idSpellLauncher));
 			boolean hasLaunched = false;
-			if(im.idObjetMouse!=-1){
+			if(im.idObjetMouse!=-1 && s.getAttribut(Attributs.needToAim)>0f){
 				hasLaunched = s.launch(getById(im.idObjetMouse), c, this);
 			} else {
 				hasLaunched = s.launch(new Checkpoint(im.x,im.y, this), c, this);				

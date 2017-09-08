@@ -2,6 +2,7 @@
 prototype:"Spell",
 printName:"Boule de feu",
 chargeTime:300,
+needToAim:0,
 range:300,
 damage:8,
 width:15,

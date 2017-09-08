@@ -15,6 +15,7 @@ import data.Attributs;
 import main.Main;
 import model.Colors;
 import model.Game;
+import model.WholeGame;
 import pathfinding.Case;
 import plateau.Building;
 import plateau.Character;
@@ -627,11 +628,19 @@ public strictfp class Interface {
 		g.drawImage(Images.get("imagefooddisplayressources"), (1-ratioSizeTimerX)*rX/2-ratioSizeGoldX*rX+10, y1+ratioSizeGoldY*rY/2f-3-Images.get("imagefooddisplayressources").getHeight()/2);
 
 		// timer
+		int nbSecondes = (int)((plateau.getRound()-WholeGame.nbRoundStart)/Main.framerate);
+		s = "";
+		if(nbSecondes<0){
+			nbSecondes*=-1;
+			s+="-";
+		}
+		int nbMinutes = nbSecondes / 60;
+		nbSecondes %= 60;
+		s += nbMinutes+":"+(nbSecondes>9 ? "":"0")+nbSecondes;
 		Utils.drawNiceRect(g, team.color,(1-ratioSizeTimerX)*rX/2,yCentral,ratioSizeTimerX*rX,ratioSizeTimerY*rY);
 		g.setColor(Color.white);
-		s = "todo : timer";
 		//		s = ""+Utils.displayTime((int) ((System.currentTimeMillis()-Game.gameSystem.startTime)/1000));
-		g.drawString(s, rX/2-GraphicElements.font_main.getWidth(s)/2f, yCentral+2*ratioSizeTimerY*rY/3f-GraphicElements.font_main.getHeight(s)/2f);
+		GraphicElements.font_big.drawString(rX/2-GraphicElements.font_big.getWidth(s)/2f, yCentral+1*ratioSizeTimerY*rY/2f-GraphicElements.font_big.getHeight("H")/2f, s);
 
 		// timer kill
 		float opacity = 255f;

@@ -46,15 +46,15 @@ public strictfp class EndSystem extends ClassSystem{
 	private Vector<Rond> vector;
 	
 	public EndSystem(Plateau plateau){
-		image_background = Images.get("victoire_fond").getScaledCopy(3f*Game.resX/1920);
+		image_background = Images.get("victoire_fond").getScaledCopy(3f*Game.ratioX);
 		if(plateau.getTeamLooser()!=Player.getTeamId()){
 			victory = true;
-			image_text = Images.get("victoire_texte").getScaledCopy(1f*Game.resX/1920);;
-			image_texture = Images.get("victoire_fond_texture").getScaledCopy(1f*Game.resX/1920);;
+			image_text = Images.get("victoire_texte").getScaledCopy(1f*Game.ratioX);
+			image_texture = Images.get("victoire_fond_texture").getScaledCopy(1f*Game.ratioX);
 		} else{
 			victory = false;
-			image_text = Images.get("defaite_texte").getScaledCopy(1f*Game.resX/1920);;
-			image_texture = Images.get("defaite_fond_texture").getScaledCopy(1f*Game.resX/1920);;
+			image_text = Images.get("defaite_texte").getScaledCopy(1f*Game.ratioX);
+			image_texture = Images.get("defaite_fond_texture").getScaledCopy(1f*Game.ratioX);
 		}
 		othertime = 0;
 		time = 0;
@@ -72,7 +72,7 @@ public strictfp class EndSystem extends ClassSystem{
 		float resX = Camera.resX, resY = Camera.resY;
 		sizeBandes = StrictMath.min(sizeBandes+2, Camera.resY/7f);
 		othertime++;
-		if(othertime>200 && (destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)*(destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)+(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)*(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)>450f){
+		if(othertime<200 && (destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)*(destroyedHQ.getX()*Game.ratioX-Xcam-resX/2)+(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)*(destroyedHQ.getY()*Game.ratioY-Ycam-resY/2)>450f){
 			Camera.Xcam = (int) ((15*(Camera.Xcam+resX/2)+destroyedHQ.getX()*Game.ratioX)/16-resX/2);
 			Camera.Ycam = (int) ((15*(Camera.Ycam+resY/2)+destroyedHQ.getY()*Game.ratioY)/16-resY/2);
 			return;
@@ -116,7 +116,7 @@ public strictfp class EndSystem extends ClassSystem{
 			return;
 		}
 		if(time<=timeDropBackground){
-			image_background = Images.get("victoire_fond").getScaledCopy(3f-2f*time/timeDropBackground);
+			image_background = Images.get("victoire_fond").getScaledCopy((3f-2f*time/timeDropBackground)*Game.ratioX);
 		} else if(time<=timeDropBackground+timeFadeTitle){
 			image_text.setAlpha(1f*(time-timeDropBackground)/(timeFadeTitle));
 			image_texture.setAlpha(0.5f*(time-timeDropBackground)/(timeFadeTitle));
@@ -167,12 +167,12 @@ public strictfp class EndSystem extends ClassSystem{
 			if(victory){
 				image = Images.get("victoire_rond").getScaledCopy(scale*Game.ratioX);
 			} else {
-				image = Images.get("defaite_rond").getScaledCopy(scale*Game.ratioY);
+				image = Images.get("defaite_rond").getScaledCopy(scale*Game.ratioX);
 			}
 			x = Camera.resX/2f;
 			y = Camera.resY/2f;
-			vx = (float) (StrictMath.random()*2f-1f)*4f;
-			vy = (float) (StrictMath.random()*2f-1f)*0.7f;
+			vx = (float) (StrictMath.random()*2f-1f)*4f*Game.ratioX;
+			vy = (float) (StrictMath.random()*2f-1f)*0.7f*Game.ratioY;
 			alpha = (float) (0.5f+StrictMath.random());
 		}
 		
