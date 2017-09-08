@@ -14,7 +14,7 @@ public strictfp class SpellSpecialArrow extends Spell{
 	}
 
 	public boolean launch(Objet target, Character launcher, Plateau plateau){
-		if(target!=null && launcher!=null){			
+		if(target!=null && launcher!=null && target.getId()!=launcher.getId()){			
 			new Arrow(launcher,target.getX()-launcher.getX(),target.getY()-launcher.getY(),this.getAttribut(Attributs.damage), plateau);
 			launcher.stop(plateau);
 			return true;

@@ -27,7 +27,7 @@ public enum EventNames {
 	BurningArea,
 	DestructionHQ, 
 	BuildingTakingGlobal,
-	UnitCreated, BuildingTaken;
+	UnitCreated, BuildingTaken, eventFrozen, eventHealth;
 	
 	
 	public Event createEvent(Objet parent, Plateau plateau){
@@ -78,6 +78,10 @@ public enum EventNames {
 			return new EventUnitCreated(parent, plateau);
 		case BuildingTaken:
 			return new EventBuildingTaken(parent, plateau);
+		case eventFrozen:
+			return new EventFrozen(parent, plateau);
+		case eventHealth:
+			return new EventHealth(parent, plateau);
 		default:
 			sound = "arrow";
 		}

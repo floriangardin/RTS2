@@ -55,6 +55,21 @@ public strictfp class RenderCharacter {
 					}
 				}
 			}
+			// Ajout d'un cercle à ses pieds
+			g.setAntiAlias(true);
+			g.setLineWidth(2f);
+			if(character.getTeam().id==Player.team){				
+				g.setColor(Color.green);
+			}else{
+				g.setColor(Color.red);
+			}
+			Circle collision = (Circle)character.getCollisionBox();
+			float ratio = 1.0f;
+			collision = new Circle(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio);
+			g.draw(collision);
+			//g.drawArc(collision.getCenterX(), collision.getCenterY(), collision.radius*ratio, collision.radius*ratio, 0, 90);
+			g.setAntiAlias(false);
+			
 			Color color = Color.darkGray;
 			if(character.getTeam().id==1){
 				color = new Color(0,0,205,0.4f);
@@ -64,6 +79,7 @@ public strictfp class RenderCharacter {
 			}
 			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
 			drawFlash(g, color, character, plateau);
+			
 		}
 		else{
 			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
@@ -96,19 +112,35 @@ public strictfp class RenderCharacter {
 		if(character.getLifePoints()<character.getAttribut(Attributs.maxLifepoints)){
 			drawLifePoints(g,r, character, plateau);
 		}
+		if(Player.team==character.getTeam().id && character.getSpells().size()>0 && character.getSpellState(0)< character.getSpell(0).getAttribut(Attributs.chargeTime)){
+			drawMana(g,r, character, plateau);
+		}
 	}
 
 	//// GRAPHISMS
 	public static void drawLifePoints(Graphics g,float r, Character character, Plateau plateau){
 		//Draw lifepoints
-
+		
 		g.setColor(Color.black);
 		g.fillRect(character.getX()-r/2-1f,-47f+character.getY()-r,r+2f,8f);
 		float x = character.getLifePoints()/character.getAttribut(Attributs.maxLifepoints);
 		g.setColor(new Color((int)(255*(1f-x)),(int)(255*x),0));
 		g.fillRect(character.getX()-r/2,-46f+character.getY()-r,x*r,6f);
-	}
+		
 
+		
+	}
+	
+	public static void drawMana(Graphics g,float r, Character character, Plateau plateau){
+		// draw Mana ?
+					
+			g.setColor(Color.black);
+			g.fillRect(character.getX()-r/2-1f,-51f+character.getY()-r,r+2f,5f);
+			float x = character.getSpellState(0)/character.getSpell(0).getAttribut(Attributs.chargeTime);
+			g.setColor(new Color(0.3f,0.5f,1f));
+			g.fillRect(character.getX()-r/2,-50f+character.getY()-r,x*r,3f);
+		
+	}
 	public static void drawFlash(Graphics g, Color color, Character character, Plateau plateau){
 		int direction = (character.orientation/2-1);
 		if(direction==1 || direction==2){

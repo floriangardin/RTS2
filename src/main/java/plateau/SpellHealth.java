@@ -5,6 +5,8 @@ import org.newdawn.slick.Graphics;
 
 import control.Player;
 import data.Attributs;
+import events.EventHandler;
+import events.EventNames;
 import main.Main;
 import model.Game;
 import stats.StatsHandler;
@@ -25,6 +27,7 @@ public strictfp class SpellHealth extends Spell{
 		if(h instanceof Character && h.getTeam()==team && Utils.distance(target, launcher) <  launcher.getAttribut(Attributs.range)){
 			h.setLifePoints(h.getLifePoints()+(h.getAttribut(Attributs.maxLifepoints)-h.getLifePoints())/2, plateau);
 			StatsHandler.pushDamage(plateau, launcher, (h.getAttribut(Attributs.maxLifepoints)-h.getLifePoints())/2);
+			EventHandler.addEvent(EventNames.eventHealth, launcher, plateau);
 			return true;
 			//TODO add a sound
 		}

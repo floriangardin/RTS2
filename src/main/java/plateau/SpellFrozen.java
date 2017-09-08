@@ -5,14 +5,9 @@ import org.newdawn.slick.Graphics;
 
 import control.Player;
 import data.Attributs;
-
+import events.EventHandler;
+import events.EventNames;
 import main.Main;
-import plateau.Character;
-import plateau.Checkpoint;
-import plateau.Objet;
-import plateau.Plateau;
-import stats.StatsHandler;
-
 import utils.ObjetsList;
 import utils.Utils;
 
@@ -27,6 +22,7 @@ public strictfp class SpellFrozen extends Spell{
 		Objet h = target;
 		if(h instanceof Character && h.getTeam()!=team && Utils.distance(target, launcher) <  this.getAttribut(Attributs.range)){
 			((Character)h).frozen = this.getAttribut(Attributs.totalTime);
+			EventHandler.addEvent(EventNames.eventFrozen, launcher, plateau);
 			return true;
 		}
 		return false;
