@@ -14,12 +14,13 @@ import ressources.Map;
 
 
 public strictfp class GameServer extends Listener {
-
+	static final GameServer gameServer= new GameServer(); 
 	static Server server;
 	public static boolean hasLaunched = false;
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 	public static void init(){
+		
 		if(!hasLaunched){
 			server = new Server(5000000, 5000000);
 			// Choose between byte and plateau
@@ -30,7 +31,7 @@ public strictfp class GameServer extends Listener {
 				server.bind(GameClient.port, GameClient.port);
 				hasLaunched = true;
 				server.start();
-				server.addListener(new GameServer());
+				server.addListener(gameServer);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -50,7 +51,9 @@ public strictfp class GameServer extends Listener {
 	
 	public static void close(){
 		if(server!=null){
+			server.removeListener(gameServer);
 			server.close();
+			
 		}
 		hasLaunched = false;
 	}
@@ -77,6 +80,7 @@ public strictfp class GameServer extends Listener {
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
+				
 				server.sendToAllTCP(o);
 			}else if(m.getType()==Message.MENUPLAYER){
 				server.sendToAllTCP(o);
