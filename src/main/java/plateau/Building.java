@@ -163,7 +163,6 @@ public strictfp class Building extends Objet{
 			if(foodCost<=this.getTeam().food
 					 && this.getTeam().enoughPop(getProductionList(plateau).get(unit), plateau)){
 				this.queue.add(getProductionList(plateau).get(unit));
-				System.out.println(this.getTeam().food+" "+foodCost);
 				this.getTeam().food-=foodCost;
 				if(this.team.id==Player.team){
 					EventHandler.addEvent(new DisplayRessources(this, plateau,-foodCost,"food"), plateau);

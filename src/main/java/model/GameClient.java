@@ -160,6 +160,8 @@ public strictfp class GameClient extends Listener {
 		try {
 			System.out.println("New plateau");
 			GameClient.plateau = plateau;
+		} catch(Exception e){
+			e.printStackTrace();
 		} finally {
 			System.out.println("Mutex is unlocked after setting a new plateau");
 		    mutex.unlock();

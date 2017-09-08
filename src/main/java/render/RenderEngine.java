@@ -97,8 +97,10 @@ public strictfp class RenderEngine {
 			g.setColor(new Color(0f,0f,0f,alphaFadingIn));
 			g.fillRect(0, 0, Game.resX, Game.resY);
 		}
+
 		if(plateau.getRound()<WholeGame.nbRoundStart){
 			String s = "Début dans "+10*(int)((WholeGame.nbRoundStart-plateau.getRound())/10);
+
 			GraphicElements.font_big.drawString(100f, Game.resY/2-50f, s);
 		}
 	}

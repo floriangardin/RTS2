@@ -16,6 +16,7 @@ import display.Camera;
 import menu.Credits;
 import menu.Menu;
 import menu.MenuIntro;
+import menu.MenuKeyMapping;
 import menu.MenuMapChoice;
 import menu.MenuMulti;
 import menu.MenuOptions;
@@ -42,6 +43,7 @@ public strictfp class MenuSystem extends ClassSystem {
 	public MenuMapChoice menuMapChoice;
 	public MenuMulti menuMulti;
 	public MenuOptions menuOptions;
+	public MenuKeyMapping menuKeyMapping;
 	public Credits credits;
 
 	public Plateau plateau;
@@ -56,6 +58,7 @@ public strictfp class MenuSystem extends ClassSystem {
 		menuMapChoice = new MenuMapChoice();
 		menuMulti = new MenuMulti();
 		menuOptions = new MenuOptions();
+		menuKeyMapping = new MenuKeyMapping();
 		credits = new Credits();
 		setMenu(MenuNames.MenuIntro);
 		plateau = generatePlateau();
@@ -79,13 +82,11 @@ public strictfp class MenuSystem extends ClassSystem {
 	@Override
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		Input in = gc.getInput();
-		InputObject im = new InputObject(in);
-		//		if(currentMenu instanceof MenuMapChoice || currentMenu instanceof MenuMulti){
-		//			ChatHandler.action(in,im);
-		//		}
-		currentMenu.update(im);
-		if(currentMenu == menuMapChoice){
-			// Updating chat
+		if(currentMenu==menuKeyMapping){
+			menuKeyMapping.update(in);
+		} else {
+			InputObject im = new InputObject(in);
+			currentMenu.update(im);
 			ChatHandler.action(in, im);
 		}
 		if(Taunts.isInit()){
@@ -114,6 +115,9 @@ public strictfp class MenuSystem extends ClassSystem {
 			menuMulti.init();
 			this.currentMenu = menuMulti;
 			break;
+		case MenuKeyMapping:
+			this.currentMenu = menuKeyMapping;
+			break;
 		case MenuOptions:
 			this.currentMenu = menuOptions;
 			break;
@@ -130,7 +134,8 @@ public strictfp class MenuSystem extends ClassSystem {
 		MenuMapChoice,
 		MenuOptions,
 		Credits,
-		MenuMulti;
+		MenuMulti, 
+		MenuKeyMapping;
 	}
 
 	public Plateau generatePlateau(){

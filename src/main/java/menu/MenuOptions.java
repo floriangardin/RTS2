@@ -63,7 +63,8 @@ public strictfp class MenuOptions extends Menu {
 		this.textscanner = new Menu_TextScanner(Options.nickname,2*Game.resX/3f,startY+2f*stepY,GraphicElements.font_main.getWidth("Gilles de Bouard "),GraphicElements.font_main.getHeight("R")*2f+2f);
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,Options.musicVolume));
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,Options.soundVolume*2));
-		this.items.addElement(new Menu_Item(startX,startY+3*stepY,"Retour",true));
+		this.items.addElement(new Menu_Item(Game.resX/3,startY+3*stepY,"Raccourcis",true));
+		this.items.addElement(new Menu_Item(Game.resX*2/3,startY+3*stepY,"Retour",true));
 		//		}
 	}
 
@@ -71,6 +72,10 @@ public strictfp class MenuOptions extends Menu {
 	public void callItem(int i){
 		switch(i){
 		case 5: 
+			Game.menuSystem.setMenu(MenuNames.MenuKeyMapping);
+			this.updateOptions();
+			break;
+		case 6: 
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.updateOptions();
 			break;

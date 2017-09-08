@@ -18,14 +18,14 @@ import utils.ObjetsList;
 public strictfp class KeyMapper {
 
 	private static String location = "././ressources/data/keymapping.rtsfile";
-	public static HashMap<KeyEnum, Vector<Integer>> mapping;
+	public static HashMap<KeyEnum, Integer> mapping;
 	public static HashMap<Integer, KeyEnum> mouseMapping;
 
 	public static void init(){
 		String fichier = location;
-		mapping = new HashMap<KeyEnum,  Vector<Integer>>();
+		mapping = new HashMap<KeyEnum, Integer>();
 		for(KeyEnum ke : KeyEnum.values()){
-			mapping.put(ke, new Vector<Integer>());
+			mapping.put(ke, -1);
 
 		}
 
@@ -44,7 +44,7 @@ public strictfp class KeyMapper {
 				
 				if(mapping.containsKey(KeyEnum.valueOf(tab[1]))){
 					
-					mapping.get(KeyEnum.valueOf(tab[1])).add(Integer.parseInt(tab[0]));
+					mapping.put(KeyEnum.valueOf(tab[1]),Integer.parseInt(tab[0]));
 				}
 			}
 			br.close(); 
@@ -64,9 +64,7 @@ public strictfp class KeyMapper {
 			BufferedWriter bw = new BufferedWriter (fw);
 			PrintWriter fichierSortie = new PrintWriter (bw); 
 			for(KeyEnum ke : mapping.keySet()){
-				for(Integer i : mapping.get(ke)){
-					fichierSortie.println (i+"_"+ke);
-				}
+				fichierSortie.println ((int)mapping.get(ke)+"_"+ke);
 			}
 			fichierSortie.close();
 		}
@@ -111,16 +109,10 @@ public strictfp class KeyMapper {
 		Stable,
 		Headquarters, 
 		GlobalRallyPoint,
-		ActCard0,
-		ActCard1,
-		ActCard2,
-		ActCard3,
-		ActCard4,
-		ActCard5,
-		ActCard6,
 		AllUnits, 
 		ShowStats
 		;
+		
 
 		public Vector<ObjetsList> getUnitsList() {
 			Vector<ObjetsList> v = new Vector<ObjetsList>();

@@ -280,17 +280,16 @@ public abstract strictfp class Objet implements java.io.Serializable {
 
 	// Spells
 	public boolean canLaunch(int number){
+		if(this instanceof Character && ((Character)this).frozen>0){
+			return false;
+		}
 		return this.spellsState.get(number) >= this.getSpell(number).getAttribut(Attributs.chargeTime);
 	}
 	public Spell getSpell(int i){
-
-		
 		if(this.spells.size()>i){
 			if(this.getTeam().data.spells.containsKey(this.spells.get(i))){
 				return this.getTeam().data.spells.get(this.spells.get(i));
 			}
-		} else {
-			System.out.println("vous essayez d'acc�der � un spell inexistant");
 		}
 		return null;
 	}

@@ -25,6 +25,8 @@ public strictfp class GraphicElements {
 	
 	public static UnicodeFont font_menu_button;
 	public static UnicodeFont font_menu_button_selected;
+	public static UnicodeFont font_menu_small_button;
+	public static UnicodeFont font_menu_small_button_selected;
 	
 	// Cursors
 	public static Image attackCursor ; 
@@ -68,6 +70,7 @@ public strictfp class GraphicElements {
 		font_main.addAsciiGlyphs();
 		font_main.getEffects().add(new ColorEffect(java.awt.Color.white));
 		try {font_main.loadGlyphs();} catch (SlickException e) {}
+		// buttons
 		font_menu_button = new UnicodeFont(new Font("Candara", Font.BOLD, (int)(48*Game.resX/1920)));
 		font_menu_button.addAsciiGlyphs();
 		font_menu_button.getEffects().add(new ColorEffect(java.awt.Color.white));
@@ -79,6 +82,18 @@ public strictfp class GraphicElements {
 		font_menu_button_selected.getEffects().add(new OutlineEffect(3, java.awt.Color.white));
 		font_menu_button_selected.getEffects().add(new OutlineEffect(1, java.awt.Color.black));
 		try {font_menu_button_selected.loadGlyphs();} catch (SlickException e) {}
+		// small buttons
+		font_menu_small_button = new UnicodeFont(new Font("Candara", Font.BOLD, (int)(28*Game.resX/1920)));
+		font_menu_small_button.addAsciiGlyphs();
+		font_menu_small_button.getEffects().add(new ColorEffect(java.awt.Color.white));
+		font_menu_small_button.getEffects().add(new OutlineEffect(1, java.awt.Color.black));
+		try {font_menu_small_button.loadGlyphs();} catch (SlickException e) {}
+		font_menu_small_button_selected = new UnicodeFont(new Font("Candara", Font.BOLD, (int)(34*Game.resX/1920)));
+		font_menu_small_button_selected.addAsciiGlyphs();
+		font_menu_small_button_selected.getEffects().add(new ColorEffect(java.awt.Color.white));
+		font_menu_small_button_selected.getEffects().add(new OutlineEffect(3, java.awt.Color.white));
+		font_menu_small_button_selected.getEffects().add(new OutlineEffect(1, java.awt.Color.black));
+		try {font_menu_small_button_selected.loadGlyphs();} catch (SlickException e) {}
 		
 		// cursors
 		try {

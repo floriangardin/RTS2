@@ -102,14 +102,18 @@ public strictfp class InputObject implements java.io.Serializable{
 //			}
 //		}
 		// Keyboard
+		int idKey;
 		for(KeyEnum ke : KeyMapper.mapping.keySet()){
-			for(Integer i : KeyMapper.mapping.get(ke)){
-				if(input.isKeyPressed(i)){
+			idKey = KeyMapper.mapping.get(ke);
+			try{
+				if(input.isKeyPressed(idKey)){
 					this.pressed.addElement(ke);
 				}
-				if(input.isKeyDown(i)){
+				if(input.isKeyDown(idKey)){
 					this.down.addElement(ke);
 				}
+			}catch(Exception e){
+				
 			}
 		}
 		// Mouse
