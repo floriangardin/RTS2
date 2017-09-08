@@ -279,7 +279,7 @@ public strictfp class Plateau implements java.io.Serializable {
 				for (Character i : getMapGrid().getCase(o.getIdCase()).surroundingChars) {
 					// We suppose o and i have circle collision box
 					if (i != o && Utils.distance(i, o) < (i.getAttribut(Attributs.size) + o.getAttribut(Attributs.size))) {
-						i.collision(o, this);
+//						i.collision(o, this);
 //						o.collision(i, this);
 					}
 				}

@@ -206,7 +206,7 @@ public strictfp class MenuMapChoice extends Menu {
 				}
 			}
 		}
-		this.updateItems(im);
+		this.updateItems(im, false);
 		//Checking starting of the game
 		if(Lobby.checkStartGame()){
 			this.seconds-=1f/Main.framerate;
