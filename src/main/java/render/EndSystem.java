@@ -9,21 +9,19 @@ import org.newdawn.slick.Image;
 
 import control.InputObject;
 import control.Player;
-import data.Attributs;
 import display.Camera;
 import events.EventHandler;
 import events.EventNames;
 import main.Main;
 import model.Game;
+import model.GameClient;
 import model.GameServer;
 import plateau.Building;
-import plateau.Objet;
 import plateau.Plateau;
 import ressources.Images;
 import ressources.Musics;
 import stats.StatsSystem;
 import system.ClassSystem;
-import utils.Utils;
 
 public strictfp class EndSystem extends ClassSystem{
 
@@ -99,6 +97,7 @@ public strictfp class EndSystem extends ClassSystem{
 				}
 				Game.menuSystem.init();
 				Camera.reset();
+				GameClient.close();
 				GameServer.close();
 				Game.system = Game.menuSystem;
 			}

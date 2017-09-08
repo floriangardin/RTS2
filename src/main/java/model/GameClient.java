@@ -180,4 +180,10 @@ public strictfp class GameClient extends Listener {
 		}
 	}
 
+	public static void close() {
+		
+		client.close();
+		
+	}
+
 }

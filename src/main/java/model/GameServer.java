@@ -56,6 +56,7 @@ public strictfp class GameServer extends Listener {
 	}
 	
 	public void connected(Connection c){
+		
 		// If connection send plateau to id
 		System.out.println("Connection received.");
 		if(GameClient.getPlateau() != null){			

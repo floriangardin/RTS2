@@ -103,6 +103,7 @@ public strictfp class MenuMapChoice extends Menu {
 				Game.menuSystem.setMenu(MenuNames.MenuMulti);
 			}
 			GameServer.close();
+			GameClient.close();
 			break;
 		default:		
 		}
