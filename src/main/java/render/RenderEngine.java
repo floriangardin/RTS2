@@ -99,7 +99,7 @@ public strictfp class RenderEngine {
 		}
 
 		if(plateau.getRound()<WholeGame.nbRoundStart){
-			String s = "Début dans "+10*(int)((WholeGame.nbRoundStart-plateau.getRound())/10);
+			String s = "Début dans "+1*(int)((WholeGame.nbRoundStart-plateau.getRound())/10);
 
 			GraphicElements.font_big.drawString(100f, Game.resY/2-50f, s);
 		}
