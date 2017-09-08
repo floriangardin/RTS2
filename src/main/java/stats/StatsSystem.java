@@ -9,12 +9,16 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import control.Player;
+import main.Main;
 import model.Colors;
 import model.Game;
+import model.GameClient;
+import model.WholeGame;
 import ressources.GraphicElements;
 import ressources.Images;
 import system.ClassSystem;
 import utils.ObjetsList;
+import utils.Utils;
 
 public strictfp class StatsSystem extends ClassSystem{
 
@@ -53,6 +57,26 @@ public strictfp class StatsSystem extends ClassSystem{
 		float sizeYcounters = sizeY;
 		float startYcounters = startY;
 		renderCounters(g, startXcounters, startYcounters, sizeXcounters, sizeYcounters);
+	
+		// timer
+		if(GameClient.getPlateau()!=null){
+			int nbSecondes = (int)((GameClient.getPlateau().getRound()-WholeGame.nbRoundStart)/Main.framerate);
+			String s = "";
+			if(nbSecondes<0){
+				nbSecondes*=-1;
+				s+="-";
+			}
+			int nbMinutes = nbSecondes / 60;
+			nbSecondes %= 60;
+			s += nbMinutes+":"+(nbSecondes>9 ? "":"0")+nbSecondes;
+			Utils.drawNiceRect(g, Colors.getTeamColor(Player.team),Game.resX/2-50f*Game.resX/1920,
+					StatsSystem.startY-25f*Game.resX/1920f,
+					100f*Game.resX/1920f,50f*Game.resX/1920f);
+			g.setColor(Color.white);
+			//		s = ""+Utils.displayTime((int) ((System.currentTimeMillis()-Game.gameSystem.startTime)/1000));
+			GraphicElements.font_big.drawString(Game.resX/2-GraphicElements.font_big.getWidth(s)/2f, startY-GraphicElements.font_big.getHeight("H")/2f, s);
+		}
+
 	}
 	
 	public static void renderDamage(Graphics g, float startXdamage, float startYdamage, float sizeXdamage, float sizeYdamage){
