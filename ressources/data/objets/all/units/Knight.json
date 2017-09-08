@@ -9,5 +9,6 @@ damage:8,
 weapon:"sword",
 animStep:30,
 range:55,
-foodCost:70
+foodCost:70,
+spells:Dash
 }
