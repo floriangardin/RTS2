@@ -158,7 +158,9 @@ public strictfp class GameClient extends Listener {
 		mutex.lock();
 		System.out.println("Mutex is locked for setting a new plateau");
 		try {
-			System.out.println("New plateau round :"+getRound()+" round of new plateau : "+plateau.getRound() );
+			if(GameClient.getPlateau()!=null && plateau!=null){				
+				System.out.println("New plateau round :"+getRound()+" round of new plateau : "+plateau.getRound() );
+			}
 			GameClient.plateau = plateau;
 		} catch(Exception e){
 			e.printStackTrace();
