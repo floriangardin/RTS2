@@ -24,6 +24,7 @@ import plateau.Plateau;
 public strictfp class GameClient extends Listener {
 	//OPTIONS
 	private final static Client client = new Client(5000000, 5000000);
+	public static final GameClient gameClient = new GameClient();
 	private static String ip = null; //FOR SINGLEPLAYER
 	public final static int port = 27960;
 	public static int slowDown = 0;
@@ -36,52 +37,52 @@ public strictfp class GameClient extends Listener {
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
 		client.getKryo().register(Message.class);
-		client.addListener(new Listener(){
-			public void received(Connection c, Object o){
-				Player.init(c.getID());	
-				if(o instanceof Message){
-					Message m = (Message) o;
-					int type = m.getType();
-					if(type==Message.PLATEAU){
-						Plateau plateau = (Plateau) m.get();
-						GameClient.setPlateau(plateau);
-					}else if(type==Message.INPUTOBJECT){
-						InputObject im = (InputObject)m.get();
-						System.out.println("Round input : "+im.round+" id : "+im.team);
-						if(im.round>getRound()+GameClient.delay){
-							//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
-							client.sendTCP((im.round-delay-getRound()));
-						}
-						GameClient.addInput(im);
-					}else if(type==Message.MENUPLAYER){
-						Menu_Player mpMessage = (Menu_Player)m.get();
-						boolean found = false;
-						synchronized (Lobby.players) {
-							for(Menu_Player mp : Lobby.players){
-								if(mp.id==mpMessage.id){
-									if(mp.id!=Player.getID()){
-										mp.update(mpMessage);
-									}
-									found = true;
-								}
-							}
-							if(!found){
-								Lobby.addPlayer(mpMessage);
-							}
-						}
-						if(mpMessage.isHost && mpMessage.id!=Player.getID()){
-							Lobby.idCurrentMap = mpMessage.idMap;
-						}
-					} else if(type==Message.CHATMESSAGE){
-						ChatHandler.addMessage((ChatMessage)m.get());
-					} 
-				}else if(o instanceof Integer){
-					slowDown = (Integer) o;
-				}
-			}
-		});
+		client.addListener(gameClient);
 		client.start();
 		client.connect(5000, ip, port, port);
+	}
+	
+	public void received(Connection c, Object o){
+		Player.init(c.getID());	
+		if(o instanceof Message){
+			Message m = (Message) o;
+			int type = m.getType();
+			if(type==Message.PLATEAU){
+				Plateau plateau = (Plateau) m.get();
+				GameClient.setPlateau(plateau);
+			}else if(type==Message.INPUTOBJECT){
+				InputObject im = (InputObject)m.get();
+				System.out.println("Round input : "+im.round+" id : "+im.team);
+				if(im.round>getRound()+GameClient.delay){
+					//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
+					client.sendTCP((im.round-delay-getRound()));
+				}
+				GameClient.addInput(im);
+			}else if(type==Message.MENUPLAYER){
+				Menu_Player mpMessage = (Menu_Player)m.get();
+				boolean found = false;
+				synchronized (Lobby.players) {
+					for(Menu_Player mp : Lobby.players){
+						if(mp.id==mpMessage.id){
+							if(mp.id!=Player.getID()){
+								mp.update(mpMessage);
+							}
+							found = true;
+						}
+					}
+					if(!found){
+						Lobby.addPlayer(mpMessage);
+					}
+				}
+				if(mpMessage.isHost && mpMessage.id!=Player.getID()){
+					Lobby.idCurrentMap = mpMessage.idMap;
+				}
+			} else if(type==Message.CHATMESSAGE){
+				ChatHandler.addMessage((ChatMessage)m.get());
+			} 
+		}else if(o instanceof Integer){
+			slowDown = (Integer) o;
+		}
 	}
 	
 	public static Vector<OpenGame> getExistingServerIPS() {
