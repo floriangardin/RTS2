@@ -31,7 +31,6 @@ public strictfp class EventHandler {
 				continue;
 			}
 			isVisible = plateau.isVisibleByTeam(Player.team, e.parent);
-			System.out.println(e.getClass()+" "+e.isDesynchro(plateau)+" "+isVisible);
 			if(e.isDesynchro(plateau) || !e.play(g, plateau, isVisible)){
 				toRemove1.addElement(e);
 			}
