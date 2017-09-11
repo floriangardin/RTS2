@@ -8,6 +8,8 @@ public strictfp class Colors {
 	public static Color team1= new Color(0,0,155);
 	public static Color team2 = new Color(200,0,0);
 	public static Color selection = new Color(0,250,0);
+	public static Color selectionFirst = new Color(200,250,0);
+	public static Color mouseOver = new Color(100,250,150);
 	public static Color buildingTaking = new Color(204,153,0);
 	public static Color aggressive = new Color(153,0,0);
 	

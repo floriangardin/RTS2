@@ -280,7 +280,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 
 	// Spells
 	public boolean canLaunch(int number){
-		if(this instanceof Character && ((Character)this).frozen>0){
+		if(this instanceof Character && ((Character)this).getFrozen()>0){
 			return false;
 		}
 		return this.spellsState.get(number) >= this.getSpell(number).getAttribut(Attributs.chargeTime);

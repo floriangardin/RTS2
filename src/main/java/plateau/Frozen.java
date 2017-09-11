@@ -73,7 +73,7 @@ public strictfp class Frozen extends SpellEffect{
 	public void collision(Character c){
 		// Si on est suffisamment dedans on reste bloqué
 		if(active){
-			c.frozen = 10f;
+			c.setFrozen(10f);
 		}
 	}
 

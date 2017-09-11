@@ -59,7 +59,7 @@ public strictfp class RenderCharacter {
 			g.setAntiAlias(true);
 			g.setLineWidth(2f);
 			if(character.getTeam().id==Player.team){				
-				g.setColor(Color.green);
+				g.setColor(Colors.mouseOver);
 			}else{
 				g.setColor(Color.red);
 			}
@@ -84,7 +84,7 @@ public strictfp class RenderCharacter {
 		else{
 			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
 		}
-		if(character.frozen>0f){
+		if(character.getFrozen()>0f){
 			Color color = Color.darkGray;
 			color = new Color(80,150,255,0.5f);
 			g.drawImage(im,character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4);
@@ -99,7 +99,7 @@ public strictfp class RenderCharacter {
 			g.fillOval(character.getX()-radius, character.getY()-offsetY-radius, 2*radius, 2*radius);
 			g.setColor(new Color(character.getTeam().color.r,character.getTeam().color.g,character.getTeam().color.b,opacity));
 			float startAngle = 270f;
-			float sizeAngle = (float)(character.frozen*360f/character.team.data.getAttribut(ObjetsList.Frozen, Attributs.totalTime));
+			float sizeAngle = (float)(character.getFrozen()*360f/character.team.data.getAttribut(ObjetsList.Frozen, Attributs.totalTime));
 			g.fillArc(character.getX()-radius, character.getY()-offsetY-radius, 2*radius, 2*radius, startAngle, startAngle+sizeAngle);
 		}
 		if(character.isBolted){
@@ -151,9 +151,13 @@ public strictfp class RenderCharacter {
 		im.drawFlash(character.getX()-im.getWidth()/2,character.getY()-3*im.getHeight()/4,im.getWidth(),im.getHeight(),color);
 	}
 
-	public static void renderSelection(Graphics g, Character character, Plateau plateau){
+	public static void renderSelection(Graphics g, Character character, Plateau plateau, boolean drawFirst){
 
-		g.setColor(Colors.selection);
+		if(drawFirst){
+			g.setColor(Colors.selectionFirst);
+		} else {
+			g.setColor(Colors.selection);
+		}
 		g.setLineWidth(2f*Main.ratioSpace);
 		g.setAntiAlias(true);
 		Circle collision = (Circle)character.getCollisionBox();

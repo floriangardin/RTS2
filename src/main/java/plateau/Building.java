@@ -460,6 +460,9 @@ public strictfp class Building extends Objet{
 		}
 		if( c.getAttributString(Attributs.weapon).equals("bow") || c.getAttributString(Attributs.weapon).equals("wand") || c.getAttributString(Attributs.weapon).equals("bible"))
 			return;
+		if(c.isFrozen()){
+			return;
+		}
 
 		if(this.potentialTeam!=c.getTeam().id && c.mode==Character.TAKE_BUILDING && c.getTarget(plateau)==this){
 			this.underAttack = true;

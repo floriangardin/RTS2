@@ -21,8 +21,8 @@ public strictfp class SpellFrozen extends Spell{
 	public boolean launch(Objet target, Character launcher, Plateau plateau){
 		Objet h = target;
 		if(h instanceof Character && h.getTeam()!=team && Utils.distance(target, launcher) <  this.getAttribut(Attributs.range)){
-			((Character)h).frozen = this.getAttribut(Attributs.totalTime);
-			EventHandler.addEvent(EventNames.eventFrozen, launcher, plateau);
+			((Character)h).setFrozen(this.getAttribut(Attributs.totalTime));
+			EventHandler.addEvent(EventNames.eventFrozen, h, plateau);
 			return true;
 		}
 		return false;

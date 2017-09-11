@@ -68,7 +68,7 @@ public strictfp class Character extends Objet{
 	// Special Abilities or subisse
 
 	public boolean isBolted = false;
-	public float frozen = 0f;
+	private float frozen = 0f;
 
 	public float remainingTime;
 
@@ -209,8 +209,8 @@ public strictfp class Character extends Objet{
 	}
 
 	public void action(Plateau plateau){
-		if(this.frozen>0f){
-			this.frozen-=Main.increment;
+		if(this.getFrozen()>0f){
+			this.setFrozen(this.getFrozen() - Main.increment);
 			return;
 		}
 		if(isBolted){
@@ -859,6 +859,18 @@ public strictfp class Character extends Objet{
 
 	public void removeFromGroup(int id){
 		this.group.removeElement(id);
+	}
+
+	public float getFrozen() {
+		return frozen;
+	}
+
+	public boolean isFrozen(){
+		return frozen>0f;
+	}
+	
+	public void setFrozen(float frozen) {
+		this.frozen = frozen;
 	}
 }
 

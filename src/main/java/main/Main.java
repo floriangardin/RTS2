@@ -15,7 +15,7 @@ public strictfp class Main {
 	//public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
-	public static boolean fullscreen=true;
+	public static boolean fullscreen=false;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -29,8 +29,8 @@ public strictfp class Main {
 				resolutionX = (int)screenSize.getWidth();
 				resolutionY = (int)screenSize.getHeight();
 			} else {
-				resolutionX = (int)screenSize.getWidth()*2/4;
-				resolutionY = (int)screenSize.getHeight()*2/4;
+				resolutionX = (int)screenSize.getWidth()*3/4;
+				resolutionY = (int)screenSize.getHeight()*3/4;
 			}
 			Game game = new Game(resolutionX,resolutionY);
 			AppGameContainer app = new AppGameContainer(game);

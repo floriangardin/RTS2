@@ -125,8 +125,10 @@ public strictfp class RenderEngine {
 			}
 		}
 		// 1) Draw selection
+		boolean drawFirst = Player.selection.size()>0 && plateau.getById(Player.selection.get(0)) instanceof Character;
 		for(Integer o: Player.selection){
-			renderSelection(plateau.getById(o), g, plateau);
+			renderSelection(plateau.getById(o), g, plateau, drawFirst);
+			drawFirst = false;
 		}
 
 		// 2) Draw Neutral Objects
@@ -470,9 +472,9 @@ public strictfp class RenderEngine {
 		} 
 	}
 
-	public static void renderSelection(Objet o, Graphics g, Plateau plateau){
+	public static void renderSelection(Objet o, Graphics g, Plateau plateau, boolean drawFirst){
 		if(o instanceof Character){
-			RenderCharacter.renderSelection(g,(Character)o,  plateau);
+			RenderCharacter.renderSelection(g,(Character)o,  plateau, drawFirst);
 		} else if(o instanceof Building){
 			RenderBuilding.renderSelection(g, (Building)o, plateau);
 		}
