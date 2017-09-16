@@ -137,19 +137,19 @@ public strictfp class GameClient extends Listener {
 	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Menu_Player menu_player){
 		Message m = new Message(menu_player);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
-		client.sendTCP(Serializer.serialize(m));
+		client.sendUDP(Serializer.serialize(m));
 	}
 	public static void send(ChatMessage message){
 		Message m = new Message(message);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 
 	public static Plateau getPlateau(){	

@@ -76,19 +76,19 @@ public strictfp class GameServer extends Listener {
 			if(m.getType()==Message.CHECKSUM){
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
-					server.sendToAllTCP(new Message(GameClient.getPlateau()));
+					server.sendToAllUDP(new Message(GameClient.getPlateau()));
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
 				
-				server.sendToAllTCP(o);
+				server.sendToAllUDP(o);
 			}else if(m.getType()==Message.MENUPLAYER){
 				server.sendToAllTCP(o);
 			}else if(m.getType()==Message.CHATMESSAGE){
 				server.sendToAllTCP(o);
 			}
 		}else if(o instanceof Integer){
-			server.sendToAllExceptTCP(c.getID(), o);
+			server.sendToAllExceptUDP(c.getID(), o);
 		}
 	}
 	
