@@ -145,7 +145,7 @@ public strictfp class GameClient extends Listener {
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
-		client.sendUDP(Serializer.serialize(m));
+		client.sendTCP(Serializer.serialize(m));
 	}
 	public static void send(ChatMessage message){
 		Message m = new Message(message);

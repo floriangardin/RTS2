@@ -76,7 +76,7 @@ public strictfp class GameServer extends Listener {
 			if(m.getType()==Message.CHECKSUM){
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
-					server.sendToAllUDP(new Message(GameClient.getPlateau()));
+					server.sendToAllTCP(new Message(GameClient.getPlateau()));
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
