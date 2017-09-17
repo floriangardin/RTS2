@@ -10,6 +10,7 @@ armor:2,
 damage:3,
 weapon:"spear",
 animStep:20,
+prodTime:75,
 range:45,
 explosionWhenImmolate:0,
 spells:Frozen
