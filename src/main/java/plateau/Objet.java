@@ -28,7 +28,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	 * 
 	 */
 	// Animation : mode,orientation,increment
-	private final int id;
+	private int id;
 	public int mode;
 	public int orientation=2;
 	public int increment;
@@ -49,6 +49,9 @@ public abstract strictfp class Objet implements java.io.Serializable {
 	public boolean toDrawOnGround = false;
 	//State
 	private Vector<Etats> etats = new Vector<Etats>();
+	
+	// Labels for event conditions during map creation
+	private Vector<String> labels = new Vector<String>();
 		
 	public Team team;
 	public Objet(Plateau plateau){
@@ -491,6 +494,25 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		this.vy = vy;
 	}
 
+	public void setId(int id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+	
+	public void addLabel(String s){
+		this.labels.add(s);
+	}
+	public boolean hasLabel(String s){
+		for(String label : labels){
+			if(label.equals(s)){
+				return true;
+			}
+		}
+		return false;
+	}
+	public Vector<String> getLabels(){
+		return labels;
+	}
 	
 
 }

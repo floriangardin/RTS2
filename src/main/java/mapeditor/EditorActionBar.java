@@ -75,6 +75,9 @@ public strictfp class EditorActionBar extends JPanel{
 		items.add(ActionType.SelectToolCharacter);
 		items.add(ActionType.SelectToolBuilding);
 		addItems(bar2, items);
+		items = new Vector<ActionType>();
+		items.add(ActionType.SelectToolVictory);
+		addItems(bar2, items);
 		
 		GroupLayout gl = new GroupLayout(this);
 		this.setLayout(gl);

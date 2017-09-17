@@ -555,6 +555,7 @@ public strictfp class Building extends Objet{
 		// TODO Auto-generated method stub
 
 	}
+	
 
 
 

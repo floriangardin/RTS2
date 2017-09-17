@@ -32,6 +32,7 @@ public enum ActionType {
 	SelectToolNature("iconNatureTool","Tool Nature"),
 	SelectToolCharacter("iconCharacterTool","Tool Character"),
 	SelectToolBuilding("iconBuildingTool","Tool Building"),
+	SelectToolVictory("iconVictory","Victory Screen"),
 	// Ground Tool Actions
 	SelectBrushSize1("iconBrushSize1","Brush Size 1"),
 	SelectBrushSize2("iconBrushSize2","Brush Size 2"),

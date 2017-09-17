@@ -44,16 +44,9 @@ public strictfp class Plateau implements java.io.Serializable {
 	private int round = 0;
 	// Hold ids of objects
 	private int id = 0;
-	private EndCondition endCondition;
 	
 	
-	public EndCondition getEndCondition() {
-		return endCondition;
-	}
 	
-	public void setEndCondition(EndCondition endCondition) {
-		this.endCondition = endCondition;
-	}
 	public Plateau(int maxX, int maxY) {
 		
 		// GENERAL
@@ -68,8 +61,6 @@ public strictfp class Plateau implements java.io.Serializable {
 		// OBKETS
 		this.toAddObjet = new Vector<Objet>();
 		this.toRemoveObjet = new Vector<Objet>();
-		// End condition 
-		this.endCondition = new NormalEndCondition();
 		// All objects
 		setObjets(new HashMap<Integer,Objet>());
 		setId(0);
@@ -588,8 +579,7 @@ public strictfp class Plateau implements java.io.Serializable {
 			im.sanitizeInput(this);
 			//handle victory
 			if(im.isPressed(KeyEnum.AbandonnerPartie)){
-				Team team = this.getTeamById(im.team);
-				team.hasGaveUp = true;
+				this.setTeamLooser(im.team);
 				return;
 			}
 			// Handling the right click
@@ -604,11 +594,11 @@ public strictfp class Plateau implements java.io.Serializable {
 		this.action();
 		// 4- handling victory
 		for(Team team : getTeams()){
-			if(team.id==0){
-				continue;
-			}
-			if(this.endCondition!=null && this.endCondition.hasLost(this, team)){
-				this.setTeamLooser(team.id);
+			for(EndCondition ed : team.getEndConditions()){
+				if(ed.hasLost(this)){
+					this.setTeamLooser(team.id);
+					break;
+				}
 			}
 		}
 		
@@ -646,8 +636,9 @@ public strictfp class Plateau implements java.io.Serializable {
 		return getTeams().stream().filter(x-> x.id==team).findFirst().orElse(null);
 	}
 
-	
-
+	public Vector<EndCondition> getEndConditions(int team) {
+		return this.teams.get(team).getEndConditions();
+	}
 	private void handleRightClick(InputObject im) {
 		int team = im.team;
 		Vector<Objet> selection = im.getSelection(this);

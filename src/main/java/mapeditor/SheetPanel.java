@@ -60,6 +60,7 @@ public strictfp class SheetPanel extends JPanel {
 
 	private String name;
 	private Plateau plateau;
+	Vector<String> labels = new Vector<String>();
 	private File fileToSave = null;
 
 	public HashSet<Case> highlightedCases = new HashSet<Case>();
@@ -72,6 +73,8 @@ public strictfp class SheetPanel extends JPanel {
 	JTextField titleField;
 	Font subtitleFont = new Font("P22 Morris Golden", Font.ITALIC, 32);
 	JTextField subtitleField;
+
+	String label;
 
 	Vector<Integer> currentSharps = new Vector<Integer>();
 	Vector<Integer> currentFlats = new Vector<Integer>();
@@ -109,6 +112,7 @@ public strictfp class SheetPanel extends JPanel {
 	public SheetPanel(Plateau p, File f){
 		this.setFileToSave(f);
 		this.plateau = p;
+		updateLabelsFromPlateau();
 		this.addMouseListener(createMouseListener(this));
 		this.addMouseMotionListener(createMouseMotionListener(this));
 		this.addMouseWheelListener(createMouseWheelListener(this));
@@ -123,7 +127,7 @@ public strictfp class SheetPanel extends JPanel {
 				case SELECT:
 					if(mouseOver!=null){
 						if(selected==mouseOver){
-							System.out.println("ouvrir la fenetre des proprietes de "+selected);
+							LabelHelper.HandleProperties(sp.labels, selected);
 						} else {
 							selected = mouseOver;
 						}
@@ -252,7 +256,7 @@ public strictfp class SheetPanel extends JPanel {
 			}
 		};
 	}
-	
+
 	public void updateMouseMove(){
 		Case c;
 		actionOK = false; 
@@ -461,6 +465,26 @@ public strictfp class SheetPanel extends JPanel {
 			}
 		}
 
+		// rendering labeled
+		if(MainEditor.mode==Mode.VICTORY){
+			g2.setColor(Color.cyan);
+			for(Building b : plateau.getBuildings()){
+				if(b.hasLabel(label)){
+					g2.drawRect((int)(Map.stepGrid*(b).i-5), (int)(Map.stepGrid*(b).j-5), 
+							(int)(b.getAttribut(Attributs.sizeX)+10), (int)(b.getAttribut(Attributs.sizeY)+10));
+					g2.drawRect((int)(Map.stepGrid*(b).i-4), (int)(Map.stepGrid*(b).j-4), 
+							(int)(b.getAttribut(Attributs.sizeX)+8), (int)(b.getAttribut(Attributs.sizeY)+8));
+					g2.drawRect((int)(Map.stepGrid*(b).i-3), (int)(Map.stepGrid*(b).j-3), 
+							(int)(b.getAttribut(Attributs.sizeX)+6), (int)(b.getAttribut(Attributs.sizeY)+6));
+				}
+			}
+			for(Character c : plateau.getCharacters()){
+				if(c.hasLabel(label)){
+					g2.drawOval((int)c.getX()-30, (int)c.getY()-20,60,40);
+				}
+			}
+		}
+
 		// rendering objects
 		Vector<Objet> objets = new Vector<Objet>();
 		for(Objet o : plateau.getObjets().values()){
@@ -656,7 +680,7 @@ public strictfp class SheetPanel extends JPanel {
 			this.actionsDone.add(action);
 		}
 	}
-	
+
 	public byte[] getPlateauBytes(){
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutput out = null;
@@ -671,6 +695,15 @@ public strictfp class SheetPanel extends JPanel {
 			e.printStackTrace();
 		} 
 		return data;
+	}
+
+	public void updateLabelsFromPlateau(){
+		HashSet<String> toAdd = new HashSet<String>();
+		for(Objet o : plateau.getObjets().values()){
+			toAdd.addAll(o.getLabels());
+		}
+		labels.clear();
+		labels.addAll(toAdd);
 	}
 
 }

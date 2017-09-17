@@ -249,6 +249,7 @@ public abstract strictfp class Action {
 		case SelectToolNature:
 		case SelectToolCharacter:
 		case SelectToolBuilding:
+		case SelectToolVictory:
 			MainEditor.getSheet().selected = null;
 			MainEditor.mode = Mode.valueOf(type.name().substring(10).toUpperCase());
 			SwingMain.getItemBarPanel().update();

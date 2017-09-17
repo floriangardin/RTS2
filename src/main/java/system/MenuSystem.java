@@ -31,7 +31,7 @@ import ressources.Musics;
 import ressources.Taunts;
 import utils.ObjetsList;
 import plateau.Plateau;
-import plateau.UnitsEndCondition;
+import plateau.EndConditionUnits;
 import render.RenderEngine;
 import plateau.Character;
 
@@ -180,7 +180,6 @@ public strictfp class MenuSystem extends ClassSystem {
 			plateau.addCharacterObjets(c);
 			i++;
 		}
-		plateau.setEndCondition(new UnitsEndCondition());
 		plateau.setRound((int) (WholeGame.nbRoundStart+10));
 		plateau.update();
 		Camera.init(Game.resX, Game.resY, plateau.getMaxX()/2-1920/2, plateau.getMaxY()/2-1080/2, (int)plateau.getMaxX(), (int)plateau.getMaxY());

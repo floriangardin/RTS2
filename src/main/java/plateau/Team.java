@@ -37,6 +37,7 @@ public strictfp class Team implements Serializable {
 
 	public Vector<ObjetsList> techsDiscovered;
 	public Vector<ObjetsList> currentTechsProduced;
+	private Vector<EndCondition> endConditions;
 
 
 	public Team(int id, Plateau plateau) {
@@ -56,7 +57,7 @@ public strictfp class Team implements Serializable {
 			colorName = "red";
 		}
 
-
+		this.endConditions = new Vector<EndCondition>();
 
 		this.food = 100;
 	}
@@ -130,6 +131,22 @@ public strictfp class Team implements Serializable {
 			nbKill = 0;
 		}
 	}
+
+
+	public Vector<EndCondition> getEndConditions() {
+		return endConditions;
+	}
+
+	public void addEndCondition(EndCondition ec){
+		this.endConditions.add(ec);
+	}
+
+
+	public void removeEndCondition(int indexToDelete) {
+		this.endConditions.removeElementAt(indexToDelete);
+	}
+	
+	
 
 
 

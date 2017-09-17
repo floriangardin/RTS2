@@ -16,6 +16,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import mapeditor.MainEditor.Mode;
 import pathfinding.Case;
 import ressources.Map;
 
@@ -52,6 +53,9 @@ public strictfp class SidePanel extends JPanel{
 			break;
 		case BUILDING:
 			PlateauObjectPanel.createBuildingPanel(objectPanel);
+			break;
+		case VICTORY:
+			PlateauObjectPanel.createVictoryPanel(objectPanel);
 			break;
 		case MOVE:
 		case SELECT:
@@ -141,7 +145,7 @@ public strictfp class SidePanel extends JPanel{
 						color = Color.yellow;
 						break;
 					case WATER:
-						color = Color.cyan;
+						color = Color.blue;
 						break;
 					default:
 						color = Color.black;
@@ -149,6 +153,9 @@ public strictfp class SidePanel extends JPanel{
 					}
 					if(c.building != null){
 						color = new Color(c.building.team.color.r,c.building.team.color.g,c.building.team.color.b);
+						if(MainEditor.mode == Mode.VICTORY && c.building.hasLabel(MainEditor.getSheet().label)){
+							color = Color.cyan;
+						}
 					}
 					if(c.naturesObjet.size()>0){
 						color = new Color(30,120,10);

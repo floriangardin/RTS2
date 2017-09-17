@@ -19,6 +19,7 @@ import nature.Tree;
 import plateau.Building;
 import plateau.Character;
 import plateau.NaturalObjet;
+import plateau.Objet;
 import plateau.Plateau;
 import plateau.Team;
 import utils.ObjetsList;
@@ -60,9 +61,11 @@ public strictfp class Map {
 			Vector<String> naturalObjects = new Vector<String>();
 			Vector<String> headquarters = new Vector<String>();
 			Vector<String> mapGround = new Vector<String>();
+			Vector<String> endConditions = new Vector<String>();
 			Vector<String> currentVector = null;
 
 			String ligne;
+			String[] tab;
 			int sizeX = 0, sizeY = 0;
 			Point Zcam = new Point(0,0), Scam = new Point(0,0), Qcam = new Point(0,0), Dcam = new Point(0,0);
 			boolean param;
@@ -81,13 +84,14 @@ public strictfp class Map {
 					case "naturalObjects": currentVector = naturalObjects; break;
 					case "headquarters": currentVector = headquarters; break;
 					case "mapGround": currentVector = mapGround; break;
+					case "endconditions" : currentVector = endConditions; break;
 					default:
 					} continue;
 				default: 
 				}
 				if(ligne.length()>0){
 					if(param){
-						String[] tab = ligne.split(" ");
+						tab = ligne.split(" ");
 						switch(tab[1]){
 						case "sizeX" : sizeX = (int)Float.parseFloat(tab[2]); break;
 						case "sizeY" : sizeY = (int)Float.parseFloat(tab[2]); break;
@@ -109,27 +113,32 @@ public strictfp class Map {
 			Plateau plateau = new Plateau((int)(sizeX*stepGrid), (int)(sizeY*stepGrid));
 			Data data1 = plateau.getTeams().get(1).data;
 			Data data2 = plateau.getTeams().get(2).data;
+			Objet b;
+			
 			// Headquarters
 			for(int i=0;i<headquarters.size(); i++){
 				// format:
 				// team_x_y
-				String[] tab = headquarters.get(i).split(" ");
-				new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.getTeams().get((int)Float.parseFloat(tab[0])), plateau);
-			}
-			for(Team team : plateau.getTeams()){
-				System.out.println(team.id+" "+plateau.getHQ(team));
+				tab = headquarters.get(i).split(" ");
+				b = new Building(ObjetsList.Headquarters,(int)(float)(Float.parseFloat(tab[1])),(int)(float)(Float.parseFloat(tab[2])),plateau.getTeams().get((int)Float.parseFloat(tab[0])), plateau);
+				for(int j = 3; j<tab.length; j++){
+					b.addLabel(tab[j]);
+				}
 			}
 			// Buildings
 			for(int i=0; i<buildings.size(); i++){
 				//format
 				// typeBuilding_team_x_y
-				String[] tab = buildings.get(i).split(" ");
+				tab = buildings.get(i).split(" ");
 				//System.out.println(tab[2]);
-				new Building(ObjetsList.valueOf(tab[0]),(int)(float)(Float.parseFloat(tab[2])),(int)(float)(Float.parseFloat(tab[3])),plateau.getTeams().get((int)Float.parseFloat(tab[1])),plateau);
+				b = new Building(ObjetsList.valueOf(tab[0]),(int)(float)(Float.parseFloat(tab[2])),(int)(float)(Float.parseFloat(tab[3])),plateau.getTeams().get((int)Float.parseFloat(tab[1])),plateau);
+				for(int j = 4; j<tab.length; j++){
+					b.addLabel(tab[j]);
+				}
 			}
 			// Units
 			for(int i=0; i<units.size(); i++){
-				String[] tab = units.get(i).split(" ");
+				tab = units.get(i).split(" ");
 				Data data;
 				if(tab[1].equals("1")){
 					data = data1;
@@ -138,13 +147,21 @@ public strictfp class Map {
 				} else {
 					throw new Exception();
 				}
-				new Character(Float.parseFloat(tab[2]), Float.parseFloat(tab[3]), ObjetsList.valueOf(tab[0]), plateau.getTeams().get(Integer.parseInt(tab[1])),plateau);
+				b = new Character(Float.parseFloat(tab[2]), Float.parseFloat(tab[3]), ObjetsList.valueOf(tab[0]), plateau.getTeams().get(Integer.parseInt(tab[1])),plateau);
+				for(int j = 4; j<tab.length; j++){
+					b.addLabel(tab[j]);
+				}
 			}
 			// Vegetation
 			for(int i=0; i<naturalObjects.size(); i++){
-				String[] tab = naturalObjects.get(i).split(" ");
+				tab = naturalObjects.get(i).split(" ");
 				switch(tab[0]){
-				case "Tree": new Tree(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1]), plateau);break;
+				case "Tree": 
+					b = new Tree(Float.parseFloat(tab[2]),Float.parseFloat(tab[3]),(int)Float.parseFloat(tab[1]), plateau);
+					for(int j = 4; j<tab.length; j++){
+						b.addLabel(tab[j]);
+					}
+					break;
 				}
 			}
 			// Map ground
@@ -154,6 +171,11 @@ public strictfp class Map {
 				}
 			}
 			plateau.update();
+			// End Conditions
+			for(int i=0 ; i<endConditions.size(); i++){
+				tab = endConditions.get(i).split(" ");
+				int team = Integer.parseInt(tab[0]);
+			}
 			return plateau;
 		} catch (Exception e){
 			System.out.print("erreur");
@@ -175,25 +197,25 @@ public strictfp class Map {
 			br.write("= headquarters\n");
 			for(Team team : plateau.getTeams()){
 				if(plateau.getHQ(team)!=null){
-					br.write(""+team.id+" "+(plateau.getHQ(team)).i+" "+(plateau.getHQ(team)).j+"\n");
+					br.write(""+team.id+" "+(plateau.getHQ(team)).i+" "+(plateau.getHQ(team)).j+" "+String.join(" ",plateau.getHQ(team).getLabels())+"\n");
 				}
 			}
 			br.write("###########################\n");
 			br.write("= buildings\n");
 			for(Building b : plateau.getBuildings()){
 				if(b.getName()!=ObjetsList.Headquarters){
-					br.write(""+b.getName()+" "+b.team.id+" "+b.i+" "+b.j+"\n");
+					br.write(""+b.getName()+" "+b.team.id+" "+b.i+" "+b.j+" "+String.join(" ",b.getLabels())+"\n");
 				}
 			}
 			br.write("###########################\n");
 			br.write("= units\n");
 			for(Character b : plateau.getCharacters()){
-				br.write(""+b.getName()+" "+b.team.id+" "+b.getX()+" "+b.getY()+"\n");
+				br.write(""+b.getName()+" "+b.team.id+" "+b.getX()+" "+b.getY()+" "+String.join(" ",b.getLabels())+"\n");
 			}
 			br.write("###########################\n");
 			br.write("= naturalObjects\n");
 			for(NaturalObjet b : plateau.getNaturalObjets()){
-				br.write("Tree "+Integer.parseInt(b.getName().name().substring(4))+" "+b.getX()+" "+b.getY()+"\n");
+				br.write("Tree "+Integer.parseInt(b.getName().name().substring(4))+" "+b.getX()+" "+b.getY()+" "+String.join(" ",b.getLabels())+"\n");
 			}
 			br.write("###########################\n");
 			br.write("= mapGround\n");

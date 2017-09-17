@@ -60,7 +60,7 @@ public strictfp class MainEditor {
 	}
 	
 	public enum Mode{
-		SELECT, MOVE, ERASE, TERRAIN, NATURE, CHARACTER, BUILDING;
+		SELECT, MOVE, ERASE, TERRAIN, NATURE, CHARACTER, BUILDING, VICTORY;
 	}
 	
 	public enum TeamSelected{
