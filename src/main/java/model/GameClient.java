@@ -102,12 +102,12 @@ public strictfp class GameClient extends Listener {
 	
 	public static void send(InputObject im){
 		Message m = new Message(im);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Vector<InputObject> ims){
 		for(InputObject im : ims ){			
 			Message m = new Message(im);
-			client.sendTCP(m);
+			client.sendUDP(m);
 		}
 	}
 
