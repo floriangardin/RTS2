@@ -83,9 +83,9 @@ public strictfp class GameServer extends Listener {
 				
 				server.sendToAllUDP(o);
 			}else if(m.getType()==Message.MENUPLAYER){
-				server.sendToAllTCP(o);
+				server.sendToAllUDP(o);
 			}else if(m.getType()==Message.CHATMESSAGE){
-				server.sendToAllTCP(o);
+				server.sendToAllUDP(o);
 			}
 		}else if(o instanceof Integer){
 			server.sendToAllExceptUDP(c.getID(), o);
