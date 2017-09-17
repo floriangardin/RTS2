@@ -111,7 +111,9 @@ public abstract strictfp class Technologie implements java.io.Serializable{
 				this.team.data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, bonus);
 				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, bonus);
 				for(Character c : plateau.getCharacters()){
-					c.setLifePoints(c.getLifePoints()+bonus, plateau);
+					if(c.getTeam().id == gameteam.id){						
+						c.setLifePoints(c.getLifePoints()+bonus, plateau);
+					}
 				}
 				
 			}
@@ -142,14 +144,20 @@ public abstract strictfp class Technologie implements java.io.Serializable{
 
 			@Override
 			public void applyEffect() {
+				float bonus = 20f;
 				// TODO Auto-generated method stub
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
 				// Va chercher le gameteam.data correspondant et ajoute le bonus ou ajoute tech concerné
-				this.team.data.addAttribut(ObjetsList.Spearman, Attributs.maxLifepoints, 20f);
-				this.team.data.addAttribut(ObjetsList.Crossbowman, Attributs.maxLifepoints, 20f);
-				this.team.data.addAttribut(ObjetsList.Knight, Attributs.maxLifepoints, 20f);
-				this.team.data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, 20f);
-				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, 20f);
+				this.team.data.addAttribut(ObjetsList.Spearman, Attributs.maxLifepoints, bonus);
+				this.team.data.addAttribut(ObjetsList.Crossbowman, Attributs.maxLifepoints, bonus);
+				this.team.data.addAttribut(ObjetsList.Knight, Attributs.maxLifepoints, bonus);
+				this.team.data.addAttribut(ObjetsList.Priest, Attributs.maxLifepoints, bonus);
+				this.team.data.addAttribut(ObjetsList.Inquisitor, Attributs.maxLifepoints, bonus);
+				for(Character c : plateau.getCharacters()){
+					if(c.getTeam().id == gameteam.id){						
+						c.setLifePoints(c.getLifePoints()+bonus, plateau);
+					}
+				}
 			}
 			
 		};
