@@ -42,23 +42,33 @@ public strictfp class Menu_Player extends Menu_Item implements Serializable{
 
 	// constants
 
-	float startY = Game.resY*0.37f;
-	float stepY = 0.12f*Game.resY;
-	float startXPlayers = 1f*Game.resX/6f;
-	float startYPlayers = startY;
-	float sizeXPlayers = Game.resX*(2f/3f)-2*startXPlayers;
-	float sizeYPlayers = Game.resY*0.80f-startY;
+	static final float startY = Game.resY*0.37f;
+	static final float stepY = 0.12f*Game.resY;
+	static final float startXPlayers = 1f*Game.resX/6f;
+	static final float startYPlayers = startY;
+	static final float sizeXPlayers = Game.resX*(2f/3f)-2*startXPlayers;
+	static final float sizeYPlayers = Game.resY*0.80f-startY;
 	public String nickname;
 	
 	// map for communication
 	public boolean isHost = false;
 	public String idMap = null;
-
+	
+	public boolean canTimeout = true;
+	public boolean isIA = false;
 
 	public Menu_Player(int id, int team, String name){
 		this.updatePosition(id);
 		this.team = team;
 		this.nickname = name;
+	}
+	public Menu_Player(int id, int team, String name, boolean canTimeout, boolean ready, boolean isIA){
+		this.updatePosition(id);
+		this.team = team;
+		this.nickname = name;
+		this.canTimeout = canTimeout;
+		this.isReady = ready;
+		this.isIA = isIA;
 	}
 
 	public void updatePosition(int id){
@@ -145,5 +155,8 @@ public strictfp class Menu_Player extends Menu_Item implements Serializable{
 //		g.drawImage(Images.get("spell"+p.getGameTeam().civ.uniqueSpell.name).getScaledCopy((int)sizeYcolor, (int)sizeYcolor), startXready - sizeYcolor-18 , startYcolor);
 
 	}
+	
+	
+	
 
 }

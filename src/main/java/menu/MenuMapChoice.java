@@ -10,6 +10,7 @@ import bot.IA;
 import control.InputObject;
 import control.Player;
 import main.Main;
+import menuutils.Menu_IA_Button;
 import menuutils.Menu_Item;
 import menuutils.Menu_Map;
 import menuutils.Menu_Player;
@@ -19,7 +20,7 @@ import model.GameServer;
 import model.WholeGame;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
-import mybot.IAInputs;
+import mybot.IAPython;
 import ressources.GraphicElements;
 import ressources.Musics;
 import system.MenuSystem.MenuNames;
@@ -44,6 +45,9 @@ public strictfp class MenuMapChoice extends Menu {
 	public int cooldown;
 	public int messageDropped;
 	public int roundForPingRequest;
+	
+	//IA 
+	public Menu_IA_Button iaButton = new Menu_IA_Button(-1, 0, "IA");
 
 	Vector<Menu_Map> mapchoices = new Vector<Menu_Map>();
 
@@ -109,8 +113,8 @@ public strictfp class MenuMapChoice extends Menu {
 		}
 	}
 
-	public void addIA(){
-		IA.addIA(new IAInputs(1));
+	public void addIA(int team){
+		IA.addIA(new IAPython(team));
 	}
 	public void drawItems(Graphics g){
 		// draw background
@@ -139,6 +143,7 @@ public strictfp class MenuMapChoice extends Menu {
 				Lobby.players.get(minpos).draw(g, i);
 				i++;
 			}
+			iaButton.draw(g, i);
 		}
 		// draw items
 		for(Menu_Item item: this.items){
@@ -166,7 +171,7 @@ public strictfp class MenuMapChoice extends Menu {
 		int toRemove = -1;
 		synchronized(Lobby.players){
 			for(Menu_Player mp : Lobby.players){
-				if(mp.id!=Player.getID()){
+				if(mp.id!=Player.getID() && mp.canTimeout){
 					if(mp.hasBeenUpdated){
 						mp.messageDropped=0;
 						mp.hasBeenUpdated = false;
@@ -194,8 +199,8 @@ public strictfp class MenuMapChoice extends Menu {
 		// Updating items
 		synchronized(Lobby.players){
 			for(Menu_Player mp : Lobby.players){
-				if(mp.id==Player.getID()){
-					if(!mp.isReady){
+				if(mp.id==Player.getID() || mp.isIA){
+					if(!mp.isReady || mp.isIA){
 						mp.update(im);
 						Player.setTeam(mp.team);
 					}
@@ -205,6 +210,13 @@ public strictfp class MenuMapChoice extends Menu {
 					}
 					GameClient.send(mp);
 				}
+			}
+			iaButton.update(im);
+			if(iaButton.createNewIA){
+				// Create new menu player
+				// GET MAX ID 
+				int maxId = Lobby.players.stream().map(x -> x.id).max((x,y)-> Integer.compare(x, y)).orElse(-1);
+				Lobby.players.add(new Menu_Player(maxId+1, 1,"IA", false, true, true));
 			}
 		}
 		this.updateItems(im, false);
@@ -248,7 +260,14 @@ public strictfp class MenuMapChoice extends Menu {
 		Game.gameSystem = new WholeGame(false);
 		Musics.stopMusic();
 		Game.system = Game.gameSystem;
-
+		
+		
+		// INIT IA 
+		for(Menu_Player mp : Lobby.players){
+			if(mp.isIA){
+				this.addIA(mp.team);
+			}
+		}
 		// Send Plateau to all
 
 		//		Camera.maxX = (int) MaxX;

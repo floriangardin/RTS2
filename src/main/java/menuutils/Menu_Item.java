@@ -53,7 +53,9 @@ public strictfp class Menu_Item {
 	public void draw(Graphics g){
 		font_current.drawString(x-font_current.getWidth(this.name)/2, y-font_current.getHeight(this.name)/2f,this.name);
 	}
-
+	public void draw(Graphics g, float x, float y){
+		font_current.drawString(x-font_current.getWidth(this.name)/2, y-font_current.getHeight(this.name)/2f,this.name);
+	}
 
 	public void update(InputObject im){
 		if(this.selectionable){
@@ -79,5 +81,9 @@ public strictfp class Menu_Item {
 				this.font_current = this.font;
 			}
 		}
+	}
+	
+	public void setY(float y){
+		this.y = y;
 	}
 }

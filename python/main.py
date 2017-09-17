@@ -1,4 +1,5 @@
-
+#!/usr/bin/env python
+# coding: utf8
 from ia.domain.model import QLearnerClean
 import time
 import sys

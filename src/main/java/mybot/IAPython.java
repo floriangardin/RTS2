@@ -1,11 +1,11 @@
 package mybot;
- 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -25,10 +25,18 @@ public strictfp class IAPython extends IA {
 	
 	public List<Action> actions = new Vector<Action>();
 
+	@SuppressWarnings("restriction")
 	public IAPython(int teamid) {
 		super(teamid);
+		// TODO : Add shell command for launching python process 
+		System.out.println("Working Directory = " +
+	              System.getProperty("user.dir"));
+		
+		// Launch one server per IA on a different port !
+
 		// IA qui fournit une api rest pour un script python
-        HttpServer server=null;
+		@SuppressWarnings("restriction")
+		HttpServer server=null;
 		try {
 			int port = 0;
 			if(teamid==1){
@@ -38,57 +46,64 @@ public strictfp class IAPython extends IA {
 			}
 			server = HttpServer.create(new InetSocketAddress(port), 0);
 			IAPython self = this;
-			
+
 			// API : GET STATE OF PLATEAU
 			// TODO : Filter in plateau.toJson to get only 
-	        server.createContext("/get", new HttpHandler(){
+			server.createContext("/get", new HttpHandler(){
 				@Override
 				public void handle(HttpExchange t) throws IOException {
 					String response= gson.toJson(self.plateau.toJson());
-		            t.sendResponseHeaders(200, response.length());
-		            OutputStream os = t.getResponseBody();
-		            os.write(response.getBytes());
-		            os.close();
+					t.sendResponseHeaders(200, response.length());
+					OutputStream os = t.getResponseBody();
+					os.write(response.getBytes());
+					os.close();
 				}
-	        	
-	        });
-	        
-	        // API : ASK TO PERFORM ACTION
-	        server.createContext("/post", new HttpHandler(){
+
+			});
+
+			// API : ASK TO PERFORM ACTION
+			server.createContext("/post", new HttpHandler(){
 				@Override
 				public void handle(HttpExchange t) throws IOException {
 					int b;
-					
+
 					InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
 					BufferedReader br = new BufferedReader(isr);
 					StringBuilder buf = new StringBuilder(512);
 					while ((b = br.read()) != -1) {
-					    buf.append((char) b);
+						buf.append((char) b);
 					}
-					
+
 					String res = buf.toString();
 					synchronized(actions){	
 						actions.addAll(Action.parse(res));
 					}
-					
+
 					br.close();
 					isr.close();
 					t.sendResponseHeaders(200, 10);
 					OutputStream os = t.getResponseBody();
-		            os.write("ok".getBytes());
-		            os.close();
-					
+					os.write("ok".getBytes());
+					os.close();
+
 				}
-	        	
-	        });
-	        
-	        server.start();
+
+			});
+
+			server.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		try {
+			Runtime.getRuntime().exec("/usr/local/bin/python3 python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
+
 
 	@Override
 	public void update() throws Exception {
@@ -99,8 +114,8 @@ public strictfp class IAPython extends IA {
 				toDo.play(this);
 			}
 		}
-		
+
 	}
-	
+
 
 }
