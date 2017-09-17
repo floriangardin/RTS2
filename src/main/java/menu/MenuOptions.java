@@ -22,8 +22,6 @@ import system.MenuSystem.MenuNames;
 
 public strictfp class MenuOptions extends Menu {
 
-
-
 	Image title;
 	public Image plus;
 	public Image plusSelected;
@@ -43,39 +41,46 @@ public strictfp class MenuOptions extends Menu {
 	public String nicknameString;
 
 	public Menu_TextScanner textscanner;
-
+	public Menu_TextScanner textscannerPythonPath;
 
 	public MenuOptions(){
 		super();
 		this.volume = Images.get("menuVolume").getScaledCopy(Game.ratioResolution);
 		this.curseur = Images.get("menuCurseur").getScaledCopy(Game.ratioResolution);
+		
 		this.items = new Vector<Menu_Item>();
 		//this.itemsSelected = new Vector<Menu_Item>();
 		float startY = 0.50f*Game.resY;
-		float stepY = 0.12f*Game.resY;
+		float stepY = 0.10f*Game.resY;
 		float startX = Game.resX/2;
 		this.items.addElement(new Menu_Item(Game.resX/3f,startY+0*stepY,"Musique",false));
 		this.items.lastElement().font_current = GraphicElements.font_mid;
 		this.items.addElement(new Menu_Item(Game.resX/3f,startY+1*stepY,"Son",false));
 		this.items.lastElement().font_current = GraphicElements.font_mid;
+		// FOR PSEUDO
 		this.items.addElement(new Menu_Item(Game.resX/3f,startY+2*stepY,"Pseudo",false));
 		this.items.lastElement().font_current = GraphicElements.font_mid;
 		this.textscanner = new Menu_TextScanner(Options.nickname,2*Game.resX/3f,startY+2f*stepY,GraphicElements.font_main.getWidth("Gilles de Bouard "),GraphicElements.font_main.getHeight("R")*2f+2f);
+		// FOR PYTHONPATH
+		this.items.addElement(new Menu_Item(Game.resX/3f,startY+3*stepY,"Python3 Path: ",false));
+		this.items.lastElement().font_current = GraphicElements.font_mid;
+		this.textscannerPythonPath = new Menu_TextScanner(Options.pythonPath,2*Game.resX/3f,startY+3f*stepY,GraphicElements.font_main.getWidth("/usr/local/bin/python3"),GraphicElements.font_main.getHeight("R")*2f+2f);
+		
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+0*stepY,"Musique",this.volume,this.curseur,Options.musicVolume));
 		this.items.addElement(new Menu_Curseur(2*Game.resX/3f,startY+1*stepY,"Volume",this.volume,this.curseur,Options.soundVolume*2));
-		this.items.addElement(new Menu_Item(Game.resX/3,startY+3*stepY,"Raccourcis",true));
-		this.items.addElement(new Menu_Item(Game.resX*2/3,startY+3*stepY,"Retour",true));
+		this.items.addElement(new Menu_Item(Game.resX/3,startY+4*stepY,"Raccourcis",true));
+		this.items.addElement(new Menu_Item(Game.resX*2/3,startY+4*stepY,"Retour",true));
 		//		}
 	}
 
 
 	public void callItem(int i){
 		switch(i){
-		case 5: 
+		case 6: 
 			Game.menuSystem.setMenu(MenuNames.MenuKeyMapping);
 			this.updateOptions();
 			break;
-		case 6: 
+		case 7: 
 			Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			this.updateOptions();
 			break;
@@ -88,11 +93,13 @@ public strictfp class MenuOptions extends Menu {
 	public void update(InputObject im){
 		this.updateItems(im);
 		this.textscanner.update(Game.app.getInput(),im);
+		this.textscannerPythonPath.update(Game.app.getInput(),im);
 		if(im.isPressed(KeyEnum.LeftClick)){
 			textscanner.isSelected = textscanner.isMouseOver(im);
+			textscannerPythonPath.isSelected = textscannerPythonPath.isMouseOver(im);
 		} 
-		Options.musicVolume = ((Menu_Curseur)this.items.get(3)).value;
-		Options.soundVolume = ((Menu_Curseur)this.items.get(4)).value/2f;
+		Options.musicVolume = ((Menu_Curseur)this.items.get(4)).value;
+		Options.soundVolume = ((Menu_Curseur)this.items.get(5)).value/2f;
 		if(Musics.getPlayingMusic()!=null){
 			Musics.getPlayingMusic().setVolume(Options.musicVolume);
 		}
@@ -106,7 +113,9 @@ public strictfp class MenuOptions extends Menu {
 			fichierSortie.println ("musics:-" + Options.musicVolume);
 			fichierSortie.println ("sounds:-" + Options.soundVolume); 
 			Options.nickname = ((Menu_TextScanner)this.textscanner).s;
-			fichierSortie.println ("nickname:-" + Options.nickname); 
+			Options.pythonPath = ((Menu_TextScanner)this.textscannerPythonPath).s;
+			fichierSortie.println ("nickname:-" + Options.nickname);
+			fichierSortie.println ("pythonpath:-" + Options.pythonPath); 
 			fichierSortie.close();
 		}
 		catch (Exception e){
@@ -117,5 +126,6 @@ public strictfp class MenuOptions extends Menu {
 	public void draw(Graphics g){
 		this.drawItems(g);
 		this.textscanner.draw(g);
+		this.textscannerPythonPath.draw(g);
 	}
 }

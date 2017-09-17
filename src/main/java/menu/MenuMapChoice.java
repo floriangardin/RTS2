@@ -202,7 +202,9 @@ public strictfp class MenuMapChoice extends Menu {
 				if(mp.id==Player.getID() || mp.isIA){
 					if(!mp.isReady || mp.isIA){
 						mp.update(im);
-						Player.setTeam(mp.team);
+						if(!mp.isIA){							
+							Player.setTeam(mp.team);
+						}
 					}
 					if(GameServer.hasLaunched){
 						mp.isHost = true;
@@ -262,10 +264,17 @@ public strictfp class MenuMapChoice extends Menu {
 		Game.system = Game.gameSystem;
 		
 		
-		// INIT IA 
+		// INIT IA
+		boolean isHost = false;
 		for(Menu_Player mp : Lobby.players){
-			if(mp.isIA){
-				this.addIA(mp.team);
+			if(mp.isHost && mp.id==Player.getID()){
+				isHost = true;
+			}
+		}if(isHost){			
+			for(Menu_Player mp : Lobby.players){
+				if(mp.isIA){
+					this.addIA(mp.team);
+				}
 			}
 		}
 		// Send Plateau to all

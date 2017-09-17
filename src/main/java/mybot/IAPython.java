@@ -18,6 +18,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import bot.IA;
+import model.Options;
 
 public strictfp class IAPython extends IA {
 	final GsonBuilder builder = new GsonBuilder();
@@ -97,7 +98,7 @@ public strictfp class IAPython extends IA {
 		}
 		
 		try {
-			Runtime.getRuntime().exec("/usr/local/bin/python3 python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
+			Runtime.getRuntime().exec(Options.pythonPath+" python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

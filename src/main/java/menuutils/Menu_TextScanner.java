@@ -163,7 +163,7 @@ public strictfp class Menu_TextScanner extends Menu_Item{
 			}
 			return;
 		}
-		if((Game.isInMenu()) || isSelected || Game.menuSystem.currentMenu instanceof MenuMapChoice){
+		if(isSelected || Game.menuSystem.currentMenu instanceof MenuMapChoice){
 			if(GraphicElements.font_main.getWidth(s)<this.sizeX){
 				int l = intToChar.size();
 				for(Integer k: intToChar.keySet()){
