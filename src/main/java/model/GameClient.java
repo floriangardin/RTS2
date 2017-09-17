@@ -31,7 +31,7 @@ public strictfp class GameClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	public static final int delay = 3; // Number of delay rounds
+	public static final int delay = 2; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(String ip) throws IOException{
 		client.getKryo().register(byte[].class);
@@ -102,12 +102,12 @@ public strictfp class GameClient extends Listener {
 	
 	public static void send(InputObject im){
 		Message m = new Message(im);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Vector<InputObject> ims){
 		for(InputObject im : ims ){			
 			Message m = new Message(im);
-			client.sendTCP(m);
+			client.sendUDP(m);
 		}
 	}
 
@@ -137,11 +137,11 @@ public strictfp class GameClient extends Listener {
 	}
 	public static void send(Checksum checksum){
 		Message m = new Message(checksum);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Menu_Player menu_player){
 		Message m = new Message(menu_player);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 	public static void send(Plateau plateau){
 		Message m = new Message(plateau);
@@ -149,7 +149,7 @@ public strictfp class GameClient extends Listener {
 	}
 	public static void send(ChatMessage message){
 		Message m = new Message(message);
-		client.sendTCP(m);
+		client.sendUDP(m);
 	}
 
 	public static Plateau getPlateau(){	

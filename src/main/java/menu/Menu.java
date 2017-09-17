@@ -126,7 +126,9 @@ public abstract strictfp class Menu {
 						this.callItem(i);
 						Sounds.playSound("menuItemSelected");
 					}
-				}			
+				}
+				
+				
 			}
 			if(updateKeys && (im.isPressed(KeyEnum.Up) || im.isPressed(KeyEnum.Down))){
 				arrowPressed = true;

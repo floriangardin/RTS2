@@ -1,5 +1,7 @@
 package main;
 
+import java.io.IOException;
+
 import org.newdawn.slick.SlickException;
 
 import com.esotericsoftware.kryonet.Server;
@@ -15,7 +17,13 @@ public strictfp class mainTestCalculDegueu {
 		
 	}
 	public static void main(String[] args) throws SlickException {
-		Server server = new Server(500000, 50000);
+		try {
+			Process p = Runtime.getRuntime().exec("python python/main.py " + 1);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Plateau plateau = Map.createPlateau("testIA");
 	}
 }
