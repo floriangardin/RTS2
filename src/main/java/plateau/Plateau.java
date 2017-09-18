@@ -931,6 +931,10 @@ public strictfp class Plateau implements java.io.Serializable {
 		this.round = round;
 	}
 
+	public void addEndConditions(int team, EndCondition endConditionFromString) {
+		this.getTeamById(team).addEndCondition(endConditionFromString);
+	}
+
 
 
 }

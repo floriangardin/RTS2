@@ -54,5 +54,10 @@ public class EndConditionBuilding extends EndCondition{
 	public void setLabel(String label) {
 		this.label = label;
 	}
+	
+	@Override
+	public String toString() {
+		return type+" "+label;
+	}
 
 }

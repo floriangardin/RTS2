@@ -3,37 +3,37 @@
 & sizeY 10
 ###########################
 = headquarters
-0 11 4
-1 0 4
-2 22 4
+0 11 4 
+1 0 4 endCondition1
+2 22 4 endCondition2
 ###########################
 = buildings
-Tower 1 1 1
-Tower 1 1 8
-Tower 2 23 8
-Tower 2 23 1
-Mine 0 6 2
-Mill 0 8 8
-Mill 0 14 0
-Stable 0 7 0
-Stable 0 14 8
-Mine 0 17 6
-Mine 0 16 3
-Mine 0 7 5
-Barracks 0 17 0
-Barracks 0 4 8
-Mill 0 3 0
-Mill 0 19 8
+Tower 1 1 1 
+Tower 1 1 8 
+Tower 2 23 8 
+Tower 2 23 1 
+Mine 0 6 2 
+Mill 0 8 8 
+Mill 0 14 0 
+Stable 0 7 0 
+Stable 0 14 8 
+Mine 0 17 6 
+Mine 0 16 3 
+Mine 0 7 5 
+Barracks 0 17 0 
+Barracks 0 4 8 
+Mill 0 3 0 
+Mill 0 19 8 
 ###########################
 = units
-Spearman 1 394.0 498.0
-Spearman 2 2124.0 494.0
+Spearman 1 394.0 498.0 
+Spearman 2 2124.0 494.0 
 ###########################
 = naturalObjects
-Tree 1 1209.0 993.0
-Tree 2 1297.0 998.0
-Tree 2 1208.0 2.0
-Tree 1 1296.0 5.0
+Tree 1 1209.0 993.0 
+Tree 2 1297.0 998.0 
+Tree 2 1208.0 2.0 
+Tree 1 1296.0 5.0 
 ###########################
 = mapGround
 wwws  swww
@@ -61,3 +61,6 @@ wwwssssw
 wwws  swww
 w ws  sw w
 wwws  swww
+###########################
+= endconditions
+buildings endCondition1/nbuildings endCondition2/n

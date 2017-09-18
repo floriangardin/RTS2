@@ -3,27 +3,27 @@
 & sizeY 23
 ###########################
 = headquarters
-1 5 1
-2 5 19
+1 5 1 endCondition1
+2 5 19 endCondition2
 ###########################
 = buildings
-Barracks 0 9 1
-Stable 0 0 1
-Mill 0 1 4
-Mine 0 10 4
-Tower 1 6 4
-Stable 0 0 19
-Barracks 0 9 19
-Mill 0 1 16
-Mine 0 10 16
-Tower 2 6 17
-Mine 0 8 10
+Barracks 0 9 1 
+Stable 0 0 1 
+Mill 0 1 4 
+Mine 0 10 4 
+Tower 1 6 4 
+Stable 0 0 19 
+Barracks 0 9 19 
+Mill 0 1 16 
+Mine 0 10 16 
+Tower 2 6 17 
+Mine 0 8 10 
 ###########################
 = units
-Spearman 2 548.0 1852.0
-Spearman 2 765.0 1844.0
-Spearman 1 556.0 343.0
-Spearman 1 753.0 344.0
+Spearman 2 548.0 1852.0 
+Spearman 2 765.0 1844.0 
+Spearman 1 556.0 343.0 
+Spearman 1 753.0 344.0 
 ###########################
 = naturalObjects
 ###########################
@@ -41,3 +41,6 @@ s      ssssssss      sw
 s     sswwwwwwss     sw
 s  sssswwwwwwwwsssssssw
 sssswwwwwwwwwwwwwwwsssw
+###########################
+= endconditions
+buildings endCondition1/nbuildings endCondition2/n
