@@ -18,6 +18,7 @@ import main.Main;
 import nature.Tree;
 import plateau.Building;
 import plateau.Character;
+import plateau.EndCondition;
 import plateau.NaturalObjet;
 import plateau.Objet;
 import plateau.Plateau;
@@ -175,6 +176,7 @@ public strictfp class Map {
 			for(int i=0 ; i<endConditions.size(); i++){
 				tab = endConditions.get(i).split(" ");
 				int team = Integer.parseInt(tab[0]);
+				plateau.addEndConditions(team, EndCondition.getEndConditionFromString(endConditions.get(i), plateau));
 			}
 			return plateau;
 		} catch (Exception e){
@@ -224,6 +226,13 @@ public strictfp class Map {
 					br.write(plateau.getMapGrid().grid.get(i).get(j).getIdTerrain().id);
 				}
 				br.write("\n");
+			}
+			br.write("###########################\n");
+			br.write("= endconditions\n");
+			for(int i=1; i<plateau.getTeams().size(); i++){
+				for(EndCondition ec :plateau.getTeams().get(i).getEndConditions()) {
+					br.write(ec.toString()+"/n");
+				}
 			}
 			br.close();
 			ipsr.close();

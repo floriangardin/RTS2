@@ -6,10 +6,11 @@ import java.util.Vector;
 public abstract strictfp class EndCondition implements Serializable{
 
 	int team;
-	private EndConditions type;
+	protected EndConditions type;
 
 	public enum EndConditions{
 		buildings,
+		timer,
 		units;
 	};
 
@@ -28,6 +29,8 @@ public abstract strictfp class EndCondition implements Serializable{
 			return new EndConditionBuilding(team.id, tab[2]);
 		case units :
 			return new EndConditionUnits(team.id);
+		case timer :
+			return new EndConditionTimer(team.id, Integer.parseInt(tab[2])); 
 		default: 
 			throw new RuntimeException("Erreur : condition de victoire non reconnue : "+ec.name());
 		}
@@ -39,6 +42,8 @@ public abstract strictfp class EndCondition implements Serializable{
 			return new EndConditionUnits(team);
 		case buildings:
 			return new EndConditionBuilding(team);
+		case timer:
+			return new EndConditionTimer(team);
 		default:
 			throw new RuntimeException("Erreur : condition de victoire non reconnue : "+ed.name());
 		}
@@ -52,6 +57,11 @@ public abstract strictfp class EndCondition implements Serializable{
 
 	public void setType(EndConditions type) {
 		this.type = type;
+	}
+	
+	@Override
+	public String toString() {
+		return type+"";
 	}
 
 

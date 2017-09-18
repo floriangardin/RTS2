@@ -25,6 +25,7 @@ import javax.swing.event.ListSelectionListener;
 
 import plateau.EndCondition;
 import plateau.EndConditionBuilding;
+import plateau.EndConditionTimer;
 import ressources.Icones;
 import ressources.ImagesAwt;
 import utils.ObjetType;
@@ -178,6 +179,15 @@ public strictfp class PlateauObjectPanel extends JPanel {
 								t[0]);
 						MainEditor.getSheet().getPlateau().getTeams().get(i).addEndCondition(new EndConditionBuilding(i, inputLabel));
 						break;
+					case timer:
+						try {
+							int ans = Integer.parseInt( (String) JOptionPane.showInputDialog(null, "How many rounds ? (60 fps)",
+									"Timer defeat type", JOptionPane.QUESTION_MESSAGE, null, 
+									null, 
+									"0"));
+							MainEditor.getSheet().getPlateau().getTeams().get(i).addEndCondition(new EndConditionTimer(i, ans));							
+						} catch(Exception exception) {}
+						break;
 					default:
 						MainEditor.getSheet().getPlateau().getTeams().get(i).addEndCondition(EndCondition.getEndCondition(input, i));
 						break;
@@ -203,6 +213,15 @@ public strictfp class PlateauObjectPanel extends JPanel {
 								t, 
 								((EndConditionBuilding) ec).getLabel());
 						((EndConditionBuilding)ec).setLabel(inputLabel);
+						break;
+					case timer:
+						try {
+							int ans = Integer.parseInt( (String) JOptionPane.showInputDialog(null, "How many rounds ? (60 fps)",
+									"Timer defeat type", JOptionPane.QUESTION_MESSAGE, null, 
+									null, 
+									""+((EndConditionTimer)ec).getNbRound()));
+							((EndConditionTimer)ec).setNbRound(ans);
+						} catch(Exception exception) {}
 						break;
 					case units:
 						break;
