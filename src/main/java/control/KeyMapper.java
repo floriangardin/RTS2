@@ -110,7 +110,9 @@ public strictfp class KeyMapper {
 		Headquarters, 
 		GlobalRallyPoint,
 		AllUnits, 
-		ShowStats
+		ShowStats,
+		IAReward,
+		IAPunish
 		;
 		
 

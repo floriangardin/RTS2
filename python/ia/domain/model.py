@@ -3,7 +3,7 @@
 
 import pandas as pd
 import numpy as np
-
+import sys
 import pickle
 from ..api.api import get,post
 import time
@@ -71,18 +71,45 @@ class QLearnerClean:
                 Q[s, a] += self.alpha * (r + self.gamma * np.max(([Q[s1, a.name] for a in actions])) - Q[s, a])  # Pas sûr pour cette ligne
         return self.Qglobal
 
+    def update_q(self, reward, alpha=1, gamma=0.9):
+        """
+        Update Q en live en utilisant une reward, permet de réajuster au cours de la partie
+        :param reward:
+        :param alpha:
+        :param gamma:
+        :return:
+        """
+        for obj, name, state, actions, valid_actions in self.state_manager:
+            Q = self.Qglobal[name]
+            for s, a, s1, C in self.L[name]:
+                Q[s, a] += self.alpha * (reward + self.gamma * np.max(([Q[s1, a.name] for a in actions])) - Q[s, a])  # Pas sûr pour
+        print(self.Qglobal[SPEARMAN])
     def end_condition(self):
         return self.state_manager.has_won or self.state_manager.has_lost
 
     def get_reward(self):
+        # TODO : Global reward à mettre plus fort
         return 1 if self.state_manager.has_won else -1
 
+    def get_step_reward(self):
+        reward =  self.state_manager.players[self.state_manager.team]['reward']
+        if reward >0:
+            print('GET A REWARD')
+        if reward <0:
+            print('GET A PUNISHMENT')
+        return reward
     def step(self):
+        ## communication commodities
+        sys.stdout.flush()
         time.sleep(self.delta)
+        ## End communication commodities
         self.state_manager.update()
+        reward = self.get_step_reward()  # get round reward
+        if reward!=0: # Si on reçoit un feedback on le traite instantanément avec toute la pile d'évènements présente
+            self.update_q(reward, alpha=1, gamma=0.9)
         for obj, name, state, actions, valid_actions in self.state_manager:
             Q = self.Qglobal[name]  # get the current Q function for this specific class
-            if state[0] == '1' and len(valid_actions) > 0: # IS not Idle
+            if state[0] == '1' and len(valid_actions) > 0: # Si l'objet considéré est idle
                 if np.random.random() >= self.epsilon:
                     actions_index = [ac_.name for ac_ in valid_actions]
                     # Find max idx
@@ -91,7 +118,7 @@ class QLearnerClean:
                     a = valid_actions[np.random.randint(len(valid_actions))]
                 a(obj)
                 self.do_action(a)  # Output to the world
-                self.L[name].append((self.sc, self.ac, state, name))  # Keep trace of actions
+                self.L[name].append((self.sc, self.ac, state, name))  # Keep trace of state/action/reward tuples
                 self.sc = state
                 self.ac = a.name
 
@@ -127,6 +154,7 @@ class StateManager:
         # Create state for each character
         plateau = data['plateau']
         players = data['teams']
+        self.players = players
         self.check_victory(players)
         # Create objects and filter by spearman, crossbowman and barracks
         self.objets = [ObjetManager(plateau, players, idx) for idx in plateau.keys() if self.team == plateau[idx]['team'] and plateau[idx]['name'] in [SPEARMAN, CROSSBOWMAN, BARRACKS]]

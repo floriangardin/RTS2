@@ -30,7 +30,10 @@ public abstract strictfp class IA{
 	public Plateau plateau;
 	private int teamId;
 	private Team player;
-
+	
+	
+	
+	
 	InputObject im;
 	public static Vector<InputObject> play(Plateau plateau, int roundToPlay){
 		Vector<InputObject> ims = new Vector<InputObject>();
@@ -39,6 +42,8 @@ public abstract strictfp class IA{
 		}
 		return ims;
 	}
+	
+	
 	public int getTeamId(){
 		return player.id;
 	}

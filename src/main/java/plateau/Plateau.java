@@ -45,6 +45,9 @@ public strictfp class Plateau implements java.io.Serializable {
 	// Hold ids of objects
 	private int id = 0;
 	
+	// For RL IA
+	
+	
 	
 	
 	public Plateau(int maxX, int maxY) {
@@ -583,6 +586,7 @@ public strictfp class Plateau implements java.io.Serializable {
 				return;
 			}
 			// Handling the right click
+			this.handleIAReward(im);
 			this.handleRightClick(im);
 			this.handleActionOnInterface(im);
 		}
@@ -629,6 +633,15 @@ public strictfp class Plateau implements java.io.Serializable {
 //		}
 		this.clean();
 		
+	}
+
+	private void handleIAReward(InputObject im) {
+		// TODO Auto-generated method stub
+		if(im.isPressed(KeyEnum.IAReward)){			
+			this.teams.get(im.team).setReward(1);
+		}else if(im.isPressed(KeyEnum.IAPunish)){
+			this.teams.get(im.team).setReward(-1);
+		}
 	}
 
 	private Team getTeamById(int team) {
@@ -691,9 +704,7 @@ public strictfp class Plateau implements java.io.Serializable {
 		// Action bar
 		boolean imo = false;
 		if (im.isPressed(KeyEnum.Immolation) || im.isPressed(KeyEnum.Prod0) || im.isPressed(KeyEnum.Prod1) || im.isPressed(KeyEnum.Prod2) || im.isPressed(KeyEnum.Prod3) ||  im.isPressed(KeyEnum.Tech0) || im.isPressed(KeyEnum.Tech1) || im.isPressed(KeyEnum.Tech2) || im.isPressed(KeyEnum.Tech3) || im.isPressed(KeyEnum.Escape)) {
-
 			if (im.selection.size() > 0 && this.getById(im.selection.get(0)) instanceof Building) {
-
 				for(int i=0; i<4; i++){
 					if (im.isPressed(KeyEnum.valueOf("Prod"+i))){
 
@@ -713,7 +724,6 @@ public strictfp class Plateau implements java.io.Serializable {
 							number = i;
 					}
 					if (im.isPressed(KeyEnum.Immolation)){
-
 						number = 0;
 						imo = true;
 					}
@@ -834,6 +844,7 @@ public strictfp class Plateau implements java.io.Serializable {
 			stats.put("maxPop", t.getMaxPop(this));
 			stats.put("food", t.food);
 			stats.put("hasLost", (t.id==this.getTeamLooser()) && t.id!=0 ? 1 : 0);
+			stats.put("reward", t.getReward());
 			if((t.id==this.getTeamLooser()) && t.id!=0){
 				System.out.println("has lost");
 			}

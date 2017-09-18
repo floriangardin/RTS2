@@ -38,7 +38,7 @@ public strictfp class Team implements Serializable {
 	public Vector<ObjetsList> techsDiscovered;
 	public Vector<ObjetsList> currentTechsProduced;
 	private Vector<EndCondition> endConditions;
-
+	private int reward = 0;
 
 	public Team(int id, Plateau plateau) {
 		this.id = id;
@@ -124,12 +124,13 @@ public strictfp class Team implements Serializable {
 
 	}
 	
-	public void update(){
-		if(this.timerKill>0f){
-			timerKill -= Main.increment;
-		} else {
-			nbKill = 0;
-		}
+	public void setReward(int reward){
+		this.reward = reward;
+	}
+	public int getReward(){
+		int toReturn = reward;
+		reward= 0;
+		return toReturn;
 	}
 
 

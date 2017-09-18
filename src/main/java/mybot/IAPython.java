@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-
 import java.util.List;
 import java.util.Vector;
-
-
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,6 +51,7 @@ public strictfp class IAPython extends IA {
 				@Override
 				public void handle(HttpExchange t) throws IOException {
 					String response= gson.toJson(self.plateau.toJson());
+					
 					t.sendResponseHeaders(200, response.length());
 					OutputStream os = t.getResponseBody();
 					os.write(response.getBytes());
@@ -98,7 +96,13 @@ public strictfp class IAPython extends IA {
 		}
 		
 		try {
-			Runtime.getRuntime().exec(Options.pythonPath+" python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
+			//Process p = Runtime.getRuntime().exec(Options.pythonPath+" python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
+			ProcessBuilder pb = new ProcessBuilder(Options.pythonPath,"python/main.py", ""+teamid);
+			//pb.directory(new File("/usr/local/bin/"));
+			pb.inheritIO();
+			pb.start();
+			
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -1,10 +1,13 @@
 package main;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.newdawn.slick.SlickException;
 
 import com.esotericsoftware.kryonet.Server;
+
+import model.Options;
 
 public strictfp class mainTestCalculDegueu {
 	public static strictfp class Test1 {
@@ -18,7 +21,10 @@ public strictfp class mainTestCalculDegueu {
 	}
 	public static void main(String[] args) throws SlickException {
 		try {
-			Process p = Runtime.getRuntime().exec("python python/main.py " + 1);
+			ProcessBuilder pb = new ProcessBuilder("/usr/local/bin/python3","python/main.py", ""+1);
+			//pb.directory(new File("/usr/local/bin/"));
+			pb.inheritIO();
+			pb.start();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
