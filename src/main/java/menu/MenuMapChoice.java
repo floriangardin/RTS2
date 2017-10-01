@@ -254,9 +254,6 @@ public strictfp class MenuMapChoice extends Menu {
 			}
 		}
 	}
-
-
-
 	public void launchGame(){
 		// Init gameSystem
 		Game.gameSystem = new WholeGame(false);

@@ -51,7 +51,9 @@ public strictfp class WholeGame extends ClassSystem{
 			GameClient.setPlateau(Map.createPlateau(Map.maps().get(0), "maps"));
 		}
 		Plateau plateau = GameClient.getPlateau();
+				
 		plateau.update();
+
 		// Put camera at the center of headquarter if exists
 		Building hq =plateau.getHQ(Player.getTeam(plateau));
 		if(hq!=null){
