@@ -231,7 +231,7 @@ public strictfp class Map {
 			br.write("= endconditions\n");
 			for(int i=1; i<plateau.getTeams().size(); i++){
 				for(EndCondition ec :plateau.getTeams().get(i).getEndConditions()) {
-					br.write(ec.toString()+"/n");
+					br.write(ec.toString()+"\n");
 				}
 			}
 			br.close();

@@ -63,4 +63,5 @@ w ws  sw w
 wwws  swww
 ###########################
 = endconditions
-buildings endCondition1/nbuildings endCondition2/n
+1 buildings endCondition1
+2 buildings endCondition2
