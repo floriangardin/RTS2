@@ -44,7 +44,6 @@ public strictfp class IAPython extends IA {
 			}
 			server = HttpServer.create(new InetSocketAddress(port), 0);
 			IAPython self = this;
-
 			// API : GET STATE OF PLATEAU
 			// TODO : Filter in plateau.toJson to get only 
 			server.createContext("/get", new HttpHandler(){
@@ -93,20 +92,22 @@ public strictfp class IAPython extends IA {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			
+			try {
+				//Process p = Runtime.getRuntime().exec(Options.pythonPath+" python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
+				ProcessBuilder pb = new ProcessBuilder(Options.pythonPath,"python/main.py", ""+teamid);
+				//pb.directory(new File("/usr/local/bin/"));
+				pb.inheritIO();
+				pb.start();
+				
+				
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
-		try {
-			//Process p = Runtime.getRuntime().exec(Options.pythonPath+" python/main.py " + teamid); // MAKE IT GENERIC (INSTALL PYTHON IN SUBFOLDER FOR EXAMPLE)
-			ProcessBuilder pb = new ProcessBuilder(Options.pythonPath,"python/main.py", ""+teamid);
-			//pb.directory(new File("/usr/local/bin/"));
-			pb.inheritIO();
-			pb.start();
-			
-			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 	}
 
 

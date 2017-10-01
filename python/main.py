@@ -12,13 +12,6 @@ Trois applications potentiels à une api :
 """
 
 team = int(sys.argv[1])
-def think():
-    return [{
-            "subject": 77,
-            "action": "attack",
-            "target": 69
-      }]
-
 learner = QLearnerClean()
 learner.init()
 learner.learn_from_one_game(team=team)
@@ -31,4 +24,3 @@ learner.learn_from_one_game(team=team)
 # plan = think()
 # post(plan)
 
-from pdb import set_trace as pause; pause()

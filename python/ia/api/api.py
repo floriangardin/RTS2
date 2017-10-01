@@ -4,6 +4,7 @@
 import requests
 import json
 import numpy
+import time
 
 class MyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -21,11 +22,16 @@ def get(team=2):
     Get the state of plateau
     :return:
     """
-    port = str(8000+team)
-    res = json.loads(requests.get("http://localhost:"+port+"/get").text)
-    res['plateau'] = {int(idx) : val for idx,val in res['plateau'].items()}
-    res['teams'] = {int(idx): val for idx, val in res['teams'].items()}
-    return res
+    try:
+
+        port = str(8000+team)
+        res = json.loads(requests.get("http://localhost:"+port+"/get").text)
+        res['plateau'] = {int(idx) : val for idx,val in res['plateau'].items()}
+        res['teams'] = {int(idx): val for idx, val in res['teams'].items()}
+        return res
+    except:
+        time.sleep(1)
+        return get(team=team)
 def post(data, team=2):
     """
     Send action to game
