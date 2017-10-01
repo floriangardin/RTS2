@@ -83,7 +83,6 @@ def find_all_not_team(objet, name, team):
 def find_all_enemy(objet, name, team):
     return [val for key, val in objet.plateau.items() if val['team'] != team and val['team'] != 0 and val['name'] == name]
 
-
 class ActionAttackNearestFromHeadquarters(Action):
     def __init__(self, target):
         super().__init__(verb=ATTACK, adverb=NEARESTFROMHEADQUARTERS, target=target)
@@ -104,14 +103,13 @@ class ActionAttackNearestFromHeadquarters(Action):
         self.subject = objet.idx
         self.target = filtered[0][0]
 
-
 class ActionAttackNearest(Action):
     def __init__(self, target):
         super().__init__(verb=ATTACK, adverb=NEAREST, target=target)
 
     def can_do(self, objet):
-        return ((objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop']) > 0 ) \
-               or (self.target in [MINE, SPEARMAN, CROSSBOWMAN, INQUISITOR])\
+        return (((objet.teams[objet.team]['maxPop']-objet.teams[objet.team]['pop']) > 0 ) \
+               or self.target in [MINE, SPEARMAN, CROSSBOWMAN, INQUISITOR])\
                   and len(find_all_not_team(objet, self.target, objet.team)) > 0
 
     def __call__(self, objet):
