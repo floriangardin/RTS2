@@ -5,7 +5,6 @@
 import numpy as np
 import sys
 import pickle
-from ..api.api import get,post
 import time
 from collections import defaultdict
 
@@ -14,6 +13,8 @@ from .constant import *
 from .action import *
 from .objet import *
 from .feature import *
+from .state import *
+
 
 """
 0) QLearner
@@ -25,9 +26,12 @@ class QLearnerClean:
     def __init__(self):
         self.is_init = False
 
-    def init(self, delta=1, alpha=0.01, gamma=0.9, epsilon=0.01):
+    def init(self,Q=None, delta=1, alpha=0.01, gamma=0.9, epsilon=0.01):
         self.delta = delta
-        self.Qglobal = {BARRACKS: defaultdict(int), CROSSBOWMAN: defaultdict(int), SPEARMAN: defaultdict(int)}
+        if Q is None:
+            self.Qglobal = {BARRACKS: defaultdict(int), CROSSBOWMAN: defaultdict(int), SPEARMAN: defaultdict(int)}
+        else:
+            self.Qglobal = Q
         self.alpha = alpha
         self.gamma = gamma # discount
         self.epsilon = epsilon
@@ -49,10 +53,10 @@ class QLearnerClean:
         r = self.get_reward() # Get global cumulative reward at the end of the game
         # Pour toutes les unités et pour toutes les actions on ajuste les poids de Q
         # TODO : A modifier ne marche pas tel quel
-        for obj, name, state, actions, valid_actions in self.state_manager:
-            Q = self.Qglobal[name]
-            for s, a, s1, C in self.L[name]:
-                Q[s, a] += self.alpha * (r + self.gamma * np.max(([Q[s1, a.name] for a in actions])) - Q[s, a])  # Pas sûr pour cette ligne
+        # for obj, name, state, actions, valid_actions in self.state_manager:
+        #     Q = self.Qglobal[name]
+        #     for s, a, s1, C in self.L[name]:
+        #         Q[s, a] += self.alpha * (r + self.gamma * np.max(([Q[s1, a.name] for a in actions])) - Q[s, a])  # Pas sûr pour cette ligne
         return self.Qglobal
 
     def update_q(self, reward, alpha=1, gamma=0.9):
@@ -108,59 +112,6 @@ class QLearnerClean:
 
     def do_action(self, a):
         post(a.to_dict(), self.state_manager.team)
-
-"""
-1) Handle states and inputs
-"""
-
-class StateManager:
-
-    def __iter__(self):
-        for obj in self.objets:
-            yield obj, obj.name, obj.state, obj.actions, obj.valid_actions
-
-    def __init__(self, team=2):
-        self.team = team
-        self.objets = []
-        self.has_won = False
-        self.has_lost = False
-
-
-    def check_victory(self, players):
-        self.has_lost = players[self.team]['hasLost'] == 1
-        for key in players.keys():
-            if players[key]['hasLost'] == 1 and key != self.team:
-                self.has_won = True
-        return self.has_won, self.has_lost
-
-    def update(self):
-        data = get(self.team)
-        # Create state for each character
-        plateau = data['plateau']
-        players = data['teams']
-        self.players = players
-        self.check_victory(players)
-        # Create objects and filter by spearman, crossbowman and barracks
-        self.objets = [ObjetManager(plateau, players, idx) for idx in plateau.keys() if self.team == plateau[idx]['team'] and plateau[idx]['name'] in [SPEARMAN, CROSSBOWMAN, BARRACKS]]
-
-
-class ObjetManager:
-
-    def __new__(cls, plateau, players, idx):
-        """
-        :param data: Raw Data from get data
-        """
-        if plateau[idx]['name'] == BARRACKS:
-            objet = Barracks()
-        elif plateau[idx]['name'] == CROSSBOWMAN:
-            objet = Crossbowman()
-        elif plateau[idx]['name'] == SPEARMAN:
-            objet = Spearman()
-        else:
-            objet = DefaultObjet()
-        # Create features of state
-        objet.init(plateau, players, idx)
-        return objet
 
 
 

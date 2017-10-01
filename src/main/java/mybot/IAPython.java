@@ -33,7 +33,7 @@ public strictfp class IAPython extends IA {
 		// Launch one server per IA on a different port !
 
 		// IA qui fournit une api rest pour un script python
-		@SuppressWarnings("restriction")
+		
 		HttpServer server=null;
 		try {
 			int port = 0;

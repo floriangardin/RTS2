@@ -414,6 +414,7 @@ public abstract strictfp class Objet implements java.io.Serializable {
 		res.put("target", this.getTarget());
 		res.put("name", this.getName().toString());
 		res.put("sight", this.getAttribut(Attributs.sight));
+		res.put("range", this.getAttribut(Attributs.range));
 		// Pour chaque objet json
 		return res;
 	}

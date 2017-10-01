@@ -43,11 +43,6 @@ class Spearman(Objet):
 
     def compute_states(self):
         return [
-            IsIdle(self),
-            FoodBetween(self, 0, 50),
-            FoodBetween(self, 50, 100),
-            FoodBetween(self, 100, 200),
-            FoodBetween(self, 200, 200000),
             NbMyObjetsBetween(self, MILL, 0, 1),
             NbMyObjetsBetween(self, BARRACKS, 0, 1),
             NbMyObjetsBetween(self, MINE, 0, 1),
@@ -68,15 +63,7 @@ class Spearman(Objet):
 class Crossbowman(Objet):
     def compute_states(self):
         return [
-            IsIdle(self),
-            FoodBetween(self, 0, 50),
-            FoodBetween(self, 50, 100),
-            FoodBetween(self, 100, 200),
-            FoodBetween(self, 200, 200000),
-            NbMyObjetsBetween(self, MILL, 0, 1),
-            NbMyObjetsBetween(self, BARRACKS, 0, 1),
-            NbMyObjetsBetween(self, MINE, 0, 1),
-            NbMyObjetsBetween(self, TOWER, 0, 1)
+
         ]
 
     def compute_actions(self):
@@ -88,7 +75,7 @@ class Crossbowman(Objet):
 class Barracks(Objet):
     def compute_states(self):
         return [
-            IsIdle(self),
+
             FoodBetween(self, 0, 50),
             FoodBetween(self, 50, 100),
             FoodBetween(self, 100, 200),
@@ -102,8 +89,31 @@ class Barracks(Objet):
     def compute_actions(self):
         return [
             ActionProduce(SPEARMAN),
-            ActionProduce(CROSSBOWMAN)
+            ActionProduce(CROSSBOWMAN),
+            ActionProduce(INQUISITOR)
         ]
 class DefaultObjet(Objet):
     def compute_states(self):
         return []
+
+
+
+class ObjetManager:
+
+    def __new__(cls, plateau, players, idx):
+        """
+        :param data: Raw Data from get data
+        """
+        if plateau[idx]['name'] == BARRACKS:
+            objet = Barracks()
+        elif plateau[idx]['name'] == CROSSBOWMAN:
+            objet = Crossbowman()
+        elif plateau[idx]['name'] == SPEARMAN:
+            objet = Spearman()
+        else:
+            objet = DefaultObjet()
+        # Create features of state
+        objet.init(plateau, players, idx)
+        return objet
+
+

@@ -23,7 +23,6 @@ def get(team=2):
     :return:
     """
     try:
-
         port = str(8000+team)
         res = json.loads(requests.get("http://localhost:"+port+"/get").text)
         res['plateau'] = {int(idx) : val for idx,val in res['plateau'].items()}
@@ -32,6 +31,7 @@ def get(team=2):
     except:
         time.sleep(1)
         return get(team=team)
+
 def post(data, team=2):
     """
     Send action to game

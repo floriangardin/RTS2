@@ -3,7 +3,7 @@
 from ia.domain.model import QLearnerClean
 import time
 import sys
-
+import pickle
 """
 Trois applications potentiels à une api :
 1) Confort de python pour faire un outil de statistique de la partie
@@ -13,9 +13,13 @@ Trois applications potentiels à une api :
 
 team = int(sys.argv[1])
 learner = QLearnerClean()
+with open("python/data/q", "rb") as f:
+    Q = pickle.load(f)
 learner.init()
-learner.learn_from_one_game(team=team)
-
+Q = learner.learn_from_one_game(team=team)
+# Save Q
+with open("python/data/q", 'wb') as f:
+    pickle.dump(Q,f)
 # Second learner
 
 
