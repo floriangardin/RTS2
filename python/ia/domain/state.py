@@ -17,6 +17,9 @@ class StateManager:
         self.has_lost = False
 
 
+    def __getitem__(self, id):
+        return self.dict_objets[id]
+
     def check_victory(self, players):
         self.has_lost = players[self.team]['hasLost'] == 1
         for key in players.keys():
@@ -34,4 +37,4 @@ class StateManager:
         self.check_victory(players)
         # Create objects and filter by spearman, crossbowman and barracks
         self.objets = [ObjetManager(plateau, players, idx) for idx in plateau.keys() if self.team == plateau[idx]['team'] and plateau[idx]['name'] in [SPEARMAN, CROSSBOWMAN, BARRACKS]]
-
+        self.dict_objets = { o.id : o for o in self.objets}
