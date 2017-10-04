@@ -78,4 +78,5 @@ wwwsssswwwwwwwwwwwwsswwwwwwwwww
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 ###########################
 = endconditions
-buildings endcondition1/nbuildings endcondition2/n
+1 buildings endcondition1
+2 buildings endcondition2
