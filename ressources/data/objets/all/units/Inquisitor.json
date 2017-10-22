@@ -6,10 +6,10 @@ attackDuration:2,
 maxLifepoints:60,
 maxVelocity:100,
 armor:0,
-damage:9,
+damage:15,
 weapon:"wand",
 range:400,
 explosionWhenImmolate:1,
-popTaken:2,
+popTaken:1,
 spells:SpellFireball
 }

@@ -2,6 +2,6 @@
 prototype:"Spell",
 printName:"Fleche",
 range:400,
-damage:3,
+damage:5,
 chargeTime:100
 }
