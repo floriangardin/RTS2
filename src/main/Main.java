@@ -42,7 +42,7 @@ public strictfp class Main {
 			app.setAlwaysRender(true);
 			app.setUpdateOnlyWhenVisible(false);
 			app.setClearEachFrame(true);
-			app.setVSync(true);
+			app.setVSync(false);
 			//app.setSmoothDeltas(true);
 			app.start();
 		} catch (SlickException e) {
