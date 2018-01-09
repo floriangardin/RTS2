@@ -1,0 +1,1 @@
+cp ressources/data/keymapping_backup.RTSFILE ressources/data/keymapping.RTSFILE
