@@ -1,1 +1,1 @@
-cp ressources/data/keymapping_backup.RTSFILE ressources/data/keymapping.RTSFILE
+cp ressources/data/keymapping_backup.txt ressources/data/keymapping.RTSFILE
