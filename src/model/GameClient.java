@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 import control.InputObject;
 import control.Player;
+import main.Main;
 import menu.Lobby;
 import menu.MenuMulti.OpenGame;
 import menuutils.Menu_Map;
@@ -31,7 +32,6 @@ public strictfp class GameClient extends Listener {
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
-	public static final int delay = 2; // Number of delay rounds
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(String ip) throws IOException{
 		client.getKryo().register(byte[].class);
@@ -52,9 +52,9 @@ public strictfp class GameClient extends Listener {
 				GameClient.setPlateau(plateau);
 			}else if(type==Message.INPUTOBJECT){
 				InputObject im = (InputObject)m.get();
-				if(im.round>getRound()+GameClient.delay){
+				if(im.round>getRound()+Main.delay){
 					//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
-					client.sendTCP((im.round-delay-getRound()));
+					client.sendTCP((im.round-Main.delay-getRound()));
 				}
 				GameClient.addInput(im);
 			}else if(type==Message.MENUPLAYER){
@@ -78,7 +78,11 @@ public strictfp class GameClient extends Listener {
 				}
 			} else if(type==Message.CHATMESSAGE){
 				ChatHandler.addMessage((ChatMessage)m.get());
-			} 
+			}else if(type==Message.SYSTEMMESSAGE){
+				if(((String) m.get()).equals(GameServer.DESYNCHRO)){					
+					client.sendTCP(new Message(this.getPlateau()));
+				}
+			}
 		}else if(o instanceof Integer){
 			slowDown = (Integer) o;
 		}
@@ -112,7 +116,7 @@ public strictfp class GameClient extends Listener {
 	}
 
 	public static int roundForInput(){
-		return plateau.getRound()+delay;
+		return plateau.getRound()+Main.delay;
 	}
 	public static int getRound(){
 		return plateau.getRound();

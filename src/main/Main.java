@@ -15,7 +15,7 @@ public strictfp class Main {
 	//public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
-	public static boolean fullscreen=true;
+	public static boolean fullscreen=false;
 	
 	public static void main(String[] args) {
 //		Log.setLogSystem(new NullLogSystem()); 
@@ -49,4 +49,6 @@ public strictfp class Main {
 			e.printStackTrace();
 		}
 	}
+
+	public static final int delay = 2; // Number of delay rounds
 }

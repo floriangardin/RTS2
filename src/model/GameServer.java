@@ -2,6 +2,8 @@ package model;
 
 import java.io.IOException;
 import java.util.Vector;
+
+import main.Main;
 import multiplaying.Checksum;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -18,6 +20,9 @@ public strictfp class GameServer extends Listener {
 	static Server server;
 	public static boolean hasLaunched = false;
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
+	public static int hostId=-1;
+	
+	public static String DESYNCHRO = "desynchro";
 	// Le serveur a juste pour role de faire passer des inputs ...
 	public static void init(){
 		
@@ -67,6 +72,11 @@ public strictfp class GameServer extends Listener {
 		}
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
 		server.sendToTCP(c.getID(), "");
+		if(GameServer.hostId==-1){
+			GameServer.hostId = c.getID();
+		}else{
+//			server.sendToTCP(GameServer.hostId, new Message(GameServer.DESYNCHRO));
+		}
 	}
 	
 	public void received(Connection c, Object o){
@@ -76,7 +86,8 @@ public strictfp class GameServer extends Listener {
 			if(m.getType()==Message.CHECKSUM){
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
-					server.sendToAllTCP(new Message(GameClient.getPlateau()));
+					//server.sendToAllTCP(new Message(GameClient.getPlateau()));
+					server.sendToTCP(GameServer.hostId, new Message(GameServer.DESYNCHRO));
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
@@ -86,6 +97,8 @@ public strictfp class GameServer extends Listener {
 				server.sendToAllUDP(o);
 			}else if(m.getType()==Message.CHATMESSAGE){
 				server.sendToAllUDP(o);
+			}else if(m.getType()==Message.PLATEAU){
+				server.sendToAllTCP(m);
 			}
 		}else if(o instanceof Integer){
 			server.sendToAllExceptUDP(c.getID(), o);
@@ -124,7 +137,7 @@ public strictfp class GameServer extends Listener {
 				}
 			}
 		}
-		if(getChecksums().size()>2*GameClient.delay){
+		if(getChecksums().size()>2*Main.delay){
 			clearChecksum();
 		}
 		//System.out.println("Size checksms "+getChecksums().size());

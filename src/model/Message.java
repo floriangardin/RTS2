@@ -15,6 +15,7 @@ public strictfp class Message implements Serializable{
 	public final transient static int CHECKSUM = 2;
 	public final transient static int MENUPLAYER = 3;
 	public final transient static int CHATMESSAGE = 4;
+	public final transient static int SYSTEMMESSAGE = 4;
 	
 	private byte[] objet ;
 	private int type = -1;
@@ -39,6 +40,10 @@ public strictfp class Message implements Serializable{
 	public Message(ChatMessage message){
 		objet = Serializer.serialize(message);
 		type = CHATMESSAGE;
+	}
+	public Message(String systemMessage){
+		objet = Serializer.serialize(systemMessage);
+		type = SYSTEMMESSAGE;
 	}
 	
 	public int getType(){

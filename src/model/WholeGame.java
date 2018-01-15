@@ -15,6 +15,7 @@ import control.Player;
 import control.Camera;
 import control.Interface;
 import events.EventHandler;
+import main.Main;
 import menu.Lobby;
 import multiplaying.ChatHandler;
 import multiplaying.Checksum;
@@ -105,7 +106,7 @@ public strictfp class WholeGame extends ClassSystem{
 			SoundManager.update(GameClient.getPlateau());
 			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>100 && GameClient.getRound()%(GameClient.delay*3)==0){
+			if(GameClient.getRound()>100 && GameClient.getRound()%(Main.delay*3)==0){
 				GameClient.send(new Checksum(GameClient.getPlateau()));
 			}
 			// Get new inputs for round
