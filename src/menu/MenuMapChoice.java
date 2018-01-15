@@ -105,7 +105,7 @@ public strictfp class MenuMapChoice extends Menu {
 			} else {
 				Game.menuSystem.setMenu(MenuNames.MenuMulti);
 			}
-			
+			System.out.println("==> OOPS");
 			GameClient.close();
 			break;
 		default:		

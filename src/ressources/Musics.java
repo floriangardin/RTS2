@@ -29,7 +29,7 @@ public strictfp class Musics {
 			try {
 				throw new FatalGillesError("non-existing music : "+name);
 			} catch (FatalGillesError e) {
-				e.printStackTrace();
+			//e.printStackTrace();
 			}
 			return null;
 		}

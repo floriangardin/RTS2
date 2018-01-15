@@ -71,10 +71,11 @@ public strictfp class GameServer extends Listener {
 		if(GameClient.getPlateau() != null){			
 			server.sendToAllTCP(new Message(GameClient.getPlateau()));
 		}
-		//server.sendToAllExceptTCP(c.getID(), c.getID());
-		server.sendToTCP(c.getID(), new Message(GameServer.HOST));
+//		//server.sendToAllExceptTCP(c.getID(), c.getID());
+//		server.sendToTCP(c.getID(), "");
 		if(GameServer.hostId==-1){
 			GameServer.hostId = c.getID();
+			server.sendToTCP(c.getID(), new Message(GameServer.HOST));
 		}else{
 //			server.sendToTCP(GameServer.hostId, new Message(GameServer.DESYNCHRO));
 		}
