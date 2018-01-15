@@ -10,7 +10,6 @@ import org.newdawn.slick.Image;
 import menuutils.Menu_Item;
 import model.Game;
 import model.GameClient;
-import model.GameServer;
 import system.MenuSystem.MenuNames;
 
 public strictfp class MenuIntro extends Menu {
@@ -51,7 +50,7 @@ public strictfp class MenuIntro extends Menu {
 		case 0:
 			Game.menuSystem.setMenu(MenuNames.MenuMapChoice);
 			try {
-				GameServer.init();
+				
 				String addressHost = InetAddress.getLocalHost().getHostAddress();
 				GameClient.init(addressHost);
 				Lobby.init();

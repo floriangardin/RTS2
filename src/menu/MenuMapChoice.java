@@ -16,7 +16,6 @@ import menuutils.Menu_Map;
 import menuutils.Menu_Player;
 import model.Game;
 import model.GameClient;
-import model.GameServer;
 import model.WholeGame;
 import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
@@ -101,12 +100,12 @@ public strictfp class MenuMapChoice extends Menu {
 			break;
 		case 1:
 			// retour
-			if(GameServer.hasLaunched){
+			if(GameClient.isHost){
 				Game.menuSystem.setMenu(MenuNames.MenuIntro);
 			} else {
 				Game.menuSystem.setMenu(MenuNames.MenuMulti);
 			}
-			GameServer.close();
+			
 			GameClient.close();
 			break;
 		default:		
@@ -182,7 +181,7 @@ public strictfp class MenuMapChoice extends Menu {
 							if(mp.isHost){
 								ChatHandler.addMessage(new ChatMessage("Partie annulée"));
 								Game.menuSystem.setMenu(MenuNames.MenuIntro);
-								GameServer.close();
+								
 							} else {
 								ChatHandler.addMessage(new ChatMessage("Joueur deconnecté : "+mp.nickname));
 							}
@@ -206,7 +205,7 @@ public strictfp class MenuMapChoice extends Menu {
 							Player.setTeam(mp.team);
 						}
 					}
-					if(GameServer.hasLaunched){
+					if(GameClient.isHost){
 						mp.isHost = true;
 						mp.idMap = Lobby.idCurrentMap;
 					}
@@ -233,7 +232,7 @@ public strictfp class MenuMapChoice extends Menu {
 		// Updating map choices
 		for(Menu_Player mp : Lobby.players){
 			if(mp.id==Player.getID() && !mp.isReady){
-				if(GameServer.hasLaunched){
+				if(GameClient.isHost){
 					for(int i=0; i<Lobby.maps.size(); i++){
 						Menu_Map item = mapchoices.get(i);
 						item.update(im);

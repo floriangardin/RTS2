@@ -2,26 +2,26 @@ package system;
 
 import java.util.Vector;
 
+import main.Main;
+import model.Game;
+import model.GameClient;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import control.InputObject;
-import control.Player;
-import control.Camera;
-import events.EventHandler;
-import events.EventNames;
-import main.Main;
-import model.Game;
-import model.GameClient;
-import model.GameServer;
 import plateau.Building;
 import plateau.Plateau;
 import render.RenderEngine;
 import ressources.Images;
 import ressources.Musics;
 import stats.StatsSystem;
+import control.Camera;
+import control.InputObject;
+import control.Player;
+import events.EventHandler;
+import events.EventNames;
 
 public strictfp class EndSystem extends ClassSystem{
 
@@ -101,7 +101,6 @@ public strictfp class EndSystem extends ClassSystem{
 				Game.menuSystem.init();
 				Camera.reset();
 				GameClient.close();
-				GameServer.close();
 				Game.system = Game.menuSystem;
 			}
 		}

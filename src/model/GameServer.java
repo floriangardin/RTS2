@@ -23,6 +23,7 @@ public strictfp class GameServer extends Listener {
 	public static int hostId=-1;
 	
 	public static String DESYNCHRO = "desynchro";
+	public static String HOST = "host";
 	// Le serveur a juste pour role de faire passer des inputs ...
 	public static void init(){
 		
@@ -71,7 +72,7 @@ public strictfp class GameServer extends Listener {
 			server.sendToAllTCP(new Message(GameClient.getPlateau()));
 		}
 		//server.sendToAllExceptTCP(c.getID(), c.getID());
-		server.sendToTCP(c.getID(), "");
+		server.sendToTCP(c.getID(), new Message(GameServer.HOST));
 		if(GameServer.hostId==-1){
 			GameServer.hostId = c.getID();
 		}else{

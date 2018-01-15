@@ -31,6 +31,7 @@ public strictfp class GameClient extends Listener {
 	public static int slowDown = 0;
 	// STATE
 	private static  Plateau plateau; // Mutable State side effect ...
+	public static boolean isHost;
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
 	static final ReentrantLock mutex = new ReentrantLock() ;
 	public static void init(String ip) throws IOException{
@@ -81,6 +82,9 @@ public strictfp class GameClient extends Listener {
 			}else if(type==Message.SYSTEMMESSAGE){
 				if(((String) m.get()).equals(GameServer.DESYNCHRO)){					
 					client.sendTCP(new Message(this.getPlateau()));
+				}
+				else if(((String) m.get()).equals(GameServer.HOST)){					
+					GameClient.isHost = true;
 				}
 			}
 		}else if(o instanceof Integer){
