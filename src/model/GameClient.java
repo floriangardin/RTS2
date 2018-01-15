@@ -34,7 +34,8 @@ public strictfp class GameClient extends Listener {
 	public static boolean isHost;
 	private final static Vector<InputObject> inputs = new Vector<InputObject>();
 	static final ReentrantLock mutex = new ReentrantLock() ;
-	public static void init(String ip) throws IOException{
+	public static String ipBattlemythe = "37.59.97.190"; 
+public static void init(String ip) throws IOException{
 		client.getKryo().register(byte[].class);
 		client.getKryo().register(Integer.class);
 		client.getKryo().register(Message.class);
@@ -42,6 +43,7 @@ public strictfp class GameClient extends Listener {
 		client.start();
 		client.connect(5000, ip, port, port);
 	}
+	
 	
 	public void received(Connection c, Object o){
 		Player.init(c.getID());	
@@ -101,6 +103,10 @@ public strictfp class GameClient extends Listener {
 				if(!host.getHostAddress().equals("127.0.0.1")){
 					result.add(new OpenGame(host.getHostAddress(), ""));
 				}
+			}
+			if(result.size()==0){
+				// Check for battlemythe servers
+				result.add(new OpenGame(GameClient.ipBattlemythe, ""));
 			}
 			return result;
 		}catch(Exception e ){
