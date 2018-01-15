@@ -50,5 +50,5 @@ public strictfp class Main {
 		}
 	}
 
-	public static final int delay = 2; // Number of delay rounds
+	public static final int delay = 5; // Number of delay rounds
 }
