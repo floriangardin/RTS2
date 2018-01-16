@@ -40,15 +40,17 @@ public strictfp class Options {
 			if(nlignes<=1){
 				musicVolume = 0.5f;
 				soundVolume = 0.1f;
-				nickname = "";
-				pythonPath = "";
+				nickname = "Player 1";
+				pythonPath = "/bin";
 			}
 		}		
 		catch (Exception e){
+			for( StackTraceElement z : e.getStackTrace())
+				System.out.println(z);
 			soundVolume = 1f;
 			musicVolume = 1f;
-			nickname = "";
-			pythonPath = "";
+			nickname = "New player";
+			pythonPath = "/bin";
 		}
 	}
 }
