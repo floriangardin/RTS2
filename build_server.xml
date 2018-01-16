@@ -21,7 +21,7 @@
     	   </fileset>
     	 </path>
 
-    	 <javac destdir="bin">
+    	 <javac destdir="bin" encoding="UTF-8">
     	   <src path="src"/>
     	   <classpath refid="external-classpath"/>
     	 </javac>
