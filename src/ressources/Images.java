@@ -8,11 +8,10 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Point;
 
-import data.Data;
 import control.DisplayRessources;
+import data.Data;
 import main.Main;
 import model.Game;
-import nature.Tree;
 import plateau.Building;
 import tests.FatalGillesError;
 import utils.ObjetsList;

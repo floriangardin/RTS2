@@ -8,8 +8,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 import control.Player;
 import data.Attributs;
-import events.EventHandler;
-import events.EventNames;
 import main.Main;
 import model.Colors;
 import plateau.Building;

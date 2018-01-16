@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="RTS2 server">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+	<target name="clean">
+        <delete dir="build"/>
+		<delete dir="bin"/>
+    </target>
+    <target name="compile">
+        <mkdir dir="bin"/>
+    	<path id="external-classpath">
+    	   <fileset dir="jar">
+	   	     <include name="gson-2.3.1.jar"/>
+	   	     <include name="jogg-0.0.7.jar"/>
+	   	     <include name="jorbis-0.0.15.jar"/>
+	   	     <include name="jorbis-0.0.17-1.jar"/>
+	   	     <include name="kryonet-2.21-all.jar"/>
+	   	     <include name="lwjgl.jar"/>
+	   	     <include name="slick.jar"/>
+    	   </fileset>
+    	 </path>
+
+    	 <javac destdir="bin">
+    	   <src path="src"/>
+    	   <classpath refid="external-classpath"/>
+    	 </javac>
+    </target>
+    <target name="create_run_jar">
+        <jar destfile="build/RTS_SERVER.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="main.MainServer"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/gson-2.3.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/jogg-0.0.7.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/jorbis-0.0.15.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/jorbis-0.0.17-1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/kryonet-2.21-all.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/lwjgl.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="jar/slick.jar"/>
+        </jar>
+    </target>
+    <target name="run">
+        <java jar="build/RTS_SERVER.jar" fork="true"/>
+    </target>
+</project>
