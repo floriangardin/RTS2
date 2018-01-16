@@ -38,7 +38,7 @@ public strictfp class WholeGame extends ClassSystem{
 	private int repeatNumber = 100;
 	private String currentMap = null;
 	public static final float nbRoundStart = 200f;
-	
+	public boolean stopPlay = false;
 	public WholeGame(boolean repeat) {
 		// TODO Auto-generated method stub
 		this.repeat = repeat;
@@ -98,9 +98,11 @@ public strictfp class WholeGame extends ClassSystem{
 			// Update selection in im.selection
 			Player.handleSelection(im, GameClient.getPlateau());
 			// Send input for round
-			GameClient.send(im);
-			// Send IA Inputs
-			GameClient.send(iaIms);
+			if(!stopPlay){				
+				GameClient.send(im);
+				// Send IA Inputs
+				GameClient.send(iaIms);
+			}
 			// Update sound and music
 			MusicManager.update(GameClient.getPlateau());
 			SoundManager.update(GameClient.getPlateau());
@@ -114,7 +116,13 @@ public strictfp class WholeGame extends ClassSystem{
 			// Update replay
 			Replay.handleReplay(replay, ims, GameClient.getPlateau() );
 			//Update Plateau
-			GameClient.getPlateau().update(ims);
+			if(ims.size()>1 || GameClient.getRound()<200){ // Make in generic for n players !				
+				GameClient.getPlateau().update(ims);
+				stopPlay = false;
+			}else{
+				stopPlay = true;
+				System.out.println("Ralentissement round "+GameClient.getRound());
+			}
 			// 4 : Update the camera given current input
 			Camera.update(im);
 			RenderEngine.xmouse = im.x;
