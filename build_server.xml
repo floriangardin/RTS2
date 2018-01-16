@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="RTS2 server">
+<project default="all" name="RTS2 server">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <!--define folder properties-->
+	<target name="all" depends="clean, compile, create_run_jar, run"/>
 	<target name="clean">
         <delete dir="build"/>
 		<delete dir="bin"/>
