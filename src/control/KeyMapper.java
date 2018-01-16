@@ -17,7 +17,7 @@ import utils.ObjetsList;
 
 public strictfp class KeyMapper {
 
-	private static String location = "././ressources/data/keymapping.rtsfile";
+	private static String location = "././ressources/data/keymapping.RTSFILE";
 	public static HashMap<KeyEnum, Integer> mapping;
 	public static HashMap<Integer, KeyEnum> mouseMapping;
 
@@ -50,7 +50,9 @@ public strictfp class KeyMapper {
 			br.close(); 
 
 		}		
-		catch (Exception e){}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
 		mouseMapping = new HashMap<Integer, KeyEnum>();
 		mouseMapping.put(0, KeyEnum.LeftClick);
 		mouseMapping.put(1, KeyEnum.RightClick);

@@ -62,6 +62,7 @@ public strictfp class MenuKeyMapping extends Menu {
 
 
 	public void callItem(int i){
+		System.out.println(i);
 		if(i==nbKey+1){ 
 			// retour
 			Game.menuSystem.setMenu(MenuNames.MenuOptions);
