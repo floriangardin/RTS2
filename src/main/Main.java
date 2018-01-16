@@ -12,7 +12,7 @@ public strictfp class Main {
 	// A REGLER \\
 	public static float ratioSpace = 1f;
 	public static int framerate = 60;
-	public static final int delay = 10; // Number of delay rounds
+	public static final int delay = 5; // Number of delay rounds
 	//public static int nDelay = 0;
 	///////\\\\\\\\\
 	public static float increment = 0.05f;
@@ -23,7 +23,7 @@ public strictfp class Main {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		
+		System.out.println("ok");
 		try {
 			int resolutionX, resolutionY;
 			if(fullscreen){

@@ -108,15 +108,15 @@ public strictfp class WholeGame extends ClassSystem{
 			SoundManager.update(GameClient.getPlateau());
 			
 			// Send checksum to server for checking synchro
-			if(GameClient.getRound()>100 && GameClient.getRound()%(Main.delay*3)==0){
-				GameClient.send(new Checksum(GameClient.getPlateau()));
-			}
+//			if(GameClient.getRound()>100 && GameClient.getRound()%(Main.delay*3)==0){
+//				GameClient.send(new Checksum(GameClient.getPlateau()));
+//			}
 			// Get new inputs for round
 			Vector<InputObject> ims = GameClient.getInputForRound();
 			// Update replay
-			Replay.handleReplay(replay, ims, GameClient.getPlateau() );
 			//Update Plateau
-			if(ims.size()>1 || GameClient.getRound()<200){ // Make in generic for n players !				
+			if(ims.size()>1 || GameClient.getRound()<nbRoundStart){ // Make in generic for n players !				
+				Replay.handleReplay(replay, ims, GameClient.getPlateau() );
 				GameClient.getPlateau().update(ims);
 				stopPlay = false;
 			}else{
