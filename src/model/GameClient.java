@@ -121,11 +121,13 @@ public static void init(String ip) throws IOException{
 	public static void send(InputObject im){
 		Message m = new Message(im);
 		client.sendUDP(m);
+		client.sendTCP(m);
 	}
 	public static void send(Vector<InputObject> ims){
 		for(InputObject im : ims ){			
 			Message m = new Message(im);
 			client.sendUDP(m);
+			client.sendTCP(m);
 		}
 	}
 
