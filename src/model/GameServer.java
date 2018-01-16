@@ -20,10 +20,10 @@ public strictfp class GameServer extends Listener {
 	static Server server;
 	public static boolean hasLaunched = false;
 	static final Vector<Checksum> checksums = new Vector<Checksum>();
-	public static int hostId=-1;
 	
 	public static String DESYNCHRO = "desynchro";
 	public static String HOST = "host";
+	public static Vector<Integer> players = new Vector<Integer>();
 	// Le serveur a juste pour role de faire passer des inputs ...
 	public static void init(){
 		
@@ -67,18 +67,21 @@ public strictfp class GameServer extends Listener {
 	public void connected(Connection c){
 		
 		// If connection send plateau to id
-		System.out.println("Connection received.");
+		System.out.println("Connection received. "+c.getID());
 		if(GameClient.getPlateau() != null){			
 			server.sendToAllTCP(new Message(GameClient.getPlateau()));
 		}
 //		//server.sendToAllExceptTCP(c.getID(), c.getID());
 //		server.sendToTCP(c.getID(), "");
-		if(GameServer.hostId==-1){
-			GameServer.hostId = c.getID();
+		if(players.size()==0){
 			server.sendToTCP(c.getID(), new Message(GameServer.HOST));
-		}else{
-//			server.sendToTCP(GameServer.hostId, new Message(GameServer.DESYNCHRO));
 		}
+		players.addElement(c.getID());
+		for(Integer i : players){
+			System.out.print("  "+i);
+		}
+		System.out.println();
+		
 	}
 	
 	public void received(Connection c, Object o){
@@ -89,7 +92,7 @@ public strictfp class GameServer extends Listener {
 				addChecksum((Checksum) m.get());
 				if(!isSynchro()){
 					//server.sendToAllTCP(new Message(GameClient.getPlateau()));
-					server.sendToTCP(GameServer.hostId, new Message(GameServer.DESYNCHRO));
+					server.sendToTCP(players.get(0), new Message(GameServer.DESYNCHRO));
 				}
 			}else if(m.getType()==Message.INPUTOBJECT){
 				// Broadcast inputs to all (including host)
@@ -151,8 +154,17 @@ public strictfp class GameServer extends Listener {
 	
 
 	public void disconnected(Connection c){
-		System.out.println("Connection dropped.");
+		System.out.println("Connection dropped. "+c.getID());
 		//server.sendToAllExceptTCP(c.getID(), "Disconnected|"+c.getID());
+		if(players.get(0)==c.getID() && players.size()>1){
+			server.sendToTCP(players.get(1), GameServer.HOST);
+		}
+		players.removeElement(c.getID());
+		for(Integer i : players){
+			System.out.print("  "+i);
+		}
+		System.out.println();
+		
 	}
 
 	
