@@ -3,6 +3,8 @@ package model;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,6 +23,7 @@ import multiplaying.ChatHandler;
 import multiplaying.ChatMessage;
 import multiplaying.Checksum;
 import plateau.Plateau;
+import ressources.Map;
 
 public strictfp class GameClient extends Listener {
 	//OPTIONS
@@ -58,6 +61,7 @@ public static void init(String ip) throws IOException{
 				if(im.round>getRound()+Main.delay){
 					//System.out.println("input recu trop tot : "+(im.round-delay-getRound()));
 					client.sendTCP((im.round-Main.delay-getRound()));
+					client.sendUDP((im.round-Main.delay-getRound()));
 				}
 				GameClient.addInput(im);
 			}else if(type==Message.MENUPLAYER){
@@ -138,7 +142,16 @@ public static void init(String ip) throws IOException{
 		synchronized(inputs){
 			for(InputObject im: inputs){
 				if(im.round==plateau.getRound()){
-					res.add(im);
+					boolean toAdd = true;
+					for(InputObject im2 : res){ // Check that this input is not duplicated
+						if(im.team==im2.team && im.round==im2.round){
+							toAdd=false;
+							break;
+						}
+					}
+					if(toAdd){						
+						res.add(im);
+					}
 				}else if(im.round<plateau.getRound()){
 					toRemove.add(im);
 				}
@@ -147,6 +160,7 @@ public static void init(String ip) throws IOException{
 			inputs.removeAll(toRemove);
 		}
 		//System.out.println("Res : "+res.size());
+
 		return res;
 	}
 	public static void send(Checksum checksum){

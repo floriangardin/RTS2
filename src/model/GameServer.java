@@ -95,6 +95,7 @@ public strictfp class GameServer extends Listener {
 				// Broadcast inputs to all (including host)
 				
 				server.sendToAllUDP(o);
+				server.sendToAllTCP(o);
 			}else if(m.getType()==Message.MENUPLAYER){
 				server.sendToAllUDP(o);
 			}else if(m.getType()==Message.CHATMESSAGE){

@@ -114,7 +114,11 @@ public strictfp class WholeGame extends ClassSystem{
 			// Update replay
 			Replay.handleReplay(replay, ims, GameClient.getPlateau() );
 			//Update Plateau
-			GameClient.getPlateau().update(ims);
+			if(ims.size()>1 || GameClient.getRound()<200){ // Make in generic for n players !				
+				GameClient.getPlateau().update(ims);
+			}else{
+				System.out.println("Ralentissement round "+GameClient.getRound());
+			}
 			// 4 : Update the camera given current input
 			Camera.update(im);
 			RenderEngine.xmouse = im.x;
