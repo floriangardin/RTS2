@@ -157,7 +157,7 @@ public strictfp class GameServer extends Listener {
 		System.out.println("Connection dropped. "+c.getID());
 		//server.sendToAllExceptTCP(c.getID(), "Disconnected|"+c.getID());
 		if(players.get(0)==c.getID() && players.size()>1){
-			server.sendToTCP(players.get(1), GameServer.HOST);
+			server.sendToTCP(players.get(1), new Message(GameServer.HOST));
 		}
 		players.removeElement(c.getID());
 		for(Integer i : players){

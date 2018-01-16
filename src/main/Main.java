@@ -23,7 +23,7 @@ public strictfp class Main {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		System.setProperty("org.lwjgl.librarypath", new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
 		System.out.println(new File(new File(System.getProperty("user.dir"), "native"), LWJGLUtil.getPlatformName()).getAbsolutePath());
-		System.out.println("ok");
+		
 		try {
 			int resolutionX, resolutionY;
 			if(fullscreen){

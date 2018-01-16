@@ -101,9 +101,12 @@ public strictfp class MenuMapChoice extends Menu {
 		case 1:
 			// retour
 			if(GameClient.isHost){
+				System.out.println("Retour menu avec touche");
 				Game.menuSystem.setMenu(MenuNames.MenuIntro);
+				GameClient.isHost = false;
 			} else {
 				Game.menuSystem.setMenu(MenuNames.MenuMulti);
+				GameClient.isHost = false;
 			}
 			System.out.println("==> OOPS");
 			GameClient.close();
@@ -179,8 +182,8 @@ public strictfp class MenuMapChoice extends Menu {
 						if(mp.messageDropped>10){
 							toRemove=mp.id;
 							if(mp.isHost){
-								ChatHandler.addMessage(new ChatMessage("Partie annulée"));
-								Game.menuSystem.setMenu(MenuNames.MenuIntro);
+								ChatHandler.addMessage(new ChatMessage("Host déconnecté"));
+								//Game.menuSystem.setMenu(MenuNames.MenuIntro);
 								
 							} else {
 								ChatHandler.addMessage(new ChatMessage("Joueur deconnecté : "+mp.nickname));

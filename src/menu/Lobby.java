@@ -16,7 +16,7 @@ public strictfp class Lobby {
 	public static Vector<String> maps;
 	public static Vector<InetAddress> addressesInvites = new Vector<InetAddress>();
 	public static boolean multiplayer = false;
-	public static boolean host = false;
+	//public static boolean host = false;
 	public static String idCurrentMap;
 	private static boolean isInit = false;	
 	

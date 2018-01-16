@@ -80,7 +80,7 @@ public static void init(String ip) throws IOException{
 						Lobby.addPlayer(mpMessage);
 					}
 				}
-				if(mpMessage.isHost && mpMessage.id!=Player.getID()){
+				if(mpMessage.isHost ){
 					Lobby.idCurrentMap = mpMessage.idMap;
 				}
 			} else if(type==Message.CHATMESSAGE){
@@ -91,6 +91,7 @@ public static void init(String ip) throws IOException{
 				}
 				else if(((String) m.get()).equals(GameServer.HOST)){					
 					GameClient.isHost = true;
+					System.out.println("Je suis maintenant host");
 				}
 			}
 		}else if(o instanceof Integer){
